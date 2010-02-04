@@ -24,6 +24,7 @@ import org.metawidget.android.widget.Stub;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.util.TestUtils;
 
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -72,27 +73,7 @@ public class LinearLayoutTest
 
 	public void testConfig()
 	{
-		LinearLayoutConfig config1 = new LinearLayoutConfig();
-		LinearLayoutConfig config2 = new LinearLayoutConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new LinearLayoutConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// labelStyle
-
-		config1.setLabelStyle( 100 );
-		assertTrue( 100 == config1.getLabelStyle() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setLabelStyle( 100 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( LinearLayoutConfig.class );
 	}
 
 	//

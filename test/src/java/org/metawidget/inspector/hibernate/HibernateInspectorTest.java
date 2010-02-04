@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.TestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -184,22 +185,6 @@ public class HibernateInspectorTest
 
 	public void testConfig()
 	{
-		HibernateInspectorConfig config1 = new HibernateInspectorConfig();
-		HibernateInspectorConfig config2 = new HibernateInspectorConfig();
-
-		assertTrue( !config1.equals( "foo" ));
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// hideIds
-
-		config1.setHideIds( false );
-		assertTrue( !config1.isHideIds() );
-		assertTrue( !config1.equals( config2 ));
-
-		config2.setHideIds( false );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class );
 	}
 }

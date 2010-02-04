@@ -48,6 +48,7 @@ import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -243,27 +244,7 @@ public class MigLayoutTest
 
 	public void testConfig()
 	{
-		MigLayoutConfig config1 = new MigLayoutConfig();
-		MigLayoutConfig config2 = new MigLayoutConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new MigLayoutConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// numberOfColumns
-
-		config1.setNumberOfColumns( 2 );
-		assertTrue( 2 == config1.getNumberOfColumns() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setNumberOfColumns( 2 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class );
 	}
 
 	//

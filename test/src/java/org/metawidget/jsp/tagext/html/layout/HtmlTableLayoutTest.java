@@ -19,6 +19,7 @@ package org.metawidget.jsp.tagext.html.layout;
 import junit.framework.TestCase;
 
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -33,78 +34,7 @@ public class HtmlTableLayoutTest
 
 	public void testConfig()
 	{
-		HtmlTableLayoutConfig config1 = new HtmlTableLayoutConfig();
-		HtmlTableLayoutConfig config2 = new HtmlTableLayoutConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new HtmlTableLayoutConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// numberOfColumns
-
-		config1.setNumberOfColumns( 2 );
-		assertTrue( 2 == config1.getNumberOfColumns() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setNumberOfColumns( 2 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// tableStyle
-
-		config1.setTableStyle( "table-style" );
-		assertTrue( "table-style".equals( config1.getTableStyle() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setTableStyle( "table-style" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// tableStyleClass
-
-		config1.setTableStyleClass( "table-style-class" );
-		assertTrue( "table-style-class".equals( config1.getTableStyleClass() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setTableStyleClass( "table-style-class" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// columnStyleClasses
-
-		config1.setColumnStyleClasses( "column-style-class1", "column-style-class2" );
-		assertTrue( "column-style-class1".equals( config1.getColumnStyleClasses()[0] ) );
-		assertTrue( "column-style-class2".equals( config1.getColumnStyleClasses()[1] ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setColumnStyleClasses( "column-style-class1", "column-style-class2" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// footerStyle
-
-		config1.setFooterStyle( "footer-style" );
-		assertTrue( "footer-style".equals( config1.getFooterStyle() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setFooterStyle( "footer-style" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// footerStyleClass
-
-		config1.setFooterStyleClass( "footer-style-class" );
-		assertTrue( "footer-style-class".equals( config1.getFooterStyleClass() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setFooterStyleClass( "footer-style-class" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class );
 	}
 
 	public void testMinimumColumns()

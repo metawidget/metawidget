@@ -52,6 +52,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -370,88 +371,7 @@ public class GridBagLayoutTest
 
 	public void testConfig()
 	{
-		GridBagLayoutConfig config1 = new GridBagLayoutConfig();
-		GridBagLayoutConfig config2 = new GridBagLayoutConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new GridBagLayoutConfig()
-				{
-					// Subclass
-				} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// numberOfColumns
-
-		config1.setNumberOfColumns( 2 );
-		assertTrue( 2 == config1.getNumberOfColumns() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setNumberOfColumns( 2 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// labelAlignment
-
-		config1.setLabelAlignment( SwingConstants.RIGHT );
-		assertTrue( SwingConstants.RIGHT == config1.getLabelAlignment() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setLabelAlignment( SwingConstants.RIGHT );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// labelFont
-
-		Font font = new JPanel().getFont();
-		config1.setLabelFont( font );
-		assertTrue( font == config1.getLabelFont() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setLabelFont( font );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// labelForeground
-
-		config1.setLabelForeground( Color.blue );
-		assertTrue( Color.blue == config1.getLabelForeground() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setLabelForeground( Color.blue );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// labelSuffix
-
-		config1.setLabelSuffix( "#" );
-		assertTrue( "#".equals( config1.getLabelSuffix() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setLabelSuffix( "#" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// requiredAlignment
-
-		config1.setRequiredAlignment( SwingConstants.RIGHT );
-		assertTrue( SwingConstants.RIGHT == config1.getRequiredAlignment() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setRequiredAlignment( SwingConstants.RIGHT );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// requiredText
-
-		config1.setRequiredText( "!" );
-		assertTrue( "!".equals( config1.getRequiredText() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setRequiredText( "!" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class );
 	}
 
 	//

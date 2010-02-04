@@ -32,6 +32,7 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -119,27 +120,7 @@ public class BeanUtilsBindingProcessorTest
 
 	public void testConfig()
 	{
-		BeanUtilsBindingProcessorConfig config1 = new BeanUtilsBindingProcessorConfig();
-		BeanUtilsBindingProcessorConfig config2 = new BeanUtilsBindingProcessorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new BeanUtilsBindingProcessorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// propertyStyle
-
-		config1.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA );
-		assertTrue( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA == config1.getPropertyStyle() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class );
 	}
 
 	//

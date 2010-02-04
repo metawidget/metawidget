@@ -17,13 +17,13 @@
 package org.metawidget.inspector.impl.propertystyle;
 
 import java.util.Date;
-import java.util.regex.Pattern;
 
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.util.TestUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -39,45 +39,7 @@ public class BasePropertyStyleTest
 
 	public void testConfig()
 	{
-		BasePropertyStyleConfig config1 = new BasePropertyStyleConfig();
-		BasePropertyStyleConfig config2 = new BasePropertyStyleConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new BasePropertyStyleConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// default excludeBaseType
-
-		assertTrue( "^(java|javax)\\..*$".equals( config1.getExcludeBaseType().pattern() ));
-
-		// excludeBaseType
-
-		config1.setExcludeBaseType( Pattern.compile( "bar" ) );
-		assertTrue( "bar".equals( config1.getExcludeBaseType().pattern() ));
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setExcludeBaseType( Pattern.compile( "bar" ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		// mNullExcludeBaseType
-
-		config1 = new BasePropertyStyleConfig();
-		config2 = new BasePropertyStyleConfig();
-		config1.setExcludeBaseType( null );
-		assertTrue( null == config1.getExcludeBaseType() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setExcludeBaseType( null );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		config1.setExcludeBaseType( Pattern.compile( "baz" ) );
-		assertTrue( "baz".equals( config1.getExcludeBaseType().pattern() ));
+		TestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class );
 	}
 
 	public void testExcludedBaseType()

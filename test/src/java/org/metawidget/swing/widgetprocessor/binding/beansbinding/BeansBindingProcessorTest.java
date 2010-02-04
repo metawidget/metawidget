@@ -32,6 +32,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.BoxLayout;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.TestUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
@@ -229,55 +230,7 @@ public class BeansBindingProcessorTest
 
 	public void testConfig()
 	{
-		BeansBindingProcessorConfig config1 = new BeansBindingProcessorConfig();
-		BeansBindingProcessorConfig config2 = new BeansBindingProcessorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new BeansBindingProcessorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// updateStrategy
-
-		config1.setUpdateStrategy( UpdateStrategy.READ_WRITE );
-		assertTrue( UpdateStrategy.READ_WRITE.equals( config1.getUpdateStrategy() ) );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setUpdateStrategy( UpdateStrategy.READ_WRITE );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// converter
-
-		Converter<Date, String> converter = new Converter<Date, String>()
-		{
-
-			@Override
-			public String convertForward( Date arg0 )
-			{
-				return null;
-			}
-
-			@Override
-			public Date convertReverse( String arg0 )
-			{
-				return null;
-			}
-		};
-
-		assertTrue( null == config1.getConverters() );
-		config1.setConverter( Date.class, String.class, converter );
-		assertTrue( !config1.equals( config2 ) );
-		config2.setConverter( Date.class, String.class, converter );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		assertTrue( 1 == config1.getConverters().size() );
-		assertTrue( converter == config1.getConverters().values().iterator().next() );
+		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class );
 	}
 
 	public void testNumberConverter()

@@ -22,10 +22,7 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiMasked;
-import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
-import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
-import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.util.TestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -43,64 +40,7 @@ public class BaseObjectInspectorTest
 
 	public void testConfig()
 	{
-		// Test nulling out PropertyStyle/ActionStyle
-
-		BaseObjectInspectorConfig config1 = new BaseObjectInspectorConfig();
-		assertTrue( config1.getPropertyStyle() instanceof JavaBeanPropertyStyle );
-		assertTrue( config1.getActionStyle() instanceof MetawidgetActionStyle );
-		config1.setPropertyStyle( null );
-		assertTrue( config1.getPropertyStyle() == null );
-		config1.setActionStyle( null );
-		assertTrue( config1.getActionStyle() == null );
-
-		// Test default PropertyStyle/ActionStyle
-
-		config1 = new BaseObjectInspectorConfig();
-		BaseObjectInspectorConfig config2 = new BaseObjectInspectorConfig();
-		assertTrue( config2.getPropertyStyle() != null );
-		assertTrue( config2.getPropertyStyle() == config1.getPropertyStyle() );
-		assertTrue( config2.getActionStyle() != null );
-		assertTrue( config2.getActionStyle() == config2.getActionStyle() );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ));
-
-		// Test mNullPropertyStyle equals
-
-		config1 = new BaseObjectInspectorConfig();
-		config2 = new BaseObjectInspectorConfig();
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-		config1.setPropertyStyle( null );
-		assertTrue( null == config1.getPropertyStyle() );
-		assertTrue( !config1.equals( config2 ));
-
-		config1.setPropertyStyle( new GroovyPropertyStyle() );
-		assertTrue( config1.getPropertyStyle() instanceof GroovyPropertyStyle );
-
-		// Test mNullActionStyle equals
-
-		config1 = new BaseObjectInspectorConfig();
-		config2 = new BaseObjectInspectorConfig();
-		config1.setActionStyle( null );
-		assertTrue( null == config1.getActionStyle() );
-		assertTrue( !config1.equals( config2 ));
-
-		config1.setActionStyle( new SwingAppFrameworkActionStyle() );
-		assertTrue( config1.getActionStyle() instanceof SwingAppFrameworkActionStyle );
-
-		// Test mPropertyStyle equals
-
-		config1 = new BaseObjectInspectorConfig();
-		config2 = new BaseObjectInspectorConfig();
-		config1.setPropertyStyle( new GroovyPropertyStyle() );
-		assertTrue( !config1.equals( config2 ));
-
-		// Test mActionStyle equals
-
-		config1 = new BaseObjectInspectorConfig();
-		config2 = new BaseObjectInspectorConfig();
-		config1.setActionStyle( new SwingAppFrameworkActionStyle() );
-		assertTrue( !config1.equals( config2 ));
+		TestUtils.testEqualsAndHashcode( BaseObjectInspectorConfig.class );
 	}
 
 	/**

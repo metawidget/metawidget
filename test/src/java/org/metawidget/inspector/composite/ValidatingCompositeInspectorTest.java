@@ -18,8 +18,7 @@ package org.metawidget.inspector.composite;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -34,24 +33,6 @@ public class ValidatingCompositeInspectorTest
 
 	public void testConfig()
 	{
-		ValidatingCompositeInspectorConfig config1 = new ValidatingCompositeInspectorConfig();
-		ValidatingCompositeInspectorConfig config2 = new ValidatingCompositeInspectorConfig();
-
-		assertTrue( !config1.equals( "foo" ));
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		ResourceResolver resourceResolver = new ConfigReader();
-		config1.setResourceResolver( resourceResolver );
-		assertTrue( resourceResolver == config1.getResourceResolver() );
-		assertTrue( !config1.equals( config2 ));
-
-		config2.setResourceResolver( new ConfigReader() );
-		assertTrue( !config1.equals( config2 ));
-
-		config2.setResourceResolver( resourceResolver );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class );
 	}
 }

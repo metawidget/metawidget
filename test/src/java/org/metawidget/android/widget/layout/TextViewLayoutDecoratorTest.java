@@ -23,7 +23,7 @@ import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
+import org.metawidget.util.TestUtils;
 
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -44,31 +44,7 @@ public class TextViewLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TextViewLayoutDecoratorConfig config1 = new TextViewLayoutDecoratorConfig();
-		TextViewLayoutDecoratorConfig config2 = new TextViewLayoutDecoratorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new TextViewLayoutDecoratorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// style
-
-		config1.setStyle( 100 );
-		assertTrue( 100 == config1.getStyle() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setStyle( 100 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// superclass
-
-		LayoutDecoratorTest.testConfig( config1, config2, new TableLayout() );
+		TestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class );
 	}
 
 	public void testTextViewLayoutDecorator()

@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
+import org.metawidget.util.TestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
@@ -115,39 +116,8 @@ public class CompositeWidgetBuilderTest
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public void testConfig()
 	{
-		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config1 = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
-		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config2 = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new CompositeWidgetBuilderConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// inspectors
-		//
-		// Note: we're not too worried about non-configurable WidgetBuilders implementing equals
-		// just so that two CompositeWidgetBuilderConfigs with the same widget builders will also be
-		// equal, because sub-WidgetBuilders of CompositeWidgetBuilderConfig will be cached
-		// separately by ConfigReader
-
-		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = new WidgetBuilder[] { new SwingXWidgetBuilder(), new SwingWidgetBuilder() };
-		config1.setWidgetBuilders( widgetBuilders );
-		assertTrue( config1.getWidgetBuilders()[0] instanceof SwingXWidgetBuilder );
-		assertTrue( config1.getWidgetBuilders()[1] instanceof SwingWidgetBuilder );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setWidgetBuilders( new SwingWidgetBuilder(), new SwingXWidgetBuilder() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setWidgetBuilders( widgetBuilders );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class );
 	}
 }

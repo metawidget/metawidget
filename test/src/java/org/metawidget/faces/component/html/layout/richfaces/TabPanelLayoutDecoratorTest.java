@@ -18,8 +18,7 @@ package org.metawidget.faces.component.html.layout.richfaces;
 
 import junit.framework.TestCase;
 
-import org.metawidget.faces.component.layout.SimpleLayout;
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -34,30 +33,6 @@ public class TabPanelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TabPanelLayoutDecoratorConfig config1 = new TabPanelLayoutDecoratorConfig();
-		TabPanelLayoutDecoratorConfig config2 = new TabPanelLayoutDecoratorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new TabPanelLayoutDecoratorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// tabPlacement
-
-		config1.setHeaderAlignment( "right" );
-		assertTrue( "right".equals( config1.getHeaderAlignment() ));
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setHeaderAlignment( "right" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// superclass
-
-		LayoutDecoratorTest.testConfig( config1, config2, new SimpleLayout() );
+		TestUtils.testEqualsAndHashcode( TabPanelLayoutDecoratorConfig.class );
 	}
 }

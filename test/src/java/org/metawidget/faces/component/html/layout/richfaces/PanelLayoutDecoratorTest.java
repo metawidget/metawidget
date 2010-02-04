@@ -18,8 +18,7 @@ package org.metawidget.faces.component.html.layout.richfaces;
 
 import junit.framework.TestCase;
 
-import org.metawidget.faces.component.layout.SimpleLayout;
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -34,40 +33,6 @@ public class PanelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		PanelLayoutDecoratorConfig config1 = new PanelLayoutDecoratorConfig();
-		PanelLayoutDecoratorConfig config2 = new PanelLayoutDecoratorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new PanelLayoutDecoratorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// style
-
-		config1.setStyle( "aStyle" );
-		assertTrue( "aStyle".equals( config1.getStyle() ));
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setStyle( "aStyle" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// styleClass
-
-		config1.setStyleClass( "aStyleClass" );
-		assertTrue( "aStyleClass".equals( config1.getStyleClass() ));
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setStyleClass( "aStyleClass" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// superclass
-
-		LayoutDecoratorTest.testConfig( config1, config2, new SimpleLayout() );
+		TestUtils.testEqualsAndHashcode( PanelLayoutDecoratorConfig.class );
 	}
 }

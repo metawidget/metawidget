@@ -32,8 +32,8 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -48,31 +48,7 @@ public class SeparatorLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		SeparatorLayoutDecoratorConfig config1 = new SeparatorLayoutDecoratorConfig();
-		SeparatorLayoutDecoratorConfig config2 = new SeparatorLayoutDecoratorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new SeparatorLayoutDecoratorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// tabPlacement
-
-		config1.setAlignment( SwingConstants.RIGHT );
-		assertTrue( SwingConstants.RIGHT == config1.getAlignment() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setAlignment( SwingConstants.RIGHT );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// superclass
-
-		LayoutDecoratorTest.testConfig( config1, config2, new org.metawidget.swing.layout.GridBagLayout() );
+		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class );
 	}
 
 	public void testAlignment()

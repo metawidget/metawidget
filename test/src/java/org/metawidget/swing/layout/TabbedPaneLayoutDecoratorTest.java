@@ -32,8 +32,8 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -48,31 +48,7 @@ public class TabbedPaneLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TabbedPaneLayoutDecoratorConfig config1 = new TabbedPaneLayoutDecoratorConfig();
-		TabbedPaneLayoutDecoratorConfig config2 = new TabbedPaneLayoutDecoratorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( !config1.equals( new TabbedPaneLayoutDecoratorConfig()
-		{
-			// Subclass
-		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// tabPlacement
-
-		config1.setTabPlacement( SwingConstants.LEFT );
-		assertTrue( SwingConstants.LEFT == config1.getTabPlacement() );
-		assertTrue( !config1.equals( config2 ) );
-
-		config2.setTabPlacement( SwingConstants.LEFT );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// superclass
-
-		LayoutDecoratorTest.testConfig( config1, config2, new org.metawidget.swing.layout.GridBagLayout() );
+		TestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class );
 	}
 
 	public void testTabPlacement()

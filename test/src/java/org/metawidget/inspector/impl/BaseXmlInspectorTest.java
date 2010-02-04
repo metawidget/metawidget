@@ -16,13 +16,9 @@
 
 package org.metawidget.inspector.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -37,43 +33,6 @@ public class BaseXmlInspectorTest
 
 	public void testConfig()
 	{
-		BaseXmlInspectorConfig config1 = new BaseXmlInspectorConfig();
-		BaseXmlInspectorConfig config2 = new BaseXmlInspectorConfig();
-
-		assertTrue( !config1.equals( "foo" ));
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// resourceResolver
-
-		ResourceResolver resourceResolver = new ConfigReader();
-		config1.setResourceResolver( resourceResolver );
-		assertTrue( resourceResolver == config1.getResourceResolver() );
-		assertTrue( !config1.equals( config2 ));
-
-		config2.setResourceResolver( resourceResolver );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// inputStream
-
-		InputStream inputStream1 = new ByteArrayInputStream( "buffer".getBytes() );
-		config1.setInputStream( inputStream1 );
-		assertTrue( !config1.equals( config2 ));
-
-		config2.setInputStream( inputStream1 );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// inputStreams
-
-		InputStream inputStream2 = new ByteArrayInputStream( "buffer".getBytes() );
-		config1.setInputStreams( inputStream1, inputStream2 );
-		assertTrue( !config1.equals( config2 ));
-
-		config2.setInputStreams( inputStream1, inputStream2 );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class );
 	}
 }
