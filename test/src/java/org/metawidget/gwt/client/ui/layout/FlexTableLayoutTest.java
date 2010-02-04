@@ -40,7 +40,10 @@ public class FlexTableLayoutTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( FlexTableLayoutConfig.class );
+		TestUtils.testEqualsAndHashcode( FlexTableLayoutConfig.class, new FlexTableLayoutConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testNumberOfColumns()

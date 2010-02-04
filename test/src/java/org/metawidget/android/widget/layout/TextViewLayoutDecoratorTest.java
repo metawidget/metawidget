@@ -44,7 +44,10 @@ public class TextViewLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class, new TextViewLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testTextViewLayoutDecorator()

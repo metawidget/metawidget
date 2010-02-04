@@ -317,7 +317,10 @@ public class HtmlWidgetBuilderTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class );
+		TestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

@@ -67,7 +67,7 @@ public class ValidatingCompositeInspectorConfig
 		if ( getClass() != that.getClass() )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((ValidatingCompositeInspectorConfig) that).mResourceResolver ))
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (ValidatingCompositeInspectorConfig) that ).mResourceResolver ) )
 			return false;
 
 		return super.equals( that );

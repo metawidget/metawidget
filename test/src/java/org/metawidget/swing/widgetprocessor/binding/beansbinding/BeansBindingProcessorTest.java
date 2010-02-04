@@ -230,7 +230,10 @@ public class BeansBindingProcessorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class );
+		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testNumberConverter()

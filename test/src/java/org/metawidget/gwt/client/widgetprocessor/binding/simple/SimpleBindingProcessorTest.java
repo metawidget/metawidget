@@ -39,6 +39,9 @@ public class SimpleBindingProcessorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( SimpleBindingProcessorConfig.class );
+		TestUtils.testEqualsAndHashcode( SimpleBindingProcessorConfig.class, new SimpleBindingProcessorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

@@ -103,7 +103,7 @@ public class AddressBook
 
 		container.setLayout( new BorderLayout() );
 
-		// Table model
+		// Model
 
 		mContactSearch = new ContactSearch();
 		mContactsController = new ContactsController();

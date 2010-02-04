@@ -52,12 +52,12 @@ public class SeamInspectorTest
 			{
 				try
 				{
-					if ( "components.xml".equals( resource ))
+					if ( "components.xml".equals( resource ) )
 						return ClassUtils.openResource( "org/metawidget/inspector/seam/test-components.xml" );
 
 					return ClassUtils.openResource( resource );
 				}
-				catch( Exception e )
+				catch ( Exception e )
 				{
 					throw InspectorException.newException( e );
 				}
@@ -65,7 +65,7 @@ public class SeamInspectorTest
 		} );
 
 		SeamInspector inspector = new SeamInspector( config );
-		assertTrue( null == inspector.inspect( null, "newuser1.contact" ));
+		assertTrue( null == inspector.inspect( null, "newuser1.contact" ) );
 
 		String xml = inspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
@@ -77,7 +77,7 @@ public class SeamInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( !entity.hasAttribute( NAME ) );
-		assertTrue( "newuser.contact".equals( entity.getAttribute( TYPE ) ));
+		assertTrue( "newuser.contact".equals( entity.getAttribute( TYPE ) ) );
 
 		// Properties
 
@@ -98,7 +98,7 @@ public class SeamInspectorTest
 		config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
 
 		SeamInspector inspector = new SeamInspector( config );
-		assertTrue( null == inspector.inspect( null, "newuser.contact" ));
+		assertTrue( null == inspector.inspect( null, "newuser.contact" ) );
 	}
 
 	public void testMissingFile()
@@ -108,7 +108,7 @@ public class SeamInspectorTest
 			new SeamInspector();
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ) );
 		}
@@ -116,6 +116,9 @@ public class SeamInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( SeamInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( SeamInspectorConfig.class, new SeamInspectorConfig()
+		{
+			// Subclass
+		}, "componentsInputStream" );
 	}
 }

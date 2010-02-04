@@ -33,6 +33,9 @@ public class ValidatingCompositeInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class, new ValidatingCompositeInspectorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

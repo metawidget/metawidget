@@ -39,7 +39,10 @@ public class BasePropertyStyleTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class );
+		TestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class, new BasePropertyStyleConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testExcludedBaseType()
@@ -47,9 +50,9 @@ public class BasePropertyStyleTest
 		// Default excludeBaseType
 
 		BasePropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		assertTrue( true == propertyStyle.isExcludedBaseType( Date.class ));
-		assertTrue( true == propertyStyle.isExcludedBaseType( JTextField.class ));
-		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ));
+		assertTrue( true == propertyStyle.isExcludedBaseType( Date.class ) );
+		assertTrue( true == propertyStyle.isExcludedBaseType( JTextField.class ) );
+		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ) );
 
 		// Null excludeBaseType
 
@@ -57,8 +60,8 @@ public class BasePropertyStyleTest
 		config.setExcludeBaseType( null );
 		propertyStyle = new JavaBeanPropertyStyle( config );
 
-		assertTrue( false == propertyStyle.isExcludedBaseType( Date.class ));
-		assertTrue( false == propertyStyle.isExcludedBaseType( JTextField.class ));
-		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ));
+		assertTrue( false == propertyStyle.isExcludedBaseType( Date.class ) );
+		assertTrue( false == propertyStyle.isExcludedBaseType( JTextField.class ) );
+		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ) );
 	}
 }

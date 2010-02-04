@@ -33,6 +33,9 @@ public class TabPanelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( TabPanelLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( TabPanelLayoutDecoratorConfig.class, new TabPanelLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

@@ -120,7 +120,10 @@ public class BeanUtilsBindingProcessorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class );
+		TestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class, new BeanUtilsBindingProcessorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

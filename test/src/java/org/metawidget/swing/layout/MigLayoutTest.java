@@ -90,7 +90,7 @@ public class MigLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );
@@ -98,7 +98,7 @@ public class MigLayoutTest
 		assertTrue( 0 == insets[2].getValue() );
 		assertTrue( 0 == insets[3].getValue() );
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( ( "abc_label" ).equals( metawidget.getComponent( 0 ).getName() ));
+		assertTrue( ( "abc_label" ).equals( metawidget.getComponent( 0 ).getName() ) );
 		assertTrue( metawidget.getComponent( "abc_label" ) == metawidget.getComponent( 0 ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
@@ -244,7 +244,10 @@ public class MigLayoutTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class );
+		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

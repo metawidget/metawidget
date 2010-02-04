@@ -34,7 +34,10 @@ public class HtmlTableLayoutTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class );
+		TestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class, new HtmlTableLayoutConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testMinimumColumns()

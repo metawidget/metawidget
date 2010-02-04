@@ -33,6 +33,9 @@ public class BaseXmlInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class, new BaseXmlInspectorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

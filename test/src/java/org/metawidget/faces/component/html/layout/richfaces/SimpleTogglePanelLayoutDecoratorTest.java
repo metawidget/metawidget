@@ -33,6 +33,9 @@ public class SimpleTogglePanelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( SimpleTogglePanelLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( SimpleTogglePanelLayoutDecoratorConfig.class, new SimpleTogglePanelLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

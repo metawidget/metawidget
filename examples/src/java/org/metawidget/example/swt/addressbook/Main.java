@@ -16,13 +16,15 @@
 
 package org.metawidget.example.swt.addressbook;
 
-import net.miginfocom.layout.CC;
-import net.miginfocom.layout.LC;
-import net.miginfocom.swt.MigLayout;
-
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
@@ -48,7 +50,6 @@ public class Main
 	{
 		Display display = new Display();
 		Shell shell = new Shell( display );
-		shell.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
 
 		new Main( shell );
 
@@ -68,11 +69,13 @@ public class Main
 	// Private members
 	//
 
-	private Shell			mShell;
+	private Shell				mShell;
 
-	private ContactSearch	mContactSearch;
+	private ContactSearch		mContactSearch;
 
-	private SwtMetawidget	mSearchMetawidget;
+	private SwtMetawidget		mSearchMetawidget;
+
+	private ContactsController	mContactsController;
 
 	//
 	// Constructor
@@ -81,9 +84,15 @@ public class Main
 	public Main( Shell shell )
 	{
 		mShell = shell;
+		mShell.setLayout( new GridLayout() );
+
+		// Model
+
 		mContactSearch = new ContactSearch();
+		mContactsController = new ContactsController();
 
 		createSearchSection();
+		createResultsSection();
 	}
 
 	//
@@ -106,6 +115,8 @@ public class Main
 	{
 		Contact contact = new PersonalContact();
 		contact.setFirstname( "Foo" );
+		contact.getAddress().setCity( "Bar" );
+		contact.getAddress().setState( "Anytown" );
 		new ContactDialog( mShell, SWT.None ).open( contact );
 	}
 
@@ -124,21 +135,57 @@ public class Main
 	{
 		// Metawidget
 
-		mSearchMetawidget = new SwtMetawidget( mShell, SWT.None );
-		mSearchMetawidget.setLayoutData( new CC().grow() );
+		mSearchMetawidget = new SwtMetawidget( mShell, SWT.NONE );
+		GridData data = new GridData();
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = SWT.FILL;
+		mSearchMetawidget.setLayoutData( data );
 		mSearchMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 
 		// Embedded buttons
 
-		Facet facetButtons = new Facet( mSearchMetawidget, SWT.None );
+		Facet facetButtons = new Facet( mSearchMetawidget, SWT.NONE );
 		facetButtons.setData( "name", "buttons" );
+		facetButtons.setLayout( new GridLayout() );
 
-		SwtMetawidget buttonsMetawidget = new SwtMetawidget( facetButtons, SWT.None );
+		SwtMetawidget buttonsMetawidget = new SwtMetawidget( facetButtons, SWT.NONE );
 		buttonsMetawidget.setMetawidgetLayout( new RowLayout() );
 		buttonsMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 		buttonsMetawidget.setToInspect( this );
+		data = new GridData();
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = SWT.CENTER;
+		buttonsMetawidget.setLayoutData( data );
 
 		mSearchMetawidget.setToInspect( mContactSearch );
 		return mSearchMetawidget;
+	}
+
+	private void createResultsSection()
+	{
+		final Table table = new Table( mShell, SWT.BORDER | SWT.V_SCROLL );
+		GridData data = new GridData();
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = SWT.FILL;
+		data.grabExcessVerticalSpace = true;
+		data.verticalAlignment = SWT.FILL;
+		table.setLayoutData( data );
+		table.setHeaderVisible( true );
+		table.setLinesVisible( true );
+
+		TableColumn column = new TableColumn( table, SWT.NONE );
+		column.setText( "Fullname" );
+		column = new TableColumn( table, SWT.NONE );
+		column.setText( "Communications" );
+		column = new TableColumn( table, SWT.RIGHT );
+		column.setText( "Class" );
+
+		for ( TableColumn columnToPack : table.getColumns() )
+		{
+			columnToPack.pack();
+		}
+
+		TableItem item = new TableItem( table, SWT.NONE );
+		item.setText( 0, "Item 1" );
 	}
 }

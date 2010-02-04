@@ -185,6 +185,10 @@ public class HibernateInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class, new HibernateInspectorConfig()
+		{
+			// Subclass
+		},
+		"inputStreams" );
 	}
 }

@@ -33,6 +33,9 @@ public class PanelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( PanelLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( PanelLayoutDecoratorConfig.class, new PanelLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

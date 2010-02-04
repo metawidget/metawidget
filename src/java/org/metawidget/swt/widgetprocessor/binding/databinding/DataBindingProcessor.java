@@ -24,6 +24,7 @@ import java.util.Map;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.beans.PojoObservables;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.widgets.Control;
@@ -93,7 +94,9 @@ public class DataBindingProcessor
 		if ( typeAndNames.getNamesAsArray().length > 0 )
 			propertyName = typeAndNames.getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR ) + StringUtils.SEPARATOR_DOT_CHAR + propertyName;
 
-		IObservableValue observeModel = BeanProperties.value( propertyName ).observe( realm, toInspect );
+		// (use PojoObservables so that the model needn't implement PropertyChangeListener)
+
+		IObservableValue observeModel = PojoObservables.observeValue( realm, toInspect, propertyName );
 
 		// Bind it
 

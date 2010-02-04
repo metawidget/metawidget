@@ -147,13 +147,13 @@ public class BaseXmlInspectorConfig
 		if ( getClass() != that.getClass() )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ((BaseXmlInspectorConfig) that).mDefaultFile ))
+		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ( (BaseXmlInspectorConfig) that ).mDefaultFile ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mResourceResolver ))
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (BaseXmlInspectorConfig) that ).mResourceResolver ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ((BaseXmlInspectorConfig) that).mInputStreams ))
+		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ( (BaseXmlInspectorConfig) that ).mInputStreams ) )
 			return false;
 
 		return true;

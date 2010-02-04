@@ -89,7 +89,7 @@ public class GridBagLayoutTest
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( ( "abc_label" ).equals( metawidget.getComponent( 0 ).getName() ));
+		assertTrue( ( "abc_label" ).equals( metawidget.getComponent( 0 ).getName() ) );
 		assertTrue( metawidget.getComponent( "abc_label" ) == metawidget.getComponent( 0 ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
 		assertTrue( insets.left == 0 );
@@ -371,7 +371,10 @@ public class GridBagLayoutTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class );
+		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class, new GridBagLayoutConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

@@ -48,7 +48,10 @@ public class TabbedPaneLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class, new TabbedPaneLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testTabPlacement()

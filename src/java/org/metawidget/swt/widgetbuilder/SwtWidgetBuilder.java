@@ -57,7 +57,7 @@ public class SwtWidgetBuilder
 
 	public String getValueProperty( Control control )
 	{
-		if ( control instanceof Text )
+		if ( control instanceof Text || control instanceof Combo )
 			return "text";
 
 		return null;

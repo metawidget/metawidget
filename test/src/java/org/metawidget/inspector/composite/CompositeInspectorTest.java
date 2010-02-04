@@ -126,7 +126,10 @@ public class CompositeInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class, new CompositeInspectorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

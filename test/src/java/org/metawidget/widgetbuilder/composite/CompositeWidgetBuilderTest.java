@@ -118,6 +118,9 @@ public class CompositeWidgetBuilderTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class );
+		TestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class, new CompositeWidgetBuilderConfig<Object, Object>()
+		{
+			// Subclass
+		} );
 	}
 }

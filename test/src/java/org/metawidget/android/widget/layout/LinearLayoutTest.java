@@ -73,7 +73,10 @@ public class LinearLayoutTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( LinearLayoutConfig.class );
+		TestUtils.testEqualsAndHashcode( LinearLayoutConfig.class, new LinearLayoutConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

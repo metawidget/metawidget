@@ -40,7 +40,10 @@ public class BaseObjectInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( BaseObjectInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( BaseObjectInspectorConfig.class, new BaseObjectInspectorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	/**

@@ -48,7 +48,10 @@ public class SeparatorLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	public void testAlignment()

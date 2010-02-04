@@ -39,6 +39,9 @@ public class LabelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( LabelLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( LabelLayoutDecoratorConfig.class, new LabelLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

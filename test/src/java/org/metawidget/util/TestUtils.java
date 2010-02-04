@@ -29,9 +29,10 @@ import javax.swing.JPanel;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
-import org.metawidget.swing.layout.GridBagLayoutConfig;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for running unit tests.
@@ -47,13 +48,14 @@ public class TestUtils
 	//
 
 	/**
-	 * Generic algorithm to test equals/hashCode implementation by calling each setter on the Class.
+	 * Generic algorithm to test equals/hashCode implementations by calling each setter on the
+	 * Class.
 	 * <p>
-	 * Of course, this method will not work in all cases, but when it does it saves a lot of
-	 * boilerplate testing code.
+	 * Of course, this method cannot be applied to all cases, but when it can it saves a
+	 * <em>lot</em> of boilerplate testing code.
 	 */
 
-	public static void testEqualsAndHashcode( Class<?> clazz )
+	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, String... exclude )
 	{
 		try
 		{
@@ -61,12 +63,7 @@ public class TestUtils
 
 			Object object1 = clazz.newInstance();
 			assertTrue( !object1.equals( "foo" ) );
-
-			// LOW: subclass
-			assertTrue( !object1.equals( new GridBagLayoutConfig()
-			{
-				// Subclass
-			} ) );
+			assertTrue( "subclass", !object1.equals( subclass ) );
 			assertTrue( object1.equals( object1 ) );
 
 			Object object2 = clazz.newInstance();
@@ -79,14 +76,64 @@ public class TestUtils
 
 			for ( Property property : propertyStyle.getProperties( clazz ).values() )
 			{
+				String propertyName = property.getName();
+
+				if ( ArrayUtils.contains( exclude, propertyName ) )
+					continue;
+
 				// Setter
 
 				if ( !property.isWritable() )
 					continue;
 
-				Object toSet;
-				String propertyName = property.getName();
+				// If the default for the property is not null, then test setting it to null returns
+				// null (tests BaseObjectInspectorConfig.mNullPropertyStyle etc)
+
 				Class<?> propertyType = property.getType();
+				Method writeMethod = ClassUtils.getWriteMethod( object1.getClass(), propertyName, propertyType );
+
+				if ( !propertyType.isPrimitive() )
+				{
+					// (this doesn't apply to ResourceResolver)
+
+					if ( !ResourceResolver.class.equals( propertyType ) )
+					{
+						Method readMethod = null;
+
+						try
+						{
+							readMethod = ClassUtils.getReadMethod( object1.getClass(), propertyName );
+						}
+						catch ( Exception e1 )
+						{
+							try
+							{
+								readMethod = object1.getClass().getDeclaredMethod( "get" + StringUtils.uppercaseFirstLetter( propertyName ) );
+								readMethod.setAccessible( true );
+							}
+							catch ( Exception e2 )
+							{
+								// Fair enough, no such method
+							}
+						}
+
+						if ( readMethod != null && readMethod.invoke( object1 ) != null )
+						{
+							writeMethod.invoke( object1, new Object[] { null } );
+							assertTrue( propertyName, null == readMethod.invoke( object1 ) );
+							assertTrue( !object1.equals( object2 ) );
+
+							assertTrue( propertyName, null != readMethod.invoke( object2 ) );
+							writeMethod.invoke( object2, new Object[] { null } );
+							assertTrue( propertyName, null == readMethod.invoke( object2 ) );
+
+							assertTrue( object1.equals( object2 ) );
+							assertTrue( object1.hashCode() == object2.hashCode() );
+						}
+					}
+				}
+
+				Object toSet;
 
 				// Simple types
 
@@ -98,12 +145,12 @@ public class TestUtils
 					toSet = Color.blue;
 				else if ( String.class.isAssignableFrom( propertyType ) )
 					toSet = "foo";
-				else if ( boolean.class.equals( propertyType ))
+				else if ( boolean.class.equals( propertyType ) )
 				{
 					// (toggle from the default)
 
 					if ( property.isReadable() )
-						toSet = !((Boolean) ClassUtils.getProperty( object1, propertyName ));
+						toSet = !( (Boolean) ClassUtils.getProperty( object1, propertyName ) );
 					else
 						toSet = true;
 				}
@@ -114,12 +161,12 @@ public class TestUtils
 				{
 					Class<?> componentType = propertyType.getComponentType();
 
-					if ( String.class.equals( componentType ))
-						toSet = new String[]{ "foo", "bar", "baz" };
+					if ( String.class.equals( componentType ) )
+						toSet = new String[] { "foo", "bar", "baz" };
 
 					// Array types that are never equal to each other
 
-					else if ( InputStream.class.isAssignableFrom( componentType ))
+					else if ( InputStream.class.isAssignableFrom( componentType ) )
 						continue;
 
 					// Arrays of dynamic proxies
@@ -144,25 +191,20 @@ public class TestUtils
 
 				else if ( propertyType.isEnum() )
 				{
+					toSet = propertyType.getEnumConstants()[0];
+
 					// (toggle from the default)
 
-					if ( property.isReadable() )
-					{
-						toSet = ClassUtils.getProperty( object1, propertyName );
-
-						if ( toSet.equals( propertyType.getEnumConstants()[0] ))
-							toSet = propertyType.getEnumConstants()[1];
-					}
-					else
-						toSet = propertyType.getEnumConstants()[0];
+					if ( property.isReadable() && toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) )
+						toSet = propertyType.getEnumConstants()[1];
 				}
 
 				// Types that are never equal to each other
 
-				else if ( InputStream.class.isAssignableFrom( propertyType ))
+				else if ( InputStream.class.isAssignableFrom( propertyType ) )
 					continue;
 
-				else if ( Pattern.class.isAssignableFrom( propertyType ))
+				else if ( Pattern.class.isAssignableFrom( propertyType ) )
 					continue;
 
 				// Unknown
@@ -170,15 +212,17 @@ public class TestUtils
 				else
 					throw new Exception( "Don't know how to test a property of " + propertyType );
 
-				Method writeMethod = ClassUtils.getWriteMethod( object1.getClass(), propertyName, propertyType );
+				int hashCodeBefore = object1.hashCode();
 				writeMethod.invoke( object1, toSet );
+
+				// The hashCode before and after *could* be the same, but it's not a very good idea
+
+				assertTrue( propertyName, object1.hashCode() != hashCodeBefore );
 
 				// Getter
 
 				if ( property.isReadable() )
-					assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ));
-
-				// TODO: test nullable stays null
+					assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) );
 
 				// equals/hashCode
 
@@ -206,10 +250,10 @@ public class TestUtils
 			public Object invoke( Object proxy, Method method, Object[] args )
 				throws Throwable
 			{
-				if ( "equals".equals( method.getName() ))
+				if ( "equals".equals( method.getName() ) )
 					return ( proxy == args[0] );
 
-				if ( "hashCode".equals( method.getName() ))
+				if ( "hashCode".equals( method.getName() ) )
 					return System.identityHashCode( proxy );
 
 				return null;

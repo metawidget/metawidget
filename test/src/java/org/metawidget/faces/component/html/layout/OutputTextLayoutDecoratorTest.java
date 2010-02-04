@@ -33,6 +33,9 @@ public class OutputTextLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class );
+		TestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class, new OutputTextLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

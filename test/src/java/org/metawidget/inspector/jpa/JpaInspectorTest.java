@@ -110,7 +110,10 @@ public class JpaInspectorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( JpaInspectorConfig.class );
+		TestUtils.testEqualsAndHashcode( JpaInspectorConfig.class, new JpaInspectorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//
