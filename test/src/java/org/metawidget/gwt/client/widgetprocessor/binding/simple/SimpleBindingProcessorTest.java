@@ -16,9 +16,10 @@
 
 package org.metawidget.gwt.client.widgetprocessor.binding.simple;
 
-import org.metawidget.util.TestUtils;
+import java.util.Date;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
@@ -39,9 +40,82 @@ public class SimpleBindingProcessorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( SimpleBindingProcessorConfig.class, new SimpleBindingProcessorConfig()
+		SimpleBindingProcessorConfig config1 = new SimpleBindingProcessorConfig();
+		SimpleBindingProcessorConfig config2 = new SimpleBindingProcessorConfig();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new SimpleBindingProcessorConfig()
 		{
 			// Subclass
-		} );
+		} ) );
+		assertTrue( config1.equals( config1 ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// adapter
+
+		SimpleBindingProcessorAdapter<Date> adapter = new SimpleBindingProcessorAdapter<Date>()
+		{
+			@Override
+			public Object getProperty( Date object, String... property )
+			{
+				return null;
+			}
+
+			@Override
+			public Class<?> getPropertyType( Date object, String... property )
+			{
+				return null;
+			}
+
+			@Override
+			public void invokeAction( Date object, String... action )
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void setProperty( Date object, Object value, String... property )
+			{
+				// Do nothing
+			}
+		};
+
+		assertTrue( null == config1.getAdapters() );
+		config1.setAdapter( Date.class, adapter );
+		assertTrue( !config1.equals( config2 ) );
+		config2.setAdapter( Date.class, adapter );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		assertTrue( 1 == config1.getAdapters().size() );
+		assertTrue( adapter == config1.getAdapters().values().iterator().next() );
+
+		// converter
+
+		Converter<Date> converter = new Converter<Date>()
+		{
+			@Override
+			public Object convertForWidget( Widget widget, Date value )
+			{
+				return null;
+			}
+
+			@Override
+			public Date convertFromWidget( Widget widget, Object value, Class<?> intoClass )
+			{
+				return null;
+			}
+		};
+
+		assertTrue( null == config1.getConverters() );
+		config1.setConverter( Date.class, converter );
+		assertTrue( !config1.equals( config2 ) );
+		config2.setConverter( Date.class, converter );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		assertTrue( 1 == config1.getConverters().size() );
+		assertTrue( converter == config1.getConverters().values().iterator().next() );
 	}
 }

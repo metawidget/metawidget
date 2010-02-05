@@ -17,7 +17,6 @@
 package org.metawidget.gwt.client.ui.layout;
 
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.util.TestUtils;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -40,10 +39,54 @@ public class FlexTableLayoutTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( FlexTableLayoutConfig.class, new FlexTableLayoutConfig()
-		{
-			// Subclass
-		} );
+		FlexTableLayoutConfig config1 = new FlexTableLayoutConfig();
+		FlexTableLayoutConfig config2 = new FlexTableLayoutConfig();
+
+		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config1 ) );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// numberOfColumns
+
+		config1.setNumberOfColumns( 2 );
+		assertTrue( 2 == config1.getNumberOfColumns() );
+		assertTrue( !config1.equals( config2 ));
+
+		config2.setNumberOfColumns( 2 );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// tableStyleName
+
+		config1.setTableStyleName( "table-style-name" );
+		assertTrue( "table-style-name".equals( config1.getTableStyleName() ));
+		assertTrue( !config1.equals( config2 ));
+
+		config2.setTableStyleName( "table-style-name" );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// columnStyleNames
+
+		config1.setColumnStyleNames( "column-style-name1", "column-style-name2" );
+		assertTrue( "column-style-name1".equals( config1.getColumnStyleNames()[0] ));
+		assertTrue( "column-style-name2".equals( config1.getColumnStyleNames()[1] ));
+		assertTrue( !config1.equals( config2 ));
+
+		config2.setColumnStyleNames( "column-style-name1", "column-style-name2" );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// footerStyleName
+
+		config1.setFooterStyleName( "footer-style-name" );
+		assertTrue( "footer-style-name".equals( config1.getFooterStyleName() ));
+		assertTrue( !config1.equals( config2 ));
+
+		config2.setFooterStyleName( "footer-style-name" );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	public void testNumberOfColumns()

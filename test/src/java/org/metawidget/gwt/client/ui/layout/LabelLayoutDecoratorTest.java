@@ -16,8 +16,6 @@
 
 package org.metawidget.gwt.client.ui.layout;
 
-import org.metawidget.util.TestUtils;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 /**
@@ -39,9 +37,40 @@ public class LabelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		TestUtils.testEqualsAndHashcode( LabelLayoutDecoratorConfig.class, new LabelLayoutDecoratorConfig()
+		LabelLayoutDecoratorConfig config1 = new LabelLayoutDecoratorConfig();
+		LabelLayoutDecoratorConfig config2 = new LabelLayoutDecoratorConfig();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new LabelLayoutDecoratorConfig()
 		{
 			// Subclass
-		} );
+		} ) );
+		assertTrue( config1.equals( config1 ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// styleName
+
+		config1.setStyleName( "section-style-name" );
+		assertTrue( "section-style-name".equals( config1.getStyleName() ) );
+		assertTrue( !config1.equals( config2 ) );
+
+		config2.setStyleName( "section-style-name" );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// superclass
+
+		// layout
+
+		FlexTableLayout delegate = new FlexTableLayout();
+
+		config1.setLayout( delegate );
+		assertTrue( delegate == config1.getLayout() );
+		assertTrue( !config1.equals( config2 ) );
+
+		config2.setLayout( delegate );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 }

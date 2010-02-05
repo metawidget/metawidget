@@ -162,8 +162,6 @@ public class ContactDialog
 			mContactMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 
-			// TODO: converters
-
 			mContactsController.save( contact );
 		}
 		catch ( Exception e )
