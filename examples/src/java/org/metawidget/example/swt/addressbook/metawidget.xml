@@ -31,7 +31,14 @@
 		</inspector>
 		<widgetProcessors>
 			<array>
-				<dataBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.databinding"/>
+				<dataBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.databinding" config="DataBindingProcessorConfig">
+					<converters>
+						<array xmlns="java:org.metawidget.example.swt.addressbook.converter">
+							<genderToStringConverter/>
+							<stringToGenderConverter/>
+						</array>
+					</converters>
+				</dataBindingProcessor>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.reflection"/>			
 			</array>
 		</widgetProcessors>		

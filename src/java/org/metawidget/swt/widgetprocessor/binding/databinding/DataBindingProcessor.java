@@ -25,6 +25,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.widgets.Control;
@@ -59,7 +60,33 @@ public class DataBindingProcessor
 	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
 	 */
 
-	private List<DisplayRealm>	mRealms	= CollectionUtils.newArrayList();
+	private List<DisplayRealm>						mRealms		= CollectionUtils.newArrayList();
+
+	private final Map<ConvertFromTo, IConverter>	mConverters	= CollectionUtils.newHashMap();
+
+	//
+	// Constructor
+	//
+
+	public DataBindingProcessor()
+	{
+		this( new DataBindingProcessorConfig() );
+	}
+
+	public DataBindingProcessor( DataBindingProcessorConfig config )
+	{
+		// Register converters
+
+		IConverter[] converters = config.getConverters();
+
+		if ( converters != null )
+		{
+			for( IConverter converter : converters )
+			{
+				mConverters.put( new ConvertFromTo( (Class<?>) converter.getFromType(), (Class<?>) converter.getToType() ), converter );
+			}
+		}
+	}
 
 	//
 	// Public methods
@@ -84,7 +111,8 @@ public class DataBindingProcessor
 
 		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
 		Realm realm = bindingContext.getValidationRealm();
-		IObservableValue observeControl = BeanProperties.value( controlProperty ).observe( realm, control );
+		IObservableValue observeTarget = BeanProperties.value( controlProperty ).observe( realm, control );
+		UpdateValueStrategy targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
 
 		// Observe the model
 
@@ -98,12 +126,16 @@ public class DataBindingProcessor
 		// (use PojoObservables so that the model needn't implement PropertyChangeListener)
 
 		IObservableValue observeModel = PojoObservables.observeValue( realm, toInspect, propertyName );
+		UpdateValueStrategy modelToTarget = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
+
+		// Add converters
+
+		targetToModel.setConverter( getConverter( (Class<?>) observeTarget.getValueType(), (Class<?>) observeModel.getValueType() ));
+		modelToTarget.setConverter( getConverter( (Class<?>) observeModel.getValueType(), (Class<?>) observeTarget.getValueType() ));
 
 		// Bind it
 
-		UpdateValueStrategy targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
-		UpdateValueStrategy modelToTarget = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
-		bindingContext.bindValue( observeControl, observeModel, targetToModel, modelToTarget );
+		bindingContext.bindValue( observeTarget, observeModel, targetToModel, modelToTarget );
 
 		return control;
 	}
@@ -148,6 +180,31 @@ public class DataBindingProcessor
 			mRealms.add( realm );
 			return realm;
 		}
+	}
+
+	/**
+	 * Gets the IConverter for the given Class (if any).
+	 * <p>
+	 * Includes traversing superclasses of the given Class for a suitable IConverter, so for example
+	 * registering a IConverter for <code>Number.class</code> will match <code>Integer.class</code>,
+	 * <code>Double.class</code> etc., unless a more subclass-specific IConverter is also registered.
+	 */
+
+	private IConverter getConverter( Class<?> sourceClass, Class<?> targetClass )
+	{
+		Class<?> sourceClassTraversal = sourceClass;
+
+		while ( sourceClassTraversal != null )
+		{
+			IConverter converter = mConverters.get( new ConvertFromTo( sourceClassTraversal, targetClass ) );
+
+			if ( converter != null )
+				return converter;
+
+			sourceClassTraversal = sourceClassTraversal.getSuperclass();
+		}
+
+		return null;
 	}
 
 	//
@@ -243,6 +300,62 @@ public class DataBindingProcessor
 		{
 			int hashCode = 1;
 			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDisplay );
+
+			return hashCode;
+		}
+	}
+
+	/* package private */final static class ConvertFromTo
+	{
+		//
+		// Private members
+		//
+
+		private Class<?>	mSource;
+
+		private Class<?>	mTarget;
+
+		//
+		// Constructor
+		//
+
+		public ConvertFromTo( Class<?> source, Class<?> target )
+		{
+			mSource = source;
+			mTarget = target;
+		}
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public boolean equals( Object that )
+		{
+			if ( this == that )
+				return true;
+
+			if ( that == null )
+				return false;
+
+			if ( getClass() != that.getClass() )
+				return false;
+
+			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo) that ).mSource ) )
+				return false;
+
+			if ( !ObjectUtils.nullSafeEquals( mTarget, ( (ConvertFromTo) that ).mTarget ) )
+				return false;
+
+			return true;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			int hashCode = 1;
+			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSource.hashCode() );
+			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTarget.hashCode() );
 
 			return hashCode;
 		}

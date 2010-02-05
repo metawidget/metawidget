@@ -102,16 +102,6 @@ public class BeansBindingProcessor
 	// Public methods
 	//
 
-	public <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
-	{
-		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
-	}
-
-	public <S, T> void unregisterConverter( Class<S> source, Class<T> target )
-	{
-		mConverters.remove( new ConvertFromTo<S, T>( source, target ) );
-	}
-
 	@Override
 	public void onStartBuild( SwingMetawidget metawidget )
 	{
@@ -257,6 +247,11 @@ public class BeansBindingProcessor
 	//
 	// Private members
 	//
+
+	private <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
+	{
+		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
+	}
 
 	@SuppressWarnings( "unchecked" )
 	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )

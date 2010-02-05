@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -41,7 +41,6 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TestUtils
-	extends TestCase
 {
 	//
 	// Public methods
@@ -62,13 +61,13 @@ public class TestUtils
 			// Test top-level object
 
 			Object object1 = clazz.newInstance();
-			assertTrue( !object1.equals( "foo" ) );
-			assertTrue( "subclass", !object1.equals( subclass ) );
-			assertTrue( object1.equals( object1 ) );
+			Assert.assertTrue( !object1.equals( "foo" ) );
+			Assert.assertTrue( "subclass", !object1.equals( subclass ) );
+			Assert.assertTrue( object1.equals( object1 ) );
 
 			Object object2 = clazz.newInstance();
-			assertTrue( object1.equals( object2 ) );
-			assertTrue( object1.hashCode() == object2.hashCode() );
+			Assert.assertTrue( object1.equals( object2 ) );
+			Assert.assertTrue( object1.hashCode() == object2.hashCode() );
 
 			// Test each property
 
@@ -120,15 +119,15 @@ public class TestUtils
 						if ( readMethod != null && readMethod.invoke( object1 ) != null )
 						{
 							writeMethod.invoke( object1, new Object[] { null } );
-							assertTrue( propertyName, null == readMethod.invoke( object1 ) );
-							assertTrue( !object1.equals( object2 ) );
+							Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
+							Assert.assertTrue( !object1.equals( object2 ) );
 
-							assertTrue( propertyName, null != readMethod.invoke( object2 ) );
+							Assert.assertTrue( propertyName, null != readMethod.invoke( object2 ) );
 							writeMethod.invoke( object2, new Object[] { null } );
-							assertTrue( propertyName, null == readMethod.invoke( object2 ) );
+							Assert.assertTrue( propertyName, null == readMethod.invoke( object2 ) );
 
-							assertTrue( object1.equals( object2 ) );
-							assertTrue( object1.hashCode() == object2.hashCode() );
+							Assert.assertTrue( object1.equals( object2 ) );
+							Assert.assertTrue( object1.hashCode() == object2.hashCode() );
 						}
 					}
 				}
@@ -217,20 +216,20 @@ public class TestUtils
 
 				// The hashCode before and after *could* be the same, but it's not a very good idea
 
-				assertTrue( propertyName, object1.hashCode() != hashCodeBefore );
+				Assert.assertTrue( propertyName, object1.hashCode() != hashCodeBefore );
 
 				// Getter
 
 				if ( property.isReadable() )
-					assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) );
+					Assert.assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) );
 
 				// equals/hashCode
 
-				assertTrue( propertyName, !object1.equals( object2 ) );
+				Assert.assertTrue( propertyName, !object1.equals( object2 ) );
 
 				writeMethod.invoke( object2, toSet );
-				assertTrue( object1.equals( object2 ) );
-				assertTrue( object1.hashCode() == object2.hashCode() );
+				Assert.assertTrue( object1.equals( object2 ) );
+				Assert.assertTrue( object1.hashCode() == object2.hashCode() );
 			}
 		}
 		catch ( Exception e )

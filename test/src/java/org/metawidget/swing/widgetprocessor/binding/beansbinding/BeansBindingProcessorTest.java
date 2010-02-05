@@ -234,6 +234,7 @@ public class BeansBindingProcessorTest
 		{
 			// Subclass
 		} );
+		//TODO:TestUtils.testEqualsAndHashcode( ConvertFromTo.class, null );
 	}
 
 	public void testNumberConverter()

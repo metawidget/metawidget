@@ -71,7 +71,7 @@ public class BeansBindingProcessorConfig
 	/**
 	 * Sets a Converter for this BeansBindingProcessor.
 	 * <p>
-	 * Note: this is not a JavaBean 'setter': multiple different Converters can be set by calling
+	 * Note: <code>setConverter</code> is not a JavaBean 'setter': multiple different Converters can be set by calling
 	 * <code>setConverter</code> multiple times with different source and target classes.
 	 *
 	 * @return this, as part of a fluent interface
