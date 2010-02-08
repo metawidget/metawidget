@@ -31,6 +31,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.BoxLayout;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor.ConvertFromTo;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.TestUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -234,7 +235,7 @@ public class BeansBindingProcessorTest
 		{
 			// Subclass
 		} );
-		//TODO:TestUtils.testEqualsAndHashcode( ConvertFromTo.class, null );
+		TestUtils.testEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
 	}
 
 	public void testNumberConverter()

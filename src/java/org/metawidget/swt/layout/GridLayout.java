@@ -91,8 +91,6 @@ public class GridLayout
 
 	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
 	{
-		container.setData( GridLayout.class.getName(), null );
-
 		// Calculate default label inset
 		//
 		// We top align all our labels, not just those belonging to 'tall' components,
@@ -149,7 +147,6 @@ public class GridLayout
 
 	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
 	{
-		// Do nothing
 	}
 
 	public void onEndBuild( SwtMetawidget metawidget )
@@ -169,6 +166,8 @@ public class GridLayout
 			buttonsFacet.setLayoutData( buttonLayoutData );
 			buttonsFacet.moveBelow( null );
 		}
+
+		metawidget.layout();
 	}
 
 	//
@@ -210,7 +209,7 @@ public class GridLayout
 			labelLayoutData.verticalAlignment = SWT.FILL;
 
 			label.setLayoutData( labelLayoutData );
-			component.moveBelow( label );
+			label.moveAbove( component );
 		}
 
 		return labelText;

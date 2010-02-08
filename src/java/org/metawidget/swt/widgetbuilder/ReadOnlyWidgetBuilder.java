@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.swt.SwtValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -43,11 +44,19 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<Control, SwtMetawidget>
+	implements WidgetBuilder<Control, SwtMetawidget>, SwtValuePropertyProvider
 {
 	//
 	// Public methods
 	//
+
+	public String getValueProperty( Control control )
+	{
+		if ( control instanceof Label )
+			return "text";
+
+		return null;
+	}
 
 	@Override
 	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
@@ -60,24 +69,24 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget, SWT.None );
+			return new Stub( metawidget, SWT.NONE );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new Stub( metawidget, SWT.None );
+			return new Stub( metawidget, SWT.NONE );
 
 		// Masked (return a Composite, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new Composite( metawidget, SWT.None );
+			return new Composite( metawidget, SWT.NONE );
 
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-			return new Label( metawidget, SWT.None );
+			return new Label( metawidget, SWT.NONE );
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -95,24 +104,24 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() )
-				return new Label( metawidget, SWT.None );
+				return new Label( metawidget, SWT.NONE );
 
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
 					return new Text( metawidget, SWT.MULTI | SWT.READ_ONLY );
 
-				return new Label( metawidget, SWT.None );
+				return new Label( metawidget, SWT.NONE );
 			}
 
 			if ( Date.class.equals( clazz ) )
-				return new Label( metawidget, SWT.None );
+				return new Label( metawidget, SWT.NONE );
 
 			if ( Boolean.class.equals( clazz ) )
-				return new Label( metawidget, SWT.None );
+				return new Label( metawidget, SWT.NONE );
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return new Label( metawidget, SWT.None );
+				return new Label( metawidget, SWT.NONE );
 
 			// Collections
 
@@ -123,7 +132,7 @@ public class ReadOnlyWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new Label( metawidget, SWT.None );
+			return new Label( metawidget, SWT.NONE );
 
 		// Nested Metawidget
 

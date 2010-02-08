@@ -74,7 +74,7 @@ public class ContactDialog
 
 	public Object open( Contact contact )
 	{
-		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
+		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE );
 		mShell.setLayout( new FillLayout() );
 
 		// Title

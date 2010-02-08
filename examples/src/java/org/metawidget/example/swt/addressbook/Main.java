@@ -17,6 +17,8 @@
 package org.metawidget.example.swt.addressbook;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
@@ -26,6 +28,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
+import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
@@ -35,6 +38,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.layout.RowLayout;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Stefan Ackermann, Richard Kennard
@@ -49,7 +53,7 @@ public class Main
 	public static void main( String[] args )
 	{
 		Display display = new Display();
-		Shell shell = new Shell( display );
+		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 
 		new Main( shell );
 
@@ -69,13 +73,15 @@ public class Main
 	// Private members
 	//
 
-	private Shell				mShell;
+	private Shell							mShell;
 
-	private ContactSearch		mContactSearch;
+	private ContactSearch					mContactSearch;
 
-	private SwtMetawidget		mSearchMetawidget;
+	private SwtMetawidget					mSearchMetawidget;
 
-	private ContactsController	mContactsController;
+	/* package private */ContactsController	mContactsController;
+
+	/* package private */ContactDialog		mContactDialog;
 
 	//
 	// Constructor
@@ -94,6 +100,8 @@ public class Main
 
 		createSearchSection();
 		createResultsSection();
+
+		mContactDialog = new ContactDialog( mShell, mContactsController, SWT.NONE );
 	}
 
 	//
@@ -113,21 +121,21 @@ public class Main
 
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
-		mContactSearch.setType( ContactType.valueOf( (String) mSearchMetawidget.getValue( "type" ) ));
+		mContactSearch.setType( ContactType.valueOf( (String) mSearchMetawidget.getValue( "type" ) ) );
 	}
 
 	@UiAction
 	@UiComesAfter( "search" )
 	public void addPersonal()
 	{
-		new ContactDialog( mShell, mContactsController, SWT.NONE ).open( new PersonalContact() );
+		mContactDialog.open( new PersonalContact() );
 	}
 
 	@UiAction
 	@UiComesAfter( "addPersonal" )
 	public void addBusiness()
 	{
-		new ContactDialog( mShell, mContactsController, SWT.NONE ).open( new BusinessContact() );
+		mContactDialog.open( new BusinessContact() );
 	}
 
 	//
@@ -166,7 +174,9 @@ public class Main
 
 	private void createResultsSection()
 	{
-		final Table table = new Table( mShell, SWT.BORDER | SWT.V_SCROLL );
+		// Create table
+
+		final Table table = new Table( mShell, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
 		GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.FILL;
@@ -177,18 +187,50 @@ public class Main
 		table.setLinesVisible( true );
 
 		TableColumn column = new TableColumn( table, SWT.NONE );
+		column.setText( "Id" );
+		column = new TableColumn( table, SWT.NONE );
+		column.setWidth( 0 );
+		column.setResizable( false );
 		column.setText( "Fullname" );
 		column = new TableColumn( table, SWT.NONE );
 		column.setText( "Communications" );
 		column = new TableColumn( table, SWT.RIGHT );
 		column.setText( "Class" );
 
+		//
+
+		table.addSelectionListener( new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected( SelectionEvent event )
+			{
+				Contact contact = mContactsController.load( Long.parseLong( table.getSelection()[0].getText() ) );
+				mContactDialog.open( contact );
+			}
+
+			@Override
+			public void widgetSelected( SelectionEvent arg0 )
+			{
+				// Do nothing
+			}
+		} );
+
+		// Populate table
+
+		for ( Contact contact : mContactsController.getAllByExample( mContactSearch ) )
+		{
+			TableItem item = new TableItem( table, SWT.NONE );
+			item.setText( 0, String.valueOf( contact.getId() ) );
+			item.setText( 1, contact.getFullname() );
+			item.setText( 2, CollectionUtils.toString( contact.getCommunications() ) );
+			item.setText( 3, contact.getClass().getSimpleName() );
+		}
+
+		// Space columns
+
 		for ( TableColumn columnToPack : table.getColumns() )
 		{
 			columnToPack.pack();
 		}
-
-		TableItem item = new TableItem( table, SWT.NONE );
-		item.setText( 0, "Item 1" );
 	}
 }

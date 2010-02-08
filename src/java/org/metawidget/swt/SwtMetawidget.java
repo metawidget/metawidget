@@ -508,9 +508,12 @@ public class SwtMetawidget
 		for ( Control control : getChildren() )
 		{
 			if ( control instanceof Facet )
+			{
 				mFacets.put( (String) control.getData( NAME ), (Facet) control );
+				continue;
+			}
 
-			//control.dispose();
+			control.dispose();
 		}
 
 		// TODO: not the best place to call this (calls it every time)

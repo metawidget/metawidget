@@ -58,14 +58,26 @@ public class TestUtils
 	{
 		try
 		{
+			testEqualsAndHashcode( clazz.newInstance(), clazz.newInstance(), subclass, exclude );
+		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( e );
+		}
+	}
+
+	public static <T, S extends T> void testEqualsAndHashcode( T object1, T object2, S subclass, String... exclude )
+	{
+		try
+		{
 			// Test top-level object
 
-			Object object1 = clazz.newInstance();
+			Assert.assertTrue( !object1.equals( null ) );
 			Assert.assertTrue( !object1.equals( "foo" ) );
 			Assert.assertTrue( "subclass", !object1.equals( subclass ) );
 			Assert.assertTrue( object1.equals( object1 ) );
 
-			Object object2 = clazz.newInstance();
+			Assert.assertTrue( object1 != object2 );
 			Assert.assertTrue( object1.equals( object2 ) );
 			Assert.assertTrue( object1.hashCode() == object2.hashCode() );
 
@@ -73,7 +85,7 @@ public class TestUtils
 
 			JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
-			for ( Property property : propertyStyle.getProperties( clazz ).values() )
+			for ( Property property : propertyStyle.getProperties( object1.getClass() ).values() )
 			{
 				String propertyName = property.getName();
 
