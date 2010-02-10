@@ -47,12 +47,10 @@ public class OverriddenWidgetBuilder
 		if ( name == null )
 			return null;
 
-		Control component = null;
-
 		for ( Control componentExisting : metawidget.getChildren() )
 		{
 			if ( name.equals( componentExisting.getData( NAME ) ) )
-				return component;
+				return componentExisting;
 		}
 
 		return null;

@@ -158,11 +158,11 @@ public class ContactDialog
 		// Communications override
 
 		mCommunicationsModel = new ListTableModel<Communication>( Communication.class, contact.getCommunications(), "Type", "Value" );
-		final JTable tableCommunications = new JTable( mCommunicationsModel );
-		tableCommunications.putClientProperty( "terminateEditOnFocusLost", Boolean.TRUE );
-		tableCommunications.setDefaultEditor( Object.class, new CommunicationEditor() );
+		final JTable communicationsTable = new JTable( mCommunicationsModel );
+		communicationsTable.putClientProperty( "terminateEditOnFocusLost", Boolean.TRUE );
+		communicationsTable.setDefaultEditor( Object.class, new CommunicationEditor() );
 
-		JScrollPane scrollPane = new JScrollPane( tableCommunications );
+		JScrollPane scrollPane = new JScrollPane( communicationsTable );
 		scrollPane.setName( "communications" );
 		scrollPane.setPreferredSize( new Dimension( 150, 150 ) );
 
@@ -176,7 +176,7 @@ public class ContactDialog
 				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
 					return;
 
-				int rowAtPoint = tableCommunications.rowAtPoint( menuPopup.getLocation() );
+				int rowAtPoint = communicationsTable.rowAtPoint( menuPopup.getLocation() );
 
 				if ( rowAtPoint < 0 || rowAtPoint >= mCommunicationsModel.getRowCount() )
 					return;
@@ -187,9 +187,9 @@ public class ContactDialog
 				mCommunicationsModel.importCollection( contact.getCommunications() );
 			}
 		} );
-		tableCommunications.add( menuPopup );
+		communicationsTable.add( menuPopup );
 
-		tableCommunications.addMouseListener( new MouseAdapter()
+		communicationsTable.addMouseListener( new MouseAdapter()
 		{
 			@Override
 			public void mouseReleased( MouseEvent event )
@@ -308,17 +308,13 @@ public class ContactDialog
 		implements TableCellEditor
 	{
 		//
-		//
 		// Private statics
-		//
 		//
 
 		private final static long	serialVersionUID	= 1l;
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private SwingMetawidget		mEditor;
@@ -326,9 +322,7 @@ public class ContactDialog
 		private String				mColumnName;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public CommunicationEditor()
@@ -339,9 +333,7 @@ public class ContactDialog
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public Object getCellEditorValue()

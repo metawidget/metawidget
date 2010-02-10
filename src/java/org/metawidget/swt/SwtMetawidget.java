@@ -513,7 +513,7 @@ public class SwtMetawidget
 				continue;
 			}
 
-			control.dispose();
+			//control.dispose();
 		}
 
 		// TODO: not the best place to call this (calls it every time)

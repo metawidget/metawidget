@@ -26,7 +26,8 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
@@ -49,23 +50,23 @@ public class ContactDialog
 	// Private members
 	//
 
-	private Shell				mShell;
+	private Shell			mShell;
 
-	private ContactsController	mContactsController;
+	private Main			mMain;
 
-	private SwtMetawidget		mContactMetawidget;
+	private SwtMetawidget	mContactMetawidget;
 
-	private SwtMetawidget		mButtonsMetawidget;
+	private SwtMetawidget	mButtonsMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public ContactDialog( Shell parent, ContactsController contactsController, int style )
+	public ContactDialog( Main main )
 	{
-		super( parent, style );
+		super( main.getShell(), SWT.NONE );
 
-		mContactsController = contactsController;
+		mMain = main;
 	}
 
 	//
@@ -99,8 +100,31 @@ public class ContactDialog
 
 		mContactMetawidget = new SwtMetawidget( mShell, SWT.NONE );
 		mContactMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
-		mContactMetawidget.setToInspect( contact );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
+
+		// Communications override
+
+		Table communicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
+		communicationsTable.setData( "name", "communications" );
+		communicationsTable.setHeaderVisible( true );
+		communicationsTable.setLinesVisible( true );
+		TableColumn column = new TableColumn( communicationsTable, SWT.NONE );
+		column.setWidth( 0 );
+		column.setResizable( false );
+		column.setText( "Id" );
+		column = new TableColumn( communicationsTable, SWT.NONE );
+		column.setText( "Type" );
+		column = new TableColumn( communicationsTable, SWT.NONE );
+		column.setText( "Value" );
+
+		// Space columns (except id column)
+
+		for ( int loop = 1, length = communicationsTable.getColumnCount(); loop < length; loop++ )
+		{
+			communicationsTable.getColumn( loop ).pack();
+		}
+
+		mContactMetawidget.setToInspect( contact );
 
 		// Embedded buttons
 
@@ -162,7 +186,7 @@ public class ContactDialog
 			mContactMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 
-			mContactsController.save( contact );
+			mMain.getContactsController().save( contact );
 		}
 		catch ( Exception e )
 		{
@@ -175,6 +199,7 @@ public class ContactDialog
 		}
 
 		mShell.dispose();
+		mMain.fireRefresh();
 	}
 
 	@UiAction
@@ -191,7 +216,7 @@ public class ContactDialog
 		if ( messageBox.open() != SWT.OK )
 			return;
 
-		mContactsController.delete( contact );
+		mMain.getContactsController().delete( contact );
 		mShell.dispose();
 	}
 

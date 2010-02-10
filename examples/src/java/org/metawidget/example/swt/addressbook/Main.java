@@ -16,6 +16,8 @@
 
 package org.metawidget.example.swt.addressbook;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -77,6 +79,8 @@ public class Main
 
 	private ContactSearch					mContactSearch;
 
+	/* package private */Table				mResultsTable;
+
 	private SwtMetawidget					mSearchMetawidget;
 
 	/* package private */ContactsController	mContactsController;
@@ -101,7 +105,7 @@ public class Main
 		createSearchSection();
 		createResultsSection();
 
-		mContactDialog = new ContactDialog( mShell, mContactsController, SWT.NONE );
+		mContactDialog = new ContactDialog( this );
 	}
 
 	//
@@ -109,9 +113,49 @@ public class Main
 	//
 
 	@UiHidden
+	public Shell getShell()
+	{
+		return mShell;
+	}
+
+	@UiHidden
 	public ContactsController getContactsController()
 	{
 		return mContactsController;
+	}
+
+	@UiHidden
+	public void fireRefresh()
+	{
+		List<Contact> contacts = mContactsController.getAllByExample( mContactSearch );
+		int loop = 0;
+
+		for ( ; loop < contacts.size(); loop++ )
+		{
+			// Add/edit row...
+
+			TableItem item;
+
+			if ( loop < mResultsTable.getItemCount() )
+				item = mResultsTable.getItem( loop );
+			else
+				item = new TableItem( mResultsTable, SWT.NONE );
+
+			// ...with contact text
+
+			Contact contact = contacts.get( loop );
+			item.setText( 0, String.valueOf( contact.getId() ) );
+			item.setText( 1, contact.getFullname() );
+			item.setText( 2, CollectionUtils.toString( contact.getCommunications() ) );
+			item.setText( 3, contact.getClass().getSimpleName() );
+		}
+
+		// Delete hanging rows
+
+		loop++;
+
+		if ( loop < mResultsTable.getItemCount() )
+			mResultsTable.remove( loop, mResultsTable.getItemCount() - 1 );
 	}
 
 	@UiAction
@@ -176,35 +220,40 @@ public class Main
 	{
 		// Create table
 
-		final Table table = new Table( mShell, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
+		mResultsTable = new Table( mShell, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
 		GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.FILL;
 		data.grabExcessVerticalSpace = true;
 		data.verticalAlignment = SWT.FILL;
-		table.setLayoutData( data );
-		table.setHeaderVisible( true );
-		table.setLinesVisible( true );
+		mResultsTable.setLayoutData( data );
+		mResultsTable.setHeaderVisible( true );
+		mResultsTable.setLinesVisible( true );
 
-		TableColumn column = new TableColumn( table, SWT.NONE );
-		column.setText( "Id" );
-		column = new TableColumn( table, SWT.NONE );
+		TableColumn column = new TableColumn( mResultsTable, SWT.NONE );
 		column.setWidth( 0 );
 		column.setResizable( false );
+		column.setText( "Id" );
+		column = new TableColumn( mResultsTable, SWT.NONE );
 		column.setText( "Fullname" );
-		column = new TableColumn( table, SWT.NONE );
+		column = new TableColumn( mResultsTable, SWT.NONE );
 		column.setText( "Communications" );
-		column = new TableColumn( table, SWT.RIGHT );
+		column = new TableColumn( mResultsTable, SWT.RIGHT );
 		column.setText( "Class" );
 
-		//
+		// When table is double clicked...
 
-		table.addSelectionListener( new SelectionListener()
+		mResultsTable.addSelectionListener( new SelectionListener()
 		{
 			@Override
 			public void widgetDefaultSelected( SelectionEvent event )
 			{
-				Contact contact = mContactsController.load( Long.parseLong( table.getSelection()[0].getText() ) );
+				// ...fetch the Contact...
+
+				Contact contact = mContactsController.load( Long.parseLong( mResultsTable.getSelection()[0].getText() ) );
+
+				// ...and display it
+
 				mContactDialog.open( contact );
 			}
 
@@ -215,22 +264,13 @@ public class Main
 			}
 		} );
 
-		// Populate table
+		fireRefresh();
 
-		for ( Contact contact : mContactsController.getAllByExample( mContactSearch ) )
+		// Space columns (except id column)
+
+		for ( int loop = 1, length = mResultsTable.getColumnCount(); loop < length; loop++ )
 		{
-			TableItem item = new TableItem( table, SWT.NONE );
-			item.setText( 0, String.valueOf( contact.getId() ) );
-			item.setText( 1, contact.getFullname() );
-			item.setText( 2, CollectionUtils.toString( contact.getCommunications() ) );
-			item.setText( 3, contact.getClass().getSimpleName() );
-		}
-
-		// Space columns
-
-		for ( TableColumn columnToPack : table.getColumns() )
-		{
-			columnToPack.pack();
+			mResultsTable.getColumn( loop ).pack();
 		}
 	}
 }
