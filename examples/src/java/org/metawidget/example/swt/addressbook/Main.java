@@ -21,9 +21,12 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -81,6 +84,10 @@ public class Main
 
 	/* package private */Table				mResultsTable;
 
+	private Image							mPersonalContactImage;
+
+	private Image							mBusinessContactImage;
+
 	private SwtMetawidget					mSearchMetawidget;
 
 	/* package private */ContactsController	mContactsController;
@@ -95,12 +102,28 @@ public class Main
 	{
 		mShell = shell;
 		mShell.setText( "Address Book (Metawidget SWT Example)" );
-		mShell.setLayout( new GridLayout() );
+		mShell.setLayout( new GridLayout( 2, false ) );
+		mShell.setSize( 615, 615 );
+
+		mShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
+		mShell.setBackground( new Color( mShell.getDisplay(), 255, 255, 255 ) );
+		mShell.setBackgroundImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ) ) );
 
 		// Model
 
 		mContactSearch = new ContactSearch();
 		mContactsController = new ContactsController();
+
+		// Left-hand image
+
+		Label label = new Label( mShell, SWT.NONE );
+		label.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/addressbook.gif" ) ) );
+		GridData data = new GridData();
+		data.verticalAlignment = SWT.TOP;
+		data.verticalSpan = 2;
+		label.setLayoutData( data );
+
+		// Right-hand panel
 
 		createSearchSection();
 		createResultsSection();
@@ -147,12 +170,14 @@ public class Main
 			item.setText( 0, String.valueOf( contact.getId() ) );
 			item.setText( 1, contact.getFullname() );
 			item.setText( 2, CollectionUtils.toString( contact.getCommunications() ) );
-			item.setText( 3, contact.getClass().getSimpleName() );
+
+			if ( contact instanceof PersonalContact )
+				item.setImage( 3, mPersonalContactImage );
+			else
+				item.setImage( 3, mBusinessContactImage );
 		}
 
 		// Delete hanging rows
-
-		loop++;
 
 		if ( loop < mResultsTable.getItemCount() )
 			mResultsTable.remove( loop, mResultsTable.getItemCount() - 1 );
@@ -165,7 +190,14 @@ public class Main
 
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
-		mContactSearch.setType( ContactType.valueOf( (String) mSearchMetawidget.getValue( "type" ) ) );
+		String type = (String) mSearchMetawidget.getValue( "type" );
+
+		if ( "".equals( type ) )
+			mContactSearch.setType( null );
+		else
+			mContactSearch.setType( ContactType.valueOf( type ) );
+
+		fireRefresh();
 	}
 
 	@UiAction
@@ -190,7 +222,7 @@ public class Main
 	{
 		// Metawidget
 
-		mSearchMetawidget = new SwtMetawidget( mShell, SWT.NONE );
+		mSearchMetawidget = new SwtMetawidget( mShell, SWT.None );
 		GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.FILL;
@@ -231,15 +263,18 @@ public class Main
 		mResultsTable.setLinesVisible( true );
 
 		TableColumn column = new TableColumn( mResultsTable, SWT.NONE );
+		column.setText( "Id" );
 		column.setWidth( 0 );
 		column.setResizable( false );
-		column.setText( "Id" );
 		column = new TableColumn( mResultsTable, SWT.NONE );
 		column.setText( "Fullname" );
+		column.setWidth( 175 );
 		column = new TableColumn( mResultsTable, SWT.NONE );
 		column.setText( "Communications" );
-		column = new TableColumn( mResultsTable, SWT.RIGHT );
-		column.setText( "Class" );
+		column.setWidth( 250 );
+		column = new TableColumn( mResultsTable, SWT.CENTER );
+		column.setWidth( 23 );
+		column.setResizable( false );
 
 		// When table is double clicked...
 
@@ -264,13 +299,9 @@ public class Main
 			}
 		} );
 
+		mPersonalContactImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/personal-small.gif" ) );
+		mBusinessContactImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/business-small.gif" ) );
+
 		fireRefresh();
-
-		// Space columns (except id column)
-
-		for ( int loop = 1, length = mResultsTable.getColumnCount(); loop < length; loop++ )
-		{
-			mResultsTable.getColumn( loop ).pack();
-		}
 	}
 }

@@ -19,11 +19,13 @@ package org.metawidget.example.swt.addressbook;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -76,7 +78,22 @@ public class ContactDialog
 	public Object open( Contact contact )
 	{
 		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE );
-		mShell.setLayout( new FillLayout() );
+		mShell.setSize( 800, 600 );
+
+		// Background
+
+		mShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
+		mShell.setBackground( new Color( mShell.getDisplay(), 255, 255, 255 ) );
+		mShell.setBackgroundImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ) ) );
+
+		mShell.setLayout( new GridLayout( 2, false ) );
+
+		// Left-hand image
+
+		Label imageLabel = new Label( mShell, SWT.None );
+		GridData data = new GridData();
+		data.verticalAlignment = SWT.TOP;
+		imageLabel.setLayoutData( data );
 
 		// Title
 
@@ -85,13 +102,17 @@ public class ContactDialog
 		if ( builder.length() > 0 )
 			builder.append( " - " );
 
+		// Personal/business icon
+
 		if ( contact instanceof PersonalContact )
 		{
 			builder.append( "Personal Contact" );
+			imageLabel.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
 		}
 		else
 		{
 			builder.append( "Business Contact" );
+			imageLabel.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
 		}
 
 		mShell.setText( builder.toString() );
@@ -101,6 +122,12 @@ public class ContactDialog
 		mContactMetawidget = new SwtMetawidget( mShell, SWT.NONE );
 		mContactMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
+		data = new GridData();
+		data.verticalAlignment = SWT.FILL;
+		data.horizontalAlignment = SWT.FILL;
+		data.grabExcessHorizontalSpace = true;
+		data.grabExcessVerticalSpace = true;
+		mContactMetawidget.setLayoutData( data );
 
 		// Communications override
 
@@ -136,7 +163,7 @@ public class ContactDialog
 		mButtonsMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setMetawidgetLayout( new RowLayout() );
 		mButtonsMetawidget.setToInspect( this );
-		GridData data = new GridData();
+		data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.CENTER;
 		mButtonsMetawidget.setLayoutData( data );

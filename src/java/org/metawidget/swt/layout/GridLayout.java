@@ -147,6 +147,7 @@ public class GridLayout
 
 	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
 	{
+		// Do nothing
 	}
 
 	public void onEndBuild( SwtMetawidget metawidget )
@@ -196,7 +197,7 @@ public class GridLayout
 
 			if ( attributes != null && mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
-				labelTextToUse = mRequiredText + labelTextToUse;
+				labelTextToUse += mRequiredText;
 			}
 
 			if ( mLabelSuffix != null )
