@@ -19,10 +19,18 @@ package org.metawidget.example.swt.addressbook;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -30,6 +38,9 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
@@ -38,6 +49,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.swt.layout.FillLayout;
 import org.metawidget.swt.layout.RowLayout;
 import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor;
 
@@ -131,7 +143,7 @@ public class ContactDialog
 
 		// Communications override
 
-		Table communicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
+		final Table communicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.V_SCROLL );
 		communicationsTable.setData( "name", "communications" );
 		communicationsTable.setHeaderVisible( true );
 		communicationsTable.setLinesVisible( true );
@@ -143,6 +155,81 @@ public class ContactDialog
 		column.setText( "Type" );
 		column = new TableColumn( communicationsTable, SWT.NONE );
 		column.setText( "Value" );
+
+		for ( int i = 0; i < 10; i++ )
+		{
+			TableItem item = new TableItem( communicationsTable, SWT.NONE );
+			item.setText( new String[] { "item " + i, "edit this value" } );
+		}
+
+		final TableEditor editor = new TableEditor( communicationsTable );
+		editor.horizontalAlignment = SWT.LEFT;
+		editor.grabHorizontal = true;
+
+		communicationsTable.addMouseListener( new MouseAdapter()
+		{
+			@Override
+			public void mouseDown( MouseEvent event )
+			{
+				// Clean up any previous editor control
+
+				Control oldEditor = editor.getEditor();
+
+				if ( oldEditor != null )
+					oldEditor.dispose();
+
+				// Identify the selected row...
+
+				Point point = new Point( event.x, event.y );
+				TableItem item = communicationsTable.getItem( point );
+
+				if ( item == null )
+					return;
+
+				// ...and column...
+
+				int selectedColumn = -1;
+
+				for ( int loop = 0, length = communicationsTable.getColumnCount(); loop < length; loop++ )
+				{
+					Rectangle rect = item.getBounds( loop );
+					if ( rect.contains( point ) )
+					{
+						selectedColumn = loop;
+						break;
+					}
+				}
+
+				// ...and create the appropriate control
+
+				Control newEditor;
+
+				if ( selectedColumn == 1 )
+				{
+					newEditor = new SwtMetawidget( communicationsTable, SWT.NONE );
+					((SwtMetawidget) newEditor).setMetawidgetLayout( new FillLayout() );
+					((SwtMetawidget) newEditor).setToInspect( new Communication() );
+					((SwtMetawidget) newEditor).setInspectionPath( "type" );
+				}
+				else
+				{
+					newEditor = new Text( communicationsTable, SWT.NONE );
+					((Text) newEditor).setText( item.getText( selectedColumn ) );
+					((Text) newEditor).selectAll();
+					((Text) newEditor).addModifyListener( new ModifyListener()
+					{
+						public void modifyText( ModifyEvent modifyEvent )
+						{
+							Text text = (Text) editor.getEditor();
+							editor.getItem().setText( 1, text.getText() );
+						}
+					} );
+				}
+
+				newEditor.setFocus();
+				editor.setEditor( newEditor, item, selectedColumn );
+			}
+		} );
 
 		// Space columns (except id column)
 

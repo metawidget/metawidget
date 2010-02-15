@@ -285,7 +285,7 @@ public class Main
 			{
 				// ...fetch the Contact...
 
-				Contact contact = mContactsController.load( Long.parseLong( mResultsTable.getSelection()[0].getText() ) );
+				Contact contact = mContactsController.load( Long.parseLong( ((TableItem) event.item).getText( 0 ) ) );
 
 				// ...and display it
 
