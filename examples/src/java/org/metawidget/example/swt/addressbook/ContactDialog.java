@@ -133,6 +133,7 @@ public class ContactDialog
 
 		mContactMetawidget = new SwtMetawidget( mShell, SWT.NONE );
 		mContactMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
+		mContactMetawidget.setToInspect( contact );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
 		data = new GridData();
 		data.verticalAlignment = SWT.FILL;
@@ -238,15 +239,13 @@ public class ContactDialog
 			communicationsTable.getColumn( loop ).pack();
 		}
 
-		mContactMetawidget.setToInspect( contact );
-
 		// Embedded buttons
 
-		Facet facetButtons = new Facet( mContactMetawidget, SWT.BORDER );
+		Facet facetButtons = new Facet( mContactMetawidget, SWT.NONE );
 		facetButtons.setData( "name", "buttons" );
 		facetButtons.setLayout( new GridLayout() );
 
-		mButtonsMetawidget = new SwtMetawidget( facetButtons, SWT.BORDER );
+		mButtonsMetawidget = new SwtMetawidget( facetButtons, SWT.NONE );
 		mButtonsMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setMetawidgetLayout( new RowLayout() );
 		mButtonsMetawidget.setToInspect( this );

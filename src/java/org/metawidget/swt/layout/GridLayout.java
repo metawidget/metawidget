@@ -104,7 +104,7 @@ public class GridLayout
 
 	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
-		// Do not render empty stubs
+		// Do not layout space for empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 )
 		{
@@ -161,14 +161,11 @@ public class GridLayout
 			GridData buttonLayoutData = new GridData();
 			buttonLayoutData.horizontalSpan = 2;
 			buttonLayoutData.horizontalAlignment = SWT.FILL;
-			buttonLayoutData.verticalAlignment = SWT.FILL;
 			buttonLayoutData.grabExcessHorizontalSpace = true;
-
 			buttonsFacet.setLayoutData( buttonLayoutData );
+
 			buttonsFacet.moveBelow( null );
 		}
-
-		metawidget.layout();
 	}
 
 	//

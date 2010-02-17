@@ -147,7 +147,6 @@ public class Main
 		return mContactsController;
 	}
 
-	@UiHidden
 	public void fireRefresh()
 	{
 		List<Contact> contacts = mContactsController.getAllByExample( mContactSearch );
@@ -222,12 +221,13 @@ public class Main
 	{
 		// Metawidget
 
-		mSearchMetawidget = new SwtMetawidget( mShell, SWT.None );
+		mSearchMetawidget = new SwtMetawidget( mShell, SWT.NONE );
 		GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.FILL;
 		mSearchMetawidget.setLayoutData( data );
 		mSearchMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
+		mSearchMetawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons
 
@@ -244,7 +244,6 @@ public class Main
 		data.horizontalAlignment = SWT.CENTER;
 		buttonsMetawidget.setLayoutData( data );
 
-		mSearchMetawidget.setToInspect( mContactSearch );
 		return mSearchMetawidget;
 	}
 

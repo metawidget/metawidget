@@ -18,9 +18,11 @@ package org.metawidget.swt.layout;
 
 import java.util.Map;
 
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.metawidget.layout.iface.AdvancedLayout;
+import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 
 /**
@@ -50,6 +52,16 @@ public class RowLayout
 
 	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
+		// Do not layout space for empty stubs
+
+		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 )
+		{
+			RowData stubData = new RowData();
+			stubData.exclude = true;
+			component.setLayoutData( stubData );
+			return;
+		}
+
 		// Do nothing
 	}
 

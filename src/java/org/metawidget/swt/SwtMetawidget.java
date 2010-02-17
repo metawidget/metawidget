@@ -23,6 +23,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Listener;
@@ -99,6 +101,16 @@ public class SwtMetawidget
 			public void handleEvent( org.eclipse.swt.widgets.Event event )
 			{
 				buildWidgets();
+			}
+		} );
+
+		addPaintListener( new PaintListener()
+		{
+			@Override
+			public void paintControl( PaintEvent event )
+			{
+				if ( event.count == 0 )
+					buildWidgets();
 			}
 		} );
 	}
@@ -346,10 +358,6 @@ public class SwtMetawidget
 		invalidateWidgets();
 	}
 
-	//
-	// The following methods all kick off buildWidgets() if necessary
-	//
-
 	/**
 	 * Gets the value from the Control with the given name.
 	 * <p>
@@ -504,21 +512,6 @@ public class SwtMetawidget
 			return;
 
 		mNeedToBuildWidgets = true;
-
-		for ( Control control : getChildren() )
-		{
-			if ( control instanceof Facet )
-			{
-				mFacets.put( (String) control.getData( NAME ), (Facet) control );
-				continue;
-			}
-
-			//control.dispose();
-		}
-
-		// TODO: not the best place to call this (calls it every time)
-
-		buildWidgets();
 	}
 
 	protected void configure()
@@ -562,12 +555,22 @@ public class SwtMetawidget
 
 		mNeedToBuildWidgets = false;
 
+		for ( Control control : getChildren() )
+		{
+			if ( control instanceof Facet )
+			{
+				mFacets.put( (String) control.getData( NAME ), (Facet) control );
+				continue;
+			}
+		}
+
 		try
 		{
 			if ( mLastInspection == null )
 				mLastInspection = inspect();
 
 			mPipeline.buildWidgets( mLastInspection );
+			getShell().layout();
 		}
 		catch ( Exception e )
 		{
