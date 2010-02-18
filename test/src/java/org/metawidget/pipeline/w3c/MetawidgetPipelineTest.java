@@ -115,10 +115,10 @@ public class MetawidgetPipelineTest
 			}
 
 			@Override
-			protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
+			protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
 			{
-				called.add( "addWidget" );
-				super.addWidget( widget, elementName, attributes );
+				called.add( "layoutWidget" );
+				super.layoutWidget( widget, elementName, attributes );
 			}
 		};
 
@@ -192,10 +192,10 @@ public class MetawidgetPipelineTest
 			}
 
 			@Override
-			protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
+			protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
 			{
 				called.add( "addWidget" );
-				super.addWidget( widget, elementName, attributes );
+				super.layoutWidget( widget, elementName, attributes );
 			}
 
 			@Override
@@ -264,7 +264,7 @@ public class MetawidgetPipelineTest
 		}
 
 		@Override
-		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
 		{
 			// Do nothing
 		}

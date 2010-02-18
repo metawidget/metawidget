@@ -58,7 +58,7 @@ public class Main
 	public static void main( String[] args )
 	{
 		Display display = new Display();
-		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
+		Shell shell = new Shell( display, SWT.DIALOG_TRIM );
 
 		new Main( shell );
 

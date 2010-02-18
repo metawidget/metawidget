@@ -306,7 +306,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 				widget = processWidget( widget, elementName, attributes );
 
 				if ( widget != null )
-					addWidget( widget, elementName, attributes );
+					layoutWidget( widget, elementName, attributes );
 			}
 		}
 
@@ -414,7 +414,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 			if ( widget == null )
 				continue;
 
-			addWidget( widget, elementName, attributes );
+			layoutWidget( widget, elementName, attributes );
 		}
 	}
 
@@ -500,13 +500,6 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 	/**
 	 * Process the built widget.
-	 * <p>
-	 * Note: <code>processWidget</code> is called for both widgets returned by
-	 * <code>buildWidget</code> <em>and</em> for manually overridden widgets. This allows widgets to
-	 * be overridden in a 'bare bones' way (ie. just manually specifying the widget itself, without
-	 * having to re-specify bindings, validation etc). Where this causes problems, clients can set a
-	 * flag on the widget to differentiate built ones from overridden ones (for an example, see
-	 * HiddenFieldProcessor).
 	 */
 
 	protected W processWidget( W widget, String elementName, Map<String, String> attributes )
@@ -536,7 +529,11 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 	protected abstract M getPipelineOwner();
 
-	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
+	/**
+	 * Lays out the built and processed widget.
+	 */
+
+	protected void layoutWidget( W widget, String elementName, Map<String, String> attributes )
 	{
 		M pipelineOwner = getPipelineOwner();
 

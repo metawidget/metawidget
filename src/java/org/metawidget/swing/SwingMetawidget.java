@@ -862,7 +862,7 @@ public class SwingMetawidget
 		mExistingUnusedComponents = CollectionUtils.newArrayList( mExistingComponents );
 	}
 
-	protected void addWidget( Component component, String elementName, Map<String, String> attributes )
+	protected void layoutWidget( Component component, String elementName, Map<String, String> attributes )
 	{
 		// Drill into JScrollPanes
 
@@ -1031,10 +1031,10 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( JComponent component, String elementName, Map<String, String> attributes )
 		{
-			SwingMetawidget.this.addWidget( component, elementName, attributes );
-			super.addWidget( component, elementName, attributes );
+			SwingMetawidget.this.layoutWidget( component, elementName, attributes );
+			super.layoutWidget( component, elementName, attributes );
 		}
 
 		@Override

@@ -79,7 +79,7 @@ public class GwtMetawidgetPipelineTest
 		}
 
 		@Override
-		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
 		{
 			// Do nothing
 		}

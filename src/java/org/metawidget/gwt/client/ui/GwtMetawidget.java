@@ -931,7 +931,7 @@ public class GwtMetawidget
 		return widget;
 	}
 
-	protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
+	protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes )
 	{
 		String name = attributes.get( NAME );
 		mAddedWidgets.put( name, widget );
@@ -1078,10 +1078,10 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes )
 		{
-			GwtMetawidget.this.addWidget( widget, elementName, attributes );
-			super.addWidget( widget, elementName, attributes );
+			GwtMetawidget.this.layoutWidget( widget, elementName, attributes );
+			super.layoutWidget( widget, elementName, attributes );
 		}
 
 		@Override

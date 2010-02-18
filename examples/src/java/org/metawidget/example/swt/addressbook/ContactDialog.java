@@ -89,7 +89,7 @@ public class ContactDialog
 
 	public Object open( Contact contact )
 	{
-		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE );
+		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
 		mShell.setSize( 800, 600 );
 
 		// Background
@@ -144,7 +144,7 @@ public class ContactDialog
 
 		// Communications override
 
-		final Table communicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.V_SCROLL );
+		final Table communicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
 		communicationsTable.setData( "name", "communications" );
 		communicationsTable.setHeaderVisible( true );
 		communicationsTable.setLinesVisible( true );
@@ -208,16 +208,16 @@ public class ContactDialog
 				if ( selectedColumn == 1 )
 				{
 					newEditor = new SwtMetawidget( communicationsTable, SWT.NONE );
-					((SwtMetawidget) newEditor).setMetawidgetLayout( new FillLayout() );
-					((SwtMetawidget) newEditor).setToInspect( new Communication() );
-					((SwtMetawidget) newEditor).setInspectionPath( "type" );
+					( (SwtMetawidget) newEditor ).setMetawidgetLayout( new FillLayout() );
+					( (SwtMetawidget) newEditor ).setToInspect( new Communication() );
+					( (SwtMetawidget) newEditor ).setInspectionPath( "type" );
 				}
 				else
 				{
 					newEditor = new Text( communicationsTable, SWT.NONE );
-					((Text) newEditor).setText( item.getText( selectedColumn ) );
-					((Text) newEditor).selectAll();
-					((Text) newEditor).addModifyListener( new ModifyListener()
+					( (Text) newEditor ).setText( item.getText( selectedColumn ) );
+					( (Text) newEditor ).selectAll();
+					( (Text) newEditor ).addModifyListener( new ModifyListener()
 					{
 						public void modifyText( ModifyEvent modifyEvent )
 						{
@@ -286,6 +286,11 @@ public class ContactDialog
 	public void edit()
 	{
 		mContactMetawidget.setReadOnly( false );
+
+		// setReadOnly invalidates the widget, but because SWT uses heavyweight, native components
+		// there is no 'paint' event unless explicitly requested
+
+		mContactMetawidget.redraw();
 
 		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
 	}

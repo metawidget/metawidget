@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -85,6 +86,8 @@ public class SwtMetawidget
 
 	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
+	private Set<Control>				mControlsToDispose	= CollectionUtils.newHashSet();
+
 	private Pipeline					mPipeline;
 
 	//
@@ -96,7 +99,7 @@ public class SwtMetawidget
 		super( parent, style );
 		mPipeline = newPipeline();
 
-		parent.addListener( SWT.Activate, new Listener()
+		getParent().addListener( SWT.Show, new Listener()
 		{
 			public void handleEvent( org.eclipse.swt.widgets.Event event )
 			{
@@ -373,7 +376,7 @@ public class SwtMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
-		Pair<Control,String> controlAndValueProperty = getControlAndValueProperty( names );
+		Pair<Control, String> controlAndValueProperty = getControlAndValueProperty( names );
 		return (T) ClassUtils.getProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight() );
 	}
 
@@ -387,7 +390,7 @@ public class SwtMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		Pair<Control,String> controlAndValueProperty = getControlAndValueProperty( names );
+		Pair<Control, String> controlAndValueProperty = getControlAndValueProperty( names );
 		ClassUtils.setProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight(), value );
 	}
 
@@ -555,6 +558,22 @@ public class SwtMetawidget
 
 		mNeedToBuildWidgets = false;
 
+		// Metawidget needs a way to distinguish between manually added controls and generated
+		// controls: the generated ones must be cleaned up on subsequent buildWidgets(), whereas
+		// the manual ones must be left alone. SWT doesn't appear to have a mechanism for listening
+		// for child add/remove events (as we use in Android, GWT, Swing etc), so instead we
+		// implement this as the delta of 'what was here originally' versus 'what was generated'
+
+		for ( Control control : mControlsToDispose )
+		{
+			control.dispose();
+		}
+
+		mControlsToDispose.clear();
+		Set<Control> originalControls = CollectionUtils.newHashSet( getChildren() );
+
+		// Detect facets
+
 		for ( Control control : getChildren() )
 		{
 			if ( control instanceof Facet )
@@ -564,13 +583,33 @@ public class SwtMetawidget
 			}
 		}
 
+		// Build widgets
+
 		try
 		{
 			if ( mLastInspection == null )
 				mLastInspection = inspect();
 
 			mPipeline.buildWidgets( mLastInspection );
-			getShell().layout();
+
+			// Work out the delta of 'what was here originally' versus 'what was generated'
+
+			for ( Control control : getChildren() )
+			{
+				if ( !originalControls.contains( control ) )
+					mControlsToDispose.add( control );
+			}
+
+			// Layout up the heirarchy so that all parents are laid out correctly (we're not sure of
+			// the 'correctness' of this - it's just what worked after trial and error)
+
+			Composite topParent = getParent();
+
+			while ( topParent != null )
+			{
+				topParent.layout();
+				topParent = topParent.getParent();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -578,7 +617,7 @@ public class SwtMetawidget
 		}
 	}
 
-	protected void addWidget( Control control, String elementName, Map<String, String> attributes )
+	protected void layoutWidget( Control control, String elementName, Map<String, String> attributes )
 	{
 		// Set the name of the component.
 
@@ -619,7 +658,7 @@ public class SwtMetawidget
 	// Private methods
 	//
 
-	private Pair<Control,String> getControlAndValueProperty( String... names )
+	private Pair<Control, String> getControlAndValueProperty( String... names )
 	{
 		Control control = getControl( names );
 
@@ -631,7 +670,7 @@ public class SwtMetawidget
 		if ( controlProperty == null )
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + control.getClass().getName() );
 
-		return new Pair<Control,String>( control, controlProperty );
+		return new Pair<Control, String>( control, controlProperty );
 	}
 
 	private String getValueProperty( Control control, WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
@@ -678,10 +717,10 @@ public class SwtMetawidget
 		//
 
 		@Override
-		protected void addWidget( Control control, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( Control control, String elementName, Map<String, String> attributes )
 		{
-			SwtMetawidget.this.addWidget( control, elementName, attributes );
-			super.addWidget( control, elementName, attributes );
+			SwtMetawidget.this.layoutWidget( control, elementName, attributes );
+			super.layoutWidget( control, elementName, attributes );
 		}
 
 		@Override

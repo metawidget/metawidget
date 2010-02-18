@@ -109,7 +109,7 @@ public class ReadOnlyWidgetBuilder
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
-					return new Text( metawidget, SWT.MULTI | SWT.READ_ONLY );
+					return new Text( metawidget, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
 
 				return new Label( metawidget, SWT.NONE );
 			}
@@ -126,7 +126,7 @@ public class ReadOnlyWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub( metawidget, SWT.None );
+				return new Stub( metawidget, SWT.NONE );
 		}
 
 		// Not simple, but don't expand

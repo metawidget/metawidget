@@ -30,8 +30,13 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.PostAddToViewEvent;
+import javax.faces.event.SystemEvent;
+import javax.faces.event.SystemEventListener;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
@@ -66,9 +71,9 @@ import org.w3c.dom.Element;
  */
 
 @SuppressWarnings( "deprecation" )
-// @ListenerFor( systemEventClass = PostAddToViewEvent.class )
 public abstract class UIMetawidget
 	extends UIComponentBase
+	implements SystemEventListener
 {
 	//
 	// Public statics
@@ -134,7 +139,7 @@ public abstract class UIMetawidget
 
 	private Map<Object, Object>	mClientProperties;
 
-	private List<UIComponent>	mChildrenAfterRestoreState;
+	//private List<UIComponent>	mChildrenAfterRestoreState;
 
 	private Pipeline			mPipeline;
 
@@ -149,6 +154,10 @@ public abstract class UIMetawidget
 		// Default renderer
 
 		setRendererType( "table" );
+
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		UIViewRoot root = ctx.getViewRoot();
+		root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 	}
 
 	//
@@ -437,26 +446,45 @@ public abstract class UIMetawidget
 		return (T) mClientProperties.get( key );
 	}
 
-	/*
-	 * @Override public void processEvent( ComponentSystemEvent event ) throws
-	 * AbortProcessingException { if ( event instanceof PostAddToViewEvent ) { // Validation error?
-	 * Do not rebuild, as we will lose the invalid values in the // components. Instead, just move
-	 * along to our renderer if ( getFacesContext().getMaximumSeverity() != null ) return; // Build
-	 * widgets as normal try { buildWidgets(); } catch ( Exception e ) { // At this level, it is
-	 * more 'proper' to throw an AbortProcessingException than // a MetawidgetException, as that is
-	 * what the layers above are expecting throw new AbortProcessingException( e ); } } }
-	 */
-
-	@Override
-	public void processRestoreState( FacesContext context, Object state )
+	public boolean isListenerForSource( Object source )
 	{
-		super.processRestoreState( context, state );
-
-		mChildrenAfterRestoreState = CollectionUtils.newArrayList( getChildren() );
+		return (source instanceof UIViewRoot);
 	}
 
-	@Override
-	public void encodeBegin( FacesContext context )
+	public void processEvent( SystemEvent event )
+		throws AbortProcessingException
+	{
+		// Validation error? Do not rebuild, as we will lose the invalid values in the
+		// components. Instead, just move along to our renderer
+
+		if ( getFacesContext().getMaximumSeverity() != null )
+			return;
+
+		// Build widgets as normal
+
+		try
+		{
+			buildWidgets();
+		}
+		catch ( Exception e )
+		{
+			// At this level, it is more 'proper' to throw an AbortProcessingException than
+			// a MetawidgetException, as that is what the layers above are expecting
+
+			throw new AbortProcessingException( e );
+		}
+	}
+
+	//@Override
+	//public void processRestoreState( FacesContext context, Object state )
+	//{
+		//super.processRestoreState( context, state );
+
+		//mChildrenAfterRestoreState = CollectionUtils.newArrayList( getChildren() );
+	//}
+
+	//@Override
+	public void _encodeBegin( FacesContext context )
 		throws IOException
 	{
 		try
@@ -489,10 +517,10 @@ public abstract class UIMetawidget
 				// 3. A PhaseListener before PhaseId.RENDER_RESPONSE to trigger buildWidgets. This
 				// does not work because UIViewRoot has no children at that stage in the lifecycle
 
-				if ( mChildrenAfterRestoreState != null )
+				//if ( mChildrenAfterRestoreState != null )
 				{
-					getChildren().clear();
-					getChildren().addAll( mChildrenAfterRestoreState );
+					//getChildren().clear();
+					//getChildren().addAll( mChildrenAfterRestoreState );
 				}
 			}
 
@@ -941,12 +969,12 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		{
 			Map<String, Object> componentAttributes = widget.getAttributes();
 			componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 
-			super.addWidget( widget, elementName, attributes );
+			super.layoutWidget( widget, elementName, attributes );
 		}
 
 		@Override

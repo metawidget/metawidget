@@ -660,7 +660,7 @@ public class AndroidMetawidget
 		mExistingUnusedViews = CollectionUtils.newHashSet( mExistingViews );
 	}
 
-	protected void addWidget( View view, String elementName, Map<String, String> attributes )
+	protected void layoutWidget( View view, String elementName, Map<String, String> attributes )
 	{
 		String childName = attributes.get( NAME );
 		view.setTag( childName );
@@ -871,10 +871,10 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected void addWidget( View view, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( View view, String elementName, Map<String, String> attributes )
 		{
-			AndroidMetawidget.this.addWidget( view, elementName, attributes );
-			super.addWidget( view, elementName, attributes );
+			AndroidMetawidget.this.layoutWidget( view, elementName, attributes );
+			super.layoutWidget( view, elementName, attributes );
 		}
 
 		@Override
