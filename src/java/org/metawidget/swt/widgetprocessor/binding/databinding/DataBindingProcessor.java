@@ -36,7 +36,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 /**
@@ -117,11 +116,15 @@ public class DataBindingProcessor
 		// Observe the model
 
 		Object toInspect = metawidget.getToInspect();
-		String propertyName = attributes.get( NAME );
+		String propertyName = PathUtils.parsePath( metawidget.getInspectionPath() ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 
-		TypeAndNames typeAndNames = PathUtils.parsePath( metawidget.getInspectionPath() );
-		if ( typeAndNames.getNamesAsArray().length > 0 )
-			propertyName = typeAndNames.getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR ) + StringUtils.SEPARATOR_DOT_CHAR + propertyName;
+		if ( PROPERTY.equals( elementName ) )
+		{
+			if ( propertyName.length() > 0 )
+				propertyName += StringUtils.SEPARATOR_DOT_CHAR;
+
+			propertyName += attributes.get( NAME );
+		}
 
 		// (use PojoObservables so that the model needn't implement PropertyChangeListener)
 

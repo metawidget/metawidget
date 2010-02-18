@@ -18,10 +18,11 @@ package org.metawidget.example.swt.addressbook;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Color;
@@ -30,7 +31,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -39,7 +39,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
@@ -52,6 +51,8 @@ import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.layout.FillLayout;
 import org.metawidget.swt.layout.RowLayout;
 import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor;
+import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -64,13 +65,15 @@ public class ContactDialog
 	// Private members
 	//
 
-	private Shell			mShell;
+	private Shell						mShell;
 
-	private Main			mMain;
+	private Main						mMain;
 
-	private SwtMetawidget	mContactMetawidget;
+	/* package private */SwtMetawidget	mContactMetawidget;
 
-	private SwtMetawidget	mButtonsMetawidget;
+	/* package private */Table			mCommunicationsTable;
+
+	private SwtMetawidget				mButtonsMetawidget;
 
 	//
 	// Constructor
@@ -87,7 +90,7 @@ public class ContactDialog
 	// Public methods
 	//
 
-	public Object open( Contact contact )
+	public Object open( final Contact contact )
 	{
 		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
 		mShell.setSize( 800, 600 );
@@ -144,45 +147,47 @@ public class ContactDialog
 
 		// Communications override
 
-		final Table communicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
-		communicationsTable.setData( "name", "communications" );
-		communicationsTable.setHeaderVisible( true );
-		communicationsTable.setLinesVisible( true );
-		TableColumn column = new TableColumn( communicationsTable, SWT.NONE );
+		mCommunicationsTable = new Table( mContactMetawidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.V_SCROLL );
+		mCommunicationsTable.setData( "name", "communications" );
+		mCommunicationsTable.setHeaderVisible( true );
+		mCommunicationsTable.setLinesVisible( true );
+		TableColumn column = new TableColumn( mCommunicationsTable, SWT.NONE );
+		column.setText( "Id" );
 		column.setWidth( 0 );
 		column.setResizable( false );
-		column.setText( "Id" );
-		column = new TableColumn( communicationsTable, SWT.NONE );
+		column = new TableColumn( mCommunicationsTable, SWT.NONE );
 		column.setText( "Type" );
-		column = new TableColumn( communicationsTable, SWT.NONE );
+		column.setWidth( 275 );
+		column = new TableColumn( mCommunicationsTable, SWT.NONE );
 		column.setText( "Value" );
+		column.setWidth( 275 );
 
-		for ( int i = 0; i < 10; i++ )
-		{
-			TableItem item = new TableItem( communicationsTable, SWT.NONE );
-			item.setText( new String[] { "item " + i, "edit this value" } );
-		}
+		final TableEditor communicationEditor = new TableEditor( mCommunicationsTable );
+		communicationEditor.horizontalAlignment = SWT.LEFT;
+		communicationEditor.grabHorizontal = true;
 
-		final TableEditor editor = new TableEditor( communicationsTable );
-		editor.horizontalAlignment = SWT.LEFT;
-		editor.grabHorizontal = true;
-
-		communicationsTable.addMouseListener( new MouseAdapter()
+		mCommunicationsTable.addMouseListener( new MouseAdapter()
 		{
 			@Override
 			public void mouseDown( MouseEvent event )
 			{
-				// Clean up any previous editor control
+				if ( mContactMetawidget.isReadOnly() )
+					return;
 
-				Control oldEditor = editor.getEditor();
+				// Commit any previous editor control
 
-				if ( oldEditor != null )
-					oldEditor.dispose();
+				if ( communicationEditor.getEditor() != null )
+				{
+					SwtMetawidget communicationMetawidget = (SwtMetawidget) communicationEditor.getEditor();
+					communicationMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( communicationMetawidget );
+					communicationMetawidget.dispose();
+					fireRefresh();
+				}
 
 				// Identify the selected row...
 
 				Point point = new Point( event.x, event.y );
-				TableItem item = communicationsTable.getItem( point );
+				TableItem item = mCommunicationsTable.getItem( point );
 
 				if ( item == null )
 					return;
@@ -191,7 +196,7 @@ public class ContactDialog
 
 				int selectedColumn = -1;
 
-				for ( int loop = 0, length = communicationsTable.getColumnCount(); loop < length; loop++ )
+				for ( int loop = 0, length = mCommunicationsTable.getColumnCount(); loop < length; loop++ )
 				{
 					Rectangle rect = item.getBounds( loop );
 					if ( rect.contains( point ) )
@@ -201,43 +206,40 @@ public class ContactDialog
 					}
 				}
 
+				// ...if any...
+
+				if ( selectedColumn == -1 )
+					return;
+
+				// ...load the Communication...
+
+				long communicationId = Long.valueOf( item.getText( 0 ) );
+
+				Communication communication = null;
+
+				for ( Communication existingCommunication : contact.getCommunications() )
+				{
+					if ( existingCommunication.getId() == communicationId )
+					{
+						communication = existingCommunication;
+						break;
+					}
+				}
+
 				// ...and create the appropriate control
 
-				Control newEditor;
+				SwtMetawidget communicationMetawidget = new SwtMetawidget( mCommunicationsTable, SWT.NONE );
+				communicationMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
+				communicationMetawidget.setMetawidgetLayout( new FillLayout() );
+				communicationMetawidget.setToInspect( communication );
+				String columnName = StringUtils.lowercaseFirstLetter( mCommunicationsTable.getColumn( selectedColumn ).getText() );
+				communicationMetawidget.setInspectionPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnName );
 
-				if ( selectedColumn == 1 )
-				{
-					newEditor = new SwtMetawidget( communicationsTable, SWT.NONE );
-					( (SwtMetawidget) newEditor ).setMetawidgetLayout( new FillLayout() );
-					( (SwtMetawidget) newEditor ).setToInspect( new Communication() );
-					( (SwtMetawidget) newEditor ).setInspectionPath( "type" );
-				}
-				else
-				{
-					newEditor = new Text( communicationsTable, SWT.NONE );
-					( (Text) newEditor ).setText( item.getText( selectedColumn ) );
-					( (Text) newEditor ).selectAll();
-					( (Text) newEditor ).addModifyListener( new ModifyListener()
-					{
-						public void modifyText( ModifyEvent modifyEvent )
-						{
-							Text text = (Text) editor.getEditor();
-							editor.getItem().setText( 1, text.getText() );
-						}
-					} );
-				}
-
-				newEditor.setFocus();
-				editor.setEditor( newEditor, item, selectedColumn );
+				communicationEditor.setEditor( communicationMetawidget, item, selectedColumn );
 			}
 		} );
 
-		// Space columns (except id column)
-
-		for ( int loop = 1, length = communicationsTable.getColumnCount(); loop < length; loop++ )
-		{
-			communicationsTable.getColumn( loop ).pack();
-		}
+		fireRefresh();
 
 		// Embedded buttons
 
@@ -264,6 +266,41 @@ public class ContactDialog
 				display.sleep();
 		}
 		return null;
+	}
+
+	public void fireRefresh()
+	{
+		Set<Communication> communications = ( (Contact) mContactMetawidget.getToInspect() ).getCommunications();
+
+		if ( communications == null )
+			return;
+
+		List<Communication> communicationsAsList = CollectionUtils.newArrayList( communications );
+		int loop = 0;
+
+		for ( ; loop < communicationsAsList.size(); loop++ )
+		{
+			// Add/edit row...
+
+			TableItem item;
+
+			if ( loop < mCommunicationsTable.getItemCount() )
+				item = mCommunicationsTable.getItem( loop );
+			else
+				item = new TableItem( mCommunicationsTable, SWT.NONE );
+
+			// ...with contact text
+
+			Communication communication = communicationsAsList.get( loop );
+			item.setText( 0, String.valueOf( communication.getId() ) );
+			item.setText( 1, communication.getType() );
+			item.setText( 2, communication.getValue() );
+		}
+
+		// Delete hanging rows
+
+		if ( loop < mCommunicationsTable.getItemCount() )
+			mCommunicationsTable.remove( loop, mCommunicationsTable.getItemCount() - 1 );
 	}
 
 	@UiHidden

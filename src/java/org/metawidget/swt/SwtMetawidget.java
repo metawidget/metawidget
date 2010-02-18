@@ -24,11 +24,12 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Listener;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -99,13 +100,24 @@ public class SwtMetawidget
 		super( parent, style );
 		mPipeline = newPipeline();
 
-		getParent().addListener( SWT.Show, new Listener()
+		// This covers most cases
+
+		addControlListener( new ControlListener()
 		{
-			public void handleEvent( org.eclipse.swt.widgets.Event event )
+			@Override
+			public void controlResized( ControlEvent arg0 )
+			{
+				buildWidgets();
+			}
+
+			@Override
+			public void controlMoved( ControlEvent arg0 )
 			{
 				buildWidgets();
 			}
 		} );
+
+		// This covers, say, clicking 'Edit' and going from read-only to non-read-only
 
 		addPaintListener( new PaintListener()
 		{
