@@ -37,7 +37,23 @@ public interface Trait
 
 	String getName();
 
+	/**
+	 * Returns this element's annotation for the specified type if such an annotation is present,
+	 * else null.
+	 * <p>
+	 * Note: for subclasses, whether anything is returned for annotations defined by the superclass
+	 * is decided by the <code>java.lang.annotation.Inherited</code> annotation.
+	 */
+
 	<T extends Annotation> T getAnnotation( Class<T> annotation );
+
+	/**
+	 * Returns true if an annotation for the specified type is present on this element, else false.
+	 * This method is designed primarily for convenient access to marker annotations.
+	 * <p>
+	 * Note: for subclasses, whether true is returned for annotations defined by the superclass is
+	 * decided by the <code>java.lang.annotation.Inherited</code> annotation.
+	 */
 
 	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
 }

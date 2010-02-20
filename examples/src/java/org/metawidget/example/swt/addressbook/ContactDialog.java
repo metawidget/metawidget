@@ -213,16 +213,22 @@ public class ContactDialog
 
 				// ...load the Communication...
 
+				Communication communication = null;
 				long communicationId = Long.valueOf( item.getText( 0 ) );
 
-				Communication communication = null;
-
-				for ( Communication existingCommunication : contact.getCommunications() )
+				if ( communicationId == 0 )
 				{
-					if ( existingCommunication.getId() == communicationId )
+					communication = new Communication();
+				}
+				else
+				{
+					for ( Communication existingCommunication : contact.getCommunications() )
 					{
-						communication = existingCommunication;
-						break;
+						if ( existingCommunication.getId() == communicationId )
+						{
+							communication = existingCommunication;
+							break;
+						}
 					}
 				}
 
@@ -276,6 +282,12 @@ public class ContactDialog
 			return;
 
 		List<Communication> communicationsAsList = CollectionUtils.newArrayList( communications );
+
+		// Add blank entry at bottom
+
+		if ( communicationsAsList.isEmpty() || communicationsAsList.get(  communicationsAsList.size() - 1 ).getType() != null )
+			communicationsAsList.add( new Communication() );
+
 		int loop = 0;
 
 		for ( ; loop < communicationsAsList.size(); loop++ )
@@ -292,9 +304,9 @@ public class ContactDialog
 			// ...with contact text
 
 			Communication communication = communicationsAsList.get( loop );
-			item.setText( 0, String.valueOf( communication.getId() ) );
-			item.setText( 1, communication.getType() );
-			item.setText( 2, communication.getValue() );
+			item.setText( 0, StringUtils.quietValueOf( communication.getId() ) );
+			item.setText( 1, StringUtils.quietValueOf( communication.getType() ));
+			item.setText( 2, StringUtils.quietValueOf( communication.getValue() ));
 		}
 
 		// Delete hanging rows
