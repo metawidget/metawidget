@@ -494,7 +494,7 @@
 		</copy>
 		
 		<mkdir dir="${relative.dir}/${build.dir}/examples/gwt"/>
-		<copy todir="${relative.dir}/${build.dir}/examples/gwt" file="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+		<copy todir="${relative.dir}/${build.dir}/examples/gwt" file="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 		<copy todir="${relative.dir}/${build.dir}/examples/gwt" file="${relative.dir}/${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 		
 		<java dir="${relative.dir}/${build.dir}" classname="com.google.gwt.dev.Compiler" fork="yes" failonerror="true">
@@ -506,7 +506,7 @@
 					<include name="metawidget.jar"/>
 				</fileset>
 				<fileset dir="${relative.dir}/${build.dir}/examples/gwt">
-					<include name="metawidget-gwt-client.jar"/>
+					<include name="metawidget-gwt.jar"/>
 				</fileset>
 			</classpath>
 			<jvmarg value="-Xmx256M"/>
@@ -561,7 +561,7 @@
 		</copy>
 		
 		<mkdir dir="${relative.dir}/${build.dir}/examples/gwt"/>
-		<copy todir="${relative.dir}/${build.dir}/examples/gwt" file="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+		<copy todir="${relative.dir}/${build.dir}/examples/gwt" file="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 		<copy todir="${relative.dir}/${build.dir}/examples/gwt" file="${relative.dir}/${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 		
 		<java dir="${relative.dir}/${build.dir}" classname="com.google.gwt.dev.Compiler" fork="yes" failonerror="true">
@@ -572,7 +572,7 @@
 					<include name="metawidget.jar"/>
 				</fileset>
 				<fileset dir="${relative.dir}/${build.dir}/examples/gwt">
-					<include name="metawidget-gwt-client.jar"/>
+					<include name="metawidget-gwt.jar"/>
 					<include name="metawidget-gwt-extgwt-client.jar"/>
 				</fileset>
 			</classpath>

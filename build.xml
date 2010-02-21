@@ -231,7 +231,7 @@
 
 	<target name="pack-gwt-client" depends="compile-main">
 
-		<jar destfile="${relative.dir}/${build.dir}/metawidget-gwt-client.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
+		<jar destfile="${relative.dir}/${build.dir}/metawidget-gwt.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/src/java">
 				<include name="org/metawidget/gwt/client/inspector/**"/>
 				<include name="org/metawidget/gwt/client/ui/**"/>

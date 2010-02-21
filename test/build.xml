@@ -244,7 +244,7 @@
 				</fileset>
 				<fileset dir="${relative.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
-				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 			</classpath>
 		</junit>
 		
@@ -264,7 +264,7 @@
 				</fileset>
 				<fileset dir="${relative.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
-				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 			</classpath>
 		</junit>
@@ -283,7 +283,7 @@
 				</fileset>
 				<fileset dir="${relative.dir}/test/lib"/>				
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
-				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 			</classpath>
 		</junit>
 
@@ -301,7 +301,7 @@
 				</fileset>
 				<fileset dir="${relative.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
-				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 			</classpath>
 		</junit>
 
@@ -325,7 +325,7 @@
 				</fileset>
 				<fileset dir="${relative.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
-				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 			</classpath>
 		</junit>

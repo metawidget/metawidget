@@ -1293,7 +1293,7 @@ public class Person {
 					<title>Note</title>
 					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget.jar</filename> to
 					<filename>WEB-INF\lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
-					and <filename>examples\gwt\metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
+					and <filename>examples\gwt\metawidget-gwt.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
 
@@ -2405,8 +2405,8 @@ copy \metawidget-src\examples\src\java\org\metawidget\example\GwtAddressBook.gwt
 						
 						<programlisting language="shell">copy \metawidget-bin\metawidget.jar \gwt-addressbook\war\WEB-INF\lib
 mkdir \gwt-addressbook\lib
-copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
-			\gwt-addressbook\lib\metawidget-gwt-client.jar</programlisting>
+copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
+			\gwt-addressbook\lib\metawidget-gwt.jar</programlisting>
 					</listitem>
 					<listitem>
 						<para>
@@ -2418,7 +2418,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 					<listitem>
 						<para>
 							Use Eclipse's <parameter>Project->Properties->Java Build Path</parameter> dialog and its
-							<parameter>Libraries</parameter> tab to add the JARs <filename>lib/metawidget-gwt-client.jar</filename> and
+							<parameter>Libraries</parameter> tab to add the JARs <filename>lib/metawidget-gwt.jar</filename> and
 							<filename>WEB-INF/lib/metawidget.jar</filename> into the project.
 						</para>
 					</listitem>
@@ -5398,7 +5398,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						</listitem>
 						<listitem>
 							<para>
-								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt-client.jar</filename>
+								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt.jar</filename>
 								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. This provides the <classname>GwtMetawidget</classname> component.
 							</para>
 						</listitem>
@@ -7678,7 +7678,7 @@ public class PersonController {
 					
 					<para>
 						To build applications that use <classname>ExtGwtWidgetBuilder</classname>, include <filename>metawidget.jar</filename>
-						<emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt-client.jar</filename>
+						<emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt.jar</filename>
 						<emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt-extgwt-client.jar</filename>
 						in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase.
 					</para>
