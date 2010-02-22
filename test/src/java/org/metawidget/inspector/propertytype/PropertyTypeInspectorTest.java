@@ -254,6 +254,27 @@ public class PropertyTypeInspectorTest
 		assertTrue( property.getNextSibling() == null );
 	}
 
+	public void testCovariantSetter()
+	{
+		Document document = XmlUtils.documentFromString( mInspector.inspect( new SubFoo2(), SubFoo2.class.getName() ) );
+
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( SubFoo2.class.getName().equals( entity.getAttribute( TYPE ) ) );
+
+		Element property = (Element) entity.getFirstChild();
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( "contact".equals( property.getAttribute( NAME ) ) );
+		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+
+		// Check there are no more properties (eg. public static int notVisible)
+
+		assertTrue( property.getNextSibling() == null );
+	}
+
 	public void testRecursion()
 	{
 		RecursiveFoo recursiveFoo = new RecursiveFoo();
@@ -382,7 +403,7 @@ public class PropertyTypeInspectorTest
 	{
 		DeclaredTypeTester test = new DeclaredTypeTester();
 		test.foo = new DeclaredTypeTester();
-		((DeclaredTypeTester) test.foo).foo = new DeclaredTypeTester();
+		( (DeclaredTypeTester) test.foo ).foo = new DeclaredTypeTester();
 
 		// Traversal from foo to foo.foo will fail if PropertyTypeInspector is using
 		// the declared type (java.lang.Object) instead of the actual type (DeclaredTypeTester)
@@ -409,8 +430,8 @@ public class PropertyTypeInspectorTest
 
 		// Traversal any further should fail gracefully (ie. not NullPointerException)
 
-		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ));
-		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ));
+		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ) );
+		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ) );
 	}
 
 	//
@@ -451,9 +472,7 @@ public class PropertyTypeInspectorTest
 		public final static int	notVisible	= 0;
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override
@@ -478,6 +497,25 @@ public class PropertyTypeInspectorTest
 		}
 	}
 
+	protected static class SubFoo2
+		extends SuperFoo
+	{
+		//
+		// Public methods
+		//
+
+		@Override
+		public PersonalContact getContact()
+		{
+			return null;
+		}
+
+		public void setContact( Contact contact )
+		{
+			// Do nothing
+		}
+	}
+
 	public static class RecursiveFoo
 	{
 		public Object	foo;
@@ -485,13 +523,13 @@ public class PropertyTypeInspectorTest
 
 	public static class StringHolder
 	{
-		public String string;
+		public String	string;
 	}
 
 	public static class BooleanHolder
 	{
-		public boolean littleBoolean;
+		public boolean	littleBoolean;
 
-		public Boolean bigBoolean;
+		public Boolean	bigBoolean;
 	}
 }

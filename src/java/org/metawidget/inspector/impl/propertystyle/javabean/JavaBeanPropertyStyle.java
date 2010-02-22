@@ -40,10 +40,10 @@ import org.metawidget.util.simple.StringUtils;
  * Please note:
  * <p>
  * <ul>
- *  <li>this implementation also recognizes public member fields. These are not strictly JavaBean-convention,
- *  but is a useful default</li>
- *  <li>this implementation does not use <code>java.beans.Introspector</code>, as some environments that
- *  use JavaBean-convention do not support the <code>java.bean</code> package (eg. Android).</li>
+ * <li>this implementation also recognizes public member fields. These are not strictly
+ * JavaBean-convention, but is a useful default</li>
+ * <li>this implementation does not use <code>java.beans.Introspector</code>, as some environments
+ * that use JavaBean-convention do not support the <code>java.bean</code> package (eg. Android).</li>
  * </ul>
  *
  * @author Richard Kennard
@@ -255,7 +255,10 @@ public class JavaBeanPropertyStyle
 			if ( existingProperty instanceof JavaBeanProperty )
 			{
 				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
-				properties.put( propertyName, new JavaBeanProperty( propertyName, type, existingJavaBeanProperty.getReadMethod(), method ) );
+
+				// Beware covariant return types: always prefer the getter's type
+
+				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method ) );
 				continue;
 			}
 
