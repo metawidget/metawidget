@@ -118,6 +118,8 @@ public abstract class UIMetawidget
 
 	private final static String	DEFAULT_USER_CONFIG					= "metawidget.xml";
 
+	private static boolean		LOGGED_MISSING_CONFIG;
+
 	//
 	// Private members
 	//
@@ -764,7 +766,11 @@ public abstract class UIMetawidget
 				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
 					throw e;
 
-				LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
+				if ( !LOGGED_MISSING_CONFIG )
+				{
+					LOGGED_MISSING_CONFIG = true;
+					LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
+				}
 			}
 		}
 

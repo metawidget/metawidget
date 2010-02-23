@@ -34,6 +34,7 @@ import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 
 /**
@@ -245,6 +246,14 @@ public class UIMetawidgetTest
 		{
 			assertTrue( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH".equals( e.getMessage()));
 		}
+
+		// Should not re-log
+
+		LogUtils.getLog( UIMetawidgetTest.class ).info( "" );
+		metawidget = new HtmlMetawidget();
+		metawidget.configure();
+
+		assertTrue( !"Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ));
 	}
 
 	//

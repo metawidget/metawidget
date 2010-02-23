@@ -26,6 +26,7 @@ import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.jsp.JspMetawidgetTests.MockPageContext;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 
 /**
@@ -76,5 +77,13 @@ public class MetawidgetTagTest
 		{
 			assertTrue( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH".equals( e.getMessage()));
 		}
+
+		// Should not re-log
+
+		LogUtils.getLog( MetawidgetTagTest.class ).info( "" );
+		metawidget = new HtmlMetawidgetTag();
+		field.set( metawidget, pageContext );
+		metawidget.configure();
+		assertTrue( !"Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ));
 	}
 }
