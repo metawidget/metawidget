@@ -40,10 +40,12 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -117,6 +119,8 @@ public abstract class UIMetawidget
 	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
 
 	private final static String	DEFAULT_USER_CONFIG					= "metawidget.xml";
+
+	private final static Log	LOG									= LogUtils.getLog( UIMetawidget.class );
 
 	private static boolean		LOGGED_MISSING_CONFIG;
 
@@ -533,7 +537,20 @@ public abstract class UIMetawidget
 
 	public Element inspect( Object toInspect, String type, String... names )
 	{
-		return mPipeline.inspect( toInspect, type, names );
+		// TODO: performance
+
+		if ( LOG.isTraceEnabled() )
+			LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (start)" );
+
+		try
+		{
+			return mPipeline.inspect( toInspect, type, names );
+		}
+		finally
+		{
+			if ( LOG.isTraceEnabled() )
+				LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (end)" );
+		}
 	}
 
 	/**
@@ -743,6 +760,8 @@ public abstract class UIMetawidget
 		if ( !mNeedsConfiguring )
 			return;
 
+		LOG.trace( "configure (start)" );
+
 		mNeedsConfiguring = false;
 
 		FacesContext facesContext = getFacesContext();
@@ -759,6 +778,9 @@ public abstract class UIMetawidget
 		{
 			try
 			{
+				if ( LOG.isTraceEnabled() )
+					LOG.trace( "configure from " + mConfig + " (start)" );
+
 				configReader.configure( mConfig, this );
 			}
 			catch ( MetawidgetException e )
@@ -772,9 +794,16 @@ public abstract class UIMetawidget
 					LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 				}
 			}
+			finally
+			{
+				if ( LOG.isTraceEnabled() )
+					LOG.trace( "configure from " + mConfig + " (end)" );
+			}
 		}
 
 		mPipeline.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
+
+		LOG.trace( "configure (end)" );
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -785,6 +814,8 @@ public abstract class UIMetawidget
 
 	protected void startBuild()
 	{
+		LOG.trace( "startBuild" );
+
 		// Metawidget has no valueBinding? Won't be destroying/recreating any components, then.
 		//
 		// This is an optimisation, but is also important for cases like RichFacesLayout, which
@@ -890,6 +921,8 @@ public abstract class UIMetawidget
 
 			mPipeline.getLayout().layoutWidget( component, PROPERTY, childAttributes, this, this );
 		}
+
+		LOG.trace( "endBuild" );
 	}
 
 	//
