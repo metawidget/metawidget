@@ -65,15 +65,17 @@ public class ContactDialog
 	// Private members
 	//
 
-	private Shell						mShell;
+	private Shell								mShell;
 
-	private Main						mMain;
+	private Main								mMain;
 
-	/* package private */SwtMetawidget	mContactMetawidget;
+	/* package private */SwtMetawidget			mContactMetawidget;
 
-	/* package private */Table			mCommunicationsTable;
+	/* package private */Table					mCommunicationsTable;
 
-	private SwtMetawidget				mButtonsMetawidget;
+	/* package private */List<Communication>	mCommunications;
+
+	private SwtMetawidget						mButtonsMetawidget;
 
 	//
 	// Constructor
@@ -152,7 +154,7 @@ public class ContactDialog
 		mCommunicationsTable.setHeaderVisible( true );
 		mCommunicationsTable.setLinesVisible( true );
 		TableColumn column = new TableColumn( mCommunicationsTable, SWT.NONE );
-		column.setText( "Id" );
+		column.setText( "Row" );
 		column.setWidth( 0 );
 		column.setResizable( false );
 		column = new TableColumn( mCommunicationsTable, SWT.NONE );
@@ -181,6 +183,21 @@ public class ContactDialog
 					SwtMetawidget communicationMetawidget = (SwtMetawidget) communicationEditor.getEditor();
 					communicationMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( communicationMetawidget );
 					communicationMetawidget.dispose();
+					communicationEditor.setEditor( null );
+
+					Communication communication = communicationMetawidget.getToInspect();
+					Set<Communication> communications = contact.getCommunications();
+
+					if ( communications == null )
+					{
+						communications = CollectionUtils.newHashSet( communication );
+						contact.setCommunications( communications );
+					}
+					else
+					{
+						contact.getCommunications().add( communication );
+					}
+
 					fireRefresh();
 				}
 
@@ -213,24 +230,8 @@ public class ContactDialog
 
 				// ...load the Communication...
 
-				Communication communication = null;
-				long communicationId = Long.valueOf( item.getText( 0 ) );
-
-				if ( communicationId == 0 )
-				{
-					communication = new Communication();
-				}
-				else
-				{
-					for ( Communication existingCommunication : contact.getCommunications() )
-					{
-						if ( existingCommunication.getId() == communicationId )
-						{
-							communication = existingCommunication;
-							break;
-						}
-					}
-				}
+				int row = Integer.valueOf( item.getText( 0 ) );
+				Communication communication = mCommunications.get( row );
 
 				// ...and create the appropriate control
 
@@ -245,6 +246,7 @@ public class ContactDialog
 			}
 		} );
 
+		mCommunications = null;
 		fireRefresh();
 
 		// Embedded buttons
@@ -278,19 +280,22 @@ public class ContactDialog
 	{
 		Set<Communication> communications = ( (Contact) mContactMetawidget.getToInspect() ).getCommunications();
 
-		if ( communications == null )
-			return;
-
-		List<Communication> communicationsAsList = CollectionUtils.newArrayList( communications );
+		if ( mCommunications == null )
+		{
+			if ( communications == null )
+				mCommunications = CollectionUtils.newArrayList();
+			else
+				mCommunications = CollectionUtils.newArrayList( communications );
+		}
 
 		// Add blank entry at bottom
 
-		if ( communicationsAsList.isEmpty() || communicationsAsList.get(  communicationsAsList.size() - 1 ).getType() != null )
-			communicationsAsList.add( new Communication() );
+		if ( mCommunications.isEmpty() || mCommunications.get( mCommunications.size() - 1 ).getType() != null )
+			mCommunications.add( new Communication() );
 
 		int loop = 0;
 
-		for ( ; loop < communicationsAsList.size(); loop++ )
+		for ( ; loop < mCommunications.size(); loop++ )
 		{
 			// Add/edit row...
 
@@ -303,10 +308,10 @@ public class ContactDialog
 
 			// ...with contact text
 
-			Communication communication = communicationsAsList.get( loop );
-			item.setText( 0, StringUtils.quietValueOf( communication.getId() ) );
-			item.setText( 1, StringUtils.quietValueOf( communication.getType() ));
-			item.setText( 2, StringUtils.quietValueOf( communication.getValue() ));
+			Communication communication = mCommunications.get( loop );
+			item.setText( 0, StringUtils.quietValueOf( loop ));
+			item.setText( 1, StringUtils.quietValueOf( communication.getType() ) );
+			item.setText( 2, StringUtils.quietValueOf( communication.getValue() ) );
 		}
 
 		// Delete hanging rows
