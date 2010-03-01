@@ -1082,8 +1082,8 @@ public abstract class UIMetawidget
 		{
 			mMetawidget = metawidget;
 
-			FacesContext ctx = FacesContext.getCurrentInstance();
-			UIViewRoot root = ctx.getViewRoot();
+			FacesContext context = FacesContext.getCurrentInstance();
+			UIViewRoot root = context.getViewRoot();
 			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 		}
 
@@ -1095,6 +1095,8 @@ public abstract class UIMetawidget
 		{
 			return ( source instanceof UIViewRoot );
 		}
+
+		// TODO: this doesn't trigger
 
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException
