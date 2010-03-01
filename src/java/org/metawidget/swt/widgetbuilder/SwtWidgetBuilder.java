@@ -38,12 +38,13 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * WidgetBuilder for SWT environments.
  * <p>
- * Creates native SWT <code>Controls</code>, such as <code>Text</code> and
- * <code>Combo</code>, to suit the inspected fields.
+ * Creates native SWT <code>Controls</code>, such as <code>Text</code> and <code>Combo</code>, to
+ * suit the inspected fields.
  *
  * @author Richard Kennard
  */
@@ -124,22 +125,18 @@ public class SwtWidgetBuilder
 				else
 					convertedValue = converter.convertFromString( value, clazz );
 
-				comboDropDown.add( String.valueOf( convertedValue ));
+				comboDropDown.add( String.valueOf( convertedValue ) );
 			}
 
 			// May have alternate labels
 
 			/*
-			String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-			{
-				Map<String, String> labelsMap = SwtWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
-
-				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
-				comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) );
-			}
-			*/
+			 * String lookupLabels = attributes.get( LOOKUP_LABELS ); if ( lookupLabels != null &&
+			 * !"".equals( lookupLabels ) ) { Map<String, String> labelsMap =
+			 * SwtWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString(
+			 * attributes.get( LOOKUP_LABELS ) ) ); comboBox.setEditor( new LookupComboBoxEditor(
+			 * labelsMap ) ); comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) ); }
+			 */
 
 			return comboDropDown;
 		}
@@ -177,12 +174,10 @@ public class SwtWidgetBuilder
 
 				// Not-ranged
 
-				Spinner spinner = new Spinner( metawidget, SWT.BORDER );
-
-				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
-
 				if ( byte.class.equals( clazz ) )
 				{
+					Spinner spinner = new Spinner( metawidget, SWT.BORDER );
+
 					byte value = 0;
 					byte minimum = Byte.MIN_VALUE;
 					byte maximum = Byte.MAX_VALUE;
@@ -200,9 +195,12 @@ public class SwtWidgetBuilder
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (byte) 1 );
+					return spinner;
 				}
 				else if ( short.class.equals( clazz ) )
 				{
+					Spinner spinner = new Spinner( metawidget, SWT.BORDER );
+
 					short value = 0;
 					short minimum = Short.MIN_VALUE;
 					short maximum = Short.MAX_VALUE;
@@ -220,9 +218,12 @@ public class SwtWidgetBuilder
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (short) 1 );
+					return spinner;
 				}
 				else if ( int.class.equals( clazz ) )
 				{
+					Spinner spinner = new Spinner( metawidget, SWT.BORDER );
+
 					int value = 0;
 					int minimum = Integer.MIN_VALUE;
 					int maximum = Integer.MAX_VALUE;
@@ -240,6 +241,7 @@ public class SwtWidgetBuilder
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, 1 );
+					return spinner;
 				}
 				else if ( long.class.equals( clazz ) )
 					return new Text( metawidget, SWT.BORDER );
@@ -250,7 +252,7 @@ public class SwtWidgetBuilder
 				else if ( double.class.equals( clazz ) )
 					return new Text( metawidget, SWT.BORDER );
 
-				return spinner;
+				throw WidgetBuilderException.newException( "Unknown primitive " + clazz );
 			}
 
 			// Strings
@@ -273,9 +275,8 @@ public class SwtWidgetBuilder
 
 			// Numbers
 			//
-			// Note: we use a text field, not a JSpinner or JSlider, because
-			// BeansBinding gets upset at doing 'setValue( null )' if the Integer
-			// is null. We can still use JSpinner/JSliders for primitives, though.
+			// Note: we use a text field, not a Spinner or Scale, because we need to be able to
+			// convey 'null'
 
 			if ( Number.class.isAssignableFrom( clazz ) )
 				return new Text( metawidget, SWT.BORDER );

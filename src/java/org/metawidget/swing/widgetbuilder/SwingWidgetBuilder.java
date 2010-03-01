@@ -195,8 +195,6 @@ public class SwingWidgetBuilder
 
 				JSpinner spinner = new JSpinner();
 
-				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
-
 				if ( byte.class.equals( clazz ) )
 				{
 					byte value = 0;
