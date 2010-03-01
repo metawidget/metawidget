@@ -44,11 +44,6 @@ public class SimpleLayout
 	{
 		List<UIComponent> children = container.getChildren();
 
-		// If this component already exists in the list, remove it and re-add it. This
-		// enables us to sort existing, manually created components in the correct order
-
-		children.remove( widget );
-
 		// Note: delegating to the Renderer to do the adding, such that it can decorate
 		// the UIComponent if necessary (eg. adding a UIMessage) doesn't work out too well.
 		// Specifically, the Renderer should not care whether a UIComponent is manually created

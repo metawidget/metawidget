@@ -30,8 +30,13 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.PostAddToViewEvent;
+import javax.faces.event.SystemEvent;
+import javax.faces.event.SystemEventListener;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
@@ -68,7 +73,6 @@ import org.w3c.dom.Element;
  */
 
 @SuppressWarnings( "deprecation" )
-// @ListenerFor( systemEventClass = PostAddToViewEvent.class )
 public abstract class UIMetawidget
 	extends UIComponentBase
 {
@@ -140,9 +144,9 @@ public abstract class UIMetawidget
 
 	private Map<Object, Object>	mClientProperties;
 
-	private List<UIComponent>	mChildrenAfterRestoreState;
-
 	private Pipeline			mPipeline;
+
+	private JSF1Support			mJSF1Support;
 
 	//
 	// Constructor
@@ -155,6 +159,17 @@ public abstract class UIMetawidget
 		// Default renderer
 
 		setRendererType( "table" );
+
+		// JSF 2.0 support
+
+		try
+		{
+			new JSF2Support( this );
+		}
+		catch ( NoClassDefFoundError e )
+		{
+			mJSF1Support = new JSF1Support( this );
+		}
 	}
 
 	//
@@ -443,92 +458,25 @@ public abstract class UIMetawidget
 		return (T) mClientProperties.get( key );
 	}
 
-	/*
-	 * @Override public void processEvent( ComponentSystemEvent event ) throws
-	 * AbortProcessingException { if ( event instanceof PostAddToViewEvent ) { // Validation error?
-	 * Do not rebuild, as we will lose the invalid values in the // components. Instead, just move
-	 * along to our renderer if ( getFacesContext().getMaximumSeverity() != null ) return; // Build
-	 * widgets as normal try { buildWidgets(); } catch ( Exception e ) { // At this level, it is
-	 * more 'proper' to throw an AbortProcessingException than // a MetawidgetException, as that is
-	 * what the layers above are expecting throw new AbortProcessingException( e ); } } }
-	 */
-
 	@Override
 	public void processRestoreState( FacesContext context, Object state )
 	{
 		super.processRestoreState( context, state );
 
-		mChildrenAfterRestoreState = CollectionUtils.newArrayList( getChildren() );
+		if ( mJSF1Support != null )
+			mJSF1Support.processRestoreState();
 	}
 
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		try
-		{
-			// Validation error? Do not rebuild, as we will lose the invalid values in the
-			// components. Instead, just move along to our renderer
+		if ( mJSF1Support != null )
+			mJSF1Support.encodeBegin( context );
 
-			if ( context.getMaximumSeverity() != null )
-			{
-				// Hack: remove any components that have been re-merged into the component
-				// tree after processRestoreState. This takes care of overridden components that
-				// have since been moved to other containers (ie. into a RichFaces Tab). We wouldn't
-				// need this if we could figure out how to do .buildWidgets BEFORE the component
-				// tree gets serialized (ie. before encodeBegin)
-				//
-				// For background on this hack, see:
-				// http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html
-				//
-				// Jacob Hookum: "What's actually needed in [JSF 1.2] is post component tree
-				// creation or post component creation hooks, providing the ability to then modify
-				// the component tree"
-				// Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
-				//
-				// What we've tried:
-				//
-				// 1. Triggering buildWidgets on getChildCount/getChildren. This does not work
-				// because those methods get called at all sorts of other times
-				// 2. Doing it in super.encodeBegin for a GET, in processUpdates for a POST. This
-				// does not work because the GET still records the bad components
-				// 3. A PhaseListener before PhaseId.RENDER_RESPONSE to trigger buildWidgets. This
-				// does not work because UIViewRoot has no children at that stage in the lifecycle
+		// Delegate to renderer
 
-				if ( mChildrenAfterRestoreState != null )
-				{
-					getChildren().clear();
-					getChildren().addAll( mChildrenAfterRestoreState );
-				}
-			}
-
-			// Build widgets as normal
-			//
-			// Note: calling buildWidgets here means we are modifying the component tree during
-			// the Renderer phase, which is dangerous. The ideal fix would be to .buildWidgets
-			// BEFORE the component tree gets serialized (see above)
-
-			else
-			{
-				buildWidgets();
-			}
-
-			// Delegate to renderer
-
-			super.encodeBegin( context );
-		}
-		catch ( Exception e )
-		{
-			// IOException does not take a Throwable 'cause' argument until Java 6, so
-			// as we need to stay 1.4 compatible we output the trace here
-
-			LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
-
-			// At this level, it is more 'proper' to throw an IOException than
-			// a MetawidgetException, as that is what the layers above are expecting
-
-			throw new IOException( e.getMessage() );
-		}
+		super.encodeBegin( context );
 	}
 
 	/**
@@ -537,8 +485,6 @@ public abstract class UIMetawidget
 
 	public Element inspect( Object toInspect, String type, String... names )
 	{
-		// TODO: performance
-
 		if ( LOG.isTraceEnabled() )
 			LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (start)" );
 
@@ -985,6 +931,14 @@ public abstract class UIMetawidget
 			Map<String, Object> componentAttributes = widget.getAttributes();
 			componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 
+			// If this component already exists in the list, remove it and re-add it. This
+			// enables us to sort existing, manually created components in the correct order
+			//
+			// Doing the remove here, rather than in SimpleLayout, ensures we always remove and
+			// add for cases like moving a Stub from outside a TabPanel to inside it
+
+			getChildren().remove( widget );
+
 			super.layoutWidget( widget, elementName, attributes );
 		}
 
@@ -999,6 +953,171 @@ public abstract class UIMetawidget
 		protected UIMetawidget getPipelineOwner()
 		{
 			return UIMetawidget.this;
+		}
+	}
+
+	/**
+	 * Dynamically modify the component tree using the JSF1 API.
+	 * <p>
+	 * Remove any components that have been re-merged into the component tree after
+	 * processRestoreState. This takes care of overridden components that have since been moved to
+	 * other containers (ie. into a RichFaces Tab). We wouldn't need this if there was a way to call
+	 * <code>buildWidgets</code> <em>before</em> the component tree gets serialized (ie. before
+	 * encodeBegin).
+	 * <p>
+	 * For background on this hack, see:
+	 * http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html
+	 * <p>
+	 * Jacob Hookum: "What's actually needed in [JSF 1.2] is post component tree creation or post
+	 * component creation hooks, providing the ability to then modify the component tree"<br/>
+	 * Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
+	 * <p>
+	 * What we've tried:
+	 * <p>
+	 * <ol>
+	 * <li>Triggering buildWidgets on getChildCount/getChildren. This does not work because those
+	 * methods get called at all sorts of other times</li>
+	 * <li>Doing it in super.encodeBegin for a GET, in processUpdates for a POST. This does not work
+	 * because the GET still records the bad components</li>
+	 * <li>A PhaseListener before PhaseId.RENDER_RESPONSE to trigger buildWidgets. This does not
+	 * work because UIViewRoot has no children at that stage in the lifecycle</li>
+	 * </ol>
+	 * JSF2 introduced <code>SystemEvents</code> to address this exact problem.
+	 *
+	 * @author Richard Kennard
+	 */
+
+	private static class JSF1Support
+	{
+		//
+		// Private members
+		//
+
+		private UIMetawidget		mMetawidget;
+
+		private List<UIComponent>	mChildrenAfterRestoreState;
+
+		//
+		// Constructor
+		//
+
+		public JSF1Support( UIMetawidget metawidget )
+		{
+			mMetawidget = metawidget;
+		}
+
+		//
+		// Public methods
+		//
+
+		public void processRestoreState()
+		{
+			mChildrenAfterRestoreState = CollectionUtils.newArrayList( mMetawidget.getChildren() );
+		}
+
+		public void encodeBegin( FacesContext context )
+			throws IOException
+		{
+			try
+			{
+				// Validation error? Do not rebuild, as we will lose the invalid values in the
+				// components. Instead, just move along to our renderer
+
+				if ( context.getMaximumSeverity() != null )
+				{
+					if ( mChildrenAfterRestoreState != null )
+					{
+						mMetawidget.getChildren().clear();
+						mMetawidget.getChildren().addAll( mChildrenAfterRestoreState );
+					}
+				}
+
+				// Build widgets as normal
+				//
+				// Note: calling buildWidgets here means we are modifying the component tree during
+				// the Renderer phase, which is dangerous. The ideal fix would be to .buildWidgets
+				// BEFORE the component tree gets serialized (see above)
+
+				else
+				{
+					mMetawidget.buildWidgets();
+				}
+			}
+			catch ( Exception e )
+			{
+				// IOException does not take a Throwable 'cause' argument until Java 6, so
+				// as we need to stay 1.4 compatible we output the trace here
+
+				LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
+
+				// At this level, it is more 'proper' to throw an IOException than
+				// a MetawidgetException, as that is what the layers above are expecting
+
+				throw new IOException( e.getMessage() );
+			}
+		}
+	}
+
+	/**
+	 * Dynamically modify the component tree using the JSF2 API.
+	 * <p>
+	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid all the hacks in
+	 * <code>JSF1Support</code>.
+	 */
+
+	private static class JSF2Support
+		implements SystemEventListener
+	{
+		//
+		// Private members
+		//
+
+		private UIMetawidget	mMetawidget;
+
+		//
+		// Constructor
+		//
+
+		public JSF2Support( UIMetawidget metawidget )
+		{
+			mMetawidget = metawidget;
+
+			FacesContext ctx = FacesContext.getCurrentInstance();
+			UIViewRoot root = ctx.getViewRoot();
+			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
+		}
+
+		//
+		// Public methods
+		//
+
+		public boolean isListenerForSource( Object source )
+		{
+			return ( source instanceof UIViewRoot );
+		}
+
+		public void processEvent( SystemEvent event )
+			throws AbortProcessingException
+		{
+			// Validation error? Do not rebuild, as we will lose the invalid values in the
+			// components. Instead, just move along to our renderer
+
+			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null )
+				return;
+
+			// Build widgets as normal
+
+			try
+			{
+				mMetawidget.buildWidgets();
+			}
+			catch ( Exception e )
+			{
+				// At this level, it is more 'proper' to throw an AbortProcessingException than
+				// a MetawidgetException, as that is what the layers above are expecting
+
+				throw new AbortProcessingException( e );
+			}
 		}
 	}
 }
