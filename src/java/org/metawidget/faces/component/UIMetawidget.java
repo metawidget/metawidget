@@ -1096,8 +1096,6 @@ public abstract class UIMetawidget
 			return ( source instanceof UIViewRoot );
 		}
 
-		// TODO: this doesn't trigger
-
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException
 		{
