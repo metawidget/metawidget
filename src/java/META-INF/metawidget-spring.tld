@@ -9,7 +9,7 @@
 	<tag>
 		<name>metawidget</name>
 		<tagclass>org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag</tagclass>
-		<bodycontent>jsp</bodycontent>
+		<bodycontent>JSP</bodycontent>
 		<info>Metawidget for Spring environments</info>
 		<attribute>
 			<name>path</name>
@@ -40,7 +40,7 @@
 	<tag>
 		<name>facet</name>
 		<tagclass>org.metawidget.jsp.tagext.FacetTag</tagclass>
-		<bodycontent>jsp</bodycontent>
+		<bodycontent>JSP</bodycontent>
 		<info>Facet for JSP environments</info>
 		<attribute>
 			<name>name</name>
@@ -52,7 +52,7 @@
 	<tag>
 		<name>stub</name>
 		<tagclass>org.metawidget.jsp.tagext.html.spring.SpringStubTag</tagclass>
-		<bodycontent>jsp</bodycontent>
+		<bodycontent>JSP</bodycontent>
 		<info>Stub for JSP environments that output HTML</info>
 		<attribute>
 			<name>path</name>
