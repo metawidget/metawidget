@@ -101,6 +101,9 @@ public class DataBindingProcessor
 	@Override
 	public Control processWidget( Control control, String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
 	{
+		if ( ACTION.equals( elementName ))
+			return control;
+
 		String controlProperty = metawidget.getValueProperty( control );
 
 		if ( controlProperty == null )

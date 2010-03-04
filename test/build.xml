@@ -160,6 +160,7 @@
 		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
+			<jvmarg value="-Djava.library.path=${basedir}/${relative.dir}/lib"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.AllTests"/>
 			<classpath>

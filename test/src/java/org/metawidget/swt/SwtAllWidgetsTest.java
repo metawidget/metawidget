@@ -23,6 +23,8 @@ import junit.framework.TestCase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
@@ -125,19 +127,19 @@ public class SwtAllWidgetsTest
 
 		assertTrue( "Textarea:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Text );
-		assertTrue( ((GridData) metawidget.getChildren()[5].getLayoutData()).grabExcessVerticalSpace );
-		assertTrue( (((Text) metawidget.getChildren()[5]).getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( (((Text) metawidget.getChildren()[5]).getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( (((Text) metawidget.getChildren()[5]).getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( (((Text) metawidget.getChildren()[5]).getStyle() & SWT.WRAP ) == SWT.WRAP );
-		assertTrue( (((Text) metawidget.getChildren()[5]).getStyle() & SWT.H_SCROLL ) == SWT.NONE );
+		assertTrue( ( (GridData) metawidget.getChildren()[5].getLayoutData() ).grabExcessVerticalSpace );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ) == SWT.MULTI );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.BORDER ) == SWT.BORDER );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ) == SWT.WRAP );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
 		assertTrue( "Textarea".equals( metawidget.getValue( "textarea" ) ) );
 		( (Text) metawidget.getChildren()[5] ).setText( "Textarea1" );
 
 		assertTrue( "Password:".equals( ( (Label) metawidget.getChildren()[6] ).getText() ) );
 		assertTrue( metawidget.getChildren()[7] instanceof Text );
-		assertTrue( (((Text) metawidget.getChildren()[7]).getStyle() & SWT.PASSWORD ) == SWT.PASSWORD );
-		assertTrue( (((Text) metawidget.getChildren()[7]).getStyle() & SWT.BORDER ) == SWT.BORDER );
+		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.PASSWORD ) == SWT.PASSWORD );
+		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.BORDER ) == SWT.BORDER );
 		assertTrue( "Password".equals( metawidget.getValue( "password" ) ) );
 		( (Text) metawidget.getChildren()[7] ).setText( "Password1" );
 
@@ -147,7 +149,8 @@ public class SwtAllWidgetsTest
 		assertTrue( Byte.MAX_VALUE == (Integer) metawidget.getValue( "byte" ) );
 		Spinner spinner = (Spinner) metawidget.getChildren()[9];
 
-		// (negative Spinner values don't always work - https://bugs.eclipse.org/bugs/show_bug.cgi?id=91317)
+		// (negative Spinner values don't always work -
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=91317)
 
 		assertTrue( -5 == spinner.getMinimum() || 0 == spinner.getMinimum() );
 		assertTrue( Byte.MAX_VALUE == spinner.getMaximum() );
@@ -167,7 +170,7 @@ public class SwtAllWidgetsTest
 
 		assertTrue( "Short object:".equals( ( (Label) metawidget.getChildren()[14] ).getText() ) );
 		assertTrue( metawidget.getChildren()[15] instanceof Text );
-		assertTrue( String.valueOf( Short.MIN_VALUE ).equals( ((String) metawidget.getValue( "shortObject" )).replaceAll( ",", "" ) ) );
+		assertTrue( String.valueOf( Short.MIN_VALUE ).equals( ( (String) metawidget.getValue( "shortObject" ) ).replaceAll( ",", "" ) ) );
 		( (Text) metawidget.getChildren()[15] ).setText( String.valueOf( Short.MIN_VALUE + 1 ) );
 
 		assertTrue( "Int:".equals( ( (Label) metawidget.getChildren()[16] ).getText() ) );
@@ -179,7 +182,7 @@ public class SwtAllWidgetsTest
 
 		assertTrue( "Integer object:".equals( ( (Label) metawidget.getChildren()[18] ).getText() ) );
 		assertTrue( metawidget.getChildren()[19] instanceof Text );
-		assertTrue( String.valueOf( Integer.MIN_VALUE ).equals( ((String) metawidget.getValue( "integerObject" )).replaceAll( ",", "" ) ) );
+		assertTrue( String.valueOf( Integer.MIN_VALUE ).equals( ( (String) metawidget.getValue( "integerObject" ) ).replaceAll( ",", "" ) ) );
 		( (Text) metawidget.getChildren()[19] ).setText( String.valueOf( Integer.MIN_VALUE + 1 ) );
 
 		assertTrue( "Ranged int:".equals( ( (Label) metawidget.getChildren()[20] ).getText() ) );
@@ -194,104 +197,84 @@ public class SwtAllWidgetsTest
 		assertTrue( "33".equals( metawidget.getValue( "rangedInteger" ) ) );
 		( (Text) metawidget.getChildren()[23] ).setText( String.valueOf( 34 ) );
 
-		/*
 		assertTrue( "Long:".equals( ( (Label) metawidget.getChildren()[24] ).getText() ) );
-		assertTrue( metawidget.getChildren()[25] instanceof Spinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[25] ).gridx );
-		assertTrue( 42 == (Long) metawidget.getValue( "long" ) );
-		assertTrue( -7 == (Long) ( (SpinnerNumberModel) ( (Spinner) metawidget.getChildren()[25] ).getModel() ).getMinimum() );
-		assertTrue( Long.MAX_VALUE == (Long) ( (SpinnerNumberModel) ( (Spinner) metawidget.getChildren()[25] ).getModel() ).getMaximum() );
-		spinner = (Spinner) metawidget.getChildren()[25];
-		assertTrue( 0 == ( (Spinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
-		spinner.setValue( spinner.getModel().getNextValue() );
+		assertTrue( metawidget.getChildren()[25] instanceof Text );
+		assertTrue( "42".equals( metawidget.getValue( "long" ) ) );
+		( (Text) metawidget.getChildren()[19] ).setText( "43" );
 
 		assertTrue( metawidget.getChildren()[26] instanceof Text );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[26] ).gridx );
+		assertTrue( 2 == ( (GridData) metawidget.getChildren()[26].getLayoutData() ).horizontalSpan );
 		assertTrue( "43".equals( metawidget.getValue( "longObject" ) ) );
-		( (Text) metawidget.getChildren()[26] ).setText( "44" );
+		( (Text) metawidget.getChildren()[19] ).setText( "44" );
 
 		assertTrue( "Float:".equals( ( (Label) metawidget.getChildren()[27] ).getText() ) );
-		assertTrue( metawidget.getChildren()[28] instanceof Spinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[28] ).gridx );
-		assertTrue( 4.2f == (Float) metawidget.getValue( "float" ) );
-		assertTrue( -Float.MAX_VALUE == (Float) ( (SpinnerNumberModel) ( (Spinner) metawidget.getChildren()[28] ).getModel() ).getMinimum() );
-		assertTrue( 2048 == (Float) ( (SpinnerNumberModel) ( (Spinner) metawidget.getChildren()[28] ).getModel() ).getMaximum() );
-		spinner = (Spinner) metawidget.getChildren()[28];
-		assertTrue( 0 == ( (Spinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
-		spinner.setValue( spinner.getModel().getNextValue() );
+		assertTrue( metawidget.getChildren()[28] instanceof Text );
+		assertTrue( "4.2".equals( metawidget.getValue( "float" ) ) );
+		( (Text) metawidget.getChildren()[28] ).setText( "4.3" );
 
 		assertTrue( "nullInBundle:".equals( ( (Label) metawidget.getChildren()[29] ).getText() ) );
 		assertTrue( metawidget.getChildren()[30] instanceof Text );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[30] ).gridx );
 		assertTrue( "4.3".equals( metawidget.getValue( "floatObject" ) ) );
 		( (Text) metawidget.getChildren()[30] ).setText( "5.4" );
 
 		assertTrue( "Double:".equals( ( (Label) metawidget.getChildren()[31] ).getText() ) );
-		assertTrue( metawidget.getChildren()[32] instanceof Spinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[32] ).gridx );
-		assertTrue( 42.2d == (Double) metawidget.getValue( "double" ) );
-		assertTrue( -8 == (Double) ( (SpinnerNumberModel) ( (Spinner) metawidget.getChildren()[32] ).getModel() ).getMinimum() );
-		assertTrue( Double.MAX_VALUE == (Double) ( (SpinnerNumberModel) ( (Spinner) metawidget.getChildren()[32] ).getModel() ).getMaximum() );
-		spinner = (Spinner) metawidget.getChildren()[32];
-		assertTrue( 0 == ( (Spinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
-		spinner.setValue( spinner.getModel().getNextValue() );
+		assertTrue( metawidget.getChildren()[32] instanceof Text );
+		assertTrue( "42.2".equals( metawidget.getValue( "double" ) ) );
+		( (Text) metawidget.getChildren()[32] ).setText( "42.3" );
 
 		assertTrue( metawidget.getChildren()[33] instanceof Text );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[33] ).gridx );
-		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[33] ).gridwidth );
+		assertTrue( 2 == ( (GridData) metawidget.getChildren()[33].getLayoutData() ).horizontalSpan );
 		assertTrue( "43.3".equals( metawidget.getValue( "doubleObject" ) ) );
 		( (Text) metawidget.getChildren()[33] ).setText( "54.4" );
 
 		assertTrue( "Char:".equals( ( (Label) metawidget.getChildren()[34] ).getText() ) );
 		assertTrue( metawidget.getChildren()[35] instanceof Text );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[35] ).gridx );
 		assertTrue( "A".equals( metawidget.getValue( "char" ) ) );
 		( (Text) metawidget.getChildren()[35] ).setText( "Z" );
 
 		assertTrue( "Boolean:".equals( ( (Label) metawidget.getChildren()[36] ).getText() ) );
-		assertTrue( metawidget.getChildren()[37] instanceof JCheckBox );
+		assertTrue( metawidget.getChildren()[37] instanceof Button );
+		assertTrue( ( metawidget.getChildren()[37].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-		( (JCheckBox) metawidget.getChildren()[37] ).setSelected( true );
+		( (Button) metawidget.getChildren()[37] ).setSelection( true );
 
 		assertTrue( "Boolean object:".equals( ( (Label) metawidget.getChildren()[38] ).getText() ) );
-		assertTrue( metawidget.getChildren()[39] instanceof JComboBox );
-		assertTrue( 3 == ( (JComboBox) metawidget.getChildren()[39] ).getItemCount() );
-		assertTrue( Boolean.TRUE.equals( metawidget.getValue( "booleanObject" ) ) );
-		( (JComboBox) metawidget.getChildren()[39] ).setSelectedItem( Boolean.FALSE );
+		assertTrue( metawidget.getChildren()[39] instanceof Combo );
+		assertTrue( ( metawidget.getChildren()[39].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
+		assertTrue( 3 == ( (Combo) metawidget.getChildren()[39] ).getItemCount() );
+		assertTrue( "true".equals( metawidget.getValue( "booleanObject" ) ) );
+		( (Combo) metawidget.getChildren()[39] ).setText( "false" );
 
 		assertTrue( "Dropdown:".equals( ( (Label) metawidget.getChildren()[40] ).getText() ) );
-		assertTrue( metawidget.getChildren()[41] instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[41] ).gridx );
-		assertTrue( 4 == ( (JComboBox) metawidget.getChildren()[41] ).getItemCount() );
+		assertTrue( metawidget.getChildren()[41] instanceof Combo );
+		assertTrue( ( metawidget.getChildren()[41].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
+		assertTrue( 4 == ( (Combo) metawidget.getChildren()[41] ).getItemCount() );
 		assertTrue( "dropdown1".equals( metawidget.getValue( "dropdown" ) ) );
-		( (JComboBox) metawidget.getChildren()[41] ).setSelectedItem( "foo1" );
+		( (Combo) metawidget.getChildren()[41] ).setText( "foo1" );
+
+		// TODO: labels don't work!
 
 		assertTrue( "Dropdown with labels:".equals( ( (Label) metawidget.getChildren()[42] ).getText() ) );
-		assertTrue( metawidget.getChildren()[43] instanceof JComboBox );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[43] ).gridx );
-
-		JComboBox combo = (JComboBox) metawidget.getChildren()[43];
-		assertTrue( 5 == combo.getItemCount() );
-		assertTrue( "Foo #2".equals( ( (Label) combo.getRenderer().getListCellRendererComponent( new JList(), "foo2", 1, false, false ) ).getText() ) );
-		assertTrue( "Dropdown #2".equals( ( (Label) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown2", 1, false, false ) ).getText() ) );
-		assertTrue( "Bar #2".equals( ( (Label) combo.getRenderer().getListCellRendererComponent( new JList(), "bar2", 1, false, false ) ).getText() ) );
-		assertTrue( "Baz #2".equals( ( (Label) combo.getRenderer().getListCellRendererComponent( new JList(), "baz2", 1, false, false ) ).getText() ) );
+		assertTrue( metawidget.getChildren()[43] instanceof Combo );
+		assertTrue( 5 == ( (Combo) metawidget.getChildren()[43] ).getItemCount() );
 		assertTrue( "dropdown2".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
-		( (JComboBox) metawidget.getChildren()[43] ).setSelectedItem( "bar2" );
+		( (Combo) metawidget.getChildren()[43] ).setText( "bar2" );
 
 		assertTrue( "Not null dropdown:".equals( ( (Label) metawidget.getChildren()[44] ).getText() ) );
-		assertTrue( metawidget.getChildren()[45] instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[45] ).gridx );
-		assertTrue( 3 == ( (JComboBox) metawidget.getChildren()[45] ).getItemCount() );
-		assertTrue( 0 == (Byte) metawidget.getValue( "notNullDropdown" ) );
-		( (JComboBox) metawidget.getChildren()[45] ).setSelectedItem( (byte) 1 );
+		assertTrue( metawidget.getChildren()[45] instanceof Combo );
+		assertTrue( 3 == ( (Combo) metawidget.getChildren()[45] ).getItemCount() );
+		assertTrue( "0".equals( metawidget.getValue( "notNullDropdown" ) ));
+		( (Combo) metawidget.getChildren()[45] ).setText( "1" );
+
+		/*
+		 *
 
 		assertTrue( "Not null object dropdown*:".equals( ( (Label) metawidget.getChildren()[46] ).getText() ) );
-		assertTrue( metawidget.getChildren()[47] instanceof JComboBox );
+		assertTrue( metawidget.getChildren()[47] instanceof Combo );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getChildren()[47] ).gridx );
-		assertTrue( 6 == ( (JComboBox) metawidget.getChildren()[47] ).getItemCount() );
+		assertTrue( 6 == ( (Combo) metawidget.getChildren()[47] ).getItemCount() );
 		assertTrue( "dropdown3".equals( metawidget.getValue( "notNullObjectDropdown" ) ) );
-		( (JComboBox) metawidget.getChildren()[47] ).setSelectedIndex( 0 );
+		( (Combo) metawidget.getChildren()[47] ).setSelectedIndex( 0 );
 
 		assertTrue( "Nested widgets:".equals( ( (Label) metawidget.getChildren()[48] ).getText() ) );
 		assertTrue( metawidget.getChildren()[49] instanceof SwingMetawidget );
@@ -497,6 +480,7 @@ public class SwtAllWidgetsTest
 		assertTrue( null != metawidget.getClientProperty( processor.getClass() ) );
 		processor.onStartBuild( metawidget );
 		assertTrue( null == metawidget.getClientProperty( processor.getClass() ) );
+
 		*/
 	}
 }
