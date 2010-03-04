@@ -578,33 +578,6 @@ public class SwingMetawidget
 		return (T) topComponent;
 	}
 
-	private Component getComponent( Container container, String name )
-	{
-		for ( Component childComponent : container.getComponents() )
-		{
-			// Drill into unnamed containers (ie. for TabbedPanes)
-
-			if ( childComponent.getName() == null && childComponent instanceof Container )
-			{
-				childComponent = getComponent( (Container) childComponent, name );
-
-				if ( childComponent != null )
-					return childComponent;
-
-				continue;
-			}
-
-			// Match by name
-
-			if ( name.equals( childComponent.getName() ) )
-				return childComponent;
-		}
-
-		// Not found
-
-		return null;
-	}
-
 	public Facet getFacet( String name )
 	{
 		buildWidgets();
@@ -1008,6 +981,33 @@ public class SwingMetawidget
 
 		if ( widgetBuilder instanceof SwingValuePropertyProvider )
 			return ( (SwingValuePropertyProvider) widgetBuilder ).getValueProperty( component );
+
+		return null;
+	}
+
+	private Component getComponent( Container container, String name )
+	{
+		for ( Component childComponent : container.getComponents() )
+		{
+			// Drill into unnamed containers (ie. for TabbedPanes)
+
+			if ( childComponent.getName() == null && childComponent instanceof Container )
+			{
+				childComponent = getComponent( (Container) childComponent, name );
+
+				if ( childComponent != null )
+					return childComponent;
+
+				continue;
+			}
+
+			// Match by name
+
+			if ( name.equals( childComponent.getName() ) )
+				return childComponent;
+		}
+
+		// Not found
 
 		return null;
 	}

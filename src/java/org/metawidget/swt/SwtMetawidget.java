@@ -484,6 +484,18 @@ public class SwtMetawidget
 	}
 
 	//
+	// The following methods all kick off buildWidgets() if necessary
+	//
+
+	@Override
+	public Control[] getChildren()
+	{
+		buildWidgets();
+
+		return super.getChildren();
+	}
+
+	//
 	// Protected methods
 	//
 

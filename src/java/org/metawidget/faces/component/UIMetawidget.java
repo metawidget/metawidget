@@ -146,7 +146,7 @@ public abstract class UIMetawidget
 
 	private Pipeline			mPipeline;
 
-	private JSF1Support			mJSF1Support;
+	private RestoreStateHack	mRestoreStateHack;
 
 	//
 	// Constructor
@@ -160,15 +160,22 @@ public abstract class UIMetawidget
 
 		setRendererType( "table" );
 
-		// JSF 2.0 support
+		// SystemEvent support
 
-		try
+		if ( System.getProperty( getClass().getName() + ".UseSystemEvents" ) != null )
 		{
-			new JSF2Support( this );
+			try
+			{
+				new SystemEventSupport( this );
+			}
+			catch ( NoClassDefFoundError e )
+			{
+				mRestoreStateHack = new RestoreStateHack( this );
+			}
 		}
-		catch ( NoClassDefFoundError e )
+		else
 		{
-			mJSF1Support = new JSF1Support( this );
+			mRestoreStateHack = new RestoreStateHack( this );
 		}
 	}
 
@@ -463,16 +470,16 @@ public abstract class UIMetawidget
 	{
 		super.processRestoreState( context, state );
 
-		if ( mJSF1Support != null )
-			mJSF1Support.processRestoreState();
+		if ( mRestoreStateHack != null )
+			mRestoreStateHack.processRestoreState();
 	}
 
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		if ( mJSF1Support != null )
-			mJSF1Support.encodeBegin( context );
+		if ( mRestoreStateHack != null )
+			mRestoreStateHack.encodeBegin( context );
 
 		// Delegate to renderer
 
@@ -987,7 +994,7 @@ public abstract class UIMetawidget
 	 * @author Richard Kennard
 	 */
 
-	private static class JSF1Support
+	private static class RestoreStateHack
 	{
 		//
 		// Private members
@@ -1001,7 +1008,7 @@ public abstract class UIMetawidget
 		// Constructor
 		//
 
-		public JSF1Support( UIMetawidget metawidget )
+		public RestoreStateHack( UIMetawidget metawidget )
 		{
 			mMetawidget = metawidget;
 		}
@@ -1062,10 +1069,10 @@ public abstract class UIMetawidget
 	 * Dynamically modify the component tree using the JSF2 API.
 	 * <p>
 	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid all the hacks in
-	 * <code>JSF1Support</code>.
+	 * <code>RestoreStateHack</code>.
 	 */
 
-	private static class JSF2Support
+	private static class SystemEventSupport
 		implements SystemEventListener
 	{
 		//
@@ -1078,7 +1085,7 @@ public abstract class UIMetawidget
 		// Constructor
 		//
 
-		public JSF2Support( UIMetawidget metawidget )
+		public SystemEventSupport( UIMetawidget metawidget )
 		{
 			mMetawidget = metawidget;
 

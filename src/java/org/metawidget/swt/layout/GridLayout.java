@@ -134,7 +134,7 @@ public class GridLayout
 			componentLayoutData.verticalAlignment = SWT.FILL;
 		}
 
-		if ( labelText == null )
+		if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ))
 			componentLayoutData.horizontalSpan = 2;
 
 		if ( willFillVertically( component, attributes ) )

@@ -137,11 +137,11 @@ public class UIMetawidgetTest
 		{
 			metawidget.encodeBegin( context );
 
-			// Should throw an IOException, because getRenderKit is null
+			// Should throw a NullPointerException, because getRenderKit is null
 
 			assertTrue( false );
 		}
-		catch ( IOException e )
+		catch ( NullPointerException e )
 		{
 			// Should go straight to getRenderKit or pushComponentToEL, because validation error
 

@@ -61,6 +61,9 @@ public class SwtWidgetBuilder
 		if ( control instanceof Text || control instanceof Combo )
 			return "text";
 
+		if ( control instanceof Spinner || control instanceof Scale )
+			return "selection";
+
 		return null;
 	}
 
