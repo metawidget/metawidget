@@ -26,8 +26,6 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.util.LogUtils;
-import org.metawidget.util.LogUtils.Log;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -64,8 +62,6 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	//
 
 	private final static int						DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
-
-	private final static Log						LOG									= LogUtils.getLog( BasePipeline.class );
 
 	//
 	// Private members
@@ -499,15 +495,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 	protected W buildWidget( String elementName, Map<String, String> attributes )
 	{
-		if ( LOG.isTraceEnabled() )
-			LOG.trace( "buildWidget for " + elementName + " named " + attributes.get( NAME ) + " (start)" );
-
-		W widget = mWidgetBuilder.buildWidget( elementName, attributes, getPipelineOwner() );
-
-		if ( LOG.isTraceEnabled() )
-			LOG.trace( "buildWidget returned " + widget + " (end)" );
-
-		return widget;
+		return mWidgetBuilder.buildWidget( elementName, attributes, getPipelineOwner() );
 	}
 
 	/**

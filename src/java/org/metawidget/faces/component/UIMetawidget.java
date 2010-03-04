@@ -84,7 +84,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public final static String	COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
+	public final static String				COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
 
 	/**
 	 * Component-level attribute used to prevent recreation.
@@ -110,7 +110,7 @@ public abstract class UIMetawidget
 	 * field.
 	 */
 
-	public final static String	COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
+	public final static String				COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
 
 	//
 	// Private statics
@@ -120,33 +120,33 @@ public abstract class UIMetawidget
 	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
+	private final static String				APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
 
-	private final static String	DEFAULT_USER_CONFIG					= "metawidget.xml";
+	private final static String				DEFAULT_USER_CONFIG					= "metawidget.xml";
 
-	private final static Log	LOG									= LogUtils.getLog( UIMetawidget.class );
+	/* package private */final static Log	LOG									= LogUtils.getLog( UIMetawidget.class );
 
-	private static boolean		LOGGED_MISSING_CONFIG;
+	private static boolean					LOGGED_MISSING_CONFIG;
 
 	//
 	// Private members
 	//
 
-	private Object				mValue;
+	private Object							mValue;
 
-	private String				mConfig								= DEFAULT_USER_CONFIG;
+	private String							mConfig								= DEFAULT_USER_CONFIG;
 
-	private boolean				mNeedsConfiguring					= true;
+	private boolean							mNeedsConfiguring					= true;
 
-	private boolean				mInspectFromParent;
+	private boolean							mInspectFromParent;
 
-	private Boolean				mReadOnly;
+	private Boolean							mReadOnly;
 
-	private Map<Object, Object>	mClientProperties;
+	private Map<Object, Object>				mClientProperties;
 
-	private Pipeline			mPipeline;
+	private Pipeline						mPipeline;
 
-	private RestoreStateHack	mRestoreStateHack;
+	private RestoreStateHack				mRestoreStateHack;
 
 	//
 	// Constructor
@@ -923,6 +923,20 @@ public abstract class UIMetawidget
 				return ( (UIStub) widget ).getStubAttributes();
 
 			return null;
+		}
+
+		@Override
+		protected UIComponent buildWidget( String elementName, Map<String, String> attributes )
+		{
+			if ( LOG.isTraceEnabled() )
+				LOG.trace( "buildWidget for " + elementName + " named " + attributes.get( NAME ) + " (start)" );
+
+			UIComponent widget = super.buildWidget( elementName, attributes );
+
+			if ( LOG.isTraceEnabled() )
+				LOG.trace( "buildWidget returned " + widget + " (end)" );
+
+			return widget;
 		}
 
 		@Override
