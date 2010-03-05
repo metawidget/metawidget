@@ -131,15 +131,7 @@ public class SwtWidgetBuilder
 				comboDropDown.add( String.valueOf( convertedValue ) );
 			}
 
-			// May have alternate labels
-
-			/*
-			 * String lookupLabels = attributes.get( LOOKUP_LABELS ); if ( lookupLabels != null &&
-			 * !"".equals( lookupLabels ) ) { Map<String, String> labelsMap =
-			 * SwtWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString(
-			 * attributes.get( LOOKUP_LABELS ) ) ); comboBox.setEditor( new LookupComboBoxEditor(
-			 * labelsMap ) ); comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) ); }
-			 */
+			// Vanilla SWT doesn't support differing Combo values and labels (JFace does)
 
 			return comboDropDown;
 		}

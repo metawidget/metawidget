@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -28,6 +29,7 @@ import org.eclipse.core.databinding.beans.PojoObservables;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.internal.databinding.BindingStatus;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.metawidget.swt.SwtMetawidget;
@@ -37,6 +39,7 @@ import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * Property binding implementation based on <code>eclipse.core.databinding</code>.
@@ -80,7 +83,7 @@ public class DataBindingProcessor
 
 		if ( converters != null )
 		{
-			for( IConverter converter : converters )
+			for ( IConverter converter : converters )
 			{
 				mConverters.put( new ConvertFromTo( (Class<?>) converter.getFromType(), (Class<?>) converter.getToType() ), converter );
 			}
@@ -101,7 +104,7 @@ public class DataBindingProcessor
 	@Override
 	public Control processWidget( Control control, String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
 	{
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return control;
 
 		String controlProperty = metawidget.getValueProperty( control );
@@ -114,7 +117,14 @@ public class DataBindingProcessor
 		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
 		Realm realm = bindingContext.getValidationRealm();
 		IObservableValue observeTarget = BeanProperties.value( controlProperty ).observe( realm, control );
-		UpdateValueStrategy targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
+		UpdateValueStrategy targetToModel;
+
+		// (NO_SETTER model values are one-way only)
+
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+			targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_NEVER );
+		else
+			targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
 
 		// Observe the model
 
@@ -136,8 +146,8 @@ public class DataBindingProcessor
 
 		// Add converters
 
-		targetToModel.setConverter( getConverter( (Class<?>) observeTarget.getValueType(), (Class<?>) observeModel.getValueType() ));
-		modelToTarget.setConverter( getConverter( (Class<?>) observeModel.getValueType(), (Class<?>) observeTarget.getValueType() ));
+		targetToModel.setConverter( getConverter( (Class<?>) observeTarget.getValueType(), (Class<?>) observeModel.getValueType() ) );
+		modelToTarget.setConverter( getConverter( (Class<?>) observeModel.getValueType(), (Class<?>) observeTarget.getValueType() ) );
 
 		// Bind it
 
@@ -161,8 +171,29 @@ public class DataBindingProcessor
 
 	public void save( final SwtMetawidget metawidget )
 	{
+		// Our bindings
+
 		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
 		bindingContext.updateModels();
+
+		for ( Object validationStatusProvider : bindingContext.getValidationStatusProviders() )
+		{
+			Binding binding = (Binding) validationStatusProvider;
+			BindingStatus bindingStatus = (BindingStatus) binding.getValidationStatus().getValue();
+
+			if ( bindingStatus.isOK() )
+				continue;
+
+			throw WidgetProcessorException.newException( bindingStatus.getMessage() );
+		}
+
+		// Nested bindings
+
+		for ( Control control : metawidget.getChildren() )
+		{
+			if ( control instanceof SwtMetawidget )
+				save( (SwtMetawidget) control );
+		}
 	}
 
 	//
@@ -193,7 +224,8 @@ public class DataBindingProcessor
 	 * <p>
 	 * Includes traversing superclasses of the given Class for a suitable IConverter, so for example
 	 * registering a IConverter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific IConverter is also registered.
+	 * <code>Double.class</code> etc., unless a more subclass-specific IConverter is also
+	 * registered.
 	 */
 
 	private IConverter getConverter( Class<?> sourceClass, Class<?> targetClass )

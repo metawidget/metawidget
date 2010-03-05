@@ -18,6 +18,7 @@ package org.metawidget.swt;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import junit.framework.TestCase;
@@ -35,6 +36,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
+import org.metawidget.swt.allwidgets.converter.DateToStringConverter;
+import org.metawidget.swt.allwidgets.converter.NestedWidgetsToStringConverter;
+import org.metawidget.swt.allwidgets.converter.StringToDateConverter;
+import org.metawidget.swt.allwidgets.converter.StringToNestedWidgetsConverter;
+import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor;
+import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessorConfig;
+import org.metawidget.swt.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -75,25 +83,7 @@ public class SwtAllWidgetsTest
 	// Private statics
 	//
 
-	private final static String	DATE_FORMAT	= "dd.MM.yyyy HH:mm:ss.000 +0000";
-
-	//
-	// Constructor
-	//
-
-	public SwtAllWidgetsTest()
-	{
-		// Default constructor
-	}
-
-	/**
-	 * JUnit 3.7 constructor (SwtAllWidgetsTest gets run under JDK 1.4 using JUnit 3).
-	 */
-
-	public SwtAllWidgetsTest( String name )
-	{
-		super( name );
-	}
+	private final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
 	// Public methods
@@ -114,6 +104,13 @@ public class SwtAllWidgetsTest
 		Shell shell = new Shell( display, SWT.NONE );
 		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.NONE );
 		metawidget.setConfig( "org/metawidget/swt/allwidgets/metawidget.xml" );
+
+		// Binding
+
+		DataBindingProcessorConfig config = new DataBindingProcessorConfig();
+		config.setConverters( new DateToStringConverter( DATE_FORMAT ), new StringToDateConverter( DATE_FORMAT ), new NestedWidgetsToStringConverter(), new StringToNestedWidgetsConverter() );
+		metawidget.addWidgetProcessor( new DataBindingProcessor( config ) );
+		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 
 		metawidget.setToInspect( allWidgets );
 
@@ -209,12 +206,12 @@ public class SwtAllWidgetsTest
 		assertTrue( "Long:".equals( ( (Label) metawidget.getChildren()[24] ).getText() ) );
 		assertTrue( metawidget.getChildren()[25] instanceof Text );
 		assertTrue( "42".equals( metawidget.getValue( "long" ) ) );
-		( (Text) metawidget.getChildren()[19] ).setText( "43" );
+		( (Text) metawidget.getChildren()[25] ).setText( "43" );
 
 		assertTrue( metawidget.getChildren()[26] instanceof Text );
 		assertTrue( 2 == ( (GridData) metawidget.getChildren()[26].getLayoutData() ).horizontalSpan );
 		assertTrue( "43".equals( metawidget.getValue( "longObject" ) ) );
-		( (Text) metawidget.getChildren()[19] ).setText( "44" );
+		( (Text) metawidget.getChildren()[26] ).setText( "44" );
 
 		assertTrue( "Float:".equals( ( (Label) metawidget.getChildren()[27] ).getText() ) );
 		assertTrue( metawidget.getChildren()[28] instanceof Text );
@@ -261,8 +258,6 @@ public class SwtAllWidgetsTest
 		assertTrue( "dropdown1".equals( metawidget.getValue( "dropdown" ) ) );
 		( (Combo) metawidget.getChildren()[41] ).setText( "foo1" );
 
-		// TODO: labels in combos don't work!
-
 		assertTrue( "Dropdown with labels:".equals( ( (Label) metawidget.getChildren()[42] ).getText() ) );
 		assertTrue( metawidget.getChildren()[43] instanceof Combo );
 		assertTrue( 5 == ( (Combo) metawidget.getChildren()[43] ).getItemCount() );
@@ -272,14 +267,14 @@ public class SwtAllWidgetsTest
 		assertTrue( "Not null dropdown:".equals( ( (Label) metawidget.getChildren()[44] ).getText() ) );
 		assertTrue( metawidget.getChildren()[45] instanceof Combo );
 		assertTrue( 3 == ( (Combo) metawidget.getChildren()[45] ).getItemCount() );
-		assertTrue( "0".equals( metawidget.getValue( "notNullDropdown" ) ));
+		assertTrue( "0".equals( metawidget.getValue( "notNullDropdown" ) ) );
 		( (Combo) metawidget.getChildren()[45] ).setText( "1" );
 
 		assertTrue( "Not null object dropdown*:".equals( ( (Label) metawidget.getChildren()[46] ).getText() ) );
 		assertTrue( metawidget.getChildren()[47] instanceof Combo );
 		assertTrue( 6 == ( (Combo) metawidget.getChildren()[47] ).getItemCount() );
 		assertTrue( "dropdown3".equals( metawidget.getValue( "notNullObjectDropdown" ) ) );
-		( (Combo) metawidget.getChildren()[47] ).setText( "dropdown1" );
+		( (Combo) metawidget.getChildren()[47] ).setText( "foo3" );
 
 		assertTrue( "Nested widgets:".equals( ( (Label) metawidget.getChildren()[48] ).getText() ) );
 		assertTrue( metawidget.getChildren()[49] instanceof SwtMetawidget );
@@ -290,7 +285,7 @@ public class SwtAllWidgetsTest
 		SwtMetawidget metawidgetFurtherNested = (SwtMetawidget) metawidgetNested.getChildren()[1];
 		assertTrue( "Further nested widgets:".equals( ( (Label) metawidgetFurtherNested.getChildren()[0] ).getText() ) );
 		assertTrue( metawidgetFurtherNested.getChildren()[1] instanceof SwtMetawidget );
-		assertTrue( ((SwtMetawidget) metawidgetFurtherNested.getChildren()[1] ).getChildren().length == 0 );
+		assertTrue( ( (SwtMetawidget) metawidgetFurtherNested.getChildren()[1] ).getChildren().length == 0 );
 
 		assertTrue( "Nested textbox 1:".equals( ( (Label) metawidgetFurtherNested.getChildren()[2] ).getText() ) );
 		assertTrue( metawidgetFurtherNested.getChildren()[3] instanceof Text );
@@ -339,11 +334,11 @@ public class SwtAllWidgetsTest
 		( (Text) metawidget.getChildren()[57] ).setText( "bad date" );
 
 		assertTrue( metawidget.getChildren()[58] instanceof Stub );
-		assertTrue( "hidden".equals( metawidget.getChildren()[58].getData( "name" ) ));
-		assertTrue( ((GridData) metawidget.getChildren()[58].getLayoutData()).exclude );
+		assertTrue( "hidden".equals( metawidget.getChildren()[58].getData( "name" ) ) );
+		assertTrue( ( (GridData) metawidget.getChildren()[58].getLayoutData() ).exclude );
 
 		Composite separatorComposite = (Composite) metawidget.getChildren()[59];
-		assertTrue( "Section Break".equals( ((Label) separatorComposite.getChildren()[0]).getText() ) );
+		assertTrue( "Section Break".equals( ( (Label) separatorComposite.getChildren()[0] ).getText() ) );
 		assertTrue( separatorComposite.getChildren()[1] instanceof Label );
 		assertTrue( ( separatorComposite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 		assertTrue( SWT.FILL == ( (GridData) separatorComposite.getChildren()[1].getLayoutData() ).horizontalAlignment );
@@ -354,12 +349,12 @@ public class SwtAllWidgetsTest
 		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
 		assertTrue( metawidget.getChildren()[62] instanceof Stub );
-		assertTrue( "mystery".equals( metawidget.getChildren()[62].getData( "name" ) ));
-		assertTrue( ((GridData) metawidget.getChildren()[62].getLayoutData()).exclude );
+		assertTrue( "mystery".equals( metawidget.getChildren()[62].getData( "name" ) ) );
+		assertTrue( ( (GridData) metawidget.getChildren()[62].getLayoutData() ).exclude );
 
 		assertTrue( metawidget.getChildren()[63] instanceof Stub );
-		assertTrue( "collection".equals( metawidget.getChildren()[63].getData( "name" ) ));
-		assertTrue( ((GridData) metawidget.getChildren()[63].getLayoutData()).exclude );
+		assertTrue( "collection".equals( metawidget.getChildren()[63].getData( "name" ) ) );
+		assertTrue( ( (GridData) metawidget.getChildren()[63].getLayoutData() ).exclude );
 
 		assertTrue( metawidget.getChildren()[64] instanceof Button );
 		Button button = ( (Button) metawidget.getChildren()[64] );
@@ -376,29 +371,23 @@ public class SwtAllWidgetsTest
 
 		assertTrue( 65 == metawidget.getChildren().length );
 
-		/*
-		// Check painting
-
-		JFrame frame = new JFrame();
-		metawidget.paint( frame.getGraphics() );
-
 		// Check MetawidgetException
 
 		try
 		{
-			processor.getClass().getMethod( "save", SwtMetawidget.class ).invoke( processor, metawidget );
+			metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
 		}
 		catch ( Exception e )
 		{
-			assertTrue( "Could not parse 'bad date'".equals( e.getCause().getCause().getMessage() ) );
+			assertTrue( "Could not parse 'bad date'".equals( e.getMessage() ) );
 		}
 
 		// Check saving
 
 		String now = dateFormat.format( new GregorianCalendar().getTime() );
 		( (Text) metawidget.getChildren()[57] ).setText( now );
-		processor.getClass().getMethod( "save", SwtMetawidget.class ).invoke( processor, metawidget );
+		metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
 
 		// Check read-only
 
@@ -409,21 +398,26 @@ public class SwtAllWidgetsTest
 		assertTrue( "Limited textbox:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 		assertTrue( "Limited Textbox1".equals( ( (Label) metawidget.getChildren()[3] ).getText() ) );
 		assertTrue( "Textarea:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
-		assertTrue( "Textarea1".equals( ( (JTextArea) ( (JScrollPane) metawidget.getChildren()[5] ).getViewport().getView() ).getText() ) );
+		assertTrue( "Textarea1".equals( ( (Text) metawidget.getChildren()[5] ).getText() ) );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ) == SWT.MULTI );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.BORDER ) == SWT.BORDER );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ) == SWT.WRAP );
 		assertTrue( "Password:".equals( ( (Label) metawidget.getChildren()[6] ).getText() ) );
-		assertTrue( metawidget.getChildren()[7] instanceof JPanel );
+		assertTrue( metawidget.getChildren()[7] instanceof Composite );
 		assertTrue( "Byte:".equals( ( (Label) metawidget.getChildren()[8] ).getText() ) );
 		assertTrue( "126".equals( ( (Label) metawidget.getChildren()[9] ).getText() ) );
 		assertTrue( "Byte object:".equals( ( (Label) metawidget.getChildren()[10] ).getText() ) );
 		assertTrue( "-127".equals( ( (Label) metawidget.getChildren()[11] ).getText() ) );
 		assertTrue( "Short:".equals( ( (Label) metawidget.getChildren()[12] ).getText() ) );
-		assertTrue( "32766".equals( ( (Label) metawidget.getChildren()[13] ).getText() ) );
+		assertTrue( "32,766".equals( ( (Label) metawidget.getChildren()[13] ).getText() ) );
 		assertTrue( "Short object:".equals( ( (Label) metawidget.getChildren()[14] ).getText() ) );
-		assertTrue( "-32767".equals( ( (Label) metawidget.getChildren()[15] ).getText() ) );
+		assertTrue( "-32,767".equals( ( (Label) metawidget.getChildren()[15] ).getText() ) );
 		assertTrue( "Int:".equals( ( (Label) metawidget.getChildren()[16] ).getText() ) );
-		assertTrue( "2147483646".equals( ( (Label) metawidget.getChildren()[17] ).getText() ) );
+		assertTrue( "2,147,483,646".equals( ( (Label) metawidget.getChildren()[17] ).getText() ) );
 		assertTrue( "Integer object:".equals( ( (Label) metawidget.getChildren()[18] ).getText() ) );
-		assertTrue( "-2147483647".equals( ( (Label) metawidget.getChildren()[19] ).getText() ) );
+		assertTrue( "-2,147,483,647".equals( ( (Label) metawidget.getChildren()[19] ).getText() ) );
 		assertTrue( "Ranged int:".equals( ( (Label) metawidget.getChildren()[20] ).getText() ) );
 		assertTrue( "33".equals( ( (Label) metawidget.getChildren()[21] ).getText() ) );
 		assertTrue( "Ranged integer:".equals( ( (Label) metawidget.getChildren()[22] ).getText() ) );
@@ -443,11 +437,11 @@ public class SwtAllWidgetsTest
 		assertTrue( "Boolean:".equals( ( (Label) metawidget.getChildren()[36] ).getText() ) );
 		assertTrue( "true".equals( ( (Label) metawidget.getChildren()[37] ).getText() ) );
 		assertTrue( "Boolean object:".equals( ( (Label) metawidget.getChildren()[38] ).getText() ) );
-		assertTrue( "No".equals( ( (Label) metawidget.getChildren()[39] ).getText() ) );
+		assertTrue( "false".equals( ( (Label) metawidget.getChildren()[39] ).getText() ) );
 		assertTrue( "Dropdown:".equals( ( (Label) metawidget.getChildren()[40] ).getText() ) );
 		assertTrue( "foo1".equals( ( (Label) metawidget.getChildren()[41] ).getText() ) );
 		assertTrue( "Dropdown with labels:".equals( ( (Label) metawidget.getChildren()[42] ).getText() ) );
-		assertTrue( "Bar #2".equals( ( (Label) metawidget.getChildren()[43] ).getText() ) );
+		assertTrue( "bar2".equals( ( (Label) metawidget.getChildren()[43] ).getText() ) );
 		assertTrue( "Not null dropdown:".equals( ( (Label) metawidget.getChildren()[44] ).getText() ) );
 		assertTrue( "1".equals( ( (Label) metawidget.getChildren()[45] ).getText() ) );
 		assertTrue( "Not null object dropdown:".equals( ( (Label) metawidget.getChildren()[46] ).getText() ) );
@@ -475,18 +469,10 @@ public class SwtAllWidgetsTest
 		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) metawidget.getChildren()[55] ).getText() ) );
 		assertTrue( "Date:".equals( ( (Label) metawidget.getChildren()[56] ).getText() ) );
 		assertTrue( now.equals( ( (Label) metawidget.getChildren()[57] ).getText() ) );
-		assertTrue( "Section Break".equals( ( (Label) ( (JPanel) metawidget.getChildren()[58] ).getChildren()[0] ).getText() ) );
-		assertTrue( "Read only:".equals( ( (Label) metawidget.getChildren()[59] ).getText() ) );
-		assertTrue( "Read Only".equals( ( (Label) metawidget.getChildren()[60] ).getText() ) );
+		assertTrue( "Section Break".equals( ( (Label) ( (Composite) metawidget.getChildren()[59] ).getChildren()[0] ).getText() ) );
+		assertTrue( "Read only:".equals( ( (Label) metawidget.getChildren()[60] ).getText() ) );
+		assertTrue( "Read Only".equals( ( (Label) metawidget.getChildren()[61] ).getText() ) );
 
-		assertTrue( metawidget.getComponentCount() == 61 );
-
-		// Test Binding.onStartBuild clears the state
-
-		assertTrue( null != metawidget.getClientProperty( processor.getClass() ) );
-		processor.onStartBuild( metawidget );
-		assertTrue( null == metawidget.getClientProperty( processor.getClass() ) );
-
-		*/
+		assertTrue( metawidget.getChildren().length == 65 );
 	}
 }

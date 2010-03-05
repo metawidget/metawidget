@@ -22,12 +22,6 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-		<widgetProcessors>
-			<array>
-				<dataBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.databinding" config="DataBindingProcessorConfig"/>
-				<reflectionBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.reflection"/>			
-			</array>
-		</widgetProcessors>		
 	</swtMetawidget>
 
 </metawidget>
