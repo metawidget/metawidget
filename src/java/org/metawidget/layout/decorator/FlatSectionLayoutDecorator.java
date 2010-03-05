@@ -66,7 +66,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 			// Stay where we are?
 
-			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ))
+			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) )
 			{
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
@@ -74,7 +74,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 			// End nested LayoutDecorator's current section
 
-			if ( state.currentSections != null && !section.equals( state.currentSections[0] ))
+			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) )
 				super.endContainerLayout( container, metawidget );
 
 			// Ignore empty stubs. Do not create a new heading in case it ends up being empty
@@ -87,7 +87,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			// Add a heading
 
 			if ( !"".equals( section ) )
-				addSectionWidget( section, 0, container, metawidget );
+				addSectionWidget( widget, section, 0, container, metawidget );
 		}
 		else
 		{
@@ -120,7 +120,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 				// ...add a heading
 
-				addSectionWidget( section, level, container, metawidget );
+				addSectionWidget( widget, section, level, container, metawidget );
 			}
 
 			state.currentSections = sections;
@@ -144,6 +144,8 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	protected abstract boolean isEmptyStub( W widget );
 
 	/**
+	 * @param widget
+	 *            the widget to add a section heading before
 	 * @param section
 	 *            section text (needs localizing)
 	 * @param level
@@ -152,7 +154,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	 * @param metawidget
 	 */
 
-	protected abstract void addSectionWidget( String section, int level, C container, M metawidget );
+	protected abstract void addSectionWidget( W widget, String section, int level, C container, M metawidget );
 
 	//
 	// Inner class

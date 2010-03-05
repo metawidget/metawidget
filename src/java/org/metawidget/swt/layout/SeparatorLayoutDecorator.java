@@ -14,23 +14,22 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.swt.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import org.metawidget.swing.SwingMetawidget;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -41,7 +40,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class SeparatorLayoutDecorator
-	extends SwingFlatSectionLayoutDecorator
+	extends SwtFlatSectionLayoutDecorator
 {
 	//
 	// Private statics
@@ -65,7 +64,7 @@ public class SeparatorLayoutDecorator
 	// Private members
 	//
 
-	private final int			mAlignment;
+	private int					mAlignment;
 
 	//
 	// Constructor
@@ -83,12 +82,11 @@ public class SeparatorLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( JComponent component, String section, int level, JComponent container, SwingMetawidget metawidget )
+	protected void addSectionWidget( Control control, String section, int level, Composite container, SwtMetawidget metawidget )
 	{
-		JPanel separatorPanel = new JPanel();
-		separatorPanel.setBorder( BORDER_SECTION );
-		separatorPanel.setLayout( new java.awt.GridBagLayout() );
-		separatorPanel.setOpaque( false );
+		Composite separatorComposite = new Composite( container, SWT.NONE );
+		separatorComposite.setLayout( new org.eclipse.swt.layout.GridLayout( 2, false ) );
+		separatorComposite.moveAbove( control );
 
 		// Section name (possibly localized)
 
@@ -97,31 +95,23 @@ public class SeparatorLayoutDecorator
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		GridBagConstraints labelConstraints = new GridBagConstraints();
+		Label label = new Label( separatorComposite, SWT.NONE );
+		label.setText( localizedSection );
 
-		GridBagConstraints separatorConstraints = new GridBagConstraints();
-		separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
-		separatorConstraints.weightx = 1.0;
+		Label separator = new Label( separatorComposite, SWT.HORIZONTAL | SWT.SEPARATOR );
+		GridData separatorLayoutData = new GridData();
+		separatorLayoutData.horizontalAlignment = SWT.FILL;
+		separatorLayoutData.grabExcessHorizontalSpace = true;
+		separator.setLayoutData( separatorLayoutData );
 
-		if ( mAlignment == SwingConstants.RIGHT )
-		{
-			separatorConstraints.gridx = 0;
-			labelConstraints.gridx = 1;
-			labelConstraints.insets = INSETS_SECTION_LABEL_RIGHT;
-		}
-		else
-		{
-			labelConstraints.insets = INSETS_SECTION_LABEL_LEFT;
-		}
-
-		separatorPanel.add( new JLabel( localizedSection ), labelConstraints );
-		separatorPanel.add( new JSeparator( SwingConstants.HORIZONTAL ), separatorConstraints );
+		if ( mAlignment == SWT.RIGHT )
+			separator.moveAbove( label );
 
 		// Add to parent container
 
-		Map<String, String> separatorPanelAttributes = CollectionUtils.newHashMap();
-		separatorPanelAttributes.put( LABEL, "" );
-		separatorPanelAttributes.put( WIDE, TRUE );
-		getDelegate().layoutWidget( separatorPanel, PROPERTY, separatorPanelAttributes, container, metawidget );
+		Map<String, String> separatorCompositeAttributes = CollectionUtils.newHashMap();
+		separatorCompositeAttributes.put( LABEL, "" );
+		separatorCompositeAttributes.put( WIDE, TRUE );
+		getDelegate().layoutWidget( separatorComposite, PROPERTY, separatorCompositeAttributes, container, metawidget );
 	}
 }

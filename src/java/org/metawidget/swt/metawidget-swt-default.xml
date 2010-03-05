@@ -47,7 +47,11 @@
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<gridLayout xmlns="java:org.metawidget.swt.layout"/>
+			<separatorLayoutDecorator xmlns="java:org.metawidget.swt.layout" config="SeparatorLayoutDecoratorConfig">
+				<layout>
+					<gridLayout xmlns="java:org.metawidget.swt.layout"/>
+				</layout>
+			</separatorLayoutDecorator>
 		</metawidgetLayout>
 		
 	</swtMetawidget>
