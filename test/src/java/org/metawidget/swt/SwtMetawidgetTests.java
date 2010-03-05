@@ -20,6 +20,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.metawidget.swt.layout.FillLayoutTest;
+import org.metawidget.swt.layout.RowLayoutTest;
+import org.metawidget.swt.widgetbuilder.SwtWidgetBuilderTest;
+import org.metawidget.swt.widgetprocessor.binding.reflection.ReflectionBindingProcessorTest;
+
 /**
  * @author Richard Kennard
  */
@@ -34,8 +42,14 @@ public class SwtMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "SwtMetawidget Tests" );
+		suite.addTestSuite( FillLayoutTest.class );
+		suite.addTestSuite( ReflectionBindingProcessorTest.class );
+		suite.addTestSuite( RowLayoutTest.class );
 		suite.addTestSuite( SwtAllWidgetsTest.class );
+		suite.addTestSuite( SwtWidgetBuilderTest.class );
 
 		return suite;
 	}
+
+	public final static Shell	TEST_SHELL	= new Shell( new Display(), SWT.NONE );
 }

@@ -18,11 +18,7 @@ package org.metawidget.swt.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Insets;
 import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -42,24 +38,6 @@ import org.metawidget.util.simple.StringUtils;
 public class SeparatorLayoutDecorator
 	extends SwtFlatSectionLayoutDecorator
 {
-	//
-	// Private statics
-	//
-
-	/**
-	 * The border around the entire separator.
-	 */
-
-	private final static Border	BORDER_SECTION				= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
-
-	/**
-	 * The insets around the separator label.
-	 */
-
-	private final static Insets	INSETS_SECTION_LABEL_LEFT	= new Insets( 0, 0, 0, 5 );
-
-	private final static Insets	INSETS_SECTION_LABEL_RIGHT	= new Insets( 0, 5, 0, 0 );
-
 	//
 	// Private members
 	//

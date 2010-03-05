@@ -60,7 +60,7 @@ public class ReflectionBindingProcessor
 			return component;
 
 		if ( !( component instanceof Button ) )
-			throw WidgetProcessorException.newException( "ReflectionBinding only supports binding actions to Buttons" );
+			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to Buttons" );
 
 		if ( metawidget == null )
 			return component;

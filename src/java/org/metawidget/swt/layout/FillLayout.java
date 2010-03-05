@@ -26,6 +26,9 @@ import org.metawidget.swt.SwtMetawidget;
 /**
  * Layout to simply output components one after another, with no labels and no structure, using
  * <code>org.eclipse.swt.layout.FillLayout</code>.
+ * <p>
+ * This is like <code>RowLayout</code>, except it fills width. It can be useful for JTable
+ * CellEditors.
  *
  * @author Richard Kennard
  */

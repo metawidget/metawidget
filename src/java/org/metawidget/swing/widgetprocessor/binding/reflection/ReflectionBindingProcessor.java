@@ -62,7 +62,7 @@ public class ReflectionBindingProcessor
 			return component;
 
 		if ( !( component instanceof AbstractButton ))
-			throw WidgetProcessorException.newException( "ReflectionBinding only supports binding actions to AbstractButtons" );
+			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
 
 		if ( metawidget == null )
 			return component;

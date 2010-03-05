@@ -14,21 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.widgetprocessor.binding.reflection;
+package org.metawidget.swt.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
 import junit.framework.TestCase;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Text;
 import org.jdesktop.application.Action;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
@@ -42,7 +42,7 @@ public class ReflectionBindingProcessorTest
 	// Package-level members
 	//
 
-	int mActionFired;
+	int	mActionFired;
 
 	//
 	// Public methods
@@ -58,28 +58,26 @@ public class ReflectionBindingProcessorTest
 
 		// Inspect
 
-		SwingMetawidget metawidget = new SwingMetawidget();
+		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
 		metawidget.setInspector( new CompositeInspector( compositeConfig ) );
 		metawidget.setToInspect( new Foo() );
 
-		JButton button = (JButton) ((SwingMetawidget) metawidget.getComponent( 1 )).getComponent( 0 );
+		Button button = (Button) ( (SwtMetawidget) metawidget.getChildren()[1] ).getChildren()[0];
 
 		assertTrue( mActionFired == 0 );
-		button.doClick();
+		button.notifyListeners( SWT.Selection, null );
 		assertTrue( mActionFired == 1 );
 	}
 
 	public void testNullBinding()
 	{
-		SwingMetawidget metawidget = new SwingMetawidget();
+		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
 		// Null object
 
-		JButton button = new JButton();
+		Button button = new Button( metawidget, SWT.NONE );
 		binding.processWidget( button, ACTION, null, null );
-
-		assertTrue( button.getAction() == null );
 
 		// Null nested object
 
@@ -87,10 +85,8 @@ public class ReflectionBindingProcessorTest
 		foo.setNestedFoo( null );
 
 		metawidget.setToInspect( foo );
-		metawidget.setPath( "foo/nestedFoo/doAction" );
+		metawidget.setInspectionPath( "foo/nestedFoo/doAction" );
 		binding.processWidget( button, ACTION, null, metawidget );
-
-		assertTrue( button.getAction() == null );
 	}
 
 	public void testBadBinding()
@@ -99,11 +95,11 @@ public class ReflectionBindingProcessorTest
 
 		try
 		{
-			binding.processWidget( new JTextField(), ACTION, null, null );
+			binding.processWidget( new Text( SwtMetawidgetTests.TEST_SHELL, SWT.NONE ), ACTION, null, null );
 		}
-		catch( WidgetProcessorException e )
+		catch ( WidgetProcessorException e )
 		{
-			assertTrue( "ReflectionBindingProcessor only supports binding actions to AbstractButtons".equals( e.getMessage() ));
+			assertTrue( "ReflectionBindingProcessor only supports binding actions to Buttons".equals( e.getMessage() ) );
 		}
 	}
 
@@ -117,7 +113,7 @@ public class ReflectionBindingProcessorTest
 		// Private members
 		//
 
-		private NestedFoo mNestedFoo = new NestedFoo();
+		private NestedFoo	mNestedFoo	= new NestedFoo();
 
 		//
 		// Public methods
@@ -141,7 +137,7 @@ public class ReflectionBindingProcessorTest
 		//
 
 		@Action
-		public void doAction( java.awt.event.ActionEvent event )
+		public void doAction()
 		{
 			mActionFired++;
 		}
