@@ -31,6 +31,8 @@ import org.metawidget.example.swing.userguide.PropertyStyleExampleTest;
 import org.metawidget.example.swing.userguide.ReadOnlyWidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
+import org.metawidget.example.swt.addressbook.SwtAddressBookTest;
+import org.metawidget.example.swt.tutorial.SwtTutorialTest;
 
 /**
  * @author Richard Kennard
@@ -54,6 +56,8 @@ public class ExampleTests
 		suite.addTestSuite( SwingAnimalRacesTest.class );
 		suite.addTestSuite( SwingAppFrameworkTest.class );
 		suite.addTestSuite( SwingTutorialTest.class );
+		suite.addTestSuite( SwtAddressBookTest.class );
+		suite.addTestSuite( SwtTutorialTest.class );
 		suite.addTestSuite( InspectorExampleTest.class );
 		suite.addTestSuite( WidgetBuilderExampleTest.class );
 		suite.addTestSuite( WidgetProcessorExampleTest.class );

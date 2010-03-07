@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.metawidget.swt.SwtMetawidget;
@@ -44,7 +45,7 @@ public class SwtWidgetBuilderTest
 	public void testWidgetBuilder()
 		throws Exception
 	{
-		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		SwtWidgetBuilder widgetBuilder = new SwtWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 

@@ -100,7 +100,7 @@ public class SwtAllWidgetsTest
 
 		// App
 
-		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setConfig( "org/metawidget/swt/allwidgets/metawidget.xml" );
 
 		// Binding

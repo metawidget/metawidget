@@ -18,35 +18,24 @@ package org.metawidget.swt.layout;
 
 import junit.framework.TestCase;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
-import org.metawidget.swt.SwtMetawidget;
-import org.metawidget.swt.SwtMetawidgetTests;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class FillLayoutTest
+public class GridLayoutTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testLayout()
-		throws Exception
+	public void testConfig()
 	{
-		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
-		Composite composite = new Composite( metawidget, SWT.NONE );
-
-		// startLayout
-
-		FillLayout fillLayout = new FillLayout();
-		fillLayout.startContainerLayout( composite, metawidget );
-
-		assertTrue( composite.getLayout() instanceof org.eclipse.swt.layout.FillLayout );
-		assertTrue( !( metawidget.getLayout() instanceof org.eclipse.swt.layout.FillLayout ));
+		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig()
+		{
+			// Subclass
+		} );
 	}
 }

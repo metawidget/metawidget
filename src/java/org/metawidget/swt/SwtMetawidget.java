@@ -61,11 +61,11 @@ public class SwtMetawidget
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long			serialVersionUID		= 1l;
 
-	private final static ConfigReader	CONFIG_READER		= new ConfigReader();
+	private final static ConfigReader	CONFIG_READER			= new ConfigReader();
 
-	private final static String			DEFAULT_CONFIG		= "org/metawidget/swt/metawidget-swt-default.xml";
+	private final static String			DEFAULT_CONFIG			= "org/metawidget/swt/metawidget-swt-default.xml";
 
 	//
 	// Private members
@@ -77,7 +77,7 @@ public class SwtMetawidget
 
 	private String						mConfig;
 
-	private boolean						mNeedsConfiguring	= true;
+	private boolean						mNeedsConfiguring		= true;
 
 	private ResourceBundle				mBundle;
 
@@ -85,9 +85,11 @@ public class SwtMetawidget
 
 	private Element						mLastInspection;
 
-	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>			mFacets					= CollectionUtils.newHashMap();
 
-	private Set<Control>				mControlsToDispose	= CollectionUtils.newHashSet();
+	private Set<Control>				mExistingUnusedControls	= CollectionUtils.newHashSet();
+
+	private Set<Control>				mControlsToDispose		= CollectionUtils.newHashSet();
 
 	private Pipeline					mPipeline;
 
@@ -594,7 +596,7 @@ public class SwtMetawidget
 		}
 
 		mControlsToDispose.clear();
-		Set<Control> originalControls = CollectionUtils.newHashSet( getChildren() );
+		mExistingUnusedControls = CollectionUtils.newHashSet( getChildren() );
 
 		// Detect facets
 
@@ -620,7 +622,7 @@ public class SwtMetawidget
 
 			for ( Control control : getChildren() )
 			{
-				if ( !originalControls.contains( control ) )
+				if ( !mExistingUnusedControls.remove( control ))
 					mControlsToDispose.add( control );
 			}
 
@@ -657,6 +659,33 @@ public class SwtMetawidget
 			attributes.putAll( additionalAttributes );
 
 		// BasePipeline will call .layoutWidget
+	}
+
+	protected void endBuild()
+	{
+		Layout<Control, Composite, SwtMetawidget> layout = mPipeline.getLayout();
+
+		for ( Control controlExisting : mExistingUnusedControls )
+		{
+			// Unused facets don't count
+
+			if ( controlExisting instanceof Facet )
+				continue;
+
+			// Manually created components default to no section
+
+			Map<String, String> attributes = CollectionUtils.newHashMap();
+			attributes.put( SECTION, "" );
+
+			// May have other attributes too
+
+			Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( controlExisting );
+
+			if ( additionalAttributes != null )
+				attributes.putAll( additionalAttributes );
+
+			layout.layoutWidget( controlExisting, PROPERTY, attributes, this, this );
+		}
 	}
 
 	protected Element inspect()
@@ -764,6 +793,13 @@ public class SwtMetawidget
 			SwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;
+		}
+
+		@Override
+		protected void endBuild()
+		{
+			SwtMetawidget.this.endBuild();
+			super.endBuild();
 		}
 
 		@Override

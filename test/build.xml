@@ -177,6 +177,7 @@
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/addressbook-swing.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/animalraces-swing.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/appframework-swing.jar"/>
+				<pathelement location="${relative.dir}/${build.dir}/examples/swt/addressbook-swt.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/ant-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/groovy-test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/scala-test-classes"/>
@@ -385,7 +386,7 @@
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				
 			</instr>
 			<instr instrpath="${relative.dir}/${build.dir}/tutorial-classes" destdir="${relative.dir}/${build.dir}/tutorial-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="org.metawidget.example.swing.tutorial.Main"/>
+				<filter excludes="org.metawidget.example.swing.tutorial.Main, org.metawidget.example.swt.tutorial.Main"/>
 			</instr>
 			<!--<instr instrpath="${relative.dir}/${build.dir}/test-classes" destdir="${relative.dir}/${build.dir}/test-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="*DebugOffTest*"/>

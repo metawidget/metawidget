@@ -235,7 +235,42 @@
 		
 	</target>
 
-	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet, example-swing-appframework, example-swing-animalraces"/>
+	<target name="example-swt-addressbook" depends="pack,compile-examples">
+		
+		<mkdir dir="${relative.dir}/${build.dir}/examples/swt"/>
+
+		<jar jarfile="${relative.dir}/${build.dir}/examples/swt/addressbook-swt.jar" manifest="${relative.dir}/examples/src/java/org/metawidget/example/swt/addressbook/META-INF/MANIFEST.MF">
+			<fileset dir="${relative.dir}/${build.dir}/example-classes">
+				<include name="org/metawidget/example/swt/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</fileset>
+			<fileset dir="${relative.dir}/examples/src/java">
+				<include name="org/metawidget/example/shared/addressbook/media/*.jpg"/>
+				<include name="org/metawidget/example/shared/addressbook/media/*.gif"/>
+				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
+				<include name="org/metawidget/example/swt/addressbook/*.xml"/>
+			</fileset>
+		</jar>		
+
+		<copy todir="${relative.dir}/${build.dir}/examples/swt">
+			<fileset dir="${relative.dir}/examples/src/java/org/metawidget/example/swt">
+				<include name="readme.txt"/>
+			</fileset>
+			<fileset dir="${relative.dir}">
+				<include name="lib/commons-jexl-*.jar"/>
+				<include name="lib/org.eclipse.core.*.jar"/>
+				<include name="lib/org.eclipse.equinox.*.jar"/>
+				<include name="lib/org.eclipse.swt.*.jar"/>
+			</fileset>
+			<fileset dir="${relative.dir}/examples">
+				<include name="lib/com.ibm.icu.base_3.4.5.jar"/>
+				<include name="lib/commons-logging-*.jar"/>
+			</fileset>
+		</copy>
+		
+	</target>
+
+	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet, example-swing-appframework, example-swing-animalraces, example-swt-addressbook"/>
 		
 	<target name="example-shared-addressbook" depends="flatten-libs">
 		

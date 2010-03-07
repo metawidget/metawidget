@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.jdesktop.application.Action;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -58,7 +59,7 @@ public class ReflectionBindingProcessorTest
 
 		// Inspect
 
-		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setInspector( new CompositeInspector( compositeConfig ) );
 		metawidget.setToInspect( new Foo() );
 
@@ -71,7 +72,7 @@ public class ReflectionBindingProcessorTest
 
 	public void testNullBinding()
 	{
-		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
 		// Null object
@@ -95,7 +96,7 @@ public class ReflectionBindingProcessorTest
 
 		try
 		{
-			binding.processWidget( new Text( SwtMetawidgetTests.TEST_SHELL, SWT.NONE ), ACTION, null, null );
+			binding.processWidget( new Text( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE ), ACTION, null, null );
 		}
 		catch ( WidgetProcessorException e )
 		{

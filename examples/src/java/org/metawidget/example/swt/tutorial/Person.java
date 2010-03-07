@@ -16,9 +16,6 @@
 
 package org.metawidget.example.swt.tutorial;
 
-import org.metawidget.inspector.annotation.UiComesAfter;
-
-
 /**
  * @author Richard Kennard
  */
@@ -27,7 +24,6 @@ public class Person
 {
 	public String	name;
 
-	@UiComesAfter( "name" )
 	public int		age;
 
 	public boolean	retired;

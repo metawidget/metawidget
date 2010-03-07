@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
@@ -40,7 +41,7 @@ public class RowLayoutTest
 	public void testLayout()
 		throws Exception
 	{
-		SwtMetawidget metawidget = new SwtMetawidget( SwtMetawidgetTests.TEST_SHELL, SWT.NONE );
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		Composite composite = new Composite( metawidget, SWT.NONE );
 
 		// startLayout
@@ -48,8 +49,8 @@ public class RowLayoutTest
 		RowLayout rowLayout = new RowLayout();
 		rowLayout.startContainerLayout( composite, metawidget );
 
-		assertTrue( composite.getLayout() instanceof org.eclipse.swt.layout.FillLayout );
-		assertTrue( !( metawidget.getLayout() instanceof org.eclipse.swt.layout.FillLayout ));
+		assertTrue( composite.getLayout() instanceof org.eclipse.swt.layout.RowLayout );
+		assertTrue( !( metawidget.getLayout() instanceof org.eclipse.swt.layout.RowLayout ));
 
 		Stub stub = new Stub( composite, SWT.NONE );
 		rowLayout.layoutWidget( stub, PROPERTY, null, composite, metawidget );

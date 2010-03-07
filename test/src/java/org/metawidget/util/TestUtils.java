@@ -29,9 +29,11 @@ import javax.swing.JPanel;
 
 import junit.framework.Assert;
 
+import org.eclipse.swt.SWT;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -156,6 +158,10 @@ public class TestUtils
 					toSet = Color.blue;
 				else if ( String.class.isAssignableFrom( propertyType ) )
 					toSet = "foo";
+				else if ( org.eclipse.swt.graphics.Font.class.isAssignableFrom( propertyType ) )
+					toSet = new org.eclipse.swt.graphics.Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE );
+				else if ( org.eclipse.swt.graphics.Color.class.isAssignableFrom( propertyType ) )
+					toSet = new org.eclipse.swt.graphics.Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 );
 				else if ( boolean.class.equals( propertyType ) )
 				{
 					// (toggle from the default)
