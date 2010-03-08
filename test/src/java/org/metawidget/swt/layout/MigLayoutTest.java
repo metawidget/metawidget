@@ -86,6 +86,7 @@ public class MigLayoutTest
 		}
 
 		//metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
+		metawidget.setMetawidgetLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) );
 
 		//UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		//assertTrue( 0 == insets[0].getValue() );
@@ -94,15 +95,15 @@ public class MigLayoutTest
 		//assertTrue( 0 == insets[3].getValue() );
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
-		//assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
-		//assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getGrow() );
+		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
+		assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getGrow() );
 		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
-		//assertTrue( 3 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
+		assertTrue( 3 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		//assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
+		assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		// TabFolder
 
@@ -188,18 +189,18 @@ public class MigLayoutTest
 		//padding = ( (CC) metawidget.getChildren()[1].getLayoutData() ).getPadding();
 		//assertTrue( padding == null );
 
-		//assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
-		//assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
-		//assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getAlign() );
+		assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
+		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
+		assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getAlign() );
 		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 		assertTrue( metawidget.getChildren()[3] instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
-		//assertTrue( 1 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
-		//assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getSpanX() );
+		assertTrue( 1 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
+		assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getSpanX() );
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		//assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
+		assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		//assertTrue( metawidget.getChildren()[6] instanceof TabFolder );
 		//assertTrue( arbitrary.equals( metawidget.getChildren()[7] ) );

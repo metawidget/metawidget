@@ -609,8 +609,8 @@ public class SwtMetawidget
 		}
 
 		mControlsToDispose.clear();
-		mExistingControls = CollectionUtils.newHashSet( getChildren() );
-		mExistingUnusedControls = CollectionUtils.newArrayList( mExistingControls );
+		mExistingUnusedControls = CollectionUtils.newArrayList( getChildren() );
+		mExistingControls = CollectionUtils.newHashSet( mExistingUnusedControls );
 
 		// Detect facets
 

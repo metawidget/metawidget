@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -100,10 +99,13 @@ public class SwingMetawidget
 	private boolean						mIgnoreAddRemove;
 
 	/**
-	 * Set of existing, manually added components.
+	 * List of existing, manually added components.
+	 * <p>
+	 * This is a List, not a Set, so that mExistingUnusedComponents (which is initialized from it)
+	 * is consistent.
 	 */
 
-	private Set<JComponent>				mExistingComponents	= CollectionUtils.newHashSet();
+	private List<JComponent>			mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.

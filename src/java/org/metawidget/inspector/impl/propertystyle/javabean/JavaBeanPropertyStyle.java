@@ -430,6 +430,12 @@ public class JavaBeanPropertyStyle
 			return ( mReadMethod != null );
 		}
 
+		/**
+		 * Reads this JavaBeanProperty from the given Object. Note: because of
+		 * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957 this may fail for custom
+		 * properties of Enums (eg. Gender.isMale)
+		 */
+
 		public Object read( Object obj )
 		{
 			try

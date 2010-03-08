@@ -198,6 +198,7 @@ public class MigLayout
 			}
 
 			buttonsFacet.setLayoutData( new CC().cell( 0, state.currentRow ).spanX().growX() );
+			buttonsFacet.moveBelow( null );
 		}
 	}
 
@@ -239,6 +240,7 @@ public class MigLayout
 			// Add it
 
 			label.setLayoutData( labelConstraints );
+			label.moveAbove( component );
 		}
 
 		return labelText;
