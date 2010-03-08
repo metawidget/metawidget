@@ -4,8 +4,6 @@
 	<property file="../../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
 
-	<!-- Test Search Screen -->
-
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>

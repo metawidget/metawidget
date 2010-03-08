@@ -1,0 +1,119 @@
+<project name="faces-seam-dvdstore-test" default="test-with-metawidget">
+
+	<property file="../../../../../build.properties" />
+	<property file="../../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
+
+	<target name="test-with-metawidget" depends="wt.defineTasks">
+		<webtest name="test-with-metawidget">
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/seam-dvdstore/home" />
+				<verifyTitle text="JBoss DVD Store" />
+				<repeat count="100">
+					<clickLink label="Create Account" />
+					<clickButton label="Next" />
+						
+					<setInputField name="NewAccountForm:customerUserName" value="NewUser #{count}" />
+					<setInputField name="NewAccountForm:customerPassword" value="New" />
+					<clickButton label="Next" />
+					
+					<setInputField name="NewAccountForm:customerPassword" value="New Password" />
+					<setInputField name="NewAccountForm:editCustomerPasswordVerify" value="New Password" />
+					<clickButton label="Next" />
+					<clickButton label="Next" />
+	
+					<setInputField name="NewAccountForm:customerFirstName" value="New" />
+					<setInputField name="NewAccountForm:customerLastName" value="User" />
+					<setInputField name="NewAccountForm:customerAddress1" value="Apt 2" />
+					<setInputField name="NewAccountForm:customerAddress2" value="11/36-66 User Av" />
+					<setInputField name="NewAccountForm:customerCity" value="Userton" />
+					<setInputField name="NewAccountForm:customerState" value="U" />
+					<setInputField name="NewAccountForm:customerZip" value="1" />
+					<setInputField name="NewAccountForm:customerEmail" value="user" />
+					<clickButton label="Next" />
+	
+					<setInputField name="NewAccountForm:customerState" value="UR" />
+					<setInputField name="NewAccountForm:customerZip" value="12345" />
+					<setInputField name="NewAccountForm:customerEmail" value="user@user.com" />
+					<clickButton label="Next" />
+									
+					<setSelectField name="NewAccountForm:customerCreditCardType" value="2"/>				
+					<clickButton label="Next" />
+					<clickLink label="start shopping" />
+					
+					<clickLink label="Pulp Fiction" />
+					<clickButton xpath="//input[@value='Add to Cart']" />
+					<clickButton label="Checkout" />
+					<clickButton label="Purchase" />
+					<clickButton label="Cancel" />
+					
+					<clickLink label="The Terminal" />
+					<clickButton xpath="//input[@value='Add to Cart']" />
+					<clickButton label="Checkout" />
+					<clickButton label="Purchase" />
+					<clickButton label="Purchase" />
+	
+					<clickButton label="Logout" />
+				</repeat>
+			</steps>
+		</webtest>
+	</target>
+
+	<target name="test-without-metawidget" depends="wt.defineTasks">
+		<webtest name="test-without-metawidget">
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/seam-dvdstore/home" />
+				<verifyTitle text="JBoss DVD Store" />
+				<repeat count="100">
+					<clickLink label="Create Account" />
+					<clickButton label="Continue" />
+						
+					<setInputField name="NewAccountForm:userName" value="NewUser #{count}" />
+					<setInputField name="NewAccountForm:password" value="New" />
+					<clickButton label="Continue" />
+					
+					<setInputField name="NewAccountForm:password" value="New Password" />
+					<setInputField name="NewAccountForm:passwordVerify" value="New Password" />
+					<clickButton label="Continue" />
+					<clickButton label="Continue" />
+	
+					<setInputField name="NewAccountForm:firstName" value="New" />
+					<setInputField name="NewAccountForm:lastName" value="User" />
+					<setInputField name="NewAccountForm:address1" value="Apt 2" />
+					<setInputField name="NewAccountForm:Address2" value="11/36-66 User Av" />
+					<setInputField name="NewAccountForm:city" value="Userton" />
+					<setInputField name="NewAccountForm:state" value="U" />
+					<setInputField name="NewAccountForm:zip" value="1" />
+					<setInputField name="NewAccountForm:email" value="user" />
+					<clickButton label="Continue" />
+	
+					<setInputField name="NewAccountForm:state" value="UR" />
+					<setInputField name="NewAccountForm:zip" value="12345" />
+					<setInputField name="NewAccountForm:email" value="user@user.com" />
+					<clickButton label="Continue" />
+									
+					<setSelectField name="NewAccountForm:CreditCardMenu" value="2"/>				
+					<clickButton label="Submit New Customer Data" />
+					<clickLink label="start shopping" />
+					
+					<clickLink label="Pulp Fiction" />
+					<clickButton xpath="//input[@value='Add to Cart']" />
+					<clickButton label="Checkout" />
+					<clickButton label="Purchase" />
+					<clickButton label="Cancel" />
+					
+					<clickLink label="The Terminal" />
+					<clickButton xpath="//input[@value='Add to Cart']" />
+					<clickButton label="Checkout" />
+					<clickButton label="Purchase" />
+					<clickButton label="Confirm" />
+					
+					<clickButton label="Logout" />
+				</repeat>
+			</steps>
+		</webtest>
+	</target>
+
+</project>
