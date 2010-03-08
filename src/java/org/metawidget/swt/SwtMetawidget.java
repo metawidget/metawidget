@@ -18,6 +18,7 @@ package org.metawidget.swt;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -87,7 +88,19 @@ public class SwtMetawidget
 
 	private Map<String, Facet>			mFacets					= CollectionUtils.newHashMap();
 
-	private Set<Control>				mExistingUnusedControls	= CollectionUtils.newHashSet();
+	/**
+	 * Set of existing, manually added components.
+	 */
+
+	private Set<Control>				mExistingControls		= CollectionUtils.newHashSet();
+
+	/**
+	 * List of existing, manually added, but unused by Metawidget controls.
+	 * <p>
+	 * This is a List, not a Set, for consistency during endBuild.
+	 */
+
+	private List<Control>				mExistingUnusedControls	= CollectionUtils.newArrayList();
 
 	private Set<Control>				mControlsToDispose		= CollectionUtils.newHashSet();
 
@@ -596,7 +609,8 @@ public class SwtMetawidget
 		}
 
 		mControlsToDispose.clear();
-		mExistingUnusedControls = CollectionUtils.newHashSet( getChildren() );
+		mExistingControls = CollectionUtils.newHashSet( getChildren() );
+		mExistingUnusedControls = CollectionUtils.newArrayList( mExistingControls );
 
 		// Detect facets
 
@@ -619,10 +633,13 @@ public class SwtMetawidget
 			mPipeline.buildWidgets( mLastInspection );
 
 			// Work out the delta of 'what was here originally' versus 'what was generated'
+			//
+			// Note: we cannot simply do this in layoutWidget, because some controls may get created
+			// just-in-time, such as Labels
 
 			for ( Control control : getChildren() )
 			{
-				if ( !mExistingUnusedControls.remove( control ))
+				if ( !mExistingControls.remove( control ) )
 					mControlsToDispose.add( control );
 			}
 
@@ -652,6 +669,9 @@ public class SwtMetawidget
 		// Re-order the component
 
 		control.moveBelow( null );
+		mExistingUnusedControls.remove( control );
+
+		// Look up any additional attributes
 
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( control );
 
@@ -663,28 +683,22 @@ public class SwtMetawidget
 
 	protected void endBuild()
 	{
-		Layout<Control, Composite, SwtMetawidget> layout = mPipeline.getLayout();
-
-		for ( Control controlExisting : mExistingUnusedControls )
+		for ( Control existingControl : CollectionUtils.newArrayList( mExistingUnusedControls ))
 		{
 			// Unused facets don't count
 
-			if ( controlExisting instanceof Facet )
+			if ( existingControl instanceof Facet )
+			{
+				existingControl.moveBelow( null );
 				continue;
+			}
 
 			// Manually created components default to no section
 
 			Map<String, String> attributes = CollectionUtils.newHashMap();
 			attributes.put( SECTION, "" );
 
-			// May have other attributes too
-
-			Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( controlExisting );
-
-			if ( additionalAttributes != null )
-				attributes.putAll( additionalAttributes );
-
-			layout.layoutWidget( controlExisting, PROPERTY, attributes, this, this );
+			mPipeline.layoutWidget( existingControl, PROPERTY, attributes );
 		}
 	}
 

@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -99,17 +100,15 @@ public class SwingMetawidget
 	private boolean						mIgnoreAddRemove;
 
 	/**
-	 * List of existing, manually added components.
-	 * <p>
-	 * This is a List, not a Set, for consistency in unit tests.
+	 * Set of existing, manually added components.
 	 */
 
-	private List<JComponent>			mExistingComponents	= CollectionUtils.newArrayList();
+	private Set<JComponent>				mExistingComponents	= CollectionUtils.newHashSet();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
 	 * <p>
-	 * This is a List, not a Set, for consistency in unit tests.
+	 * This is a List, not a Set, for consistency during endBuild.
 	 */
 
 	private List<JComponent>			mExistingUnusedComponents;
@@ -511,7 +510,7 @@ public class SwingMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
-		Pair<Component,String> componentAndValueProperty = getComponentAndValueProperty( names );
+		Pair<Component, String> componentAndValueProperty = getComponentAndValueProperty( names );
 		return (T) ClassUtils.getProperty( componentAndValueProperty.getLeft(), componentAndValueProperty.getRight() );
 	}
 
@@ -525,7 +524,7 @@ public class SwingMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		Pair<Component,String> componentAndValueProperty = getComponentAndValueProperty( names );
+		Pair<Component, String> componentAndValueProperty = getComponentAndValueProperty( names );
 		ClassUtils.setProperty( componentAndValueProperty.getLeft(), componentAndValueProperty.getRight(), value );
 	}
 
@@ -859,12 +858,7 @@ public class SwingMetawidget
 
 		remove( component );
 
-		if ( mPipeline.getLayout() == null )
-		{
-			// Support null layouts
-
-			add( component );
-		}
+		// Look up any additional attributes
 
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( (JComponent) component );
 
@@ -878,8 +872,6 @@ public class SwingMetawidget
 	{
 		if ( mExistingUnusedComponents != null )
 		{
-			Layout<JComponent, JComponent, SwingMetawidget> layout = mPipeline.getLayout();
-
 			for ( JComponent componentExisting : mExistingUnusedComponents )
 			{
 				// Unused facets don't count
@@ -892,19 +884,7 @@ public class SwingMetawidget
 				Map<String, String> attributes = CollectionUtils.newHashMap();
 				attributes.put( SECTION, "" );
 
-				// May have other attributes too
-
-				Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( componentExisting );
-
-				if ( additionalAttributes != null )
-					attributes.putAll( additionalAttributes );
-
-				// Support null layouts
-
-				if ( layout == null )
-					add( componentExisting );
-				else
-					layout.layoutWidget( componentExisting, PROPERTY, attributes, this, this );
+				mPipeline.layoutWidget( componentExisting, PROPERTY, attributes );
 			}
 		}
 	}
@@ -933,7 +913,7 @@ public class SwingMetawidget
 	// Private methods
 	//
 
-	private Pair<Component,String> getComponentAndValueProperty( String... names )
+	private Pair<Component, String> getComponentAndValueProperty( String... names )
 	{
 		Component component = getComponent( names );
 
@@ -950,7 +930,7 @@ public class SwingMetawidget
 		if ( componentProperty == null )
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 
-		return new Pair<Component,String>( component, componentProperty );
+		return new Pair<Component, String>( component, componentProperty );
 	}
 
 	private String getValueProperty( Component component, WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
@@ -1034,7 +1014,13 @@ public class SwingMetawidget
 		protected void layoutWidget( JComponent component, String elementName, Map<String, String> attributes )
 		{
 			SwingMetawidget.this.layoutWidget( component, elementName, attributes );
-			super.layoutWidget( component, elementName, attributes );
+
+			// Support null layouts
+
+			if ( getLayout() == null )
+				add( component );
+			else
+				super.layoutWidget( component, elementName, attributes );
 		}
 
 		@Override

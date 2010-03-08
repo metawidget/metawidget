@@ -814,6 +814,29 @@ public abstract class UIMetawidget
 		}
 	}
 
+	protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes )
+	{
+		Map<String, Object> componentAttributes = component.getAttributes();
+		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
+
+		// If this component already exists in the list, remove it and re-add it. This
+		// enables us to sort existing, manually created components in the correct order
+		//
+		// Doing the remove here, rather than in SimpleLayout, ensures we always remove and
+		// add for cases like moving a Stub from outside a TabPanel to inside it
+
+		getChildren().remove( component );
+
+		// Look up any additional attributes
+
+		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
+
+		if ( additionalAttributes != null )
+			attributes.putAll( additionalAttributes );
+
+		// BasePipeline will call .layoutWidget
+	}
+
 	protected void endBuild()
 	{
 		List<UIComponent> children = getChildren();
@@ -865,14 +888,7 @@ public abstract class UIMetawidget
 				childAttributes.put( SECTION, "" );
 			}
 
-			// Stubs
-
-			Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
-
-			if ( additionalAttributes != null )
-				childAttributes.putAll( additionalAttributes );
-
-			mPipeline.getLayout().layoutWidget( component, PROPERTY, childAttributes, this, this );
+			mPipeline.layoutWidget( component, PROPERTY, childAttributes );
 		}
 
 		LOG.trace( "endBuild" );
@@ -947,20 +963,10 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void layoutWidget( UIComponent widget, String elementName, Map<String, String> attributes )
+		protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes )
 		{
-			Map<String, Object> componentAttributes = widget.getAttributes();
-			componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
-
-			// If this component already exists in the list, remove it and re-add it. This
-			// enables us to sort existing, manually created components in the correct order
-			//
-			// Doing the remove here, rather than in SimpleLayout, ensures we always remove and
-			// add for cases like moving a Stub from outside a TabPanel to inside it
-
-			getChildren().remove( widget );
-
-			super.layoutWidget( widget, elementName, attributes );
+			UIMetawidget.this.layoutWidget( component, elementName, attributes );
+			super.layoutWidget( component, elementName, attributes );
 		}
 
 		@Override

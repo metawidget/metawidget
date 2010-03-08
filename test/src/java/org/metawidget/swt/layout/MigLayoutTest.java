@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 import net.miginfocom.layout.CC;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
@@ -90,18 +92,16 @@ public class MigLayoutTest
 		//assertTrue( 0 == insets[1].getValue() );
 		//assertTrue( 0 == insets[2].getValue() );
 		//assertTrue( 0 == insets[3].getValue() );
-		//assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
-		//assertTrue( ( "abc_label" ).equals( metawidget.getChildren()[0].getData( NAME ) ) );
-		//assertTrue( metawidget.getControl( "abc_label" ) == metawidget.getChildren()[0] );
-		//assertTrue( metawidget.getChildren()[1] instanceof Text );
+		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		//assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
 		//assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getGrow() );
-		//assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
-		//assertTrue( metawidget.getChildren()[3] instanceof Spinner );
+		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
 		//assertTrue( 3 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
-		//assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
-		//assertTrue( metawidget.getChildren()[5] instanceof Button );
-		//assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertTrue( metawidget.getChildren()[5] instanceof Button );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		//assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		// TabFolder
@@ -166,16 +166,17 @@ public class MigLayoutTest
 
 		// With an arbitrary component
 
-		Spinner arbitrary = new Spinner( metawidget, SWT.NONE );
+		new Spinner( metawidget, SWT.NONE );
 
-		// With an arbirary stub with attributes
+		// With an arbitrary stub with attributes
 
 		Stub arbitraryStubWithAttributes = new Stub( metawidget, SWT.NONE );
 		new Text( arbitraryStubWithAttributes, SWT.NONE );
 		arbitraryStubWithAttributes.setAttribute( "label", "" );
 		arbitraryStubWithAttributes.setAttribute( "large", "true" );
 
-		//assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		metawidget.setToInspect( new Foo() );
+		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 
 		//UnitValue[] padding = ( (CC) metawidget.getChildren()[0].getLayoutData() ).getPadding();
 		//assertTrue( padding[0].getValue() == 2 );
@@ -183,21 +184,21 @@ public class MigLayoutTest
 		//assertTrue( padding[2].getValue() == padding[0].getValue() );
 		//assertTrue( padding[3].getValue() == 0 );
 
-		//assertTrue( metawidget.getChildren()[1] instanceof Text );
+		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		//padding = ( (CC) metawidget.getChildren()[1].getLayoutData() ).getPadding();
 		//assertTrue( padding == null );
 
 		//assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
 		//assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
 		//assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getAlign() );
-		//assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
-		//assertTrue( metawidget.getChildren()[3] instanceof Stub );
-		//assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
+		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertTrue( metawidget.getChildren()[3] instanceof Stub );
+		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
 		//assertTrue( 1 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
 		//assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getSpanX() );
-		//assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
-		//assertTrue( metawidget.getChildren()[5] instanceof Button );
-		//assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertTrue( metawidget.getChildren()[5] instanceof Button );
+		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		//assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		//assertTrue( metawidget.getChildren()[6] instanceof TabFolder );
@@ -208,8 +209,8 @@ public class MigLayoutTest
 
 		// Read-only on required labels
 
-		//metawidget.setReadOnly( true );
-		//assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		metawidget.setReadOnly( true );
+		assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 	}
 
 	public void testOddColumns()
