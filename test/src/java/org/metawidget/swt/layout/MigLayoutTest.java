@@ -19,6 +19,8 @@ package org.metawidget.swt.layout;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.layout.UnitValue;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -88,11 +90,11 @@ public class MigLayoutTest
 		//metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 		metawidget.setMetawidgetLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) );
 
-		//UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
-		//assertTrue( 0 == insets[0].getValue() );
-		//assertTrue( 0 == insets[1].getValue() );
-		//assertTrue( 0 == insets[2].getValue() );
-		//assertTrue( 0 == insets[3].getValue() );
+		UnitValue[] insets = ( (LC) ( (net.miginfocom.swt.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
+		assertTrue( 0 == insets[0].getValue() );
+		assertTrue( 0 == insets[1].getValue() );
+		assertTrue( 0 == insets[2].getValue() );
+		assertTrue( 0 == insets[3].getValue() );
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
@@ -179,15 +181,15 @@ public class MigLayoutTest
 		metawidget.setToInspect( new Foo() );
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 
-		//UnitValue[] padding = ( (CC) metawidget.getChildren()[0].getLayoutData() ).getPadding();
-		//assertTrue( padding[0].getValue() == 2 );
-		//assertTrue( padding[1].getValue() == 0 );
-		//assertTrue( padding[2].getValue() == padding[0].getValue() );
-		//assertTrue( padding[3].getValue() == 0 );
+		UnitValue[] padding = ( (CC) metawidget.getChildren()[0].getLayoutData() ).getPadding();
+		assertTrue( padding[0].getValue() == 2 );
+		assertTrue( padding[1].getValue() == 0 );
+		assertTrue( padding[2].getValue() == padding[0].getValue() );
+		assertTrue( padding[3].getValue() == 0 );
 
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
-		//padding = ( (CC) metawidget.getChildren()[1].getLayoutData() ).getPadding();
-		//assertTrue( padding == null );
+		padding = ( (CC) metawidget.getChildren()[1].getLayoutData() ).getPadding();
+		assertTrue( padding == null );
 
 		assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );

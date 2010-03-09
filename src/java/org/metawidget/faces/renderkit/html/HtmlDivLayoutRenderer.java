@@ -46,8 +46,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>outerStyle</code> - CSS styles to apply to the outer DIV
  * <li><code>labelStyle</code> - CSS styles to apply to the label DIV
  * <li><code>componentStyle</code> - this is the style applied to the DIV <em>around</em> the
- * component, not to the component itself. The component itself can be styled using the <code>style</code>
- * attribute on the Metawidget tag
+ * component, not to the component itself. The component itself can be styled using the
+ * <code>style</code> attribute on the Metawidget tag
  * <li><code>requiredStyle</code> - CSS styles to apply to the required DIV
  * </ul>
  * <p>
@@ -228,6 +228,10 @@ public class HtmlDivLayoutRenderer
 		layoutLabel( context, metawidget, componentChild );
 
 		// Component
+		//
+		// Note: it is debatable whether we should use DIVs inside DIVs or SPANs inside DIVs here.
+		// We choose the former, and the JBoss Seam demos do it both ways (Hotel Booking the latter,
+		// Groovy Hotel Booking the former)
 
 		writer.startElement( "div", metawidget );
 

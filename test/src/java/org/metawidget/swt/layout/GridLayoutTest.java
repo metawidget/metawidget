@@ -16,8 +16,15 @@
 
 package org.metawidget.swt.layout;
 
+import java.util.Map;
+
 import junit.framework.TestCase;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.metawidget.swt.SwtMetawidgetTests;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.TestUtils;
 
 /**
@@ -33,9 +40,13 @@ public class GridLayoutTest
 
 	public void testConfig()
 	{
+		Map<Class<?>, Object> dummyTypes = CollectionUtils.newHashMap();
+		dummyTypes.put( Font.class, new Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE ) );
+		dummyTypes.put( Color.class, new Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 ) );
+
 		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig()
 		{
 			// Subclass
-		} );
+		}, dummyTypes );
 	}
 }

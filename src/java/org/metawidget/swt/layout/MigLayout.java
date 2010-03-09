@@ -103,7 +103,9 @@ public class MigLayout
 		// However, we still want the Labels to be middle aligned for one-line components (such as
 		// JTextFields), so we top inset them a bit
 
-		state.defaultLabelVerticalPadding = 0;
+		// TODO: do not hardcode '2'
+
+		state.defaultLabelVerticalPadding = 2;
 	}
 
 	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )

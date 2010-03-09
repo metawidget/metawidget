@@ -503,6 +503,14 @@ public class SwtMetawidget
 	//
 
 	@Override
+	public org.eclipse.swt.widgets.Layout getLayout()
+	{
+		buildWidgets();
+
+		return super.getLayout();
+	}
+
+	@Override
 	public Control[] getChildren()
 	{
 		buildWidgets();

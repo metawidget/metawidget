@@ -23,17 +23,16 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
 
 import junit.framework.Assert;
 
-import org.eclipse.swt.SWT;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
-import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -56,11 +55,17 @@ public class TestUtils
 	 * <em>lot</em> of boilerplate testing code.
 	 */
 
+	@SuppressWarnings( "unchecked" )
 	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, String... exclude )
+	{
+		testEqualsAndHashcode( clazz, subclass, (Map) null, exclude );
+	}
+
+	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, Map<?,?> dummyTypes, String... exclude )
 	{
 		try
 		{
-			testEqualsAndHashcode( clazz.newInstance(), clazz.newInstance(), subclass, exclude );
+			testEqualsAndHashcode( clazz.newInstance(), clazz.newInstance(), subclass, dummyTypes, exclude );
 		}
 		catch ( Exception e )
 		{
@@ -68,7 +73,19 @@ public class TestUtils
 		}
 	}
 
+	@SuppressWarnings( "unchecked" )
 	public static <T, S extends T> void testEqualsAndHashcode( T object1, T object2, S subclass, String... exclude )
+	{
+		testEqualsAndHashcode( object1, object2, subclass, (Map) null, exclude );
+	}
+
+	/**
+	 * @param dummyTypes
+	 *            dummy values to set child properties to, in addition to the default dummy ones
+	 *            already supported (eg. int, String etc). Can be null
+	 */
+
+	public static <T, S extends T, D> void testEqualsAndHashcode( T object1, T object2, S subclass, Map<?,?> dummyTypes, String... exclude )
 	{
 		try
 		{
@@ -158,10 +175,6 @@ public class TestUtils
 					toSet = Color.blue;
 				else if ( String.class.isAssignableFrom( propertyType ) )
 					toSet = "foo";
-				else if ( org.eclipse.swt.graphics.Font.class.isAssignableFrom( propertyType ) )
-					toSet = new org.eclipse.swt.graphics.Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE );
-				else if ( org.eclipse.swt.graphics.Color.class.isAssignableFrom( propertyType ) )
-					toSet = new org.eclipse.swt.graphics.Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 );
 				else if ( boolean.class.equals( propertyType ) )
 				{
 					// (toggle from the default)
@@ -171,6 +184,11 @@ public class TestUtils
 					else
 						toSet = true;
 				}
+
+				// Dummy types
+
+				else if ( dummyTypes != null && dummyTypes.containsKey( propertyType ) )
+					toSet = dummyTypes.get( propertyType );
 
 				// Arrays
 
