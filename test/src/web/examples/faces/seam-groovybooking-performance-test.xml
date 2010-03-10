@@ -77,15 +77,15 @@
 					<clickButton label="Book Hotel"/>
 					<clickButton label="Proceed"/>
 					
-					<setSelectField name="booking:bookingBeds" value="2"/>				
-					<setInputField name="booking:bookingCreditCard" value="123412341234"/>
-					<setInputField name="booking:bookingCreditCardName" value="RK"/>
+					<setSelectField name="booking:bedsDecorate:beds" value="2"/>
+					<setInputField name="booking:creditCardDecorate:creditCard" value="123412341234"/>
+					<setInputField name="booking:creditCardNameDecorate:creditCardName" value="RK"/>
 					<clickButton label="Proceed"/>
 					
-					<setInputField name="booking:bookingCreditCard" value="1234123412341234"/>
+					<setInputField name="booking:creditCardDecorate:creditCard" value="1234123412341234"/>
 					<clickButton label="Proceed"/>
 	
-					<setInputField name="booking:bookingCreditCardName" value="Richard Kennard"/>
+					<setInputField name="booking:creditCardNameDecorate:creditCardName" value="Richard Kennard"/>
 					<clickButton label="Proceed"/>
 					
 					<clickButton label="Confirm"/>

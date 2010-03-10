@@ -1,4 +1,4 @@
-<project name="faces-seam-booking-performance-test" default="test-all">
+<project name="faces-seam-booking-performance-test" default="test-with-metawidget">
 
 	<property file="../../../../../build.properties" />
 	<property file="../../../../build.properties" />

@@ -87,4 +87,10 @@ public class Pair<L, R>
 
 		return hashCode;
 	}
+
+	@Override
+	public String toString()
+	{
+		return mLeft + ":" + mRight;
+	}
 }

@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.util.simple.ObjectUtilsTest;
+import org.metawidget.util.simple.PairTest;
 import org.metawidget.util.simple.PathUtilsTest;
 import org.metawidget.util.simple.StringUtilsTest;
 
@@ -44,6 +45,7 @@ public class UtilTests
 		suite.addTestSuite( JspUtilsTest.class );
 		suite.addTestSuite( LogUtilsTest.class );
 		suite.addTestSuite( ObjectUtilsTest.class );
+		suite.addTestSuite( PairTest.class );
 		suite.addTestSuite( PathUtilsTest.class );
 		suite.addTestSuite( StringUtilsTest.class );
 		suite.addTestSuite( WidgetBuilderUtilsTest.class );

@@ -24,6 +24,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -101,11 +102,9 @@ public class MigLayout
 		// We top align all our labels, not just those belonging to 'tall' components,
 		// so that tall components, regular components and nested Metawidget components all line up.
 		// However, we still want the Labels to be middle aligned for one-line components (such as
-		// JTextFields), so we top inset them a bit
+		// Text boxes), so we top inset them a bit
 
-		// TODO: do not hardcode '2'
-
-		state.defaultLabelVerticalPadding = 2;
+		state.defaultLabelVerticalPadding = new GC( container ).getFontMetrics().getLeading();
 	}
 
 	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )

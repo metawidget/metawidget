@@ -62,8 +62,6 @@ public class GridLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	// TODO: setNumberOfColumns not used
-
 	public GridLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 1 )

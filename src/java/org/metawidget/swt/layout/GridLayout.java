@@ -59,6 +59,8 @@ public class GridLayout
 
 	private final String		mLabelSuffix;
 
+	private final int			mRequiredAlignment;
+
 	private final String		mRequiredText;
 
 	//
@@ -77,6 +79,7 @@ public class GridLayout
 		mLabelForeground = config.getLabelForeground();
 		mLabelFont = config.getLabelFont();
 		mLabelSuffix = config.getLabelSuffix();
+		mRequiredAlignment = config.getRequiredAlignment();
 		mRequiredText = config.getRequiredText();
 	}
 
@@ -194,6 +197,11 @@ public class GridLayout
 
 			if ( attributes != null && mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
+				if ( mRequiredAlignment == SWT.CENTER )
+					labelTextToUse += mRequiredText;
+				else if ( mRequiredAlignment == SWT.LEFT )
+					labelTextToUse = mRequiredText + labelTextToUse;
+
 				labelTextToUse += mRequiredText;
 			}
 
