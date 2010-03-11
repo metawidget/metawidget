@@ -154,7 +154,7 @@ public class SwtAddressBookTest
 		assertTrue( buttonsMetawidget.getChildren()[1] instanceof Stub );
 		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[1].getLayoutData() ).exclude );
 
-		Button editButton = (Button) buttonsMetawidget.getChildren()[3];
+		Button editButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Edit", editButton.getText() );
 		editButton.notifyListeners( SWT.Selection, null );
 
@@ -202,7 +202,7 @@ public class SwtAddressBookTest
 
 		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
-		Button saveButton = (Button) buttonsMetawidget.getChildren()[4];
+		Button saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
 
@@ -238,9 +238,9 @@ public class SwtAddressBookTest
 		metawidgetContact = dialog.mContactMetawidget;
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
 		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
-		Button backButton = (Button) buttonsMetawidget.getChildren()[6];
+		Button backButton = (Button) buttonsMetawidget.getChildren()[5];
 		assertEquals( "Back", backButton.getText() );
-		editButton = (Button) buttonsMetawidget.getChildren()[3];
+		editButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Edit", editButton.getText() );
 		editButton.notifyListeners( SWT.Selection, null );
 
@@ -254,7 +254,7 @@ public class SwtAddressBookTest
 		metawidgetContact.setValue( "A Company", "company" );
 
 		assertTrue( metawidgetContact.getChildren().length == 23 );
-		saveButton = (Button) buttonsMetawidget.getChildren()[4];
+		saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
 
@@ -267,12 +267,12 @@ public class SwtAddressBookTest
 		metawidgetContact = dialog.mContactMetawidget;
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
 		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
-		editButton = (Button) buttonsMetawidget.getChildren()[3];
+		editButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Edit", editButton.getText() );
 		editButton.notifyListeners( SWT.Selection, null );
-		Button deleteButton = (Button) buttonsMetawidget.getChildren()[5];
+		Button deleteButton = (Button) buttonsMetawidget.getChildren()[4];
 		assertEquals( "Delete", deleteButton.getText() );
-		Button cancelButton = (Button) buttonsMetawidget.getChildren()[6];
+		Button cancelButton = (Button) buttonsMetawidget.getChildren()[5];
 		assertEquals( "Cancel", cancelButton.getText() );
 
 		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
@@ -284,14 +284,17 @@ public class SwtAddressBookTest
 
 		dialog.open( new PersonalContact() );
 		metawidgetContact = dialog.mContactMetawidget;
-		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
-		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
-		cancelButton = (Button) buttonsMetawidget.getChildren()[6];
-		assertEquals( "Cancel", cancelButton.getText() );
 
 		// Check saving doesn't error on null date
 
 		metawidgetContact.getWidgetProcessor( DataBindingProcessor.class ).save( metawidgetContact );
+
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		cancelButton = (Button) buttonsMetawidget.getChildren()[5];
+		assertEquals( "Cancel", cancelButton.getText() );
+		cancelButton.notifyListeners( SWT.Selection, null );
+		assertTrue( metawidgetContact.isDisposed() );
 
 		// Check adding
 
@@ -308,7 +311,7 @@ public class SwtAddressBookTest
 
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
 		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
-		saveButton = (Button) buttonsMetawidget.getChildren()[4];
+		saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
 		assertTrue( contactsTable.getItemCount() == 6 );

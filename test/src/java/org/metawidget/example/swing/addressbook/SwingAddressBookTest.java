@@ -285,13 +285,16 @@ public class SwingAddressBookTest
 
 		dialog = new ContactDialog( addressBook, new PersonalContact() );
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
-		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		buttonCancel = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 1 );
-		assertEquals( "Cancel", buttonCancel.getText() );
 
 		// Check saving doesn't error on null date
 
 		metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
+
+		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
+		buttonCancel = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 2 );
+		assertEquals( "Cancel", buttonCancel.getText() );
+		buttonCancel.getAction().actionPerformed( null );
+		assertFalse( dialog.isVisible() );
 
 		// Check adding
 

@@ -228,12 +228,6 @@ public class ContactDialog
 		return mContactMetawidget.isReadOnly();
 	}
 
-	@UiHidden
-	public boolean isNewContact()
-	{
-		return (((Contact) mContactMetawidget.getToInspect()).getId() == 0 );
-	}
-
 	/**
 	 * For unit tests
 	 */
