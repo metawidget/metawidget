@@ -76,7 +76,7 @@ public class TomahawkWidgetBuilderTest
 
 		attributes.put( TYPE, UploadedFile.class.getName() );
 		MockComponent mockComponent = (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "org.apache.myfaces.HtmlInputFileUpload".equals( mockComponent.getFamily() ));
+		assertEquals( "org.apache.myfaces.HtmlInputFileUpload", mockComponent.getFamily() );
 	}
 
 	//

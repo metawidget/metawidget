@@ -52,7 +52,7 @@ public class JspAnnotationInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
@@ -73,7 +73,7 @@ public class JspAnnotationInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "ThreadLocalPageContext not set".equals( e.getMessage() ));
+			assertEquals( "ThreadLocalPageContext not set", e.getMessage() );
 		}
 
 		try
@@ -83,7 +83,7 @@ public class JspAnnotationInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Expression 'bad-expression' is not of the form ${...}".equals( e.getMessage() ));
+			assertEquals( "Expression 'bad-expression' is not of the form ${...}", e.getMessage() );
 		}
 	}
 

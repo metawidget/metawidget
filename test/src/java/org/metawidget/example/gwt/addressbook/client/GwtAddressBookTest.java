@@ -191,7 +191,7 @@ public class GwtAddressBookTest
 											@Override
 											public void run()
 											{
-												assertTrue( !editButton.isVisible() );
+												assertFalse( editButton.isVisible() );
 												assertTrue( contactMetawidget.getWidget( "title" ) instanceof ListBox );
 												assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
 
@@ -300,7 +300,7 @@ public class GwtAddressBookTest
 																					@Override
 																					public void run()
 																					{
-																						assertTrue( "743 Evergreen Terrace".equals( newContactMetawidget.getValue( "address", "street" )));
+																						assertEquals( "743 Evergreen Terrace", newContactMetawidget.getValue( "address", "street" ));
 																						Label streetLabel = (Label) ( (FlexTable) newAddressMetawidget.getWidget( 0 ) ).getWidget( 0, 1 );
 																						newContactMetawidget.setValue( "Foo", "address", "street" );
 																						assertTrue( "Foo".equals( newContactMetawidget.getValue( "address", "street" ) ) );
@@ -626,7 +626,7 @@ public class GwtAddressBookTest
 																	@Override
 																	public void run()
 																	{
-																		assertTrue( !editButton.isVisible() );
+																		assertFalse( editButton.isVisible() );
 																		ListBox deleteTitleListBox = ( (ListBox) deleteContactMetawidget.getWidget( "title" ) );
 																		assertTrue( "Miss".equals( deleteTitleListBox.getItemText( deleteTitleListBox.getSelectedIndex() ) ) );
 

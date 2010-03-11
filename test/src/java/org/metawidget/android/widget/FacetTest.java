@@ -35,11 +35,11 @@ public class FacetTest
 	{
 		Facet facet = new Facet( null );
 		facet.setName( "foo" );
-		assertTrue( "foo".equals( facet.getName() ));
+		assertEquals( "foo", facet.getName() );
 
 		MockAttributeSet attributeSet = new MockAttributeSet();
 		attributeSet.setAttributeValue( "name", "bar" );
 		facet = new Facet( null, attributeSet );
-		assertTrue( "bar".equals( facet.getName() ));
+		assertEquals( "bar", facet.getName() );
 	}
 }

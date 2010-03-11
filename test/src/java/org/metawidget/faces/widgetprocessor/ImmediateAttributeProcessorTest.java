@@ -53,7 +53,7 @@ public class ImmediateAttributeProcessorTest
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		processor.processWidget( component, PROPERTY, attributes, null );
-		assertTrue( !editableValueHolder.isImmediate() );
+		assertFalse( editableValueHolder.isImmediate() );
 
 		// Immediate? Set the flag
 

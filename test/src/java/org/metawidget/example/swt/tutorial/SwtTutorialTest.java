@@ -141,7 +141,7 @@ public class SwtTutorialTest
 		// TODO: tabs!
 
 		//JTabbedPane tabbedPane = (JTabbedPane) metawidget.getChildren()[ 8 ];
-		//assertTrue( "Work".equals( tabbedPane.getTitleAt( 0 ) ));
+		//assertEquals( "Work", tabbedPane.getTitleAt( 0 ) );
 
 		//Composite panel = (Composite) tabbedPane.getChildren()[ 0 ];
 		//assertTrue( "Employer:".equals( ( (Label) panel.getChildren()[ 0 ] ).getText() ) );

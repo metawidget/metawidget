@@ -297,16 +297,16 @@ public class SwingMetawidgetTest
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 
-		assertTrue( "".equals( metawidget.getLabelString( null )));
+		assertEquals( "", metawidget.getLabelString( null ));
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( "".equals( metawidget.getLabelString( attributes )));
+		assertEquals( "", metawidget.getLabelString( attributes ));
 
 		attributes.put( NAME, "foo" );
-		assertTrue( "Foo".equals( metawidget.getLabelString( attributes )));
+		assertEquals( "Foo", metawidget.getLabelString( attributes ));
 
 		attributes.put( LABEL, "foo" );
-		assertTrue( "foo".equals( metawidget.getLabelString( attributes )));
+		assertEquals( "foo", metawidget.getLabelString( attributes ));
 	}
 
 	public void testValidate()
@@ -333,8 +333,8 @@ public class SwingMetawidgetTest
 
 		// validate should be called after super.endBuild in SwingMetawidget
 
-		assertTrue( "endBuild".equals( called.get( 0 )));
-		assertTrue( "validate".equals( called.get( 1 )));
+		assertEquals( "endBuild", called.get( 0 ));
+		assertEquals( "validate", called.get( 1 ));
 		assertTrue( 2 == called.size() );
 	}
 

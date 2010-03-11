@@ -55,14 +55,14 @@ public class BaseObjectInspectorTest
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new PropertyAndTraitAnnotation(), PropertyAndTraitAnnotation.class.getName(), "foo" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ));
-		assertTrue( "foo".equals( entity.getAttribute( NAME ) ));
-		assertTrue( TRUE.equals( entity.getAttribute( MASKED ) ));
-		assertTrue( "Foo".equals( entity.getAttribute( LABEL ) ));
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "foo", entity.getAttribute( NAME ) );
+		assertEquals( TRUE, entity.getAttribute( MASKED ) );
+		assertEquals( "Foo", entity.getAttribute( LABEL ) );
 		assertTrue( 4 == entity.getAttributes().getLength() );
 
 		assertTrue( 0 == entity.getChildNodes().getLength() );

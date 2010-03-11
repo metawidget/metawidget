@@ -63,8 +63,8 @@ public class PageflowInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
-		assertTrue( "newuser.contact".equals( entity.getAttribute( TYPE ) ));
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "newuser.contact", entity.getAttribute( TYPE ) );
 
 		// Properties
 

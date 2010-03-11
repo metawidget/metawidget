@@ -48,15 +48,15 @@ public class GroovyPropertyStyleTest
 
 		assertTrue( properties.size() == 7 );
 
-		assertTrue( !properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
-		assertTrue( Date.class.equals( ((ParameterizedType) properties.get( "bar" ).getGenericType()).getActualTypeArguments()[0] ));
+		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
+		assertEquals( Date.class, ((ParameterizedType) properties.get( "bar" ).getGenericType()).getActualTypeArguments()[0] );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ));
 		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
 		assertTrue( String.class.equals( ((ParameterizedType) properties.get( "methodBaz" ).getGenericType()).getActualTypeArguments()[0] ) );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
-		assertTrue( !properties.get( "methodBaz" ).isWritable() );
+		assertFalse( properties.get( "methodBaz" ).isWritable() );
 		assertTrue( Boolean.class.equals( ((ParameterizedType) properties.get( "methodAbc" ).getGenericType()).getActualTypeArguments()[0] ) );
-		assertTrue( !properties.get( "methodAbc" ).isReadable() );
+		assertFalse( properties.get( "methodAbc" ).isReadable() );
 		assertTrue( properties.get( "methodAbc" ).isWritable() );
 
 		try

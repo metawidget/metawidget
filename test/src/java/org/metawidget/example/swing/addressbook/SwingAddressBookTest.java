@@ -78,7 +78,7 @@ public class SwingAddressBookTest
 		MainFrame frame = new MainFrame();
 		AddressBook addressBook = frame.getAddressBook();
 		JPanel panelRight = (JPanel) ( (ImagePanel) frame.getContentPane().getComponent( 0 ) ).getComponent( 1 );
-		assertTrue( !panelRight.isOpaque() );
+		assertFalse( panelRight.isOpaque() );
 		JTable contactsTable = ( (JTable) ( (JScrollPane) panelRight.getComponent( 1 ) ).getViewport().getView() );
 		assertTrue( contactsTable.getRowCount() == 6 );
 
@@ -112,7 +112,7 @@ public class SwingAddressBookTest
 		assertTrue( "Mr Homer Simpson".equals( contact.getFullname() ) );
 		assertTrue( "Mr Homer Simpson".equals( contact.toString() ) );
 		assertTrue( 32 == contact.hashCode() );
-		assertTrue( !contact.equals( new Object() ) );
+		assertFalse( contact.equals( new Object() ) );
 		assertTrue( contact.equals( contact ) );
 		assertTrue( contact.compareTo( null ) == -1 );
 		assertTrue( contact.compareTo( contact ) == 0 );
@@ -127,7 +127,7 @@ public class SwingAddressBookTest
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstname" ) ) );
 		assertTrue( metawidgetContact.getComponent( "firstname" ) instanceof JLabel );
-		assertTrue( "Male".equals( ((JLabel) metawidgetContact.getComponent( "gender" )).getText() ));
+		assertEquals( "Male", ((JLabel) metawidgetContact.getComponent( "gender" )).getText() );
 		assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
 		try
@@ -223,7 +223,7 @@ public class SwingAddressBookTest
 		assertTrue( "Mobile".equals( communication.getType() ) );
 		assertTrue( "(0402) 123 456".equals( communication.getValue() ) );
 		assertTrue( communication.equals( communication ) );
-		assertTrue( !communication.equals( new Object() ) );
+		assertFalse( communication.equals( new Object() ) );
 		assertTrue( communication.compareTo( null ) == -1 );
 		assertTrue( communication.compareTo( communication ) == 0 );
 
@@ -295,7 +295,7 @@ public class SwingAddressBookTest
 
 		// Check adding
 
-		assertTrue( "Mr".equals( ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 )));
+		assertEquals( "Mr", ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 ));
 		assertTrue( 5 == ((JComboBox) metawidgetContact.getComponent( "title" )).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
@@ -315,7 +315,7 @@ public class SwingAddressBookTest
 		assertTrue( "Miss Business Contact".equals( contact.getFullname() ) );
 		assertTrue( Gender.FEMALE == contact.getGender() );
 		metawidgetContact.setReadOnly( true );
-		assertTrue( "Female".equals( ((JLabel) metawidgetContact.getComponent( "gender" )).getText() ));
+		assertEquals( "Female", ((JLabel) metawidgetContact.getComponent( "gender" )).getText() );
 
 		metawidgetContact.setReadOnly( false );
 		assertTrue( Gender.FEMALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
@@ -345,7 +345,7 @@ public class SwingAddressBookTest
 		model = new ListTableModel<Foo>( Foo.class, fooList, "Foo", "Bar" );
 		assertTrue( String.class.equals( model.getColumnClass( 0 ) ) );
 		assertTrue( Boolean.class.equals( model.getColumnClass( 1 ) ) );
-		assertTrue( !model.isCellEditable( 0, 0 ) );
+		assertFalse( model.isCellEditable( 0, 0 ) );
 		model.setAllRowsEditable( true );
 		assertTrue( model.isCellEditable( 0, 0 ) );
 

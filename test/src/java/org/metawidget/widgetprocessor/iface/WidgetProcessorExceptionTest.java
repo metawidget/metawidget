@@ -36,9 +36,9 @@ public class WidgetProcessorExceptionTest
 		assertTrue( throwable == WidgetProcessorException.newException( throwable ).getCause() );
 
 		throwable = WidgetProcessorException.newException( "Foo" );
-		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertEquals( "Foo", throwable.getMessage() );
 		assertTrue( throwable == WidgetProcessorException.newException( throwable ) );
-		assertTrue( "Foo".equals( WidgetProcessorException.newException( "Foo", throwable ).getMessage() ));
+		assertEquals( "Foo", WidgetProcessorException.newException( "Foo", throwable ).getMessage() );
 		assertTrue( throwable == WidgetProcessorException.newException( "Foo", throwable ).getCause() );
 	}
 }

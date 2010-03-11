@@ -40,16 +40,16 @@ public class FacesUtilsTest
 		assertTrue( false == FacesUtils.isExpression( "{!empty bar ? '' : '#{foo}'}" ) );
 		assertTrue( false == FacesUtils.isExpression( "#!empty bar ? '' : '#{foo}'}" ) );
 
-		assertTrue( "foo".equals( FacesUtils.unwrapExpression( "#{foo}" )));
-		assertTrue( "foo".equals( FacesUtils.unwrapExpression( "foo" )));
-		assertTrue( "#{foo".equals( FacesUtils.unwrapExpression( "#{foo" )));
-		assertTrue( "{foo}".equals( FacesUtils.unwrapExpression( "{foo}" )));
-		assertTrue( "foo}".equals( FacesUtils.unwrapExpression( "foo}" )));
+		assertEquals( "foo", FacesUtils.unwrapExpression( "#{foo}" ));
+		assertEquals( "foo", FacesUtils.unwrapExpression( "foo" ));
+		assertEquals( "#{foo", FacesUtils.unwrapExpression( "#{foo" ));
+		assertEquals( "{foo}", FacesUtils.unwrapExpression( "{foo}" ));
+		assertEquals( "foo}", FacesUtils.unwrapExpression( "foo}" ));
 
-		assertTrue( "#{foo}".equals( FacesUtils.wrapExpression( "foo" )));
-		assertTrue( "#{foo}".equals( FacesUtils.wrapExpression( "#{foo}" )));
-		assertTrue( "#{#{foo}".equals( FacesUtils.wrapExpression( "#{foo" )));
-		assertTrue( "#{{foo}}".equals( FacesUtils.wrapExpression( "{foo}" )));
-		assertTrue( "#{foo}}".equals( FacesUtils.wrapExpression( "foo}" )));
+		assertEquals( "#{foo}", FacesUtils.wrapExpression( "foo" ));
+		assertEquals( "#{foo}", FacesUtils.wrapExpression( "#{foo}" ));
+		assertEquals( "#{#{foo}", FacesUtils.wrapExpression( "#{foo" ));
+		assertEquals( "#{{foo}}", FacesUtils.wrapExpression( "{foo}" ));
+		assertEquals( "#{foo}}", FacesUtils.wrapExpression( "foo}" ));
 	}
 }

@@ -54,15 +54,15 @@ public class CssStyleProcessorTest
 		metawidget.setStyle( "foo1" );
 		metawidget.setStyleClass( "bar1" );
 		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ));
-		assertTrue( "foo1".equals( component.getAttributes().get( "style" ) ));
-		assertTrue( "bar1".equals( component.getAttributes().get( "styleClass" ) ));
+		assertEquals( "foo1", component.getAttributes().get( "style" ) );
+		assertEquals( "bar1", component.getAttributes().get( "styleClass" ) );
 
 		// Compound styles and styleClasses
 
 		metawidget.setStyle( "foo2" );
 		metawidget.setStyleClass( "bar2" );
 		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ));
-		assertTrue( "foo1 foo2".equals( component.getAttributes().get( "style" ) ));
-		assertTrue( "bar1 bar2".equals( component.getAttributes().get( "styleClass" ) ));
+		assertEquals( "foo1 foo2", component.getAttributes().get( "style" ) );
+		assertEquals( "bar1 bar2", component.getAttributes().get( "styleClass" ) );
 	}
 }

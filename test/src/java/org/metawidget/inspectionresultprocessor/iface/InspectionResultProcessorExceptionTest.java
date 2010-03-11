@@ -36,9 +36,9 @@ public class InspectionResultProcessorExceptionTest
 		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ).getCause() );
 
 		throwable = InspectionResultProcessorException.newException( "Foo" );
-		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertEquals( "Foo", throwable.getMessage() );
 		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ) );
-		assertTrue( "Foo".equals( InspectionResultProcessorException.newException( "Foo", throwable ).getMessage() ));
+		assertEquals( "Foo", InspectionResultProcessorException.newException( "Foo", throwable ).getMessage() );
 		assertTrue( throwable == InspectionResultProcessorException.newException( "Foo", throwable ).getCause() );
 	}
 }

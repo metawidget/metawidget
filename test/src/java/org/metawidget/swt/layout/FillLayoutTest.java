@@ -47,6 +47,6 @@ public class FillLayoutTest
 		fillLayout.startContainerLayout( composite, metawidget );
 
 		assertTrue( composite.getLayout() instanceof org.eclipse.swt.layout.FillLayout );
-		assertTrue( !( metawidget.getLayout() instanceof org.eclipse.swt.layout.FillLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof org.eclipse.swt.layout.FillLayout ));
 	}
 }

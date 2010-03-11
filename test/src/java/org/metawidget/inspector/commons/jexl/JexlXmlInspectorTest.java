@@ -62,7 +62,7 @@ public class JexlXmlInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( "org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest$Foo".equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 

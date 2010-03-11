@@ -53,14 +53,14 @@ public class JpaInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
-		assertTrue( !property.hasAttribute( MAXIMUM_LENGTH ) );
+		assertFalse( property.hasAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );

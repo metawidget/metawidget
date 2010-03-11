@@ -52,7 +52,7 @@ public class SwingAppFrameworkActionStyleTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter".equals( e.getMessage() ));
+			assertEquals( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter", e.getMessage() );
 		}
 
 		try
@@ -62,7 +62,7 @@ public class SwingAppFrameworkActionStyleTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent".equals( e.getMessage() ));
+			assertEquals( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent", e.getMessage() );
 		}
 	}
 

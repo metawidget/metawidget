@@ -76,7 +76,7 @@ public class SeamInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 		assertTrue( "newuser.contact".equals( entity.getAttribute( TYPE ) ) );
 
 		// Properties

@@ -281,7 +281,7 @@ public class GridBagLayoutTest
 
 		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig() ) );
 		assertTrue( "Abc*:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( !Color.yellow.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getForeground() ) );
+		assertFalse( Color.yellow.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getForeground() ) );
 
 		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelForeground( Color.yellow ) ) );
 		assertTrue( Color.yellow.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getForeground() ) );
@@ -289,7 +289,7 @@ public class GridBagLayoutTest
 		// Different label font
 
 		Font newFont = new JPanel().getFont().deriveFont( 64.0f );
-		assertTrue( !newFont.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getFont() ) );
+		assertFalse( newFont.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getFont() ) );
 
 		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelFont( newFont ) ) );
 		assertTrue( newFont.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getFont() ) );

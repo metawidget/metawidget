@@ -53,7 +53,7 @@ public class CommonsValidatorInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( "testForm1".equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
@@ -104,7 +104,7 @@ public class CommonsValidatorInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Property 'foo' depends on floatRange but has no var-name of min or max".equals( e.getMessage() ));
+			assertEquals( "Property 'foo' depends on floatRange but has no var-name of min or max", e.getMessage() );
 		}
 
 		try
@@ -113,7 +113,7 @@ public class CommonsValidatorInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Property 'foo' depends on minlength but has no var-name of minlength".equals( e.getMessage() ));
+			assertEquals( "Property 'foo' depends on minlength but has no var-name of minlength", e.getMessage() );
 		}
 
 		try
@@ -122,7 +122,7 @@ public class CommonsValidatorInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Property 'foo' depends on maxlength but has no var-name of maxlength".equals( e.getMessage() ));
+			assertEquals( "Property 'foo' depends on maxlength but has no var-name of maxlength", e.getMessage() );
 		}
 
 		try
@@ -131,7 +131,7 @@ public class CommonsValidatorInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Variable named 'min' has no var-value".equals( e.getMessage() ));
+			assertEquals( "Variable named 'min' has no var-value", e.getMessage() );
 		}
 	}
 

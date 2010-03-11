@@ -43,7 +43,7 @@ public class ArrayUtilsTest
 
 		// toString
 
-		assertTrue( "|foo|bar|baz|".equals( ArrayUtils.toString( compareTo, "|", true, true )));
+		assertEquals( "|foo|bar|baz|", ArrayUtils.toString( compareTo, "|", true, true ));
 
 		// add
 

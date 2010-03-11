@@ -68,7 +68,7 @@ public class TextViewLayoutDecoratorTest
 		// Heading #1
 
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
-		assertTrue( "heading1".equals( ((TextView) tableRow.getChildAt( 0 ) ).getText() ));
+		assertEquals( "heading1", ((TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		assertTrue( android.widget.LinearLayout.VERTICAL == linearLayout.getOrientation() );
@@ -85,7 +85,7 @@ public class TextViewLayoutDecoratorTest
 		// Heading  #2
 
 		tableRow = (TableRow) tableLayout.getChildAt( 3 );
-		assertTrue( "heading2".equals( ((TextView) tableRow.getChildAt( 0 ) ).getText() ));
+		assertEquals( "heading2", ((TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 4 );
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
@@ -103,7 +103,7 @@ public class TextViewLayoutDecoratorTest
 		// Heading #3
 
 		tableRow = (TableRow) tableLayout.getChildAt( 6 );
-		assertTrue( "heading3".equals( ((TextView) tableRow.getChildAt( 0 ) ).getText() ));
+		assertEquals( "heading3", ((TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 7 );
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );

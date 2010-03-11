@@ -52,68 +52,68 @@ public class MetawidgetAnnotationInspectorTest
 	{
 		Document document = XmlUtils.documentFromString( mInspector.inspect( new Address(), Address.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Example Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( Address.class.getName().equals( entity.getAttribute( TYPE ) ));
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Address.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "city".equals( property.getAttribute( NAME ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "city", property.getAttribute( NAME ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "owner".equals( property.getAttribute( NAME ) ));
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "owner", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "postcode".equals( property.getAttribute( NAME ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "postcode", property.getAttribute( NAME ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "state".equals( property.getAttribute( NAME ) ));
-		assertTrue( "Anytown,Cyberton,Lostville,Whereverton".equals( property.getAttribute( LOOKUP ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "state", property.getAttribute( NAME ) );
+		assertEquals( "Anytown,Cyberton,Lostville,Whereverton", property.getAttribute( LOOKUP ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "street".equals( property.getAttribute( NAME ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "street", property.getAttribute( NAME ) );
 
 		// Made-up Entity
 
 		String xml = mInspector.inspect( new Foo(), Foo.class.getName() );
 		document = XmlUtils.documentFromString( xml );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ));
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 
 		property = (Element) entity.getFirstChild().getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
-		assertTrue( "bar".equals( property.getAttribute( LABEL ) ));
-		assertTrue( "bar1".equals( property.getAttribute( "foo1" ) ));
-		assertTrue( "bar2".equals( property.getAttribute( "foo2" ) ));
-		assertTrue( TRUE.equals( property.getAttribute( READ_ONLY ) ));
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
-		assertTrue( "Foo".equals( property.getAttribute( SECTION ) ));
-		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
-		assertTrue( TRUE.equals( property.getAttribute( DONT_EXPAND ) ));
-		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ));
-		assertTrue( "object1".equals( property.getAttribute( COMES_AFTER ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "string1", property.getAttribute( NAME ) );
+		assertEquals( "bar", property.getAttribute( LABEL ) );
+		assertEquals( "bar1", property.getAttribute( "foo1" ) );
+		assertEquals( "bar2", property.getAttribute( "foo2" ) );
+		assertEquals( TRUE, property.getAttribute( READ_ONLY ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertEquals( "Foo", property.getAttribute( SECTION ) );
+		assertEquals( TRUE, property.getAttribute( MASKED ) );
+		assertEquals( TRUE, property.getAttribute( DONT_EXPAND ) );
+		assertEquals( TRUE, property.getAttribute( LARGE ) );
+		assertEquals( "object1", property.getAttribute( COMES_AFTER ) );
 		assertTrue( 11 == property.getAttributes().getLength() );
 
 		Element action = (Element) property.getNextSibling();
-		assertTrue( ACTION.equals( action.getNodeName() ));
-		assertTrue( "doNothing".equals( action.getAttribute( NAME ) ));
-		assertTrue( "Bar".equals( action.getAttribute( SECTION ) ));
-		assertTrue( "string1".equals( action.getAttribute( COMES_AFTER ) ));
+		assertEquals( ACTION, action.getNodeName() );
+		assertEquals( "doNothing", action.getAttribute( NAME ) );
+		assertEquals( "Bar", action.getAttribute( SECTION ) );
+		assertEquals( "string1", action.getAttribute( COMES_AFTER ) );
 		assertTrue( 3 == action.getAttributes().getLength() );
 
 		assertTrue( null == action.getNextSibling() );
@@ -124,37 +124,37 @@ public class MetawidgetAnnotationInspectorTest
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ));
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "object1".equals( property.getAttribute( NAME ) ));
-		assertTrue( "foo\\,,bar".equals( property.getAttribute( LOOKUP ) ));
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ));
-		assertTrue( TRUE.equals( property.getAttribute( WIDE ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "object1", property.getAttribute( NAME ) );
+		assertEquals( "foo\\,,bar", property.getAttribute( LOOKUP ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( TRUE, property.getAttribute( WIDE ) );
 		assertTrue( property.getAttributes().getLength() == 4 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
-		assertTrue( "bar".equals( property.getAttribute( LABEL ) ));
-		assertTrue( "bar1".equals( property.getAttribute( "foo1" ) ));
-		assertTrue( "bar2".equals( property.getAttribute( "foo2" ) ));
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
-		assertTrue( TRUE.equals( property.getAttribute( READ_ONLY ) ));
-		assertTrue( TRUE.equals( property.getAttribute( DONT_EXPAND ) ));
-		assertTrue( "Foo".equals( property.getAttribute( SECTION ) ));
-		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
-		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ));
-		assertTrue( "object1".equals( property.getAttribute( COMES_AFTER ) ));
+		assertEquals( "string1", property.getAttribute( NAME ) );
+		assertEquals( "bar", property.getAttribute( LABEL ) );
+		assertEquals( "bar1", property.getAttribute( "foo1" ) );
+		assertEquals( "bar2", property.getAttribute( "foo2" ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertEquals( TRUE, property.getAttribute( READ_ONLY ) );
+		assertEquals( TRUE, property.getAttribute( DONT_EXPAND ) );
+		assertEquals( "Foo", property.getAttribute( SECTION ) );
+		assertEquals( TRUE, property.getAttribute( MASKED ) );
+		assertEquals( TRUE, property.getAttribute( LARGE ) );
+		assertEquals( "object1", property.getAttribute( COMES_AFTER ) );
 
 		assertTrue( property.getAttributes().getLength() == 11 );
 	}
@@ -168,7 +168,7 @@ public class MetawidgetAnnotationInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@UiAction public void org.metawidget.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+			assertEquals( "@UiAction public void org.metawidget.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing(java.lang.String) must not take any parameters", e.getMessage() );
 		}
 	}
 
@@ -182,12 +182,12 @@ public class MetawidgetAnnotationInspectorTest
 
 		String xml = mInspector.inspect( new Foo(), Foo.class.getName(), "string1" );
 		Document document = XmlUtils.documentFromString( xml );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ));
-		assertTrue( "string1".equals( entity.getAttribute( NAME ) ));
-		assertTrue( "bar".equals( entity.getAttribute( LABEL ) ));
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "string1", entity.getAttribute( NAME ) );
+		assertEquals( "bar", entity.getAttribute( LABEL ) );
 	}
 
 	//

@@ -36,9 +36,9 @@ public class MetawidgetExceptionTest
 		assertTrue( throwable == MetawidgetException.newException( throwable ).getCause() );
 
 		throwable = MetawidgetException.newException( "Foo" );
-		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertEquals( "Foo", throwable.getMessage() );
 		assertTrue( throwable == MetawidgetException.newException( throwable ) );
-		assertTrue( "Foo".equals( MetawidgetException.newException( "Foo", throwable ).getMessage() ));
+		assertEquals( "Foo", MetawidgetException.newException( "Foo", throwable ).getMessage() );
 		assertTrue( throwable == MetawidgetException.newException( "Foo", throwable ).getCause() );
 	}
 }

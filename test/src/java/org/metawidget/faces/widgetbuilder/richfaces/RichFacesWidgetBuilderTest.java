@@ -202,8 +202,8 @@ public class RichFacesWidgetBuilderTest
 		HtmlInputText htmlInputText = (HtmlInputText) stub.getChildren().get( 0 );
 		UISuggestionBox suggestionBox = (UISuggestionBox) stub.getChildren().get( 1 );
 		assertTrue( htmlInputText.getId().startsWith( "suggestionText_" ));
-		assertTrue( "aStyle".equals( htmlInputText.getStyle() ));
-		assertTrue( "aStyleClass".equals( htmlInputText.getStyleClass() ));
+		assertEquals( "aStyle", htmlInputText.getStyle() );
+		assertEquals( "aStyleClass", htmlInputText.getStyleClass() );
 		assertTrue( suggestionBox.getId().startsWith( "suggestionBox_" ));
 		assertTrue( suggestionBox.getFor().equals( htmlInputText.getId() ) );
 		assertTrue( "#{foo.bar}".equals( suggestionBox.getSuggestionAction().getExpressionString() ) );

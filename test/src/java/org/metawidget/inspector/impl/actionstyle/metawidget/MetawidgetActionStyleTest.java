@@ -51,7 +51,7 @@ public class MetawidgetActionStyleTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@UiAction public abstract void org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+			assertEquals( "@UiAction public abstract void org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters", e.getMessage() );
 		}
 	}
 

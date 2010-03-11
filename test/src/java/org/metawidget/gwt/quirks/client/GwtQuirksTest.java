@@ -194,14 +194,14 @@ public class GwtQuirksTest
 				assertTrue( flexTable.getWidget( 0, 1 ) instanceof TextBox );
 
 				TabPanel outerTabPanel = ((TabPanel) flexTable.getWidget( 1, 0 ));
-				assertTrue( "Foo".equals( outerTabPanel.getTabBar().getTabHTML( 0 )));
+				assertEquals( "Foo", outerTabPanel.getTabBar().getTabHTML( 0 ));
 				assertTrue( 1 == outerTabPanel.getTabBar().getTabCount() );
 
 				FlexTable outerTable = (FlexTable) ((FlowPanel) outerTabPanel.getWidget( 0 )).getWidget( 0 );
 				TabPanel innerTabPanel = ((TabPanel) outerTable.getWidget( 0, 0 ));
 				assertTrue( 2 == innerTabPanel.getTabBar().getTabCount() );
 
-				assertTrue( "Bar".equals( innerTabPanel.getTabBar().getTabHTML( 0 )));
+				assertEquals( "Bar", innerTabPanel.getTabBar().getTabHTML( 0 ));
 				FlexTable innerTable = (FlexTable) ((FlowPanel) innerTabPanel.getWidget( 0 )).getWidget( 0 );
 				assertTrue( "Def:".equals( innerTable.getText( 0, 0 ) ) );
 				assertTrue( innerTable.getWidget( 0, 1 ) instanceof CheckBox );
@@ -209,7 +209,7 @@ public class GwtQuirksTest
 				assertTrue( innerTable.getWidget( 1, 1 ) instanceof TextArea );
 				assertTrue( 2 == innerTable.getRowCount() );
 
-				assertTrue( "Baz".equals( innerTabPanel.getTabBar().getTabHTML( 1 )));
+				assertEquals( "Baz", innerTabPanel.getTabBar().getTabHTML( 1 ));
 				innerTable = (FlexTable) ((FlowPanel) innerTabPanel.getWidget( 1 )).getWidget( 0 );
 				assertTrue( "Jkl:".equals( innerTable.getText( 0, 0 ) ) );
 				assertTrue( innerTable.getWidget( 0, 1 ) instanceof TextBox );
@@ -221,7 +221,7 @@ public class GwtQuirksTest
 				innerTabPanel = ((TabPanel) outerTable.getWidget( 2, 0 ));
 				assertTrue( 1 == innerTabPanel.getTabBar().getTabCount() );
 
-				assertTrue( "Moo".equals( innerTabPanel.getTabBar().getTabHTML( 0 )));
+				assertEquals( "Moo", innerTabPanel.getTabBar().getTabHTML( 0 ));
 				innerTable = (FlexTable) ((FlowPanel) innerTabPanel.getWidget( 0 )).getWidget( 0 );
 				assertTrue( "Pqr:".equals( innerTable.getText( 0, 0 ) ) );
 				assertTrue( innerTable.getWidget( 0, 1 ) instanceof TextBox );
@@ -255,14 +255,14 @@ public class GwtQuirksTest
 		assertTrue( GwtUtils.isPrimitive( double.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitive( boolean.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitive( char.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Byte.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Short.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Integer.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Long.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Float.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Double.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Boolean.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitive( Character.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Byte.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Short.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Integer.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Long.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Float.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Double.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Boolean.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitive( Character.class.getName() ) );
 
 		// isPrimitiveWrapper
 
@@ -274,14 +274,14 @@ public class GwtQuirksTest
 		assertTrue( GwtUtils.isPrimitiveWrapper( Double.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitiveWrapper( Boolean.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitiveWrapper( Character.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( byte.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( short.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( int.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( long.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( float.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( double.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( boolean.class.getName() ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( char.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( byte.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( short.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( int.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( long.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( float.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( double.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( boolean.class.getName() ) );
+		assertFalse( GwtUtils.isPrimitiveWrapper( char.class.getName() ) );
 
 		// toString
 

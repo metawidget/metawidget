@@ -36,9 +36,9 @@ public class WidgetBuilderExceptionTest
 		assertTrue( throwable == WidgetBuilderException.newException( throwable ).getCause() );
 
 		throwable = WidgetBuilderException.newException( "Foo" );
-		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertEquals( "Foo", throwable.getMessage() );
 		assertTrue( throwable == WidgetBuilderException.newException( throwable ) );
-		assertTrue( "Foo".equals( WidgetBuilderException.newException( "Foo", throwable ).getMessage() ));
+		assertEquals( "Foo", WidgetBuilderException.newException( "Foo", throwable ).getMessage() );
 		assertTrue( throwable == WidgetBuilderException.newException( "Foo", throwable ).getCause() );
 	}
 }

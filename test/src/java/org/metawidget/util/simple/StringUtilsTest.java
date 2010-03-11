@@ -39,14 +39,14 @@ public class StringUtilsTest
 		// uncamelCase
 
 		assertTrue( null == StringUtils.uncamelCase( null ));
-		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
-		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
+		assertEquals( "Camel cased", StringUtils.uncamelCase( "camelCased" ));
+		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ));
 
 		// camelCase
 
-		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown #Foo" )));
-		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown#foo", '#' )));
-		assertTrue( "dropdownfoo".equals( StringUtils.camelCase( "Dropdown#foo" )));
-		assertTrue( "dropdown2".equals( StringUtils.camelCase( "Dropdown #2" )));
+		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ));
+		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ));
+		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ));
+		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ));
 	}
 }

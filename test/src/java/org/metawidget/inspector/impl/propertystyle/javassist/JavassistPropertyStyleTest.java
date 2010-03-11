@@ -55,7 +55,7 @@ public class JavassistPropertyStyleTest
 		assertTrue( "methodFoo".equals( i.next().getName() ) );
 		assertTrue( "methodBar".equals( i.next().getName() ) );
 		assertTrue( "methodBaz".equals( i.next().getName() ) );
-		assertTrue( !i.hasNext() );
+		assertFalse( i.hasNext() );
 	}
 
 	public void testInterfaceBasedPropertyStyle()

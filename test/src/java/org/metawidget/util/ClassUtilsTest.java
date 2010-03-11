@@ -36,7 +36,7 @@ public class ClassUtilsTest
 	{
 		assertTrue( ClassUtils.isPrimitiveWrapper( Long.class ) );
 		assertTrue( ClassUtils.isPrimitiveWrapper( Boolean.class ) );
-		assertTrue( !ClassUtils.isPrimitiveWrapper( String.class ) );
+		assertFalse( ClassUtils.isPrimitiveWrapper( String.class ) );
 	}
 
 	public void testProperties()
@@ -46,7 +46,7 @@ public class ClassUtilsTest
 		Baz baz = new Baz();
 
 		ClassUtils.setProperty( foo, "bar", baz );
-		assertTrue( ClassUtils.getProperty( foo, "bar" ).equals( baz ));
+		assertEquals( ClassUtils.getProperty( foo, "bar" ), baz );
 
 		try
 		{
@@ -55,7 +55,7 @@ public class ClassUtilsTest
 		}
 		catch( Exception e )
 		{
-			assertTrue( "No such method getBar1() or isBar1() on class org.metawidget.util.ClassUtilsTest$Foo".equals( e.getCause().getMessage() ));
+			assertEquals( "No such method getBar1() or isBar1() on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
 		}
 
 		try
@@ -65,14 +65,14 @@ public class ClassUtilsTest
 		}
 		catch( Exception e )
 		{
-			assertTrue( "No such method getBar1() or isBar1() on class org.metawidget.util.ClassUtilsTest$Foo".equals( e.getCause().getMessage() ));
+			assertEquals( "No such method getBar1() or isBar1() on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
 		}
 	}
 
 	public void testUnproxy()
 	{
-		assertTrue( Foo.class.equals( ClassUtils.getUnproxiedClass( ProxiedFoo_$$_javassist_1.class )));
-		assertTrue( CannotUnproxyFoo_$$_javassist_1.class.equals( ClassUtils.getUnproxiedClass( CannotUnproxyFoo_$$_javassist_1.class )));
+		assertEquals( Foo.class, ClassUtils.getUnproxiedClass( ProxiedFoo_$$_javassist_1.class ));
+		assertEquals( CannotUnproxyFoo_$$_javassist_1.class, ClassUtils.getUnproxiedClass( CannotUnproxyFoo_$$_javassist_1.class ));
 	}
 
 	public void testForName()
@@ -81,15 +81,15 @@ public class ClassUtilsTest
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		assertTrue( classLoader != null );
-		assertTrue( String.class.equals( ClassUtils.niceForName( "java.lang.String" )));
+		assertEquals( String.class, ClassUtils.niceForName( "java.lang.String" ));
 		assertTrue( ClassUtils.niceForName( "[Ljava.lang.String;", classLoader ).isArray() );
-		assertTrue( String.class.equals( ClassUtils.niceForName( "[Ljava.lang.String;", classLoader ).getComponentType() ));
+		assertEquals( String.class, ClassUtils.niceForName( "[Ljava.lang.String;", classLoader ).getComponentType() );
 
 		// Without ClassLoader
 
-		assertTrue( String.class.equals( ClassUtils.niceForName( "java.lang.String", null )));
+		assertEquals( String.class, ClassUtils.niceForName( "java.lang.String", null ));
 		assertTrue( ClassUtils.niceForName( "[Ljava.lang.String;", null ).isArray() );
-		assertTrue( String.class.equals( ClassUtils.niceForName( "[Ljava.lang.String;", null ).getComponentType() ));
+		assertEquals( String.class, ClassUtils.niceForName( "[Ljava.lang.String;", null ).getComponentType() );
 	}
 	//
 	// Inner class

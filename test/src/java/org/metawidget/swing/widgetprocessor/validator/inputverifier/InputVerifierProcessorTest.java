@@ -67,7 +67,7 @@ public class InputVerifierProcessorTest
 
 		assertTrue( null == metawidget.getClientProperty( "onStartBuild" ) );
 		spinner = (JSpinner) metawidget.getComponent( 1 );
-		assertTrue( !spinner.getInputVerifier().verify( spinner ) );
+		assertFalse( spinner.getInputVerifier().verify( spinner ) );
 		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onStartBuild" ) ) );
 		assertTrue( ( Foo.class.getName() + "/bar" ).equals( metawidget.getClientProperty( "onVerify" ) ) );
 		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onEndBuild" ) ) );
@@ -78,7 +78,7 @@ public class InputVerifierProcessorTest
 		assertTrue( null == nestedMetawidget.getInputVerifier() );
 
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
-		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
+		assertFalse( nestedSpinner.getInputVerifier().verify( spinner ) );
 		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onStartBuild" ) ) );
 		assertTrue( ( Foo.class.getName() + "/nestedFoo/bar" ).equals( nestedMetawidget.getClientProperty( "onVerify" ) ) );
 		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onEndBuild" ) ) );

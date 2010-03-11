@@ -37,7 +37,7 @@ public class StubTest
 		assertTrue( stub.getAttributes() == null );
 
 		stub.setAttribute( "foo", "bar" );
-		assertTrue( "bar".equals( stub.getAttributes().get( "foo" )));
+		assertEquals( "bar", stub.getAttributes().get( "foo" ));
 		assertTrue( null == stub.getTag() );
 
 		MockAttributeSet attributeSet = new MockAttributeSet();
@@ -46,8 +46,8 @@ public class StubTest
 		attributeSet.setAttributeValue( "attribName", "bar" );
 		attributeSet.setAttributeValue( "tag", "baz" );
 		stub = new Stub( null, attributeSet );
-		assertTrue( "bar".equals( stub.getAttributes().get( "name" ) ));
+		assertEquals( "bar", stub.getAttributes().get( "name" ) );
 		assertTrue( 1 == stub.getAttributes().size() );
-		assertTrue( "baz".equals( stub.getTag() ));
+		assertEquals( "baz", stub.getTag() );
 	}
 }

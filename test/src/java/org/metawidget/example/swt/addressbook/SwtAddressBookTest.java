@@ -89,7 +89,7 @@ public class SwtAddressBookTest
 		Button searchButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertTrue( "Search".equals( searchButton.getText() ) );
 		searchButton.notifyListeners( SWT.Selection, null );
-		assertTrue( "PERSONAL".equals( ((Combo) metawidgetSearch.getControl( "type" )).getText() ));
+		assertEquals( "PERSONAL", ((Combo) metawidgetSearch.getControl( "type" )).getText() );
 
 		ContactsController contactsController = main.getContactsController();
 		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
@@ -100,7 +100,7 @@ public class SwtAddressBookTest
 		assertTrue( "Mr Homer Simpson".equals( contact.getFullname() ) );
 		assertTrue( "Mr Homer Simpson".equals( contact.toString() ) );
 		assertTrue( 32 == contact.hashCode() );
-		assertTrue( !contact.equals( new Object() ) );
+		assertFalse( contact.equals( new Object() ) );
 		assertTrue( contact.equals( contact ) );
 		assertTrue( contact.compareTo( null ) == -1 );
 		assertTrue( contact.compareTo( contact ) == 0 );
@@ -115,7 +115,7 @@ public class SwtAddressBookTest
 		SwtMetawidget metawidgetContact = dialog.mContactMetawidget;
 		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstname" ) ) );
 		assertTrue( metawidgetContact.getControl( "firstname" ) instanceof Label );
-		assertTrue( "MALE".equals( ((Label) metawidgetContact.getControl( "gender" )).getText() ));
+		assertEquals( "MALE", ((Label) metawidgetContact.getControl( "gender" )).getText() );
 
 		//TODO: assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
@@ -205,7 +205,7 @@ public class SwtAddressBookTest
 		assertTrue( "Mobile".equals( communication.getType() ) );
 		assertTrue( "(0402) 123 456".equals( communication.getValue() ) );
 		assertTrue( communication.equals( communication ) );
-		assertTrue( !communication.equals( new Object() ) );
+		assertFalse( communication.equals( new Object() ) );
 		assertTrue( communication.compareTo( null ) == -1 );
 		assertTrue( communication.compareTo( communication ) == 0 );
 
@@ -277,7 +277,7 @@ public class SwtAddressBookTest
 
 		// Check adding
 
-		assertTrue( "Mr".equals( ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 )));
+		assertEquals( "Mr", ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 ));
 		assertTrue( 5 == ((JComboBox) metawidgetContact.getComponent( "title" )).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
@@ -297,7 +297,7 @@ public class SwtAddressBookTest
 		assertTrue( "Miss Business Contact".equals( contact.getFullname() ) );
 		assertTrue( Gender.FEMALE == contact.getGender() );
 		metawidgetContact.setReadOnly( true );
-		assertTrue( "Female".equals( ((JLabel) metawidgetContact.getComponent( "gender" )).getText() ));
+		assertEquals( "Female", ((JLabel) metawidgetContact.getComponent( "gender" )).getText() );
 
 		metawidgetContact.setReadOnly( false );
 		assertTrue( Gender.FEMALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );

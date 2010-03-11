@@ -51,7 +51,7 @@ public class BoxLayoutTest
 		boxLayout.startContainerLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof javax.swing.BoxLayout );
-		assertTrue( !( metawidget.getLayout() instanceof javax.swing.BoxLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof javax.swing.BoxLayout ));
 
 		// layoutWidget
 

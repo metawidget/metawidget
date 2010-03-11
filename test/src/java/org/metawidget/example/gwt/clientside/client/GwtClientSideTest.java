@@ -117,7 +117,7 @@ public class GwtClientSideTest
 
 				fireClickEvent( saveButton );
 				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, rating=4, releaseDate=" ));
-				assertTrue( releaseDate.equals( ((Map<String, Object>) metawidget.getToInspect()).get( "releaseDate" )));
+				assertEquals( releaseDate, ((Map<String, Object>) metawidget.getToInspect()).get( "releaseDate" ));
 
 				fireClickEvent( sampleButton2 );
 				fireClickEvent( generateButton );

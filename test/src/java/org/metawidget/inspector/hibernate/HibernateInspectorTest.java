@@ -64,7 +64,7 @@ public class HibernateInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "java.io.FileNotFoundException: Unable to locate hibernate.cfg.xml on CLASSPATH".equals( e.getMessage() ));
+			assertEquals( "java.io.FileNotFoundException: Unable to locate hibernate.cfg.xml on CLASSPATH", e.getMessage() );
 		}
 
 		try
@@ -76,7 +76,7 @@ public class HibernateInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Expected an XML document starting with 'hibernate-configuration' or 'hibernate-mapping', but got 'foo'".equals( e.getMessage() ));
+			assertEquals( "Expected an XML document starting with 'hibernate-configuration' or 'hibernate-mapping', but got 'foo'", e.getMessage() );
 		}
 	}
 
@@ -90,8 +90,8 @@ public class HibernateInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
-		assertTrue( "org.metawidget.inspector.hibernate.SubFoo".equals( entity.getAttribute( TYPE ) ));
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "org.metawidget.inspector.hibernate.SubFoo", entity.getAttribute( TYPE ) );
 
 		// Properties
 
@@ -152,7 +152,7 @@ public class HibernateInspectorTest
 		Element property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
-		assertTrue( !property.hasAttribute( HIDDEN ) );
+		assertFalse( property.hasAttribute( HIDDEN ) );
 	}
 
 	public void testTraverseParent()
@@ -165,8 +165,8 @@ public class HibernateInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "bar".equals( entity.getAttribute( NAME ) ));
-		assertTrue( "org.metawidget.inspector.hibernate.Bar".equals( entity.getAttribute( TYPE ) ));
+		assertEquals( "bar", entity.getAttribute( NAME ) );
+		assertEquals( "org.metawidget.inspector.hibernate.Bar", entity.getAttribute( TYPE ) );
 		assertTrue( TRUE.equals( entity.getAttribute( REQUIRED ) ) );
 
 		// Properties

@@ -91,7 +91,7 @@ public class ExtGwtWidgetBuilderTest
 		Date date = new Date();
 		assertTrue( true == widgetBuilder.setValue( dateField, date ) );
 		assertTrue( date == dateField.getValue() );
-		assertTrue( date.equals( widgetBuilder.getValue( dateField ) ));
+		assertEquals( date, widgetBuilder.getValue( dateField ) );
 
 		// Slider
 

@@ -187,7 +187,7 @@ public class ConfigReaderTest
 
 		SwingMetawidget metawidget1 = new SwingMetawidget();
 		assertTrue( null == metawidget1.getName() );
-		assertTrue( !metawidget1.isOpaque() );
+		assertFalse( metawidget1.isOpaque() );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
 		assertTrue( metawidget1.isOpaque() );
@@ -196,7 +196,7 @@ public class ConfigReaderTest
 
 		metawidget1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class, "name" );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
-		assertTrue( !metawidget1.isOpaque() );
+		assertFalse( metawidget1.isOpaque() );
 
 		// Existing SwingMetawidget with names
 
@@ -209,7 +209,7 @@ public class ConfigReaderTest
 
 		SwingMetawidget metawidget2 = new SwingMetawidget();
 		assertTrue( null == metawidget2.getName() );
-		assertTrue( !metawidget2.isOpaque() );
+		assertFalse( metawidget2.isOpaque() );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget2 );
 
 		// Test WidgetBuilder
@@ -874,19 +874,19 @@ public class ConfigReaderTest
 		// Test what got cached
 
 		Map<Class<?>, Map<Object, Object>> immutableByClassCache = configReader.mImmutableByClassCache;
-		assertTrue( !immutableByClassCache.containsKey( Class.class ) );
+		assertFalse( immutableByClassCache.containsKey( Class.class ) );
 
 		Map<Object, Object> immutableByConfigCache = immutableByClassCache.get( CompositeInspector.class );
-		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 4 == immutableByConfigCache.size() );
 
 		immutableByConfigCache = immutableByClassCache.get( StrutsAnnotationInspector.class );
-		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( inspectors1[3] == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( XmlInspector.class );
-		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 3 == immutableByConfigCache.size() );
 
 		immutableByConfigCache = immutableByClassCache.get( MetawidgetAnnotationInspector.class );
@@ -895,7 +895,7 @@ public class ConfigReaderTest
 		assertTrue( inspectors1[1] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		immutableByConfigCache = immutableByClassCache.get( SpringAnnotationInspector.class );
-		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( inspectors1[4] == immutableByConfigCache.values().iterator().next() );
 
@@ -919,7 +919,7 @@ public class ConfigReaderTest
 	public void testPatternCache()
 		throws Exception
 	{
-		assertTrue( !Pattern.compile( "foo" ).equals( Pattern.compile( "foo" ) ) );
+		assertFalse( Pattern.compile( "foo" ).equals( Pattern.compile( "foo" ) ) );
 
 		ConfigReader configReader = new ConfigReader();
 		assertTrue( configReader.createNative( "pattern", null, "foo" ).equals( configReader.createNative( "pattern", null, "foo" ) ) );

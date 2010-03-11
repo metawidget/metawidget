@@ -161,12 +161,12 @@ public class AndroidWidgetBuilderTest
 		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
 		ResourcelessArrayAdapter<String> adapter1 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
-		assertTrue( "foo".equals( adapter1.getItem( 0 )));
-		assertTrue( "foo".equals( ((TextView) adapter1.getView( 0, null, null )).getText() ));
-		assertTrue( "bar".equals( adapter1.getItem( 1 )));
-		assertTrue( "bar".equals( ((TextView) adapter1.getView( 1, null, null )).getText() ));
-		assertTrue( "baz".equals( adapter1.getItem( 2 )));
-		assertTrue( "baz".equals( ((TextView) adapter1.getView( 2, null, null )).getText() ));
+		assertEquals( "foo", adapter1.getItem( 0 ));
+		assertEquals( "foo", ((TextView) adapter1.getView( 0, null, null )).getText() );
+		assertEquals( "bar", adapter1.getItem( 1 ));
+		assertEquals( "bar", ((TextView) adapter1.getView( 1, null, null )).getText() );
+		assertEquals( "baz", adapter1.getItem( 2 ));
+		assertEquals( "baz", ((TextView) adapter1.getView( 2, null, null )).getText() );
 
 		// Lookups (with labels)
 
@@ -179,7 +179,7 @@ public class AndroidWidgetBuilderTest
 		}
 		catch( MetawidgetException e )
 		{
-			assertTrue( "Labels list must be same size as values list".equals( e.getMessage() ));
+			assertEquals( "Labels list must be same size as values list", e.getMessage() );
 		}
 
 		// Lookups (with labels)
@@ -188,12 +188,12 @@ public class AndroidWidgetBuilderTest
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
 		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
-		assertTrue( "foo".equals( adapter2.getItem( 0 )));
-		assertTrue( "Foo #1".equals( ((TextView) adapter2.getView( 0, null, null )).getText() ));
-		assertTrue( "bar".equals( adapter2.getItem( 1 )));
-		assertTrue( "Bar #2".equals( ((TextView) adapter2.getView( 1, null, null )).getText() ));
-		assertTrue( "baz".equals( adapter2.getItem( 2 )));
-		assertTrue( "Baz #3".equals( ((TextView) adapter2.getView( 2, null, null )).getText() ));
+		assertEquals( "foo", adapter2.getItem( 0 ));
+		assertEquals( "Foo #1", ((TextView) adapter2.getView( 0, null, null )).getText() );
+		assertEquals( "bar", adapter2.getItem( 1 ));
+		assertEquals( "Bar #2", ((TextView) adapter2.getView( 1, null, null )).getText() );
+		assertEquals( "baz", adapter2.getItem( 2 ));
+		assertEquals( "Baz #3", ((TextView) adapter2.getView( 2, null, null )).getText() );
 
 		// Lookups (with required)
 
@@ -203,13 +203,13 @@ public class AndroidWidgetBuilderTest
 		@SuppressWarnings( "unchecked" )
 		ResourcelessArrayAdapter<String> adapter3 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertTrue( null == adapter3.getItem( 0 ));
-		assertTrue( "".equals( ((TextView) adapter3.getView( 0, null, null )).getText() ));
-		assertTrue( "foo".equals( adapter3.getItem( 1 )));
-		assertTrue( "Foo #1".equals( ((TextView) adapter3.getView( 1, null, null )).getText() ));
-		assertTrue( "bar".equals( adapter3.getItem( 2 )));
-		assertTrue( "Bar #2".equals( ((TextView) adapter3.getView( 2, null, null )).getText() ));
-		assertTrue( "baz".equals( adapter3.getItem( 3 )));
-		assertTrue( "Baz #3".equals( ((TextView) adapter3.getView( 3, null, null )).getText() ));
+		assertEquals( "", ((TextView) adapter3.getView( 0, null, null )).getText() );
+		assertEquals( "foo", adapter3.getItem( 1 ));
+		assertEquals( "Foo #1", ((TextView) adapter3.getView( 1, null, null )).getText() );
+		assertEquals( "bar", adapter3.getItem( 2 ));
+		assertEquals( "Bar #2", ((TextView) adapter3.getView( 2, null, null )).getText() );
+		assertEquals( "baz", adapter3.getItem( 3 ));
+		assertEquals( "Baz #3", ((TextView) adapter3.getView( 3, null, null )).getText() );
 
 		// boolean (little B)
 
@@ -290,7 +290,7 @@ public class AndroidWidgetBuilderTest
 
 		assertTrue( null == androidWidgetBuilder.getValue( null ) );
 		assertTrue( null == androidWidgetBuilder.getValue( new View( null ) ) );
-		assertTrue( !androidWidgetBuilder.setValue( null, null ) );
+		assertFalse( androidWidgetBuilder.setValue( null, null ) );
 
 		// CheckBox
 
@@ -328,8 +328,8 @@ public class AndroidWidgetBuilderTest
 		Spinner spinner = new Spinner( null );
 		List<String> lookupList = CollectionUtils.newArrayList( "foo", "bar", "baz" );
 		spinner.setAdapter( new ResourcelessArrayAdapter<String>( null, lookupList, null ) );
-		assertTrue( "foo".equals( androidWidgetBuilder.getValue( spinner ) ));
+		assertEquals( "foo", androidWidgetBuilder.getValue( spinner ) );
 		androidWidgetBuilder.setValue( "bar", spinner );
-		assertTrue( "bar".equals( androidWidgetBuilder.getValue( spinner ) ));
+		assertEquals( "bar", androidWidgetBuilder.getValue( spinner ) );
 	}
 }

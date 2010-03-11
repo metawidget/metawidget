@@ -84,12 +84,12 @@ public class StandardConverterProcessorTest
 		assertTrue( null == htmlInputText.getLabel() );
 
 		DateTimeConverter dateTimeConverter = (DateTimeConverter) htmlInputText.getConverter();
-		assertTrue( "full".equals( dateTimeConverter.getDateStyle() ));
-		assertTrue( "medium".equals( dateTimeConverter.getTimeStyle() ));
-		assertTrue( "uk".equals( dateTimeConverter.getLocale().getLanguage() ));
-		assertTrue( "dd/MM/yyyy".equals( dateTimeConverter.getPattern() ));
-		assertTrue( "Australia/Sydney".equals( dateTimeConverter.getTimeZone().getID() ));
-		assertTrue( "date".equals( dateTimeConverter.getType() ));
+		assertEquals( "full", dateTimeConverter.getDateStyle() );
+		assertEquals( "medium", dateTimeConverter.getTimeStyle() );
+		assertEquals( "uk", dateTimeConverter.getLocale().getLanguage() );
+		assertEquals( "dd/MM/yyyy", dateTimeConverter.getPattern() );
+		assertEquals( "Australia/Sydney", dateTimeConverter.getTimeZone().getID() );
+		assertEquals( "date", dateTimeConverter.getType() );
 
 		// NumberConverter
 
@@ -113,16 +113,16 @@ public class StandardConverterProcessorTest
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 
 		NumberConverter numberConverter = (NumberConverter) htmlInputText.getConverter();
-		assertTrue( "AUD".equals( numberConverter.getCurrencyCode() ));
-		assertTrue( "$".equals( numberConverter.getCurrencySymbol() ));
+		assertEquals( "AUD", numberConverter.getCurrencyCode() );
+		assertEquals( "$", numberConverter.getCurrencySymbol() );
 		assertTrue( numberConverter.isGroupingUsed() );
-		assertTrue( "au".equals( numberConverter.getLocale().getLanguage() ));
+		assertEquals( "au", numberConverter.getLocale().getLanguage() );
 		assertTrue( 0 == numberConverter.getMinFractionDigits() );
 		assertTrue( 1 == numberConverter.getMaxFractionDigits() );
 		assertTrue( 2 == numberConverter.getMinIntegerDigits() );
 		assertTrue( 5 == numberConverter.getMaxIntegerDigits() );
-		assertTrue( "#0.00".equals( numberConverter.getPattern() ));
-		assertTrue( "currency".equals( numberConverter.getType() ));
+		assertEquals( "#0.00", numberConverter.getPattern() );
+		assertEquals( "currency", numberConverter.getType() );
 	}
 
 	//

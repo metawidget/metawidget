@@ -136,7 +136,7 @@ public class SwingTutorialTest
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 7 ) ) ).weighty );
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 8 );
-		assertTrue( "Work".equals( tabbedPane.getTitleAt( 0 ) ));
+		assertEquals( "Work", tabbedPane.getTitleAt( 0 ) );
 
 		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( "Employer:".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );

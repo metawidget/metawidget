@@ -47,18 +47,18 @@ public class HtmlMetawidgetTagTest
 		// Value without prefix
 
 		metawidget.setValue( "foo" );
-		assertTrue( "foo".equals( metawidget.getPath() ));
+		assertEquals( "foo", metawidget.getPath() );
 		assertTrue( null == metawidget.getPathPrefix() );
 
 		// Value with prefix
 
 		metawidget.setValue( "foo.bar" );
-		assertTrue( "foo.bar".equals( metawidget.getPath() ));
-		assertTrue( "foo.".equals( metawidget.getPathPrefix() ));
+		assertEquals( "foo.bar", metawidget.getPath() );
+		assertEquals( "foo.", metawidget.getPathPrefix() );
 
 		metawidget.setValue( "foo.bar.baz" );
-		assertTrue( "foo.bar.baz".equals( metawidget.getPath() ));
-		assertTrue( "foo.bar.".equals( metawidget.getPathPrefix() ));
+		assertEquals( "foo.bar.baz", metawidget.getPath() );
+		assertEquals( "foo.bar.", metawidget.getPathPrefix() );
 	}
 
 	public void testLifecyle()

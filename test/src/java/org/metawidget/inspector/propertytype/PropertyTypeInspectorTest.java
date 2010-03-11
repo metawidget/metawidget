@@ -68,7 +68,7 @@ public class PropertyTypeInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties (should be sorted alphabetically)
 
@@ -94,7 +94,7 @@ public class PropertyTypeInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( DeclaredTypeTester.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
@@ -363,7 +363,7 @@ public class PropertyTypeInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( LOOKUP ) );
+		assertFalse( entity.hasAttribute( LOOKUP ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
 
 		// boolean with a value
@@ -375,7 +375,7 @@ public class PropertyTypeInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "littleBoolean" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( boolean.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( !property.hasAttribute( LOOKUP ) );
+		assertFalse( property.hasAttribute( LOOKUP ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bigBoolean" );
@@ -394,8 +394,8 @@ public class PropertyTypeInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( "littleBoolean".equals( entity.getAttribute( NAME ) ) );
 		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( LOOKUP ) );
-		assertTrue( !entity.hasAttribute( LOOKUP_LABELS ) );
+		assertFalse( entity.hasAttribute( LOOKUP ) );
+		assertFalse( entity.hasAttribute( LOOKUP_LABELS ) );
 		assertTrue( 2 == entity.getAttributes().getLength() );
 	}
 
@@ -426,7 +426,7 @@ public class PropertyTypeInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( "foo".equals( entity.getAttribute( NAME ) ) );
 		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( ACTUAL_CLASS ) );
+		assertFalse( entity.hasAttribute( ACTUAL_CLASS ) );
 
 		// Traversal any further should fail gracefully (ie. not NullPointerException)
 

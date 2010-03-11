@@ -52,7 +52,7 @@ public class RequiredAttributeProcessorTest
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		processor.processWidget( component, PROPERTY, attributes, null );
-		assertTrue( !editableValueHolder.isRequired() );
+		assertFalse( editableValueHolder.isRequired() );
 
 		// Required? Set the flag
 

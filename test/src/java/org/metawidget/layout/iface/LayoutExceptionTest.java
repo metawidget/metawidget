@@ -36,9 +36,9 @@ public class LayoutExceptionTest
 		assertTrue( throwable == LayoutException.newException( throwable ).getCause() );
 
 		throwable = LayoutException.newException( "Foo" );
-		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertEquals( "Foo", throwable.getMessage() );
 		assertTrue( throwable == LayoutException.newException( throwable ) );
-		assertTrue( "Foo".equals( LayoutException.newException( "Foo", throwable ).getMessage() ));
+		assertEquals( "Foo", LayoutException.newException( "Foo", throwable ).getMessage() );
 		assertTrue( throwable == LayoutException.newException( "Foo", throwable ).getCause() );
 	}
 }

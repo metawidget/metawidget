@@ -43,17 +43,17 @@ public class StrutsMetawidgetTagTest
 		// Property without prefix
 
 		metawidget.setProperty( "foo" );
-		assertTrue( "foo".equals( metawidget.getPath() ));
+		assertEquals( "foo", metawidget.getPath() );
 		assertTrue( null == metawidget.getPathPrefix() );
 
 		// Property with prefix
 
 		metawidget.setProperty( "foo.bar" );
-		assertTrue( "foo.bar".equals( metawidget.getPath() ));
+		assertEquals( "foo.bar", metawidget.getPath() );
 		assertTrue( null == metawidget.getPathPrefix() );
 
 		metawidget.setProperty( "foo.bar.baz" );
-		assertTrue( "foo.bar.baz".equals( metawidget.getPath() ));
-		assertTrue( "bar.".equals( metawidget.getPathPrefix() ));
+		assertEquals( "foo.bar.baz", metawidget.getPath() );
+		assertEquals( "bar.", metawidget.getPathPrefix() );
 	}
 }

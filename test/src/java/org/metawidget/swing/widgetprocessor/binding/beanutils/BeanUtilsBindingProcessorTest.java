@@ -87,7 +87,7 @@ public class BeanUtilsBindingProcessorTest
 		assertTrue( "Not settable".equals( label.getText() ) );
 
 		JTextField nestedTextField = (JTextField) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 1 );
-		assertTrue( "".equals( nestedTextField.getText() ));
+		assertEquals( "", nestedTextField.getText() );
 
 		JTextField nestedNestedTextField = (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 3 ) ).getComponent( 1 );
 		assertTrue( dateFormat.format( scalaFoo3.bar() ).equals( nestedNestedTextField.getText() ) );

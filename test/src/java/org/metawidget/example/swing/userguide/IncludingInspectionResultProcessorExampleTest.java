@@ -54,10 +54,10 @@ public class IncludingInspectionResultProcessorExampleTest
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JLabel );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
-		assertTrue( "age".equals( metawidget.getComponent( 1 ).getName() ));
+		assertEquals( "age", metawidget.getComponent( 1 ).getName() );
 		assertTrue( metawidget.getComponent( 2 ) instanceof JLabel );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
-		assertTrue( "retired".equals( metawidget.getComponent( 3 ).getName() ));
+		assertEquals( "retired", metawidget.getComponent( 3 ).getName() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JPanel );
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}

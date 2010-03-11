@@ -74,31 +74,31 @@ public class RemoteInspectorTest
 
 		// Test
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( Communication.class.getName().equals( entity.getAttribute( TYPE ) ));
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Communication.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "id".equals( property.getAttribute( NAME ) ));
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "id", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "type".equals( property.getAttribute( NAME ) ));
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ));
-		assertTrue( "Phone, Fax".equals( property.getAttribute( LOOKUP ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "type", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( "Phone, Fax", property.getAttribute( LOOKUP ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "value".equals( property.getAttribute( NAME ) ));
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "value", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 	}
 }

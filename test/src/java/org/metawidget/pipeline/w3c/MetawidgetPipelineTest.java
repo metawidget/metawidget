@@ -89,7 +89,7 @@ public class MetawidgetPipelineTest
 		assertTrue( null == pipeline.inspect( null, null ));
 		assertTrue( called.size() == 1 );
 		assertTrue( "InspectionResultProcessor #1".equals( called.get( 0 ) ) );
-		assertTrue( !called.contains( "InspectionResultProcessor #2" ) );
+		assertFalse( called.contains( "InspectionResultProcessor #2" ) );
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class MetawidgetPipelineTest
 
 		assertTrue( called.size() == 1 );
 		assertTrue( "WidgetProcessor #1".equals( called.get( 0 ) ) );
-		assertTrue( !called.contains( "WidgetProcessor #2" ) );
+		assertFalse( called.contains( "WidgetProcessor #2" ) );
 
 		// Property-level widget
 
@@ -169,7 +169,7 @@ public class MetawidgetPipelineTest
 		assertTrue( called.size() == 2 );
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
 		assertTrue( "WidgetProcessor #1".equals( called.get( 1 ) ) );
-		assertTrue( !called.contains( "WidgetProcessor #2" ) );
+		assertFalse( called.contains( "WidgetProcessor #2" ) );
 	}
 
 	/**

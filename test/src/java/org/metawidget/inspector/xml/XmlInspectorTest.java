@@ -82,45 +82,45 @@ public class XmlInspectorTest
 	{
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo".equals( entity.getAttribute( TYPE ) ));
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "bar".equals( property.getAttribute( NAME ) ));
-		assertTrue( "Bar".equals( property.getAttribute( TYPE ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( "Bar", property.getAttribute( TYPE ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "a".equals( property.getAttribute( NAME ) ));
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
-		assertTrue( " ".equals( property.getAttribute( LABEL ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "a", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertEquals( " ", property.getAttribute( LABEL ) );
 		assertTrue( property.getAttributes().getLength() == 3 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "b".equals( property.getAttribute( NAME ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "b", property.getAttribute( NAME ) );
 		assertTrue( property.hasAttribute( LABEL ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "c".equals( property.getAttribute( NAME ) ));
-		assertTrue( !property.hasAttribute( LABEL ) );
-		assertTrue( "Telephone, Mobile, Fax, E-mail".equals( property.getAttribute( LOOKUP ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "c", property.getAttribute( NAME ) );
+		assertFalse( property.hasAttribute( LABEL ) );
+		assertEquals( "Telephone, Mobile, Fax, E-mail", property.getAttribute( LOOKUP ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "d".equals( property.getAttribute( NAME ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "d", property.getAttribute( NAME ) );
 		assertTrue( property.getAttributes().getLength() == 1 );
 
 		assertTrue( entity.getChildNodes().getLength() == 5 );
@@ -130,23 +130,23 @@ public class XmlInspectorTest
 	{
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( "Bar".equals( entity.getAttribute( TYPE ) ));
-		assertTrue( "bar".equals( entity.getAttribute( NAME ) ));
-		assertTrue( "true".equals( entity.getAttribute( REQUIRED ) ));
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "Bar", entity.getAttribute( TYPE ) );
+		assertEquals( "bar", entity.getAttribute( NAME ) );
+		assertEquals( "true", entity.getAttribute( REQUIRED ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "baz".equals( property.getAttribute( NAME ) ));
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( ACTION.equals( property.getNodeName() ));
-		assertTrue( "doAction".equals( property.getAttribute( NAME ) ));
+		assertEquals( ACTION, property.getNodeName() );
+		assertEquals( "doAction", property.getAttribute( NAME ) );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}
@@ -195,7 +195,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
+			assertEquals( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
 		}
 	}
 

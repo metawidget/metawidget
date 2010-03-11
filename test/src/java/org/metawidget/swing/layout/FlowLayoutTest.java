@@ -51,7 +51,7 @@ public class FlowLayoutTest
 		flowLayout.startContainerLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof java.awt.FlowLayout );
-		assertTrue( !( metawidget.getLayout() instanceof java.awt.FlowLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof java.awt.FlowLayout ));
 
 		// layoutWidget
 

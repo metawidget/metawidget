@@ -41,9 +41,9 @@ public class CollectionUtilsTest
 
 		List<String> list = CollectionUtils.newArrayList( "foo", "bar" );
 		assertTrue( list instanceof ArrayList<?> );
-		assertTrue( "foo".equals( list.get( 0 )));
-		assertTrue( "bar".equals( list.get( 1 )));
-		assertTrue( "|foo|bar|".equals( CollectionUtils.toString( list, "|", true, true )));
+		assertEquals( "foo", list.get( 0 ));
+		assertEquals( "bar", list.get( 1 ));
+		assertEquals( "|foo|bar|", CollectionUtils.toString( list, "|", true, true ));
 
 		assertTrue( CollectionUtils.newLinkedHashMap() != null );
 
@@ -51,9 +51,9 @@ public class CollectionUtilsTest
 		Set<Comparable> emptySet = Collections.emptySet();
 		assertTrue( CollectionUtils.sort( emptySet ).isEmpty() );
 
-		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar" ) ));
-		assertTrue( CollectionUtils.newArrayList( "foo", "bar", "" ).equals( CollectionUtils.fromString( "foo, bar," ) ));
-		assertTrue( CollectionUtils.newArrayList( "foo", "bar", "baz" ).equals( CollectionUtils.fromString( "foo, bar,  baz" ) ));
+		assertEquals( CollectionUtils.newArrayList( "foo", "bar" ), CollectionUtils.fromString( "foo, bar" ) );
+		assertEquals( CollectionUtils.newArrayList( "foo", "bar", "" ), CollectionUtils.fromString( "foo, bar," ) );
+		assertEquals( CollectionUtils.newArrayList( "foo", "bar", "baz" ), CollectionUtils.fromString( "foo, bar,  baz" ) );
 
 		assertTrue( CollectionUtils.fromString( null ).isEmpty() );
 		assertTrue( CollectionUtils.fromString( "" ).isEmpty() );

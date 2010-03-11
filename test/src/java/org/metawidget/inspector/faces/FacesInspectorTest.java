@@ -50,7 +50,7 @@ public class FacesInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
@@ -96,7 +96,7 @@ public class FacesInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "FacesContext not available to FacesInspector".equals( e.getMessage() ));
+			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
 		}
 
 		try
@@ -106,21 +106,21 @@ public class FacesInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "FacesContext not available to FacesInspector".equals( e.getMessage() ));
+			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
 		}
 	}
 
 	public void testUtils()
 	{
-		assertTrue( "foo.bar".equals( FacesUtils.unwrapExpression( "foo.bar" )));
-		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapExpression( "#{foo.bar" )));
-		assertTrue( "foo.bar".equals( FacesUtils.unwrapExpression( "#{foo.bar}" )));
-		assertTrue( "foo.bar".equals( FacesUtils.unwrapExpression( "foo.bar" )));
-		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapExpression( "#{foo.bar" )));
+		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ));
+		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ));
+		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "#{foo.bar}" ));
+		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ));
+		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ));
 
-		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapExpression( "foo.bar" )));
-		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapExpression( "#{foo.bar}" )));
-		assertTrue( "#{#{foo.bar}".equals( FacesUtils.wrapExpression( "#{foo.bar" )));
+		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "foo.bar" ));
+		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar}" ));
+		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ));
 	}
 
 	//

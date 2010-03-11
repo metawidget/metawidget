@@ -86,7 +86,7 @@ public class SwingXWidgetBuilderTest
 
 		// Test SwingXWidgetBuilder.getValueProperty passthrough
 
-		assertTrue( "Foo".equals( dateHolder.getString() ));
+		assertEquals( "Foo", dateHolder.getString() );
 	}
 
 	//

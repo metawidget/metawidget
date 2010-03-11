@@ -82,17 +82,17 @@ public class AndroidMetawidgetTest
 
 		// readOnly
 
-		assertTrue( !androidMetawidget.isReadOnly() );
+		assertFalse( androidMetawidget.isReadOnly() );
 		androidMetawidget.setReadOnly( true );
 		assertTrue( androidMetawidget.isReadOnly() );
 
 		MockAttributeSet mockAttributeSet = new MockAttributeSet();
 		androidMetawidget = new AndroidMetawidget( null, mockAttributeSet );
-		assertTrue( !androidMetawidget.isReadOnly() );
+		assertFalse( androidMetawidget.isReadOnly() );
 
 		mockAttributeSet.setAttributeValue( "readOnly", "false" );
 		androidMetawidget = new AndroidMetawidget( null, mockAttributeSet );
-		assertTrue( !androidMetawidget.isReadOnly() );
+		assertFalse( androidMetawidget.isReadOnly() );
 
 		mockAttributeSet.setAttributeValue( "readOnly", "true" );
 		androidMetawidget = new AndroidMetawidget( null, mockAttributeSet );
@@ -147,8 +147,8 @@ public class AndroidMetawidgetTest
 		editText.setTag( "foo" );
 		editText.setText( "Bar" );
 		androidMetawidget.addView( editText );
-		assertTrue( "Bar".equals( androidMetawidget.getValue( "foo" )));
+		assertEquals( "Bar", androidMetawidget.getValue( "foo" ));
 		androidMetawidget.setValue( "Baz", "foo" );
-		assertTrue( "Baz".equals( androidMetawidget.getValue( "foo" )));
+		assertEquals( "Baz", androidMetawidget.getValue( "foo" ));
 	}
 }

@@ -46,10 +46,10 @@ public class ScalaPropertyStyleTest
 
 		assertTrue( properties.size() == 3 );
 
-		assertTrue( !properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
+		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertTrue( properties.get( "bar" ).isAnnotationPresent( NotNull.class ) );
 		assertTrue( Date.class.equals( ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] ) );
 		assertTrue( properties.get( "baz" ).isReadable() );
-		assertTrue( !properties.get( "baz" ).isWritable() );
+		assertFalse( properties.get( "baz" ).isWritable() );
 	}
 }

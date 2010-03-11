@@ -91,8 +91,8 @@ public class TestUtils
 		{
 			// Test top-level object
 
-			Assert.assertTrue( !object1.equals( null ) );
-			Assert.assertTrue( !object1.equals( "foo" ) );
+			Assert.assertFalse( object1.equals( null ) );
+			Assert.assertFalse( object1.equals( "foo" ) );
 			Assert.assertTrue( "subclass", !object1.equals( subclass ) );
 			Assert.assertTrue( object1.equals( object1 ) );
 
@@ -151,7 +151,7 @@ public class TestUtils
 						{
 							writeMethod.invoke( object1, new Object[] { null } );
 							Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
-							Assert.assertTrue( !object1.equals( object2 ) );
+							Assert.assertFalse( object1.equals( object2 ) );
 
 							Assert.assertTrue( propertyName, null != readMethod.invoke( object2 ) );
 							writeMethod.invoke( object2, new Object[] { null } );

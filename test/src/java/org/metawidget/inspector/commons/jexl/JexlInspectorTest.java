@@ -55,13 +55,13 @@ public class JexlInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( !property.hasAttribute( "value-is-el" ) );
+		assertFalse( property.hasAttribute( "value-is-el" ) );
 		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
 		assertTrue( "was set".equals( property.getAttribute( "expression-is-false" ) ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
@@ -80,7 +80,7 @@ public class JexlInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
@@ -88,7 +88,7 @@ public class JexlInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( "from-baz".equals( property.getAttribute( "value-is-el" ) ) );
 		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
-		assertTrue( !property.hasAttribute( "expression-is-false" ) );
+		assertFalse( property.hasAttribute( "expression-is-false" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );

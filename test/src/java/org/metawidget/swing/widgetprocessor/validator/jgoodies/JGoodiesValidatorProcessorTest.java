@@ -71,7 +71,7 @@ public class JGoodiesValidatorProcessorTest
 
 		JTextField textField2 = (JTextField) metawidget.getComponent( 3 );
 		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField2 ) );
-		assertTrue( !ValidationComponentUtils.isMandatory( textField2 ) );
+		assertFalse( ValidationComponentUtils.isMandatory( textField2 ) );
 
 		// Validation after a keypress
 
@@ -79,7 +79,7 @@ public class JGoodiesValidatorProcessorTest
 		textField1.getKeyListeners()[0].keyReleased( null );
 
 		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField1.getBorder() ) );
-		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
+		assertFalse( ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
 
 		// Validation after deleting contents
 
@@ -140,9 +140,9 @@ public class JGoodiesValidatorProcessorTest
 
 		textField1.setText( "all good" );
 		textField1.getKeyListeners()[0].keyReleased( null );
-		assertTrue( !ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ) );
-		assertTrue( !ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ) );
-		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
+		assertFalse( ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ) );
+		assertFalse( ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ) );
+		assertFalse( ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
 	}
 
 	//

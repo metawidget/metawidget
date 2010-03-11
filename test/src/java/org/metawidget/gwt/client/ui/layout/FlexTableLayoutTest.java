@@ -42,50 +42,50 @@ public class FlexTableLayoutTest
 		FlexTableLayoutConfig config1 = new FlexTableLayoutConfig();
 		FlexTableLayoutConfig config2 = new FlexTableLayoutConfig();
 
-		assertTrue( !config1.equals( "foo" ));
+		assertFalse( config1.equals( "foo" ));
 		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ));
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// numberOfColumns
 
 		config1.setNumberOfColumns( 2 );
 		assertTrue( 2 == config1.getNumberOfColumns() );
-		assertTrue( !config1.equals( config2 ));
+		assertFalse( config1.equals( config2 ));
 
 		config2.setNumberOfColumns( 2 );
-		assertTrue( config1.equals( config2 ));
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// tableStyleName
 
 		config1.setTableStyleName( "table-style-name" );
-		assertTrue( "table-style-name".equals( config1.getTableStyleName() ));
-		assertTrue( !config1.equals( config2 ));
+		assertEquals( "table-style-name", config1.getTableStyleName() );
+		assertFalse( config1.equals( config2 ));
 
 		config2.setTableStyleName( "table-style-name" );
-		assertTrue( config1.equals( config2 ));
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// columnStyleNames
 
 		config1.setColumnStyleNames( "column-style-name1", "column-style-name2" );
-		assertTrue( "column-style-name1".equals( config1.getColumnStyleNames()[0] ));
-		assertTrue( "column-style-name2".equals( config1.getColumnStyleNames()[1] ));
-		assertTrue( !config1.equals( config2 ));
+		assertEquals( "column-style-name1", config1.getColumnStyleNames()[0] );
+		assertEquals( "column-style-name2", config1.getColumnStyleNames()[1] );
+		assertFalse( config1.equals( config2 ));
 
 		config2.setColumnStyleNames( "column-style-name1", "column-style-name2" );
-		assertTrue( config1.equals( config2 ));
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// footerStyleName
 
 		config1.setFooterStyleName( "footer-style-name" );
-		assertTrue( "footer-style-name".equals( config1.getFooterStyleName() ));
-		assertTrue( !config1.equals( config2 ));
+		assertEquals( "footer-style-name", config1.getFooterStyleName() );
+		assertFalse( config1.equals( config2 ));
 
 		config2.setFooterStyleName( "footer-style-name" );
-		assertTrue( config1.equals( config2 ));
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
@@ -100,7 +100,7 @@ public class FlexTableLayoutTest
 		}
 		catch( LayoutException e )
 		{
-			assertTrue( "numberOfColumns must be >= 0".equals( e.getMessage() ));
+			assertEquals( "numberOfColumns must be >= 0", e.getMessage() );
 		}
 	}
 }

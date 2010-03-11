@@ -59,7 +59,7 @@ public class Java5InspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Bar.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
+		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
@@ -104,7 +104,7 @@ public class Java5InspectorTest
 		assertTrue( "FOO1,FOO2".equals( entity.getAttribute( LOOKUP ) ) );
 		assertTrue( "foo1,foo2".equals( entity.getAttribute( LOOKUP_LABELS ) ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
-		assertTrue( !entity.hasChildNodes() );
+		assertFalse( entity.hasChildNodes() );
 
 		// Test pointed directly at an empty enum via a parent
 
@@ -115,7 +115,7 @@ public class Java5InspectorTest
 		assertTrue( "FOO1,FOO2".equals( entity.getAttribute( LOOKUP ) ) );
 		assertTrue( "foo1,foo2".equals( entity.getAttribute( LOOKUP_LABELS ) ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
-		assertTrue( !entity.hasChildNodes() );
+		assertFalse( entity.hasChildNodes() );
 
 		// Test an enum with PropertyTypeInspector
 

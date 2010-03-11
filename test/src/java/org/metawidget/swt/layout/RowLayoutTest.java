@@ -50,7 +50,7 @@ public class RowLayoutTest
 		rowLayout.startContainerLayout( composite, metawidget );
 
 		assertTrue( composite.getLayout() instanceof org.eclipse.swt.layout.RowLayout );
-		assertTrue( !( metawidget.getLayout() instanceof org.eclipse.swt.layout.RowLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof org.eclipse.swt.layout.RowLayout ));
 
 		Stub stub = new Stub( composite, SWT.NONE );
 		rowLayout.layoutWidget( stub, PROPERTY, null, composite, metawidget );

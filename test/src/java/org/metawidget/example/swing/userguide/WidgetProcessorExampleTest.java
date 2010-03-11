@@ -48,9 +48,9 @@ public class WidgetProcessorExampleTest
 		metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));
 		metawidget.setToInspect( person );
 
-		assertTrue( "Tip:age".equals( ((JComponent) metawidget.getComponent( 1 )).getToolTipText() ));
-		assertTrue( "Tip:name".equals( ((JComponent) metawidget.getComponent( 3 )).getToolTipText() ));
-		assertTrue( "Tip:retired".equals( ((JComponent) metawidget.getComponent( 5 )).getToolTipText() ));
+		assertEquals( "Tip:age", ((JComponent) metawidget.getComponent( 1 )).getToolTipText() );
+		assertEquals( "Tip:name", ((JComponent) metawidget.getComponent( 3 )).getToolTipText() );
+		assertEquals( "Tip:retired", ((JComponent) metawidget.getComponent( 5 )).getToolTipText() );
 	}
 
 	//

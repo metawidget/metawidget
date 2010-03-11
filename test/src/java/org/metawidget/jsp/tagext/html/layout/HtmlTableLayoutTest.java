@@ -55,7 +55,7 @@ public class HtmlTableLayoutTest
 		}
 		catch( LayoutException e )
 		{
-			assertTrue( "numberOfColumns must be >= 0".equals( e.getMessage() ));
+			assertEquals( "numberOfColumns must be >= 0", e.getMessage() );
 		}
 	}
 }

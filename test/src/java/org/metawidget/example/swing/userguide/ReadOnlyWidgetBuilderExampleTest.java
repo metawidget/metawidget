@@ -63,11 +63,11 @@ public class ReadOnlyWidgetBuilderExampleTest
 		metawidget.setToInspect( person );
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JLabel );
-		assertTrue( !( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
+		assertFalse( ( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
 		assertTrue( metawidget.getComponent( 2 ) instanceof JLabel );
-		assertTrue( !( (JTextField) metawidget.getComponent( 3 ) ).isEditable() );
+		assertFalse( ( (JTextField) metawidget.getComponent( 3 ) ).isEditable() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JLabel );
-		assertTrue( !( (JTextField) metawidget.getComponent( 5 ) ).isEditable() );
+		assertFalse( ( (JTextField) metawidget.getComponent( 5 ) ).isEditable() );
 		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
 		assertTrue( 7 == metawidget.getComponentCount() );
 	}
@@ -85,20 +85,20 @@ public class ReadOnlyWidgetBuilderExampleTest
 		metawidget.setReadOnly( true );
 		metawidget.setToInspect( contact );
 
-		assertTrue( "Title:".equals( ((JLabel) metawidget.getComponent( 0 )).getText() ));
-		assertTrue( "".equals( ((JTextField) metawidget.getComponent( 1 )).getText() ));
-		assertTrue( !( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
-		assertTrue( "Firstname:".equals( ((JLabel) metawidget.getComponent( 2 )).getText() ));
-		assertTrue( "Homer".equals( ((JTextField) metawidget.getComponent( 3 )).getText() ));
-		assertTrue( !( (JTextField) metawidget.getComponent( 3 ) ).isEditable() );
+		assertEquals( "Title:", ((JLabel) metawidget.getComponent( 0 )).getText() );
+		assertEquals( "", ((JTextField) metawidget.getComponent( 1 )).getText() );
+		assertFalse( ( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
+		assertEquals( "Firstname:", ((JLabel) metawidget.getComponent( 2 )).getText() );
+		assertEquals( "Homer", ((JTextField) metawidget.getComponent( 3 )).getText() );
+		assertFalse( ( (JTextField) metawidget.getComponent( 3 ) ).isEditable() );
 
 		Foo foo = new Foo();
 		foo.setContact( contact );
 		metawidget.setToInspect( foo );
 
-		assertTrue( "Contact:".equals( ((JLabel) metawidget.getComponent( 0 )).getText() ));
-		assertTrue( "Homer".equals( ((JTextField) metawidget.getComponent( 1 )).getText() ));
-		assertTrue( !( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
+		assertEquals( "Contact:", ((JLabel) metawidget.getComponent( 0 )).getText() );
+		assertEquals( "Homer", ((JTextField) metawidget.getComponent( 1 )).getText() );
+		assertFalse( ( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
 		assertTrue( 3 == metawidget.getComponentCount() );
 	}
 

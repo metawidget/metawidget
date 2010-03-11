@@ -103,7 +103,7 @@ public class ReflectionBindingProcessorTest
 		}
 		catch( WidgetProcessorException e )
 		{
-			assertTrue( "ReflectionBindingProcessor only supports binding actions to AbstractButtons".equals( e.getMessage() ));
+			assertEquals( "ReflectionBindingProcessor only supports binding actions to AbstractButtons", e.getMessage() );
 		}
 	}
 

@@ -55,32 +55,32 @@ public class SwingAnimalRacesTest
 		SwingMetawidget hippoMetawidget = (SwingMetawidget) toolbar.getComponent( 1 );
 		SwingMetawidget pandaMetawidget = (SwingMetawidget) toolbar.getComponent( 2 );
 
-		assertTrue( "Eddie".equals( ((JTextField) elephantMetawidget.getComponent( 1 )).getText() ));
+		assertEquals( "Eddie", ((JTextField) elephantMetawidget.getComponent( 1 )).getText() );
 		assertTrue( 10 == (Integer) ((JSpinner) elephantMetawidget.getComponent( 3 )).getValue() );
 		assertTrue( 0 == (Integer) ((SpinnerNumberModel) ((JSpinner) elephantMetawidget.getComponent( 3 )).getModel()).getMinimum() );
-		assertTrue( "Animal*:".equals( ((JLabel) elephantMetawidget.getComponent( 4 )).getText() ));
+		assertEquals( "Animal*:", ((JLabel) elephantMetawidget.getComponent( 4 )).getText() );
 		assertTrue( 6 == ( (CC) ( (MigLayout) elephantMetawidget.getLayout() ).getComponentConstraints( elephantMetawidget.getComponent( 4 ) ) ).getPadding()[0].getValue() );
-		assertTrue( "Elephant".equals( ((JComboBox) elephantMetawidget.getComponent( 5 )).getSelectedItem() ));
+		assertEquals( "Elephant", ((JComboBox) elephantMetawidget.getComponent( 5 )).getSelectedItem() );
 		assertTrue(  3 == ((JComboBox) elephantMetawidget.getComponent( 5 )).getItemCount() );
-		assertTrue( "Harry".equals( ((JTextField) hippoMetawidget.getComponent( 1 )).getText() ));
+		assertEquals( "Harry", ((JTextField) hippoMetawidget.getComponent( 1 )).getText() );
 		assertTrue( 5 == (Integer) ((JSpinner) hippoMetawidget.getComponent( 3 )).getValue() );
-		assertTrue( "Hippo".equals( ((JComboBox) hippoMetawidget.getComponent( 5 )).getSelectedItem() ));
-		assertTrue( "Paula".equals( ((JTextField) pandaMetawidget.getComponent( 1 )).getText() ));
+		assertEquals( "Hippo", ((JComboBox) hippoMetawidget.getComponent( 5 )).getSelectedItem() );
+		assertEquals( "Paula", ((JTextField) pandaMetawidget.getComponent( 1 )).getText() );
 		assertTrue( 2 == (Integer) ((JSpinner) pandaMetawidget.getComponent( 3 )).getValue() );
-		assertTrue( "Panda".equals( ((JComboBox) pandaMetawidget.getComponent( 5 )).getSelectedItem() ));
+		assertEquals( "Panda", ((JComboBox) pandaMetawidget.getComponent( 5 )).getSelectedItem() );
 
 		// Racetrack
 
 		JPanel racetrack = (JPanel) mainFrame.getContentPane().getComponent( 1 );
-		assertTrue( "Eddie".equals( ((JLabel) racetrack.getComponent( 0 )).getText() ));
+		assertEquals( "Eddie", ((JLabel) racetrack.getComponent( 0 )).getText() );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 0 )).getLocation().x );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 0 )).getLocation().y );
 		Icon elephantIcon = ((JLabel) racetrack.getComponent( 0 )).getIcon();
-		assertTrue( "Harry".equals( ((JLabel) racetrack.getComponent( 1 )).getText() ));
+		assertEquals( "Harry", ((JLabel) racetrack.getComponent( 1 )).getText() );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 1 )).getLocation().x );
 		assertTrue( 200 == ((JLabel) racetrack.getComponent( 1 )).getLocation().y );
 		Icon hippoIcon = ((JLabel) racetrack.getComponent( 1 )).getIcon();
-		assertTrue( "Paula".equals( ((JLabel) racetrack.getComponent( 2 )).getText() ));
+		assertEquals( "Paula", ((JLabel) racetrack.getComponent( 2 )).getText() );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 2 )).getLocation().x );
 		assertTrue( 400 == ((JLabel) racetrack.getComponent( 2 )).getLocation().y );
 		Icon pandaIcon = ((JLabel) racetrack.getComponent( 2 )).getIcon();
@@ -100,26 +100,26 @@ public class SwingAnimalRacesTest
 		// Start race
 
 		SwingMetawidget statusbar = (SwingMetawidget) mainFrame.getContentPane().getComponent( 2 );
-		assertTrue( "Start race".equals( ((JButton) statusbar.getComponent( 0 )).getText() ));
+		assertEquals( "Start race", ((JButton) statusbar.getComponent( 0 )).getText() );
 		((JButton) statusbar.getComponent( 0 )).doClick();
 
 		Thread.sleep( 2000 );
-		assertTrue( "Eddie1".equals( ((JLabel) racetrack.getComponent( 0 )).getText() ));
+		assertEquals( "Eddie1", ((JLabel) racetrack.getComponent( 0 )).getText() );
 		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x > 20 );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 0 )).getLocation().y );
 		assertTrue( hippoIcon == ((JLabel) racetrack.getComponent( 0 )).getIcon() );
-		assertTrue( "Harry1".equals( ((JLabel) racetrack.getComponent( 1 )).getText() ));
+		assertEquals( "Harry1", ((JLabel) racetrack.getComponent( 1 )).getText() );
 		assertTrue( ((JLabel) racetrack.getComponent( 1 )).getLocation().x > 20 );
 		assertTrue( 200 == ((JLabel) racetrack.getComponent( 1 )).getLocation().y );
 		assertTrue( pandaIcon == ((JLabel) racetrack.getComponent( 1 )).getIcon() );
-		assertTrue( "Paula1".equals( ((JLabel) racetrack.getComponent( 2 )).getText() ));
+		assertEquals( "Paula1", ((JLabel) racetrack.getComponent( 2 )).getText() );
 		assertTrue( ((JLabel) racetrack.getComponent( 2 )).getLocation().x > 20 );
 		assertTrue( 400 == ((JLabel) racetrack.getComponent( 2 )).getLocation().y );
 		assertTrue( elephantIcon == ((JLabel) racetrack.getComponent( 2 )).getIcon() );
 
 		// Stop race
 
-		assertTrue( "Stop race".equals( ((JButton) statusbar.getComponent( 1 )).getText() ));
+		assertEquals( "Stop race", ((JButton) statusbar.getComponent( 1 )).getText() );
 		((JButton) statusbar.getComponent( 1 )).doClick();
 		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x == 0 );
 		assertTrue( ((JLabel) racetrack.getComponent( 1 )).getLocation().x == 0 );
@@ -143,6 +143,6 @@ public class SwingAnimalRacesTest
 
 		// Close (don't actually click Close, as it calls System.exit)
 
-		assertTrue( "Close".equals( ((JButton) statusbar.getComponent( 2 )).getText() ));
+		assertEquals( "Close", ((JButton) statusbar.getComponent( 2 )).getText() );
 	}
 }
