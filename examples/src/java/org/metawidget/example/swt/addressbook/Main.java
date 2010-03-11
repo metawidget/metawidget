@@ -204,6 +204,7 @@ public class Main
 	public void addPersonal()
 	{
 		mContactDialog.open( new PersonalContact() );
+		mContactDialog.waitForDispose();
 	}
 
 	@UiAction
@@ -211,6 +212,7 @@ public class Main
 	public void addBusiness()
 	{
 		mContactDialog.open( new BusinessContact() );
+		mContactDialog.waitForDispose();
 	}
 
 	//
@@ -289,6 +291,7 @@ public class Main
 				// ...and display it
 
 				mContactDialog.open( contact );
+				mContactDialog.waitForDispose();
 			}
 
 			@Override

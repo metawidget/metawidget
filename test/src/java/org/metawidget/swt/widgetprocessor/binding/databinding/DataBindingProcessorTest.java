@@ -14,34 +14,28 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swt.addressbook.converter;
+package org.metawidget.swt.widgetprocessor.binding.databinding;
 
-import org.eclipse.core.databinding.conversion.Converter;
-import org.metawidget.example.shared.addressbook.model.ContactType;
+import junit.framework.TestCase;
+
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class ContactTypeToStringConverter
-	extends Converter
+public class DataBindingProcessorTest
+	extends TestCase
 {
-	//
-	// Constructor
-	//
-
-	public ContactTypeToStringConverter()
-	{
-		super( ContactType.class, String.class );
-	}
-
 	//
 	// Public methods
 	//
 
-	@Override
-	public Object convert( Object toConvert )
+	public void testConfig()
 	{
-		return ((ContactType) toConvert).name();
+		TestUtils.testEqualsAndHashcode( DataBindingProcessorConfig.class, new DataBindingProcessorConfig()
+		{
+			// subclass
+		} );
 	}
 }

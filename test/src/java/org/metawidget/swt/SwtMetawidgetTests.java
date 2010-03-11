@@ -26,6 +26,7 @@ import org.metawidget.swt.layout.GridLayoutTest;
 import org.metawidget.swt.layout.MigLayoutTest;
 import org.metawidget.swt.layout.RowLayoutTest;
 import org.metawidget.swt.widgetbuilder.SwtWidgetBuilderTest;
+import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessorTest;
 import org.metawidget.swt.widgetprocessor.binding.reflection.ReflectionBindingProcessorTest;
 
 /**
@@ -42,6 +43,7 @@ public class SwtMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "SwtMetawidget Tests" );
+		suite.addTestSuite( DataBindingProcessorTest.class );
 		suite.addTestSuite( FillLayoutTest.class );
 		suite.addTestSuite( GridLayoutTest.class );
 		suite.addTestSuite( MigLayoutTest.class );

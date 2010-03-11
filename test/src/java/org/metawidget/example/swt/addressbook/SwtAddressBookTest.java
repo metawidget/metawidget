@@ -21,8 +21,21 @@ import java.util.Locale;
 import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.Contact;
+import org.metawidget.example.shared.addressbook.model.ContactSearch;
+import org.metawidget.iface.MetawidgetException;
+import org.metawidget.swt.Facet;
+import org.metawidget.swt.Stub;
+import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
 
 /**
@@ -48,34 +61,37 @@ public class SwtAddressBookTest
 		Shell shell = new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE );
 		Main main = new Main( shell );
 		assertTrue( shell.getChildren()[0] instanceof Label );
-		/*
-		JPanel panelRight = (Label)
-		assertTrue( !panelRight.isOpaque() );
-		JTable contactsTable = ( (JTable) ( (JScrollPane) panelRight.getComponent( 1 ) ).getViewport().getView() );
-		assertTrue( contactsTable.getRowCount() == 6 );
+		Table contactsTable = (Table) shell.getChildren()[2];
+		assertTrue( contactsTable.getItemCount() == 6 );
 
 		// Check searching
 
-		SwtMetawidget metawidgetSearch = (SwtMetawidget) panelRight.getComponent( 0 );
+		SwtMetawidget metawidgetSearch = (SwtMetawidget) shell.getChildren()[1];
 
 		metawidgetSearch.setValue( "Simpson", "surname" );
-		metawidgetSearch.setValue( ContactType.PERSONAL, "type" );
+		metawidgetSearch.setValue( "PERSONAL", "type" );
 
-		assertTrue( metawidgetSearch.getComponentCount() == 8 );
-		JPanel panelButtons = (JPanel) metawidgetSearch.getComponent( metawidgetSearch.getComponentCount() - 1 );
-		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).gridx == -1 );
-		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).gridy == 4 );
-		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).fill == GridBagConstraints.BOTH );
-		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).anchor == GridBagConstraints.WEST );
-		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).gridwidth == GridBagConstraints.REMAINDER );
-		assertTrue( ((Container) panelButtons.getComponent( 0 )).getLayout() instanceof FlowLayout );
-		JButton buttonSearch = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
-		assertTrue( "Search".equals( buttonSearch.getText() ) );
+		assertTrue( metawidgetSearch.getChildren().length == 7 );
 
-		buttonSearch.getAction().actionPerformed( null );
-		assertTrue( ContactType.PERSONAL == ((JComboBox) metawidgetSearch.getComponent( "type" )).getSelectedItem() );
+		Facet buttonFacet = (Facet) metawidgetSearch.getChildren()[ metawidgetSearch.getChildren().length - 1 ];
+		assertTrue( 2 == ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
+		assertTrue( SWT.FILL == ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
+		assertTrue( ( (GridData) buttonFacet.getLayoutData() ).grabExcessHorizontalSpace );
+		assertTrue( buttonFacet.getChildren().length == 1 );
+		SwtMetawidget buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		assertTrue( buttonsMetawidget.getLayout() instanceof RowLayout );
 
-		ContactsController contactsController = addressBook.getContactsController();
+		assertTrue( buttonsMetawidget.getChildren()[0] instanceof Stub );
+		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[0].getLayoutData() ).exclude );
+		assertTrue( buttonsMetawidget.getChildren()[1] instanceof Stub );
+		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[1].getLayoutData() ).exclude );
+
+		Button searchButton = (Button) buttonsMetawidget.getChildren()[2];
+		assertTrue( "Search".equals( searchButton.getText() ) );
+		searchButton.notifyListeners( SWT.Selection, null );
+		assertTrue( "PERSONAL".equals( ((Combo) metawidgetSearch.getControl( "type" )).getText() ));
+
+		ContactsController contactsController = main.getContactsController();
 		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
 
 		// Open dialog for Personal Contact
@@ -91,16 +107,17 @@ public class SwtAddressBookTest
 		assertTrue( "742 Evergreen Terrace".equals( contact.getAddress().getStreet() ) );
 		assertTrue( contact.getCommunications().size() == 1 );
 
-		ContactDialog dialog = new ContactDialog( addressBook, contact );
-		dialog.setShowConfirmDialog( false );
+		ContactDialog dialog = new ContactDialog( main );
+		dialog.open( contact );
 
 		// Check loading
 
-		SwtMetawidget metawidgetContact = (SwtMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
+		SwtMetawidget metawidgetContact = dialog.mContactMetawidget;
 		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstname" ) ) );
-		assertTrue( metawidgetContact.getComponent( "firstname" ) instanceof JLabel );
-		assertTrue( "Male".equals( ((JLabel) metawidgetContact.getComponent( "gender" )).getText() ));
-		assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
+		assertTrue( metawidgetContact.getControl( "firstname" ) instanceof Label );
+		assertTrue( "MALE".equals( ((Label) metawidgetContact.getControl( "gender" )).getText() ));
+
+		//TODO: assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
 		try
 		{
@@ -112,20 +129,13 @@ public class SwtAddressBookTest
 			// Should throw MetawidgetException
 		}
 
-		JScrollPane scrollPane = metawidgetContact.getComponent( "communications" );
-		JTable communications = (JTable) scrollPane.getViewport().getView();
-		TableModel model = communications.getModel();
-
-		assertTrue( model.getRowCount() == 1 );
-
-		// Check painting (in that it at least doesn't NullPointer)
-
-		Graphics graphics = new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB ).getGraphics();
-		( (ImagePanel) ( (JPanel) ( (JLayeredPane) ( (JRootPane) dialog.getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 ) ).getComponent( 0 ) ).paint( graphics );
+		Table communicationsTable = metawidgetContact.getControl( "communications" );
+		assertTrue( communicationsTable.getItemCount() == 1 );
 
 		// Check editing
 
-		assertTrue( metawidgetContact.getComponentCount() == 19 );
+		assertTrue( metawidgetContact.getChildren().length == 19 );
+		/*
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
 		assertTrue( ((Container) panelButtons.getComponent( 0 )).getLayout() instanceof FlowLayout );
 		JButton buttonEdit = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );

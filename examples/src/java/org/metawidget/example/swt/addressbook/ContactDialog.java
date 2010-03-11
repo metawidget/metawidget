@@ -92,7 +92,7 @@ public class ContactDialog
 	// Public methods
 	//
 
-	public Object open( final Contact contact )
+	public void open( final Contact contact )
 	{
 		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
 		mShell.setSize( 800, 600 );
@@ -263,9 +263,10 @@ public class ContactDialog
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.CENTER;
 		mButtonsMetawidget.setLayoutData( data );
+	}
 
-		// Wait for close
-
+	public void waitForDispose()
+	{
 		mShell.open();
 		Display display = getParent().getDisplay();
 		while ( !mShell.isDisposed() )
@@ -273,7 +274,6 @@ public class ContactDialog
 			if ( !display.readAndDispatch() )
 				display.sleep();
 		}
-		return null;
 	}
 
 	public void fireRefresh()
