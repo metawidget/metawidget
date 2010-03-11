@@ -48,44 +48,44 @@ public class OvalInspectorTest
 		OvalInspector inspector = new OvalInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( "3".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "24".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( "3", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "24", property.getAttribute( MAXIMUM_VALUE ) );
 		assertTrue( 4 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "1.5".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "99.25".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
-		assertTrue( "2".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
-		assertTrue( "25".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "1.5", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "99.25", property.getAttribute( MAXIMUM_VALUE ) );
+		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "forcedRange" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( "3.1".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "24.8".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
-		assertTrue( "4".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
-		assertTrue( "23".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( "3.1", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "24.8", property.getAttribute( MAXIMUM_VALUE ) );
+		assertEquals( "4", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( "23", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( 6 == property.getAttributes().getLength() );
 	}
 

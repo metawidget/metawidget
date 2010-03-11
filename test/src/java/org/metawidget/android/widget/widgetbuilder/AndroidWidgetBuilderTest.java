@@ -305,11 +305,11 @@ public class AndroidWidgetBuilderTest
 		TextView textView = new TextView( null );
 		assertTrue( null == androidWidgetBuilder.getValue( textView ) );
 		androidWidgetBuilder.setValue( "foo", textView );
-		assertTrue( "foo".equals( textView.getText() ) );
-		assertTrue( "foo".equals( androidWidgetBuilder.getValue( textView ) ) );
+		assertEquals( "foo", textView.getText() );
+		assertEquals( "foo", androidWidgetBuilder.getValue( textView ) );
 
 		textView.setText( new SpannableStringBuilder( "foo" ) );
-		assertTrue( "foo".equals( androidWidgetBuilder.getValue( textView ) ) );
+		assertEquals( "foo", androidWidgetBuilder.getValue( textView ) );
 
 		// DatePicker
 

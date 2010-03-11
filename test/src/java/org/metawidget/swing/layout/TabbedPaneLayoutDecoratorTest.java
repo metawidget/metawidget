@@ -61,20 +61,20 @@ public class TabbedPaneLayoutDecoratorTest
 		metawidget.setToInspect( new Foo() );
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
-		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Section", tabbedPane.getTitleAt( 0 ) );
 		assertTrue( SwingConstants.TOP == tabbedPane.getTabPlacement() );
 		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
-		assertTrue( "Bar:".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Bar:", ( (JLabel) panel.getComponent( 0 ) ).getText() );
 		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == panel.getComponentCount() );
 
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setTabPlacement( SwingConstants.BOTTOM ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
-		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Section", tabbedPane.getTitleAt( 0 ) );
 		assertTrue( SwingConstants.BOTTOM == tabbedPane.getTabPlacement() );
 		panel = (JPanel) tabbedPane.getComponent( 0 );
-		assertTrue( "Bar:".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Bar:", ( (JLabel) panel.getComponent( 0 ) ).getText() );
 		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == panel.getComponentCount() );
@@ -86,42 +86,42 @@ public class TabbedPaneLayoutDecoratorTest
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
-		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Abc:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 
 		JTabbedPane outerTabbedPane = (JTabbedPane) metawidget.getComponent( 2 );
-		assertTrue( "Foo".equals( outerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Foo", outerTabbedPane.getTitleAt( 0 ) );
 		JPanel outerPanel = (JPanel) outerTabbedPane.getComponent( 0 );
 		assertTrue( 4 == outerPanel.getComponentCount() );
 
 		JTabbedPane innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 0 );
-		assertTrue( "Bar".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Bar", innerTabbedPane.getTitleAt( 0 ) );
 		JPanel barPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Def:".equals( ( (JLabel) barPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Def:", ( (JLabel) barPanel.getComponent( 0 ) ).getText() );
 		assertTrue( barPanel.getComponent( 1 ) instanceof JCheckBox );
-		assertTrue( "Ghi:".equals( ( (JLabel) barPanel.getComponent( 2 ) ).getText() ) );
+		assertEquals( "Ghi:", ( (JLabel) barPanel.getComponent( 2 ) ).getText() );
 		assertTrue( barPanel.getComponent( 3 ) instanceof JScrollPane );
 		assertTrue( 4 == barPanel.getComponentCount() );
 
-		assertTrue( "Baz".equals( innerTabbedPane.getTitleAt( 1 ) ) );
+		assertEquals( "Baz", innerTabbedPane.getTitleAt( 1 ) );
 		JPanel bazPanel = (JPanel) innerTabbedPane.getComponent( 1 );
-		assertTrue( "Jkl:".equals( ( (JLabel) bazPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Jkl:", ( (JLabel) bazPanel.getComponent( 0 ) ).getText() );
 		assertTrue( bazPanel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( bazPanel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == bazPanel.getComponentCount() );
 
-		assertTrue( "Mno:".equals( ( (JLabel) outerPanel.getComponent( 1 ) ).getText() ) );
+		assertEquals( "Mno:", ( (JLabel) outerPanel.getComponent( 1 ) ).getText() );
 		assertTrue( outerPanel.getComponent( 2 ) instanceof JCheckBox );
 
 		innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 3 );
-		assertTrue( "Moo".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Moo", innerTabbedPane.getTitleAt( 0 ) );
 		JPanel mooPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Pqr:".equals( ( (JLabel) mooPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Pqr:", ( (JLabel) mooPanel.getComponent( 0 ) ).getText() );
 		assertTrue( mooPanel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( mooPanel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == mooPanel.getComponentCount() );
 
-		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
+		assertEquals( "Stu:", ( (JLabel) metawidget.getComponent( 3 ) ).getText() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
 		assertTrue( 5 == metawidget.getComponentCount() );
 
@@ -142,40 +142,40 @@ public class TabbedPaneLayoutDecoratorTest
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GroupLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
-		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Abc:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 
 		JTabbedPane outerTabbedPane = (JTabbedPane) metawidget.getComponent( 2 );
-		assertTrue( "Foo".equals( outerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Foo", outerTabbedPane.getTitleAt( 0 ) );
 		JPanel outerPanel = (JPanel) outerTabbedPane.getComponent( 0 );
 		assertTrue( 4 == outerPanel.getComponentCount() );
 
 		JTabbedPane innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 0 );
-		assertTrue( "Bar".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Bar", innerTabbedPane.getTitleAt( 0 ) );
 		JPanel innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Def:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Def:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JCheckBox );
-		assertTrue( "Ghi:".equals( ( (JLabel) innerPanel.getComponent( 2 ) ).getText() ) );
+		assertEquals( "Ghi:", ( (JLabel) innerPanel.getComponent( 2 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 3 ) instanceof JScrollPane );
 		assertTrue( 4 == innerPanel.getComponentCount() );
 
-		assertTrue( "Baz".equals( innerTabbedPane.getTitleAt( 1 ) ) );
+		assertEquals( "Baz", innerTabbedPane.getTitleAt( 1 ) );
 		innerPanel = (JPanel) innerTabbedPane.getComponent( 1 );
-		assertTrue( "Jkl:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Jkl:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 2 == innerPanel.getComponentCount() );
 
-		assertTrue( "Mno:".equals( ( (JLabel) outerPanel.getComponent( 1 ) ).getText() ) );
+		assertEquals( "Mno:", ( (JLabel) outerPanel.getComponent( 1 ) ).getText() );
 		assertTrue( outerPanel.getComponent( 2 ) instanceof JCheckBox );
 
 		innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 3 );
-		assertTrue( "Moo".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Moo", innerTabbedPane.getTitleAt( 0 ) );
 		innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Pqr:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Pqr:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 2 == innerPanel.getComponentCount() );
 
-		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
+		assertEquals( "Stu:", ( (JLabel) metawidget.getComponent( 3 ) ).getText() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
@@ -187,23 +187,23 @@ public class TabbedPaneLayoutDecoratorTest
 		metawidget.setToInspect( new Baz() );
 
 		JPanel panel = (JPanel) metawidget.getComponent( 0 );
-		assertTrue( "Foo".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Foo", ( (JLabel) panel.getComponent( 0 ) ).getText() );
 		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
 
 		JTabbedPane innerTabbedPane = (JTabbedPane) metawidget.getComponent( 1 );
-		assertTrue( "Bar".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		assertEquals( "Bar", innerTabbedPane.getTitleAt( 0 ) );
 		JPanel innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Abc:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Abc:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 2 == innerPanel.getComponentCount() );
 
 		panel = (JPanel) metawidget.getComponent( 2 );
-		assertTrue( "Baz".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Baz", ( (JLabel) panel.getComponent( 0 ) ).getText() );
 		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
 
-		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
+		assertEquals( "Def:", ( (JLabel) metawidget.getComponent( 3 ) ).getText() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JCheckBox );
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}

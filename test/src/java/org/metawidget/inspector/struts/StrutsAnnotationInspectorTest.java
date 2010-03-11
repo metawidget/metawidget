@@ -42,28 +42,28 @@ public class StrutsAnnotationInspectorTest
 		StrutsAnnotationInspector inspector = new StrutsAnnotationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar1".equals( property.getAttribute( STRUTS_LOOKUP_NAME ) ) );
-		assertTrue( "baz1".equals( property.getAttribute( STRUTS_LOOKUP_PROPERTY ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar1", property.getAttribute( STRUTS_LOOKUP_NAME ) );
+		assertEquals( "baz1", property.getAttribute( STRUTS_LOOKUP_PROPERTY ) );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar2".equals( property.getAttribute( STRUTS_LOOKUP_NAME ) ) );
-		assertTrue( "baz2".equals( property.getAttribute( STRUTS_LOOKUP_PROPERTY ) ) );
-		assertTrue( "abc2".equals( property.getAttribute( STRUTS_LOOKUP_LABEL_NAME ) ) );
-		assertTrue( "def2".equals( property.getAttribute( STRUTS_LOOKUP_LABEL_PROPERTY ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar2", property.getAttribute( STRUTS_LOOKUP_NAME ) );
+		assertEquals( "baz2", property.getAttribute( STRUTS_LOOKUP_PROPERTY ) );
+		assertEquals( "abc2", property.getAttribute( STRUTS_LOOKUP_LABEL_NAME ) );
+		assertEquals( "def2", property.getAttribute( STRUTS_LOOKUP_LABEL_PROPERTY ) );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}

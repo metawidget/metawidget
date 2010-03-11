@@ -84,7 +84,7 @@ public class MigLayoutTest
 		}
 		catch ( LayoutException e )
 		{
-			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
+			assertEquals( "numberOfColumns must be >= 1", e.getMessage() );
 		}
 
 		//metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
@@ -95,14 +95,14 @@ public class MigLayoutTest
 		assertTrue( 0 == insets[1].getValue() );
 		assertTrue( 0 == insets[2].getValue() );
 		assertTrue( 0 == insets[3].getValue() );
-		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertEquals( "Abc:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
 		assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getGrow() );
-		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Def*:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
 		assertTrue( 3 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
-		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertEquals( "Ghi:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
@@ -115,21 +115,21 @@ public class MigLayoutTest
 		//assertTrue( 2 == ( (CC) tabbedPane.getLayoutData() ).getCellY() );
 		//assertTrue( SPAN_ALL == ( (CC) tabbedPane.getLayoutData() ).getSpanX() );
 
-		//assertTrue( "tab1".equals( tabbedPane.getItem( 0 ).getText() ) );
+		//assertEquals( "tab1", tabbedPane.getItem( 0 ).getText() );
 		//TabItem tabPanel = (TabItem) tabbedPane.getTabList()[0];
 		//assertTrue( tabPanel.getChildren()[0] instanceof Label );
-		//assertTrue( "Tab 1_jkl:".equals( ( (Label) tabPanel.getChildren()[0] ).getText() ) );
+		//assertEquals( "Tab 1_jkl:", ( (Label) tabPanel.getChildren()[0] ).getText() );
 		//assertTrue( false == ( (LC) ( (MigLayout) tabPanel.getLayout() ).getLayoutConstraints() ).isFillY() );
 		//assertTrue( 1 == ( (CC) tabPanel.getChildren()[1].getLayoutData() ).getCellX() );
-		//assertTrue( "Tab 1_mno:".equals( ( (Label) tabPanel.getChildren()[2] ).getText() ) );
+		//assertEquals( "Tab 1_mno:", ( (Label) tabPanel.getChildren()[2] ).getText() );
 		//assertTrue( tabPanel.getChildren()[3] instanceof JComboBox );
 		//assertTrue( 3 == ( (CC) tabPanel.getChildren()[3].getLayoutData() ).getCellX() );
-		//assertTrue( "Tab 1_pqr:".equals( ( (Label) tabPanel.getChildren()[4] ).getText() ) );
+		//assertEquals( "Tab 1_pqr:", ( (Label) tabPanel.getChildren()[4] ).getText() );
 		//assertTrue( tabPanel.getChildren()[5] instanceof Text );
 		//assertTrue( 1 == ( (CC) tabPanel.getChildren()[5].getLayoutData() ).getCellX() );
 		//assertTrue( 6 == tabPanel.getComponentCount() );
 
-		//assertTrue( "tab2".equals( tabbedPane.getItem( 1 ).getText() ) );
+		//assertEquals( "tab2", tabbedPane.getItem( 1 ).getText() );
 		//tabPanel = (TabItem) tabbedPane.getTabList()[1];
 		//assertTrue( tabPanel.getChildren()[0] instanceof JScrollPane );
 		//assertTrue( 0 == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getColumnConstraints( tabPanel.getChildren()[0] ) ).getCellX() );
@@ -137,21 +137,21 @@ public class MigLayoutTest
 		//assertTrue( GROW_ALL == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getColumnConstraints( tabPanel.getChildren()[0] ) ).getVertical().getGrow() );
 		//assertTrue( 1 == tabPanel.getComponentCount() );
 
-		//assertTrue( "tab3".equals( tabbedPane.getItem( 2).getText() ) );
+		//assertEquals( "tab3", tabbedPane.getItem( 2).getText() );
 		//tabPanel = (TabItem) tabbedPane.getTabList()[2];
 		//assertTrue( false == ( (LC) ( (MigLayout) tabPanel.getLayout() ).getLayoutConstraints() ).isFillY() );
 		//assertTrue( tabPanel.getChildren()[0] instanceof Text );
 		//assertTrue( 0 == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getColumnConstraints( tabPanel.getChildren()[0] ) ).getCellX() );
 		//assertTrue( 2 == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getColumnConstraints( tabPanel.getChildren()[0] ) ).getSpanX() );
-		//assertTrue( "Tab 3_mno:".equals( ( (Label) tabPanel.getChildren()[1] ).getText() ) );
+		//assertEquals( "Tab 3_mno:", ( (Label) tabPanel.getChildren()[1] ).getText() );
 		//assertTrue( tabPanel.getChildren()[2] instanceof Text );
 		//assertTrue( 3 == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getColumnConstraints( tabPanel.getChildren()[2] ) ).getCellX() );
-		//assertTrue( "Tab 3_pqr:".equals( ( (Label) tabPanel.getChildren()[3] ).getText() ) );
+		//assertEquals( "Tab 3_pqr:", ( (Label) tabPanel.getChildren()[3] ).getText() );
 		//assertTrue( tabPanel.getChildren()[4] instanceof Text );
 		//assertTrue( 1 == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getColumnConstraints( tabPanel.getChildren()[4] ) ).getCellX() );
 		//assertTrue( 5 == tabPanel.getComponentCount() );
 
-		//assertTrue( "Mno:".equals( ( (Label) metawidget.getChildren()[7] ).getText() ) );
+		//assertEquals( "Mno:", ( (Label) metawidget.getChildren()[7] ).getText() );
 		//assertTrue( metawidget.getChildren()[8] instanceof Text );
 		//assertTrue( 1 == ( (CC) metawidget.getChildren()[8].getLayoutData() ).getCellX() );
 
@@ -179,7 +179,7 @@ public class MigLayoutTest
 		arbitraryStubWithAttributes.setAttribute( "large", "true" );
 
 		metawidget.setToInspect( new Foo() );
-		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertEquals( "Abc:", ( (Label) metawidget.getChildren()[0] ).getText() );
 
 		UnitValue[] padding = ( (CC) metawidget.getChildren()[0].getLayoutData() ).getPadding();
 		assertTrue( padding[0].getValue() == 2 );
@@ -194,26 +194,26 @@ public class MigLayoutTest
 		assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
 		assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getAlign() );
-		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Def*:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getSpanX() );
-		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertEquals( "Ghi:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		//assertTrue( metawidget.getChildren()[6] instanceof TabFolder );
-		//assertTrue( arbitrary.equals( metawidget.getChildren()[7] ) );
-		//assertTrue( arbitraryStubWithAttributes.equals( metawidget.getChildren()[8] ) );
+		//assertEquals( arbitrary, metawidget.getChildren()[7] );
+		//assertEquals( arbitraryStubWithAttributes, metawidget.getChildren()[8] );
 		//assertTrue( 0 == ( (CC) metawidget.getChildren()[8].getLayoutData() ).getCellX() );
 		//assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[8].getLayoutData() ).getSpanX() );
 
 		// Read-only on required labels
 
 		metawidget.setReadOnly( true );
-		assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Def:", ( (Label) metawidget.getChildren()[2] ).getText() );
 	}
 
 	public void testOddColumns()

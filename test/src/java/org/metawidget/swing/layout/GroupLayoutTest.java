@@ -55,13 +55,13 @@ public class GroupLayoutTest
 
 		// Check what created
 
-		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Age:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertEquals( ( "age_label" ), metawidget.getComponent( 0 ).getName() );
 		assertTrue( metawidget.getComponent( "age_label" ) == metawidget.getComponent( 0 ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
-		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
-		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
 
 		// Check adding a stub
@@ -71,9 +71,9 @@ public class GroupLayoutTest
 		metawidget.add( stub );
 		metawidget.setToInspect( new Person() );
 
-		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
-		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
 
 		// Check end of tutorial
@@ -82,25 +82,25 @@ public class GroupLayoutTest
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 		metawidget.remove( stub );
 
-		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
-		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertEquals( "Age:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
-		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
-		assertTrue( "Hobbies:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
+		assertEquals( "Hobbies:", ( (JLabel) metawidget.getComponent( 6 ) ).getText() );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JTextField );
-		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
+		assertEquals( "Employer:", ( (JLabel) metawidget.getComponent( 8 ) ).getText() );
 		assertTrue( metawidget.getComponent( 9 ) instanceof JTextField );
 
 		// Check required fields
 
 		metawidget.setToInspect( new Foo() );
-		assertTrue( "Bar*:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( "Baz:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertEquals( "Bar*:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
+		assertEquals( "Baz:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 
 		metawidget.setReadOnly( true );
-		assertTrue( "Bar:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertEquals( "Bar:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 	}
 
 	//

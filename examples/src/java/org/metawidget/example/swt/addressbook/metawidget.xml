@@ -34,6 +34,8 @@
 				<dataBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.databinding" config="DataBindingProcessorConfig">
 					<converters>
 						<array xmlns="java:org.metawidget.example.swt.addressbook.converter">
+							<dateToStringConverter/>
+							<stringToDateConverter/>
 							<genderToStringConverter/>
 							<stringToGenderConverter/>
 						</array>

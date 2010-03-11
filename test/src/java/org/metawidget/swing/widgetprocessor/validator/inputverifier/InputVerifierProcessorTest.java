@@ -68,9 +68,9 @@ public class InputVerifierProcessorTest
 		assertTrue( null == metawidget.getClientProperty( "onStartBuild" ) );
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertFalse( spinner.getInputVerifier().verify( spinner ) );
-		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onStartBuild" ) ) );
-		assertTrue( ( Foo.class.getName() + "/bar" ).equals( metawidget.getClientProperty( "onVerify" ) ) );
-		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onEndBuild" ) ) );
+		assertEquals( Boolean.TRUE, metawidget.getClientProperty( "onStartBuild" ) );
+		assertEquals( ( Foo.class.getName() + "/bar" ), metawidget.getClientProperty( "onVerify" ) );
+		assertEquals( Boolean.TRUE, metawidget.getClientProperty( "onEndBuild" ) );
 
 		// Test validate applies to nested Metawidgets too
 
@@ -79,9 +79,9 @@ public class InputVerifierProcessorTest
 
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertFalse( nestedSpinner.getInputVerifier().verify( spinner ) );
-		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onStartBuild" ) ) );
-		assertTrue( ( Foo.class.getName() + "/nestedFoo/bar" ).equals( nestedMetawidget.getClientProperty( "onVerify" ) ) );
-		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onEndBuild" ) ) );
+		assertEquals( Boolean.TRUE, nestedMetawidget.getClientProperty( "onStartBuild" ) );
+		assertEquals( ( Foo.class.getName() + "/nestedFoo/bar" ), nestedMetawidget.getClientProperty( "onVerify" ) );
+		assertEquals( Boolean.TRUE, nestedMetawidget.getClientProperty( "onEndBuild" ) );
 	}
 
 	//

@@ -62,7 +62,7 @@ public class TextViewLayoutDecoratorTest
 
 		android.widget.TableLayout tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 0 );
 		TableRow tableRow = (TableRow) tableLayout.getChildAt( 0 );
-		assertTrue( "Bar: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Bar: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 
 		// Heading #1
@@ -75,10 +75,10 @@ public class TextViewLayoutDecoratorTest
 		assertTrue( android.widget.LinearLayout.HORIZONTAL == new android.widget.LinearLayout( null ).getOrientation() );
 		android.widget.TableLayout sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
-		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Baz: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 1 );
-		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Abc: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 2 == sectionTableLayout.getChildCount() );
 
@@ -90,14 +90,14 @@ public class TextViewLayoutDecoratorTest
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
-		assertTrue( "Def: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Def: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == sectionTableLayout.getChildCount() );
 
 		// Separate component
 
 		tableRow = (TableRow) tableLayout.getChildAt( 5 );
-		assertTrue( "Ghi: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Ghi: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 
 		// Heading #3
@@ -108,7 +108,7 @@ public class TextViewLayoutDecoratorTest
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
-		assertTrue( "Jkl: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Jkl: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == sectionTableLayout.getChildCount() );
 

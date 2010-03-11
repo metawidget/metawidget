@@ -185,7 +185,7 @@ public class JspUtilsTest
 				verify += object2 + NEWLINE;
 				verify += "END" + NEWLINE;
 
-				assertTrue( verify.equals( writer.toString() ) );
+				assertEquals( verify, writer.toString() );
 			}
 		} );
 	}

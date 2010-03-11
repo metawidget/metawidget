@@ -94,10 +94,10 @@ public class TestUtils
 			Assert.assertFalse( object1.equals( null ) );
 			Assert.assertFalse( object1.equals( "foo" ) );
 			Assert.assertTrue( "subclass", !object1.equals( subclass ) );
-			Assert.assertTrue( object1.equals( object1 ) );
+			Assert.assertEquals( object1, object1 );
 
 			Assert.assertTrue( object1 != object2 );
-			Assert.assertTrue( object1.equals( object2 ) );
+			Assert.assertEquals( object1, object2 );
 			Assert.assertTrue( object1.hashCode() == object2.hashCode() );
 
 			// Test each property

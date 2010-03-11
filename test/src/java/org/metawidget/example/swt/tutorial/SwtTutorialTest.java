@@ -64,11 +64,11 @@ public class SwtTutorialTest
 
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setToInspect( new Person() );
-		assertTrue( "Age:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertEquals( "Age:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Spinner );
-		assertTrue( "Name:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Name:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Text );
-		assertTrue( "Retired:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		assertTrue( 6 == metawidget.getChildren().length );
@@ -82,17 +82,17 @@ public class SwtTutorialTest
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( layoutConfig ) );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
-		assertTrue( "Name:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertEquals( "Name:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
-		assertTrue( "Age:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Age:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
-		assertTrue( "Retired:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( "Gender:".equals( ( (Label) metawidget.getChildren()[6] ).getText() ) );
+		assertEquals( "Gender:", ( (Label) metawidget.getChildren()[6] ).getText() );
 		assertTrue( metawidget.getChildren()[7] instanceof Combo );
 		assertTrue( 3 == ( (Combo) metawidget.getChildren()[7] ).getItemCount() );
-		assertTrue( "Notes:".equals( ( (Label) metawidget.getChildren()[8] ).getText() ) );
+		assertEquals( "Notes:", ( (Label) metawidget.getChildren()[8] ).getText() );
 		assertTrue( metawidget.getChildren()[9] instanceof Text );
 		assertTrue( ( (GridData) metawidget.getChildren()[9].getLayoutData() ).grabExcessVerticalSpace );
 		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.MULTI ) == SWT.MULTI );
@@ -102,13 +102,13 @@ public class SwtTutorialTest
 		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
 
 		Composite separator = (Composite) metawidget.getChildren()[10];
-		assertTrue( "Work".equals( ( (Label) separator.getChildren()[0] ).getText() ) );
+		assertEquals( "Work", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
 		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 
-		assertTrue( "Employer:".equals( ( (Label) metawidget.getChildren()[11] ).getText() ) );
+		assertEquals( "Employer:", ( (Label) metawidget.getChildren()[11] ).getText() );
 		assertTrue( metawidget.getChildren()[12] instanceof Text );
-		assertTrue( "Department:".equals( ( (Label) metawidget.getChildren()[13] ).getText() ) );
+		assertEquals( "Department:", ( (Label) metawidget.getChildren()[13] ).getText() );
 		assertTrue( metawidget.getChildren()[14] instanceof Text );
 
 		assertTrue( 15 == metawidget.getChildren().length );
@@ -120,16 +120,16 @@ public class SwtTutorialTest
 		metawidget.setConfig( "org/metawidget/example/swt/tutorial/metawidget.xml" );
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
-		assertTrue( "Name:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertEquals( "Name:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
-		assertTrue( "Age:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Age:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
 		assertTrue( metawidget.getChildren()[4] instanceof Stub );
 		assertTrue( ( (GridData) metawidget.getChildren()[4].getLayoutData() ).exclude );
-		assertTrue( "Gender:".equals( ( (Label) metawidget.getChildren()[5] ).getText() ) );
+		assertEquals( "Gender:", ( (Label) metawidget.getChildren()[5] ).getText() );
 		assertTrue( metawidget.getChildren()[6] instanceof Combo );
 		assertTrue( 3 == ( (Combo) metawidget.getChildren()[6] ).getItemCount() );
-		assertTrue( "Notes:".equals( ( (Label) metawidget.getChildren()[7] ).getText() ) );
+		assertEquals( "Notes:", ( (Label) metawidget.getChildren()[7] ).getText() );
 		assertTrue( metawidget.getChildren()[8] instanceof Text );
 		assertTrue( ( (GridData) metawidget.getChildren()[8].getLayoutData() ).grabExcessVerticalSpace );
 		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.MULTI ) == SWT.MULTI );
@@ -144,10 +144,10 @@ public class SwtTutorialTest
 		//assertEquals( "Work", tabbedPane.getTitleAt( 0 ) );
 
 		//Composite panel = (Composite) tabbedPane.getChildren()[ 0 ];
-		//assertTrue( "Employer:".equals( ( (Label) panel.getChildren()[ 0 ] ).getText() ) );
+		//assertEquals( "Employer:", ( (Label) panel.getChildren()[ 0 ] ).getText() );
 		//assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getChildren()[ 0 ] ) ).gridx );
 		//assertTrue( panel.getChildren()[ 1 ] instanceof Text );
-		//assertTrue( "Department:".equals( ( (Label) panel.getChildren()[ 2 ] ).getText() ) );
+		//assertEquals( "Department:", ( (Label) panel.getChildren()[ 2 ] ).getText() );
 		//assertTrue( 2 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getChildren()[ 2 ] ) ).gridx );
 		//assertTrue( panel.getChildren()[ 3 ] instanceof Text );
 
@@ -159,17 +159,17 @@ public class SwtTutorialTest
 	{
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setToInspect( new PersonWithSectionAtEnd() );
-		assertTrue( "Age:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertEquals( "Age:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Spinner );
-		assertTrue( "Name:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertEquals( "Name:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Text );
 
 		Composite separator = (Composite) metawidget.getChildren()[4];
-		assertTrue( "foo".equals( ( (Label) separator.getChildren()[0] ).getText() ) );
+		assertEquals( "foo", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
 		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 
-		assertTrue( "Retired:".equals( ( (Label) metawidget.getChildren()[5] ).getText() ) );
+		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[5] ).getText() );
 		assertTrue( metawidget.getChildren()[6] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[6].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		assertTrue( 7 == metawidget.getChildren().length );

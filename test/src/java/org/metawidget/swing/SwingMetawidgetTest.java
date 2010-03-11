@@ -67,7 +67,7 @@ public class SwingMetawidgetTest
 	{
 		BeanInfo info = Introspector.getBeanInfo( SwingMetawidget.class );
 
-		assertTrue( "Metawidget".equals( info.getBeanDescriptor().getDisplayName() ) );
+		assertEquals( "Metawidget", info.getBeanDescriptor().getDisplayName() );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_32x32 ) != null );
@@ -98,28 +98,28 @@ public class SwingMetawidgetTest
 
 		JTextField component = new JTextField();
 		metawidget.add( component );
-		assertTrue( ( panelRepaints + "repaint\n" ).equals( builder.toString() ) );
+		assertEquals( ( panelRepaints + "repaint\n" ), builder.toString() );
 
 		// Should see another 'repaint' because of remove called .getComponent, which built the
 		// widgets
 
 		metawidget.remove( component );
-		assertTrue( ( panelRepaints + "repaint\nrepaint\n" ).equals( builder.toString() ) );
+		assertEquals( ( panelRepaints + "repaint\nrepaint\n" ), builder.toString() );
 
 		// Should not see another repaint, because widgets already need repainting
 
 		metawidget.add( component );
-		assertTrue( ( panelRepaints + "repaint\nrepaint\n" ).equals( builder.toString() ) );
+		assertEquals( ( panelRepaints + "repaint\nrepaint\n" ), builder.toString() );
 
 		// Should see another repaint, because .remove will build the widgets
 
 		metawidget.remove( 0 );
-		assertTrue( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ).equals( builder.toString() ) );
+		assertEquals( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ), builder.toString() );
 
 		// Should not see another repaint, because widgets already need repainting
 
 		metawidget.removeAll();
-		assertTrue( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ).equals( builder.toString() ) );
+		assertEquals( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ), builder.toString() );
 	}
 
 	public void testNestedWithManualInspector()
@@ -133,7 +133,7 @@ public class SwingMetawidgetTest
 		foo2.setName( "Bar" );
 		metawidget.setToInspect( foo1 );
 
-		assertTrue( "Bar".equals( metawidget.getValue( "foo", "name" ) ) );
+		assertEquals( "Bar", metawidget.getValue( "foo", "name" ) );
 	}
 
 	public void testRecursion()
@@ -167,7 +167,7 @@ public class SwingMetawidgetTest
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
 		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
 		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
-		assertTrue( "name".equals( metawidget.getComponent( "foo", "name" ).getName() ) );
+		assertEquals( "name", metawidget.getComponent( "foo", "name" ).getName() );
 		assertTrue( metawidget.getComponent( "foo", "foo" ) == null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
@@ -255,9 +255,9 @@ public class SwingMetawidgetTest
 		( (JButton) metawidget.getComponent( 0 ) ).doClick();
 		( (JButton) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 0 ) ).doClick();
 
-		assertTrue( "FooActionBindingProcessor fired".equals( ( (JTextField) metawidget.getComponent( 4 ) ).getText() ) );
-		assertTrue( "".equals( ( (JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
-		assertTrue( "FooActionBindingProcessor fired".equals( ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
+		assertEquals( "FooActionBindingProcessor fired", ( (JTextField) metawidget.getComponent( 4 ) ).getText() );
+		assertEquals( "", ( (JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 ) ).getText() );
+		assertEquals( "FooActionBindingProcessor fired", ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() );
 	}
 
 	public void testFacet()
@@ -368,8 +368,8 @@ public class SwingMetawidgetTest
 
 		JTextField textField = metawidget.getComponent( "name" );
 		JTextField nestedTextField = metawidget.getComponent( "foo", "name" );
-		assertTrue( "Charlotte".equals( textField.getText() ) );
-		assertTrue( "Philippa".equals( nestedTextField.getText() ) );
+		assertEquals( "Charlotte", textField.getText() );
+		assertEquals( "Philippa", nestedTextField.getText() );
 
 		// Rebind
 
@@ -380,8 +380,8 @@ public class SwingMetawidgetTest
 		nestedFoo2.setName( "Richard" );
 
 		processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, foo2, metawidget );
-		assertTrue( "Julianne".equals( textField.getText() ) );
-		assertTrue( "Richard".equals( nestedTextField.getText() ) );
+		assertEquals( "Julianne", textField.getText() );
+		assertEquals( "Richard", nestedTextField.getText() );
 
 		// Check same component
 
@@ -391,9 +391,9 @@ public class SwingMetawidgetTest
 		// Check saves back to the correct place
 
 		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
-		assertTrue( "Charlotte".equals( foo1.getName() ) );
+		assertEquals( "Charlotte", foo1.getName() );
 		assertTrue( foo2 == metawidget.getToInspect() );
-		assertTrue( "Julianne".equals( foo2.getName() ) );
+		assertEquals( "Julianne", foo2.getName() );
 
 		// Check different component
 
@@ -402,8 +402,8 @@ public class SwingMetawidgetTest
 		assertTrue( textField != metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
 		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );
-		assertTrue( "Julianne".equals( ( (JTextField) metawidget.getComponent( "name" ) ).getText() ) );
-		assertTrue( "Richard".equals( ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() ) );
+		assertEquals( "Julianne", ( (JTextField) metawidget.getComponent( "name" ) ).getText() );
+		assertEquals( "Richard", ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() );
 
 		// Check error
 
@@ -414,7 +414,7 @@ public class SwingMetawidgetTest
 		}
 		catch ( Exception e )
 		{
-			assertTrue( errorMessage.equals( e.getCause().getMessage() ) );
+			assertEquals( errorMessage, e.getCause().getMessage() );
 		}
 	}
 

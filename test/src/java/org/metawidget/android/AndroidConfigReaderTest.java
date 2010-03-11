@@ -44,7 +44,7 @@ public class AndroidConfigReaderTest
 		}
 		catch( MetawidgetException e )
 		{
-			assertTrue( "Resource name does not start with '@': foo".equals( e.getMessage() ) );
+			assertEquals( "Resource name does not start with '@': foo", e.getMessage() );
 		}
 	}
 }

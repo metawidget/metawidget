@@ -66,7 +66,7 @@ public class SwingWidgetBuilderTest
 		}
 		catch( NumberFormatException e )
 		{
-			assertTrue( "For input string: \"1.5\"".equals( e.getMessage() ) );
+			assertEquals( "For input string: \"1.5\"", e.getMessage() );
 		}
 
 		// JTextArea

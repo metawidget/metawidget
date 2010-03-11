@@ -184,7 +184,7 @@ public class DataBindingProcessor
 			if ( bindingStatus.isOK() )
 				continue;
 
-			throw WidgetProcessorException.newException( bindingStatus.getMessage() );
+			throw WidgetProcessorException.newException( bindingStatus.getException() );
 		}
 
 		// Nested bindings

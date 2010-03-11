@@ -72,8 +72,8 @@ public class RichFacesProcessorTest
 		HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) component.getChildren().get( 0 );
 
 		assertTrue( ajaxSupport.getId() != null );
-		assertTrue( "onFoo".equals( ajaxSupport.getEvent() ) );
-		assertTrue( "metawidget-id".equals( ajaxSupport.getReRender() ) );
+		assertEquals( "onFoo", ajaxSupport.getEvent() );
+		assertEquals( "metawidget-id", ajaxSupport.getReRender() );
 	}
 
 	//

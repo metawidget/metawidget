@@ -61,22 +61,22 @@ public class TableLayoutTest
 
 		android.widget.TableLayout tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 0 );
 		TableRow tableRow = (TableRow) tableLayout.getChildAt( 0 );
-		assertTrue( "Bar: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Bar: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
-		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Baz: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
 
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
-		assertTrue( "Foo Section".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Foo Section", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 3 );
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
-		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Abc: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
-		assertTrue( "Nested foo: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Nested foo: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 1 ) );
 		assertTrue( 2 == androidMetawidget.getChildCount() );
 
@@ -85,26 +85,26 @@ public class TableLayoutTest
 		AndroidMetawidget nestedMetawidget = (AndroidMetawidget) tableRow.getChildAt( 1 );
 		tableLayout = (android.widget.TableLayout) nestedMetawidget.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
-		assertTrue( "Bar: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Bar: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
-		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Baz: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
 
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
-		assertTrue( "Foo Section".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Foo Section", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 3 );
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
-		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Abc: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		AdapterView<?> adapterView = (Spinner) tableRow.getChildAt( 1 );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
-		assertTrue( "Stub me: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Stub me: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
-		assertTrue( "Nested foo: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Nested foo: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof AndroidMetawidget );
 		assertTrue( 3 == tableLayout.getChildCount() );
 
@@ -120,12 +120,12 @@ public class TableLayoutTest
 
 		assertTrue( null == adapterView.getSelectedItem() );
 		assertTrue( null == adapterView.getAdapter().getItem( 0 ) );
-		assertTrue( "one".equals( adapterView.getAdapter().getItem( 1 ) ) );
-		assertTrue( "two".equals( adapterView.getAdapter().getItem( 2 ) ) );
-		assertTrue( "three".equals( adapterView.getAdapter().getItem( 3 ) ) );
+		assertEquals( "one", adapterView.getAdapter().getItem( 1 ) );
+		assertEquals( "two", adapterView.getAdapter().getItem( 2 ) );
+		assertEquals( "three", adapterView.getAdapter().getItem( 3 ) );
 		androidMetawidget.setValue( "two", "nestedFoo", "abc" );
-		assertTrue( "two".equals( adapterView.getSelectedItem() ) );
-		assertTrue( "two".equals( androidMetawidget.getValue( "nestedFoo", "abc" ) ) );
+		assertEquals( "two", adapterView.getSelectedItem() );
+		assertEquals( "two", androidMetawidget.getValue( "nestedFoo", "abc" ) );
 	}
 
 	//

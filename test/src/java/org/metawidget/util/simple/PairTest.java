@@ -32,7 +32,7 @@ public class PairTest
 	public void testPair()
 		throws Exception
 	{
-		assertTrue( "1:2".equals( new Pair<Integer, Integer>( 1, 2 ).toString() ) );
-		assertTrue( "null:null".equals( new Pair<Integer, Integer>( null, null ).toString() ) );
+		assertEquals( "1:2", new Pair<Integer, Integer>( 1, 2 ).toString() );
+		assertEquals( "null:null", new Pair<Integer, Integer>( null, null ).toString() );
 	}
 }

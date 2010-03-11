@@ -42,21 +42,21 @@ public class SwingAppFrameworkInspectorTest
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Actions
 
 		Element action = (Element) entity.getFirstChild();
-		assertTrue( ACTION.equals( action.getNodeName() ) );
-		assertTrue( "doBar".equals( action.getAttribute( NAME ) ) );
-		assertTrue( "barLabel".equals( action.getAttribute( LABEL ) ) );
+		assertEquals( ACTION, action.getNodeName() );
+		assertEquals( "doBar", action.getAttribute( NAME ) );
+		assertEquals( "barLabel", action.getAttribute( LABEL ) );
 		assertTrue( action.getAttributes().getLength() == 2 );
 
 		assertTrue( entity.getChildNodes().getLength() == 1 );

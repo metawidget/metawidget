@@ -46,39 +46,39 @@ public class StrutsInspectorTest
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "testForm1".equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "testForm1", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "foo".equals( property.getAttribute( NAME ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar".equals( property.getAttribute( NAME ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "abc".equals( property.getAttribute( NAME ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "abc", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 	}
 }

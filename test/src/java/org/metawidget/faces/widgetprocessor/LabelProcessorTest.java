@@ -56,7 +56,7 @@ public class LabelProcessorTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( NAME, "foo" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, new HtmlMetawidget() );
-		assertTrue( "Foo".equals( htmlInputText.getLabel() ) );
+		assertEquals( "Foo", htmlInputText.getLabel() );
 	}
 
 	//

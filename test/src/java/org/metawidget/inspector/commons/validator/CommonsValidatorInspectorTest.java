@@ -46,47 +46,47 @@ public class CommonsValidatorInspectorTest
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "testForm1".equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "testForm1", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "foo".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "1".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "99".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
-		assertTrue( "42".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
+		assertEquals( "42", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 4 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "5".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
+		assertEquals( "5", property.getAttribute( MINIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "abc".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "0.5".equals( property.getAttribute( MINIMUM_VALUE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "abc", property.getAttribute( NAME ) );
+		assertEquals( "0.5", property.getAttribute( MINIMUM_VALUE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "def".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "0.99".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "def", property.getAttribute( NAME ) );
+		assertEquals( "0.99", property.getAttribute( MAXIMUM_VALUE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		assertTrue( entity.getChildNodes().getLength() == 5 );

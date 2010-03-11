@@ -42,8 +42,8 @@ public class SwingAppFrameworkActionStyleTest
 		Map<String, Action> actions = actionStyle.getActions( Foo.class );
 
 		assertTrue( actions.size() == 2 );
-		assertTrue( "bar".equals( actions.get( "bar" ).toString() ) );
-		assertTrue( "baz".equals( actions.get( "baz" ).toString() ) );
+		assertEquals( "bar", actions.get( "bar" ).toString() );
+		assertEquals( "baz", actions.get( "baz" ).toString() );
 
 		try
 		{

@@ -55,29 +55,29 @@ public class JexlXmlInspectorTest
 		String result = inspector.inspect( new Foo(), Foo.class.getName() );
 		Document document = XmlUtils.documentFromString( result );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest$Foo".equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest$Foo", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "from-baz".equals( property.getAttribute( "value-is-el" ) ) );
-		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "from-baz", property.getAttribute( "value-is-el" ) );
+		assertEquals( "text", property.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		// Actions
 
 		Element action = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
-		assertTrue( ACTION.equals( action.getNodeName() ) );
-		assertTrue( "from-baz".equals( action.getAttribute( "value-is-el" ) ) );
-		assertTrue( "text".equals( action.getAttribute( "value-is-text" ) ) );
+		assertEquals( ACTION, action.getNodeName() );
+		assertEquals( "from-baz", action.getAttribute( "value-is-el" ) );
+		assertEquals( "text", action.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == action.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
@@ -89,11 +89,11 @@ public class JexlXmlInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( "".equals( property.getAttribute( "value-is-el" ) ) );
+		assertEquals( "", property.getAttribute( "value-is-el" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		action = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
-		assertTrue( "".equals( action.getAttribute( "value-is-el" ) ) );
+		assertEquals( "", action.getAttribute( "value-is-el" ) );
 		assertTrue( 3 == action.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );

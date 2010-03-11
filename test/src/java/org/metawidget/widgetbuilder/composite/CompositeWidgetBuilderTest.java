@@ -70,7 +70,7 @@ public class CompositeWidgetBuilderTest
 		}
 		catch ( WidgetBuilderException e )
 		{
-			assertTrue( "CompositeWidgetBuilder needs at least two WidgetBuilders".equals( e.getMessage() ) );
+			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
 
 		// 0 WidgetBuilders
@@ -84,7 +84,7 @@ public class CompositeWidgetBuilderTest
 		}
 		catch ( WidgetBuilderException e )
 		{
-			assertTrue( "CompositeWidgetBuilder needs at least two WidgetBuilders".equals( e.getMessage() ) );
+			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
 
 		// 1 WidgetBuilder
@@ -98,7 +98,7 @@ public class CompositeWidgetBuilderTest
 		}
 		catch ( WidgetBuilderException e )
 		{
-			assertTrue( "CompositeWidgetBuilder needs at least two WidgetBuilders".equals( e.getMessage() ) );
+			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
 
 		// 2 WidgetBuilders

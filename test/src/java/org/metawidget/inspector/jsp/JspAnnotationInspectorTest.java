@@ -45,20 +45,20 @@ public class JspAnnotationInspectorTest
 		JspAnnotationInspector inspector = new JspAnnotationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "${foo.bar}".equals( property.getAttribute( JSP_LOOKUP ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "${foo.bar}", property.getAttribute( JSP_LOOKUP ) );
 
 		assertTrue( entity.getChildNodes().getLength() == 1 );
 	}

@@ -52,29 +52,29 @@ public class Java5InspectorTest
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Bar.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Bar.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( "FOO1,FOO2".equals( property.getAttribute( LOOKUP ) ) );
-		assertTrue( "foo1,foo2".equals( property.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Foo.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( "FOO1,FOO2", property.getAttribute( LOOKUP ) );
+		assertEquals( "foo1,foo2", property.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 4 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertEquals( PROPERTY, property.getNodeName() );
 
 		String genericArguments = Set.class.getName() + "<" + String.class.getName() + ">," + List.class.getName() + "<" + Set.class.getName() + "<" + Date.class.getName() + ">>";
-		assertTrue( genericArguments.equals( property.getAttribute( PARAMETERIZED_TYPE ) ) );
+		assertEquals( genericArguments, property.getAttribute( PARAMETERIZED_TYPE ) );
 
 		// Check there are no more properties (eg. getClass)
 
@@ -85,35 +85,35 @@ public class Java5InspectorTest
 		Bar bar = new Bar();
 		bar.foo = Foo.FOO1;
 		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ));
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( "FOO1,FOO2".equals( property.getAttribute( LOOKUP ) ) );
-		assertTrue( "foo1,foo2".equals( property.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Foo.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( "FOO1,FOO2", property.getAttribute( LOOKUP ) );
+		assertEquals( "foo1,foo2", property.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 4 == property.getAttributes().getLength() );
 
 		// Test pointed directly at an enum
 
 		document = XmlUtils.documentFromString( inspector.inspect( Foo.FOO1, Foo.class.getName() ));
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "FOO1,FOO2".equals( entity.getAttribute( LOOKUP ) ) );
-		assertTrue( "foo1,foo2".equals( entity.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "FOO1,FOO2", entity.getAttribute( LOOKUP ) );
+		assertEquals( "foo1,foo2", entity.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
 		assertFalse( entity.hasChildNodes() );
 
 		// Test pointed directly at an empty enum via a parent
 
 		document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName(), "foo" ));
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "FOO1,FOO2".equals( entity.getAttribute( LOOKUP ) ) );
-		assertTrue( "foo1,foo2".equals( entity.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "FOO1,FOO2", entity.getAttribute( LOOKUP ) );
+		assertEquals( "foo1,foo2", entity.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
 		assertFalse( entity.hasChildNodes() );
 
@@ -121,14 +121,14 @@ public class Java5InspectorTest
 
 		inspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new Java5Inspector() ));
 		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ));
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( Foo.FOO1.getClass().getName().equals( property.getAttribute( PropertyTypeInspectionResultConstants.ACTUAL_CLASS ) ) );
-		assertTrue( "FOO1,FOO2".equals( property.getAttribute( LOOKUP ) ) );
-		assertTrue( "foo1,foo2".equals( property.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Foo.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( Foo.FOO1.getClass().getName(), property.getAttribute( PropertyTypeInspectionResultConstants.ACTUAL_CLASS ) );
+		assertEquals( "FOO1,FOO2", property.getAttribute( LOOKUP ) );
+		assertEquals( "foo1,foo2", property.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
 	}
 

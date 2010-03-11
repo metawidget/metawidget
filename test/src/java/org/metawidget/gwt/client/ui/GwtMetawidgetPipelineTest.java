@@ -59,10 +59,10 @@ public class GwtMetawidgetPipelineTest
 			throws Exception
 		{
 			Element element = getChildAt( getDocumentElement( "<foo><bar>baz</bar></foo>" ), 0 );
-			assertTrue( "bar".equals( element.getNodeName() ) );
+			assertEquals( "bar", element.getNodeName() );
 
 			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
-			assertTrue( "bar".equals( element.getNodeName() ) );
+			assertEquals( "bar", element.getNodeName() );
 
 			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
 			assertTrue( null == element );

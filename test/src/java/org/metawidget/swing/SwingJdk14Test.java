@@ -88,7 +88,7 @@ public class SwingJdk14Test
 		}
 		catch( MetawidgetException e )
 		{
-			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspector(). Did you mean setInspector(Inspector)?", e.getMessage() );
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspector(). Did you mean setInspector(Inspector)?".equals( e.getMessage() ));
 		}
 
 		assertTrue( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version".equals( LogUtilsTest.getLastDebugMessage() ) );

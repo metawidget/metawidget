@@ -62,8 +62,8 @@ public class SwingAppFrameworkTest
 
 		// Test Car Application
 
-		assertTrue( "Ford".equals( ( (JTextField) metawidget.getComponent( 1 ) ).getText() ) );
-		assertTrue( "Ford".equals( car.toString() ) );
+		assertEquals( "Ford", ( (JTextField) metawidget.getComponent( 1 ) ).getText() );
+		assertEquals( "Ford", car.toString() );
 		assertTrue( null == car.getOwner() );
 		assertTrue( metawidget.getComponentCount() == 7 );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JPanel );
@@ -75,21 +75,21 @@ public class SwingAppFrameworkTest
 		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).gridwidth == GridBagConstraints.REMAINDER );
 		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).weighty == 0 );
 		assertTrue( ( (Container) metawidget.getFacet( "buttons" ).getComponent( 0 ) ).getLayout() instanceof FlowLayout );
-		assertTrue( "Save".equals( ( (JButton) ( (SwingMetawidget) metawidget.getFacet( "buttons" ).getComponent( 0 ) ).getComponent( 0 ) ).getText() ) );
+		assertEquals( "Save", ( (JButton) ( (SwingMetawidget) metawidget.getFacet( "buttons" ).getComponent( 0 ) ).getComponent( 0 ) ).getText() );
 
 		( (JComboBox) metawidget.getComponent( 3 ) ).setSelectedIndex( 1 );
 		JButton button = (JButton) metawidget.getComponent( "addOwner" );
-		assertTrue( "Add an Owner".equals( button.getText() ) );
+		assertEquals( "Add an Owner", button.getText() );
 		button.getAction().actionPerformed( null );
 
 		assertTrue( null != car.getOwner() );
 		assertTrue( metawidget.getComponentCount() == 8 );
-		assertTrue( "Ford Sport, owned by (no name specified)".equals( car.toString() ) );
+		assertEquals( "Ford Sport, owned by (no name specified)", car.toString() );
 		SwingMetawidget metawidgetOwner = (SwingMetawidget) metawidget.getComponent( 5 );
 		( (JTextField) metawidgetOwner.getComponent( 1 ) ).setText( "Richard" );
 		( (JTextField) metawidgetOwner.getComponent( 3 ) ).setText( "Kennard" );
 		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 
-		assertTrue( "Ford Sport, owned by Richard Kennard".equals( car.toString() ) );
+		assertEquals( "Ford Sport, owned by Richard Kennard", car.toString() );
 	}
 }

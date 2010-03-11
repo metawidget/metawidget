@@ -88,7 +88,7 @@ public class MetawidgetPipelineTest
 
 		assertTrue( null == pipeline.inspect( null, null ));
 		assertTrue( called.size() == 1 );
-		assertTrue( "InspectionResultProcessor #1".equals( called.get( 0 ) ) );
+		assertEquals( "InspectionResultProcessor #1", called.get( 0 ) );
 		assertFalse( called.contains( "InspectionResultProcessor #2" ) );
 	}
 
@@ -158,7 +158,7 @@ public class MetawidgetPipelineTest
 		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 1 );
-		assertTrue( "WidgetProcessor #1".equals( called.get( 0 ) ) );
+		assertEquals( "WidgetProcessor #1", called.get( 0 ) );
 		assertFalse( called.contains( "WidgetProcessor #2" ) );
 
 		// Property-level widget
@@ -167,8 +167,8 @@ public class MetawidgetPipelineTest
 		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 2 );
-		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
-		assertTrue( "WidgetProcessor #1".equals( called.get( 1 ) ) );
+		assertEquals( "buildCompoundWidget", called.get( 0 ) );
+		assertEquals( "WidgetProcessor #1", called.get( 1 ) );
 		assertFalse( called.contains( "WidgetProcessor #2" ) );
 	}
 
@@ -224,9 +224,9 @@ public class MetawidgetPipelineTest
 		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 3 );
-		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
-		assertTrue( "nullAttributes".equals( called.get( 1 ) ) );
-		assertTrue( "addWidget".equals( called.get( 2 ) ) );
+		assertEquals( "buildCompoundWidget", called.get( 0 ) );
+		assertEquals( "nullAttributes", called.get( 1 ) );
+		assertEquals( "addWidget", called.get( 2 ) );
 	}
 
 	//
@@ -244,10 +244,10 @@ public class MetawidgetPipelineTest
 			throws Exception
 		{
 			Element element = getChildAt( getDocumentElement( "<foo><bar>baz</bar></foo>" ), 0 );
-			assertTrue( "bar".equals( element.getNodeName() ) );
+			assertEquals( "bar", element.getNodeName() );
 
 			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
-			assertTrue( "bar".equals( element.getNodeName() ) );
+			assertEquals( "bar", element.getNodeName() );
 
 			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
 			assertTrue( null == element );

@@ -172,7 +172,7 @@ public class HtmlWidgetBuilderTest
 		// Overridden component
 
 		attributes.put( FACES_COMPONENT, "foo" );
-		assertTrue( "foo".equals( ( (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null ) ).getFamily() ) );
+		assertEquals( "foo", ( (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null ) ).getFamily() );
 		attributes.remove( FACES_COMPONENT );
 
 		// Unsupport types
@@ -204,7 +204,7 @@ public class HtmlWidgetBuilderTest
 				return "foo";
 			}
 		} );
-		assertTrue( "foo".equals( htmlCommandButton.getValue() ) );
+		assertEquals( "foo", htmlCommandButton.getValue() );
 
 		// No type
 
@@ -218,20 +218,20 @@ public class HtmlWidgetBuilderTest
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
-		assertTrue( "#{foo.bar}".equals( ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() ) );
+		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
 		furtherAssert( htmlSelectOneListbox );
 
 		attributes.put( REQUIRED, TRUE );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( "#{foo.bar}".equals( ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() ) );
+		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
 		furtherAssert( htmlSelectOneListbox );
 		attributes.remove( REQUIRED );
 
 		attributes.put( TYPE, List.class.getName() );
 		HtmlSelectManyCheckbox htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ) );
-		assertTrue( "#{foo.bar}".equals( ( (UISelectItems) htmlSelectManyCheckbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() ) );
+		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
+		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectManyCheckbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
 		attributes.remove( FACES_LOOKUP );
 
 		// Lookup
@@ -243,22 +243,22 @@ public class HtmlWidgetBuilderTest
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
-		assertTrue( "Foo".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() ) );
+		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
-		assertTrue( "Bar".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() ) );
+		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemLabel() );
-		assertTrue( "Baz".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemValue() ) );
+		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemValue() );
 		furtherAssert( htmlSelectOneListbox );
 
 		attributes.put( REQUIRED, TRUE );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
-		assertTrue( "Foo".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() ) );
+		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
-		assertTrue( "Bar".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() ) );
+		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
-		assertTrue( "Baz".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() ) );
+		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() );
 		furtherAssert( htmlSelectOneListbox );
 		attributes.remove( REQUIRED );
 
@@ -267,7 +267,7 @@ public class HtmlWidgetBuilderTest
 		assertTrue( null == htmlSelectManyCheckbox.getLayout() );
 		attributes.put( LOOKUP, "Foo, Bar, Baz, Abc" );
 		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
-		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ) );
+		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
 		attributes.remove( LOOKUP );
 
 		// Boolean

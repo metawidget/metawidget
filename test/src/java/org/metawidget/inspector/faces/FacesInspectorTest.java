@@ -43,46 +43,46 @@ public class FacesInspectorTest
 		FacesInspector inspector = new FacesInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "#{foo.bar}".equals( property.getAttribute( FACES_LOOKUP ) ) );
-		assertTrue( "#{foo.suggest}".equals( property.getAttribute( FACES_SUGGEST) ) );
-		assertTrue( "foo.component".equals( property.getAttribute( FACES_COMPONENT ) ) );
-		assertTrue( "foo.converter".equals( property.getAttribute( FACES_CONVERTER_ID ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "#{foo.bar}", property.getAttribute( FACES_LOOKUP ) );
+		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST) );
+		assertEquals( "foo.component", property.getAttribute( FACES_COMPONENT ) );
+		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
 		assertTrue( property.getAttributes().getLength() == 5 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "full".equals( property.getAttribute( DATE_STYLE ) ) );
-		assertTrue( "medium".equals( property.getAttribute( TIME_STYLE ) ) );
-		assertTrue( "UK".equals( property.getAttribute( LOCALE ) ) );
-		assertTrue( "yyyy".equals( property.getAttribute( DATETIME_PATTERN ) ) );
-		assertTrue( "GMT".equals( property.getAttribute( TIME_ZONE ) ) );
-		assertTrue( "date".equals( property.getAttribute( DATETIME_TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "full", property.getAttribute( DATE_STYLE ) );
+		assertEquals( "medium", property.getAttribute( TIME_STYLE ) );
+		assertEquals( "UK", property.getAttribute( LOCALE ) );
+		assertEquals( "yyyy", property.getAttribute( DATETIME_PATTERN ) );
+		assertEquals( "GMT", property.getAttribute( TIME_ZONE ) );
+		assertEquals( "date", property.getAttribute( DATETIME_TYPE ) );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object3" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "AUD".equals( property.getAttribute( CURRENCY_CODE ) ) );
-		assertTrue( "$".equals( property.getAttribute( CURRENCY_SYMBOL ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( NUMBER_USES_GROUPING_SEPARATORS ) ) );
-		assertTrue( "AU".equals( property.getAttribute( LOCALE ) ) );
-		assertTrue( "3".equals( property.getAttribute( MINIMUM_INTEGER_DIGITS ) ) );
-		assertTrue( "100".equals( property.getAttribute( MAXIMUM_INTEGER_DIGITS ) ) );
-		assertTrue( "1".equals( property.getAttribute( MINIMUM_FRACTIONAL_DIGITS ) ) );
-		assertTrue( "2".equals( property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-		assertTrue( "#0.00".equals( property.getAttribute( NUMBER_PATTERN ) ) );
-		assertTrue( "currency".equals( property.getAttribute( NUMBER_TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "AUD", property.getAttribute( CURRENCY_CODE ) );
+		assertEquals( "$", property.getAttribute( CURRENCY_SYMBOL ) );
+		assertEquals( TRUE, property.getAttribute( NUMBER_USES_GROUPING_SEPARATORS ) );
+		assertEquals( "AU", property.getAttribute( LOCALE ) );
+		assertEquals( "3", property.getAttribute( MINIMUM_INTEGER_DIGITS ) );
+		assertEquals( "100", property.getAttribute( MAXIMUM_INTEGER_DIGITS ) );
+		assertEquals( "1", property.getAttribute( MINIMUM_FRACTIONAL_DIGITS ) );
+		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
+		assertEquals( "#0.00", property.getAttribute( NUMBER_PATTERN ) );
+		assertEquals( "currency", property.getAttribute( NUMBER_TYPE ) );
 
 		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}

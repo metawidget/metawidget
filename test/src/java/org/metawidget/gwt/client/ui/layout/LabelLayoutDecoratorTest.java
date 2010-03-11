@@ -45,18 +45,18 @@ public class LabelLayoutDecoratorTest
 		{
 			// Subclass
 		} ) );
-		assertTrue( config1.equals( config1 ) );
-		assertTrue( config1.equals( config2 ) );
+		assertEquals( config1, config1 );
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// styleName
 
 		config1.setStyleName( "section-style-name" );
-		assertTrue( "section-style-name".equals( config1.getStyleName() ) );
+		assertEquals( "section-style-name", config1.getStyleName() );
 		assertFalse( config1.equals( config2 ) );
 
 		config2.setStyleName( "section-style-name" );
-		assertTrue( config1.equals( config2 ) );
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// superclass
@@ -70,7 +70,7 @@ public class LabelLayoutDecoratorTest
 		assertFalse( config1.equals( config2 ) );
 
 		config2.setLayout( delegate );
-		assertTrue( config1.equals( config2 ) );
+		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 }

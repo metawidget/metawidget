@@ -46,23 +46,23 @@ public class AndroidMetawidgetTest
 
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 		androidMetawidget.setToInspect( new Date() );
-		assertTrue( "java.util.Date".equals( androidMetawidget.getPath() ) );
+		assertEquals( "java.util.Date", androidMetawidget.getPath() );
 		androidMetawidget.setPath( "foo" );
-		assertTrue( "foo".equals( androidMetawidget.getPath() ) );
+		assertEquals( "foo", androidMetawidget.getPath() );
 
 		// getLabelString and getLocalizedKey
 
-		assertTrue( "".equals( androidMetawidget.getLabelString( null ) ) );
+		assertEquals( "", androidMetawidget.getLabelString( null ) );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( LABEL, "camelCase" );
-		assertTrue( "camelCase".equals( androidMetawidget.getLabelString( attributes ) ) );
+		assertEquals( "camelCase", androidMetawidget.getLabelString( attributes ) );
 		attributes.put( NAME, "foo" );
-		assertTrue( "camelCase".equals( androidMetawidget.getLabelString( attributes ) ) );
+		assertEquals( "camelCase", androidMetawidget.getLabelString( attributes ) );
 		attributes.remove( LABEL );
-		assertTrue( "Foo".equals( androidMetawidget.getLabelString( attributes ) ) );
+		assertEquals( "Foo", androidMetawidget.getLabelString( attributes ) );
 		attributes.put( NAME, "fooBar" );
-		assertTrue( "Foo bar".equals( androidMetawidget.getLabelString( attributes ) ) );
+		assertEquals( "Foo bar", androidMetawidget.getLabelString( attributes ) );
 		attributes.put( LABEL, "" );
 		assertTrue( null == androidMetawidget.getLabelString( attributes ) );
 
@@ -72,7 +72,7 @@ public class AndroidMetawidgetTest
 
 		assertTrue( null == androidMetawidget.getClientProperty( "foo" ) );
 		androidMetawidget.putClientProperty( "foo", "bar" );
-		assertTrue( "bar".equals( androidMetawidget.getClientProperty( "foo" ) ) );
+		assertEquals( "bar", androidMetawidget.getClientProperty( "foo" ) );
 
 		// maximumInspectionDepth
 
@@ -110,7 +110,7 @@ public class AndroidMetawidgetTest
 		}
 		catch( MetawidgetException e )
 		{
-			assertTrue( "No names specified".equals( e.getMessage() ) );
+			assertEquals( "No names specified", e.getMessage() );
 		}
 
 		try
@@ -120,7 +120,7 @@ public class AndroidMetawidgetTest
 		}
 		catch( MetawidgetException e )
 		{
-			assertTrue( "No View with tag foo".equals( e.getMessage() ) );
+			assertEquals( "No View with tag foo", e.getMessage() );
 		}
 
 		try
@@ -130,7 +130,7 @@ public class AndroidMetawidgetTest
 		}
 		catch( MetawidgetException e )
 		{
-			assertTrue( "No names specified".equals( e.getMessage() ) );
+			assertEquals( "No names specified", e.getMessage() );
 		}
 
 		try
@@ -140,7 +140,7 @@ public class AndroidMetawidgetTest
 		}
 		catch( MetawidgetException e )
 		{
-			assertTrue( "No View with tag foo".equals( e.getMessage() ) );
+			assertEquals( "No View with tag foo", e.getMessage() );
 		}
 
 		EditText editText = new EditText( null );

@@ -48,7 +48,7 @@ public class ScalaPropertyStyleTest
 
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertTrue( properties.get( "bar" ).isAnnotationPresent( NotNull.class ) );
-		assertTrue( Date.class.equals( ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] ) );
+		assertEquals( Date.class, ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] );
 		assertTrue( properties.get( "baz" ).isReadable() );
 		assertFalse( properties.get( "baz" ).isWritable() );
 	}

@@ -52,10 +52,10 @@ public class GroovyPropertyStyleTest
 		assertEquals( Date.class, ((ParameterizedType) properties.get( "bar" ).getGenericType()).getActualTypeArguments()[0] );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ));
 		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
-		assertTrue( String.class.equals( ((ParameterizedType) properties.get( "methodBaz" ).getGenericType()).getActualTypeArguments()[0] ) );
+		assertEquals( String.class, ((ParameterizedType) properties.get( "methodBaz" ).getGenericType()).getActualTypeArguments()[0] );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );
-		assertTrue( Boolean.class.equals( ((ParameterizedType) properties.get( "methodAbc" ).getGenericType()).getActualTypeArguments()[0] ) );
+		assertEquals( Boolean.class, ((ParameterizedType) properties.get( "methodAbc" ).getGenericType()).getActualTypeArguments()[0] );
 		assertFalse( properties.get( "methodAbc" ).isReadable() );
 		assertTrue( properties.get( "methodAbc" ).isWritable() );
 

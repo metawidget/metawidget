@@ -42,26 +42,26 @@ public class SpringAnnotationInspectorTest
 		SpringAnnotationInspector inspector = new SpringAnnotationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar".equals( property.getAttribute( SPRING_LOOKUP ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( SPRING_LOOKUP ) );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz".equals( property.getAttribute( SPRING_LOOKUP ) ) );
-		assertTrue( "abc".equals( property.getAttribute( SPRING_LOOKUP_ITEM_VALUE ) ) );
-		assertTrue( "def".equals( property.getAttribute( SPRING_LOOKUP_ITEM_LABEL ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( SPRING_LOOKUP ) );
+		assertEquals( "abc", property.getAttribute( SPRING_LOOKUP_ITEM_VALUE ) );
+		assertEquals( "def", property.getAttribute( SPRING_LOOKUP_ITEM_LABEL ) );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}

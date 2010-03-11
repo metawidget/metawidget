@@ -77,6 +77,8 @@ public class ContactDialog
 
 	private SwtMetawidget						mButtonsMetawidget;
 
+	private boolean								mShowConfirmDialog	= true;
+
 	//
 	// Constructor
 	//
@@ -290,7 +292,7 @@ public class ContactDialog
 
 		// Add blank entry at bottom
 
-		if ( mCommunications.isEmpty() || mCommunications.get( mCommunications.size() - 1 ).getType() != null )
+		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || mCommunications.get( mCommunications.size() - 1 ).getType() != null ) )
 			mCommunications.add( new Communication() );
 
 		int loop = 0;
@@ -309,7 +311,7 @@ public class ContactDialog
 			// ...with contact text
 
 			Communication communication = mCommunications.get( loop );
-			item.setText( 0, StringUtils.quietValueOf( loop ));
+			item.setText( 0, StringUtils.quietValueOf( loop ) );
 			item.setText( 1, StringUtils.quietValueOf( communication.getType() ) );
 			item.setText( 2, StringUtils.quietValueOf( communication.getValue() ) );
 		}
@@ -335,6 +337,16 @@ public class ContactDialog
 		return ( ( (Contact) mContactMetawidget.getToInspect() ).getId() == 0 );
 	}
 
+	/**
+	 * For unit tests
+	 */
+
+	@UiHidden
+	public void setShowConfirmDialog( boolean showConfirmDialog )
+	{
+		mShowConfirmDialog = showConfirmDialog;
+	}
+
 	@UiAction
 	@UiJexlAttribute( name = HIDDEN, expression = "!this.readOnly" )
 	public void edit()
@@ -347,6 +359,7 @@ public class ContactDialog
 		mContactMetawidget.redraw();
 
 		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
+		fireRefresh();
 	}
 
 	@UiAction
@@ -381,15 +394,19 @@ public class ContactDialog
 	{
 		Contact contact = mContactMetawidget.getToInspect();
 
-		MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
-		messageBox.setText( getText() );
-		messageBox.setMessage( "Sure you want to delete this contact?" );
+		if ( mShowConfirmDialog )
+		{
+			MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
+			messageBox.setText( getText() );
+			messageBox.setMessage( "Sure you want to delete this contact?" );
 
-		if ( messageBox.open() != SWT.OK )
-			return;
+			if ( messageBox.open() != SWT.OK )
+				return;
+		}
 
 		mMain.getContactsController().delete( contact );
 		mShell.dispose();
+		mMain.fireRefresh();
 	}
 
 	@UiAction

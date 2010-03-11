@@ -81,32 +81,32 @@ public class CompositeInspectorTest
 
 		// Test
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "id".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "id", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "fullname".equals( property.getAttribute( NAME ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "fullname", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "title".equals( property.getAttribute( NAME ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( "Mr, Mrs, Miss, Dr, Cpt".equals( property.getAttribute( LOOKUP ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "title", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( "Mr, Mrs, Miss, Dr, Cpt", property.getAttribute( LOOKUP ) );
 	}
 
 	public void testDefensiveCopy()

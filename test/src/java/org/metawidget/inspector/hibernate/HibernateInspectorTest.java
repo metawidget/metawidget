@@ -84,50 +84,50 @@ public class HibernateInspectorTest
 	{
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertEquals( ENTITY, entity.getNodeName() );
 		assertFalse( entity.hasAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.SubFoo", entity.getAttribute( TYPE ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( "org.metawidget.inspector.hibernate.Bar".equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( "org.metawidget.inspector.hibernate.Bar", property.getAttribute( TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 3 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "abc".equals( property.getAttribute( NAME ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "abc", property.getAttribute( NAME ) );
 		assertTrue( property.getAttributes().getLength() == 1 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "def".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "org.metawidget.inspector.hibernate.Baz".equals( property.getAttribute( PARAMETERIZED_TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "def", property.getAttribute( NAME ) );
+		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "ghi".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "org.metawidget.inspector.hibernate.Baz".equals( property.getAttribute( PARAMETERIZED_TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "ghi", property.getAttribute( NAME ) );
+		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "jkl".equals( property.getAttribute( NAME ) ) );
-		assertTrue( "org.metawidget.inspector.hibernate.Baz".equals( property.getAttribute( PARAMETERIZED_TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "jkl", property.getAttribute( NAME ) );
+		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		assertTrue( property.getNextSibling() == null );
@@ -141,7 +141,7 @@ public class HibernateInspectorTest
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
@@ -150,8 +150,8 @@ public class HibernateInspectorTest
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
 		assertFalse( property.hasAttribute( HIDDEN ) );
 	}
 
@@ -159,28 +159,28 @@ public class HibernateInspectorTest
 	{
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo", "bar" ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "bar", entity.getAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Bar", entity.getAttribute( TYPE ) );
-		assertTrue( TRUE.equals( entity.getAttribute( REQUIRED ) ) );
+		assertEquals( TRUE, entity.getAttribute( REQUIRED ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "id".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "id", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ) );
-		assertTrue( "15".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( LARGE ) );
+		assertEquals( "15", property.getAttribute( MAXIMUM_LENGTH ) );
 	}
 
 	public void testConfig()

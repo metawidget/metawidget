@@ -46,38 +46,38 @@ public class JpaInspectorTest
 		JpaInspector inspector = new JpaInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 		assertFalse( property.hasAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( "10".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( "10", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 3 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "20".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "20", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( LARGE ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertTrue( property.getAttributes().getLength() == 3 );
 	}
 
@@ -87,7 +87,7 @@ public class JpaInspectorTest
 		JpaInspector inspector = new JpaInspector( config );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 
 		assertTrue( XmlUtils.getChildWithAttributeValue( entity, NAME, "id" ) == null );
@@ -99,12 +99,12 @@ public class JpaInspectorTest
 		inspector = new JpaInspector( config );
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 	}
 

@@ -208,7 +208,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Attribute named 'readonly' should be 'read-only'".equals( e.getMessage() ) );
+			assertEquals( "Attribute named 'readonly' should be 'read-only'", e.getMessage() );
 		}
 
 		try
@@ -218,7 +218,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Attribute named 'dontexpand' should be 'dont-expand'".equals( e.getMessage() ) );
+			assertEquals( "Attribute named 'dontexpand' should be 'dont-expand'", e.getMessage() );
 		}
 	}
 }

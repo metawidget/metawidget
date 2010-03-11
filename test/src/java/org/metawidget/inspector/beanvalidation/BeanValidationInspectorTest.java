@@ -46,34 +46,34 @@ public class BeanValidationInspectorTest
 		BeanValidationInspector inspector = new BeanValidationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "1".equals( property.getAttribute( MAXIMUM_INTEGER_DIGITS ) ) );
-		assertTrue( "2".equals( property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "1", property.getAttribute( MAXIMUM_INTEGER_DIGITS ) );
+		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "1".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "99".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
-		assertTrue( "2".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
-		assertTrue( "25".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
+		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
 	}
 

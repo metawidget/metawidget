@@ -30,13 +30,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
+import org.metawidget.example.shared.addressbook.model.Gender;
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.example.swt.addressbook.converter.StringToDateConverter;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
+import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -73,7 +78,7 @@ public class SwtAddressBookTest
 
 		assertTrue( metawidgetSearch.getChildren().length == 7 );
 
-		Facet buttonFacet = (Facet) metawidgetSearch.getChildren()[ metawidgetSearch.getChildren().length - 1 ];
+		Facet buttonFacet = (Facet) metawidgetSearch.getChildren()[metawidgetSearch.getChildren().length - 1];
 		assertTrue( 2 == ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
 		assertTrue( SWT.FILL == ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
 		assertTrue( ( (GridData) buttonFacet.getLayoutData() ).grabExcessHorizontalSpace );
@@ -87,9 +92,9 @@ public class SwtAddressBookTest
 		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[1].getLayoutData() ).exclude );
 
 		Button searchButton = (Button) buttonsMetawidget.getChildren()[2];
-		assertTrue( "Search".equals( searchButton.getText() ) );
+		assertEquals( "Search", searchButton.getText() );
 		searchButton.notifyListeners( SWT.Selection, null );
-		assertEquals( "PERSONAL", ((Combo) metawidgetSearch.getControl( "type" )).getText() );
+		assertEquals( "PERSONAL", ( (Combo) metawidgetSearch.getControl( "type" ) ).getText() );
 
 		ContactsController contactsController = main.getContactsController();
 		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
@@ -97,27 +102,28 @@ public class SwtAddressBookTest
 		// Open dialog for Personal Contact
 
 		Contact contact = contactsController.load( 1 );
-		assertTrue( "Mr Homer Simpson".equals( contact.getFullname() ) );
-		assertTrue( "Mr Homer Simpson".equals( contact.toString() ) );
+		assertEquals( "Mr Homer Simpson", contact.getFullname() );
+		assertEquals( "Mr Homer Simpson", contact.toString() );
 		assertTrue( 32 == contact.hashCode() );
 		assertFalse( contact.equals( new Object() ) );
-		assertTrue( contact.equals( contact ) );
+		assertEquals( contact, contact );
 		assertTrue( contact.compareTo( null ) == -1 );
 		assertTrue( contact.compareTo( contact ) == 0 );
-		assertTrue( "742 Evergreen Terrace".equals( contact.getAddress().getStreet() ) );
+		assertEquals( "742 Evergreen Terrace", contact.getAddress().getStreet() );
 		assertTrue( contact.getCommunications().size() == 1 );
 
 		ContactDialog dialog = new ContactDialog( main );
+		dialog.setShowConfirmDialog( false );
 		dialog.open( contact );
 
 		// Check loading
 
 		SwtMetawidget metawidgetContact = dialog.mContactMetawidget;
-		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstname" ) ) );
+		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
 		assertTrue( metawidgetContact.getControl( "firstname" ) instanceof Label );
-		assertEquals( "MALE", ((Label) metawidgetContact.getControl( "gender" )).getText() );
+		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
 
-		//TODO: assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
+		// TODO: assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
 		try
 		{
@@ -131,49 +137,54 @@ public class SwtAddressBookTest
 
 		Table communicationsTable = metawidgetContact.getControl( "communications" );
 		assertTrue( communicationsTable.getItemCount() == 1 );
+		assertTrue( metawidgetContact.getChildren().length == 21 );
 
 		// Check editing
 
-		assertTrue( metawidgetContact.getChildren().length == 19 );
-		/*
-		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		assertTrue( ((Container) panelButtons.getComponent( 0 )).getLayout() instanceof FlowLayout );
-		JButton buttonEdit = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
-		assertTrue( "Edit".equals( buttonEdit.getText() ) );
-		buttonEdit.getAction().actionPerformed( null );
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		assertTrue( 2 == ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
+		assertTrue( SWT.FILL == ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
+		assertTrue( ( (GridData) buttonFacet.getLayoutData() ).grabExcessHorizontalSpace );
+		assertTrue( buttonFacet.getChildren().length == 1 );
+		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		assertTrue( buttonsMetawidget.getLayout() instanceof RowLayout );
 
-		assertTrue( Gender.MALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
+		assertTrue( buttonsMetawidget.getChildren()[0] instanceof Stub );
+		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[0].getLayoutData() ).exclude );
+		assertTrue( buttonsMetawidget.getChildren()[1] instanceof Stub );
+		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[1].getLayoutData() ).exclude );
+
+		Button editButton = (Button) buttonsMetawidget.getChildren()[3];
+		assertEquals( "Edit", editButton.getText() );
+		editButton.notifyListeners( SWT.Selection, null );
+
+		assertEquals( "MALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		metawidgetContact.setValue( "Sapien", "surname" );
-		assertTrue( metawidgetContact.getComponentCount() == 19 );
+		assertTrue( metawidgetContact.getChildren().length == 21 );
 
 		// Check editing a communication
 
-		assertTrue( model.getRowCount() == 2 );
+		assertTrue( communicationsTable.getItemCount() == 2 );
 
-		@SuppressWarnings( "unchecked" )
-		ListTableModel<Communication> communicationModel = (ListTableModel<Communication>) model;
-
-		communicationModel.importCollection( contact.getCommunications() );
-		TableCellEditor editor = communications.getDefaultEditor( Object.class );
-
-		SwtMetawidget metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 0, 0 ), true, 0, 0 );
-		assertTrue( BoxLayout.class.equals( metawidgetCommunications.getLayout().getClass() ) );
-		JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
-		assertTrue( "Telephone".equals( combo.getSelectedItem() ) );
-
-		// Check adding a communication
-
-		metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 0 ), true, 1, 0 );
-		combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
-		combo.setSelectedItem( "Mobile" );
-		editor.stopCellEditing();
-		model.setValueAt( editor.getCellEditorValue(), 1, 0 );
-
-		metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 1 ), true, 1, 1 );
-		JTextField textField = (JTextField) metawidgetCommunications.getComponent( 0 );
-		textField.setText( "(0402) 123 456" );
-		editor.stopCellEditing();
-		model.setValueAt( editor.getCellEditorValue(), 1, 1 );
+		/*
+		 * @SuppressWarnings( "unchecked" ) ListTableModel<Communication> communicationModel =
+		 * (ListTableModel<Communication>) model; communicationModel.importCollection(
+		 * contact.getCommunications() ); TableCellEditor editor = communications.getDefaultEditor(
+		 * Object.class ); SwtMetawidget metawidgetCommunications = (SwtMetawidget)
+		 * editor.getTableCellEditorComponent( communications, model.getValueAt( 0, 0 ), true, 0, 0
+		 * ); assertEquals( BoxLayout.class, metawidgetCommunications.getLayout().getClass() );
+		 * JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 ); assertEquals(
+		 * "Telephone", combo.getSelectedItem() ); // Check adding a communication
+		 * metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent(
+		 * communications, model.getValueAt( 1, 0 ), true, 1, 0 ); combo = (JComboBox)
+		 * metawidgetCommunications.getComponent( 0 ); combo.setSelectedItem( "Mobile" );
+		 * editor.stopCellEditing(); model.setValueAt( editor.getCellEditorValue(), 1, 0 );
+		 * metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent(
+		 * communications, model.getValueAt( 1, 1 ), true, 1, 1 ); JTextField textField =
+		 * (JTextField) metawidgetCommunications.getComponent( 0 ); textField.setText(
+		 * "(0402) 123 456" ); editor.stopCellEditing(); model.setValueAt(
+		 * editor.getCellEditorValue(), 1, 1 );
+		 */
 
 		// Check saving
 
@@ -181,62 +192,60 @@ public class SwtAddressBookTest
 
 		try
 		{
-			metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
+			metawidgetContact.getWidgetProcessor( DataBindingProcessor.class ).save( metawidgetContact );
 			assertTrue( false );
 		}
 		catch ( Exception e )
 		{
-			assertTrue( "Unparseable date: \"foo\"".equals( e.getCause().getCause().getMessage() ) );
+			assertEquals( "java.text.ParseException: Unparseable date: \"foo\"", e.getCause().getMessage() );
 		}
 
 		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );
-		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		JButton buttonSave = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
-		assertTrue( "Save".equals( buttonSave.getText() ) );
-		buttonSave.getAction().actionPerformed( null );
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		Button saveButton = (Button) buttonsMetawidget.getChildren()[4];
+		assertEquals( "Save", saveButton.getText() );
+		saveButton.notifyListeners( SWT.Selection, null );
 
-		assertTrue( "Sapien".equals( contact.getSurname() ) );
-		assertTrue( new DateConverter().convertReverse( "12/05/57" ).equals( ( (PersonalContact) contact ).getDateOfBirth() ) );
+		assertEquals( "Sapien", contact.getSurname() );
+		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
 
-		Iterator<Communication> iterator = contact.getCommunications().iterator();
-		iterator.next();
-		Communication communication = iterator.next();
-		assertTrue( "Mobile".equals( communication.getType() ) );
-		assertTrue( "(0402) 123 456".equals( communication.getValue() ) );
-		assertTrue( communication.equals( communication ) );
-		assertFalse( communication.equals( new Object() ) );
-		assertTrue( communication.compareTo( null ) == -1 );
-		assertTrue( communication.compareTo( communication ) == 0 );
-
-		// Check deleting the communication again
-
-		assertTrue( contact.removeCommunication( new Communication() ) == false );
-		contact.removeCommunication( communicationModel.getValueAt( 1 ) );
-		assertTrue( contact.getCommunications().size() == 1 );
+		/*
+		 * Iterator<Communication> iterator = contact.getCommunications().iterator();
+		 * iterator.next(); Communication communication = iterator.next(); assertEquals( "Mobile",
+		 * communication.getType() ); assertEquals( "(0402) 123 456", communication.getValue() );
+		 * assertEquals( communication, communication ); assertFalse( communication.equals( new
+		 * Object() ) ); assertTrue( communication.compareTo( null ) == -1 ); assertTrue(
+		 * communication.compareTo( communication ) == 0 ); // Check deleting the communication
+		 * again assertTrue( contact.removeCommunication( new Communication() ) == false );
+		 * contact.removeCommunication( communicationModel.getValueAt( 1 ) ); assertTrue(
+		 * contact.getCommunications().size() == 1 );
+		 */
 
 		// Search everything
 
-		metawidgetSearch.setValue( null, "surname" );
-		metawidgetSearch.setValue( null, "type" );
-		buttonSearch.getAction().actionPerformed( null );
-		assertTrue( contactsTable.getRowCount() == 6 );
+		metawidgetSearch.setValue( "", "surname" );
+		metawidgetSearch.setValue( "", "type" );
+		searchButton.notifyListeners( SWT.Selection, null );
+		assertTrue( contactsTable.getItemCount() == 6 );
 
 		// Open dialog for Business Contact
 
 		contact = contactsController.load( 5 );
-		assertTrue( "Mr Charles Montgomery Burns".equals( contact.getFullname() ) );
-		dialog = new ContactDialog( addressBook, contact );
-		metawidgetContact = (SwtMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
+		assertEquals( "Mr Charles Montgomery Burns", contact.getFullname() );
+		dialog.open( contact );
 
-		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		JButton buttonBack = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
-		assertTrue( "Back".equals( buttonBack.getText() ) );
-		buttonEdit = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
-		assertTrue( "Edit".equals( buttonEdit.getText() ) );
-		buttonEdit.getAction().actionPerformed( null );
-		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstname" ) ) );
-		assertTrue( Gender.MALE == metawidgetContact.getValue( "gender" ) );
+		metawidgetContact = dialog.mContactMetawidget;
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		Button backButton = (Button) buttonsMetawidget.getChildren()[6];
+		assertEquals( "Back", backButton.getText() );
+		editButton = (Button) buttonsMetawidget.getChildren()[3];
+		assertEquals( "Edit", editButton.getText() );
+		editButton.notifyListeners( SWT.Selection, null );
+
+		assertEquals( "Charles Montgomery", metawidgetContact.getValue( "firstname" ) );
+		assertEquals( "MALE", metawidgetContact.getValue( "gender" ) );
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
 		// Check saving
@@ -244,63 +253,77 @@ public class SwtAddressBookTest
 		metawidgetContact.setValue( 2, "numberOfStaff" );
 		metawidgetContact.setValue( "A Company", "company" );
 
-		assertTrue( metawidgetContact.getComponentCount() == 21 );
-		buttonSave = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
-		buttonSave.getAction().actionPerformed( null );
+		assertTrue( metawidgetContact.getChildren().length == 23 );
+		saveButton = (Button) buttonsMetawidget.getChildren()[4];
+		assertEquals( "Save", saveButton.getText() );
+		saveButton.notifyListeners( SWT.Selection, null );
 
 		assertTrue( 2 == ( (BusinessContact) contact ).getNumberOfStaff() );
-		assertTrue( "A Company".equals( ( (BusinessContact) contact ).getCompany() ) );
+		assertEquals( "A Company", ( (BusinessContact) contact ).getCompany() );
 
 		// Check deleting
 
-		JButton buttonDelete = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
-		assertTrue( "Delete".equals( buttonDelete.getText() ) );
-		JButton buttonCancel = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 2 );
-		assertTrue( "Cancel".equals( buttonCancel.getText() ) );
+		dialog.open( contact );
+		metawidgetContact = dialog.mContactMetawidget;
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		editButton = (Button) buttonsMetawidget.getChildren()[3];
+		assertEquals( "Edit", editButton.getText() );
+		editButton.notifyListeners( SWT.Selection, null );
+		Button deleteButton = (Button) buttonsMetawidget.getChildren()[5];
+		assertEquals( "Delete", deleteButton.getText() );
+		Button cancelButton = (Button) buttonsMetawidget.getChildren()[6];
+		assertEquals( "Cancel", cancelButton.getText() );
 
 		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
-		buttonDelete.getAction().actionPerformed( null );
+		deleteButton.notifyListeners( SWT.Selection, null );
 		assertTrue( contactsController.getAllByExample( null ).size() == 5 );
-		assertTrue( contactsTable.getRowCount() == 5 );
+		assertTrue( contactsTable.getItemCount() == 5 );
 
 		// Open dialog for new Personal Contact
 
-		dialog = new ContactDialog( addressBook, new PersonalContact() );
-		metawidgetContact = (SwtMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
-		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		buttonCancel = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
-		assertTrue( "Cancel".equals( buttonCancel.getText() ) );
+		dialog.open( new PersonalContact() );
+		metawidgetContact = dialog.mContactMetawidget;
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		cancelButton = (Button) buttonsMetawidget.getChildren()[6];
+		assertEquals( "Cancel", cancelButton.getText() );
 
 		// Check saving doesn't error on null date
 
-		metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
+		metawidgetContact.getWidgetProcessor( DataBindingProcessor.class ).save( metawidgetContact );
 
 		// Check adding
 
-		assertEquals( "Mr", ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 ));
-		assertTrue( 5 == ((JComboBox) metawidgetContact.getComponent( "title" )).getItemCount() );
+		dialog.open( new BusinessContact() );
+		metawidgetContact = dialog.mContactMetawidget;
+		assertEquals( "Mr", ( (Combo) metawidgetContact.getControl( "title" ) ).getItem( 0 ) );
+		assertTrue( 5 == ( (Combo) metawidgetContact.getControl( "title" ) ).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
 		metawidgetContact.setValue( "Contact", "surname" );
-		assertTrue( 3 == ((JComboBox) metawidgetContact.getComponent( "gender" )).getItemCount() );
-		assertTrue( null == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
-		((JComboBox) metawidgetContact.getComponent( "gender" )).setSelectedItem( Gender.FEMALE );
+		assertTrue( 3 == ( (Combo) metawidgetContact.getControl( "gender" ) ).getItemCount() );
+		assertEquals( "", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
+		( (Combo) metawidgetContact.getControl( "gender" ) ).setText( "FEMALE" );
 
-		buttonSave = (JButton) ((SwtMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
-		assertTrue( "Save".equals( buttonSave.getText() ) );
-		buttonSave.getAction().actionPerformed( null );
-		assertTrue( contactsTable.getRowCount() == 6 );
+		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
+		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
+		saveButton = (Button) buttonsMetawidget.getChildren()[4];
+		assertEquals( "Save", saveButton.getText() );
+		saveButton.notifyListeners( SWT.Selection, null );
+		assertTrue( contactsTable.getItemCount() == 6 );
 
 		// Check viewing
 
 		contact = contactsController.load( 7 );
-		assertTrue( "Miss Business Contact".equals( contact.getFullname() ) );
-		assertTrue( Gender.FEMALE == contact.getGender() );
+		assertEquals( "Miss Business Contact", contact.getFullname() );
+		assertEquals( Gender.FEMALE, contact.getGender() );
+		dialog.open( contact );
+		metawidgetContact = dialog.mContactMetawidget;
 		metawidgetContact.setReadOnly( true );
-		assertEquals( "Female", ((JLabel) metawidgetContact.getComponent( "gender" )).getText() );
+		assertEquals( "FEMALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
 
 		metawidgetContact.setReadOnly( false );
-		assertTrue( Gender.FEMALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
-		 */
+		assertEquals( "FEMALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 	}
 }

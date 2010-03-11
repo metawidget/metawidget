@@ -82,15 +82,15 @@ public class BeanUtilsBindingProcessorTest
 
 		JTextField textField = (JTextField) metawidget.getComponent( 1 );
 		DateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
-		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );
+		assertEquals( dateFormat.format( dateFirst ), textField.getText() );
 		JLabel label = (JLabel) metawidget.getComponent( 5 );
-		assertTrue( "Not settable".equals( label.getText() ) );
+		assertEquals( "Not settable", label.getText() );
 
 		JTextField nestedTextField = (JTextField) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 1 );
 		assertEquals( "", nestedTextField.getText() );
 
 		JTextField nestedNestedTextField = (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 3 ) ).getComponent( 1 );
-		assertTrue( dateFormat.format( scalaFoo3.bar() ).equals( nestedNestedTextField.getText() ) );
+		assertEquals( dateFormat.format( scalaFoo3.bar() ), nestedNestedTextField.getText() );
 
 		// Saving
 
@@ -109,13 +109,13 @@ public class BeanUtilsBindingProcessorTest
 		// Rebinding
 
 		textField = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( dateFormat.format( dateSecond ).equals( textField.getText() ) );
+		assertEquals( dateFormat.format( dateSecond ), textField.getText() );
 
 		scalaFoo.bar_$eq( dateFirst );
 		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( scalaFoo, metawidget );
 
 		textField = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );
+		assertEquals( dateFormat.format( dateFirst ), textField.getText() );
 	}
 
 	public void testConfig()

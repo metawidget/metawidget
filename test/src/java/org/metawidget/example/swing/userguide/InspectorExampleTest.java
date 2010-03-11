@@ -56,9 +56,9 @@ public class InspectorExampleTest
 		metawidget.addWidgetProcessor( new TooltipProcessor() );
 		metawidget.setToInspect( person );
 
-		assertTrue( "tooltip-age".equals( ( (JComponent) metawidget.getComponent( 1 ) ).getToolTipText() ) );
-		assertTrue( "tooltip-name".equals( ( (JComponent) metawidget.getComponent( 3 ) ).getToolTipText() ) );
-		assertTrue( "tooltip-retired".equals( ( (JComponent) metawidget.getComponent( 5 ) ).getToolTipText() ) );
+		assertEquals( "tooltip-age", ( (JComponent) metawidget.getComponent( 1 ) ).getToolTipText() );
+		assertEquals( "tooltip-name", ( (JComponent) metawidget.getComponent( 3 ) ).getToolTipText() );
+		assertEquals( "tooltip-retired", ( (JComponent) metawidget.getComponent( 5 ) ).getToolTipText() );
 	}
 
 	//

@@ -70,24 +70,24 @@ public class SeamInspectorTest
 		String xml = inspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertEquals( ENTITY, entity.getNodeName() );
 		assertFalse( entity.hasAttribute( NAME ) );
-		assertTrue( "newuser.contact".equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( "newuser.contact", entity.getAttribute( TYPE ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( ACTION.equals( property.getNodeName() ) );
-		assertTrue( "prev".equals( property.getAttribute( NAME ) ) );
+		assertEquals( ACTION, property.getNodeName() );
+		assertEquals( "prev", property.getAttribute( NAME ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( ACTION.equals( property.getNodeName() ) );
-		assertTrue( "next".equals( property.getAttribute( NAME ) ) );
+		assertEquals( ACTION, property.getNodeName() );
+		assertEquals( "next", property.getAttribute( NAME ) );
 
 		assertTrue( property.getNextSibling() == null );
 	}
@@ -110,7 +110,7 @@ public class SeamInspectorTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ) );
+			assertEquals( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH", e.getMessage() );
 		}
 	}
 

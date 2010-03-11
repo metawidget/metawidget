@@ -113,40 +113,40 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( MINIMUM_VALUE, "1" );
 		attributes.put( MAXIMUM_VALUE, "1024" );
 		UIInputNumberSlider slider = (UIInputNumberSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "1".equals( slider.getMinValue() ) );
-		assertTrue( "1024".equals( slider.getMaxValue() ) );
+		assertEquals( "1", slider.getMinValue() );
+		assertEquals( "1024", slider.getMaxValue() );
 
 		// Spinners
 
 		attributes.put( MINIMUM_VALUE, "" );
 		UIInputNumberSpinner spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "1024".equals( spinner.getMaxValue() ) );
+		assertEquals( "1024", spinner.getMaxValue() );
 
 		// (lower bound)
 
 		attributes.put( TYPE, byte.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Byte.MIN_VALUE ).equals( spinner.getMinValue() ) );
+		assertEquals( String.valueOf( Byte.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, short.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Short.MIN_VALUE ).equals( spinner.getMinValue() ) );
+		assertEquals( String.valueOf( Short.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, int.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Integer.MIN_VALUE ).equals( spinner.getMinValue() ) );
+		assertEquals( String.valueOf( Integer.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, long.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Long.MIN_VALUE ).equals( spinner.getMinValue() ) );
+		assertEquals( String.valueOf( Long.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, float.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( -Float.MAX_VALUE ).equals( spinner.getMinValue() ) );
+		assertEquals( String.valueOf( -Float.MAX_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, double.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( -Double.MAX_VALUE ).equals( spinner.getMinValue() ) );
+		assertEquals( String.valueOf( -Double.MAX_VALUE ), spinner.getMinValue() );
 
 		// (upper bound)
 
@@ -154,27 +154,27 @@ public class RichFacesWidgetBuilderTest
 
 		attributes.put( TYPE, byte.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Byte.MAX_VALUE ).equals( spinner.getMaxValue() ) );
+		assertEquals( String.valueOf( Byte.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, short.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Short.MAX_VALUE ).equals( spinner.getMaxValue() ) );
+		assertEquals( String.valueOf( Short.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, int.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Integer.MAX_VALUE ).equals( spinner.getMaxValue() ) );
+		assertEquals( String.valueOf( Integer.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, long.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Long.MAX_VALUE ).equals( spinner.getMaxValue() ) );
+		assertEquals( String.valueOf( Long.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, float.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Float.MAX_VALUE ).equals( spinner.getMaxValue() ) );
+		assertEquals( String.valueOf( Float.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, double.class.getName() );
 		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( String.valueOf( Double.MAX_VALUE ).equals( spinner.getMaxValue() ) );
+		assertEquals( String.valueOf( Double.MAX_VALUE ), spinner.getMaxValue() );
 
 		// Calendars
 
@@ -183,9 +183,9 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( LOCALE, "en-AU" );
 		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		UICalendar calendar = (UICalendar) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "dd-MM-yyyy".equals( calendar.getDatePattern() ) );
-		assertTrue( new Locale( "en-AU" ).equals( calendar.getLocale() ) );
-		assertTrue( TimeZone.getTimeZone( "Australia/Sydney" ).equals( calendar.getTimeZone() ) );
+		assertEquals( "dd-MM-yyyy", calendar.getDatePattern() );
+		assertEquals( new Locale( "en-AU" ), calendar.getLocale() );
+		assertEquals( TimeZone.getTimeZone( "Australia/Sydney" ), calendar.getTimeZone() );
 
 		// Suggest
 
@@ -205,8 +205,8 @@ public class RichFacesWidgetBuilderTest
 		assertEquals( "aStyle", htmlInputText.getStyle() );
 		assertEquals( "aStyleClass", htmlInputText.getStyleClass() );
 		assertTrue( suggestionBox.getId().startsWith( "suggestionBox_" ));
-		assertTrue( suggestionBox.getFor().equals( htmlInputText.getId() ) );
-		assertTrue( "#{foo.bar}".equals( suggestionBox.getSuggestionAction().getExpressionString() ) );
+		assertEquals( suggestionBox.getFor(), htmlInputText.getId() );
+		assertEquals( "#{foo.bar}", suggestionBox.getSuggestionAction().getExpressionString() );
 		assertTrue( Object.class == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams()[0] );
 		assertTrue( 1 == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams().length );
 		assertTrue( suggestionBox.getChildCount() == 1 );
@@ -214,7 +214,7 @@ public class RichFacesWidgetBuilderTest
 		assertTrue( suggestionBox.getChildren().get( 0 ).getId() != null );
 		HtmlOutputText htmlOutputText = (HtmlOutputText) suggestionBox.getChildren().get( 0 ).getChildren().get( 0 );
 		assertTrue( htmlOutputText.getId() != null );
-		assertTrue( FacesUtils.wrapExpression( suggestionBox.getVar() ).equals( htmlOutputText.getValueBinding( "value" ).getExpressionString() ) );
+		assertEquals( FacesUtils.wrapExpression( suggestionBox.getVar() ), htmlOutputText.getValueBinding( "value" ).getExpressionString() );
 
 		attributes.remove( FACES_SUGGEST );
 
@@ -222,7 +222,7 @@ public class RichFacesWidgetBuilderTest
 
 		attributes.put( TYPE, Color.class.getName() );
 		MockComponent mockComponent = (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "org.richfaces.ColorPicker".equals( mockComponent.getFamily() ) );
+		assertEquals( "org.richfaces.ColorPicker", mockComponent.getFamily() );
 
 		attributes.put( READ_ONLY, TRUE );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );

@@ -46,15 +46,15 @@ public class JavassistPropertyStyleTest
 		assertTrue( properties instanceof LinkedHashMap<?,?> );
 
 		Iterator<Property> i = properties.values().iterator();
-		assertTrue( "superBar".equals( i.next().getName() ) );
-		assertTrue( "superFoo".equals( i.next().getName() ) );
-		assertTrue( "methodSuperFoo".equals( i.next().getName() ) );
-		assertTrue( "methodSuperBar".equals( i.next().getName() ) );
-		assertTrue( "bar".equals( i.next().getName() ) );
-		assertTrue( "foo".equals( i.next().getName() ) );
-		assertTrue( "methodFoo".equals( i.next().getName() ) );
-		assertTrue( "methodBar".equals( i.next().getName() ) );
-		assertTrue( "methodBaz".equals( i.next().getName() ) );
+		assertEquals( "superBar", i.next().getName() );
+		assertEquals( "superFoo", i.next().getName() );
+		assertEquals( "methodSuperFoo", i.next().getName() );
+		assertEquals( "methodSuperBar", i.next().getName() );
+		assertEquals( "bar", i.next().getName() );
+		assertEquals( "foo", i.next().getName() );
+		assertEquals( "methodFoo", i.next().getName() );
+		assertEquals( "methodBar", i.next().getName() );
+		assertEquals( "methodBaz", i.next().getName() );
 		assertFalse( i.hasNext() );
 	}
 

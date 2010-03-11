@@ -51,7 +51,7 @@ public class XmlUtilsTest
 		}
 		catch ( SAXException e )
 		{
-			assertTrue( "Nothing to replay. Not cached any SAX events".equals( e.getMessage() ) );
+			assertEquals( "Nothing to replay. Not cached any SAX events", e.getMessage() );
 		}
 
 		// Check delegate ready
@@ -88,7 +88,7 @@ public class XmlUtilsTest
 		}
 		catch ( SAXException e )
 		{
-			assertTrue( "Already cached SAX events. CachingContentHandler can only cache SAX events once".equals( e.getMessage() ) );
+			assertEquals( "Already cached SAX events. CachingContentHandler can only cache SAX events once", e.getMessage() );
 		}
 
 		// Check they got delegated
@@ -135,15 +135,15 @@ public class XmlUtilsTest
 		cachingContentHandler.replay( newSimpleContentHandler );
 
 		assertTrue( newSimpleContentHandler.mEvents.size() == 2 );
-		assertTrue( "startElement".equals( simpleContentHandler.mEvents.get( 0 )[0] ) );
-		assertTrue( "se-uri".equals( simpleContentHandler.mEvents.get( 0 )[1] ) );
-		assertTrue( "se-localName".equals( simpleContentHandler.mEvents.get( 0 )[2] ) );
-		assertTrue( "se-name".equals( simpleContentHandler.mEvents.get( 0 )[3] ) );
+		assertEquals( "startElement", simpleContentHandler.mEvents.get( 0 )[0] );
+		assertEquals( "se-uri", simpleContentHandler.mEvents.get( 0 )[1] );
+		assertEquals( "se-localName", simpleContentHandler.mEvents.get( 0 )[2] );
+		assertEquals( "se-name", simpleContentHandler.mEvents.get( 0 )[3] );
 		assertTrue( 0 == ( (Attributes) simpleContentHandler.mEvents.get( 0 )[4] ).getLength() );
-		assertTrue( "endElement".equals( simpleContentHandler.mEvents.get( 1 )[0] ) );
-		assertTrue( "ee-uri".equals( simpleContentHandler.mEvents.get( 1 )[1] ) );
-		assertTrue( "ee-localName".equals( simpleContentHandler.mEvents.get( 1 )[2] ) );
-		assertTrue( "ee-name".equals( simpleContentHandler.mEvents.get( 1 )[3] ) );
+		assertEquals( "endElement", simpleContentHandler.mEvents.get( 1 )[0] );
+		assertEquals( "ee-uri", simpleContentHandler.mEvents.get( 1 )[1] );
+		assertEquals( "ee-localName", simpleContentHandler.mEvents.get( 1 )[2] );
+		assertEquals( "ee-name", simpleContentHandler.mEvents.get( 1 )[3] );
 	}
 
 	//
@@ -153,37 +153,37 @@ public class XmlUtilsTest
 	private void assertSimpleContentHandler( SimpleContentHandler simpleContentHandler )
 	{
 		assertTrue( simpleContentHandler.mEvents.size() == 10 );
-		assertTrue( "startDocument".equals( simpleContentHandler.mEvents.get( 0 )[0] ) );
-		assertTrue( "processingInstruction".equals( simpleContentHandler.mEvents.get( 1 )[0] ) );
-		assertTrue( "pi-target".equals( simpleContentHandler.mEvents.get( 1 )[1] ) );
-		assertTrue( "pi-data".equals( simpleContentHandler.mEvents.get( 1 )[2] ) );
-		assertTrue( "skippedEntity".equals( simpleContentHandler.mEvents.get( 2 )[0] ) );
-		assertTrue( "se-name".equals( simpleContentHandler.mEvents.get( 2 )[1] ) );
-		assertTrue( "startPrefixMapping".equals( simpleContentHandler.mEvents.get( 3 )[0] ) );
-		assertTrue( "spm-prefix".equals( simpleContentHandler.mEvents.get( 3 )[1] ) );
-		assertTrue( "spm-uri".equals( simpleContentHandler.mEvents.get( 3 )[2] ) );
-		assertTrue( "endPrefixMapping".equals( simpleContentHandler.mEvents.get( 4 )[0] ) );
-		assertTrue( "epm-prefix".equals( simpleContentHandler.mEvents.get( 4 )[1] ) );
-		assertTrue( "startElement".equals( simpleContentHandler.mEvents.get( 5 )[0] ) );
-		assertTrue( "se-uri".equals( simpleContentHandler.mEvents.get( 5 )[1] ) );
-		assertTrue( "se-localName".equals( simpleContentHandler.mEvents.get( 5 )[2] ) );
-		assertTrue( "se-name".equals( simpleContentHandler.mEvents.get( 5 )[3] ) );
-		assertTrue( "a-value".equals( ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getValue( "a-uri", "a-localName" ) ) );
-		assertTrue( "a-type".equals( ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getType( "a-uri", "a-localName" ) ) );
+		assertEquals( "startDocument", simpleContentHandler.mEvents.get( 0 )[0] );
+		assertEquals( "processingInstruction", simpleContentHandler.mEvents.get( 1 )[0] );
+		assertEquals( "pi-target", simpleContentHandler.mEvents.get( 1 )[1] );
+		assertEquals( "pi-data", simpleContentHandler.mEvents.get( 1 )[2] );
+		assertEquals( "skippedEntity", simpleContentHandler.mEvents.get( 2 )[0] );
+		assertEquals( "se-name", simpleContentHandler.mEvents.get( 2 )[1] );
+		assertEquals( "startPrefixMapping", simpleContentHandler.mEvents.get( 3 )[0] );
+		assertEquals( "spm-prefix", simpleContentHandler.mEvents.get( 3 )[1] );
+		assertEquals( "spm-uri", simpleContentHandler.mEvents.get( 3 )[2] );
+		assertEquals( "endPrefixMapping", simpleContentHandler.mEvents.get( 4 )[0] );
+		assertEquals( "epm-prefix", simpleContentHandler.mEvents.get( 4 )[1] );
+		assertEquals( "startElement", simpleContentHandler.mEvents.get( 5 )[0] );
+		assertEquals( "se-uri", simpleContentHandler.mEvents.get( 5 )[1] );
+		assertEquals( "se-localName", simpleContentHandler.mEvents.get( 5 )[2] );
+		assertEquals( "se-name", simpleContentHandler.mEvents.get( 5 )[3] );
+		assertEquals( "a-value", ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getValue( "a-uri", "a-localName" ) );
+		assertEquals( "a-type", ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getType( "a-uri", "a-localName" ) );
 		assertTrue( 1 == ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getLength() );
-		assertTrue( "characters".equals( simpleContentHandler.mEvents.get( 6 )[0] ) );
-		assertTrue( "c-characters".equals( String.valueOf( (char[]) simpleContentHandler.mEvents.get( 6 )[1] ) ) );
+		assertEquals( "characters", simpleContentHandler.mEvents.get( 6 )[0] );
+		assertEquals( "c-characters", String.valueOf( (char[]) simpleContentHandler.mEvents.get( 6 )[1] ) );
 		assertTrue( 0 == (Integer) simpleContentHandler.mEvents.get( 6 )[2] );
 		assertTrue( 12 == (Integer) simpleContentHandler.mEvents.get( 6 )[3] );
-		assertTrue( "ignorableWhitespace".equals( simpleContentHandler.mEvents.get( 7 )[0] ) );
-		assertTrue( "iw-characters".equals( String.valueOf( (char[]) simpleContentHandler.mEvents.get( 7 )[1] ) ) );
+		assertEquals( "ignorableWhitespace", simpleContentHandler.mEvents.get( 7 )[0] );
+		assertEquals( "iw-characters", String.valueOf( (char[]) simpleContentHandler.mEvents.get( 7 )[1] ) );
 		assertTrue( 0 == (Integer) simpleContentHandler.mEvents.get( 7 )[2] );
 		assertTrue( 13 == (Integer) simpleContentHandler.mEvents.get( 7 )[3] );
-		assertTrue( "endElement".equals( simpleContentHandler.mEvents.get( 8 )[0] ) );
-		assertTrue( "ee-uri".equals( simpleContentHandler.mEvents.get( 8 )[1] ) );
-		assertTrue( "ee-localName".equals( simpleContentHandler.mEvents.get( 8 )[2] ) );
-		assertTrue( "ee-name".equals( simpleContentHandler.mEvents.get( 8 )[3] ) );
-		assertTrue( "endDocument".equals( simpleContentHandler.mEvents.get( 9 )[0] ) );
+		assertEquals( "endElement", simpleContentHandler.mEvents.get( 8 )[0] );
+		assertEquals( "ee-uri", simpleContentHandler.mEvents.get( 8 )[1] );
+		assertEquals( "ee-localName", simpleContentHandler.mEvents.get( 8 )[2] );
+		assertEquals( "ee-name", simpleContentHandler.mEvents.get( 8 )[3] );
+		assertEquals( "endDocument", simpleContentHandler.mEvents.get( 9 )[0] );
 	}
 
 	//

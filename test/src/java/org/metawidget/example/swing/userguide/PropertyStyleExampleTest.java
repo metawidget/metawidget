@@ -51,8 +51,8 @@ public class PropertyStyleExampleTest
 		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new BundlePropertyStyle() ) ) );
 		metawidget.setToInspect( person );
 
-		assertTrue( "name".equals( metawidget.getComponent( 1 ).getName() ) );
-		assertTrue( "retired".equals( metawidget.getComponent( 3 ).getName() ) );
+		assertEquals( "name", metawidget.getComponent( 1 ).getName() );
+		assertEquals( "retired", metawidget.getComponent( 3 ).getName() );
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 

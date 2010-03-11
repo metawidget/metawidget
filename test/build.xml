@@ -339,7 +339,7 @@
 		<available property="java4-exists" file="${java4.dir}/bin"/>
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
 
-		<java classname="junit.textui.TestRunner" fork="true" jvm="${java4.dir}/bin/java" dir="${relative.dir}/${build.dir}/${run.dir}">
+		<java classname="junit.textui.TestRunner" failonerror="true" fork="true" jvm="${java4.dir}/bin/java" dir="${relative.dir}/${build.dir}/${run.dir}">
 			<arg line="org.metawidget.swing.SwingAllWidgetsTest org.metawidget.swing.SwingJdk14Test"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib">
@@ -544,7 +544,7 @@
 		
 		<echo message="Stopping ${tomcat.dir} (then waiting 30 seconds)..."/>
 
-		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
+		<java jar="${tomcat.dir}/bin/bootstrap.jar" failonerror="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
 	        <arg line="stop"/>
 	    </java>
@@ -1055,7 +1055,7 @@
 		
 		<echo message="Stopping ${tomcat4.dir} (then waiting 30 seconds)..."/>
 
-		<java jar="${tomcat4.dir}/bin/bootstrap.jar" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
+		<java jar="${tomcat4.dir}/bin/bootstrap.jar" failonerror="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat4.dir}"/>
 	        <arg line="stop"/>
 	    </java>
@@ -1179,7 +1179,7 @@
 	<target name="test-web-stop-jetty">
 		
 		<echo message="Stopping ${jetty.dir} (then waiting 30 seconds)..."/>
-		<java jar="${jetty.dir}/start.jar" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
+		<java jar="${jetty.dir}/start.jar" failonerror="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
 			<jvmarg value="-Djetty.home=${jetty.dir}"/>
 			<jvmarg value="-DSTOP.PORT=8079"/>
 			<jvmarg value="-DSTOP.KEY=secret"/>

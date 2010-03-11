@@ -16,28 +16,43 @@
 
 package org.metawidget.example.swt.addressbook.converter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
 import org.eclipse.core.databinding.conversion.Converter;
-import org.metawidget.example.shared.addressbook.model.Gender;
 
 /**
  * @author Richard Kennard
  */
 
-public class StringToGenderConverter
+public class StringToDateConverter
 	extends Converter
 {
+	//
+	// Private statics
+	//
+
+	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
+
+	static
+	{
+		FORMAT.setLenient( false );
+	}
+
 	//
 	// Constructor
 	//
 
-	public StringToGenderConverter()
+	public StringToDateConverter()
 	{
-		super( String.class, Gender.class );
+		super( String.class, Date.class );
 	}
 
 	//
 	// Public methods
 	//
+
 
 	@Override
 	public Object convert( Object toConvert )
@@ -45,6 +60,16 @@ public class StringToGenderConverter
 		if ( toConvert == null || "".equals( toConvert ))
 			return null;
 
-		return Gender.valueOf( (String) toConvert );
+		synchronized ( FORMAT )
+		{
+			try
+			{
+				return FORMAT.parse( (String) toConvert );
+			}
+			catch( ParseException e )
+			{
+				throw new RuntimeException( e );
+			}
+		}
 	}
 }

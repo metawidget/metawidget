@@ -48,7 +48,7 @@ public class JavassistPropertyStyleDebugOffTest
 		catch ( InspectorException e )
 		{
 			String message = "Line number information for " + Foo.class + " not available. Did you compile without debug info?";
-			assertTrue( message.equals( e.getMessage() ) );
+			assertEquals( message, e.getMessage() );
 		}
 	}
 

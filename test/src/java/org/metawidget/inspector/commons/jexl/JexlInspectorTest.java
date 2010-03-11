@@ -48,22 +48,22 @@ public class JexlInspectorTest
 		String xml = inspector.inspect( null, Foo.class.getName() );
 		Document document = XmlUtils.documentFromString( xml );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertEquals( PROPERTY, property.getNodeName() );
 		assertFalse( property.hasAttribute( "value-is-el" ) );
-		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
-		assertTrue( "was set".equals( property.getAttribute( "expression-is-false" ) ) );
+		assertEquals( "text", property.getAttribute( "value-is-text" ) );
+		assertEquals( "was set", property.getAttribute( "expression-is-false" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 1 );
@@ -73,27 +73,27 @@ public class JexlInspectorTest
 		xml = inspector.inspect( new Foo(), Foo.class.getName() );
 		document = XmlUtils.documentFromString( xml );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "from-baz".equals( property.getAttribute( "value-is-el" ) ) );
-		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "from-baz", property.getAttribute( "value-is-el" ) );
+		assertEquals( "text", property.getAttribute( "value-is-text" ) );
 		assertFalse( property.hasAttribute( "expression-is-false" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "was set".equals( property.getAttribute( "expression-is-true" ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "was set", property.getAttribute( "expression-is-true" ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
@@ -108,7 +108,7 @@ public class JexlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'".equals( e.getMessage() ) );
+			assertEquals( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'", e.getMessage() );
 		}
 	}
 

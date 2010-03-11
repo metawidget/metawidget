@@ -65,7 +65,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "   </entity>\n";
 		validateXml += "</inspection-result>";
 
-		assertTrue( validateXml.equals( outputXml ) );
+		assertEquals( validateXml, outputXml );
 	}
 
 	public void testComesAfterAll()
@@ -99,7 +99,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "   </entity>\n";
 		validateXml += "</inspection-result>";
 
-		assertTrue( validateXml.equals( outputXml ) );
+		assertEquals( validateXml, outputXml );
 	}
 
 	public void testSingleComesAfter()
@@ -133,7 +133,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "   </entity>\n";
 		validateXml += "</inspection-result>";
 
-		assertTrue( validateXml.equals( outputXml ) );
+		assertEquals( validateXml, outputXml );
 	}
 
 	public void testMultipleComesAfter()
@@ -169,7 +169,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "   </entity>\n";
 		validateXml += "</inspection-result>";
 
-		assertTrue( validateXml.equals( outputXml ) );
+		assertEquals( validateXml, outputXml );
 	}
 
 	public void testNonDeterministicComesAfter()
@@ -205,7 +205,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "   </entity>\n";
 		validateXml += "</inspection-result>";
 
-		assertTrue( validateXml.equals( outputXml ) );
+		assertEquals( validateXml, outputXml );
 	}
 
 	public void testIteratedComesAfter()
@@ -241,7 +241,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "   </entity>\n";
 		validateXml += "</inspection-result>";
 
-		assertTrue( validateXml.equals( outputXml ) );
+		assertEquals( validateXml, outputXml );
 	}
 
 	public void testInfiniteLoop()
@@ -264,7 +264,7 @@ public class ComesAfterInspectionResultProcessorTest
 		}
 		catch ( InspectionResultProcessorException e )
 		{
-			assertTrue( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but foo comes after bar".equals( e.getMessage() ) );
+			assertEquals( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but foo comes after bar", e.getMessage() );
 		}
 	}
 
@@ -287,7 +287,7 @@ public class ComesAfterInspectionResultProcessorTest
 		}
 		catch ( InspectionResultProcessorException e )
 		{
-			assertTrue( "'bar' comes-after itself".equals( e.getMessage() ) );
+			assertEquals( "'bar' comes-after itself", e.getMessage() );
 		}
 	}
 }

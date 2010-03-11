@@ -82,7 +82,7 @@ public class SwingXWidgetBuilderTest
 		assertTrue( date.getYear() == dateFromMetawidget.getYear() );
 		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 
-		assertTrue( dateFromMetawidget.equals( dateHolder.getDate() ) );
+		assertEquals( dateFromMetawidget, dateHolder.getDate() );
 
 		// Test SwingXWidgetBuilder.getValueProperty passthrough
 

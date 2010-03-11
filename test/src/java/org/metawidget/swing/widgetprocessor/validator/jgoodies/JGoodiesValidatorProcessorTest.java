@@ -66,8 +66,8 @@ public class JGoodiesValidatorProcessorTest
 		JTextField textField1 = (JTextField) metawidget.getComponent( 1 );
 		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField1 ) );
 		assertTrue( ValidationComponentUtils.isMandatory( textField1 ) );
-		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField1.getBorder() ) );
-		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
+		assertEquals( ValidationComponentUtils.getMandatoryBorder(), textField1.getBorder() );
+		assertEquals( ValidationComponentUtils.getMandatoryBackground(), textField1.getBackground() );
 
 		JTextField textField2 = (JTextField) metawidget.getComponent( 3 );
 		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField2 ) );
@@ -78,7 +78,7 @@ public class JGoodiesValidatorProcessorTest
 		textField1.setText( "Not empty" );
 		textField1.getKeyListeners()[0].keyReleased( null );
 
-		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField1.getBorder() ) );
+		assertEquals( ValidationComponentUtils.getMandatoryBorder(), textField1.getBorder() );
 		assertFalse( ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
 
 		// Validation after deleting contents
@@ -86,8 +86,8 @@ public class JGoodiesValidatorProcessorTest
 		textField1.setText( "" );
 		textField1.getKeyListeners()[0].keyReleased( null );
 
-		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField1.getBorder() ) );
-		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
+		assertEquals( ValidationComponentUtils.getMandatoryBorder(), textField1.getBorder() );
+		assertEquals( ValidationComponentUtils.getMandatoryBackground(), textField1.getBackground() );
 
 		// Custom validator
 
@@ -128,15 +128,15 @@ public class JGoodiesValidatorProcessorTest
 			}
 		} );
 		textField1 = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( "bar".equals( ValidationComponentUtils.getMessageKeys( textField1 )[0] ) );
+		assertEquals( "bar", ValidationComponentUtils.getMessageKeys( textField1 )[0] );
 
 		textField1.setText( "error" );
 		textField1.getKeyListeners()[0].keyReleased( null );
-		assertTrue( ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ) );
+		assertEquals( ValidationComponentUtils.getErrorBackground(), textField1.getBackground() );
 
 		textField1.setText( "warning" );
 		textField1.getKeyListeners()[0].keyReleased( null );
-		assertTrue( ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ) );
+		assertEquals( ValidationComponentUtils.getWarningBackground(), textField1.getBackground() );
 
 		textField1.setText( "all good" );
 		textField1.getKeyListeners()[0].keyReleased( null );

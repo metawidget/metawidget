@@ -69,7 +69,7 @@ public class BeansBindingProcessorTest
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertTrue( 42 == (Long) spinner.getValue() );
 		JLabel label = (JLabel) metawidget.getComponent( 3 );
-		assertTrue( "4".equals( label.getText() ) );
+		assertEquals( "4", label.getText() );
 
 		// Test UpdateStrategy.READ
 
@@ -124,7 +124,7 @@ public class BeansBindingProcessorTest
 
 		ReadOnlyToStringConverter<Boolean> converter = new ReadOnlyToStringConverter<Boolean>();
 
-		assertTrue( "true".equals( converter.convertForward( Boolean.TRUE ) ) );
+		assertEquals( "true", converter.convertForward( Boolean.TRUE ) );
 
 		try
 		{
@@ -168,7 +168,7 @@ public class BeansBindingProcessorTest
 
 		binding = new BeansBindingProcessor( config );
 		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
-		assertTrue( "convertedForward".equals( builder.toString() ) );
+		assertEquals( "convertedForward", builder.toString() );
 	}
 
 	public void testNoGetterSetterType()
@@ -186,7 +186,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( WidgetProcessorException e )
 		{
-			assertTrue( "Property 'bar' has no getter and no setter".equals( e.getMessage() ) );
+			assertEquals( "Property 'bar' has no getter and no setter", e.getMessage() );
 		}
 	}
 
@@ -210,7 +210,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( WidgetProcessorException e )
 		{
-			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)".equals( e.getMessage() ) );
+			assertEquals( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}
 
 		// Loading
@@ -225,7 +225,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( WidgetProcessorException e )
 		{
-			assertTrue( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBindingProcessorConfig.setConverter?)".equals( e.getMessage() ) );
+			assertEquals( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}
 	}
 

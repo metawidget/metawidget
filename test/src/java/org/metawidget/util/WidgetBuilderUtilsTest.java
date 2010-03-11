@@ -47,10 +47,10 @@ public class WidgetBuilderUtilsTest
 		attributes.put( TYPE, "" );
 		assertTrue( null == WidgetBuilderUtils.getActualClassOrType( attributes ) );
 		attributes.put( TYPE, "foo" );
-		assertTrue( "foo".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) );
+		assertEquals( "foo", WidgetBuilderUtils.getActualClassOrType( attributes ) );
 		attributes.put( ACTUAL_CLASS, "" );
-		assertTrue( "foo".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) );
+		assertEquals( "foo", WidgetBuilderUtils.getActualClassOrType( attributes ) );
 		attributes.put( ACTUAL_CLASS, "bar" );
-		assertTrue( "bar".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) );
+		assertEquals( "bar", WidgetBuilderUtils.getActualClassOrType( attributes ) );
 	}
 }

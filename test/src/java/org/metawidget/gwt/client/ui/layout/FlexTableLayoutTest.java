@@ -43,7 +43,7 @@ public class FlexTableLayoutTest
 		FlexTableLayoutConfig config2 = new FlexTableLayoutConfig();
 
 		assertFalse( config1.equals( "foo" ));
-		assertTrue( config1.equals( config1 ) );
+		assertEquals( config1, config1 );
 		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

@@ -57,14 +57,14 @@ public class LinearLayoutTest
 
 		androidMetawidget.setToInspect( new Foo() );
 
-		assertTrue( "Bar: ".equals( ( (TextView) androidMetawidget.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Bar: ", ( (TextView) androidMetawidget.getChildAt( 0 ) ).getText() );
 		assertTrue( androidMetawidget.getChildAt( 1 ) instanceof EditText );
-		assertTrue( "Baz: ".equals( ( (TextView) androidMetawidget.getChildAt( 2 ) ).getText() ) );
+		assertEquals( "Baz: ", ( (TextView) androidMetawidget.getChildAt( 2 ) ).getText() );
 		assertTrue( androidMetawidget.getChildAt( 3 ) instanceof CheckBox );
-		assertTrue( "Foo Section".equals( ( (TextView) androidMetawidget.getChildAt( 4 ) ).getText() ) );
+		assertEquals( "Foo Section", ( (TextView) androidMetawidget.getChildAt( 4 ) ).getText() );
 
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 5 );
-		assertTrue( "Abc: ".equals( ( (TextView) linearLayout.getChildAt( 0 ) ).getText() ) );
+		assertEquals( "Abc: ", ( (TextView) linearLayout.getChildAt( 0 ) ).getText() );
 		assertTrue( linearLayout.getChildAt( 1 ) instanceof Spinner );
 		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 6 ) );
 

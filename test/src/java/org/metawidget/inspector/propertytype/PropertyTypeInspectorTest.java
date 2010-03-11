@@ -61,26 +61,26 @@ public class PropertyTypeInspectorTest
 		PersonalContact personalContact = new PersonalContact();
 		Document document = XmlUtils.documentFromString( mInspector.inspect( personalContact, PersonalContact.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties (should be sorted alphabetically)
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "address".equals( property.getAttribute( NAME ) ) );
-		assertTrue( Address.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "address", property.getAttribute( NAME ) );
+		assertEquals( Address.class.getName(), property.getAttribute( TYPE ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "communications".equals( property.getAttribute( NAME ) ) );
-		assertTrue( Set.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "communications", property.getAttribute( NAME ) );
+		assertEquals( Set.class.getName(), property.getAttribute( TYPE ) );
 
 		// Test declared-class
 
@@ -89,28 +89,28 @@ public class PropertyTypeInspectorTest
 
 		document = XmlUtils.documentFromString( mInspector.inspect( tester, DeclaredTypeTester.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( DeclaredTypeTester.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( DeclaredTypeTester.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "fOO".equals( property.getAttribute( NAME ) ) );
-		assertTrue( Object.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "fOO", property.getAttribute( NAME ) );
+		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "foo".equals( property.getAttribute( NAME ) ) );
-		assertTrue( Object.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "value".equals( property.getAttribute( NAME ) ) );
-		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( ACTUAL_CLASS ) ) );
-		assertTrue( Contact.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "value", property.getAttribute( NAME ) );
+		assertEquals( PersonalContact.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
+		assertEquals( Contact.class.getName(), property.getAttribute( TYPE ) );
 	}
 
 	public void testInspectString()
@@ -119,10 +119,10 @@ public class PropertyTypeInspectorTest
 
 		String xml = mInspector.inspect( "foo", String.class.getName() );
 		Document document = XmlUtils.documentFromString( xml );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 
@@ -130,10 +130,10 @@ public class PropertyTypeInspectorTest
 
 		xml = mInspector.inspect( null, String.class.getName() );
 		document = XmlUtils.documentFromString( xml );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 
@@ -143,11 +143,11 @@ public class PropertyTypeInspectorTest
 		stringHolder.string = "foo";
 		xml = mInspector.inspect( stringHolder, StringHolder.class.getName(), "string" );
 		document = XmlUtils.documentFromString( xml );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "string".equals( entity.getAttribute( NAME ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "string", entity.getAttribute( NAME ) );
 		assertTrue( 2 == entity.getAttributes().getLength() );
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 
@@ -156,11 +156,11 @@ public class PropertyTypeInspectorTest
 		stringHolder.string = null;
 		xml = mInspector.inspect( stringHolder, StringHolder.class.getName(), "string" );
 		document = XmlUtils.documentFromString( xml );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "string".equals( entity.getAttribute( NAME ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "string", entity.getAttribute( NAME ) );
 		assertTrue( 2 == entity.getAttributes().getLength() );
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 	}
@@ -176,17 +176,17 @@ public class PropertyTypeInspectorTest
 		String xml = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
 		Document document = XmlUtils.documentFromString( xml );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Contact.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "value".equals( entity.getAttribute( NAME ) ) );
-		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( ACTUAL_CLASS ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Contact.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "value", entity.getAttribute( NAME ) );
+		assertEquals( PersonalContact.class.getName(), entity.getAttribute( ACTUAL_CLASS ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "address" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertEquals( PROPERTY, property.getNodeName() );
 
 		// Indirectly pointed at a null complex type
 
@@ -194,12 +194,12 @@ public class PropertyTypeInspectorTest
 		xml = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
 		document = XmlUtils.documentFromString( xml );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Contact.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "value".equals( entity.getAttribute( NAME ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Contact.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "value", entity.getAttribute( NAME ) );
 		assertTrue( 2 == entity.getAttributes().getLength() );
 
 		// (should be no children because value was null)
@@ -213,40 +213,40 @@ public class PropertyTypeInspectorTest
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( new SuperFoo(), SuperFoo.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertEquals( ENTITY, entity.getNodeName() );
 
-		assertTrue( SuperFoo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( SuperFoo.class.getName(), entity.getAttribute( TYPE ) );
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "contact".equals( property.getAttribute( NAME ) ) );
-		assertTrue( Contact.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "contact", property.getAttribute( NAME ) );
+		assertEquals( Contact.class.getName(), property.getAttribute( TYPE ) );
 
 		// Subclass
 
 		document = XmlUtils.documentFromString( mInspector.inspect( new SubFoo(), SubFoo.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( SubFoo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( SubFoo.class.getName(), entity.getAttribute( TYPE ) );
 
 		property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "bar".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( NO_GETTER ) ) );
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( NO_GETTER ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "contact".equals( property.getAttribute( NAME ) ) );
-		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( NO_SETTER ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "contact", property.getAttribute( NAME ) );
+		assertEquals( PersonalContact.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( TRUE, property.getAttribute( NO_SETTER ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		// Check there are no more properties (eg. public static int notVisible)
@@ -258,16 +258,16 @@ public class PropertyTypeInspectorTest
 	{
 		Document document = XmlUtils.documentFromString( mInspector.inspect( new SubFoo2(), SubFoo2.class.getName() ) );
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( SubFoo2.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( SubFoo2.class.getName(), entity.getAttribute( TYPE ) );
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "contact".equals( property.getAttribute( NAME ) ) );
-		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "contact", property.getAttribute( NAME ) );
+		assertEquals( PersonalContact.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		// Check there are no more properties (eg. public static int notVisible)
@@ -283,17 +283,17 @@ public class PropertyTypeInspectorTest
 		// Top level
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName() ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( RecursiveFoo.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( RecursiveFoo.class.getName(), entity.getAttribute( TYPE ) );
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "foo".equals( property.getAttribute( NAME ) ) );
-		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( ACTUAL_CLASS ) ) );
-		assertTrue( Object.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( RecursiveFoo.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
+		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 		assertTrue( property.getNextSibling() == null );
 
@@ -310,18 +310,18 @@ public class PropertyTypeInspectorTest
 		// Second level
 
 		document = XmlUtils.documentFromString( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
 
 		property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "foo".equals( property.getAttribute( NAME ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
-		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( ACTUAL_CLASS ) ) );
-		assertTrue( Object.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( RecursiveFoo.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
+		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( property.getNextSibling() == null );
 
 		// Third level (should block)
@@ -346,54 +346,54 @@ public class PropertyTypeInspectorTest
 		// Boolean (big 'b')
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, Boolean.class.getName() ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( "true, false".equals( entity.getAttribute( LOOKUP ) ) );
-		assertTrue( "Yes, No".equals( entity.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Boolean.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "true, false", entity.getAttribute( LOOKUP ) );
+		assertEquals( "Yes, No", entity.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
 
 		// boolean (little 'b')
 
 		document = XmlUtils.documentFromString( mInspector.inspect( null, boolean.class.getName() ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( LOOKUP ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
 
 		// boolean with a value
 
 		document = XmlUtils.documentFromString( mInspector.inspect( new BooleanHolder(), BooleanHolder.class.getName() ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "littleBoolean" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( boolean.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( boolean.class.getName(), property.getAttribute( TYPE ) );
 		assertFalse( property.hasAttribute( LOOKUP ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bigBoolean" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( Boolean.class.getName().equals( property.getAttribute( TYPE ) ) );
-		assertTrue( "true, false".equals( property.getAttribute( LOOKUP ) ) );
-		assertTrue( "Yes, No".equals( property.getAttribute( LOOKUP_LABELS ) ) );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Boolean.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( "true, false", property.getAttribute( LOOKUP ) );
+		assertEquals( "Yes, No", property.getAttribute( LOOKUP_LABELS ) );
 		assertTrue( 4 == property.getAttributes().getLength() );
 
 		// Pointed directly at a boolean (little 'b')
 
 		document = XmlUtils.documentFromString( mInspector.inspect( new BooleanHolder(), BooleanHolder.class.getName(), "littleBoolean" ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "littleBoolean".equals( entity.getAttribute( NAME ) ) );
-		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "littleBoolean", entity.getAttribute( NAME ) );
+		assertEquals( boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( LOOKUP ) );
 		assertFalse( entity.hasAttribute( LOOKUP_LABELS ) );
 		assertTrue( 2 == entity.getAttributes().getLength() );
@@ -409,23 +409,23 @@ public class PropertyTypeInspectorTest
 		// the declared type (java.lang.Object) instead of the actual type (DeclaredTypeTester)
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( test, test.getClass().getName(), "foo", "foo" ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "foo".equals( entity.getAttribute( NAME ) ) );
-		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( DeclaredTypeTester.class.getName().equals( entity.getAttribute( ACTUAL_CLASS ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "foo", entity.getAttribute( NAME ) );
+		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( DeclaredTypeTester.class.getName(), entity.getAttribute( ACTUAL_CLASS ) );
 
 		// Traversal to a null property can still return information about the properties type
 
 		document = XmlUtils.documentFromString( mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo" ) );
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( "foo".equals( entity.getAttribute( NAME ) ) );
-		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "foo", entity.getAttribute( NAME ) );
+		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( ACTUAL_CLASS ) );
 
 		// Traversal any further should fail gracefully (ie. not NullPointerException)

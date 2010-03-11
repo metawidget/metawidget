@@ -83,7 +83,7 @@ public class IceFacesWidgetBuilderTest
 		attributes.put( TYPE, Date.class.getName() );
 		attributes.put( DATETIME_PATTERN, "dd-MM-yyyy" );
 		SelectInputDate selectInputDate = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "dd-MM-yyyy".equals( selectInputDate.getPopupDateFormat() ) );
+		assertEquals( "dd-MM-yyyy", selectInputDate.getPopupDateFormat() );
 		assertTrue( true == (Boolean) selectInputDate.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) );
 		assertTrue( selectInputDate.getPartialSubmit() );
 	}
