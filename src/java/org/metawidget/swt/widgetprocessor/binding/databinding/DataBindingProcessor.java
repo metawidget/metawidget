@@ -253,7 +253,7 @@ public class DataBindingProcessor
 	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
 	 */
 
-	private static class DisplayRealm
+	/* package private */static class DisplayRealm
 		extends Realm
 	{
 		//

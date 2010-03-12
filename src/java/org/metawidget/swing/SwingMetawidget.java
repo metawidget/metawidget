@@ -117,7 +117,7 @@ public class SwingMetawidget
 
 	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
-	private Pipeline					mPipeline;
+	/* package private */Pipeline		mPipeline;
 
 	//
 	// Constructor
@@ -668,11 +668,6 @@ public class SwingMetawidget
 	protected Pipeline newPipeline()
 	{
 		return new Pipeline();
-	}
-
-	protected Pipeline getPipeline()
-	{
-		return mPipeline;
 	}
 
 	@Override

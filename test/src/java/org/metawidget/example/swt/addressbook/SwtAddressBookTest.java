@@ -123,7 +123,7 @@ public class SwtAddressBookTest
 		assertTrue( metawidgetContact.getControl( "firstname" ) instanceof Label );
 		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
 
-		// TODO: assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
+		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
 		try
 		{

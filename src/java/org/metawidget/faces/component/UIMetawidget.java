@@ -560,11 +560,6 @@ public abstract class UIMetawidget
 		return new Pipeline();
 	}
 
-	protected Pipeline getPipeline()
-	{
-		return mPipeline;
-	}
-
 	protected void buildWidgets()
 		throws Exception
 	{

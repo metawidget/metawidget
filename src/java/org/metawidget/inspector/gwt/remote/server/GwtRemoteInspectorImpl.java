@@ -129,11 +129,6 @@ public class GwtRemoteInspectorImpl
 		return new GwtRemoteInspectorImplPipeline();
 	}
 
-	protected GwtRemoteInspectorImplPipeline getPipeline()
-	{
-		return mPipeline;
-	}
-
 	protected String getDefaultConfiguration()
 	{
 		return "org/metawidget/inspector/gwt/remote/server/metawidget-gwt-default.xml";

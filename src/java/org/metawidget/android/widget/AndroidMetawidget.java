@@ -496,11 +496,6 @@ public class AndroidMetawidget
 		return new Pipeline();
 	}
 
-	protected Pipeline getPipeline()
-	{
-		return mPipeline;
-	}
-
 	@Override
 	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec )
 	{

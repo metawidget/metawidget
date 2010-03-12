@@ -406,11 +406,6 @@ public abstract class MetawidgetTag
 		return new MetawidgetTagPipeline();
 	}
 
-	protected W3CPipeline<Tag, BodyTag, MetawidgetTag> getPipeline()
-	{
-		return mPipeline;
-	}
-
 	protected abstract void beforeBuildCompoundWidget( Element element );
 
 	protected void initNestedMetawidget( MetawidgetTag nestedMetawidget, Map<String, String> attributes )

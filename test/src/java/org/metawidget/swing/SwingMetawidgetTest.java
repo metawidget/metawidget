@@ -329,7 +329,7 @@ public class SwingMetawidgetTest
 			}
 		};
 
-		metawidget.getPipeline().endBuild();
+		metawidget.mPipeline.endBuild();
 
 		// validate should be called after super.endBuild in SwingMetawidget
 
