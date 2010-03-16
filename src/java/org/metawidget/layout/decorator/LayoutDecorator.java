@@ -81,11 +81,6 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 
 	public void layoutWidget( W component, String elementName, Map<String, String> attributes, C container, M metawidget )
 	{
-		// HIGH: concession
-
-		if ( component == null )
-			return;
-
 		getDelegate().layoutWidget( component, elementName, attributes, container, metawidget );
 	}
 

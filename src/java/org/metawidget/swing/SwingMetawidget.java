@@ -565,7 +565,7 @@ public class SwingMetawidget
 			if ( topComponent instanceof SwingMetawidget )
 				( (SwingMetawidget) topComponent ).buildWidgets();
 
-			// Try to find a component...
+			// Try to find a component
 
 			topComponent = getComponent( (Container) topComponent, name );
 

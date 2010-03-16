@@ -87,7 +87,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			// Add a heading
 
 			if ( !"".equals( section ) )
-				addSectionWidget( widget, section, 0, container, metawidget );
+				addSectionWidget( section, 0, container, metawidget );
 		}
 		else
 		{
@@ -120,7 +120,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 				// ...add a heading
 
-				addSectionWidget( widget, section, level, container, metawidget );
+				addSectionWidget( section, level, container, metawidget );
 			}
 
 			state.currentSections = sections;
@@ -144,8 +144,6 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	protected abstract boolean isEmptyStub( W widget );
 
 	/**
-	 * @param widget
-	 *            the widget to add a section heading before
 	 * @param section
 	 *            section text (needs localizing)
 	 * @param level
@@ -154,11 +152,11 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	 * @param metawidget
 	 */
 
-	protected abstract void addSectionWidget( W widget, String section, int level, C container, M metawidget );
+	protected abstract void addSectionWidget( String section, int level, C container, M metawidget );
 
 	//
 	// Inner class
-	// S
+	//
 
 	/**
 	 * Simple, lightweight structure for saving state.

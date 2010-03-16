@@ -23,7 +23,6 @@ import java.util.Map;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.CollectionUtils;
@@ -60,11 +59,10 @@ public class SeparatorLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( Control control, String section, int level, Composite container, SwtMetawidget metawidget )
+	protected void addSectionWidget( String section, int level, Composite container, SwtMetawidget metawidget )
 	{
 		Composite separatorComposite = new Composite( container, SWT.NONE );
 		separatorComposite.setLayout( new org.eclipse.swt.layout.GridLayout( 2, false ) );
-		separatorComposite.moveAbove( control );
 
 		// Section name (possibly localized)
 

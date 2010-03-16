@@ -34,6 +34,7 @@ import org.metawidget.util.LayoutUtils;
 
 public abstract class SwtNestedSectionLayoutDecorator
 	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Control, Composite, SwtMetawidget>
+	implements SwtLayoutDecorator
 {
 	//
 	// Constructor
@@ -57,8 +58,39 @@ public abstract class SwtNestedSectionLayoutDecorator
 
 	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
-		super.layoutWidget( null, elementName, attributes, container, metawidget );
-		return getState( container, metawidget ).currentSectionWidget;
+		String section = stripSection( attributes );
+		State<Composite> state = getState( container, metawidget );
+
+		// Stay where we are?
+
+		if ( section == null || section.equals( state.currentSection ) )
+		{
+			if ( state.currentSectionWidget == null )
+				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
+
+			return delegateStartBuildWidget( elementName, attributes, state.currentSectionWidget, metawidget );
+		}
+
+		state.currentSection = section;
+
+		Composite previousSectionWidget = state.currentSectionWidget;
+
+		// End current section
+
+		if ( state.currentSectionWidget != null )
+			super.endContainerLayout( state.currentSectionWidget, metawidget );
+
+		state.currentSectionWidget = null;
+
+		// No new section?
+
+		if ( "".equals( section ) )
+			return delegateStartBuildWidget( elementName, attributes, container, metawidget );
+
+		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+		super.startContainerLayout( state.currentSectionWidget, metawidget );
+
+		return delegateStartBuildWidget( elementName, attributes, state.currentSectionWidget, metawidget );
 	}
 
 	@Override
@@ -101,5 +133,17 @@ public abstract class SwtNestedSectionLayoutDecorator
 	protected boolean isEmptyStub( Control control )
 	{
 		return ( control instanceof Stub && ((Stub) control).getChildren().length == 0 );
+	}
+
+	//
+	// Private methods
+	//
+
+	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
+	{
+		if ( getDelegate() instanceof SwtLayoutDecorator )
+			return ((SwtLayoutDecorator) getDelegate()).startBuildWidget( elementName, attributes, container, metawidget );
+
+		return container;
 	}
 }

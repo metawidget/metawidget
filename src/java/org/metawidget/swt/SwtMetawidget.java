@@ -37,7 +37,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
-import org.metawidget.swt.layout.SwtNestedSectionLayoutDecorator;
+import org.metawidget.swt.layout.SwtLayoutDecorator;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -459,21 +459,9 @@ public class SwtMetawidget
 			if ( topControl instanceof SwtMetawidget )
 				( (SwtMetawidget) topControl ).buildWidgets();
 
-			// Try to find a control...
+			// Try to find a control
 
-			Control[] children = ( (Composite) topControl ).getChildren();
-			topControl = null;
-
-			for ( Control childControl : children )
-			{
-				// ...with the name we're interested in
-
-				if ( name.equals( childControl.getData( NAME ) ) )
-				{
-					topControl = childControl;
-					break;
-				}
-			}
+			topControl = getControl( (Composite) topControl, name );
 
 			if ( loop == length - 1 )
 				return (T) topControl;
@@ -790,6 +778,33 @@ public class SwtMetawidget
 		return null;
 	}
 
+	private Control getControl( Composite container, String name )
+	{
+		for ( Control childComponent : container.getChildren() )
+		{
+			// Drill into unnamed containers (ie. for TabFolders)
+
+			if ( childComponent.getData( NAME ) == null && childComponent instanceof Composite )
+			{
+				childComponent = getControl( (Composite) childComponent, name );
+
+				if ( childComponent != null )
+					return childComponent;
+
+				continue;
+			}
+
+			// Match by name
+
+			if ( name.equals( childComponent.getData( NAME ) ) )
+				return childComponent;
+		}
+
+		// Not found
+
+		return null;
+	}
+
 	//
 	// Inner class
 	//
@@ -806,8 +821,8 @@ public class SwtMetawidget
 		{
 			Layout<Control, Composite, SwtMetawidget> layout = getLayout();
 
-			if ( layout instanceof SwtNestedSectionLayoutDecorator )
-				mCurrentLayoutComposite = ( (SwtNestedSectionLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
+			if ( layout instanceof SwtLayoutDecorator )
+				mCurrentLayoutComposite = ( (SwtLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
 
 			return super.buildWidget( elementName, attributes );
 		}

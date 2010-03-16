@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiComesAfter;
@@ -165,20 +166,16 @@ public class SwtTutorialTest
 		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.WRAP ) == SWT.WRAP );
 		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
 
-		// TODO: tabs!
+		TabFolder tabFolder = (TabFolder) metawidget.getChildren()[9];
+		assertEquals( "Work", tabFolder.getItem( 0 ).getText() );
 
-		//JTabbedPane tabbedPane = (JTabbedPane) metawidget.getChildren()[ 8 ];
-		//assertEquals( "Work", tabbedPane.getTitleAt( 0 ) );
+		Composite panel = (Composite) tabFolder.getItem( 0 ).getControl();
+		assertEquals( "Employer:", ( (Label) panel.getChildren()[0] ).getText() );
+		assertTrue( panel.getChildren()[1] instanceof Text );
+		assertEquals( "Department:", ( (Label) panel.getChildren()[2] ).getText() );
+		assertTrue( panel.getChildren()[3] instanceof Text );
 
-		//Composite panel = (Composite) tabbedPane.getChildren()[ 0 ];
-		//assertEquals( "Employer:", ( (Label) panel.getChildren()[ 0 ] ).getText() );
-		//assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getChildren()[ 0 ] ) ).gridx );
-		//assertTrue( panel.getChildren()[ 1 ] instanceof Text );
-		//assertEquals( "Department:", ( (Label) panel.getChildren()[ 2 ] ).getText() );
-		//assertTrue( 2 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getChildren()[ 2 ] ) ).gridx );
-		//assertTrue( panel.getChildren()[ 3 ] instanceof Text );
-
-		//assertTrue( 9 == metawidget.getChildren().length );
+		assertTrue( 10 == metawidget.getChildren().length );
 	}
 
 	public void testSectionAtEnd()
