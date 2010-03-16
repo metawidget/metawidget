@@ -13,6 +13,13 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<metawidgetLayout>
+			<tabFolderLayoutDecorator xmlns="java:org.metawidget.swt.layout" config="TabFolderLayoutDecoratorConfig">
+				<layout>
+					<gridLayout xmlns="java:org.metawidget.swt.layout"/>
+				</layout>
+			</tabFolderLayoutDecorator>
+		</metawidgetLayout>		
 	</swtMetawidget>
 
 </metawidget>

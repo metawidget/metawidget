@@ -31,7 +31,7 @@ public class ContactSearch
 	// Private statics
 	//
 
-	private static final long	serialVersionUID	= 1l;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

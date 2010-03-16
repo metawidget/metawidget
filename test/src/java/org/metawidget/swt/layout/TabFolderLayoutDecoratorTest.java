@@ -14,35 +14,28 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.gwt.remote.server;
+package org.metawidget.swt.layout;
 
-import javax.servlet.ServletConfig;
+import junit.framework.TestCase;
+
+import org.metawidget.util.TestUtils;
 
 /**
- * Version of <code>GwtRemoteInspectorTestImpl</code> for running unit tests.
- * <p>
- * This code can be removed once GWT's &lt;servlet&gt; module element supports &lt;init-param&gt;
- * (see http://code.google.com/p/google-web-toolkit/issues/detail?id=4079)
- *
  * @author Richard Kennard
  */
 
-public class GwtRemoteInspectorTestImpl
-	extends GwtRemoteInspectorImpl
+public class TabFolderLayoutDecoratorTest
+	extends TestCase
 {
 	//
-	// Private statics
+	// Public methods
 	//
 
-	private final static long			serialVersionUID	= 1l;
-
-	//
-	// Protected methods
-	//
-
-	@Override
-	protected String getConfigInitParameter( ServletConfig servletConfig )
+	public void testConfig()
 	{
-		return "metawidget.xml";
+		TestUtils.testEqualsAndHashcode( TabFolderLayoutDecoratorConfig.class, new TabFolderLayoutDecoratorConfig()
+		{
+			// Subclass
+		} );
 	}
 }

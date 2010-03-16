@@ -37,6 +37,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
+import org.metawidget.swt.layout.SwtNestedSectionLayoutDecorator;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -103,6 +104,8 @@ public class SwtMetawidget
 	private List<Control>				mExistingUnusedControls	= CollectionUtils.newArrayList();
 
 	private Set<Control>				mControlsToDispose		= CollectionUtils.newHashSet();
+
+	/* package private */Composite		mCurrentLayoutComposite;
 
 	private Pipeline					mPipeline;
 
@@ -498,6 +501,18 @@ public class SwtMetawidget
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
+	/**
+	 * This method is public for use by WidgetBuilders.
+	 */
+
+	public Composite getCurrentLayoutComposite()
+	{
+		if ( mCurrentLayoutComposite == null )
+			return this;
+
+		return mCurrentLayoutComposite;
+	}
+
 	//
 	// The following methods all kick off buildWidgets() if necessary
 	//
@@ -532,11 +547,6 @@ public class SwtMetawidget
 	protected Pipeline newPipeline()
 	{
 		return new Pipeline();
-	}
-
-	protected Pipeline getPipeline()
-	{
-		return mPipeline;
 	}
 
 	/**
@@ -691,7 +701,7 @@ public class SwtMetawidget
 
 	protected void endBuild()
 	{
-		for ( Control existingControl : CollectionUtils.newArrayList( mExistingUnusedControls ))
+		for ( Control existingControl : CollectionUtils.newArrayList( mExistingUnusedControls ) )
 		{
 			// Unused facets don't count
 
@@ -790,6 +800,17 @@ public class SwtMetawidget
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected Control buildWidget( String elementName, Map<String, String> attributes )
+		{
+			Layout<Control, Composite, SwtMetawidget> layout = getLayout();
+
+			if ( layout instanceof SwtNestedSectionLayoutDecorator )
+				mCurrentLayoutComposite = ( (SwtNestedSectionLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
+
+			return super.buildWidget( elementName, attributes );
+		}
 
 		@Override
 		protected void layoutWidget( Control control, String elementName, Map<String, String> attributes )

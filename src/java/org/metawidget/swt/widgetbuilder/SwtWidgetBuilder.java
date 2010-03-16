@@ -72,13 +72,13 @@ public class SwtWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget, SWT.NONE );
+			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
 		{
-			Button button = new Button( metawidget, SWT.NONE );
+			Button button = new Button( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			button.setText( metawidget.getLabelString( attributes ) );
 
 			return button;
@@ -99,7 +99,7 @@ public class SwtWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-			return new Button( metawidget, SWT.CHECK );
+			return new Button( metawidget.getCurrentLayoutComposite(), SWT.CHECK );
 
 		// Lookups
 
@@ -107,7 +107,7 @@ public class SwtWidgetBuilder
 
 		if ( lookup != null && !"".equals( lookup ) )
 		{
-			Combo comboDropDown = new Combo( metawidget, SWT.READ_ONLY );
+			Combo comboDropDown = new Combo( metawidget.getCurrentLayoutComposite(), SWT.READ_ONLY );
 
 			// Add an empty choice (if nullable, and not required)
 
@@ -145,12 +145,12 @@ public class SwtWidgetBuilder
 				// booleans
 
 				if ( boolean.class.equals( clazz ) )
-					return new Button( metawidget, SWT.CHECK );
+					return new Button( metawidget.getCurrentLayoutComposite(), SWT.CHECK );
 
 				// chars
 
 				if ( char.class.equals( clazz ) )
-					return new Text( metawidget, SWT.BORDER );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 				// Ranged
 
@@ -159,7 +159,7 @@ public class SwtWidgetBuilder
 
 				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
-					Scale scale = new Scale( metawidget, SWT.NONE );
+					Scale scale = new Scale( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 					scale.setMinimum( Integer.parseInt( minimumValue ) );
 					scale.setSelection( scale.getMinimum() );
 					scale.setMaximum( Integer.parseInt( maximumValue ) );
@@ -171,7 +171,7 @@ public class SwtWidgetBuilder
 
 				if ( byte.class.equals( clazz ) )
 				{
-					Spinner spinner = new Spinner( metawidget, SWT.BORDER );
+					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 					byte value = 0;
 					byte minimum = Byte.MIN_VALUE;
@@ -194,7 +194,7 @@ public class SwtWidgetBuilder
 				}
 				else if ( short.class.equals( clazz ) )
 				{
-					Spinner spinner = new Spinner( metawidget, SWT.BORDER );
+					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 					short value = 0;
 					short minimum = Short.MIN_VALUE;
@@ -217,7 +217,7 @@ public class SwtWidgetBuilder
 				}
 				else if ( int.class.equals( clazz ) )
 				{
-					Spinner spinner = new Spinner( metawidget, SWT.BORDER );
+					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 					int value = 0;
 					int minimum = Integer.MIN_VALUE;
@@ -239,13 +239,13 @@ public class SwtWidgetBuilder
 					return spinner;
 				}
 				else if ( long.class.equals( clazz ) )
-					return new Text( metawidget, SWT.BORDER );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 				else if ( float.class.equals( clazz ) )
-					return new Text( metawidget, SWT.BORDER );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 				else if ( double.class.equals( clazz ) )
-					return new Text( metawidget, SWT.BORDER );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 				throw WidgetBuilderException.newException( "Unknown primitive " + clazz );
 			}
@@ -255,18 +255,18 @@ public class SwtWidgetBuilder
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
-					return new Text( metawidget, SWT.PASSWORD | SWT.BORDER );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.PASSWORD | SWT.BORDER );
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
-					return new Text( metawidget, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
 
-				return new Text( metawidget, SWT.BORDER );
+				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
-				return new Text( metawidget, SWT.BORDER );
+				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 			// Numbers
 			//
@@ -274,18 +274,18 @@ public class SwtWidgetBuilder
 			// convey 'null'
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return new Text( metawidget, SWT.BORDER );
+				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub( metawidget, SWT.NONE );
+				return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new Text( metawidget, SWT.BORDER );
+			return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 		// Nested Metawidget
 

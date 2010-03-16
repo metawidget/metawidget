@@ -20,10 +20,12 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
@@ -53,6 +55,32 @@ import org.metawidget.swt.layout.SeparatorLayoutDecoratorConfig;
 public class SwtTutorialTest
 	extends TestCase
 {
+	//
+	// Public statics
+	//
+
+	public static void main( String[] args )
+	{
+		Display display = new Display();
+		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
+		shell.setLayout( new FillLayout() );
+
+		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.NONE );
+		metawidget.setConfig( "org/metawidget/example/swt/tutorial/metawidget.xml" );
+		metawidget.setToInspect( new PersonAtTutorialEnd() );
+
+		shell.setVisible( true );
+		shell.open();
+
+		while ( !shell.isDisposed() )
+		{
+			if ( !display.readAndDispatch() )
+				display.sleep();
+		}
+
+		display.dispose();
+	}
+
 	//
 	// Public methods
 	//
@@ -118,7 +146,6 @@ public class SwtTutorialTest
 		Stub stub = new Stub( metawidget, SWT.NONE );
 		stub.setData( NAME, "retired" );
 		metawidget.setConfig( "org/metawidget/example/swt/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		assertEquals( "Name:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );

@@ -37,7 +37,7 @@ public class GroovyConsoleApplet
 	// Private statics
 	//
 
-	private static final long	serialVersionUID	= 1L;
+	private final static long	serialVersionUID	= 1L;
 
 	//
 	// Package members
