@@ -78,6 +78,29 @@ public class SeparatorLayoutDecoratorTest
 		} );
 	}
 
+	public void testAlignment()
+	{
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
+		metawidget.setToInspect( new Foo() );
+
+		Composite composite = (Composite) metawidget.getChildren()[ 0 ];
+		assertEquals( "Section", ( (Label) composite.getChildren()[ 0 ] ).getText() );
+		assertTrue( composite.getChildren()[ 1 ] instanceof Label );
+		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[ 1 ] ).getText() );
+		assertTrue( metawidget.getChildren()[ 2 ] instanceof Text );
+		assertTrue( 3 == metawidget.getChildren().length );
+
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setAlignment( SWT.RIGHT ).setLayout( new GridLayout() ) ) );
+		composite = (Composite) metawidget.getChildren()[ 0 ];
+		assertEquals( "Section", ( (Label) composite.getChildren()[ 1 ] ).getText() );
+		assertTrue( composite.getChildren()[ 0 ] instanceof Label );
+		assertTrue( ( composite.getChildren()[0].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[ 1 ] ).getText() );
+		assertTrue( metawidget.getChildren()[ 2] instanceof Text );
+		assertTrue( 3 == metawidget.getChildren().length );
+	}
+
 	public void testNestedSeparators()
 	{
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
@@ -130,6 +153,12 @@ public class SeparatorLayoutDecoratorTest
 	//
 	// Inner class
 	//
+
+	static class Foo
+	{
+		@UiSection( "Section" )
+		public String	bar;
+	}
 
 	public static class Bar
 	{
