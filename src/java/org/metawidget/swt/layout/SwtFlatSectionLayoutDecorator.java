@@ -60,13 +60,14 @@ public abstract class SwtFlatSectionLayoutDecorator
 		container.setData( getClass().getName(), null );
 	}
 
+	@SuppressWarnings( "unchecked" )
 	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		// If our delegate is itself a NestedSectionLayoutDecorator, strip the section
 
 		State state = getState( container, metawidget );
 
-		if ( getDelegate() instanceof NestedSectionLayoutDecorator<?, ?, ?> )
+		if ( getDelegate() instanceof NestedSectionLayoutDecorator )
 		{
 			String section = stripSection( attributes );
 
@@ -162,7 +163,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 	@Override
 	protected boolean isEmptyStub( Control control )
 	{
-		return ( control instanceof Stub && ((Stub) control).getChildren().length == 0 );
+		return ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 );
 	}
 
 	//
@@ -172,7 +173,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		if ( getDelegate() instanceof SwtLayoutDecorator )
-			return ((SwtLayoutDecorator) getDelegate()).startBuildWidget( elementName, attributes, container, metawidget );
+			return ( (SwtLayoutDecorator) getDelegate() ).startBuildWidget( elementName, attributes, container, metawidget );
 
 		return container;
 	}

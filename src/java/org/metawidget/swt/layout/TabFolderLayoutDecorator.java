@@ -88,8 +88,6 @@ public class TabFolderLayoutDecorator
 
 		// Tab name (possibly localized)
 
-		// TODO: common utils for metawidget.getLocalizedKey( StringUtils.camelCase( section ) )?
-
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 

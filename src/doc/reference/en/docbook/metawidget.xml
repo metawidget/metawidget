@@ -1103,6 +1103,12 @@ public class Person {
 					manually put <filename>metawidget.jar</filename> and <filename>beansbinding.jar</filename> on your classpath).
 				</para>
 				
+				<tip>
+					<title>Note</title>
+					There is also an SWT version of the Address Book sample in <filename>examples/swt/addressbook-swt.jar</filename>. You can
+					mostly replace references to 'Swing' in this section with 'SWT' and follow along using SWT if preferred. 
+				</tip>				
+
 				<para> 
 					Run the code by navigating to the <filename>examples\swing</filename> folder and typing:
 				</para>				
@@ -1162,8 +1168,8 @@ public class Person {
 					the object passed to <classname>ContactDialog</classname> at runtime. This is the Third Goal Of Metawidget:
 				</para>
 				
-			<important>
-				<title>Third Goal Of Metawidget</title>			
+				<important>
+					<title>Third Goal Of Metawidget</title>			
 					Metawidget performs inspection <emphasis>at runtime</emphasis>, detecting types and subtypes dynamically				
 				</important>
 				
@@ -1233,6 +1239,12 @@ public class Person {
 						including performing the necessary conversions, further reducing the amount of boilerplate code required.
 					</para>
 					
+					<tip>
+						<title>Note</title>
+						The SWT version of the Address Book sample uses <classname>org.eclipse.core.databinding.Binding</classname> - an
+						optional, but core, part of SWT.
+					</tip>				
+
 				</section>
 				
 				<section id="section-introduction-part2-desktop-i18n">
@@ -5364,6 +5376,39 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				</section>
 				
 			</section>
+
+			<section id="section-metawidgets-desktop-swt">
+				<title>SwtMetawidget</title>
+	
+				<para>
+					<classname>SwtMetawidget</classname> is an SWT composite. For an introduction
+					to <classname>SwtMetawidget</classname>, see <xref linkend="section-introduction-part2-desktop"/>.
+				</para>
+	
+				<section id="section-metawidgets-desktop-swt-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <classname>SwtMetawidget</classname> within an SWT application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
+								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+							</para>
+						</listitem>
+					</orderedlist>
+					
+				</section>
+				
+			</section>
 		</section>
 		
 		<section id="section-metawidgets-web">
@@ -7324,6 +7369,108 @@ public class PersonController {
 					</informaltable>
 				</section>
 			</section>
+
+			<section id="section-widgetbuilders-swt">
+				<title>SWT Widget Builders</title>
+				
+				<section id="section-widgetbuilders-swt-default">
+					<title>SwtWidgetBuilder</title>
+					
+					<para>
+						SwtWidgetBuilder is the default WidgetBuilder for SwtMetawidget. It instantiates the
+						following widgets for the following Metawidget attributes: 
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>org.eclipse.swt.widgets</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Button</classname></td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Button( SWT.CHECK )</classname></td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Combo</classname></td>
+								<td><parameter>lookup</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Label</classname></td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Composite</classname></td>
+								<td><parameter>read-only</parameter> and <parameter>masked</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Text( SWT.MASKED )</classname></td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Scale</classname></td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has both
+								<parameter>minimum-value</parameter> and <parameter>maximum-value</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Spinner</classname></td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has only
+								one, or neither <parameter>minimum-value</parameter> and <parameter>maximum-value</parameter>.
+								For floats and doubles, the step size is governed by <parameter>maximum-fractional-digits</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Text( SWT.MULTI )</classname></td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Text</classname></td>
+								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
+								<classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter></td>
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.swt</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>Stub</classname></td>
+								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+					
+				</section>
+			</section>
 		</section>
 
 		<section id="section-widgetbuilders-web">
@@ -8279,6 +8426,18 @@ public class PersonController {
 										
 				</section>
 			</section>
+
+			<section id="section-widgetprocessors-desktop-swt">
+				<title>SWT Widget Processors</title>
+				
+				<section id="section-widgetprocessors-desktop-swt-databinding">
+					<title>DataBindingProcessor</title>
+				</section>
+				
+				<section id="section-widgetprocessors-desktop-swt-actionbinding">
+					<title>ReflectionBindingProcessor</title>
+				</section>					
+			</section>
 		</section>
 		
 		<section id="section-widgetprocessors-web">
@@ -8642,6 +8801,35 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</tbody>						
 					</informaltable>					
 				</section>
+
+			</section>
+			
+			<section id="section-layouts-desktop-swt">
+				<title>SWT Layouts</title>
+
+				<section id="section-layouts-desktop-swt-fill">
+					<title>FillLayout</title>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-grid">
+					<title>GridLayout</title>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-mig">
+					<title>MigLayout</title>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-row">
+					<title>RowLayout</title>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-separator">
+					<title>SeparatorLayoutDecorator</title>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-tabfolder">
+					<title>TabFolderLayoutDecorator</title>					
+				</section>				
 
 			</section>
 			

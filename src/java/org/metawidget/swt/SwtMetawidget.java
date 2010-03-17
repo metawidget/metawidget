@@ -819,10 +819,13 @@ public class SwtMetawidget
 		@Override
 		protected Control buildWidget( String elementName, Map<String, String> attributes )
 		{
-			Layout<Control, Composite, SwtMetawidget> layout = getLayout();
+			if ( !ENTITY.equals( elementName ))
+			{
+				Layout<Control, Composite, SwtMetawidget> layout = getLayout();
 
-			if ( layout instanceof SwtLayoutDecorator )
-				mCurrentLayoutComposite = ( (SwtLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
+				if ( layout instanceof SwtLayoutDecorator )
+					mCurrentLayoutComposite = ( (SwtLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
+			}
 
 			return super.buildWidget( elementName, attributes );
 		}

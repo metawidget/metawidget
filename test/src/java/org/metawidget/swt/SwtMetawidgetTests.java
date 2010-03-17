@@ -25,6 +25,7 @@ import org.metawidget.swt.layout.FillLayoutTest;
 import org.metawidget.swt.layout.GridLayoutTest;
 import org.metawidget.swt.layout.MigLayoutTest;
 import org.metawidget.swt.layout.RowLayoutTest;
+import org.metawidget.swt.layout.SeparatorLayoutDecoratorTest;
 import org.metawidget.swt.layout.TabFolderLayoutDecoratorTest;
 import org.metawidget.swt.widgetbuilder.SwtWidgetBuilderTest;
 import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessorTest;
@@ -50,6 +51,7 @@ public class SwtMetawidgetTests
 		suite.addTestSuite( MigLayoutTest.class );
 		suite.addTestSuite( ReflectionBindingProcessorTest.class );
 		suite.addTestSuite( RowLayoutTest.class );
+		suite.addTestSuite( SeparatorLayoutDecoratorTest.class );
 		suite.addTestSuite( SwtAllWidgetsTest.class );
 		suite.addTestSuite( SwtWidgetBuilderTest.class );
 		suite.addTestSuite( TabFolderLayoutDecoratorTest.class );

@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
@@ -115,9 +116,15 @@ public class SeparatorLayoutDecoratorTest
 		assertEquals( "Pqr:", ( (JLabel) metawidget.getComponent( 14 ) ).getText() );
 		assertTrue( metawidget.getComponent( 15 ) instanceof JTextField );
 
-		assertEquals( "Stu:", ( (JLabel) metawidget.getComponent( 16 ) ).getText() );
-		assertTrue( metawidget.getComponent( 17 ) instanceof JTextField );
-		assertTrue( 18 == metawidget.getComponentCount() );
+		innerSeparator = (JPanel) metawidget.getComponent( 16 );
+		assertEquals( "Zoo", ( (JLabel) innerSeparator.getComponent( 0 ) ).getText() );
+		assertEquals( "Zoo:", ( (JLabel) metawidget.getComponent( 17 ) ).getText() );
+		SwingMetawidget nestedMetawidget = (SwingMetawidget) metawidget.getComponent( 18 );
+		assertEquals( "Name:", ( (JLabel) nestedMetawidget.getComponent( 0 ) ).getText() );
+
+		assertEquals( "Stu:", ( (JLabel) metawidget.getComponent( 19 ) ).getText() );
+		assertTrue( metawidget.getComponent( 20 ) instanceof JTextField );
+		assertTrue( 21 == metawidget.getComponentCount() );
 	}
 
 	public void testEmptyStub()
@@ -149,8 +156,8 @@ public class SeparatorLayoutDecoratorTest
 	public static void main( String[] args )
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
-		metawidget.setToInspect( new Foo() );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
+		metawidget.setToInspect( new Bar() );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -169,7 +176,7 @@ public class SeparatorLayoutDecoratorTest
 		public String	bar;
 	}
 
-	static class Bar
+	public static class Bar
 	{
 		public String	abc;
 
@@ -188,7 +195,11 @@ public class SeparatorLayoutDecoratorTest
 		@UiSection( { "Foo", "Moo" } )
 		public String	pqr;
 
+		@UiSection( { "Foo", "Zoo" } )
+		public Zoo		zoo	= new Zoo();
+
 		@UiSection( "" )
+		@UiComesAfter( "zoo" )
 		public String	stu;
 	}
 
@@ -197,5 +208,10 @@ public class SeparatorLayoutDecoratorTest
 		@UiSection( "Section" )
 		@UiHidden
 		public String	abc;
+	}
+
+	public static class Zoo
+	{
+		public String	name;
 	}
 }
