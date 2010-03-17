@@ -139,6 +139,7 @@ public class GridLayoutTest
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertTrue( 3 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
 
 		// TabFolder
 
@@ -153,6 +154,7 @@ public class GridLayoutTest
 		Composite tabPanel = (Composite) tabbedPane.getChildren()[0];
 		assertTrue( "Tab 1_jkl:".equals( ( (Label) tabPanel.getChildren()[0] ).getText() ) );
 		assertTrue( tabPanel.getChildren()[1] instanceof Label );
+		assertTrue( "".equals( ( (Label) tabPanel.getChildren()[1] ).getText() ) );
 		assertTrue( "Tab 1_mno:".equals( ( (Label) tabPanel.getChildren()[2] ).getText() ) );
 		assertTrue( tabPanel.getChildren()[3] instanceof Combo );
 		assertTrue( "Tab 1_pqr:".equals( ( (Label) tabPanel.getChildren()[4] ).getText() ) );
@@ -163,13 +165,13 @@ public class GridLayoutTest
 		tabPanel = (Composite) tabbedPane.getChildren()[1];
 		assertTrue( tabPanel.getChildren()[0] instanceof Text );
 		assertTrue( ( tabPanel.getChildren()[0].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( 2 == ( (GridData) tabbedPane.getChildren()[0].getLayoutData() ).horizontalSpan );
+		assertTrue( 4 == ( (GridData) tabPanel.getChildren()[0].getLayoutData() ).horizontalSpan );
 		assertTrue( 1 == tabPanel.getChildren().length );
 
 		assertTrue( "tab3".equals( tabbedPane.getItem( 2 ).getText() ) );
 		tabPanel = (Composite) tabbedPane.getChildren()[2];
 		assertTrue( tabPanel.getChildren()[0] instanceof Text );
-		assertTrue( 2 == ( (GridData) tabbedPane.getChildren()[0].getLayoutData() ).horizontalSpan );
+		assertTrue( 2 == ( (GridData) tabPanel.getChildren()[0].getLayoutData() ).horizontalSpan );
 		assertTrue( "Tab 3_mno:".equals( ( (Label) tabPanel.getChildren()[1] ).getText() ) );
 		assertTrue( tabPanel.getChildren()[2] instanceof Text );
 		assertTrue( "Tab 3_pqr:".equals( ( (Label) tabPanel.getChildren()[3] ).getText() ) );
@@ -195,13 +197,15 @@ public class GridLayoutTest
 
 		Spinner arbitrary = new Spinner( metawidget, SWT.NONE );
 
-		// With an arbirary stub with attributes
+		// With an arbitrary stub with attributes
 
 		Stub arbitraryStubWithAttributes = new Stub( metawidget, SWT.NONE );
 		new Text( arbitraryStubWithAttributes, SWT.NONE );
 		arbitraryStubWithAttributes.setAttribute( "label", "" );
 		arbitraryStubWithAttributes.setAttribute( "large", "true" );
 
+		// TODO: detect child added?
+		metawidget.setToInspect( new Foo() );
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
@@ -209,16 +213,17 @@ public class GridLayoutTest
 		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 		assertTrue( metawidget.getChildren()[3] instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
-		assertTrue( 2 == ( (GridData) ( (Stub) metawidget.getChildren()[3] ).getChildren()[0].getLayoutData() ).horizontalSpan );
+		assertTrue( 4 == ( (GridData) ( (Stub) metawidget.getChildren()[3] ).getLayoutData() ).horizontalSpan );
 
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
 
 		assertTrue( metawidget.getChildren()[6] instanceof TabFolder );
-		assertTrue( arbitrary.equals( metawidget.getChildren()[7] ) );
-		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getChildren()[8] ) );
-		assertTrue( 2 == ( (GridData) metawidget.getLayoutData() ).horizontalSpan );
+		assertTrue( stub.equals( metawidget.getChildren()[7] ) );
+		assertTrue( arbitrary.equals( metawidget.getChildren()[8] ) );
+		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getChildren()[9] ) );
+		assertTrue( 4 == ( (GridData) arbitraryStubWithAttributes.getLayoutData() ).horizontalSpan );
 
 		// Read-only on required labels
 

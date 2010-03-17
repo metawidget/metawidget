@@ -49,6 +49,8 @@ public class GridLayout
 	// Private statics
 	//
 
+	private final static int	LABEL_AND_CONTROL	= 2;
+
 	private final static String	LABEL_NAME_SUFFIX	= "_label";
 
 	//
@@ -107,7 +109,7 @@ public class GridLayout
 		// However, we still want the JLabels to be middle aligned for one-line components (such as
 		// JTextFields), so we top inset them a bit
 
-		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( mNumberOfColumns * 2, false );
+		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( mNumberOfColumns * LABEL_AND_CONTROL, false );
 		container.setLayout( layoutManager );
 	}
 
@@ -121,6 +123,22 @@ public class GridLayout
 			stubData.exclude = true;
 			component.setLayoutData( stubData );
 			return;
+		}
+
+		// Special support for large components
+
+		boolean spanAllColumns = willFillHorizontally( component, attributes );
+
+		if ( spanAllColumns )
+		{
+			int numberOfChildren = container.getChildren().length;
+			int numberColumnsRemainingOnRow = numberOfChildren % ( mNumberOfColumns * LABEL_AND_CONTROL );
+
+			if ( numberColumnsRemainingOnRow != 0 && numberOfChildren > 1 )
+			{
+				Control lastControl = container.getChildren()[numberOfChildren - 2];
+				((GridData) lastControl.getLayoutData()).horizontalSpan = numberColumnsRemainingOnRow;
+			}
 		}
 
 		// Layout a label...
@@ -143,8 +161,10 @@ public class GridLayout
 			componentLayoutData.verticalAlignment = SWT.FILL;
 		}
 
-		if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-			componentLayoutData.horizontalSpan = 2;
+		if ( spanAllColumns )
+			componentLayoutData.horizontalSpan = mNumberOfColumns * LABEL_AND_CONTROL;
+		else if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) )
+			componentLayoutData.horizontalSpan = LABEL_AND_CONTROL;
 
 		if ( willFillVertically( component, attributes ) )
 			componentLayoutData.grabExcessVerticalSpace = true;

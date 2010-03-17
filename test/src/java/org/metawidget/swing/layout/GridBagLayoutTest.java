@@ -177,7 +177,7 @@ public class GridBagLayoutTest
 		JSpinner arbitrary = new JSpinner();
 		metawidget.add( arbitrary );
 
-		// With an arbirary stub with attributes
+		// With an arbitrary stub with attributes
 
 		Stub arbitraryStubWithAttributes = new Stub();
 		arbitraryStubWithAttributes.add( new JTextField() );

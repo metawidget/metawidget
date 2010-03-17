@@ -69,24 +69,24 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget, SWT.NONE );
+			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new Stub( metawidget, SWT.NONE );
+			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 		// Masked (return a Composite, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new Composite( metawidget, SWT.NONE );
+			return new Composite( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-			return new Label( metawidget, SWT.NONE );
+			return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -104,35 +104,35 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() )
-				return new Label( metawidget, SWT.NONE );
+				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
-					return new Text( metawidget, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
+					return new Text( metawidget.getCurrentLayoutComposite(), SWT.READ_ONLY | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
 
-				return new Label( metawidget, SWT.NONE );
+				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
 			if ( Date.class.equals( clazz ) )
-				return new Label( metawidget, SWT.NONE );
+				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 			if ( Boolean.class.equals( clazz ) )
-				return new Label( metawidget, SWT.NONE );
+				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return new Label( metawidget, SWT.NONE );
+				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub( metawidget, SWT.NONE );
+				return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new Label( metawidget, SWT.NONE );
+			return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 
 		// Nested Metawidget
 
