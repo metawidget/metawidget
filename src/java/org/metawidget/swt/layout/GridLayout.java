@@ -46,6 +46,12 @@ public class GridLayout
 	implements AdvancedLayout<Control, Composite, SwtMetawidget>
 {
 	//
+	// Private statics
+	//
+
+	private final static String	LABEL_NAME_SUFFIX	= "_label";
+
+	//
 	// Private members
 	//
 
@@ -137,7 +143,7 @@ public class GridLayout
 			componentLayoutData.verticalAlignment = SWT.FILL;
 		}
 
-		if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ))
+		if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 			componentLayoutData.horizontalSpan = 2;
 
 		if ( willFillVertically( component, attributes ) )
@@ -182,6 +188,7 @@ public class GridLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			Label label = new Label( container, SWT.None );
+			label.setData( NAME, attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			if ( mLabelFont != null )
 				label.setFont( mLabelFont );
@@ -195,7 +202,7 @@ public class GridLayout
 
 			String labelTextToUse = labelText;
 
-			if ( attributes != null && mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
+			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
 				if ( mRequiredAlignment == SWT.CENTER )
 					labelTextToUse += mRequiredText;
