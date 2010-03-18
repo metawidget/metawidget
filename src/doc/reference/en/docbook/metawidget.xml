@@ -7446,7 +7446,7 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>Text( SWT.MULTI )</classname></td>
-								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
