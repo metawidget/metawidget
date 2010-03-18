@@ -676,6 +676,7 @@ public class SwtMetawidget
 
 		control.moveBelow( null );
 		mExistingUnusedControls.remove( control );
+		control.setLayoutData( null );
 
 		// Look up any additional attributes
 

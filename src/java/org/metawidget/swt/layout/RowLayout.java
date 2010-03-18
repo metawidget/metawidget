@@ -28,6 +28,9 @@ import org.metawidget.swt.SwtMetawidget;
 /**
  * Layout to simply output components one after another, with no labels and no structure, using
  * <code>org.eclipse.swt.layout.RowLayout</code>.
+ * <p>
+ * This is like <code>FillLayout</code>, except it does not fill width. It can be useful for button
+ * bars.
  *
  * @author Richard Kennard
  */
@@ -50,15 +53,15 @@ public class RowLayout
 		container.setLayout( new org.eclipse.swt.layout.RowLayout() );
 	}
 
-	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
+	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		// Do not layout space for empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 )
+		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 )
 		{
 			RowData stubData = new RowData();
 			stubData.exclude = true;
-			component.setLayoutData( stubData );
+			control.setLayoutData( stubData );
 			return;
 		}
 

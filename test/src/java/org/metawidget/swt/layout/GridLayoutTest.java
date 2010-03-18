@@ -94,18 +94,6 @@ public class GridLayoutTest
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		Map<Class<?>, Object> dummyTypes = CollectionUtils.newHashMap();
-		dummyTypes.put( Font.class, new Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE ) );
-		dummyTypes.put( Color.class, new Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 ) );
-
-		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig()
-		{
-			// Subclass
-		}, dummyTypes );
-	}
-
 	public void testLayout()
 		throws Exception
 	{
@@ -204,7 +192,6 @@ public class GridLayoutTest
 		arbitraryStubWithAttributes.setAttribute( "label", "" );
 		arbitraryStubWithAttributes.setAttribute( "large", "true" );
 
-		// TODO: detect child added?
 		metawidget.setToInspect( new Foo() );
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 
@@ -229,6 +216,67 @@ public class GridLayoutTest
 
 		metawidget.setReadOnly( true );
 		assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+	}
+
+	public void testWide()
+		throws Exception
+	{
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" ) ) );
+		metawidget.setToInspect( new WideFoo() );
+
+		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[ 0 ] ).getText() ) );
+		assertTrue( metawidget.getChildren()[ 1 ] instanceof Text );
+
+		assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[ 2 ] ).getText() ) );
+		assertTrue( metawidget.getChildren()[ 3 ] instanceof Spinner );
+
+		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[ 4 ] ).getText() ) );
+		assertTrue( metawidget.getChildren()[ 5 ] instanceof Text );
+		assertTrue( 4 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
+
+		assertTrue( "Jkl:".equals( ( (Label) metawidget.getChildren()[ 6 ] ).getText() ) );
+		assertTrue( metawidget.getChildren()[ 7 ] instanceof Button );
+		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.CHECK ) == SWT.CHECK );
+
+		assertTrue( "Mno:".equals( ( (Label) metawidget.getChildren()[ 8 ] ).getText() ) );
+		assertTrue( metawidget.getChildren()[ 9 ] instanceof Text );
+	}
+
+	public void testLabelSuffix()
+	{
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
+		metawidget.setToInspect( new RequiredFoo() );
+
+		// Different label suffix
+
+		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setLabelSuffix( "#" ) ) );
+		assertTrue( "Abc*#".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+
+		// Align left
+
+		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setRequiredAlignment( SWT.LEFT ).setRequiredText( "?" ) ) );
+		assertTrue( "?Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+
+		// No suffix
+
+		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setLabelSuffix( null ).setRequiredText( null ) ) );
+		assertTrue( "Abc".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+	}
+
+	public void testConfig()
+	{
+		Map<Class<?>, Object> dummyTypes = CollectionUtils.newHashMap();
+		dummyTypes.put( Font.class, new Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE ) );
+		dummyTypes.put( Color.class, new Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 ) );
+
+		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig()
+		{
+			// Subclass
+		}, dummyTypes );
 	}
 
 	//

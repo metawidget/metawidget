@@ -16,8 +16,7 @@
 
 package org.metawidget.swt.layout;
 
-import javax.swing.SwingConstants;
-
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.metawidget.layout.iface.LayoutException;
@@ -37,7 +36,7 @@ public class GridLayoutConfig
 
 	private int		mNumberOfColumns	= 1;
 
-	private int		mLabelAlignment		= SwingConstants.LEFT;
+	private int		mLabelAlignment		= SWT.LEFT;
 
 	private Color	mLabelForeground;
 
@@ -45,7 +44,7 @@ public class GridLayoutConfig
 
 	private String	mLabelSuffix		= ":";
 
-	private int		mRequiredAlignment	= SwingConstants.CENTER;
+	private int		mRequiredAlignment	= SWT.CENTER;
 
 	private String	mRequiredText		= "*";
 

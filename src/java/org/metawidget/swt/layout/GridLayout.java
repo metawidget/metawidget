@@ -228,8 +228,6 @@ public class GridLayout
 					labelTextToUse += mRequiredText;
 				else if ( mRequiredAlignment == SWT.LEFT )
 					labelTextToUse = mRequiredText + labelTextToUse;
-
-				labelTextToUse += mRequiredText;
 			}
 
 			if ( mLabelSuffix != null )
