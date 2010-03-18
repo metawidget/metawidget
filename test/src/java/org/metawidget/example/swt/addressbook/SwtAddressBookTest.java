@@ -166,6 +166,8 @@ public class SwtAddressBookTest
 
 		assertTrue( communicationsTable.getItemCount() == 2 );
 
+		// TODO: add comms
+
 		/*
 		 * @SuppressWarnings( "unchecked" ) ListTableModel<Communication> communicationModel =
 		 * (ListTableModel<Communication>) model; communicationModel.importCollection(

@@ -26,7 +26,7 @@
 								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</metawidgetAnnotationInspector>
-						<facesInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+						<facesInspector xmlns="java:org.metawidget.inspector.faces" config="FacesInspectorConfig">
 							<propertyStyle>
 								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			

@@ -103,14 +103,14 @@ public class Penguin
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty penguin.current.condition}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
 	public void addCondition()
 	{
 		mCondition = new PenguinCondition();
 	}
 
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty penguin.current.condition}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
 	public PenguinCondition getCondition()
 	{
@@ -135,7 +135,7 @@ public class Penguin
 	}
 
 	@UiLarge
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty penguin.current.hobbies}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.hobbies}" )
 	@UiComesAfter( "hobbies" )
 	public String getDescribeHobby()
 	{

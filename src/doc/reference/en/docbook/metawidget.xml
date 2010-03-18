@@ -2080,11 +2080,11 @@ bin\run</programlisting>
 				
 				<programlisting language="java">@UiAction
 @UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{!empty penguin.current.condition}" )
+	expression = "#{!empty this.condition}" )
 public void addCondition() { ... }
 
 @UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{empty penguin.current.condition}" )
+	expression = "#{empty this.condition}" )
 public PenguinCondition getCondition() { ...}</programlisting>
 				
 				<para>
@@ -6524,8 +6524,13 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 						<tr>
 							<td>(any)</td>
 							<td>
-								<classname>@UiFacesAttributes</classname> and <classname>@UiFacesAttribute</classname> -annotates
+								<classname>@UiFacesAttributes</classname> and <classname>@UiFacesAttribute</classname> - annotates
 								an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
+								<para>
+									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
+									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
+									the EL expression can refer to the originating object (ie. <function>#{this.name}</function>).
+								</para>
 								<para>
 									Unlike <classname>@UiFacesLookup</classname>, which fits into a well-defined place within the JSF
 									framework (ie. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is

@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.TestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -121,6 +122,14 @@ public class FacesInspectorTest
 		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "foo.bar" ));
 		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar}" ));
 		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ));
+	}
+
+	public void testConfig()
+	{
+		TestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig()
+		{
+			// Subclass
+		} );
 	}
 
 	//

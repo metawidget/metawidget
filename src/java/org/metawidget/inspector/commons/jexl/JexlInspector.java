@@ -79,14 +79,17 @@ public class JexlInspector
 	@Override
 	public String inspect( Object toInspect, String type, String... names )
 	{
-		LOCAL_TOINSPECT.set( toInspect );
+		try
+		{
+			LOCAL_TOINSPECT.set( toInspect );
 
-		String inspect = super.inspect( toInspect, type, names );
-
-		LOCAL_CONTEXT.remove();
-		LOCAL_TOINSPECT.remove();
-
-		return inspect;
+			return super.inspect( toInspect, type, names );
+		}
+		finally
+		{
+			LOCAL_CONTEXT.remove();
+			LOCAL_TOINSPECT.remove();
+		}
 	}
 
 	//

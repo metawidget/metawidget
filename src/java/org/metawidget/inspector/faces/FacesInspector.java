@@ -27,10 +27,10 @@ import javax.faces.context.FacesContext;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
-import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.ThreadUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -44,17 +44,52 @@ public class FacesInspector
 	extends BaseObjectInspector
 {
 	//
+	// Private members
+	//
+
+	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
+
+	//
+	// Private members
+	//
+
+	private boolean	mInjectThis;
+
+	//
 	// Constructor
 	//
 
 	public FacesInspector()
 	{
-		this( new BaseObjectInspectorConfig() );
+		this( new FacesInspectorConfig() );
 	}
 
-	public FacesInspector( BaseObjectInspectorConfig config )
+	public FacesInspector( FacesInspectorConfig config )
 	{
 		super( config );
+
+		mInjectThis = config.isInjectThis();
+	}
+
+	//
+	// Public methods
+	//
+
+	@Override
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		try
+		{
+			if ( mInjectThis )
+				LOCAL_TOINSPECT.set( toInspect );
+
+			return super.inspect( toInspect, type, names );
+		}
+		finally
+		{
+			if ( mInjectThis )
+				LOCAL_TOINSPECT.remove();
+		}
 	}
 
 	//
@@ -207,6 +242,9 @@ public class FacesInspector
 
 		if ( !FacesUtils.isExpression( expression ) )
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
+
+		if ( mInjectThis )
+			context.getExternalContext().getRequestMap().put( "this", LOCAL_TOINSPECT.get() );
 
 		Object value = application.createValueBinding( expression ).getValue( context );
 
