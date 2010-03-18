@@ -52,7 +52,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 	private String[]			mColumns;
 
-	private boolean				mAllRowsEditable;
+	private boolean				mEditable;
 
 	private boolean				mExtraBlankRow;
 
@@ -92,9 +92,9 @@ public class ListTableModel<T extends Comparable<T>>
 		return CollectionUtils.newArrayList( mList );
 	}
 
-	public void setAllRowsEditable( boolean allRowsEditable )
+	public void setEditable( boolean editable )
 	{
-		mAllRowsEditable = allRowsEditable;
+		mEditable = editable;
 	}
 
 	public void setExtraBlankRow( boolean extraBlankRow )
@@ -105,10 +105,7 @@ public class ListTableModel<T extends Comparable<T>>
 	@Override
 	public boolean isCellEditable( int rowIndex, int columnIndex )
 	{
-		if ( mAllRowsEditable )
-			return true;
-
-		return super.isCellEditable( rowIndex, columnIndex );
+		return mEditable;
 	}
 
 	public int getColumnCount()

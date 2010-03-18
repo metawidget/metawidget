@@ -152,6 +152,8 @@ public class SwingAddressBookTest
 		Graphics graphics = new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB ).getGraphics();
 		( (ImagePanel) ( (JPanel) ( (JLayeredPane) ( (JRootPane) dialog.getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 ) ).getComponent( 0 ) ).paint( graphics );
 
+		assertFalse( model.isCellEditable( 0, 0 ));
+
 		// Check editing
 
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
@@ -168,6 +170,7 @@ public class SwingAddressBookTest
 
 		assertTrue( model.getRowCount() == 2 );
 
+		assertTrue( model.isCellEditable( 0, 0 ));
 		@SuppressWarnings( "unchecked" )
 		ListTableModel<Communication> communicationModel = (ListTableModel<Communication>) model;
 
@@ -222,10 +225,6 @@ public class SwingAddressBookTest
 		Communication communication = iterator.next();
 		assertEquals( "Mobile", communication.getType() );
 		assertEquals( "(0402) 123 456", communication.getValue() );
-		assertEquals( communication, communication );
-		assertFalse( communication.equals( new Object() ) );
-		assertTrue( communication.compareTo( null ) == -1 );
-		assertTrue( communication.compareTo( communication ) == 0 );
 
 		// Check deleting the communication again
 
@@ -349,7 +348,7 @@ public class SwingAddressBookTest
 		assertEquals( String.class, model.getColumnClass( 0 ) );
 		assertEquals( Boolean.class, model.getColumnClass( 1 ) );
 		assertFalse( model.isCellEditable( 0, 0 ) );
-		model.setAllRowsEditable( true );
+		model.setEditable( true );
 		assertTrue( model.isCellEditable( 0, 0 ) );
 
 		// Getters

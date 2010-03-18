@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.swing.addressbook.SwingAddressBookTest;
 import org.metawidget.example.swing.animalraces.SwingAnimalRacesTest;
 import org.metawidget.example.swing.appframework.SwingAppFrameworkTest;
@@ -33,6 +34,7 @@ import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
 import org.metawidget.example.swt.addressbook.SwtAddressBookTest;
 import org.metawidget.example.swt.tutorial.SwtTutorialTest;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -69,5 +71,13 @@ public class ExampleTests
 		// Note: Web tests are performed by /test/web/examples/*/addressbook-test.xml
 
 		return suite;
+	}
+
+	public void testEqualsAndHashCode()
+	{
+		TestUtils.testEqualsAndHashcode( Communication.class, new Communication()
+		{
+			final static long	serialVersionUID	= 1l;
+		} );
 	}
 }

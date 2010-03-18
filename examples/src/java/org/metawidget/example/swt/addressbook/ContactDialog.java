@@ -73,6 +73,8 @@ public class ContactDialog
 
 	/* package private */Table					mCommunicationsTable;
 
+	/* package private */TableEditor			mCommunicationsEditor;
+
 	/* package private */List<Communication>	mCommunications;
 
 	private SwtMetawidget						mButtonsMetawidget;
@@ -166,9 +168,9 @@ public class ContactDialog
 		column.setText( "Value" );
 		column.setWidth( 275 );
 
-		final TableEditor communicationEditor = new TableEditor( mCommunicationsTable );
-		communicationEditor.horizontalAlignment = SWT.LEFT;
-		communicationEditor.grabHorizontal = true;
+		mCommunicationsEditor = new TableEditor( mCommunicationsTable );
+		mCommunicationsEditor.horizontalAlignment = SWT.LEFT;
+		mCommunicationsEditor.grabHorizontal = true;
 
 		mCommunicationsTable.addMouseListener( new MouseAdapter()
 		{
@@ -180,12 +182,12 @@ public class ContactDialog
 
 				// Commit any previous editor control
 
-				if ( communicationEditor.getEditor() != null )
+				if ( mCommunicationsEditor.getEditor() != null )
 				{
-					SwtMetawidget communicationMetawidget = (SwtMetawidget) communicationEditor.getEditor();
+					SwtMetawidget communicationMetawidget = (SwtMetawidget) mCommunicationsEditor.getEditor();
 					communicationMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( communicationMetawidget );
 					communicationMetawidget.dispose();
-					communicationEditor.setEditor( null );
+					mCommunicationsEditor.setEditor( null );
 
 					Communication communication = communicationMetawidget.getToInspect();
 					Set<Communication> communications = contact.getCommunications();
@@ -244,7 +246,7 @@ public class ContactDialog
 				String columnName = StringUtils.lowercaseFirstLetter( mCommunicationsTable.getColumn( selectedColumn ).getText() );
 				communicationMetawidget.setInspectionPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnName );
 
-				communicationEditor.setEditor( communicationMetawidget, item, selectedColumn );
+				mCommunicationsEditor.setEditor( communicationMetawidget, item, selectedColumn );
 			}
 		} );
 

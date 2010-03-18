@@ -16,6 +16,7 @@
 
 package org.metawidget.example.swt.addressbook;
 
+import java.util.Iterator;
 import java.util.Locale;
 
 import junit.framework.TestCase;
@@ -26,11 +27,14 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Text;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
+import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.Gender;
@@ -154,6 +158,15 @@ public class SwtAddressBookTest
 		assertTrue( buttonsMetawidget.getChildren()[1] instanceof Stub );
 		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[1].getLayoutData() ).exclude );
 
+		// Read-only editing does nothing
+
+		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
+		Event event = new Event();
+		event.x = communicationsTable.getItem( 0 ).getBounds( 1 ).x;
+		event.y = communicationsTable.getItem( 0 ).getBounds( 1 ).y;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
+
 		Button editButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Edit", editButton.getText() );
 		editButton.notifyListeners( SWT.Selection, null );
@@ -166,27 +179,32 @@ public class SwtAddressBookTest
 
 		assertTrue( communicationsTable.getItemCount() == 2 );
 
-		// TODO: add comms
+		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
 
-		/*
-		 * @SuppressWarnings( "unchecked" ) ListTableModel<Communication> communicationModel =
-		 * (ListTableModel<Communication>) model; communicationModel.importCollection(
-		 * contact.getCommunications() ); TableCellEditor editor = communications.getDefaultEditor(
-		 * Object.class ); SwtMetawidget metawidgetCommunications = (SwtMetawidget)
-		 * editor.getTableCellEditorComponent( communications, model.getValueAt( 0, 0 ), true, 0, 0
-		 * ); assertEquals( BoxLayout.class, metawidgetCommunications.getLayout().getClass() );
-		 * JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 ); assertEquals(
-		 * "Telephone", combo.getSelectedItem() ); // Check adding a communication
-		 * metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent(
-		 * communications, model.getValueAt( 1, 0 ), true, 1, 0 ); combo = (JComboBox)
-		 * metawidgetCommunications.getComponent( 0 ); combo.setSelectedItem( "Mobile" );
-		 * editor.stopCellEditing(); model.setValueAt( editor.getCellEditorValue(), 1, 0 );
-		 * metawidgetCommunications = (SwtMetawidget) editor.getTableCellEditorComponent(
-		 * communications, model.getValueAt( 1, 1 ), true, 1, 1 ); JTextField textField =
-		 * (JTextField) metawidgetCommunications.getComponent( 0 ); textField.setText(
-		 * "(0402) 123 456" ); editor.stopCellEditing(); model.setValueAt(
-		 * editor.getCellEditorValue(), 1, 1 );
-		 */
+		SwtMetawidget communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+		assertEquals( org.eclipse.swt.layout.FillLayout.class, communicationMetawidget.getLayout().getClass() );
+		Combo combo = (Combo) communicationMetawidget.getChildren()[0];
+		assertEquals( "Telephone", combo.getText() );
+
+		// Check adding a communication
+
+		event.y = communicationsTable.getItem( 1 ).getBounds( 1 ).y;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+		combo = (Combo) communicationMetawidget.getChildren()[0];
+		combo.setText( "Mobile" );
+		event.y = 0;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+
+		event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
+		event.y = communicationsTable.getItem( 1 ).getBounds( 2 ).y;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+		Text text = (Text) communicationMetawidget.getChildren()[0];
+		text.setText( "(0402) 123 456" );
+		event.y = 0;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
 
 		// Check saving
 
@@ -212,17 +230,11 @@ public class SwtAddressBookTest
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
 
-		/*
-		 * Iterator<Communication> iterator = contact.getCommunications().iterator();
-		 * iterator.next(); Communication communication = iterator.next(); assertEquals( "Mobile",
-		 * communication.getType() ); assertEquals( "(0402) 123 456", communication.getValue() );
-		 * assertEquals( communication, communication ); assertFalse( communication.equals( new
-		 * Object() ) ); assertTrue( communication.compareTo( null ) == -1 ); assertTrue(
-		 * communication.compareTo( communication ) == 0 ); // Check deleting the communication
-		 * again assertTrue( contact.removeCommunication( new Communication() ) == false );
-		 * contact.removeCommunication( communicationModel.getValueAt( 1 ) ); assertTrue(
-		 * contact.getCommunications().size() == 1 );
-		 */
+		Iterator<Communication> iterator = contact.getCommunications().iterator();
+		iterator.next();
+		Communication communication = iterator.next();
+		assertEquals( "Mobile", communication.getType() );
+		assertEquals( "(0402) 123 456", communication.getValue() );
 
 		// Search everything
 

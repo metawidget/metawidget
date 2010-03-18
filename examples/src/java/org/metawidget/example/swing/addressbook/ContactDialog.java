@@ -244,7 +244,7 @@ public class ContactDialog
 	{
 		mContactMetawidget.setReadOnly( false );
 
-		mCommunicationsModel.setAllRowsEditable( true );
+		mCommunicationsModel.setEditable( true );
 		mCommunicationsModel.setExtraBlankRow( true );
 		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
 	}
