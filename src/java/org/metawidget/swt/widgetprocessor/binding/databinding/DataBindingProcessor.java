@@ -282,40 +282,6 @@ public class DataBindingProcessor
 		}
 
 		@Override
-		public void asyncExec( final Runnable runnable )
-		{
-			Runnable safeRunnable = new Runnable()
-			{
-				@SuppressWarnings( "synthetic-access" )
-				public void run()
-				{
-					safeRun( runnable );
-				}
-			};
-			if ( !mDisplay.isDisposed() )
-			{
-				mDisplay.asyncExec( safeRunnable );
-			}
-		}
-
-		@Override
-		public void timerExec( int milliseconds, final Runnable runnable )
-		{
-			if ( !mDisplay.isDisposed() )
-			{
-				Runnable safeRunnable = new Runnable()
-				{
-					@SuppressWarnings( "synthetic-access" )
-					public void run()
-					{
-						safeRun( runnable );
-					}
-				};
-				mDisplay.timerExec( milliseconds, safeRunnable );
-			}
-		}
-
-		@Override
 		public boolean equals( Object that )
 		{
 			if ( this == that )
