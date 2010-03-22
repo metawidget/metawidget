@@ -182,19 +182,36 @@ public class SwingAddressBookTest
 		JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
 		assertEquals( "Telephone", combo.getSelectedItem() );
 
+		// Check clicking blank space
+
+		metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 0 ), true, 1, 0 );
+		combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
+		combo.setSelectedItem( "" );
+		editor.stopCellEditing();
+		model.setValueAt( editor.getCellEditorValue(), 1, 0 );
+		metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 1 ), true, 1, 1 );
+		JTextField textField = (JTextField) metawidgetCommunications.getComponent( 0 );
+		textField.setText( "" );
+		editor.stopCellEditing();
+		model.setValueAt( editor.getCellEditorValue(), 1, 1 );
+		assertTrue( model.getRowCount() == 2 );
+
 		// Check adding a communication
 
 		metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 0 ), true, 1, 0 );
 		combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
 		combo.setSelectedItem( "Mobile" );
+		assertTrue( model.getRowCount() == 2 );
 		editor.stopCellEditing();
 		model.setValueAt( editor.getCellEditorValue(), 1, 0 );
+		assertTrue( model.getRowCount() == 3 );
 
 		metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 1 ), true, 1, 1 );
-		JTextField textField = (JTextField) metawidgetCommunications.getComponent( 0 );
+		textField = (JTextField) metawidgetCommunications.getComponent( 0 );
 		textField.setText( "(0402) 123 456" );
 		editor.stopCellEditing();
 		model.setValueAt( editor.getCellEditorValue(), 1, 1 );
+		assertTrue( model.getRowCount() == 3 );
 
 		// Check saving
 

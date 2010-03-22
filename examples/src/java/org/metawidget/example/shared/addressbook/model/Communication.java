@@ -163,14 +163,22 @@ public class Communication
 	@Override
 	public String toString()
 	{
-		String toReturn = mValue;
+		StringBuilder toReturn = new StringBuilder();
 
-		if ( toReturn == null )
-			return "";
+		if ( mType != null && !"".equals( mType ))
+		{
+			toReturn.append( mType );
+			toReturn.append( ':' );
+		}
 
-		if ( mType != null )
-			toReturn = mType + ": " + toReturn;
+		if ( mValue != null )
+		{
+			if ( toReturn.length() != 0 )
+				toReturn.append( ' ' );
 
-		return toReturn;
+			toReturn.append( mValue );
+		}
+
+		return toReturn.toString();
 	}
 }

@@ -25,9 +25,11 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.Trait;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.ThreadUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.w3c.dom.Element;
 
 /**
  * Inspects annotations defined by Metawidget's JEXL support (declared in this same package).
@@ -71,17 +73,17 @@ public class JexlInspector
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public String inspect( Object toInspect, String type, String... names )
+	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
+		throws Exception
 	{
 		try
 		{
-			LOCAL_TOINSPECT.set( toInspect );
-
-			return super.inspect( toInspect, type, names );
+			LOCAL_TOINSPECT.set( parentToInspect );
+			return super.inspectParent( parentToInspect, propertyInParent );
 		}
 		finally
 		{
@@ -90,9 +92,24 @@ public class JexlInspector
 		}
 	}
 
-	//
-	// Protected methods
-	//
+	@Override
+	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
+		throws Exception
+	{
+		// TODO: test objects with paths
+
+		try
+		{
+			LOCAL_TOINSPECT.set( toInspect );
+
+			super.inspect( toInspect, classToInspect, toAddTo );
+		}
+		finally
+		{
+			LOCAL_CONTEXT.remove();
+			LOCAL_TOINSPECT.remove();
+		}
+	}
 
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )

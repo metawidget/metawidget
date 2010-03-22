@@ -32,9 +32,11 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.ThreadUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.w3c.dom.Element;
 
 /**
- * Inspects annotations defined by Metawidget's Java Server Faces support (declared in this same package).
+ * Inspects annotations defined by Metawidget's Java Server Faces support (declared in this same
+ * package).
  *
  * @author Richard Kennard
  */
@@ -47,13 +49,13 @@ public class FacesInspector
 	// Private members
 	//
 
-	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
+	private final static ThreadLocal<Object>	LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
 
 	//
 	// Private members
 	//
 
-	private boolean	mInjectThis;
+	private boolean								mInjectThis;
 
 	//
 	// Constructor
@@ -72,18 +74,38 @@ public class FacesInspector
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public String inspect( Object toInspect, String type, String... names )
+	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
+		throws Exception
 	{
+		try
+		{
+			if ( mInjectThis )
+				LOCAL_TOINSPECT.set( parentToInspect );
+
+			return super.inspectParent( parentToInspect, propertyInParent );
+		}
+		finally
+		{
+			LOCAL_TOINSPECT.remove();
+		}
+	}
+
+	@Override
+	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
+		throws Exception
+	{
+		// TODO: test objects with paths
+
 		try
 		{
 			if ( mInjectThis )
 				LOCAL_TOINSPECT.set( toInspect );
 
-			return super.inspect( toInspect, type, names );
+			super.inspect( toInspect, classToInspect, toAddTo );
 		}
 		finally
 		{
@@ -91,10 +113,6 @@ public class FacesInspector
 				LOCAL_TOINSPECT.remove();
 		}
 	}
-
-	//
-	// Protected methods
-	//
 
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )
@@ -179,34 +197,34 @@ public class FacesInspector
 
 		if ( numberConverter != null )
 		{
-			if ( !"".equals( numberConverter.currencyCode() ))
+			if ( !"".equals( numberConverter.currencyCode() ) )
 				attributes.put( CURRENCY_CODE, numberConverter.currencyCode() );
 
-			if ( !"".equals( numberConverter.currencySymbol() ))
+			if ( !"".equals( numberConverter.currencySymbol() ) )
 				attributes.put( CURRENCY_SYMBOL, numberConverter.currencySymbol() );
 
 			if ( numberConverter.groupingUsed() )
 				attributes.put( NUMBER_USES_GROUPING_SEPARATORS, TRUE );
 
 			if ( numberConverter.minIntegerDigits() != -1 )
-				attributes.put( MINIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.minIntegerDigits() ));
+				attributes.put( MINIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.minIntegerDigits() ) );
 
 			if ( numberConverter.maxIntegerDigits() != -1 )
-				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.maxIntegerDigits() ));
+				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.maxIntegerDigits() ) );
 
 			if ( numberConverter.minFractionDigits() != -1 )
-				attributes.put( MINIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.minFractionDigits() ));
+				attributes.put( MINIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.minFractionDigits() ) );
 
 			if ( numberConverter.maxFractionDigits() != -1 )
-				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.maxFractionDigits() ));
+				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.maxFractionDigits() ) );
 
-			if ( !"".equals( numberConverter.locale() ))
+			if ( !"".equals( numberConverter.locale() ) )
 				attributes.put( LOCALE, numberConverter.locale() );
 
-			if ( !"".equals( numberConverter.pattern() ))
+			if ( !"".equals( numberConverter.pattern() ) )
 				attributes.put( NUMBER_PATTERN, numberConverter.pattern() );
 
-			if ( !"".equals( numberConverter.type() ))
+			if ( !"".equals( numberConverter.type() ) )
 				attributes.put( NUMBER_TYPE, numberConverter.type() );
 		}
 
@@ -214,22 +232,22 @@ public class FacesInspector
 
 		if ( dateTimeConverter != null )
 		{
-			if ( !"".equals( dateTimeConverter.dateStyle() ))
+			if ( !"".equals( dateTimeConverter.dateStyle() ) )
 				attributes.put( DATE_STYLE, dateTimeConverter.dateStyle() );
 
-			if ( !"".equals( dateTimeConverter.locale() ))
+			if ( !"".equals( dateTimeConverter.locale() ) )
 				attributes.put( LOCALE, dateTimeConverter.locale() );
 
-			if ( !"".equals( dateTimeConverter.pattern() ))
+			if ( !"".equals( dateTimeConverter.pattern() ) )
 				attributes.put( DATETIME_PATTERN, dateTimeConverter.pattern() );
 
-			if ( !"".equals( dateTimeConverter.timeStyle() ))
+			if ( !"".equals( dateTimeConverter.timeStyle() ) )
 				attributes.put( TIME_STYLE, dateTimeConverter.timeStyle() );
 
-			if ( !"".equals( dateTimeConverter.timeZone() ))
+			if ( !"".equals( dateTimeConverter.timeZone() ) )
 				attributes.put( TIME_ZONE, dateTimeConverter.timeZone() );
 
-			if ( !"".equals( dateTimeConverter.type() ))
+			if ( !"".equals( dateTimeConverter.type() ) )
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
 		}
 
@@ -251,6 +269,6 @@ public class FacesInspector
 		if ( value == null )
 			return;
 
-		attributes.put( facesAttribute.name(), StringUtils.quietValueOf( value ));
+		attributes.put( facesAttribute.name(), StringUtils.quietValueOf( value ) );
 	}
 }

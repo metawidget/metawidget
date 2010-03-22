@@ -18,9 +18,7 @@ package org.metawidget.swt.widgetprocessor.binding.databinding;
 
 import junit.framework.TestCase;
 
-import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor.ConvertFromTo;
-import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor.DisplayRealm;
 import org.metawidget.util.TestUtils;
 
 /**
@@ -41,6 +39,5 @@ public class DataBindingProcessorTest
 			// subclass
 		} );
 		TestUtils.testEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
-		TestUtils.testEqualsAndHashcode( new DisplayRealm( SwtMetawidgetTests.TEST_DISPLAY ), new DisplayRealm( SwtMetawidgetTests.TEST_DISPLAY ), null );
 	}
 }

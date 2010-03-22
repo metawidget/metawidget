@@ -187,24 +187,44 @@ public class SwtAddressBookTest
 		Combo combo = (Combo) communicationMetawidget.getChildren()[0];
 		assertEquals( "Telephone", combo.getText() );
 
+		// Check clicking blank space
+
+		event.y = communicationsTable.getItem( 1 ).getBounds( 1 ).y;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+		combo = (Combo) communicationMetawidget.getChildren()[0];
+		combo.setText( "" );
+		event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+		Text text = (Text) communicationMetawidget.getChildren()[0];
+		text.setText( "" );
+		event.y = 0;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertTrue( communicationsTable.getItemCount() == 2 );
+
 		// Check adding a communication
 
+		event.x = communicationsTable.getItem( 1 ).getBounds( 1 ).x;
 		event.y = communicationsTable.getItem( 1 ).getBounds( 1 ).y;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
 		combo = (Combo) communicationMetawidget.getChildren()[0];
 		combo.setText( "Mobile" );
 		event.y = 0;
+		assertTrue( communicationsTable.getItemCount() == 2 );
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertTrue( communicationsTable.getItemCount() == 3 );
 
 		event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
 		event.y = communicationsTable.getItem( 1 ).getBounds( 2 ).y;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
-		Text text = (Text) communicationMetawidget.getChildren()[0];
+		text = (Text) communicationMetawidget.getChildren()[0];
 		text.setText( "(0402) 123 456" );
 		event.y = 0;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertTrue( communicationsTable.getItemCount() == 3 );
 
 		// Check saving
 

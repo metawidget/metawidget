@@ -253,20 +253,20 @@ public class DataBindingProcessor
 	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
 	 */
 
-	/* package private */static class DisplayRealm
+	static class DisplayRealm
 		extends Realm
 	{
 		//
 		// Private members
 		//
 
-		/* package private */Display	mDisplay;
+		Display	mDisplay;
 
 		//
 		// Constructor
 		//
 
-		/* package private */DisplayRealm( Display display )
+		DisplayRealm( Display display )
 		{
 			mDisplay = display;
 		}
@@ -281,32 +281,7 @@ public class DataBindingProcessor
 			return Display.getCurrent() == mDisplay;
 		}
 
-		@Override
-		public boolean equals( Object that )
-		{
-			if ( this == that )
-				return true;
-
-			if ( that == null )
-				return false;
-
-			if ( getClass() != that.getClass() )
-				return false;
-
-			if ( !ObjectUtils.nullSafeEquals( mDisplay, ( (DisplayRealm) that ).mDisplay ) )
-				return false;
-
-			return true;
-		}
-
-		@Override
-		public int hashCode()
-		{
-			int hashCode = 1;
-			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDisplay );
-
-			return hashCode;
-		}
+		// Do not override equals/hashCode, we are not going to be comparing this or hashing it
 	}
 
 	/* package private */final static class ConvertFromTo

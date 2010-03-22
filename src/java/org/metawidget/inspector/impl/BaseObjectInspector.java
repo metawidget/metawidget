@@ -134,7 +134,8 @@ public abstract class BaseObjectInspector
 				// Use the actual, runtime class (tuple[0].getClass()) not the declared class
 				// (tuple[1]), in case the declared class is an interface or subclass
 
-				Class<?> parentType = pair.getLeft().getClass();
+				Object parent = pair.getLeft();
+				Class<?> parentType = parent.getClass();
 
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
@@ -147,19 +148,8 @@ public abstract class BaseObjectInspector
 
 				if ( propertyInParent.isReadable() )
 				{
-					parentAttributes = inspectTrait( propertyInParent );
-
-					Map<String, String> parentPropertyAttributes = inspectProperty( propertyInParent );
-
-					if ( parentPropertyAttributes != null )
-					{
-						if ( parentAttributes == null )
-							parentAttributes = parentPropertyAttributes;
-						else
-							parentAttributes.putAll( parentPropertyAttributes );
-					}
-
-					childToInspect = propertyInParent.read( pair.getLeft() );
+					parentAttributes = inspectParent( parent, propertyInParent );
+					childToInspect = propertyInParent.read( parent );
 				}
 			}
 
@@ -241,6 +231,22 @@ public abstract class BaseObjectInspector
 	//
 	// Protected methods
 	//
+
+	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
+		throws Exception
+	{
+		Map<String, String> traitAttributes = inspectTrait( propertyInParent );
+		Map<String, String> propertyAttributes = inspectProperty( propertyInParent );
+
+		if ( traitAttributes == null )
+			return propertyAttributes;
+
+		if ( propertyAttributes == null )
+			return traitAttributes;
+
+		traitAttributes.putAll( propertyAttributes );
+		return traitAttributes;
+	}
 
 	/**
 	 * @param toInspect

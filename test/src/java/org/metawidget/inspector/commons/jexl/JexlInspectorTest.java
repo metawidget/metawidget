@@ -19,9 +19,6 @@ package org.metawidget.inspector.commons.jexl;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.commons.jexl.JexlInspector;
-import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
-import org.metawidget.inspector.commons.jexl.UiJexlAttributes;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -100,6 +97,19 @@ public class JexlInspectorTest
 	}
 
 	public void testBadExpression()
+	{
+		try
+		{
+			new JexlInspector().inspect( new Bar(), Bar.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertEquals( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'", e.getMessage() );
+		}
+	}
+
+	public void testThis()
 	{
 		try
 		{
