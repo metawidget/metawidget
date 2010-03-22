@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.annotation.UiMasked;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 
 /**
@@ -47,7 +48,7 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
-		assertTrue( properties instanceof TreeMap<?,?> );
+		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 10 );
 
 		assertEquals( "foo", properties.get( "foo" ).toString() );
@@ -99,8 +100,8 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Proxied_$$_javassist_.class );
 
-		assertTrue( properties instanceof TreeMap<?,?> );
-		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ));
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 
 		properties = propertyStyle.getProperties( new InterfaceFoo()
 		{
@@ -111,8 +112,31 @@ public class JavaBeanPropertyStyleTest
 			}
 		}.getClass() );
 
-		assertTrue( properties instanceof TreeMap<?,?> );
-		assertFalse( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ));
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertFalse( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
+	}
+
+	public void testFieldAndGetter()
+	{
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+
+		try
+		{
+			propertyStyle.getProperties( ErrorFoo.class );
+		}
+		catch ( InspectorException e )
+		{
+			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public setter method. Should be one or the other", e.getMessage() );
+		}
+
+		try
+		{
+			propertyStyle.getProperties( ErrorFoo2.class );
+		}
+		catch ( InspectorException e )
+		{
+			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public getter method. Should be one or the other", e.getMessage() );
+		}
 	}
 
 	//
@@ -126,18 +150,6 @@ public class JavaBeanPropertyStyleTest
 		public String		foo;
 
 		public List<Date>	bar;
-
-		public String getFoo()
-		{
-			// Test already found via its field
-
-			return null;
-		}
-
-		public void setFoo( String aFoo )
-		{
-			// Test already found via its field
-		}
 
 		@NotNull
 		public String getMethodFoo()
@@ -189,6 +201,24 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
+	class ErrorFoo
+		extends Foo
+	{
+		public void setFoo( String aFoo )
+		{
+			// Will error
+		}
+	}
+
+	class ErrorFoo2
+		extends ErrorFoo
+	{
+		public String getFoo()
+		{
+			return null;
+		}
+	}
+
 	class SuperFoo
 	{
 		public boolean	baz;
@@ -220,7 +250,7 @@ public class JavaBeanPropertyStyleTest
 		@Override
 		protected boolean isExcludedBaseType( Class<?> classToExclude )
 		{
-			if ( SuperFoo.class.equals( classToExclude ))
+			if ( SuperFoo.class.equals( classToExclude ) )
 				return true;
 
 			return super.isExcludedBaseType( classToExclude );

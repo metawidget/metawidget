@@ -163,11 +163,12 @@ public class JavaBeanPropertyStyle
 				continue;
 
 			// Already found via its field?
+			// (error, because otherwise will really confuse things like Commons JEXL)
 
 			Property existingProperty = properties.get( propertyName );
 
 			if ( existingProperty instanceof FieldProperty )
-				continue;
+				throw InspectorException.newException( "JavaBeanProperty '" + ((FieldProperty) existingProperty).getField() + "' has both a public member variable and a public getter method. Should be one or the other" );
 
 			// Already found via another getter?
 
@@ -244,11 +245,12 @@ public class JavaBeanPropertyStyle
 				continue;
 
 			// Already found via its field?
+			// (error, because otherwise will really confuse things like Commons JEXL)
 
 			Property existingProperty = properties.get( propertyName );
 
 			if ( existingProperty instanceof FieldProperty )
-				continue;
+				throw InspectorException.newException( "JavaBeanProperty '" + ((FieldProperty) existingProperty).getField() + "' has both a public member variable and a public setter method. Should be one or the other" );
 
 			// Already found via its getter?
 

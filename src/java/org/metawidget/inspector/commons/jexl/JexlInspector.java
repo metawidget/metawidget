@@ -38,11 +38,9 @@ import org.metawidget.util.simple.StringUtils;
  * environments can 'wire together' properties using ELs in much the same way as Web environments
  * that use, say, <code>UiFacesAttribute</code>.
  * <p>
- * A significant difference of <code>JexlInspector</code> compared to other ELs is that the JEXL
- * EL is relative to the object being inspected, not to some global EL context. So expressions use
- * <code>this</code>, as in <code>this.retired</code>. Use of a <code>this</code> keyword,
- * as opposed to the name of the class being annotated, keeps JEXL EL expressions working even for
- * subclasses.
+ * Expressions can use <code>this</code>, as in <code>this.retired</code>, to refer to the object
+ * being inspected. Use of a <code>this</code> keyword, as opposed to the name of the class being
+ * annotated, keeps JEXL EL expressions working even for subclasses.
  *
  * @author Richard Kennard
  */
@@ -140,7 +138,7 @@ public class JexlInspector
 		if ( expression.startsWith( "${" ) )
 			throw InspectorException.newException( "Expression '" + expression + "' should be of the form 'foo.bar', not '${foo.bar}'" );
 
-		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext( ) );
+		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext() );
 
 		if ( value == null )
 			return;

@@ -421,6 +421,8 @@ public abstract class BaseXmlInspector
 
 			// Unlike BaseObjectInspector, we cannot test for cyclic references because
 			// we're only looking at types, not objects
+
+			// TODO: test for cyclic references?
 		}
 
 		return entityElement;

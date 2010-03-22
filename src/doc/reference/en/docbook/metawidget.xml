@@ -2170,7 +2170,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				</para>
 				
 				<programlisting language="java">@Action( name = "add" )
-@UiJexlAttribute( name = HIDDEN, value = "${this.owner != null}" )
+@UiJexlAttribute( name = HIDDEN, value = "this.owner != null" )
 public void addOwner() {
 	mOwner = new Owner();
 	fireActionEvent( "addOwner" );

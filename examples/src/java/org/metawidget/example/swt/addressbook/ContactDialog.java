@@ -293,8 +293,9 @@ public class ContactDialog
 		}
 
 		// Add blank entry at bottom
+		// TODO: stefan said this behaved oddly [10:21:51 PM] Stefan (helped with JGoodies Metawidget): when you click into a new row, it just starts a new one... doesnt do that in swing
 
-		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || mCommunications.get( mCommunications.size() - 1 ).getType() != null ) )
+		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || !"".equals( StringUtils.quietValueOf( mCommunications.get( mCommunications.size() - 1 )) )))
 			mCommunications.add( new Communication() );
 
 		int loop = 0;
