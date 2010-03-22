@@ -96,8 +96,6 @@ public class JexlInspector
 	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
 		throws Exception
 	{
-		// TODO: test objects with paths
-
 		try
 		{
 			LOCAL_TOINSPECT.set( toInspect );

@@ -38,7 +38,7 @@ public class JexlInspectorTest
 	public void testAnnotations()
 	{
 		JexlInspector inspector = new JexlInspector();
-		assertTrue( null == inspector.inspect( (Object) null, null ));
+		assertTrue( null == inspector.inspect( (Object) null, null ) );
 
 		// With a null Foo
 
@@ -103,7 +103,7 @@ public class JexlInspectorTest
 			new JexlInspector().inspect( new Bar(), Bar.class.getName() );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertEquals( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'", e.getMessage() );
 		}
@@ -111,15 +111,30 @@ public class JexlInspectorTest
 
 	public void testThis()
 	{
-		try
-		{
-			new JexlInspector().inspect( new Bar(), Bar.class.getName() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertEquals( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'", e.getMessage() );
-		}
+		ThisTest thisTest1 = new ThisTest();
+		thisTest1.setIdentity( "ThisTest #1" );
+		ThisTest thisTest2 = new ThisTest();
+		thisTest2.setIdentity( "ThisTest #2" );
+		thisTest1.setChild( thisTest2 );
+
+		JexlInspector inspector = new JexlInspector();
+
+		// Top-level
+
+		String xml = inspector.inspect( thisTest1, ThisTest.class.getName() );
+		Document document = XmlUtils.documentFromString( xml );
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "me" );
+		assertEquals( property.getAttribute( "who-am-i" ), "ThisTest #1" );
+
+		// Child-level
+
+		xml = inspector.inspect( thisTest1, ThisTest.class.getName(), "child" );
+		document = XmlUtils.documentFromString( xml );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( entity.getAttribute( "what-parent-am-i" ), "ThisTest #1" );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "me" );
+		assertEquals( property.getAttribute( "who-am-i" ), "ThisTest #2" );
 	}
 
 	//
@@ -128,15 +143,11 @@ public class JexlInspectorTest
 
 	public static class Foo
 	{
-		@UiJexlAttributes( {
-			@UiJexlAttribute( name = "value-is-el", expression="this.baz" ),
-			@UiJexlAttribute( name = "value-is-text", expression="'text'" ),
-			@UiJexlAttribute( name = "expression-is-false", expression="if ( !this.expressionResult ) 'was set'" )
-		} )
-		public String bar1;
+		@UiJexlAttributes( { @UiJexlAttribute( name = "value-is-el", expression = "this.baz" ), @UiJexlAttribute( name = "value-is-text", expression = "'text'" ), @UiJexlAttribute( name = "expression-is-false", expression = "if ( !this.expressionResult ) 'was set'" ) } )
+		public String	bar1;
 
-		@UiJexlAttribute( name = "expression-is-true", expression="if ( this.expressionResult ) { 'was set'; }" )
-		public String bar2;
+		@UiJexlAttribute( name = "expression-is-true", expression = "if ( this.expressionResult ) { 'was set'; }" )
+		public String	bar2;
 
 		public String getBaz()
 		{
@@ -151,7 +162,38 @@ public class JexlInspectorTest
 
 	public static class Bar
 	{
-		@UiJexlAttribute( name = "foo", expression="${baz}" )
-		public String baz;
+		@UiJexlAttribute( name = "foo", expression = "${baz}" )
+		public String	baz;
+	}
+
+	public static class ThisTest
+	{
+		private String		mIdentity;
+
+		private ThisTest	mChild;
+
+		@UiJexlAttribute( name = "who-am-i", expression = "this.identity" )
+		public String		me;
+
+		@UiJexlAttribute( name = "what-parent-am-i", expression = "this.identity" )
+		public ThisTest getChild()
+		{
+			return mChild;
+		}
+
+		public void setChild( ThisTest child )
+		{
+			this.mChild = child;
+		}
+
+		public String getIdentity()
+		{
+			return this.mIdentity;
+		}
+
+		public void setIdentity( String identity )
+		{
+			this.mIdentity = identity;
+		}
 	}
 }

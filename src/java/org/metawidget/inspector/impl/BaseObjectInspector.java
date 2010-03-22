@@ -232,6 +232,19 @@ public abstract class BaseObjectInspector
 	// Protected methods
 	//
 
+	/**
+	 * Inspect the parent property leading to the <code>toInspect</code>. Often the parent property
+	 * contains useful annotations, such as <code>UiLookup</code>.
+	 * <p>
+	 * This method can be overridden by clients wishing to modify the parent inspection process (eg.
+	 * <code>JexlInspector</code>)
+	 *
+	 * @param parentToInspect
+	 *            the parent to inspect. Never null
+	 * @param propertyInParent
+	 *            the property in the parent that points to the original toInspect
+	 */
+
 	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
 		throws Exception
 	{
@@ -249,6 +262,12 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
+	 * Inspect the <code>toInspect</code> for properties and actions.
+	 * <p>
+	 * This method can be overridden by clients wishing to modify the inspection process (eg.
+	 * <code>JexlInspector</code>). Most clients will find it easier to override one of the
+	 * sub-methods, such as <code>inspectTrait</code> or <code>inspectProperty</code>.
+	 *
 	 * @param toInspect
 	 *            the object to inspect. May be null
 	 * @param clazz
