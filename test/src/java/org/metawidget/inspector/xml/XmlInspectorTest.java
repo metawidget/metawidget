@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -220,5 +221,77 @@ public class XmlInspectorTest
 		{
 			assertEquals( "Attribute named 'dontexpand' should be 'dont-expand'", e.getMessage() );
 		}
+	}
+
+	public void testInfiniteRecursion()
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"RecursiveFoo\">";
+		xml += "<property name=\"foo\" type=\"RecursiveFoo\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		XmlInspectorConfig config = new XmlInspectorConfig();
+		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
+		mInspector = new XmlInspector( config );
+
+		// Top level
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "RecursiveFoo" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "RecursiveFoo", entity.getAttribute( TYPE ) );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( "RecursiveFoo", property.getAttribute( TYPE ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( property.getNextSibling(), null );
+
+		// Second level (should block)
+
+		assertEquals( mInspector.inspect( null, "RecursiveFoo", "foo" ), null );
+		assertEquals( "XmlInspector prevented infinite recursion on RecursiveFoo/foo. Consider marking foo as hidden='true'", LogUtilsTest.getLastTraceMessage() );
+
+		// Start over
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"RecursiveFoo\">";
+		xml += "<property name=\"foo\" type=\"RecursiveFoo2\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"RecursiveFoo2\">";
+		xml += "<property name=\"foo\" type=\"RecursiveFoo\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		config = new XmlInspectorConfig();
+		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
+		mInspector = new XmlInspector( config );
+
+		// Second level
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "RecursiveFoo", "foo" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "RecursiveFoo2", entity.getAttribute( TYPE ) );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( "RecursiveFoo", property.getAttribute( TYPE ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( property.getNextSibling(), null );
+
+		// Third level (should block)
+
+		assertEquals( mInspector.inspect( null, "RecursiveFoo", "foo", "foo" ), null );
+		assertEquals( "XmlInspector prevented infinite recursion on RecursiveFoo/foo/foo. Consider marking foo as hidden='true'", LogUtilsTest.getLastTraceMessage() );
 	}
 }

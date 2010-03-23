@@ -413,27 +413,31 @@ public abstract class BaseXmlInspector
 					return null;
 			}
 
+			String propertyType;
+
+			if ( !property.hasAttribute( typeAttribute ) )
+			{
+				propertyType = null;
+			}
+			else
+			{
+				propertyType = property.getAttribute( typeAttribute );
+
+				if ( !traversed.add( propertyType ) )
+				{
+					// Fail silently, rather than do a debug log, because it makes for a nicer 'out
+					// of the box' experience
+
+					mLog.trace( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider marking " + name + " as hidden='true'" );
+					return null;
+				}
+			}
+
 			if ( onlyToParent && loop >= ( length - 1 ) )
 				return property;
 
-			if ( !property.hasAttribute( typeAttribute ) )
+			if ( propertyType == null )
 				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
-
-			String propertyType = property.getAttribute( typeAttribute );
-
-			// Unlike BaseObjectInspector, we cannot test for cyclic references because
-			// we're only looking at types, not objects
-
-			// TODO: test recursion
-
-			if ( !traversed.add( propertyType ) )
-			{
-				// Fail silently, rather than do a debug log, because it makes for a nicer 'out
-				// of the box' experience
-
-				mLog.trace( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider marking " + name + " as hidden='true'" );
-				return null;
-			}
 
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
 
