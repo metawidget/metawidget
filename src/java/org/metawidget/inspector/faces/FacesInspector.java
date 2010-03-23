@@ -98,8 +98,6 @@ public class FacesInspector
 	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
 		throws Exception
 	{
-		// TODO: test objects with paths
-
 		try
 		{
 			if ( mInjectThis )

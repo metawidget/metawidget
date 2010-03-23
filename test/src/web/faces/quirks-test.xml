@@ -158,6 +158,17 @@
 			</steps>
 		</webtest>
 
+		<webtest name="test-this">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-faces/indexThisTest.jsf" />
+
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr/th[@id='table-thisTestMe-label-cell']" text="FacesThisTest #1:"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr/th[@id='table-thisTestMe-label-cell']" text="FacesThisTest #1:"/>
+				<verifyXPath xpath="/html/body/table[3]/tbody/tr/th[@id='table-thisTestChildMe-label-cell']" text="FacesThisTest #2:"/>
+			</steps>
+		</webtest>
+		
 		<webtest name="test-richfaces">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>

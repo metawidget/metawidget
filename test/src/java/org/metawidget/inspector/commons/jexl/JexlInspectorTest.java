@@ -127,14 +127,21 @@ public class JexlInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "me" );
 		assertEquals( property.getAttribute( "who-am-i" ), "ThisTest #1" );
 
-		// Child-level
+		// Property-level
 
-		xml = inspector.inspect( thisTest1, ThisTest.class.getName(), "child" );
+		xml = inspector.inspect( thisTest1, ThisTest.class.getName(), "me" );
 		document = XmlUtils.documentFromString( xml );
 		entity = (Element) document.getFirstChild().getFirstChild();
-		assertEquals( entity.getAttribute( "what-parent-am-i" ), "ThisTest #1" );
-		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "me" );
-		assertEquals( property.getAttribute( "who-am-i" ), "ThisTest #2" );
+		assertEquals( entity.getAttribute( "who-am-i" ), "ThisTest #1" );
+		assertEquals( entity.getAttribute( NAME ), "me" );
+
+		// Child-level
+
+		xml = inspector.inspect( thisTest1, ThisTest.class.getName(), "child", "me" );
+		document = XmlUtils.documentFromString( xml );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( entity.getAttribute( "who-am-i" ), "ThisTest #2" );
+		assertEquals( entity.getAttribute( NAME ), "me" );
 	}
 
 	//
@@ -172,10 +179,15 @@ public class JexlInspectorTest
 
 		private ThisTest	mChild;
 
+		/**
+		 * The injection of 'this' into the JEXL context needs to work for both normal scenarios and
+		 * 'direct to child' scenarios (ie. the Metawidget is pointed at #{thisTest.child.me}). In
+		 * the latter, 'this' has to refer to the parent, not the child
+		 */
+
 		@UiJexlAttribute( name = "who-am-i", expression = "this.identity" )
 		public String		me;
 
-		@UiJexlAttribute( name = "what-parent-am-i", expression = "this.identity" )
 		public ThisTest getChild()
 		{
 			return mChild;
