@@ -29,6 +29,7 @@ import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -251,7 +252,7 @@ public class PropertyTypeInspectorTest
 
 		// Check there are no more properties (eg. public static int notVisible)
 
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 	}
 
 	public void testCovariantSetter()
@@ -272,10 +273,10 @@ public class PropertyTypeInspectorTest
 
 		// Check there are no more properties (eg. public static int notVisible)
 
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 	}
 
-	public void testRecursion()
+	public void testInfiniteRecursion()
 	{
 		RecursiveFoo recursiveFoo = new RecursiveFoo();
 		recursiveFoo.foo = recursiveFoo;
@@ -295,11 +296,12 @@ public class PropertyTypeInspectorTest
 		assertEquals( RecursiveFoo.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
 		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 
 		// Second level (should block)
 
-		assertTrue( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ) == null );
+		assertEquals( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ), null );
+		assertEquals( "PropertyTypeInspector prevented infinite recursion on org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo/foo. Consider annotating foo as @UiHidden", LogUtilsTest.getLastTraceMessage() );
 
 		// Start over
 
@@ -322,18 +324,18 @@ public class PropertyTypeInspectorTest
 		assertTrue( 3 == property.getAttributes().getLength() );
 		assertEquals( RecursiveFoo.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
 		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 
 		// Third level (should block)
 
-		assertTrue( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo", "foo" ) == null );
+		assertEquals( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo", "foo" ), null );
 	}
 
 	public void testBadName()
 	{
-		assertTrue( mInspector.inspect( new SubFoo(), "no-such-type" ) == null );
-		assertTrue( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-name" ) == null );
-		assertTrue( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-parent-name", "foo" ) == null );
+		assertEquals( mInspector.inspect( new SubFoo(), "no-such-type" ), null );
+		assertEquals( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-name" ), null );
+		assertEquals( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-parent-name", "foo" ), null );
 	}
 
 	public void testNullType()

@@ -89,7 +89,7 @@ public class SeamInspectorTest
 		assertEquals( ACTION, property.getNodeName() );
 		assertEquals( "next", property.getAttribute( NAME ) );
 
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 	}
 
 	public void testNoPageflow()

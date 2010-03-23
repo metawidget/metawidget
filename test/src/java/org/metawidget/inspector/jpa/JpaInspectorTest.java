@@ -90,7 +90,7 @@ public class JpaInspectorTest
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 
-		assertTrue( XmlUtils.getChildWithAttributeValue( entity, NAME, "id" ) == null );
+		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "id" ), null );
 
 		// Show id
 

@@ -114,6 +114,13 @@ public final class LogUtils
 	//
 
 	/**
+	 * Lightweight field that stores the last message sent to <code>trace</code>. Intended for
+	 * unit tests.
+	 */
+
+	/* package private */static String	LAST_TRACE_MESSAGE;
+
+	/**
 	 * Lightweight field that stores the last message sent to <code>Log.debug</code>. Intended for
 	 * unit tests.
 	 */
@@ -167,6 +174,8 @@ public final class LogUtils
 
 		public void trace( String trace )
 		{
+			LAST_TRACE_MESSAGE = trace;
+
 			mLogger.finer( trace );
 		}
 
@@ -277,6 +286,8 @@ public final class LogUtils
 
 		public void trace( String trace )
 		{
+			LAST_TRACE_MESSAGE = trace;
+
 			mLog.trace( trace );
 		}
 

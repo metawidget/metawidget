@@ -130,7 +130,7 @@ public class HibernateInspectorTest
 		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 	}
 
 	public void testHideIds()

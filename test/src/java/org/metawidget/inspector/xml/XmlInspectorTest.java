@@ -181,9 +181,9 @@ public class XmlInspectorTest
 
 	public void testBadName()
 	{
-		assertTrue( mInspector.inspect( null, "no-such-type" ) == null );
-		assertTrue( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ) == null );
-		assertTrue( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ) == null );
+		assertEquals( mInspector.inspect( null, "no-such-type" ), null );
+		assertEquals( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ), null );
+		assertEquals( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ), null );
 	}
 
 	public void testDefaultConfig()

@@ -87,7 +87,7 @@ public class JavaBeanPropertyStyleTest
 		properties = propertyStyle.getProperties( Foo.class );
 		assertTrue( properties.size() == 9 );
 
-		assertTrue( properties.get( "baz" ) == null );
+		assertEquals( properties.get( "baz" ), null );
 		assertFalse( properties.get( "methodGetterInSuper" ).isReadable() );
 		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );

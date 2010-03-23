@@ -79,7 +79,7 @@ public class ReflectionBindingProcessorTest
 		JButton button = new JButton();
 		binding.processWidget( button, ACTION, null, null );
 
-		assertTrue( button.getAction() == null );
+		assertEquals( button.getAction(), null );
 
 		// Null nested object
 
@@ -90,7 +90,7 @@ public class ReflectionBindingProcessorTest
 		metawidget.setPath( "foo/nestedFoo/doAction" );
 		binding.processWidget( button, ACTION, null, metawidget );
 
-		assertTrue( button.getAction() == null );
+		assertEquals( button.getAction(), null );
 	}
 
 	public void testBadBinding()

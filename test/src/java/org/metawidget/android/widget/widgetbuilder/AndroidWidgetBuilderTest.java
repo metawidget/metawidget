@@ -224,7 +224,7 @@ public class AndroidWidgetBuilderTest
 
 		// int
 
-		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() == null );
+		assertEquals( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener(), null );
 		attributes.put( TYPE, int.class.getName() );
 		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DigitsKeyListener );
 
@@ -237,7 +237,7 @@ public class AndroidWidgetBuilderTest
 		// Float
 
 		attributes.put( TYPE, Float.class.getName() );
-		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() == null );
+		assertEquals( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener(), null );
 
 		// Int
 

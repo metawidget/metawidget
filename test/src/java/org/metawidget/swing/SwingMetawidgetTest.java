@@ -72,7 +72,7 @@ public class SwingMetawidgetTest
 		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_32x32 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_32x32 ) != null );
-		assertTrue( info.getIcon( 5 ) == null );
+		assertEquals( info.getIcon( 5 ), null );
 	}
 
 	@SuppressWarnings( "serial" )
@@ -161,22 +161,22 @@ public class SwingMetawidgetTest
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo1 );
 		metawidget.setMaximumInspectionDepth( 0 );
-		assertTrue( metawidget.getComponent( "foo" ) == null );
+		assertEquals( metawidget.getComponent( "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 1 );
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
 		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
 		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
 		assertEquals( "name", metawidget.getComponent( "foo", "name" ).getName() );
-		assertTrue( metawidget.getComponent( "foo", "foo" ) == null );
+		assertEquals( metawidget.getComponent( "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
 		assertTrue( metawidget.getComponent( "foo", "foo" ) instanceof SwingMetawidget );
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) == null );
+		assertEquals( metawidget.getComponent( "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 3 );
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) instanceof SwingMetawidget );
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) == null );
+		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 4 );
 
@@ -187,7 +187,7 @@ public class SwingMetawidgetTest
 
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
 		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ) == null );
+		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
 
 	public void testRebind()

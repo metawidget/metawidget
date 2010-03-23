@@ -76,6 +76,6 @@ public class PageflowInspectorTest
 		assertEquals( ACTION, property.getNodeName() );
 		assertEquals( "next", property.getAttribute( NAME ) );
 
-		assertTrue( property.getNextSibling() == null );
+		assertEquals( property.getNextSibling(), null );
 	}
 }

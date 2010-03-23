@@ -34,7 +34,7 @@ public class StubTest
 	public void testStub()
 	{
 		Stub stub = new Stub( null );
-		assertTrue( stub.getAttributes() == null );
+		assertEquals( stub.getAttributes(), null );
 
 		stub.setAttribute( "foo", "bar" );
 		assertEquals( "bar", stub.getAttributes().get( "foo" ));

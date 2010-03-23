@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 
@@ -27,6 +28,8 @@ import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -372,6 +375,9 @@ public abstract class BaseXmlInspector
 		String nameAttribute = getNameAttribute();
 		String typeAttribute = getTypeAttribute();
 
+		Set<String> traversed = CollectionUtils.newHashSet();
+		traversed.add( type );
+
 		for ( int loop = 0; loop < length; loop++ )
 		{
 			String name = names[loop];
@@ -414,15 +420,25 @@ public abstract class BaseXmlInspector
 				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 
 			String propertyType = property.getAttribute( typeAttribute );
-			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
-
-			if ( entityElement == null )
-				break;
 
 			// Unlike BaseObjectInspector, we cannot test for cyclic references because
 			// we're only looking at types, not objects
 
-			// TODO: test for cyclic references?
+			// TODO: test recursion
+
+			if ( !traversed.add( propertyType ) )
+			{
+				// Fail silently, rather than do a debug log, because it makes for a nicer 'out
+				// of the box' experience
+
+				mLog.trace( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider marking " + name + " as hidden='true'" );
+				return null;
+			}
+
+			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
+
+			if ( entityElement == null )
+				break;
 		}
 
 		return entityElement;

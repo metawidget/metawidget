@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
+import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
@@ -53,6 +54,7 @@ public class StandardConverterProcessor
 	// Public methods
 	//
 
+	@SuppressWarnings( "deprecation" )
 	@Override
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
@@ -61,15 +63,40 @@ public class StandardConverterProcessor
 		if ( ACTION.equals( elementName ) )
 			return component;
 
-		// Recurse into stubs
+		// Recurse into stubs...
 
 		if ( component instanceof UIStub )
 		{
-			List<UIComponent> children = component.getChildren();
+			// ...whose children have the same value binding as us...
+			//
+			// (this is important because choice of Converter is based off the attributes Map, and
+			// if the value binding is different then all bets are off as to the accuracy of the
+			// attributes)
 
-			for ( UIComponent componentChild : children )
+			// TODO: test this!
+
+			ValueBinding valueBinding = component.getValueBinding( "value" );
+
+			if ( valueBinding != null )
 			{
-				processWidget( componentChild, elementName, attributes, metawidget );
+				String expressionString = valueBinding.getExpressionString();
+
+				List<UIComponent> children = component.getChildren();
+
+				for ( UIComponent componentChild : children )
+				{
+					ValueBinding childValueBinding = componentChild.getValueBinding( "value" );
+
+					if ( childValueBinding == null )
+						continue;
+
+					if ( !expressionString.equals( childValueBinding.getExpressionString() ) )
+						continue;
+
+					// ...and apply the Converter to them
+
+					processWidget( componentChild, elementName, attributes, metawidget );
+				}
 			}
 
 			return component;
@@ -81,7 +108,7 @@ public class StandardConverterProcessor
 			return component;
 
 		ValueHolder valueHolder = (ValueHolder) component;
-		valueHolder.setConverter( getConverter( valueHolder, attributes ));
+		valueHolder.setConverter( getConverter( valueHolder, attributes ) );
 
 		return component;
 	}

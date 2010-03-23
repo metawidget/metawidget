@@ -197,7 +197,7 @@ public class MigLayoutTest
 
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getPadding();
-		assertTrue( padding == null );
+		assertEquals( padding, null );
 
 		assertTrue( 0f == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );

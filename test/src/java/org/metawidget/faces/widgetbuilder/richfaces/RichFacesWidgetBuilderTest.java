@@ -196,7 +196,7 @@ public class RichFacesWidgetBuilderTest
 		metawidget.setStyle( "aStyle" );
 		metawidget.setStyleClass( "aStyleClass" );
 		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( stub.getId() == null );
+		assertEquals( stub.getId(), null );
 		assertTrue( stub.getChildCount() == 2 );
 
 		HtmlInputText htmlInputText = (HtmlInputText) stub.getChildren().get( 0 );

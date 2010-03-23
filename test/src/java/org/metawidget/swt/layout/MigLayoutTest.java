@@ -189,7 +189,7 @@ public class MigLayoutTest
 
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		padding = ( (CC) metawidget.getChildren()[1].getLayoutData() ).getPadding();
-		assertTrue( padding == null );
+		assertEquals( padding, null );
 
 		assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
