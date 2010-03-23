@@ -41,6 +41,12 @@ public class FacesInspectorConfig
 	/**
 	 * Whether the Inspector injects a request-level 'this' attribute into
 	 * <code>UiFacesAttribute</code> evaluations. False by default.
+	 * <p>
+	 * The problem with <code>UiFacesAttribute</code> annotations is that, although the annotation
+	 * is placed on the business object, the EL expression relies on the UI. If the JSF context is
+	 * not properly initialized with certain managed bean names, the annotation will not work. This
+	 * is rather brittle. Injecting 'this' instead allows the EL to function regardless of how the
+	 * JSF context is configured.
 	 */
 
 	public boolean isInjectThis()
