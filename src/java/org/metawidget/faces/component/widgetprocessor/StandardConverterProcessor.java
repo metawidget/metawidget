@@ -33,7 +33,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
-import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
@@ -73,9 +72,7 @@ public class StandardConverterProcessor
 			// if the value binding is different then all bets are off as to the accuracy of the
 			// attributes)
 
-			// TODO: test this!
-
-			ValueBinding valueBinding = component.getValueBinding( "value" );
+			javax.faces.el.ValueBinding valueBinding = component.getValueBinding( "value" );
 
 			if ( valueBinding != null )
 			{
@@ -85,7 +82,7 @@ public class StandardConverterProcessor
 
 				for ( UIComponent componentChild : children )
 				{
-					ValueBinding childValueBinding = componentChild.getValueBinding( "value" );
+					javax.faces.el.ValueBinding childValueBinding = componentChild.getValueBinding( "value" );
 
 					if ( childValueBinding == null )
 						continue;

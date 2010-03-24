@@ -169,6 +169,23 @@
 			</steps>
 		</webtest>
 		
+		<webtest name="test-stub-converter">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-faces/indexStubConverter.jsf" />
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th[@id='table-stubConverterBar-label-cell']" text="Bar:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/span[1]" text="1"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/span[2]" text="2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input[@type='text'][1]/@value" text="1"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[2]/th[@id='table-stubConverterFoo-label-cell']" text="Foo:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/span[1]" text="1.00"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/span[2]" text="2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input[@type='text'][1]/@value" text="1.00"/>
+			</steps>
+		</webtest>
+
 		<webtest name="test-richfaces">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
