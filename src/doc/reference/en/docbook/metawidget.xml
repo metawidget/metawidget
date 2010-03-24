@@ -1237,14 +1237,7 @@ public class Person {
 						via <function>SwingMetawidget.addWidgetProcessor</function>. These
 						binding implementations automatically map <classname>JComponent</classname> values to <classname>Object</classname> values,
 						including performing the necessary conversions, further reducing the amount of boilerplate code required.
-					</para>
-					
-					<tip>
-						<title>Note</title>
-						The SWT version of the Address Book sample uses <classname>org.eclipse.core.databinding.Binding</classname> - an
-						optional, but core, part of SWT.
-					</tip>				
-
+					</para>					
 				</section>
 				
 				<section id="section-introduction-part2-desktop-i18n">
@@ -2462,6 +2455,34 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					</screenshot>
 				</figure>
 				
+			</section>
+			
+			<section id="section-introduction-part3-swt-addressbook">
+				<title>SWT Address Book Examples</title>
+	
+				<para>
+					There is an SWT version of the Address Book sample in <filename>examples/swt/addressbook-swt.jar</filename>. If you
+					prefer SWT to Swing, you may prefer this version as in <xref linkend="section-introduction-part3-swt-addressbook-screenshot"/>.
+				</para>
+
+				<figure id="section-introduction-part3-swt-addressbook-screenshot">
+					<title>SWT Address Book Example</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/desktop-swt-addressbook.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+				
+				<para>
+					Key differences to the Swing version (see <xref linkend="section-introduction-part2-desktop"/>) include:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							Data binding is implemented using <classname>org.eclipse.core.databinding.Binding</classname>.
+						</para>
+					</listitem>
+				</itemizedlist>
 			</section>
 			
 		</section>
@@ -8437,10 +8458,22 @@ public class PersonController {
 				
 				<section id="section-widgetprocessors-desktop-swt-databinding">
 					<title>DataBindingProcessor</title>
+					
+					<para>
+						<classname>DataBindingProcessor</classname> binds properties using <classname>org.eclipse.core.databinding</classname>.
+						Once bound, values can be saved back from the UI by calling <function>save</function>:
+					</para>
+
+					<programlisting language="java">myMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( myMetawidget )</programlisting>
 				</section>
 				
 				<section id="section-widgetprocessors-desktop-swt-actionbinding">
 					<title>ReflectionBindingProcessor</title>
+
+					<para>
+						<classname>ReflectionBindingProcessor</classname> binds <classname>Buttons</classname> to backing classes using
+						Java-based reflection to support runtime binding.
+					</para>
 				</section>					
 			</section>
 		</section>
@@ -8814,26 +8847,182 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 
 				<section id="section-layouts-desktop-swt-fill">
 					<title>FillLayout</title>					
+
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
+ 						using <classname>org.eclipse.swt.layout.FillLayout</classname>. This is like <classname>RowLayout</classname>, except it
+ 						fills width. It can be useful for Table Editors.
+					</para>
 				</section>				
 
 				<section id="section-layouts-desktop-swt-grid">
-					<title>GridLayout</title>					
+					<title>GridLayout</title>
+										
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>org.eclipse.swt.layout.GridLayout</classname>. Widgets are arranged in a table,
+						with one column for labels and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>GridLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelAlignment</parameter></td>
+								<td>Such as <classname>SWT.LEFT</classname> or <classname>SWT.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>labelFont</parameter></td>
+								<td>Label font</td>
+							</tr>
+							<tr>
+								<td><parameter>labelForeground</parameter></td>
+								<td>Label foreground color</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>Text to display after label text. Defaults to a colon (:)</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredAlignment</parameter></td>
+								<td>Such as <classname>SWT.LEFT</classname> or <classname>SWT.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>requiredText</parameter></td>
+								<td>Text to display for required fields. Defaults to a star (*)</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
 				</section>				
 
 				<section id="section-layouts-desktop-swt-mig">
-					<title>MigLayout</title>					
+					<title>MigLayout</title>
+										
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>net.miginfocom.swt.MigLayout</classname>. Widgets are arranged in a table,
+						with one column for labels and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>MigLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
 				</section>				
 
 				<section id="section-layouts-desktop-swt-row">
 					<title>RowLayout</title>					
+
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
+ 						using <classname>org.eclipse.swt.layout.RowLayout</classname>. This is like <classname>FillLayout</classname>, except it does not fill width.
+ 						It can be useful for button bars. 								
+					</para>
 				</section>				
 
 				<section id="section-layouts-desktop-swt-separator">
 					<title>SeparatorLayoutDecorator</title>					
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>Label( SWT.SEPARATOR )</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>SeparatorLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>alignment</parameter></td>
+								<td>
+									One of <classname>SWT.LEFT</classname> or <classname>SWT.RIGHT</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swt.layout.GridLayout</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
 				</section>				
 
 				<section id="section-layouts-desktop-swt-tabfolder">
 					<title>TabFolderLayoutDecorator</title>					
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>TabFolder</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>TabFolderLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swt.layout.GridLayout</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>tabLocation</parameter></td>
+								<td>
+									One of <classname>SWT.TOP</classname> or <classname>SWT.BOTTOM</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
 				</section>				
 
 			</section>

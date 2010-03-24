@@ -161,6 +161,7 @@ public abstract class UIMetawidget
 		setRendererType( "table" );
 
 		// SystemEvent support
+		// (this is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402)
 
 		if ( "true".equals( System.getProperty( UIMetawidget.class.getName() + ".UseSystemEvents" )))
 		{
