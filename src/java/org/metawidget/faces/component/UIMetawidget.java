@@ -162,7 +162,7 @@ public abstract class UIMetawidget
 
 		// SystemEvent support
 
-		if ( System.getProperty( getClass().getName() + ".UseSystemEvents" ) != null )
+		if ( "true".equals( System.getProperty( UIMetawidget.class.getName() + ".UseSystemEvents" )))
 		{
 			try
 			{

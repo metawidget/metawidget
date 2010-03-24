@@ -1332,8 +1332,32 @@
 			<arg line="-file quirks-jsf2-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>		
+		<antcall target="test-web-stop-tomcat"/>
 		
+		<!-- Mojarra 2.0 with Events -->		
+		
+		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
+		
+		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${relative.dir}/${build.dir}/${run.dir}">
+			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
+			<jvmarg value="-Duser.timezone=GMT"/>
+			<jvmarg value="-Duser.region=US"/>
+			<jvmarg value="-Dorg.metawidget.faces.component.UIMetawidget.UseSystemEvents=true"/>
+		</java>
+		
+		<sleep seconds="10"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-jsf2-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+
 	</target>
 
 	<target name="test-jsp-allwidgets" depends="test-shared-allwidgets">
