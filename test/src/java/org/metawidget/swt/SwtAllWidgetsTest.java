@@ -275,7 +275,9 @@ public class SwtAllWidgetsTest
 		( (Combo) metawidget.getChildren()[47] ).setText( "foo3" );
 
 		assertEquals( "Nested widgets:", ( (Label) metawidget.getChildren()[48] ).getText() );
+		assertTrue( 1 == ( (GridData) metawidget.getChildren()[48].getLayoutData() ).horizontalSpan );
 		assertTrue( metawidget.getChildren()[49] instanceof SwtMetawidget );
+		assertTrue( 1 == ( (GridData) metawidget.getChildren()[49].getLayoutData() ).horizontalSpan );
 
 		SwtMetawidget metawidgetNested = (SwtMetawidget) metawidget.getChildren()[49];
 		assertEquals( "Further nested widgets:", ( (Label) metawidgetNested.getChildren()[0] ).getText() );

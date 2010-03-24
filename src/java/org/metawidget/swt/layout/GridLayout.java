@@ -162,7 +162,12 @@ public class GridLayout
 		}
 
 		if ( spanAllColumns )
+		{
 			componentLayoutData.horizontalSpan = mNumberOfColumns * LABEL_AND_CONTROL;
+
+			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
+				componentLayoutData.horizontalSpan--;
+		}
 		else if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 			componentLayoutData.horizontalSpan = LABEL_AND_CONTROL;
 

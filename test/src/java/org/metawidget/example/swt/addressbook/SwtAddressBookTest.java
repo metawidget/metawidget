@@ -126,6 +126,10 @@ public class SwtAddressBookTest
 		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
 		assertTrue( metawidgetContact.getControl( "firstname" ) instanceof Label );
 		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
+		assertTrue( 2 == ( (GridData) metawidgetContact.getChildren()[12].getLayoutData() ).horizontalSpan );
+		assertEquals( "Address:", ( (Label) metawidgetContact.getControl( "address_label" ) ).getText() );
+		assertTrue( 1 == ( (GridData) metawidgetContact.getControl( "address_label" ).getLayoutData() ).horizontalSpan );
+		assertTrue( 1 == ( (GridData) metawidgetContact.getControl( "address" ).getLayoutData() ).horizontalSpan );
 
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 

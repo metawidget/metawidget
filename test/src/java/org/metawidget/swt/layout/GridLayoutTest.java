@@ -200,7 +200,7 @@ public class GridLayoutTest
 		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 		assertTrue( metawidget.getChildren()[3] instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
-		assertTrue( 4 == ( (GridData) ( (Stub) metawidget.getChildren()[3] ).getLayoutData() ).horizontalSpan );
+		assertTrue( 3 == ( (GridData) ( (Stub) metawidget.getChildren()[3] ).getLayoutData() ).horizontalSpan );
 
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
@@ -236,7 +236,7 @@ public class GridLayoutTest
 
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[ 4 ] ).getText() ) );
 		assertTrue( metawidget.getChildren()[ 5 ] instanceof Text );
-		assertTrue( 4 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
+		assertTrue( 3 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
 
 		assertTrue( "Jkl:".equals( ( (Label) metawidget.getChildren()[ 6 ] ).getText() ) );
 		assertTrue( metawidget.getChildren()[ 7 ] instanceof Button );
