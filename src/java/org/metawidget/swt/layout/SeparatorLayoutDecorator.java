@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.metawidget.swt.SwtMetawidget;
@@ -62,7 +63,9 @@ public class SeparatorLayoutDecorator
 	protected void addSectionWidget( String section, int level, Composite container, SwtMetawidget metawidget )
 	{
 		Composite separatorComposite = new Composite( container, SWT.NONE );
-		separatorComposite.setLayout( new org.eclipse.swt.layout.GridLayout( 2, false ) );
+		GridLayout gridLayout = new GridLayout( 2, false );
+		gridLayout.marginWidth = 0;
+		separatorComposite.setLayout( gridLayout );
 
 		// Section name (possibly localized)
 

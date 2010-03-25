@@ -84,6 +84,7 @@ public class SeparatorLayoutDecoratorTest
 		metawidget.setToInspect( new Foo() );
 
 		Composite composite = (Composite) metawidget.getChildren()[ 0 ];
+		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Section", ( (Label) composite.getChildren()[ 0 ] ).getText() );
 		assertTrue( composite.getChildren()[ 1 ] instanceof Label );
 		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
@@ -93,6 +94,7 @@ public class SeparatorLayoutDecoratorTest
 
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setAlignment( SWT.RIGHT ).setLayout( new GridLayout() ) ) );
 		composite = (Composite) metawidget.getChildren()[ 0 ];
+		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Section", ( (Label) composite.getChildren()[ 1 ] ).getText() );
 		assertTrue( composite.getChildren()[ 0 ] instanceof Label );
 		assertTrue( ( composite.getChildren()[0].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );

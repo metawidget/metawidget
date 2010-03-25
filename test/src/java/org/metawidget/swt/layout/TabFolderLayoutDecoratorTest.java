@@ -145,6 +145,7 @@ public class TabFolderLayoutDecoratorTest
 		metawidget.setToInspect( new Baz() );
 
 		Composite composite = (Composite) metawidget.getChildren()[0];
+		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Foo", ( (Label) composite.getChildren()[0] ).getText() );
 		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 
@@ -156,6 +157,7 @@ public class TabFolderLayoutDecoratorTest
 		assertTrue( 2 == innerPanel.getChildren().length );
 
 		composite = (Composite) metawidget.getChildren()[2];
+		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Baz", ( (Label) composite.getChildren()[0] ).getText() );
 		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 

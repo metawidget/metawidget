@@ -338,6 +338,7 @@ public class SwtAllWidgetsTest
 		assertTrue( ( (GridData) metawidget.getChildren()[58].getLayoutData() ).exclude );
 
 		Composite separatorComposite = (Composite) metawidget.getChildren()[59];
+		assertTrue( ((org.eclipse.swt.layout.GridLayout) separatorComposite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Section Break", ( (Label) separatorComposite.getChildren()[0] ).getText() );
 		assertTrue( separatorComposite.getChildren()[1] instanceof Label );
 		assertTrue( ( separatorComposite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );

@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -131,6 +132,7 @@ public class SwtTutorialTest
 		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
 
 		Composite separator = (Composite) metawidget.getChildren()[10];
+		assertTrue( ((GridLayout) separator.getLayout() ).marginWidth == 0 );
 		assertEquals( "Work", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
 		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
@@ -189,6 +191,7 @@ public class SwtTutorialTest
 		assertTrue( metawidget.getChildren()[3] instanceof Text );
 
 		Composite separator = (Composite) metawidget.getChildren()[4];
+		assertTrue( ((GridLayout) separator.getLayout() ).marginWidth == 0 );
 		assertEquals( "foo", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
 		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
