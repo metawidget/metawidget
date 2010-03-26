@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 
@@ -28,8 +27,6 @@ import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -81,9 +78,9 @@ public abstract class BaseXmlInspector
 	// Protected members
 	//
 
-	protected final Log		mLog	= LogUtils.getLog( getClass() );
+	protected Log		mLog	= LogUtils.getLog( getClass() );
 
-	protected final Element	mRoot;
+	protected Element	mRoot;
 
 	//
 	// Constructor
@@ -106,10 +103,11 @@ public abstract class BaseXmlInspector
 			builder.setEntityResolver( new NopEntityResolver() );
 			InputStream[] files = config.getInputStreams();
 
-			if ( files == null || files.length == 0 )
-				throw InspectorException.newException( "No XML input file specified" );
+			if ( files != null && files.length > 0 )
+				mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
 
-			mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
+			if ( mRoot == null )
+				throw InspectorException.newException( "No XML input file specified" );
 
 			// Debug
 
@@ -157,6 +155,13 @@ public abstract class BaseXmlInspector
 				// Even if we wanted to just return the parent attributes, we have no @type to
 				// attach to the top-level 'entity' node. So we must fail hard here. If we just
 				// return 'null', we may silently ignore parent attributes (such as a lookup)
+				//
+				// This can cause problems in cases where, say, an XmlInspector (based on classes
+				// not objects) and a PropertyTypeInspector (based on objects not classes) both try
+				// and codify the same object graph. The PropertyTypeInspector will
+				// stop if the child value of a property is null, but the XmlInspector will carry on
+				// (because it has no way to know the PropertyTypeInspector has
+				// returned null)
 				//
 				// Note: this rule should never be triggered if the property has the 'dont-expand'
 				// attribute set, because we should never try to traverse the child
@@ -375,9 +380,6 @@ public abstract class BaseXmlInspector
 		String nameAttribute = getNameAttribute();
 		String typeAttribute = getTypeAttribute();
 
-		Set<String> traversed = CollectionUtils.newHashSet();
-		traversed.add( type );
-
 		for ( int loop = 0; loop < length; loop++ )
 		{
 			String name = names[loop];
@@ -413,36 +415,20 @@ public abstract class BaseXmlInspector
 					return null;
 			}
 
-			String propertyType;
-
-			if ( !property.hasAttribute( typeAttribute ) )
-			{
-				propertyType = null;
-			}
-			else
-			{
-				propertyType = property.getAttribute( typeAttribute );
-
-				if ( !traversed.add( propertyType ) )
-				{
-					// Trace, rather than do a debug log, because it makes for a nicer 'out
-					// of the box' experience
-
-					mLog.trace( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider marking " + name + " as hidden='true'" );
-					return null;
-				}
-			}
-
 			if ( onlyToParent && loop >= ( length - 1 ) )
 				return property;
 
-			if ( propertyType == null )
+			if ( !property.hasAttribute( typeAttribute ) )
 				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 
+			String propertyType = property.getAttribute( typeAttribute );
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
 
 			if ( entityElement == null )
 				break;
+
+			// Unlike BaseObjectInspector, we cannot test for cyclic references because
+			// we're only looking at types, not objects
 		}
 
 		return entityElement;

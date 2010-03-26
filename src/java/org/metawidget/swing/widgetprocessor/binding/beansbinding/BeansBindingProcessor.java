@@ -308,7 +308,7 @@ public class BeansBindingProcessor
 		}
 		else
 		{
-			throw WidgetProcessorException.newException( "Property '" + sourceProperty + "' has no getter and no setter" );
+			throw WidgetProcessorException.newException( "Property '" + sourceProperty + "' has no getter and no setter (or parent is null)" );
 		}
 
 		// Convenience converter for READ_ONLY fields (not just based on 'component instanceof
@@ -345,9 +345,10 @@ public class BeansBindingProcessor
 	/**
 	 * Gets the Converter for the given Class (if any).
 	 * <p>
-	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
-	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
+	 * Includes traversing superclasses of the given <code>sourceClass</code> for a suitable
+	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
+	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
+	 * Converter is also registered.
 	 * <p>
 	 * Also includes traversing from primitive types to wrapper types (eg. from
 	 * <code>int.class</code> to <code>Integer.class</code>), because we cannot declare a

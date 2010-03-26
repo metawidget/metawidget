@@ -350,8 +350,8 @@ public class SimpleBindingProcessor
 	/**
 	 * Gets the Adapter for the given class (if any).
 	 * <p>
-	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
-	 * registering an Adapter for <code>Contact.class</code> will match
+	 * Includes traversing superclasses of the given <code>classToBindTo</code> for a suitable
+	 * Adapter, so for example registering an Adapter for <code>Contact.class</code> will match
 	 * <code>PersonalContact.class</code>, <code>BusinessContact.class</code> etc., unless a more
 	 * subclass-specific Adapter is also registered.
 	 */
@@ -384,9 +384,10 @@ public class SimpleBindingProcessor
 	/**
 	 * Gets the Converter for the given Class (if any).
 	 * <p>
-	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
-	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
+	 * Includes traversing superclasses of the given <code>classToConvert</code> for a suitable
+	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
+	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
+	 * Converter is also registered.
 	 */
 
 	private <T extends Converter<?>> T getConverter( Class<?> classToConvert )

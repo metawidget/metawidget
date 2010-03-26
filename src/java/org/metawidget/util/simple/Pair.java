@@ -16,7 +16,6 @@
 
 package org.metawidget.util.simple;
 
-
 /**
  * Simple implementation of a tuple pair.
  *
@@ -36,6 +35,12 @@ public class Pair<L, R>
 	//
 	// Constructor
 	//
+
+	// Note: it didn't seem worth making a...
+	//
+	// public static final <L,R> Pair<L,R> newPair( L left, R right )
+	//
+	// ...because we always seem to be 'return'ing a Pair, never assigning one
 
 	public Pair( L left, R right )
 	{

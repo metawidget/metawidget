@@ -222,10 +222,10 @@ public class DataBindingProcessor
 	/**
 	 * Gets the IConverter for the given Class (if any).
 	 * <p>
-	 * Includes traversing superclasses of the given Class for a suitable IConverter, so for example
-	 * registering a IConverter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific IConverter is also
-	 * registered.
+	 * Includes traversing superclasses of the given <code>sourceClass</code> for a suitable
+	 * IConverter, so for example registering a IConverter for <code>Number.class</code> will match
+	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
+	 * IConverter is also registered.
 	 */
 
 	private IConverter getConverter( Class<?> sourceClass, Class<?> targetClass )
