@@ -172,7 +172,7 @@ public class ContactDialog
 		mCommunicationsEditor.horizontalAlignment = SWT.LEFT;
 		mCommunicationsEditor.grabHorizontal = true;
 
-		// TODO: Separator labels not left aligned
+		// TODO: better converter base class doco
 		// TODO: delete communication?
 
 		mCommunicationsTable.addMouseListener( new MouseAdapter()

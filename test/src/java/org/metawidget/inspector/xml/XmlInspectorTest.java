@@ -23,7 +23,7 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.LogUtilsTest;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,7 +81,7 @@ public class XmlInspectorTest
 
 	public void testInspection()
 	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -129,7 +129,7 @@ public class XmlInspectorTest
 
 	public void testTraverseViaParent()
 	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -159,9 +159,9 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ));
+			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ) );
 		}
 
 		try
@@ -169,15 +169,15 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ));
+			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ) );
 		}
 	}
 
 	public void testNullType()
 	{
-		assertTrue( null == mInspector.inspect( null, (String) null ));
+		assertTrue( null == mInspector.inspect( null, (String) null ) );
 	}
 
 	public void testBadName()
@@ -194,7 +194,7 @@ public class XmlInspectorTest
 			new XmlInspector( new XmlInspectorConfig() );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertEquals( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
 		}
@@ -207,7 +207,7 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "Typo1" );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertEquals( "Attribute named 'readonly' should be 'read-only'", e.getMessage() );
 		}
@@ -217,81 +217,61 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "Typo2" );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertEquals( "Attribute named 'dontexpand' should be 'dont-expand'", e.getMessage() );
 		}
 	}
 
-	public void testInfiniteRecursion()
+	public void testCheckForNullObject()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
-		xml += "<entity type=\"RecursiveFoo\">";
-		xml += "<property name=\"foo\" type=\"RecursiveFoo\"/>";
+		xml += "<entity type=\"ImaginaryObject\">";
+		xml += "<property name=\"foo\" type=\"ImaginaryObject\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\">";
+		xml += "<property name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/>";
 		xml += "</entity>";
 		xml += "</inspection-result>";
+
+		// Without checkForNullObject
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
 
-		// Top level
+		assertEquals( null, mInspector.inspect( null, "MissingObject" ));
+		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ));
+		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ));
 
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "RecursiveFoo" ) );
-		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		NullObject nullObject = new NullObject();
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( "RecursiveFoo", entity.getAttribute( TYPE ) );
+		// With checkForNullObject
 
-		Element property = (Element) entity.getFirstChild();
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "foo", property.getAttribute( NAME ) );
-		assertEquals( "RecursiveFoo", property.getAttribute( TYPE ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
-		assertEquals( property.getNextSibling(), null );
-
-		// Second level (should block)
-
-		assertEquals( mInspector.inspect( null, "RecursiveFoo", "foo" ), null );
-		assertEquals( "XmlInspector prevented infinite recursion on RecursiveFoo/foo. Consider marking foo as hidden='true'", LogUtilsTest.getLastTraceMessage() );
-
-		// Start over
-
-		xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
-		xml += "<entity type=\"RecursiveFoo\">";
-		xml += "<property name=\"foo\" type=\"RecursiveFoo2\"/>";
-		xml += "</entity>";
-		xml += "<entity type=\"RecursiveFoo2\">";
-		xml += "<property name=\"foo\" type=\"RecursiveFoo\"/>";
-		xml += "</entity>";
-		xml += "</inspection-result>";
-
-		config = new XmlInspectorConfig();
+		config.setCheckForNullObject( new JavaBeanPropertyStyle() );
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
+		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ));
+		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ));
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
 
-		// Second level
+		// With several levels deep
 
-		document = XmlUtils.documentFromString( mInspector.inspect( null, "RecursiveFoo", "foo" ) );
-		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		nullObject.nestedNullObject = new NullObject();
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ));
+	}
 
-		entity = (Element) document.getFirstChild().getFirstChild();
-		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( "RecursiveFoo2", entity.getAttribute( TYPE ) );
+	//
+	// Inner class
+	//
 
-		property = (Element) entity.getFirstChild();
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "foo", property.getAttribute( NAME ) );
-		assertEquals( "RecursiveFoo", property.getAttribute( TYPE ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
-		assertEquals( property.getNextSibling(), null );
-
-		// Third level (should block)
-
-		assertEquals( mInspector.inspect( null, "RecursiveFoo", "foo", "foo" ), null );
-		assertEquals( "XmlInspector prevented infinite recursion on RecursiveFoo/foo/foo. Consider marking foo as hidden='true'", LogUtilsTest.getLastTraceMessage() );
+	public static class NullObject
+	{
+		public NullObject nestedNullObject;
 	}
 }

@@ -49,8 +49,6 @@ public class DataBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	// TODO: Doco for source superclasses
-
 	public DataBindingProcessorConfig setConverters( IConverter... converters )
 	{
 		mConverters = converters;

@@ -524,13 +524,20 @@ public abstract class BaseObjectInspector
 
 	private Pair<Object, Class<?>> traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
 	{
-		// Special support for class lookup
+		// Special support for direct class lookup
 
 		if ( toTraverse == null )
 		{
+			// If there are names, return null
+
+			if ( onlyToParent )
+				return null;
+
+			// If no such class, return null
+
 			Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( clazz == null || onlyToParent )
+			if ( clazz == null )
 				return null;
 
 			return new Pair<Object, Class<?>>( null, clazz );

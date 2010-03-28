@@ -186,7 +186,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( WidgetProcessorException e )
 		{
-			assertEquals( "Property 'bar' has no getter and no setter", e.getMessage() );
+			assertEquals( "Property 'bar' has no getter and no setter (or parent is null)", e.getMessage() );
 		}
 	}
 
