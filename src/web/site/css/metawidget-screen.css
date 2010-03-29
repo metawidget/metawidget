@@ -289,6 +289,7 @@ a {
 	width: 175px;
 	position: absolute;
 	text-align: left;
+	display: none;
 } 
 
 .tooltip span {

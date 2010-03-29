@@ -17,8 +17,6 @@
 package org.metawidget.inspector.xml;
 
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
-import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures an XmlInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -30,68 +28,11 @@ public class XmlInspectorConfig
 	extends BaseXmlInspectorConfig
 {
 	//
-	// Private members
-	//
-
-	protected PropertyStyle	mCheckForNullObject;
-
-	//
 	// Constructor
 	//
 
 	public XmlInspectorConfig()
 	{
 		setDefaultFile( "metawidget-metadata.xml" );
-	}
-
-	/**
-	 * Gets the style used to check for <code>null</code> Objects (see XmlInspector JavaDoc)
-	 */
-
-	public PropertyStyle getCheckForNullObject()
-	{
-		return mCheckForNullObject;
-	}
-
-	/**
-	 * Sets the style used to check for <code>null</code> Objects (see XmlInspector JavaDoc)
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	public XmlInspectorConfig setCheckForNullObject( PropertyStyle checkForNullObject )
-	{
-		mCheckForNullObject = checkForNullObject;
-
-		// Fluent interface
-
-		return this;
-	}
-
-	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-			return true;
-
-		if ( that == null )
-			return false;
-
-		if ( getClass() != that.getClass() )
-			return false;
-
-		if ( !ObjectUtils.nullSafeEquals( mCheckForNullObject, ( (XmlInspectorConfig) that ).mCheckForNullObject ) )
-			return false;
-
-		return super.equals( that );
-	}
-
-	@Override
-	public int hashCode()
-	{
-		int hashCode = super.hashCode();
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mCheckForNullObject );
-
-		return hashCode;
 	}
 }

@@ -21,6 +21,7 @@ import java.io.InputStream;
 import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -44,6 +45,8 @@ public class BaseXmlInspectorConfig
 	private ResourceResolver	mResourceResolver;
 
 	private InputStream[]		mInputStreams;
+
+	private PropertyStyle		mRestrictAgainstObject;
 
 	//
 	// Public methods
@@ -135,6 +138,32 @@ public class BaseXmlInspectorConfig
 		mResourceResolver = resourceResolver;
 	}
 
+	/**
+	 * Gets the style used to restrict against <code>null</code> or recursive Objects (see
+	 * BaseXmlInspector JavaDoc)
+	 */
+
+	public PropertyStyle getRestrictAgainstObject()
+	{
+		return mRestrictAgainstObject;
+	}
+
+	/**
+	 * Sets the style used to restrict against <code>null</code> or recursive Objects (see
+	 * BaseXmlInspector JavaDoc)
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseXmlInspectorConfig setRestrictAgainstObject( PropertyStyle restrictAgainstObject )
+	{
+		mRestrictAgainstObject = restrictAgainstObject;
+
+		// Fluent interface
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that )
 	{
@@ -156,6 +185,9 @@ public class BaseXmlInspectorConfig
 		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ( (BaseXmlInspectorConfig) that ).mInputStreams ) )
 			return false;
 
+		if ( !ObjectUtils.nullSafeEquals( mRestrictAgainstObject, ( (BaseXmlInspectorConfig) that ).mRestrictAgainstObject ) )
+			return false;
+
 		return true;
 	}
 
@@ -166,6 +198,7 @@ public class BaseXmlInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDefaultFile );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStreams );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRestrictAgainstObject );
 
 		return hashCode;
 	}

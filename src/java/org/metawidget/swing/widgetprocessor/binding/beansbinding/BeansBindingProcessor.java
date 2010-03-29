@@ -344,16 +344,6 @@ public class BeansBindingProcessor
 
 	/**
 	 * Gets the Converter for the given Class (if any).
-	 * <p>
-	 * Includes traversing superclasses of the given <code>sourceClass</code> for a suitable
-	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
-	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
-	 * Converter is also registered.
-	 * <p>
-	 * Also includes traversing from primitive types to wrapper types (eg. from
-	 * <code>int.class</code> to <code>Integer.class</code>), because we cannot declare a
-	 * <code>org.jdesktop.beansbinding.Converter</code> for <code>int</code>s (because Java generics
-	 * cannot accept primitives).
 	 */
 
 	@SuppressWarnings( "unchecked" )

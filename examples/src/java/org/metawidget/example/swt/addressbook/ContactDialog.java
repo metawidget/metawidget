@@ -172,7 +172,6 @@ public class ContactDialog
 		mCommunicationsEditor.horizontalAlignment = SWT.LEFT;
 		mCommunicationsEditor.grabHorizontal = true;
 
-		// TODO: better converter base class doco
 		// TODO: delete communication?
 
 		mCommunicationsTable.addMouseListener( new MouseAdapter()

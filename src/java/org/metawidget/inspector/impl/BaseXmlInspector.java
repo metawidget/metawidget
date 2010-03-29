@@ -20,13 +20,18 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -61,12 +66,29 @@ import org.w3c.dom.NodeList;
  * <p>
  * ...as output.
  * <p>
+ * <h2>Schema Validation</h2>
+ * <p>
  * This class does not support schema validation - it is not that useful in practice for two
  * reasons. First, Inspectors like <code>HibernateInspector</code> cannot use it because they can be
  * pointed at different kinds of files (eg. hibernate.cfg.xml or hibernate-mapping.hbm.xml). Second,
  * Inspectors that are intended for Android environments (eg. <code>XmlInspector</code>) cannot use
  * it because Android's Dalvik preprocessor balks at the unsupported schema classes (even if they're
  * wrapped in a <code>ClassNotFoundException</code>).
+ * <p>
+ * <h2>Object/Class Mismatch Problem</h2>
+ * <p>
+ * When mixing XML-based inspectors (eg. <code>XmlInspector</code>) and Object-based Inspectors (eg.
+ * <code>PropertyTypeInspector</code>) in the same application (ie. via
+ * <code>CompositeInspector</code>) you may encounter a problem if your XML-based Inspectors and
+ * your Object-based Inspectors are inspecting the same classes. Specifically, the Object-based
+ * Inspectors will always stop at <code>null</code> or recursive Object references, whereas the XML
+ * Inspectors (which have no knowledge of Object values) will continue. This can lead to the
+ * WidgetBuilders constructing a UI for a null Object, which may upset the WidgetProcessors (eg.
+ * <code>BeansBindingProcessor</code>).
+ * <p>
+ * If you are encountering this particular scenario, you can set <code>restrictAgainstObject</code>,
+ * whereby the XML-based Inspector will do a check for <code>null</code> or recursive Object
+ * references, and not return any XML.
  *
  * @author Richard Kennard
  */
@@ -78,9 +100,15 @@ public abstract class BaseXmlInspector
 	// Protected members
 	//
 
-	protected Log		mLog	= LogUtils.getLog( getClass() );
+	protected Log				mLog	= LogUtils.getLog( getClass() );
 
-	protected Element	mRoot;
+	protected Element			mRoot;
+
+	//
+	// Private members
+	//
+
+	private final PropertyStyle	mRestrictAgainstObject;
 
 	//
 	// Constructor
@@ -113,6 +141,10 @@ public abstract class BaseXmlInspector
 
 			if ( mLog.isTraceEnabled() )
 				mLog.trace( XmlUtils.documentToString( mRoot.getOwnerDocument(), false ) );
+
+			// restrictAgainstObject
+
+			mRestrictAgainstObject = config.getRestrictAgainstObject();
 		}
 		catch ( Exception e )
 		{
@@ -129,6 +161,11 @@ public abstract class BaseXmlInspector
 		// If no type, return nothing
 
 		if ( type == null )
+			return null;
+
+		// If restricted against Object, return nothing
+
+		if ( mRestrictAgainstObject != null && isRestrictedAgainstObject( toInspect, type, names ) )
 			return null;
 
 		try
@@ -473,5 +510,90 @@ public abstract class BaseXmlInspector
 	protected String getExtendsAttribute()
 	{
 		return null;
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * @return true if the type is a Java Class (ie. is not 'Login Screen') and the Object it maps
+	 *         to is null or recursive
+	 */
+
+	private boolean isRestrictedAgainstObject( Object toTraverse, String type, String... names )
+	{
+		// Special support for class lookup
+
+		if ( toTraverse == null )
+		{
+			// If there are names, return true
+
+			if ( names != null && names.length > 0 )
+				return true;
+
+			// If no such class, return false
+
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( clazz == null )
+				return false;
+
+			return false;
+		}
+
+		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
+		//
+		// (note: for Groovy dynamic classes, this needs the applet to be signed - I think this is
+		// still better than 'relaxing' this sanity check, as that would lead to differing behaviour
+		// when deployed as an unsigned applet versus a signed applet)
+
+		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
+
+		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) )
+			return false;
+
+		// Traverse through names (if any)
+
+		Object traverse = toTraverse;
+
+		if ( names != null && names.length > 0 )
+		{
+			Set<Object> traversed = CollectionUtils.newHashSet();
+			traversed.add( traverse );
+
+			int length = names.length;
+
+			for ( int loop = 0; loop < length; loop++ )
+			{
+				String name = names[loop];
+				Property property = mRestrictAgainstObject.getProperties( traverse.getClass() ).get( name );
+
+				if ( property == null || !property.isReadable() )
+					return true;
+
+				traverse = property.read( traverse );
+
+				// Detect cycles and nip them in the bud
+
+				if ( !traversed.add( traverse ) )
+				{
+					// Trace, rather than do a debug log, because it makes for a nicer 'out
+					// of the box' experience
+
+					mLog.trace( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
+					return true;
+				}
+
+				// Always come in this loop once, because we want to do the recursion check
+
+				if ( traverse == null )
+					return true;
+
+				traverseDeclaredType = property.getType();
+			}
+		}
+
+		return false;
 	}
 }

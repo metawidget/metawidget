@@ -71,8 +71,22 @@ public class BeansBindingProcessorConfig
 	/**
 	 * Sets a Converter for this BeansBindingProcessor.
 	 * <p>
-	 * Note: <code>setConverter</code> is not a JavaBean 'setter': multiple different Converters can be set by calling
-	 * <code>setConverter</code> multiple times with different source and target classes.
+	 * Superclasses of the given <code>sourceClass</code> will be traversed for a suitable
+	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
+	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
+	 * Converter is also registered.
+	 * <p>
+	 * This includes traversing from primitive types to wrapper types (eg. from
+	 * <code>int.class</code> to <code>Integer.class</code>), because we cannot declare a
+	 * <code>org.jdesktop.beansbinding.Converter</code> for <code>int</code>s (because Java generics
+	 * cannot accept primitives).
+	 * <p>
+	 * Note: <code>setConverter</code> is not a JavaBean 'setter': multiple different Converters can
+	 * be set by calling <code>setConverter</code> multiple times with different source and target
+	 * classes.
+	 * <p>
+	 * Note: superclass traversal only works for the source class. The target class still needs to
+	 * be an exact match.
 	 *
 	 * @return this, as part of a fluent interface
 	 */

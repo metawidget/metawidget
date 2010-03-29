@@ -223,7 +223,7 @@ public class XmlInspectorTest
 		}
 	}
 
-	public void testCheckForNullObject()
+	public void testRestrictAgainstObject()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
@@ -235,7 +235,7 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "</inspection-result>";
 
-		// Without checkForNullObject
+		// Without restrictAgainstObject
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
@@ -249,9 +249,9 @@ public class XmlInspectorTest
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
 
-		// With checkForNullObject
+		// With restrictAgainstObject
 
-		config.setCheckForNullObject( new JavaBeanPropertyStyle() );
+		config.setRestrictAgainstObject( new JavaBeanPropertyStyle() );
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ));
