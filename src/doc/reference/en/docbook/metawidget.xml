@@ -7028,7 +7028,11 @@ public class PersonController {
 &lt;/xmlInspector&gt;</programlisting>					
 
 				<para>
-					This functionality is extended to all XML-based <classname>Inspector</classname>s. Another useful piece of functionality
+					This functionality is extended to all XML-based <classname>Inspector</classname>s.
+				</para>
+				
+				<para>
+					Another useful piece of functionality
 					applies when mixing XML-based <classname>Inspector</classname>s (eg. <classname>XmlInspector</classname>) and Object-based
 					<classname>Inspector</classname>s
 					(eg. <classname>PropertyTypeInspector</classname>) in the same application (ie. via <classname>CompositeInspector</classname>).
@@ -7036,7 +7040,7 @@ public class PersonController {
 					the same classes, you may encounter a problem in particular scenarios. Specifically, the Object-based
 					<classname>Inspector</classname>s will always stop at <code>null</code> or recursive
 					Object references, whereas the XML <classname>Inspector</classname>s (which have no knowledge of Object values) will continue. This can lead to
-					the <classname>WidgetBuilder</classname>s constructing	a UI for a null Object, which may upset the
+					the <classname>WidgetBuilder</classname>s constructing	a UI for a null Object, which may upset some
 					<classname>WidgetProcessor</classname>s (eg. <classname>BeansBindingProcessor</classname>).
 				</para>
 				

@@ -83,7 +83,7 @@ import org.w3c.dom.NodeList;
  * your Object-based Inspectors are inspecting the same classes. Specifically, the Object-based
  * Inspectors will always stop at <code>null</code> or recursive Object references, whereas the XML
  * Inspectors (which have no knowledge of Object values) will continue. This can lead to the
- * WidgetBuilders constructing a UI for a null Object, which may upset the WidgetProcessors (eg.
+ * WidgetBuilders constructing a UI for a null Object, which may upset some WidgetProcessors (eg.
  * <code>BeansBindingProcessor</code>).
  * <p>
  * If you are encountering this particular scenario, you can set <code>restrictAgainstObject</code>,
