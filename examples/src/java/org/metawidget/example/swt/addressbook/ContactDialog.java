@@ -25,6 +25,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -34,6 +36,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -252,6 +256,39 @@ public class ContactDialog
 			}
 		} );
 
+		Menu deleteMenu = new Menu( mShell, SWT.POP_UP );
+		MenuItem deleteItem = new MenuItem( deleteMenu, SWT.PUSH );
+		deleteItem.setText( "Delete" );
+		deleteItem.addSelectionListener( new SelectionAdapter()
+		{
+			@Override
+			public void widgetSelected( SelectionEvent event )
+			{
+				// Identify the selected row...
+
+				int selectionIndex = mCommunicationsTable.getSelectionIndex();
+
+				if ( selectionIndex == -1 )
+					return;
+
+				// ...prompt for confirmation...
+
+				MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
+				messageBox.setText( getText() );
+				messageBox.setMessage( "Sure you want to delete this communication?" );
+
+				if ( messageBox.open() != SWT.OK )
+					return;
+
+				// ...and delete it
+
+				contact.getCommunications().remove( mCommunications.remove( selectionIndex ) );
+
+				fireRefresh();
+			}
+		} );
+		mCommunicationsTable.setMenu( deleteMenu );
+
 		mCommunications = null;
 		fireRefresh();
 
@@ -296,7 +333,7 @@ public class ContactDialog
 
 		// Add blank entry at bottom
 
-		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || !"".equals( StringUtils.quietValueOf( mCommunications.get( mCommunications.size() - 1 )) )))
+		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || !"".equals( StringUtils.quietValueOf( mCommunications.get( mCommunications.size() - 1 ) ) ) ) )
 			mCommunications.add( new Communication() );
 
 		int loop = 0;
