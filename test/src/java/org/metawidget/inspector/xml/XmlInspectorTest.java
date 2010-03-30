@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -257,13 +258,23 @@ public class XmlInspectorTest
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ));
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ));
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
+		assertTrue( null != mInspector.inspect( new String(), NullObject.class.getName() ));
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ));
+		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ));
 
 		// With several levels deep
 
 		nullObject.nestedNullObject = new NullObject();
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ));
+
+		// With recursion
+
+		nullObject.nestedNullObject = nullObject;
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
+		assertTrue( null == mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
+		assertEquals( "XmlInspector prevented infinite recursion on org.metawidget.inspector.xml.XmlInspectorTest$NullObject/nestedNullObject. Consider marking nestedNullObject as hidden='true'", LogUtilsTest.getLastTraceMessage() );
 	}
 
 	//
