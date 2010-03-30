@@ -35,7 +35,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -211,6 +213,11 @@ public class ContactDialog
 					fireRefresh();
 				}
 
+				// Ignore pop-up menu
+
+				if ( event.button != 1 )
+					return;
+
 				// Identify the selected row...
 
 				Point point = new Point( event.x, event.y );
@@ -257,7 +264,7 @@ public class ContactDialog
 		} );
 
 		Menu deleteMenu = new Menu( mShell, SWT.POP_UP );
-		MenuItem deleteItem = new MenuItem( deleteMenu, SWT.PUSH );
+		final MenuItem deleteItem = new MenuItem( deleteMenu, SWT.PUSH );
 		deleteItem.setText( "Delete" );
 		deleteItem.addSelectionListener( new SelectionAdapter()
 		{
@@ -285,6 +292,13 @@ public class ContactDialog
 				contact.getCommunications().remove( mCommunications.remove( selectionIndex ) );
 
 				fireRefresh();
+			}
+		} );
+		deleteMenu.addListener( SWT.Show, new Listener()
+		{
+			public void handleEvent( Event event )
+			{
+				deleteItem.setEnabled( !mContactMetawidget.isReadOnly() );
 			}
 		} );
 		mCommunicationsTable.setMenu( deleteMenu );
