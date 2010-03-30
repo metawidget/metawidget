@@ -119,7 +119,7 @@
 					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 300px; left: 20px">
 						<img src="/media/logos/logo-swing.gif" alt="Swing" style="border: 0px" />
 					</a>
-					<a href="http://eclipse.org/swt" target="_blank" style="top: 335px; left: 75px">
+					<a href="http://eclipse.org/swt" target="_blank" style="top: 336px; left: 75px">
 						<img src="/media/logos/logo-swt.gif" alt="SWT" style="border: 0px" />
 					</a>
 					<a href="http://myfaces.apache.org/tomahawk/index.html" target="_blank" style="top: 355px; left: 15px">
