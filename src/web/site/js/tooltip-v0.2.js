@@ -165,7 +165,7 @@ Tooltip.prototype = {
   
   setStyles: function(x, y){
     // set the right styles to position the tool tip
-	  Element.setStyle(this.tool_tip, { position:'absolute',
+	  Element.setStyle(this.tool_tip, { position:'absolute', display:'block',
 	 								    top:y + this.options.delta_y + "px",
 	 								    left:x + this.options.delta_x + "px",
 									    zindex:this.options.zindex
