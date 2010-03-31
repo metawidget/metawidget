@@ -58,8 +58,8 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for brevity, this example is not optimized to use <code>rebind</code>
- * (see 'rebinding' in the Reference Documentation). For an example using rebinding, see
+ * Note: for brevity, this example is not optimized to use <code>rebind</code> (see 'rebinding' in
+ * the Reference Documentation). For an example using rebinding, see
  * <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
  *
  * @author Richard Kennard
@@ -72,33 +72,33 @@ public class ContactDialog
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long				serialVersionUID	= 1l;
 
-	private final static int			COMPONENT_SPACING	= 5;
+	private final static int				COMPONENT_SPACING	= 5;
 
 	//
 	// Package-level members
 	//
 
-	ListTableModel<Communication>		mCommunicationsModel;
+	ListTableModel<Communication>			mCommunicationsModel;
 
 	//
 	// Private members
 	//
 
-	private ContactsControllerProvider	mProvider;
+	private ContactsControllerProvider		mProvider;
 
-	private SwingMetawidget				mContactMetawidget;
+	/* package private */SwingMetawidget	mContactMetawidget;
 
-	private SwingMetawidget				mButtonsMetawidget;
+	private SwingMetawidget					mButtonsMetawidget;
 
-	private boolean						mShowConfirmDialog	= true;
+	/* package private */boolean			mShowConfirmDialog	= true;
 
 	//
 	// Constructor
 	//
 
-	@SuppressWarnings("serial")
+	@SuppressWarnings( "serial" )
 	public ContactDialog( ContactsControllerProvider provider, final Contact contact )
 	{
 		mProvider = provider;
@@ -173,7 +173,7 @@ public class ContactDialog
 			{
 				menuPopup.setVisible( false );
 
-				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
+				if ( mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
 					return;
 
 				int rowAtPoint = communicationsTable.rowAtPoint( menuPopup.getLocation() );
@@ -182,7 +182,7 @@ public class ContactDialog
 					return;
 
 				Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
-
+				contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
 				contact.removeCommunication( communication );
 				mCommunicationsModel.importCollection( contact.getCommunications() );
 			}
@@ -194,9 +194,13 @@ public class ContactDialog
 			@Override
 			public void mouseReleased( MouseEvent event )
 			{
-				if ( event.isPopupTrigger() )
+				if ( event.isPopupTrigger() && !mContactMetawidget.isReadOnly() )
 				{
 					menuPopup.setLocation( event.getLocationOnScreen() );
+
+					// TODO: test stopCellEditing called
+
+					communicationsTable.getCellEditor().stopCellEditing();
 					menuPopup.setVisible( true );
 				}
 			}

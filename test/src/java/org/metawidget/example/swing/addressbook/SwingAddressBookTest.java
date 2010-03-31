@@ -21,6 +21,8 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +33,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -152,7 +156,13 @@ public class SwingAddressBookTest
 		Graphics graphics = new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB ).getGraphics();
 		( (ImagePanel) ( (JPanel) ( (JLayeredPane) ( (JRootPane) dialog.getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 ) ).getComponent( 0 ) ).paint( graphics );
 
+		// Read-only editing does nothing
+
 		assertFalse( model.isCellEditable( 0, 0 ));
+		JPopupMenu popupMenu = (JPopupMenu) communications.getComponent( 1 );
+		MouseEvent popupMouseEvent = new MouseEvent( communications, 0, System.currentTimeMillis(), 0, 0, 0, 0, true );
+		communications.getMouseListeners()[0].mouseReleased( popupMouseEvent );
+		assertFalse( popupMenu.isVisible() );
 
 		// Check editing
 
@@ -213,6 +223,15 @@ public class SwingAddressBookTest
 		model.setValueAt( editor.getCellEditorValue(), 1, 1 );
 		assertTrue( model.getRowCount() == 3 );
 
+		// Check deleting a communication
+
+		communications.getMouseListeners()[communications.getMouseListeners().length - 1].mouseReleased( popupMouseEvent );
+		assertTrue( popupMenu.isVisible() );
+		Rectangle cellRect = communications.getCellRect( 0, 0, true );
+		popupMenu.setLocation( cellRect.x, cellRect.y );
+		((JMenuItem) popupMenu.getComponent( 0 )).getAction().actionPerformed( null );
+		assertFalse( popupMenu.isVisible() );
+
 		// Check saving
 
 		metawidgetContact.setValue( "foo", "dateOfBirth" );
@@ -238,10 +257,10 @@ public class SwingAddressBookTest
 		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
-		iterator.next();
 		Communication communication = iterator.next();
 		assertEquals( "Mobile", communication.getType() );
 		assertEquals( "(0402) 123 456", communication.getValue() );
+		assertFalse( iterator.hasNext() );
 
 		// Check deleting the communication again
 

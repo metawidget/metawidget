@@ -47,6 +47,8 @@ public class StubTag
 	// Public methods
 	//
 
+	// TODO: test stubs with 'id'
+
 	@Override
 	public String getComponentType()
 	{

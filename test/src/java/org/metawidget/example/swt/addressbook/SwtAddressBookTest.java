@@ -147,6 +147,21 @@ public class SwtAddressBookTest
 		assertTrue( communicationsTable.getItemCount() == 1 );
 		assertTrue( metawidgetContact.getChildren().length == 21 );
 
+		// Check read-only editing does nothing
+
+		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
+		Event event = new Event();
+		event.button = 1;
+		event.x = communicationsTable.getItem( 0 ).getBounds( 1 ).x;
+		event.y = communicationsTable.getItem( 0 ).getBounds( 1 ).y;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
+
+		// TODO: test button == 0
+
+		dialog.mCommunicationsTable.getMenu().notifyListeners( SWT.Show, null );
+		assertFalse( dialog.mCommunicationsTable.getMenu().getItem( 0 ).getEnabled() );
+
 		// Check editing
 
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
@@ -161,15 +176,6 @@ public class SwtAddressBookTest
 		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[0].getLayoutData() ).exclude );
 		assertTrue( buttonsMetawidget.getChildren()[1] instanceof Stub );
 		assertTrue( ( (RowData) buttonsMetawidget.getChildren()[1].getLayoutData() ).exclude );
-
-		// Read-only editing does nothing
-
-		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
-		Event event = new Event();
-		event.x = communicationsTable.getItem( 0 ).getBounds( 1 ).x;
-		event.y = communicationsTable.getItem( 0 ).getBounds( 1 ).y;
-		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
 
 		Button editButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Edit", editButton.getText() );
@@ -230,6 +236,13 @@ public class SwtAddressBookTest
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		assertTrue( communicationsTable.getItemCount() == 3 );
 
+		// Check deleting a communication
+
+		dialog.mCommunicationsTable.getMenu().notifyListeners( SWT.Show, null );
+		assertTrue( dialog.mCommunicationsTable.getMenu().getItem( 0 ).getEnabled() );
+		dialog.mCommunicationsTable.setSelection( 0 );
+		dialog.mCommunicationsTable.getMenu().getItem( 0 ).notifyListeners( SWT.Selection, null );
+
 		// Check saving
 
 		metawidgetContact.setValue( "foo", "dateOfBirth" );
@@ -255,10 +268,10 @@ public class SwtAddressBookTest
 		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
-		iterator.next();
 		Communication communication = iterator.next();
 		assertEquals( "Mobile", communication.getType() );
 		assertEquals( "(0402) 123 456", communication.getValue() );
+		assertFalse( iterator.hasNext() );
 
 		// Search everything
 

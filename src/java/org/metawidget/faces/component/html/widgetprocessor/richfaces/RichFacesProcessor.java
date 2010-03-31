@@ -47,6 +47,8 @@ public class RichFacesProcessor
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Ajax
+		//
+		// TODO: add tests for faces-ajax-event
 
 		String ajaxEvent = attributes.get( FACES_AJAX_EVENT );
 
@@ -61,9 +63,9 @@ public class RichFacesProcessor
 
 			// Set reRender to the parent Metawidget level. This is not perfect, as there may be
 			// cases where we want the AJAX event to, say, update a different Metawidget - but it
-			// should work in the majority of cases. It is
-			// very problematic to ask the developer to specify the 'reRender' id, because in most
-			// cases that id will be dynamically generated
+			// should work in the majority of cases. It is very problematic to ask the developer to
+			// specify the 'reRender' id, because in most cases that id will be dynamically
+			// generated (may even be randomly generated)
 
 			ajaxSupport.setReRender( metawidget.getId() );
 

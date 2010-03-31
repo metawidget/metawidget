@@ -85,7 +85,7 @@ public class ContactDialog
 
 	private SwtMetawidget						mButtonsMetawidget;
 
-	private boolean								mShowConfirmDialog	= true;
+	/* package private */boolean				mShowConfirmDialog	= true;
 
 	//
 	// Constructor
@@ -177,8 +177,6 @@ public class ContactDialog
 		mCommunicationsEditor = new TableEditor( mCommunicationsTable );
 		mCommunicationsEditor.horizontalAlignment = SWT.LEFT;
 		mCommunicationsEditor.grabHorizontal = true;
-
-		// TODO: delete communication?
 
 		mCommunicationsTable.addMouseListener( new MouseAdapter()
 		{
@@ -280,12 +278,15 @@ public class ContactDialog
 
 				// ...prompt for confirmation...
 
-				MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
-				messageBox.setText( getText() );
-				messageBox.setMessage( "Sure you want to delete this communication?" );
+				if ( mShowConfirmDialog )
+				{
+					MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
+					messageBox.setText( getText() );
+					messageBox.setMessage( "Sure you want to delete this communication?" );
 
-				if ( messageBox.open() != SWT.OK )
-					return;
+					if ( messageBox.open() != SWT.OK )
+						return;
+				}
 
 				// ...and delete it
 

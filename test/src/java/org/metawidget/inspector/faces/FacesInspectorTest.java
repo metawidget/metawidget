@@ -161,6 +161,8 @@ public class FacesInspectorTest
 		}
 	}
 
+	// TODO: test UiFacesAjax
+
 	public static class NoFacesContextOnPropertyFoo
 	{
 		@UiFacesAttribute( name="baz", expression="#{abc}" )

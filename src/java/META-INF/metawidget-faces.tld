@@ -55,6 +55,9 @@
 		<tagclass>org.metawidget.faces.taglib.StubTag</tagclass>
 		<info>JSP tag for UIStub component</info>
 		<attribute>
+			<name>id</name>
+		</attribute>
+		<attribute>
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
