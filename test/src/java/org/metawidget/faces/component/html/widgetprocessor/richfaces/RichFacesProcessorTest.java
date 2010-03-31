@@ -65,6 +65,8 @@ public class RichFacesProcessorTest
 		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertTrue( 0 == component.getChildCount() );
 
+		// Ajax
+
 		attributes.put( FACES_AJAX_EVENT, "onFoo" );
 		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertTrue( 1 == component.getChildCount() );

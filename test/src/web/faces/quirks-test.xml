@@ -353,6 +353,28 @@
 			</steps>
 		</webtest>
 
+		<webtest name="test-richfaces-ajax">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs" easyajax="true"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-faces/indexRichFacesAjax.jsf" />
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'A4J.AJAX.Submit(')"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="1"/>
+
+				<setSelectField name="form:richQuirksAjaxSelect" value="Hide"/>
+				
+				<!-- We couldn't seem to WebTest this properly looking at /html/body/form/table[1] and -->
+				<!-- beyond, and don't know why, so we just look at /html/body/form for now            -->
+				
+				<verifyXPath xpath="/html/body/form" text="Select:HideShow"/>
+
+				<setSelectField name="form:richQuirksAjaxSelect" value="Show"/>
+				<verifyXPath xpath="/html/body/form" text="Select:HideShowCheckbox:"/>
+			</steps>
+		</webtest>
+		
 		<webtest name="test-richfaces-panel">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>

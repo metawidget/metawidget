@@ -11,7 +11,9 @@
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
+						<facesInspector xmlns="java:org.metawidget.inspector.faces" config="FacesInspectorConfig">
+							<injectThis><boolean>true</boolean></injectThis>
+						</facesInspector>
 					</array>			
 				</inspectors>
 			</compositeInspector>
@@ -44,6 +46,14 @@
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
+		<widgetProcessors>
+			<array>
+				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<labelProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<richFacesProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor.richfaces"/>
+			</array>
+		</widgetProcessors>
 		<layout>
 			<tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelLayoutDecoratorConfig">
 				<layout>

@@ -29,6 +29,12 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
+	<managed-bean>
+		<managed-bean-name>richQuirksAjax</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesAjaxQuirks</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
 	<!-- Session-Level Managed Beans -->
 
 	<managed-bean>
@@ -39,7 +45,7 @@
 
 	<!-- Converters -->
 	
-	<!-- Test if (!( component instanceof UISelectMany )) check in HtmlWidgetBuilder:345 -->
+	<!-- Test if (!( component instanceof UISelectMany )) check in HtmlWidgetBuilder:377 -->
 	
 	<converter>
 		<converter-for-class>java.util.List</converter-for-class>

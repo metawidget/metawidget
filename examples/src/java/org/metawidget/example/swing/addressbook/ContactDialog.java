@@ -200,7 +200,9 @@ public class ContactDialog
 
 					// TODO: test stopCellEditing called
 
-					communicationsTable.getCellEditor().stopCellEditing();
+					if ( communicationsTable.getCellEditor() != null )
+						communicationsTable.getCellEditor().stopCellEditing();
+
 					menuPopup.setVisible( true );
 				}
 			}

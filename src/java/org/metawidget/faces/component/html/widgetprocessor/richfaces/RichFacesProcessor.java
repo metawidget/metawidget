@@ -47,8 +47,6 @@ public class RichFacesProcessor
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Ajax
-		//
-		// TODO: add tests for faces-ajax-event
 
 		String ajaxEvent = attributes.get( FACES_AJAX_EVENT );
 

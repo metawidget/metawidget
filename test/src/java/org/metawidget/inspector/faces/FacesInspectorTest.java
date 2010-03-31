@@ -61,7 +61,8 @@ public class FacesInspectorTest
 		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST) );
 		assertEquals( "foo.component", property.getAttribute( FACES_COMPONENT ) );
 		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
-		assertTrue( property.getAttributes().getLength() == 5 );
+		assertEquals( "onchange", property.getAttribute( FACES_AJAX_EVENT ) );
+		assertTrue( property.getAttributes().getLength() == 6 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -142,6 +143,7 @@ public class FacesInspectorTest
 		@UiFacesSuggest( "#{foo.suggest}" )
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )
+		@UiFacesAjax( event = "onchange" )
 		public Object	object1;
 
 		@UiFacesDateTimeConverter( dateStyle = "full", timeStyle = "medium", locale = "UK", pattern = "yyyy", timeZone = "GMT", type = "date" )
@@ -160,8 +162,6 @@ public class FacesInspectorTest
 			return null;
 		}
 	}
-
-	// TODO: test UiFacesAjax
 
 	public static class NoFacesContextOnPropertyFoo
 	{

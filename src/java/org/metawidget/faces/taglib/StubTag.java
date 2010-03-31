@@ -47,7 +47,7 @@ public class StubTag
 	// Public methods
 	//
 
-	// TODO: test stubs with 'id'
+	// TODO: test stubs with 'id' (for AJAX)
 
 	@Override
 	public String getComponentType()

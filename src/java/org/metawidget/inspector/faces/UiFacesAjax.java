@@ -36,4 +36,6 @@ public @interface UiFacesAjax
 	 */
 
 	String event();
+
+	// TODO: action?
 }

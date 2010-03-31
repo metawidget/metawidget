@@ -172,7 +172,7 @@ public class RichFacesQuirks
 
 	@UiComesAfter( "abc" )
 	@UiSection( "dEf" )
-	@UiFacesAttribute( name = FACES_COMPONENT, expression = "#{richQuirks.dynamicallyChangeDef1 ? 'javax.faces.HtmlInputTextarea': null}" )
+	@UiFacesAttribute( name = FACES_COMPONENT, expression = "#{this.dynamicallyChangeDef1 ? 'javax.faces.HtmlInputTextarea': null}" )
 	public String getDef1()
 	{
 		return mDef1;
