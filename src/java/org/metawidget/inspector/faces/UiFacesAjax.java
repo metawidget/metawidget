@@ -37,5 +37,9 @@ public @interface UiFacesAjax
 
 	String event();
 
-	// TODO: action?
+	/**
+	 * An EL expression for the action (if any), of the form <code>#{...}</code>.
+	 */
+
+	String action() default "";
 }

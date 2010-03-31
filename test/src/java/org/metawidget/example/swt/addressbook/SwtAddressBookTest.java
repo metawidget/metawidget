@@ -157,8 +157,6 @@ public class SwtAddressBookTest
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
 
-		// TODO: test button == 0
-
 		dialog.mCommunicationsTable.getMenu().notifyListeners( SWT.Show, null );
 		assertFalse( dialog.mCommunicationsTable.getMenu().getItem( 0 ).getEnabled() );
 
@@ -190,8 +188,12 @@ public class SwtAddressBookTest
 		assertTrue( communicationsTable.getItemCount() == 2 );
 
 		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
+		event.button = 0;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
 
+		event.button = 1;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		SwtMetawidget communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
 		assertEquals( org.eclipse.swt.layout.FillLayout.class, communicationMetawidget.getLayout().getClass() );
 		Combo combo = (Combo) communicationMetawidget.getChildren()[0];

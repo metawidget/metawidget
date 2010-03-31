@@ -76,6 +76,21 @@ public class RichFacesProcessorTest
 		assertTrue( ajaxSupport.getId() != null );
 		assertEquals( "onFoo", ajaxSupport.getEvent() );
 		assertEquals( "metawidget-id", ajaxSupport.getReRender() );
+		assertEquals( null, ajaxSupport.getActionExpression() );
+
+		// Ajax with action
+
+		component = new HtmlInputText();
+		attributes.put( FACES_AJAX_ACTION, "#{bar}" );
+		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertTrue( 1 == component.getChildCount() );
+
+		ajaxSupport = (HtmlAjaxSupport) component.getChildren().get( 0 );
+
+		assertTrue( ajaxSupport.getId() != null );
+		assertEquals( "onFoo", ajaxSupport.getEvent() );
+		assertEquals( "metawidget-id", ajaxSupport.getReRender() );
+		assertEquals( "#{bar}", ajaxSupport.getActionExpression().getExpressionString() );
 	}
 
 	//

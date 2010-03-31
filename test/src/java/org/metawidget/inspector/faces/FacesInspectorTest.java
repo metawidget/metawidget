@@ -42,7 +42,7 @@ public class FacesInspectorTest
 	public void testInspection()
 	{
 		FacesInspector inspector = new FacesInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -58,11 +58,12 @@ public class FacesInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "#{foo.bar}", property.getAttribute( FACES_LOOKUP ) );
-		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST) );
+		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST ) );
 		assertEquals( "foo.component", property.getAttribute( FACES_COMPONENT ) );
 		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
-		assertEquals( "onchange", property.getAttribute( FACES_AJAX_EVENT ) );
-		assertTrue( property.getAttributes().getLength() == 6 );
+		assertEquals( "foo", property.getAttribute( FACES_AJAX_EVENT ) );
+		assertEquals( "#{bar}", property.getAttribute( FACES_AJAX_ACTION ) );
+		assertTrue( property.getAttributes().getLength() == 7 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -89,6 +90,19 @@ public class FacesInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}
 
+	public void testBadAjax()
+	{
+		try
+		{
+			new FacesInspector().inspect( null, BadAjax.class.getName() );
+			assertTrue( false );
+		}
+		catch ( InspectorException e )
+		{
+			assertEquals( "Expression 'bar' is not of the form #{...}", e.getMessage() );
+		}
+	}
+
 	public void testNoFacesContext()
 	{
 		try
@@ -96,7 +110,7 @@ public class FacesInspectorTest
 			new FacesInspector().inspect( new NoFacesContextOnPropertyFoo(), NoFacesContextOnPropertyFoo.class.getName() );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
 		}
@@ -106,7 +120,7 @@ public class FacesInspectorTest
 			new FacesInspector().inspect( new NoFacesContextOnActionFoo(), NoFacesContextOnActionFoo.class.getName() );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
 		}
@@ -114,15 +128,15 @@ public class FacesInspectorTest
 
 	public void testUtils()
 	{
-		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ));
-		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ));
-		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "#{foo.bar}" ));
-		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ));
-		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ));
+		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ) );
+		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ) );
+		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "#{foo.bar}" ) );
+		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ) );
+		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ) );
 
-		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "foo.bar" ));
-		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar}" ));
-		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ));
+		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "foo.bar" ) );
+		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar}" ) );
+		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ) );
 	}
 
 	public void testConfig()
@@ -143,7 +157,7 @@ public class FacesInspectorTest
 		@UiFacesSuggest( "#{foo.suggest}" )
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )
-		@UiFacesAjax( event = "onchange" )
+		@UiFacesAjax( event = "foo", action = "#{bar}" )
 		public Object	object1;
 
 		@UiFacesDateTimeConverter( dateStyle = "full", timeStyle = "medium", locale = "UK", pattern = "yyyy", timeZone = "GMT", type = "date" )
@@ -165,7 +179,7 @@ public class FacesInspectorTest
 
 	public static class NoFacesContextOnPropertyFoo
 	{
-		@UiFacesAttribute( name="baz", expression="#{abc}" )
+		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
 		public Object getBar()
 		{
 			return null;
@@ -175,8 +189,17 @@ public class FacesInspectorTest
 	public static class NoFacesContextOnActionFoo
 	{
 		@UiAction
-		@UiFacesAttribute( name="baz", expression="#{abc}" )
+		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
 		public Object action()
+		{
+			return null;
+		}
+	}
+
+	public static class BadAjax
+	{
+		@UiFacesAjax( event = "foo", action = "bar" )
+		public Object getFoo()
 		{
 			return null;
 		}

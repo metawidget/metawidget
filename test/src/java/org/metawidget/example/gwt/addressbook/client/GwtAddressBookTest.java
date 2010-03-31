@@ -88,252 +88,261 @@ public class GwtAddressBookTest
 
 		final GwtMetawidget metawidgetSearch = (GwtMetawidget) panel.getWidget( 0 );
 		final FlexTable contacts = (FlexTable) panel.getWidget( 1 );
-		final FlexCellFormatter cellFormatter = contacts.getFlexCellFormatter();
 
-		executeAfterBuildWidgets( metawidgetSearch, new Timer()
+		Timer timerAllContacts = new Timer()
 		{
 			@Override
 			public void run()
 			{
-				metawidgetSearch.setValue( "Simpson", "surname" );
-				metawidgetSearch.setValue( ContactType.PERSONAL.name(), "type" );
+				assertTrue( contacts.getRowCount() == 7 );
+				final FlexCellFormatter cellFormatter = contacts.getFlexCellFormatter();
 
-				FlexTable flexTable = (FlexTable) metawidgetSearch.getWidget( 0 );
-
-				assertTrue( flexTable.getRowCount() == 4 );
-				final Button buttonSearch = (Button) ( (FlowPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
-				assertEquals( "Search", buttonSearch.getText() );
-				fireClickEvent( buttonSearch );
-
-				Timer timerResults = new Timer()
+				executeAfterBuildWidgets( metawidgetSearch, new Timer()
 				{
 					@Override
 					public void run()
 					{
-						assertTrue( contacts.getRowCount() == 3 );
-						assertEquals( "Name", contacts.getText( 0, 0 ) );
-						assertEquals( "header", cellFormatter.getStyleName( 0, 0 ) );
-						assertEquals( "Contact", contacts.getText( 0, 1 ) );
-						assertEquals( "header", cellFormatter.getStyleName( 0, 1 ) );
-						assertEquals( "&nbsp;", contacts.getHTML( 0, 2 ) );
-						assertEquals( "header", cellFormatter.getStyleName( 0, 2 ) );
-						assertEquals( "Mr Homer Simpson", contacts.getText( 1, 0 ) );
-						assertEquals( "Telephone: (939) 555-0113", contacts.getText( 1, 1 ) );
-						assertTrue( ( (Image) contacts.getWidget( 1, 2 ) ).getUrl().endsWith( "media/personal-small.gif" ) );
+						metawidgetSearch.setValue( "Simpson", "surname" );
+						metawidgetSearch.setValue( ContactType.PERSONAL.name(), "type" );
 
-						// Open dialog for Personal Contact
+						FlexTable flexTable = (FlexTable) metawidgetSearch.getWidget( 0 );
 
-						final ContactsServiceAsync contactsService = addressBookModule.getContactsService();
+						assertTrue( flexTable.getRowCount() == 4 );
+						final Button buttonSearch = (Button) ( (FlowPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
+						assertEquals( "Search", buttonSearch.getText() );
+						fireClickEvent( buttonSearch );
 
-						contactsService.load( 1, new AsyncCallback<Contact>()
+						Timer timerPersonalResults = new Timer()
 						{
-							public void onFailure( Throwable caught )
+							@Override
+							public void run()
 							{
-								throw new RuntimeException( caught );
-							}
+								assertTrue( contacts.getRowCount() == 3 );
+								assertEquals( "Name", contacts.getText( 0, 0 ) );
+								assertEquals( "header", cellFormatter.getStyleName( 0, 0 ) );
+								assertEquals( "Contact", contacts.getText( 0, 1 ) );
+								assertEquals( "header", cellFormatter.getStyleName( 0, 1 ) );
+								assertEquals( "&nbsp;", contacts.getHTML( 0, 2 ) );
+								assertEquals( "header", cellFormatter.getStyleName( 0, 2 ) );
+								assertEquals( "Mr Homer Simpson", contacts.getText( 1, 0 ) );
+								assertEquals( "Telephone: (939) 555-0113", contacts.getText( 1, 1 ) );
+								assertTrue( ( (Image) contacts.getWidget( 1, 2 ) ).getUrl().endsWith( "media/personal-small.gif" ) );
 
-							public void onSuccess( final Contact personalContact )
-							{
-								final ContactDialog dialog = new ContactDialog( addressBookModule, personalContact );
-								final GwtMetawidget contactMetawidget = (GwtMetawidget) ( (Grid) dialog.getWidget() ).getWidget( 0, 1 );
+								// Open dialog for Personal Contact
 
-								executeAfterBuildWidgets( contactMetawidget, new Timer()
+								final ContactsServiceAsync contactsService = addressBookModule.getContactsService();
+
+								contactsService.load( 1, new AsyncCallback<Contact>()
 								{
-									@Override
-									public void run()
+									public void onFailure( Throwable caught )
 									{
-										assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof Label );
-										assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
+										throw new RuntimeException( caught );
+									}
 
-										FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
-										assertEquals( "Date of Birth:", contactFlexTable.getText( 3, 0 ) );
-										assertEquals( "5/12/56", contactMetawidget.getValue( "dateOfBirth" ) );
-										assertEquals( "Contact Details", contactFlexTable.getText( 5, 0 ) );
-										assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
-										assertEquals( "section-heading", ((Label) contactFlexTable.getWidget( 5, 0 )).getStyleName() );
-										assertEquals( "Address:", contactFlexTable.getText( 6, 0 ) );
-
-										try
-										{
-											contactMetawidget.getValue( "bad-value" );
-											assertTrue( false );
-										}
-										catch ( Exception e )
-										{
-											// Should throw Exception
-										}
-
-										final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
-										assertTrue( communications.getRowCount() == 3 );
-										assertEquals( "Type", communications.getText( 0, 0 ) );
-										assertEquals( "Value", communications.getText( 0, 1 ) );
-										assertEquals( "&nbsp;", communications.getHTML( 0, 2 ) );
-										assertTrue( 3 == communications.getCellCount( 0 ) );
-										assertEquals( "Telephone", communications.getText( 1, 0 ) );
-										assertEquals( "(939) 555-0113", communications.getText( 1, 1 ) );
-										assertTrue( 2 == communications.getCellCount( 1 ) );
-
-										// Check editing
-
-										assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 11 );
-
-										Button backButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
-										assertEquals( "Back", backButton.getText() );
-										assertTrue( backButton.isVisible() );
-
-										final Button editButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
-										assertEquals( "Edit", editButton.getText() );
-										assertTrue( editButton.isVisible() );
-										fireClickEvent( editButton );
+									public void onSuccess( final Contact personalContact )
+									{
+										final ContactDialog dialog = new ContactDialog( addressBookModule, personalContact );
+										final GwtMetawidget contactMetawidget = (GwtMetawidget) ( (Grid) dialog.getWidget() ).getWidget( 0, 1 );
 
 										executeAfterBuildWidgets( contactMetawidget, new Timer()
 										{
 											@Override
 											public void run()
 											{
-												assertFalse( editButton.isVisible() );
-												assertTrue( contactMetawidget.getWidget( "title" ) instanceof ListBox );
-												assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
-
-												assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof TextBox );
+												assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof Label );
 												assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
+
+												FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
+												assertEquals( "Date of Birth:", contactFlexTable.getText( 3, 0 ) );
 												assertEquals( "5/12/56", contactMetawidget.getValue( "dateOfBirth" ) );
-												final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
-												assertTrue( deleteCommunication.isVisible() );
-												assertEquals( "Delete", deleteCommunication.getText() );
-												assertEquals( "table-buttons", communications.getCellFormatter().getStyleName( 1, 2 ) );
-
-												contactMetawidget.setValue( "Sapien", "surname" );
-
-												// Check saving
-
-												contactMetawidget.setValue( "foo", "dateOfBirth" );
+												assertEquals( "Contact Details", contactFlexTable.getText( 5, 0 ) );
+												assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
+												assertEquals( "section-heading", ((Label) contactFlexTable.getWidget( 5, 0 )).getStyleName() );
+												assertEquals( "Address:", contactFlexTable.getText( 6, 0 ) );
 
 												try
 												{
-													contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( contactMetawidget );
+													contactMetawidget.getValue( "bad-value" );
 													assertTrue( false );
 												}
-												catch ( IllegalArgumentException e )
+												catch ( Exception e )
 												{
-													assertEquals( "foo", e.getMessage() );
+													// Should throw Exception
 												}
 
-												contactMetawidget.setValue( "12/05/57", "dateOfBirth" );
-
-												// Check deleting a Communication
-
+												final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
 												assertTrue( communications.getRowCount() == 3 );
-												fireClickEvent( deleteCommunication );
-												assertTrue( communications.getRowCount() == 2 );
+												assertEquals( "Type", communications.getText( 0, 0 ) );
+												assertEquals( "Value", communications.getText( 0, 1 ) );
+												assertEquals( "&nbsp;", communications.getHTML( 0, 2 ) );
+												assertTrue( 3 == communications.getCellCount( 0 ) );
+												assertEquals( "Telephone", communications.getText( 1, 0 ) );
+												assertEquals( "(939) 555-0113", communications.getText( 1, 1 ) );
+												assertTrue( 2 == communications.getCellCount( 1 ) );
 
-												// Save again
+												// Check editing
 
-												GwtMetawidget addressMetawidget = contactMetawidget.getWidget( "address" );
+												assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 11 );
 
-												executeAfterBuildWidgets( addressMetawidget, new Timer()
+												Button backButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
+												assertEquals( "Back", backButton.getText() );
+												assertTrue( backButton.isVisible() );
+
+												final Button editButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
+												assertEquals( "Edit", editButton.getText() );
+												assertTrue( editButton.isVisible() );
+												fireClickEvent( editButton );
+
+												executeAfterBuildWidgets( contactMetawidget, new Timer()
 												{
 													@Override
 													public void run()
 													{
-														assertEquals( "742 Evergreen Terrace", contactMetawidget.getValue( "address", "street" ) );
-														assertEquals( "Anytown", contactMetawidget.getValue( "address", "state" ) );
+														assertFalse( editButton.isVisible() );
+														assertTrue( contactMetawidget.getWidget( "title" ) instanceof ListBox );
+														assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
 
-														contactMetawidget.setValue( "743 Evergreen Terrace", "address", "street" );
-														( (ListBox) contactMetawidget.getWidget( "address", "state" ) ).setSelectedIndex( 3 );
+														assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof TextBox );
+														assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
+														assertEquals( "5/12/56", contactMetawidget.getValue( "dateOfBirth" ) );
+														final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
+														assertTrue( deleteCommunication.isVisible() );
+														assertEquals( "Delete", deleteCommunication.getText() );
+														assertEquals( "table-buttons", communications.getCellFormatter().getStyleName( 1, 2 ) );
 
-														Button cancelButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
-														assertEquals( "Cancel", cancelButton.getText() );
-														assertTrue( cancelButton.isVisible() );
+														contactMetawidget.setValue( "Sapien", "surname" );
 
-														Button saveButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
-														assertEquals( "Save", saveButton.getText() );
-														assertTrue( saveButton.isVisible() );
-														fireClickEvent( saveButton );
+														// Check saving
 
-														Timer timerReloadContacts = new Timer()
+														contactMetawidget.setValue( "foo", "dateOfBirth" );
+
+														try
+														{
+															contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( contactMetawidget );
+															assertTrue( false );
+														}
+														catch ( IllegalArgumentException e )
+														{
+															assertEquals( "foo", e.getMessage() );
+														}
+
+														contactMetawidget.setValue( "12/05/57", "dateOfBirth" );
+
+														// Check deleting a Communication
+
+														assertTrue( communications.getRowCount() == 3 );
+														fireClickEvent( deleteCommunication );
+														assertTrue( communications.getRowCount() == 2 );
+
+														// Save again
+
+														GwtMetawidget addressMetawidget = contactMetawidget.getWidget( "address" );
+
+														executeAfterBuildWidgets( addressMetawidget, new Timer()
 														{
 															@Override
 															public void run()
 															{
-																assertEquals( "Mrs Marjorie Simpson", contacts.getText( 1, 0 ) );
+																assertEquals( "742 Evergreen Terrace", contactMetawidget.getValue( "address", "street" ) );
+																assertEquals( "Anytown", contactMetawidget.getValue( "address", "state" ) );
 
-																// Check surname change
+																contactMetawidget.setValue( "743 Evergreen Terrace", "address", "street" );
+																( (ListBox) contactMetawidget.getWidget( "address", "state" ) ).setSelectedIndex( 3 );
 
-																metawidgetSearch.setValue( "", "surname" );
-																fireClickEvent( buttonSearch );
+																Button cancelButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
+																assertEquals( "Cancel", cancelButton.getText() );
+																assertTrue( cancelButton.isVisible() );
 
-																Timer timerReloadContactsAgain = new Timer()
+																Button saveButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
+																assertEquals( "Save", saveButton.getText() );
+																assertTrue( saveButton.isVisible() );
+																fireClickEvent( saveButton );
+
+																Timer timerReloadContacts = new Timer()
 																{
 																	@Override
 																	public void run()
 																	{
-																		assertEquals( "Mr Homer Sapien", contacts.getText( 1, 0 ) );
+																		assertEquals( "Mrs Marjorie Simpson", contacts.getText( 1, 0 ) );
 
-																		// Check communication was
-																		// deleted
+																		// Check surname change
 
-																		assertEquals( "", contacts.getText( 1, 1 ) );
+																		metawidgetSearch.setValue( "", "surname" );
+																		fireClickEvent( buttonSearch );
 
-																		// Check address was
-																		// changed (ie.
-																		// exercises the
-																		// nested bindings
-																		// in
-																		// SimpleBindingProcessor.save)
-
-																		assertEquals( "743 Evergreen Terrace", personalContact.getAddress().getStreet() );
-																		assertEquals( "Lostville", personalContact.getAddress().getState() );
-
-																		final ContactDialog newDialog = new ContactDialog( addressBookModule, personalContact );
-																		final GwtMetawidget newContactMetawidget = (GwtMetawidget) ( (Grid) newDialog.getWidget() ).getWidget( 0, 1 );
-
-																		executeAfterBuildWidgets( newContactMetawidget, new Timer()
+																		Timer timerReloadContactsAgain = new Timer()
 																		{
 																			@Override
 																			public void run()
 																			{
-																				final GwtMetawidget newAddressMetawidget = (GwtMetawidget) ( (FlexTable) newContactMetawidget.getWidget( 0 ) ).getWidget( 6, 1 );
+																				assertEquals( "Mr Homer Sapien", contacts.getText( 1, 0 ) );
 
-																				executeAfterBuildWidgets( newAddressMetawidget, new Timer()
+																				// Check communication was
+																				// deleted
+
+																				assertEquals( "", contacts.getText( 1, 1 ) );
+
+																				// Check address was
+																				// changed (ie.
+																				// exercises the
+																				// nested bindings
+																				// in
+																				// SimpleBindingProcessor.save)
+
+																				assertEquals( "743 Evergreen Terrace", personalContact.getAddress().getStreet() );
+																				assertEquals( "Lostville", personalContact.getAddress().getState() );
+
+																				final ContactDialog newDialog = new ContactDialog( addressBookModule, personalContact );
+																				final GwtMetawidget newContactMetawidget = (GwtMetawidget) ( (Grid) newDialog.getWidget() ).getWidget( 0, 1 );
+
+																				executeAfterBuildWidgets( newContactMetawidget, new Timer()
 																				{
 																					@Override
 																					public void run()
 																					{
-																						assertEquals( "743 Evergreen Terrace", newContactMetawidget.getValue( "address", "street" ));
-																						Label streetLabel = (Label) ( (FlexTable) newAddressMetawidget.getWidget( 0 ) ).getWidget( 0, 1 );
-																						newContactMetawidget.setValue( "Foo", "address", "street" );
-																						assertEquals( "Foo", newContactMetawidget.getValue( "address", "street" ) );
-																						assertEquals( "Foo", streetLabel.getText() );
+																						final GwtMetawidget newAddressMetawidget = (GwtMetawidget) ( (FlexTable) newContactMetawidget.getWidget( 0 ) ).getWidget( 6, 1 );
 
-																						// Check rebinding
-																						// works (ie.
-																						// exercises the
-																						// nested bindings
-																						// in
-																						// SimpleBindingProcessor.rebind)
+																						executeAfterBuildWidgets( newAddressMetawidget, new Timer()
+																						{
+																							@Override
+																							public void run()
+																							{
+																								assertEquals( "743 Evergreen Terrace", newContactMetawidget.getValue( "address", "street" ));
+																								Label streetLabel = (Label) ( (FlexTable) newAddressMetawidget.getWidget( 0 ) ).getWidget( 0, 1 );
+																								newContactMetawidget.setValue( "Foo", "address", "street" );
+																								assertEquals( "Foo", newContactMetawidget.getValue( "address", "street" ) );
+																								assertEquals( "Foo", streetLabel.getText() );
 
-																						PersonalContact reboundPersonalContact = new PersonalContact();
-																						reboundPersonalContact.getAddress().setStreet( "Bar" );
+																								// Check rebinding
+																								// works (ie.
+																								// exercises the
+																								// nested bindings
+																								// in
+																								// SimpleBindingProcessor.rebind)
 
-																						newContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( reboundPersonalContact, newContactMetawidget );
-																						assertEquals( "Bar", newContactMetawidget.getValue( "address", "street" ) );
-																						assertEquals( "Bar", streetLabel.getText() );
-																						assertEquals( reboundPersonalContact, newContactMetawidget.getToInspect() );
+																								PersonalContact reboundPersonalContact = new PersonalContact();
+																								reboundPersonalContact.getAddress().setStreet( "Bar" );
 
-																						finish();
+																								newContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( reboundPersonalContact, newContactMetawidget );
+																								assertEquals( "Bar", newContactMetawidget.getValue( "address", "street" ) );
+																								assertEquals( "Bar", streetLabel.getText() );
+																								assertEquals( reboundPersonalContact, newContactMetawidget.getToInspect() );
+
+																								finish();
+																							}
+																						} );
 																					}
 																				} );
 																			}
-																		} );
+																		};
+
+																		timerReloadContactsAgain.schedule( CONTACTS_SERVICE_DELAY );
 																	}
 																};
 
-																timerReloadContactsAgain.schedule( CONTACTS_SERVICE_DELAY );
+																timerReloadContacts.schedule( CONTACTS_SERVICE_DELAY );
 															}
-														};
-
-														timerReloadContacts.schedule( CONTACTS_SERVICE_DELAY );
+														} );
 													}
 												} );
 											}
@@ -341,16 +350,15 @@ public class GwtAddressBookTest
 									}
 								} );
 							}
-						} );
+						};
+
+						timerPersonalResults.schedule( CONTACTS_SERVICE_DELAY );
 					}
-				};
-
-				// Fetch the results after giving /contacts time to finish
-
-				assertTrue( contacts.getRowCount() == 7 );
-				timerResults.schedule( CONTACTS_SERVICE_DELAY );
+				} );
 			}
-		} );
+		};
+
+		timerAllContacts.schedule( CONTACTS_SERVICE_DELAY );
 
 		// Test runs asynchronously
 

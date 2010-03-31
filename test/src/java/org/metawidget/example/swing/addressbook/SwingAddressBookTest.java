@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -40,6 +41,8 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 
@@ -223,10 +226,31 @@ public class SwingAddressBookTest
 		model.setValueAt( editor.getCellEditorValue(), 1, 1 );
 		assertTrue( model.getRowCount() == 3 );
 
+		// Check popup calls stopCellEditing
+
+		communications.setCellEditor( editor );
+		final Set<String> stopCellEditing = CollectionUtils.newHashSet();
+
+		editor.addCellEditorListener( new CellEditorListener()
+		{
+			@Override
+			public void editingStopped( ChangeEvent e )
+			{
+				stopCellEditing.add( "editingStopped" );
+			}
+
+			@Override
+			public void editingCanceled( ChangeEvent e )
+			{
+				// Do nothing
+			}
+		} );
+
 		// Check deleting a communication
 
 		communications.getMouseListeners()[communications.getMouseListeners().length - 1].mouseReleased( popupMouseEvent );
 		assertTrue( popupMenu.isVisible() );
+		assertEquals( "[editingStopped]", stopCellEditing.toString() );
 		Rectangle cellRect = communications.getCellRect( 0, 0, true );
 		popupMenu.setLocation( cellRect.x, cellRect.y );
 		((JMenuItem) popupMenu.getComponent( 0 )).getAction().actionPerformed( null );

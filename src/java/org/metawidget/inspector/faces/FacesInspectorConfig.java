@@ -47,6 +47,9 @@ public class FacesInspectorConfig
 	 * not properly initialized with certain managed bean names, the annotation will not work. This
 	 * is rather brittle. Injecting 'this' instead allows the EL to function regardless of how the
 	 * JSF context is configured.
+	 * <p>
+	 * Note this feature does not apply to any other EL expressions, such as those found in
+	 * <code>UiFacesLookup</code> and <code>UiFacesAjax</code>.
 	 */
 
 	public boolean isInjectThis()

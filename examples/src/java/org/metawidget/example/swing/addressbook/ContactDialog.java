@@ -198,8 +198,6 @@ public class ContactDialog
 				{
 					menuPopup.setLocation( event.getLocationOnScreen() );
 
-					// TODO: test stopCellEditing called
-
 					if ( communicationsTable.getCellEditor() != null )
 						communicationsTable.getCellEditor().stopCellEditing();
 

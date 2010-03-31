@@ -15,7 +15,7 @@
 					
 			<m:metawidget value="#{stubConverter}">
 			
-				<m:stub value="#{stubConverter.foo}">
+				<m:stub id="stubs-can-have-ids" value="#{stubConverter.foo}">
 				
 					<h:outputText value="#{stubConverter.foo}" style="color: black"/><br/>
 					<h:outputText value="#{stubConverter.bar}" style="color: black"/><br/>

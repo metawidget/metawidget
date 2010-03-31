@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
+import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.faces.UiFacesAjax;
 import org.metawidget.inspector.faces.UiFacesAttribute;
 
@@ -39,6 +40,8 @@ public class RichFacesAjaxQuirks
 
 	private boolean	mCheckbox;
 
+	private String	mLabel;
+
 	//
 	// Public methods
 	//
@@ -56,6 +59,7 @@ public class RichFacesAjaxQuirks
 	}
 
 	@UiFacesAttribute( name = HIDDEN, expression = "#{this.select != 'Show'}" )
+	@UiFacesAjax( event = "onclick", action = "#{richQuirksAjax.updateLabel}" )
 	@UiComesAfter( "select" )
 	public boolean isCheckbox()
 	{
@@ -65,5 +69,22 @@ public class RichFacesAjaxQuirks
 	public void setCheckbox( boolean checkbox )
 	{
 		mCheckbox = checkbox;
+	}
+
+	@UiComesAfter( "checkbox" )
+	@UiReadOnly
+	public String getLabel()
+	{
+		return mLabel;
+	}
+
+	public void setLabel( String label )
+	{
+		mLabel = label;
+	}
+
+	public void updateLabel()
+	{
+		mLabel = "clicked";
 	}
 }

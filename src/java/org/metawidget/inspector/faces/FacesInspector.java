@@ -182,7 +182,17 @@ public class FacesInspector
 		UiFacesAjax ajax = property.getAnnotation( UiFacesAjax.class );
 
 		if ( ajax != null )
+		{
 			attributes.put( FACES_AJAX_EVENT, ajax.event() );
+
+			if ( !"".equals( ajax.action() ))
+			{
+				if ( !FacesUtils.isExpression( ajax.action() ) )
+					throw InspectorException.newException( "Expression '" + ajax.action() + "' is not of the form #{...}" );
+
+				attributes.put( FACES_AJAX_ACTION, ajax.action() );
+			}
+		}
 
 		// Converters
 

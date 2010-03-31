@@ -45,6 +45,9 @@ import java.lang.annotation.Target;
  * <code>
  * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression = "#{!empty bar ? '' : '#{foo}'}" )
  * </code>
+ * <p>
+ * Also consider using <code>FacesInspectorConfig.setInjectThis</code>.
+ * </p>
  *
  * @author Richard Kennard
  */

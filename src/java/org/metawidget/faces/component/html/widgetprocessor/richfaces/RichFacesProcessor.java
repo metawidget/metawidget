@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.component.html.HtmlAjaxSupport;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -44,8 +45,14 @@ public class RichFacesProcessor
 	// Public methods
 	//
 
+	@SuppressWarnings( "deprecation" )
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
+		// Ignore empty stubs
+
+		if ( component instanceof UIStub && component.getChildCount() == 0 )
+			return component;
+
 		// Ajax
 
 		String ajaxEvent = attributes.get( FACES_AJAX_EVENT );
@@ -66,6 +73,11 @@ public class RichFacesProcessor
 			// generated (may even be randomly generated)
 
 			ajaxSupport.setReRender( metawidget.getId() );
+
+			String ajaxAction = attributes.get( FACES_AJAX_ACTION );
+
+			if ( ajaxAction != null )
+				ajaxSupport.setAction( application.createMethodBinding( ajaxAction, new Class[0] ) );
 
 			component.getChildren().add( ajaxSupport );
 		}
