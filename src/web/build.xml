@@ -71,6 +71,7 @@
 				<include name="${metawidget.name}/examples/faces/**/build.properties"/>				
 				<include name="${metawidget.name}/examples/faces/**/lib/**"/>
 				<include name="${metawidget.name}/examples/swing/lib/**"/>
+				<include name="${metawidget.name}/examples/swt/lib/**"/>
 			</fileset>
 		</zip>
 
