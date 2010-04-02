@@ -171,6 +171,12 @@
 
 		<delete dir="${tomcat.dir}/webapps"/>
 
+		<!-- XSDs (do these first, because otherwise we seemed to crash on the SWT ones) -->
+		
+		<antcall target="xsd"/>
+		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
+		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
+
 		<!-- JSP version -->
 
 		<copy todir="${relative.dir}/${build.dir}/lib" flatten="true" includeemptydirs="false">
@@ -239,12 +245,6 @@
 				<include name="doc/**/shared/**"/>
 			</fileset>
 		</copy>
-
-		<!-- XSDs -->
-		
-		<antcall target="xsd"/>
-		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
-		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
 
 		<!-- Try to have something at TLD URIs -->
 
