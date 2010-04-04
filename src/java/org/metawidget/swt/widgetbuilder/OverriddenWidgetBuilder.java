@@ -28,6 +28,12 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * WidgetBuilder for overridden widgets in SWT environments.
  * <p>
  * Locates overridden widgets based on a <code>name</code> attribute in their <code>setData</code>.
+ * <p>
+ * Because of the way SWT requires <code>Control</code>s to nominate their <code>Composite</code>
+ * up-front (ie. in their constructor), the behaviour of <code>OverriddenWidgetBuilder</code> is
+ * limited to only overriding <code>Control</code>s within their immediate <code>Composite</code>.
+ * Therefore <code>OverriddenWidgetBuilder</code> will not work if used to override
+ * <code>Control</code>s that are laid out inside, say, a <code>TabFolderLayoutDecorator</code>.
  *
  * @author Richard Kennard
  */
