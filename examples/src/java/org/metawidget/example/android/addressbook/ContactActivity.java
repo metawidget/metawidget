@@ -21,13 +21,13 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Set;
 
-import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.app.Activity;
@@ -39,6 +39,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -129,7 +130,7 @@ public class ContactActivity
 		Set<Communication> communications = mContact.getCommunications();
 
 		if ( communications != null )
-			communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( this, communications ) );
+			communicationsView.setAdapter( new ArrayAdapter<Communication>( this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( communications )) );
 
 		communicationsView.setOnItemClickListener( new ListView.OnItemClickListener()
 		{
@@ -142,7 +143,7 @@ public class ContactActivity
 				{
 					public void onClick( DialogInterface dialog, int button )
 					{
-						communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( ContactActivity.this, mContact.getCommunications() ) );
+						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ));
 					}
 				} ).show();
 			}
@@ -245,7 +246,7 @@ public class ContactActivity
 					public void onClick( DialogInterface dialog, int button )
 					{
 						ListView communicationsView = (ListView) findViewById( R.id.communications );
-						communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( ContactActivity.this, mContact.getCommunications() ) );
+						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ));
 					}
 				} ).show();
 				break;

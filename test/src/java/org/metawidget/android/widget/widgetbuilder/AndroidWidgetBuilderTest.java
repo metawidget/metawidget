@@ -25,12 +25,13 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
+import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder.LookupArrayAdapter;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 
+import android.R;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.method.DateKeyListener;
@@ -38,6 +39,7 @@ import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -160,7 +162,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP, "foo, bar,baz" );
 		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ResourcelessArrayAdapter<String> adapter1 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
+		ArrayAdapter<String> adapter1 = (ArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertEquals( "foo", adapter1.getItem( 0 ));
 		assertEquals( "foo", ((TextView) adapter1.getView( 0, null, null )).getText() );
 		assertEquals( "bar", adapter1.getItem( 1 ));
@@ -187,7 +189,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
+		ArrayAdapter<String> adapter2 = (ArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertEquals( "foo", adapter2.getItem( 0 ));
 		assertEquals( "Foo #1", ((TextView) adapter2.getView( 0, null, null )).getText() );
 		assertEquals( "bar", adapter2.getItem( 1 ));
@@ -201,7 +203,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, String.class.getName() );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ResourcelessArrayAdapter<String> adapter3 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
+		ArrayAdapter<String> adapter3 = (ArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertTrue( null == adapter3.getItem( 0 ));
 		assertEquals( "", ((TextView) adapter3.getView( 0, null, null )).getText() );
 		assertEquals( "foo", adapter3.getItem( 1 ));
@@ -327,7 +329,7 @@ public class AndroidWidgetBuilderTest
 
 		Spinner spinner = new Spinner( null );
 		List<String> lookupList = CollectionUtils.newArrayList( "foo", "bar", "baz" );
-		spinner.setAdapter( new ResourcelessArrayAdapter<String>( null, lookupList, null ) );
+		spinner.setAdapter( new LookupArrayAdapter<String>( null, R.layout.simple_spinner_item, lookupList, null ) );
 		assertEquals( "foo", androidWidgetBuilder.getValue( spinner ) );
 		androidWidgetBuilder.setValue( "bar", spinner );
 		assertEquals( "bar", androidWidgetBuilder.getValue( spinner ) );

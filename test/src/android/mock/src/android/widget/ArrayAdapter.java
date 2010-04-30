@@ -47,7 +47,7 @@ public class ArrayAdapter<T>
 		// Ignore context
 	}
 
-	public ArrayAdapter( Context context, int noResource, List<T> values )
+	public ArrayAdapter( Context context, int textViewResourceId, List<T> values )
 	{
 		mValues = values;
 	}
@@ -80,6 +80,11 @@ public class ArrayAdapter<T>
 	public Context getContext()
 	{
 		return null;
+	}
+
+	public void setDropDownViewResource( int resource )
+	{
+		// Do nothing
 	}
 
 	//

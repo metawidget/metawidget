@@ -16,7 +16,6 @@
 
 package org.metawidget.example.android.addressbook;
 
-import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
@@ -29,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -73,8 +73,8 @@ public class MainActivity
 
 		// Contacts List
 
-		final ListView contacts = (ListView) findViewById( R.id.contacts );
-		contacts.setOnItemClickListener( new ListView.OnItemClickListener()
+		final ListView contactsView = (ListView) findViewById( R.id.contacts );
+		contactsView.setOnItemClickListener( new ListView.OnItemClickListener()
 		{
 			@SuppressWarnings( "unchecked" )
 			public void onItemClick( AdapterView viewAdapter, View view, int position, long id )
@@ -92,7 +92,7 @@ public class MainActivity
 				startActivityForResult( intent, 0 );
 			}
 		} );
-		contacts.setAdapter( new ResourcelessArrayAdapter<Contact>( this, application.getContactsController().getAllByExample( mContactSearch ), null ) );
+		contactsView.setAdapter( new ArrayAdapter<Contact>( this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class MainActivity
 				else
 					mContactSearch.setType( ContactType.valueOf( type ) );
 
-				contacts.setAdapter( new ResourcelessArrayAdapter<Contact>( MainActivity.this, application.getContactsController().getAllByExample( mContactSearch ), null ) );
+				contacts.setAdapter( new ArrayAdapter<Contact>( MainActivity.this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
 				break;
 			}
 
@@ -169,6 +169,6 @@ public class MainActivity
 
 		ListView contacts = (ListView) findViewById( R.id.contacts );
 		AddressBookApplication application = (AddressBookApplication) getApplication();
-		contacts.setAdapter( new ResourcelessArrayAdapter<Contact>( MainActivity.this, application.getContactsController().getAllByExample( mContactSearch ), null ) );
+		contacts.setAdapter( new ArrayAdapter<Contact>( MainActivity.this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
 	}
 }
