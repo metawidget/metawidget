@@ -16,21 +16,12 @@
 
 package org.metawidget.android;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.iface.MetawidgetException;
-import org.metawidget.util.simple.StringUtils;
 
 import android.R;
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
@@ -55,8 +46,8 @@ public final class AndroidUtils
 	//
 	// http://markmail.org/message/ogskv4frewsxghlp
 	//
-	// ...seems to suggest only the container can do this at present, but that this will be cleaned
-	// up in future?
+	// ...seems to suggest only the container can do this at present, but that this will be enhanced
+	// in future?
 	//
 	public static void applyStyle( View view, int style, AndroidMetawidget metawidget )
 	{
@@ -122,82 +113,6 @@ public final class AndroidUtils
 
 			if ( textSize != BOGUS_DEFAULT )
 				textView.setTextSize( textSize );
-		}
-	}
-
-	/**
-	 * An ArrayAdapter that creates its own TextView to render items, rather than relying on an
-	 * external, application-supplied Resource.
-	 */
-
-	public static class ResourcelessArrayAdapter<T>
-		extends ArrayAdapter<T>
-	{
-		//
-		// Private statics
-		//
-
-		private final static int	NO_RESOURCE	= 0;
-
-		//
-		// Private members
-		//
-
-		private List<String>		mLabels;
-
-		//
-		// Constructor
-		//
-
-		public ResourcelessArrayAdapter( Context context, Collection<T> values )
-		{
-			this( context, new ArrayList<T>( values ), null );
-		}
-
-		/**
-		 * @param labels
-		 *            List of human-readable labels. May be null.
-		 */
-
-		public ResourcelessArrayAdapter( Context context, List<T> values, List<String> labels )
-		{
-			super( context, NO_RESOURCE, values );
-
-			if ( labels != null && !labels.isEmpty() )
-			{
-				if ( labels.size() != values.size() )
-					throw MetawidgetException.newException( "Labels list must be same size as values list" );
-
-				mLabels = labels;
-			}
-		}
-
-		//
-		// Public methods
-		//
-
-		@Override
-		public View getView( int position, View convertView, ViewGroup parentView )
-		{
-			TextView viewToReturn = (TextView) convertView;
-
-			// (reuse the given convertView if possible)
-
-			if ( viewToReturn == null )
-				viewToReturn = new TextView( getContext() );
-
-			if ( mLabels != null )
-				viewToReturn.setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
-			else
-				viewToReturn.setText( StringUtils.quietValueOf( getItem( position ) ) );
-
-			return viewToReturn;
-		}
-
-		@Override
-		public View getDropDownView( int position, View convertView, ViewGroup parentView )
-		{
-			return getView( position, convertView, parentView );
 		}
 	}
 

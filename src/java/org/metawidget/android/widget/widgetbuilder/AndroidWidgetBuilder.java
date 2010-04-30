@@ -23,22 +23,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.AndroidValueAccessor;
 import org.metawidget.android.widget.Stub;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
+import android.R;
+import android.content.Context;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -187,28 +191,29 @@ public class AndroidWidgetBuilder
 
 			if ( lookup != null && !"".equals( lookup ) )
 			{
-				List<String> lookupList = CollectionUtils.fromString( lookup );
+				Spinner spinner = new Spinner( metawidget.getContext() );
 
 				// Empty option
+
+				List<String> lookupList = CollectionUtils.fromString( lookup );
 
 				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 					lookupList.add( 0, null );
 
+				// Labels
+
 				List<String> lookupLabelsList = null;
 				String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-				if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				{
-					lookupLabelsList = CollectionUtils.fromString( lookupLabels );
+				// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
 
-					// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
+				lookupLabelsList = CollectionUtils.fromString( lookupLabels );
 
-					if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-						lookupLabelsList.add( 0, null );
-				}
+				if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+					lookupLabelsList.add( 0, null );
 
-				Spinner spinner = new Spinner( metawidget.getContext() );
-				spinner.setAdapter( new ResourcelessArrayAdapter<String>( metawidget.getContext(), lookupList, lookupLabelsList ) );
+				ArrayAdapter<String> adapter = new LookupArrayAdapter<String>( metawidget.getContext(), lookupList, lookupLabelsList );
+				spinner.setAdapter( adapter );
 
 				return spinner;
 			}
@@ -296,5 +301,91 @@ public class AndroidWidgetBuilder
 		// Nested Metawidget
 
 		return null;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * ArrayAdapter for Spinner whose values use a lookup.
+	 */
+
+	static class LookupArrayAdapter<T>
+		extends ArrayAdapter<T>
+	{
+		//
+		// Private members
+		//
+
+		private List<String>	mLabels;
+
+		//
+		// Constructor
+		//
+
+		/**
+		 * @param labels
+		 *            List of human-readable labels. Never null.
+		 */
+
+		public LookupArrayAdapter( Context context, List<T> values, List<String> labels )
+		{
+			super( context, 0, values );
+
+			if ( labels != null && !labels.isEmpty() )
+			{
+				if ( labels.size() != values.size() )
+					throw MetawidgetException.newException( "Labels list must be same size as values list" );
+
+				mLabels = labels;
+			}
+		}
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public View getView( int position, View convertView, ViewGroup parentView )
+		{
+			View viewToUse = convertView;
+
+			if ( viewToUse == null )
+			{
+				viewToUse = ( (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( R.layout.simple_spinner_item, parentView, false );
+
+				if ( viewToUse == null )
+					viewToUse = new TextView( getContext() );
+			}
+
+			if ( mLabels == null )
+				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( getItem( position ) ) );
+			else
+				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
+
+			return viewToUse;
+		}
+
+		@Override
+		public View getDropDownView( int position, View convertView, ViewGroup parentView )
+		{
+			View viewToUse = convertView;
+
+			if ( viewToUse == null )
+			{
+				viewToUse = ( (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( R.layout.simple_spinner_dropdown_item, parentView, false );
+
+				if ( viewToUse == null )
+					viewToUse = new TextView( getContext() );
+			}
+
+			if ( mLabels == null )
+				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( getItem( position ) ) );
+			else
+				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
+
+			return viewToUse;
+		}
 	}
 }

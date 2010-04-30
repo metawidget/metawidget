@@ -31,7 +31,6 @@ import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder.LookupAr
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 
-import android.R;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.method.DateKeyListener;
@@ -329,7 +328,7 @@ public class AndroidWidgetBuilderTest
 
 		Spinner spinner = new Spinner( null );
 		List<String> lookupList = CollectionUtils.newArrayList( "foo", "bar", "baz" );
-		spinner.setAdapter( new LookupArrayAdapter<String>( null, R.layout.simple_spinner_item, lookupList, null ) );
+		spinner.setAdapter( new LookupArrayAdapter<String>( null, lookupList, null ) );
 		assertEquals( "foo", androidWidgetBuilder.getValue( spinner ) );
 		androidWidgetBuilder.setValue( "bar", spinner );
 		assertEquals( "bar", androidWidgetBuilder.getValue( spinner ) );
