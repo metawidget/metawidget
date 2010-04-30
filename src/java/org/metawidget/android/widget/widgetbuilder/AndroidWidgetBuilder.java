@@ -349,35 +349,34 @@ public class AndroidWidgetBuilder
 		@Override
 		public View getView( int position, View convertView, ViewGroup parentView )
 		{
-			View viewToUse = convertView;
-
-			if ( viewToUse == null )
-			{
-				viewToUse = ( (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( R.layout.simple_spinner_item, parentView, false );
-
-				if ( viewToUse == null )
-					viewToUse = new TextView( getContext() );
-			}
-
-			if ( mLabels == null )
-				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( getItem( position ) ) );
-			else
-				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
-
-			return viewToUse;
+			return initView( position, convertView, parentView, R.layout.simple_spinner_item );
 		}
 
 		@Override
 		public View getDropDownView( int position, View convertView, ViewGroup parentView )
 		{
+			return initView( position, convertView, parentView, R.layout.simple_spinner_dropdown_item );
+		}
+
+		//
+		// Private methods
+		//
+
+		private View initView( int position, View convertView, ViewGroup parentView, int textViewResourceId )
+		{
 			View viewToUse = convertView;
 
 			if ( viewToUse == null )
 			{
-				viewToUse = ( (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( R.layout.simple_spinner_dropdown_item, parentView, false );
+				Context context = getContext();
+
+				if ( context != null )
+					viewToUse = ( (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( textViewResourceId, parentView, false );
+
+				// Just-in-time create: layoutInflater.inflate does not work during onMeasure. Why?
 
 				if ( viewToUse == null )
-					viewToUse = new TextView( getContext() );
+					viewToUse = new TextView( context );
 			}
 
 			if ( mLabels == null )
