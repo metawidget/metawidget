@@ -222,7 +222,7 @@
 
 		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
 		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
-		<move todir="${tomcat.dir}/webapps/ROOT">
+		<move todir="${tomcat.dir}/webapps/ROOT/xsd">
 			<fileset dir="${relative.dir}/${build.dir}/xsd"/>
 		</move>
 		
@@ -230,6 +230,8 @@
 		
 		<delete file="${tomcat.dir}/webapps/ROOT/index-2.html"/>
 		<delete file="${tomcat.dir}/webapps/ROOT/xsd.html"/>
+		<delete file="${tomcat.dir}/webapps/ROOT/xsd/inspection-result-1.0.html"/>
+		<delete file="${tomcat.dir}/webapps/ROOT/xsd/metawidget-1.0.html"/>
 		<delete file="${tomcat.dir}/webapps/ROOT/live-demo/index-2.html"/>
 		<delete dir="${tomcat.dir}/webapps/ROOT/live-demo/org"/>
 			

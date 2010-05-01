@@ -226,7 +226,7 @@
 				<include name="lib/beansbinding*.jar"/>
 				<include name="lib/commons-beanutils-*.jar"/>
 				<include name="lib/scala-library.jar"/>
-				<include name="lib/miglayout-*.jar"/>
+				<include name="lib/miglayout-*-swing-*.jar"/>
 			</fileset>
 			<fileset dir="${relative.dir}/examples">
 				<include name="lib/commons-logging-*.jar"/>
