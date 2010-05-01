@@ -163,7 +163,7 @@
 			</classpath>
 		</taskdef>
 		
-		<xmlSchemaGenerator jar="${relative.dir}/${build.dir}/metawidget.jar" destdir="${tomcat.dir}/webapps/ROOT/xsd"/>
+		<xmlSchemaGenerator jar="${relative.dir}/${build.dir}/metawidget.jar" destdir="${relative.dir}/${build.dir}/xsd"/>
 	
 	</target>	
 
@@ -174,8 +174,6 @@
 		<!-- XSDs (do these first, because otherwise we seemed to crash on the SWT ones) -->
 		
 		<antcall target="xsd"/>
-		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
-		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
 
 		<!-- JSP version -->
 
@@ -222,6 +220,12 @@
 			<fileset dir="${relative.dir}/${build.dir}/website/localhost_8080"/>
 		</move>
 
+		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
+		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
+		<move todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="${relative.dir}/${build.dir}/xsd"/>
+		</move>
+		
 		<!-- Little cleanup -->
 		
 		<delete file="${tomcat.dir}/webapps/ROOT/index-2.html"/>

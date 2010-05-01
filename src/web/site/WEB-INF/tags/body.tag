@@ -126,12 +126,16 @@
 						<img src="/media/logos/logo-tomahawk.gif" alt="Tomahawk" style="border: 0px" />
 					</a>
 				</div>
-				<div class="badges" style="height: 150px">
+				<div class="badges" style="height: 200px">
 					<span>Metawidget is proudly:</span>
 	
 					<a href="http://opensource.org/docs/definition.php" target="_blank" style="top: 30px; left: 50px">
 						<img src="/media/logos/logo-opensource.gif" alt="Open Source (OSI)" style="border: 0px" />
 					</a>
+					
+					<a href="http://jboss.org" target="_blank" style="top: 120px; left: 60px">
+						<img src="/media/logos/jbosscommunity-friend_badge-82x.png" alt="Friend of the JBoss Community" style="border: 0px"/>
+					</a>					
 				</div>
 			</td>
 			<td id="content-text">

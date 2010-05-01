@@ -14,35 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.quirks.client.model;
+/**
+ * <strong>SWT support.</strong>
+ *
+ * @author Richard Kennard
+ */
 
-import java.io.Serializable;
-
-import org.metawidget.inspector.annotation.UiLarge;
-import org.metawidget.inspector.annotation.UiSection;
-
-public class GwtTabQuirks
-	implements Serializable
-{
-	private final static long	serialVersionUID	= 1l;
-
-	public String				abc;
-
-	@UiSection( { "Foo", "Bar" } )
-	public boolean				def;
-
-	@UiLarge
-	public String				ghi;
-
-	@UiSection( { "Foo", "Baz" } )
-	public String				jkl;
-
-	@UiSection( { "Foo", "" } )
-	public boolean				mno;
-
-	@UiSection( { "Foo", "Moo" } )
-	public String				pqr;
-
-	@UiSection( "" )
-	public String				stu;
-}
+package org.metawidget.swt;
