@@ -26,10 +26,10 @@ import junit.framework.TestSuite;
 import org.metawidget.android.widget.AndroidMetawidgetTest;
 import org.metawidget.android.widget.FacetTest;
 import org.metawidget.android.widget.StubTest;
-import org.metawidget.android.widget.layout.TextViewLayoutDecoratorTest;
 import org.metawidget.android.widget.layout.LinearLayoutTest;
 import org.metawidget.android.widget.layout.TabHostLayoutDecoratorTest;
 import org.metawidget.android.widget.layout.TableLayoutTest;
+import org.metawidget.android.widget.layout.TextViewLayoutDecoratorTest;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilderTest;
 
 import android.util.AttributeSet;
@@ -51,6 +51,7 @@ public class AndroidMetawidgetTests
 
 		suite.addTestSuite( AndroidConfigReaderTest.class );
 		suite.addTestSuite( AndroidMetawidgetTest.class );
+		suite.addTestSuite( AndroidUtilsTest.class );
 		suite.addTestSuite( AndroidWidgetBuilderTest.class );
 		suite.addTestSuite( FacetTest.class );
 		suite.addTestSuite( TextViewLayoutDecoratorTest.class );
