@@ -146,7 +146,7 @@ public abstract class UIMetawidget
 
 	private Pipeline						mPipeline;
 
-	private RestoreStateHack				mRestoreStateHack;
+	/* package private */RestoreStateHack	mRestoreStateHack;
 
 	//
 	// Constructor
@@ -166,20 +166,9 @@ public abstract class UIMetawidget
 		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636)
 
 		if ( "true".equals( System.getProperty( UIMetawidget.class.getName() + ".UseSystemEvents" ) ) )
-		{
-			try
-			{
-				new SystemEventSupport( this );
-			}
-			catch ( NoClassDefFoundError e )
-			{
-				mRestoreStateHack = new RestoreStateHack( this );
-			}
-		}
+			new SystemEventSupport( this );
 		else
-		{
 			mRestoreStateHack = new RestoreStateHack( this );
-		}
 	}
 
 	//
@@ -1045,17 +1034,13 @@ public abstract class UIMetawidget
 		{
 			try
 			{
+				applyChildrenAfterRestoreState( mMetawidget );
+
 				// Validation error? Do not rebuild, as we will lose the invalid values in the
 				// components. Instead, just move along to our renderer
 
 				if ( context.getMaximumSeverity() != null )
-				{
-					if ( mChildrenAfterRestoreState != null )
-					{
-						mMetawidget.getChildren().clear();
-						mMetawidget.getChildren().addAll( mChildrenAfterRestoreState );
-					}
-				}
+					return;
 
 				// Build widgets as normal
 				//
@@ -1063,10 +1048,7 @@ public abstract class UIMetawidget
 				// the Renderer phase, which is dangerous. The ideal fix would be to .buildWidgets
 				// BEFORE the component tree gets serialized (see above)
 
-				else
-				{
-					mMetawidget.buildWidgets();
-				}
+				mMetawidget.buildWidgets();
 			}
 			catch ( Exception e )
 			{
@@ -1080,6 +1062,54 @@ public abstract class UIMetawidget
 
 				throw new IOException( e.getMessage() );
 			}
+		}
+
+		//
+		// Private methods
+		//
+
+		/**
+		 * Clear out our current children (ie. post-merging with server-side component tree) and
+		 * revert it back to those children in mRestoreStateHack (ie. pre-merging with server-side
+		 * component tree). This stops the server-side component tree introducing duplicates. The
+		 * duplicates are there because the server-side component tree gets serialized before we
+		 * have chance to manipulate it (ie. in encodeBegin).
+		 * <p>
+		 * Do this recursively for any <code>UIMetawidget</code>s we encounter, because their
+		 * <code>encodeBegin</code> won't otherwise get called (we're not sure why).
+		 */
+
+		// TODO: test this fix!
+
+		private void applyChildrenAfterRestoreState( UIMetawidget metawidget )
+		{
+			// Nothing to do?
+
+			if ( metawidget.mRestoreStateHack == null )
+				return;
+
+			if ( metawidget.mRestoreStateHack.mChildrenAfterRestoreState == null )
+				return;
+
+			// Revert all children
+
+			List<UIComponent> children = metawidget.getChildren();
+			children.clear();
+
+			for ( UIComponent childAfterRestoreState : metawidget.mRestoreStateHack.mChildrenAfterRestoreState )
+			{
+				children.add( childAfterRestoreState );
+
+				// Recurse any nested UIMetawidgets
+
+				if ( childAfterRestoreState instanceof UIMetawidget )
+					applyChildrenAfterRestoreState( (UIMetawidget) childAfterRestoreState );
+			}
+
+			// Don't do this again on our nested UIMetawidgets when their encodeBegin DOES get
+			// called
+
+			metawidget.mRestoreStateHack.mChildrenAfterRestoreState = null;
 		}
 	}
 

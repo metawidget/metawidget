@@ -96,7 +96,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
 
-		// Add component to new tab
+		// Add component to new section
 
 		super.layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
 	}
