@@ -35,6 +35,12 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
+	<managed-bean>
+		<managed-bean-name>richQuirksHack</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesHackTest</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
 	<!-- Session-Level Managed Beans -->
 
 	<managed-bean>

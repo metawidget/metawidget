@@ -660,6 +660,35 @@
 				
 			</steps>
 		</webtest>
+
+		<webtest name="test-richfaces-hack">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-faces/indexRichFacesHack.jsf" />
+
+				<!-- Test POST-back doesn't lose the manually overridden hidden field, or get a 'duplicate id' error -->
+				
+				<repeat count="5">
+					<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Bar 1:"/>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+					
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td/@colspan" text="2"/>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[2]/td/div/div, 'More')"/>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Bar 2:"/>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
+					<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr)" text="1"/>
+					
+					<clickLink label="Clear Embedded"/>
+
+					<not>
+						<verifyXPath xpath="/html/body/form/table"/>
+					</not>
+					
+					<clickLink label="New Embedded"/>
+				</repeat>
+			</steps>
+		</webtest>
 	</target>
 
 </project>

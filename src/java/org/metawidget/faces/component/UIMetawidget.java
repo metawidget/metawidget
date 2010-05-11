@@ -146,7 +146,7 @@ public abstract class UIMetawidget
 
 	private Pipeline						mPipeline;
 
-	/* package private */RestoreStateHack	mRestoreStateHack;
+	private RemoveDuplicatesHack			mRemoveDuplicatesHack;
 
 	//
 	// Constructor
@@ -168,7 +168,7 @@ public abstract class UIMetawidget
 		if ( "true".equals( System.getProperty( UIMetawidget.class.getName() + ".UseSystemEvents" ) ) )
 			new SystemEventSupport( this );
 		else
-			mRestoreStateHack = new RestoreStateHack( this );
+			mRemoveDuplicatesHack = new RemoveDuplicatesHack( this );
 	}
 
 	//
@@ -458,22 +458,22 @@ public abstract class UIMetawidget
 	}
 
 	@Override
-	public void processRestoreState( FacesContext context, Object state )
+	public boolean isRendered()
 	{
-		super.processRestoreState( context, state );
+		boolean rendered = super.isRendered();
 
-		if ( mRestoreStateHack != null )
-			mRestoreStateHack.processRestoreState();
+		if ( mRemoveDuplicatesHack != null )
+			mRemoveDuplicatesHack.isRendered( rendered );
+
+		return rendered;
 	}
 
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		if ( mRestoreStateHack != null )
-			mRestoreStateHack.encodeBegin( context );
-
-		// Delegate to renderer
+		if ( mRemoveDuplicatesHack != null )
+			mRemoveDuplicatesHack.encodeBegin( context );
 
 		super.encodeBegin( context );
 	}
@@ -973,20 +973,16 @@ public abstract class UIMetawidget
 	/**
 	 * Dynamically modify the component tree using the JSF1 API.
 	 * <p>
-	 * Remove any components that have been re-merged into the component tree after
-	 * processRestoreState. This takes care of overridden components that have since been moved to
-	 * other containers (ie. into a RichFaces Tab). We wouldn't need this if there was a way to call
-	 * <code>buildWidgets</code> <em>before</em> the component tree gets serialized (ie. before
-	 * encodeBegin).
+	 * <h3>Background</h3>
 	 * <p>
-	 * For background on this hack, see:
-	 * http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html
+	 * JSF1 did not have very good support for dynamically modifying the component tree. See
+	 * http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html:
 	 * <p>
 	 * Jacob Hookum: "What's actually needed in [JSF 1.2] is post component tree creation or post
 	 * component creation hooks, providing the ability to then modify the component tree"<br/>
 	 * Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
 	 * <p>
-	 * What we've tried:
+	 * We tried various workarounds:
 	 * <p>
 	 * <ol>
 	 * <li>Triggering buildWidgets on getChildCount/getChildren. This does not work because those
@@ -996,26 +992,37 @@ public abstract class UIMetawidget
 	 * <li>A PhaseListener before PhaseId.RENDER_RESPONSE to trigger buildWidgets. This does not
 	 * work because UIViewRoot has no children at that stage in the lifecycle</li>
 	 * </ol>
-	 * JSF2 introduced <code>SystemEvents</code> to address this exact problem.
-	 *
-	 * @author Richard Kennard
+	 * JSF2 introduced <code>SystemEvents</code> to address this exact problem. See
+	 * <code>SystemEventSupport</code> below.
+	 * <p>
+	 * <h3>Why It's A Problem</h3>
+	 * <p>
+	 * JSF actually has (sort of) <em>two</em> component trees: the one in the ViewState, and the
+	 * components in the original JSP page. The latter is re-merged with the former, then the whole
+	 * lot is serialized. This happens after <code>processUpdates</code> but before
+	 * <code>encodeBegin</code>, which is a bit of a 'dead zone' for hooking into under JSF1.
+	 * <p>
+	 * It can cause an Exception if the original JSP contains a manually coded control (such as an
+	 * h:inputHidden) that subsequently gets moved into a Metawidget-generated sub-container (such
+	 * as a rich:simpleTogglePanel). Now there are two versions of the component: one in the
+	 * original JSP and one in a <em>different</em> place in the ViewState.
+	 * <p>
+	 * This hack removes that duplicate.
 	 */
 
-	private static class RestoreStateHack
+	private static class RemoveDuplicatesHack
 	{
 		//
 		// Private members
 		//
 
-		private UIMetawidget		mMetawidget;
-
-		private List<UIComponent>	mChildrenAfterRestoreState;
+		private UIMetawidget	mMetawidget;
 
 		//
 		// Constructor
 		//
 
-		public RestoreStateHack( UIMetawidget metawidget )
+		public RemoveDuplicatesHack( UIMetawidget metawidget )
 		{
 			mMetawidget = metawidget;
 		}
@@ -1024,9 +1031,15 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
-		public void processRestoreState()
+		/**
+		 * If the component is never going to be rendered, then <code>encodeBegin</code> will never
+		 * get called. Therefore our 'remove duplicates' code will never get called either.
+		 */
+
+		public void isRendered( boolean rendered )
 		{
-			mChildrenAfterRestoreState = CollectionUtils.newArrayList( mMetawidget.getChildren() );
+			if ( !rendered )
+				mMetawidget.getChildren().clear();
 		}
 
 		public void encodeBegin( FacesContext context )
@@ -1034,19 +1047,34 @@ public abstract class UIMetawidget
 		{
 			try
 			{
-				applyChildrenAfterRestoreState( mMetawidget );
-
 				// Validation error? Do not rebuild, as we will lose the invalid values in the
 				// components. Instead, just move along to our renderer
 
 				if ( context.getMaximumSeverity() != null )
+				{
+					// Remove duplicate
+					//
+					// Remove the top-level version of the duplicate, not the nested-level version,
+					// because the top-level is the 'original' whereas the nested-level is the
+					// 'moved'. We will not be rebuilding the component tree, so we want the
+					// 'moved' one (ie. at its final destination)
+
+					for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); )
+					{
+						UIComponent component = i.next();
+
+						if ( findComponentWithId( mMetawidget, component.getId(), component ) != null )
+							i.remove();
+					}
+
 					return;
+				}
 
 				// Build widgets as normal
 				//
 				// Note: calling buildWidgets here means we are modifying the component tree during
 				// the Renderer phase, which is dangerous. The ideal fix would be to .buildWidgets
-				// BEFORE the component tree gets serialized (see above)
+				// BEFORE the component tree gets serialized (see JavaDoc above)
 
 				mMetawidget.buildWidgets();
 			}
@@ -1068,56 +1096,34 @@ public abstract class UIMetawidget
 		// Private methods
 		//
 
-		/**
-		 * Clear out our current children (ie. post-merging with server-side component tree) and
-		 * revert it back to those children in mRestoreStateHack (ie. pre-merging with server-side
-		 * component tree). This stops the server-side component tree introducing duplicates. The
-		 * duplicates are there because the server-side component tree gets serialized before we
-		 * have chance to manipulate it (ie. in encodeBegin).
-		 * <p>
-		 * Do this recursively for any <code>UIMetawidget</code>s we encounter, because their
-		 * <code>encodeBegin</code> won't otherwise get called (we're not sure why).
-		 */
-
-		// TODO: test this fix!
-
-		private void applyChildrenAfterRestoreState( UIMetawidget metawidget )
+		private UIComponent findComponentWithId( UIComponent component, String id, UIComponent ignore )
 		{
-			// Nothing to do?
+			if ( id == null )
+				return null;
 
-			if ( metawidget.mRestoreStateHack == null )
-				return;
-
-			if ( metawidget.mRestoreStateHack.mChildrenAfterRestoreState == null )
-				return;
-
-			// Revert all children
-
-			List<UIComponent> children = metawidget.getChildren();
-			children.clear();
-
-			for ( UIComponent childAfterRestoreState : metawidget.mRestoreStateHack.mChildrenAfterRestoreState )
+			for ( UIComponent child : component.getChildren() )
 			{
-				children.add( childAfterRestoreState );
+				if ( child == ignore )
+					continue;
 
-				// Recurse any nested UIMetawidgets
+				if ( id.equals( child.getId() ) )
+					return child;
 
-				if ( childAfterRestoreState instanceof UIMetawidget )
-					applyChildrenAfterRestoreState( (UIMetawidget) childAfterRestoreState );
+				UIComponent found = findComponentWithId( child, id, ignore );
+
+				if ( found != null )
+					return found;
 			}
 
-			// Don't do this again on our nested UIMetawidgets when their encodeBegin DOES get
-			// called
-
-			metawidget.mRestoreStateHack.mChildrenAfterRestoreState = null;
+			return null;
 		}
 	}
 
 	/**
 	 * Dynamically modify the component tree using the JSF2 API.
 	 * <p>
-	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid all the hacks in
-	 * <code>RestoreStateHack</code>.
+	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid
+	 * <code>RemoveDuplicatesHack</code>.
 	 */
 
 	private static class SystemEventSupport
