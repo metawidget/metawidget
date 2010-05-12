@@ -14,7 +14,7 @@
 			android:tag="communications"
 			android:paddingTop="10px"
       		android:layout_width="325px"
-      		android:layout_height="75px"/>
+      		android:layout_height="200px"/>
 		
 	</view>
 	        
