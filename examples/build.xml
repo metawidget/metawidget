@@ -312,7 +312,7 @@
 				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
-				<include name="richfaces-*.jar"/>
+				<include name="richfaces-*-3.1.6.GA.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>

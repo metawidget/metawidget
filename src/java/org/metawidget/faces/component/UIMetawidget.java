@@ -462,6 +462,15 @@ public abstract class UIMetawidget
 	}
 
 	@Override
+	public void processUpdates( FacesContext context )
+	{
+		if ( mRemoveDuplicatesHack != null )
+			mRemoveDuplicatesHack.processUpdates();
+
+		super.processUpdates( context );
+	}
+
+	@Override
 	public boolean isRendered()
 	{
 		boolean rendered = super.isRendered();
@@ -1022,6 +1031,8 @@ public abstract class UIMetawidget
 
 		private UIMetawidget	mMetawidget;
 
+		private boolean			mProcessUpdatesCalled;
+
 		//
 		// Constructor
 		//
@@ -1035,16 +1046,24 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
+		// TODO: test this scenario
+
+		public void processUpdates()
+		{
+			mProcessUpdatesCalled = true;
+		}
+
 		/**
 		 * If the component is never going to be rendered, then <code>encodeBegin</code> will never
 		 * get called. Therefore our 'remove duplicates' code will never get called either.
+		 * <p>
+		 * Note we don't want to make a call on whether 'rendered == false' until <em>after</em>
+		 * processUpdates has been called and all model values are populated.
 		 */
 
 		public void isRendered( boolean rendered )
 		{
-			// TODO: what if later on we decide we ARE going to render it?
-
-			if ( !rendered )
+			if ( mProcessUpdatesCalled && !rendered )
 				mMetawidget.getChildren().clear();
 		}
 
@@ -1153,6 +1172,12 @@ public abstract class UIMetawidget
 
 			FacesContext context = FacesContext.getCurrentInstance();
 			UIViewRoot root = context.getViewRoot();
+
+			// Warning against using an old version of RichFaces
+
+			if ( root == null )
+				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
+
 			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 		}
 

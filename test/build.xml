@@ -1227,7 +1227,7 @@
 				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.1*.jar"/>
-				<include name="richfaces-*.jar"/>
+				<include name="richfaces-*-3.1.6.GA.jar"/>
 			</lib>
 		</war>
 		
@@ -1251,7 +1251,7 @@
 	<target name="test-faces-quirks" depends="flatten-test-libs,compile-test">
 
 		<!-- MyFaces 1.2 -->
-				
+
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
 		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces.war" webxml="${relative.dir}/test/src/web/faces/quirks/WEB-INF/web.xml">
@@ -1274,7 +1274,7 @@
 				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
-				<include name="richfaces-*.jar"/>
+				<include name="richfaces-*-3.1.6.GA.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>
@@ -1300,7 +1300,7 @@
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
 		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2.war" webxml="${relative.dir}/test/src/web/faces/quirks-jsf2/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-jsf2">
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1310,10 +1310,17 @@
 				<include name="org/metawidget/faces/quirks/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
 				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="jsf-api.jar"/>
 				<include name="jsf-impl.jar"/>
+				<include name="richfaces-*-3.3.3.Final.jar"/>				
 				<include name="standard.jar"/>
 			</lib>
 		</war>
@@ -1342,7 +1349,6 @@
 			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
 			<jvmarg value="-Duser.timezone=GMT"/>
 			<jvmarg value="-Duser.region=US"/>
-			<jvmarg value="-Dorg.metawidget.faces.component.UIMetawidget.UseSystemEvents=true"/>
 		</java>
 		
 		<sleep seconds="10"/>
