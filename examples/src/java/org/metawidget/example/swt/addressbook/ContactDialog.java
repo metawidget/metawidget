@@ -196,19 +196,23 @@ public class ContactDialog
 					mCommunicationsEditor.setEditor( null );
 
 					Communication communication = communicationMetawidget.getToInspect();
-					Set<Communication> communications = contact.getCommunications();
 
-					if ( communications == null )
+					if ( communication.getType() != null && !"".equals( communication.getType() ) )
 					{
-						communications = CollectionUtils.newHashSet( communication );
-						contact.setCommunications( communications );
-					}
-					else
-					{
-						contact.getCommunications().add( communication );
-					}
+						Set<Communication> communications = contact.getCommunications();
 
-					fireRefresh();
+						if ( communications == null )
+						{
+							communications = CollectionUtils.newHashSet( communication );
+							contact.setCommunications( communications );
+						}
+						else
+						{
+							contact.getCommunications().add( communication );
+						}
+
+						fireRefresh();
+					}
 				}
 
 				// Ignore pop-up menu

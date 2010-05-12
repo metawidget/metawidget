@@ -472,6 +472,12 @@ public class FacesMetawidgetTests
 					return null;
 				}
 
+				@Override
+				public String getInitParameter( String name )
+				{
+					return null;
+				}
+
 				//
 				// Unsupported public methods
 				//
@@ -509,12 +515,6 @@ public class FacesMetawidgetTests
 
 				@Override
 				public Object getContext()
-				{
-					throw new UnsupportedOperationException();
-				}
-
-				@Override
-				public String getInitParameter( String arg0 )
 				{
 					throw new UnsupportedOperationException();
 				}

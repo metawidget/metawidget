@@ -37,7 +37,6 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.example.shared.addressbook.model.Gender;
-import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -56,6 +55,7 @@ import org.metawidget.inspector.struts.StrutsAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.base.BasePipeline;
@@ -1114,7 +1114,7 @@ public class ConfigReaderTest
 			{
 				String xml = "<?xml version=\"1.0\"?>";
 				xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-				xml += "<htmlMetawidget xmlns=\"java:org.metawidget.faces.component.html\">";
+				xml += "<htmlMetawidgetTag xmlns=\"java:org.metawidget.jsp.tagext.html\">";
 				xml += "	<inspector>";
 				xml += "		<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
 				xml += "			<inspectors>";
@@ -1156,7 +1156,7 @@ public class ConfigReaderTest
 				mOpenResource++;
 
 				xml += "	</widgetBuilder>";
-				xml += "</htmlMetawidget>";
+				xml += "</htmlMetawidgetTag>";
 				xml += "</metawidget>";
 
 				return new ByteArrayInputStream( xml.getBytes() );
@@ -1165,15 +1165,15 @@ public class ConfigReaderTest
 
 		try
 		{
-			configReader.configure( "foo", HtmlMetawidget.class );
+			configReader.configure( "foo", HtmlMetawidgetTag.class );
 			assertTrue( false );
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "No such class org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderFoo or supported tag <compositeWidgetBuilderFoo>".equals( e.getMessage() ) );
+			assertEquals( "No such class org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderFoo or supported tag <compositeWidgetBuilderFoo>", e.getMessage() );
 		}
 
-		assertTrue( configReader.configure( "foo", HtmlMetawidget.class ) != null );
+		assertTrue( configReader.configure( "foo", HtmlMetawidgetTag.class ) != null );
 	}
 
 	//

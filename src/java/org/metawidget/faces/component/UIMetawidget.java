@@ -161,11 +161,15 @@ public abstract class UIMetawidget
 		setRendererType( "table" );
 
 		// SystemEvent support
-		// (this is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402,
+		//
+		// Tthis is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402,
 		// which in turn depends on
-		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636)
+		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636, so it is not
+		// enabled by default
 
-		if ( "true".equals( System.getProperty( UIMetawidget.class.getName() + ".UseSystemEvents" ) ) )
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( "true".equals( context.getExternalContext().getInitParameter( UIMetawidget.class.getPackage().getName() + ".USE_SYSTEM_EVENTS" ) ) )
 			new SystemEventSupport( this );
 		else
 			mRemoveDuplicatesHack = new RemoveDuplicatesHack( this );
@@ -1038,6 +1042,8 @@ public abstract class UIMetawidget
 
 		public void isRendered( boolean rendered )
 		{
+			// TODO: what if later on we decide we ARE going to render it?
+
 			if ( !rendered )
 				mMetawidget.getChildren().clear();
 		}
@@ -1125,6 +1131,8 @@ public abstract class UIMetawidget
 	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid
 	 * <code>RemoveDuplicatesHack</code>.
 	 */
+
+	// TODO: are we testing this enough?
 
 	private static class SystemEventSupport
 		implements SystemEventListener

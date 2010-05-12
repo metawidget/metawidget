@@ -20,9 +20,11 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 
 /**
@@ -32,6 +34,12 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 public class CssStyleProcessorTest
 	extends TestCase
 {
+	//
+	// Private members
+	//
+
+	private FacesContext	mContext;
+
 	//
 	// Public methods
 	//
@@ -64,5 +72,27 @@ public class CssStyleProcessorTest
 		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ));
 		assertEquals( "foo1 foo2", component.getAttributes().get( "style" ) );
 		assertEquals( "bar1 bar2", component.getAttributes().get( "styleClass" ) );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected final void setUp()
+		throws Exception
+	{
+		super.setUp();
+
+		mContext = new MockFacesContext();
+	}
+
+	@Override
+	protected final void tearDown()
+		throws Exception
+	{
+		super.tearDown();
+
+		mContext.release();
 	}
 }

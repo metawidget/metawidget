@@ -256,6 +256,16 @@ public class SwingAddressBookTest
 		((JMenuItem) popupMenu.getComponent( 0 )).getAction().actionPerformed( null );
 		assertFalse( popupMenu.isVisible() );
 
+		// Check 'adding' a blank communication
+
+		metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 1, 0 ), true, 1, 0 );
+		combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
+		combo.setSelectedItem( "" );
+		assertTrue( model.getRowCount() == 2 );
+		editor.stopCellEditing();
+		model.setValueAt( editor.getCellEditorValue(), 1, 0 );
+		assertTrue( model.getRowCount() == 2 );
+
 		// Check saving
 
 		metawidgetContact.setValue( "foo", "dateOfBirth" );
@@ -291,6 +301,18 @@ public class SwingAddressBookTest
 		assertTrue( contact.removeCommunication( new Communication() ) == false );
 		contact.removeCommunication( communicationModel.getValueAt( 1 ) );
 		assertTrue( contact.getCommunications().size() == 1 );
+
+		// Check re-viewing
+
+		dialog = new ContactDialog( addressBook, contact );
+		metawidgetContact = dialog.mContactMetawidget;
+		assertEquals( "Sapien", metawidgetContact.getValue( "surname" ) );
+		assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
+
+		scrollPane = metawidgetContact.getComponent( "communications" );
+		communications = (JTable) scrollPane.getViewport().getView();
+		assertTrue( communications.getRowCount() == 1 );
+		assertTrue( metawidgetContact.getComponentCount() == 19 );
 
 		// Search everything
 

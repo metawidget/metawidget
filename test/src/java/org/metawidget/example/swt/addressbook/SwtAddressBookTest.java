@@ -245,6 +245,19 @@ public class SwtAddressBookTest
 		dialog.mCommunicationsTable.setSelection( 0 );
 		dialog.mCommunicationsTable.getMenu().getItem( 0 ).notifyListeners( SWT.Selection, null );
 
+		// Check 'adding' a blank communication
+
+		event.x = communicationsTable.getItem( 1 ).getBounds( 1 ).x;
+		event.y = communicationsTable.getItem( 1 ).getBounds( 1 ).y;
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+		combo = (Combo) communicationMetawidget.getChildren()[0];
+		combo.setText( "" );
+		event.y = 0;
+		assertTrue( communicationsTable.getItemCount() == 2 );
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
+		assertTrue( communicationsTable.getItemCount() == 2 );
+
 		// Check saving
 
 		metawidgetContact.setValue( "foo", "dateOfBirth" );
@@ -274,6 +287,17 @@ public class SwtAddressBookTest
 		assertEquals( "Mobile", communication.getType() );
 		assertEquals( "(0402) 123 456", communication.getValue() );
 		assertFalse( iterator.hasNext() );
+
+		// Check re-viewing
+
+		dialog.open( contact );
+		metawidgetContact = dialog.mContactMetawidget;
+		assertEquals( "Sapien", metawidgetContact.getValue( "surname" ) );
+		assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
+
+		communicationsTable = metawidgetContact.getControl( "communications" );
+		assertTrue( communicationsTable.getItemCount() == 1 );
+		assertTrue( metawidgetContact.getChildren().length == 21 );
 
 		// Search everything
 
