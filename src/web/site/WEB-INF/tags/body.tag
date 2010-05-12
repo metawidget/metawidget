@@ -113,13 +113,13 @@
 					<a href="http://springframework.org" target="_blank" style="top: 255px; left: 110px">
 						<img src="/media/logos/logo-spring.gif" alt="Spring" style="border: 0px" />
 					</a>
-					<a href="http://struts.apache.org" target="_blank" style="top: 300px; left: 90px">
+					<a href="http://struts.apache.org" target="_blank" style="top: 301px; left: 90px">
 						<img src="/media/logos/logo-struts.gif" alt="Struts" style="border: 0px" />
 					</a>
 					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 300px; left: 20px">
 						<img src="/media/logos/logo-swing.gif" alt="Swing" style="border: 0px" />
 					</a>
-					<a href="http://eclipse.org/swt" target="_blank" style="top: 336px; left: 75px">
+					<a href="http://eclipse.org/swt" target="_blank" style="top: 338px; left: 75px">
 						<img src="/media/logos/logo-swt.gif" alt="SWT" style="border: 0px" />
 					</a>
 					<a href="http://myfaces.apache.org/tomahawk/index.html" target="_blank" style="top: 355px; left: 15px">
