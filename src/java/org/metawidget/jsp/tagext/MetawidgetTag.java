@@ -47,6 +47,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -462,8 +463,7 @@ public abstract class MetawidgetTag
 				// Combine the subtrees.
 				//
 				// Note the top-level types attribute will be different, because one is the 'raw'
-				// type (eg.
-				// contactForm) and one the runtime bean (eg.
+				// type (eg. contactForm) and one the runtime bean (eg.
 				// org.metawidget.example.struts.addressbook.form.BusinessContactForm)
 
 				if ( inspectionResult == null )
@@ -472,11 +472,13 @@ public abstract class MetawidgetTag
 				}
 				else if ( additionalInspectionResult != null )
 				{
-					Element inspectionResultRoot = XmlUtils.documentFromString( inspectionResult ).getDocumentElement();
-					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResultRoot, 0 );
-					Element additionalInspectionResultRoot = XmlUtils.documentFromString( additionalInspectionResult ).getDocumentElement();
-					Element additionalInspectionResultElement = XmlUtils.getElementAt( additionalInspectionResultRoot, 0 );
+					Document inspectionResultDocument = XmlUtils.documentFromString( inspectionResult );
+					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResultDocument.getDocumentElement(), 0 );
+					Document additionalInspectionResultDocument = XmlUtils.documentFromString( additionalInspectionResult );
+					Element additionalInspectionResultElement = XmlUtils.getElementAt( additionalInspectionResultDocument.getDocumentElement(), 0 );
 					XmlUtils.combineElements( inspectionResultElement, additionalInspectionResultElement, NAME, null );
+
+					inspectionResult = XmlUtils.documentToString( inspectionResultDocument, false );
 				}
 			}
 		}
