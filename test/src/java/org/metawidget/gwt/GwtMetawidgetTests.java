@@ -19,7 +19,7 @@ package org.metawidget.gwt;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.metawidget.gwt.client.ui.GwtMetawidgetPipelineTest;
+import org.metawidget.gwt.client.ui.GwtMetawidgetTest;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutTest;
 import org.metawidget.gwt.client.ui.layout.GwtFlatSectionLayoutDecoratorTest;
 import org.metawidget.gwt.client.ui.layout.GwtNestedSectionLayoutDecoratorTest;
@@ -57,7 +57,7 @@ public class GwtMetawidgetTests
 		suite.addTestSuite( FlexTableLayoutTest.class );
 		suite.addTestSuite( GwtFlatSectionLayoutDecoratorTest.class );
 		suite.addTestSuite( GwtNestedSectionLayoutDecoratorTest.class );
-		suite.addTestSuite( GwtMetawidgetPipelineTest.class );
+		suite.addTestSuite( GwtMetawidgetTest.class );
 		suite.addTestSuite( LabelLayoutDecoratorTest.class );
 		suite.addTestSuite( SimpleBindingProcessorTest.class );
 

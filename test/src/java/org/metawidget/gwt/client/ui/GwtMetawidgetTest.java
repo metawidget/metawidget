@@ -18,6 +18,8 @@ package org.metawidget.gwt.client.ui;
 
 import java.util.Map;
 
+import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
+
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.xml.client.Element;
 
@@ -25,7 +27,7 @@ import com.google.gwt.xml.client.Element;
  * @author Richard Kennard
  */
 
-public class GwtMetawidgetPipelineTest
+public class GwtMetawidgetTest
 	extends GWTTestCase
 {
 	//
@@ -42,6 +44,19 @@ public class GwtMetawidgetPipelineTest
 		throws Exception
 	{
 		new Pipeline().testIndentation();
+	}
+
+	public void testRemoteInspectorProxy()
+	{
+		try
+		{
+			new GwtRemoteInspectorProxy().inspect( new Object(), null, (String[]) null, null );
+			assertTrue( false );
+		}
+		catch( RuntimeException e )
+		{
+			assertTrue( "Objects passed to GwtRemoteInspector must be Serializable".equals( e.getMessage() ));
+		}
 	}
 
 	//
