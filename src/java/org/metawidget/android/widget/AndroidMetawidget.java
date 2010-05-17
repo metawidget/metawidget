@@ -48,7 +48,6 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.w3c.dom.Element;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -73,45 +72,45 @@ public class AndroidMetawidget
 	// Private statics
 	//
 
-	private static Inspector												DEFAULT_INSPECTOR;
+	private static Inspector									DEFAULT_INSPECTOR;
 
-	private static InspectionResultProcessor<Element, AndroidMetawidget>	DEFAULT_INSPECTIONRESULTPROCESSOR;
+	private static InspectionResultProcessor<AndroidMetawidget>	DEFAULT_INSPECTIONRESULTPROCESSOR;
 
-	private static WidgetBuilder<View, AndroidMetawidget>					DEFAULT_WIDGETBUILDER;
+	private static WidgetBuilder<View, AndroidMetawidget>		DEFAULT_WIDGETBUILDER;
 
-	private static Layout<View, ViewGroup, AndroidMetawidget>				DEFAULT_LAYOUT;
+	private static Layout<View, ViewGroup, AndroidMetawidget>	DEFAULT_LAYOUT;
 
-	private static ConfigReader												CONFIG_READER;
+	private static ConfigReader									CONFIG_READER;
 
 	//
 	// Private members
 	//
 
-	private Object															mToInspect;
+	private Object												mToInspect;
 
-	private String															mPath;
+	private String												mPath;
 
-	private int																mConfig;
+	private int													mConfig;
 
-	private boolean															mNeedsConfiguring	= true;
+	private boolean												mNeedsConfiguring	= true;
 
-	private Class<?>														mBundle;
+	private Class<?>											mBundle;
 
-	private boolean															mNeedToBuildWidgets;
+	private boolean												mNeedToBuildWidgets;
 
-	Element																	mLastInspection;
+	String														mLastInspection;
 
-	private boolean															mIgnoreAddRemove;
+	private boolean												mIgnoreAddRemove;
 
-	private Set<View>														mExistingViews;
+	private Set<View>											mExistingViews;
 
-	private Set<View>														mExistingUnusedViews;
+	private Set<View>											mExistingUnusedViews;
 
-	private Map<String, Facet>												mFacets;
+	private Map<String, Facet>									mFacets;
 
-	private Map<Object, Object>												mClientProperties;
+	private Map<Object, Object>									mClientProperties;
 
-	private Pipeline														mPipeline;
+	private Pipeline											mPipeline;
 
 	//
 	// Constructor
@@ -463,7 +462,7 @@ public class AndroidMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Element inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 	{
 		return mPipeline.inspect( toInspect, type, names );
 	}
@@ -693,7 +692,7 @@ public class AndroidMetawidget
 		}
 	}
 
-	protected Element inspect()
+	protected String inspect()
 	{
 		if ( mPath == null )
 			return null;

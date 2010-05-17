@@ -51,7 +51,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.xml.client.Element;
 
 /**
  * Metawidget for GWT environments.
@@ -158,7 +157,7 @@ public class GwtMetawidget
 
 	/* package private */int								mNeedToBuildWidgets;
 
-	/* package private */Element							mLastInspection;
+	/* package private */String								mLastInspection;
 
 	/* package private */boolean							mIgnoreAddRemove;
 
@@ -273,7 +272,7 @@ public class GwtMetawidget
 		invalidateInspection();
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<Element, GwtMetawidget> inspectionResultProcessor )
+	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor )
 	{
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
@@ -831,7 +830,7 @@ public class GwtMetawidget
 				if ( inspector instanceof GwtRemoteInspectorProxy )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<Element>()
+					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -840,7 +839,7 @@ public class GwtMetawidget
 							mNeedToBuildWidgets = BUILDING_COMPLETE;
 						}
 
-						public void onSuccess( Element inspectionResult )
+						public void onSuccess( String inspectionResult )
 						{
 							mLastInspection = inspectionResult;
 

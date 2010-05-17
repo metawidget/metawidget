@@ -51,7 +51,6 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
-import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
@@ -94,7 +93,7 @@ public class SwingMetawidget
 
 	private boolean						mNeedToBuildWidgets;
 
-	private Element						mLastInspection;
+	private String						mLastInspection;
 
 	private boolean						mIgnoreAddRemove;
 
@@ -218,19 +217,19 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<Element, SwingMetawidget> inspectionResultProcessor )
+	public void addInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor )
 	{
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
-	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, SwingMetawidget> inspectionResultProcessor )
+	public void removeInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor )
 	{
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<Element, SwingMetawidget>... inspectionResultProcessors )
+	public void setInspectionResultProcessors( InspectionResultProcessor<SwingMetawidget>... inspectionResultProcessors )
 	{
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 		invalidateWidgets();
@@ -649,7 +648,7 @@ public class SwingMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Element inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 	{
 		return mPipeline.inspect( toInspect, type, names );
 	}
@@ -886,7 +885,7 @@ public class SwingMetawidget
 		}
 	}
 
-	protected Element inspect()
+	protected String inspect()
 	{
 		if ( mPath == null )
 			return null;

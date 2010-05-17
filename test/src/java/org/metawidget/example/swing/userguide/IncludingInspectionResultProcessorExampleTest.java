@@ -29,6 +29,7 @@ import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.XmlUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -67,13 +68,14 @@ public class IncludingInspectionResultProcessorExampleTest
 	//
 
 	static class IncludingInspectionResultProcessor
-		implements InspectionResultProcessor<Element, SwingMetawidget>
+		implements InspectionResultProcessor<SwingMetawidget>
 	{
 		@Override
-		public Element processInspectionResult( Element inspectionResult, SwingMetawidget metawidget )
+		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget )
 		{
 			String[] includes = (String[]) metawidget.getClientProperty( "include" );
-			Element entity = (Element) inspectionResult.getFirstChild();
+			Document document = XmlUtils.documentFromString( inspectionResult );
+			Element entity = (Element) document.getDocumentElement().getFirstChild();
 			int propertiesToCleanup = entity.getChildNodes().getLength();
 
 			// Pull out the names in order
@@ -96,7 +98,7 @@ public class IncludingInspectionResultProcessorExampleTest
 				entity.removeChild( entity.getFirstChild() );
 			}
 
-			return inspectionResult;
+			return XmlUtils.documentToString( document, false );
 		}
 	}
 }

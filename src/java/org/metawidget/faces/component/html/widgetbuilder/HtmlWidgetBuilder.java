@@ -561,7 +561,7 @@ public class HtmlWidgetBuilder
 		else
 			componentType = attributes.get( PARAMETERIZED_TYPE );
 
-		Element inspectedType = null;
+		String inspectedType = null;
 
 		if ( componentType != null )
 			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
@@ -596,7 +596,8 @@ public class HtmlWidgetBuilder
 
 		else
 		{
-			NodeList elements = inspectedType.getFirstChild().getChildNodes();
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			NodeList elements = root.getFirstChild().getChildNodes();
 
 			// ...and try to create columns for just the 'required' fields...
 

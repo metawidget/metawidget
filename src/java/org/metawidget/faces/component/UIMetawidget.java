@@ -238,17 +238,17 @@ public abstract class UIMetawidget
 		mPipeline.setInspector( inspector );
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<Element, UIMetawidget> inspectionResultProcessor )
+	public void addInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor )
 	{
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 	}
 
-	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, UIMetawidget> inspectionResultProcessor )
+	public void removeInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor )
 	{
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<Element, UIMetawidget>... inspectionResultProcessors )
+	public void setInspectionResultProcessors( InspectionResultProcessor<UIMetawidget>... inspectionResultProcessors )
 	{
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
@@ -495,7 +495,7 @@ public abstract class UIMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Element inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 	{
 		if ( LOG.isTraceEnabled() )
 			LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (start)" );
@@ -653,7 +653,7 @@ public abstract class UIMetawidget
 	 * components
 	 */
 
-	protected Element inspect( ValueBinding valueBinding, boolean inspectFromParent )
+	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
 	{
 		if ( valueBinding == null )
 			return null;
@@ -873,10 +873,13 @@ public abstract class UIMetawidget
 
 			if ( binding != null )
 			{
-				Element inspectionResult = inspect( binding, true );
+				String inspectionResult = inspect( binding, true );
 
 				if ( inspectionResult != null )
-					childAttributes.putAll( XmlUtils.getAttributesAsMap( inspectionResult.getFirstChild() ) );
+				{
+					Element root = XmlUtils.documentFromString( inspectionResult ).getDocumentElement();
+					childAttributes.putAll( XmlUtils.getAttributesAsMap( root.getFirstChild() ) );
+				}
 			}
 			else
 			{

@@ -44,29 +44,32 @@ import org.w3c.dom.NodeList;
  */
 
 public class ComesAfterInspectionResultProcessor<M>
-	implements InspectionResultProcessor<Element, M>
+	implements InspectionResultProcessor<M>
 {
 	//
 	// Public methods
 	//
 
-	public Element processInspectionResult( Element inspectionResult, M metawidget )
+	public String processInspectionResult( String inspectionResult, M metawidget )
 	{
 		try
 		{
+			Document document = XmlUtils.documentFromString( inspectionResult );
+			Element inspectionResultRoot = document.getDocumentElement();
+
 			// Start a new document
 			//
 			// (Android 1.1 did not cope well with shuffling the nodes of an existing document)
 
 			Document newDocument = XmlUtils.newDocumentBuilder().newDocument();
-			Element newInspectionResult = newDocument.createElementNS( NAMESPACE, ROOT );
-			XmlUtils.setMapAsAttributes( newInspectionResult, XmlUtils.getAttributesAsMap( inspectionResult ) );
-			newDocument.appendChild( newInspectionResult );
+			Element newInspectionResultRoot = newDocument.createElementNS( NAMESPACE, ROOT );
+			XmlUtils.setMapAsAttributes( newInspectionResultRoot, XmlUtils.getAttributesAsMap( inspectionResultRoot ) );
+			newDocument.appendChild( newInspectionResultRoot );
 
-			Element entity = (Element) inspectionResult.getChildNodes().item( 0 );
+			Element entity = (Element) inspectionResultRoot.getChildNodes().item( 0 );
 			Element newEntity = newDocument.createElementNS( NAMESPACE, ENTITY );
 			XmlUtils.setMapAsAttributes( newEntity, XmlUtils.getAttributesAsMap( entity ) );
-			newInspectionResult.appendChild( newEntity );
+			newInspectionResultRoot.appendChild( newEntity );
 
 			// Record all traits (ie. properties/actions) that have comes-after
 
@@ -196,7 +199,7 @@ public class ComesAfterInspectionResultProcessor<M>
 				}
 			}
 
-			return newInspectionResult;
+			return XmlUtils.documentToString( newDocument, false );
 		}
 		catch ( Exception e )
 		{

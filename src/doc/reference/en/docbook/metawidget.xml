@@ -3388,7 +3388,6 @@ public class Person {
 				<classname>InspectionResultProcessor</classname>s see <xref linkend="chapter-inspectionresultprocessors"/>.
 			</para>
 			
-
 			<section id="section-architecture-inspectionresultprocessors-interface">
 				<title>Interface</title>
 
@@ -3397,16 +3396,11 @@ public class Person {
 					interface that defines only one method:
 				</para>
 				
-				<programlisting language="java">E processInspectionResult( E inspectionResult, M metawidget );</programlisting>
+				<programlisting language="java">String processInspectionResult( String inspectionResult, M metawidget );</programlisting>
 				
 				<para>
-					Where <parameter>E</parameter> is a DOM Element (typically <classname>org.w3c.dom.Element</classname>) containing
-					the inspection result, and M is a Metawidget class (ie. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
-				</para>
-				
-				<para>
-					The <classname>InspectionResultProcessor</classname> must returned the processed inspection result's DOM Element. This is typically
-					the same as the given <parameter>inspectionResult</parameter>. The parent Metwidget then passes this to the next
+					The <classname>InspectionResultProcessor</classname> must returned the processed inspection result as XML
+					conforming to <filename>inspection-result-1.0.xsd</filename>. The parent Metwidget then passes this to the next
 					<classname>InspectionResultProcessor</classname> in the list as show in <xref linkend="section-architecture-inspectionresultprocessors-typical"/>.
 				</para>
 				
@@ -3576,12 +3570,13 @@ public class Main {
 	}
 	
 	<symbol>static class IncludingInspectionResultProcessor
-		implements InspectionResultProcessor&lt;Element, SwingMetawidget&gt; {
+		implements InspectionResultProcessor&lt;SwingMetawidget&gt; {
 		
-		public Element processInspectionResult( Element inspectionResult, SwingMetawidget metawidget ) {
+		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget ) {
 		
 			String[] includes = (String[]) metawidget.getClientProperty( "include" );
-			Element entity = (Element) inspectionResult.getFirstChild();
+			Document document = XmlUtils.documentFromString( inspectionResult );
+			Element entity = (Element) document.getDocumentElement().getFirstChild();			
 			int propertiesToCleanup = entity.getChildNodes().getLength();
 
 			// Pull out the names in order
@@ -3603,7 +3598,7 @@ public class Main {
 				entity.removeChild( entity.getFirstChild() );
 			}
 
-			return inspectionResult;
+			return XmlUtils.documentToString( document, false );
 		}
 	}</symbol>
 }</programlisting>

@@ -25,15 +25,18 @@ import org.metawidget.iface.Immutable;
  * InspectionResultProcessors must be immutable (or, at least, appear that way to clients. They can
  * have caches or configuration settings internally, as long as they are threadsafe). If they need
  * to store state, they should use the Metawidget passed to each method.
+ * <p>
+ * Processing an inspection result can be useful in a variety of cases. For example, you can sort
+ * business object properties based on a defined ordering, or choose only certain properties based
+ * on the UI screen being displayed. In more advanced cases, you could 'unpack' an inspection result
+ * that contained nested entities so that you could, say, iterate over a Collection.
  *
- * @param <E>
- *            Element class at the root of the inspection result (typically org.w3d.com.Element)
  * @param <M>
  *            Metawidget that supports this InspectionResultProcessor
  * @author Richard Kennard
  */
 
-public interface InspectionResultProcessor<E, M>
+public interface InspectionResultProcessor<M>
 	extends Immutable
 {
 	//
@@ -42,12 +45,10 @@ public interface InspectionResultProcessor<E, M>
 
 	/**
 	 * @param inspectionResult
-	 *            the inspection result to process. Never null
-	 * @return generally the original inspection result (as passed in to the first argument). Can be
-	 *         a different inspection result if the InspectionResultProcessor wishes to substitute
-	 *         the original inspection result for another. Can be null if the
-	 *         InspectionResultProcessor wishes to cancel the inspection
+	 *            the inspection result to process, as XML conforming to inspection-result-1.0.xsd. Never null
+	 * @return the processed inspection result, as XML conforming to inspection-result-1.0.xsd. Can be null if the InspectionResultProcessor wishes
+	 *         to cancel the inspection
 	 */
 
-	E processInspectionResult( E inspectionResult, M metawidget );
+	String processInspectionResult( String inspectionResult, M metawidget );
 }

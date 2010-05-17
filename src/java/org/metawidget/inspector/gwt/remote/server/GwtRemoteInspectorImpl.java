@@ -28,8 +28,6 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.XmlUtils;
-import org.w3c.dom.Element;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -95,12 +93,7 @@ public class GwtRemoteInspectorImpl
 
 	public String inspect( Serializable toInspect, String type, String[] names )
 	{
-		Element inspectionResult = mPipeline.inspect( toInspect, type, names );
-
-		if ( inspectionResult == null )
-			return null;
-
-		return XmlUtils.documentToString( inspectionResult.getOwnerDocument(), false );
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	public void setInspector( Inspector inspector )
@@ -108,7 +101,7 @@ public class GwtRemoteInspectorImpl
 		mPipeline.setInspector( inspector );
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<Element, GwtRemoteInspectorImpl>... inspectionResultProcessors )
+	public void setInspectionResultProcessors( InspectionResultProcessor<GwtRemoteInspectorImpl>... inspectionResultProcessors )
 	{
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}

@@ -61,25 +61,25 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	// Private statics
 	//
 
-	private final static int						DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
+	private final static int					DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	// Private members
 	//
 
-	private boolean									mReadOnly;
+	private boolean								mReadOnly;
 
-	private int										mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
+	private int									mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
-	private Inspector								mInspector;
+	private Inspector							mInspector;
 
-	private List<InspectionResultProcessor<E, M>>	mInspectionResultProcessors;
+	private List<InspectionResultProcessor<M>>	mInspectionResultProcessors;
 
-	private WidgetBuilder<W, M>						mWidgetBuilder;
+	private WidgetBuilder<W, M>					mWidgetBuilder;
 
-	private List<WidgetProcessor<W, M>>				mWidgetProcessors;
+	private List<WidgetProcessor<W, M>>			mWidgetProcessors;
 
-	private Layout<W, C, M>							mLayout;
+	private Layout<W, C, M>						mLayout;
 
 	//
 	// Public methods
@@ -141,25 +141,25 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * WidgetProcessors. Note ordering of InspectionResultProcessors is significant.
 	 */
 
-	public List<InspectionResultProcessor<E, M>> getInspectionResultProcessors()
+	public List<InspectionResultProcessor<M>> getInspectionResultProcessors()
 	{
 		return mInspectionResultProcessors;
 	}
 
-	public void setInspectionResultProcessors( List<InspectionResultProcessor<E, M>> inspectionResultProcessors )
+	public void setInspectionResultProcessors( List<InspectionResultProcessor<M>> inspectionResultProcessors )
 	{
 		mInspectionResultProcessors = inspectionResultProcessors;
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<E, M> inspectionResultProcessors )
+	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors )
 	{
 		if ( mInspectionResultProcessors == null )
-			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<E, M>>();
+			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>();
 
 		mInspectionResultProcessors.add( inspectionResultProcessors );
 	}
 
-	public void removeInspectionResultProcessor( InspectionResultProcessor<E, M> inspectionResultProcessors )
+	public void removeInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors )
 	{
 		if ( mInspectionResultProcessors == null )
 			return;
@@ -249,28 +249,27 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * using our same <code>Inspector</code>.
 	 */
 
-	public E inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 	{
 		if ( mInspector == null )
 			throw new NullPointerException( "No inspector configured" );
 
-		String xml = mInspector.inspect( toInspect, type, names );
+		String inspectionResult = mInspector.inspect( toInspect, type, names );
 
-		if ( xml == null )
+		if ( inspectionResult == null )
 			return null;
 
-		E inspectionResult = getDocumentElement( xml );
 		return processInspectionResult( inspectionResult );
 	}
 
 	/**
 	 * Build widgets from the given XML inspection result.
 	 * <p>
-	 * Note: the <code>BasePipeline</code> expects the XML to be passed in internally, rather than
+	 * Note: the <code>BasePipeline</code> expects the XML to be passed in externally, rather than
 	 * fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
-	public void buildWidgets( E inspectionResult )
+	public void buildWidgets( String inspectionResult )
 		throws Exception
 	{
 		startBuild();
@@ -279,7 +278,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 		{
 			// Build simple widget (from the top-level element)
 
-			E element = getChildAt( inspectionResult, 0 );
+			E root = getDocumentElement( inspectionResult );
+			E element = getChildAt( root, 0 );
 			Map<String, String> attributes = getAttributesAsMap( element );
 
 			if ( isReadOnly() )
@@ -460,15 +460,15 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 		}
 	}
 
-	protected E processInspectionResult( E inspectionResult )
+	protected String processInspectionResult( String inspectionResult )
 	{
-		E processedInspectionResult = inspectionResult;
+		String processedInspectionResult = inspectionResult;
 
 		if ( mInspectionResultProcessors != null )
 		{
 			M pipelineOwner = getPipelineOwner();
 
-			for ( InspectionResultProcessor<E, M> inspectionResultProcessor : mInspectionResultProcessors )
+			for ( InspectionResultProcessor<M> inspectionResultProcessor : mInspectionResultProcessors )
 			{
 				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, pipelineOwner );
 

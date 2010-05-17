@@ -111,7 +111,7 @@ public class DisplayTagWidgetBuilder
 					else
 						componentType = attributes.get( PARAMETERIZED_TYPE );
 
-					Element inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
 
 					// If there is a type...
 
@@ -119,7 +119,8 @@ public class DisplayTagWidgetBuilder
 					{
 						// ...iterate over it...
 
-						NodeList elements = inspectedType.getFirstChild().getChildNodes();
+						Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+						NodeList elements = root.getFirstChild().getChildNodes();
 
 						// ...and for each property...
 

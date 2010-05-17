@@ -20,8 +20,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.XmlUtils;
-import org.w3c.dom.Element;
 
 /**
  * @author Richard Kennard
@@ -47,22 +45,18 @@ public class ComesAfterInspectionResultProcessorTest
 		inputXml += "<property name=\"baz\"/>";
 		inputXml += "</entity></inspection-result>";
 
-		Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 		// Run processor
 
-		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 
 		// Test result
 
-		String outputXml = XmlUtils.documentToString( inspectionResult.getOwnerDocument(), true );
-
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">\n";
-		validateXml += "   <entity type=\"Foo\">\n";
-		validateXml += "      <property name=\"foo\"/>\n";
-		validateXml += "      <property name=\"bar\"/>\n";
-		validateXml += "      <property name=\"baz\"/>\n";
-		validateXml += "   </entity>\n";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"foo\"/>";
+		validateXml += "<property name=\"bar\"/>";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
@@ -81,22 +75,18 @@ public class ComesAfterInspectionResultProcessorTest
 		inputXml += "<property name=\"baz\"/>";
 		inputXml += "</entity></inspection-result>";
 
-		Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 		// Run processor
 
-		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 
 		// Test result
 
-		String outputXml = XmlUtils.documentToString( inspectionResult.getOwnerDocument(), true );
-
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">\n";
-		validateXml += "   <entity type=\"Foo\">\n";
-		validateXml += "      <property name=\"bar\"/>\n";
-		validateXml += "      <property name=\"baz\"/>\n";
-		validateXml += "      <property name=\"foo\" comes-after=\"\"/>\n";
-		validateXml += "   </entity>\n";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"bar\"/>";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "<property name=\"foo\" comes-after=\"\"/>";
+		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
@@ -115,22 +105,18 @@ public class ComesAfterInspectionResultProcessorTest
 		inputXml += "<property name=\"baz\"/>";
 		inputXml += "</entity></inspection-result>";
 
-		Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 		// Run processor
 
-		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 
 		// Test result
 
-		String outputXml = XmlUtils.documentToString( inspectionResult.getOwnerDocument(), true );
-
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">\n";
-		validateXml += "   <entity type=\"Foo\">\n";
-		validateXml += "      <property name=\"bar\"/>\n";
-		validateXml += "      <property name=\"foo\" comes-after=\"bar\"/>\n";
-		validateXml += "      <property name=\"baz\"/>\n";
-		validateXml += "   </entity>\n";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"bar\"/>";
+		validateXml += "<property name=\"foo\" comes-after=\"bar\"/>";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
@@ -150,23 +136,19 @@ public class ComesAfterInspectionResultProcessorTest
 		inputXml += "<property name=\"abc\"/>";
 		inputXml += "</entity></inspection-result>";
 
-		Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 		// Run processor
 
-		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 
 		// Test result
 
-		String outputXml = XmlUtils.documentToString( inspectionResult.getOwnerDocument(), true );
-
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">\n";
-		validateXml += "   <entity type=\"Foo\">\n";
-		validateXml += "      <property name=\"bar\"/>\n";
-		validateXml += "      <property name=\"baz\"/>\n";
-		validateXml += "      <property name=\"foo\" comes-after=\"bar,baz\"/>\n";
-		validateXml += "      <property name=\"abc\"/>\n";
-		validateXml += "   </entity>\n";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"bar\"/>";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "<property name=\"foo\" comes-after=\"bar,baz\"/>";
+		validateXml += "<property name=\"abc\"/>";
+		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
@@ -186,23 +168,19 @@ public class ComesAfterInspectionResultProcessorTest
 		inputXml += "<property name=\"abc\"/>";
 		inputXml += "</entity></inspection-result>";
 
-		Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 		// Run processor
 
-		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 
 		// Test result
 
-		String outputXml = XmlUtils.documentToString( inspectionResult.getOwnerDocument(), true );
-
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">\n";
-		validateXml += "   <entity type=\"Foo\">\n";
-		validateXml += "      <property name=\"baz\"/>\n";
-		validateXml += "      <property name=\"bar\" comes-after=\"baz\"/>\n";
-		validateXml += "      <property name=\"foo\" comes-after=\"baz\"/>\n";
-		validateXml += "      <property name=\"abc\"/>\n";
-		validateXml += "   </entity>\n";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "<property name=\"bar\" comes-after=\"baz\"/>";
+		validateXml += "<property name=\"foo\" comes-after=\"baz\"/>";
+		validateXml += "<property name=\"abc\"/>";
+		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
@@ -222,23 +200,19 @@ public class ComesAfterInspectionResultProcessorTest
 		inputXml += "<property name=\"abc\"/>";
 		inputXml += "</entity></inspection-result>";
 
-		Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 		// Run processor
 
-		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 
 		// Test result
 
-		String outputXml = XmlUtils.documentToString( inspectionResult.getOwnerDocument(), true );
-
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">\n";
-		validateXml += "   <entity type=\"Foo\">\n";
-		validateXml += "      <property name=\"baz\"/>\n";
-		validateXml += "      <property name=\"abc\"/>\n";
-		validateXml += "      <property name=\"bar\" comes-after=\"abc\"/>\n";
-		validateXml += "      <property name=\"foo\" comes-after=\"bar\"/>\n";
-		validateXml += "   </entity>\n";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "<property name=\"abc\"/>";
+		validateXml += "<property name=\"bar\" comes-after=\"abc\"/>";
+		validateXml += "<property name=\"foo\" comes-after=\"bar\"/>";
+		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
@@ -255,11 +229,9 @@ public class ComesAfterInspectionResultProcessorTest
 			inputXml += "<property name=\"bar\" comes-after=\"foo,baz\"/>";
 			inputXml += "</entity></inspection-result>";
 
-			Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 			// Run processor
 
-			inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+			new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 			assertTrue( false );
 		}
 		catch ( InspectionResultProcessorException e )
@@ -278,11 +250,9 @@ public class ComesAfterInspectionResultProcessorTest
 			inputXml += "<property name=\"bar\" comes-after=\"bar\"/>";
 			inputXml += "</entity></inspection-result>";
 
-			Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
-
 			// Run processor
 
-			inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+			new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 			assertTrue( false );
 		}
 		catch ( InspectionResultProcessorException e )

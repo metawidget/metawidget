@@ -1220,18 +1220,15 @@ public class XmlUtils
 
 		Map<String, String> attributes = getAttributesAsMap( node );
 
-		// In pretty mode, always put name first for easy reading
+		// Always put name first for easy unit tests
 
-		if ( indent > -1 )
+		String name = attributes.get( "name" );
+
+		if ( name != null )
 		{
-			String name = attributes.get( "name" );
-
-			if ( name != null )
-			{
-				buffer.append( " name=\"" );
-				buffer.append( escapeForXml( name ) );
-				buffer.append( "\"" );
-			}
+			buffer.append( " name=\"" );
+			buffer.append( escapeForXml( name ) );
+			buffer.append( "\"" );
 		}
 
 		for ( Map.Entry<String, String> attribute : attributes.entrySet() )
@@ -1243,9 +1240,9 @@ public class XmlUtils
 			if ( "xmlns".equals( attributeName ) )
 				continue;
 
-			// (in pretty mode, always put name first for easy reading)
+			// (always put name first for easy unit tests)
 
-			if ( indent > -1 && "name".equals( attributeName ) )
+			if ( "name".equals( attributeName ) )
 				continue;
 
 			buffer.append( " " );

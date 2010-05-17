@@ -240,7 +240,7 @@ public abstract class MetawidgetTag
 		mPipeline.setInspector( inspector );
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<Element, MetawidgetTag>... inspectionResultProcessors )
+	public void setInspectionResultProcessors( InspectionResultProcessor<MetawidgetTag>... inspectionResultProcessors )
 	{
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
@@ -274,7 +274,7 @@ public abstract class MetawidgetTag
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Element inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 	{
 		return mPipeline.inspect( toInspect, type, names );
 	}
@@ -421,7 +421,7 @@ public abstract class MetawidgetTag
 		nestedMetawidget.setBundle( mBundle );
 	}
 
-	protected Element inspect()
+	protected String inspect()
 	{
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
 		String type = typeAndNames.getType();
@@ -443,7 +443,7 @@ public abstract class MetawidgetTag
 
 		// Inspect using the 'raw' type (eg. contactForm)
 
-		Element inspectionResult = inspect( null, type, typeAndNames.getNamesAsArray() );
+		String inspectionResult = inspect( null, type, typeAndNames.getNamesAsArray() );
 
 		// (pageContext may be null in unit tests)
 
@@ -457,7 +457,7 @@ public abstract class MetawidgetTag
 			if ( obj != null )
 			{
 				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-				Element additionalInspectionResult = inspect( obj, type, typeAndNames.getNamesAsArray() );
+				String additionalInspectionResult = inspect( obj, type, typeAndNames.getNamesAsArray() );
 
 				// Combine the subtrees.
 				//
@@ -472,8 +472,10 @@ public abstract class MetawidgetTag
 				}
 				else if ( additionalInspectionResult != null )
 				{
-					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResult, 0 );
-					Element additionalInspectionResultElement = XmlUtils.getElementAt( additionalInspectionResult, 0 );
+					Element inspectionResultRoot = XmlUtils.documentFromString( inspectionResult ).getDocumentElement();
+					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResultRoot, 0 );
+					Element additionalInspectionResultRoot = XmlUtils.documentFromString( additionalInspectionResult ).getDocumentElement();
+					Element additionalInspectionResultElement = XmlUtils.getElementAt( additionalInspectionResultRoot, 0 );
 					XmlUtils.combineElements( inspectionResultElement, additionalInspectionResultElement, NAME, null );
 				}
 			}

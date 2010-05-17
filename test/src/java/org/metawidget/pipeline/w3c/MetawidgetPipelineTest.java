@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
@@ -59,27 +58,25 @@ public class MetawidgetPipelineTest
 		Pipeline pipeline = new Pipeline()
 		{
 			@Override
-			public Element inspect( Object toInspect, String type, String... names )
+			public String inspect( Object toInspect, String type, String... names )
 			{
 				return super.processInspectionResult( null );
 			}
 		};
 
-		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
+		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>()
 		{
-
 			@Override
-			public Element processInspectionResult( Element element, Object metawidget )
+			public String processInspectionResult( String inspectionResult, Object metawidget )
 			{
 				called.add( "InspectionResultProcessor #1" );
 				return null;
 			}
 		} );
-		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
+		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>()
 		{
-
 			@Override
-			public Element processInspectionResult( Element element, Object metawidget )
+			public String processInspectionResult( String inspectionResult, Object metawidget )
 			{
 				called.add( "InspectionResultProcessor #2" );
 				return null;
@@ -155,7 +152,7 @@ public class MetawidgetPipelineTest
 
 		// Top-level widget
 
-		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getFirstChild() );
+		pipeline.buildWidgets( "<inspection-result><entity type=\"foo\"/></inspection-result>" );
 
 		assertTrue( called.size() == 1 );
 		assertEquals( "WidgetProcessor #1", called.get( 0 ) );
@@ -164,7 +161,7 @@ public class MetawidgetPipelineTest
 		// Property-level widget
 
 		called.clear();
-		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
+		pipeline.buildWidgets( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" );
 
 		assertTrue( called.size() == 2 );
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
@@ -221,7 +218,7 @@ public class MetawidgetPipelineTest
 
 		// Top-level widget
 
-		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
+		pipeline.buildWidgets( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" );
 
 		assertTrue( called.size() == 3 );
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
