@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+
+	<!-- Test localizing 'true'/'false' to 'Yes'/'No' -->
+	
+	<application>
+		<message-bundle>org.metawidget.faces.quirks.resource.Resources</message-bundle>
+	</application>
+
+	<!-- Request-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>quirks</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.FacesQuirks</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>thisTest</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.FacesThisTest</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>stubConverter</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.StubConverterTest</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>richQuirksAjax</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesAjaxQuirks</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>richQuirksHack</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesHackTest</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Session-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>richQuirks</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesQuirks</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Converters -->
+	
+	<!-- Test if (!( component instanceof UISelectMany )) check in HtmlWidgetBuilder:377 -->
+	
+	<converter>
+		<converter-for-class>java.util.List</converter-for-class>
+		<converter-class>com.foo.ShouldNotBeCreated</converter-class>
+	</converter>	
+
+</faces-config>

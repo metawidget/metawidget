@@ -1224,7 +1224,7 @@
 				<include name="commons-el-*.jar"/>
 				<include name="commons-lang-*.jar"/>
 				<include name="jsp-2.0.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.1*.jar"/>
 				<include name="richfaces-*-3.1.6.GA.jar"/>
@@ -1271,7 +1271,7 @@
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-discovery-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
 				<include name="richfaces-*-3.1.6.GA.jar"/>
@@ -1316,7 +1316,7 @@
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-discovery-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="jsf-api.jar"/>
 				<include name="jsf-impl.jar"/>
@@ -1341,17 +1341,9 @@
 		
 		<antcall target="test-web-stop-tomcat"/>
 		
-		<!-- Mojarra 2.0 with Events -->		
+		<!-- Mojarra 2.0 with Events -->
 		
-		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
-		
-		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${relative.dir}/${build.dir}/${run.dir}">
-			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
-			<jvmarg value="-Duser.timezone=GMT"/>
-			<jvmarg value="-Duser.region=US"/>
-		</java>
-		
-		<sleep seconds="10"/>
+		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
 			<classpath>
@@ -1360,6 +1352,51 @@
 				</fileset>
 			</classpath>
 			<arg line="-file quirks-jsf2-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+
+		<!-- Mojarra 2.0 with Facelets -->		
+		
+		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
+
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-jsf2-facelets/WEB-INF/web.xml">
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/faces-config.xml"/>
+			</fileset>
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks-jsf2-facelets">
+				<include name="*.xhtml"/>
+				<include name="WEB-INF/faces-config.xml"/>
+				<include name="WEB-INF/metawidget-facelets.xml"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/test-classes">
+				<include name="org/metawidget/faces/quirks/**"/>
+			</classes>
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="jstl.jar"/>
+				<include name="jsf-api.jar"/>
+				<include name="jsf-impl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+		
+		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-faces-jsf2-facelets"/>
+
+		<antcall target="test-web-start-tomcat"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-jsf2-facelets-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
@@ -1382,7 +1419,7 @@
 				<include name="org/metawidget/shared/allwidgets/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="standard.jar"/>
 			</lib>
@@ -1424,7 +1461,7 @@
 				<include name="org/metawidget/jsp/quirks/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="standard.jar"/>
 			</lib>
@@ -1465,7 +1502,7 @@
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>
 				<include name="metawidget.jar"/>
@@ -1506,7 +1543,7 @@
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>
 				<include name="standard.jar"/>
@@ -1550,7 +1587,7 @@
 				<include name="commons-beanutils-*.jar"/>
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="struts.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
@@ -1594,7 +1631,7 @@
 				<include name="commons-lang-*.jar"/>
 				<include name="commons-logging-*.jar"/>
 				<include name="displaytag-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="struts.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>

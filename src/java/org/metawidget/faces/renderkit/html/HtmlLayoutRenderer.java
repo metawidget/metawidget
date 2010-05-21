@@ -212,6 +212,8 @@ public abstract class HtmlLayoutRenderer
 
 	protected HtmlMessage createMessage( FacesContext context, UIComponent metawidget, String messageFor )
 	{
+		// TODO: crashes facelets?
+
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 		message.setParent( metawidget );
 		message.setId( context.getViewRoot().createUniqueId() );

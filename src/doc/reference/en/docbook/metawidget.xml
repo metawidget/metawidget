@@ -9363,6 +9363,39 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					</informaltable>
 				</section>
 
+				<section id="section-layouts-web-faces-panelgroup">
+					<title>PanelGroupLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a JSF PanelGroup. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>PanelGroupLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to the panel</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
 				<section id="section-layouts-web-faces-richfaces-panel">
 					<title>PanelLayoutDecorator</title>
 
@@ -9384,6 +9417,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							</tr>
 						</thead>
 						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>Layout to apply to the panel, as defined by <classname>javax.faces.component.html.HtmlPanelGroup.setLayout</classname></td>
+							</tr>
 							<tr>
 								<td><parameter>style</parameter></td>
 								<td>CSS styles to apply to the panel</td>

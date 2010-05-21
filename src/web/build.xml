@@ -190,7 +190,7 @@
 			
 		<copy todir="${tomcat.dir}/webapps/ROOT/WEB-INF/lib">
 			<fileset dir="${relative.dir}/${build.dir}/lib">
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="standard.jar"/>
 			</fileset>
 		</copy>

@@ -1154,8 +1154,6 @@ public abstract class UIMetawidget
 	 * <code>RemoveDuplicatesHack</code>.
 	 */
 
-	// TODO: are we testing this enough?
-
 	private static class SystemEventSupport
 		implements SystemEventListener
 	{
@@ -1192,6 +1190,8 @@ public abstract class UIMetawidget
 		{
 			return ( source instanceof UIViewRoot );
 		}
+
+		// TODO: doesn't appear to get called?
 
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException

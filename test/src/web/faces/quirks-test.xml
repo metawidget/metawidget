@@ -361,6 +361,7 @@
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
 				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'A4J.AJAX.Submit(')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>				
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
 
 				<setSelectField name="form:richQuirksAjaxSelect" value="Hide"/>

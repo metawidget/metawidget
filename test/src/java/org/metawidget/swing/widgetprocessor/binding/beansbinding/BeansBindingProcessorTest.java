@@ -234,7 +234,7 @@ public class BeansBindingProcessorTest
 		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig()
 		{
 			// Subclass
-		} );
+		}, "converters" );
 		TestUtils.testEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
 	}
 

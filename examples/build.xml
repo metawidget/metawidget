@@ -309,7 +309,7 @@
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-discovery-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
 				<include name="richfaces-*-3.1.6.GA.jar"/>
@@ -354,7 +354,7 @@
 				<include name="icefaces*.jar"/>
 				<include name="jsf-api-1.2.jar"/>
 				<include name="jsf-impl-1.2.jar"/>
-				<include name="jstl*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
 		</war>
@@ -431,7 +431,7 @@
 				<include name="org/metawidget/example/shared/addressbook/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
@@ -466,7 +466,7 @@
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
 				<include name="commons-validator*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="struts.jar"/>
 				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
@@ -500,7 +500,7 @@
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>
 				<include name="standard.jar"/>
@@ -572,7 +572,7 @@
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="gwt-servlet.jar"/>
-				<include name="jstl-*.jar"/>
+				<include name="jstl.jar"/>
 				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>

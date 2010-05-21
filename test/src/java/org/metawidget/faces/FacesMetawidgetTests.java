@@ -80,6 +80,7 @@ import junit.framework.TestSuite;
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.layout.OutputTextLayoutDecoratorTest;
+import org.metawidget.faces.component.html.layout.PanelGroupLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.PanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.SimpleTogglePanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.TabPanelLayoutDecoratorTest;
@@ -124,6 +125,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
 		suite.addTestSuite( OutputTextLayoutDecoratorTest.class );
 		suite.addTestSuite( OverriddenWidgetBuilderTest.class );
+		suite.addTestSuite( PanelGroupLayoutDecoratorTest.class );
 		suite.addTestSuite( PanelLayoutDecoratorTest.class );
 		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );

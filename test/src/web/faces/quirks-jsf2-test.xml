@@ -186,6 +186,23 @@
 			</steps>
 		</webtest>
 
+		<webtest name="test-richfaces-ajax">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs" easyajax="true"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesAjax.jsf" />
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'A4J.AJAX.Submit(')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
+
+				<setSelectField name="form:richQuirksAjaxSelect" value="Hide"/>
+				
+				<!-- TODO: test the rest like in quirks-jsf-text.xml -->
+			</steps>
+		</webtest>
+
 		<webtest name="test-richfaces-panel">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>

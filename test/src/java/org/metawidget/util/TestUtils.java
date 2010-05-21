@@ -114,7 +114,10 @@ public class TestUtils
 				// Setter
 
 				if ( !property.isWritable() )
+				{
+					Assert.assertTrue( "Property '" + propertyName + "' has no setter", false );
 					continue;
+				}
 
 				// If the default for the property is not null, then test setting it to null returns
 				// null (tests BaseObjectInspectorConfig.mNullPropertyStyle etc)
