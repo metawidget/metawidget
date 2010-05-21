@@ -200,14 +200,14 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@class" text="foo"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@style" text="border: 1px solid blue"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/@colspan" text="2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@class" text="bar"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@class" text="innerDiv bar"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@style" text="border: 1px solid red"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[1]/th)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/th)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@type" text="text"/>
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/@class" text="baz"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/@class" text="innerDiv baz"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/@style" text="border: 1px solid red"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/th)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
@@ -252,14 +252,14 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@class" text="foo"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@style" text="border: 1px solid blue"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/@colspan" text="2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@class" text="bar"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@class" text="innerDiv bar"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@style" text="border: 1px solid red"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[1]/th)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/th)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@type" text="text"/>
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/@class" text="baz"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/@class" text="innerDiv baz"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/@style" text="border: 1px solid red"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/th)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
@@ -328,9 +328,7 @@
 				<clickButton label="Save"/>				
 
 				<verifyXPath xpath="normalize-space(/html/body/ul/li)" text="Integer: 'Bad Integer' must be a number consisting of one or more digits."/>
-				<!--
-				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/text(), 'must be a number between')"/>
-				-->
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/text(), 'must be a number between')"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@value" text="Bad Integer"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>
 			</steps>

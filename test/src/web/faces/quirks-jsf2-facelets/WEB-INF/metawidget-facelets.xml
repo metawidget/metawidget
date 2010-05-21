@@ -25,6 +25,7 @@
 				<layout>
 					<panelGroupLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout" config="PanelGroupLayoutDecoratorConfig">
 						<style><string>border: 1px solid red</string></style>
+						<styleClass><string>innerDiv</string></styleClass>
 						<panelLayout><string>block</string></panelLayout>
 						<layout>
 							<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>

@@ -25,6 +25,7 @@ import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
@@ -217,6 +218,20 @@ public final class FacesUtils
 		}
 	}
 
+	/**
+	 * Gets whether
+	 * <code>&lt;param-name&gt;org.metawidget.faces.component.USE_SYSTEM_EVENTS&lt;/param-name&gt;</code>
+	 * is set to <code>true</code>.
+	 */
+
+	public static boolean isUseSystemEvents()
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+
+		return "true".equals( externalContext.getInitParameter( "org.metawidget.faces.component.USE_SYSTEM_EVENTS" ) );
+	}
+
 	//
 	// Private statics
 	//
@@ -235,8 +250,8 @@ public final class FacesUtils
 	 * <code>UIComponentTag.isValueReference</code>, but that one is deprecated so may be removed in
 	 * the future.
 	 * <p>
-	 * Like <code>UIComponentTag.isValueReference</code> we allow nested #{...} blocks, because
-	 * this can still be a legitimate value reference:
+	 * Like <code>UIComponentTag.isValueReference</code> we allow nested #{...} blocks, because this
+	 * can still be a legitimate value reference:
 	 * <p>
 	 * <code>
 	 * #{!empty bar ? '' : '#{foo}'}

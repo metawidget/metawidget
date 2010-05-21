@@ -167,9 +167,7 @@ public abstract class UIMetawidget
 		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636, so it is not
 		// enabled by default
 
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if ( "true".equals( context.getExternalContext().getInitParameter( UIMetawidget.class.getPackage().getName() + ".USE_SYSTEM_EVENTS" ) ) )
+		if ( FacesUtils.isUseSystemEvents() )
 			new SystemEventSupport( this );
 		else
 			mRemoveDuplicatesHack = new RemoveDuplicatesHack( this );
@@ -1049,7 +1047,7 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
-		// TODO: test this scenario
+		// TODO: test when rendered changes during processUpdates
 
 		public void processUpdates()
 		{
@@ -1191,7 +1189,7 @@ public abstract class UIMetawidget
 			return ( source instanceof UIViewRoot );
 		}
 
-		// TODO: doesn't appear to get called?
+		// TODO: doesn't appear to get called if finish testing quirks-test-facelets.xml
 
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException

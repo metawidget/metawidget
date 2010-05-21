@@ -117,7 +117,7 @@ public abstract class HtmlLayoutRenderer
 
 	/**
 	 * Render the label text. Rendering is done via a <code>HtmlOutputText</code> renderer, so that
-	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>.
+	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>
 	 *
 	 * @return whether a label was written
 	 */
@@ -131,7 +131,7 @@ public abstract class HtmlLayoutRenderer
 
 		String labelText = getLabelText( componentNeedingLabel );
 
-		if ( !SimpleLayoutUtils.needsLabel( labelText, null ))
+		if ( !SimpleLayoutUtils.needsLabel( labelText, null ) )
 			return false;
 
 		// Render the label
@@ -207,15 +207,34 @@ public abstract class HtmlLayoutRenderer
 
 		// Render inline message
 
-		FacesUtils.render( context, createMessage( context, metawidget, messageFor ) );
+		FacesUtils.render( context, createInlineMessage( context, metawidget, messageFor ) );
 	}
 
-	protected HtmlMessage createMessage( FacesContext context, UIComponent metawidget, String messageFor )
+	/**
+	 * Creates an inline <code>HtmlMessage</code> attached to the given <code>messageFor</code> id.
+	 */
+
+	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor )
 	{
-		// TODO: crashes facelets?
+		// TODO: WARNING: There should always be a submitted value for an input if it is rendered,
+		// its form is submitted, and it was not originally rendered disabled or read-only. You
+		// cannot submit a form after disabling an input element via javascript. Consider setting
+		// read-only to true instead or resetting the disabled value back to false prior to form
+		// submission. Component : {Component-Path : [Class:
+		// org.ajax4jsf.component.AjaxViewRoot,ViewId: /index.jsp][Class:
+		// org.metawidget.faces.component.html.HtmlMetawidget,Id: j_id_jsp_1759466000_5][Class:
+		// org.metawidget.faces.component.html.HtmlMetawidget,Id: j_id_jsp_1759466000_6][Class:
+		// javax.faces.component.html.HtmlInputTextarea,Id: quirksLarge_2]}
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
-		message.setParent( metawidget );
+
+		// If using SystemEvent, avoid setParent because it seems to trigger an infinite recursion
+		// of SystemEvent broadcasts on Mojarra 2.0.2. It is needed for non-SystemEvent
+		// implementations, though
+
+		if ( !FacesUtils.isUseSystemEvents() )
+			message.setParent( metawidget );
+
 		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( messageFor );
 

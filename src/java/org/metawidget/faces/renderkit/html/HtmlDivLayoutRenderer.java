@@ -186,9 +186,9 @@ public class HtmlDivLayoutRenderer
 	}
 
 	@Override
-	protected HtmlMessage createMessage( FacesContext context, UIComponent metawidget, String messageFor )
+	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor )
 	{
-		HtmlMessage message = super.createMessage( context, metawidget, messageFor );
+		HtmlMessage message = super.createInlineMessage( context, metawidget, messageFor );
 
 		// Apply alternate style class (if any)
 
