@@ -38,7 +38,7 @@
 				<option name="ThrowExceptionOnFailingStatusCode" value="false"/>			
 			</config>			
 			<steps>
-				<invoke url="${webtest.url}/quirks-spring/index-rtexpr.jsp" />
+				<invoke url="${webtest.url}/quirks-spring/rtexpr.jsp" />
 				<verifyText text="According to TLD or attribute directive in tag file, attribute path does not accept any expressions"/>
 			</steps>
 		</webtest>		

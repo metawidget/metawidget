@@ -358,7 +358,7 @@
 		<webtest name="test-richfaces">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/allwidgets-faces/indexRichFaces.jsf" />
+				<invoke url="${webtest.url}/allwidgets-faces/richFaces.jsf" />
 				
 				<verifyXPath xpath="/html/body/form/table[1]"/>
 				<verifyXPath xpath="/html/body/form/table[1]/@style" text="aTableStyle"/>

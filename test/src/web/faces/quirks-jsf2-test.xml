@@ -161,7 +161,7 @@
 		<webtest name="test-this">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexThisTest.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/thisTest.jsf" />
 
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr/th[@id='table-thisTestMe-label-cell']" text="FacesThisTest #1:"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr/th[@id='table-thisTestMe-label-cell']" text="FacesThisTest #1:"/>
@@ -172,7 +172,7 @@
 		<webtest name="test-stub-converter">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexStubConverter.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/stubConverter.jsf" />
 
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th[@id='table-stubConverterBar-label-cell']" text="Bar:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/span[1]" text="1"/>
@@ -189,7 +189,7 @@
 		<webtest name="test-richfaces-ajax">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs" easyajax="true"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesAjax.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesAjax.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
@@ -206,7 +206,7 @@
 		<webtest name="test-richfaces-panel">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesPanel.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesPanel.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
@@ -313,7 +313,7 @@
 				
 				<!-- Test saved okay by fetching a fresh page (ie. tests a GET not a POST) -->
 
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesPanel.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesPanel.jsf" />
 				<verifyInputField xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/td[1]/input" value="Baz 2 text"/>
 				<verifyCheckbox xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/td[1]/input" checked="true"/>
 				<verifyCheckbox xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/td[1]/input" checked="true"/>
@@ -327,7 +327,7 @@
 				
 				<!-- Test renderer is passed down -->
 																
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesPanel2.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesPanel2.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1])" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[1]/div[2]/input/@type" text="text"/>
@@ -348,7 +348,7 @@
 		<webtest name="test-richfaces-nested">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesNested.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesNested.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
@@ -454,7 +454,7 @@
 
 				<!-- Test saved okay by fetching a fresh page (ie. tests a GET not a POST) -->
 
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFaces.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFaces.jsf" />
 				<verifyInputField xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td/input" value="Baz 2 text"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/td/input" checked="true"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/td/input" checked="true"/>
@@ -469,7 +469,7 @@
 				
 				<!-- Test renderer is passed down -->
 																
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesNested2.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesNested2.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1])" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[1]/div[2]/input/@type" text="text"/>
@@ -489,7 +489,7 @@
 		<webtest name="test-richfaces-hack">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-jsf2/indexRichFacesHack.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-jsf2/richFacesHack.jsf" />
 
 				<!-- Test POST-back doesn't lose the manually overridden hidden field, or get a 'duplicate id' error -->
 				
