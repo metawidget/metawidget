@@ -1250,12 +1250,15 @@
 
 	<target name="test-faces-quirks" depends="flatten-test-libs,compile-test">
 
-		<!-- MyFaces 1.2 -->
-
+		<!-- Mojarra 1.2 with Facelets -->
+		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces.war" webxml="${relative.dir}/test/src/web/faces/quirks/WEB-INF/web.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-facelets/WEB-INF/web.xml">
 			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+				<include name="WEB-INF/metawidget*.xml"/>
+			</fileset>
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1265,22 +1268,17 @@
 				<include name="org/metawidget/faces/quirks/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
-				<include name="commons-beanutils-*.jar"/>
-				<include name="commons-codec-*.jar"/>
-				<include name="commons-collections-*.jar"/>
-				<include name="commons-digester-*.jar"/>
-				<include name="commons-discovery-*.jar"/>
-				<include name="commons-logging-*.jar"/>
 				<include name="jstl.jar"/>
+				<include name="jsf-api-1.2.jar"/>
+				<include name="jsf-impl-1.2.jar"/>
+				<include name="jsf-facelets.jar"/>
 				<include name="metawidget.jar"/>
-				<include name="myfaces-*-1.2*.jar"/>
-				<include name="richfaces-*-3.1.6.GA.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>
 		
-		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces"/>
+		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-faces-facelets"/>
 
 		<antcall target="test-web-start-tomcat"/>
 		
@@ -1290,88 +1288,27 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file quirks-test.xml"/>
-		</java>
-		
-		<antcall target="test-web-stop-tomcat"/>		
-
-		<!-- Mojarra 2.0 -->
-				
-		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
-
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2.war" webxml="${relative.dir}/test/src/web/faces/quirks-jsf2/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
-				<exclude name="**/classes/**"/>
-				<exclude name="**/lib/**"/>
-				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
-			</fileset>
-			<classes dir="${relative.dir}/${build.dir}/test-classes">
-				<include name="org/metawidget/faces/quirks/**"/>
-			</classes>
-			<lib dir="${relative.dir}/${build.dir}/lib">
-				<include name="commons-beanutils-*.jar"/>
-				<include name="commons-codec-*.jar"/>
-				<include name="commons-collections-*.jar"/>
-				<include name="commons-digester-*.jar"/>
-				<include name="commons-discovery-*.jar"/>
-				<include name="commons-logging-*.jar"/>
-				<include name="jstl.jar"/>
-				<include name="metawidget.jar"/>
-				<include name="jsf-api.jar"/>
-				<include name="jsf-impl.jar"/>
-				<include name="richfaces-*-3.3.3.Final.jar"/>				
-				<include name="standard.jar"/>
-			</lib>
-		</war>
-		
-		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-jsf2"/>
-		
-		<antcall target="test-web-start-tomcat"/>
-		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
-			<classpath>
-				<fileset dir="${ant.home}">
-					<include name="lib/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg line="-file quirks-jsf2-test.xml"/>
-		</java>
-		
-		<antcall target="test-web-stop-tomcat"/>
-		
-		<!-- Mojarra 2.0 with Events -->
-		
-		<antcall target="test-web-start-tomcat"/>
-		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
-			<classpath>
-				<fileset dir="${ant.home}">
-					<include name="lib/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg line="-file quirks-jsf2-test.xml"/>
+			<arg line="-file quirks-facelets-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
 
-		<!-- Mojarra 2.0 with Facelets -->		
+		<!-- Mojarra 2.0 with Facelets -->
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-jsf2-facelets/WEB-INF/web.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-systemevents-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets/WEB-INF/web.xml">
 			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+				<include name="WEB-INF/metawidget*.xml"/>
+			</fileset>
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets">
+				<include name="WEB-INF/metawidget*.xml"/>
+			</fileset>			
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
-				<exclude name="WEB-INF/faces-config.xml"/>
-			</fileset>
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-jsf2-facelets">
-				<include name="*.xhtml"/>
-				<include name="WEB-INF/faces-config.xml"/>
-				<include name="WEB-INF/metawidget-facelets.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/**"/>
@@ -1385,8 +1322,8 @@
 			</lib>
 		</war>
 		
-		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-jsf2-facelets"/>
+		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-faces-systemevents-facelets"/>
 
 		<antcall target="test-web-start-tomcat"/>
 		
@@ -1396,7 +1333,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file quirks-jsf2-facelets-test.xml"/>
+			<arg line="-file quirks-systemevents-facelets-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
