@@ -662,7 +662,7 @@
 			</steps>
 		</webtest>
 
-		<webtest name="test-richfaces-hack">
+		<webtest name="test-remove-duplicates-hack">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-faces/richFacesHack.jsf" />

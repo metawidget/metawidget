@@ -14,7 +14,7 @@
 			<h:messages/>
 			
 			<h:form>
-				<m:metawidget value="#{richQuirksHack.embedded}" config="metawidget-richfaces-hack.xml" rendered="#{richQuirksHack.embedded != null}">
+				<m:metawidget value="#{richQuirksHack.embedded}" config="metawidget-remove-duplicates-hack.xml" rendered="#{richQuirksHack.embedded != null}">
 					<h:inputHidden value="#{richQuirksHack.embedded.bar3}"/>
 				</m:metawidget>
 				<h:commandLink value="Clear Embedded" action="#{richQuirksHack.clearEmbedded}"/>
