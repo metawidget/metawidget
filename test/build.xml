@@ -1250,7 +1250,7 @@
 
 	<target name="test-faces-quirks" depends="flatten-test-libs,compile-test">
 
-		<!-- MyFaces 1.2 -->
+		<!-- MyFaces 1.2
 
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1293,9 +1293,9 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>		
+		<antcall target="test-web-stop-tomcat"/> -->		
 
-		<!-- Mojarra 2.0 with SystemEvents -->
+		<!-- Mojarra 2.0 with SystemEvents
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1339,9 +1339,9 @@
 			<arg line="-file quirks-systemevents-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>
+		<antcall target="test-web-stop-tomcat"/> -->
 		
-		<!-- Mojarra 1.2 with Facelets
+		<!-- Mojarra 1.2 with Facelets -->
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1359,11 +1359,18 @@
 				<include name="org/metawidget/faces/quirks/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
 				<include name="jstl.jar"/>
 				<include name="jsf-api-1.2.jar"/>
 				<include name="jsf-impl-1.2.jar"/>
 				<include name="jsf-facelets.jar"/>
 				<include name="metawidget.jar"/>
+				<include name="richfaces-*-3.1.6.GA.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>
@@ -1382,9 +1389,9 @@
 			<arg line="-file quirks-facelets-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/> -->
+		<antcall target="test-web-stop-tomcat"/>
 
-		<!-- Mojarra 2.0 with SystemEvents and Facelets -->
+		<!-- Mojarra 2.0 with SystemEvents and Facelets
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1426,7 +1433,7 @@
 			<arg line="-file quirks-systemevents-facelets-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>
+		<antcall target="test-web-stop-tomcat"/> -->
 
 	</target>
 

@@ -7,21 +7,15 @@
 
     <body>
 
-		<f:view>
+		<h1>RichFaces Nested Quirks</h1>
 
-			<h1>Quirks Facelets ('this' test)</h1>
-					
-			<m:metawidget value="#{thisTest}"/>
-			
-			<hr/>
-			
-			<m:metawidget value="#{thisTest.me}"/>
-			
-			<hr/>
-
-			<m:metawidget value="#{thisTest.child.me}"/>
-			
-		</f:view>
+		<h:form>
+			<m:metawidget value="#{richQuirks}" config="metawidget-richfaces-nested.xml">
+				<m:stub value="#{richQuirks.abc}" stubAttributes="section: 'Not foo'">
+					<h:inputText value="#{richQuirks.abc}"/>
+				</m:stub>				
+			</m:metawidget>
+		</h:form>
 		
 	</body>	    
 </html>

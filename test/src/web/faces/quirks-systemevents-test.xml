@@ -489,7 +489,7 @@
 		<webtest name="test-remove-duplicates-hack">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-systemevents/richFacesHack.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-systemevents/removeDuplicatesHack.jsf" />
 
 				<!-- Test POST-back doesn't lose the manually overridden hidden field, or get a 'duplicate id' error -->
 				

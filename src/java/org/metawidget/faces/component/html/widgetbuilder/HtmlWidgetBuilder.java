@@ -486,7 +486,7 @@ public class HtmlWidgetBuilder
 			// If no label, make it the same as the value. For JSF-RI, this is needed for labels
 			// next to UISelectMany checkboxes
 
-			selectItem.setItemLabel( label );
+			selectItem.setItemLabel( StringUtils.quietValueOf( value ));
 		}
 		else
 		{

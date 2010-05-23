@@ -25,15 +25,15 @@ import org.metawidget.inspector.annotation.UiSection;
  * @author Richard Kennard
  */
 
-public class RichFacesHackTest
+public class RemoveDuplicatesHackTest
 {
 	//
 	// Private members
 	//
 
-	private String					mFoo1;
+	private String							mFoo1;
 
-	private RichFacesHackEmbedded	mEmbedded = new RichFacesHackEmbedded();
+	private RemoveDuplicatesHackEmbedded	mEmbedded	= new RemoveDuplicatesHackEmbedded();
 
 	//
 	// Public methods
@@ -50,12 +50,12 @@ public class RichFacesHackTest
 	}
 
 	@UiComesAfter( "foo1" )
-	public RichFacesHackEmbedded getEmbedded()
+	public RemoveDuplicatesHackEmbedded getEmbedded()
 	{
 		return mEmbedded;
 	}
 
-	public void setEmbedded( RichFacesHackEmbedded embedded )
+	public void setEmbedded( RemoveDuplicatesHackEmbedded embedded )
 	{
 		mEmbedded = embedded;
 	}
@@ -74,7 +74,7 @@ public class RichFacesHackTest
 	// Public methods
 	//
 
-	public class RichFacesHackEmbedded
+	public class RemoveDuplicatesHackEmbedded
 	{
 		//
 		// Private members

@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<faces-config version="1.2"
-              xmlns="http://java.sun.com/xml/ns/javaee"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN" "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
               
 	<!-- Test localizing 'true'/'false' to 'Yes'/'No' -->
 	
@@ -38,8 +36,8 @@
 	</managed-bean>
 
 	<managed-bean>
-		<managed-bean-name>richQuirksHack</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesHackTest</managed-bean-class>
+		<managed-bean-name>removeDuplicatesHack</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RemoveDuplicatesHackTest</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

@@ -283,7 +283,7 @@
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/th)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input/@type" text="checkbox"/>
 
-				<!--				
+				<!-- TODO
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/div/@class" text="ghI"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/div/@style" text="border: 1px solid blue"/>
@@ -313,7 +313,7 @@
 				<setCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input" checked="false"/>
 				<setCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="false"/>
 				<clickButton label="Save"/>
-				<!--
+				<!-- TODO
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td)" text="4"/>
 				-->				

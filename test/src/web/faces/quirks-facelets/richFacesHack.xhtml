@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:m="http://metawidget.org/faces">
+
+    <body>
+
+		<h1>RichFaces Remove Duplicates Hack</h1>
+
+		<h:messages/>
+		
+		<h:form>
+			<m:metawidget value="#{removeDuplicatesHack.embedded}" config="metawidget-remove-duplicates-hack.xml" rendered="#{removeDuplicatesHack.embedded != null}">
+				<h:inputHidden value="#{removeDuplicatesHack.embedded.bar3}"/>
+			</m:metawidget>
+			<h:commandLink value="Clear Embedded" action="#{removeDuplicatesHack.clearEmbedded}"/>
+			<br/>
+			<h:commandLink value="New Embedded" action="#{removeDuplicatesHack.newEmbedded}"/>
+		</h:form>
+		
+	</body>	    
+</html>

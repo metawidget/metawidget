@@ -7,21 +7,11 @@
 
     <body>
 
-		<f:view>
+		<h1>RichFaces Quirks 2</h1>
 
-			<h1>Quirks Facelets ('this' test)</h1>
-					
-			<m:metawidget value="#{thisTest}"/>
-			
-			<hr/>
-			
-			<m:metawidget value="#{thisTest.me}"/>
-			
-			<hr/>
+		<h:form>
+			<m:metawidget value="#{richQuirks}" config="metawidget-richfaces.xml" rendererType="div"/>
+		</h:form>
 
-			<m:metawidget value="#{thisTest.child.me}"/>
-			
-		</f:view>
-		
 	</body>	    
 </html>

@@ -9,17 +9,17 @@
 
 		<f:view>
 		
-			<h1>RichFaces Restore State Hack</h1>
+			<h1>RichFaces Remove Duplicates Hack</h1>
 
 			<h:messages/>
 			
 			<h:form>
-				<m:metawidget value="#{richQuirksHack.embedded}" config="metawidget-remove-duplicates-hack.xml" rendered="#{richQuirksHack.embedded != null}">
-					<h:inputHidden value="#{richQuirksHack.embedded.bar3}"/>
+				<m:metawidget value="#{removeDuplicatesHack.embedded}" config="metawidget-remove-duplicates-hack.xml" rendered="#{removeDuplicatesHack.embedded != null}">
+					<h:inputHidden value="#{removeDuplicatesHack.embedded.bar3}"/>
 				</m:metawidget>
-				<h:commandLink value="Clear Embedded" action="#{richQuirksHack.clearEmbedded}"/>
+				<h:commandLink value="Clear Embedded" action="#{removeDuplicatesHack.clearEmbedded}"/>
 				<br/>
-				<h:commandLink value="New Embedded" action="#{richQuirksHack.newEmbedded}"/>
+				<h:commandLink value="New Embedded" action="#{removeDuplicatesHack.newEmbedded}"/>
 			</h:form>
 
 		</f:view>

@@ -7,21 +7,15 @@
 
     <body>
 
-		<f:view>
+		<h1>RichFaces Quirks - No Inline Messages</h1>
 
-			<h1>Quirks Facelets ('this' test)</h1>
-					
-			<m:metawidget value="#{thisTest}"/>
-			
-			<hr/>
-			
-			<m:metawidget value="#{thisTest.me}"/>
-			
-			<hr/>
-
-			<m:metawidget value="#{thisTest.child.me}"/>
-			
-		</f:view>
+		<h:messages/>
+		
+		<h:form>
+			<m:metawidget value="#{richQuirks}" config="metawidget-richfaces.xml">
+				<f:param name="inlineMessages" value="false"/>
+			</m:metawidget>
+		</h:form>
 		
 	</body>	    
 </html>
