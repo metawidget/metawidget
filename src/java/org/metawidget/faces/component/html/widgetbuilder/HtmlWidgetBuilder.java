@@ -483,10 +483,11 @@ public class HtmlWidgetBuilder
 
 		if ( label == null )
 		{
-			// If no label, make it the same as the value. For JSF-RI, this is needed for labels
-			// next to UISelectMany checkboxes
+			// If no label, make it the same as the value. For JSF-RI, this is needed for
+			// labels next to UISelectMany checkboxes. See
+			// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=913
 
-			selectItem.setItemLabel( StringUtils.quietValueOf( value ));
+			selectItem.setItemLabel( StringUtils.quietValueOf( value ) );
 		}
 		else
 		{

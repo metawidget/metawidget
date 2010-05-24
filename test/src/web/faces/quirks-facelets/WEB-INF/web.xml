@@ -46,4 +46,10 @@
 		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
 
+	<!-- Welcome files (pointing directly to a JSF page only works on JSP 2+) -->
+	
+	<welcome-file-list>
+		<welcome-file>index.jsf</welcome-file>
+	</welcome-file-list>
+
 </web-app>

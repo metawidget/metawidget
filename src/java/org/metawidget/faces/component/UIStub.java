@@ -68,7 +68,17 @@ public class UIStub
 		return "org.metawidget.Stub";
 	}
 
-	public Map<String, String> getStubAttributes()
+	/**
+	 * Gets the stub attributes as a Map.
+	 * <p>
+	 * Called <code>getStubAttributesAsMap</code>, not just <code>getStubAttributes</code>, because
+	 * while JSF 2 Facelets does support write-only setters (ie. <code>setStubAttributes</code>), it
+	 * does not seem to support write-only setters if there is also a getter with a different return
+	 * type (ie. a Map).
+	 *
+	 * @return
+	 */
+	public Map<String, String> getStubAttributesAsMap()
 	{
 		// Static attributes
 

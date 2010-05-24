@@ -185,7 +185,7 @@ public class UIMetawidgetTest
 
 		try
 		{
-			stub.getStubAttributes();
+			stub.getStubAttributesAsMap();
 			assertTrue( false );
 		}
 		catch ( Exception e )
@@ -199,7 +199,7 @@ public class UIMetawidgetTest
 
 		try
 		{
-			stub.getStubAttributes();
+			stub.getStubAttributesAsMap();
 			assertTrue( false );
 		}
 		catch ( Exception e )
@@ -212,11 +212,11 @@ public class UIMetawidgetTest
 		stub.setStubAttributes( "rendered: true" );
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( "rendered", TRUE );
-		assertTrue( attributes.equals( stub.getStubAttributes() ) );
+		assertTrue( attributes.equals( stub.getStubAttributesAsMap() ) );
 
 		stub.setStubAttributes( "rendered: false;" );
 		attributes.put( "rendered", FALSE );
-		assertTrue( attributes.equals( stub.getStubAttributes() ) );
+		assertTrue( attributes.equals( stub.getStubAttributesAsMap() ) );
 	}
 
 	public void testMissingDefaultConfig()

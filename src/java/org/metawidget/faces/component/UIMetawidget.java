@@ -937,7 +937,7 @@ public abstract class UIMetawidget
 		protected Map<String, String> getAdditionalAttributes( UIComponent widget )
 		{
 			if ( widget instanceof UIStub )
-				return ( (UIStub) widget ).getStubAttributes();
+				return ( (UIStub) widget ).getStubAttributesAsMap();
 
 			return null;
 		}
@@ -1189,8 +1189,6 @@ public abstract class UIMetawidget
 			return ( source instanceof UIViewRoot );
 		}
 
-		// TODO: doesn't appear to get called if finish testing quirks-test-facelets.xml
-
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException
 		{
@@ -1199,6 +1197,13 @@ public abstract class UIMetawidget
 
 			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null )
 				return;
+
+			// TODO: Gets called during restoreView phase, and then not buildView
+
+			//StringWriter writer = new StringWriter();
+			//new Throwable().printStackTrace( new PrintWriter( writer ));
+			//if ( writer.toString().contains( "restoreView" ))
+				//return;
 
 			// Build widgets as normal
 

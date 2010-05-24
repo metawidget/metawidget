@@ -128,21 +128,21 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, Foo[].class.getName() );
 		dummyMetawdget.setInspector( new PropertyTypeInspector() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
 		// Lists
 
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( NAME, "bar" );
 		dummyMetawdget.setParameter( "dataTableRowEditAction", "#{foo.action}" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
 		// Other collections
 
 		attributes.put( TYPE, Set.class.getName() );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 
-		// Unsupport types
+		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
@@ -216,7 +216,7 @@ public class HtmlWidgetBuilderTest
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
 		HtmlSelectOneListbox htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() ) );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
 		furtherAssert( htmlSelectOneListbox );
@@ -240,24 +240,38 @@ public class HtmlWidgetBuilderTest
 		attributes.put( LOOKUP, "Foo, Bar, Baz" );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
+		assertEquals( "", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertEquals( null, ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
+		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
 		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
+		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
 		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemLabel() );
+		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemLabel() );
 		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemValue() );
 		furtherAssert( htmlSelectOneListbox );
+
+		attributes.put( LOOKUP_LABELS, "foo-label, bar-label, baz-label" );
+		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( 1 == htmlSelectOneListbox.getSize() );
+		assertEquals( "", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertEquals( null, ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
+		assertEquals( "foo-label", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
+		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() );
+		assertEquals( "bar-label", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
+		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() );
+		assertEquals( "baz-label", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemLabel() );
+		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemValue() );
+		furtherAssert( htmlSelectOneListbox );
+		attributes.remove( LOOKUP_LABELS );
 
 		attributes.put( REQUIRED, TRUE );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
 		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
+		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
 		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
+		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
 		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() );
 		furtherAssert( htmlSelectOneListbox );
 		attributes.remove( REQUIRED );
@@ -377,8 +391,10 @@ public class HtmlWidgetBuilderTest
 
 	public static class Foo
 	{
-		public String bar;
-		public String baz;
-		public String abc;
+		public String	bar;
+
+		public String	baz;
+
+		public String	abc;
 	}
 }

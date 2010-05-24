@@ -225,6 +225,8 @@ public abstract class HtmlLayoutRenderer
 		// org.metawidget.faces.component.html.HtmlMetawidget,Id: j_id_jsp_1759466000_5][Class:
 		// org.metawidget.faces.component.html.HtmlMetawidget,Id: j_id_jsp_1759466000_6][Class:
 		// javax.faces.component.html.HtmlInputTextarea,Id: quirksLarge_2]}
+		//
+		// When testing http://localhost:8080/quirks-faces-systemevents-facelets/index.jsf
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 

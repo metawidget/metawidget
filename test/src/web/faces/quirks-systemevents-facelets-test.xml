@@ -8,7 +8,7 @@
 		<webtest name="test-faces">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/index.jsf" />
+				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets" />
 
 				<verifyXPath xpath="/html/body/form/table[1]/@id" text="form:quirksMetawidget"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
@@ -242,7 +242,7 @@
 				<clickButton label="Save"/>
 				
 				<!-- Test component tree intact -->
-
+				<!-- TODO
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
@@ -275,7 +275,7 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/@class" text="dEf"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/@style" text="border: 1px solid blue"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/th)" text="Def 1:"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/td/textarea"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/th)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/td/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/th)" text="Show ghi:"/>
@@ -283,7 +283,6 @@
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/th)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input/@type" text="checkbox"/>
 
-				<!-- TODO
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/div/@class" text="ghI"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/div/@style" text="border: 1px solid blue"/>
@@ -294,13 +293,12 @@
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[7]/td[1]/input/@type" text="submit"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[7]/td[1]/input/@value" text="Save"/>
-				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="6"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="7"/>
 
 				<verifyInputField xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/input" value="Baz 2 text"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input" checked="true"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="true"/>
 				-->
-				
 				<!-- Test saved okay by fetching a fresh page (ie. tests a GET not a POST) -->
 
 				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/panelGroup.jsf" />
@@ -308,15 +306,15 @@
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input" checked="true"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="true"/>
 
-				<!-- Test tab disappears again -->
+				<!-- Test panel disappears again -->
 								
 				<setCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input" checked="false"/>
 				<setCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="false"/>
 				<clickButton label="Save"/>
 				<!-- TODO
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td)" text="4"/>
-				-->				
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="6"/>
+				-->
 				
 				<!-- Test validation error -->
 
@@ -333,6 +331,9 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>
 			</steps>
 		</webtest>
+
+		<!-- Cannot test RichFaces 3 with JSF2 Facelets. Need RichFaces 4 -->
+		
 	</target>
 
 </project>

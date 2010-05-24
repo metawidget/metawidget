@@ -1250,7 +1250,7 @@
 
 	<target name="test-faces-quirks" depends="flatten-test-libs,compile-test">
 
-		<!-- MyFaces 1.2
+		<!-- MyFaces 1.2 -->
 
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1290,12 +1290,13 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
+			<arg line="-Dcontext.path=quirks-faces"/>
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/> -->		
+		<antcall target="test-web-stop-tomcat"/>
 
-		<!-- Mojarra 2.0 with SystemEvents
+		<!-- Mojarra 2.0 with SystemEvents -->
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1339,7 +1340,7 @@
 			<arg line="-file quirks-systemevents-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/> -->
+		<antcall target="test-web-stop-tomcat"/>
 		
 		<!-- Mojarra 1.2 with Facelets -->
 		
@@ -1386,12 +1387,13 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file quirks-facelets-test.xml"/>
+			<arg line="-Dcontext.path=quirks-faces-facelets"/>
+			<arg line="-file quirks-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
 
-		<!-- Mojarra 2.0 with SystemEvents and Facelets
+		<!-- Mojarra 2.0 with SystemEvents and Facelets -->
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
@@ -1405,7 +1407,7 @@
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
 				<exclude name="WEB-INF/faces-config.xml"/>				
-			</fileset>			
+			</fileset>
 			<fileset dir="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets"/>			
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/**"/>
@@ -1433,7 +1435,7 @@
 			<arg line="-file quirks-systemevents-facelets-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/> -->
+		<antcall target="test-web-stop-tomcat"/>
 
 	</target>
 
