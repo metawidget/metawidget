@@ -18,6 +18,8 @@ package org.metawidget.util.simple;
 
 import junit.framework.TestCase;
 
+import org.metawidget.util.TestUtils;
+
 /**
  * @author Richard Kennard
  */
@@ -34,5 +36,10 @@ public class PairTest
 	{
 		assertEquals( "1:2", new Pair<Integer, Integer>( 1, 2 ).toString() );
 		assertEquals( "null:null", new Pair<Integer, Integer>( null, null ).toString() );
+
+		TestUtils.testEqualsAndHashcode( new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" )
+		{
+			// Subclass
+		} );
 	}
 }
