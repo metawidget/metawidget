@@ -40,6 +40,6 @@ public class PairTest
 		TestUtils.testEqualsAndHashcode( new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" )
 		{
 			// Subclass
-		} );
+		}, "left", "right" );
 	}
 }

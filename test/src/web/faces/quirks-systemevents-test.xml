@@ -507,6 +507,12 @@
 				<!-- Test POST-back doesn't lose the manually overridden hidden field, or get a 'duplicate id' error -->
 				
 				<repeat count="5">
+					<not>
+						<verifyXPath xpath="/html/body/form/table"/>
+					</not>
+					
+					<clickLink label="New Embedded"/>
+					
 					<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Bar 1:"/>
 					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 					
@@ -518,12 +524,6 @@
 					<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr)" text="1"/>
 					
 					<clickLink label="Clear Embedded"/>
-
-					<not>
-						<verifyXPath xpath="/html/body/form/table"/>
-					</not>
-					
-					<clickLink label="New Embedded"/>
 				</repeat>
 			</steps>
 		</webtest>

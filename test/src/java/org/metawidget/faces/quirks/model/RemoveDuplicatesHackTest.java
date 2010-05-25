@@ -33,7 +33,7 @@ public class RemoveDuplicatesHackTest
 
 	private String							mFoo1;
 
-	private RemoveDuplicatesHackEmbedded	mEmbedded	= new RemoveDuplicatesHackEmbedded();
+	private RemoveDuplicatesHackEmbedded	mEmbedded;
 
 	//
 	// Public methods
@@ -67,7 +67,7 @@ public class RemoveDuplicatesHackTest
 
 	public void newEmbedded()
 	{
-		// Already set by the constructor
+		setEmbedded( new RemoveDuplicatesHackEmbedded() );
 	}
 
 	//

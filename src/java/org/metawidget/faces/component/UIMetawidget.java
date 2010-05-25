@@ -460,15 +460,6 @@ public abstract class UIMetawidget
 	}
 
 	@Override
-	public void processUpdates( FacesContext context )
-	{
-		if ( mRemoveDuplicatesHack != null )
-			mRemoveDuplicatesHack.processUpdates();
-
-		super.processUpdates( context );
-	}
-
-	@Override
 	public boolean isRendered()
 	{
 		boolean rendered = super.isRendered();
@@ -1032,8 +1023,6 @@ public abstract class UIMetawidget
 
 		private UIMetawidget	mMetawidget;
 
-		private boolean			mProcessUpdatesCalled;
-
 		//
 		// Constructor
 		//
@@ -1047,24 +1036,18 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
-		// TODO: test when rendered changes during processUpdates
-
-		public void processUpdates()
-		{
-			mProcessUpdatesCalled = true;
-		}
-
 		/**
 		 * If the component is never going to be rendered, then <code>encodeBegin</code> will never
 		 * get called. Therefore our 'remove duplicates' code will never get called either.
-		 * <p>
-		 * Note we don't want to make a call on whether 'rendered == false' until <em>after</em>
-		 * processUpdates has been called and all model values are populated.
 		 */
 
 		public void isRendered( boolean rendered )
 		{
-			if ( mProcessUpdatesCalled && !rendered )
+			// Note: we explored not doing this until after the processUpdates phase, in case
+			// the value of 'rendered' changes, but it didn't seem to make any difference to our
+			// unit tests?
+
+			if ( !rendered )
 				mMetawidget.getChildren().clear();
 		}
 
@@ -1200,10 +1183,10 @@ public abstract class UIMetawidget
 
 			// TODO: Gets called during restoreView phase, and then not buildView
 
-			//StringWriter writer = new StringWriter();
-			//new Throwable().printStackTrace( new PrintWriter( writer ));
-			//if ( writer.toString().contains( "restoreView" ))
-				//return;
+			// StringWriter writer = new StringWriter();
+			// new Throwable().printStackTrace( new PrintWriter( writer ));
+			// if ( writer.toString().contains( "restoreView" ))
+			// return;
 
 			// Build widgets as normal
 
