@@ -8,7 +8,7 @@
 		<webtest name="test-faces">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets" />
+				<invoke url="${webtest.url}/${context.path}" />
 
 				<verifyXPath xpath="/html/body/form/table[1]/@id" text="form:quirksMetawidget"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
@@ -126,7 +126,7 @@
 				
 				<!-- Test zero columns -->
 				
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/index2.jsf" />
+				<invoke url="${webtest.url}/${context.path}/index2.jsf" />
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="13"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
@@ -161,7 +161,7 @@
 		<webtest name="test-this">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/thisTest.jsf" />
+				<invoke url="${webtest.url}/${context.path}/thisTest.jsf" />
 
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr/th[@id='table-thisTestMe-label-cell']" text="FacesThisTest #1:"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr/th[@id='table-thisTestMe-label-cell']" text="FacesThisTest #1:"/>
@@ -172,7 +172,7 @@
 		<webtest name="test-stub-converter">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/stubConverter.jsf" />
+				<invoke url="${webtest.url}/${context.path}/stubConverter.jsf" />
 
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th[@id='table-stubConverterBar-label-cell']" text="Bar:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/span[1]" text="1"/>
@@ -189,7 +189,7 @@
 		<webtest name="test-panelGroup">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/panelGroup.jsf" />
+				<invoke url="${webtest.url}/${context.path}/panelGroup.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
@@ -301,7 +301,7 @@
 				-->
 				<!-- Test saved okay by fetching a fresh page (ie. tests a GET not a POST) -->
 
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/panelGroup.jsf" />
+				<invoke url="${webtest.url}/${context.path}/panelGroup.jsf" />
 				<verifyInputField xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/input" value="Baz 2 text"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input" checked="true"/>
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="true"/>
@@ -318,7 +318,7 @@
 				
 				<!-- Test validation error -->
 
-				<invoke url="${webtest.url}/quirks-faces-systemevents-facelets/panelGroup.jsf" />
+				<invoke url="${webtest.url}/${context.path}/panelGroup.jsf" />
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/th)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>
