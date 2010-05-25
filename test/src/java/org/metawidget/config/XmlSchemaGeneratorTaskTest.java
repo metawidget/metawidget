@@ -16,6 +16,8 @@
 
 package org.metawidget.config;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 
 /**
@@ -29,13 +31,39 @@ public class XmlSchemaGeneratorTaskTest
 	// Private members
 	//
 
-	private XmlSchemaGeneratorTask mXmlSchemaGeneratorTask;
+	private XmlSchemaGeneratorTask	mXmlSchemaGeneratorTask;
 
 	//
 	// Public methods
 	//
 
-	public void testSchemaGenerator()
+	public void testExecute()
+		throws Exception
+	{
+		// Run the task
+
+		String jar = System.getProperty( "test.org.metawidget.config.JAR" );
+		String destDir = System.getProperty( "test.org.metawidget.config.DEST_DIR" );
+
+		if ( jar == null || destDir == null )
+		{
+			assertTrue( false );
+			return;
+		}
+
+		mXmlSchemaGeneratorTask.setJar( jar );
+		mXmlSchemaGeneratorTask.setDestDir( destDir );
+		mXmlSchemaGeneratorTask.execute();
+
+		// Check the output
+
+		assertTrue( new File( new File( destDir ), "index.html" ).exists() );
+		assertTrue( new File( new File( destDir ), "org.metawidget.android.widget-1.0.xsd" ).exists() );
+		assertTrue( new File( new File( destDir ), "org.metawidget.faces.component.html-1.0.xsd" ).exists() );
+		assertTrue( new File( new File( destDir ), "org.metawidget.widgetbuilder.composite-1.0.xsd" ).exists() );
+	}
+
+	public void testGenerateClassBlock()
 		throws Exception
 	{
 		// Not concrete
@@ -52,104 +80,104 @@ public class XmlSchemaGeneratorTaskTest
 
 		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.swing.widgetbuilder", "SwingWidgetBuilder" );
 
-		assertTrue( schema.contains( "\r\n\t<!-- SwingWidgetBuilder -->\r\n" ));
-		assertTrue( schema.contains( "\t<xs:element name=\"swingWidgetBuilder\">\r\n" ));
-		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\" use=\"prohibited\"/>\r\n" ));
-		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t</xs:element>\r\n" ));
+		assertTrue( schema.contains( "\r\n\t<!-- SwingWidgetBuilder -->\r\n" ) );
+		assertTrue( schema.contains( "\t<xs:element name=\"swingWidgetBuilder\">\r\n" ) );
+		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\" use=\"prohibited\"/>\r\n" ) );
+		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t</xs:element>\r\n" ) );
 
 		// Optional config
 
 		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.java5", "Java5Inspector" );
 
-		assertTrue( schema.contains( "\r\n\t<!-- Java5Inspector -->\r\n" ));
-		assertTrue( schema.contains( "\t<xs:element name=\"java5Inspector\">\r\n" ));
-		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t<xs:all>\r\n" ));
+		assertTrue( schema.contains( "\r\n\t<!-- Java5Inspector -->\r\n" ) );
+		assertTrue( schema.contains( "\t<xs:element name=\"java5Inspector\">\r\n" ) );
+		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t<xs:all>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"actionStyle\" minOccurs=\"0\">\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:any processContents=\"lax\"/>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t</xs:element>\r\n" ));
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"actionStyle\" minOccurs=\"0\">\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:any processContents=\"lax\"/>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t</xs:element>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"propertyStyle\" minOccurs=\"0\">\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:any processContents=\"lax\"/>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t\t</xs:element>\r\n" ));
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"propertyStyle\" minOccurs=\"0\">\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:any processContents=\"lax\"/>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t\t</xs:element>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t</xs:all>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\"/>\r\n" ));
-		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t</xs:element>\r\n" ));
+		assertTrue( schema.contains( "\t\t\t</xs:all>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\"/>\r\n" ) );
+		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t</xs:element>\r\n" ) );
 
 		// Required config
 
 		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.xml", "XmlInspector" );
 
-		assertTrue( schema.contains( "\r\n\t<!-- XmlInspector -->\r\n" ));
-		assertTrue( schema.contains( "\t<xs:element name=\"xmlInspector\">\r\n" ));
-		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t<xs:all>\r\n" ));
+		assertTrue( schema.contains( "\r\n\t<!-- XmlInspector -->\r\n" ) );
+		assertTrue( schema.contains( "\t<xs:element name=\"xmlInspector\">\r\n" ) );
+		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t<xs:all>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"inputStream\" minOccurs=\"0\">" ));
-		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:choice>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:element name=\"file\" type=\"xs:string\"/>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:element name=\"resource\" type=\"xs:string\"/>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:element name=\"url\" type=\"xs:anyURI\"/>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t</xs:choice>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ));
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"inputStream\" minOccurs=\"0\">" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:choice>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:element name=\"file\" type=\"xs:string\"/>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:element name=\"resource\" type=\"xs:string\"/>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:element name=\"url\" type=\"xs:anyURI\"/>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t</xs:choice>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"inputStreams\" minOccurs=\"0\">" ));
-		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:element name=\"array\">" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t\t<xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t\t\t<xs:any maxOccurs=\"unbounded\" processContents=\"lax\"/>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t\t</xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t</xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t</xs:element>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ));
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"inputStreams\" minOccurs=\"0\">" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:element name=\"array\">" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t<xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t\t<xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t\t\t<xs:any maxOccurs=\"unbounded\" processContents=\"lax\"/>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t\t</xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t\t</xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t</xs:element>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ) );
 
-		assertTrue( schema.contains( "\t\t\t</xs:all>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\" use=\"required\"/>\r\n" ));
-		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t</xs:element>\r\n" ));
+		assertTrue( schema.contains( "\t\t\t</xs:all>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\" use=\"required\"/>\r\n" ) );
+		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t</xs:element>\r\n" ) );
 
 		// maxOccurs="unbounded"
 
 		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.faces.component.html", "HtmlMetawidget" );
 
-		assertTrue( schema.contains( "\r\n\t<!-- HtmlMetawidget -->\r\n" ));
-		assertTrue( schema.contains( "\t<xs:element name=\"htmlMetawidget\">\r\n" ));
-		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t\t\t<xs:sequence>\r\n" ));
+		assertTrue( schema.contains( "\r\n\t<!-- HtmlMetawidget -->\r\n" ) );
+		assertTrue( schema.contains( "\t<xs:element name=\"htmlMetawidget\">\r\n" ) );
+		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t\t\t<xs:sequence>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"parameter\" minOccurs=\"0\" maxOccurs=\"unbounded\">" ));
-		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:any processContents=\"lax\"/>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ));
-		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ));
-		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ));
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"parameter\" minOccurs=\"0\" maxOccurs=\"unbounded\">" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:any processContents=\"lax\"/>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ) );
+		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ) );
+		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ) );
 
-		assertTrue( schema.contains( "\t\t\t</xs:sequence>\r\n" ));
-		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ));
-		assertTrue( schema.contains( "\t</xs:element>\r\n" ));
+		assertTrue( schema.contains( "\t\t\t</xs:sequence>\r\n" ) );
+		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
+		assertTrue( schema.contains( "\t</xs:element>\r\n" ) );
 	}
 
 	//

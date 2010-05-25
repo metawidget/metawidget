@@ -161,6 +161,8 @@
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<jvmarg value="-Djava.library.path=${basedir}/${relative.dir}/lib"/>
+			<jvmarg value="-Dtest.org.metawidget.config.JAR=../metawidget.jar"/>
+			<jvmarg value="-Dtest.org.metawidget.config.DEST_DIR=testXmlSchemaGeneratorTask"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.AllTests"/>
 			<classpath>
