@@ -1132,7 +1132,8 @@ public abstract class UIMetawidget
 	 * Dynamically modify the component tree using the JSF2 API.
 	 * <p>
 	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid
-	 * <code>RemoveDuplicatesHack</code>.
+	 * <code>RemoveDuplicatesHack</code>. These are only expected to work fully under Facelets, not
+	 * JSP (see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402).
 	 */
 
 	private static class SystemEventSupport
@@ -1181,7 +1182,8 @@ public abstract class UIMetawidget
 			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null )
 				return;
 
-			// TODO: Gets called during restoreView phase, and then not buildView
+			// TODO: quirks-facelets2: gets called during restoreView phase,
+			// and then not buildView
 
 			// StringWriter writer = new StringWriter();
 			// new Throwable().printStackTrace( new PrintWriter( writer ));

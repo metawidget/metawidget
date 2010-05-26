@@ -16,9 +16,13 @@
 
 package org.metawidget.config;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 
 import junit.framework.TestCase;
+
+import org.metawidget.util.IOUtils;
 
 /**
  * @author Richard Kennard
@@ -61,6 +65,66 @@ public class XmlSchemaGeneratorTaskTest
 		assertTrue( new File( new File( destDir ), "org.metawidget.android.widget-1.0.xsd" ).exists() );
 		assertTrue( new File( new File( destDir ), "org.metawidget.faces.component.html-1.0.xsd" ).exists() );
 		assertTrue( new File( new File( destDir ), "org.metawidget.widgetbuilder.composite-1.0.xsd" ).exists() );
+
+		// For each file...
+
+		for( File file : new File( destDir ).listFiles() )
+		{
+			// ...read the contents...
+
+			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+			IOUtils.streamBetween( new FileInputStream( file ), streamOut );
+			String contents = streamOut.toString();
+
+			// ...and test the contents...
+
+			String filename = file.getName();
+
+			if ( "index.html".equals( filename ))
+			{
+				assertTrue( filename, contents.contains( "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">" ));
+				assertTrue( filename, contents.contains( "<title>Metawidget XML Schemas</title>" ));
+				assertTrue( filename, contents.contains( "<body>" ));
+				assertTrue( filename, contents.contains( "<h1>Metawidget XML Schemas</h1>" ));
+				assertTrue( filename, contents.contains( "<h2>Inspection Results</h2>" ));
+				assertTrue( filename, contents.contains( "<h2>External Configuration</h2>" ));
+				assertTrue( filename, contents.contains( "</body>" ));
+				assertTrue( filename, contents.contains( "</html>" ));
+
+				for( File nestedFile : new File( destDir ).listFiles() )
+				{
+					String nestedFilename = nestedFile.getName();
+
+					if ( "index.html".equals( nestedFilename ))
+						continue;
+
+					assertTrue( nestedFilename, contents.contains( "<li><a href=\"" + nestedFilename + "\">" + nestedFilename + "</a></li>" ));
+				}
+
+				continue;
+			}
+
+			// ...for things we SHOULD see...
+
+			int indexOf = filename.indexOf( "-" );
+			String packageName = filename.substring( 0, indexOf );
+
+			assertTrue( filename, contents.contains( "<?xml version=\"1.0\" ?>" ));
+			assertTrue( filename, contents.contains( "<xs:schema targetNamespace=\"java:" + packageName + "\" xmlns=\"java:" + packageName + "\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">" ));
+			assertTrue( filename, contents.contains( "<xs:complexType>" ));
+			assertTrue( filename, contents.contains( "</xs:complexType>" ));
+			assertTrue( filename, contents.contains( "</xs:schema>" ));
+
+			// ...and things we SHOULDN'T
+
+			// (don't want to see Java base class properties)
+
+			assertTrue( filename, !contents.contains( "name=\"class\"" ));
+
+			// (don't want to see SWT Control properties)
+
+			assertTrue( filename, !contents.contains( "name=\"backgroundMode\"" ));
+		}
 	}
 
 	public void testGenerateClassBlock()

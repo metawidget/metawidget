@@ -25,7 +25,7 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
-	<!-- Hack until we have full JSF2 support -->
+	<!-- Hack. For full JSF2 support, use SystemEvents -->
 	
  	<context-param>
  		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
