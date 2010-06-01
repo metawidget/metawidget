@@ -146,7 +146,7 @@ public abstract class UIMetawidget
 
 	private Pipeline						mPipeline;
 
-	private RemoveDuplicatesHack			mRemoveDuplicatesHack;
+	private Object							mBuildWidgetsTrigger;
 
 	//
 	// Constructor
@@ -168,9 +168,9 @@ public abstract class UIMetawidget
 		// enabled by default
 
 		if ( FacesUtils.isUseSystemEvents() )
-			new SystemEventSupport( this );
+			mBuildWidgetsTrigger = new SystemEventSupport( this );
 		else
-			mRemoveDuplicatesHack = new RemoveDuplicatesHack( this );
+			mBuildWidgetsTrigger = new RemoveDuplicatesHack( this );
 	}
 
 	//
@@ -464,8 +464,8 @@ public abstract class UIMetawidget
 	{
 		boolean rendered = super.isRendered();
 
-		if ( mRemoveDuplicatesHack != null )
-			mRemoveDuplicatesHack.isRendered( rendered );
+		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesHack )
+			( (RemoveDuplicatesHack) mBuildWidgetsTrigger ).isRendered( rendered );
 
 		return rendered;
 	}
@@ -474,8 +474,8 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		if ( mRemoveDuplicatesHack != null )
-			mRemoveDuplicatesHack.encodeBegin( context );
+		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesHack )
+			( (RemoveDuplicatesHack) mBuildWidgetsTrigger ).encodeBegin( context );
 
 		super.encodeBegin( context );
 	}
@@ -1161,6 +1161,19 @@ public abstract class UIMetawidget
 			if ( root == null )
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 
+			// For GET requests, this gets fired during buildView and builds the
+			// components for the first time. Note that under partial state saving the built
+			// components are NOT serialized. You can prove this by putting 'if context.isPostback'
+			// around the 'subscribeToViewEvent': if you don't subscribe on POST-back, all widgets
+			// (except manually defined widgets) disappear.
+			//
+			// For POST requests, this gets fired during restoreView
+			// and restores the components so that HTTP values can be POSTed into them
+			//
+			// The only missing part of the puzzle is what happens if the POSTed back values update
+			// the model such that the components should change? For this, see
+			// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1313
+
 			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 		}
 
@@ -1176,22 +1189,6 @@ public abstract class UIMetawidget
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException
 		{
-			// Validation error? Do not rebuild, as we will lose the invalid values in the
-			// components. Instead, just move along to our renderer
-
-			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null )
-				return;
-
-			// TODO: quirks-facelets2: gets called during restoreView phase,
-			// and then not buildView
-
-			// StringWriter writer = new StringWriter();
-			// new Throwable().printStackTrace( new PrintWriter( writer ));
-			// if ( writer.toString().contains( "restoreView" ))
-			// return;
-
-			// Build widgets as normal
-
 			try
 			{
 				mMetawidget.buildWidgets();

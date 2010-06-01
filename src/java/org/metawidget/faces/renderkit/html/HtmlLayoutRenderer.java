@@ -216,18 +216,6 @@ public abstract class HtmlLayoutRenderer
 
 	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor )
 	{
-		// TODO: WARNING: There should always be a submitted value for an input if it is rendered,
-		// its form is submitted, and it was not originally rendered disabled or read-only. You
-		// cannot submit a form after disabling an input element via javascript. Consider setting
-		// read-only to true instead or resetting the disabled value back to false prior to form
-		// submission. Component : {Component-Path : [Class:
-		// org.ajax4jsf.component.AjaxViewRoot,ViewId: /index.jsp][Class:
-		// org.metawidget.faces.component.html.HtmlMetawidget,Id: j_id_jsp_1759466000_5][Class:
-		// org.metawidget.faces.component.html.HtmlMetawidget,Id: j_id_jsp_1759466000_6][Class:
-		// javax.faces.component.html.HtmlInputTextarea,Id: quirksLarge_2]}
-		//
-		// When testing http://localhost:8080/quirks-faces-systemevents-facelets/index.jsf
-
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 
 		// If using SystemEvent, avoid setParent because it seems to trigger an infinite recursion
