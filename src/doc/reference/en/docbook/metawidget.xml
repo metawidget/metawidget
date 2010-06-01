@@ -3945,11 +3945,27 @@ public class Main {
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td>...TODO...</td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
+			&lt;androidWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td>...TODO...</td>							
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
+			&lt;gwtWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>JSF</td>

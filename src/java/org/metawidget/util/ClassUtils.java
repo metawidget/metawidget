@@ -129,7 +129,10 @@ public final class ClassUtils
 		}
 		catch ( Exception e )
 		{
-			throw new RuntimeException( "Unable to get '" + property + "' of '" + base + "'", e );
+			if ( base == null )
+				throw new RuntimeException( "Unable to get '" + property + "' because base is null", e );
+
+			throw new RuntimeException( "Unable to get '" + property + "' of '" + base + "' (" + base.getClass() + ")", e );
 		}
 	}
 
