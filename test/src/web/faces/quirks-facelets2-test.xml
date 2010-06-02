@@ -242,7 +242,7 @@
 				<clickButton label="Save"/>
 				
 				<!-- Test component tree intact -->
-				<!-- TODO
+
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
@@ -275,6 +275,7 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/@class" text="dEf"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/@style" text="border: 1px solid blue"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/th)" text="Def 1:"/>
+				<!-- TODO
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/td/textarea"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/th)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/td/input/@type" text="text"/>

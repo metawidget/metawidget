@@ -20,12 +20,12 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
 
 /**
- * Models an entity that tests RemoveDuplicatesHack.
+ * Models an entity that tests RemoveDuplicatesSupport.
  *
  * @author Richard Kennard
  */
 
-public class RemoveDuplicatesHackTest
+public class RemoveDuplicatesSupportTest
 {
 	//
 	// Private members
@@ -33,7 +33,7 @@ public class RemoveDuplicatesHackTest
 
 	private String							mFoo1;
 
-	private RemoveDuplicatesHackEmbedded	mEmbedded;
+	private RemoveDuplicatesSupportEmbedded	mEmbedded;
 
 	//
 	// Public methods
@@ -50,12 +50,12 @@ public class RemoveDuplicatesHackTest
 	}
 
 	@UiComesAfter( "foo1" )
-	public RemoveDuplicatesHackEmbedded getEmbedded()
+	public RemoveDuplicatesSupportEmbedded getEmbedded()
 	{
 		return mEmbedded;
 	}
 
-	public void setEmbedded( RemoveDuplicatesHackEmbedded embedded )
+	public void setEmbedded( RemoveDuplicatesSupportEmbedded embedded )
 	{
 		mEmbedded = embedded;
 	}
@@ -67,14 +67,14 @@ public class RemoveDuplicatesHackTest
 
 	public void newEmbedded()
 	{
-		setEmbedded( new RemoveDuplicatesHackEmbedded() );
+		setEmbedded( new RemoveDuplicatesSupportEmbedded() );
 	}
 
 	//
 	// Public methods
 	//
 
-	public class RemoveDuplicatesHackEmbedded
+	public class RemoveDuplicatesSupportEmbedded
 	{
 		//
 		// Private members

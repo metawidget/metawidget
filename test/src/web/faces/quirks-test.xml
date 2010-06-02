@@ -536,7 +536,7 @@
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div)" text="bar"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th[1])" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
@@ -556,7 +556,7 @@
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div, 'dEf')"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/th[1])" text="Def 2:"/>
@@ -585,7 +585,7 @@
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div)" text="bar"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th[1])" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
@@ -605,7 +605,7 @@
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div, 'dEf')"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/td[1]/textarea"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/th[1])" text="Def 2:"/>
@@ -617,7 +617,7 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[6]/td/div/div, 'ghI')"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[6]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Ghi 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[2]/th[1])" text="Ghi 2:"/>
@@ -655,7 +655,7 @@
 				<verifyXPath xpath="/html/body/form/div/div[2]/div[2]/input/@type" text="text"/>
 								
 				<verifyXPath xpath="contains(/html/body/form/div/div[3]/div/div[1]/div[1], 'Foo')"/>
-				<verifyXPath xpath="/html/body/form/div/div[3]/div/div[1]/div[1]/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+				<verifyXPath xpath="contains(/html/body/form/div/div[3]/div/div[1]/div[1]/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div[1]/div[1])" text="bar"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div/div)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div/div[2]/input/@type" text="text"/>
@@ -806,10 +806,10 @@
 			</steps>
 		</webtest>
 		
-		<webtest name="test-remove-duplicates-hack">
+		<webtest name="test-remove-duplicates-support">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/${context.path}/removeDuplicatesHack.jsf" />
+				<invoke url="${webtest.url}/${context.path}/removeDuplicatesSupport.jsf" />
 
 				<!-- Test POST-back doesn't lose the manually overridden hidden field, or get a 'duplicate id' error -->
 				
@@ -825,7 +825,7 @@
 					
 					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td/@colspan" text="2"/>
 					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[2]/td/div/div, 'More')"/>
-					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/div/div/div/@class" text="dr-stglpanel-marker rich-stglpanel-marker"/>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[2]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Bar 2:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 					<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td/div/div[3]/table/tbody/tr)" text="1"/>

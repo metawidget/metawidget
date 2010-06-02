@@ -36,8 +36,8 @@
 	</managed-bean>
 
 	<managed-bean>
-		<managed-bean-name>removeDuplicatesHack</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.model.RemoveDuplicatesHackTest</managed-bean-class>
+		<managed-bean-name>removeDuplicatesSupport</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RemoveDuplicatesSupportTest</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

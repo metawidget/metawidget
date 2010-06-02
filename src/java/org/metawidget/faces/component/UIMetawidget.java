@@ -170,7 +170,7 @@ public abstract class UIMetawidget
 		if ( FacesUtils.isUseSystemEvents() )
 			mBuildWidgetsTrigger = new SystemEventSupport( this );
 		else
-			mBuildWidgetsTrigger = new RemoveDuplicatesHack( this );
+			mBuildWidgetsTrigger = new RemoveDuplicatesSupport( this );
 	}
 
 	//
@@ -464,8 +464,8 @@ public abstract class UIMetawidget
 	{
 		boolean rendered = super.isRendered();
 
-		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesHack )
-			( (RemoveDuplicatesHack) mBuildWidgetsTrigger ).isRendered( rendered );
+		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport )
+			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).isRendered( rendered );
 
 		return rendered;
 	}
@@ -474,8 +474,8 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesHack )
-			( (RemoveDuplicatesHack) mBuildWidgetsTrigger ).encodeBegin( context );
+		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport )
+			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).encodeBegin( context );
 
 		super.encodeBegin( context );
 	}
@@ -1015,21 +1015,16 @@ public abstract class UIMetawidget
 	 * This hack removes that duplicate.
 	 */
 
-	private static class RemoveDuplicatesHack
+	private static class RemoveDuplicatesSupport
+		extends BuildWidgetsSupport
 	{
-		//
-		// Private members
-		//
-
-		private UIMetawidget	mMetawidget;
-
 		//
 		// Constructor
 		//
 
-		public RemoveDuplicatesHack( UIMetawidget metawidget )
+		public RemoveDuplicatesSupport( UIMetawidget metawidget )
 		{
-			mMetawidget = metawidget;
+			super( metawidget );
 		}
 
 		//
@@ -1048,44 +1043,20 @@ public abstract class UIMetawidget
 			// unit tests?
 
 			if ( !rendered )
-				mMetawidget.getChildren().clear();
+				getMetawidget().getChildren().clear();
 		}
+
+		/**
+		 * Modify the component tree during <code>encodeBegin</code>. This is not the cleanest, but
+		 * is the best we can do under JSF 1.x
+		 */
 
 		public void encodeBegin( FacesContext context )
 			throws IOException
 		{
 			try
 			{
-				// Validation error? Do not rebuild, as we will lose the invalid values in the
-				// components. Instead, just move along to our renderer
-
-				if ( context.getMaximumSeverity() != null )
-				{
-					// Remove duplicate
-					//
-					// Remove the top-level version of the duplicate, not the nested-level version,
-					// because the top-level is the 'original' whereas the nested-level is the
-					// 'moved'. We will not be rebuilding the component tree, so we want the
-					// 'moved' one (ie. at its final destination)
-
-					for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); )
-					{
-						UIComponent component = i.next();
-
-						if ( findComponentWithId( mMetawidget, component.getId(), component ) != null )
-							i.remove();
-					}
-
-					return;
-				}
-
-				// Build widgets as normal
-				//
-				// Note: calling buildWidgets here means we are modifying the component tree during
-				// the Renderer phase, which is dangerous. The ideal fix would be to .buildWidgets
-				// BEFORE the component tree gets serialized (see JavaDoc above)
-
-				mMetawidget.buildWidgets();
+				buildWidgets();
 			}
 			catch ( Exception e )
 			{
@@ -1099,6 +1070,141 @@ public abstract class UIMetawidget
 
 				throw new IOException( e.getMessage() );
 			}
+		}
+	}
+
+	/**
+	 * Dynamically modify the component tree using the JSF2 API.
+	 * <p>
+	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid
+	 * <code>RemoveDuplicatesSupport</code>.
+	 */
+
+	private static class SystemEventSupport
+		extends BuildWidgetsSupport
+		implements SystemEventListener
+	{
+		//
+		// Constructor
+		//
+
+		public SystemEventSupport( UIMetawidget metawidget )
+		{
+			super( metawidget );
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			UIViewRoot root = context.getViewRoot();
+
+			// Warning against using an old version of RichFaces
+
+			if ( root == null )
+				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
+
+			// For GET requests, this gets fired during RenderResponsePhase and builds the
+			// components for the first time. Note that under partial state saving the built
+			// components are NOT serialized. You can prove this by putting 'if context.isPostback'
+			// around the 'subscribeToViewEvent': if you don't subscribe on POST-back, all widgets
+			// (except manually defined widgets) disappear.
+			//
+			// For POST requests (at least with partial state saving on), this gets fired during
+			// RestoreViewPhase and restores the components so that HTTP values can be POSTed into
+			// them
+			//
+			// The only missing part of the puzzle is what happens if the POSTed back values update
+			// the model such that the components should change? For this, see
+			// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1313
+
+			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
+		}
+
+		//
+		// Public methods
+		//
+
+		public boolean isListenerForSource( Object source )
+		{
+			return ( source instanceof UIViewRoot );
+		}
+
+		public void processEvent( SystemEvent event )
+			throws AbortProcessingException
+		{
+			try
+			{
+				buildWidgets();
+			}
+			catch ( Exception e )
+			{
+				// At this level, it is more 'proper' to throw an AbortProcessingException than
+				// a MetawidgetException, as that is what the layers above are expecting
+
+				throw new AbortProcessingException( e );
+			}
+		}
+	}
+
+	/**
+	 * Base implementation shared by <code>RemoveDuplicatesSupport</code> and
+	 * <code>SystemEventsSupport</code>.
+	 */
+
+	private static class BuildWidgetsSupport
+	{
+		//
+		// Private members
+		//
+
+		private UIMetawidget	mMetawidget;
+
+		//
+		// Constructor
+		//
+
+		public BuildWidgetsSupport( UIMetawidget metawidget )
+		{
+			mMetawidget = metawidget;
+		}
+
+		//
+		// Protected methods
+		//
+
+		protected UIMetawidget getMetawidget()
+		{
+			return mMetawidget;
+		}
+
+		protected void buildWidgets()
+			throws Exception
+		{
+			// Validation error? Do not rebuild, as we will lose the invalid values in the
+			// components. This is needed when partial state saving is inactive (ie. in JSF 1.x; in
+			// JSF 2 if using JSP; in JSF 2 Facelets if turned off explicitly). It is *not* needed
+			// in JSF 2 Facelets with partial state saving turned on
+
+			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null )
+			{
+				// Remove duplicates
+				//
+				// Remove the top-level version of each duplicate, not the nested-level version,
+				// because the top-level is the 'original' whereas the nested-level is the
+				// 'moved'. We will not be rebuilding the component tree, so we want the
+				// 'moved' one (ie. at its final destination)
+
+				for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); )
+				{
+					UIComponent component = i.next();
+
+					if ( findComponentWithId( mMetawidget, component.getId(), component ) != null )
+						i.remove();
+				}
+
+				return;
+			}
+
+			// Build the widgets
+
+			mMetawidget.buildWidgets();
 		}
 
 		//
@@ -1125,81 +1231,6 @@ public abstract class UIMetawidget
 			}
 
 			return null;
-		}
-	}
-
-	/**
-	 * Dynamically modify the component tree using the JSF2 API.
-	 * <p>
-	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid
-	 * <code>RemoveDuplicatesHack</code>. These are only expected to work fully under Facelets, not
-	 * JSP (see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402).
-	 */
-
-	private static class SystemEventSupport
-		implements SystemEventListener
-	{
-		//
-		// Private members
-		//
-
-		private UIMetawidget	mMetawidget;
-
-		//
-		// Constructor
-		//
-
-		public SystemEventSupport( UIMetawidget metawidget )
-		{
-			mMetawidget = metawidget;
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			UIViewRoot root = context.getViewRoot();
-
-			// Warning against using an old version of RichFaces
-
-			if ( root == null )
-				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
-
-			// For GET requests, this gets fired during buildView and builds the
-			// components for the first time. Note that under partial state saving the built
-			// components are NOT serialized. You can prove this by putting 'if context.isPostback'
-			// around the 'subscribeToViewEvent': if you don't subscribe on POST-back, all widgets
-			// (except manually defined widgets) disappear.
-			//
-			// For POST requests, this gets fired during restoreView
-			// and restores the components so that HTTP values can be POSTed into them
-			//
-			// The only missing part of the puzzle is what happens if the POSTed back values update
-			// the model such that the components should change? For this, see
-			// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1313
-
-			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
-		}
-
-		//
-		// Public methods
-		//
-
-		public boolean isListenerForSource( Object source )
-		{
-			return ( source instanceof UIViewRoot );
-		}
-
-		public void processEvent( SystemEvent event )
-			throws AbortProcessingException
-		{
-			try
-			{
-				mMetawidget.buildWidgets();
-			}
-			catch ( Exception e )
-			{
-				// At this level, it is more 'proper' to throw an AbortProcessingException than
-				// a MetawidgetException, as that is what the layers above are expecting
-
-				throw new AbortProcessingException( e );
-			}
 		}
 	}
 }

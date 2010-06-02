@@ -1339,7 +1339,8 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file quirks-systemevents-test.xml"/>
+			<arg line="-Dcontext.path=quirks-faces-systemevents"/>
+			<arg line="-file quirks-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
