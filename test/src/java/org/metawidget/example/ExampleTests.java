@@ -25,11 +25,12 @@ import org.metawidget.example.swing.addressbook.SwingAddressBookTest;
 import org.metawidget.example.swing.animalraces.SwingAnimalRacesTest;
 import org.metawidget.example.swing.appframework.SwingAppFrameworkTest;
 import org.metawidget.example.swing.tutorial.SwingTutorialTest;
+import org.metawidget.example.swing.userguide.CastorInspectorExampleTest;
 import org.metawidget.example.swing.userguide.ExcludingWidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.IncludingInspectionResultProcessorExampleTest;
-import org.metawidget.example.swing.userguide.InspectorExampleTest;
 import org.metawidget.example.swing.userguide.PropertyStyleExampleTest;
 import org.metawidget.example.swing.userguide.ReadOnlyWidgetBuilderExampleTest;
+import org.metawidget.example.swing.userguide.TooltipInspectorExampleTest;
 import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
 import org.metawidget.example.swt.addressbook.SwtAddressBookTest;
@@ -50,6 +51,7 @@ public class ExampleTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Example Tests" );
+		suite.addTestSuite( CastorInspectorExampleTest.class );
 		suite.addTestSuite( ExcludingWidgetBuilderExampleTest.class );
 		suite.addTestSuite( IncludingInspectionResultProcessorExampleTest.class );
 		suite.addTestSuite( PropertyStyleExampleTest.class );
@@ -60,7 +62,7 @@ public class ExampleTests
 		suite.addTestSuite( SwingTutorialTest.class );
 		suite.addTestSuite( SwtAddressBookTest.class );
 		suite.addTestSuite( SwtTutorialTest.class );
-		suite.addTestSuite( InspectorExampleTest.class );
+		suite.addTestSuite( TooltipInspectorExampleTest.class );
 		suite.addTestSuite( WidgetBuilderExampleTest.class );
 		suite.addTestSuite( WidgetProcessorExampleTest.class );
 

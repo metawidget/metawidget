@@ -39,7 +39,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * @author Richard Kennard
  */
 
-public class InspectorExampleTest
+public class TooltipInspectorExampleTest
 	extends TestCase
 {
 	//

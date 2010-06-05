@@ -51,7 +51,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Test result
 
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"foo\"/>";
 		validateXml += "<property name=\"bar\"/>";
@@ -81,7 +81,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Test result
 
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"bar\"/>";
 		validateXml += "<property name=\"baz\"/>";
@@ -111,7 +111,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Test result
 
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"bar\"/>";
 		validateXml += "<property name=\"foo\" comes-after=\"bar\"/>";
@@ -142,7 +142,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Test result
 
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"bar\"/>";
 		validateXml += "<property name=\"baz\"/>";
@@ -174,7 +174,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Test result
 
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"baz\"/>";
 		validateXml += "<property name=\"bar\" comes-after=\"baz\"/>";
@@ -206,7 +206,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Test result
 
-		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"baz\"/>";
 		validateXml += "<property name=\"abc\"/>";
@@ -245,7 +245,7 @@ public class ComesAfterInspectionResultProcessorTest
 		try
 		{
 			String inputXml = "<?xml version=\"1.0\"?>";
-			inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+			inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 			inputXml += "<entity type=\"Foo\">";
 			inputXml += "<property name=\"bar\" comes-after=\"bar\"/>";
 			inputXml += "</entity></inspection-result>";

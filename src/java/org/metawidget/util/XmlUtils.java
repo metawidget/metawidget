@@ -1216,24 +1216,25 @@ public class XmlUtils
 			buffer.append( "\"" );
 		}
 
-		// Attributes (go via getAttributesAsMap to benefit from getAttributesAsMapHack)
+		// Attributes
 
-		Map<String, String> attributes = getAttributesAsMap( node );
+		NamedNodeMap attributes = node.getAttributes();
 
 		// Always put name first for easy unit tests
 
-		String name = attributes.get( "name" );
+		Node name = attributes.getNamedItem( "name" );
 
 		if ( name != null )
 		{
 			buffer.append( " name=\"" );
-			buffer.append( escapeForXml( name ) );
+			buffer.append( escapeForXml( name.getNodeValue() ) );
 			buffer.append( "\"" );
 		}
 
-		for ( Map.Entry<String, String> attribute : attributes.entrySet() )
+		for ( int loop = 0; loop < attributes.getLength(); loop++ )
 		{
-			String attributeName = attribute.getKey();
+			Node attribute = attributes.item( loop );
+			String attributeName = attribute.getNodeName();
 
 			// (I'm a bit surprised xmlns is an attribute - is that a bug?)
 
@@ -1248,7 +1249,7 @@ public class XmlUtils
 			buffer.append( " " );
 			buffer.append( escapeForXml( attributeName ) );
 			buffer.append( "=\"" );
-			buffer.append( escapeForXml( attribute.getValue() ) );
+			buffer.append( escapeForXml( attribute.getNodeValue() ) );
 			buffer.append( "\"" );
 		}
 

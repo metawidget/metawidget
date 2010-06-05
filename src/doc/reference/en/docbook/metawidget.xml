@@ -3338,12 +3338,46 @@ public class Person {
 							For inspecting XML files, <classname>BaseXmlInspector</classname> assists
 							in opening and traversing through the XML, as well as merging multiple XML files
 							into one (eg. merging multiple Hibernate mapping files). Here is an example of a
-							custom <classname>Inspector</classname> to inspect XML:
+							custom <classname>Inspector</classname> to inspect <ulink url="http://castor.org">Castor</ulink>
+							XML mapping files:
 						</para>
 						
-						<para>
-							TODO: for now, see <classname>StrutsInspector</classname> for example usage.
-						</para>
+						<programlisting language="java">package com.myapp;
+
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.*;
+import org.metawidget.inspector.impl.*;
+import org.metawidget.util.*;
+import org.w3c.dom.*;
+
+public class CastorInspector
+	extends BaseXmlInspector {
+	
+	public CastorInspector( BaseXmlInspectorConfig config ) {
+		super( config );
+	}
+
+	protected Map&lt;String, String&gt; inspectProperty( Element toInspect ) {
+	
+		if ( !"field".equals( toInspect.getNodeName() ) )
+			return null;
+
+		Map&lt;String, String&gt; attributes = CollectionUtils.newHashMap();
+
+		if ( toInspect.hasAttribute( getNameAttribute() ) )
+			attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
+
+		if ( toInspect.hasAttribute( getTypeAttribute() ) )
+			attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
+
+		return attributes;
+	}
+
+	protected String getTopLevelTypeAttribute() {
+		return NAME;
+	}
+}</programlisting>
 					</listitem>
 				</itemizedlist>
 	
