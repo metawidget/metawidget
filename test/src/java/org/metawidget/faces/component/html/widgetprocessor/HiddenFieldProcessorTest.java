@@ -71,6 +71,12 @@ public class HiddenFieldProcessorTest
 		attributes.remove( NO_SETTER );
 		assertTrue( processor.processWidget( stub, PROPERTY, attributes, null ) instanceof HtmlInputHidden );
 
+		// Non-empty Stubs get left alone
+
+		component = new UIStub();
+		component.getChildren().add( new HtmlOutputText() );
+		assertTrue( processor.processWidget( component, PROPERTY, attributes, null ) == component );
+
 		// Everything else gets wrapped
 
 		component = new HtmlOutputText();

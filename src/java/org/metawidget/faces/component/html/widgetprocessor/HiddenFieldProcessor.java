@@ -86,10 +86,18 @@ public class HiddenFieldProcessor
 	{
 		Application application = FacesContext.getCurrentInstance().getApplication();
 
-		// Empty stubs become hidden fields directly
+		if ( component instanceof UIStub )
+		{
+			// Empty stubs become hidden fields directly
 
-		if ( component instanceof UIStub && component.getChildCount() == 0 )
-			return application.createComponent( "javax.faces.HtmlInputHidden" );
+			if ( component.getChildCount() == 0 )
+				return application.createComponent( "javax.faces.HtmlInputHidden" );
+
+			// We cannot say whether non-empty Stubs will POST-back by themselves (unless we
+			// recursed them)
+
+			return component;
+		}
 
 		// Other components get wrapped in a Stub
 
