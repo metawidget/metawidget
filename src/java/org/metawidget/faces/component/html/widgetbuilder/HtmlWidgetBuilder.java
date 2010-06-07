@@ -92,12 +92,6 @@ public class HtmlWidgetBuilder
 
 	private final static int	SHORT_LOOKUP_SIZE		= 3;
 
-	/**
-	 * The 'var' name to use for generated <code>dataTable</code>s.
-	 */
-
-	private final static String	DATA_TABLE_VAR_NAME		= "_internal";
-
 	//
 	// Private members
 	//
@@ -545,7 +539,7 @@ public class HtmlWidgetBuilder
 		UIViewRoot viewRoot = context.getViewRoot();
 
 		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( "javax.faces.HtmlDataTable" );
-		dataTable.setVar( DATA_TABLE_VAR_NAME );
+		dataTable.setVar( "_internal" );
 
 		// CSS
 
@@ -577,7 +571,7 @@ public class HtmlWidgetBuilder
 
 			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 			columnText.setId( viewRoot.createUniqueId() );
-			ValueBinding binding = application.createValueBinding( "#{_internal}" );
+			ValueBinding binding = application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) );
 			columnText.setValueBinding( "value", binding );
 
 			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
