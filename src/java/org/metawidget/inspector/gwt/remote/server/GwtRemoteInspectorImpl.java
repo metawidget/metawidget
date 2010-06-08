@@ -39,7 +39,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * <li><code>config</code> - fully qualified path to (optional) <code>metawidget.xml</code>, for
  * example <code>com/foo/metawidget.xml</code>.
  * </ul>
- *
+ * <p>
+ * <strong>This Inspector is designed to work 'out of the box' for most cases. However, use of
+ * Serializable as a parameter type is not optimal for GWT. We recommend deriving your own interface
+ * with your own business-model-specific base class instead.</strong>
+
  * @author Richard Kennard
  */
 
