@@ -36,7 +36,14 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiJspAttribute
 {
-	String name();
+	/**
+	 * Attribute to set.
+	 * <p>
+	 * Multiple attributes can be specified if you need to set multiple attributes to the same
+	 * expression.
+	 */
+
+	String[] name();
 
 	/**
 	 * Value to set the attribute to. Must be an EL expression of the form <code>${...}</code>.

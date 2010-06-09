@@ -59,11 +59,11 @@ public class JspAnnotationInspector
 	 * Sets the PageContext to use for this Inspection.
 	 * <p>
 	 * Unfortunately, JSP lacks a standardized mechanism to retrieve the <code>PageContext</code>
-	 * (or the <code>HttpServletRequest</code>) statically. Many containers work around this
-	 * using <code>ThreadLocal</code>-variables, but this is implementation specific.
+	 * (or the <code>HttpServletRequest</code>) statically. Many containers work around this using
+	 * <code>ThreadLocal</code>-variables, but this is implementation specific.
 	 * <p>
-	 * Clients wishing to use <code>UiJspAttribute</code> or <code>UiJspAttributes</code> must
-	 * call this static method before each inspection to inject the <code>PageContext</code>.
+	 * Clients wishing to use <code>UiJspAttribute</code> or <code>UiJspAttributes</code> must call
+	 * this static method before each inspection to inject the <code>PageContext</code>.
 	 * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
 	 */
 
@@ -180,17 +180,28 @@ public class JspAnnotationInspector
 			return;
 		}
 
+		// TODO: test these!
+
 		if ( value instanceof Collection<?> )
 		{
-			attributes.put( jspAttribute.name(), CollectionUtils.toString( (Collection<?>) value ) );
+			for ( String attributeName : jspAttribute.name() )
+			{
+				attributes.put( attributeName, CollectionUtils.toString( (Collection<?>) value ) );
+			}
 		}
 		else if ( value instanceof Object[] )
 		{
-			attributes.put( jspAttribute.name(), ArrayUtils.toString( (Object[]) value ) );
+			for ( String attributeName : jspAttribute.name() )
+			{
+				attributes.put( attributeName, ArrayUtils.toString( (Object[]) value ) );
+			}
 		}
 		else
 		{
-			attributes.put( jspAttribute.name(), StringUtils.quietValueOf( value ) );
+			for ( String attributeName : jspAttribute.name() )
+			{
+				attributes.put( attributeName, StringUtils.quietValueOf( value ) );
+			}
 		}
 	}
 }

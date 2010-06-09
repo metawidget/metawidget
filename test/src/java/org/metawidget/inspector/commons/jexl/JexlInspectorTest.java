@@ -93,7 +93,13 @@ public class JexlInspectorTest
 		assertEquals( "was set", property.getAttribute( "expression-is-true" ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
-		assertTrue( entity.getChildNodes().getLength() == 2 );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar3" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "true", property.getAttribute( "attribute1" ) );
+		assertEquals( "true", property.getAttribute( "attribute2" ) );
+		assertTrue( 3 == property.getAttributes().getLength() );
+
+		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}
 
 	public void testBadExpression()
@@ -155,6 +161,9 @@ public class JexlInspectorTest
 
 		@UiJexlAttribute( name = "expression-is-true", expression = "if ( this.expressionResult ) { 'was set'; }" )
 		public String	bar2;
+
+		@UiJexlAttribute( name = { "attribute1", "attribute2" }, expression = "if ( this.expressionResult ) { 'true'; }" )
+		public String bar3;
 
 		public String getBaz()
 		{

@@ -70,7 +70,7 @@ public class FacesInspectorTest
 		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
 		assertEquals( "foo", property.getAttribute( FACES_AJAX_EVENT ) );
 		assertEquals( "#{bar}", property.getAttribute( FACES_AJAX_ACTION ) );
-		assertTrue( property.getAttributes().getLength() == 7 );
+		assertTrue( 7 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -80,6 +80,7 @@ public class FacesInspectorTest
 		assertEquals( "yyyy", property.getAttribute( DATETIME_PATTERN ) );
 		assertEquals( "GMT", property.getAttribute( TIME_ZONE ) );
 		assertEquals( "date", property.getAttribute( DATETIME_TYPE ) );
+		assertTrue( 7 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object3" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -93,16 +94,19 @@ public class FacesInspectorTest
 		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
 		assertEquals( "#0.00", property.getAttribute( NUMBER_PATTERN ) );
 		assertEquals( "currency", property.getAttribute( NUMBER_TYPE ) );
+		assertTrue( 11 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "result of #{foo1}", property.getAttribute( "foo1" ) );
 		assertEquals( "result of #{foo1}", property.getAttribute( "foo2" ) );
+		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "result of #{bar1}", property.getAttribute( "bar1" ) );
 		assertEquals( "result of #{bar2}", property.getAttribute( "bar2" ) );
+		assertTrue( 3 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}

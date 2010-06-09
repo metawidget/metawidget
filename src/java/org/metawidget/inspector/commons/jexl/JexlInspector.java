@@ -162,7 +162,10 @@ public class JexlInspector
 			return;
 		}
 
-		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ) );
+		for( String attributeName : jexlAttribute.name())
+		{
+			attributes.put( attributeName, StringUtils.quietValueOf( value ) );
+		}
 	}
 
 	/**

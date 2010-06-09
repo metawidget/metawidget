@@ -31,7 +31,13 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiJexlAttribute
 {
-	String name();
+	/**
+	 * Attribute to set.
+	 * <p>
+	 * Multiple attributes can be specified if you need to set multiple attributes to the same expression.
+	 */
+
+	String[] name();
 
 	/**
 	 * Value to set the attribute to. Must be a JEXL expression.
@@ -39,6 +45,8 @@ public @interface UiJexlAttribute
 	 * Note JEXL expressions can include conditions. For example:
 	 * <p>
 	 * <code>if ( foo.bar ) 'baz'</code>.
+	 * <p>
+	 * They can also refer to 'this'.
 	 */
 
 	String expression();
