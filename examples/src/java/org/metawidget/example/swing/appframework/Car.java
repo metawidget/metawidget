@@ -108,12 +108,16 @@ public class Car
 		StringBuilder builder = new StringBuilder();
 
 		if ( mMake != null )
+		{
 			builder.append( mMake );
+		}
 
 		if ( mType != null )
 		{
 			if ( builder.length() > 0 )
+			{
 				builder.append( " " );
+			}
 
 			builder.append( mType );
 		}
@@ -121,15 +125,21 @@ public class Car
 		if ( mOwner != null )
 		{
 			if ( builder.length() == 0 )
+			{
 				builder.append( "Owned by " );
+			}
 			else
+			{
 				builder.append( ", owned by " );
+			}
 
 			builder.append( mOwner );
 		}
 
 		if ( builder.length() == 0 )
+		{
 			builder.append( "(no car specified)" );
+		}
 
 		return builder.toString();
 	}

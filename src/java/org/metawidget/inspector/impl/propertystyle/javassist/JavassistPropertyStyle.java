@@ -144,7 +144,9 @@ public class JavassistPropertyStyle
 					int lineNumber = methodInfo.getLineNumber( 0 );
 
 					if ( lineNumber == -1 && !ctClass.isInterface() )
+					{
 						throw InspectorException.newException( "Line number information for " + clazz + " not available. Did you compile without debug info?" );
+					}
 
 					lineNumberedProperties.put( new ClassAndLineNumberAndName( method.getDeclaringClass(), lineNumber, propertyName ), property );
 					continue;
@@ -254,7 +256,9 @@ public class JavassistPropertyStyle
 				// ...superclasses come first
 
 				if ( mClass.isAssignableFrom( that.mClass ) )
+				{
 					return -1;
+				}
 
 				return 1;
 			}
@@ -262,7 +266,9 @@ public class JavassistPropertyStyle
 			// ...otherwise, sort by line number...
 
 			if ( mLineNumber != that.mLineNumber )
+			{
 				return mLineNumber - that.mLineNumber;
+			}
 
 			// ...otherwise, sort by name (so that we're deterministic)
 

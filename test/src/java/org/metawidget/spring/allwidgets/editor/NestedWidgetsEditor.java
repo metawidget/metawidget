@@ -55,7 +55,9 @@ public class NestedWidgetsEditor
 		nestedWidgets.setNestedTextbox1( values[0] );
 
 		if ( values.length > 1 )
+		{
 			nestedWidgets.setNestedTextbox2( values[1] );
+		}
 
 		setValue( nestedWidgets );
 	}

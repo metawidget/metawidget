@@ -95,7 +95,9 @@ public class BeansBindingProcessor
 		// Custom converters
 
 		if ( config.getConverters() != null )
+		{
 			mConverters.putAll( config.getConverters() );
+		}
 	}
 
 	//
@@ -126,7 +128,9 @@ public class BeansBindingProcessor
 		JComponent componentToBind = component;
 
 		if ( componentToBind instanceof JScrollPane )
+		{
 			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
+		}
 
 		typesafeAdd( componentToBind, elementName, attributes, metawidget );
 
@@ -160,7 +164,9 @@ public class BeansBindingProcessor
 				SyncFailure failure = binding.refresh();
 
 				if ( failure != null )
+				{
 					throw WidgetProcessorException.newException( failure.getType().toString() );
+				}
 			}
 		}
 
@@ -169,7 +175,9 @@ public class BeansBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
+			{
 				rebind( toRebind, (SwingMetawidget) component );
+			}
 		}
 	}
 
@@ -188,17 +196,23 @@ public class BeansBindingProcessor
 				BeanProperty<Object, Object> sourceProperty = (BeanProperty<Object, Object>) binding.getSourceProperty();
 
 				if ( !sourceProperty.isWriteable( sourceObject ) )
+				{
 					continue;
+				}
 
 				if ( binding.getConverter() instanceof ReadOnlyToStringConverter<?> )
+				{
 					continue;
+				}
 
 				try
 				{
 					SyncFailure failure = binding.save();
 
 					if ( failure != null )
+					{
 						throw WidgetProcessorException.newException( failure.getConversionException() );
+					}
 				}
 				catch ( ClassCastException e )
 				{
@@ -212,7 +226,9 @@ public class BeansBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
+			{
 				save( (SwingMetawidget) component );
+			}
 		}
 	}
 
@@ -224,14 +240,18 @@ public class BeansBindingProcessor
 		Converter<String, ?> converterFromString = getConverter( String.class, expectedType );
 
 		if ( converterFromString != null )
+		{
 			return converterFromString.convertForward( value );
+		}
 
 		// ...and the other...
 
 		Converter<?, String> converterToString = getConverter( expectedType, String.class );
 
 		if ( converterToString != null )
+		{
 			return converterToString.convertReverse( value );
+		}
 
 		// ...or don't convert
 
@@ -259,7 +279,9 @@ public class BeansBindingProcessor
 		String componentProperty = metawidget.getValueProperty( component );
 
 		if ( componentProperty == null )
+		{
 			return;
+		}
 
 		// Source property
 
@@ -269,7 +291,9 @@ public class BeansBindingProcessor
 		if ( PROPERTY.equals( elementName ) )
 		{
 			if ( sourceProperty.length() > 0 )
+			{
 				sourceProperty += StringUtils.SEPARATOR_DOT_CHAR;
+			}
 
 			sourceProperty += attributes.get( NAME );
 		}
@@ -317,7 +341,9 @@ public class BeansBindingProcessor
 		// See https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3460563
 
 		if ( converter == null && ( TRUE.equals( attributes.get( READ_ONLY ) ) || TRUE.equals( attributes.get( NO_SETTER ) ) ) )
+		{
 			converter = new ReadOnlyToStringConverter();
+		}
 
 		binding.setConverter( converter );
 
@@ -337,7 +363,9 @@ public class BeansBindingProcessor
 		State state = getState( metawidget );
 
 		if ( state.bindings == null )
+		{
 			state.bindings = CollectionUtils.newHashSet();
+		}
 
 		state.bindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );
 	}
@@ -353,17 +381,23 @@ public class BeansBindingProcessor
 		Class<TV> targetClassTraversal = targetClass;
 
 		if ( sourceClassTraversal.isPrimitive() )
+		{
 			sourceClassTraversal = (Class<SV>) ClassUtils.getWrapperClass( sourceClassTraversal );
+		}
 
 		if ( targetClassTraversal.isPrimitive() )
+		{
 			targetClassTraversal = (Class<TV>) ClassUtils.getWrapperClass( targetClassTraversal );
+		}
 
 		while ( sourceClassTraversal != null )
 		{
 			Converter<SV, TV> converter = (Converter<SV, TV>) mConverters.get( new ConvertFromTo<SV, TV>( sourceClassTraversal, targetClassTraversal ) );
 
 			if ( converter != null )
+			{
 				return converter;
+			}
 
 			sourceClassTraversal = (Class<SV>) sourceClassTraversal.getSuperclass();
 		}
@@ -425,19 +459,29 @@ public class BeansBindingProcessor
 		public boolean equals( Object that )
 		{
 			if ( this == that )
+			{
 				return true;
+			}
 
 			if ( that == null )
+			{
 				return false;
+			}
 
 			if ( getClass() != that.getClass() )
+			{
 				return false;
+			}
 
 			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo<?, ?>) that ).mSource ) )
+			{
 				return false;
+			}
 
 			if ( !ObjectUtils.nullSafeEquals( mTarget, ( (ConvertFromTo<?, ?>) that ).mTarget ) )
+			{
 				return false;
+			}
 
 			return true;
 		}

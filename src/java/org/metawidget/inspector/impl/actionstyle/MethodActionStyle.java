@@ -53,12 +53,16 @@ public abstract class MethodActionStyle
 			// ...that is a match...
 
 			if ( !matchAction( method ))
+			{
 				continue;
+			}
 
 			// ...that is not excluded...
 
 			if ( isExcluded( method ))
+			{
 				continue;
+			}
 
 			// ...add it
 
@@ -119,7 +123,9 @@ public abstract class MethodActionStyle
 			mMethod = method;
 
 			if ( mMethod == null )
+			{
 				throw new NullPointerException( "method" );
+			}
 		}
 
 		//

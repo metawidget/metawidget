@@ -77,16 +77,24 @@ public class LabelLayoutDecoratorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mStyleName, ((LabelLayoutDecoratorConfig) that).mStyleName ))
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

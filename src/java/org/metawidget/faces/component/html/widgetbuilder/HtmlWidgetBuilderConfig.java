@@ -93,22 +93,34 @@ public class HtmlWidgetBuilderConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mDataTableStyleClass, ((HtmlWidgetBuilderConfig) that).mDataTableStyleClass ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mDataTableColumnClasses, ((HtmlWidgetBuilderConfig) that).mDataTableColumnClasses ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mDataTableRowClasses, ((HtmlWidgetBuilderConfig) that).mDataTableRowClasses ))
+		{
 			return false;
+		}
 
 		return true;
 	}

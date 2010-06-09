@@ -96,7 +96,9 @@ public class TooltipInspectorExampleTest
 			Tooltip tooltip = property.getAnnotation( Tooltip.class );
 
 			if ( tooltip != null )
+			{
 				attributes.put( "tooltip", tooltip.value() );
+			}
 
 			return attributes;
 		}

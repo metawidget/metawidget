@@ -55,7 +55,9 @@ public class FlexTableLayoutConfig
 	public FlexTableLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 0 )
+		{
 			throw LayoutException.newException( "numberOfColumns must be >= 0" );
+		}
 
 		mNumberOfColumns = numberOfColumns;
 
@@ -116,25 +118,39 @@ public class FlexTableLayoutConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mNumberOfColumns  != ((FlexTableLayoutConfig) that).mNumberOfColumns )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mTableStyleName, ((FlexTableLayoutConfig) that).mTableStyleName ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mColumnStyleNames, ((FlexTableLayoutConfig) that).mColumnStyleNames ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyleName, ((FlexTableLayoutConfig) that).mFooterStyleName ))
+		{
 			return false;
+		}
 
 		return true;
 	}

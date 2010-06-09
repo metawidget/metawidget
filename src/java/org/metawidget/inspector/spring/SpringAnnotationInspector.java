@@ -69,12 +69,16 @@ public class SpringAnnotationInspector
 			String itemValue = springLookup.itemValue();
 
 			if ( !"".equals( itemValue ))
+			{
 				attributes.put( SPRING_LOOKUP_ITEM_VALUE, itemValue );
+			}
 
 			String itemLabel = springLookup.itemLabel();
 
 			if ( !"".equals( itemLabel ))
+			{
 				attributes.put( SPRING_LOOKUP_ITEM_LABEL, itemLabel );
+			}
 		}
 
 		return attributes;

@@ -129,10 +129,14 @@ public class ContactsController
 			if ( search != null )
 			{
 				if ( !caseInsensitiveContains( contact.getFirstname(), search.getFirstname() ) )
+				{
 					continue;
+				}
 
 				if ( !caseInsensitiveContains( contact.getSurname(), search.getSurname() ) )
+				{
 					continue;
+				}
 
 				if ( search.getType() != null )
 				{
@@ -140,13 +144,17 @@ public class ContactsController
 					{
 						case PERSONAL:
 							if ( !( contact instanceof PersonalContact ) )
+							{
 								continue;
+							}
 
 							break;
 
 						case BUSINESS:
 							if ( !( contact instanceof BusinessContact ) )
+							{
 								continue;
+							}
 					}
 				}
 			}
@@ -168,16 +176,24 @@ public class ContactsController
 		// Validate required fields
 
 		if ( contact == null )
+		{
 			throw new RuntimeException( "Contact is required" );
+		}
 
 		if ( contact.getTitle() == null || "".equals( contact.getTitle() ))
+		{
 			throw new RuntimeException( "Title is required" );
+		}
 
 		if ( contact.getFirstname() == null || "".equals( contact.getFirstname() ))
+		{
 			throw new RuntimeException( "Firstname is required" );
+		}
 
 		if ( contact.getSurname() == null || "".equals( contact.getSurname() ))
+		{
 			throw new RuntimeException( "Surname is required" );
+		}
 
 		// Assign automatic Id
 
@@ -191,7 +207,9 @@ public class ContactsController
 		else
 		{
 			if ( !mAll.containsKey( id ))
+			{
 				throw new RuntimeException( "Contact #" + id + " not found" );
+			}
 		}
 
 		mAll.put( id, contact );
@@ -211,7 +229,9 @@ public class ContactsController
 				Communication communication = i.next();
 
 				if ( communication.getId() != 0 )
+				{
 					continue;
+				}
 
 				i.remove();
 				toSave.add( communication );
@@ -236,7 +256,9 @@ public class ContactsController
 	public boolean delete( Contact contact )
 	{
 		if ( contact == null )
+		{
 			return false;
+		}
 
 		return ( mAll.remove( contact.getId() ) != null );
 	}
@@ -262,10 +284,14 @@ public class ContactsController
 	private boolean caseInsensitiveContains( String container, String contains )
 	{
 		if ( contains == null || contains.length() == 0 )
+		{
 			return true;
+		}
 
 		if ( container == null )
+		{
 			return false;
+		}
 
 		return container.toLowerCase().contains( contains.toLowerCase() );
 	}

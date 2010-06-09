@@ -194,12 +194,16 @@ public abstract class Contact
 		StringBuilder builder = new StringBuilder();
 
 		if ( mTitle != null )
+		{
 			builder.append( mTitle );
+		}
 
 		if ( mFirstname != null )
 		{
 			if ( builder.length() > 0 )
+			{
 				builder.append( ' ' );
+			}
 
 			builder.append( mFirstname );
 		}
@@ -207,7 +211,9 @@ public abstract class Contact
 		if ( mSurname != null )
 		{
 			if ( builder.length() > 0 )
+			{
 				builder.append( ' ' );
+			}
 
 			builder.append( mSurname );
 		}
@@ -252,10 +258,14 @@ public abstract class Contact
 	public boolean addCommunication( Communication communication )
 	{
 		if ( communication.getType() == null || "".equals( communication.getType() ) )
+		{
 			throw new RuntimeException( "Communication type is required" );
+		}
 
 		if ( communication.getValue() == null || "".equals( communication.getValue() ) )
+		{
 			throw new RuntimeException( "Communication value is required" );
+		}
 
 		if ( mCommunications == null )
 		{
@@ -271,7 +281,9 @@ public abstract class Contact
 	public boolean removeCommunication( Communication communication )
 	{
 		if ( mCommunications == null )
+		{
 			return false;
+		}
 
 		return mCommunications.remove( communication );
 	}
@@ -279,12 +291,16 @@ public abstract class Contact
 	public boolean removeCommunication( long id )
 	{
 		if ( mCommunications == null )
+		{
 			return false;
+		}
 
 		for ( Iterator<Communication> i = mCommunications.iterator(); i.hasNext(); )
 		{
 			if ( i.next().getId() != id )
+			{
 				continue;
+			}
 
 			i.remove();
 			return true;
@@ -313,7 +329,9 @@ public abstract class Contact
 	public int compareTo( Contact that )
 	{
 		if ( that == null )
+		{
 			return -1;
+		}
 
 		return ObjectUtils.nullSafeCompareTo( getFirstname(), that.getFirstname() );
 	}
@@ -322,20 +340,28 @@ public abstract class Contact
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		Contact contactThat = (Contact) that;
 
 		if ( mId == 0 )
 		{
 			if ( contactThat.mId != 0 )
+			{
 				return false;
+			}
 
 			return super.equals( contactThat );
 		}
@@ -347,7 +373,9 @@ public abstract class Contact
 	public int hashCode()
 	{
 		if ( mId == 0 )
+		{
 			return super.hashCode();
+		}
 
 		int hashCode = 1;
 		hashCode = 31 * hashCode + (int) ( mId ^ ( mId >>> 32 ) );

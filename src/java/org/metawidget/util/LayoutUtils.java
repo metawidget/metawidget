@@ -50,7 +50,9 @@ public final class LayoutUtils
 		// (null means 'no change to current section')
 
 		if ( sections == null )
+		{
 			return null;
+		}
 
 		String[] sectionsAsArray = ArrayUtils.fromString( sections );
 

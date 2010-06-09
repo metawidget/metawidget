@@ -80,7 +80,9 @@ public final class CollectionUtils
 	public static final <T> ArrayList<T> newArrayList( T... array )
 	{
 		if ( array == null )
+		{
 			return new ArrayList<T>();
+		}
 
 		return new ArrayList<T>( Arrays.asList( array ) );
 	}
@@ -210,7 +212,9 @@ public final class CollectionUtils
 	public static <T extends Comparable> List<T> sort( Collection<T> collection, Comparator<T> comparator )
 	{
 		if ( collection == null )
+		{
 			return null;
+		}
 
 		List<T> list;
 
@@ -250,7 +254,9 @@ public final class CollectionUtils
 		// Nothing to do?
 
 		if ( collection == null )
+		{
 			return "";
+		}
 
 		// If Collection is a Set, sort it for consistency in unit tests. Never
 		// sort the original Collection, as users wouldn't expect toString() to do that!
@@ -285,7 +291,9 @@ public final class CollectionUtils
 			// Concatenate the separator
 
 			if ( buffer.length() > 0 || leadingSeparator )
+			{
 				buffer.append( separator );
+			}
 
 			// Escape the separator
 
@@ -297,7 +305,9 @@ public final class CollectionUtils
 		}
 
 		if ( trailingSeparator && buffer.length() > 0 )
+		{
 			buffer.append( separator );
+		}
 
 		return buffer.toString();
 	}
@@ -344,7 +354,9 @@ public final class CollectionUtils
 			split.add( match );
 
 			if ( matcher.end( 1 ) == collection.length() )
+			{
 				break;
+			}
 		}
 
 		return split;

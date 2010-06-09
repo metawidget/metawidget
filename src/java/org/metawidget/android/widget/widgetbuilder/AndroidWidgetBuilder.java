@@ -73,7 +73,9 @@ public class AndroidWidgetBuilder
 		// CheckBox
 
 		if ( view instanceof CheckBox )
+		{
 			return Boolean.valueOf( ( (CheckBox) view ).isChecked() );
+		}
 
 		// TextView/EditText
 
@@ -87,7 +89,9 @@ public class AndroidWidgetBuilder
 			// everywhere in client code
 
 			if ( text instanceof SpannableStringBuilder )
+			{
 				text = text.toString();
+			}
 
 			return text;
 		}
@@ -103,7 +107,9 @@ public class AndroidWidgetBuilder
 		// Spinner
 
 		if ( view instanceof Spinner )
+		{
 			return ( (Spinner) view ).getSelectedItem();
+		}
 
 		return null;
 	}
@@ -159,19 +165,25 @@ public class AndroidWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub( metawidget.getContext() );
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new Stub( metawidget.getContext() );
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		// Lookup the Class
 
@@ -181,7 +193,9 @@ public class AndroidWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return new CheckBox( metawidget.getContext() );
+		}
 
 		if ( clazz != null )
 		{
@@ -198,7 +212,9 @@ public class AndroidWidgetBuilder
 				List<String> lookupList = CollectionUtils.fromString( lookup );
 
 				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+				{
 					lookupList.add( 0, null );
+				}
 
 				// Labels
 
@@ -210,7 +226,9 @@ public class AndroidWidgetBuilder
 				lookupLabelsList = CollectionUtils.fromString( lookupLabels );
 
 				if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+				{
 					lookupLabelsList.add( 0, null );
+				}
 
 				ArrayAdapter<String> adapter = new LookupArrayAdapter<String>( metawidget.getContext(), lookupList, lookupLabelsList );
 				spinner.setAdapter( adapter );
@@ -223,14 +241,18 @@ public class AndroidWidgetBuilder
 				// booleans
 
 				if ( boolean.class.equals( clazz ) )
+				{
 					return new CheckBox( metawidget.getContext() );
+				}
 
 				EditText editText = new EditText( metawidget.getContext() );
 
 				// DigitsInputMethod is 0-9 and +
 
 				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
+				{
 					editText.setKeyListener( new DigitsKeyListener() );
+				}
 
 				return editText;
 			}
@@ -242,15 +264,21 @@ public class AndroidWidgetBuilder
 				EditText editText = new EditText( metawidget.getContext() );
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
+				{
 					editText.setTransformationMethod( PasswordTransformationMethod.getInstance() );
+				}
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
+				{
 					editText.setMinLines( 3 );
+				}
 
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
 				if ( maximumLength != null && !"".equals( maximumLength ) )
+				{
 					editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( Integer.parseInt( maximumLength ) ) } );
+				}
 
 				return editText;
 			}
@@ -262,7 +290,9 @@ public class AndroidWidgetBuilder
 				// Not-nullable dates can use a DatePicker...
 
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) )
+				{
 					return new DatePicker( metawidget.getContext() );
+				}
 
 				// ...but nullable ones need a TextBox
 
@@ -282,7 +312,9 @@ public class AndroidWidgetBuilder
 				// DigitsInputMethod is 0-9 and +
 
 				if ( Byte.class.isAssignableFrom( clazz ) || Short.class.isAssignableFrom( clazz ) || Integer.class.isAssignableFrom( clazz ) || Long.class.isAssignableFrom( clazz ) )
+				{
 					editText.setKeyListener( new DigitsKeyListener() );
+				}
 
 				return editText;
 			}
@@ -290,13 +322,17 @@ public class AndroidWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new Stub( metawidget.getContext() );
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new EditText( metawidget.getContext() );
+		}
 
 		// Nested Metawidget
 
@@ -336,7 +372,9 @@ public class AndroidWidgetBuilder
 			if ( labels != null && !labels.isEmpty() )
 			{
 				if ( labels.size() != values.size() )
+				{
 					throw MetawidgetException.newException( "Labels list must be same size as values list" );
+				}
 
 				mLabels = labels;
 			}
@@ -371,18 +409,26 @@ public class AndroidWidgetBuilder
 				Context context = getContext();
 
 				if ( context != null )
+				{
 					viewToUse = ( (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( textViewResourceId, parentView, false );
+				}
 
 				// Just-in-time create: layoutInflater.inflate does not work during onMeasure. Why?
 
 				if ( viewToUse == null )
+				{
 					viewToUse = new TextView( context );
+				}
 			}
 
 			if ( mLabels == null )
+			{
 				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( getItem( position ) ) );
+			}
 			else
+			{
 				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
+			}
 
 			return viewToUse;
 		}

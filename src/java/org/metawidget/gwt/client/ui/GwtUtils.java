@@ -58,16 +58,24 @@ public final class GwtUtils
 	public static boolean isPrimitive( String className )
 	{
 		if ( GwtUtils.isIntegerPrimitive( className ) )
+		{
 			return true;
+		}
 
 		if ( "float".equals( className ) || "double".equals( className ) )
+		{
 			return true;
+		}
 
 		if ( "boolean".equals( className ) )
+		{
 			return true;
+		}
 
 		if ( "char".equals( className ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -83,10 +91,14 @@ public final class GwtUtils
 	public static boolean isIntegerPrimitive( String className )
 	{
 		if ( "byte".equals( className ) || "short".equals( className ) )
+		{
 			return true;
+		}
 
 		if ( "int".equals( className ) || "long".equals( className ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -101,19 +113,29 @@ public final class GwtUtils
 	public static boolean isPrimitiveWrapper( String className )
 	{
 		if ( Byte.class.getName().equals( className ) || Short.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( Integer.class.getName().equals( className ) || Long.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( Float.class.getName().equals( className ) || Double.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( Boolean.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( Character.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -131,16 +153,24 @@ public final class GwtUtils
 	public static boolean isCollection( String className )
 	{
 		if ( Collection.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -172,7 +202,9 @@ public final class GwtUtils
 		// Hack for collections with an empty string on the end (eg. "Foo,Bar,")
 
 		if ( collection.charAt( collection.length() - 1 ) == separator )
+		{
 			split.add( "" );
+		}
 
 		return split;
 	}
@@ -186,14 +218,18 @@ public final class GwtUtils
 	public static String toString( String[] collection, char separator )
 	{
 		if ( collection == null )
+		{
 			return "";
+		}
 
 		StringBuilder builder = new StringBuilder();
 
 		for ( String item : collection )
 		{
 			if ( builder.length() > 0 )
+			{
 				builder.append( separator );
+			}
 
 			builder.append( item );
 		}
@@ -210,14 +246,18 @@ public final class GwtUtils
 	public static String toString( Collection<?> collection, char separator )
 	{
 		if ( collection == null )
+		{
 			return "";
+		}
 
 		StringBuilder builder = new StringBuilder();
 
 		for ( Object item : collection )
 		{
 			if ( builder.length() > 0 )
+			{
 				builder.append( separator );
+			}
 
 			builder.append( item );
 		}
@@ -276,10 +316,14 @@ public final class GwtUtils
 	public static boolean isReadOnly( Map<String, String> attributes )
 	{
 		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
+		{
 			return true;
+		}
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -295,12 +339,16 @@ public final class GwtUtils
 		String type = attributes.get( ACTUAL_CLASS );
 
 		if ( type != null && !"".equals( type ) )
+		{
 			return type;
+		}
 
 		type = attributes.get( TYPE );
 
 		if ( "".equals( type ) )
+		{
 			return null;
+		}
 
 		return type;
 	}
@@ -312,10 +360,14 @@ public final class GwtUtils
 	public static boolean needsEmptyLookupItem( Map<String, String> attributes )
 	{
 		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) )
+		{
 			return true;
+		}
 
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return false;
+		}
 
 		String type = getActualClassOrType( attributes );
 
@@ -326,7 +378,9 @@ public final class GwtUtils
 		// the class, assume it is non-primitive and therefore add a null choice
 
 		if ( type != null && isPrimitive( type ) )
+		{
 			return false;
+		}
 
 		return true;
 	}
@@ -338,7 +392,9 @@ public final class GwtUtils
 		// (null means 'no change to current section')
 
 		if ( sections == null )
+		{
 			return null;
+		}
 
 		List<String> sectionAsArray = GwtUtils.fromString( sections, ',' );
 

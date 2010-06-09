@@ -136,7 +136,9 @@ public abstract class MetawidgetTag
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return "";
+		}
 
 		// Explicit label
 
@@ -147,14 +149,18 @@ public abstract class MetawidgetTag
 			// (may be forced blank)
 
 			if ( "".equals( label ) )
+			{
 				return null;
+			}
 
 			// (localize if possible)
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return label.trim();
 		}
@@ -170,7 +176,9 @@ public abstract class MetawidgetTag
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return StringUtils.uncamelCase( name );
 		}
@@ -185,14 +193,18 @@ public abstract class MetawidgetTag
 	public String getLocalizedKey( String key )
 	{
 		if ( mBundle == null )
+		{
 			return null;
+		}
 
 		try
 		{
 			String localizedKey = mBundle.getString( key );
 
 			if ( localizedKey != null )
+			{
 				return localizedKey;
+			}
 		}
 		catch ( MissingResourceException e )
 		{
@@ -205,7 +217,9 @@ public abstract class MetawidgetTag
 	public FacetTag getFacet( String name )
 	{
 		if ( mFacets == null )
+		{
 			return null;
+		}
 
 		return mFacets.get( name );
 	}
@@ -213,7 +227,9 @@ public abstract class MetawidgetTag
 	public void setFacet( String name, FacetTag facetTag )
 	{
 		if ( mFacets == null )
+		{
 			mFacets = CollectionUtils.newHashMap();
+		}
 
 		mFacets.put( name, facetTag );
 	}
@@ -221,7 +237,9 @@ public abstract class MetawidgetTag
 	public void setStub( String path, StubTag stubTag )
 	{
 		if ( mStubs == null )
+		{
 			mStubs = CollectionUtils.newHashMap();
+		}
 
 		mStubs.put( path, stubTag );
 	}
@@ -287,7 +305,9 @@ public abstract class MetawidgetTag
 	public void putClientProperty( Object key, Object value )
 	{
 		if ( mClientProperties == null )
+		{
 			mClientProperties = CollectionUtils.newHashMap();
+		}
 
 		mClientProperties.put( key, value );
 	}
@@ -300,7 +320,9 @@ public abstract class MetawidgetTag
 	public <T> T getClientProperty( Object key )
 	{
 		if ( mClientProperties == null )
+		{
 			return null;
+		}
 
 		return (T) mClientProperties.get( key );
 	}
@@ -352,7 +374,9 @@ public abstract class MetawidgetTag
 	public StubTag getStub( String path )
 	{
 		if ( mStubs == null )
+		{
 			return null;
+		}
 
 		return mStubs.get( path );
 	}
@@ -489,7 +513,9 @@ public abstract class MetawidgetTag
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
+		{
 			return;
+		}
 
 		mNeedsConfiguring = false;
 
@@ -513,7 +539,9 @@ public abstract class MetawidgetTag
 				catch ( MetawidgetException e )
 				{
 					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
+					{
 						throw e;
+					}
 
 					if ( !LOGGED_MISSING_CONFIG )
 					{
@@ -548,7 +576,9 @@ public abstract class MetawidgetTag
 		protected Map<String, String> getAdditionalAttributes( Tag tag )
 		{
 			if ( tag instanceof StubTag )
+			{
 				return ( (StubTag) tag ).getAttributesMap();
+			}
 
 			return null;
 		}

@@ -110,17 +110,25 @@ public class ContactActivity
 			String contactType = intent.getStringExtra( "contactType" );
 
 			if ( "business".equals( contactType ) )
+			{
 				mContact = new BusinessContact();
+			}
 			else
+			{
 				mContact = new PersonalContact();
+			}
 		}
 
 		// Set title
 
 		if ( mContact instanceof PersonalContact )
+		{
 			builderTitle.append( getString( R.string.personalContact ) );
+		}
 		else
+		{
 			builderTitle.append( getString( R.string.businessContact ) );
+		}
 
 		setTitle( builderTitle );
 
@@ -130,7 +138,9 @@ public class ContactActivity
 		Set<Communication> communications = mContact.getCommunications();
 
 		if ( communications != null )
+		{
 			communicationsView.setAdapter( new ArrayAdapter<Communication>( this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( communications )) );
+		}
 
 		communicationsView.setOnItemClickListener( new ListView.OnItemClickListener()
 		{
@@ -155,7 +165,9 @@ public class ContactActivity
 		metawidget.setToInspect( mContact );
 
 		if ( id == -1 )
+		{
 			metawidget.setReadOnly( false );
+		}
 
 		// Manual mapping
 
@@ -188,7 +200,9 @@ public class ContactActivity
 			menu.add( MENU_GROUP_ID, R.string.save, 1, R.string.save );
 
 			if ( mContact.getId() != -1 )
+			{
 				menu.add( MENU_GROUP_ID, R.string.delete, 2, R.string.delete );
+			}
 		}
 
 		return true;
@@ -213,7 +227,9 @@ public class ContactActivity
 
 			case R.string.save:
 				if ( !save() )
+				{
 					return false;
+				}
 
 				try
 				{
@@ -276,11 +292,17 @@ public class ContactActivity
 		Gender gender = mContact.getGender();
 
 		if ( gender == null )
+		{
 			metawidget.setValue( null, "gender" );
+		}
 		else if ( metawidget.findViewWithTag( "gender" ) instanceof TextView )
+		{
 			metawidget.setValue( gender, "gender" );
+		}
 		else
+		{
 			metawidget.setValue( gender.name(), "gender" );
+		}
 
 		metawidget.setValue( mContact.getAddress().getStreet(), "address", "street" );
 		metawidget.setValue( mContact.getAddress().getCity(), "address", "city" );
@@ -324,9 +346,13 @@ public class ContactActivity
 		String gender = (String) metawidget.getValue( "gender" );
 
 		if ( gender == null || "".equals( gender ) )
+		{
 			mContact.setGender( null );
+		}
 		else
+		{
 			mContact.setGender( Gender.valueOf( gender ) );
+		}
 
 		mContact.getAddress().setStreet( (String) metawidget.getValue( "address", "street" ) );
 		mContact.getAddress().setCity( (String) metawidget.getValue( "address", "city" ) );

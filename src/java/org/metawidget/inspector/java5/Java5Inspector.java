@@ -105,9 +105,13 @@ public class Java5Inspector
 			// in the tutorial so we need to support this (contrived) use case.
 
 			if ( actualClass.isEnum() )
+			{
 				attributes.put( TYPE, actualClass.getName() );
+			}
 			else
+			{
 				attributes.put( TYPE, actualClass.getSuperclass().getName() );
+			}
 		}
 
 		return attributes;
@@ -146,15 +150,23 @@ public class Java5Inspector
 					// testing the AddressBook application
 
 					if ( typeActual == null )
+					{
 						continue;
+					}
 
 					if ( builder.length() > 0 )
+					{
 						builder.append( StringUtils.SEPARATOR_COMMA );
+					}
 
 					if ( typeActual instanceof Class<?> )
+					{
 						builder.append( ( (Class<?>) typeActual ).getName() );
+					}
 					else
+					{
 						builder.append( typeActual.toString() );
+					}
 				}
 
 				attributes.put( PARAMETERIZED_TYPE, builder.toString() );

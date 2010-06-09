@@ -81,7 +81,9 @@ public class ComesAfterInspectionResultProcessor<M>
 				Node node = traits.item( loop );
 
 				if ( !( node instanceof Element ) )
+				{
 					continue;
+				}
 
 				Element trait = (Element) node;
 
@@ -139,7 +141,9 @@ public class ComesAfterInspectionResultProcessor<M>
 						for ( String[] traitWithComesAfterExisting : traitsWithComesAfter.values() )
 						{
 							if ( traitWithComesAfterExisting.length > 0 )
+							{
 								continue outer;
+							}
 						}
 
 						newEntity.appendChild( XmlUtils.importElement( newDocument, traitWithComesAfter ) );
@@ -155,12 +159,16 @@ public class ComesAfterInspectionResultProcessor<M>
 						for ( String comeAfter : comesAfter )
 						{
 							if ( name.equals( comeAfter ) )
+							{
 								throw InspectionResultProcessorException.newException( "'" + comeAfter + "' " + COMES_AFTER + " itself" );
+							}
 
 							for ( Element traitExisting : traitsWithComesAfter.keySet() )
 							{
 								if ( comeAfter.equals( traitExisting.getAttribute( NAME ) ) )
+								{
 									continue outer;
+								}
 							}
 						}
 
@@ -174,25 +182,37 @@ public class ComesAfterInspectionResultProcessor<M>
 							Node node = newTraits.item( loop );
 
 							if ( !( node instanceof Element ) )
+							{
 								continue;
+							}
 
 							Element trait = (Element) node;
 
 							if ( !ArrayUtils.contains( comesAfter, trait.getAttribute( NAME ) ) )
+							{
 								continue;
+							}
 
 							// (Android throws an error for the last .getNextSibling)
 
 							if ( loop == last )
+							{
 								insertBefore = null;
+							}
 							else
+							{
 								insertBefore = trait.getNextSibling();
+							}
 						}
 
 						if ( insertBefore == null )
+						{
 							newEntity.appendChild( XmlUtils.importElement( newDocument, traitWithComesAfter ) );
+						}
 						else
+						{
 							newEntity.insertBefore( XmlUtils.importElement( newDocument, traitWithComesAfter ), insertBefore );
+						}
 					}
 
 					i.remove();

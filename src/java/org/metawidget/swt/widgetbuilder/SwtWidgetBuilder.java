@@ -59,10 +59,14 @@ public class SwtWidgetBuilder
 	public String getValueProperty( Control control )
 	{
 		if ( control instanceof Text || control instanceof Combo )
+		{
 			return "text";
+		}
 
 		if ( control instanceof Spinner || control instanceof Scale || control instanceof Button )
+		{
 			return "selection";
+		}
 
 		return null;
 	}
@@ -72,7 +76,9 @@ public class SwtWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
+		}
 
 		// Action
 
@@ -89,7 +95,9 @@ public class SwtWidgetBuilder
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		// Lookup the Class
 
@@ -99,7 +107,9 @@ public class SwtWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return new Button( metawidget.getCurrentLayoutComposite(), SWT.CHECK );
+		}
 
 		// Lookups
 
@@ -112,7 +122,9 @@ public class SwtWidgetBuilder
 			// Add an empty choice (if nullable, and not required)
 
 			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+			{
 				comboDropDown.add( "" );
+			}
 
 			List<String> values = CollectionUtils.fromString( lookup );
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
@@ -124,9 +136,13 @@ public class SwtWidgetBuilder
 				Object convertedValue;
 
 				if ( converter == null )
+				{
 					convertedValue = value;
+				}
 				else
+				{
 					convertedValue = converter.convertFromString( value, clazz );
+				}
 
 				comboDropDown.add( String.valueOf( convertedValue ) );
 			}
@@ -145,12 +161,16 @@ public class SwtWidgetBuilder
 				// booleans
 
 				if ( boolean.class.equals( clazz ) )
+				{
 					return new Button( metawidget.getCurrentLayoutComposite(), SWT.CHECK );
+				}
 
 				// chars
 
 				if ( char.class.equals( clazz ) )
+				{
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+				}
 
 				// Ranged
 
@@ -239,13 +259,17 @@ public class SwtWidgetBuilder
 					return spinner;
 				}
 				else if ( long.class.equals( clazz ) )
+				{
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
-
+				}
 				else if ( float.class.equals( clazz ) )
+				{
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
-
+				}
 				else if ( double.class.equals( clazz ) )
+				{
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+				}
 
 				throw WidgetBuilderException.newException( "Unknown primitive " + clazz );
 			}
@@ -255,10 +279,14 @@ public class SwtWidgetBuilder
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
+				{
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.PASSWORD | SWT.BORDER );
+				}
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
+				{
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
+				}
 
 				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 			}
@@ -266,7 +294,9 @@ public class SwtWidgetBuilder
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
+			{
 				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+			}
 
 			// Numbers
 			//
@@ -274,18 +304,24 @@ public class SwtWidgetBuilder
 			// convey 'null'
 
 			if ( Number.class.isAssignableFrom( clazz ) )
+			{
 				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+		}
 
 		// Nested Metawidget
 

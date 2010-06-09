@@ -111,7 +111,9 @@ public abstract class BaseObjectInspector
 		// If no type, return nothing
 
 		if ( type == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -129,7 +131,9 @@ public abstract class BaseObjectInspector
 				Pair<Object, Class<?>> pair = traverse( toInspect, type, true, names );
 
 				if ( pair == null )
+				{
 					return null;
+				}
 
 				childName = names[names.length - 1];
 
@@ -142,7 +146,9 @@ public abstract class BaseObjectInspector
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
 				if ( propertyInParent == null )
+				{
 					return null;
+				}
 
 				declaredChildType = propertyInParent.getType();
 
@@ -162,7 +168,9 @@ public abstract class BaseObjectInspector
 				Pair<Object, Class<?>> pair = traverse( toInspect, type, false );
 
 				if ( pair == null )
+				{
 					return null;
+				}
 
 				childToInspect = pair.getLeft();
 				declaredChildType = pair.getRight();
@@ -183,7 +191,9 @@ public abstract class BaseObjectInspector
 				// to iterate over and grab the first element in that Collection
 
 				if ( names == null || names.length == 0 )
+				{
 					inspect( childToInspect, declaredChildType, entity );
+				}
 			}
 			else
 			{
@@ -199,7 +209,9 @@ public abstract class BaseObjectInspector
 			// Nothing of consequence to return?
 
 			if ( isInspectionEmpty( entity ) )
+			{
 				return null;
+			}
 
 			// Start a new DOM Document
 
@@ -211,7 +223,9 @@ public abstract class BaseObjectInspector
 			// If there were parent attributes, we may have a useful child name
 
 			if ( childName != null )
+			{
 				entity.setAttribute( NAME, childName );
+			}
 
 			// Every Inspector needs to attach a type to the entity, so that CompositeInspector can
 			// merge it. The type should be the *declared* type, not the *actual* type, as otherwise
@@ -254,10 +268,14 @@ public abstract class BaseObjectInspector
 		Map<String, String> propertyAttributes = inspectProperty( propertyInParent );
 
 		if ( traitAttributes == null )
+		{
 			return propertyAttributes;
+		}
 
 		if ( propertyAttributes == null )
+		{
 			return traitAttributes;
+		}
 
 		traitAttributes.putAll( propertyAttributes );
 		return traitAttributes;
@@ -291,7 +309,9 @@ public abstract class BaseObjectInspector
 			Map<String, String> entityAttributes = inspectPropertyAsEntity( property, toInspect );
 
 			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( propertyAttributes == null || propertyAttributes.isEmpty() ) && ( entityAttributes == null || entityAttributes.isEmpty() ) )
+			{
 				continue;
+			}
 
 			Element element = document.createElementNS( NAMESPACE, PROPERTY );
 			element.setAttribute( NAME, property.getName() );
@@ -311,7 +331,9 @@ public abstract class BaseObjectInspector
 			Map<String, String> actionAttributes = inspectAction( action );
 
 			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( actionAttributes == null || actionAttributes.isEmpty() ) )
+			{
 				continue;
+			}
 
 			Element element = document.createElementNS( NAMESPACE, ACTION );
 			element.setAttribute( NAME, action.getName() );
@@ -456,7 +478,9 @@ public abstract class BaseObjectInspector
 		throws Exception
 	{
 		if ( !shouldInspectPropertyAsEntity( property ) )
+		{
 			return null;
+		}
 
 		Class<?> entityClass = property.getType();
 
@@ -489,7 +513,9 @@ public abstract class BaseObjectInspector
 			}
 
 			if ( propertyValue != null )
+			{
 				entityClass = propertyValue.getClass();
+			}
 		}
 
 		// Delegate to inspectEntity
@@ -509,10 +535,14 @@ public abstract class BaseObjectInspector
 	private boolean isInspectionEmpty( Element elementEntity )
 	{
 		if ( elementEntity.hasAttributes() )
+		{
 			return false;
+		}
 
 		if ( elementEntity.hasChildNodes() )
+		{
 			return false;
+		}
 
 		return true;
 	}
@@ -531,14 +561,18 @@ public abstract class BaseObjectInspector
 			// If there are names, return null
 
 			if ( onlyToParent )
+			{
 				return null;
+			}
 
 			// If no such class, return null
 
 			Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( clazz == null )
+			{
 				return null;
+			}
 
 			return new Pair<Object, Class<?>>( null, clazz );
 		}
@@ -552,7 +586,9 @@ public abstract class BaseObjectInspector
 		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
 		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) )
+		{
 			return null;
+		}
 
 		// Traverse through names (if any)
 
@@ -571,7 +607,9 @@ public abstract class BaseObjectInspector
 				Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
 
 				if ( property == null || !property.isReadable() )
+				{
 					return null;
+				}
 
 				Object parentTraverse = traverse;
 				traverse = property.read( traverse );
@@ -593,10 +631,14 @@ public abstract class BaseObjectInspector
 				// want to do the recursion check
 
 				if ( onlyToParent && loop >= length - 1 )
+				{
 					return new Pair<Object, Class<?>>( parentTraverse, traverseDeclaredType );
+				}
 
 				if ( traverse == null )
+				{
 					return null;
+				}
 
 				traverseDeclaredType = property.getType();
 			}

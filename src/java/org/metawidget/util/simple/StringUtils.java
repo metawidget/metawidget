@@ -64,7 +64,9 @@ public final class StringUtils
 	public static boolean isFirstLetterUppercase( String in )
 	{
 		if ( in.length() == 0 )
+		{
 			return false;
+		}
 
 		return Character.isUpperCase( in.charAt( 0 ) );
 	}
@@ -80,7 +82,9 @@ public final class StringUtils
 		// Nothing to do?
 
 		if ( camelCase == null )
+		{
 			return null;
+		}
 
 		int length = camelCase.length();
 
@@ -104,12 +108,18 @@ public final class StringUtils
 			else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != ' ' && !Character.isUpperCase( chars[loop + 1] ) ) ) )
 			{
 				if ( Character.isLetter( lastChar ) )
+				{
 					buffer.append( ' ' );
+				}
 
 				if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) )
+				{
 					buffer.append( Character.toLowerCase( c ) );
+				}
 				else
+				{
 					buffer.append( c );
+				}
 			}
 			else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != ' ' )
 			{
@@ -164,7 +174,9 @@ public final class StringUtils
 			}
 
 			if ( !Character.isLetter( c ) && !Character.isDigit( c ) )
+			{
 				continue;
+			}
 
 			if ( buffer.length() == 0 )
 			{
@@ -193,7 +205,9 @@ public final class StringUtils
 	public static String quietValueOf( Object object )
 	{
 		if ( object == null )
+		{
 			return "";
+		}
 
 		return object.toString();
 	}

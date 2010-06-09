@@ -68,26 +68,34 @@ public class RichFacesWidgetBuilder
 		// Not for RichFaces?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return null;
+		}
 
 		// Note: we tried implementing lookups using org.richfaces.ComboBox, but that
 		// allows manual input and if you set enableManualInput=false it behaves a
 		// bit screwy for our liking (ie. if you hit backspace the browser goes back)
 
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
+		{
 			return null;
+		}
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null )
+		{
 			return null;
+		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz == null )
+		{
 			return null;
+		}
 
 		// Primitives
 
@@ -96,14 +104,18 @@ public class RichFacesWidgetBuilder
 			// Not for RichFaces
 
 			if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) )
+			{
 				return null;
+			}
 
 			// Ranged
 
 			UIComponent ranged = createRanged( attributes );
 
 			if ( ranged != null )
+			{
 				return ranged;
+			}
 
 			// Not-ranged
 
@@ -114,36 +126,64 @@ public class RichFacesWidgetBuilder
 			String minimumValue = attributes.get( MINIMUM_VALUE );
 
 			if ( minimumValue != null && !"".equals( minimumValue ) )
+			{
 				spinner.setMinValue( minimumValue );
+			}
 			else if ( byte.class.equals( clazz ) )
+			{
 				spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ) );
+			}
 			else if ( short.class.equals( clazz ) )
+			{
 				spinner.setMinValue( String.valueOf( Short.MIN_VALUE ) );
+			}
 			else if ( int.class.equals( clazz ) )
+			{
 				spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ) );
+			}
 			else if ( long.class.equals( clazz ) )
+			{
 				spinner.setMinValue( String.valueOf( Long.MIN_VALUE ) );
+			}
 			else if ( float.class.equals( clazz ) )
+			{
 				spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ) );
+			}
 			else if ( double.class.equals( clazz ) )
+			{
 				spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ) );
+			}
 
 			String maximumValue = attributes.get( MAXIMUM_VALUE );
 
 			if ( maximumValue != null && !"".equals( maximumValue ) )
+			{
 				spinner.setMaxValue( maximumValue );
+			}
 			else if ( byte.class.equals( clazz ) )
+			{
 				spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ) );
+			}
 			else if ( short.class.equals( clazz ) )
+			{
 				spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ) );
+			}
 			else if ( int.class.equals( clazz ) )
+			{
 				spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ) );
+			}
 			else if ( long.class.equals( clazz ) )
+			{
 				spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ) );
+			}
 			else if ( float.class.equals( clazz ) )
+			{
 				spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ) );
+			}
 			else if ( double.class.equals( clazz ) )
+			{
 				spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ) );
+			}
 
 			// HtmlInputNumberSpinner-specific properties
 
@@ -158,7 +198,9 @@ public class RichFacesWidgetBuilder
 				// Stepped
 
 				if ( float.class.equals( clazz ) || double.class.equals( clazz ) )
+				{
 					htmlSpinner.setStep( "0.1" );
+				}
 			}
 
 			return spinner;
@@ -174,13 +216,19 @@ public class RichFacesWidgetBuilder
 			UICalendar calendar = (UICalendar) application.createComponent( "org.richfaces.Calendar" );
 
 			if ( attributes.containsKey( DATETIME_PATTERN ) )
+			{
 				calendar.setDatePattern( attributes.get( DATETIME_PATTERN ) );
+			}
 
 			if ( attributes.containsKey( LOCALE ) )
+			{
 				calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
+			}
 
 			if ( attributes.containsKey( TIME_ZONE ) )
+			{
 				calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
+			}
 
 			return calendar;
 		}
@@ -194,7 +242,9 @@ public class RichFacesWidgetBuilder
 			UIComponent ranged = createRanged( attributes );
 
 			if ( ranged != null )
+			{
 				return ranged;
+			}
 
 			// Not-ranged
 			//
@@ -207,7 +257,9 @@ public class RichFacesWidgetBuilder
 		if ( Color.class.isAssignableFrom( clazz ) )
 		{
 			if ( WidgetBuilderUtils.isReadOnly( attributes ) )
+			{
 				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
+			}
 
 			return application.createComponent( "org.richfaces.ColorPicker" );
 		}

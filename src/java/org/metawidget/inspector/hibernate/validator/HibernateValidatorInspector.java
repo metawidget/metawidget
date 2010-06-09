@@ -77,12 +77,16 @@ public class HibernateValidatorInspector
 				int integerDigits = (Integer) digitsClass.getMethod( "integerDigits" ).invoke( digitsAnnotation );
 
 				if ( integerDigits > 0 )
+				{
 					attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( integerDigits ) );
+				}
 
 				int fractionalDigits = (Integer) digitsClass.getMethod( "fractionalDigits" ).invoke( digitsAnnotation );
 
 				if ( fractionalDigits > 0 )
+				{
 					attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( fractionalDigits ) );
+				}
 			}
 		}
 		catch ( ClassNotFoundException e )
@@ -93,26 +97,34 @@ public class HibernateValidatorInspector
 		// NotNull
 
 		if ( property.isAnnotationPresent( NotNull.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// NotEmpty
 
 		if ( property.isAnnotationPresent( NotEmpty.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// Min
 
 		Min min = property.getAnnotation( Min.class );
 
 		if ( min != null )
+		{
 			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ) );
+		}
 
 		// Max
 
 		Max max = property.getAnnotation( Max.class );
 
 		if ( max != null )
+		{
 			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
+		}
 
 		// Length
 
@@ -121,10 +133,14 @@ public class HibernateValidatorInspector
 		if ( length != null )
 		{
 			if ( length.min() > 0 )
+			{
 				attributes.put( MINIMUM_LENGTH, String.valueOf( length.min() ) );
+			}
 
 			if ( length.max() > 0 )
+			{
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ) );
+			}
 		}
 
 		return attributes;

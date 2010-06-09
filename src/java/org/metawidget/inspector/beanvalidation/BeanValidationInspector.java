@@ -73,32 +73,42 @@ public class BeanValidationInspector
 			int integerDigits = digits.integer();
 
 			if ( integerDigits > 0 )
+			{
 				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( integerDigits ) );
+			}
 
 			int fractionalDigits = digits.fraction();
 
 			if ( fractionalDigits > 0 )
+			{
 				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( fractionalDigits ) );
+			}
 		}
 
 		// NotNull
 
 		if ( property.isAnnotationPresent( NotNull.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// Min
 
 		Min min = property.getAnnotation( Min.class );
 
 		if ( min != null )
+		{
 			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ) );
+		}
 
 		// Max
 
 		Max max = property.getAnnotation( Max.class );
 
 		if ( max != null )
+		{
 			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
+		}
 
 		// Size
 
@@ -107,10 +117,14 @@ public class BeanValidationInspector
 		if ( size != null )
 		{
 			if ( size.min() > 0 )
+			{
 				attributes.put( MINIMUM_LENGTH, String.valueOf( size.min() ) );
+			}
 
 			if ( size.max() > 0 )
+			{
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( size.max() ) );
+			}
 		}
 
 		return attributes;

@@ -82,7 +82,9 @@ public class OutputTextLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		heading.setValue( localizedSection );
 

@@ -57,7 +57,9 @@ public abstract class EnumConverter<T extends Enum<T>>
 		throws ConverterException
 	{
 		if ( value == null || "".equals( value ) )
+		{
 			return null;
+		}
 
 		return Enum.valueOf( mClass, value );
 	}
@@ -67,10 +69,14 @@ public abstract class EnumConverter<T extends Enum<T>>
 		throws ConverterException
 	{
 		if ( object == null )
+		{
 			return "";
+		}
 
 		if ( object instanceof String )
+		{
 			return (String) object;
+		}
 
 		// Convert enums to their .name() form, not their .toString() form, so that we can
 		// use .valueOf() in getAsObject.

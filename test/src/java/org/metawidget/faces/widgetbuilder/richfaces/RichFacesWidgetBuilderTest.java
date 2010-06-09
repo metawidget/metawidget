@@ -266,16 +266,24 @@ public class RichFacesWidgetBuilderTest
 			throws FacesException
 		{
 			if ( "org.richfaces.inputNumberSlider".equals( componentName ) )
+			{
 				return new HtmlInputNumberSlider();
+			}
 
 			if ( "org.richfaces.inputNumberSpinner".equals( componentName ) )
+			{
 				return new HtmlInputNumberSpinner();
+			}
 
 			if ( "org.richfaces.Calendar".equals( componentName ) )
+			{
 				return new HtmlCalendar();
+			}
 
 			if ( "org.richfaces.SuggestionBox".equals( componentName ) )
+			{
 				return new HtmlSuggestionBox();
+			}
 
 			return super.createComponent( componentName );
 		}

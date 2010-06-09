@@ -72,7 +72,9 @@ public class SeparatorLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		Label label = new Label( separatorComposite, SWT.NONE );
 		label.setText( localizedSection );
@@ -84,7 +86,9 @@ public class SeparatorLayoutDecorator
 		separator.setLayoutData( separatorLayoutData );
 
 		if ( mAlignment == SWT.RIGHT )
+		{
 			separator.moveAbove( label );
+		}
 
 		// Add to parent container
 

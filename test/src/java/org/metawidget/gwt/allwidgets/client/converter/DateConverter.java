@@ -52,7 +52,9 @@ public class DateConverter
 	public Date convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( value == null || "".equals( value ))
+		{
 			return null;
+		}
 
 		return mFormat.parse( (String) value );
 	}
@@ -61,7 +63,9 @@ public class DateConverter
 	public Object convertForWidget( Widget widget, Date value )
 	{
 		if ( value == null )
+		{
 			return null;
+		}
 
 		return mFormat.format( value );
 	}

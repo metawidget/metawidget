@@ -50,7 +50,9 @@ public class EnumConverter<T extends Enum<T>>
 	public T convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( value == null || "".equals( value ))
+		{
 			return null;
+		}
 
 		return Enum.valueOf( mEnum, (String) value );
 	}
@@ -59,10 +61,14 @@ public class EnumConverter<T extends Enum<T>>
 	public Object convertForWidget( Widget widget, T value )
 	{
 		if ( value == null )
+		{
 			return null;
+		}
 
 		if ( widget instanceof Label )
+		{
 			return value.toString();
+		}
 
 		return value.name();
 	}

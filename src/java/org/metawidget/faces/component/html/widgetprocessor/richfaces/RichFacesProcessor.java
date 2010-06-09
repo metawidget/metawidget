@@ -51,7 +51,9 @@ public class RichFacesProcessor
 		// Ignore empty stubs
 
 		if ( component instanceof UIStub && component.getChildCount() == 0 )
+		{
 			return component;
+		}
 
 		// Ajax
 
@@ -77,7 +79,9 @@ public class RichFacesProcessor
 			String ajaxAction = attributes.get( FACES_AJAX_ACTION );
 
 			if ( ajaxAction != null )
+			{
 				ajaxSupport.setAction( application.createMethodBinding( ajaxAction, new Class[0] ) );
+			}
 
 			component.getChildren().add( ajaxSupport );
 		}

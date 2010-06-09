@@ -74,16 +74,24 @@ public class FacesInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mInjectThis != ( (FacesInspectorConfig) that ).mInjectThis )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

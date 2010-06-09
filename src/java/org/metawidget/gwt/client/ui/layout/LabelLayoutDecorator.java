@@ -68,7 +68,9 @@ public class LabelLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		label.setText( localizedSection );
 

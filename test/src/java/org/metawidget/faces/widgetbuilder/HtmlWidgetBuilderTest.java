@@ -359,7 +359,9 @@ public class HtmlWidgetBuilderTest
 				throws FacesException
 			{
 				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) )
+				{
 					return new HtmlLookupOutputText();
+				}
 
 				return super.createComponent( componentName );
 			}

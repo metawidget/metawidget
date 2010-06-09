@@ -64,7 +64,9 @@ public class SimpleBindingProcessorConfig
 	public <T> SimpleBindingProcessorConfig setAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> Adapter )
 	{
 		if ( mAdapters == null )
+		{
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>();
+		}
 
 		mAdapters.put( forClass, Adapter );
 
@@ -92,7 +94,9 @@ public class SimpleBindingProcessorConfig
 	public <T> SimpleBindingProcessorConfig setConverter( Class<T> forClass, Converter<T> converter )
 	{
 		if ( mConverters == null )
+		{
 			mConverters = new HashMap<Class<?>, Converter<?>>();
+		}
 
 		mConverters.put( forClass, converter );
 
@@ -103,19 +107,29 @@ public class SimpleBindingProcessorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mAdapters, ( (SimpleBindingProcessorConfig) that ).mAdapters ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (SimpleBindingProcessorConfig) that ).mConverters ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

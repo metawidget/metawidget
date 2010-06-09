@@ -45,7 +45,9 @@ public class LayoutException
 	public static LayoutException newException( Throwable cause )
 	{
 		if ( cause instanceof LayoutException )
+		{
 			return (LayoutException) cause;
+		}
 
 		return new LayoutException( cause );
 	}

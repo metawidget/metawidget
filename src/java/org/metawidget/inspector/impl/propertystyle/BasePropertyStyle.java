@@ -137,13 +137,19 @@ public abstract class BasePropertyStyle
 	protected boolean isExcluded( Class<?> classToExclude, String propertyName, Class<?> propertyType )
 	{
 		if ( isExcludedBaseType( classToExclude ) )
+		{
 			return true;
+		}
 
 		if ( isExcludedReturnType( propertyType ) )
+		{
 			return true;
+		}
 
 		if ( isExcludedName( propertyName ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -165,7 +171,9 @@ public abstract class BasePropertyStyle
 		String className = classToExclude.getName();
 
 		if ( mExcludeBaseType != null && mExcludeBaseType.matcher( className ).matches() )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -219,10 +227,14 @@ public abstract class BasePropertyStyle
 		String name = clazz.getName();
 
 		if ( name.indexOf( "_$$_javassist_" ) != -1 )
+		{
 			return true;
+		}
 
 		if ( name.indexOf( "ByCGLIB$$" ) != -1 )
+		{
 			return true;
+		}
 
 		return false;
 	}

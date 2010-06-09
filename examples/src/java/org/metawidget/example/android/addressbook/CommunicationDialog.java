@@ -105,7 +105,9 @@ public class CommunicationDialog
 			// Manual mapping
 
 			if ( mCommunication == null )
+			{
 				mCommunication = new Communication();
+			}
 
 			mCommunication.setType( (String) mMetawidget.getValue( "type" ) );
 			mCommunication.setValue( (String) mMetawidget.getValue( "value" ) );

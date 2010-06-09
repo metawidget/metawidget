@@ -64,7 +64,9 @@ public class TableLayout
 		// If the TableLayout was never used, just put an empty space
 
 		if ( container.getChildCount() == 0 )
+		{
 			container.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		}
 
 		// Add footer
 
@@ -89,7 +91,9 @@ public class TableLayout
 			FrameLayout frameLayout = new FrameLayout( tableRow.getContext() );
 
 			if ( view.getLayoutParams() == null )
+			{
 				view.setLayoutParams( new FrameLayout.LayoutParams( 325, 100 ) );
+			}
 
 			frameLayout.addView( view );
 
@@ -101,7 +105,9 @@ public class TableLayout
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 
 		if ( !needsLabel )
+		{
 			params.span = LABEL_AND_WIDGET;
+		}
 
 		// Add it to our layout
 

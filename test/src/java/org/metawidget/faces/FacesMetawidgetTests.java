@@ -205,13 +205,19 @@ public class FacesMetawidgetTests
 					throws FacesException
 				{
 					if ( "javax.faces.LongRange".equals( validatorName ) )
+					{
 						return new LongRangeValidator();
+					}
 
 					if ( "javax.faces.DoubleRange".equals( validatorName ) )
+					{
 						return new DoubleRangeValidator();
+					}
 
 					if ( "javax.faces.Length".equals( validatorName ) )
+					{
 						return new LengthValidator();
+					}
 
 					throw new UnsupportedOperationException( "Unknown validator '" + validatorName + "'" );
 				}
@@ -769,52 +775,84 @@ public class FacesMetawidgetTests
 		protected UIComponent createComponent( String componentName )
 		{
 			if ( "javax.faces.HtmlOutputText".equals( componentName ) )
+			{
 				return new HtmlOutputText();
+			}
 
 			if ( "javax.faces.HtmlInputHidden".equals( componentName ) )
+			{
 				return new HtmlInputHidden();
+			}
 
 			if ( "javax.faces.HtmlInputText".equals( componentName ) )
+			{
 				return new HtmlInputText();
+			}
 
 			if ( "javax.faces.HtmlInputTextarea".equals( componentName ) )
+			{
 				return new HtmlInputTextarea();
+			}
 
 			if ( "javax.faces.HtmlInputSecret".equals( componentName ) )
+			{
 				return new HtmlInputSecret();
+			}
 
 			if ( "javax.faces.HtmlCommandButton".equals( componentName ) )
+			{
 				return new HtmlCommandButton();
+			}
 
 			if ( "javax.faces.HtmlSelectOneListbox".equals( componentName ) )
+			{
 				return new HtmlSelectOneListbox();
+			}
 
 			if ( "javax.faces.HtmlSelectManyCheckbox".equals( componentName ) )
+			{
 				return new HtmlSelectManyCheckbox();
+			}
 
 			if ( "javax.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
+			{
 				return new HtmlSelectBooleanCheckbox();
+			}
 
 			if ( "javax.faces.HtmlDataTable".equals( componentName ) )
+			{
 				return new HtmlDataTable();
+			}
 
 			if ( "javax.faces.HtmlCommandLink".equals( componentName ) )
+			{
 				return new HtmlCommandLink();
+			}
 
 			if ( "javax.faces.Column".equals( componentName ) )
+			{
 				return new HtmlColumn();
+			}
 
 			if ( "javax.faces.SelectItems".equals( componentName ) )
+			{
 				return new UISelectItems();
+			}
 
 			if ( "javax.faces.SelectItem".equals( componentName ) )
+			{
 				return new UISelectItem();
+			}
 
 			if ( "org.metawidget.Stub".equals( componentName ) )
+			{
 				return new UIStub();
+			}
 
 			if ( "javax.faces.Parameter".equals( componentName ) )
+			{
 				return new UIParameter();
+			}
 
 			return new MockComponent( componentName );
 		}

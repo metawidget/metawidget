@@ -53,7 +53,9 @@ public class SeamInspectorTest
 				try
 				{
 					if ( "components.xml".equals( resource ) )
+					{
 						return ClassUtils.openResource( "org/metawidget/inspector/seam/test-components.xml" );
+					}
 
 					return ClassUtils.openResource( resource );
 				}

@@ -199,7 +199,9 @@ public class ClientSideModule
 				// (do not Window.alert during unit tests)
 
 				if ( mPanel instanceof RootPanel )
+				{
 					Window.alert( "MapPropertyBinding retrieved the following values:\n\n" + model.toString() );
+				}
 			}
 		} );
 

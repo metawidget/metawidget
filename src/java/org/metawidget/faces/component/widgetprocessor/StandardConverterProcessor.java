@@ -60,7 +60,9 @@ public class StandardConverterProcessor
 		// Actions don't get converters
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return component;
+		}
 
 		// Recurse into stubs...
 
@@ -85,10 +87,14 @@ public class StandardConverterProcessor
 					javax.faces.el.ValueBinding childValueBinding = componentChild.getValueBinding( "value" );
 
 					if ( childValueBinding == null )
+					{
 						continue;
+					}
 
 					if ( !expressionString.equals( childValueBinding.getExpressionString() ) )
+					{
 						continue;
+					}
 
 					// ...and apply the Converter to them
 
@@ -102,7 +108,9 @@ public class StandardConverterProcessor
 		// Ignore components that cannot have Converters
 
 		if ( !( component instanceof ValueHolder ) )
+		{
 			return component;
+		}
 
 		ValueHolder valueHolder = (ValueHolder) component;
 		valueHolder.setConverter( getConverter( valueHolder, attributes ) );
@@ -117,7 +125,9 @@ public class StandardConverterProcessor
 		Converter converter = valueHolder.getConverter();
 
 		if ( converter != null )
+		{
 			return converter;
+		}
 
 		// Create from id
 
@@ -143,7 +153,9 @@ public class StandardConverterProcessor
 				// enough to be instantiatable (eg. List<? extends Foo>)
 
 				if ( parameterizedClass != null )
+				{
 					converter = context.getApplication().createConverter( parameterizedClass );
+				}
 			}
 		}
 
@@ -264,7 +276,9 @@ public class StandardConverterProcessor
 		if ( existingConverter != null )
 		{
 			if ( !( existingConverter instanceof DateTimeConverter ) )
+			{
 				throw WidgetProcessorException.newException( "Unable to set date/time attributes on a " + existingConverter.getClass() );
+			}
 
 			return (DateTimeConverter) existingConverter;
 		}
@@ -275,7 +289,9 @@ public class StandardConverterProcessor
 		DateTimeConverter dateTimeConverter = (DateTimeConverter) context.getApplication().createConverter( Date.class );
 
 		if ( dateTimeConverter != null )
+		{
 			return dateTimeConverter;
+		}
 
 		// The JSF default
 
@@ -287,7 +303,9 @@ public class StandardConverterProcessor
 		if ( existingConverter != null )
 		{
 			if ( !( existingConverter instanceof NumberConverter ) )
+			{
 				throw WidgetProcessorException.newException( "Unable to set number attributes on a " + existingConverter.getClass() );
+			}
 
 			return (NumberConverter) existingConverter;
 		}
@@ -298,7 +316,9 @@ public class StandardConverterProcessor
 		NumberConverter numberConverter = (NumberConverter) context.getApplication().createConverter( Number.class );
 
 		if ( numberConverter != null )
+		{
 			return numberConverter;
+		}
 
 		// The JSF default
 

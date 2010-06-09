@@ -48,7 +48,9 @@ public class DateConverter
 	public String convertForward( Date date )
 	{
 		if ( date == null )
+		{
 			return "";
+		}
 
 		synchronized ( FORMAT )
 		{
@@ -60,7 +62,9 @@ public class DateConverter
 	public Date convertReverse( String date )
 	{
 		if ( date == null || "".equals( date ))
+		{
 			return null;
+		}
 
 		try
 		{

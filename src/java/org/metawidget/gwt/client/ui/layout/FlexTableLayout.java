@@ -104,7 +104,9 @@ public class FlexTableLayout
 		// Do not render empty stubs
 
 		if ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 )
+		{
 			return;
+		}
 
 		// Calculate row and actualColumn. Note FlexTable doesn't work quite as might be
 		// expected. Specifically, it doesn't understand 'colspan' in relation to previous rows. So
@@ -165,7 +167,9 @@ public class FlexTableLayout
 			String styleName = getStyleName( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED, metawidget );
 
 			if ( styleName != null )
+			{
 				state.formatter.setStyleName( row, actualColumn, styleName );
+			}
 
 			flexTable.setWidget( row, actualColumn, label );
 		}
@@ -193,7 +197,9 @@ public class FlexTableLayout
 		String styleName = getStyleName( ( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1, metawidget );
 
 		if ( styleName != null )
+		{
 			state.formatter.setStyleName( row, actualColumn, styleName );
+		}
 
 		flexTable.setWidget( row, actualColumn, widget );
 
@@ -209,12 +215,16 @@ public class FlexTableLayout
 			state.currentColumn = numberOfColumns;
 
 			if ( labelText == null )
+			{
 				colspan++;
+			}
 
 			// Metawidgets span the required column too
 
 			if ( widget instanceof GwtMetawidget )
+			{
 				colspan++;
+			}
 		}
 
 		// Components without labels span two columns
@@ -232,12 +242,16 @@ public class FlexTableLayout
 		}
 
 		if ( colspan > 1 )
+		{
 			state.formatter.setColSpan( row, actualColumn, colspan );
+		}
 
 		// Required
 
 		if ( !( widget instanceof GwtMetawidget ) )
+		{
 			layoutRequired( attributes, container, metawidget );
+		}
 
 		state.currentColumn++;
 	}
@@ -261,10 +275,14 @@ public class FlexTableLayout
 			int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
 
 			if ( numberOfColumns > 0 )
+			{
 				state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			}
 
 			if ( mFooterStyleName != null )
+			{
 				state.formatter.setStyleName( row, 0, mFooterStyleName );
+			}
 
 			flexTable.setWidget( row, 0, facet );
 		}
@@ -301,7 +319,9 @@ public class FlexTableLayout
 	protected String getStyleName( int styleName, GwtMetawidget metawidget )
 	{
 		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName )
+		{
 			return null;
+		}
 
 		return mColumnStyleNames[styleName];
 	}
@@ -309,7 +329,9 @@ public class FlexTableLayout
 	protected boolean willFillHorizontally( Widget widget, Map<String, String> attributes )
 	{
 		if ( widget instanceof GwtMetawidget )
+		{
 			return true;
+		}
 
 		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
@@ -327,7 +349,9 @@ public class FlexTableLayout
 	private int getEffectiveNumberOfColumns( Widget container )
 	{
 		if ( container.getParent() instanceof FlexTable && container.getParent().getParent() instanceof GwtMetawidget )
+		{
 			return 1;
+		}
 
 		return mNumberOfColumns;
 	}

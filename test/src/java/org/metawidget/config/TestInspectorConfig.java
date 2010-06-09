@@ -204,40 +204,64 @@ public class TestInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mList, ( (TestInspectorConfig) that ).mList ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mSet, ( (TestInspectorConfig) that ).mSet ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mInt, ( (TestInspectorConfig) that ).mInt ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mBoolean, ( (TestInspectorConfig) that ).mBoolean ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mPattern, ( (TestInspectorConfig) that ).mPattern ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mInputStream, ( (TestInspectorConfig) that ).mInputStream ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mResourceBundle, ( (TestInspectorConfig) that ).mResourceBundle ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mStringArray, ( (TestInspectorConfig) that ).mStringArray ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mFailDuringConstruction, ( (TestInspectorConfig) that ).mFailDuringConstruction ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

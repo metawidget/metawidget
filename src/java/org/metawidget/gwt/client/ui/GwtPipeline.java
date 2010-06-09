@@ -57,12 +57,16 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
 		if ( getWidgetProcessors() == null )
+		{
 			return null;
+		}
 
 		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() )
 		{
 			if ( widgetProcessorClass.equals( widgetProcessor.getClass() ) )
+			{
 				return (T) widgetProcessor;
+			}
 		}
 
 		return null;
@@ -99,10 +103,14 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 			Node node = nodes.item( loop );
 
 			if ( !( node instanceof Element ) )
+			{
 				continue;
+			}
 
 			if ( actualIndex == index )
+			{
 				return (Element) node;
+			}
 
 			actualIndex++;
 		}

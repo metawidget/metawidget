@@ -109,7 +109,9 @@ public class TestUtils
 				String propertyName = property.getName();
 
 				if ( ArrayUtils.contains( exclude, propertyName ) )
+				{
 					continue;
+				}
 
 				// Setter
 
@@ -171,44 +173,53 @@ public class TestUtils
 				// Simple types
 
 				if ( int.class.isAssignableFrom( propertyType ) )
+				{
 					toSet = 42;
+				}
 				else if ( Font.class.isAssignableFrom( propertyType ) )
+				{
 					toSet = new JPanel().getFont();
+				}
 				else if ( Color.class.isAssignableFrom( propertyType ) )
+				{
 					toSet = Color.blue;
+				}
 				else if ( String.class.isAssignableFrom( propertyType ) )
+				{
 					toSet = "foo";
+				}
 				else if ( boolean.class.equals( propertyType ) )
 				{
 					// (toggle from the default)
 
 					if ( property.isReadable() )
+					{
 						toSet = !( (Boolean) ClassUtils.getProperty( object1, propertyName ) );
+					}
 					else
+					{
 						toSet = true;
+					}
 				}
 
 				// Dummy types
 
 				else if ( dummyTypes != null && dummyTypes.containsKey( propertyType ) )
+				{
 					toSet = dummyTypes.get( propertyType );
-
-				// Arrays
-
+				}
 				else if ( propertyType.isArray() )
 				{
 					Class<?> componentType = propertyType.getComponentType();
 
 					if ( String.class.equals( componentType ) )
+					{
 						toSet = new String[] { "foo", "bar", "baz" };
-
-					// Array types that are never equal to each other
-
+					}
 					else if ( InputStream.class.isAssignableFrom( componentType ) )
+					{
 						continue;
-
-					// Arrays of dynamic proxies
-
+					}
 					else if ( componentType.isInterface() )
 					{
 						Object[] array = (Object[]) Array.newInstance( componentType, 3 );
@@ -217,16 +228,17 @@ public class TestUtils
 						toSet = array;
 					}
 					else
+					{
 						throw new Exception( "Don't know how to test an array property of " + propertyType );
+					}
 				}
 
 				// Dynamic proxy
 
 				else if ( propertyType.isInterface() )
+				{
 					toSet = newProxyInstance( propertyType );
-
-				// Enums
-
+				}
 				else if ( propertyType.isEnum() )
 				{
 					toSet = propertyType.getEnumConstants()[0];
@@ -234,21 +246,25 @@ public class TestUtils
 					// (toggle from the default)
 
 					if ( property.isReadable() && toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) )
+					{
 						toSet = propertyType.getEnumConstants()[1];
+					}
 				}
 
 				// Types that are never equal to each other
 
 				else if ( InputStream.class.isAssignableFrom( propertyType ) )
+				{
 					continue;
-
+				}
 				else if ( Pattern.class.isAssignableFrom( propertyType ) )
+				{
 					continue;
-
-				// Unknown
-
+				}
 				else
+				{
 					throw new Exception( "Don't know how to test a property of " + propertyType );
+				}
 
 				int hashCodeBefore = object1.hashCode();
 				writeMethod.invoke( object1, toSet );
@@ -260,7 +276,9 @@ public class TestUtils
 				// Getter
 
 				if ( property.isReadable() )
+				{
 					Assert.assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) );
+				}
 
 				// equals/hashCode
 
@@ -289,10 +307,14 @@ public class TestUtils
 				throws Throwable
 			{
 				if ( "equals".equals( method.getName() ) )
+				{
 					return ( proxy == args[0] );
+				}
 
 				if ( "hashCode".equals( method.getName() ) )
+				{
 					return System.identityHashCode( proxy );
+				}
 
 				return null;
 			}

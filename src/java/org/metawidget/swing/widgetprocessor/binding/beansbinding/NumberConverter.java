@@ -60,27 +60,41 @@ public class NumberConverter<T extends Number>
 		// See: https://sourceforge.net/projects/metawidget/forums/forum/747624/topic/3438867
 
 		if ( value == null || value.trim().length() == 0 )
+		{
 			return null;
+		}
 
 		// Other values
 
 		if ( mNumberClass.equals( Byte.class ) )
+		{
 			return (T) Byte.valueOf( value );
+		}
 
 		if ( mNumberClass.equals( Short.class ) )
+		{
 			return (T) Short.valueOf( value );
+		}
 
 		if ( mNumberClass.equals( Integer.class ) )
+		{
 			return (T) Integer.valueOf( value );
+		}
 
 		if ( mNumberClass.equals( Long.class ) )
+		{
 			return (T) Long.valueOf( value );
+		}
 
 		if ( mNumberClass.equals( Float.class ) )
+		{
 			return (T) Float.valueOf( value );
+		}
 
 		if ( mNumberClass.equals( Double.class ) )
+		{
 			return (T) Double.valueOf( value );
+		}
 
 		throw WidgetProcessorException.newException( "Unknown type " + mNumberClass );
 	}

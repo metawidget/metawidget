@@ -204,7 +204,9 @@ public class HtmlTableLayout
 				// inlining it or something. It seems a bit risky though!
 
 				if ( literal == null || literal.length() == 0 )
+				{
 					return;
+				}
 			}
 			else
 			{
@@ -221,7 +223,9 @@ public class HtmlTableLayout
 				State state = getState( metawidgetTag );
 
 				if ( state.hiddenFields == null )
+				{
 					state.hiddenFields = CollectionUtils.newHashSet();
+				}
 
 				state.hiddenFields.add( literal );
 
@@ -300,7 +304,9 @@ public class HtmlTableLayout
 				id = attributes.get( NAME );
 
 				if ( id != null )
+				{
 					id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
+				}
 
 				if ( SimpleLayoutUtils.isSpanAllColumns( attributes ) && state.currentColumn != 1 )
 				{
@@ -381,13 +387,17 @@ public class HtmlTableLayout
 				state.currentColumn = mNumberOfColumns;
 
 				if ( !labelWritten )
+				{
 					colspan++;
+				}
 
 				// Nested table Metawidgets span the required column too (as they have their own
 				// required column)
 
 				if ( tag instanceof MetawidgetTag )
+				{
 					colspan++;
+				}
 			}
 
 			// Components without labels span two columns
@@ -463,7 +473,9 @@ public class HtmlTableLayout
 		String labelText = metawidgetTag.getLabelString( attributes );
 
 		if ( labelText == null )
+		{
 			return false;
+		}
 
 		try
 		{
@@ -494,7 +506,9 @@ public class HtmlTableLayout
 	protected String layoutRequired( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidgetTag.isReadOnly() )
+		{
 			return "*";
+		}
 
 		// Render an empty div, so that the CSS can force it to a certain
 		// width if desired for the layout (browsers seem to not respect
@@ -508,12 +522,16 @@ public class HtmlTableLayout
 	protected void writeStyleClass( int styleClass, MetawidgetTag metawidgetTag )
 	{
 		if ( mColumnStyleClasses == null || mColumnStyleClasses.length <= styleClass )
+		{
 			return;
+		}
 
 		String columnClass = mColumnStyleClasses[styleClass];
 
 		if ( columnClass.length() == 0 )
+		{
 			return;
+		}
 
 		try
 		{

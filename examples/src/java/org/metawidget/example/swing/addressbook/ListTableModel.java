@@ -119,7 +119,9 @@ public class ListTableModel<T extends Comparable<T>>
 	public String getColumnName( int columnIndex )
 	{
 		if ( columnIndex >= getColumnCount() )
+		{
 			return null;
+		}
 
 		return mColumns[columnIndex];
 	}
@@ -131,7 +133,9 @@ public class ListTableModel<T extends Comparable<T>>
 		int rows = mList.size();
 
 		if ( mExtraBlankRow )
+		{
 			rows++;
+		}
 
 		return rows;
 	}
@@ -142,7 +146,9 @@ public class ListTableModel<T extends Comparable<T>>
 		String column = getColumnName( columnIndex );
 
 		if ( column == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -170,7 +176,9 @@ public class ListTableModel<T extends Comparable<T>>
 		// Sanity check
 
 		if ( rowIndex >= mList.size() )
+		{
 			return null;
+		}
 
 		return mList.get( rowIndex );
 	}
@@ -180,14 +188,18 @@ public class ListTableModel<T extends Comparable<T>>
 		// Sanity check
 
 		if ( columnIndex >= mColumns.length )
+		{
 			return null;
+		}
 
 		// Fetch the object
 
 		T t = getValueAt( rowIndex );
 
 		if ( t == null )
+		{
 			return null;
+		}
 
 		// Inspect it
 
@@ -221,14 +233,18 @@ public class ListTableModel<T extends Comparable<T>>
 		// Sanity check
 
 		if ( columnIndex >= mColumns.length )
+		{
 			return;
+		}
 
 		// Just-in-time creation
 
 		if ( rowIndex == ( getRowCount() - 1 ) && mExtraBlankRow )
 		{
 			if ( value == null || "".equals( value ) )
+			{
 				return;
+			}
 
 			try
 			{
@@ -246,7 +262,9 @@ public class ListTableModel<T extends Comparable<T>>
 		T t = getValueAt( rowIndex );
 
 		if ( t == null )
+		{
 			return;
+		}
 
 		// Update it
 

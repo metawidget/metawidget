@@ -85,7 +85,9 @@ public class ScalaPropertyStyle
 		String methodName = method.getName();
 
 		if ( !methodName.endsWith( SCALA_SET_SUFFIX ) )
+		{
 			return null;
+		}
 
 		return methodName.substring( 0, methodName.length() - SCALA_SET_SUFFIX.length() );
 	}

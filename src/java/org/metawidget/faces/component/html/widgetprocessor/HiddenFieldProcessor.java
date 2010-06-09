@@ -53,27 +53,37 @@ public class HiddenFieldProcessor
 		// Ignore actions
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return component;
+		}
 
 		// UIInputs do not need a hidden field (they already POST back)
 
 		if ( component instanceof UIInput )
+		{
 			return component;
+		}
 
 		// Ignore nested Metawidgets
 
 		if ( component instanceof UIMetawidget )
+		{
 			return component;
+		}
 
 		// Attributes without setters cannot use a hidden field
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+		{
 			return component;
+		}
 
 		// Ignore manually overridden components
 
 		if ( component.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
+		{
 			return component;
+		}
 
 		return wrapWithHiddenField( component, attributes );
 	}
@@ -91,7 +101,9 @@ public class HiddenFieldProcessor
 			// Empty stubs become hidden fields directly
 
 			if ( component.getChildCount() == 0 )
+			{
 				return application.createComponent( "javax.faces.HtmlInputHidden" );
+			}
 
 			// We cannot say whether non-empty Stubs will POST-back by themselves (unless we
 			// recursed them)

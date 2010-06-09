@@ -75,7 +75,9 @@ public class WidgetBuilderExampleTest
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 		{
 			if ( !"boolean".equals( attributes.get( TYPE ) ) )
+			{
 				return null;
+			}
 
 			JRadioButton trueButton = new JRadioButton( "True" );
 			JRadioButton falseButton = new JRadioButton( "False" );

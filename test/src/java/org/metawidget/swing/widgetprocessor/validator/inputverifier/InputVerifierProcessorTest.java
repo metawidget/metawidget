@@ -149,7 +149,9 @@ public class InputVerifierProcessorTest
 		protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, final SwingMetawidget metawidget, final String path )
 		{
 			if ( component instanceof SwingMetawidget )
+			{
 				return null;
+			}
 
 			return new InputVerifier()
 			{

@@ -77,7 +77,9 @@ public class ExcludingWidgetBuilderExampleTest
 			String[] exclude = (String[]) metawidget.getClientProperty( "exclude" );
 
 			if ( ArrayUtils.contains( exclude, attributes.get( NAME )))
+			{
 				return new Stub();
+			}
 
 			return null;
 		}

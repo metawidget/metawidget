@@ -137,7 +137,9 @@ public class HtmlWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return application.createComponent( "org.metawidget.Stub" );
+		}
 
 		// Overridden component
 
@@ -145,14 +147,18 @@ public class HtmlWidgetBuilder
 		String componentName = attributes.get( FACES_COMPONENT );
 
 		if ( componentName != null )
+		{
 			component = application.createComponent( componentName );
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
 		{
 			if ( component == null )
+			{
 				component = application.createComponent( "javax.faces.HtmlCommandButton" );
+			}
 
 			( (UICommand) component ).setValue( metawidget.getLabelString( attributes ) );
 
@@ -164,7 +170,9 @@ public class HtmlWidgetBuilder
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -204,7 +212,9 @@ public class HtmlWidgetBuilder
 			// Lookup)
 
 			if ( component == null && Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+			{
 				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
+			}
 
 			// String Lookups
 
@@ -284,24 +294,29 @@ public class HtmlWidgetBuilder
 				// Supported Collections
 
 				else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() )
+				{
 					return createDataTableComponent( clazz, attributes, metawidget );
-
-				// Other Collections
-
+				}
 				else if ( Collection.class.isAssignableFrom( clazz ) )
+				{
 					return application.createComponent( "org.metawidget.Stub" );
+				}
 			}
 
 			setMaximumLength( component, attributes );
 
 			if ( component != null )
+			{
 				return component;
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return application.createComponent( "javax.faces.HtmlInputText" );
+		}
 
 		// Nested Metawidget
 
@@ -358,7 +373,9 @@ public class HtmlWidgetBuilder
 			ConverterProcessor processor = metawidget.getWidgetProcessor( ConverterProcessor.class );
 
 			if ( processor != null )
+			{
 				converter = processor.getConverter( (ValueHolder) component, attributes );
+			}
 
 			// ...(setConverter doesn't do application-wide converters)...
 
@@ -369,7 +386,9 @@ public class HtmlWidgetBuilder
 				// will have already tried PARAMETERIZED_TYPE)...
 
 				if ( !( component instanceof UISelectMany ) )
+				{
 					converter = application.createConverter( clazz );
+				}
 			}
 
 			// ...if any
@@ -405,9 +424,13 @@ public class HtmlWidgetBuilder
 		if ( maximumLength != null && !"".equals( maximumLength ) )
 		{
 			if ( component instanceof HtmlInputText )
+			{
 				( (HtmlInputText) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+			}
 			else if ( component instanceof HtmlInputSecret )
+			{
 				( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+			}
 		}
 	}
 
@@ -418,19 +441,25 @@ public class HtmlWidgetBuilder
 	private void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		if ( values == null )
+		{
 			return;
+		}
 
 		// Empty option
 
 		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+		{
 			addSelectItem( component, null, null, metawidget );
+		}
 
 		// See if we're using labels
 		//
 		// (note: where possible, it is better to use a Converter than a hard-coded label)
 
 		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
+		{
 			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
+		}
 
 		// Add the select items
 
@@ -440,7 +469,9 @@ public class HtmlWidgetBuilder
 			String label = null;
 
 			if ( labels != null && !labels.isEmpty() )
+			{
 				label = labels.get( loop );
+			}
 
 			addSelectItem( component, value, label, metawidget );
 		}
@@ -498,9 +529,13 @@ public class HtmlWidgetBuilder
 				String localizedLabel = metawidget.getLocalizedKey( StringUtils.camelCase( label ) );
 
 				if ( localizedLabel != null )
+				{
 					selectItem.setItemLabel( localizedLabel );
+				}
 				else
+				{
 					selectItem.setItemLabel( label );
+				}
 			}
 		}
 
@@ -511,7 +546,9 @@ public class HtmlWidgetBuilder
 	private void addSelectItems( UIComponent component, String binding, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		if ( binding == null )
+		{
 			return;
+		}
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -520,14 +557,18 @@ public class HtmlWidgetBuilder
 		// Empty option
 
 		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+		{
 			addSelectItem( component, null, null, metawidget );
+		}
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
 		selectItems.setId( viewRoot.createUniqueId() );
 		component.getChildren().add( selectItems );
 
 		if ( !FacesUtils.isExpression( binding ) )
+		{
 			throw WidgetBuilderException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
+		}
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
 	}
@@ -552,14 +593,20 @@ public class HtmlWidgetBuilder
 		String componentType;
 
 		if ( clazz.isArray() )
+		{
 			componentType = clazz.getComponentType().getName();
+		}
 		else
+		{
 			componentType = attributes.get( PARAMETERIZED_TYPE );
+		}
 
 		String inspectedType = null;
 
 		if ( componentType != null )
+		{
 			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+		}
 
 		// If there is no type...
 
@@ -601,7 +648,9 @@ public class HtmlWidgetBuilder
 			// ...but, failing that, create columns for every field
 
 			if ( dataChildren.isEmpty() )
+			{
 				createColumnComponents( elements, dataChildren, metawidget, false );
+			}
 		}
 
 		// Add an 'edit action' column (if requested)
@@ -615,9 +664,13 @@ public class HtmlWidgetBuilder
 			String localizedKey = metawidget.getLocalizedKey( "edit" );
 
 			if ( localizedKey == null )
+			{
 				rowAction.setValue( "Edit" );
+			}
 			else
+			{
 				rowAction.setValue( localizedKey );
+			}
 
 			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( (String) parameter.getValue() ), null );
 			rowAction.setAction( binding );
@@ -652,19 +705,25 @@ public class HtmlWidgetBuilder
 			Node node = elements.item( loop );
 
 			if ( !( node instanceof Element ) )
+			{
 				continue;
+			}
 
 			Element element = (Element) node;
 
 			// ...(not action)...
 
 			if ( ACTION.equals( element.getNodeName() ) )
+			{
 				continue;
+			}
 
 			// ...that is visible...
 
 			if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+			{
 				continue;
+			}
 
 			// ...and is required...
 			//
@@ -674,7 +733,9 @@ public class HtmlWidgetBuilder
 			// to override this default behaviour
 
 			if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) )
+			{
 				continue;
+			}
 
 			// ...make a label...
 

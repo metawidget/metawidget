@@ -222,14 +222,20 @@ public class GwtMetawidget
 		if ( mToInspect == null )
 		{
 			if ( mPath == null && toInspect != null )
+			{
 				mPath = toInspect.getClass().getName();
+			}
 		}
 		else if ( mToInspect.getClass().getName().equals( mPath ) )
 		{
 			if ( toInspect == null )
+			{
 				mPath = null;
+			}
 			else
+			{
 				mPath = toInspect.getClass().getName();
+			}
 		}
 
 		mToInspect = toInspect;
@@ -317,7 +323,9 @@ public class GwtMetawidget
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return "";
+		}
 
 		// Explicit label
 
@@ -328,14 +336,18 @@ public class GwtMetawidget
 			// (may be forced blank)
 
 			if ( "".equals( label ) )
+			{
 				return null;
+			}
 
 			// (localize if possible)
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return label.trim();
 		}
@@ -351,7 +363,9 @@ public class GwtMetawidget
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return StringUtils.uncamelCase( name );
 		}
@@ -366,12 +380,16 @@ public class GwtMetawidget
 	public String getLocalizedKey( String key )
 	{
 		if ( mDictionaryName == null )
+		{
 			return null;
+		}
 
 		try
 		{
 			if ( mDictionary == null )
+			{
 				mDictionary = Dictionary.getDictionary( mDictionaryName );
+			}
 
 			return mDictionary.get( key );
 		}
@@ -384,7 +402,9 @@ public class GwtMetawidget
 	public void setReadOnly( boolean readOnly )
 	{
 		if ( mPipeline.isReadOnly() == readOnly )
+		{
 			return;
+		}
 
 		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
@@ -414,29 +434,41 @@ public class GwtMetawidget
 	public <T extends Widget> T getWidget( String... names )
 	{
 		if ( names == null )
+		{
 			return null;
+		}
 
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
+		{
 			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling getWidget( \"" + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + "\" )" );
+		}
 
 		Map<String, Widget> children = mAddedWidgets;
 
 		for ( int loop = 0, length = names.length; loop < length; loop++ )
 		{
 			if ( children == null )
+			{
 				return null;
+			}
 
 			String name = names[loop];
 			Widget widget = children.get( name );
 
 			if ( widget == null )
+			{
 				return null;
+			}
 
 			if ( loop == length - 1 )
+			{
 				return (T) widget;
+			}
 
 			if ( !( widget instanceof GwtMetawidget ) )
+			{
 				return null;
+			}
 
 			children = ( (GwtMetawidget) widget ).mAddedWidgets;
 		}
@@ -462,7 +494,9 @@ public class GwtMetawidget
 		Widget widget = getWidget( names );
 
 		if ( widget == null )
+		{
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
+		}
 
 		return (T) getValue( widget );
 	}
@@ -493,7 +527,9 @@ public class GwtMetawidget
 		Widget widget = getWidget( names );
 
 		if ( widget == null )
+		{
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
+		}
 
 		setValue( value, widget );
 	}
@@ -505,7 +541,9 @@ public class GwtMetawidget
 	public void setValue( Object value, Widget widget )
 	{
 		if ( !setValue( value, widget, mPipeline.getWidgetBuilder() ) )
+		{
 			throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
+		}
 	}
 
 	public Facet getFacet( String name )
@@ -520,7 +558,9 @@ public class GwtMetawidget
 	public void putClientProperty( Object key, Object value )
 	{
 		if ( mClientProperties == null )
+		{
 			mClientProperties = new HashMap<Object, Object>();
+		}
 
 		mClientProperties.put( key, value );
 	}
@@ -533,7 +573,9 @@ public class GwtMetawidget
 	public <T> T getClientProperty( Object key )
 	{
 		if ( mClientProperties == null )
+		{
 			return null;
+		}
 
 		return (T) mClientProperties.get( key );
 	}
@@ -751,7 +793,9 @@ public class GwtMetawidget
 		if ( mPipeline.getInspector() == null )
 		{
 			if ( DEFAULT_INSPECTOR == null )
+			{
 				DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
+			}
 
 			mPipeline.setInspector( DEFAULT_INSPECTOR );
 		}
@@ -771,7 +815,9 @@ public class GwtMetawidget
 		if ( mPipeline.getWidgetProcessors() == null )
 		{
 			if ( DEFAULT_HASNAME_PROCESSOR == null )
+			{
 				DEFAULT_HASNAME_PROCESSOR = new HasNameProcessor();
+			}
 
 			mPipeline.addWidgetProcessor( DEFAULT_HASNAME_PROCESSOR );
 		}
@@ -779,7 +825,9 @@ public class GwtMetawidget
 		if ( mPipeline.getLayout() == null )
 		{
 			if ( DEFAULT_LAYOUT == null )
+			{
 				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) );
+			}
 
 			mPipeline.setLayout( DEFAULT_LAYOUT );
 		}
@@ -918,14 +966,18 @@ public class GwtMetawidget
 	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
 	{
 		if ( widget == null )
+		{
 			return null;
+		}
 
 		// CSS
 
 		String styleName = getStyleName();
 
 		if ( styleName != null )
+		{
 			widget.setStyleName( styleName );
+		}
 
 		return widget;
 	}
@@ -972,7 +1024,9 @@ public class GwtMetawidget
 					Map<String, String> stubAttributes = ( (Stub) widgetExisting ).getAttributes();
 
 					if ( stubAttributes != null )
+					{
 						miscAttributes.putAll( stubAttributes );
+					}
 				}
 
 				layout.layoutWidget( widgetExisting, PROPERTY, miscAttributes, this, this );
@@ -995,7 +1049,9 @@ public class GwtMetawidget
 				Object value = getValue( widget, widgetBuilderChild );
 
 				if ( value != null )
+				{
 					return value;
+				}
 			}
 
 			return null;
@@ -1004,7 +1060,9 @@ public class GwtMetawidget
 		// Interrogate GwtValueAccessors
 
 		if ( widgetBuilder instanceof GwtValueAccessor )
+		{
 			return ( (GwtValueAccessor) widgetBuilder ).getValue( widget );
+		}
 
 		return null;
 	}
@@ -1018,7 +1076,9 @@ public class GwtMetawidget
 			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
 				if ( setValue( value, widget, widgetBuilderChild ) )
+				{
 					return true;
+				}
 			}
 
 			return false;
@@ -1027,7 +1087,9 @@ public class GwtMetawidget
 		// Interrogate GwtValueAccessors
 
 		if ( widgetBuilder instanceof GwtValueAccessor )
+		{
 			return ( (GwtValueAccessor) widgetBuilder ).setValue( widget, value );
+		}
 
 		return false;
 	}
@@ -1071,7 +1133,9 @@ public class GwtMetawidget
 		protected Map<String, String> getAdditionalAttributes( Widget widget )
 		{
 			if ( widget instanceof Stub )
+			{
 				return ( (Stub) widget ).getAttributes();
+			}
 
 			return null;
 		}

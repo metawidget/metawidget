@@ -58,7 +58,9 @@ public class StringToDateConverter
 	public Object convert( Object toConvert )
 	{
 		if ( toConvert == null || "".equals( toConvert ))
+		{
 			return null;
+		}
 
 		synchronized ( FORMAT )
 		{

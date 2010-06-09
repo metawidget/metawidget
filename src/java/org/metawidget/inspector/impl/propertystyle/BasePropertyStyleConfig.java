@@ -62,7 +62,9 @@ public class BasePropertyStyleConfig
 		mExcludeBaseType = excludeBaseType;
 
 		if ( excludeBaseType == null )
+		{
 			mNullExcludeBaseType = true;
+		}
 
 		// Fluent interface
 
@@ -74,7 +76,9 @@ public class BasePropertyStyleConfig
 		if ( mExcludeBaseType == null && !mNullExcludeBaseType )
 		{
 			if ( DEFAULT_EXCLUDE_BASE_TYPE == null )
+			{
 				DEFAULT_EXCLUDE_BASE_TYPE = Pattern.compile( "^(java|javax)\\..*$" );
+			}
 
 			mExcludeBaseType = DEFAULT_EXCLUDE_BASE_TYPE;
 		}
@@ -86,19 +90,29 @@ public class BasePropertyStyleConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mExcludeBaseType, ( (BasePropertyStyleConfig) that ).mExcludeBaseType ) )
+		{
 			return false;
+		}
 
 		if ( mNullExcludeBaseType != ( (BasePropertyStyleConfig) that ).mNullExcludeBaseType )
+		{
 			return false;
+		}
 
 		return true;
 	}

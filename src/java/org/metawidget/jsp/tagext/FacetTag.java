@@ -76,7 +76,9 @@ public class FacetTag
 		MetawidgetTag tagMetawidget = (MetawidgetTag) findAncestorWithClass( this, MetawidgetTag.class );
 
 		if ( tagMetawidget == null )
+		{
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
+		}
 
 		mSavedBodyContent = bodyContent.getString();
 		tagMetawidget.setFacet( mName, this );

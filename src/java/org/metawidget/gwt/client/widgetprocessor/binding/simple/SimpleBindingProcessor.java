@@ -67,9 +67,13 @@ public class SimpleBindingProcessor
 		// Custom adapters
 
 		if ( config.getAdapters() == null )
+		{
 			mAdapters = null;
+		}
 		else
+		{
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>( config.getAdapters() );
+		}
 
 		// Default converters
 
@@ -92,7 +96,9 @@ public class SimpleBindingProcessor
 		// Custom converters
 
 		if ( config.getConverters() != null )
+		{
 			mConverters.putAll( config.getConverters() );
+		}
 	}
 
 	//
@@ -115,7 +121,9 @@ public class SimpleBindingProcessor
 			State state = getState( metawidget );
 
 			if ( state.nestedMetawidgets == null )
+			{
 				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
+			}
 
 			state.nestedMetawidgets.add( (GwtMetawidget) widget );
 			return widget;
@@ -124,12 +132,16 @@ public class SimpleBindingProcessor
 		// SimpleBindingProcessor doesn't bind to Stubs or FlexTables
 
 		if ( widget instanceof Stub || widget instanceof FlexTable )
+		{
 			return widget;
+		}
 
 		String path = metawidget.getPath();
 
 		if ( PROPERTY.equals( elementName ) || ACTION.equals( elementName ) )
+		{
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+		}
 
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 
@@ -138,7 +150,9 @@ public class SimpleBindingProcessor
 		if ( ACTION.equals( elementName ) )
 		{
 			if ( !( widget instanceof FocusWidget ) )
+			{
 				throw new RuntimeException( "SimpleBindingProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
+			}
 
 			// Bind the action
 
@@ -152,13 +166,17 @@ public class SimpleBindingProcessor
 					Object toInvokeOn = metawidget.getToInspect();
 
 					if ( toInvokeOn == null )
+					{
 						return;
+					}
 
 					Class<?> classToBindTo = toInvokeOn.getClass();
 					SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
 					if ( adapter == null )
+					{
 						throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
+					}
 
 					// ...to invoke the action
 
@@ -174,13 +192,17 @@ public class SimpleBindingProcessor
 		Object toInspect = metawidget.getToInspect();
 
 		if ( toInspect == null )
+		{
 			return widget;
+		}
 
 		Class<?> classToBindTo = toInspect.getClass();
 		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
 		if ( adapter == null )
+		{
 			throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
+		}
 
 		// ...fetch the value...
 
@@ -192,7 +214,9 @@ public class SimpleBindingProcessor
 		Converter<Object> converter = getConverter( propertyType );
 
 		if ( converter != null )
+		{
 			value = converter.convertForWidget( widget, value );
+		}
 
 		// ...and set it
 
@@ -201,12 +225,16 @@ public class SimpleBindingProcessor
 			metawidget.setValue( value, widget );
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+			{
 				return widget;
+			}
 
 			State state = getState( metawidget );
 
 			if ( state.bindings == null )
+			{
 				state.bindings = new HashSet<Object[]>();
+			}
 
 			state.bindings.add( new Object[] { widget, names, converter, propertyType } );
 		}
@@ -243,7 +271,9 @@ public class SimpleBindingProcessor
 			SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToRebind );
 
 			if ( adapter == null )
+			{
 				throw new RuntimeException( "Don't know how to rebind to a " + classToRebind );
+			}
 
 			// ...for each bound property...
 
@@ -261,7 +291,9 @@ public class SimpleBindingProcessor
 				// ...convert it (if necessary)...
 
 				if ( converter != null )
+				{
 					value = converter.convertForWidget( widget, value );
+				}
 
 				// ...and set it
 
@@ -291,7 +323,9 @@ public class SimpleBindingProcessor
 			Object toSave = metawidget.getToInspect();
 
 			if ( toSave == null )
+			{
 				return;
+			}
 
 			// From the adapter...
 
@@ -299,7 +333,9 @@ public class SimpleBindingProcessor
 			SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
 			if ( adapter == null )
+			{
 				throw new RuntimeException( "Don't know how to save to a " + classToBindTo );
+			}
 
 			// ...for each bound property...
 
@@ -318,7 +354,9 @@ public class SimpleBindingProcessor
 				// ...convert it (if necessary)...
 
 				if ( value != null && converter != null )
+				{
 					value = converter.convertFromWidget( widget, value, type );
+				}
 
 				// ...and set it
 
@@ -359,7 +397,9 @@ public class SimpleBindingProcessor
 	protected <T extends SimpleBindingProcessorAdapter<?>> T getAdapter( Class<?> classToBindTo )
 	{
 		if ( mAdapters == null )
+		{
 			return null;
+		}
 
 		Class<?> classTraversal = classToBindTo;
 
@@ -369,7 +409,9 @@ public class SimpleBindingProcessor
 			T adapter = (T) mAdapters.get( classTraversal );
 
 			if ( adapter != null )
+			{
 				return adapter;
+			}
 
 			classTraversal = classTraversal.getSuperclass();
 		}
@@ -400,7 +442,9 @@ public class SimpleBindingProcessor
 			T converter = (T) mConverters.get( classTraversal );
 
 			if ( converter != null )
+			{
 				return converter;
+			}
 
 			classTraversal = classTraversal.getSuperclass();
 		}

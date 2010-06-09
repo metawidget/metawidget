@@ -54,21 +54,31 @@ public class ReflectionBindingProcessor
 		// Only bind to Actions
 
 		if ( !ACTION.equals( elementName ) )
+		{
 			return component;
+		}
 
 		if ( component instanceof Stub )
+		{
 			return component;
+		}
 
 		if ( !( component instanceof Button ) )
+		{
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to Buttons" );
+		}
 
 		if ( metawidget == null )
+		{
 			return component;
+		}
 
 		Object toInspect = metawidget.getToInspect();
 
 		if ( toInspect == null )
+		{
 			return component;
+		}
 
 		Button button = (Button) component;
 
@@ -81,7 +91,9 @@ public class ReflectionBindingProcessor
 			toInspect = ClassUtils.getProperty( toInspect, name );
 
 			if ( toInspect == null )
+			{
 				return component;
+			}
 		}
 
 		// ...and wire it up

@@ -52,26 +52,36 @@ public class TomahawkWidgetBuilder
 		// Not for Tomahawk?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return null;
+		}
 
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
+		{
 			return null;
+		}
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null )
+		{
 			return null;
+		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz == null )
+		{
 			return null;
+		}
 
 		// HtmlInputFileUpload
 
 		if ( UploadedFile.class.isAssignableFrom( clazz ) )
+		{
 			return application.createComponent( "org.apache.myfaces.HtmlInputFileUpload" );
+		}
 
 		// Not for Tomahawk
 

@@ -61,16 +61,24 @@ public class TabPanelLayoutDecoratorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelLayoutDecoratorConfig) that ).mHeaderAlignment ))
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

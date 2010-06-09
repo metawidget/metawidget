@@ -83,7 +83,9 @@ public class PanelLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		panel.setHeader( localizedSection );
 

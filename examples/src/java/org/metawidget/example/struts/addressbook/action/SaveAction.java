@@ -53,7 +53,9 @@ public class SaveAction
 		// Sanity check
 
 		if ( form == null )
+		{
 			return mapping.findForward( "home" );
+		}
 
 		// Support editing
 
@@ -154,7 +156,9 @@ public class SaveAction
 			}
 
 			if ( request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
+			{
 				return mapping.findForward( "contact" );
+			}
 		}
 
 		// Delete

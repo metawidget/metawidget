@@ -50,7 +50,9 @@ public class SeamInspectorConfig
 	public InputStream getComponentsInputStream()
 	{
 		if ( mComponentsInputStream != null )
+		{
 			return mComponentsInputStream;
+		}
 
 		return getResourceResolver().openResource( "components.xml" );
 	}
@@ -104,19 +106,29 @@ public class SeamInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (SeamInspectorConfig) that ).mResourceResolver ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mComponentsInputStream, ( (SeamInspectorConfig) that ).mComponentsInputStream ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

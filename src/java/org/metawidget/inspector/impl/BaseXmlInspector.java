@@ -132,15 +132,21 @@ public abstract class BaseXmlInspector
 			InputStream[] files = config.getInputStreams();
 
 			if ( files != null && files.length > 0 )
+			{
 				mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
+			}
 
 			if ( mRoot == null )
+			{
 				throw InspectorException.newException( "No XML input file specified" );
+			}
 
 			// Debug
 
 			if ( mLog.isTraceEnabled() )
+			{
 				mLog.trace( XmlUtils.documentToString( mRoot.getOwnerDocument(), false ) );
+			}
 
 			// restrictAgainstObject
 
@@ -161,12 +167,16 @@ public abstract class BaseXmlInspector
 		// If no type, return nothing
 
 		if ( type == null )
+		{
 			return null;
+		}
 
 		// If restricted against Object, return nothing
 
 		if ( mRestrictAgainstObject != null && isRestrictedAgainstObject( toInspect, type, names ) )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -182,7 +192,9 @@ public abstract class BaseXmlInspector
 				Element propertyInParent = traverse( type, true, names );
 
 				if ( propertyInParent == null )
+				{
 					return null;
+				}
 
 				parentAttributes = inspectProperty( propertyInParent );
 
@@ -204,7 +216,9 @@ public abstract class BaseXmlInspector
 				// attribute set, because we should never try to traverse the child
 
 				if ( !propertyInParent.hasAttribute( typeAttribute ) )
+				{
 					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+				}
 
 				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			}
@@ -215,7 +229,9 @@ public abstract class BaseXmlInspector
 				elementToInspect = traverse( type, false, names );
 
 				if ( elementToInspect == null )
+				{
 					return null;
+				}
 			}
 
 			Document document = XmlUtils.newDocumentBuilder().newDocument();
@@ -228,7 +244,9 @@ public abstract class BaseXmlInspector
 			// Nothing of consequence to return?
 
 			if ( !entity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) )
+			{
 				return null;
+			}
 
 			Element root = document.createElementNS( NAMESPACE, ROOT );
 			root.setAttribute( VERSION, "1.0" );
@@ -238,9 +256,13 @@ public abstract class BaseXmlInspector
 			// Add any parent attributes
 
 			if ( parentAttributes == null )
+			{
 				entity.setAttribute( TYPE, type );
+			}
 			else
+			{
 				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+			}
 
 			// Return the document
 
@@ -272,7 +294,9 @@ public abstract class BaseXmlInspector
 			Document documentParsed = builder.parse( file );
 
 			if ( !documentParsed.hasChildNodes() )
+			{
 				continue;
+			}
 
 			preprocessDocument( documentParsed );
 
@@ -286,7 +310,9 @@ public abstract class BaseXmlInspector
 		}
 
 		if ( documentMaster == null )
+		{
 			return null;
+		}
 
 		return documentMaster.getDocumentElement();
 	}
@@ -299,7 +325,9 @@ public abstract class BaseXmlInspector
 	protected void inspect( Element toInspect, Element toAddTo )
 	{
 		if ( toInspect == null )
+		{
 			return;
+		}
 
 		Document document = toAddTo.getOwnerDocument();
 
@@ -310,7 +338,9 @@ public abstract class BaseXmlInspector
 		if ( extendsAttribute != null )
 		{
 			if ( toInspect.hasAttribute( extendsAttribute ) )
+			{
 				inspect( traverse( toInspect.getAttribute( extendsAttribute ), false ), toAddTo );
+			}
 		}
 
 		// Next, for each child...
@@ -323,14 +353,18 @@ public abstract class BaseXmlInspector
 			Node child = children.item( loop );
 
 			if ( !( child instanceof Element ) )
+			{
 				continue;
+			}
 
 			// ...inspect its attributes...
 
 			Element inspected = inspect( document, (Element) child );
 
 			if ( inspected == null )
+			{
 				continue;
+			}
 
 			element.appendChild( inspected );
 		}
@@ -364,7 +398,9 @@ public abstract class BaseXmlInspector
 			// Sanity check
 
 			if ( propertyAttributes != null )
+			{
 				throw InspectorException.newException( "Ambigious match: " + toInspect.getNodeName() + " matches as both a property and an action" );
+			}
 
 			Element child = toAddTo.createElementNS( NAMESPACE, ACTION );
 			XmlUtils.setMapAsAttributes( child, actionAttributes );
@@ -401,15 +437,21 @@ public abstract class BaseXmlInspector
 		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, type );
 
 		if ( entityElement == null )
+		{
 			return null;
+		}
 
 		if ( names == null )
+		{
 			return entityElement;
+		}
 
 		int length = names.length;
 
 		if ( length == 0 )
+		{
 			return entityElement;
+		}
 
 		// Traverse names
 
@@ -427,42 +469,58 @@ public abstract class BaseXmlInspector
 				// XML structure may not support 'extends'
 
 				if ( extendsAttribute == null )
+				{
 					return null;
+				}
 
 				// Property may be defined in an 'extends'
 
 				while ( true )
 				{
 					if ( !entityElement.hasAttribute( extendsAttribute ) )
+					{
 						return null;
+					}
 
 					String childExtends = entityElement.getAttribute( extendsAttribute );
 					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, childExtends );
 
 					if ( entityElement == null )
+					{
 						return null;
+					}
 
 					property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
 
 					if ( property != null )
+					{
 						break;
+					}
 				}
 
 				if ( property == null )
+				{
 					return null;
+				}
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) )
+			{
 				return property;
+			}
 
 			if ( !property.hasAttribute( typeAttribute ) )
+			{
 				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+			}
 
 			String propertyType = property.getAttribute( typeAttribute );
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
 
 			if ( entityElement == null )
+			{
 				break;
+			}
 
 			// Unlike BaseObjectInspector, we cannot test for cyclic references because
 			// we're only looking at types, not objects
@@ -530,14 +588,18 @@ public abstract class BaseXmlInspector
 			// If there are names, return true
 
 			if ( names != null && names.length > 0 )
+			{
 				return true;
+			}
 
 			// If no such class, return false
 
 			Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( clazz == null )
+			{
 				return false;
+			}
 
 			return false;
 		}
@@ -551,7 +613,9 @@ public abstract class BaseXmlInspector
 		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
 		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) )
+		{
 			return false;
+		}
 
 		// Traverse through names (if any)
 
@@ -570,7 +634,9 @@ public abstract class BaseXmlInspector
 				Property property = mRestrictAgainstObject.getProperties( traverse.getClass() ).get( name );
 
 				if ( property == null || !property.isReadable() )
+				{
 					return true;
+				}
 
 				traverse = property.read( traverse );
 
@@ -588,7 +654,9 @@ public abstract class BaseXmlInspector
 				// Always come in this loop once, because we want to do the recursion check
 
 				if ( traverse == null )
+				{
 					return true;
+				}
 
 				traverseDeclaredType = property.getType();
 			}

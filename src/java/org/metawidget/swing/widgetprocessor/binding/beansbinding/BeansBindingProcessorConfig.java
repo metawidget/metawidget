@@ -94,7 +94,9 @@ public class BeansBindingProcessorConfig
 	public <S, T> BeansBindingProcessorConfig setConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
 	{
 		if ( mConverters == null )
+		{
 			mConverters = CollectionUtils.newHashMap();
+		}
 
 		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
 
@@ -105,19 +107,29 @@ public class BeansBindingProcessorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mUpdateStrategy, ( (BeansBindingProcessorConfig) that ).mUpdateStrategy ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (BeansBindingProcessorConfig) that ).mConverters ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

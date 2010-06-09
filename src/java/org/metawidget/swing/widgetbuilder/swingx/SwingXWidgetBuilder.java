@@ -51,7 +51,9 @@ public class SwingXWidgetBuilder
 	public String getValueProperty( Component component )
 	{
 		if ( component instanceof JXDatePicker )
+		{
 			return "date";
+		}
 
 		return null;
 	}
@@ -65,19 +67,25 @@ public class SwingXWidgetBuilder
 		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub();
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null )
+		{
 			return null;
+		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// Dates
 
 		if ( Date.class.equals( clazz ) )
+		{
 			return new JXDatePicker();
+		}
 
 		return null;
 	}

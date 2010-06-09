@@ -48,7 +48,9 @@ public class OverriddenWidgetBuilder
 		String name = attributes.get( NAME );
 
 		if ( name == null )
+		{
 			return null;
+		}
 
 		Widget widget = null;
 		Set<Widget> existingUnusedWidgets = metawidget.fetchExistingUnusedWidgets();
@@ -56,7 +58,9 @@ public class OverriddenWidgetBuilder
 		for ( Widget widgetExisting : existingUnusedWidgets )
 		{
 			if ( !( widgetExisting instanceof HasName ) )
+			{
 				continue;
+			}
 
 			if ( name.equals( ( (HasName) widgetExisting ).getName() ) )
 			{
@@ -66,7 +70,9 @@ public class OverriddenWidgetBuilder
 		}
 
 		if ( widget != null )
+		{
 			existingUnusedWidgets.remove( widget );
+		}
 
 		return widget;
 	}

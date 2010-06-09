@@ -146,7 +146,9 @@ public class GridLayout
 		String labelText = null;
 
 		if ( attributes != null )
+		{
 			labelText = metawidget.getLabelString( attributes );
+		}
 
 		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
 
@@ -166,13 +168,19 @@ public class GridLayout
 			componentLayoutData.horizontalSpan = mNumberOfColumns * LABEL_AND_CONTROL;
 
 			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
+			{
 				componentLayoutData.horizontalSpan--;
+			}
 		}
 		else if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) )
+		{
 			componentLayoutData.horizontalSpan = LABEL_AND_CONTROL;
+		}
 
 		if ( willFillVertically( component, attributes ) )
+		{
 			componentLayoutData.grabExcessVerticalSpace = true;
+		}
 
 		// Add it
 
@@ -216,10 +224,14 @@ public class GridLayout
 			label.setData( NAME, attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			if ( mLabelFont != null )
+			{
 				label.setFont( mLabelFont );
+			}
 
 			if ( mLabelForeground != null )
+			{
 				label.setForeground( mLabelForeground );
+			}
 
 			label.setAlignment( mLabelAlignment );
 
@@ -230,13 +242,19 @@ public class GridLayout
 			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
 				if ( mRequiredAlignment == SWT.CENTER )
+				{
 					labelTextToUse += mRequiredText;
+				}
 				else if ( mRequiredAlignment == SWT.LEFT )
+				{
 					labelTextToUse = mRequiredText + labelTextToUse;
+				}
 			}
 
 			if ( mLabelSuffix != null )
+			{
 				labelTextToUse += mLabelSuffix;
+			}
 
 			label.setText( labelTextToUse );
 
@@ -254,7 +272,9 @@ public class GridLayout
 	protected boolean willFillHorizontally( Control component, Map<String, String> attributes )
 	{
 		if ( component instanceof SwtMetawidget )
+		{
 			return true;
+		}
 
 		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
@@ -262,7 +282,9 @@ public class GridLayout
 	protected boolean willFillVertically( Control component, Map<String, String> attributes )
 	{
 		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
+		{
 			return true;
+		}
 
 		return false;
 	}

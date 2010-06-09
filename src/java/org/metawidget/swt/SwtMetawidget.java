@@ -142,7 +142,9 @@ public class SwtMetawidget
 			public void paintControl( PaintEvent event )
 			{
 				if ( event.count == 0 )
+				{
 					buildWidgets();
+				}
 			}
 		} );
 	}
@@ -176,14 +178,20 @@ public class SwtMetawidget
 		if ( mToInspect == null )
 		{
 			if ( mInspectionPath == null && toInspect != null )
+			{
 				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			}
 		}
 		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mInspectionPath ) )
 		{
 			if ( toInspect == null )
+			{
 				mInspectionPath = null;
+			}
 			else
+			{
 				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			}
 		}
 
 		mToInspect = toInspect;
@@ -304,7 +312,9 @@ public class SwtMetawidget
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return "";
+		}
 
 		// Explicit label
 
@@ -315,14 +325,18 @@ public class SwtMetawidget
 			// (may be forced blank)
 
 			if ( "".equals( label ) )
+			{
 				return null;
+			}
 
 			// (localize if possible)
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return label.trim();
 		}
@@ -338,7 +352,9 @@ public class SwtMetawidget
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return StringUtils.uncamelCase( name );
 		}
@@ -353,7 +369,9 @@ public class SwtMetawidget
 	public String getLocalizedKey( String key )
 	{
 		if ( mBundle == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -373,7 +391,9 @@ public class SwtMetawidget
 	public void setReadOnly( boolean readOnly )
 	{
 		if ( mPipeline.isReadOnly() == readOnly )
+		{
 			return;
+		}
 
 		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
@@ -443,7 +463,9 @@ public class SwtMetawidget
 	public <T extends Control> T getControl( String... names )
 	{
 		if ( names == null || names.length == 0 )
+		{
 			return null;
+		}
 
 		Control topControl = this;
 
@@ -456,17 +478,23 @@ public class SwtMetawidget
 			// SwtMetawidgetTest.testNestedWithManualInspector
 
 			if ( topControl instanceof SwtMetawidget )
+			{
 				( (SwtMetawidget) topControl ).buildWidgets();
+			}
 
 			// Try to find a control
 
 			topControl = getControl( (Composite) topControl, name );
 
 			if ( loop == length - 1 )
+			{
 				return (T) topControl;
+			}
 
 			if ( topControl == null )
+			{
 				throw MetawidgetException.newException( "No such control '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
+			}
 		}
 
 		return (T) topControl;
@@ -495,7 +523,9 @@ public class SwtMetawidget
 	public Composite getCurrentLayoutComposite()
 	{
 		if ( mCurrentLayoutComposite == null )
+		{
 			return this;
+		}
 
 		return mCurrentLayoutComposite;
 	}
@@ -556,7 +586,9 @@ public class SwtMetawidget
 	protected void invalidateWidgets()
 	{
 		if ( mNeedToBuildWidgets )
+		{
 			return;
+		}
 
 		mNeedToBuildWidgets = true;
 	}
@@ -564,24 +596,32 @@ public class SwtMetawidget
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
+		{
 			return;
+		}
 
 		// Special support for visual IDE builders
 
 		if ( mInspectionPath == null )
+		{
 			return;
+		}
 
 		mNeedsConfiguring = false;
 
 		try
 		{
 			if ( mConfig != null )
+			{
 				CONFIG_READER.configure( mConfig, this );
+			}
 
 			// SwtMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null )
+			{
 				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
+			}
 
 			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwtMetawidget.class );
 		}
@@ -596,7 +636,9 @@ public class SwtMetawidget
 		// No need to build?
 
 		if ( !mNeedToBuildWidgets )
+		{
 			return;
+		}
 
 		configure();
 
@@ -633,7 +675,9 @@ public class SwtMetawidget
 		try
 		{
 			if ( mLastInspection == null )
+			{
 				mLastInspection = inspect();
+			}
 
 			mPipeline.buildWidgets( mLastInspection );
 
@@ -645,7 +689,9 @@ public class SwtMetawidget
 			for ( Control control : getChildren() )
 			{
 				if ( !mExistingControls.remove( control ) )
+				{
 					mControlsToDispose.add( control );
+				}
 			}
 
 			// Layout up the heirarchy so that all parents are laid out correctly (we're not sure of
@@ -682,7 +728,9 @@ public class SwtMetawidget
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( control );
 
 		if ( additionalAttributes != null )
+		{
 			attributes.putAll( additionalAttributes );
+		}
 
 		// BasePipeline will call .layoutWidget
 	}
@@ -711,7 +759,9 @@ public class SwtMetawidget
 	protected String inspect()
 	{
 		if ( mInspectionPath == null )
+		{
 			return null;
+		}
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mInspectionPath );
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
@@ -736,12 +786,16 @@ public class SwtMetawidget
 		Control control = getControl( names );
 
 		if ( control == null )
+		{
 			throw MetawidgetException.newException( "No control named '" + ArrayUtils.toString( names, "', '" ) + "'" );
+		}
 
 		String controlProperty = getValueProperty( control );
 
 		if ( controlProperty == null )
+		{
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + control.getClass().getName() );
+		}
 
 		return new Pair<Control, String>( control, controlProperty );
 	}
@@ -759,7 +813,9 @@ public class SwtMetawidget
 					String valueProperty = getValueProperty( control, widgetBuilderChild );
 
 					if ( valueProperty != null )
+					{
 						return valueProperty;
+					}
 				}
 
 				return null;
@@ -773,7 +829,9 @@ public class SwtMetawidget
 		// Interrogate ValuePropertyProviders
 
 		if ( widgetBuilder instanceof SwtValuePropertyProvider )
+		{
 			return ( (SwtValuePropertyProvider) widgetBuilder ).getValueProperty( control );
+		}
 
 		return null;
 	}
@@ -789,7 +847,9 @@ public class SwtMetawidget
 				childComponent = getControl( (Composite) childComponent, name );
 
 				if ( childComponent != null )
+				{
 					return childComponent;
+				}
 
 				continue;
 			}
@@ -797,7 +857,9 @@ public class SwtMetawidget
 			// Match by name
 
 			if ( name.equals( childComponent.getData( NAME ) ) )
+			{
 				return childComponent;
+			}
 		}
 
 		// Not found
@@ -824,7 +886,9 @@ public class SwtMetawidget
 				Layout<Control, Composite, SwtMetawidget> layout = getLayout();
 
 				if ( layout instanceof SwtLayoutDecorator )
+				{
 					mCurrentLayoutComposite = ( (SwtLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
+				}
 			}
 
 			return super.buildWidget( elementName, attributes );
@@ -841,7 +905,9 @@ public class SwtMetawidget
 		protected Map<String, String> getAdditionalAttributes( Control control )
 		{
 			if ( control instanceof Stub )
+			{
 				return ( (Stub) control ).getAttributes();
+			}
 
 			return null;
 		}

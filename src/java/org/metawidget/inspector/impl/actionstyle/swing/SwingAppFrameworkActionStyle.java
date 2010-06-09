@@ -41,20 +41,28 @@ public class SwingAppFrameworkActionStyle
 		// Exclude Swing AppFramework actions
 
 		if ( method.getDeclaringClass().getPackage().getName().startsWith( "org.jdesktop" ))
+		{
 			return false;
+		}
 
 		org.jdesktop.application.Action action = method.getAnnotation( org.jdesktop.application.Action.class );
 
 		if ( action == null )
+		{
 			return false;
+		}
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
 
 		if ( parameterTypes.length > 1 )
+		{
 			throw InspectorException.newException( "@Action " + method + " must not have more than one parameter" );
+		}
 
 		if ( parameterTypes.length == 1 && !parameterTypes[0].equals( ActionEvent.class ))
+		{
 			throw InspectorException.newException( "@Action " + method + " parameter must be a " + ActionEvent.class.getName() );
+		}
 
 		return true;
 	}

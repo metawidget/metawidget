@@ -131,7 +131,9 @@ public class RichFacesProcessorTest
 			throws FacesException
 		{
 			if ( "org.ajax4jsf.Support".equals( componentName ) )
+			{
 				return new HtmlAjaxSupport();
+			}
 
 			return super.createComponent( componentName );
 		}

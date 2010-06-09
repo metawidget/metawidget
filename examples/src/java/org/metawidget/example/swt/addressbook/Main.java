@@ -68,7 +68,9 @@ public class Main
 		while ( !shell.isDisposed() )
 		{
 			if ( !display.readAndDispatch() )
+			{
 				display.sleep();
+			}
 		}
 
 		display.dispose();
@@ -159,9 +161,13 @@ public class Main
 			TableItem item;
 
 			if ( loop < mResultsTable.getItemCount() )
+			{
 				item = mResultsTable.getItem( loop );
+			}
 			else
+			{
 				item = new TableItem( mResultsTable, SWT.NONE );
+			}
 
 			// ...with contact text
 
@@ -171,15 +177,21 @@ public class Main
 			item.setText( 2, CollectionUtils.toString( contact.getCommunications() ) );
 
 			if ( contact instanceof PersonalContact )
+			{
 				item.setImage( 3, mPersonalContactImage );
+			}
 			else
+			{
 				item.setImage( 3, mBusinessContactImage );
+			}
 		}
 
 		// Delete hanging rows
 
 		if ( loop < mResultsTable.getItemCount() )
+		{
 			mResultsTable.remove( loop, mResultsTable.getItemCount() - 1 );
+		}
 	}
 
 	@UiAction
@@ -192,9 +204,13 @@ public class Main
 		String type = (String) mSearchMetawidget.getValue( "type" );
 
 		if ( "".equals( type ) )
+		{
 			mContactSearch.setType( null );
+		}
 		else
+		{
 			mContactSearch.setType( ContactType.valueOf( type ) );
+		}
 
 		fireRefresh();
 	}

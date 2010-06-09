@@ -48,7 +48,9 @@ public class MigLayoutConfig
 	public MigLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 1 )
+		{
 			throw LayoutException.newException( "numberOfColumns must be >= 1" );
+		}
 
 		mNumberOfColumns = numberOfColumns;
 
@@ -59,16 +61,24 @@ public class MigLayoutConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mNumberOfColumns != ((MigLayoutConfig) that).mNumberOfColumns )
+		{
 			return false;
+		}
 
 		return true;
 	}

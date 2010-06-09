@@ -80,7 +80,9 @@ public class ContactController
 		// Create business
 
 		if ( request.getParameter( "business" ) != null )
+		{
 			return new BusinessContact();
+		}
 
 		// Default to personal
 
@@ -170,7 +172,9 @@ public class ContactController
 		// Edit/Add Communication/Delete Communication (stay on same page)
 
 		if ( request.getParameter( "edit" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
+		{
 			return showForm( request, response, errors );
+		}
 
 		// Save/Cancel/Delete
 

@@ -91,7 +91,9 @@ public class StubTag
 		if ( mAction != null )
 		{
 			if ( !isValueReference( mAction ) )
+			{
 				throw MetawidgetException.newException( "Action '" + mAction + "' must be an EL expression" );
+			}
 
 			componentStub.setAction( application.createMethodBinding( mAction, null ) );
 		}
@@ -101,7 +103,9 @@ public class StubTag
 		if ( mValue != null )
 		{
 			if ( !isValueReference( mValue ) )
+			{
 				throw MetawidgetException.newException( "Value '" + mValue + "' must be an EL expression" );
+			}
 
 			componentStub.setValueBinding( "value", application.createValueBinding( mValue ) );
 		}
@@ -111,9 +115,13 @@ public class StubTag
 		if ( mAttributes != null )
 		{
 			if ( isValueReference( mAttributes ) )
+			{
 				componentStub.setValueBinding( "attributes", application.createValueBinding( mAttributes ) );
+			}
 			else
+			{
 				componentStub.setStubAttributes( mAttributes );
+			}
 		}
 	}
 }

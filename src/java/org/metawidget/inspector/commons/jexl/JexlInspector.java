@@ -151,12 +151,16 @@ public class JexlInspector
 		// Likely mistake
 
 		if ( expression.startsWith( "${" ) )
+		{
 			throw InspectorException.newException( "Expression '" + expression + "' should be of the form 'foo.bar', not '${foo.bar}'" );
+		}
 
 		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext() );
 
 		if ( value == null )
+		{
 			return;
+		}
 
 		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ) );
 	}
@@ -193,7 +197,9 @@ public class JexlInspector
 		// Put the toInspect in as 'this'
 
 		if ( toInspect != null )
+		{
 			contextMap.put( "this", toInspect );
+		}
 
 		return context;
 	}

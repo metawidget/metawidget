@@ -95,7 +95,9 @@ public class SeparatorLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		GridBagConstraints labelConstraints = new GridBagConstraints();
 

@@ -54,12 +54,16 @@ public class ContactSearchController
 		// Add Personal
 
 		if ( request.getParameter( "addPersonal" ) != null )
+		{
 			return new ModelAndView( new RedirectView( "contact.html" ));
+		}
 
 		// Add Business
 
 		if ( request.getParameter( "addBusiness" ) != null )
+		{
 			return new ModelAndView( new RedirectView( "contact.html?business" ) );
+		}
 
 		// Search
 

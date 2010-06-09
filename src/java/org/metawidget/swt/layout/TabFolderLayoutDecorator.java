@@ -92,7 +92,9 @@ public class TabFolderLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		tabItem.setText( localizedSection );
 

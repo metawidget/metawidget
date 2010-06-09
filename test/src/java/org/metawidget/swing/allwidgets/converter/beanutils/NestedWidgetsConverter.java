@@ -38,7 +38,9 @@ public class NestedWidgetsConverter
 		// To String
 
 		if ( clazz.equals( String.class ))
+		{
 			return StringUtils.quietValueOf( value );
+		}
 
 		// To NestedWidgets
 
@@ -47,13 +49,17 @@ public class NestedWidgetsConverter
 			String[] values = ArrayUtils.fromString( (String) value );
 
 			if ( values.length == 0 )
+			{
 				return null;
+			}
 
 			NestedWidgets nestedWidgets = new NestedWidgets();
 			nestedWidgets.setNestedTextbox1( values[0] );
 
 			if ( values.length > 1 )
+			{
 				nestedWidgets.setNestedTextbox2( values[1] );
+			}
 
 			return nestedWidgets;
 		}

@@ -64,7 +64,9 @@ public class GridLayoutConfig
 	public GridLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 1 )
+		{
 			throw LayoutException.newException( "numberOfColumns must be >= 1" );
+		}
 
 		mNumberOfColumns = numberOfColumns;
 
@@ -171,34 +173,54 @@ public class GridLayoutConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mNumberOfColumns != ( (GridLayoutConfig) that ).mNumberOfColumns )
+		{
 			return false;
+		}
 
 		if ( mLabelAlignment != ( (GridLayoutConfig) that ).mLabelAlignment )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelFont, ( (GridLayoutConfig) that ).mLabelFont ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelForeground, ( (GridLayoutConfig) that ).mLabelForeground ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ( (GridLayoutConfig) that ).mLabelSuffix ) )
+		{
 			return false;
+		}
 
 		if ( mRequiredAlignment != ( (GridLayoutConfig) that ).mRequiredAlignment )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ( (GridLayoutConfig) that ).mRequiredText ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

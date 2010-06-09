@@ -66,19 +66,29 @@ public class Pair<L, R>
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLeft, ( (Pair<?, ?>) that ).mLeft ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mRight, ( (Pair<?, ?>) that ).mRight ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

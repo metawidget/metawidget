@@ -88,7 +88,9 @@ public class GwtRemoteInspectorImpl
 		String config = getConfigInitParameter( servletConfig );
 
 		if ( config != null )
+		{
 			servletConfigReader.configure( config, this );
+		}
 
 		// Use default configuration
 

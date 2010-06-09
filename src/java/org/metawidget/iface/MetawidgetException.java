@@ -45,7 +45,9 @@ public class MetawidgetException
 	public static MetawidgetException newException( Throwable cause )
 	{
 		if ( cause instanceof MetawidgetException )
+		{
 			return (MetawidgetException) cause;
+		}
 
 		return new MetawidgetException( cause );
 	}

@@ -44,7 +44,9 @@ public class ValidatingCompositeInspectorConfig
 	public ResourceResolver getResourceResolver()
 	{
 		if ( mResourceResolver == null )
+		{
 			mResourceResolver = new ConfigReader();
+		}
 
 		return mResourceResolver;
 	}
@@ -59,16 +61,24 @@ public class ValidatingCompositeInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (ValidatingCompositeInspectorConfig) that ).mResourceResolver ) )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

@@ -76,7 +76,9 @@ public class CommonsValidatorInspector
 			Element formSet = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), FORMSET_ELEMENT );
 
 			if ( formSet == null )
+			{
 				continue;
+			}
 
 			XmlUtils.combineElements( root, formSet, getTopLevelTypeAttribute(), getNameAttribute() );
 		}
@@ -88,7 +90,9 @@ public class CommonsValidatorInspector
 	protected Map<String, String> inspectProperty( Element toInspect )
 	{
 		if ( !FIELD_ELEMENT.equals( toInspect.getNodeName() ) )
+		{
 			return null;
+		}
 
 		// Name
 
@@ -109,7 +113,9 @@ public class CommonsValidatorInspector
 				// Required
 
 				if ( "required".equals( depends ) )
+				{
 					attributes.put( REQUIRED, TRUE );
+				}
 
 				// Minimum/Maximum values
 
@@ -118,26 +124,36 @@ public class CommonsValidatorInspector
 					String min = getVarValue( firstVar, "min" );
 
 					if ( min != null )
+					{
 						attributes.put( MINIMUM_VALUE, min );
+					}
 
 					String max = getVarValue( firstVar, "max" );
 
 					if ( max != null )
+					{
 						attributes.put( MAXIMUM_VALUE, max );
+					}
 
 					if ( min == null && max == null )
+					{
 						throw InspectorException.newException( "Property '" + name + "' depends on " + depends + " but has no var-name of min or max" );
+					}
 				}
 
 				// Minimum length
 
 				if ( "minlength".equals( depends ) )
+				{
 					attributes.put( MINIMUM_LENGTH, getVarValue( firstVar, "minlength", name, depends ));
+				}
 
 				// Maximum length
 
 				if ( "maxlength".equals( depends ) )
+				{
 					attributes.put( MAXIMUM_LENGTH, getVarValue( firstVar, "maxlength", name, depends ));
+				}
 			}
 		}
 
@@ -177,7 +193,9 @@ public class CommonsValidatorInspector
 		String varValue = getVarValue( firstVar, varName );
 
 		if ( varValue == null )
+		{
 			throw InspectorException.newException( "Property '" + propertyName + "' depends on " + depend + " but has no var-name of " + varName );
+		}
 
 		return varValue;
 	}
@@ -199,7 +217,9 @@ public class CommonsValidatorInspector
 				Element varValueElement = XmlUtils.getChildNamed( var, "var-value" );
 
 				if ( varValueElement == null )
+				{
 					throw InspectorException.newException( "Variable named '" + varName + "' has no var-value" );
+				}
 
 				return varValueElement.getTextContent();
 			}

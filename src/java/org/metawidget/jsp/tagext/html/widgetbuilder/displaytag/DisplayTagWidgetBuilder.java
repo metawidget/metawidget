@@ -64,20 +64,28 @@ public class DisplayTagWidgetBuilder
 			// Not for us?
 
 			if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) )
+			{
 				return null;
+			}
 
 			String type = attributes.get( TYPE );
 
 			if ( type == null || "".equals( type ) )
+			{
 				return null;
+			}
 
 			final Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( clazz == null )
+			{
 				return null;
+			}
 
 			if ( !( Collection.class.isAssignableFrom( clazz ) ) && !clazz.isArray() )
+			{
 				return null;
+			}
 
 			// Evaluate the expression
 			//
@@ -107,9 +115,13 @@ public class DisplayTagWidgetBuilder
 					String componentType;
 
 					if ( clazz.isArray() )
+					{
 						componentType = clazz.getComponentType().getName();
+					}
 					else
+					{
 						componentType = attributes.get( PARAMETERIZED_TYPE );
+					}
 
 					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
 
@@ -129,14 +141,18 @@ public class DisplayTagWidgetBuilder
 							Node node = elements.item( loop );
 
 							if ( !( node instanceof Element ) )
+							{
 								continue;
+							}
 
 							Element element = (Element) node;
 
 							// ...that is visible...
 
 							if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+							{
 								continue;
+							}
 
 							// ...add a column
 

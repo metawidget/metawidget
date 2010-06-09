@@ -127,7 +127,9 @@ public class ContactDialog
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
 		if ( builder.length() > 0 )
+		{
 			builder.append( " - " );
+		}
 
 		// Personal/business icon
 
@@ -184,7 +186,9 @@ public class ContactDialog
 			public void mouseDown( MouseEvent event )
 			{
 				if ( mContactMetawidget.isReadOnly() )
+				{
 					return;
+				}
 
 				// Commit any previous editor control
 
@@ -218,7 +222,9 @@ public class ContactDialog
 				// Ignore pop-up menu
 
 				if ( event.button != 1 )
+				{
 					return;
+				}
 
 				// Identify the selected row...
 
@@ -226,7 +232,9 @@ public class ContactDialog
 				TableItem item = mCommunicationsTable.getItem( point );
 
 				if ( item == null )
+				{
 					return;
+				}
 
 				// ...and column...
 
@@ -245,7 +253,9 @@ public class ContactDialog
 				// ...if any...
 
 				if ( selectedColumn == -1 )
+				{
 					return;
+				}
 
 				// ...load the Communication...
 
@@ -278,7 +288,9 @@ public class ContactDialog
 				int selectionIndex = mCommunicationsTable.getSelectionIndex();
 
 				if ( selectionIndex == -1 )
+				{
 					return;
+				}
 
 				// ...prompt for confirmation...
 
@@ -289,7 +301,9 @@ public class ContactDialog
 					messageBox.setMessage( "Sure you want to delete this communication?" );
 
 					if ( messageBox.open() != SWT.OK )
+					{
 						return;
+					}
 				}
 
 				// ...and delete it
@@ -334,7 +348,9 @@ public class ContactDialog
 		while ( !mShell.isDisposed() )
 		{
 			if ( !display.readAndDispatch() )
+			{
 				display.sleep();
+			}
 		}
 	}
 
@@ -345,15 +361,21 @@ public class ContactDialog
 		if ( mCommunications == null )
 		{
 			if ( communications == null )
+			{
 				mCommunications = CollectionUtils.newArrayList();
+			}
 			else
+			{
 				mCommunications = CollectionUtils.newArrayList( communications );
+			}
 		}
 
 		// Add blank entry at bottom
 
 		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || !"".equals( StringUtils.quietValueOf( mCommunications.get( mCommunications.size() - 1 ) ) ) ) )
+		{
 			mCommunications.add( new Communication() );
+		}
 
 		int loop = 0;
 
@@ -364,9 +386,13 @@ public class ContactDialog
 			TableItem item;
 
 			if ( loop < mCommunicationsTable.getItemCount() )
+			{
 				item = mCommunicationsTable.getItem( loop );
+			}
 			else
+			{
 				item = new TableItem( mCommunicationsTable, SWT.NONE );
+			}
 
 			// ...with contact text
 
@@ -379,7 +405,9 @@ public class ContactDialog
 		// Delete hanging rows
 
 		if ( loop < mCommunicationsTable.getItemCount() )
+		{
 			mCommunicationsTable.remove( loop, mCommunicationsTable.getItemCount() - 1 );
+		}
 	}
 
 	@UiHidden
@@ -452,7 +480,9 @@ public class ContactDialog
 			messageBox.setMessage( "Sure you want to delete this contact?" );
 
 			if ( messageBox.open() != SWT.OK )
+			{
 				return;
+			}
 		}
 
 		mMain.getContactsController().delete( contact );

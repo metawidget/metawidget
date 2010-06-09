@@ -71,7 +71,9 @@ public final class FacesUtils
 		Matcher matcher = PATTERN_EXPRESSION.matcher( value );
 
 		if ( !matcher.matches() )
+		{
 			return value;
+		}
 
 		return matcher.group( 3 );
 	}
@@ -84,7 +86,9 @@ public final class FacesUtils
 	public static String wrapExpression( String value )
 	{
 		if ( isExpression( value ) )
+		{
 			return value;
+		}
 
 		return EXPRESSION_START + unwrapExpression( value ) + EXPRESSION_END;
 	}
@@ -107,14 +111,18 @@ public final class FacesUtils
 			ValueBinding childValueBinding = child.getValueBinding( "value" );
 
 			if ( childValueBinding == null )
+			{
 				continue;
+			}
 
 			// (note: ValueBinding.equals() does not compare expression strings)
 
 			if ( expressionString.equals( childValueBinding.getExpressionString() ) )
 			{
 				if ( child.isRendered() )
+				{
 					return child;
+				}
 			}
 		}
 
@@ -135,21 +143,27 @@ public final class FacesUtils
 		for ( UIComponent child : component.getChildren() )
 		{
 			if ( !( child instanceof ActionSource ) )
+			{
 				continue;
+			}
 
 			// ...with the binding we're interested in
 
 			MethodBinding childMethodBinding = ( (ActionSource) child ).getAction();
 
 			if ( childMethodBinding == null )
+			{
 				continue;
+			}
 
 			// (note: MethodBinding.equals() does not compare expression strings)
 
 			if ( expressionString.equals( childMethodBinding.getExpressionString() ) )
 			{
 				if ( child.isRendered() )
+				{
 					return child;
+				}
 			}
 		}
 
@@ -163,14 +177,18 @@ public final class FacesUtils
 		for ( UIComponent child : component.getChildren() )
 		{
 			if ( !( child instanceof UIParameter ) )
+			{
 				continue;
+			}
 
 			// ...with the name we're interested in
 
 			UIParameter parameter = (UIParameter) child;
 
 			if ( name.equals( parameter.getName() ) )
+			{
 				return parameter;
+			}
 		}
 
 		return null;
@@ -180,14 +198,20 @@ public final class FacesUtils
 		throws IOException
 	{
 		if ( component == null || !component.isRendered() )
+		{
 			return;
+		}
 
 		component.encodeBegin( context );
 
 		if ( component.getRendersChildren() )
+		{
 			component.encodeChildren( context );
+		}
 		else
+		{
 			renderChildren( context, component );
+		}
 
 		component.encodeEnd( context );
 	}
@@ -203,7 +227,9 @@ public final class FacesUtils
 		for ( UIComponent component : from.getChildren() )
 		{
 			if ( !( component instanceof UIParameter ) )
+			{
 				continue;
+			}
 
 			// ...create a copy
 

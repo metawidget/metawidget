@@ -56,7 +56,9 @@ public class DateToStringConverter
 	public Object convert( Object toConvert )
 	{
 		if ( toConvert == null )
+		{
 			return "";
+		}
 
 		synchronized ( FORMAT )
 		{

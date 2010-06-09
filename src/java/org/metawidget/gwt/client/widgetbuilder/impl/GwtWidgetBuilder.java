@@ -60,12 +60,16 @@ public class GwtWidgetBuilder
 		// ButtonBase which implements HasHTML which extends HasText)
 
 		if ( widget instanceof CheckBox )
+		{
 			return ( (CheckBox) widget ).getValue();
+		}
 
 		// HasText
 
 		if ( widget instanceof HasText )
+		{
 			return ( (HasText) widget ).getText();
+		}
 
 		// ListBox
 
@@ -116,25 +120,33 @@ public class GwtWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub();
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new Button( metawidget.getLabelString( attributes ) );
+		}
 
 		String type = GwtUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
 		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return new CheckBox();
+		}
 
 		// Lookups
 
@@ -154,7 +166,9 @@ public class GwtWidgetBuilder
 			// booleans
 
 			if ( "boolean".equals( type ) )
+			{
 				return new CheckBox();
+			}
 
 			// chars
 
@@ -176,17 +190,23 @@ public class GwtWidgetBuilder
 		if ( String.class.getName().equals( type ) )
 		{
 			if ( TRUE.equals( attributes.get( MASKED ) ) )
+			{
 				return new PasswordTextBox();
+			}
 
 			if ( TRUE.equals( attributes.get( LARGE ) ) )
+			{
 				return new TextArea();
+			}
 
 			TextBox textBox = new TextBox();
 
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
 			if ( maximumLength != null && !"".equals( maximumLength ) )
+			{
 				textBox.setMaxLength( Integer.parseInt( maximumLength ) );
+			}
 
 			return textBox;
 		}
@@ -194,7 +214,9 @@ public class GwtWidgetBuilder
 		// Dates
 
 		if ( Date.class.getName().equals( type ) )
+		{
 			return new TextBox();
+		}
 
 		if ( GwtUtils.isPrimitiveWrapper( type ) )
 		{
@@ -216,12 +238,16 @@ public class GwtWidgetBuilder
 		// Collections
 
 		if ( GwtUtils.isCollection( type ) )
+		{
 			return new Stub();
+		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new TextBox();
+		}
 
 		// Nested Metawidget
 
@@ -235,7 +261,9 @@ public class GwtWidgetBuilder
 	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
 	{
 		if ( values == null )
+		{
 			return;
+		}
 
 		// Empty option
 		//
@@ -243,12 +271,16 @@ public class GwtWidgetBuilder
 		// value. It always comes back as String "null"
 
 		if ( GwtUtils.needsEmptyLookupItem( attributes ) )
+		{
 			addListBoxItem( listBox, "", null );
+		}
 
 		// See if we're using labels
 
 		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
+		{
 			throw new RuntimeException( "Labels list must be same size as values list" );
+		}
 
 		// Add the select items
 
@@ -258,7 +290,9 @@ public class GwtWidgetBuilder
 			String label = null;
 
 			if ( labels != null && !labels.isEmpty() )
+			{
 				label = labels.get( loop );
+			}
 
 			addListBoxItem( listBox, value, label );
 		}

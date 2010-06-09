@@ -96,7 +96,9 @@ public class XmlUtils
 	public static void setMapAsAttributes( Element element, Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return;
+		}
 
 		for ( Map.Entry<String, String> entry : attributes.entrySet() )
 		{
@@ -114,7 +116,9 @@ public class XmlUtils
 	public static Element getChildNamed( Element element, String... names )
 	{
 		if ( element == null )
+		{
 			return null;
+		}
 
 		Element child = null;
 		NodeList children = element.getChildNodes();
@@ -126,7 +130,9 @@ public class XmlUtils
 				Node node = children.item( loop );
 
 				if ( !( node instanceof Element ) )
+				{
 					continue;
+				}
 
 				child = (Element) node;
 
@@ -148,7 +154,9 @@ public class XmlUtils
 	public static Element getChildWithAttribute( Element element, String attributeName )
 	{
 		if ( element == null )
+		{
 			return null;
+		}
 
 		NodeList children = element.getChildNodes();
 
@@ -157,12 +165,16 @@ public class XmlUtils
 			Node node = children.item( loop );
 
 			if ( !( node instanceof Element ) )
+			{
 				continue;
+			}
 
 			Element child = (Element) node;
 
 			if ( child.hasAttribute( attributeName ) )
+			{
 				return child;
+			}
 		}
 
 		return null;
@@ -171,7 +183,9 @@ public class XmlUtils
 	public static Element getChildWithAttributeValue( Element element, String attributeName, String attributeValue )
 	{
 		if ( element == null )
+		{
 			return null;
+		}
 
 		NodeList children;
 
@@ -221,14 +235,18 @@ public class XmlUtils
 			}
 
 			if ( !( node instanceof Element ) )
+			{
 				continue;
+			}
 
 			Element child = (Element) node;
 
 			try
 			{
 				if ( attributeValue.equals( child.getAttribute( attributeName ) ) )
+				{
 					return child;
+				}
 			}
 			catch ( NullPointerException e )
 			{
@@ -246,7 +264,9 @@ public class XmlUtils
 	public static Element getSiblingNamed( Element element, String name )
 	{
 		if ( element == null )
+		{
 			return null;
+		}
 
 		Node nodeNextSibling = element;
 
@@ -255,13 +275,19 @@ public class XmlUtils
 			nodeNextSibling = nodeNextSibling.getNextSibling();
 
 			if ( nodeNextSibling == null )
+			{
 				return null;
+			}
 
 			if ( !( nodeNextSibling instanceof Element ) )
+			{
 				continue;
+			}
 
 			if ( name.equals( nodeNextSibling.getNodeName() ) )
+			{
 				return (Element) nodeNextSibling;
+			}
 		}
 	}
 
@@ -285,7 +311,9 @@ public class XmlUtils
 				Node node = nodeList.item( loop );
 
 				if ( !( node instanceof Element ) )
+				{
 					continue;
+				}
 
 				imported.appendChild( importElement( document, (Element) node ) );
 			}
@@ -314,7 +342,9 @@ public class XmlUtils
 		// Nothing to do?
 
 		if ( document == null )
+		{
 			return "";
+		}
 
 		return nodeToString( document.getFirstChild(), ( pretty ? 0 : -1 ) );
 	}
@@ -322,7 +352,9 @@ public class XmlUtils
 	public static Document documentFromString( String xml )
 	{
 		if ( xml == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -391,10 +423,14 @@ public class XmlUtils
 			Node node = nodes.item( loop );
 
 			if ( !( node instanceof Element ) )
+			{
 				continue;
+			}
 
 			if ( actualIndex == index )
+			{
 				return (Element) node;
+			}
 
 			actualIndex++;
 		}
@@ -428,7 +464,9 @@ public class XmlUtils
 			String attributeToAddValue = nodeToAdd.getNodeValue();
 
 			if ( attributeToAddValue == null || attributeToAddValue.length() == 0 )
+			{
 				master.removeAttribute( attributeToAddName );
+			}
 
 			master.setAttribute( attributeToAddName, attributeToAddValue );
 		}
@@ -447,16 +485,22 @@ public class XmlUtils
 			Node nodeChildToAdd = childrenToAdd.item( addLoop );
 
 			if ( !( nodeChildToAdd instanceof Element ) )
+			{
 				continue;
+			}
 
 			Element childToAdd = (Element) nodeChildToAdd;
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
 			if ( childToAddName == null || "".equals( childToAddName ) )
+			{
 				throw new RuntimeException( "Child node #" + addLoop + " (" + childToAdd.getNodeName() + ") has no @" + topLevelAttributeToCombineOn );
+			}
 
 			if ( !childNamesAdded.add( childToAddName ) )
+			{
 				throw new RuntimeException( "Element has more than one child with @" + topLevelAttributeToCombineOn + " '" + childToAddName + "'" );
+			}
 
 			// ...find one with the same @name in the 'master'...
 
@@ -465,26 +509,36 @@ public class XmlUtils
 				Node nodeMasterChild = masterChildren.item( masterLoop );
 
 				if ( !( nodeMasterChild instanceof Element ) )
+				{
 					continue;
+				}
 
 				Element masterChild = (Element) nodeMasterChild;
 				String masterChildName = masterChild.getAttribute( topLevelAttributeToCombineOn );
 
 				if ( !childToAddName.equals( masterChildName ) )
+				{
 					continue;
+				}
 
 				String nodeNameInMaster = masterChild.getNodeName();
 				String nodeNameInAdd = childToAdd.getNodeName();
 
 				if ( !nodeNameInMaster.equals( nodeNameInAdd ) )
+				{
 					throw new RuntimeException( "Matching elements named '" + masterChildName + "', but existing one is a '" + nodeNameInMaster + "' whilst new one is a '" + nodeNameInAdd + "'" );
+				}
 
 				// ...and combine them
 
 				if ( masterLoop == masterLength - 1 )
+				{
 					nodeLastMasterCombinePoint = null;
+				}
 				else
+				{
 					nodeLastMasterCombinePoint = masterChild;
+				}
 
 				combineElements( masterChild, childToAdd, childAttributeToCombineOn, childAttributeToCombineOn );
 				continue outerLoop;
@@ -584,12 +638,16 @@ public class XmlUtils
 		public void pause( boolean includeLastEvent )
 		{
 			if ( isPaused() )
+			{
 				throw new RuntimeException( "CachingContentHandler already paused" );
+			}
 
 			mCachingPaused = true;
 
 			if ( !includeLastEvent )
+			{
 				mCache.remove( mCache.size() - 1 );
+			}
 		}
 
 		/**
@@ -601,12 +659,16 @@ public class XmlUtils
 		public void unpause( boolean includeLastEvent )
 		{
 			if ( !isPaused() )
+			{
 				throw new RuntimeException( "CachingContentHandler not paused" );
+			}
 
 			mCachingPaused = false;
 
 			if ( includeLastEvent )
+			{
 				mCache.add( mLastCommand );
+			}
 		}
 
 		/**
@@ -622,7 +684,9 @@ public class XmlUtils
 			throws SAXException
 		{
 			if ( mCache.isEmpty() )
+			{
 				throw new SAXException( "Nothing to replay. Not cached any SAX events" );
+			}
 
 			for ( CachedCommand cachedEvent : mCache )
 			{
@@ -643,7 +707,9 @@ public class XmlUtils
 			if ( !mCachingPaused )
 			{
 				if ( !mCache.isEmpty() )
+				{
 					throw new SAXException( "Already cached SAX events. CachingContentHandler can only cache SAX events once" );
+				}
 
 				mCache.add( mLastCommand );
 			}
@@ -658,7 +724,9 @@ public class XmlUtils
 			mLastCommand = new ProcessingInstructionCommand( target, data );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -676,7 +744,9 @@ public class XmlUtils
 			mLastCommand = new SkippedEntityCommand( name );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -688,7 +758,9 @@ public class XmlUtils
 			mLastCommand = new StartPrefixMappingCommand( prefix, uri );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -700,7 +772,9 @@ public class XmlUtils
 			mLastCommand = new EndPrefixMappingCommand( prefix );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -712,7 +786,9 @@ public class XmlUtils
 			mLastCommand = new StartElementCommand( uri, localName, name, attributes );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -724,7 +800,9 @@ public class XmlUtils
 			mLastCommand = new CharactersCommand( characters, start, length );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -736,7 +814,9 @@ public class XmlUtils
 			mLastCommand = new IgnorableWhitespaceCommand( characters, start, length );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -748,7 +828,9 @@ public class XmlUtils
 			mLastCommand = new EndElementCommand( uri, localName, name );
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 		}
@@ -760,7 +842,9 @@ public class XmlUtils
 			mLastCommand = new EndDocumentCommand();
 
 			if ( !mCachingPaused )
+			{
 				mCache.add( mLastCommand );
+			}
 
 			mLastCommand.replay( mDelegate );
 
@@ -1185,7 +1269,9 @@ public class XmlUtils
 		// Ignore non-Elements
 
 		if ( !( node instanceof Element ) )
+		{
 			return "";
+		}
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -1239,12 +1325,16 @@ public class XmlUtils
 			// (I'm a bit surprised xmlns is an attribute - is that a bug?)
 
 			if ( "xmlns".equals( attributeName ) )
+			{
 				continue;
+			}
 
 			// (always put name first for easy unit tests)
 
 			if ( "name".equals( attributeName ) )
+			{
 				continue;
+			}
 
 			buffer.append( " " );
 			buffer.append( escapeForXml( attributeName ) );
@@ -1294,7 +1384,9 @@ public class XmlUtils
 		}
 
 		if ( indent > 0 )
+		{
 			buffer.append( "\n" );
+		}
 
 		return buffer.toString();
 	}
@@ -1302,7 +1394,9 @@ public class XmlUtils
 	private static String escapeForXml( String in )
 	{
 		if ( in == null )
+		{
 			return "";
+		}
 
 		String out = in;
 

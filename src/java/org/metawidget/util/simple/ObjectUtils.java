@@ -35,12 +35,16 @@ public final class ObjectUtils
 	public static int nullSafeHashCode( Object toHash )
 	{
 		if ( toHash == null )
+		{
 			return 0;
+		}
 
 		// Array.hashCode is broken by default
 
 		if ( toHash.getClass().isArray() )
+		{
 			return deepHashCode( (Object[]) toHash );
+		}
 
 		return toHash.hashCode();
 	}
@@ -60,14 +64,18 @@ public final class ObjectUtils
 	public static boolean nullSafeEquals( Object object1, Object object2 )
 	{
 		if ( object1 == null )
+		{
 			return ( object2 == null );
+		}
 
 		// Array.equals is broken by default
 
 		if ( object1.getClass().isArray() )
 		{
 			if ( object2 == null || !object2.getClass().isArray() )
+			{
 				return false;
+			}
 
 			return deepEquals( (Object[]) object1, (Object[]) object2 );
 		}
@@ -86,12 +94,16 @@ public final class ObjectUtils
 		if ( object1 == null )
 		{
 			if ( object2 == null )
+			{
 				return 0;
+			}
 
 			return -1;
 		}
 		else if ( object2 == null )
+		{
 			return 1;
+		}
 
 		return object1.compareTo( object2 );
 	}
@@ -108,7 +120,9 @@ public final class ObjectUtils
 	private static int deepHashCode( Object a[] )
 	{
 		if ( a == null )
+		{
 			return 0;
+		}
 
 		int result = 1;
 
@@ -116,9 +130,13 @@ public final class ObjectUtils
 		{
 			int elementHash = 0;
 			if ( element instanceof Object[] )
+			{
 				elementHash = deepHashCode( (Object[]) element );
+			}
 			else if ( element != null )
+			{
 				elementHash = element.hashCode();
+			}
 
 			result = 31 * result + elementHash;
 		}
@@ -134,12 +152,18 @@ public final class ObjectUtils
 	private static boolean deepEquals( Object[] a1, Object[] a2 )
 	{
 		if ( a1 == a2 )
+		{
 			return true;
+		}
 		if ( a1 == null || a2 == null )
+		{
 			return false;
+		}
 		int length = a1.length;
 		if ( a2.length != length )
+		{
 			return false;
+		}
 
 		for ( int i = 0; i < length; i++ )
 		{
@@ -147,19 +171,29 @@ public final class ObjectUtils
 			Object e2 = a2[i];
 
 			if ( e1 == e2 )
+			{
 				continue;
+			}
 			if ( e1 == null )
+			{
 				return false;
+			}
 
 			// Figure out whether the two elements are equal
 			boolean eq;
 			if ( e1 instanceof Object[] && e2 instanceof Object[] )
+			{
 				eq = deepEquals( (Object[]) e1, (Object[]) e2 );
+			}
 			else
+			{
 				eq = e1.equals( e2 );
+			}
 
 			if ( !eq )
+			{
 				return false;
+			}
 		}
 		return true;
 	}

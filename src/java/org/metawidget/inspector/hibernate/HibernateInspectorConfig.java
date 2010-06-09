@@ -78,16 +78,24 @@ public class HibernateInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mHideIds != ((HibernateInspectorConfig) that).mHideIds )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

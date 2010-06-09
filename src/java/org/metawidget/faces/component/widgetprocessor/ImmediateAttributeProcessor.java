@@ -47,7 +47,9 @@ public class ImmediateAttributeProcessor
 		String immediateString = attributes.get( FACES_IMMEDIATE );
 
 		if ( immediateString == null )
+		{
 			return component;
+		}
 
 		boolean immediate = Boolean.parseBoolean( immediateString );
 

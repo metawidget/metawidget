@@ -85,7 +85,9 @@ public class IncludingInspectionResultProcessorExampleTest
 				Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, include );
 
 				if ( property == null )
+				{
 					continue;
+				}
 
 				entity.appendChild( property );
 				propertiesToCleanup--;

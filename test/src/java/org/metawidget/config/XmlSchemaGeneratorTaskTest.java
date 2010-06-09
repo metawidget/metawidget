@@ -96,7 +96,9 @@ public class XmlSchemaGeneratorTaskTest
 					String nestedFilename = nestedFile.getName();
 
 					if ( "index.html".equals( nestedFilename ))
+					{
 						continue;
+					}
 
 					assertTrue( nestedFilename, contents.contains( "<li><a href=\"" + nestedFilename + "\">" + nestedFilename + "</a></li>" ));
 				}

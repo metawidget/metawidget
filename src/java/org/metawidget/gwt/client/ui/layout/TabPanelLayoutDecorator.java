@@ -85,12 +85,16 @@ public class TabPanelLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		tabPanel.add( newPanel, localizedSection );
 
 		if ( previousSectionWidget == null )
+		{
 			tabPanel.selectTab( 0 );
+		}
 
 		return newPanel;
 	}

@@ -58,7 +58,9 @@ public class MapBindingProcessor
 		// Don't bind to Actions
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return widget;
+		}
 
 		// Nested Metawidgets are not bound, only remembered
 
@@ -67,7 +69,9 @@ public class MapBindingProcessor
 			State state = getState( metawidget );
 
 			if ( state.nestedMetawidgets == null )
+			{
 				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
+			}
 
 			state.nestedMetawidgets.add( (GwtMetawidget) widget );
 			return widget;
@@ -76,22 +80,30 @@ public class MapBindingProcessor
 		// MapBindingProcessor doesn't bind to Stubs or FlexTables
 
 		if ( widget instanceof Stub || widget instanceof FlexTable )
+		{
 			return widget;
+		}
 
 		String path = metawidget.getPath();
 
 		if ( PROPERTY.equals( elementName ) )
+		{
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+		}
 
 		try
 		{
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
+			{
 				return widget;
+			}
 
 			State state = getState( metawidget );
 
 			if ( state.bindings == null )
+			{
 				state.bindings = new HashSet<String[]>();
+			}
 
 			state.bindings.add( PathUtils.parsePath( path ).getNamesAsArray() );
 		}

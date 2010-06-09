@@ -139,7 +139,9 @@ public class GridBagLayout
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
+		{
 			return;
+		}
 
 		// Special support for large components
 
@@ -157,7 +159,9 @@ public class GridBagLayout
 		String labelText = null;
 
 		if ( attributes != null )
+		{
 			labelText = metawidget.getLabelString( attributes );
+		}
 
 		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
 
@@ -166,7 +170,9 @@ public class GridBagLayout
 		GridBagConstraints componentConstraints = new GridBagConstraints();
 
 		if ( !( component instanceof JButton ) )
+		{
 			componentConstraints.fill = GridBagConstraints.BOTH;
+		}
 
 		componentConstraints.anchor = GridBagConstraints.WEST;
 		componentConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
@@ -281,10 +287,14 @@ public class GridBagLayout
 			label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			if ( mLabelFont != null )
+			{
 				label.setFont( mLabelFont );
+			}
 
 			if ( mLabelForeground != null )
+			{
 				label.setForeground( mLabelForeground );
+			}
 
 			label.setHorizontalAlignment( mLabelAlignment );
 
@@ -295,13 +305,19 @@ public class GridBagLayout
 			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
 				if ( mRequiredAlignment == SwingConstants.CENTER )
+				{
 					labelTextToUse += mRequiredText;
+				}
 				else if ( mRequiredAlignment == SwingConstants.LEFT )
+				{
 					labelTextToUse = mRequiredText + labelTextToUse;
+				}
 			}
 
 			if ( mLabelSuffix != null )
+			{
 				labelTextToUse += mLabelSuffix;
+			}
 
 			label.setText( labelTextToUse );
 
@@ -321,9 +337,13 @@ public class GridBagLayout
 			// first column, so the label lines up with the component nicely
 
 			if ( state.currentColumn == 0 )
+			{
 				labelConstraints.insets = state.defaultLabelInsetsFirstColumn;
+			}
 			else
+			{
 				labelConstraints.insets = state.defaultLabelInsetsRemainderColumns;
+			}
 
 			container.add( label, labelConstraints );
 		}
@@ -336,10 +356,14 @@ public class GridBagLayout
 		State state = getState( container );
 
 		if ( mRequiredAlignment != SwingConstants.RIGHT )
+		{
 			return;
+		}
 
 		if ( attributes == null || !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || metawidget.isReadOnly() )
+		{
 			return;
+		}
 
 		JLabel star = new JLabel();
 		star.setText( mRequiredText );
@@ -350,9 +374,13 @@ public class GridBagLayout
 		starConstraints.anchor = GridBagConstraints.NORTHWEST;
 
 		if ( state.currentColumn == 0 )
+		{
 			starConstraints.insets = state.defaultLabelInsetsFirstColumn;
+		}
 		else
+		{
 			starConstraints.insets = state.defaultLabelInsetsRemainderColumns;
+		}
 
 		container.add( star, starConstraints );
 	}
@@ -360,10 +388,14 @@ public class GridBagLayout
 	protected boolean willFillHorizontally( JComponent component, Map<String, String> attributes )
 	{
 		if ( component instanceof JScrollPane )
+		{
 			return true;
+		}
 
 		if ( component instanceof SwingMetawidget )
+		{
 			return true;
+		}
 
 		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
@@ -371,10 +403,14 @@ public class GridBagLayout
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
 	{
 		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
+		{
 			return true;
+		}
 
 		if ( component instanceof JScrollPane )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -392,7 +428,9 @@ public class GridBagLayout
 	private int getEffectiveNumberOfColumns( SwingMetawidget metawidget )
 	{
 		if ( metawidget.getParent() instanceof SwingMetawidget )
+		{
 			return 1;
+		}
 
 		return mNumberOfColumns;
 	}

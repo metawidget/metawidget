@@ -71,14 +71,18 @@ public abstract class StubTag
 		throws JspException
 	{
 		if ( mAttributes == null )
+		{
 			mAttributes = CollectionUtils.newHashMap();
+		}
 
 		for ( String nameAndValue : CollectionUtils.fromString( attributes, ';' ) )
 		{
 			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
 
 			if ( nameAndValueList.size() != 2 )
+			{
 				throw new JspException( "Unrecognized value '" + nameAndValue + "'" );
+			}
 
 			mAttributes.put( nameAndValueList.get( 0 ), nameAndValueList.get( 1 ) );
 		}
@@ -108,12 +112,18 @@ public abstract class StubTag
 		MetawidgetTag tagMetawidget = (MetawidgetTag) findAncestorWithClass( this, MetawidgetTag.class );
 
 		if ( tagMetawidget == null )
+		{
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
+		}
 
 		if ( bodyContent == null )
+		{
 			mSavedBodyContent = null;
+		}
 		else
+		{
 			mSavedBodyContent = bodyContent.getString();
+		}
 
 		tagMetawidget.setStub( mPath, this );
 

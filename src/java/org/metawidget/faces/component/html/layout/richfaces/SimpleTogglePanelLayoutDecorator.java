@@ -91,7 +91,9 @@ public class SimpleTogglePanelLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		panel.setLabel( localizedSection );
 

@@ -108,28 +108,44 @@ public class IceFacesWidgetBuilderTest
 				throws FacesException
 			{
 				if ( "com.icesoft.faces.SelectInputDate".equals( componentName ) )
+				{
 					return new SelectInputDate();
+				}
 
 				if ( "com.icesoft.faces.HtmlInputText".equals( componentName ) )
+				{
 					return new HtmlInputText();
+				}
 
 				if ( "com.icesoft.faces.HtmlInputTextarea".equals( componentName ) )
+				{
 					return new HtmlInputTextarea();
+				}
 
 				if ( "com.icesoft.faces.HtmlInputSecret".equals( componentName ) )
+				{
 					return new HtmlInputSecret();
+				}
 
 				if ( "com.icesoft.faces.HtmlCommandButton".equals( componentName ) )
+				{
 					return new HtmlCommandButton();
+				}
 
 				if ( "com.icesoft.faces.HtmlSelectOneListbox".equals( componentName ) )
+				{
 					return new HtmlSelectOneListbox();
+				}
 
 				if ( "com.icesoft.faces.HtmlSelectManyCheckbox".equals( componentName ) )
+				{
 					return new HtmlSelectManyCheckbox();
+				}
 
 				if ( "com.icesoft.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
+				{
 					return new HtmlSelectBooleanCheckbox();
+				}
 
 				return super.createComponent( componentName );
 			}

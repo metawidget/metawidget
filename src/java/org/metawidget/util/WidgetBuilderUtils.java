@@ -57,10 +57,14 @@ public final class WidgetBuilderUtils
 	public static boolean isReadOnly( Map<String, String> attributes )
 	{
 		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
+		{
 			return true;
+		}
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -76,12 +80,16 @@ public final class WidgetBuilderUtils
 		String type = attributes.get( ACTUAL_CLASS );
 
 		if ( type != null && !"".equals( type ) )
+		{
 			return type;
+		}
 
 		type = attributes.get( TYPE );
 
 		if ( "".equals( type ) )
+		{
 			return null;
+		}
 
 		return type;
 	}
@@ -93,10 +101,14 @@ public final class WidgetBuilderUtils
 	public static boolean needsEmptyLookupItem( Map<String, String> attributes )
 	{
 		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) )
+		{
 			return true;
+		}
 
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return false;
+		}
 
 		String type = getActualClassOrType( attributes );
 
@@ -111,7 +123,9 @@ public final class WidgetBuilderUtils
 			Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( clazz != null && clazz.isPrimitive() )
+			{
 				return false;
+			}
 		}
 
 		return true;

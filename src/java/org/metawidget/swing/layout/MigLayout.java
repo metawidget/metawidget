@@ -127,7 +127,9 @@ public class MigLayout
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
+		{
 			return;
+		}
 
 		// Special support for large components
 
@@ -145,7 +147,9 @@ public class MigLayout
 		String labelText = null;
 
 		if ( attributes != null )
+		{
 			labelText = metawidget.getLabelString( attributes );
+		}
 
 		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
 
@@ -235,9 +239,13 @@ public class MigLayout
 			// Required
 
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
+			{
 				label.setText( labelText + "*:" );
+			}
 			else
+			{
 				label.setText( labelText + ":" );
+			}
 
 			CC labelConstraints = new CC();
 			labelConstraints.cell( state.currentColumn * 2, state.currentRow );
@@ -264,10 +272,14 @@ public class MigLayout
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
 	{
 		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
+		{
 			return true;
+		}
 
 		if ( component instanceof JScrollPane )
+		{
 			return true;
+		}
 
 		return false;
 	}

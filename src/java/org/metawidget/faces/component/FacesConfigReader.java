@@ -51,7 +51,9 @@ public class FacesConfigReader
 			URL url = FacesContext.getCurrentInstance().getExternalContext().getResource( "/WEB-INF/" + resource );
 
 			if ( url != null )
+			{
 				return url.openStream();
+			}
 		}
 		catch ( Exception e )
 		{

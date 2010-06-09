@@ -85,7 +85,9 @@ public class Stub
 	public void setAttribute( String name, String value )
 	{
 		if ( mAttributes == null )
+		{
 			mAttributes = CollectionUtils.newHashMap();
+		}
 
 		mAttributes.put( name, value );
 	}

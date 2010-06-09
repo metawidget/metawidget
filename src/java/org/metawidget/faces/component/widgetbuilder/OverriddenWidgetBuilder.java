@@ -53,7 +53,9 @@ public class OverriddenWidgetBuilder
 		ValueBinding metawidgetValueBinding = metawidget.getValueBinding( "value" );
 
 		if ( metawidgetValueBinding == null )
+		{
 			return null;
+		}
 
 		// Actions
 

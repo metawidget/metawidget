@@ -63,7 +63,9 @@ public class ReadOnlyWidgetBuilder
 			// everywhere in client code
 
 			if ( text instanceof SpannableStringBuilder )
+			{
 				text = text.toString();
+			}
 
 			return text;
 		}
@@ -93,17 +95,23 @@ public class ReadOnlyWidgetBuilder
 		// Not read-only?
 
 		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
+		{
 			return null;
+		}
 
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub( metawidget.getContext() );
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new Stub( metawidget.getContext() );
+		}
 
 		// Masked (return an invisible View, so that we DO still
 		// render a label and reserve some blank space)
@@ -121,14 +129,18 @@ public class ReadOnlyWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
+		{
 			return new TextView( metawidget.getContext() );
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		// Lookup the Class
 
@@ -137,30 +149,44 @@ public class ReadOnlyWidgetBuilder
 		if ( clazz != null )
 		{
 			if ( clazz.isPrimitive() )
+			{
 				return new TextView( metawidget.getContext() );
+			}
 
 			if ( String.class.equals( clazz ) )
+			{
 				return new TextView( metawidget.getContext() );
+			}
 
 			if ( Date.class.equals( clazz ) )
+			{
 				return new TextView( metawidget.getContext() );
+			}
 
 			if ( Boolean.class.equals( clazz ) )
+			{
 				return new TextView( metawidget.getContext() );
+			}
 
 			if ( Number.class.isAssignableFrom( clazz ) )
+			{
 				return new TextView( metawidget.getContext() );
+			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new Stub( metawidget.getContext() );
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new TextView( metawidget.getContext() );
+		}
 
 		// Nested Metawidget
 

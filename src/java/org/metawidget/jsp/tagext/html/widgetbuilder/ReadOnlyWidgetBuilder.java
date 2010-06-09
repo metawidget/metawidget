@@ -59,41 +59,55 @@ public class ReadOnlyWidgetBuilder
 		// Not read-only?
 
 		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
+		{
 			return null;
+		}
 
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return null;
+		}
 
 		// Action (read-only actions ignored)
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new HtmlStubTag();
+		}
 
 		// Masked (return an empty String, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
+		{
 			return new LiteralTag( "" );
+		}
 
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
+		{
 			return writeReadOnlyTag( attributes, metawidget );
+		}
 
 		String jspLookup = attributes.get( JSP_LOOKUP );
 
 		if ( jspLookup != null && !"".equals( jspLookup ) )
+		{
 			return writeReadOnlyTag( attributes, metawidget );
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -102,33 +116,45 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() )
+			{
 				return writeReadOnlyTag( attributes, metawidget );
+			}
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
+			{
 				return writeReadOnlyTag( attributes, metawidget );
+			}
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) )
+			{
 				return writeReadOnlyTag( attributes, metawidget );
+			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) )
+			{
 				return writeReadOnlyTag( attributes, metawidget );
+			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new HtmlStubTag();
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return writeReadOnlyTag( attributes, metawidget );
+		}
 
 		// Nested Metawidget
 
@@ -160,7 +186,9 @@ public class ReadOnlyWidgetBuilder
 				List<String> lookupLabelsList = CollectionUtils.fromString( lookupLabels );
 
 				if ( indexOf < lookupLabelsList.size() )
+				{
 					value = lookupLabelsList.get( indexOf );
+				}
 			}
 		}
 
@@ -183,7 +211,9 @@ public class ReadOnlyWidgetBuilder
 			// as 'just a hidden field'
 
 			if ( "".equals( value ) )
+			{
 				buffer.append( "&nbsp;" );
+			}
 		}
 
 		return new LiteralTag( buffer.toString() );

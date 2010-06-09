@@ -45,7 +45,9 @@ public class InspectionResultProcessorException
 	public static InspectionResultProcessorException newException( Throwable cause )
 	{
 		if ( cause instanceof InspectionResultProcessorException )
+		{
 			return (InspectionResultProcessorException) cause;
+		}
 
 		return new InspectionResultProcessorException( cause );
 	}

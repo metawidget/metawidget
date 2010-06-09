@@ -55,12 +55,16 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
 		if ( getWidgetProcessors() == null )
+		{
 			return null;
+		}
 
 		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() )
 		{
 			if ( widgetProcessorClass.isAssignableFrom( widgetProcessor.getClass() ) )
+			{
 				return (T) widgetProcessor;
+			}
 		}
 
 		return null;
@@ -80,19 +84,29 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass )
 	{
 		if ( getInspector() == null )
+		{
 			configReader.configure( configuration, getPipelineOwner(), "inspector" );
+		}
 
 		if ( getInspectionResultProcessors() == null )
+		{
 			configReader.configure( configuration, getPipelineOwner(), "inspectionResultProcessors" );
+		}
 
 		if ( getWidgetBuilder() == null )
+		{
 			configReader.configure( configuration, getPipelineOwner(), "widgetBuilder" );
+		}
 
 		if ( getWidgetProcessors() == null )
+		{
 			configReader.configure( configuration, getPipelineOwner(), "widgetProcessors" );
+		}
 
 		if ( getLayout() == null )
+		{
 			configReader.configure( configuration, getPipelineOwner(), "layout" );
+		}
 	}
 
 	//

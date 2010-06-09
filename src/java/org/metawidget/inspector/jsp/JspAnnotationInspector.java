@@ -100,13 +100,17 @@ public class JspAnnotationInspector
 		UiJspAttribute jspAttribute = trait.getAnnotation( UiJspAttribute.class );
 
 		if ( jspAttributes == null && jspAttribute == null )
+		{
 			return null;
+		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
 
 		if ( pageContext == null )
+		{
 			throw InspectorException.newException( "ThreadLocalPageContext not set" );
+		}
 
 		ExpressionEvaluator expressionEvaluator;
 
@@ -152,7 +156,9 @@ public class JspAnnotationInspector
 		UiJspLookup jspLookup = property.getAnnotation( UiJspLookup.class );
 
 		if ( jspLookup != null )
+		{
 			attributes.put( JSP_LOOKUP, jspLookup.value() );
+		}
 
 		return attributes;
 	}
@@ -163,12 +169,16 @@ public class JspAnnotationInspector
 		String expression = jspAttribute.expression();
 
 		if ( !JspUtils.isExpression( expression ) )
+		{
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form ${...}" );
+		}
 
 		Object value = expressionEvaluator.evaluate( expression, Object.class, variableResolver, null );
 
 		if ( value == null )
+		{
 			return;
+		}
 
 		if ( value instanceof Collection<?> )
 		{

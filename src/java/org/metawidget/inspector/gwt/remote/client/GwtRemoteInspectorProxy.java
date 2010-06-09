@@ -93,7 +93,9 @@ public class GwtRemoteInspectorProxy
 	public void inspect( Object toInspect, String type, String[] names, final AsyncCallback<String> callback )
 	{
 		if ( !( toInspect instanceof Serializable ) )
+		{
 			throw new RuntimeException( "Objects passed to GwtRemoteInspector must be Serializable" );
+		}
 
 		mInspector.inspect( (Serializable) toInspect, type, names, new AsyncCallback<String>()
 		{

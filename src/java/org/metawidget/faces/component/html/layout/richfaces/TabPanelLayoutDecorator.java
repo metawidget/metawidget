@@ -106,7 +106,9 @@ public class TabPanelLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		tab.setLabel( localizedSection );
 

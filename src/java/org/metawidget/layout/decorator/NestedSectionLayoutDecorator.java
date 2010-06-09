@@ -62,9 +62,13 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		if ( section == null || section.equals( state.currentSection ) )
 		{
 			if ( state.currentSectionWidget == null )
+			{
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
+			}
 			else
+			{
 				super.layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
+			}
 
 			return;
 		}
@@ -76,7 +80,9 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		// End current section
 
 		if ( state.currentSectionWidget != null )
+		{
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
+		}
 
 		state.currentSectionWidget = null;
 
@@ -91,7 +97,9 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		// Ignore empty stubs. Do not create a new tab in case it ends up being empty
 
 		if ( isEmptyStub( widget ) )
+		{
 			return;
+		}
 
 		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
@@ -109,7 +117,9 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		State<C> state = getState( container, metawidget );
 
 		if ( state.currentSectionWidget != null )
+		{
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
+		}
 
 		super.endContainerLayout( container, metawidget );
 		state.currentSection = null;

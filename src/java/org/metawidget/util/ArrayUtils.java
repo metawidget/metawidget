@@ -47,7 +47,9 @@ public final class ArrayUtils
 	public static <T> String toString( final T[] array, String separator, boolean leadingSeparator, boolean trailingSeparator )
 	{
 		if ( array == null )
+		{
 			return "";
+		}
 
 		String separatorEscaped = separator;
 
@@ -55,7 +57,9 @@ public final class ArrayUtils
 		// when using Pattern.LITERAL
 
 		if ( separatorEscaped.equals( "." ) )
+		{
 			separatorEscaped = "\\.";
+		}
 
 		Pattern patternSeparator = Pattern.compile( separatorEscaped, Pattern.LITERAL );
 		String replacement = "\\\\" + separator;
@@ -71,7 +75,9 @@ public final class ArrayUtils
 			// Concatenate the separator
 
 			if ( buffer.length() > 0 || leadingSeparator )
+			{
 				buffer.append( separator );
+			}
 
 			// Escape the separator
 
@@ -83,7 +89,9 @@ public final class ArrayUtils
 		}
 
 		if ( trailingSeparator && buffer.length() > 0 )
+		{
 			buffer.append( separator );
+		}
 
 		return buffer.toString();
 	}
@@ -100,7 +108,9 @@ public final class ArrayUtils
 	public static String[] fromString( String array, char separator )
 	{
 		if ( array == null )
+		{
 			return EMPTY_STRING_ARRAY;
+		}
 
 		List<String> list = CollectionUtils.fromString( array, separator );
 
@@ -122,15 +132,21 @@ public final class ArrayUtils
 	public static <T> T[] add( T[] array, T... arrayToAdd )
 	{
 		if ( array == null )
+		{
 			return arrayToAdd;
+		}
 
 		if ( arrayToAdd == null )
+		{
 			return array;
+		}
 
 		int lengthToAdd = arrayToAdd.length;
 
 		if ( lengthToAdd == 0 )
+		{
 			return array;
+		}
 
 		int originalLength = array.length;
 		T[] newArray = (T[]) Array.newInstance( array.getClass().getComponentType(), originalLength + lengthToAdd );
@@ -149,7 +165,9 @@ public final class ArrayUtils
 	public static <T> int indexOf( T[] array, T contains )
 	{
 		if ( array == null )
+		{
 			return -1;
+		}
 
 		for ( int index = 0; index < array.length; index++ )
 		{
@@ -158,10 +176,14 @@ public final class ArrayUtils
 			if ( object == null )
 			{
 				if ( contains == null )
+				{
 					return index;
+				}
 			}
 			else if ( object.equals( contains ) )
+			{
 				return index;
+			}
 		}
 
 		return -1;
@@ -173,10 +195,14 @@ public final class ArrayUtils
 		T[] newArray = (T[]) Array.newInstance( array.getClass().getComponentType(), array.length - 1 );
 
 		if ( index > 0 )
+		{
 			System.arraycopy( array, 0, newArray, 0, index );
+		}
 
 		if ( index < array.length - 1 )
+		{
 			System.arraycopy( array, index + 1, newArray, index, array.length - ( index + 1 ) );
+		}
 
 		return newArray;
 	}

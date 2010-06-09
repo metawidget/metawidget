@@ -56,21 +56,31 @@ public class ReflectionBindingProcessor
 		// Only bind to Actions
 
 		if ( !ACTION.equals( elementName ))
+		{
 			return component;
+		}
 
 		if ( component instanceof Stub )
+		{
 			return component;
+		}
 
 		if ( !( component instanceof AbstractButton ))
+		{
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
+		}
 
 		if ( metawidget == null )
+		{
 			return component;
+		}
 
 		Object toInspect = metawidget.getToInspect();
 
 		if ( toInspect == null )
+		{
 			return component;
+		}
 
 		AbstractButton button = (AbstractButton) component;
 
@@ -83,7 +93,9 @@ public class ReflectionBindingProcessor
 			toInspect = ClassUtils.getProperty( toInspect, name );
 
 			if ( toInspect == null )
+			{
 				return component;
+			}
 		}
 
 		// ...and wire it up

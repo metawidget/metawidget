@@ -45,7 +45,9 @@ public class WidgetBuilderException
 	public static WidgetBuilderException newException( Throwable cause )
 	{
 		if ( cause instanceof WidgetBuilderException )
+		{
 			return (WidgetBuilderException) cause;
+		}
 
 		return new WidgetBuilderException( cause );
 	}

@@ -37,7 +37,9 @@ public class GenderEditor
 		Gender value = (Gender) getValue();
 
 		if ( value == null )
+		{
 			return "";
+		}
 
 		// Convert enums to their .name() form, not their .toString() form, so that we can
 		// use .valueOf() in asText.

@@ -78,7 +78,9 @@ public class BaseObjectInspectorConfig
 		mPropertyStyle = propertyStyle;
 
 		if ( propertyStyle == null )
+		{
 			mNullPropertyStyle = true;
+		}
 
 		// Fluent interface
 
@@ -96,7 +98,9 @@ public class BaseObjectInspectorConfig
 		mActionStyle = actionStyle;
 
 		if ( actionStyle == null )
+		{
 			mNullActionStyle = true;
+		}
 
 		// Fluent interface
 
@@ -107,25 +111,39 @@ public class BaseObjectInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ( (BaseObjectInspectorConfig) that ).mPropertyStyle ) )
+		{
 			return false;
+		}
 
 		if ( mNullPropertyStyle != ( (BaseObjectInspectorConfig) that ).mNullPropertyStyle )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mActionStyle, ( (BaseObjectInspectorConfig) that ).mActionStyle ) )
+		{
 			return false;
+		}
 
 		if ( mNullActionStyle != ( (BaseObjectInspectorConfig) that ).mNullActionStyle )
+		{
 			return false;
+		}
 
 		return true;
 	}
@@ -157,7 +175,9 @@ public class BaseObjectInspectorConfig
 			// Do not initialise unless needed, so that we can be shipped without
 
 			if ( DEFAULT_PROPERTY_STYLE == null )
+			{
 				DEFAULT_PROPERTY_STYLE = new JavaBeanPropertyStyle();
+			}
 
 			return DEFAULT_PROPERTY_STYLE;
 		}

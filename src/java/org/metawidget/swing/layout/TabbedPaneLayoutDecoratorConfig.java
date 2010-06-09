@@ -79,16 +79,24 @@ public class TabbedPaneLayoutDecoratorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mTabPlacement != ( (TabbedPaneLayoutDecoratorConfig) that ).mTabPlacement )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

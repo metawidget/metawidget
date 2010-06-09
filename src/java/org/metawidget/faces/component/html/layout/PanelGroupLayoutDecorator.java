@@ -88,9 +88,13 @@ public class PanelGroupLayoutDecorator
 		String sectionStyleClass = StringUtils.camelCase( getState( container, metawidget ).currentSection );
 
 		if ( mStyleClass == null )
+		{
 			panel.setStyleClass( sectionStyleClass );
+		}
 		else
+		{
 			panel.setStyleClass( mStyleClass + ' ' + sectionStyleClass );
+		}
 
 		// Add to parent container
 

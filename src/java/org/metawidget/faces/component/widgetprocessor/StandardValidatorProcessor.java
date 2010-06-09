@@ -52,7 +52,9 @@ public class StandardValidatorProcessor
 		// Only validate EditableValueHolders
 
 		if ( !( component instanceof EditableValueHolder ))
+		{
 			return component;
+		}
 
 		EditableValueHolder editableValueHolder = (EditableValueHolder) component;
 
@@ -69,7 +71,9 @@ public class StandardValidatorProcessor
 			String type = attributes.get( ACTUAL_CLASS );
 
 			if ( type == null )
+			{
 				type = attributes.get( TYPE );
+			}
 
 			if ( double.class.getName().equals( type ) || Double.class.getName().equals( type ) )
 			{
@@ -79,10 +83,14 @@ public class StandardValidatorProcessor
 					editableValueHolder.addValidator( validator );
 
 					if ( minimumValue != null && !"".equals( minimumValue ))
+					{
 						validator.setMinimum( Double.parseDouble( minimumValue ) );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ))
+					{
 						validator.setMaximum( Double.parseDouble( maximumValue ) );
+					}
 				}
 			}
 			else
@@ -93,10 +101,14 @@ public class StandardValidatorProcessor
 					editableValueHolder.addValidator( validator );
 
 					if ( minimumValue != null && !"".equals( minimumValue ))
+					{
 						validator.setMinimum( Long.parseLong( minimumValue ) );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ))
+					{
 						validator.setMaximum( Long.parseLong( maximumValue ) );
+					}
 				}
 			}
 		}
@@ -113,10 +125,14 @@ public class StandardValidatorProcessor
 				LengthValidator validator = (LengthValidator) application.createValidator( "javax.faces.Length" );
 
 				if ( minimumLength != null && !"".equals( minimumLength ))
+				{
 					validator.setMinimum( Integer.parseInt( minimumLength ) );
+				}
 
 				if ( maximumLength != null && !"".equals( maximumLength ))
+				{
 					validator.setMaximum( Integer.parseInt( maximumLength ) );
+				}
 
 				editableValueHolder.addValidator( validator );
 			}
@@ -134,12 +150,16 @@ public class StandardValidatorProcessor
 		Validator[] validators = editableValueHolder.getValidators();
 
 		if ( validators == null )
+		{
 			return false;
+		}
 
 		for( Validator validator : validators )
 		{
 			if ( validatorClass.isAssignableFrom( validator.getClass() ))
+			{
 				return true;
+			}
 		}
 
 		return false;

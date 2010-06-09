@@ -56,7 +56,9 @@ public class ReadOnlyWidgetBuilder
 	public String getValueProperty( Component component )
 	{
 		if ( component instanceof JLabel )
+		{
 			return "text";
+		}
 
 		return null;
 	}
@@ -67,22 +69,30 @@ public class ReadOnlyWidgetBuilder
 		// Not read-only?
 
 		if ( !WidgetBuilderUtils.isReadOnly( attributes ) )
+		{
 			return null;
+		}
 
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub();
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new Stub();
+		}
 
 		// Masked (return a JPanel, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
+		{
 			return new JPanel();
+		}
 
 		// Lookups
 
@@ -95,7 +105,9 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) )
+			{
 				return new LookupLabel( SwingWidgetBuilderUtils.getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
+			}
 
 			return new JLabel();
 		}
@@ -105,7 +117,9 @@ public class ReadOnlyWidgetBuilder
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		// Lookup the Class
 
@@ -116,7 +130,9 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() )
+			{
 				return new JLabel();
+			}
 
 			if ( String.class.equals( clazz ) )
 			{
@@ -149,24 +165,34 @@ public class ReadOnlyWidgetBuilder
 			}
 
 			if ( Date.class.equals( clazz ) )
+			{
 				return new JLabel();
+			}
 
 			if ( Boolean.class.equals( clazz ) )
+			{
 				return new JLabel();
+			}
 
 			if ( Number.class.isAssignableFrom( clazz ) )
+			{
 				return new JLabel();
+			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new Stub();
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new JLabel();
+		}
 
 		// Nested Metawidget
 

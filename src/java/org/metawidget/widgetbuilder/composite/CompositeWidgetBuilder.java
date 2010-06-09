@@ -54,7 +54,9 @@ public class CompositeWidgetBuilder<W, M extends W>
 		// Must have at least two WidgetBuilders
 
 		if ( widgetBuilders == null || widgetBuilders.length < 2 )
+		{
 			throw WidgetBuilderException.newException( "CompositeWidgetBuilder needs at least two WidgetBuilders" );
+		}
 
 		// Defensive copy
 
@@ -73,7 +75,9 @@ public class CompositeWidgetBuilder<W, M extends W>
 			W widget = widgetBuilder.buildWidget( elementName, attributes, metawidget );
 
 			if ( widget != null )
+			{
 				return widget;
+			}
 		}
 
 		return null;

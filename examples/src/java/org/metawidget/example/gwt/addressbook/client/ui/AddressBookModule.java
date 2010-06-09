@@ -124,7 +124,9 @@ public class AddressBookModule
 				// Ignore clicks on the header row
 
 				if ( rowIndex == 0 )
+				{
 					return;
+				}
 
 				// Load the id at the clicked row
 
@@ -183,9 +185,13 @@ public class AddressBookModule
 				String type = metawidget.getValue( "type" );
 
 				if ( type == null || "".equals( type ) )
+				{
 					mContactSearch.setType( null );
+				}
 				else
+				{
 					mContactSearch.setType( ContactType.valueOf( type ) );
+				}
 
 				reloadContacts();
 			}
@@ -272,9 +278,13 @@ public class AddressBookModule
 					Image image = new Image();
 
 					if ( contact instanceof BusinessContact )
+					{
 						image.setUrl( "media/business-small.gif" );
+					}
 					else
+					{
 						image.setUrl( "media/personal-small.gif" );
+					}
 
 					mContacts.setWidget( row, 2, image );
 
@@ -300,18 +310,26 @@ public class AddressBookModule
 		if ( contact instanceof BusinessContact )
 		{
 			if ( mBusinessContactDialog == null )
+			{
 				mBusinessContactDialog = new ContactDialog( AddressBookModule.this, contact );
+			}
 			else
+			{
 				mBusinessContactDialog.rebind( contact );
+			}
 
 			mBusinessContactDialog.show();
 			return;
 		}
 
 		if ( mPersonalContactDialog == null )
+		{
 			mPersonalContactDialog = new ContactDialog( AddressBookModule.this, contact );
+		}
 		else
+		{
 			mPersonalContactDialog.rebind( contact );
+		}
 
 		mPersonalContactDialog.show();
 		return;

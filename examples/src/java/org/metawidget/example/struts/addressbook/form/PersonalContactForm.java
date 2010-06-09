@@ -85,7 +85,9 @@ public class PersonalContactForm
 		mOfBirth = ofBirth;
 
 		if ( mOfBirth != null )
+		{
 			mDateOfBirthAsString = ConvertUtils.convert( mOfBirth );
+		}
 	}
 
 	@Override
@@ -98,7 +100,9 @@ public class PersonalContactForm
 		try
 		{
 			if ( mDateOfBirthAsString != null )
+			{
 				mOfBirth = (Date) ConvertUtils.convert( mDateOfBirthAsString, Date.class );
+			}
 		}
 		catch( Exception e )
 		{

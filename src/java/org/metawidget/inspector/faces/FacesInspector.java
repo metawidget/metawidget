@@ -84,7 +84,9 @@ public class FacesInspector
 		try
 		{
 			if ( mInjectThis )
+			{
 				LOCAL_TOINSPECT.set( parentToInspect );
+			}
 
 			return super.inspectParent( parentToInspect, propertyInParent );
 		}
@@ -101,14 +103,18 @@ public class FacesInspector
 		try
 		{
 			if ( mInjectThis )
+			{
 				LOCAL_TOINSPECT.set( toInspect );
+			}
 
 			super.inspect( toInspect, classToInspect, toAddTo );
 		}
 		finally
 		{
 			if ( mInjectThis )
+			{
 				LOCAL_TOINSPECT.remove();
+			}
 		}
 	}
 
@@ -122,13 +128,17 @@ public class FacesInspector
 		UiFacesAttribute facesAttribute = trait.getAnnotation( UiFacesAttribute.class );
 
 		if ( facesAttributes == null && facesAttribute == null )
+		{
 			return null;
+		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if ( context == null )
+		{
 			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+		}
 
 		Application application = context.getApplication();
 
@@ -163,19 +173,25 @@ public class FacesInspector
 		UiFacesLookup expressionLookup = property.getAnnotation( UiFacesLookup.class );
 
 		if ( expressionLookup != null )
+		{
 			attributes.put( FACES_LOOKUP, expressionLookup.value() );
+		}
 
 		UiFacesSuggest expressionSuggest = property.getAnnotation( UiFacesSuggest.class );
 
 		if ( expressionSuggest != null )
+		{
 			attributes.put( FACES_SUGGEST, expressionSuggest.value() );
+		}
 
 		// Component
 
 		UiFacesComponent component = property.getAnnotation( UiFacesComponent.class );
 
 		if ( component != null )
+		{
 			attributes.put( FACES_COMPONENT, component.value() );
+		}
 
 		// AJAX
 
@@ -188,7 +204,9 @@ public class FacesInspector
 			if ( !"".equals( ajax.action() ))
 			{
 				if ( !FacesUtils.isExpression( ajax.action() ) )
+				{
 					throw InspectorException.newException( "Expression '" + ajax.action() + "' is not of the form #{...}" );
+				}
 
 				attributes.put( FACES_AJAX_ACTION, ajax.action() );
 			}
@@ -199,41 +217,63 @@ public class FacesInspector
 		UiFacesConverter converter = property.getAnnotation( UiFacesConverter.class );
 
 		if ( converter != null )
+		{
 			attributes.put( FACES_CONVERTER_ID, converter.value() );
+		}
 
 		UiFacesNumberConverter numberConverter = property.getAnnotation( UiFacesNumberConverter.class );
 
 		if ( numberConverter != null )
 		{
 			if ( !"".equals( numberConverter.currencyCode() ) )
+			{
 				attributes.put( CURRENCY_CODE, numberConverter.currencyCode() );
+			}
 
 			if ( !"".equals( numberConverter.currencySymbol() ) )
+			{
 				attributes.put( CURRENCY_SYMBOL, numberConverter.currencySymbol() );
+			}
 
 			if ( numberConverter.groupingUsed() )
+			{
 				attributes.put( NUMBER_USES_GROUPING_SEPARATORS, TRUE );
+			}
 
 			if ( numberConverter.minIntegerDigits() != -1 )
+			{
 				attributes.put( MINIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.minIntegerDigits() ) );
+			}
 
 			if ( numberConverter.maxIntegerDigits() != -1 )
+			{
 				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.maxIntegerDigits() ) );
+			}
 
 			if ( numberConverter.minFractionDigits() != -1 )
+			{
 				attributes.put( MINIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.minFractionDigits() ) );
+			}
 
 			if ( numberConverter.maxFractionDigits() != -1 )
+			{
 				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.maxFractionDigits() ) );
+			}
 
 			if ( !"".equals( numberConverter.locale() ) )
+			{
 				attributes.put( LOCALE, numberConverter.locale() );
+			}
 
 			if ( !"".equals( numberConverter.pattern() ) )
+			{
 				attributes.put( NUMBER_PATTERN, numberConverter.pattern() );
+			}
 
 			if ( !"".equals( numberConverter.type() ) )
+			{
 				attributes.put( NUMBER_TYPE, numberConverter.type() );
+			}
 		}
 
 		UiFacesDateTimeConverter dateTimeConverter = property.getAnnotation( UiFacesDateTimeConverter.class );
@@ -241,22 +281,34 @@ public class FacesInspector
 		if ( dateTimeConverter != null )
 		{
 			if ( !"".equals( dateTimeConverter.dateStyle() ) )
+			{
 				attributes.put( DATE_STYLE, dateTimeConverter.dateStyle() );
+			}
 
 			if ( !"".equals( dateTimeConverter.locale() ) )
+			{
 				attributes.put( LOCALE, dateTimeConverter.locale() );
+			}
 
 			if ( !"".equals( dateTimeConverter.pattern() ) )
+			{
 				attributes.put( DATETIME_PATTERN, dateTimeConverter.pattern() );
+			}
 
 			if ( !"".equals( dateTimeConverter.timeStyle() ) )
+			{
 				attributes.put( TIME_STYLE, dateTimeConverter.timeStyle() );
+			}
 
 			if ( !"".equals( dateTimeConverter.timeZone() ) )
+			{
 				attributes.put( TIME_ZONE, dateTimeConverter.timeZone() );
+			}
 
 			if ( !"".equals( dateTimeConverter.type() ) )
+			{
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
+			}
 		}
 
 		return attributes;
@@ -267,15 +319,21 @@ public class FacesInspector
 		String expression = facesAttribute.expression();
 
 		if ( !FacesUtils.isExpression( expression ) )
+		{
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
+		}
 
 		if ( mInjectThis )
+		{
 			context.getExternalContext().getRequestMap().put( "this", LOCAL_TOINSPECT.get() );
+		}
 
 		Object value = application.createValueBinding( expression ).getValue( context );
 
 		if ( value == null )
+		{
 			return;
+		}
 
 		attributes.put( facesAttribute.name(), StringUtils.quietValueOf( value ) );
 	}

@@ -61,7 +61,9 @@ public class HtmlMetawidgetTag
 			int lastIndexOf = value.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 )
+			{
 				setPathPrefix( value.substring( 0, lastIndexOf + 1 ));
+			}
 		}
 	}
 

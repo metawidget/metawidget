@@ -74,17 +74,23 @@ public class OvalInspector
 		// NotNull
 
 		if ( property.isAnnotationPresent( NotNull.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// NotEmpty
 
 		if ( property.isAnnotationPresent( NotEmpty.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// NotBlank
 
 		if ( property.isAnnotationPresent( NotBlank.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// Range
 
@@ -101,14 +107,18 @@ public class OvalInspector
 		Min min = property.getAnnotation( Min.class );
 
 		if ( min != null )
+		{
 			attributes.put( MINIMUM_VALUE, niceValueOf( min.value() ) );
+		}
 
 		// Max
 
 		Max max = property.getAnnotation( Max.class );
 
 		if ( max != null )
+		{
 			attributes.put( MAXIMUM_VALUE, niceValueOf( max.value() ) );
+		}
 
 		// Length
 
@@ -117,10 +127,14 @@ public class OvalInspector
 		if ( length != null )
 		{
 			if ( length.min() > 0 )
+			{
 				attributes.put( MINIMUM_LENGTH, String.valueOf( length.min() ) );
+			}
 
 			if ( length.max() > 0 )
+			{
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ) );
+			}
 		}
 
 		// MinLength
@@ -128,14 +142,18 @@ public class OvalInspector
 		MinLength minLength = property.getAnnotation( MinLength.class );
 
 		if ( minLength != null )
+		{
 			attributes.put( MINIMUM_LENGTH, String.valueOf( minLength.value() ) );
+		}
 
 		// MaxLength
 
 		MaxLength maxLength = property.getAnnotation( MaxLength.class );
 
 		if ( maxLength != null )
+		{
 			attributes.put( MAXIMUM_LENGTH, String.valueOf( maxLength.value() ) );
+		}
 
 		return attributes;
 	}
@@ -153,7 +171,9 @@ public class OvalInspector
 	private String niceValueOf( double value )
 	{
 		if ( value % 1 == 0 )
+		{
 			return String.valueOf( Double.valueOf( value ).intValue() );
+		}
 
 		return String.valueOf( value );
 	}

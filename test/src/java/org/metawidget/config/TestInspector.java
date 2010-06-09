@@ -65,7 +65,9 @@ public class TestInspector
 	public TestInspector( TestInspectorConfig config )
 	{
 		if ( config.isFailDuringConstruction() )
+		{
 			throw new RuntimeException( "Failed during construction" );
+		}
 
 		mList = config.getList();
 		mSet = config.getSet();

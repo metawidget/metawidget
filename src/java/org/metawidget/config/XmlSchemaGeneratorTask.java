@@ -105,7 +105,9 @@ public class XmlSchemaGeneratorTask
 			for ( File file : destDir.listFiles() )
 			{
 				if ( !file.isDirectory() )
+				{
 					file.delete();
+				}
 			}
 
 			// Start index.html
@@ -146,12 +148,16 @@ public class XmlSchemaGeneratorTask
 				// ...that is a Java class...
 
 				if ( jarEntry.isDirectory() )
+				{
 					continue;
+				}
 
 				String name = jarEntry.getName();
 
 				if ( !name.endsWith( CLASS_SUFFIX ) )
+				{
 					continue;
+				}
 
 				// ...determine the package name...
 
@@ -160,14 +166,18 @@ public class XmlSchemaGeneratorTask
 				int lastIndexOf = qualifiedClassName.lastIndexOf( '.' );
 
 				if ( lastIndexOf == -1 )
+				{
 					continue;
+				}
 
 				String className = qualifiedClassName.substring( lastIndexOf + 1 );
 
 				// ...ignore inner classes...
 
 				if ( className.contains( "$" ) )
+				{
 					continue;
+				}
 
 				String packageName = qualifiedClassName.substring( 0, lastIndexOf );
 
@@ -214,12 +224,16 @@ public class XmlSchemaGeneratorTask
 				int indexOf = xsdBuilder.indexOf( SCHEMA_END );
 
 				if ( indexOf == -1 )
+				{
 					continue;
+				}
 
 				String elementBlock = generateClassBlock( packageName, className );
 
 				if ( elementBlock == null )
+				{
 					continue;
+				}
 
 				xsdBuilder.insert( indexOf, elementBlock );
 
@@ -275,12 +289,16 @@ public class XmlSchemaGeneratorTask
 		Class<?> clazz = Class.forName( packageName + '.' + className );
 
 		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ) )
+		{
 			return null;
+		}
 
 		// Not immutable and not a Metawidget?
 
 		if ( !new ConfigReader().isImmutable( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
+		{
 			return null;
+		}
 
 		// Configurable?
 
@@ -296,12 +314,16 @@ public class XmlSchemaGeneratorTask
 			}
 
 			if ( constructor.getParameterTypes().length > 1 )
+			{
 				continue;
+			}
 
 			Class<?> parameterType = constructor.getParameterTypes()[0];
 
 			if ( !parameterType.getName().endsWith( "Config" ) )
+			{
 				continue;
+			}
 
 			clazz = parameterType;
 			configurable = true;
@@ -312,16 +334,22 @@ public class XmlSchemaGeneratorTask
 		String propertiesBlock = generatePropertiesBlock( clazz );
 
 		if ( propertiesBlock != null )
+		{
 			builder.append( propertiesBlock );
+		}
 
 		// Configurable?
 
 		builder.append( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\"" );
 
 		if ( !configurable )
+		{
 			builder.append( " use=\"prohibited\"" );
+		}
 		else if ( !optionallyConfigurable )
+		{
 			builder.append( " use=\"required\"" );
+		}
 
 		builder.append( "/>\r\n" );
 
@@ -379,27 +407,39 @@ public class XmlSchemaGeneratorTask
 		for ( Property property : properties.values() )
 		{
 			if ( !property.isWritable() )
+			{
 				continue;
+			}
 
 			if ( "config".equals( property.getName() ) )
+			{
 				continue;
+			}
 
 			String propertyBlock = generatePropertyBlock( property.getName(), false, property.getType() );
 
 			if ( propertyBlock == null )
+			{
 				continue;
+			}
 
 			foundProperty = true;
 			builder.append( propertyBlock );
 		}
 
 		if ( !foundProperty )
+		{
 			return null;
+		}
 
 		if ( supportSetParameter )
+		{
 			builder.append( "\t\t\t</xs:sequence>\r\n" );
+		}
 		else
+		{
 			builder.append( "\t\t\t</xs:all>\r\n" );
+		}
 
 		return builder.toString();
 	}
@@ -415,7 +455,9 @@ public class XmlSchemaGeneratorTask
 		builder.append( "\" minOccurs=\"0\"" );
 
 		if ( canOccurMultipleTimes )
+		{
 			builder.append( " maxOccurs=\"unbounded\"" );
+		}
 
 		builder.append( ">\r\n" );
 		builder.append( "\t\t\t\t\t<xs:complexType>\r\n" );
@@ -428,7 +470,9 @@ public class XmlSchemaGeneratorTask
 			String typeBlock = generateTypeBlock( type );
 
 			if ( typeBlock == null )
+			{
 				return null;
+			}
 
 			builder.append( typeBlock );
 		}
@@ -447,21 +491,31 @@ public class XmlSchemaGeneratorTask
 		// Properties to ignore (should never be set via metawidget.xml)
 
 		if ( ResourceResolver.class.equals( type ) )
+		{
 			return null;
+		}
 
 		// Primitives
 
 		if ( boolean.class.equals( type ) )
+		{
 			return "\t\t\t\t\t\t\t<xs:element name=\"boolean\" type=\"xs:boolean\"/>\r\n";
+		}
 
 		if ( int.class.equals( type ) )
+		{
 			return "\t\t\t\t\t\t\t<xs:element name=\"int\" type=\"xs:int\"/>\r\n";
+		}
 
 		if ( ResourceBundle.class.equals( type ) )
+		{
 			return "\t\t\t\t\t\t\t<xs:element name=\"bundle\" type=\"xs:string\"/>\r\n";
+		}
 
 		if ( String.class.equals( type ) )
+		{
 			return "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>\r\n";
+		}
 
 		// InputStreams
 
@@ -487,11 +541,17 @@ public class XmlSchemaGeneratorTask
 			builder.append( "\t\t\t\t\t\t\t<xs:element name=\"" );
 
 			if ( type.isArray() )
+			{
 				builder.append( "array" );
+			}
 			else if ( List.class.equals( type ) )
+			{
 				builder.append( "list" );
+			}
 			else if ( Set.class.equals( type ) )
+			{
 				builder.append( "set" );
+			}
 
 			builder.append( "\">\r\n" );
 			builder.append( "\t\t\t\t\t\t\t\t<xs:complexType>\r\n" );

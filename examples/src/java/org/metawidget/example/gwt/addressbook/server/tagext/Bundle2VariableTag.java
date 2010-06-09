@@ -76,10 +76,14 @@ public class Bundle2VariableTag
 		throws JspException
 	{
 		if ( mBundle == null )
+		{
 			throw new JspException( "Bundle is required" );
+		}
 
 		if ( mVariableName == null || "".equals( mVariableName ) )
+		{
 			throw new JspException( "Variable name is required" );
+		}
 
 		try
 		{
@@ -102,7 +106,9 @@ public class Bundle2VariableTag
 				writer.write( "\"" );
 
 				if ( loop < length - 1 )
+				{
 					writer.write( "," );
+				}
 
 				writer.write( "\n" );
 			}

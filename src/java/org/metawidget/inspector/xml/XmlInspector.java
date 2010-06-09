@@ -85,10 +85,14 @@ public class XmlInspector
 			// Warn about some common typos
 
 			if ( attributes.containsKey( "readonly" ) )
+			{
 				throw InspectorException.newException( "Attribute named 'readonly' should be '" + InspectionResultConstants.READ_ONLY + "'" );
+			}
 
 			if ( attributes.containsKey( "dontexpand" ) )
+			{
 				throw InspectorException.newException( "Attribute named 'dontexpand' should be '" + InspectionResultConstants.DONT_EXPAND + "'" );
+			}
 
 			// All good
 
@@ -102,7 +106,9 @@ public class XmlInspector
 	protected Map<String, String> inspectAction( Element toInspect )
 	{
 		if ( ACTION.equals( toInspect.getNodeName() ) )
+		{
 			return XmlUtils.getAttributesAsMap( toInspect );
+		}
 
 		return null;
 	}

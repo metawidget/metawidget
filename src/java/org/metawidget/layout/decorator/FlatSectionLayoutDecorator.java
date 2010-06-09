@@ -75,19 +75,25 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			// End nested LayoutDecorator's current section
 
 			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) )
+			{
 				super.endContainerLayout( container, metawidget );
+			}
 
 			// Ignore empty stubs. Do not create a new heading in case it ends up being empty
 
 			if ( isEmptyStub( widget ) )
+			{
 				return;
+			}
 
 			state.currentSections = new String[] { section };
 
 			// Add a heading
 
 			if ( !"".equals( section ) )
+			{
 				addSectionWidget( section, 0, container, metawidget );
+			}
 		}
 		else
 		{
@@ -110,13 +116,19 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				// ...that are different from our current...
 
 				if ( "".equals( section ) )
+				{
 					continue;
+				}
 
 				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
+				{
 					continue;
+				}
 
 				if ( isEmptyStub( widget ) )
+				{
 					continue;
+				}
 
 				// ...add a heading
 

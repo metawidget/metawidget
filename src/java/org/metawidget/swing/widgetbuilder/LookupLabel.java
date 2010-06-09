@@ -48,7 +48,9 @@ public class LookupLabel
 	public LookupLabel( Map<String, String> lookup )
 	{
 		if ( lookup == null )
+		{
 			throw new NullPointerException( "lookup" );
+		}
 
 		mLookup = lookup;
 	}
@@ -63,7 +65,9 @@ public class LookupLabel
 		String lookup = text;
 
 		if ( lookup != null && mLookup != null )
+		{
 			lookup = mLookup.get( lookup );
+		}
 
 		super.setText( lookup );
 	}

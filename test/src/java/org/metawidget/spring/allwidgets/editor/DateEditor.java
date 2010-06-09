@@ -49,7 +49,9 @@ public class DateEditor
 		Object value = getValue();
 
 		if ( value == null )
+		{
 			return "";
+		}
 
 		synchronized ( FORMAT )
 		{

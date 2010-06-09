@@ -116,7 +116,9 @@ public class HibernateInspector
 			Document documentParsed = builder.parse( file );
 
 			if ( !documentParsed.hasChildNodes() )
+			{
 				continue;
+			}
 
 			// If the document is a hibernate-configuration file...
 
@@ -169,7 +171,9 @@ public class HibernateInspector
 		}
 
 		if ( documentMaster == null )
+		{
 			return null;
+		}
 
 		return documentMaster.getDocumentElement();
 	}
@@ -198,7 +202,9 @@ public class HibernateInspector
 				Node node = children.item( loop );
 
 				if ( !( node instanceof Element ) )
+				{
 					continue;
+				}
 
 				Element element = (Element) node;
 
@@ -207,14 +213,18 @@ public class HibernateInspector
 				String name = element.getAttribute( topLevelAttribute );
 
 				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
+				{
 					element.setAttribute( topLevelAttribute, packagePrefix + name );
+				}
 
 				// 'extends' attribute of 'subclass' element
 
 				String extendsClass = element.getAttribute( extendsAttribute );
 
 				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
+				{
 					element.setAttribute( extendsAttribute, packagePrefix + extendsClass );
+				}
 
 				// 'class' attributes of children
 
@@ -252,24 +262,32 @@ public class HibernateInspector
 		String typeAttribute = getTypeAttribute();
 
 		if ( toInspect.hasAttribute( typeAttribute ) )
+		{
 			attributes.put( TYPE, toInspect.getAttribute( typeAttribute ) );
+		}
 
 		// Required
 
 		if ( TRUE.equals( toInspect.getAttribute( "not-null" ) ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// Length
 
 		if ( toInspect.hasAttribute( "length" ) )
+		{
 			attributes.put( MAXIMUM_LENGTH, toInspect.getAttribute( "length" ) );
+		}
 
 		// Hidden
 
 		String nodeName = toInspect.getNodeName();
 
 		if ( mHideIds && "id".equals( nodeName ) )
+		{
 			attributes.put( HIDDEN, TRUE );
+		}
 
 		// Parameterized
 
@@ -278,7 +296,9 @@ public class HibernateInspector
 			Element withClass = XmlUtils.getChildWithAttribute( toInspect, typeAttribute );
 
 			if ( withClass != null )
+			{
 				attributes.put( PARAMETERIZED_TYPE, withClass.getAttribute( typeAttribute ) );
+			}
 		}
 
 		return attributes;
@@ -301,7 +321,9 @@ public class HibernateInspector
 			Node node = children.item( loop );
 
 			if ( !( node instanceof Element ) )
+			{
 				continue;
+			}
 
 			Element child = (Element) node;
 
@@ -310,7 +332,9 @@ public class HibernateInspector
 			String clazz = child.getAttribute( typeAttribute );
 
 			if ( clazz != null && !"".equals( clazz ) && clazz.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
+			{
 				child.setAttribute( typeAttribute, packagePrefix + clazz );
+			}
 
 			// ...and recurse children
 

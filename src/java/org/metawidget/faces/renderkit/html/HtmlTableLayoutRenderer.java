@@ -127,29 +127,39 @@ public class HtmlTableLayoutRenderer
 		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
 
 		if ( parameterLabelStyle != null )
+		{
 			state.labelStyle = (String) parameterLabelStyle.getValue();
+		}
 
 		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
 
 		if ( parameterComponentStyle != null )
+		{
 			state.componentStyle = (String) parameterComponentStyle.getValue();
+		}
 
 		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
 
 		if ( parameterRequiredStyle != null )
+		{
 			state.requiredStyle = (String) parameterRequiredStyle.getValue();
+		}
 
 		// Determine inner styles
 
 		UIParameter parameterColumnClasses = FacesUtils.findParameterWithName( metawidget, "columnClasses" );
 
 		if ( parameterColumnClasses != null )
+		{
 			state.columnClasses = ( (String) parameterColumnClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
+		}
 
 		UIParameter parameterRowClasses = FacesUtils.findParameterWithName( metawidget, "rowClasses" );
 
 		if ( parameterRowClasses != null )
+		{
 			state.rowClasses = ( (String) parameterRowClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
+		}
 
 		// Determine number of columns
 
@@ -160,7 +170,9 @@ public class HtmlTableLayoutRenderer
 			state.columns = Integer.parseInt( (String) parameterColumns.getValue() );
 
 			if ( state.columns < 0 )
+			{
 				throw LayoutException.newException( "columns must be >= 0" );
+			}
 		}
 
 		// Render header facet
@@ -230,7 +242,9 @@ public class HtmlTableLayoutRenderer
 		for ( UIComponent componentChild : children )
 		{
 			if ( !( componentChild instanceof HtmlInputHidden ) )
+			{
 				continue;
+			}
 
 			FacesUtils.render( context, componentChild );
 		}
@@ -246,7 +260,9 @@ public class HtmlTableLayoutRenderer
 		// to fail gracefully)
 
 		if ( state == null )
+		{
 			return;
+		}
 
 		List<UIComponent> children = metawidget.getChildren();
 
@@ -266,24 +282,34 @@ public class HtmlTableLayoutRenderer
 				for ( UIComponent stubChild : componentChild.getChildren() )
 				{
 					if ( !stubChild.isRendered() )
+					{
 						continue;
+					}
 
 					visibleChildren = true;
 					break;
 				}
 
 				if ( !visibleChildren )
+				{
 					continue;
+				}
 			}
 
 			if ( componentChild instanceof UIParameter )
+			{
 				continue;
+			}
 
 			if ( componentChild instanceof HtmlInputHidden )
+			{
 				continue;
+			}
 
 			if ( !componentChild.isRendered() )
+			{
 				continue;
+			}
 
 			// ...count columns...
 
@@ -352,7 +378,9 @@ public class HtmlTableLayoutRenderer
 			writer.startElement( "tr", metawidget );
 
 			if ( cssId != null )
+			{
 				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX, null );
+			}
 
 			writeRowStyleClass( metawidget, writer, state.currentRow );
 			state.currentRow++;
@@ -371,7 +399,9 @@ public class HtmlTableLayoutRenderer
 			writer.startElement( "tr", metawidget );
 
 			if ( cssId != null )
+			{
 				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX + "2", null );
+			}
 
 			writeRowStyleClass( metawidget, writer, state.currentRow );
 		}
@@ -381,12 +411,16 @@ public class HtmlTableLayoutRenderer
 		writer.startElement( "td", metawidget );
 
 		if ( cssId != null )
+		{
 			writer.writeAttribute( "id", TABLE_PREFIX + cssId + COMPONENT_CELL_SUFFIX, null );
+		}
 
 		// CSS
 
 		if ( state.componentStyle != null )
+		{
 			writer.writeAttribute( "style", state.componentStyle, null );
+		}
 
 		writeColumnStyleClass( metawidget, writer, 1 );
 
@@ -402,13 +436,17 @@ public class HtmlTableLayoutRenderer
 			state.currentColumn = state.columns;
 
 			if ( !labelWritten )
+			{
 				colspan++;
+			}
 
 			// Nested table Metawidgets span the required column too (as they have their own
 			// required column)
 
 			if ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) )
+			{
 				colspan++;
+			}
 		}
 
 		// Components without labels span two columns
@@ -426,7 +464,9 @@ public class HtmlTableLayoutRenderer
 		}
 
 		if ( colspan > 1 )
+		{
 			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
+		}
 	}
 
 	/**
@@ -438,21 +478,27 @@ public class HtmlTableLayoutRenderer
 		throws IOException
 	{
 		if ( getLabelText( componentNeedingLabel ) == null )
+		{
 			return false;
+		}
 
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement( "th", metawidget );
 
 		String cssId = getCssId( componentNeedingLabel );
 		if ( cssId != null )
+		{
 			writer.writeAttribute( "id", TABLE_PREFIX + cssId + LABEL_CELL_SUFFIX, null );
+		}
 
 		// CSS
 
 		State state = getState( metawidget );
 
 		if ( state.labelStyle != null )
+		{
 			writer.writeAttribute( "style", state.labelStyle, null );
+		}
 
 		writeColumnStyleClass( metawidget, writer, 0 );
 
@@ -487,7 +533,9 @@ public class HtmlTableLayoutRenderer
 			// CSS
 
 			if ( state.requiredStyle != null )
+			{
 				writer.writeAttribute( "style", state.requiredStyle, null );
+			}
 
 			writeColumnStyleClass( metawidget, writer, 2 );
 
@@ -541,7 +589,9 @@ public class HtmlTableLayoutRenderer
 		ValueBinding binding = metawidget.getValueBinding( "value" );
 
 		if ( binding == null )
+		{
 			return null;
+		}
 
 		return StringUtils.camelCase( FacesUtils.unwrapExpression( binding.getExpressionString() ), StringUtils.SEPARATOR_DOT_CHAR );
 	}
@@ -560,12 +610,16 @@ public class HtmlTableLayoutRenderer
 		// column greater than the number of [styleClasses]'
 
 		if ( state.columnClasses == null || state.columnClasses.length <= columnStyleClass )
+		{
 			return;
+		}
 
 		String columnClass = state.columnClasses[columnStyleClass];
 
 		if ( columnClass.length() == 0 )
+		{
 			return;
+		}
 
 		writer.writeAttribute( "class", columnClass.trim(), null );
 	}
@@ -576,12 +630,16 @@ public class HtmlTableLayoutRenderer
 		State state = getState( metawidget );
 
 		if ( state.rowClasses == null )
+		{
 			return;
+		}
 
 		String rowClass = state.rowClasses[rowStyleClass % state.rowClasses.length];
 
 		if ( rowClass.length() == 0 )
+		{
 			return;
+		}
 
 		writer.writeAttribute( "class", rowClass.trim(), null );
 	}

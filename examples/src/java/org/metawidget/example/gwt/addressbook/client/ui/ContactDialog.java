@@ -123,7 +123,9 @@ public class ContactDialog
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
 		if ( builder.length() > 0 )
+		{
 			builder.append( " - " );
+		}
 
 		// Personal/business icon
 
@@ -308,7 +310,9 @@ public class ContactDialog
 				if ( mAddressBookModule.getPanel() instanceof RootPanel )
 				{
 					if ( !Window.confirm( "Sure you want to delete this contact?" ) )
+					{
 						return;
+					}
 				}
 
 				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>()
@@ -389,9 +393,13 @@ public class ContactDialog
 		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
 
 		if ( readOnly )
+		{
 			mCancelButton.setText( dictionary.get( "back" ) );
+		}
 		else
+		{
 			mCancelButton.setText( dictionary.get( "cancel" ) );
+		}
 
 		mEditButton.setVisible( readOnly );
 		mSaveButton.setVisible( !readOnly );
@@ -419,7 +427,9 @@ public class ContactDialog
 				// (push the footer down)
 
 				if ( mCommunications.getRowCount() - 1 <= row )
+				{
 					mCommunications.insertRow( row );
+				}
 
 				mCommunications.setText( row, 0, communication.getType() );
 				mCommunications.setText( row, 1, communication.getValue() );
@@ -427,7 +437,9 @@ public class ContactDialog
 				if ( readOnly )
 				{
 					if ( mCommunications.getCellCount( row ) == 3 )
+					{
 						mCommunications.removeCell( row, 2 );
+					}
 				}
 				else
 				{
@@ -439,7 +451,9 @@ public class ContactDialog
 							if ( confirm )
 							{
 								if ( !Window.confirm( "Sure you want to delete this communication?" ) )
+								{
 									return;
+								}
 							}
 
 							contact.removeCommunication( communication );

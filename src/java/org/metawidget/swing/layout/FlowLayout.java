@@ -57,7 +57,9 @@ public class FlowLayout
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
+		{
 			return;
+		}
 
 		// Add to the Metawidget
 

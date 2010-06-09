@@ -109,7 +109,9 @@ public class JexlXmlInspector
 	protected Map<String, String> inspectProperty( Element toInspect )
 	{
 		if ( PROPERTY.equals( toInspect.getNodeName() ) )
+		{
 			return inspect( toInspect );
+		}
 
 		return null;
 	}
@@ -118,7 +120,9 @@ public class JexlXmlInspector
 	protected Map<String, String> inspectAction( Element toInspect )
 	{
 		if ( ACTION.equals( toInspect.getNodeName() ) )
+		{
 			return inspect( toInspect );
+		}
 
 		return null;
 	}
@@ -155,7 +159,9 @@ public class JexlXmlInspector
 		// Put the toInspect in under 'this'
 
 		if ( toInspect != null )
+		{
 			contextMap.put( "this", toInspect );
+		}
 
 		return context;
 	}
@@ -179,7 +185,9 @@ public class JexlXmlInspector
 			Matcher matcher = PATTERN_BINDING.matcher( value );
 
 			if ( !matcher.matches() )
+			{
 				continue;
+			}
 
 			// ...evaluate it...
 

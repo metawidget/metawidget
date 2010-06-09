@@ -51,7 +51,9 @@ public class ReadOnlyWidgetBuilder
 		// Label (not HasText, because CheckBox is a HasText)
 
 		if ( widget instanceof Label )
+		{
 			return ( (HasText) widget ).getText();
+		}
 
 		return null;
 	}
@@ -69,7 +71,9 @@ public class ReadOnlyWidgetBuilder
 		// Panel (fail gracefully for MASKED fields)
 
 		if ( widget instanceof SimplePanel )
+		{
 			return true;
+		}
 
 		// Not for us
 
@@ -81,53 +85,75 @@ public class ReadOnlyWidgetBuilder
 		// Not read-only?
 
 		if ( !GwtUtils.isReadOnly( attributes ))
+		{
 			return null;
+		}
 
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub();
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new Stub();
+		}
 
 		// Masked (return a Panel, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
+		{
 			return new SimplePanel();
+		}
 
 		String type = GwtUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
+		{
 			return new Label();
+		}
 
 		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) )
+		{
 			return new Label();
+		}
 
 		if ( String.class.getName().equals( type ) )
+		{
 			return new Label();
+		}
 
 		if ( Date.class.getName().equals( type ) )
+		{
 			return new Label();
+		}
 
 		// Collections
 
 		if ( GwtUtils.isCollection( type ) )
+		{
 			return new Stub();
+		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new Label();
+		}
 
 		// Nested Metawidget
 

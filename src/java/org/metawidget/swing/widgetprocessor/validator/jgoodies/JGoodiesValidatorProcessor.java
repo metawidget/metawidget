@@ -66,7 +66,9 @@ public class JGoodiesValidatorProcessor
 		boolean required = ( TRUE.equals( attributes.get( REQUIRED ) ) );
 
 		if ( required )
+		{
 			ValidationComponentUtils.setMandatory( component, true );
+		}
 
 		// Custom validator?
 
@@ -74,7 +76,9 @@ public class JGoodiesValidatorProcessor
 		String name = attributes.get( NAME );
 
 		if ( PROPERTY.equals( elementName ) )
+		{
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+		}
 
 		Validator<?> validator = getValidator( component, attributes, path );
 
@@ -83,7 +87,9 @@ public class JGoodiesValidatorProcessor
 			// Do not attachValidator if no validator and not required
 
 			if ( !required )
+			{
 				return component;
+			}
 		}
 		else
 		{
@@ -160,9 +166,13 @@ public class JGoodiesValidatorProcessor
 					ValidationResult validationResult = objectValidator.validate( value );
 
 					if ( validationResult == null )
+					{
 						validationResults.remove( component );
+					}
 					else
+					{
 						validationResults.put( component, validationResult );
+					}
 				}
 
 				// ...collate all ValidationResults...
@@ -203,7 +213,9 @@ public class JGoodiesValidatorProcessor
 		// to do it
 
 		if ( ValidationComponentUtils.isMandatory( component ) )
+		{
 			ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( metawidget );
+		}
 
 		// Do the severity background after the mandatory background, as presumably it
 		// has precedence

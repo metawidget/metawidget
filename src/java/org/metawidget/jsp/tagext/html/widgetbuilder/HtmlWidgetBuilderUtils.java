@@ -60,7 +60,9 @@ public class HtmlWidgetBuilderUtils
 		String result = evaluateAsText( attributes, metawidget );
 
 		if ( result == null || "".equals( result ) )
+		{
 			return "";
+		}
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -91,7 +93,9 @@ public class HtmlWidgetBuilderUtils
 		String name = attributes.get( NAME );
 
 		if ( metawidget.getPathPrefix() != null )
+		{
 			name = metawidget.getPathPrefix() + name;
+		}
 
 		buffer.append( name );
 		buffer.append( "\"" );
@@ -126,7 +130,9 @@ public class HtmlWidgetBuilderUtils
 		Object evaluated = evaluate( attributes, metawidget );
 
 		if ( evaluated == null )
+		{
 			return "";
+		}
 
 		Class<?> clazz = evaluated.getClass();
 
@@ -149,7 +155,9 @@ public class HtmlWidgetBuilderUtils
 	public static Object evaluate( Map<String, String> attributes, MetawidgetTag metawidget )
 	{
 		if ( metawidget.getPathPrefix() == null )
+		{
 			return null;
+		}
 
 		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
 	}

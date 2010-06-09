@@ -73,12 +73,16 @@ public class IceFacesWidgetBuilder
 		// Not for ICEfaces?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return null;
+		}
 
 		String componentName = attributes.get( FACES_COMPONENT );
 
 		if ( componentName != null )
+		{
 			return null;
+		}
 
 		// Action
 
@@ -99,7 +103,9 @@ public class IceFacesWidgetBuilder
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -210,7 +216,9 @@ public class IceFacesWidgetBuilder
 				selectInputDate.setPartialSubmit( true );
 
 				if ( attributes.containsKey( DATETIME_PATTERN ) )
+				{
 					selectInputDate.setPopupDateFormat( attributes.get( DATETIME_PATTERN ) );
+				}
 
 				selectInputDate.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE, true );
 				return selectInputDate;

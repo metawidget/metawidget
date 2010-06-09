@@ -85,12 +85,16 @@ public abstract class JspFlatSectionLayoutDecorator
 	protected boolean isEmptyStub( Tag tag )
 	{
 		if ( !( tag instanceof StubTag ) )
+		{
 			return false;
+		}
 
 		String literal = ( (StubTag) tag ).getSavedBodyContent();
 
 		if ( literal == null || literal.length() == 0 )
+		{
 			return true;
+		}
 
 		return false;
 	}

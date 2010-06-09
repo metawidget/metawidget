@@ -22,15 +22,6 @@ import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingPro
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
-import com.google.gwt.core.ext.Generator;
-import com.google.gwt.core.ext.GeneratorContext;
-import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.typeinfo.JClassType;
-import com.google.gwt.core.ext.typeinfo.JMethod;
-import com.google.gwt.core.ext.typeinfo.JPrimitiveType;
-import com.google.gwt.core.ext.typeinfo.JType;
-import com.google.gwt.core.ext.typeinfo.NotFoundException;
-import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
@@ -142,7 +133,9 @@ public class SimpleBindingProcessorAdapterGenerator
 		String qualifiedBindingClassName = packageName + StringUtils.SEPARATOR_DOT_CHAR + bindingClassName;
 
 		if ( printWriter == null )
+		{
 			return qualifiedBindingClassName;
+		}
 
 		// Start the BindingAdapter subclass
 
@@ -221,7 +214,9 @@ public class SimpleBindingProcessorAdapterGenerator
 		// Avoid going too deep
 
 		if ( depth > MAXIMUM_DEPTH )
+		{
 			return;
+		}
 
 		// For each subclass...
 
@@ -261,7 +256,9 @@ public class SimpleBindingProcessorAdapterGenerator
 			// ...if the method is public...
 
 			if ( !method.isPublic() )
+			{
 				continue;
+			}
 
 			String methodName = method.getName();
 			JType returnType = method.getReturnType();
@@ -273,7 +270,9 @@ public class SimpleBindingProcessorAdapterGenerator
 				if ( writeType == WRITE_ACTION )
 				{
 					if ( method.getParameters().length == 0 )
+					{
 						sourceWriter.println( "if ( \"" + methodName + "\".equals( names[" + nameIndex + "] )) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "(); return; }" );
+					}
 				}
 
 				continue;
@@ -334,7 +333,9 @@ public class SimpleBindingProcessorAdapterGenerator
 				String nestedVariableName = VARIABLE_NAME_PREFIX + propertyName;
 
 				if ( depth > 0 )
+				{
 					nestedVariableName += ( depth + 1 );
+				}
 
 				sourceWriter.println( nestedClassType.getParameterizedQualifiedSourceName() + " " + nestedVariableName + " = " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
 
@@ -419,31 +420,49 @@ public class SimpleBindingProcessorAdapterGenerator
 		JPrimitiveType primitiveType = classType.isPrimitive();
 
 		if ( primitiveType == null )
+		{
 			return classType;
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.BOOLEAN ) )
+		{
 			return mTypeOracle.findType( Boolean.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.BYTE ) )
+		{
 			return mTypeOracle.findType( Byte.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.CHAR ) )
+		{
 			return mTypeOracle.findType( Character.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.DOUBLE ) )
+		{
 			return mTypeOracle.findType( Double.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.FLOAT ) )
+		{
 			return mTypeOracle.findType( Float.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.INT ) )
+		{
 			return mTypeOracle.findType( Integer.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.LONG ) )
+		{
 			return mTypeOracle.findType( Long.class.getName() );
+		}
 
 		if ( primitiveType.equals( JPrimitiveType.SHORT ) )
+		{
 			return mTypeOracle.findType( Short.class.getName() );
+		}
 
 		throw new RuntimeException( "No wrapper for " + primitiveType );
 	}

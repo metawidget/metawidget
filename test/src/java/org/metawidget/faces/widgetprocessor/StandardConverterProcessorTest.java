@@ -147,7 +147,9 @@ public class StandardConverterProcessorTest
 				throws FacesException
 			{
 				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) )
+				{
 					return new HtmlLookupOutputText();
+				}
 
 				return super.createComponent( componentName );
 			}

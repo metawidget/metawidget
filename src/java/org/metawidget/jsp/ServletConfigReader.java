@@ -66,7 +66,9 @@ public class ServletConfigReader
 			URL url = mContext.getResource( "/WEB-INF/" + resource );
 
 			if ( url != null )
+			{
 				return url.openStream();
+			}
 		}
 		catch ( Exception e )
 		{

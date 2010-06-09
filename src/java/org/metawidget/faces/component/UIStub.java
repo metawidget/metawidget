@@ -88,10 +88,14 @@ public class UIStub
 		ValueBinding bindingStubAttributes = getValueBinding( "attributes" );
 
 		if ( bindingStubAttributes != null )
+		{
 			stubAttributes = (String) bindingStubAttributes.getValue( getFacesContext() );
+		}
 
 		if ( stubAttributes == null )
+		{
 			return null;
+		}
 
 		// Parse attributes
 
@@ -102,12 +106,16 @@ public class UIStub
 			// (use .length(), not .isEmpty(), so that we're 1.4 compatible)
 
 			if ( nameAndValue.length() == 0 )
+			{
 				continue;
+			}
 
 			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
 
 			if ( nameAndValueList.size() != 2 || nameAndValueList.get( 1 ).length() == 0 )
+			{
 				throw new FacesException( "Unrecognized value '" + nameAndValue + "'" );
+			}
 
 			attributes.put( nameAndValueList.get( 0 ), nameAndValueList.get( 1 ) );
 		}

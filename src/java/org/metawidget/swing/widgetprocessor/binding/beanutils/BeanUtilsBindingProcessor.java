@@ -98,19 +98,25 @@ public class BeanUtilsBindingProcessor
 		JComponent componentToBind = component;
 
 		if ( componentToBind instanceof JScrollPane )
+		{
 			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
+		}
 
 		// Determine value property
 
 		String componentProperty = metawidget.getValueProperty( componentToBind );
 
 		if ( componentProperty == null )
+		{
 			return component;
+		}
 
 		String path = metawidget.getPath();
 
 		if ( PROPERTY.equals( elementName ) )
+		{
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+		}
 
 		try
 		{
@@ -135,7 +141,9 @@ public class BeanUtilsBindingProcessor
 			State state = getState( metawidget );
 
 			if ( state.bindings == null )
+			{
 				state.bindings = CollectionUtils.newHashSet();
+			}
 
 			state.bindings.add( binding );
 		}
@@ -195,7 +203,9 @@ public class BeanUtilsBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
+			{
 				rebind( toRebind, (SwingMetawidget) component );
+			}
 		}
 	}
 
@@ -212,7 +222,9 @@ public class BeanUtilsBindingProcessor
 				for ( SavedBinding binding : state.bindings )
 				{
 					if ( !binding.isSettable() )
+					{
 						continue;
+					}
 
 					Object componentValue = retrieveValueFromWidget( binding );
 					saveValueToObject( metawidget, binding.getNames(), componentValue );
@@ -229,7 +241,9 @@ public class BeanUtilsBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
+			{
 				save( (SwingMetawidget) component );
+			}
 		}
 	}
 
@@ -291,7 +305,9 @@ public class BeanUtilsBindingProcessor
 				Object parent = scalaTraverse( source, true, namesAsArray );
 
 				if ( parent == null )
+				{
 					return;
+				}
 
 				// ...determine its type...
 
@@ -336,22 +352,30 @@ public class BeanUtilsBindingProcessor
 		// Sanity check
 
 		if ( toTraverse == null )
+		{
 			return null;
+		}
 
 		// Traverse through names (if any)
 
 		if ( names == null )
+		{
 			return toTraverse;
+		}
 
 		int length = names.length;
 
 		if ( length == 0 )
+		{
 			return toTraverse;
+		}
 
 		// Only to parent?
 
 		if ( onlyToParent )
+		{
 			length--;
+		}
 
 		// Do the traversal
 
@@ -367,7 +391,9 @@ public class BeanUtilsBindingProcessor
 			// Can go no further?
 
 			if ( traverse == null )
+			{
 				break;
+			}
 		}
 
 		return traverse;

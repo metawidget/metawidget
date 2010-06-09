@@ -51,10 +51,14 @@ public class RequiredAttributeProcessor
 		// Only validate EditableValueHolders
 
 		if ( !( component instanceof EditableValueHolder ))
+		{
 			return component;
+		}
 
 		if ( !TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return component;
+		}
 
 		EditableValueHolder editableValueHolder = (EditableValueHolder) component;
 

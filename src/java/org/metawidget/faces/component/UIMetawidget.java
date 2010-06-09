@@ -168,9 +168,13 @@ public abstract class UIMetawidget
 		// enabled by default
 
 		if ( FacesUtils.isUseSystemEvents() )
+		{
 			mBuildWidgetsTrigger = new SystemEventSupport( this );
+		}
 		else
+		{
 			mBuildWidgetsTrigger = new RemoveDuplicatesSupport( this );
+		}
 	}
 
 	//
@@ -191,12 +195,16 @@ public abstract class UIMetawidget
 	public Object getValue()
 	{
 		if ( mValue != null )
+		{
 			return mValue;
+		}
 
 		ValueBinding valueBinding = getValueBinding( "value" );
 
 		if ( valueBinding == null )
+		{
 			return null;
+		}
 
 		return valueBinding.getValue( getFacesContext() );
 	}
@@ -208,12 +216,16 @@ public abstract class UIMetawidget
 		ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
 		if ( bindingReadOnly != null )
+		{
 			return (Boolean) bindingReadOnly.getValue( getFacesContext() );
+		}
 
 		// Static read only
 
 		if ( mReadOnly != null )
+		{
 			return mReadOnly.booleanValue();
+		}
 
 		// Default to read-write
 
@@ -304,7 +316,9 @@ public abstract class UIMetawidget
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return "";
+		}
 
 		// Explicit label
 
@@ -315,14 +329,18 @@ public abstract class UIMetawidget
 			// (may be forced blank)
 
 			if ( "".equals( label ) )
+			{
 				return null;
+			}
 
 			// (localize if possible)
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return label.trim();
 		}
@@ -338,7 +356,9 @@ public abstract class UIMetawidget
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return StringUtils.uncamelCase( name );
 		}
@@ -366,7 +386,9 @@ public abstract class UIMetawidget
 			// (watch out when localizing blank labels)
 
 			if ( key == null || key.trim().length() == 0 )
+			{
 				return "";
+			}
 
 			@SuppressWarnings( "unchecked" )
 			Map<String, String> bundleMap = (Map<String, String>) bindingBundle.getValue( context );
@@ -374,7 +396,9 @@ public abstract class UIMetawidget
 			// (check for containsKey first, because BundleMap will return a dummy value otherwise)
 
 			if ( bundleMap.containsKey( key ) )
+			{
 				localizedKey = bundleMap.get( key );
+			}
 		}
 
 		// App-specific bundle
@@ -402,7 +426,9 @@ public abstract class UIMetawidget
 		}
 
 		if ( localizedKey != null )
+		{
 			return localizedKey;
+		}
 
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
@@ -418,7 +444,9 @@ public abstract class UIMetawidget
 		UIParameter parameter = FacesUtils.findParameterWithName( this, name );
 
 		if ( parameter != null )
+		{
 			return;
+		}
 
 		FacesContext context = getFacesContext();
 		parameter = (UIParameter) context.getApplication().createComponent( "javax.faces.Parameter" );
@@ -438,7 +466,9 @@ public abstract class UIMetawidget
 	public void putClientProperty( Object key, Object value )
 	{
 		if ( mClientProperties == null )
+		{
 			mClientProperties = CollectionUtils.newHashMap();
+		}
 
 		mClientProperties.put( key, value );
 	}
@@ -454,7 +484,9 @@ public abstract class UIMetawidget
 	public <T> T getClientProperty( Object key )
 	{
 		if ( mClientProperties == null )
+		{
 			return null;
+		}
 
 		return (T) mClientProperties.get( key );
 	}
@@ -465,7 +497,9 @@ public abstract class UIMetawidget
 		boolean rendered = super.isRendered();
 
 		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport )
+		{
 			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).isRendered( rendered );
+		}
 
 		return rendered;
 	}
@@ -475,7 +509,9 @@ public abstract class UIMetawidget
 		throws IOException
 	{
 		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport )
+		{
 			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).encodeBegin( context );
+		}
 
 		super.encodeBegin( context );
 	}
@@ -487,7 +523,9 @@ public abstract class UIMetawidget
 	public String inspect( Object toInspect, String type, String... names )
 	{
 		if ( LOG.isTraceEnabled() )
+		{
 			LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (start)" );
+		}
 
 		try
 		{
@@ -496,7 +534,9 @@ public abstract class UIMetawidget
 		finally
 		{
 			if ( LOG.isTraceEnabled() )
+			{
 				LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (end)" );
+			}
 		}
 	}
 
@@ -608,7 +648,9 @@ public abstract class UIMetawidget
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
 			if ( bindingReadOnly != null )
+			{
 				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
+			}
 		}
 
 		// Bundle
@@ -645,7 +687,9 @@ public abstract class UIMetawidget
 	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
 	{
 		if ( valueBinding == null )
+		{
 			return null;
+		}
 
 		// Inspect the object directly
 
@@ -700,7 +744,9 @@ public abstract class UIMetawidget
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
+		{
 			return;
+		}
 
 		LOG.trace( "configure (start)" );
 
@@ -721,14 +767,18 @@ public abstract class UIMetawidget
 			try
 			{
 				if ( LOG.isTraceEnabled() )
+				{
 					LOG.trace( "configure from " + mConfig + " (start)" );
+				}
 
 				configReader.configure( mConfig, this );
 			}
 			catch ( MetawidgetException e )
 			{
 				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
+				{
 					throw e;
+				}
 
 				if ( !LOGGED_MISSING_CONFIG )
 				{
@@ -739,7 +789,9 @@ public abstract class UIMetawidget
 			finally
 			{
 				if ( LOG.isTraceEnabled() )
+				{
 					LOG.trace( "configure from " + mConfig + " (end)" );
+				}
 			}
 		}
 
@@ -766,7 +818,9 @@ public abstract class UIMetawidget
 		// here and/or unnecessarily re-inspected in endBuild
 
 		if ( getValueBinding( "value" ) == null )
+		{
 			return;
+		}
 
 		// Remove any components we created previously (this is
 		// important for polymorphic controls, which may change from
@@ -821,7 +875,9 @@ public abstract class UIMetawidget
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
 
 		if ( additionalAttributes != null )
+		{
 			attributes.putAll( additionalAttributes );
+		}
 
 		// BasePipeline will call .layoutWidget
 	}
@@ -928,7 +984,9 @@ public abstract class UIMetawidget
 		protected Map<String, String> getAdditionalAttributes( UIComponent widget )
 		{
 			if ( widget instanceof UIStub )
+			{
 				return ( (UIStub) widget ).getStubAttributesAsMap();
+			}
 
 			return null;
 		}
@@ -937,12 +995,16 @@ public abstract class UIMetawidget
 		protected UIComponent buildWidget( String elementName, Map<String, String> attributes )
 		{
 			if ( LOG.isTraceEnabled() )
+			{
 				LOG.trace( "buildWidget for " + elementName + " named " + attributes.get( NAME ) + " (start)" );
+			}
 
 			UIComponent widget = super.buildWidget( elementName, attributes );
 
 			if ( LOG.isTraceEnabled() )
+			{
 				LOG.trace( "buildWidget returned " + widget + " (end)" );
+			}
 
 			return widget;
 		}
@@ -1043,7 +1105,9 @@ public abstract class UIMetawidget
 			// unit tests?
 
 			if ( !rendered )
+			{
 				getMetawidget().getChildren().clear();
+			}
 		}
 
 		/**
@@ -1098,7 +1162,9 @@ public abstract class UIMetawidget
 			// Warning against using an old version of RichFaces
 
 			if ( root == null )
+			{
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
+			}
 
 			// For GET requests, this gets fired during RenderResponsePhase and builds the
 			// components for the first time. Note that under partial state saving the built
@@ -1196,7 +1262,9 @@ public abstract class UIMetawidget
 					UIComponent component = i.next();
 
 					if ( findComponentWithId( mMetawidget, component.getId(), component ) != null )
+					{
 						i.remove();
+					}
 				}
 
 				return;
@@ -1214,20 +1282,28 @@ public abstract class UIMetawidget
 		private UIComponent findComponentWithId( UIComponent component, String id, UIComponent ignore )
 		{
 			if ( id == null )
+			{
 				return null;
+			}
 
 			for ( UIComponent child : component.getChildren() )
 			{
 				if ( child == ignore )
+				{
 					continue;
+				}
 
 				if ( id.equals( child.getId() ) )
+				{
 					return child;
+				}
 
 				UIComponent found = findComponentWithId( child, id, ignore );
 
 				if ( found != null )
+				{
 					return found;
+				}
 			}
 
 			return null;

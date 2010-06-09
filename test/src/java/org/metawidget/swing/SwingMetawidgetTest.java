@@ -479,7 +479,9 @@ public class SwingMetawidgetTest
 		public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget )
 		{
 			if ( !ACTION.equals( elementName ) )
+			{
 				return component;
+			}
 
 			JButton button = (JButton) component;
 

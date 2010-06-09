@@ -85,7 +85,9 @@ public class MainActivity
 				Contact contact = (Contact) viewAdapter.getAdapter().getItem( position );
 
 				if ( contact == null )
+				{
 					return;
+				}
 
 				intent.putExtra( "contactId", contact.getId() );
 
@@ -126,9 +128,13 @@ public class MainActivity
 				String type = metawidget.getValue( "type" );
 
 				if ( type == null || "".equals( type ) )
+				{
 					mContactSearch.setType( null );
+				}
 				else
+				{
 					mContactSearch.setType( ContactType.valueOf( type ) );
+				}
 
 				contacts.setAdapter( new ArrayAdapter<Contact>( MainActivity.this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
 				break;

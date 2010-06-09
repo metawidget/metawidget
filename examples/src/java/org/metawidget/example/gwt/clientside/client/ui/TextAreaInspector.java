@@ -71,7 +71,9 @@ public class TextAreaInspector
 			Element property = getProperty( entityToReturn, name );
 
 			if ( !property.hasAttribute( "type" ) )
+			{
 				throw InspectorException.newException( "Property '" + name + "' does not have a 'type' attribute" );
+			}
 
 			entityToReturn = getEntity( document, property.getAttribute( "type" ) );
 		}
@@ -95,7 +97,9 @@ public class TextAreaInspector
 			Element entity = (Element) entities.item( loop );
 
 			if ( type.equals( entity.getAttribute( "type" ) ) )
+			{
 				return entity;
+			}
 		}
 
 		throw new RuntimeException( "No such entity with type '" + type + "'" );
@@ -110,7 +114,9 @@ public class TextAreaInspector
 			Element property = (Element) entities.item( loop );
 
 			if ( name.equals( property.getAttribute( "name" ) ) )
+			{
 				return property;
+			}
 		}
 
 		throw new RuntimeException( "No such property with name '" + name + "' of entity '" + entity.getAttribute( "type" ) + "'" );
@@ -119,7 +125,9 @@ public class TextAreaInspector
 	private static String nodeToString( Node node )
 	{
 		if ( !( node instanceof Element ) )
+		{
 			return "";
+		}
 
 		StringBuilder builder = new StringBuilder();
 

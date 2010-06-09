@@ -113,10 +113,14 @@ public class ReadOnlyWidgetBuilderExampleTest
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 		{
 			if ( !WidgetBuilderUtils.isReadOnly( attributes ) )
+			{
 				return null;
+			}
 
 			if ( TRUE.equals( attributes.get( HIDDEN )))
+			{
 				return null;
+			}
 
 			Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 

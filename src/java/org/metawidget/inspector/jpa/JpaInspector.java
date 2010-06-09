@@ -73,7 +73,9 @@ public class JpaInspector
 		// Large
 
 		if ( property.isAnnotationPresent( Lob.class ) )
+		{
 			attributes.put( LARGE, TRUE );
+		}
 
 		// Required
 
@@ -82,12 +84,16 @@ public class JpaInspector
 		if ( column != null )
 		{
 			if ( !column.nullable() )
+			{
 				attributes.put( REQUIRED, TRUE );
+			}
 
 			// Length
 
 			if ( column.length() != 255 )
+			{
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( column.length() ) );
+			}
 		}
 
 		ManyToOne manyToOne = property.getAnnotation( ManyToOne.class );
@@ -95,13 +101,17 @@ public class JpaInspector
 		if ( manyToOne != null )
 		{
 			if ( !manyToOne.optional() )
+			{
 				attributes.put( REQUIRED, TRUE );
+			}
 		}
 
 		// Hidden
 
 		if ( mHideIds && property.isAnnotationPresent( Id.class ) )
+		{
 			attributes.put( HIDDEN, TRUE );
+		}
 
 		return attributes;
 	}

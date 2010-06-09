@@ -251,7 +251,9 @@ public class JavaBeanPropertyStyleTest
 		protected boolean isExcludedBaseType( Class<?> classToExclude )
 		{
 			if ( SuperFoo.class.equals( classToExclude ) )
+			{
 				return true;
+			}
 
 			return super.isExcludedBaseType( classToExclude );
 		}

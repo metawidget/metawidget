@@ -122,7 +122,9 @@ public class SeamInspector
 		// Pageflow
 
 		if ( mPageflowInspector != null )
+		{
 			return mPageflowInspector.inspect( toInspect, type, names );
+		}
 
 		return null;
 	}

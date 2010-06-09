@@ -130,7 +130,9 @@ public final class ClassUtils
 		catch ( Exception e )
 		{
 			if ( base == null )
+			{
 				throw new RuntimeException( "Unable to get '" + property + "' because base is null", e );
+			}
 
 			throw new RuntimeException( "Unable to get '" + property + "' of '" + base + "' (" + base.getClass() + ")", e );
 		}
@@ -171,13 +173,19 @@ public final class ClassUtils
 	public static boolean isPrimitiveWrapper( Class<?> clazz )
 	{
 		if ( Number.class.isAssignableFrom( clazz ) )
+		{
 			return true;
+		}
 
 		if ( Boolean.class.isAssignableFrom( clazz ) )
+		{
 			return true;
+		}
 
 		if ( Character.class.isAssignableFrom( clazz ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -190,28 +198,44 @@ public final class ClassUtils
 	public static Class<?> getWrapperClass( Class<?> clazz )
 	{
 		if ( clazz.equals( byte.class ) )
+		{
 			return Byte.class;
+		}
 
 		if ( clazz.equals( short.class ) )
+		{
 			return Short.class;
+		}
 
 		if ( clazz.equals( int.class ) )
+		{
 			return Integer.class;
+		}
 
 		if ( clazz.equals( long.class ) )
+		{
 			return Long.class;
+		}
 
 		if ( clazz.equals( float.class ) )
+		{
 			return Float.class;
+		}
 
 		if ( clazz.equals( double.class ) )
+		{
 			return Double.class;
+		}
 
 		if ( clazz.equals( boolean.class ) )
+		{
 			return Boolean.class;
+		}
 
 		if ( clazz.equals( char.class ) )
+		{
 			return Character.class;
+		}
 
 		throw new RuntimeException( clazz + " is not a primitive type" );
 	}
@@ -266,7 +290,9 @@ public final class ClassUtils
 	public static Class<?> getUnproxiedClass( Class<?> clazz, Pattern proxyPattern )
 	{
 		if ( proxyPattern == null || !proxyPattern.matcher( clazz.getName() ).find() )
+		{
 			return clazz;
+		}
 
 		Class<?> superclass = clazz.getSuperclass();
 
@@ -275,7 +301,9 @@ public final class ClassUtils
 		// to return. In that class, just return the original (proxied) class
 
 		if ( Object.class.equals( superclass ) )
+		{
 			return clazz;
+		}
 
 		return superclass;
 	}
@@ -305,7 +333,9 @@ public final class ClassUtils
 		try
 		{
 			if ( classLoader != null )
+			{
 				return Class.forName( className, false, classLoader );
+			}
 
 			// Use Class.forName() if there is no contextClassLoader (eg. Android)
 
@@ -314,28 +344,44 @@ public final class ClassUtils
 		catch ( ClassNotFoundException e )
 		{
 			if ( "byte".equals( className ) )
+			{
 				return byte.class;
+			}
 
 			if ( "short".equals( className ) )
+			{
 				return short.class;
+			}
 
 			if ( "int".equals( className ) )
+			{
 				return int.class;
+			}
 
 			if ( "long".equals( className ) )
+			{
 				return long.class;
+			}
 
 			if ( "float".equals( className ) )
+			{
 				return float.class;
+			}
 
 			if ( "double".equals( className ) )
+			{
 				return double.class;
+			}
 
 			if ( "boolean".equals( className ) )
+			{
 				return boolean.class;
+			}
 
 			if ( "char".equals( className ) )
+			{
 				return char.class;
+			}
 
 			return null;
 		}
@@ -355,7 +401,9 @@ public final class ClassUtils
 		int lastIndexOf = className.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( lastIndexOf != -1 )
+		{
 			className = className.substring( lastIndexOf + 1 );
+		}
 
 		return className;
 	}
@@ -373,7 +421,9 @@ public final class ClassUtils
 		throws FileNotFoundException
 	{
 		if ( resource == null || "".equals( resource.trim() ) )
+		{
 			throw new FileNotFoundException( "No resource specified" );
+		}
 
 		// Thread's ClassLoader
 
@@ -384,7 +434,9 @@ public final class ClassUtils
 			InputStream stream = loaderContext.getResourceAsStream( resource );
 
 			if ( stream != null )
+			{
 				return stream;
+			}
 		}
 
 		// ClassUtil's ClassLoader
@@ -392,7 +444,9 @@ public final class ClassUtils
 		InputStream stream = ClassUtils.class.getResourceAsStream( resource );
 
 		if ( stream != null )
+		{
 			return stream;
+		}
 
 		throw new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" );
 	}

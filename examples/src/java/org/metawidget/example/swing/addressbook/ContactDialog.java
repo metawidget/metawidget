@@ -129,7 +129,9 @@ public class ContactDialog
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
 		if ( builder.length() > 0 )
+		{
 			builder.append( " - " );
+		}
 
 		// Personal/business icon
 
@@ -174,12 +176,16 @@ public class ContactDialog
 				menuPopup.setVisible( false );
 
 				if ( mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
+				{
 					return;
+				}
 
 				int rowAtPoint = communicationsTable.rowAtPoint( menuPopup.getLocation() );
 
 				if ( rowAtPoint < 0 || rowAtPoint >= mCommunicationsModel.getRowCount() )
+				{
 					return;
+				}
 
 				Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
 				contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
@@ -199,7 +205,9 @@ public class ContactDialog
 					menuPopup.setLocation( event.getLocationOnScreen() );
 
 					if ( communicationsTable.getCellEditor() != null )
+					{
 						communicationsTable.getCellEditor().stopCellEditing();
+					}
 
 					menuPopup.setVisible( true );
 				}
@@ -282,7 +290,9 @@ public class ContactDialog
 		Contact contact = mContactMetawidget.getToInspect();
 
 		if ( !mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION )
+		{
 			return;
+		}
 
 		ContactDialog.this.setVisible( false );
 		mProvider.getContactsController().delete( contact );
@@ -345,7 +355,9 @@ public class ContactDialog
 			Communication communication = ( (ListTableModel<Communication>) table.getModel() ).getValueAt( row );
 
 			if ( communication == null )
+			{
 				communication = new Communication();
+			}
 
 			mEditor.setToInspect( communication );
 			mColumnName = StringUtils.lowercaseFirstLetter( table.getModel().getColumnName( column ) );

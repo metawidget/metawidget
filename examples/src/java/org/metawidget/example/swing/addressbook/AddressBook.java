@@ -133,9 +133,13 @@ public class AddressBook
 		JPanel panelRight = new JPanel();
 
 		if ( container instanceof ImagePanel )
+		{
 			panelRight.setOpaque( false );
+		}
 		else
+		{
 			panelRight.setBackground( Color.white );
+		}
 
 		panelRight.setLayout( new BorderLayout() );
 		panelRight.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING ) );
@@ -250,9 +254,13 @@ public class AddressBook
 				public void setValue( Object value )
 				{
 					if ( PersonalContact.class.equals( value ) )
+					{
 						setIcon( iconPersonal );
+					}
 					else
+					{
 						setIcon( iconBusiness );
+					}
 				}
 			} );
 		}
@@ -271,7 +279,9 @@ public class AddressBook
 				// When table is double clicked...
 
 				if ( event.getClickCount() != 2 )
+				{
 					return;
+				}
 
 				// ...fetch the Contact...
 

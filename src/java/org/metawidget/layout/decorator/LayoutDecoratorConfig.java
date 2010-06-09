@@ -58,13 +58,19 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C>
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		return ( ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, C, M>) that ).mLayout ) );
 	}

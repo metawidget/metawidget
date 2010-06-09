@@ -59,7 +59,9 @@ public class SpringMetawidgetTag
 				int firstIndexOf = path.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
+				{
 					setPathPrefix( path.substring( firstIndexOf + 1, lastIndexOf + 1 ));
+				}
 			}
 		}
 	}
@@ -70,7 +72,9 @@ public class SpringMetawidgetTag
 		String localizedKey = super.getLocalizedKey( key );
 
 		if ( localizedKey != null )
+		{
 			return localizedKey;
+		}
 
 		// Use Spring MessageResources (if any)
 		//
@@ -103,6 +107,8 @@ public class SpringMetawidgetTag
 		int firstIndexOf = getPath().indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
+		{
 			setPathPrefix( getPath().substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR );
+		}
 	}
 }

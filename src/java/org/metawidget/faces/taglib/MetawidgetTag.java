@@ -134,12 +134,16 @@ public abstract class MetawidgetTag
 		// Renderer
 
 		if ( mRendererType != null )
+		{
 			metawidetComponent.setRendererType( mRendererType );
+		}
 
 		// Config
 
 		if ( mConfig != null )
+		{
 			metawidetComponent.setConfig( mConfig );
+		}
 
 		// Inspect from parent
 
@@ -166,7 +170,9 @@ public abstract class MetawidgetTag
 		if ( mBundle != null )
 		{
 			if ( !isValueReference( mBundle ) )
+			{
 				throw MetawidgetException.newException( "Bundle must be an EL expression" );
+			}
 
 			metawidetComponent.setValueBinding( "bundle", application.createValueBinding( mBundle ) );
 		}

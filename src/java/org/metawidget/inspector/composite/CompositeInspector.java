@@ -75,7 +75,9 @@ public class CompositeInspector
 		// if we want to validate what the sub-Inspector is returning (ie. using LOG.debug)
 
 		if ( inspectors == null || inspectors.length == 0 )
+		{
 			throw InspectorException.newException( "CompositeInspector needs at least one Inspector" );
+		}
 
 		// Defensive copy
 
@@ -115,7 +117,9 @@ public class CompositeInspector
 				String xml = inspector.inspect( toInspect, type, names );
 
 				if ( xml == null )
+				{
 					continue;
+				}
 
 				// ...parse the result...
 
@@ -132,7 +136,9 @@ public class CompositeInspector
 				// ...and combine them
 
 				if ( !inspectionDocument.hasChildNodes() )
+				{
 					continue;
+				}
 
 				if ( masterDocument == null || !masterDocument.hasChildNodes() )
 				{
@@ -146,7 +152,9 @@ public class CompositeInspector
 			if ( masterDocument == null || !masterDocument.hasChildNodes() )
 			{
 				if ( LOG.isDebugEnabled() )
+				{
 					LOG.debug( "No inspectors matched path == " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+				}
 
 				return null;
 			}

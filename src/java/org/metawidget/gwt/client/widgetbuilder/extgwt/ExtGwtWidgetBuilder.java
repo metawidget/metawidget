@@ -48,10 +48,14 @@ public class ExtGwtWidgetBuilder
 	public Object getValue( Widget widget )
 	{
 		if ( widget instanceof DateField )
+		{
 			return ( (DateField) widget ).getValue();
+		}
 
 		if ( widget instanceof Slider )
+		{
 			return ( (Slider) widget ).getValue();
+		}
 
 		return null;
 	}
@@ -81,23 +85,33 @@ public class ExtGwtWidgetBuilder
 		// Not for ExtGWT?
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return null;
+		}
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return null;
+		}
 
 		if ( attributes.containsKey( LOOKUP ) )
+		{
 			return null;
+		}
 
 		String type = GwtUtils.getActualClassOrType( attributes );
 
 		if ( type == null )
+		{
 			return null;
+		}
 
 		// Dates
 
 		if ( Date.class.getName().equals( type ) )
+		{
 			return new DateField();
+		}
 
 		// Slider
 

@@ -54,7 +54,9 @@ public final class AndroidUtils
 		// No style?
 
 		if ( style == 0 )
+		{
 			return;
+		}
 
 		// Construct StyledAttributes
 
@@ -95,14 +97,18 @@ public final class AndroidUtils
 			ColorStateList colors = attributes.getColorStateList( 0 );
 
 			if ( colors != null )
+			{
 				textView.setTextColor( colors );
+			}
 
 			// Gravity
 
 			int gravity = attributes.getInteger( 1, BOGUS_DEFAULT );
 
 			if ( gravity != BOGUS_DEFAULT )
+			{
 				textView.setGravity( gravity );
+			}
 
 			// Size
 			//
@@ -112,7 +118,9 @@ public final class AndroidUtils
 			int textSize = attributes.getDimensionPixelSize( 0, BOGUS_DEFAULT );
 
 			if ( textSize != BOGUS_DEFAULT )
+			{
 				textView.setTextSize( textSize );
+			}
 		}
 	}
 

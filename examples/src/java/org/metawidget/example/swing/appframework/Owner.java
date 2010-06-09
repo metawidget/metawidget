@@ -60,18 +60,24 @@ public class Owner
 		StringBuilder builder = new StringBuilder();
 
 		if ( mFirstname != null )
+		{
 			builder.append( mFirstname );
+		}
 
 		if ( mSurname != null )
 		{
 			if ( builder.length() > 0 )
+			{
 				builder.append( " " );
+			}
 
 			builder.append( mSurname );
 		}
 
 		if ( builder.length() == 0 )
+		{
 			builder.append( "(no name specified)" );
+		}
 
 		return builder.toString();
 	}

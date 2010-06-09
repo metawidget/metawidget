@@ -48,7 +48,9 @@ public class OverriddenWidgetBuilder
 		String name = attributes.get( NAME );
 
 		if ( name == null )
+		{
 			return null;
+		}
 
 		Set<View> existingUnusedViews = metawidget.fetchExistingUnusedViews();
 
@@ -62,7 +64,9 @@ public class OverriddenWidgetBuilder
 		}
 
 		if ( view != null )
+		{
 			existingUnusedViews.remove( view );
+		}
 
 		return view;
 	}

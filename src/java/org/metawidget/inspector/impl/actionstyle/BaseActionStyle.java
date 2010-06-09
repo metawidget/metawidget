@@ -125,10 +125,14 @@ public abstract class BaseActionStyle
 		String name = clazz.getName();
 
 		if ( name.indexOf( "_$$_javassist_" ) != -1 )
+		{
 			return true;
+		}
 
 		if ( name.indexOf( "ByCGLIB$$" ) != -1 )
+		{
 			return true;
+		}
 
 		return false;
 	}

@@ -74,7 +74,9 @@ public class TextViewLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
+		{
 			localizedSection = section;
+		}
 
 		textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
 

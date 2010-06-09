@@ -66,7 +66,9 @@ public class GridBagLayoutConfig
 	public GridBagLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 1 )
+		{
 			throw LayoutException.newException( "numberOfColumns must be >= 1" );
+		}
 
 		mNumberOfColumns = numberOfColumns;
 
@@ -173,34 +175,54 @@ public class GridBagLayoutConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mNumberOfColumns != ( (GridBagLayoutConfig) that ).mNumberOfColumns )
+		{
 			return false;
+		}
 
 		if ( mLabelAlignment != ( (GridBagLayoutConfig) that ).mLabelAlignment )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelFont, ( (GridBagLayoutConfig) that ).mLabelFont ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelForeground, ( (GridBagLayoutConfig) that ).mLabelForeground ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ( (GridBagLayoutConfig) that ).mLabelSuffix ) )
+		{
 			return false;
+		}
 
 		if ( mRequiredAlignment != ( (GridBagLayoutConfig) that ).mRequiredAlignment )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ( (GridBagLayoutConfig) that ).mRequiredText ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

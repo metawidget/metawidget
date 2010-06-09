@@ -49,7 +49,9 @@ public class SwingAppFrameworkInspectorConfig
 		if ( mActionStyle == null && !mNullActionStyle )
 		{
 			if ( DEFAULT_APPFRAMEWORK_ACTION_STYLE == null )
+			{
 				DEFAULT_APPFRAMEWORK_ACTION_STYLE = new SwingAppFrameworkActionStyle();
+			}
 
 			mActionStyle = DEFAULT_APPFRAMEWORK_ACTION_STYLE;
 		}

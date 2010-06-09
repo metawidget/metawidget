@@ -43,7 +43,9 @@ public class StringToGenderConverter
 	public Object convert( Object toConvert )
 	{
 		if ( toConvert == null || "".equals( toConvert ))
+		{
 			return null;
+		}
 
 		return Gender.valueOf( (String) toConvert );
 	}

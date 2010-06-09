@@ -66,7 +66,9 @@ public class SwingAppFrameworkInspector
 			attributes.put( NAME, action.getName() );
 
 			if ( !"".equals( actionAnnotation.name() ))
+			{
 				attributes.put( LABEL, actionAnnotation.name() );
+			}
 		}
 
 		return attributes;

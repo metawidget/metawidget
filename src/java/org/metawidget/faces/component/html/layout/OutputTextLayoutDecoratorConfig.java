@@ -94,19 +94,29 @@ public class OutputTextLayoutDecoratorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (OutputTextLayoutDecoratorConfig) that ).mStyle ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (OutputTextLayoutDecoratorConfig) that ).mStyleClass ) )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

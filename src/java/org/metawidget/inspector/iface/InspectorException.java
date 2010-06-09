@@ -45,7 +45,9 @@ public class InspectorException
 	public static InspectorException newException( Throwable cause )
 	{
 		if ( cause instanceof InspectorException )
+		{
 			return (InspectorException) cause;
+		}
 
 		return new InspectorException( cause );
 	}

@@ -98,7 +98,9 @@ public class AllWidgetsActivity
 					// Already saved?
 
 					if ( metawidget.isReadOnly() )
+					{
 						return false;
+					}
 
 					// Save
 
@@ -120,7 +122,9 @@ public class AllWidgetsActivity
 					String message = e.getMessage();
 
 					if ( message == null || "".equals( message ) )
+					{
 						message = e.getClass().getSimpleName();
+					}
 
 					AlertDialog.Builder builder = new AlertDialog.Builder( metawidget.getContext() );
 					builder.setTitle( "Save error" );
@@ -200,63 +204,91 @@ public class AllWidgetsActivity
 		String byteObject = metawidget.getValue( "byteObject" );
 
 		if ( byteObject == null || "".equals( byteObject ) )
+		{
 			mAllWidgets.setByteObject( null );
+		}
 		else
+		{
 			mAllWidgets.setByteObject( Byte.valueOf( byteObject ) );
+		}
 
 		mAllWidgets.setShort( Short.parseShort( (String) metawidget.getValue( "short" ) ) );
 
 		String shortObject = metawidget.getValue( "shortObject" );
 
 		if ( shortObject == null || "".equals( shortObject ) )
+		{
 			mAllWidgets.setShortObject( null );
+		}
 		else
+		{
 			mAllWidgets.setShortObject( Short.valueOf( shortObject ) );
+		}
 
 		mAllWidgets.setInt( Integer.parseInt( (String) metawidget.getValue( "int" ) ) );
 
 		String integerObject = metawidget.getValue( "integerObject" );
 
 		if ( integerObject == null || "".equals( integerObject ) )
+		{
 			mAllWidgets.setIntegerObject( null );
+		}
 		else
+		{
 			mAllWidgets.setIntegerObject( Integer.valueOf( integerObject ) );
+		}
 
 		mAllWidgets.setRangedInt( Integer.parseInt( (String) metawidget.getValue( "rangedInt" ) ) );
 
 		String rangedInteger = metawidget.getValue( "rangedInteger" );
 
 		if ( rangedInteger == null || "".equals( rangedInteger ) )
+		{
 			mAllWidgets.setRangedInteger( null );
+		}
 		else
+		{
 			mAllWidgets.setRangedInteger( Integer.valueOf( rangedInteger ) );
+		}
 
 		mAllWidgets.setLong( Long.parseLong( (String) metawidget.getValue( "long" ) ) );
 
 		String longObject = metawidget.getValue( "longObject" );
 
 		if ( longObject == null || "".equals( longObject ) )
+		{
 			mAllWidgets.setLongObject( null );
+		}
 		else
+		{
 			mAllWidgets.setLongObject( Long.valueOf( longObject ) );
+		}
 
 		mAllWidgets.setFloat( Float.parseFloat( (String) metawidget.getValue( "float" ) ) );
 
 		String floatObject = metawidget.getValue( "floatObject" );
 
 		if ( floatObject == null || "".equals( floatObject ) )
+		{
 			mAllWidgets.setFloatObject( null );
+		}
 		else
+		{
 			mAllWidgets.setFloatObject( Float.valueOf( floatObject ) );
+		}
 
 		mAllWidgets.setDouble( Double.parseDouble( (String) metawidget.getValue( "double" ) ) );
 
 		String doubleObject = metawidget.getValue( "doubleObject" );
 
 		if ( doubleObject == null || "".equals( doubleObject ) )
+		{
 			mAllWidgets.setDoubleObject( null );
+		}
 		else
+		{
 			mAllWidgets.setDoubleObject( Double.valueOf( doubleObject ) );
+		}
 
 		mAllWidgets.setChar( ( (String) metawidget.getValue( "char" ) ).charAt( 0 ) );
 
@@ -265,9 +297,13 @@ public class AllWidgetsActivity
 		String booleanObject = metawidget.getValue( "booleanObject" );
 
 		if ( booleanObject == null || "".equals( booleanObject ) )
+		{
 			mAllWidgets.setBooleanObject( null );
+		}
 		else
+		{
 			mAllWidgets.setBooleanObject( Boolean.valueOf( booleanObject ) );
+		}
 
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
@@ -289,7 +325,9 @@ public class AllWidgetsActivity
 			nestedWidgetsDontExpand.setNestedTextbox1( values[0] );
 
 			if ( values.length > 1 )
+			{
 				nestedWidgetsDontExpand.setNestedTextbox2( values[1] );
+			}
 
 			mAllWidgets.setNestedWidgetsDontExpand( nestedWidgetsDontExpand );
 		}

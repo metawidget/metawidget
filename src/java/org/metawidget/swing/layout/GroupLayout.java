@@ -91,7 +91,9 @@ public class GroupLayout
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
+		{
 			return;
+		}
 
 		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
 		SequentialGroup sequentialGroup = groupLayout.createSequentialGroup();
@@ -113,7 +115,9 @@ public class GroupLayout
 				// Required
 
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
+				{
 					labelText += "*";
+				}
 
 				JLabel label = new JLabel();
 				label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
@@ -140,7 +144,9 @@ public class GroupLayout
 		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
 
 		if ( !state.labels.isEmpty() )
+		{
 			groupLayout.linkSize( SwingConstants.HORIZONTAL, state.labels.toArray( EMPTY_COMPONENTS_ARRAY ) );
+		}
 	}
 
 	public void onEndBuild( SwingMetawidget metawidget )

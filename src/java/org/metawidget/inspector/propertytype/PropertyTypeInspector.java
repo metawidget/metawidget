@@ -91,7 +91,9 @@ public class PropertyTypeInspector
 		// 3. We don't want to use a proxied class as the 'type'
 
 		if ( !actualClass.equals( declaredClass ))
+		{
 			attributes.put( ACTUAL_CLASS, actualClass.getName() );
+		}
 
 		// Special support for Booleans, which are tri-state
 
@@ -117,12 +119,16 @@ public class PropertyTypeInspector
 		// as it may be settable by its nested primitives
 
 		if ( !property.isWritable() )
+		{
 			attributes.put( NO_SETTER, TRUE );
+		}
 
 		// No getter
 
 		if ( !property.isReadable() )
+		{
 			attributes.put( NO_GETTER, TRUE );
+		}
 
 		return attributes;
 	}

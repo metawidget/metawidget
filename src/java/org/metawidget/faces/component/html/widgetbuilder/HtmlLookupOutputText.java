@@ -54,7 +54,9 @@ public class HtmlLookupOutputText
 		mLabels = labels;
 
 		if ( mValues.size() != mLabels.size() )
+		{
 			throw WidgetBuilderException.newException( "There are " + mValues.size() + " possible values, but " + mLabels.size() + " possible labels" );
+		}
 	}
 
 	@Override
@@ -63,7 +65,9 @@ public class HtmlLookupOutputText
 		Object value = super.getValue();
 
 		if ( value == null )
+		{
 			return null;
+		}
 
 		// Special support for Collections
 
@@ -72,7 +76,9 @@ public class HtmlLookupOutputText
 			Collection<?> values = (Collection<?>) value;
 
 			if ( values.isEmpty() )
+			{
 				return null;
+			}
 
 			try
 			{
@@ -84,9 +90,13 @@ public class HtmlLookupOutputText
 				// value.getClass().newInstance() because it might be a PersistentSet or something
 
 				if ( value instanceof Set<?> )
+				{
 					labels = CollectionUtils.newHashSet();
+				}
 				else
+				{
 					labels = CollectionUtils.newArrayList();
+				}
 
 				for ( Object itemValue : values )
 				{
@@ -119,7 +129,9 @@ public class HtmlLookupOutputText
 		Converter converter = getConverter();
 
 		if ( converter == null )
+		{
 			converter = getFacesContext().getApplication().createConverter( value.getClass() );
+		}
 
 		return convertAndLookup( converter, value );
 	}
@@ -157,16 +169,22 @@ public class HtmlLookupOutputText
 		String convertedValue;
 
 		if ( converter != null )
+		{
 			convertedValue = converter.getAsString( getFacesContext(), this, value );
+		}
 		else
+		{
 			convertedValue = String.valueOf( value );
+		}
 
 		// ...and lookup
 
 		int indexOf = mValues.indexOf( convertedValue );
 
 		if ( indexOf != -1 )
+		{
 			return mLabels.get( indexOf );
+		}
 
 		// There may be no such lookup. It is tempting to error at this point, but that gets
 		// icky with enums, who are already converted to their .toString by EnumConverter

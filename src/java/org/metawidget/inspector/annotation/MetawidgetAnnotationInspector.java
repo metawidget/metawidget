@@ -69,35 +69,45 @@ public class MetawidgetAnnotationInspector
 		// UiHidden
 
 		if ( trait.isAnnotationPresent( UiHidden.class ) )
+		{
 			attributes.put( HIDDEN, TRUE );
+		}
 
 		// UiComesAfter
 
 		UiComesAfter comesAfter = trait.getAnnotation( UiComesAfter.class );
 
 		if ( comesAfter != null )
+		{
 			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
+		}
 
 		// UiReadOnly
 
 		UiReadOnly readOnly = trait.getAnnotation( UiReadOnly.class );
 
 		if ( readOnly != null )
+		{
 			attributes.put( READ_ONLY, TRUE );
+		}
 
 		// UiSection
 
 		UiSection uiSection = trait.getAnnotation( UiSection.class );
 
 		if ( uiSection != null )
+		{
 			attributes.put( SECTION, ArrayUtils.toString( uiSection.value() ));
+		}
 
 		// UiLabel
 
 		UiLabel label = trait.getAnnotation( UiLabel.class );
 
 		if ( label != null )
+		{
 			attributes.put( LABEL, label.value() );
+		}
 
 		// UiAttribute
 
@@ -132,7 +142,9 @@ public class MetawidgetAnnotationInspector
 		// UiRequired
 
 		if ( property.isAnnotationPresent( UiRequired.class ) )
+		{
 			attributes.put( REQUIRED, TRUE );
+		}
 
 		// UiLookup
 
@@ -146,30 +158,40 @@ public class MetawidgetAnnotationInspector
 			// here, as XmlInspector could bypass it anyway)
 
 			if ( lookup.labels().length > 0 )
+			{
 				attributes.put( LOOKUP_LABELS, ArrayUtils.toString( lookup.labels() ) );
+			}
 		}
 
 		// UiMasked
 
 		if ( property.isAnnotationPresent( UiMasked.class ) )
+		{
 			attributes.put( MASKED, TRUE );
+		}
 
 		// UiLarge
 
 		if ( property.isAnnotationPresent( UiLarge.class ) )
+		{
 			attributes.put( LARGE, TRUE );
+		}
 
 		// UiWide
 
 		if ( property.isAnnotationPresent( UiWide.class ) )
+		{
 			attributes.put( WIDE, TRUE );
+		}
 
 		// UiDontExpand
 
 		UiDontExpand dontExpand = property.getAnnotation( UiDontExpand.class );
 
 		if ( dontExpand != null )
+		{
 			attributes.put( DONT_EXPAND, TRUE );
+		}
 
 		return attributes;
 	}
@@ -183,7 +205,9 @@ public class MetawidgetAnnotationInspector
 		// UiAction (this is kind of a dummy match)
 
 		if ( action.isAnnotationPresent( UiAction.class ) )
+		{
 			attributes.put( NAME, action.getName() );
+		}
 
 		return attributes;
 	}

@@ -59,7 +59,9 @@ public class HtmlTableLayoutConfig
 	public HtmlTableLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 0 )
+		{
 			throw LayoutException.newException( "numberOfColumns must be >= 0" );
+		}
 
 		mNumberOfColumns = numberOfColumns;
 
@@ -146,31 +148,49 @@ public class HtmlTableLayoutConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mNumberOfColumns != ((HtmlTableLayoutConfig) that).mNumberOfColumns )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ((HtmlTableLayoutConfig) that).mTableStyle ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ((HtmlTableLayoutConfig) that).mTableStyleClass ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mColumnStyleClasses, ((HtmlTableLayoutConfig) that).mColumnStyleClasses ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyle, ((HtmlTableLayoutConfig) that).mFooterStyle ))
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyleClass, ((HtmlTableLayoutConfig) that).mFooterStyleClass ))
+		{
 			return false;
+		}
 
 		return true;
 	}

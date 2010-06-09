@@ -48,7 +48,9 @@ public class OverriddenWidgetBuilder
 		String name = attributes.get( NAME );
 
 		if ( name == null )
+		{
 			return null;
+		}
 
 		Component component = null;
 		List<JComponent> existingUnusedComponents = metawidget.fetchExistingUnusedComponents();
@@ -63,7 +65,9 @@ public class OverriddenWidgetBuilder
 		}
 
 		if ( component != null )
+		{
 			existingUnusedComponents.remove( component );
+		}
 
 		return (JComponent) component;
 	}

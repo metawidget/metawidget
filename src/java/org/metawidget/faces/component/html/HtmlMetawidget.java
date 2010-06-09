@@ -85,7 +85,9 @@ public class HtmlMetawidget
 	public void restoreState( FacesContext context, Object state )
 	{
 		if ( !( state instanceof Object[] ))
+		{
 			throw MetawidgetException.newException( "State saving out-of-sync with component tree. Consider setting javax.faces.PARTIAL_STATE_SAVING to false" );
+		}
 
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );

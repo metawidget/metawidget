@@ -197,16 +197,22 @@ public class ConfigReader
 		String locationKey = resource + StringUtils.SEPARATOR_FORWARD_SLASH;
 
 		if ( toConfigure instanceof Class<?> )
+		{
 			locationKey += ( (Class<?>) toConfigure ).getName();
+		}
 		else if ( toConfigure != null )
+		{
 			locationKey += toConfigure.getClass().getName();
+		}
 
 		locationKey += ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
 
 		Map<Integer, Object> immutableByLocationCache = mImmutableByLocationCache.get( locationKey );
 
 		if ( immutableByLocationCache == null )
+		{
 			immutableByLocationCache = CollectionUtils.newHashMap();
+		}
 
 		configHandler.setImmutableForThisLocationCache( immutableByLocationCache );
 
@@ -326,7 +332,9 @@ public class ConfigReader
 	public Object configure( InputStream stream, Object toConfigure, String... names )
 	{
 		if ( stream == null )
+		{
 			throw MetawidgetException.newException( "No input stream specified" );
+		}
 
 		try
 		{
@@ -377,37 +385,59 @@ public class ConfigReader
 	protected boolean isNative( String name )
 	{
 		if ( "null".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "string".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "class".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "pattern".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "int".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "boolean".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "resource".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "url".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "file".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "bundle".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "constant".equals( name ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -423,7 +453,9 @@ public class ConfigReader
 	protected boolean isLazyResolvingNative( String name )
 	{
 		if ( "enum".equals( name ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -440,15 +472,21 @@ public class ConfigReader
 		throws Exception
 	{
 		if ( "null".equals( name ) )
+		{
 			return null;
+		}
 
 		if ( "string".equals( name ) )
+		{
 			return recordedText;
+		}
 
 		if ( "class".equals( name ) )
 		{
 			if ( "".equals( recordedText ) )
+			{
 				return null;
+			}
 
 			return Class.forName( recordedText );
 		}
@@ -469,18 +507,26 @@ public class ConfigReader
 		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
 
 		if ( "int".equals( name ) )
+		{
 			return new Integer( recordedText );
+		}
 
 		// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
 
 		if ( "boolean".equals( name ) )
+		{
 			return new Boolean( recordedText );
+		}
 
 		if ( "bundle".equals( name ) )
+		{
 			return ResourceBundle.getBundle( recordedText );
+		}
 
 		if ( "enum".equals( name ) )
+		{
 			return recordedText;
+		}
 
 		if ( "constant".equals( name ) )
 		{
@@ -489,7 +535,9 @@ public class ConfigReader
 			int lastIndexOf = recordedText.lastIndexOf( '.' );
 
 			if ( lastIndexOf != -1 )
+			{
 				return Class.forName( recordedText.substring( 0, lastIndexOf ) ).getDeclaredField( recordedText.substring( lastIndexOf + 1 ) ).get( null );
+			}
 
 			// Relative to current namespace
 
@@ -500,13 +548,19 @@ public class ConfigReader
 		// are used by, say, a PropertyStyle because that PropertyStyle can never be shared
 
 		if ( "resource".equals( name ) )
+		{
 			return openResource( recordedText );
+		}
 
 		if ( "url".equals( name ) )
+		{
 			return new URL( recordedText ).openStream();
+		}
 
 		if ( "file".equals( name ) )
+		{
 			return new FileInputStream( recordedText );
+		}
 
 		throw MetawidgetException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
 	}
@@ -518,13 +572,19 @@ public class ConfigReader
 	protected Object createNativeCollection( String name )
 	{
 		if ( "array".equals( name ) )
+		{
 			return new Object[0];
+		}
 
 		if ( "list".equals( name ) )
+		{
 			return CollectionUtils.newArrayList();
+		}
 
 		if ( "set".equals( name ) )
+		{
 			return CollectionUtils.newHashSet();
+		}
 
 		return null;
 	}
@@ -748,10 +808,14 @@ public class ConfigReader
 		public Object getConfigured()
 		{
 			if ( mConstructing.isEmpty() )
+			{
 				throw MetawidgetException.newException( "No match for " + mToConfigure + " within config" );
+			}
 
 			if ( mConstructing.size() > 1 )
+			{
 				throw MetawidgetException.newException( "Config still processing" );
+			}
 
 			return mConstructing.peek();
 		}
@@ -763,13 +827,19 @@ public class ConfigReader
 			mDepth++;
 
 			if ( mIgnoreTypeAfterDepth != -1 && mDepth > mIgnoreTypeAfterDepth )
+			{
 				return;
+			}
 
 			if ( mIgnoreNameAfterDepth != -1 && mDepth > mIgnoreNameAfterDepth )
+			{
 				return;
+			}
 
 			if ( Character.isUpperCase( localName.charAt( 0 ) ) )
+			{
 				throw MetawidgetException.newException( "XML node '" + localName + "' should start with a lowercase letter" );
+			}
 
 			try
 			{
@@ -781,9 +851,13 @@ public class ConfigReader
 				{
 					case EXPECTING_ROOT:
 						if ( mToConfigure == null )
+						{
 							mExpecting = EXPECTING_OBJECT;
+						}
 						else
+						{
 							mExpecting = EXPECTING_TO_CONFIGURE;
+						}
 						break;
 
 					case EXPECTING_TO_CONFIGURE:
@@ -791,7 +865,9 @@ public class ConfigReader
 						// Initial elements must be at depth == 2
 
 						if ( mDepth != 2 )
+						{
 							return;
+						}
 
 						Class<?> toConfigureClass = classForName( uri, localName );
 
@@ -807,13 +883,17 @@ public class ConfigReader
 								// Pause caching (if any)
 
 								if ( mCachingContentHandler != null )
+								{
 									mCachingContentHandler.pause( false );
+								}
 
 								return;
 							}
 
 							if ( !mConstructing.isEmpty() )
+							{
 								throw MetawidgetException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+							}
 
 							handleNonNativeObject( uri, localName, attributes );
 						}
@@ -830,13 +910,17 @@ public class ConfigReader
 								// Pause caching (if any)
 
 								if ( mCachingContentHandler != null )
+								{
 									mCachingContentHandler.pause( false );
+								}
 
 								return;
 							}
 
 							if ( !mConstructing.isEmpty() )
+							{
 								throw MetawidgetException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+							}
 
 							mConstructing.push( mToConfigure );
 							mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
@@ -849,7 +933,9 @@ public class ConfigReader
 					case EXPECTING_OBJECT:
 					{
 						if ( mCachingContentHandler == null || !mCachingContentHandler.isPaused() )
+						{
 							mLocationIndex++;
+						}
 
 						// Native types
 
@@ -914,7 +1000,9 @@ public class ConfigReader
 									// Pause caching (if any)
 
 									if ( mCachingContentHandler != null )
+									{
 										mCachingContentHandler.pause( false );
+									}
 
 									return;
 								}
@@ -950,7 +1038,9 @@ public class ConfigReader
 		public void characters( char[] characters, int start, int length )
 		{
 			if ( mBufferValue == null )
+			{
 				return;
+			}
 
 			mBufferValue.append( characters, start, length );
 		}
@@ -972,38 +1062,50 @@ public class ConfigReader
 			if ( mIgnoreTypeAfterDepth != -1 )
 			{
 				if ( mDepth >= mIgnoreTypeAfterDepth )
+				{
 					return;
+				}
 
 				mIgnoreTypeAfterDepth = -1;
 
 				// Unpause caching (if any)
 
 				if ( mCachingContentHandler != null )
+				{
 					mCachingContentHandler.unpause( false );
+				}
 			}
 
 			if ( mIgnoreNameAfterDepth != -1 )
 			{
 				if ( mDepth >= mIgnoreNameAfterDepth )
+				{
 					return;
+				}
 
 				mIgnoreNameAfterDepth = -1;
 
 				// Unpause caching (if any)
 
 				if ( mCachingContentHandler != null )
+				{
 					mCachingContentHandler.unpause( false );
+				}
 			}
 
 			// All done?
 
 			if ( mDepth == 0 )
+			{
 				return;
+			}
 
 			// Inside the tree somewhere, but of a different toConfigure?
 
 			if ( mConstructing.isEmpty() )
+			{
 				return;
+			}
 
 			// Configure based on what was encountered
 
@@ -1055,7 +1157,9 @@ public class ConfigReader
 							// Immutable by class (and config)? Don't re-instantiate
 
 							if ( isImmutable( classToConstruct ) )
+							{
 								configuredObject = getImmutableByClass( classToConstruct, object );
+							}
 
 							if ( configuredObject == null )
 							{
@@ -1069,9 +1173,13 @@ public class ConfigReader
 									String likelyConfig = getLikelyConfig( classToConstruct );
 
 									if ( "".equals( likelyConfig ) )
+									{
 										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. It only has a config-less constructor" );
+									}
 									else if ( likelyConfig != null )
+									{
 										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. Did you mean config=\"" + likelyConfig + "\"?" );
+									}
 
 									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute" );
 								}
@@ -1146,12 +1254,16 @@ public class ConfigReader
 								Class<?>[] parameterTypes = constructor.getParameterTypes();
 
 								if ( parameterTypes.length != 1 )
+								{
 									continue;
+								}
 
 								String parameterClassName = ClassUtils.getSimpleName( parameterTypes[0].getClass() );
 
 								if ( parameterClassName.endsWith( "Config" ) )
+								{
 									throw MetawidgetException.newException( "No such method " + methodName + " on " + constructingClass + ". Did you forget config=\"" + parameterClassName + "\"?" );
+								}
 							}
 
 							throw e;
@@ -1183,7 +1295,9 @@ public class ConfigReader
 					// getTargetException may return a StackOverflowError
 
 					if ( !( t instanceof Exception ) )
+					{
 						throw new RuntimeException( t );
+					}
 
 					e = (Exception) t;
 				}
@@ -1222,7 +1336,9 @@ public class ConfigReader
 			Object object = null;
 
 			if ( isImmutable( classToConstruct ) )
+			{
 				object = getImmutableByLocation( classToConstruct );
+			}
 
 			// Configured types
 
@@ -1235,18 +1351,26 @@ public class ConfigReader
 					String configToConstruct;
 
 					if ( configClassName.indexOf( '.' ) == -1 )
+					{
 						configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+					}
 					else
+					{
 						configToConstruct = configClassName;
+					}
 
 					Class<?> configClass = ClassUtils.niceForName( configToConstruct, getClass().getClassLoader() );
 					if ( configClass == null )
+					{
 						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
+					}
 
 					Object config = configClass.newInstance();
 
 					if ( config instanceof NeedsResourceResolver )
+					{
 						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
+					}
 
 					mConstructing.push( config );
 					mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
@@ -1267,7 +1391,9 @@ public class ConfigReader
 			// Already cached (without config)?
 
 			if ( object == null && isImmutable( classToConstruct ) )
+			{
 				object = getImmutableByClass( classToConstruct, IMMUTABLE_NO_CONFIG );
+			}
 
 			// Java objects
 
@@ -1283,7 +1409,9 @@ public class ConfigReader
 					String likelyConfig = getLikelyConfig( classToConstruct );
 
 					if ( likelyConfig != null )
+					{
 						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
+					}
 
 					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
 				}
@@ -1338,7 +1466,9 @@ public class ConfigReader
 			// No cache (ie. XML coming from a nameless InputStream)?
 
 			if ( mImmutableForThisLocationCache == null )
+			{
 				return null;
+			}
 
 			return mImmutableForThisLocationCache.get( mLocationIndex );
 		}
@@ -1348,7 +1478,9 @@ public class ConfigReader
 			// No cache by (ie. XML coming from a nameless InputStream)?
 
 			if ( mImmutableForThisLocationCache == null )
+			{
 				return;
+			}
 
 			mImmutableForThisLocationCache.put( mLocationIndex, immutable );
 		}
@@ -1358,12 +1490,16 @@ public class ConfigReader
 			Map<Object, Object> configs = mImmutableByClassCache.get( clazz );
 
 			if ( configs == null )
+			{
 				return null;
+			}
 
 			Object configToLookup = config;
 
 			if ( configToLookup == null )
+			{
 				configToLookup = IMMUTABLE_NO_CONFIG;
+			}
 
 			// Config must have implemented its .hashCode() and .equals() properly for this to work!
 
@@ -1402,7 +1538,9 @@ public class ConfigReader
 					Class<?> equalsDeclaringClass = configClass.getMethod( "equals", Object.class ).getDeclaringClass();
 
 					if ( Object.class.equals( equalsDeclaringClass ) )
+					{
 						throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot cache reliably" );
+					}
 
 					// hashCode
 					//
@@ -1413,16 +1551,22 @@ public class ConfigReader
 					Class<?> hashCodeDeclaringClass = configClass.getMethod( "hashCode" ).getDeclaringClass();
 
 					if ( Object.class.equals( hashCodeDeclaringClass ) )
+					{
 						throw MetawidgetException.newException( configClass + " does not override .hashCode(), so cannot cache reliably" );
+					}
 
 					// Soft warning (System.identityHashCode( configClass ) ==
 					// configClass.hashCode() may be true occasionally, even if properly overridden)
 
 					if ( System.identityHashCode( configToStoreUnder ) == configToStoreUnder.hashCode() )
+					{
 						LOG.warn( configClass + " overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably" );
+					}
 
 					if ( !equalsDeclaringClass.equals( hashCodeDeclaringClass ) )
+					{
 						throw MetawidgetException.newException( equalsDeclaringClass + " implements .equals(), but .hashCode() is implemented by " + hashCodeDeclaringClass + ", so cannot cache reliably" );
+					}
 
 					if ( !configClass.equals( equalsDeclaringClass ) )
 					{
@@ -1468,7 +1612,9 @@ public class ConfigReader
 				mIgnoreImmutableAfterDepth = -1;
 
 				if ( config != null )
+				{
 					putImmutableByLocation( immutable );
+				}
 			}
 		}
 
@@ -1489,10 +1635,14 @@ public class ConfigReader
 		protected boolean isJdk14Hack( String uri, String localName )
 		{
 			if ( !( JAVA_NAMESPACE_PREFIX + "org.metawidget.inspector.annotation" ).equals( uri ) )
+			{
 				return false;
+			}
 
 			if ( !"metawidgetAnnotationInspector".equals( localName ) )
+			{
 				return false;
+			}
 
 			try
 			{
@@ -1514,14 +1664,18 @@ public class ConfigReader
 			throws SAXException
 		{
 			if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ) )
+			{
 				throw new SAXException( "Namespace '" + uri + "' of element <" + localName + "> must start with " + JAVA_NAMESPACE_PREFIX );
+			}
 
 			String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
 			String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
 			Class<?> clazz = ClassUtils.niceForName( toConstruct, getClass().getClassLoader() );
 
 			if ( clazz == null )
+			{
 				throw MetawidgetException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );
+			}
 
 			return clazz;
 		}
@@ -1548,7 +1702,9 @@ public class ConfigReader
 				// ...with a matching name...
 
 				if ( !method.getName().equals( name ) )
+				{
 					continue;
+				}
 
 				likelyMatch = method;
 
@@ -1557,7 +1713,9 @@ public class ConfigReader
 				Class<?>[] methodParameterTypes = method.getParameterTypes();
 
 				if ( methodParameterTypes.length != numberOfParameterTypes )
+				{
 					continue;
+				}
 
 				// Array/enum compatibility handling mangles the args, so take a copy
 
@@ -1573,12 +1731,13 @@ public class ConfigReader
 					// ...primitives...
 
 					if ( parameterType.isPrimitive() )
+					{
 						parameterType = ClassUtils.getWrapperClass( parameterType );
-
-					// ...nulls...
-
+					}
 					else if ( arg == null )
+					{
 						continue;
+					}
 
 					if ( !parameterType.isInstance( arg ) )
 					{
@@ -1587,7 +1746,9 @@ public class ConfigReader
 						Object resolvedValue = createLazyResolvingNative( arg, parameterType );
 
 						if ( resolvedValue == null )
+						{
 							continue methods;
+						}
 
 						compatibleArgs.remove( loop );
 						compatibleArgs.add( loop, resolvedValue );
@@ -1605,7 +1766,9 @@ public class ConfigReader
 			// No such method
 
 			if ( likelyMatch != null )
+			{
 				throw new NoSuchMethodException( methodToString( clazz, name, args ) + ". Did you mean " + methodToString( likelyMatch ) + "?" );
+			}
 
 			throw new NoSuchMethodException( methodToString( clazz, name, args ) );
 		}
@@ -1620,18 +1783,26 @@ public class ConfigReader
 			Constructor<?>[] constructors = clazz.getConstructors();
 
 			if ( constructors.length != 1 )
+			{
 				return null;
+			}
 
 			if ( constructors[0].getParameterTypes().length == 0 )
+			{
 				return "";
+			}
 
 			if ( constructors[0].getParameterTypes().length > 1 )
+			{
 				return null;
+			}
 
 			Class<?> likelyConfigClass = constructors[0].getParameterTypes()[0];
 
 			if ( likelyConfigClass.getPackage().equals( clazz.getPackage() ) )
+			{
 				return ClassUtils.getSimpleName( likelyConfigClass );
+			}
 
 			return likelyConfigClass.getName();
 		}
@@ -1643,7 +1814,9 @@ public class ConfigReader
 			for ( Class<?> parameterType : method.getParameterTypes() )
 			{
 				if ( buffer.length() > 0 )
+				{
 					buffer.append( ", " );
+				}
 
 				buffer.append( ClassUtils.getSimpleName( parameterType ) );
 			}
@@ -1662,12 +1835,18 @@ public class ConfigReader
 			for ( Object obj : args )
 			{
 				if ( buffer.length() > 0 )
+				{
 					buffer.append( ", " );
+				}
 
 				if ( obj == null )
+				{
 					buffer.append( "null" );
+				}
 				else
+				{
 					buffer.append( ClassUtils.getSimpleName( obj.getClass() ) );
+				}
 			}
 
 			buffer.insert( 0, "(" );

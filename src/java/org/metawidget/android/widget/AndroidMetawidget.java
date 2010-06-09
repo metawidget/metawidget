@@ -136,14 +136,18 @@ public class AndroidMetawidget
 		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
 
 		if ( mConfig != 0 )
+		{
 			mNeedsConfiguring = true;
+		}
 
 		// Support readOnly in the XML
 
 		String readOnly = attributes.getAttributeValue( null, "readOnly" );
 
 		if ( readOnly != null && !"".equals( readOnly ) )
+		{
 			mPipeline.setReadOnly( Boolean.parseBoolean( readOnly ) );
+		}
 	}
 
 	//
@@ -162,14 +166,20 @@ public class AndroidMetawidget
 		if ( mToInspect == null )
 		{
 			if ( mPath == null && toInspect != null )
+			{
 				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			}
 		}
 		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) )
 		{
 			if ( toInspect == null )
+			{
 				mPath = null;
+			}
 			else
+			{
 				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			}
 		}
 
 		mToInspect = toInspect;
@@ -236,7 +246,9 @@ public class AndroidMetawidget
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return "";
+		}
 
 		// Explicit label
 
@@ -247,14 +259,18 @@ public class AndroidMetawidget
 			// (may be forced blank)
 
 			if ( "".equals( label ) )
+			{
 				return null;
+			}
 
 			// (localize if possible)
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return label.trim();
 		}
@@ -270,7 +286,9 @@ public class AndroidMetawidget
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return StringUtils.uncamelCase( name );
 		}
@@ -288,7 +306,9 @@ public class AndroidMetawidget
 	public String getLocalizedKey( String key )
 	{
 		if ( mBundle == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -309,7 +329,9 @@ public class AndroidMetawidget
 	public void setReadOnly( boolean readOnly )
 	{
 		if ( mPipeline.isReadOnly() == readOnly )
+		{
 			return;
+		}
 
 		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
@@ -333,7 +355,9 @@ public class AndroidMetawidget
 	public void putClientProperty( Object key, Object value )
 	{
 		if ( mClientProperties == null )
+		{
 			mClientProperties = CollectionUtils.newHashMap();
+		}
 
 		mClientProperties.put( key, value );
 	}
@@ -346,7 +370,9 @@ public class AndroidMetawidget
 	public <T> T getClientProperty( Object key )
 	{
 		if ( mClientProperties == null )
+		{
 			return null;
+		}
 
 		return (T) mClientProperties.get( key );
 	}
@@ -365,7 +391,9 @@ public class AndroidMetawidget
 	public void addView( View child, LayoutParams params )
 	{
 		if ( !mIgnoreAddRemove )
+		{
 			invalidateWidgets();
+		}
 
 		super.addView( child, params );
 	}
@@ -374,7 +402,9 @@ public class AndroidMetawidget
 	public void addView( View child )
 	{
 		if ( !mIgnoreAddRemove )
+		{
 			invalidateWidgets();
+		}
 
 		super.addView( child );
 	}
@@ -383,7 +413,9 @@ public class AndroidMetawidget
 	public void removeAllViews()
 	{
 		if ( !mIgnoreAddRemove )
+		{
 			invalidateWidgets();
+		}
 
 		super.removeAllViews();
 	}
@@ -392,7 +424,9 @@ public class AndroidMetawidget
 	public void removeView( View view )
 	{
 		if ( !mIgnoreAddRemove )
+		{
 			invalidateWidgets();
+		}
 
 		super.removeView( view );
 	}
@@ -419,12 +453,16 @@ public class AndroidMetawidget
 	public <T> T getValue( String... names )
 	{
 		if ( names == null || names.length == 0 )
+		{
 			throw MetawidgetException.newException( "No names specified" );
+		}
 
 		View view = findViewWithTags( names );
 
 		if ( view == null )
+		{
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
+		}
 
 		return (T) getValue( view, mPipeline.getWidgetBuilder() );
 	}
@@ -440,15 +478,21 @@ public class AndroidMetawidget
 	public void setValue( Object value, String... names )
 	{
 		if ( names == null || names.length == 0 )
+		{
 			throw MetawidgetException.newException( "No names specified" );
+		}
 
 		View view = findViewWithTags( names );
 
 		if ( view == null )
+		{
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
+		}
 
 		if ( !setValue( value, view, mPipeline.getWidgetBuilder() ) )
+		{
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
+		}
 	}
 
 	public Facet getFacet( String name )
@@ -519,7 +563,9 @@ public class AndroidMetawidget
 	protected void invalidateWidgets()
 	{
 		if ( mNeedToBuildWidgets )
+		{
 			return;
+		}
 
 		mNeedToBuildWidgets = true;
 
@@ -529,7 +575,9 @@ public class AndroidMetawidget
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
+		{
 			return;
+		}
 
 		mNeedsConfiguring = false;
 
@@ -538,7 +586,9 @@ public class AndroidMetawidget
 			if ( mConfig != 0 )
 			{
 				if ( CONFIG_READER == null )
+				{
 					CONFIG_READER = new AndroidConfigReader( getContext() );
+				}
 
 				CONFIG_READER.configure( getContext().getResources().openRawResource( mConfig ), this );
 			}
@@ -566,7 +616,9 @@ public class AndroidMetawidget
 			if ( mPipeline.getInspectionResultProcessors() == null )
 			{
 				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null )
+				{
 					DEFAULT_INSPECTIONRESULTPROCESSOR = new ComesAfterInspectionResultProcessor<AndroidMetawidget>();
+				}
 
 				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
 			}
@@ -586,7 +638,9 @@ public class AndroidMetawidget
 			if ( mPipeline.getLayout() == null )
 			{
 				if ( DEFAULT_LAYOUT == null )
+				{
 					DEFAULT_LAYOUT = new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() ) );
+				}
 
 				mPipeline.setLayout( DEFAULT_LAYOUT );
 			}
@@ -602,7 +656,9 @@ public class AndroidMetawidget
 		// No need to build?
 
 		if ( !mNeedToBuildWidgets )
+		{
 			return;
+		}
 
 		configure();
 
@@ -612,7 +668,9 @@ public class AndroidMetawidget
 		try
 		{
 			if ( mLastInspection == null )
+			{
 				mLastInspection = inspect();
+			}
 
 			mPipeline.buildWidgets( mLastInspection );
 		}
@@ -664,7 +722,9 @@ public class AndroidMetawidget
 		if ( mPipeline.getLayout() != null )
 		{
 			if ( view.getParent() != null )
+			{
 				( (ViewGroup) view.getParent() ).removeView( view );
+			}
 		}
 
 		// BasePipeline will call .layoutWidget
@@ -685,7 +745,9 @@ public class AndroidMetawidget
 				// In case View has been moved into a nested Layout during last build
 
 				if ( viewExisting.getParent() != null )
+				{
 					( (ViewGroup) viewExisting.getParent() ).removeView( viewExisting );
+				}
 
 				layout.layoutWidget( viewExisting, PROPERTY, noAttributes, this, this );
 			}
@@ -695,7 +757,9 @@ public class AndroidMetawidget
 	protected String inspect()
 	{
 		if ( mPath == null )
+		{
 			return null;
+		}
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
@@ -716,7 +780,9 @@ public class AndroidMetawidget
 	private View findViewWithTags( String... tags )
 	{
 		if ( tags == null )
+		{
 			return null;
+		}
 
 		ViewGroup viewgroup = this;
 
@@ -727,7 +793,9 @@ public class AndroidMetawidget
 			// buildWidgets just-in-time
 
 			if ( viewgroup instanceof AndroidMetawidget )
+			{
 				( (AndroidMetawidget) viewgroup ).buildWidgets();
+			}
 
 			// Use our own findViewWithTag, not View.findViewWithTag!
 
@@ -736,17 +804,23 @@ public class AndroidMetawidget
 			// Not found
 
 			if ( match == null )
+			{
 				return null;
+			}
 
 			// Found
 
 			if ( tagsLoop == tagsLength - 1 )
+			{
 				return match;
+			}
 
 			// Keep traversing
 
 			if ( !( match instanceof ViewGroup ) )
+			{
 				return null;
+			}
 
 			viewgroup = (ViewGroup) match;
 		}
@@ -778,7 +852,9 @@ public class AndroidMetawidget
 				View view = findViewWithTag( (ViewGroup) child, tag );
 
 				if ( view != null )
+				{
 					return view;
+				}
 
 				continue;
 			}
@@ -786,7 +862,9 @@ public class AndroidMetawidget
 			// Keep looking
 
 			if ( !tag.equals( child.getTag() ) )
+			{
 				continue;
+			}
 
 			// Found
 
@@ -809,7 +887,9 @@ public class AndroidMetawidget
 				Object value = getValue( widget, widgetBuilderChild );
 
 				if ( value != null )
+				{
 					return value;
+				}
 			}
 
 			return null;
@@ -818,7 +898,9 @@ public class AndroidMetawidget
 		// Interrogate AndroidValueAccessors
 
 		if ( widgetBuilder instanceof AndroidValueAccessor )
+		{
 			return ( (AndroidValueAccessor) widgetBuilder ).getValue( widget );
+		}
 
 		return null;
 	}
@@ -832,7 +914,9 @@ public class AndroidMetawidget
 			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
 				if ( setValue( value, widget, widgetBuilderChild ) )
+				{
 					return true;
+				}
 			}
 
 			return false;
@@ -841,7 +925,9 @@ public class AndroidMetawidget
 		// Interrogate AndroidValueAccessors
 
 		if ( widgetBuilder instanceof AndroidValueAccessor )
+		{
 			return ( (AndroidValueAccessor) widgetBuilder ).setValue( value, widget );
+		}
 
 		return false;
 	}
@@ -875,7 +961,9 @@ public class AndroidMetawidget
 		protected Map<String, String> getAdditionalAttributes( View view )
 		{
 			if ( view instanceof Stub )
+			{
 				return ( (Stub) view ).getAttributes();
+			}
 
 			return null;
 		}

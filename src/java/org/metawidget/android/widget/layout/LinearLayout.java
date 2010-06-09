@@ -79,7 +79,9 @@ public class LinearLayout
 		// Ignore empty Stubs
 
 		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
+		{
 			return;
+		}
 
 		ViewGroup viewToAddTo = newViewToAddTo( container );
 
@@ -133,9 +135,13 @@ public class LinearLayout
 			// Hack for sizing ListViews
 
 			if ( view instanceof ListView )
+			{
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, 100 );
+			}
 			else
+			{
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT );
+			}
 		}
 
 		getLayout( container ).addView( view, params );

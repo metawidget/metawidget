@@ -45,7 +45,9 @@ public class WidgetProcessorException
 	public static WidgetProcessorException newException( Throwable cause )
 	{
 		if ( cause instanceof WidgetProcessorException )
+		{
 			return (WidgetProcessorException) cause;
+		}
 
 		return new WidgetProcessorException( cause );
 	}

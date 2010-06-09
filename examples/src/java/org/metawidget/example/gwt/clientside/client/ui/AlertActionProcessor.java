@@ -49,12 +49,16 @@ public class AlertActionProcessor
 		// Only bind to Actions
 
 		if ( !ACTION.equals( elementName ))
+		{
 			return widget;
+		}
 
 		// How can we bind without addClickListener?
 
 		if ( !( widget instanceof FocusWidget ) )
+		{
 			throw new RuntimeException( "AlertActionProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
+		}
 
 		@SuppressWarnings( "unchecked" )
 		final Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
@@ -70,7 +74,9 @@ public class AlertActionProcessor
 				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();
 
 				if ( !names.isEmpty() )
+				{
 					names += StringUtils.SEPARATOR_DOT_CHAR;
+				}
 
 				names += attributes.get( NAME );
 
@@ -79,7 +85,9 @@ public class AlertActionProcessor
 				// (do not Window.alert during unit tests)
 
 				if ( parent instanceof RootPanel )
+				{
 					Window.alert( "AlertActionProcessor detected button click for: " + names );
+				}
 			}
 		} );
 

@@ -100,9 +100,13 @@ public class PathUtils
 					// Ends in separator?
 
 					if ( indexOfTypeEnd == mPath.length() - 1 )
+					{
 						mParsedNames = "";
+					}
 					else
+					{
 						mParsedNames = mPath.substring( indexOfTypeEnd + 1 );
+					}
 				}
 
 
@@ -114,7 +118,9 @@ public class PathUtils
 		public String getNames()
 		{
 			if ( mParsedNames == null )
+			{
 				getType();
+			}
 
 			return mParsedNames;
 		}
@@ -126,9 +132,13 @@ public class PathUtils
 				String names = getNames();
 
 				if ( "".equals( names ))
+				{
 					mParsedNamesAsArray = EMPTY_STRING_ARRAY;
+				}
 				else
+				{
 					mParsedNamesAsArray = getNames().split( "\\" + mSeparator );
+				}
 			}
 
 			return mParsedNamesAsArray;

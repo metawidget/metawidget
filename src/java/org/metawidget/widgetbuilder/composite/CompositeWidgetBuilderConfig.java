@@ -64,16 +64,24 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

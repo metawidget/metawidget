@@ -53,9 +53,13 @@ public class CssStyleProcessor
 			String existingStyle = (String) componentAttributes.get( "style" );
 
 			if ( existingStyle == null || "".equals( existingStyle ) )
+			{
 				componentAttributes.put( "style", style );
+			}
 			else
+			{
 				componentAttributes.put( "style", existingStyle + " " + style );
+			}
 		}
 
 		if ( styleClass != null )
@@ -63,9 +67,13 @@ public class CssStyleProcessor
 			String existingStyleClass = (String) componentAttributes.get( "styleClass" );
 
 			if ( existingStyleClass == null || "".equals( existingStyleClass ) )
+			{
 				componentAttributes.put( "styleClass", styleClass );
+			}
 			else
+			{
 				componentAttributes.put( "styleClass", existingStyleClass + " " + styleClass );
+			}
 		}
 
 		return component;

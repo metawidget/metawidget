@@ -108,7 +108,9 @@ public class JavaBeanPropertyStyle
 			int modifiers = field.getModifiers();
 
 			if ( Modifier.isStatic( modifiers ) )
+			{
 				continue;
+			}
 
 			// Get name and type
 
@@ -118,7 +120,9 @@ public class JavaBeanPropertyStyle
 			// Exclude based on other criteria
 
 			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) )
+			{
 				continue;
+			}
 
 			properties.put( fieldName, new FieldProperty( fieldName, field ) );
 		}
@@ -143,24 +147,32 @@ public class JavaBeanPropertyStyle
 			Class<?>[] parameters = method.getParameterTypes();
 
 			if ( parameters.length != 0 )
+			{
 				continue;
+			}
 
 			Class<?> type = method.getReturnType();
 
 			if ( void.class.equals( type ) )
+			{
 				continue;
+			}
 
 			// Get name
 
 			String propertyName = isGetter( method );
 
 			if ( propertyName == null )
+			{
 				continue;
+			}
 
 			// Exclude based on other criteria
 
 			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) )
+			{
 				continue;
+			}
 
 			// Already found via its field?
 			// (error, because otherwise will really confuse things like Commons JEXL)
@@ -168,7 +180,9 @@ public class JavaBeanPropertyStyle
 			Property existingProperty = properties.get( propertyName );
 
 			if ( existingProperty instanceof FieldProperty )
+			{
 				throw InspectorException.newException( "JavaBeanProperty '" + ((FieldProperty) existingProperty).getField() + "' has both a public member variable and a public getter method. Should be one or the other" );
+			}
 
 			// Already found via another getter?
 
@@ -180,7 +194,9 @@ public class JavaBeanPropertyStyle
 				// subclass
 
 				if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) )
+				{
 					continue;
+				}
 			}
 
 			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null ) );
@@ -201,14 +217,22 @@ public class JavaBeanPropertyStyle
 		String propertyName;
 
 		if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
+		{
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
+		}
 		else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
+		{
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
+		}
 		else
+		{
 			return null;
+		}
 
 		if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+		{
 			return null;
+		}
 
 		return StringUtils.lowercaseFirstLetter( propertyName );
 	}
@@ -228,7 +252,9 @@ public class JavaBeanPropertyStyle
 			Class<?>[] parameters = method.getParameterTypes();
 
 			if ( parameters.length != 1 )
+			{
 				continue;
+			}
 
 			Class<?> type = parameters[0];
 
@@ -237,12 +263,16 @@ public class JavaBeanPropertyStyle
 			String propertyName = isSetter( method );
 
 			if ( propertyName == null )
+			{
 				continue;
+			}
 
 			// Exclude based on other criteria
 
 			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) )
+			{
 				continue;
+			}
 
 			// Already found via its field?
 			// (error, because otherwise will really confuse things like Commons JEXL)
@@ -250,7 +280,9 @@ public class JavaBeanPropertyStyle
 			Property existingProperty = properties.get( propertyName );
 
 			if ( existingProperty instanceof FieldProperty )
+			{
 				throw InspectorException.newException( "JavaBeanProperty '" + ((FieldProperty) existingProperty).getField() + "' has both a public member variable and a public setter method. Should be one or the other" );
+			}
 
 			// Already found via its getter?
 
@@ -281,12 +313,16 @@ public class JavaBeanPropertyStyle
 		String methodName = method.getName();
 
 		if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
+		{
 			return null;
+		}
 
 		String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
 
 		if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+		{
 			return null;
+		}
 
 		return StringUtils.lowercaseFirstLetter( propertyName );
 	}
@@ -306,10 +342,14 @@ public class JavaBeanPropertyStyle
 	protected boolean isExcludedName( String name )
 	{
 		if ( "propertyChangeListeners".equals( name ) )
+		{
 			return true;
+		}
 
 		if ( "vetoableChangeListeners".equals( name ) )
+		{
 			return true;
+		}
 
 		return super.isExcludedName( name );
 	}
@@ -342,7 +382,9 @@ public class JavaBeanPropertyStyle
 			mField = field;
 
 			if ( mField == null )
+			{
 				throw new NullPointerException( "field" );
+			}
 		}
 
 		//
@@ -420,7 +462,9 @@ public class JavaBeanPropertyStyle
 			// Must have either a getter or a setter (or both)
 
 			if ( mReadMethod == null && mWriteMethod == null )
+			{
 				throw InspectorException.newException( "JavaBeanProperty '" + name + "' has no getter and no setter" );
+			}
 		}
 
 		//
@@ -462,7 +506,9 @@ public class JavaBeanPropertyStyle
 				T annotation = mReadMethod.getAnnotation( annotationClass );
 
 				if ( annotation != null )
+				{
 					return annotation;
+				}
 			}
 
 			if ( mWriteMethod != null )
@@ -470,7 +516,9 @@ public class JavaBeanPropertyStyle
 				T annotation = mWriteMethod.getAnnotation( annotationClass );
 
 				if ( annotation != null )
+				{
 					return annotation;
+				}
 
 				return null;
 			}
@@ -481,7 +529,9 @@ public class JavaBeanPropertyStyle
 		public Type getGenericType()
 		{
 			if ( mReadMethod != null )
+			{
 				return mReadMethod.getGenericReturnType();
+			}
 
 			return mWriteMethod.getGenericParameterTypes()[0];
 		}

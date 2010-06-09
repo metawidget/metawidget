@@ -69,19 +69,29 @@ public class SwingWidgetBuilder
 	public String getValueProperty( Component component )
 	{
 		if ( component instanceof JComboBox )
+		{
 			return "selectedItem";
+		}
 
 		if ( component instanceof JTextComponent )
+		{
 			return "text";
+		}
 
 		if ( component instanceof JSpinner )
+		{
 			return "value";
+		}
 
 		if ( component instanceof JSlider )
+		{
 			return "value";
+		}
 
 		if ( component instanceof JCheckBox )
+		{
 			return "selected";
+		}
 
 		return null;
 	}
@@ -91,19 +101,25 @@ public class SwingWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		{
 			return new Stub();
+		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return new JButton( metawidget.getLabelString( attributes ) );
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
 		if ( type == null )
+		{
 			type = String.class.getName();
+		}
 
 		// Lookup the Class
 
@@ -113,7 +129,9 @@ public class SwingWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return new JCheckBox();
+		}
 
 		// Lookups
 
@@ -126,7 +144,9 @@ public class SwingWidgetBuilder
 			// Add an empty choice (if nullable, and not required)
 
 			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+			{
 				comboBox.addItem( null );
+			}
 
 			List<String> values = CollectionUtils.fromString( lookup );
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
@@ -138,9 +158,13 @@ public class SwingWidgetBuilder
 				Object convertedValue;
 
 				if ( converter == null )
+				{
 					convertedValue = value;
+				}
 				else
+				{
 					convertedValue = converter.convertFromString( value, clazz );
+				}
 
 				comboBox.addItem( convertedValue );
 			}
@@ -169,12 +193,16 @@ public class SwingWidgetBuilder
 				// booleans
 
 				if ( boolean.class.equals( clazz ) )
+				{
 					return new JCheckBox();
+				}
 
 				// chars
 
 				if ( char.class.equals( clazz ) )
+				{
 					return new JTextField();
+				}
 
 				// Ranged
 
@@ -298,9 +326,13 @@ public class SwingWidgetBuilder
 					float stepSize;
 
 					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
+					{
 						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
+					}
 					else
+					{
 						stepSize = 0.1f;
+					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
 				}
@@ -327,9 +359,13 @@ public class SwingWidgetBuilder
 					double stepSize;
 
 					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
+					{
 						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
+					}
 					else
+					{
 						stepSize = 0.1d;
+					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
 				}
@@ -342,7 +378,9 @@ public class SwingWidgetBuilder
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
+				{
 					return new JPasswordField();
+				}
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
 				{
@@ -367,7 +405,9 @@ public class SwingWidgetBuilder
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
+			{
 				return new JTextField();
+			}
 
 			// Numbers
 			//
@@ -376,18 +416,24 @@ public class SwingWidgetBuilder
 			// is null. We can still use JSpinner/JSliders for primitives, though.
 
 			if ( Number.class.isAssignableFrom( clazz ) )
+			{
 				return new JTextField();
+			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new Stub();
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return new JTextField();
+		}
 
 		// Nested Metawidget
 
@@ -443,7 +489,9 @@ public class SwingWidgetBuilder
 		public LookupComboBoxEditor( Map<String, String> lookups )
 		{
 			if ( lookups == null )
+			{
 				throw new NullPointerException( "lookups" );
+			}
 
 			mLookups = lookups;
 		}
@@ -493,7 +541,9 @@ public class SwingWidgetBuilder
 		public LookupComboBoxRenderer( Map<String, String> lookups )
 		{
 			if ( lookups == null )
+			{
 				throw new NullPointerException( "lookups" );
+			}
 
 			mLookups = lookups;
 		}
@@ -512,7 +562,9 @@ public class SwingWidgetBuilder
 			String lookup = mLookups.get( value );
 
 			if ( lookup != null )
+			{
 				( (JLabel) component ).setText( lookup );
+			}
 
 			return component;
 		}

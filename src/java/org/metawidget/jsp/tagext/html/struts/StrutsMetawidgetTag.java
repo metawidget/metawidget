@@ -59,7 +59,9 @@ public class StrutsMetawidgetTag
 				int firstIndexOf = property.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
+				{
 					setPathPrefix( property.substring( firstIndexOf + 1, lastIndexOf + 1 ));
+				}
 			}
 		}
 	}
@@ -70,14 +72,18 @@ public class StrutsMetawidgetTag
 		String localizedKey = super.getLocalizedKey( key );
 
 		if ( localizedKey != null )
+		{
 			return localizedKey;
+		}
 
 		// Use Struts MessageResources (if any)
 
 		MessageResources resources = (MessageResources) pageContext.getAttribute( Globals.MESSAGES_KEY, PageContext.APPLICATION_SCOPE );
 
 		if ( resources == null )
+		{
 			return null;
+		}
 
 		return resources.getMessage( key );
 	}
@@ -101,6 +107,8 @@ public class StrutsMetawidgetTag
 		int firstIndexOf = getPath().indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
+		{
 			setPathPrefix( getPath().substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR );
+		}
 	}
 }

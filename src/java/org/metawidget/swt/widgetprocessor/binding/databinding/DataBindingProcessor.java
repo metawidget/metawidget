@@ -105,12 +105,16 @@ public class DataBindingProcessor
 	public Control processWidget( Control control, String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
 	{
 		if ( ACTION.equals( elementName ) )
+		{
 			return control;
+		}
 
 		String controlProperty = metawidget.getValueProperty( control );
 
 		if ( controlProperty == null )
+		{
 			return control;
+		}
 
 		// Observe the control
 
@@ -122,9 +126,13 @@ public class DataBindingProcessor
 		// (NO_SETTER model values are one-way only)
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+		{
 			targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_NEVER );
+		}
 		else
+		{
 			targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
+		}
 
 		// Observe the model
 
@@ -134,7 +142,9 @@ public class DataBindingProcessor
 		if ( PROPERTY.equals( elementName ) )
 		{
 			if ( propertyName.length() > 0 )
+			{
 				propertyName += StringUtils.SEPARATOR_DOT_CHAR;
+			}
 
 			propertyName += attributes.get( NAME );
 		}
@@ -182,7 +192,9 @@ public class DataBindingProcessor
 			BindingStatus bindingStatus = (BindingStatus) binding.getValidationStatus().getValue();
 
 			if ( bindingStatus.isOK() )
+			{
 				continue;
+			}
 
 			throw WidgetProcessorException.newException( bindingStatus.getException() );
 		}
@@ -192,7 +204,9 @@ public class DataBindingProcessor
 		for ( Control control : metawidget.getChildren() )
 		{
 			if ( control instanceof SwtMetawidget )
+			{
 				save( (SwtMetawidget) control );
+			}
 		}
 	}
 
@@ -211,7 +225,9 @@ public class DataBindingProcessor
 			for ( DisplayRealm realm : mRealms )
 			{
 				if ( realm.mDisplay == display )
+				{
 					return realm;
+				}
 			}
 			DisplayRealm realm = new DisplayRealm( display );
 			mRealms.add( realm );
@@ -237,7 +253,9 @@ public class DataBindingProcessor
 			IConverter converter = mConverters.get( new ConvertFromTo( sourceClassTraversal, targetClass ) );
 
 			if ( converter != null )
+			{
 				return converter;
+			}
 
 			sourceClassTraversal = sourceClassTraversal.getSuperclass();
 		}
@@ -312,19 +330,29 @@ public class DataBindingProcessor
 		public boolean equals( Object that )
 		{
 			if ( this == that )
+			{
 				return true;
+			}
 
 			if ( that == null )
+			{
 				return false;
+			}
 
 			if ( getClass() != that.getClass() )
+			{
 				return false;
+			}
 
 			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo) that ).mSource ) )
+			{
 				return false;
+			}
 
 			if ( !ObjectUtils.nullSafeEquals( mTarget, ( (ConvertFromTo) that ).mTarget ) )
+			{
 				return false;
+			}
 
 			return true;
 		}

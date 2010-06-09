@@ -82,7 +82,9 @@ public class Stub
 	public void setAttribute( String name, String value )
 	{
 		if ( mAttributes == null )
+		{
 			mAttributes = new HashMap<String, String>();
+		}
 
 		mAttributes.put( name, value );
 	}

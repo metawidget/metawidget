@@ -43,7 +43,9 @@ public class HasNameProcessor
 	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		if ( widget instanceof HasName )
+		{
 			( (HasName) widget ).setName( attributes.get( NAME ) );
+		}
 
 		return widget;
 	}

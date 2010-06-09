@@ -156,14 +156,20 @@ public class SwingMetawidget
 		if ( mToInspect == null )
 		{
 			if ( mPath == null && toInspect != null )
+			{
 				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			}
 		}
 		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) )
 		{
 			if ( toInspect == null )
+			{
 				mPath = null;
+			}
 			else
+			{
 				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			}
 		}
 
 		mToInspect = toInspect;
@@ -289,7 +295,9 @@ public class SwingMetawidget
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return "";
+		}
 
 		// Explicit label
 
@@ -300,14 +308,18 @@ public class SwingMetawidget
 			// (may be forced blank)
 
 			if ( "".equals( label ) )
+			{
 				return null;
+			}
 
 			// (localize if possible)
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return label.trim();
 		}
@@ -323,7 +335,9 @@ public class SwingMetawidget
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
+			{
 				return localized.trim();
+			}
 
 			return StringUtils.uncamelCase( name );
 		}
@@ -338,7 +352,9 @@ public class SwingMetawidget
 	public String getLocalizedKey( String key )
 	{
 		if ( mBundle == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -358,7 +374,9 @@ public class SwingMetawidget
 	public void setReadOnly( boolean readOnly )
 	{
 		if ( mPipeline.isReadOnly() == readOnly )
+		{
 			return;
+		}
 
 		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
@@ -549,7 +567,9 @@ public class SwingMetawidget
 	public <T extends Component> T getComponent( String... names )
 	{
 		if ( names == null || names.length == 0 )
+		{
 			return null;
+		}
 
 		Component topComponent = this;
 
@@ -562,17 +582,23 @@ public class SwingMetawidget
 			// SwingMetawidgetTest.testNestedWithManualInspector
 
 			if ( topComponent instanceof SwingMetawidget )
+			{
 				( (SwingMetawidget) topComponent ).buildWidgets();
+			}
 
 			// Try to find a component
 
 			topComponent = getComponent( (Container) topComponent, name );
 
 			if ( loop == length - 1 )
+			{
 				return (T) topComponent;
+			}
 
 			if ( topComponent == null )
+			{
 				throw MetawidgetException.newException( "No such component '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
+			}
 		}
 
 		return (T) topComponent;
@@ -718,7 +744,9 @@ public class SwingMetawidget
 	protected void invalidateWidgets()
 	{
 		if ( mNeedToBuildWidgets )
+		{
 			return;
+		}
 
 		// Note: it is important to call removeAll BEFORE setting mNeedToBuildWidgets
 		// to true. On some JRE implementations (ie. 1.6_12) removeAll triggers an
@@ -755,7 +783,9 @@ public class SwingMetawidget
 			}
 
 			if ( component instanceof JComponent )
+			{
 				mExistingComponents.add( (JComponent) component );
+			}
 		}
 
 		super.addImpl( component, constraints, index );
@@ -764,24 +794,32 @@ public class SwingMetawidget
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
+		{
 			return;
+		}
 
 		// Special support for visual IDE builders
 
 		if ( mPath == null )
+		{
 			return;
+		}
 
 		mNeedsConfiguring = false;
 
 		try
 		{
 			if ( mConfig != null )
+			{
 				CONFIG_READER.configure( mConfig, this );
+			}
 
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null )
+			{
 				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
+			}
 
 			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
 		}
@@ -796,7 +834,9 @@ public class SwingMetawidget
 		// No need to build?
 
 		if ( !mNeedToBuildWidgets )
+		{
 			return;
+		}
 
 		configure();
 
@@ -806,14 +846,18 @@ public class SwingMetawidget
 		try
 		{
 			if ( mLastInspection == null )
+			{
 				mLastInspection = inspect();
+			}
 
 			// Don't buildWidgets if null, in order to protect our 'dotted rectangle in IDE tools'
 			// effect. However, do 'getComponentCount() > 0' in case the SwingMetawidget is being
 			// used purely for layout purposes
 
 			if ( mPath != null || getComponentCount() > 0 )
+			{
 				mPipeline.buildWidgets( mLastInspection );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -837,7 +881,9 @@ public class SwingMetawidget
 		Component actualComponent = component;
 
 		if ( actualComponent instanceof JScrollPane )
+		{
 			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
+		}
 
 		// Set the name of the component.
 		//
@@ -859,7 +905,9 @@ public class SwingMetawidget
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( (JComponent) component );
 
 		if ( additionalAttributes != null )
+		{
 			attributes.putAll( additionalAttributes );
+		}
 
 		// BasePipeline will call .layoutWidget
 	}
@@ -873,7 +921,9 @@ public class SwingMetawidget
 				// Unused facets don't count
 
 				if ( componentExisting instanceof Facet )
+				{
 					continue;
+				}
 
 				// Manually created components default to no section
 
@@ -888,7 +938,9 @@ public class SwingMetawidget
 	protected String inspect()
 	{
 		if ( mPath == null )
+		{
 			return null;
+		}
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
@@ -914,17 +966,23 @@ public class SwingMetawidget
 		Component component = getComponent( names );
 
 		if ( component == null )
+		{
 			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
+		}
 
 		// Drill into JScrollPanes
 
 		if ( component instanceof JScrollPane )
+		{
 			component = ( (JScrollPane) component ).getViewport().getView();
+		}
 
 		String componentProperty = getValueProperty( component );
 
 		if ( componentProperty == null )
+		{
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
+		}
 
 		return new Pair<Component, String>( component, componentProperty );
 	}
@@ -942,7 +1000,9 @@ public class SwingMetawidget
 					String valueProperty = getValueProperty( component, widgetBuilderChild );
 
 					if ( valueProperty != null )
+					{
 						return valueProperty;
+					}
 				}
 
 				return null;
@@ -956,7 +1016,9 @@ public class SwingMetawidget
 		// Interrogate ValuePropertyProviders
 
 		if ( widgetBuilder instanceof SwingValuePropertyProvider )
+		{
 			return ( (SwingValuePropertyProvider) widgetBuilder ).getValueProperty( component );
+		}
 
 		return null;
 	}
@@ -972,7 +1034,9 @@ public class SwingMetawidget
 				childComponent = getComponent( (Container) childComponent, name );
 
 				if ( childComponent != null )
+				{
 					return childComponent;
+				}
 
 				continue;
 			}
@@ -980,7 +1044,9 @@ public class SwingMetawidget
 			// Match by name
 
 			if ( name.equals( childComponent.getName() ) )
+			{
 				return childComponent;
+			}
 		}
 
 		// Not found
@@ -1014,16 +1080,22 @@ public class SwingMetawidget
 			// Support null layouts
 
 			if ( getLayout() == null )
+			{
 				add( component );
+			}
 			else
+			{
 				super.layoutWidget( component, elementName, attributes );
+			}
 		}
 
 		@Override
 		protected Map<String, String> getAdditionalAttributes( JComponent component )
 		{
 			if ( component instanceof Stub )
+			{
 				return ( (Stub) component ).getAttributes();
+			}
 
 			return null;
 		}

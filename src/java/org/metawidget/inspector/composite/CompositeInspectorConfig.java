@@ -62,16 +62,24 @@ public class CompositeInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mInspectors, ((CompositeInspectorConfig) that).mInspectors ))
+		{
 			return false;
+		}
 
 		return true;
 	}

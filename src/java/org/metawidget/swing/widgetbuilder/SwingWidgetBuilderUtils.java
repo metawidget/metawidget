@@ -39,7 +39,9 @@ public class SwingWidgetBuilderUtils
 		Map<String, String> labelsMap = CollectionUtils.newHashMap();
 
 		if ( labels.size() != values.size() )
+		{
 			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
+		}
 
 		for ( int loop = 0, length = values.size(); loop < length; loop++ )
 		{

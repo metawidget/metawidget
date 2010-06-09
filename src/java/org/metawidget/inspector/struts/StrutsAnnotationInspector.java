@@ -70,12 +70,16 @@ public class StrutsAnnotationInspector
 			String labelName = expressionLookup.labelName();
 
 			if ( !"".equals( labelName ))
+			{
 				attributes.put( STRUTS_LOOKUP_LABEL_NAME, labelName );
+			}
 
 			String labelProperty = expressionLookup.labelProperty();
 
 			if ( !"".equals( labelProperty ))
+			{
 				attributes.put( STRUTS_LOOKUP_LABEL_PROPERTY, labelProperty );
+			}
 		}
 
 		return attributes;

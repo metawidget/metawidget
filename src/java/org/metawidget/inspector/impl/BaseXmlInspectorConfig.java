@@ -57,7 +57,9 @@ public class BaseXmlInspectorConfig
 		if ( mInputStreams == null && mDefaultFile != null )
 		{
 			if ( mResourceResolver != null )
+			{
 				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
+			}
 
 			// Support programmatic configuration (ie. mResourceResolver is specified automatically
 			// by ConfigReader when using metawidget.xml, but is generally not set manually when
@@ -168,25 +170,39 @@ public class BaseXmlInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ( (BaseXmlInspectorConfig) that ).mDefaultFile ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (BaseXmlInspectorConfig) that ).mResourceResolver ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ( (BaseXmlInspectorConfig) that ).mInputStreams ) )
+		{
 			return false;
+		}
 
 		if ( !ObjectUtils.nullSafeEquals( mRestrictAgainstObject, ( (BaseXmlInspectorConfig) that ).mRestrictAgainstObject ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

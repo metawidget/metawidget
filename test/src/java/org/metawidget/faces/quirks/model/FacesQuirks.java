@@ -127,7 +127,9 @@ public class FacesQuirks
 			for ( Object integer : integers )
 			{
 				if ( !( integer instanceof Integer ) )
+				{
 					throw new ClassCastException( integer + " is not of type Integer" );
+				}
 			}
 		}
 

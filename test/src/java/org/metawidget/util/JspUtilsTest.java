@@ -305,7 +305,9 @@ public class JspUtilsTest
 				mRepeat++;
 
 				if ( mRepeat < 5 )
+				{
 					return IterationTag.EVAL_BODY_AGAIN;
+				}
 
 				return Tag.EVAL_PAGE;
 			}

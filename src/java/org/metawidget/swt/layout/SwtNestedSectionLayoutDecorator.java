@@ -66,7 +66,9 @@ public abstract class SwtNestedSectionLayoutDecorator
 		if ( section == null || section.equals( state.currentSection ) )
 		{
 			if ( state.currentSectionWidget == null )
+			{
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
+			}
 
 			return delegateStartBuildWidget( elementName, attributes, state.currentSectionWidget, metawidget );
 		}
@@ -78,14 +80,18 @@ public abstract class SwtNestedSectionLayoutDecorator
 		// End current section
 
 		if ( state.currentSectionWidget != null )
+		{
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
+		}
 
 		state.currentSectionWidget = null;
 
 		// No new section?
 
 		if ( "".equals( section ) )
+		{
 			return delegateStartBuildWidget( elementName, attributes, container, metawidget );
+		}
 
 		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
@@ -99,9 +105,13 @@ public abstract class SwtNestedSectionLayoutDecorator
 		State<Composite> state = getState( container, metawidget );
 
 		if ( state.currentSectionWidget == null )
+		{
 			getDelegate().layoutWidget( widget, elementName, attributes, container, metawidget );
+		}
 		else
+		{
 			getDelegate().layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
+		}
 	}
 
 	//
@@ -142,7 +152,9 @@ public abstract class SwtNestedSectionLayoutDecorator
 	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		if ( getDelegate() instanceof SwtLayoutDecorator )
+		{
 			return ((SwtLayoutDecorator) getDelegate()).startBuildWidget( elementName, attributes, container, metawidget );
+		}
 
 		return container;
 	}

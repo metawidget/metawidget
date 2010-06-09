@@ -67,16 +67,24 @@ public class JpaInspectorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mHideIds != ((JpaInspectorConfig) that).mHideIds )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

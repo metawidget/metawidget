@@ -63,10 +63,14 @@ public class HtmlWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
 			if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() )
+			{
 				return new HtmlStubTag();
+			}
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+			{
 				return new HtmlStubTag();
+			}
 
 			return HtmlWidgetBuilderUtils.writeHiddenTag( attributes, metawidget );
 		}
@@ -74,14 +78,18 @@ public class HtmlWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return writeSubmitTag( attributes, metawidget );
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, fail gracefully with a text box
 
 		if ( type == null )
+		{
 			return writeTextTag( attributes, metawidget );
+		}
 
 		// Lookup the Class
 
@@ -91,31 +99,41 @@ public class HtmlWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+		{
 			return writeCheckboxTag( attributes, metawidget );
+		}
 
 		// Lookups
 
 		String jspLookup = attributes.get( JSP_LOOKUP );
 
 		if ( jspLookup != null && !"".equals( jspLookup ) )
+		{
 			return writeSelectTag( jspLookup, attributes, metawidget );
+		}
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
+		{
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
+		}
 
 		if ( clazz != null )
 		{
 			// booleans
 
 			if ( boolean.class.equals( clazz ) )
+			{
 				return writeCheckboxTag( attributes, metawidget );
+			}
 
 			// Primitives
 
 			if ( clazz.isPrimitive() )
+			{
 				return writeTextTag( attributes, metawidget );
+			}
 
 			// String
 
@@ -136,7 +154,9 @@ public class HtmlWidgetBuilder
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
+				{
 					return writeTextTag( "password", attributes, metawidget );
+				}
 
 				return writeTextTag( attributes, metawidget );
 			}
@@ -144,23 +164,31 @@ public class HtmlWidgetBuilder
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
+			{
 				return writeTextTag( attributes, metawidget );
+			}
 
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) )
+			{
 				return writeTextTag( attributes, metawidget );
+			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
+			{
 				return new HtmlStubTag();
+			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+		{
 			return writeTextTag( attributes, metawidget );
+		}
 
 		// Not simple
 
@@ -244,7 +272,9 @@ public class HtmlWidgetBuilder
 		Object result = HtmlWidgetBuilderUtils.evaluate( attributes, metawidget );
 
 		if ( result != null && true == (Boolean) result )
+		{
 			return " checked";
+		}
 
 		return "";
 	}
@@ -255,13 +285,18 @@ public class HtmlWidgetBuilder
 		Object collection = HtmlWidgetBuilderUtils.evaluate( expression, metawidget );
 
 		if ( collection == null )
+		{
 			return null;
+		}
 
 		if ( collection instanceof Collection && !( collection instanceof List ) )
+		{
 			collection = CollectionUtils.newArrayList( (Collection) collection );
-
+		}
 		else if ( collection.getClass().isArray() )
+		{
 			collection = CollectionUtils.newArrayList( (Object[]) collection );
+		}
 
 		return writeSelectTag( (List<?>) collection, null, attributes, metawidget );
 	}
@@ -271,7 +306,9 @@ public class HtmlWidgetBuilder
 		// See if we're using labels
 
 		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
+		{
 			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
+		}
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -287,7 +324,9 @@ public class HtmlWidgetBuilder
 		// Empty option
 
 		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+		{
 			buffer.append( "<option value=\"\"></option>" );
+		}
 
 		// Evaluate the expression
 
@@ -300,7 +339,9 @@ public class HtmlWidgetBuilder
 			Object value = values.get( loop );
 
 			if ( value == null )
+			{
 				continue;
+			}
 
 			String stringValue = StringUtils.quietValueOf( value );
 
@@ -309,14 +350,20 @@ public class HtmlWidgetBuilder
 			buffer.append( "\"" );
 
 			if ( stringValue.equals( selected ) )
+			{
 				buffer.append( " selected" );
+			}
 
 			buffer.append( ">" );
 
 			if ( labels == null || labels.isEmpty() )
+			{
 				buffer.append( stringValue );
+			}
 			else
+			{
 				buffer.append( labels.get( loop ) );
+			}
 
 			buffer.append( "</option>" );
 		}

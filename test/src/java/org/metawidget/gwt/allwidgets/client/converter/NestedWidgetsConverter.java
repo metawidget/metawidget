@@ -41,13 +41,17 @@ public class NestedWidgetsConverter
 		List<String> values = GwtUtils.fromString( (String) value, StringUtils.SEPARATOR_COMMA_CHAR );
 
 		if ( values.isEmpty() )
+		{
 			return null;
+		}
 
 		NestedWidgets nestedWidgets = new NestedWidgets();
 		nestedWidgets.setNestedTextbox1( values.get( 0 ) );
 
 		if ( values.size() > 1 )
+		{
 			nestedWidgets.setNestedTextbox2( values.get( 1 ) );
+		}
 
 		return nestedWidgets;
 	}

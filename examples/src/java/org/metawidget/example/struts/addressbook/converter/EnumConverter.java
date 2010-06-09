@@ -35,7 +35,9 @@ public class EnumConverter
 	public Object convert( Class clazz, Object value )
 	{
 		if ( value == null || "".equals( value ))
+		{
 			return null;
+		}
 
 		return Enum.valueOf( (Class<Enum>) clazz, (String) value );
 	}

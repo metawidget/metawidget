@@ -78,16 +78,24 @@ public class SeparatorLayoutDecoratorConfig
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		if ( mAlignment != ( (SeparatorLayoutDecoratorConfig) that ).mAlignment )
+		{
 			return false;
+		}
 
 		return super.equals( that );
 	}

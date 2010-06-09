@@ -95,7 +95,9 @@ public class StandardBindingProcessor
 				}
 
 				if ( methodBinding != null )
+				{
 					actionSource.setAction( methodBinding );
+				}
 			}
 
 			return component;
@@ -118,7 +120,9 @@ public class StandardBindingProcessor
 				if ( ENTITY.equals( elementName ) )
 				{
 					if ( metawidgetValueBinding != null )
+					{
 						valueBindingExpression = metawidgetValueBinding.getExpressionString();
+					}
 				}
 
 				// ...if we are not at the top level, try and construct the binding

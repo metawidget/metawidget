@@ -65,13 +65,17 @@ public class AndroidConfigReader
 	public InputStream openResource( String resource )
 	{
 		if ( !resource.startsWith( "@" ) )
+		{
 			throw MetawidgetException.newException( "Resource name does not start with '@': " + resource );
+		}
 
 		Resources resources = mContext.getResources();
 		int id = resources.getIdentifier( resource, null, null );
 
 		if ( id == 0 )
+		{
 			throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + resource );
+		}
 
 		return resources.openRawResource( id );
 	}
@@ -96,7 +100,9 @@ public class AndroidConfigReader
 			int id = resources.getIdentifier( recordedText, null, null );
 
 			if ( id == 0 )
+			{
 				throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + recordedText );
+			}
 
 			return id;
 		}

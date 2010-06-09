@@ -41,13 +41,19 @@ public final class SimpleLayoutUtils
 	public static boolean isSpanAllColumns( Map<String, String> attributes )
 	{
 		if ( attributes == null )
+		{
 			return false;
+		}
 
 		if ( TRUE.equals( attributes.get( LARGE ) ) )
+		{
 			return true;
+		}
 
 		if ( TRUE.equals( attributes.get( WIDE ) ) )
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -59,13 +65,19 @@ public final class SimpleLayoutUtils
 	public static boolean needsLabel( String labelText, String elementName )
 	{
 		if ( labelText == null )
+		{
 			return false;
+		}
 
 		if ( labelText.trim().length() == 0 )
+		{
 			return false;
+		}
 
 		if ( ACTION.equals( elementName ) )
+		{
 			return false;
+		}
 
 		return true;
 	}

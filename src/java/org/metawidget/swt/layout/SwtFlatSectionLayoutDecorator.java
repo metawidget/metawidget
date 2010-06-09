@@ -74,19 +74,25 @@ public abstract class SwtFlatSectionLayoutDecorator
 			// Stay where we are?
 
 			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) )
+			{
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
+			}
 
 			// End nested LayoutDecorator's current section
 
 			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) )
+			{
 				super.endContainerLayout( container, metawidget );
+			}
 
 			state.currentSections = new String[] { section };
 
 			// Add a heading
 
 			if ( !"".equals( section ) )
+			{
 				addSectionWidget( section, 0, container, metawidget );
+			}
 		}
 		else
 		{
@@ -95,7 +101,9 @@ public abstract class SwtFlatSectionLayoutDecorator
 			// Stay where we are?
 
 			if ( sections.length == 0 || sections.equals( state.currentSections ) )
+			{
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
+			}
 
 			// For each of the new sections...
 
@@ -106,10 +114,14 @@ public abstract class SwtFlatSectionLayoutDecorator
 				// ...that are different from our current...
 
 				if ( "".equals( section ) )
+				{
 					continue;
+				}
 
 				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
+				{
 					continue;
+				}
 
 				// ...add a heading
 
@@ -173,7 +185,9 @@ public abstract class SwtFlatSectionLayoutDecorator
 	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		if ( getDelegate() instanceof SwtLayoutDecorator )
+		{
 			return ( (SwtLayoutDecorator) getDelegate() ).startBuildWidget( elementName, attributes, container, metawidget );
+		}
 
 		return container;
 	}

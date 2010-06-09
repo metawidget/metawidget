@@ -88,9 +88,13 @@ public class HeadingTagLayoutDecorator
 		String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection != null )
+		{
 			buffer.append( localizedSection );
+		}
 		else
+		{
 			buffer.append( section );
+		}
 
 		buffer.append( "</h" );
 		buffer.append( String.valueOf( level + 1 ));

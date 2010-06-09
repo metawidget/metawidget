@@ -75,7 +75,9 @@ public class ReadableIdProcessor
 		// as it will create duplicates in the child component list
 
 		if ( component.getId() != null )
+		{
 			return component;
+		}
 
 		// Base action ids on the methodBinding
 
@@ -84,7 +86,9 @@ public class ReadableIdProcessor
 			MethodBinding methodBinding = ( (ActionSource) component ).getAction();
 
 			if ( methodBinding != null )
+			{
 				setUniqueId( component, methodBinding.getExpressionString(), metawidget );
+			}
 		}
 		else
 		{
@@ -93,7 +97,9 @@ public class ReadableIdProcessor
 			ValueBinding valueBinding = component.getValueBinding( "value" );
 
 			if ( valueBinding != null )
+			{
 				setUniqueId( component, valueBinding.getExpressionString(), metawidget );
+			}
 		}
 
 		return component;
@@ -123,7 +129,9 @@ public class ReadableIdProcessor
 		// they will give that child component a '_2' suffixed id
 
 		if ( component instanceof UIMetawidget )
+		{
 			originalId += "_Metawidget";
+		}
 
 		// Convert to an actual, valid id (avoid conflicts)
 
@@ -134,7 +142,9 @@ public class ReadableIdProcessor
 		while ( true )
 		{
 			if ( clientIds.add( nonDuplicateId ) )
+			{
 				break;
+			}
 
 			suffix++;
 			nonDuplicateId = originalId + '_' + suffix;
@@ -158,15 +168,21 @@ public class ReadableIdProcessor
 					// as it will create duplicates in the child component list
 
 					if ( childComponent.getId() != null )
+					{
 						continue;
+					}
 
 					// Give the first Stub component the same id as the original. This is 'cleaner'
 					// as the Stub's id never makes it to the output HTML
 
 					if ( childSuffix > 1 )
+					{
 						childComponent.setId( nonDuplicateId + '_' + childSuffix );
+					}
 					else
+					{
 						childComponent.setId( nonDuplicateId );
+					}
 
 					childSuffix++;
 				}
@@ -216,7 +232,9 @@ public class ReadableIdProcessor
 			String id = childComponent.getId();
 
 			if ( id != null )
+			{
 				clientIds.add( id );
+			}
 
 			getClientIds( childComponent, clientIds );
 		}

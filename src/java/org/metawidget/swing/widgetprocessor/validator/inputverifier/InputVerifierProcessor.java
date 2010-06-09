@@ -50,12 +50,16 @@ public abstract class InputVerifierProcessor
 		String path = metawidget.getPath();
 
 		if ( PROPERTY.equals( elementName ) )
+		{
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+		}
 
 		InputVerifier verifier = getInputVerifier( component, attributes, metawidget, path );
 
 		if ( verifier == null )
+		{
 			return component;
+		}
 
 		component.setInputVerifier( verifier );
 

@@ -71,26 +71,34 @@ public abstract class HtmlLayoutRenderer
 		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( metawidget, "labelSuffix" );
 
 		if ( parameterLabelSuffix != null )
+		{
 			state.labelSuffix = (String) parameterLabelSuffix.getValue();
+		}
 
 		// Using inline messages?
 
 		UIParameter inlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "inlineMessages" );
 
 		if ( inlineMessagesParameter != null )
+		{
 			state.inlineMessages = Boolean.valueOf( (String) inlineMessagesParameter.getValue() );
+		}
 
 		// Message styles
 
 		UIParameter messageStyleParameter = FacesUtils.findParameterWithName( metawidget, "messageStyle" );
 
 		if ( messageStyleParameter != null )
+		{
 			state.messageStyle = (String) messageStyleParameter.getValue();
+		}
 
 		UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( metawidget, "messageStyleClass" );
 
 		if ( messageStyleClassParameter != null )
+		{
 			state.messageStyleClass = (String) messageStyleClassParameter.getValue();
+		}
 	}
 
 	/**
@@ -127,12 +135,16 @@ public abstract class HtmlLayoutRenderer
 		throws IOException
 	{
 		if ( componentNeedingLabel instanceof UICommand )
+		{
 			return false;
+		}
 
 		String labelText = getLabelText( componentNeedingLabel );
 
 		if ( !SimpleLayoutUtils.needsLabel( labelText, null ) )
+		{
 			return false;
+		}
 
 		// Render the label
 
@@ -141,12 +153,18 @@ public abstract class HtmlLayoutRenderer
 		State state = getState( metawidget );
 
 		if ( state.labelSuffix == null )
+		{
 			state.labelSuffix = ":";
+		}
 
 		if ( labelText.indexOf( "#{" ) != -1 )
+		{
 			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );
+		}
 		else
+		{
 			componentLabel.setValue( labelText + state.labelSuffix );
+		}
 
 		FacesUtils.render( context, componentLabel );
 		return true;
@@ -160,7 +178,9 @@ public abstract class HtmlLayoutRenderer
 		// No need for inline messages?
 
 		if ( childComponent instanceof HtmlInputHidden )
+		{
 			return;
+		}
 
 		String messageFor = childComponent.getId();
 
@@ -173,21 +193,29 @@ public abstract class HtmlLayoutRenderer
 			for ( UIComponent child : childComponent.getChildren() )
 			{
 				if ( child instanceof UIParameter )
+				{
 					continue;
+				}
 
 				if ( childOfChild != null )
+				{
 					return;
+				}
 
 				childOfChild = child;
 			}
 
 			if ( childOfChild == null )
+			{
 				return;
+			}
 
 			messageFor = childOfChild.getId();
 		}
 		else if ( !( childComponent instanceof UIInput ) )
+		{
 			return;
+		}
 
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
@@ -195,7 +223,9 @@ public abstract class HtmlLayoutRenderer
 		if ( metadataAttributes != null )
 		{
 			if ( TRUE.equals( metadataAttributes.get( READ_ONLY ) ) || ( (UIMetawidget) metawidget ).isReadOnly() )
+			{
 				return;
+			}
 		}
 
 		// Not using inline messages?
@@ -203,7 +233,9 @@ public abstract class HtmlLayoutRenderer
 		State state = getState( metawidget );
 
 		if ( !state.inlineMessages )
+		{
 			return;
+		}
 
 		// Render inline message
 
@@ -223,7 +255,9 @@ public abstract class HtmlLayoutRenderer
 		// implementations, though
 
 		if ( !FacesUtils.isUseSystemEvents() )
+		{
 			message.setParent( metawidget );
+		}
 
 		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( messageFor );
@@ -233,10 +267,14 @@ public abstract class HtmlLayoutRenderer
 		State state = getState( metawidget );
 
 		if ( !"".equals( state.messageStyle ) )
+		{
 			message.setStyle( state.messageStyle );
+		}
 
 		if ( !"".equals( state.messageStyleClass ) )
+		{
 			message.setStyleClass( state.messageStyleClass );
+		}
 
 		return message;
 	}
@@ -247,12 +285,16 @@ public abstract class HtmlLayoutRenderer
 		UIParameter parameterStyle = FacesUtils.findParameterWithName( metawidget, style + "Style" );
 
 		if ( parameterStyle != null )
+		{
 			writer.writeAttribute( "style", parameterStyle.getValue(), "style" );
+		}
 
 		UIParameter parameterStyleClass = FacesUtils.findParameterWithName( metawidget, style + "StyleClass" );
 
 		if ( parameterStyleClass != null )
+		{
 			writer.writeAttribute( "class", parameterStyleClass.getValue(), "class" );
+		}
 	}
 
 	//

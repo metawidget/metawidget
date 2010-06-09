@@ -109,14 +109,18 @@ public class Communication
 	public int compareTo( Communication that )
 	{
 		if ( that == null )
+		{
 			return -1;
+		}
 
 		// Compare types
 
 		int compareTypes = ObjectUtils.nullSafeCompareTo( getType(), that.getType() );
 
 		if ( compareTypes != 0 )
+		{
 			return compareTypes;
+		}
 
 		// If types are the same, compare ids
 
@@ -127,20 +131,28 @@ public class Communication
 	public boolean equals( Object that )
 	{
 		if ( this == that )
+		{
 			return true;
+		}
 
 		if ( that == null )
+		{
 			return false;
+		}
 
 		if ( getClass() != that.getClass() )
+		{
 			return false;
+		}
 
 		Communication communicationThat = (Communication) that;
 
 		if ( mId == 0 )
 		{
 			if ( communicationThat.mId != 0 )
+			{
 				return false;
+			}
 
 			return super.equals( communicationThat );
 		}
@@ -152,7 +164,9 @@ public class Communication
 	public int hashCode()
 	{
 		if ( mId == 0 )
+		{
 			return super.hashCode();
+		}
 
 		int hashCode = 1;
 		hashCode = 31 * hashCode + (int) ( mId ^ ( mId >>> 32 ) );
@@ -174,7 +188,9 @@ public class Communication
 		if ( mValue != null )
 		{
 			if ( toReturn.length() != 0 )
+			{
 				toReturn.append( ' ' );
+			}
 
 			toReturn.append( mValue );
 		}

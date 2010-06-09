@@ -84,12 +84,16 @@ public class Stub
 			String name = attributes.getAttributeName( loop );
 
 			if ( !name.startsWith( ATTRIBUTE_PREFIX ) )
+			{
 				continue;
+			}
 
 			name = name.substring( ATTRIBUTE_PREFIX.length() );
 
 			if ( !StringUtils.isFirstLetterUppercase( name ) )
+			{
 				continue;
+			}
 
 			// ...remember it
 
@@ -105,7 +109,9 @@ public class Stub
 	public void setAttribute( String name, String value )
 	{
 		if ( mAttributes == null )
+		{
 			mAttributes = CollectionUtils.newHashMap();
+		}
 
 		mAttributes.put( name, value );
 	}

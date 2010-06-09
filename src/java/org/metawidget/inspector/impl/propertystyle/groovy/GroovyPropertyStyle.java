@@ -94,7 +94,9 @@ public class GroovyPropertyStyle
 			// Not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
 
 			if ( !( property instanceof MetaBeanProperty ) )
+			{
 				continue;
+			}
 
 			MetaBeanProperty metaBeanProperty = (MetaBeanProperty) property;
 
@@ -104,7 +106,9 @@ public class GroovyPropertyStyle
 			// Only public properties
 
 			if ( !Modifier.isPublic( metaBeanProperty.getModifiers() ) )
+			{
 				continue;
+			}
 
 			// Exclude based on criteria
 			//
@@ -115,14 +119,22 @@ public class GroovyPropertyStyle
 			Class<?> declaringClass;
 
 			if ( metaBeanProperty.getGetter() != null )
+			{
 				declaringClass = ClassUtils.niceForName( metaBeanProperty.getGetter().getDeclaringClass().getName() );
+			}
 			else if ( metaBeanProperty.getSetter() != null )
+			{
 				declaringClass = ClassUtils.niceForName( metaBeanProperty.getSetter().getDeclaringClass().getName() );
+			}
 			else
+			{
 				declaringClass = clazz;
+			}
 
 			if ( isExcluded( declaringClass, name, type ) )
+			{
 				continue;
+			}
 
 			propertiesToReturn.put( name, new GroovyProperty( (MetaBeanProperty) property, clazz ) );
 		}
@@ -149,12 +161,16 @@ public class GroovyPropertyStyle
 		// after we can use .getTheClass)
 
 		if ( classToExclude == null )
+		{
 			return false;
+		}
 
 		String className = classToExclude.getName();
 
 		if ( className.startsWith( "org.groovy." ) )
+		{
 			return true;
+		}
 
 		return super.isExcludedBaseType( classToExclude );
 	}
@@ -174,7 +190,9 @@ public class GroovyPropertyStyle
 	protected boolean isExcludedName( String name )
 	{
 		if ( "metaClass".equals( name ) )
+		{
 			return true;
+		}
 
 		return super.isExcludedName( name );
 	}
@@ -221,17 +239,23 @@ public class GroovyPropertyStyle
 				CachedField field = mProperty.getField();
 
 				if ( field != null )
+				{
 					mField = field.field;
+				}
 
 				MetaMethod getterMethod = mProperty.getGetter();
 
 				if ( getterMethod != null )
+				{
 					mGetterMethod = javaClass.getMethod( getterMethod.getName() );
+				}
 
 				MetaMethod setterMethod = mProperty.getSetter();
 
 				if ( setterMethod != null )
+				{
 					mSetterMethod = javaClass.getMethod( setterMethod.getName(), setterMethod.getNativeParameterTypes() );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -270,13 +294,19 @@ public class GroovyPropertyStyle
 		public <T extends Annotation> T getAnnotation( Class<T> annotation )
 		{
 			if ( mField != null )
+			{
 				return mField.getAnnotation( annotation );
+			}
 
 			if ( mGetterMethod != null )
+			{
 				return mGetterMethod.getAnnotation( annotation );
+			}
 
 			if ( mSetterMethod != null )
+			{
 				return mSetterMethod.getAnnotation( annotation );
+			}
 
 			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
 		}
@@ -284,13 +314,19 @@ public class GroovyPropertyStyle
 		public Type getGenericType()
 		{
 			if ( mField != null )
+			{
 				return mField.getGenericType();
+			}
 
 			if ( mGetterMethod != null )
+			{
 				return mGetterMethod.getGenericReturnType();
+			}
 
 			if ( mSetterMethod != null )
+			{
 				return mSetterMethod.getGenericParameterTypes()[0];
+			}
 
 			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );
 		}

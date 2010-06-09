@@ -74,7 +74,9 @@ public class StrutsInspector
 			Element formBeans = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), FORM_BEANS_ELEMENT );
 
 			if ( formBeans == null )
+			{
 				continue;
+			}
 
 			XmlUtils.combineElements( root, formBeans, getTopLevelTypeAttribute(), getNameAttribute() );
 		}
@@ -86,15 +88,21 @@ public class StrutsInspector
 	protected Map<String, String> inspectProperty( Element toInspect )
 	{
 		if ( !FORM_PROPERTY_ELEMENT.equals( toInspect.getNodeName() ) )
+		{
 			return null;
+		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		if ( toInspect.hasAttribute( getNameAttribute() ) )
+		{
 			attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
+		}
 
 		if ( toInspect.hasAttribute( getTypeAttribute() ) )
+		{
 			attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
+		}
 
 		return attributes;
 	}
