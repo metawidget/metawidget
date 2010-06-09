@@ -22,6 +22,15 @@ import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingPro
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
+import com.google.gwt.core.ext.Generator;
+import com.google.gwt.core.ext.GeneratorContext;
+import com.google.gwt.core.ext.TreeLogger;
+import com.google.gwt.core.ext.typeinfo.JClassType;
+import com.google.gwt.core.ext.typeinfo.JMethod;
+import com.google.gwt.core.ext.typeinfo.JPrimitiveType;
+import com.google.gwt.core.ext.typeinfo.JType;
+import com.google.gwt.core.ext.typeinfo.NotFoundException;
+import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
@@ -29,9 +38,10 @@ import com.google.gwt.user.rebind.SourceWriter;
  * Generator for <code>SimpleBindingProcessorAdapters</code>.
  * <p>
  * <code>SimpleBindingProcessor</code> requires clients to supply an explicit
- * <code>SimpleBindingProcessorAdapter</code> interface through which to execute binding calls. In most
- * cases, clients can use <code>SimpleBindingProcessorAdapterGenerator</code> to automatically generate this
- * as a secondary class. First, they modify their <code>.gwt.xml</code> file to include...
+ * <code>SimpleBindingProcessorAdapter</code> interface through which to execute binding calls. In
+ * most cases, clients can use <code>SimpleBindingProcessorAdapterGenerator</code> to automatically
+ * generate this as a secondary class. First, they modify their <code>.gwt.xml</code> file to
+ * include...
  * <p>
  * <code>
  * &lt;generate-with class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
@@ -56,8 +66,8 @@ import com.google.gwt.user.rebind.SourceWriter;
  * are traversed into</li>
  * </ul>
  * Clients needing to avoid such restrictions must write their own class that implements
- * <code>SimpleBindingProcessorAdapter</code> or, more drastically, their own binding implementation that
- * implements <code>PropertyBinding</code>.
+ * <code>SimpleBindingProcessorAdapter</code> or, more drastically, their own binding implementation
+ * that implements <code>PropertyBinding</code>.
  *
  * @author Richard Kennard
  */
@@ -90,8 +100,8 @@ public class SimpleBindingProcessorAdapterGenerator
 	 * Maximum depth of recursion to avoid infinite recursion.
 	 * <p>
 	 * It is not possible to detect infinite recursion (caused by cyclic references) in advance
-	 * because SimpleBindingProcessorAdapterGenerator operates at compile-time, where the values of objects
-	 * are not known.
+	 * because SimpleBindingProcessorAdapterGenerator operates at compile-time, where the values of
+	 * objects are not known.
 	 */
 
 	private final static int	MAXIMUM_DEPTH			= 10;
@@ -265,7 +275,7 @@ public class SimpleBindingProcessorAdapterGenerator
 
 			// ...and follows the action convention...
 
-			if ( JPrimitiveType.VOID.equals( returnType ))
+			if ( JPrimitiveType.VOID.equals( returnType ) )
 			{
 				if ( writeType == WRITE_ACTION )
 				{

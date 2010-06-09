@@ -19,6 +19,8 @@ package org.metawidget.util;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Utilities for working with Logging.
  * <p>

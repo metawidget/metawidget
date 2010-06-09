@@ -18,9 +18,13 @@ package org.metawidget.inspector.faces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
+
+import javax.faces.context.FacesContext;
+
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesUtils;
+import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.TestUtils;
@@ -42,7 +46,10 @@ public class FacesInspectorTest
 	public void testInspection()
 	{
 		FacesInspector inspector = new FacesInspector();
+
+		FacesContext context = new MockFacesContext();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
+		context.release();
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -87,7 +94,17 @@ public class FacesInspectorTest
 		assertEquals( "#0.00", property.getAttribute( NUMBER_PATTERN ) );
 		assertEquals( "currency", property.getAttribute( NUMBER_TYPE ) );
 
-		assertTrue( entity.getChildNodes().getLength() == 3 );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "result of #{foo1}", property.getAttribute( "foo1" ) );
+		assertEquals( "result of #{foo1}", property.getAttribute( "foo2" ) );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "result of #{bar1}", property.getAttribute( "bar1" ) );
+		assertEquals( "result of #{bar2}", property.getAttribute( "bar2" ) );
+
+		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
 	public void testBadAjax()
@@ -165,6 +182,12 @@ public class FacesInspectorTest
 
 		@UiFacesNumberConverter( currencyCode = "AUD", currencySymbol = "$", groupingUsed = true, locale = "AU", maxFractionDigits = 2, minFractionDigits = 1, maxIntegerDigits = 100, minIntegerDigits = 3, pattern = "#0.00", type = "currency" )
 		public Object	object3;
+
+		@UiFacesAttribute( name = { "foo1", "foo2" }, expression = "#{foo1}" )
+		public String	foo;
+
+		@UiFacesAttributes( { @UiFacesAttribute( name = "bar1", expression = "#{bar1}" ), @UiFacesAttribute( name = "bar2", expression = "#{bar2}" ) } )
+		public String	bar;
 	}
 
 	public static class DoubleConverterFoo

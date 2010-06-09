@@ -335,6 +335,9 @@ public class FacesInspector
 			return;
 		}
 
-		attributes.put( facesAttribute.name(), StringUtils.quietValueOf( value ) );
+		for( String attributeName : facesAttribute.name() )
+		{
+			attributes.put( attributeName, StringUtils.quietValueOf( value ) );
+		}
 	}
 }

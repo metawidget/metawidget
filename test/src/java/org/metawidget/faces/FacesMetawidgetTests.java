@@ -926,7 +926,7 @@ public class FacesMetawidgetTests
 		public Object getValue( FacesContext context )
 			throws EvaluationException, PropertyNotFoundException
 		{
-			throw new UnsupportedOperationException();
+			return "result of " + mExpressionString;
 		}
 
 		@Override

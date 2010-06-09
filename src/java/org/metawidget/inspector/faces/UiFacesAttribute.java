@@ -56,7 +56,13 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiFacesAttribute
 {
-	String name();
+	/**
+	 * Attribute to set.
+	 * <p>
+	 * Multiple attributes can be specified if you need to set multiple attributes to the same expression.
+	 */
+
+	String[] name();
 
 	/**
 	 * Value to set the attribute to. Must be an EL expression of the form <code>#{...}</code>.
@@ -64,6 +70,8 @@ public @interface UiFacesAttribute
 	 * Note EL expressions can include conditions. For example:
 	 * <p>
 	 * <code>#{foo.bar ? 'baz' : null}</code>.
+	 * <p>
+	 * Also consider using <code>FacesInspectorConfig.setInjectThis</code>.
 	 */
 
 	String expression();
