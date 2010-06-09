@@ -21,9 +21,7 @@ import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.jsp.JspAnnotationInspector;
-import org.metawidget.inspector.jsp.UiJspAttribute;
-import org.metawidget.inspector.jsp.UiJspLookup;
+import org.metawidget.jsp.JspMetawidgetTests.MockPageContext;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.JspUtilsTest.DummyPageContext;
 import org.w3c.dom.Document;
@@ -42,6 +40,8 @@ public class JspAnnotationInspectorTest
 
 	public void testLookup()
 	{
+		JspAnnotationInspector.setThreadLocalPageContext( new MockPageContext() );
+
 		JspAnnotationInspector inspector = new JspAnnotationInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -59,8 +59,23 @@ public class JspAnnotationInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "${foo.bar}", property.getAttribute( JSP_LOOKUP ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "result of ${foo1}", property.getAttribute( "foo1" ) );
+		assertEquals( "result of ${foo1}", property.getAttribute( "foo2" ) );
+		assertTrue( 3 == property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object3" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "result of ${bar1}", property.getAttribute( "bar1" ) );
+		assertEquals( "result of ${bar2}", property.getAttribute( "bar2" ) );
+		assertTrue( 3 == property.getAttributes().getLength() );
+
+		assertTrue( 3 == entity.getChildNodes().getLength() );
+
+		JspAnnotationInspector.setThreadLocalPageContext( null);
 	}
 
 	public void testAttribute()
@@ -95,6 +110,12 @@ public class JspAnnotationInspectorTest
 	{
 		@UiJspLookup( "${foo.bar}" )
 		public Object	object1;
+
+		@UiJspAttribute( name = { "foo1", "foo2" }, expression = "${foo1}" )
+		public Object	object2;
+
+		@UiJspAttributes( { @UiJspAttribute( name = "bar1", expression = "${bar1}" ), @UiJspAttribute( name = "bar2", expression = "${bar2}" ) } )
+		public Object	object3;
 	}
 
 	public static class Bar

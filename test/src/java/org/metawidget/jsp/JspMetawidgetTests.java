@@ -31,7 +31,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.el.Expression;
 import javax.servlet.jsp.el.ExpressionEvaluator;
+import javax.servlet.jsp.el.FunctionMapper;
 import javax.servlet.jsp.el.VariableResolver;
 
 import junit.framework.Test;
@@ -215,7 +217,7 @@ public class JspMetawidgetTests
 		@Override
 		public ExpressionEvaluator getExpressionEvaluator()
 		{
-			throw new UnsupportedOperationException();
+			return new MockExpressionEvaluator();
 		}
 
 		@Override
@@ -227,7 +229,7 @@ public class JspMetawidgetTests
 		@Override
 		public VariableResolver getVariableResolver()
 		{
-			throw new UnsupportedOperationException();
+			return new MockVariableResolver();
 		}
 
 		@Override
@@ -256,7 +258,7 @@ public class JspMetawidgetTests
 	}
 
 	@SuppressWarnings( "deprecation" )
-	public static class MockServletContext
+	static class MockServletContext
 		implements ServletContext
 	{
 		//
@@ -419,6 +421,38 @@ public class JspMetawidgetTests
 
 		@Override
 		public void removeAttribute( String arg0 )
+		{
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	static class MockExpressionEvaluator
+		extends ExpressionEvaluator
+	{
+		//
+		// Public methods
+		//
+
+		@SuppressWarnings( "unchecked" )
+		@Override
+		public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 )
+		{
+			return "result of " + expression;
+		}
+
+		@Override
+		@SuppressWarnings( "unchecked" )
+		public Expression parseExpression( String arg0, Class arg1, FunctionMapper arg2 )
+		{
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	static class MockVariableResolver
+		implements VariableResolver
+	{
+		@Override
+		public Object resolveVariable( String arg0 )
 		{
 			throw new UnsupportedOperationException();
 		}

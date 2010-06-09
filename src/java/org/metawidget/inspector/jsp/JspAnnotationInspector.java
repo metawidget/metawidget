@@ -18,7 +18,6 @@ package org.metawidget.inspector.jsp;
 
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
-import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
@@ -31,7 +30,6 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.jsp.JspUtils;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.ThreadUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -180,28 +178,9 @@ public class JspAnnotationInspector
 			return;
 		}
 
-		// TODO: test these!
-
-		if ( value instanceof Collection<?> )
+		for ( String attributeName : jspAttribute.name() )
 		{
-			for ( String attributeName : jspAttribute.name() )
-			{
-				attributes.put( attributeName, CollectionUtils.toString( (Collection<?>) value ) );
-			}
-		}
-		else if ( value instanceof Object[] )
-		{
-			for ( String attributeName : jspAttribute.name() )
-			{
-				attributes.put( attributeName, ArrayUtils.toString( (Object[]) value ) );
-			}
-		}
-		else
-		{
-			for ( String attributeName : jspAttribute.name() )
-			{
-				attributes.put( attributeName, StringUtils.quietValueOf( value ) );
-			}
+			attributes.put( attributeName, StringUtils.quietValueOf( value ) );
 		}
 	}
 }
