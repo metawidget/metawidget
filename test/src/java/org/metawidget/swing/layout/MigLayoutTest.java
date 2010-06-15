@@ -18,6 +18,7 @@ package org.metawidget.swing.layout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,6 +29,7 @@ import javax.swing.UIManager;
 
 import junit.framework.TestCase;
 import net.miginfocom.layout.CC;
+import net.miginfocom.layout.ConstraintParser;
 import net.miginfocom.layout.LC;
 import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
@@ -66,6 +68,31 @@ public class MigLayoutTest
 	private final static int	GROW_ALL	= 100;
 
 	//
+	// Public statics
+	//
+
+	public static void main( String[] args )
+	{
+		// Metawidget
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setToInspect( new Foo() );
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
+		metawidget.add( new Stub( "mno" ) );
+
+		// JFrame
+
+		JFrame frame = new JFrame( "Metawidget MigLayout Test" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+
+	//
 	// Public methods
 	//
 
@@ -92,6 +119,7 @@ public class MigLayoutTest
 
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
+		assertTrue( 0 == ( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
 		UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );
 		assertTrue( 0 == insets[1].getValue() );
@@ -103,6 +131,7 @@ public class MigLayoutTest
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
 		assertTrue( null == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getGrow() );
+		assertEquals( ( ConstraintParser.parseUnitValueOrAlign( "top", false, null ) ), ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getAlign() );
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertTrue( 3 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 3 ) ) ).getCellX() );
@@ -139,6 +168,7 @@ public class MigLayoutTest
 		assertTrue( 0 == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getComponentConstraints( tabPanel.getComponent( 0 ) ) ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getComponentConstraints( tabPanel.getComponent( 0 ) ) ).getSpanX() );
 		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getComponentConstraints( tabPanel.getComponent( 0 ) ) ).getVertical().getGrow() );
+		assertTrue( 1f == ( (CC) ( (MigLayout) tabPanel.getLayout() ).getComponentConstraints( tabPanel.getComponent( 0 ) ) ).getPushY() );
 		assertTrue( 1 == tabPanel.getComponentCount() );
 
 		assertTrue( "tab3".equals( tabbedPane.getTitleAt( 2 ) ) );
@@ -201,19 +231,19 @@ public class MigLayoutTest
 
 		assertTrue( 0f == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
-		assertTrue( null == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getAlign() );
-		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertEquals( ( ConstraintParser.parseUnitValueOrAlign( "top", false, null ) ), ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getAlign() );
+		assertEquals( "Def*:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 		assertTrue( metawidget.getComponent( 3 ) instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getComponent( 3 ) ).getComponent( 0 ) instanceof JSpinner );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 3 ) ) ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 3 ) ) ).getSpanX() );
-		assertTrue( "Ghi:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertEquals( "Ghi:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 5 ) ) ).getCellX() );
 
 		assertTrue( metawidget.getComponent( 6 ) instanceof JTabbedPane );
-		assertTrue( arbitrary.equals( metawidget.getComponent( 7 ) ) );
-		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getComponent( 8 ) ) );
+		assertEquals( arbitrary, metawidget.getComponent( 7 ) );
+		assertEquals( arbitraryStubWithAttributes, metawidget.getComponent( 8 ) );
 		assertTrue( 0 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 8 ) ) ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 8 ) ) ).getSpanX() );
 

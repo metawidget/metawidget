@@ -178,6 +178,8 @@ public class JspAnnotationInspector
 			return;
 		}
 
+		// TODO: test collection/array for JSP/JEXL/JSF
+
 		for ( String attributeName : jspAttribute.name() )
 		{
 			attributes.put( attributeName, StringUtils.quietValueOf( value ) );

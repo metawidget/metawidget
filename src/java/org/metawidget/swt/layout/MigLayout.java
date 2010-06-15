@@ -107,19 +107,25 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = new GC( container ).getFontMetrics().getLeading();
 	}
 
-	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
+	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 )
+		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 )
 		{
+			// Must 'CC.setHideMode', because already added to Composite
+
+			CC controlConstraints = new CC();
+			controlConstraints.setHideMode( 3 );
+			control.setLayoutData( controlConstraints );
+			control.setVisible( false );
 			return;
 		}
 
 		// Special support for large components
 
 		State state = getState( container );
-		boolean spanAllColumns = ( component instanceof SwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+		boolean spanAllColumns = ( control instanceof SwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
 		if ( spanAllColumns && state.currentColumn > 0 )
 		{
@@ -136,41 +142,42 @@ public class MigLayout
 			labelText = metawidget.getLabelString( attributes );
 		}
 
-		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
+		layoutBeforeChild( control, labelText, elementName, attributes, container, metawidget );
 
 		// ...and layout the component
 
-		CC componentConstraints = new CC();
+		CC controlConstraints = new CC();
 
 		if ( labelText != null )
 		{
-			componentConstraints.cell( ( state.currentColumn * 2 ) + 1, state.currentRow );
+			controlConstraints.cell( ( state.currentColumn * 2 ) + 1, state.currentRow );
 		}
 		else
 		{
-			componentConstraints.cell( state.currentColumn * 2, state.currentRow );
-			componentConstraints.spanX( 2 );
+			controlConstraints.cell( state.currentColumn * 2, state.currentRow );
+			controlConstraints.spanX( 2 );
 		}
 
-		componentConstraints.pushX( 1f ).growX();
+		controlConstraints.pushX( 1f ).growX();
 
 		if ( spanAllColumns )
 		{
-			componentConstraints.spanX();
+			controlConstraints.spanX();
 			state.currentColumn = mNumberOfColumns;
 		}
 
-		// Assume JScrollPanes should grow vertically
+		controlConstraints.alignY( "top" );
 
-		if ( willFillVertically( component, attributes ) )
+		// Assume large controls should grow vertically
+
+		if ( willFillVertically( control, attributes ) )
 		{
-			componentConstraints.growY();
-			( (LC) ( (net.miginfocom.swt.MigLayout) container.getLayout() ).getLayoutConstraints() ).fill();
+			controlConstraints.pushY( 1f ).growY();
 		}
 
 		// Add it
 
-		component.setLayoutData( componentConstraints );
+		control.setLayoutData( controlConstraints );
 
 		state.currentColumn++;
 

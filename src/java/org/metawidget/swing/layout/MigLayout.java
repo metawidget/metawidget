@@ -128,6 +128,8 @@ public class MigLayout
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
 		{
+			// No need to 'CC.setHideMode', because never added to container
+
 			return;
 		}
 
@@ -175,12 +177,13 @@ public class MigLayout
 			state.currentColumn = mNumberOfColumns;
 		}
 
-		// Assume JScrollPanes should grow vertically
+		componentConstraints.alignY( "top" );
+
+		// Assume large components should grow vertically
 
 		if ( willFillVertically( component, attributes ) )
 		{
-			componentConstraints.growY();
-			( (LC) ( (net.miginfocom.swing.MigLayout) container.getLayout() ).getLayoutConstraints() ).fill();
+			componentConstraints.pushY( 1f ).growY();
 		}
 
 		// Add it

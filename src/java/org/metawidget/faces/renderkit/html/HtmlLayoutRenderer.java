@@ -134,6 +134,8 @@ public abstract class HtmlLayoutRenderer
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException
 	{
+		// Generally speaking, UICommands are their own label (ie. the text on a button)
+
 		if ( componentNeedingLabel instanceof UICommand )
 		{
 			return false;
