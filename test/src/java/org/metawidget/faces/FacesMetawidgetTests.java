@@ -926,6 +926,16 @@ public class FacesMetawidgetTests
 		public Object getValue( FacesContext context )
 			throws EvaluationException, PropertyNotFoundException
 		{
+			if ( mExpressionString.startsWith( "#{array" ))
+			{
+				return new String[]{ mExpressionString, mExpressionString };
+			}
+
+			if ( mExpressionString.startsWith( "#{collection" ))
+			{
+				return CollectionUtils.newArrayList( mExpressionString, mExpressionString );
+			}
+
 			return "result of " + mExpressionString;
 		}
 

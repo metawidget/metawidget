@@ -31,8 +31,8 @@ import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.ThreadUtils;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Inspects annotations defined by Metawidget's JSP support (declared in this same package).
@@ -178,11 +178,9 @@ public class JspAnnotationInspector
 			return;
 		}
 
-		// TODO: test collection/array for JSP/JEXL/JSF
-
 		for ( String attributeName : jspAttribute.name() )
 		{
-			attributes.put( attributeName, StringUtils.quietValueOf( value ) );
+			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}
 }

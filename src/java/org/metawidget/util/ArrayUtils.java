@@ -34,21 +34,26 @@ public final class ArrayUtils
 	// Public statics
 	//
 
-	public static <T> String toString( final T[] array )
+	public static String toString( Object array )
 	{
 		return toString( array, StringUtils.SEPARATOR_COMMA );
 	}
 
-	public static <T> String toString( final T[] array, String separator )
+	public static String toString( Object array, String separator )
 	{
 		return toString( array, separator, false, false );
 	}
 
-	public static <T> String toString( final T[] array, String separator, boolean leadingSeparator, boolean trailingSeparator )
+	public static String toString( Object array, String separator, boolean leadingSeparator, boolean trailingSeparator )
 	{
 		if ( array == null )
 		{
 			return "";
+		}
+
+		if ( !array.getClass().isArray() )
+		{
+			throw new UnsupportedOperationException( "Not an array" );
 		}
 
 		String separatorEscaped = separator;
@@ -68,9 +73,9 @@ public final class ArrayUtils
 
 		StringBuffer buffer = new StringBuffer();
 
-		for ( T t : array )
+		for ( int loop = 0, length = Array.getLength( array ); loop < length; loop++ )
 		{
-			String value = String.valueOf( t );
+			String value = String.valueOf( Array.get( array, loop ) );
 
 			// Concatenate the separator
 

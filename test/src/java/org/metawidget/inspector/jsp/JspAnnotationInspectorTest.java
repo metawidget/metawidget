@@ -69,8 +69,8 @@ public class JspAnnotationInspectorTest
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object3" );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "result of ${bar1}", property.getAttribute( "bar1" ) );
-		assertEquals( "result of ${bar2}", property.getAttribute( "bar2" ) );
+		assertEquals( "1,2", property.getAttribute( "array" ) );
+		assertEquals( "${collection1},${collection1}", property.getAttribute( "collection" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		assertTrue( 3 == entity.getChildNodes().getLength() );
@@ -114,7 +114,7 @@ public class JspAnnotationInspectorTest
 		@UiJspAttribute( name = { "foo1", "foo2" }, expression = "${foo1}" )
 		public Object	object2;
 
-		@UiJspAttributes( { @UiJspAttribute( name = "bar1", expression = "${bar1}" ), @UiJspAttribute( name = "bar2", expression = "${bar2}" ) } )
+		@UiJspAttributes( { @UiJspAttribute( name = "array", expression = "${array1}" ), @UiJspAttribute( name = "collection", expression = "${collection1}" ) } )
 		public Object	object3;
 	}
 

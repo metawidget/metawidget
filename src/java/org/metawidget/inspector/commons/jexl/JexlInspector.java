@@ -27,8 +27,8 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.ThreadUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -164,7 +164,7 @@ public class JexlInspector
 
 		for( String attributeName : jexlAttribute.name())
 		{
-			attributes.put( attributeName, StringUtils.quietValueOf( value ) );
+			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}
 

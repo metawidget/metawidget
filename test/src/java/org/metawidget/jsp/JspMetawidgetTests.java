@@ -437,6 +437,16 @@ public class JspMetawidgetTests
 		@Override
 		public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 )
 		{
+			if ( expression.startsWith( "${array" ))
+			{
+				return new int[]{ 1, 2 };
+			}
+
+			if ( expression.startsWith( "${collection" ))
+			{
+				return CollectionUtils.newArrayList( expression, expression );
+			}
+
 			return "result of " + expression;
 		}
 

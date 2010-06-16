@@ -104,8 +104,8 @@ public class FacesInspectorTest
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "result of #{bar1}", property.getAttribute( "bar1" ) );
-		assertEquals( "result of #{bar2}", property.getAttribute( "bar2" ) );
+		assertEquals( "#{array1},#{array1}", property.getAttribute( "array" ) );
+		assertEquals( "#{collection1},#{collection1}", property.getAttribute( "collection" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 5 );
@@ -190,7 +190,7 @@ public class FacesInspectorTest
 		@UiFacesAttribute( name = { "foo1", "foo2" }, expression = "#{foo1}" )
 		public String	foo;
 
-		@UiFacesAttributes( { @UiFacesAttribute( name = "bar1", expression = "#{bar1}" ), @UiFacesAttribute( name = "bar2", expression = "#{bar2}" ) } )
+		@UiFacesAttributes( { @UiFacesAttribute( name = "array", expression = "#{array1}" ), @UiFacesAttribute( name = "collection", expression = "#{collection1}" ) } )
 		public String	bar;
 	}
 

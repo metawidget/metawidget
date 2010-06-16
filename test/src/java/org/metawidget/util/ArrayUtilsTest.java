@@ -34,40 +34,42 @@ public class ArrayUtilsTest
 	public void testArrayUtils()
 		throws Exception
 	{
-		String[] compareTo = new String[]{ "foo", "bar", "baz" };
+		String[] compareTo = new String[] { "foo", "bar", "baz" };
 
 		// fromString
 
-		assertTrue( Arrays.equals( compareTo, ArrayUtils.fromString( "foo,bar,baz" )));
+		assertTrue( Arrays.equals( compareTo, ArrayUtils.fromString( "foo,bar,baz" ) ) );
 		assertTrue( 0 == ArrayUtils.fromString( null ).length );
 
 		// toString
 
-		assertEquals( "|foo|bar|baz|", ArrayUtils.toString( compareTo, "|", true, true ));
+		assertEquals( "|foo|bar|baz|", ArrayUtils.toString( compareTo, "|", true, true ) );
+		assertEquals( "1,2,3", ArrayUtils.toString( new byte[] { 1, 2, 3 } ) );
+		assertEquals( "foo\\,bar,bar\\,foo", ArrayUtils.toString( new String[] { "foo,bar", "bar,foo" } ) );
 
 		// add
 
-		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( new String[]{ "foo", "bar" }, "baz" )));
-		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( (String[]) null, compareTo )));
-		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( new String[]{ "foo" }, new String[]{ "bar", "baz" } )));
-		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( compareTo, (String[]) null )));
-		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( compareTo, new String[0] )));
-		assertTrue( Arrays.equals( new String[]{ "foo", "bar", "baz", null }, ArrayUtils.add( compareTo, (String) null )));
+		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( new String[] { "foo", "bar" }, "baz" ) ) );
+		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( (String[]) null, compareTo ) ) );
+		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( new String[] { "foo" }, new String[] { "bar", "baz" } ) ) );
+		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( compareTo, (String[]) null ) ) );
+		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( compareTo, new String[0] ) ) );
+		assertTrue( Arrays.equals( new String[] { "foo", "bar", "baz", null }, ArrayUtils.add( compareTo, (String) null ) ) );
 
 		// indexOf
 
 		assertTrue( ArrayUtils.indexOf( null, "bar" ) == -1 );
 		assertTrue( ArrayUtils.indexOf( compareTo, "bar" ) == 1 );
 		assertTrue( ArrayUtils.indexOf( compareTo, "abc" ) == -1 );
-		assertTrue( ArrayUtils.indexOf( new String[]{ "foo", null }, null ) == 1 );
+		assertTrue( ArrayUtils.indexOf( new String[] { "foo", null }, null ) == 1 );
 
 		// removeAt
 
-		assertTrue( Arrays.equals( new String[]{ "bar", "baz" }, ArrayUtils.removeAt( compareTo, 0 )));
-		assertTrue( Arrays.equals( new String[]{ "foo", "baz" }, ArrayUtils.removeAt( compareTo, 1 )));
-		assertTrue( Arrays.equals( new String[]{ "foo", "bar" }, ArrayUtils.removeAt( compareTo, 2 )));
-		assertTrue( Arrays.equals( new String[]{ "baz" }, ArrayUtils.removeAt( ArrayUtils.removeAt( compareTo, 0 ), 0 )));
-		assertTrue( Arrays.equals( new String[]{ "bar" }, ArrayUtils.removeAt( ArrayUtils.removeAt( compareTo, 0 ), 1 )));
-		assertTrue( Arrays.equals( new String[0], ArrayUtils.removeAt( ArrayUtils.removeAt( ArrayUtils.removeAt( compareTo, 0 ), 0 ), 0 )));
+		assertTrue( Arrays.equals( new String[] { "bar", "baz" }, ArrayUtils.removeAt( compareTo, 0 ) ) );
+		assertTrue( Arrays.equals( new String[] { "foo", "baz" }, ArrayUtils.removeAt( compareTo, 1 ) ) );
+		assertTrue( Arrays.equals( new String[] { "foo", "bar" }, ArrayUtils.removeAt( compareTo, 2 ) ) );
+		assertTrue( Arrays.equals( new String[] { "baz" }, ArrayUtils.removeAt( ArrayUtils.removeAt( compareTo, 0 ), 0 ) ) );
+		assertTrue( Arrays.equals( new String[] { "bar" }, ArrayUtils.removeAt( ArrayUtils.removeAt( compareTo, 0 ), 1 ) ) );
+		assertTrue( Arrays.equals( new String[0], ArrayUtils.removeAt( ArrayUtils.removeAt( ArrayUtils.removeAt( compareTo, 0 ), 0 ), 0 ) ) );
 	}
 }

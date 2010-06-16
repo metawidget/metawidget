@@ -17,9 +17,13 @@
 package org.metawidget.inspector.commons.jexl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Collection;
+
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -99,7 +103,17 @@ public class JexlInspectorTest
 		assertEquals( "true", property.getAttribute( "attribute2" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
-		assertTrue( entity.getChildNodes().getLength() == 3 );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar4" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "true,false", property.getAttribute( "array" ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar5" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "collection1,collection2", property.getAttribute( "collection" ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+
+		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
 	public void testBadExpression()
@@ -165,6 +179,12 @@ public class JexlInspectorTest
 		@UiJexlAttribute( name = { "attribute1", "attribute2" }, expression = "if ( this.expressionResult ) { 'true'; }" )
 		public String bar3;
 
+		@UiJexlAttribute( name = "array", expression = "this.array" )
+		public String bar4;
+
+		@UiJexlAttribute( name = "collection", expression = "this.collection" )
+		public String bar5;
+
 		public String getBaz()
 		{
 			return "from-baz";
@@ -173,6 +193,16 @@ public class JexlInspectorTest
 		public boolean isExpressionResult()
 		{
 			return true;
+		}
+
+		public boolean[] getArray()
+		{
+			return new boolean[]{ true, false };
+		}
+
+		public Collection<String> getCollection()
+		{
+			return CollectionUtils.newArrayList( "collection1", "collection2" );
 		}
 	}
 
