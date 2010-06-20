@@ -16,34 +16,36 @@
 
 package org.metawidget.util;
 
+import java.util.Map;
+
+import junit.framework.TestCase;
 
 /**
- * Utilities for working with Threads
- *
  * @author Richard Kennard
  */
 
-public final class ThreadUtils
+public class InspectorUtilsTest
+	extends TestCase
 {
 	//
-	// Public statics
+	// Public methods
 	//
 
-	/**
-	 * Type-safe initializer.
-	 */
-
-	public static final <K> ThreadLocal<K> newThreadLocal()
+	public void testPutAttributeValue()
+		throws Exception
 	{
-		return new ThreadLocal<K>();
-	}
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-	//
-	// Private constructor
-	//
+		InspectorUtils.putAttributeValue( attributes, "foo", null );
+		assertEquals( "", attributes.get( "foo" ));
 
-	private ThreadUtils()
-	{
-		// Can never be called
+		InspectorUtils.putAttributeValue( attributes, "bar", CollectionUtils.newArrayList( ",a", "bc" ) );
+		assertEquals( "\\,a,bc", attributes.get( "bar" ));
+
+		InspectorUtils.putAttributeValue( attributes, "baz", new String[]{ "a,b", "bc", "d," } );
+		assertEquals( "a\\,b,bc,d\\,", attributes.get( "baz" ));
+
+		InspectorUtils.putAttributeValue( attributes, "abc", 2 );
+		assertEquals( "2", attributes.get( "abc" ));
 	}
 }

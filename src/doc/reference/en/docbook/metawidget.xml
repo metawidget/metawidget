@@ -5628,7 +5628,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					
 					<para>
 						Note that steps 3 and 5 (the AJAX call to and from the server) are the most costly in terms of performance. Techniques
-						to improve GWT performance are discussed in <xref linkend="section-performance-rebind"/>. 
+						to improve GWT performance are discussed in <xref linkend="section-troubleshooting-performance-rebind"/>. 
 					</para>
 
 				</section>
@@ -5639,7 +5639,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<para>
 						As noted in <xref linkend="section-metawidgets-web-gwt-reflection"/> by default <classname>GwtMetawidget</classname> uses
 						server-side inspectors. This allows the full power of Java-based reflection but carries the performance cost of an AJAX call.
-						This cost can be mitigated by using rebinding (see <xref linkend="section-performance-rebind"/>), but there is
+						This cost can be mitigated by using rebinding (see <xref linkend="section-troubleshooting-performance-rebind"/>), but there is
 						another way: inspection can be performed <emphasis>client-side</emphasis>, with no AJAX calls.
 					</para>
 					
@@ -5921,43 +5921,6 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					
 				</section>
 				
-				<section id="section-metawidgets-web-struts-troubleshooting">
-					<title>Troubleshooting</title>				
-	
-					<section id="section-metawidgets-web-struts-troubleshooting-1">
-						<title>I get "Cannot find bean org.apache.struts.taglib.html.BEAN in any scope"</title>
-						
-						<para>
-							<classname>StrutsMetawidgetTag</classname> creates native Struts widgets, such as <parameter>&lt;html:text&gt;</parameter>, but does
-							not create the surrounding Struts form. Make sure your Metawidget tag is enclosed in
-							a <parameter>&lt;html:form&gt;</parameter> tag and the Struts HTML taglib is included at the top of the page.
-						</para>
-					</section>
-
-					<section id="section-metawidgets-web-struts-troubleshooting-2">
-						<title>I see "MultipartRequestHandler", "ServletWrapper" and other weird names</title>
-						
-						<para>
-							If you use <classname>PropertyTypeInspector</classname> to inspect your <classname>ActionForm</classname>-based
-							classes, by default it will discover properties from the
-							<classname>org.apache.struts.action.ActionForm</classname> base class, such as <function>getMultipartRequestHandler</function>.
-							To prevent this, configure <filename>metawidget.xml</filename>: 
-						</para>
-						
-						<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
-	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
-	&lt;propertyStyle&gt;
-		&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
-			config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig"&gt;
-			&lt;excludeBaseType&gt;
-				&lt;pattern&gt;^(java|javax|org\.apache\.struts)\..*$&lt;/pattern&gt;
-			&lt;/excludeBaseType&gt;
-		&lt;/javaBeanPropertyStyle&gt;
-	&lt;/propertyStyle&gt;
-&lt;/propertyTypeInspector&gt;</programlisting>
-
-					</section>
-				</section>
 			</section>
 			
 		</section>
@@ -6978,35 +6941,6 @@ public class PersonController {
 
 			</section>
 
-			<section id="section-inspectors-annotation-troubleshooting">
-				<title>Troubleshooting</title>				
-
-				<section id="section-inspectors-annotation-troubleshooting-1">
-					<title>I get "java.lang.TypeNotPresentException"</title>
-					
-					<para>
-						If you are using Sun's implementation of Java, Metawidget's annotation support requires
-						Java 5.0u6 or later, which includes a fix for this bug (Bug Parade ID: 6322301).
-					</para>
-				</section>
-
-				<section id="section-inspectors-annotation-troubleshooting-2">
-					<title>My inspector is not finding my annotations</title>
-					
-					<para>
-						Annotations are designed to 'silently fall away' in environments that do not
-						support them: they never throw <classname>ClassDefNotFoundError</classname>. For example,
-						if a JPA-annotated class is transferred to an application tier without <filename>ejb3-persistence.jar</filename>
-						(or equivalent) in its classpath, the JPA annotations will disappear.
-					</para>
-					
-					<para>
-						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote inspector
-						(see <xref linkend="section-howto-order"/>).
-					</para>
-				</section>
-			</section>
-			
 		</section>
 
 		<section id="section-inspectors-xml">
@@ -8470,7 +8404,7 @@ public class PersonController {
 						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
 						
 						<para>
-							For more details, see <xref linkend="section-performance-rebind"/>.
+							For more details, see <xref linkend="section-troubleshooting-performance-rebind"/>.
 						</para>
 
 					</section>
@@ -8502,7 +8436,7 @@ public class PersonController {
 						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
 						
 						<para>
-							For more details, see <xref linkend="section-performance-rebind"/>.
+							For more details, see <xref linkend="section-troubleshooting-performance-rebind"/>.
 						</para>
 
 					</section>
@@ -8615,7 +8549,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
 					
 					<para>
-						For more details, see <xref linkend="section-performance-rebind"/>.
+						For more details, see <xref linkend="section-troubleshooting-performance-rebind"/>.
 					</para>
 				</section>
 					
@@ -9995,82 +9929,239 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 
 	</chapter>
 	
-	<chapter id="chapter-performance">
-		<title>Performance</title>
-		
-		<para>
-			Performance is very important to Metawidget. Whilst generating a UI dynamically - as opposed to hard coding it
-			statically - is always likely to involve a performance tradeoff, Metawidget supports a number of techniques
-			to help minimize this.
-		</para>
-		
-		<section id="section-performance-jar">
-			<title>JAR Size</title>
+	<chapter id="chapter-troubleshooting">
+		<title>Troubleshooting</title>
 
+		<section id="section-troubleshooting-performance">
+			<title>Performance</title>
+				
 			<para>
-				Metawidget has no mandatory third-party JAR dependencies and is highly modular. This
-				allows the standard <filename>metawidget.jar</filename> to be repackaged for different environments to save JAR size.
+				Performance is very important to Metawidget. Whilst generating a UI dynamically - as opposed to hard coding it
+				statically - is always likely to involve a performance tradeoff, Metawidget supports a number of techniques
+				to help minimize this.
 			</para>
 			
-			<para>		
-				For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
-				<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only those
-				classes (<classname>Inspectors</classname>, <classname>WidgetBuilders</classname> and so on) necessary for the
-				Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
-				Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
-				the Android Address Book.
-			</para>
-			
-		</section>
-
-		<section id="section-performance-memory">
-			<title>Memory Usage</title>
-			
-			<para>
-				All <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s,
-				<classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
-				and <classname>Layout</classname>s are immutable. This means you only
-				need a single instance of them for your entire application.
-				If you are using <filename>metawidget.xml</filename> then <classname>ConfigReader</classname>
-				takes care of this for you, but if you are instantiating them yourself in Java
-				code you should reuse instances to save memory.
-			</para>
-			
+			<section id="section-troubleshooting-performance-jar">
+				<title>JAR Size</title>
+	
+				<para>
+					Metawidget has no mandatory third-party JAR dependencies and is highly modular. This
+					allows the standard <filename>metawidget.jar</filename> to be repackaged for different environments to save JAR size.
+				</para>
+				
+				<para>		
+					For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
+					<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only those
+					classes (<classname>Inspectors</classname>, <classname>WidgetBuilders</classname> and so on) necessary for the
+					Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
+					Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
+					the Android Address Book.
+				</para>
+				
+			</section>
+	
+			<section id="section-troubleshooting-performance-memory">
+				<title>Memory Usage</title>
+				
+				<para>
+					All <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s,
+					<classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
+					and <classname>Layout</classname>s are immutable. This means you only
+					need a single instance of them for your entire application.
+					If you are using <filename>metawidget.xml</filename> then <classname>ConfigReader</classname>
+					takes care of this for you, but if you are instantiating them yourself in Java
+					code you should reuse instances to save memory.
+				</para>
+				
+			</section>
+		
+			<section id="section-troubleshooting-performance-rebind">
+				<title>Rebinding</title>
+				
+				<para>
+					For Metawidgets that do not use automatic binding, the general approach is to call <function>setToInspect</function>
+					and then <function>setValue</function> to populate the generated widgets with values. This technique has an implicit side
+					effect: the values can also be <emphasis>re</emphasis>populated as many times as required from different objects, without re-calling
+					<function>setToInspect</function>. This allows the Metawidget to be generated once and reused many times, mitigating the
+					performance cost of generation.
+				</para>
+				
+				<para>
+					For Metawidgets that <emphasis>do</emphasis> use automatic binding, however, <function>setValue</function> is never used. Setting
+					new values requires re-calling <parameter>setToInspect</parameter> (and re-running generation) for every different object. 
+				</para>
+				
+				<para>
+					To avoid this some <classname>WidgetProcessor</classname>s support a second, lightweight version of <function>setToInspect</function>
+					called <function>rebind</function>. Using <function>rebind</function>, a <classname>WidgetProcessor</classname> can update the values in
+					the generated widgets <emphasis>without</emphasis> re-running generation. This allows the Metawidget to be generated once and reused
+					many times.
+				</para>
+				
+				<para>
+					The downside of <function>rebind</function> is that the rebound object must have exactly the same set of field names
+					as the original object. It becomes the responsibility of the caller to ensure this consistency.
+				</para>
+				
+				<para>
+					For an example of using rebinding, see the GWT Address Book sample application.
+				</para>
+				
+			</section>
 		</section>
 	
-		<section id="section-performance-rebind">
-			<title>Rebinding</title>
+		<section id="section-troubleshooting-inspectors">
+			<title>Inspectors</title>
+		
+			<section id="section-inspectors-inspectors-annotation">
+				<title>Annotation-Based Inspectors</title>				
+
+				<section id="section-inspectors-annotation-troubleshooting-1">
+					<title>I get "java.lang.TypeNotPresentException"</title>
+					
+					<para>
+						If you are using Sun's implementation of Java, Metawidget's annotation support requires
+						Java 5.0u6 or later, which includes a fix for this bug (Bug Parade ID: 6322301).
+					</para>
+				</section>
+
+				<section id="section-inspectors-annotation-troubleshooting-2">
+					<title>My inspector is not finding my annotations</title>
+					
+					<para>
+						Annotations are designed to 'silently fall away' in environments that do not
+						support them: they never throw <classname>ClassDefNotFoundError</classname>. For example,
+						if a JPA-annotated class is transferred to an application tier without <filename>ejb3-persistence.jar</filename>
+						(or equivalent) in its classpath, the JPA annotations will disappear.
+					</para>
+					
+					<para>
+						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote inspector
+						(see <xref linkend="section-howto-order"/>).
+					</para>
+				</section>
+			</section>
+		</section>			
+		
+		<section id="section-troubleshooting-web">
+			<title>Web Metawidgets</title>
 			
-			<para>
-				For Metawidgets that do not use automatic binding, the general approach is to call <function>setToInspect</function>
-				and then <function>setValue</function> to populate the generated widgets with values. This technique has an implicit side
-				effect: the values can also be <emphasis>re</emphasis>populated as many times as required from different objects, without re-calling
-				<function>setToInspect</function>. This allows the Metawidget to be generated once and reused many times, mitigating the
-				performance cost of generation.
-			</para>
+			<section id="section-troubleshooting-web-faces">
+				<title>Java Server Faces</title>				
 			
-			<para>
-				For Metawidgets that <emphasis>do</emphasis> use automatic binding, however, <function>setValue</function> is never used. Setting
-				new values requires re-calling <parameter>setToInspect</parameter> (and re-running generation) for every different object. 
-			</para>
+				<section id="section-metawidgets-web-faces-blank">
+					<title>I put &lt;m:metawidget &gt; in my page but nothing appears</title>
+					
+					<para>
+						View the source of the final Web page that is produced. If <parameter>m:metawidget</parameter> appears in it, the
+						tag is not being processed. Check you have correctly declared the <parameter>m:</parameter> namespace at the
+						top of your JSP/Facelets page. Also check you have correctly deployed <filename>metawidget.jar</filename> into
+						<filename>WEB-INF/lib</filename>. 
+					</para>
+					
+					<para>
+						If <parameter>m:metawidget</parameter> does <emphasis>not</emphasis> appear in the final Web page, the tag is
+						successfully being procesed. Check whether a 'blank' Metawidget is being produced (ie. an empty table if you are
+						using the <classname>HtmlTableLayoutRenderer</classname>, some empty <parameter>div</parameter>s if you are
+						using <classname>HtmlDivLayoutRenderer</classname>). In so, check the value expression is returning a
+						non-null value. For example, if your tag is <parameter>&lt;m:metawidget value="#{foo.bar}"/&gt;</parameter>,
+						check that <parameter>#{foo.bar}</parameter> does not return null.
+					</para>
+				</section>
+				
+				<section id="section-metawidgets-web-faces-missing-annotations">
+					<title>I have annotated my getter, but Metawidget is ignoring my annotations</title>
+					
+					<para>
+						If your getter code is...
+					</para>
+					
+					<programlisting language="java">public class Foo {
+
+	private String mBar = "Hello";
+	
+	@UiLabel( "My Bar" )
+	public String getBar() {
+	
+		return mBar;
+	}
+}</programlisting>
+
+					<para>
+						...and your code JSP/Facelets code is...
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo.bar}"/&gt;</programlisting>
+					
+					<para>
+						Then by default the <parameter>@UiLabel</parameter> annotation will be ignored. This is because the EL expression
+						<parameter>#{foo.bar}</parameter> evaluates directly to an object (in this case a <classname>String</classname>) so
+						Metawidget will not consider any parent objects and their getter methods. There are two options:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								Change the EL expression to <parameter>&lt;m:metawidget value="#{foo}"/&gt;</parameter> and let Metawidget
+								traverse the child property
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Use <parameter>&lt;m:metawidget value="#{foo.bar}" inspectFromParent="true"/&gt;</parameter> to force Metawidget
+								to unpack the EL expression and evaluate the 'parent' <parameter>#{foo}</parameter>
+							</para>
+						</listitem>
+					</itemizedlist>
+					
+					<para>
+						Note that if <parameter>#{foo.bar}</parameter> evaluates to null then Metawidget will unpack
+						and check the parent automatically, but this is simply a niceity.
+					</para>
+
+				</section>
+				
+			</section>
 			
-			<para>
-				To avoid this some <classname>WidgetProcessor</classname>s support a second, lightweight version of <function>setToInspect</function>
-				called <function>rebind</function>. Using <function>rebind</function>, a <classname>WidgetProcessor</classname> can update the values in
-				the generated widgets <emphasis>without</emphasis> re-running generation. This allows the Metawidget to be generated once and reused
-				many times.
-			</para>
-			
-			<para>
-				The downside of <function>rebind</function> is that the rebound object must have exactly the same set of field names
-				as the original object. It becomes the responsibility of the caller to ensure this consistency.
-			</para>
-			
-			<para>
-				For an example of using rebinding, see the GWT Address Book sample application.
-			</para>
-			
+			<section id="section-troubleshooting-web-struts">
+				<title>Struts</title>				
+
+				<section id="section-metawidgets-web-struts-form">
+					<title>I get "Cannot find bean org.apache.struts.taglib.html.BEAN in any scope"</title>
+					
+					<para>
+						<classname>StrutsMetawidgetTag</classname> creates native Struts widgets, such as <parameter>&lt;html:text&gt;</parameter>, but does
+						not create the surrounding Struts form. Make sure your Metawidget tag is enclosed in
+						a <parameter>&lt;html:form&gt;</parameter> tag and the Struts HTML taglib is included at the top of the page.
+					</para>
+				</section>
+
+				<section id="section-metawidgets-web-struts-names">
+					<title>I see "MultipartRequestHandler", "ServletWrapper" and other weird names</title>
+					
+					<para>
+						If you use <classname>PropertyTypeInspector</classname> to inspect your <classname>ActionForm</classname>-based
+						classes, by default it will discover properties from the
+						<classname>org.apache.struts.action.ActionForm</classname> base class, such as <function>getMultipartRequestHandler</function>.
+						To prevent this, configure <filename>metawidget.xml</filename>: 
+					</para>
+					
+					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;propertyStyle&gt;
+		&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+			config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig"&gt;
+			&lt;excludeBaseType&gt;
+				&lt;pattern&gt;^(java|javax|org\.apache\.struts)\..*$&lt;/pattern&gt;
+			&lt;/excludeBaseType&gt;
+		&lt;/javaBeanPropertyStyle&gt;
+	&lt;/propertyStyle&gt;
+&lt;/propertyTypeInspector&gt;</programlisting>
+
+				</section>
+			</section>
 		</section>
+		
 	</chapter>
 	
 	<chapter id="chapter-epilogue">

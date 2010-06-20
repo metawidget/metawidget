@@ -19,8 +19,6 @@ package org.metawidget.util;
 import java.util.Collection;
 import java.util.Map;
 
-import org.metawidget.util.simple.StringUtils;
-
 /**
  * Utilities for working with Inspectors.
  * <p>
@@ -39,7 +37,7 @@ public final class InspectorUtils
 	{
 		if ( value == null )
 		{
-			attributes.put( name, StringUtils.quietValueOf( value ) );
+			attributes.put( name, "" );
 			return;
 		}
 

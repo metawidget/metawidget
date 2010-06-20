@@ -33,6 +33,7 @@ import org.metawidget.layout.LayoutTests;
 import org.metawidget.pipeline.PipelineTests;
 import org.metawidget.swing.SwingMetawidgetTests;
 import org.metawidget.swt.SwtMetawidgetTests;
+import org.metawidget.util.InspectorUtilsTest;
 import org.metawidget.util.UtilTests;
 import org.metawidget.widgetbuilder.WidgetBuilderTests;
 import org.metawidget.widgetprocessor.WidgetProcessorTests;
@@ -61,6 +62,7 @@ public class AllTests
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );
+		suite.addTestSuite( InspectorUtilsTest.class );
 		suite.addTest( InspectionResultProcessorTests.suite() );
 		suite.addTest( JspMetawidgetTests.suite() );
 		suite.addTest( LayoutTests.suite() );
