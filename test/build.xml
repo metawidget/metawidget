@@ -1125,6 +1125,8 @@
 
 	<!-- GlassFish Tests -->
 	
+	<!-- (if GlassFish fails to start, check /glassfish/config/asenv.bat) -->
+	
 	<!-- (if GlassFish fails intermittently, try setting com.sun.enterprise.server.ss.setReuseAddress -->
 	<!--  to true as discussed here http://forums.java.net/jive/message.jspa?messageID=172574)        -->
 

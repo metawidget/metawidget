@@ -61,7 +61,21 @@ public class CompositeWidgetBuilder<W, M extends W>
 		// Defensive copy
 
 		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
-		System.arraycopy( widgetBuilders, 0, mWidgetBuilders, 0, widgetBuilders.length );
+
+		for( int loop = 0, length = widgetBuilders.length; loop < length; loop++ )
+		{
+			WidgetBuilder widgetBuilder = widgetBuilders[loop];
+
+			for( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ )
+			{
+				if ( mWidgetBuilders[checkDuplicates].equals( widgetBuilder ) )
+				{
+					throw WidgetBuilderException.newException( "CompositeWidgetBuilder's list of WidgetBuilders contains two of the same " + widgetBuilder.getClass().getName() );
+				}
+			}
+
+			mWidgetBuilders[loop] = widgetBuilder;
+		}
 	}
 
 	//

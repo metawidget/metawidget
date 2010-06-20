@@ -48,6 +48,8 @@ import org.w3c.dom.Document;
  * @author Richard Kennard
  */
 
+// TODO: Troubleshooting section
+
 public class CompositeInspector
 	implements Inspector
 {
@@ -82,7 +84,21 @@ public class CompositeInspector
 		// Defensive copy
 
 		mInspectors = new Inspector[inspectors.length];
-		System.arraycopy( inspectors, 0, mInspectors, 0, inspectors.length );
+
+		for( int loop = 0, length = inspectors.length; loop < length; loop++ )
+		{
+			Inspector inspector = inspectors[loop];
+
+			for( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ )
+			{
+				if ( mInspectors[checkDuplicates].equals( inspector ) )
+				{
+					throw InspectorException.newException( "CompositeInspector's list of Inspectors contains two of the same " + inspector.getClass().getName() );
+				}
+			}
+
+			mInspectors[loop] = inspector;
+		}
 	}
 
 	//

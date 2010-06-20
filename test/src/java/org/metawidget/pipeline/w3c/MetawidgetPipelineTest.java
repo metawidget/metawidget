@@ -24,9 +24,14 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
+import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
+import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
+import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidatorProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.w3c.dom.Element;
 
 /**
@@ -83,7 +88,7 @@ public class MetawidgetPipelineTest
 			}
 		} );
 
-		assertTrue( null == pipeline.inspect( null, null ));
+		assertTrue( null == pipeline.inspect( null, null ) );
 		assertTrue( called.size() == 1 );
 		assertEquals( "InspectionResultProcessor #1", called.get( 0 ) );
 		assertFalse( called.contains( "InspectionResultProcessor #2" ) );
@@ -224,6 +229,47 @@ public class MetawidgetPipelineTest
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
 		assertEquals( "nullAttributes", called.get( 1 ) );
 		assertEquals( "addWidget", called.get( 2 ) );
+	}
+
+	public void testDuplicateInspectionResultProcessors()
+	{
+		Pipeline pipeline = new Pipeline();
+		@SuppressWarnings( "unchecked" )
+		InspectionResultProcessor<Object> inspectionResultProcessor1 = new ComesAfterInspectionResultProcessor();
+
+		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
+
+		try
+		{
+			pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
+			assertTrue( false );
+		}
+		catch( InspectionResultProcessorException e )
+		{
+			assertEquals( "List of InspectionResultProcessors already contains org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor", e.getMessage() );
+		}
+	}
+
+	public void testDuplicateWidgetProcessors()
+	{
+		Pipeline pipeline = new Pipeline();
+		@SuppressWarnings( "unchecked" )
+		WidgetProcessor<Object, Object> widgetProcessor1 = (WidgetProcessor) new ReflectionBindingProcessor();
+		@SuppressWarnings( "unchecked" )
+		WidgetProcessor<Object, Object> widgetProcessor2 = (WidgetProcessor) new JGoodiesValidatorProcessor();
+
+		pipeline.addWidgetProcessor( widgetProcessor1 );
+		pipeline.addWidgetProcessor( widgetProcessor2 );
+
+		try
+		{
+			pipeline.addWidgetProcessor( widgetProcessor1 );
+			assertTrue( false );
+		}
+		catch( WidgetProcessorException e )
+		{
+			assertEquals( "List of WidgetProcessors already contains org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor", e.getMessage() );
+		}
 	}
 
 	//

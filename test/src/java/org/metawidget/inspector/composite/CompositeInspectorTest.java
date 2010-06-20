@@ -23,7 +23,9 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
@@ -122,6 +124,18 @@ public class CompositeInspectorTest
 		assertTrue( inspectorsCopied[0] == inspector );
 		inspectors[0] = null;
 		assertTrue( inspectorsCopied[0] != null );
+
+		// Test duplicates
+
+		try
+		{
+			new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector, new MetawidgetAnnotationInspector(), inspector ));
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertEquals( "CompositeInspector's list of Inspectors contains two of the same org.metawidget.inspector.propertytype.PropertyTypeInspector", e.getMessage() );
+		}
 	}
 
 	public void testConfig()

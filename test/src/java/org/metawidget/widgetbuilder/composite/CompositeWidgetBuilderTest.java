@@ -54,6 +54,21 @@ public class CompositeWidgetBuilderTest
 		assertTrue( widgetBuildersCopied[1] == widgetBuilder2 );
 		widgetBuilders[0] = null;
 		assertTrue( widgetBuildersCopied[0] != null );
+
+		// Test duplicates
+
+		try
+		{
+			@SuppressWarnings( "unchecked" )
+			WidgetBuilder<JComponent, SwingMetawidget>[] duplicateWidgetBuilders = new WidgetBuilder[]{ widgetBuilder1, widgetBuilder2, widgetBuilder1 };
+
+			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( duplicateWidgetBuilders ));
+			assertTrue( false );
+		}
+		catch( WidgetBuilderException e )
+		{
+			assertEquals( "CompositeWidgetBuilder's list of WidgetBuilders contains two of the same org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder", e.getMessage() );
+		}
 	}
 
 	@SuppressWarnings( "unchecked" )
@@ -89,7 +104,7 @@ public class CompositeWidgetBuilderTest
 
 		// 1 WidgetBuilder
 
-		config.setWidgetBuilders( new WidgetBuilder[1] );
+		config.setWidgetBuilders( new WidgetBuilder[]{ new SwingWidgetBuilder() } );
 
 		try
 		{
@@ -103,7 +118,7 @@ public class CompositeWidgetBuilderTest
 
 		// 2 WidgetBuilders
 
-		config.setWidgetBuilders( new WidgetBuilder[2] );
+		config.setWidgetBuilders( new WidgetBuilder[]{ new SwingWidgetBuilder(), new SwingXWidgetBuilder() } );
 
 		try
 		{

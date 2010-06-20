@@ -23,12 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * Convenience implementation for implementing pipelines.
@@ -151,14 +153,18 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 		mInspectionResultProcessors = inspectionResultProcessors;
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors )
+	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessor )
 	{
 		if ( mInspectionResultProcessors == null )
 		{
 			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>();
 		}
+		else if ( mInspectionResultProcessors.contains( inspectionResultProcessor ))
+		{
+			throw InspectionResultProcessorException.newException( "List of InspectionResultProcessors already contains " + inspectionResultProcessor.getClass().getName() );
+		}
 
-		mInspectionResultProcessors.add( inspectionResultProcessors );
+		mInspectionResultProcessors.add( inspectionResultProcessor );
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors )
@@ -219,6 +225,10 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 		if ( mWidgetProcessors == null )
 		{
 			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>();
+		}
+		else if ( mWidgetProcessors.contains( widgetProcessor ))
+		{
+			throw WidgetProcessorException.newException( "List of WidgetProcessors already contains " + widgetProcessor.getClass().getName() );
 		}
 
 		mWidgetProcessors.add( widgetProcessor );

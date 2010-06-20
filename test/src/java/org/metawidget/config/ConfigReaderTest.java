@@ -144,7 +144,7 @@ public class ConfigReaderTest
 		xml += "						</xmlInspector>";
 		xml += "						<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
 		xml += "							<inputStream>";
-		xml += "								<resource>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</resource>";
+		xml += "								<resource>org/metawidget/example/swt/addressbook/metawidget-metadata.xml</resource>";
 		xml += "							</inputStream>";
 		xml += "						</xmlInspector>";
 		xml += "					</array>";
