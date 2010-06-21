@@ -5628,7 +5628,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					
 					<para>
 						Note that steps 3 and 5 (the AJAX call to and from the server) are the most costly in terms of performance. Techniques
-						to improve GWT performance are discussed in <xref linkend="section-troubleshooting-performance-rebind"/>. 
+						to improve GWT performance are discussed in <xref linkend="section-howto-performance-rebind"/>. 
 					</para>
 
 				</section>
@@ -5639,7 +5639,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<para>
 						As noted in <xref linkend="section-metawidgets-web-gwt-reflection"/> by default <classname>GwtMetawidget</classname> uses
 						server-side inspectors. This allows the full power of Java-based reflection but carries the performance cost of an AJAX call.
-						This cost can be mitigated by using rebinding (see <xref linkend="section-troubleshooting-performance-rebind"/>), but there is
+						This cost can be mitigated by using rebinding (see <xref linkend="section-howto-performance-rebind"/>), but there is
 						another way: inspection can be performed <emphasis>client-side</emphasis>, with no AJAX calls.
 					</para>
 					
@@ -8404,7 +8404,7 @@ public class PersonController {
 						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
 						
 						<para>
-							For more details, see <xref linkend="section-troubleshooting-performance-rebind"/>.
+							For more details, see <xref linkend="section-howto-performance-rebind"/>.
 						</para>
 
 					</section>
@@ -8436,7 +8436,7 @@ public class PersonController {
 						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
 						
 						<para>
-							For more details, see <xref linkend="section-troubleshooting-performance-rebind"/>.
+							For more details, see <xref linkend="section-howto-performance-rebind"/>.
 						</para>
 
 					</section>
@@ -8549,7 +8549,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
 					
 					<para>
-						For more details, see <xref linkend="section-troubleshooting-performance-rebind"/>.
+						For more details, see <xref linkend="section-howto-performance-rebind"/>.
 					</para>
 				</section>
 					
@@ -9790,8 +9790,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 			<itemizedlist>
 				<listitem>
 					<para>
-						Annotate the fields with <classname>@UiComesAfter</classname> and use <classname>MetawidgetAnnotationInspector</classname>
-						as the first inspector in your <classname>CompositeInspector</classname> chain.
+						Annotate the fields with <classname>@UiComesAfter</classname>, use <classname>MetawidgetAnnotationInspector</classname>
+						in your <classname>CompositeInspector</classname> chain, and use <classname>ComesAfterInspectionResultProcessor</classname>.
 					</para>
 				</listitem>
 				<listitem>
@@ -9817,12 +9817,102 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						<classname>JavaBeanPropertyStyle</classname> and reorders the fields using debug information.
 					</para>
 				</listitem>
+				<listitem>
+					<para>
+						Write your own <classname>InspectionResultProcessor</classname>.
+					</para>
+				</listitem>
 			</itemizedlist>
 			
 		</section>
 
+		<section id="section-howto-inspect-differently">
+			<title>View The Same Object In Different Ways</title>
+			
+			<para>
+				Say you have an object <classname>Employee</classname>:
+			</para>
+			
+			<programlisting language="java">public class Employee {
+			
+	...
+	
+	@Column( nullable = false )
+	public String getName() {
+		return mName;
+	}
+
+	public boolean isManager() {
+		return mManager;
+	}
+}</programlisting>
+
+			<para>
+				You have a requirement to construct both a screen to view an individual employee, and a screen to search
+				for employees. For the latter you would like to reuse the <classname>Employee</classname> class but display
+				its fields a little differently. For example, your individual employee screen may use
+				<classname>JpaInspector</classname>/<classname>HibernateInspector</classname> to pick up on the
+				<classname>@Column</classname> annotation and mark the <parameter>name</parameter> field as 'required'. For
+				your search screen you may not want this.
+			</para>
+			
+			<para>				
+				You have some options:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						You could create a second <filename>metawidget.xml</filename> (perhaps
+						<filename>metawidget-search.xml</filename>) that does not include <classname>JpaInspector</classname>/<classname>HibernateInspector</classname>
+						and use it for your search screen:					
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{employee}" config="metawidget-search.xml"/&gt;</programlisting>
+					
+					<para>
+						You can see an example of this in <xref linkend="section-introduction-part3-swingappframework"/>.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could add an <classname>Inspector</classname> like <classname>XmlInspector</classname> to the end of your
+						<classname>CompositeInspector</classname> chain and explictly set
+						<parameter>required="false"</parameter>. This would override the inspection result from
+						<classname>JpaInspector</classname>/<classname>HibernateInspector</classname>. Then you
+						could use this in a <filename>metawidget-search.xml</filename> as described above.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could add an <classname>Inspector</classname> like <classname>FacesInspector</classname> or
+						<classname>JexlInspector</classname> to the end of your
+						<classname>CompositeInspector</classname> chain to override the <parameter>required</parameter>
+						attribute conditionally based on some Expression Language expression.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could create a custom annotation and custom <classname>Inspector</classname> (see
+						<xref linkend="section-architecture-inspectors-implementing-your-own"/> and a custom <classname>WidgetBuilder</classname>
+						that excluded annotated fields (see <xref linkend="section-architecture-widgetbuilders-implementing-your-own"/>). Then you
+						could use this in a <filename>metawidget-search.xml</filename> as described above.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could create another class <classname>EmployeeSearch</classname> that mirrors <classname>Employee</classname>. This would
+						introduce some duplication, but may work better if the search fields are substantially different to the employee fields. For
+						example now <parameter>isManager</parameter> could be a <classname>Boolean</classname> (big 'B') so that you could search
+						for 'is a manager', 'is not a manager' and 'don't care'.  
+					</para>
+				</listitem>
+			</itemizedlist>
+			
+		</section>
+	
 		<section id="section-howto-remote">
-			<title>Remote Inspection</title>
+			<title>Inspect Remotely</title>
 			
 			<para>
 				Metawidget inspects back-end metadata and creates front-end UI widgets. If your application is split over multiple
@@ -9886,53 +9976,47 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				to this.
 			</tip>
 						
-		</section>
+			<section id="section-howto-combine-remote">
+				<title>Combine Remote Inspections</title>
 				
-		<section id="section-howto-combine-remote">
-			<title>Combine Remote Inspections</title>
-			
-			<para>
-				If your architecture is strongly separated, some metadata may only be available in one tier (eg. JPA annotations
-				in the back-end) and some only available in another tier (eg. <filename>struts-config.xml</filename> in the
-				front-end).
-			</para>
-			
-			<para>
-				For this, <classname>CompositeInspector</classname> supplies an overloaded method outside the normal <classname>Inspector</classname>
-				interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional XML string of inspection results,
-				and merges forthcoming inspection results with it.
-			</para>
-			
-			<para>
-				Therefore, to combine metadata from different tiers:
-			</para>
-			
-			<itemizedlist>
-				<listitem>
-					<para>
-						create a front-end class that implements the <classname>Inspector</classname> interface
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						implement the interface by first remoting to the back-end class and returning the XML string, as before
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						next, delegate to a <classname>CompositeInspector</classname> to inspect the front-end, passing it the XML
-						string from the back-end as a starting point
-					</para>
-				</listitem>
-			</itemizedlist>			
+				<para>
+					If your architecture is strongly separated, some metadata may only be available in one tier (eg. JPA annotations
+					in the back-end) and some only available in another tier (eg. <filename>struts-config.xml</filename> in the
+					front-end).
+				</para>
+				
+				<para>
+					For this, <classname>CompositeInspector</classname> supplies an overloaded method outside the normal <classname>Inspector</classname>
+					interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional XML string of inspection results,
+					and merges forthcoming inspection results with it.
+				</para>
+				
+				<para>
+					Therefore, to combine metadata from different tiers:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							create a front-end class that implements the <classname>Inspector</classname> interface
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							implement the interface by first remoting to the back-end class and returning the XML string, as before
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							next, delegate to a <classname>CompositeInspector</classname> to inspect the front-end, passing it the XML
+							string from the back-end as a starting point
+						</para>
+					</listitem>
+				</itemizedlist>			
+			</section>
 		</section>
 
-	</chapter>
-	
-	<chapter id="chapter-troubleshooting">
-		<title>Troubleshooting</title>
-
-		<section id="section-troubleshooting-performance">
+		<section id="section-howto-performance">
 			<title>Performance</title>
 				
 			<para>
@@ -9941,7 +10025,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				to help minimize this.
 			</para>
 			
-			<section id="section-troubleshooting-performance-jar">
+			<section id="section-howto-performance-jar">
 				<title>JAR Size</title>
 	
 				<para>
@@ -9960,7 +10044,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				
 			</section>
 	
-			<section id="section-troubleshooting-performance-memory">
+			<section id="section-howto-performance-memory">
 				<title>Memory Usage</title>
 				
 				<para>
@@ -9975,7 +10059,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				
 			</section>
 		
-			<section id="section-troubleshooting-performance-rebind">
+			<section id="section-howto-performance-rebind">
 				<title>Rebinding</title>
 				
 				<para>
@@ -10009,7 +10093,12 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				
 			</section>
 		</section>
+		
+	</chapter>
 	
+	<chapter id="chapter-troubleshooting">
+		<title>Troubleshooting</title>
+
 		<section id="section-troubleshooting-inspectors">
 			<title>Inspectors</title>
 		
