@@ -48,8 +48,6 @@ import org.w3c.dom.Document;
  * @author Richard Kennard
  */
 
-// TODO: Troubleshooting section
-
 public class CompositeInspector
 	implements Inspector
 {
