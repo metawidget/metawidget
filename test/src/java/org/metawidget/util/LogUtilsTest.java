@@ -71,20 +71,24 @@ public class LogUtilsTest
 
 		assertTrue( log.isTraceEnabled() );
 		log.trace( "trace {0}", 1 );
-		log.trace( "trace", new Throwable() );
 		assertEquals( "trace 1", getLastTraceMessage() );
+		log.trace( "trace", new Throwable() );
+
 		assertTrue( log.isDebugEnabled() );
 		log.debug( "debug {0}", 2 );
-		log.debug( "debug", new Throwable() );
 		assertEquals( "debug 2", getLastDebugMessage() );
+		log.debug( "debug", new Throwable() );
+
 		assertTrue( log.isInfoEnabled() );
 		log.info( "info {0}", 3 );
-		log.info( "info", new Throwable() );
 		assertEquals( "info 3", getLastInfoMessage() );
+		log.info( "info", new Throwable() );
+
 		assertTrue( log.isWarnEnabled() );
 		log.warn( "warn {0}", 4 );
-		log.warn( "warn", new Throwable() );
 		assertEquals( "warn 4", getLastWarnMessage() );
+		log.warn( "warn", new Throwable() );
+
 		assertTrue( log.isErrorEnabled() );
 		log.error( "error {0}", 5 );
 		log.error( "error", new Throwable() );
