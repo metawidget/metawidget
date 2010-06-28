@@ -766,7 +766,7 @@ public class ConfigReaderTest
 		// Test it doesn't log 'Instantiated immutable class
 		// org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder' a second time
 
-		assertTrue( "Reading resource from org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder".equals( LogUtilsTest.getLastDebugMessage() ) );
+		assertEquals( "Reading resource from org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder", LogUtilsTest.getLastDebugMessage() );
 	}
 
 	public void testImmutable()
@@ -1073,7 +1073,7 @@ public class ConfigReaderTest
 
 		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
+		assertEquals( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably", LogUtilsTest.getLastWarnMessage() );
 
 		// Overridden, but uses super.hashCode
 

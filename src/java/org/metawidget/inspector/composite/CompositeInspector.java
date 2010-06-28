@@ -144,7 +144,7 @@ public class CompositeInspector
 				if ( LOG.isTraceEnabled() )
 				{
 					String formattedXml = XmlUtils.documentToString( inspectionDocument, true );
-					LOG.trace( inspector.getClass() + " inspected " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
+					LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
 				}
 
 				// ...and combine them
@@ -167,7 +167,7 @@ public class CompositeInspector
 			{
 				if ( LOG.isDebugEnabled() )
 				{
-					LOG.debug( "No inspectors matched path == " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+					LOG.debug( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				}
 
 				return null;
@@ -178,7 +178,7 @@ public class CompositeInspector
 			if ( LOG.isDebugEnabled() )
 			{
 				String formattedXml = XmlUtils.documentToString( masterDocument, true );
-				LOG.debug( "Inspected " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
+				LOG.debug( "Inspected {0}{1}\r\n{2}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
 			}
 
 			return XmlUtils.documentToString( masterDocument, false );

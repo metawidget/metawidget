@@ -16,6 +16,7 @@
 
 package org.metawidget.util;
 
+import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,31 +81,31 @@ public final class LogUtils
 
 		boolean isTraceEnabled();
 
-		void trace( String trace );
+		void trace( String trace, Object... arguments );
 
 		void trace( String trace, Throwable throwable );
 
 		boolean isDebugEnabled();
 
-		void debug( String debug );
+		void debug( String debug, Object... arguments );
 
 		void debug( String debug, Throwable throwable );
 
 		boolean isInfoEnabled();
 
-		void info( String info );
+		void info( String info, Object... arguments );
 
 		void info( String info, Throwable throwable );
 
 		boolean isWarnEnabled();
 
-		void warn( String warning );
+		void warn( String warning, Object... arguments );
 
 		void warn( String warning, Throwable throwable );
 
 		boolean isErrorEnabled();
 
-		void error( String error );
+		void error( String error, Object... arguments );
 
 		void error( String error, Throwable throwable );
 	}
@@ -114,8 +115,8 @@ public final class LogUtils
 	//
 
 	/**
-	 * Lightweight field that stores the last message sent to <code>trace</code>. Intended for
-	 * unit tests.
+	 * Lightweight field that stores the last message sent to <code>trace</code>. Intended for unit
+	 * tests.
 	 */
 
 	/* package private */static String	LAST_TRACE_MESSAGE;
@@ -164,7 +165,7 @@ public final class LogUtils
 		}
 
 		//
-		// Methods
+		// Public methods
 		//
 
 		public boolean isTraceEnabled()
@@ -172,11 +173,9 @@ public final class LogUtils
 			return mLogger.isLoggable( Level.FINER );
 		}
 
-		public void trace( String trace )
+		public void trace( String trace, Object... arguments )
 		{
-			LAST_TRACE_MESSAGE = trace;
-
-			mLogger.finer( trace );
+			LAST_TRACE_MESSAGE = log( Level.FINER, trace, arguments );
 		}
 
 		public void trace( String trace, Throwable throwable )
@@ -189,11 +188,9 @@ public final class LogUtils
 			return mLogger.isLoggable( Level.FINE );
 		}
 
-		public void debug( String debug )
+		public void debug( String debug, Object... arguments )
 		{
-			LAST_DEBUG_MESSAGE = debug;
-
-			mLogger.fine( debug );
+			LAST_DEBUG_MESSAGE = log( Level.FINE, debug, arguments );
 		}
 
 		public void debug( String debug, Throwable throwable )
@@ -206,11 +203,9 @@ public final class LogUtils
 			return mLogger.isLoggable( Level.INFO );
 		}
 
-		public void info( String info )
+		public void info( String info, Object... arguments )
 		{
-			LAST_INFO_MESSAGE = info;
-
-			mLogger.info( info );
+			LAST_INFO_MESSAGE = log( Level.INFO, info, arguments );
 		}
 
 		public void info( String info, Throwable throwable )
@@ -223,11 +218,9 @@ public final class LogUtils
 			return mLogger.isLoggable( Level.WARNING );
 		}
 
-		public void warn( String warning )
+		public void warn( String warning, Object... arguments )
 		{
-			LAST_WARN_MESSAGE = warning;
-
-			mLogger.warning( warning );
+			LAST_WARN_MESSAGE = log( Level.WARNING, warning, arguments );
 		}
 
 		public void warn( String warning, Throwable throwable )
@@ -242,14 +235,31 @@ public final class LogUtils
 			return mLogger.isLoggable( Level.SEVERE );
 		}
 
-		public void error( String error )
+		public void error( String error, Object... arguments )
 		{
-			mLogger.log( Level.SEVERE, error );
+			log( Level.SEVERE, error, arguments );
 		}
 
 		public void error( String error, Throwable throwable )
 		{
 			mLogger.log( Level.SEVERE, error, throwable );
+		}
+
+		//
+		// Private methods
+		//
+
+		private String log( Level level, String message, Object... arguments )
+		{
+			if ( arguments.length == 0 )
+			{
+				mLogger.log( level, message );
+				return message;
+			}
+
+			String logged = MessageFormat.format( message, arguments );
+			mLogger.log( level, logged );
+			return logged;
 		}
 	}
 
@@ -284,11 +294,19 @@ public final class LogUtils
 			return mLog.isTraceEnabled();
 		}
 
-		public void trace( String trace )
+		public void trace( String trace, Object... arguments )
 		{
-			LAST_TRACE_MESSAGE = trace;
-
-			mLog.trace( trace );
+			if ( arguments.length == 0 )
+			{
+				LAST_TRACE_MESSAGE = trace;
+				mLog.trace( trace );
+			}
+			else
+			{
+				String logged = MessageFormat.format( trace, arguments );
+				LAST_TRACE_MESSAGE = logged;
+				mLog.trace( logged );
+			}
 		}
 
 		public void trace( String trace, Throwable throwable )
@@ -301,11 +319,19 @@ public final class LogUtils
 			return mLog.isDebugEnabled();
 		}
 
-		public void debug( String debug )
+		public void debug( String debug, Object... arguments )
 		{
-			LAST_DEBUG_MESSAGE = debug;
-
-			mLog.debug( debug );
+			if ( arguments.length == 0 )
+			{
+				LAST_DEBUG_MESSAGE = debug;
+				mLog.debug( debug );
+			}
+			else
+			{
+				String logged = MessageFormat.format( debug, arguments );
+				LAST_DEBUG_MESSAGE = logged;
+				mLog.debug( logged );
+			}
 		}
 
 		public void debug( String debug, Throwable throwable )
@@ -320,11 +346,19 @@ public final class LogUtils
 			return mLog.isInfoEnabled();
 		}
 
-		public void info( String info )
+		public void info( String info, Object... arguments )
 		{
-			LAST_INFO_MESSAGE = info;
-
-			mLog.info( info );
+			if ( arguments.length == 0 )
+			{
+				LAST_INFO_MESSAGE = info;
+				mLog.info( info );
+			}
+			else
+			{
+				String logged = MessageFormat.format( info, arguments );
+				LAST_INFO_MESSAGE = logged;
+				mLog.info( logged );
+			}
 		}
 
 		public void info( String info, Throwable throwable )
@@ -339,11 +373,19 @@ public final class LogUtils
 			return mLog.isWarnEnabled();
 		}
 
-		public void warn( String warning )
+		public void warn( String warning, Object... arguments )
 		{
-			LAST_WARN_MESSAGE = warning;
-
-			mLog.warn( warning );
+			if ( arguments.length == 0 )
+			{
+				LAST_WARN_MESSAGE = warning;
+				mLog.warn( warning );
+			}
+			else
+			{
+				String logged = MessageFormat.format( warning, arguments );
+				LAST_WARN_MESSAGE = logged;
+				mLog.warn( logged );
+			}
 		}
 
 		public void warn( String warning, Throwable throwable )
@@ -358,9 +400,16 @@ public final class LogUtils
 			return mLog.isErrorEnabled();
 		}
 
-		public void error( String error )
+		public void error( String error, Object... arguments )
 		{
-			mLog.error( error );
+			if ( arguments.length == 0 )
+			{
+				mLog.error( error );
+			}
+			else
+			{
+				mLog.error( MessageFormat.format( error, arguments ) );
+			}
 		}
 
 		public void error( String error, Throwable throwable )

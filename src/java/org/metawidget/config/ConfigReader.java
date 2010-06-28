@@ -231,7 +231,7 @@ public class ConfigReader
 
 			else
 			{
-				LOG.debug( "Reading resource from " + locationKey );
+				LOG.debug( "Reading resource from {0}", locationKey );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				configHandler.setCachingContentHandler( cachingContentHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
@@ -1188,7 +1188,7 @@ public class ConfigReader
 
 								if ( isImmutable( classToConstruct ) )
 								{
-									LOG.debug( "\tInstantiated immutable " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
+									LOG.debug( "\tInstantiated immutable {0} (config hashCode {1})", classToConstruct, object.hashCode() );
 									putImmutableByClass( configuredObject, object );
 								}
 							}
@@ -1420,7 +1420,7 @@ public class ConfigReader
 
 				if ( isImmutable( classToConstruct ) )
 				{
-					LOG.debug( "\tInstantiated immutable " + classToConstruct + " (no config)" );
+					LOG.debug( "\tInstantiated immutable {0} (no config)", classToConstruct );
 					putImmutableByClass( object, null );
 				}
 			}
@@ -1560,7 +1560,7 @@ public class ConfigReader
 
 					if ( System.identityHashCode( configToStoreUnder ) == configToStoreUnder.hashCode() )
 					{
-						LOG.warn( configClass + " overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably" );
+						LOG.warn( "{0} overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably", configClass );
 					}
 
 					if ( !equalsDeclaringClass.equals( hashCodeDeclaringClass ) )
@@ -1586,7 +1586,7 @@ public class ConfigReader
 						{
 							if ( configClass.equals( declaredMethod.getDeclaringClass() ) )
 							{
-								LOG.warn( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
+								LOG.warn( "{0} does not override .equals() (only its super{1} does), so may not be cached reliably", configClass, equalsDeclaringClass );
 								break;
 							}
 						}

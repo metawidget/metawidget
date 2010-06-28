@@ -647,7 +647,7 @@ public abstract class BaseXmlInspector
 					// Trace, rather than do a debug log, because it makes for a nicer 'out
 					// of the box' experience
 
-					mLog.trace( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider marking " + name + " as hidden='true'" );
+					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", ClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
 					return true;
 				}
 

@@ -524,7 +524,7 @@ public abstract class UIMetawidget
 	{
 		if ( LOG.isTraceEnabled() )
 		{
-			LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (start)" );
+			LOG.trace( "inspect {0}{1} (start)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ));
 		}
 
 		try
@@ -535,7 +535,7 @@ public abstract class UIMetawidget
 		{
 			if ( LOG.isTraceEnabled() )
 			{
-				LOG.trace( "inspect " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " (end)" );
+				LOG.trace( "inspect {0}{1} (end)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 			}
 		}
 	}
@@ -768,7 +768,7 @@ public abstract class UIMetawidget
 			{
 				if ( LOG.isTraceEnabled() )
 				{
-					LOG.trace( "configure from " + mConfig + " (start)" );
+					LOG.trace( "configure from {0} (start)", mConfig );
 				}
 
 				configReader.configure( mConfig, this );
@@ -790,7 +790,7 @@ public abstract class UIMetawidget
 			{
 				if ( LOG.isTraceEnabled() )
 				{
-					LOG.trace( "configure from " + mConfig + " (end)" );
+					LOG.trace( "configure from {0} (end)", mConfig );
 				}
 			}
 		}
@@ -996,14 +996,14 @@ public abstract class UIMetawidget
 		{
 			if ( LOG.isTraceEnabled() )
 			{
-				LOG.trace( "buildWidget for " + elementName + " named " + attributes.get( NAME ) + " (start)" );
+				LOG.trace( "buildWidget for {0} named {1} (start)", elementName, attributes.get( NAME ) );
 			}
 
 			UIComponent widget = super.buildWidget( elementName, attributes );
 
 			if ( LOG.isTraceEnabled() )
 			{
-				LOG.trace( "buildWidget returned " + widget + " (end)" );
+				LOG.trace( "buildWidget returned {0} (end)", widget );
 			}
 
 			return widget;
