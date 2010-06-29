@@ -23,8 +23,8 @@ package org.metawidget.swing.widgetprocessor.binding.beanutils;
  * @author Richard Kennard
  */
 
-public class BeanUtilsBindingProcessorConfig
-{
+public class BeanUtilsBindingProcessorConfig {
+
 	//
 	// Public statics
 	//
@@ -43,8 +43,8 @@ public class BeanUtilsBindingProcessorConfig
 	// Public methods
 	//
 
-	public int getPropertyStyle()
-	{
+	public int getPropertyStyle() {
+
 		return mPropertyStyle;
 	}
 
@@ -54,33 +54,29 @@ public class BeanUtilsBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BeanUtilsBindingProcessorConfig setPropertyStyle( int propertyStyle )
-	{
+	public BeanUtilsBindingProcessorConfig setPropertyStyle( int propertyStyle ) {
+
 		mPropertyStyle = propertyStyle;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mPropertyStyle != ((BeanUtilsBindingProcessorConfig) that).mPropertyStyle )
-		{
+		if ( mPropertyStyle != ( (BeanUtilsBindingProcessorConfig) that ).mPropertyStyle ) {
 			return false;
 		}
 
@@ -88,8 +84,8 @@ public class BeanUtilsBindingProcessorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return mPropertyStyle;
 	}
 }

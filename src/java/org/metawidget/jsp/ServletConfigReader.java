@@ -33,8 +33,8 @@ import org.metawidget.inspector.iface.InspectorException;
  */
 
 public class ServletConfigReader
-	extends ConfigReader
-{
+	extends ConfigReader {
+
 	//
 	// Private members
 	//
@@ -45,8 +45,8 @@ public class ServletConfigReader
 	// Constructor
 	//
 
-	public ServletConfigReader( ServletContext context )
-	{
+	public ServletConfigReader( ServletContext context ) {
+
 		mContext = context;
 	}
 
@@ -59,19 +59,15 @@ public class ServletConfigReader
 	 */
 
 	@Override
-	public InputStream openResource( String resource )
-	{
-		try
-		{
+	public InputStream openResource( String resource ) {
+
+		try {
 			URL url = mContext.getResource( "/WEB-INF/" + resource );
 
-			if ( url != null )
-			{
+			if ( url != null ) {
 				return url.openStream();
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
 

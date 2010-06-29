@@ -34,7 +34,6 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiWide
-{
+public @interface UiWide {
 	// Just a marker annotation
 }

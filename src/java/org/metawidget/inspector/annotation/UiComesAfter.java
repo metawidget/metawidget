@@ -33,8 +33,8 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiComesAfter
-{
+public @interface UiComesAfter {
+
 	/**
 	 * Array of property names which the annotated property must come after.
 	 * <p>

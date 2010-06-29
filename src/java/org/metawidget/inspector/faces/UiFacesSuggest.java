@@ -30,8 +30,8 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesSuggest
-{
+public @interface UiFacesSuggest {
+
 	/**
 	 * An EL expression for the suggest, of the form <code>#{...}</code>.
 	 */

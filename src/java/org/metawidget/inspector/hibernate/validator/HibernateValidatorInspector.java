@@ -38,19 +38,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class HibernateValidatorInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public HibernateValidatorInspector()
-	{
+	public HibernateValidatorInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public HibernateValidatorInspector( BaseObjectInspectorConfig config )
-	{
+	public HibernateValidatorInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -60,51 +60,43 @@ public class HibernateValidatorInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Digits
 
-		try
-		{
+		try {
 			@SuppressWarnings( "unchecked" )
 			Class<? extends Annotation> digitsClass = (Class<? extends Annotation>) Class.forName( "org.hibernate.validator.Digits" );
 			Object digitsAnnotation = property.getAnnotation( digitsClass );
 
-			if ( digitsAnnotation != null )
-			{
+			if ( digitsAnnotation != null ) {
 				int integerDigits = (Integer) digitsClass.getMethod( "integerDigits" ).invoke( digitsAnnotation );
 
-				if ( integerDigits > 0 )
-				{
+				if ( integerDigits > 0 ) {
 					attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( integerDigits ) );
 				}
 
 				int fractionalDigits = (Integer) digitsClass.getMethod( "fractionalDigits" ).invoke( digitsAnnotation );
 
-				if ( fractionalDigits > 0 )
-				{
+				if ( fractionalDigits > 0 ) {
 					attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( fractionalDigits ) );
 				}
 			}
-		}
-		catch ( ClassNotFoundException e )
-		{
+		} catch ( ClassNotFoundException e ) {
 			// Not all versions of Hibernate Validator support @Digits
 		}
 
 		// NotNull
 
-		if ( property.isAnnotationPresent( NotNull.class ) )
-		{
+		if ( property.isAnnotationPresent( NotNull.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
 		// NotEmpty
 
-		if ( property.isAnnotationPresent( NotEmpty.class ) )
-		{
+		if ( property.isAnnotationPresent( NotEmpty.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
@@ -112,8 +104,7 @@ public class HibernateValidatorInspector
 
 		Min min = property.getAnnotation( Min.class );
 
-		if ( min != null )
-		{
+		if ( min != null ) {
 			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ) );
 		}
 
@@ -121,8 +112,7 @@ public class HibernateValidatorInspector
 
 		Max max = property.getAnnotation( Max.class );
 
-		if ( max != null )
-		{
+		if ( max != null ) {
 			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
 		}
 
@@ -130,15 +120,12 @@ public class HibernateValidatorInspector
 
 		Length length = property.getAnnotation( Length.class );
 
-		if ( length != null )
-		{
-			if ( length.min() > 0 )
-			{
+		if ( length != null ) {
+			if ( length.min() > 0 ) {
 				attributes.put( MINIMUM_LENGTH, String.valueOf( length.min() ) );
 			}
 
-			if ( length.max() > 0 )
-			{
+			if ( length.max() > 0 ) {
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ) );
 			}
 		}

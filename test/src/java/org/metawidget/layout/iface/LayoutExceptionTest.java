@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class LayoutExceptionTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayoutException()
-		throws Exception
-	{
+		throws Exception {
+
 		Throwable throwable = new Throwable();
 		assertTrue( throwable == LayoutException.newException( throwable ).getCause() );
 

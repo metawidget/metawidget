@@ -25,20 +25,19 @@ import org.metawidget.util.TestUtils;
  */
 
 public class PairTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testPair()
-		throws Exception
-	{
+		throws Exception {
+
 		assertEquals( "1:2", new Pair<Integer, Integer>( 1, 2 ).toString() );
 		assertEquals( "null:null", new Pair<Integer, Integer>( null, null ).toString() );
 
-		TestUtils.testEqualsAndHashcode( new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" )
-		{
+		TestUtils.testEqualsAndHashcode( new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ) {
 			// Subclass
 		}, "left", "right" );
 	}

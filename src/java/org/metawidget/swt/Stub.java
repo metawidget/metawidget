@@ -36,10 +36,10 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class Stub
-	extends Composite
-{
-	public Stub( Composite parent, int style )
-	{
+	extends Composite {
+
+	public Stub( Composite parent, int style ) {
+
 		super( parent, style );
 	}
 
@@ -59,18 +59,17 @@ public class Stub
 	// Public methods
 	//
 
-	public void setAttribute( String name, String value )
-	{
-		if ( mAttributes == null )
-		{
+	public void setAttribute( String name, String value ) {
+
+		if ( mAttributes == null ) {
 			mAttributes = CollectionUtils.newHashMap();
 		}
 
 		mAttributes.put( name, value );
 	}
 
-	public Map<String, String> getAttributes()
-	{
+	public Map<String, String> getAttributes() {
+
 		return mAttributes;
 	}
 }

@@ -40,8 +40,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class StandardConverterProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -53,8 +53,8 @@ public class StandardConverterProcessorTest
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		StandardConverterProcessor processor = new StandardConverterProcessor();
 
 		HtmlInputText htmlInputText = new HtmlInputText();
@@ -131,23 +131,22 @@ public class StandardConverterProcessorTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = newMockFacesContext();
 	}
 
-	protected MockFacesContext newMockFacesContext()
-	{
-		return new MockFacesContext()
-		{
+	protected MockFacesContext newMockFacesContext() {
+
+		return new MockFacesContext() {
+
 			@Override
 			public UIComponent createComponent( String componentName )
-				throws FacesException
-			{
-				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) )
-				{
+				throws FacesException {
+
+				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) ) {
 					return new HtmlLookupOutputText();
 				}
 
@@ -158,8 +157,8 @@ public class StandardConverterProcessorTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

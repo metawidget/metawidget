@@ -50,15 +50,15 @@ import org.metawidget.swing.layout.SeparatorLayoutDecoratorConfig;
  */
 
 public class SwingTutorialTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testTutorial()
-		throws Exception
-	{
+		throws Exception {
+
 		// Check start of tutorial
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -74,15 +74,11 @@ public class SwingTutorialTest
 
 		// Check middle of tutorial
 
-		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-				new PropertyTypeInspector(),
-				new MetawidgetAnnotationInspector(),
-				new Java5Inspector() );
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector(), new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
-		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout(
-		new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( layoutConfig ));
+		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ) );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( layoutConfig ) );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
@@ -103,7 +99,7 @@ public class SwingTutorialTest
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 9 ) ) ).weighty );
 
 		JPanel separatorPanel = (JPanel) metawidget.getComponent( 10 );
-		assertEquals( "Work", ((JLabel) separatorPanel.getComponent( 0 )).getText() );
+		assertEquals( "Work", ( (JLabel) separatorPanel.getComponent( 0 ) ).getText() );
 		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
 		assertEquals( "Employer:", ( (JLabel) metawidget.getComponent( 11 ) ).getText() );
@@ -119,7 +115,7 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
@@ -150,8 +146,8 @@ public class SwingTutorialTest
 	}
 
 	public void testSectionAtEnd()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new PersonWithSectionAtEnd() );
 		assertEquals( "Age:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
@@ -160,7 +156,7 @@ public class SwingTutorialTest
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
 
 		JPanel separatorPanel = (JPanel) metawidget.getComponent( 4 );
-		assertEquals( "foo", ((JLabel) separatorPanel.getComponent( 0 )).getText() );
+		assertEquals( "foo", ( (JLabel) separatorPanel.getComponent( 0 ) ).getText() );
 		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
 		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 5 ) ).getText() );
@@ -173,8 +169,8 @@ public class SwingTutorialTest
 	 * Check JFrame.addNotify bug (only see this if the JFrame actually tries to display)
 	 */
 
-	public void testAddNotify()
-	{
+	public void testAddNotify() {
+
 		// Data model
 
 		Person person = new Person();
@@ -200,8 +196,8 @@ public class SwingTutorialTest
 	// Inner class
 	//
 
-	static class PersonWithSectionAtEnd
-	{
+	static class PersonWithSectionAtEnd {
+
 		public String	name;
 
 		public int		age;
@@ -210,8 +206,8 @@ public class SwingTutorialTest
 		public boolean	retired;
 	}
 
-	public static class PersonAtTutorialEnd
-	{
+	public static class PersonAtTutorialEnd {
+
 		public String	name;
 
 		@UiComesAfter( "name" )
@@ -223,8 +219,7 @@ public class SwingTutorialTest
 		@UiComesAfter( "retired" )
 		public Gender	gender;
 
-		public enum Gender
-		{
+		public enum Gender {
 			Male, Female
 		}
 

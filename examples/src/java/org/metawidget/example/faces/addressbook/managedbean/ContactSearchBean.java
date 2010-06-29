@@ -34,8 +34,8 @@ import org.metawidget.inspector.annotation.UiHidden;
  */
 
 @SuppressWarnings( "deprecation" )
-public class ContactSearchBean
-{
+public class ContactSearchBean {
+
 	//
 	// Private members
 	//
@@ -46,8 +46,8 @@ public class ContactSearchBean
 	// Constructor
 	//
 
-	public ContactSearchBean()
-	{
+	public ContactSearchBean() {
+
 		mCurrent = new ContactSearch();
 	}
 
@@ -56,32 +56,32 @@ public class ContactSearchBean
 	//
 
 	@UiHidden
-	public ContactSearch getCurrent()
-	{
+	public ContactSearch getCurrent() {
+
 		return mCurrent;
 	}
 
-	public void setCurrent( ContactSearch current )
-	{
+	public void setCurrent( ContactSearch current ) {
+
 		mCurrent = current;
 	}
 
 	@UiHidden
-	public List<Contact> getResults()
-	{
+	public List<Contact> getResults() {
+
 		return getContactsBean().getAllByExample( mCurrent );
 	}
 
 	@UiAction
-	public void search()
-	{
+	public void search() {
+
 		// Just refresh the screen
 	}
 
 	@UiAction
 	@UiComesAfter( "search" )
-	public String addPersonal()
-	{
+	public String addPersonal() {
+
 		getContactBean().setCurrent( new PersonalContact() );
 
 		return "addPersonal";
@@ -89,8 +89,8 @@ public class ContactSearchBean
 
 	@UiAction
 	@UiComesAfter( "addPersonal" )
-	public String addBusiness()
-	{
+	public String addBusiness() {
+
 		getContactBean().setCurrent( new BusinessContact() );
 
 		return "addBusiness";
@@ -100,16 +100,16 @@ public class ContactSearchBean
 	// Private methods
 	//
 
-	private ContactsBean getContactsBean()
-	{
+	private ContactsBean getContactsBean() {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		VariableResolver variableResolver = context.getApplication().getVariableResolver();
 
 		return (ContactsBean) variableResolver.resolveVariable( context, "contacts" );
 	}
 
-	private ContactBean getContactBean()
-	{
+	private ContactBean getContactBean() {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		VariableResolver variableResolver = context.getApplication().getVariableResolver();
 

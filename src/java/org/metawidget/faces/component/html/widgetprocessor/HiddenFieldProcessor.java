@@ -41,47 +41,42 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class HiddenFieldProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Ignore actions
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return component;
 		}
 
 		// UIInputs do not need a hidden field (they already POST back)
 
-		if ( component instanceof UIInput )
-		{
+		if ( component instanceof UIInput ) {
 			return component;
 		}
 
 		// Ignore nested Metawidgets
 
-		if ( component instanceof UIMetawidget )
-		{
+		if ( component instanceof UIMetawidget ) {
 			return component;
 		}
 
 		// Attributes without setters cannot use a hidden field
 
-		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-		{
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 			return component;
 		}
 
 		// Ignore manually overridden components
 
-		if ( component.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
-		{
+		if ( component.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) ) {
 			return component;
 		}
 
@@ -92,16 +87,14 @@ public class HiddenFieldProcessor
 	// Protected methods
 	//
 
-	protected UIComponent wrapWithHiddenField( UIComponent component, Map<String, String> attributes )
-	{
+	protected UIComponent wrapWithHiddenField( UIComponent component, Map<String, String> attributes ) {
+
 		Application application = FacesContext.getCurrentInstance().getApplication();
 
-		if ( component instanceof UIStub )
-		{
+		if ( component instanceof UIStub ) {
 			// Empty stubs become hidden fields directly
 
-			if ( component.getChildCount() == 0 )
-			{
+			if ( component.getChildCount() == 0 ) {
 				return application.createComponent( "javax.faces.HtmlInputHidden" );
 			}
 

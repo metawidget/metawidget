@@ -27,22 +27,22 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Layout to simply output components one after another, with no labels and no structure.
  * <p>
- * This Layout is suited to rendering single components, or for rendering components whose
- * layout relies entirely on CSS.
+ * This Layout is suited to rendering single components, or for rendering components whose layout
+ * relies entirely on CSS.
  *
  * @author Richard Kennard
  */
 
 public class FlowLayout
-	implements Layout<Widget, Panel, GwtMetawidget>
-{
+	implements Layout<Widget, Panel, GwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget )
-	{
+	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget ) {
+
 		metawidget.add( widget );
 	}
 }

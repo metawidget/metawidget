@@ -39,8 +39,8 @@ import org.richfaces.component.html.HtmlSimpleTogglePanel;
  */
 
 public class SimpleTogglePanelLayoutDecorator
-	extends UIComponentNestedSectionLayoutDecorator
-{
+	extends UIComponentNestedSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -57,8 +57,8 @@ public class SimpleTogglePanelLayoutDecorator
 	// Constructor
 	//
 
-	public SimpleTogglePanelLayoutDecorator( SimpleTogglePanelLayoutDecoratorConfig config )
-	{
+	public SimpleTogglePanelLayoutDecorator( SimpleTogglePanelLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyle = config.getStyle();
@@ -72,8 +72,8 @@ public class SimpleTogglePanelLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
-	{
+	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
@@ -90,8 +90,7 @@ public class SimpleTogglePanelLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 
@@ -120,13 +119,13 @@ public class SimpleTogglePanelLayoutDecorator
 	 * Hook so subclasses can change what determines opened/closed.
 	 */
 
-	protected boolean isOpened( Map<String, String> attributes )
-	{
+	protected boolean isOpened( Map<String, String> attributes ) {
+
 		return mOpened;
 	}
 
-	protected Map<String, String> createSectionWidgetAttributes()
-	{
+	protected Map<String, String> createSectionWidgetAttributes() {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( LABEL, "" );
 

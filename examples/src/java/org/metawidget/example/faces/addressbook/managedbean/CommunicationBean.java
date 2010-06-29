@@ -22,20 +22,20 @@ import org.metawidget.example.shared.addressbook.model.Communication;
  * @author Richard
  */
 
-public class CommunicationBean
-{
+public class CommunicationBean {
+
 	//
 	// Private statics
 	//
 
-	private Communication				mCommunicationCurrent;
+	private Communication	mCommunicationCurrent;
 
 	//
 	// Constructor
 	//
 
-	public CommunicationBean()
-	{
+	public CommunicationBean() {
+
 		clear();
 	}
 
@@ -43,18 +43,18 @@ public class CommunicationBean
 	// Public methods
 	//
 
-	public Communication getCurrent()
-	{
+	public Communication getCurrent() {
+
 		return mCommunicationCurrent;
 	}
 
-	public void setCurrent( Communication communicationCurrent )
-	{
+	public void setCurrent( Communication communicationCurrent ) {
+
 		mCommunicationCurrent = communicationCurrent;
 	}
 
-	public void clear()
-	{
+	public void clear() {
+
 		mCommunicationCurrent = new Communication();
 	}
 }

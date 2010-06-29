@@ -40,16 +40,16 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 
 public class ContactController
-	extends SimpleFormController
-{
+	extends SimpleFormController {
+
 	//
 	// Protected methods
 	//
 
 	@Override
 	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception
-	{
+		throws Exception {
+
 		super.initBinder( request, binder );
 
 		binder.registerCustomEditor( Gender.class, new EnumEditor<Gender>( Gender.class ) );
@@ -58,12 +58,11 @@ public class ContactController
 
 	@Override
 	protected Object formBackingObject( HttpServletRequest request )
-		throws Exception
-	{
+		throws Exception {
+
 		String id = request.getParameter( "id" );
 
-		if ( id != null && !"".equals( id ))
-		{
+		if ( id != null && !"".equals( id ) ) {
 			request.getSession().setAttribute( "readOnly", Boolean.TRUE );
 
 			// Look up the ContactsController...
@@ -79,8 +78,7 @@ public class ContactController
 
 		// Create business
 
-		if ( request.getParameter( "business" ) != null )
-		{
+		if ( request.getParameter( "business" ) != null ) {
 			return new BusinessContact();
 		}
 
@@ -91,12 +89,11 @@ public class ContactController
 
 	@Override
 	protected void onBindAndValidate( HttpServletRequest request, Object command, BindException errors )
-		throws Exception
-	{
+		throws Exception {
+
 		// Edit
 
-		if ( request.getParameter( "edit" ) != null )
-		{
+		if ( request.getParameter( "edit" ) != null ) {
 			request.getSession().setAttribute( "readOnly", Boolean.FALSE );
 			return;
 		}
@@ -105,17 +102,13 @@ public class ContactController
 
 		// Add Communication (if any)
 
-		if ( request.getParameter( "addCommunication" ) != null )
-		{
+		if ( request.getParameter( "addCommunication" ) != null ) {
 			String type = request.getParameter( "communication.type" );
 			String value = request.getParameter( "communication.value" );
 
-			try
-			{
-				contact.addCommunication( new Communication( type, value ));
-			}
-			catch( Exception e )
-			{
+			try {
+				contact.addCommunication( new Communication( type, value ) );
+			} catch ( Exception e ) {
 				errors.reject( null, e.getMessage() );
 				return;
 			}
@@ -123,16 +116,12 @@ public class ContactController
 
 		// Delete Communication (if any)
 
-		else if ( request.getParameter( "deleteCommunication" ) != null )
-		{
+		else if ( request.getParameter( "deleteCommunication" ) != null ) {
 			String id = request.getParameter( "deleteCommunicationId" );
 
-			try
-			{
+			try {
 				contact.removeCommunication( Long.parseLong( id ) );
-			}
-			catch( Exception e )
-			{
+			} catch ( Exception e ) {
 				errors.reject( null, e.getMessage() );
 				return;
 			}
@@ -140,16 +129,12 @@ public class ContactController
 
 		// Save
 
-		if ( request.getParameter( "save" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
-		{
+		if ( request.getParameter( "save" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null ) {
 			ContactsController controller = (ContactsController) getWebApplicationContext().getBean( "contacts" );
 
-			try
-			{
+			try {
 				controller.save( contact );
-			}
-			catch( Exception e )
-			{
+			} catch ( Exception e ) {
 				errors.reject( null, e.getMessage() );
 			}
 
@@ -158,8 +143,7 @@ public class ContactController
 
 		// Delete
 
-		if ( request.getParameter( "delete" ) != null )
-		{
+		if ( request.getParameter( "delete" ) != null ) {
 			ContactsController controller = (ContactsController) getWebApplicationContext().getBean( "contacts" );
 			controller.delete( contact );
 		}
@@ -167,17 +151,16 @@ public class ContactController
 
 	@Override
 	protected ModelAndView onSubmit( HttpServletRequest request, HttpServletResponse response, Object command, BindException errors )
-		throws Exception
-	{
+		throws Exception {
+
 		// Edit/Add Communication/Delete Communication (stay on same page)
 
-		if ( request.getParameter( "edit" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
-		{
+		if ( request.getParameter( "edit" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null ) {
 			return showForm( request, response, errors );
 		}
 
 		// Save/Cancel/Delete
 
-		return new ModelAndView( new RedirectView( "index.html" ));
+		return new ModelAndView( new RedirectView( "index.html" ) );
 	}
 }

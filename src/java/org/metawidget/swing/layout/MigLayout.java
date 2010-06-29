@@ -44,8 +44,8 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class MigLayout
-	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
-{
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Private statics
 	//
@@ -62,13 +62,13 @@ public class MigLayout
 	// Constructor
 	//
 
-	public MigLayout()
-	{
+	public MigLayout() {
+
 		this( new MigLayoutConfig() );
 	}
 
-	public MigLayout( MigLayoutConfig config )
-	{
+	public MigLayout( MigLayoutConfig config ) {
+
 		mNumberOfColumns = config.getNumberOfColumns();
 	}
 
@@ -76,13 +76,13 @@ public class MigLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
-	{
+	public void onStartBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		container.putClientProperty( MigLayout.class, null );
 		State state = getState( container );
 
@@ -122,12 +122,11 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-		{
+		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 ) {
 			// No need to 'CC.setHideMode', because never added to container
 
 			return;
@@ -138,8 +137,7 @@ public class MigLayout
 		State state = getState( container );
 		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
-		if ( spanAllColumns && state.currentColumn > 0 )
-		{
+		if ( spanAllColumns && state.currentColumn > 0 ) {
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
@@ -148,8 +146,7 @@ public class MigLayout
 
 		String labelText = null;
 
-		if ( attributes != null )
-		{
+		if ( attributes != null ) {
 			labelText = metawidget.getLabelString( attributes );
 		}
 
@@ -159,20 +156,16 @@ public class MigLayout
 
 		CC componentConstraints = new CC();
 
-		if ( labelText != null )
-		{
+		if ( labelText != null ) {
 			componentConstraints.cell( ( state.currentColumn * 2 ) + 1, state.currentRow );
-		}
-		else
-		{
+		} else {
 			componentConstraints.cell( state.currentColumn * 2, state.currentRow );
 			componentConstraints.spanX( 2 );
 		}
 
 		componentConstraints.pushX( 1f ).growX();
 
-		if ( spanAllColumns )
-		{
+		if ( spanAllColumns ) {
 			componentConstraints.spanX();
 			state.currentColumn = mNumberOfColumns;
 		}
@@ -181,8 +174,7 @@ public class MigLayout
 
 		// Assume large components should grow vertically
 
-		if ( willFillVertically( component, attributes ) )
-		{
+		if ( willFillVertically( component, attributes ) ) {
 			componentConstraints.pushY( 1f ).growY();
 		}
 
@@ -192,30 +184,27 @@ public class MigLayout
 
 		state.currentColumn++;
 
-		if ( state.currentColumn >= mNumberOfColumns )
-		{
+		if ( state.currentColumn >= mNumberOfColumns ) {
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
 	}
 
-	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
-	{
+	public void onEndBuild( SwingMetawidget metawidget ) {
+
 		// Buttons
 
 		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
-		if ( buttonsFacet != null )
-		{
+		if ( buttonsFacet != null ) {
 			State state = getState( metawidget );
 
-			if ( state.currentColumn > 0 )
-			{
+			if ( state.currentColumn > 0 ) {
 				state.currentColumn = 0;
 				state.currentRow++;
 			}
@@ -228,25 +217,21 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		State state = getState( container );
 
 		// Add label
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-		{
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			JLabel label = new JLabel();
 			label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			// Required
 
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-			{
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 				label.setText( labelText + "*:" );
-			}
-			else
-			{
+			} else {
 				label.setText( labelText + ":" );
 			}
 
@@ -272,15 +257,13 @@ public class MigLayout
 		return labelText;
 	}
 
-	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
-	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
-		{
+	protected boolean willFillVertically( JComponent component, Map<String, String> attributes ) {
+
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;
 		}
 
-		if ( component instanceof JScrollPane )
-		{
+		if ( component instanceof JScrollPane ) {
 			return true;
 		}
 
@@ -291,12 +274,11 @@ public class MigLayout
 	// Private methods
 	//
 
-	private State getState( JComponent container )
-	{
+	private State getState( JComponent container ) {
+
 		State state = (State) container.getClientProperty( MigLayout.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			container.putClientProperty( MigLayout.class, state );
 		}
@@ -312,8 +294,8 @@ public class MigLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */int	currentColumn;
 
 		/* package private */int	currentRow;

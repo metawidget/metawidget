@@ -42,8 +42,8 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  */
 
 public class GwtRemoteInspectorProxy
-	implements Inspector
-{
+	implements Inspector {
+
 	//
 	// Private members
 	//
@@ -58,8 +58,8 @@ public class GwtRemoteInspectorProxy
 	 * Create a GwtRemoteInspectorProxy.
 	 */
 
-	public GwtRemoteInspectorProxy()
-	{
+	public GwtRemoteInspectorProxy() {
+
 		mInspector = (GwtRemoteInspectorAsync) GWT.create( GwtRemoteInspector.class );
 	}
 
@@ -74,8 +74,8 @@ public class GwtRemoteInspectorProxy
 	 *            override servlet path of serviceEntryPoint
 	 */
 
-	public GwtRemoteInspectorProxy( String serviceEntryPoint )
-	{
+	public GwtRemoteInspectorProxy( String serviceEntryPoint ) {
+
 		this();
 
 		( (ServiceDefTarget) mInspector ).setServiceEntryPoint( GWT.getModuleBaseURL() + serviceEntryPoint );
@@ -85,27 +85,26 @@ public class GwtRemoteInspectorProxy
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		throw new UnsupportedOperationException( "Use async inspection instead" );
 	}
 
-	public void inspect( Object toInspect, String type, String[] names, final AsyncCallback<String> callback )
-	{
-		if ( !( toInspect instanceof Serializable ) )
-		{
+	public void inspect( Object toInspect, String type, String[] names, final AsyncCallback<String> callback ) {
+
+		if ( !( toInspect instanceof Serializable ) ) {
 			throw new RuntimeException( "Objects passed to GwtRemoteInspector must be Serializable" );
 		}
 
-		mInspector.inspect( (Serializable) toInspect, type, names, new AsyncCallback<String>()
-		{
-			public void onFailure( Throwable caught )
-			{
+		mInspector.inspect( (Serializable) toInspect, type, names, new AsyncCallback<String>() {
+
+			public void onFailure( Throwable caught ) {
+
 				callback.onFailure( caught );
 			}
 
-			public void onSuccess( String xml )
-			{
+			public void onSuccess( String xml ) {
+
 				callback.onSuccess( xml );
 			}
 		} );

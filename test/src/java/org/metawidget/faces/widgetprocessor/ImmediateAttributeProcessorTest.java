@@ -35,15 +35,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class ImmediateAttributeProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		ImmediateAttributeProcessor processor = new ImmediateAttributeProcessor();
 
 		UIComponent component = new HtmlInputText();

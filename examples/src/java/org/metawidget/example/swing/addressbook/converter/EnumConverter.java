@@ -23,8 +23,8 @@ import org.jdesktop.beansbinding.Converter;
  */
 
 public abstract class EnumConverter<T extends Enum<T>>
-	extends Converter<T, String>
-{
+	extends Converter<T, String> {
+
 	//
 	// Private members
 	//
@@ -35,8 +35,8 @@ public abstract class EnumConverter<T extends Enum<T>>
 	// Constructor
 	//
 
-	protected EnumConverter( Class<T> anEnum )
-	{
+	protected EnumConverter( Class<T> anEnum ) {
+
 		mEnum = anEnum;
 	}
 
@@ -45,8 +45,8 @@ public abstract class EnumConverter<T extends Enum<T>>
 	//
 
 	@Override
-	public String convertForward( T anEnum )
-	{
+	public String convertForward( T anEnum ) {
+
 		// The enum will have been converted to its '.name' by Java5Inspector when
 		// it creates lookup values and labels. This means we must also convert the
 		// enum to its '.name' during binding.
@@ -58,8 +58,8 @@ public abstract class EnumConverter<T extends Enum<T>>
 	}
 
 	@Override
-	public T convertReverse( String name )
-	{
+	public T convertReverse( String name ) {
+
 		return Enum.valueOf( mEnum, name );
 	}
 }

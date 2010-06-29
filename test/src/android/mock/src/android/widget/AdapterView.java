@@ -27,8 +27,8 @@ import android.view.ViewGroup;
  */
 
 public class AdapterView<T extends Adapter>
-	extends ViewGroup
-{
+	extends ViewGroup {
+
 	//
 	// Private members
 	//
@@ -41,8 +41,8 @@ public class AdapterView<T extends Adapter>
 	// Constructor
 	//
 
-	public AdapterView( Context context )
-	{
+	public AdapterView( Context context ) {
+
 		super( context );
 	}
 
@@ -50,24 +50,24 @@ public class AdapterView<T extends Adapter>
 	// Public methods
 	//
 
-	public T getAdapter()
-	{
+	public T getAdapter() {
+
 		return mAdapter;
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public void setAdapter( Object adapter )
-	{
+	public void setAdapter( Object adapter ) {
+
 		mAdapter = (T) adapter;
 	}
 
-	public void setSelection( int position )
-	{
+	public void setSelection( int position ) {
+
 		mPosition = position;
 	}
 
-	public Object getSelectedItem()
-	{
+	public Object getSelectedItem() {
+
 		return ( mAdapter ).getItem( mPosition );
 	}
 
@@ -75,8 +75,8 @@ public class AdapterView<T extends Adapter>
 	// Inner class
 	//
 
-	public static interface OnItemClickListener
-	{
+	public static interface OnItemClickListener {
+
 		//
 		// Methods
 		//

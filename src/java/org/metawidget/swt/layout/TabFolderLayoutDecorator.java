@@ -35,20 +35,20 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TabFolderLayoutDecorator
-	extends SwtNestedSectionLayoutDecorator
-{
+	extends SwtNestedSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
 
-	private final int			mTabLocation;
+	private final int	mTabLocation;
 
 	//
 	// Constructor
 	//
 
-	public TabFolderLayoutDecorator( TabFolderLayoutDecoratorConfig config )
-	{
+	public TabFolderLayoutDecorator( TabFolderLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mTabLocation = config.getTabLocation();
@@ -59,14 +59,13 @@ public class TabFolderLayoutDecorator
 	//
 
 	@Override
-	protected Composite createSectionWidget( Composite previousSectionWidget, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	protected Composite createSectionWidget( Composite previousSectionWidget, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		TabFolder tabFolder;
 
 		// Whole new tabbed pane?
 
-		if ( previousSectionWidget == null )
-		{
+		if ( previousSectionWidget == null ) {
 			tabFolder = new TabFolder( container, SWT.NONE | mTabLocation );
 
 			// Add to parent container
@@ -75,9 +74,7 @@ public class TabFolderLayoutDecorator
 			tabbedPaneAttributes.put( LABEL, "" );
 			tabbedPaneAttributes.put( LARGE, TRUE );
 			getDelegate().layoutWidget( tabFolder, PROPERTY, tabbedPaneAttributes, container, metawidget );
-		}
-		else
-		{
+		} else {
 			tabFolder = (TabFolder) previousSectionWidget.getParent();
 		}
 
@@ -91,8 +88,7 @@ public class TabFolderLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

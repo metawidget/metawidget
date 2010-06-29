@@ -30,14 +30,14 @@ import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionSt
  */
 
 public class SwingAppFrameworkActionStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testSwingAppFrameworkActionStyle()
-	{
+	public void testSwingAppFrameworkActionStyle() {
+
 		SwingAppFrameworkActionStyle actionStyle = new SwingAppFrameworkActionStyle();
 		Map<String, Action> actions = actionStyle.getActions( Foo.class );
 
@@ -45,23 +45,17 @@ public class SwingAppFrameworkActionStyleTest
 		assertEquals( "bar", actions.get( "bar" ).toString() );
 		assertEquals( "baz", actions.get( "baz" ).toString() );
 
-		try
-		{
+		try {
 			actionStyle.getActions( BadFoo.class );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			actionStyle.getActions( BadFoo2.class );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent", e.getMessage() );
 		}
 	}
@@ -70,8 +64,8 @@ public class SwingAppFrameworkActionStyleTest
 	// Inner class
 	//
 
-	abstract class Foo
-	{
+	abstract class Foo {
+
 		@org.jdesktop.application.Action
 		public abstract void bar();
 
@@ -79,14 +73,14 @@ public class SwingAppFrameworkActionStyleTest
 		public abstract void baz( ActionEvent event );
 	}
 
-	abstract class BadFoo
-	{
+	abstract class BadFoo {
+
 		@org.jdesktop.application.Action
 		public abstract void bar( String baz, String bar );
 	}
 
-	abstract class BadFoo2
-	{
+	abstract class BadFoo2 {
+
 		@org.jdesktop.application.Action
 		public abstract void bar( String baz );
 	}

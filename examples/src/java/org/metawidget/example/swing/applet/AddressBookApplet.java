@@ -26,8 +26,8 @@ import org.metawidget.example.swing.addressbook.AddressBook;
  */
 
 public class AddressBookApplet
-	extends Applet
-{
+	extends Applet {
+
 	//
 	// Private statics
 	//
@@ -38,8 +38,8 @@ public class AddressBookApplet
 	// Constructor
 	//
 
-	public AddressBookApplet()
-	{
+	public AddressBookApplet() {
+
 		// Background
 
 		setBackground( Color.white );

@@ -33,14 +33,14 @@ import org.w3c.dom.Element;
  */
 
 public class JexlXmlInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testXml()
-	{
+	public void testXml() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest$Foo\">";
@@ -103,10 +103,10 @@ public class JexlXmlInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
-		public String getBaz()
-		{
+	public static class Foo {
+
+		public String getBaz() {
+
 			return "from-baz";
 		}
 	}

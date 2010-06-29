@@ -31,16 +31,16 @@ import org.w3c.dom.Element;
  */
 
 public class StrutsAnnotationInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		StrutsAnnotationInspector inspector = new StrutsAnnotationInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -72,8 +72,8 @@ public class StrutsAnnotationInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@UiStrutsLookup( name = "bar1", property = "baz1" )
 		public Object	object1;
 

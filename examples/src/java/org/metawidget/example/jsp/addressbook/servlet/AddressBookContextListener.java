@@ -36,15 +36,15 @@ import org.metawidget.example.shared.addressbook.model.Gender;
  */
 
 public class AddressBookContextListener
-	implements ServletContextListener
-{
+	implements ServletContextListener {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public void contextInitialized( ServletContextEvent contextEvent )
-	{
+	public void contextInitialized( ServletContextEvent contextEvent ) {
+
 		ServletContext context = contextEvent.getServletContext();
 
 		// Application-wide Controllers
@@ -60,8 +60,8 @@ public class AddressBookContextListener
 	}
 
 	@Override
-	public void contextDestroyed( ServletContextEvent arg0 )
-	{
+	public void contextDestroyed( ServletContextEvent arg0 ) {
+
 		// Do nothing
 	}
 }

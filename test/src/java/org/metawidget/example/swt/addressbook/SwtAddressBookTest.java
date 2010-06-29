@@ -52,15 +52,15 @@ import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcess
  */
 
 public class SwtAddressBookTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testAddressBook()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set Locale because we will be checking date formatting
 
 		Locale.setDefault( Locale.UK );
@@ -133,13 +133,10 @@ public class SwtAddressBookTest
 
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
-		try
-		{
+		try {
 			metawidgetContact.getValue( "bad-value" );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			// Should throw MetawidgetException
 		}
 
@@ -262,13 +259,10 @@ public class SwtAddressBookTest
 
 		metawidgetContact.setValue( "foo", "dateOfBirth" );
 
-		try
-		{
+		try {
 			metawidgetContact.getWidgetProcessor( DataBindingProcessor.class ).save( metawidgetContact );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( "java.text.ParseException: Unparseable date: \"foo\"", e.getCause().getMessage() );
 		}
 

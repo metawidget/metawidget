@@ -35,7 +35,6 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( ElementType.METHOD )
-public @interface UiAction
-{
+public @interface UiAction {
 	// Just a marker annotation
 }

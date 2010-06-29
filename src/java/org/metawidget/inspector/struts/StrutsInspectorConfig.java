@@ -25,20 +25,18 @@ import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
  */
 
 public class StrutsInspectorConfig
-	extends BaseXmlInspectorConfig
-{
+	extends BaseXmlInspectorConfig {
+
 	//
 	// Constructor
 	//
 
 	/**
-	 * Creates a StrutsInspectorConfig.
-	 *
-	 * Defaults the XML file name to <code>struts-config.xml</code>
+	 * Creates a StrutsInspectorConfig. Defaults the XML file name to <code>struts-config.xml</code>
 	 */
 
-	public StrutsInspectorConfig()
-	{
+	public StrutsInspectorConfig() {
+
 		setDefaultFile( "struts-config.xml" );
 	}
 }

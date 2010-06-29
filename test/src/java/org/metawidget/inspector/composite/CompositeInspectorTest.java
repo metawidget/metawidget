@@ -40,14 +40,14 @@ import org.w3c.dom.Element;
  */
 
 public class CompositeInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		// Set up
 
 		String xml = "<?xml version=\"1.0\"?>";
@@ -112,8 +112,8 @@ public class CompositeInspectorTest
 	}
 
 	public void testDefensiveCopy()
-		throws Exception
-	{
+		throws Exception {
+
 		PropertyTypeInspector inspector = new PropertyTypeInspector();
 		Inspector[] inspectors = new Inspector[] { inspector };
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
@@ -127,21 +127,17 @@ public class CompositeInspectorTest
 
 		// Test duplicates
 
-		try
-		{
-			new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector, new MetawidgetAnnotationInspector(), inspector ));
+		try {
+			new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector, new MetawidgetAnnotationInspector(), inspector ) );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "CompositeInspector's list of Inspectors contains two of the same org.metawidget.inspector.propertytype.PropertyTypeInspector", e.getMessage() );
 		}
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class, new CompositeInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class, new CompositeInspectorConfig() {
 			// Subclass
 		} );
 	}
@@ -151,8 +147,8 @@ public class CompositeInspectorTest
 	//
 
 	public static class PersonalContact$EnhancerByCGLIB$$1234
-		extends PersonalContact
-	{
+		extends PersonalContact {
+
 		//
 		//
 		// Private statics

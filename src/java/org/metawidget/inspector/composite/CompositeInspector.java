@@ -49,8 +49,8 @@ import org.w3c.dom.Document;
  */
 
 public class CompositeInspector
-	implements Inspector
-{
+	implements Inspector {
+
 	//
 	// Private statics
 	//
@@ -67,15 +67,14 @@ public class CompositeInspector
 	// Constructor
 	//
 
-	public CompositeInspector( CompositeInspectorConfig config )
-	{
+	public CompositeInspector( CompositeInspectorConfig config ) {
+
 		Inspector[] inspectors = config.getInspectors();
 
 		// Must have at least one Inspector. At least two, really, but one can be useful
 		// if we want to validate what the sub-Inspector is returning (ie. using LOG.debug)
 
-		if ( inspectors == null || inspectors.length == 0 )
-		{
+		if ( inspectors == null || inspectors.length == 0 ) {
 			throw InspectorException.newException( "CompositeInspector needs at least one Inspector" );
 		}
 
@@ -83,14 +82,11 @@ public class CompositeInspector
 
 		mInspectors = new Inspector[inspectors.length];
 
-		for( int loop = 0, length = inspectors.length; loop < length; loop++ )
-		{
+		for ( int loop = 0, length = inspectors.length; loop < length; loop++ ) {
 			Inspector inspector = inspectors[loop];
 
-			for( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ )
-			{
-				if ( mInspectors[checkDuplicates].equals( inspector ) )
-				{
+			for ( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ ) {
+				if ( mInspectors[checkDuplicates].equals( inspector ) ) {
 					throw InspectorException.newException( "CompositeInspector's list of Inspectors contains two of the same " + inspector.getClass().getName() );
 				}
 			}
@@ -103,8 +99,8 @@ public class CompositeInspector
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return inspect( null, toInspect, type, names );
 	}
 
@@ -118,20 +114,17 @@ public class CompositeInspector
 	 * and merges forthcoming inspection results with it.
 	 */
 
-	public String inspect( String master, Object toInspect, String type, String... names )
-	{
-		try
-		{
+	public String inspect( String master, Object toInspect, String type, String... names ) {
+
+		try {
 			// Run each Inspector...
 
 			Document masterDocument = XmlUtils.documentFromString( master );
 
-			for ( Inspector inspector : mInspectors )
-			{
+			for ( Inspector inspector : mInspectors ) {
 				String xml = inspector.inspect( toInspect, type, names );
 
-				if ( xml == null )
-				{
+				if ( xml == null ) {
 					continue;
 				}
 
@@ -141,21 +134,18 @@ public class CompositeInspector
 
 				// ...(trace)...
 
-				if ( LOG.isTraceEnabled() )
-				{
+				if ( LOG.isTraceEnabled() ) {
 					String formattedXml = XmlUtils.documentToString( inspectionDocument, true );
 					LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
 				}
 
 				// ...and combine them
 
-				if ( !inspectionDocument.hasChildNodes() )
-				{
+				if ( !inspectionDocument.hasChildNodes() ) {
 					continue;
 				}
 
-				if ( masterDocument == null || !masterDocument.hasChildNodes() )
-				{
+				if ( masterDocument == null || !masterDocument.hasChildNodes() ) {
 					masterDocument = inspectionDocument;
 					continue;
 				}
@@ -163,10 +153,8 @@ public class CompositeInspector
 				XmlUtils.combineElements( masterDocument.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
 			}
 
-			if ( masterDocument == null || !masterDocument.hasChildNodes() )
-			{
-				if ( LOG.isDebugEnabled() )
-				{
+			if ( masterDocument == null || !masterDocument.hasChildNodes() ) {
+				if ( LOG.isDebugEnabled() ) {
 					LOG.debug( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				}
 
@@ -175,16 +163,13 @@ public class CompositeInspector
 
 			// (debug)
 
-			if ( LOG.isDebugEnabled() )
-			{
+			if ( LOG.isDebugEnabled() ) {
 				String formattedXml = XmlUtils.documentToString( masterDocument, true );
 				LOG.debug( "Inspected {0}{1}\r\n{2}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
 			}
 
 			return XmlUtils.documentToString( masterDocument, false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
 	}
@@ -194,8 +179,8 @@ public class CompositeInspector
 	//
 
 	protected Document parseInspectionResult( String xml )
-		throws Exception
-	{
+		throws Exception {
+
 		return XmlUtils.documentFromString( xml );
 	}
 }

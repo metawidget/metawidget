@@ -31,8 +31,8 @@ import org.metawidget.iface.MetawidgetException;
 
 @SuppressWarnings( "deprecation" )
 public abstract class MetawidgetTag
-	extends UIComponentTag
-{
+	extends UIComponentTag {
+
 	//
 	// Private members
 	//
@@ -61,24 +61,24 @@ public abstract class MetawidgetTag
 	 * in the TLD, but we want to be compatible with both.
 	 */
 
-	public void setValue( String value )
-	{
+	public void setValue( String value ) {
+
 		mValue = value;
 	}
 
 	@Override
-	public String getRendererType()
-	{
+	public String getRendererType() {
+
 		return mRendererType;
 	}
 
-	public void setRendererType( String rendererType )
-	{
+	public void setRendererType( String rendererType ) {
+
 		mRendererType = rendererType;
 	}
 
-	public void setConfig( String config )
-	{
+	public void setConfig( String config ) {
+
 		mConfig = config;
 	}
 
@@ -86,18 +86,18 @@ public abstract class MetawidgetTag
 	 * See doco in <code>UIMetawidget</code>.
 	 */
 
-	public void setInspectFromParent( boolean inspectFromParent )
-	{
+	public void setInspectFromParent( boolean inspectFromParent ) {
+
 		mInspectFromParent = inspectFromParent;
 	}
 
-	public void setReadOnly( String readOnly )
-	{
+	public void setReadOnly( String readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 
-	public void setBundle( String bundle )
-	{
+	public void setBundle( String bundle ) {
+
 		mBundle = bundle;
 	}
 
@@ -106,8 +106,8 @@ public abstract class MetawidgetTag
 	//
 
 	@Override
-	protected void setProperties( UIComponent component )
-	{
+	protected void setProperties( UIComponent component ) {
+
 		super.setProperties( component );
 
 		UIMetawidget metawidetComponent = (UIMetawidget) component;
@@ -119,29 +119,23 @@ public abstract class MetawidgetTag
 		// to lay out manually-specified components. Equally, the value need not
 		// be a value binding - it can be a String into a JBPM subsystem, for example
 
-		if ( mValue != null )
-		{
-			if ( isValueReference( mValue ) )
-			{
+		if ( mValue != null ) {
+			if ( isValueReference( mValue ) ) {
 				metawidetComponent.setValueBinding( "value", application.createValueBinding( mValue ) );
-			}
-			else
-			{
+			} else {
 				metawidetComponent.setValue( mValue );
 			}
 		}
 
 		// Renderer
 
-		if ( mRendererType != null )
-		{
+		if ( mRendererType != null ) {
 			metawidetComponent.setRendererType( mRendererType );
 		}
 
 		// Config
 
-		if ( mConfig != null )
-		{
+		if ( mConfig != null ) {
 			metawidetComponent.setConfig( mConfig );
 		}
 
@@ -151,14 +145,10 @@ public abstract class MetawidgetTag
 
 		// Read-Only
 
-		if ( mReadOnly != null )
-		{
-			if ( isValueReference( mReadOnly ) )
-			{
+		if ( mReadOnly != null ) {
+			if ( isValueReference( mReadOnly ) ) {
 				metawidetComponent.setValueBinding( "readOnly", application.createValueBinding( mReadOnly ) );
-			}
-			else
-			{
+			} else {
 				// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
 
 				metawidetComponent.setReadOnly( new Boolean( mReadOnly ) );
@@ -167,10 +157,8 @@ public abstract class MetawidgetTag
 
 		// Bundle
 
-		if ( mBundle != null )
-		{
-			if ( !isValueReference( mBundle ) )
-			{
+		if ( mBundle != null ) {
+			if ( !isValueReference( mBundle ) ) {
 				throw MetawidgetException.newException( "Bundle must be an EL expression" );
 			}
 

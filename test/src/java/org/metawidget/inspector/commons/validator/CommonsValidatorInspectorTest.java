@@ -32,19 +32,19 @@ import org.w3c.dom.Element;
  */
 
 public class CommonsValidatorInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
-		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -92,57 +92,45 @@ public class CommonsValidatorInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
-	public void testBadInput()
-	{
+	public void testBadInput() {
+
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
-		try
-		{
+		try {
 			inspector.inspect( null, "testForm2" );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Property 'foo' depends on floatRange but has no var-name of min or max", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			inspector.inspect( null, "testForm3" );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Property 'foo' depends on minlength but has no var-name of minlength", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			inspector.inspect( null, "testForm4" );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Property 'foo' depends on maxlength but has no var-name of maxlength", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			inspector.inspect( null, "testForm5" );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Variable named 'min' has no var-value", e.getMessage() );
 		}
 	}
 
-	public void testTraversal()
-	{
+	public void testTraversal() {
+
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
-		assertTrue( null != inspector.inspect( null, "testForm1" ));
-		assertTrue( null == inspector.inspect( null, "testForm1/foo" ));
-		assertTrue( null == inspector.inspect( null, "testForm1/foo/bar" ));
+		assertTrue( null != inspector.inspect( null, "testForm1" ) );
+		assertTrue( null == inspector.inspect( null, "testForm1/foo" ) );
+		assertTrue( null == inspector.inspect( null, "testForm1/foo/bar" ) );
 	}
 }

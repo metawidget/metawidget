@@ -57,8 +57,8 @@ import org.metawidget.util.TestUtils;
  */
 
 public class MigLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private statics
 	//
@@ -71,8 +71,8 @@ public class MigLayoutTest
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		// Metawidget
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -97,8 +97,8 @@ public class MigLayoutTest
 	//
 
 	public void testTabLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		// Without stub
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -107,13 +107,10 @@ public class MigLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setToInspect( new Foo() );
 
-		try
-		{
+		try {
 			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ) ) );
 			assertTrue( false );
-		}
-		catch ( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
@@ -254,8 +251,8 @@ public class MigLayoutTest
 	}
 
 	public void testOddColumns()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) );
 		metawidget.add( new JTextField() );
@@ -272,10 +269,9 @@ public class MigLayoutTest
 		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getHorizontal().getGrow() );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig() {
 			// Subclass
 		} );
 	}
@@ -284,8 +280,8 @@ public class MigLayoutTest
 	// Inner class
 	//
 
-	static class Foo
-	{
+	static class Foo {
+
 		public String	abc;
 
 		@UiComesAfter( "abc" )
@@ -330,22 +326,22 @@ public class MigLayoutTest
 		public String	mno;
 	}
 
-	public static class NastyNestingTop
-	{
+	public static class NastyNestingTop {
+
 		public NastyNestingBottom	nested1	= new NastyNestingBottom();
 
 		public NastyNestingMiddle1	nested2	= new NastyNestingMiddle1();
 	}
 
-	public static class NastyNestingMiddle1
-	{
+	public static class NastyNestingMiddle1 {
+
 		public NastyNestingMiddle2	nested1	= new NastyNestingMiddle2();
 
 		public NastyNestingBottom	nested2	= new NastyNestingBottom();
 	}
 
-	public static class NastyNestingMiddle2
-	{
+	public static class NastyNestingMiddle2 {
+
 		public NastyNestingBottom	nested1	= new NastyNestingBottom();
 
 		public String				string;
@@ -354,8 +350,8 @@ public class MigLayoutTest
 		public String				large;
 	}
 
-	public static class NastyNestingBottom
-	{
+	public static class NastyNestingBottom {
+
 		public String	string;
 	}
 }

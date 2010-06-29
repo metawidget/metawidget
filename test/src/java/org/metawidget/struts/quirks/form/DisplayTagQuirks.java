@@ -26,8 +26,8 @@ import org.metawidget.inspector.annotation.UiLabel;
  * @author Richard Kennard
  */
 
-public class DisplayTagQuirks
-{
+public class DisplayTagQuirks {
+
 	//
 	// Private members
 	//
@@ -42,8 +42,8 @@ public class DisplayTagQuirks
 	// Constructor
 	//
 
-	public DisplayTagQuirks( int id, String name, String description )
-	{
+	public DisplayTagQuirks( int id, String name, String description ) {
+
 		mId = id;
 		mName = name;
 		mDescription = description;
@@ -54,20 +54,20 @@ public class DisplayTagQuirks
 	//
 
 	@UiHidden
-	public int getId()
-	{
+	public int getId() {
+
 		return mId;
 	}
 
 	@UiLabel( "Name label" )
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
 	@UiComesAfter( "name" )
-	public String getDescription()
-	{
+	public String getDescription() {
+
 		return mDescription;
 	}
 }

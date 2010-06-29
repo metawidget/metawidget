@@ -40,8 +40,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public final class CollectionUtils
-{
+public final class CollectionUtils {
+
 	//
 	// Public statics
 	//
@@ -50,8 +50,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList()
-	{
+	public static final <T> ArrayList<T> newArrayList() {
+
 		return new ArrayList<T>();
 	}
 
@@ -59,8 +59,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList( Collection<T> collection )
-	{
+	public static final <T> ArrayList<T> newArrayList( Collection<T> collection ) {
+
 		return new ArrayList<T>( collection );
 	}
 
@@ -68,8 +68,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList( int capacity )
-	{
+	public static final <T> ArrayList<T> newArrayList( int capacity ) {
+
 		return new ArrayList<T>( capacity );
 	}
 
@@ -77,10 +77,9 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList( T... array )
-	{
-		if ( array == null )
-		{
+	public static final <T> ArrayList<T> newArrayList( T... array ) {
+
+		if ( array == null ) {
 			return new ArrayList<T>();
 		}
 
@@ -91,8 +90,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> HashSet<K> newHashSet()
-	{
+	public static final <K> HashSet<K> newHashSet() {
+
 		return new HashSet<K>();
 	}
 
@@ -100,8 +99,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> HashSet<K> newHashSet( Collection<K> set )
-	{
+	public static final <K> HashSet<K> newHashSet( Collection<K> set ) {
+
 		return new HashSet<K>( set );
 	}
 
@@ -109,17 +108,17 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> HashSet<K> newHashSet( K... array )
-	{
-		return new HashSet<K>( Arrays.asList( array ));
+	public static final <K> HashSet<K> newHashSet( K... array ) {
+
+		return new HashSet<K>( Arrays.asList( array ) );
 	}
 
 	/**
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> Stack<K> newStack()
-	{
+	public static final <K> Stack<K> newStack() {
+
 		return new Stack<K>();
 	}
 
@@ -127,8 +126,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> HashMap<K, V> newHashMap()
-	{
+	public static final <K, V> HashMap<K, V> newHashMap() {
+
 		return new HashMap<K, V>();
 	}
 
@@ -136,8 +135,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> HashMap<K, V> newHashMap( Map<K, V> map )
-	{
+	public static final <K, V> HashMap<K, V> newHashMap( Map<K, V> map ) {
+
 		return new HashMap<K, V>( map );
 	}
 
@@ -145,8 +144,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> HashMap<K, V> newHashMap( int size )
-	{
+	public static final <K, V> HashMap<K, V> newHashMap( int size ) {
+
 		return new HashMap<K, V>( size );
 	}
 
@@ -154,8 +153,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> LinkedHashMap<K, V> newLinkedHashMap()
-	{
+	public static final <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
+
 		return new LinkedHashMap<K, V>();
 	}
 
@@ -163,8 +162,8 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> LinkedHashMap<K, V> newLinkedHashMap( Map<K, V> map )
-	{
+	public static final <K, V> LinkedHashMap<K, V> newLinkedHashMap( Map<K, V> map ) {
+
 		return new LinkedHashMap<K, V>( map );
 	}
 
@@ -172,13 +171,13 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> TreeMap<K, V> newTreeMap()
-	{
+	public static final <K, V> TreeMap<K, V> newTreeMap() {
+
 		return new TreeMap<K, V>();
 	}
 
-	public static <T> List<T> unmodifiableList( T... array )
-	{
+	public static <T> List<T> unmodifiableList( T... array ) {
+
 		return Collections.unmodifiableList( Arrays.asList( array ) );
 	}
 
@@ -186,15 +185,15 @@ public final class CollectionUtils
 	 * Sorts the given Collection.
 	 * <p>
 	 * If collection is null, returns null. If collection is a List, sorts using
-	 * <code>Collections.sort</code> and returns the same Collection. If collection is not a
-	 * List (eg. a Set), creates a new List out of the Collection, sorts it and returns it.
+	 * <code>Collections.sort</code> and returns the same Collection. If collection is not a List
+	 * (eg. a Set), creates a new List out of the Collection, sorts it and returns it.
 	 *
 	 * @return the sorted Collection. null if the given Collection was null
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static <T extends Comparable> List<T> sort( Collection<T> collection )
-	{
+	public static <T extends Comparable> List<T> sort( Collection<T> collection ) {
+
 		return sort( collection, null );
 	}
 
@@ -202,31 +201,27 @@ public final class CollectionUtils
 	 * Sorts the given Collection. Fails gracefully.
 	 * <p>
 	 * If collection is null, returns null. If collection is a List, sorts using
-	 * <code>Collections.sort</code> and returns the same Collection. If collection is not a
-	 * List (eg. a Set), creates a new List out of the Collection, sorts it and returns it.
+	 * <code>Collections.sort</code> and returns the same Collection. If collection is not a List
+	 * (eg. a Set), creates a new List out of the Collection, sorts it and returns it.
 	 *
 	 * @return the sorted Collection. null if the given Collection was null
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static <T extends Comparable> List<T> sort( Collection<T> collection, Comparator<T> comparator )
-	{
-		if ( collection == null )
-		{
+	public static <T extends Comparable> List<T> sort( Collection<T> collection, Comparator<T> comparator ) {
+
+		if ( collection == null ) {
 			return null;
 		}
 
 		List<T> list;
 
-		if ( collection instanceof List )
-		{
+		if ( collection instanceof List ) {
 			list = (List<T>) collection;
-		}
-		else
-		{
-			if ( collection.isEmpty() )
-			{
-				// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
+		} else {
+			if ( collection.isEmpty() ) {
+				// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4
+				// compatible)
 
 				list = Collections.EMPTY_LIST;
 				return list;
@@ -239,22 +234,21 @@ public final class CollectionUtils
 		return list;
 	}
 
-	public static <T> String toString( Collection<T> collection )
-	{
+	public static <T> String toString( Collection<T> collection ) {
+
 		return toString( collection, StringUtils.SEPARATOR_COMMA );
 	}
 
-	public static <T> String toString( Collection<T> collection, String separator )
-	{
+	public static <T> String toString( Collection<T> collection, String separator ) {
+
 		return toString( collection, separator, false, false );
 	}
 
-	public static <T> String toString( Collection<T> collection, String separator, boolean leadingSeparator, boolean trailingSeparator )
-	{
+	public static <T> String toString( Collection<T> collection, String separator, boolean leadingSeparator, boolean trailingSeparator ) {
+
 		// Nothing to do?
 
-		if ( collection == null )
-		{
+		if ( collection == null ) {
 			return "";
 		}
 
@@ -263,13 +257,11 @@ public final class CollectionUtils
 
 		Collection<T> sortedCollection = collection;
 
-		if ( sortedCollection instanceof Set<?> )
-		{
-			if ( !sortedCollection.isEmpty() && sortedCollection.iterator().next() instanceof Comparable<?> )
-			{
-				@SuppressWarnings("unchecked")
+		if ( sortedCollection instanceof Set<?> ) {
+			if ( !sortedCollection.isEmpty() && sortedCollection.iterator().next() instanceof Comparable<?> ) {
+				@SuppressWarnings( "unchecked" )
 				Collection<Comparable> comparableCollection = (Collection<Comparable>) sortedCollection;
-				@SuppressWarnings("unchecked")
+				@SuppressWarnings( "unchecked" )
 				Collection<T> comparedCollection = (Collection<T>) sort( comparableCollection );
 				sortedCollection = comparedCollection;
 			}
@@ -284,14 +276,12 @@ public final class CollectionUtils
 
 		StringBuffer buffer = new StringBuffer();
 
-		for ( T t : sortedCollection )
-		{
+		for ( T t : sortedCollection ) {
 			String value = String.valueOf( t );
 
 			// Concatenate the separator
 
-			if ( buffer.length() > 0 || leadingSeparator )
-			{
+			if ( buffer.length() > 0 || leadingSeparator ) {
 				buffer.append( separator );
 			}
 
@@ -304,8 +294,7 @@ public final class CollectionUtils
 			buffer.append( value );
 		}
 
-		if ( trailingSeparator && buffer.length() > 0 )
-		{
+		if ( trailingSeparator && buffer.length() > 0 ) {
 			buffer.append( separator );
 		}
 
@@ -317,8 +306,8 @@ public final class CollectionUtils
 	 * character. Starting and ending whitespace around each String will be trimmed.
 	 */
 
-	public static List<String> fromString( final String collection )
-	{
+	public static List<String> fromString( final String collection ) {
+
 		return fromString( collection, ',' );
 	}
 
@@ -328,10 +317,9 @@ public final class CollectionUtils
 	 * trimmed.
 	 */
 
-	public static List<String> fromString( final String collection, char separator )
-	{
-		if ( collection == null || collection.length() == 0 )
-		{
+	public static List<String> fromString( final String collection, char separator ) {
+
+		if ( collection == null || collection.length() == 0 ) {
 			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
 
 			@SuppressWarnings( "unchecked" )
@@ -346,15 +334,13 @@ public final class CollectionUtils
 
 		Matcher matcher = patternSplit.matcher( collection );
 
-		while ( matcher.find() )
-		{
+		while ( matcher.find() ) {
 			String match = matcher.group( 1 ).trim();
 			match = patternSeparator.matcher( match ).replaceAll( replacement );
 
 			split.add( match );
 
-			if ( matcher.end( 1 ) == collection.length() )
-			{
+			if ( matcher.end( 1 ) == collection.length() ) {
 				break;
 			}
 		}
@@ -366,8 +352,8 @@ public final class CollectionUtils
 	// Private constructor
 	//
 
-	private CollectionUtils()
-	{
+	private CollectionUtils() {
+
 		// Can never be called
 	}
 }

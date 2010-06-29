@@ -42,8 +42,8 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 
 public class FlexTableLayout
-	implements AdvancedLayout<Widget, Panel, GwtMetawidget>
-{
+	implements AdvancedLayout<Widget, Panel, GwtMetawidget> {
+
 	//
 	// Private statics
 	//
@@ -66,13 +66,13 @@ public class FlexTableLayout
 	// Constructor
 	//
 
-	public FlexTableLayout()
-	{
+	public FlexTableLayout() {
+
 		this( new FlexTableLayoutConfig() );
 	}
 
-	public FlexTableLayout( FlexTableLayoutConfig config )
-	{
+	public FlexTableLayout( FlexTableLayoutConfig config ) {
+
 		mNumberOfColumns = config.getNumberOfColumns();
 		mTableStyleName = config.getTableStyleName();
 		mColumnStyleNames = config.getColumnStyleNames();
@@ -83,14 +83,14 @@ public class FlexTableLayout
 	// Public methods
 	//
 
-	public void onStartBuild( GwtMetawidget metawidget )
-	{
+	public void onStartBuild( GwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void startContainerLayout( Panel container, GwtMetawidget metawidget )
-	{
+	public void startContainerLayout( Panel container, GwtMetawidget metawidget ) {
+
 		State state = getState( container, metawidget );
 		FlexTable flexTable = new FlexTable();
 		flexTable.setStyleName( mTableStyleName );
@@ -99,12 +99,11 @@ public class FlexTableLayout
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
 
-	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget )
-	{
+	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget ) {
+
 		// Do not render empty stubs
 
-		if ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 )
-		{
+		if ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 ) {
 			return;
 		}
 
@@ -134,13 +133,10 @@ public class FlexTableLayout
 
 		State state = getState( container, metawidget );
 
-		if ( state.currentColumn < numberOfColumns && row > 0 )
-		{
+		if ( state.currentColumn < numberOfColumns && row > 0 ) {
 			row--;
 			actualColumn = flexTable.getCellCount( row );
-		}
-		else
-		{
+		} else {
 			state.currentColumn = 0;
 			actualColumn = 0;
 		}
@@ -149,8 +145,7 @@ public class FlexTableLayout
 
 		boolean spanAllColumns = willFillHorizontally( widget, attributes );
 
-		if ( spanAllColumns && state.currentColumn > 0 )
-		{
+		if ( spanAllColumns && state.currentColumn > 0 ) {
 			state.currentColumn = 0;
 			actualColumn = 0;
 			row++;
@@ -160,14 +155,12 @@ public class FlexTableLayout
 
 		String labelText = metawidget.getLabelString( attributes );
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-		{
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			Label label = new Label( labelText + ":" );
 
 			String styleName = getStyleName( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED, metawidget );
 
-			if ( styleName != null )
-			{
+			if ( styleName != null ) {
 				state.formatter.setStyleName( row, actualColumn, styleName );
 			}
 
@@ -178,26 +171,21 @@ public class FlexTableLayout
 
 		// Widget column (null labels get collapsed, blank Strings get preserved)
 
-		if ( labelText != null )
-		{
+		if ( labelText != null ) {
 			// Zero-column layouts need an extra row
 
-			if ( numberOfColumns == 0 )
-			{
+			if ( numberOfColumns == 0 ) {
 				state.currentColumn = 0;
 				actualColumn = 0;
 				row++;
-			}
-			else
-			{
+			} else {
 				actualColumn++;
 			}
 		}
 
 		String styleName = getStyleName( ( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1, metawidget );
 
-		if ( styleName != null )
-		{
+		if ( styleName != null ) {
 			state.formatter.setStyleName( row, actualColumn, styleName );
 		}
 
@@ -209,47 +197,40 @@ public class FlexTableLayout
 
 		// Metawidgets and large components span all columns
 
-		if ( spanAllColumns )
-		{
+		if ( spanAllColumns ) {
 			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			state.currentColumn = numberOfColumns;
 
-			if ( labelText == null )
-			{
+			if ( labelText == null ) {
 				colspan++;
 			}
 
 			// Metawidgets span the required column too
 
-			if ( widget instanceof GwtMetawidget )
-			{
+			if ( widget instanceof GwtMetawidget ) {
 				colspan++;
 			}
 		}
 
 		// Components without labels span two columns
 
-		else if ( labelText == null )
-		{
+		else if ( labelText == null ) {
 			colspan = 2;
 		}
 
 		// Everyone else spans just one
 
-		else
-		{
+		else {
 			colspan = 1;
 		}
 
-		if ( colspan > 1 )
-		{
+		if ( colspan > 1 ) {
 			state.formatter.setColSpan( row, actualColumn, colspan );
 		}
 
 		// Required
 
-		if ( !( widget instanceof GwtMetawidget ) )
-		{
+		if ( !( widget instanceof GwtMetawidget ) ) {
 			layoutRequired( attributes, container, metawidget );
 		}
 
@@ -257,30 +238,27 @@ public class FlexTableLayout
 	}
 
 	@Override
-	public void endContainerLayout( Panel container, GwtMetawidget metawidget )
-	{
+	public void endContainerLayout( Panel container, GwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void onEndBuild( GwtMetawidget metawidget )
-	{
+	public void onEndBuild( GwtMetawidget metawidget ) {
+
 		Facet facet = metawidget.getFacet( "buttons" );
 
-		if ( facet != null )
-		{
+		if ( facet != null ) {
 			State state = getState( metawidget, metawidget );
 			FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 			int row = flexTable.getRowCount();
 
 			int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
 
-			if ( numberOfColumns > 0 )
-			{
+			if ( numberOfColumns > 0 ) {
 				state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			}
 
-			if ( mFooterStyleName != null )
-			{
+			if ( mFooterStyleName != null ) {
 				state.formatter.setStyleName( row, 0, mFooterStyleName );
 			}
 
@@ -292,8 +270,8 @@ public class FlexTableLayout
 	// Protected methods
 	//
 
-	protected void layoutRequired( Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
-	{
+	protected void layoutRequired( Map<String, String> attributes, Widget container, GwtMetawidget metawidget ) {
+
 		State state = getState( container, metawidget );
 		FlexTable flexTable = (FlexTable) ( (ComplexPanel) container ).getWidget( 0 );
 		int row = flexTable.getRowCount() - 1;
@@ -301,8 +279,7 @@ public class FlexTableLayout
 
 		state.formatter.setStyleName( row, column, getStyleName( ( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 2, metawidget ) );
 
-		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-		{
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 			flexTable.setText( row, column, "*" );
 			return;
 		}
@@ -316,20 +293,18 @@ public class FlexTableLayout
 		flexTable.setHTML( row, column, "<div></div>" );
 	}
 
-	protected String getStyleName( int styleName, GwtMetawidget metawidget )
-	{
-		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName )
-		{
+	protected String getStyleName( int styleName, GwtMetawidget metawidget ) {
+
+		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName ) {
 			return null;
 		}
 
 		return mColumnStyleNames[styleName];
 	}
 
-	protected boolean willFillHorizontally( Widget widget, Map<String, String> attributes )
-	{
-		if ( widget instanceof GwtMetawidget )
-		{
+	protected boolean willFillHorizontally( Widget widget, Map<String, String> attributes ) {
+
+		if ( widget instanceof GwtMetawidget ) {
 			return true;
 		}
 
@@ -346,31 +321,28 @@ public class FlexTableLayout
 	 * Nested Metawidgets are always just single column.
 	 */
 
-	private int getEffectiveNumberOfColumns( Widget container )
-	{
-		if ( container.getParent() instanceof FlexTable && container.getParent().getParent() instanceof GwtMetawidget )
-		{
+	private int getEffectiveNumberOfColumns( Widget container ) {
+
+		if ( container.getParent() instanceof FlexTable && container.getParent().getParent() instanceof GwtMetawidget ) {
 			return 1;
 		}
 
 		return mNumberOfColumns;
 	}
 
-	private State getState( Widget container, GwtMetawidget metawidget )
-	{
+	private State getState( Widget container, GwtMetawidget metawidget ) {
+
 		@SuppressWarnings( "unchecked" )
 		Map<Widget, State> stateMap = (Map<Widget, State>) metawidget.getClientProperty( getClass() );
 
-		if ( stateMap == null )
-		{
+		if ( stateMap == null ) {
 			stateMap = new HashMap<Widget, State>();
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
 		State state = stateMap.get( container );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			stateMap.put( container, state );
 		}
@@ -386,8 +358,8 @@ public class FlexTableLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */FlexCellFormatter	formatter;
 
 		/* package private */int				currentColumn;

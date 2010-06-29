@@ -22,19 +22,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the value in the field should belong to the set returned by the given
- * EL expression.
+ * Annotates the value in the field should belong to the set returned by the given EL expression.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesLookup
-{
+public @interface UiFacesLookup {
+
 	/**
 	 * An EL expression for the lookup, of the form <code>#{...}</code>.
 	 */
 
-	String value( );
+	String value();
 }

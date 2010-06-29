@@ -43,8 +43,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements AdvancedLayout<Tag, BodyTag, MetawidgetTag>
-{
+	implements AdvancedLayout<Tag, BodyTag, MetawidgetTag> {
+
 	//
 	// Private statics
 	//
@@ -79,13 +79,13 @@ public class HtmlTableLayout
 	// Constructor
 	//
 
-	public HtmlTableLayout()
-	{
+	public HtmlTableLayout() {
+
 		this( new HtmlTableLayoutConfig() );
 	}
 
-	public HtmlTableLayout( HtmlTableLayoutConfig config )
-	{
+	public HtmlTableLayout( HtmlTableLayoutConfig config ) {
+
 		mNumberOfColumns = config.getNumberOfColumns();
 		mTableStyle = config.getTableStyle();
 		mTableStyleClass = config.getTableStyleClass();
@@ -98,17 +98,16 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	public void onStartBuild( MetawidgetTag metawidgetTag )
-	{
+	public void onStartBuild( MetawidgetTag metawidgetTag ) {
+
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
 	}
 
-	public void startContainerLayout( BodyTag container, MetawidgetTag metawidgetTag )
-	{
+	public void startContainerLayout( BodyTag container, MetawidgetTag metawidgetTag ) {
+
 		State state = getState( metawidgetTag );
 
-		try
-		{
+		try {
 			// Start table
 
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
@@ -124,15 +123,13 @@ public class HtmlTableLayout
 
 			// Styles
 
-			if ( mTableStyle != null )
-			{
+			if ( mTableStyle != null ) {
 				writer.write( " style=\"" );
 				writer.write( mTableStyle );
 				writer.write( "\"" );
 			}
 
-			if ( mTableStyleClass != null )
-			{
+			if ( mTableStyleClass != null ) {
 				writer.write( " class=\"" );
 				writer.write( mTableStyleClass );
 				writer.write( "\"" );
@@ -144,8 +141,7 @@ public class HtmlTableLayout
 
 			FacetTag facetFooter = metawidgetTag.getFacet( "footer" );
 
-			if ( facetFooter != null )
-			{
+			if ( facetFooter != null ) {
 				writer.write( "\r\n<tfoot>" );
 				writer.write( "<tr>" );
 				writer.write( "<td colspan=\"" );
@@ -158,15 +154,13 @@ public class HtmlTableLayout
 
 				// CSS styles
 
-				if ( mFooterStyle != null )
-				{
+				if ( mFooterStyle != null ) {
 					writer.write( " style=\"" );
 					writer.write( mFooterStyle );
 					writer.write( "\"" );
 				}
 
-				if ( mFooterStyleClass != null )
-				{
+				if ( mFooterStyleClass != null ) {
 					writer.write( " class=\"" );
 					writer.write( mFooterStyleClass );
 					writer.write( "\"" );
@@ -180,21 +174,17 @@ public class HtmlTableLayout
 			}
 
 			writer.write( "<tbody>" );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}
 	}
 
-	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag )
-	{
-		try
-		{
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag ) {
+
+		try {
 			String literal = null;
 
-			if ( tag instanceof StubTag )
-			{
+			if ( tag instanceof StubTag ) {
 				literal = ( (StubTag) tag ).getSavedBodyContent();
 
 				// Ignore empty stubs
@@ -203,27 +193,22 @@ public class HtmlTableLayout
 				// works under JDK 1.4 (even though 'isEmpty' is as of 1.6). The compiler must be
 				// inlining it or something. It seems a bit risky though!
 
-				if ( literal == null || literal.length() == 0 )
-				{
+				if ( literal == null || literal.length() == 0 ) {
 					return;
 				}
-			}
-			else
-			{
+			} else {
 				literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag, null );
 			}
 
 			// If the String is just hidden fields...
 
-			if ( JspUtils.isJustHiddenFields( literal ) )
-			{
+			if ( JspUtils.isJustHiddenFields( literal ) ) {
 				// ...store it up for later (eg. don't render a row in the table
 				// and a label)
 
 				State state = getState( metawidgetTag );
 
-				if ( state.hiddenFields == null )
-				{
+				if ( state.hiddenFields == null ) {
 					state.hiddenFields = CollectionUtils.newHashSet();
 				}
 
@@ -238,24 +223,21 @@ public class HtmlTableLayout
 			layoutBeforeChild( tag, elementName, attributes, metawidgetTag );
 			writer.write( literal );
 			layoutAfterChild( attributes, metawidgetTag );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}
 	}
 
 	@Override
-	public void endContainerLayout( BodyTag container, MetawidgetTag metawidgetTag )
-	{
+	public void endContainerLayout( BodyTag container, MetawidgetTag metawidgetTag ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void onEndBuild( MetawidgetTag metawidgetTag )
-	{
-		try
-		{
+	public void onEndBuild( MetawidgetTag metawidgetTag ) {
+
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "</tbody>" );
 			writer.write( "</table>" );
@@ -264,17 +246,13 @@ public class HtmlTableLayout
 
 			State state = getState( metawidgetTag );
 
-			if ( state.hiddenFields != null )
-			{
-				for ( String hiddenField : state.hiddenFields )
-				{
+			if ( state.hiddenFields != null ) {
+				for ( String hiddenField : state.hiddenFields ) {
 					writer.write( "\r\n" );
 					writer.write( hiddenField );
 				}
 			}
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw LayoutException.newException( e );
 		}
 	}
@@ -283,13 +261,12 @@ public class HtmlTableLayout
 	// Protected methods
 	//
 
-	protected void layoutBeforeChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
-	{
+	protected void layoutBeforeChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
+
 		State state = getState( metawidgetTag );
 		state.currentColumn++;
 
-		try
-		{
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
 			// Section headings
@@ -299,17 +276,14 @@ public class HtmlTableLayout
 
 			String id = null;
 
-			if ( attributes != null )
-			{
+			if ( attributes != null ) {
 				id = attributes.get( NAME );
 
-				if ( id != null )
-				{
+				if ( id != null ) {
 					id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
 				}
 
-				if ( SimpleLayoutUtils.isSpanAllColumns( attributes ) && state.currentColumn != 1 )
-				{
+				if ( SimpleLayoutUtils.isSpanAllColumns( attributes ) && state.currentColumn != 1 ) {
 					writer.write( "</tr>" );
 					state.currentColumn = 1;
 				}
@@ -317,14 +291,12 @@ public class HtmlTableLayout
 
 			// Start a new row, if necessary
 
-			if ( state.currentColumn == 1 || state.currentColumn > mNumberOfColumns )
-			{
+			if ( state.currentColumn == 1 || state.currentColumn > mNumberOfColumns ) {
 				state.currentColumn = 1;
 
 				writer.write( "\r\n<tr" );
 
-				if ( id != null )
-				{
+				if ( id != null ) {
 					writer.write( " id=\"" );
 					writer.write( TABLE_PREFIX );
 					writer.write( state.tableType );
@@ -342,12 +314,10 @@ public class HtmlTableLayout
 
 			// Zero-column layouts need an extra row
 
-			if ( mNumberOfColumns == 0 )
-			{
+			if ( mNumberOfColumns == 0 ) {
 				writer.write( "</tr>\r\n<tr" );
 
-				if ( id != null )
-				{
+				if ( id != null ) {
 					writer.write( " id=\"" );
 					writer.write( TABLE_PREFIX );
 					writer.write( state.tableType );
@@ -363,8 +333,7 @@ public class HtmlTableLayout
 
 			writer.write( "<td" );
 
-			if ( id != null )
-			{
+			if ( id != null ) {
 				writer.write( " id=\"" );
 				writer.write( TABLE_PREFIX );
 				writer.write( state.tableType );
@@ -381,58 +350,49 @@ public class HtmlTableLayout
 
 			// Metawidgets, tables and large components span all columns
 
-			if ( tag instanceof MetawidgetTag || SimpleLayoutUtils.isSpanAllColumns( attributes ) )
-			{
+			if ( tag instanceof MetawidgetTag || SimpleLayoutUtils.isSpanAllColumns( attributes ) ) {
 				colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 				state.currentColumn = mNumberOfColumns;
 
-				if ( !labelWritten )
-				{
+				if ( !labelWritten ) {
 					colspan++;
 				}
 
 				// Nested table Metawidgets span the required column too (as they have their own
 				// required column)
 
-				if ( tag instanceof MetawidgetTag )
-				{
+				if ( tag instanceof MetawidgetTag ) {
 					colspan++;
 				}
 			}
 
 			// Components without labels span two columns
 
-			else if ( !labelWritten )
-			{
+			else if ( !labelWritten ) {
 				colspan = 2;
 			}
 
 			// Everyone else spans just one
 
-			else
-			{
+			else {
 				colspan = 1;
 			}
 
-			if ( colspan > 1 )
-			{
+			if ( colspan > 1 ) {
 				writer.write( " colspan=\"" );
 				writer.write( String.valueOf( colspan ) );
 				writer.write( "\"" );
 			}
 
 			writer.write( ">" );
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw LayoutException.newException( e );
 		}
 	}
 
-	protected void layoutAfterChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
-	{
-		try
-		{
+	protected void layoutAfterChild( Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
+
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
 			// End the component column
@@ -452,14 +412,11 @@ public class HtmlTableLayout
 
 			// End the row, if necessary
 
-			if ( state.currentColumn >= mNumberOfColumns )
-			{
+			if ( state.currentColumn >= mNumberOfColumns ) {
 				state.currentColumn = 0;
 				writer.write( "</tr>" );
 			}
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw LayoutException.newException( e );
 		}
 	}
@@ -468,17 +425,15 @@ public class HtmlTableLayout
 	 * @return true if a label was rendered
 	 */
 
-	protected boolean layoutLabel( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
-	{
+	protected boolean layoutLabel( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
+
 		String labelText = metawidgetTag.getLabelString( attributes );
 
-		if ( labelText == null )
-		{
+		if ( labelText == null ) {
 			return false;
 		}
 
-		try
-		{
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
 			// Output a (possibly localized) label
@@ -487,8 +442,7 @@ public class HtmlTableLayout
 			writeStyleClass( 0, metawidgetTag );
 			writer.write( ">" );
 
-			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-			{
+			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 				writer.write( labelText );
 				writer.write( ":" );
 			}
@@ -496,17 +450,14 @@ public class HtmlTableLayout
 			writer.write( "</th>" );
 
 			return true;
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw LayoutException.newException( e );
 		}
 	}
 
-	protected String layoutRequired( Map<String, String> attributes, MetawidgetTag metawidgetTag )
-	{
-		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidgetTag.isReadOnly() )
-		{
+	protected String layoutRequired( Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
+
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidgetTag.isReadOnly() ) {
 			return "*";
 		}
 
@@ -519,30 +470,25 @@ public class HtmlTableLayout
 		return "<div></div>";
 	}
 
-	protected void writeStyleClass( int styleClass, MetawidgetTag metawidgetTag )
-	{
-		if ( mColumnStyleClasses == null || mColumnStyleClasses.length <= styleClass )
-		{
+	protected void writeStyleClass( int styleClass, MetawidgetTag metawidgetTag ) {
+
+		if ( mColumnStyleClasses == null || mColumnStyleClasses.length <= styleClass ) {
 			return;
 		}
 
 		String columnClass = mColumnStyleClasses[styleClass];
 
-		if ( columnClass.length() == 0 )
-		{
+		if ( columnClass.length() == 0 ) {
 			return;
 		}
 
-		try
-		{
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
 			writer.write( " class=\"" );
 			writer.write( columnClass.trim() );
 			writer.write( "\"" );
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw LayoutException.newException( e );
 		}
 	}
@@ -551,12 +497,11 @@ public class HtmlTableLayout
 	// Private methods
 	//
 
-	private State getState( MetawidgetTag metawidget )
-	{
+	private State getState( MetawidgetTag metawidget ) {
+
 		State state = (State) metawidget.getClientProperty( HtmlTableLayout.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidget.putClientProperty( HtmlTableLayout.class, state );
 		}
@@ -568,8 +513,8 @@ public class HtmlTableLayout
 	// Inner class
 	//
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		public int			currentColumn;
 
 		public Set<String>	hiddenFields;

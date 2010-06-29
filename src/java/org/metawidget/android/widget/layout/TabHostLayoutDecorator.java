@@ -40,14 +40,14 @@ import android.widget.TabHost.TabContentFactory;
  */
 
 public class TabHostLayoutDecorator
-	extends AndroidNestedSectionLayoutDecorator
-{
+	extends AndroidNestedSectionLayoutDecorator {
+
 	//
 	// Constructor
 	//
 
-	public TabHostLayoutDecorator( LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> config )
-	{
+	public TabHostLayoutDecorator( LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -56,14 +56,13 @@ public class TabHostLayoutDecorator
 	//
 
 	@Override
-	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget )
-	{
+	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget ) {
+
 		// Whole new tab host?
 
 		TabHost tabHost;
 
-		if ( previousSectionView == null )
-		{
+		if ( previousSectionView == null ) {
 			tabHost = new TabHost( metawidget.getContext() );
 			tabHost.setPadding( 0, 20, 0, 0 );
 
@@ -93,9 +92,7 @@ public class TabHostLayoutDecorator
 			tabHostAttributes.put( LABEL, "" );
 			tabHostAttributes.put( LARGE, TRUE );
 			getDelegate().layoutWidget( tabHost, PROPERTY, tabHostAttributes, container, metawidget );
-		}
-		else
-		{
+		} else {
 			tabHost = (TabHost) previousSectionView.getParent().getParent().getParent();
 		}
 
@@ -112,10 +109,10 @@ public class TabHostLayoutDecorator
 
 		( (FrameLayout) ( (android.widget.LinearLayout) tabHost.getChildAt( 0 ) ).getChildAt( 1 ) ).addView( newLayout );
 
-		TabContentFactory tabContentFactory = new TabHost.TabContentFactory()
-		{
-			public View createTabContent( String tag )
-			{
+		TabContentFactory tabContentFactory = new TabHost.TabContentFactory() {
+
+			public View createTabContent( String tag ) {
+
 				return newLayout;
 			}
 		};
@@ -125,8 +122,7 @@ public class TabHostLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

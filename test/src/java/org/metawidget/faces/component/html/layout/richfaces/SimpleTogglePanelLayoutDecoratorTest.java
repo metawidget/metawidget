@@ -25,16 +25,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class SimpleTogglePanelLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( SimpleTogglePanelLayoutDecoratorConfig.class, new SimpleTogglePanelLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( SimpleTogglePanelLayoutDecoratorConfig.class, new SimpleTogglePanelLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

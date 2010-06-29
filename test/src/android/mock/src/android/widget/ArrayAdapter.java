@@ -30,8 +30,8 @@ import android.view.ViewGroup;
  */
 
 public class ArrayAdapter<T>
-	implements Adapter
-{
+	implements Adapter {
+
 	//
 	// Private members
 	//
@@ -42,13 +42,13 @@ public class ArrayAdapter<T>
 	// Constructors
 	//
 
-	public ArrayAdapter( Context context )
-	{
+	public ArrayAdapter( Context context ) {
+
 		// Ignore context
 	}
 
-	public ArrayAdapter( Context context, int textViewResourceId, List<T> values )
-	{
+	public ArrayAdapter( Context context, int textViewResourceId, List<T> values ) {
+
 		mValues = values;
 	}
 
@@ -56,34 +56,34 @@ public class ArrayAdapter<T>
 	// Supported public methods
 	//
 
-	public View getView( int position, View convertView, ViewGroup parentView )
-	{
+	public View getView( int position, View convertView, ViewGroup parentView ) {
+
 		return null;
 	}
 
-	public View getDropDownView( int position, View convertView, ViewGroup parentView )
-	{
+	public View getDropDownView( int position, View convertView, ViewGroup parentView ) {
+
 		return null;
 	}
 
 	@Override
-	public T getItem( int position )
-	{
+	public T getItem( int position ) {
+
 		return mValues.get( position );
 	}
 
-	public int getPosition( Object value )
-	{
+	public int getPosition( Object value ) {
+
 		return mValues.indexOf( value );
 	}
 
-	public Context getContext()
-	{
+	public Context getContext() {
+
 		return null;
 	}
 
-	public void setDropDownViewResource( int resource )
-	{
+	public void setDropDownViewResource( int resource ) {
+
 		// Do nothing
 	}
 
@@ -91,43 +91,43 @@ public class ArrayAdapter<T>
 	// Unsupported public methods
 	//
 
-	public int getCount()
-	{
+	public int getCount() {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public long getItemId( int arg0 )
-	{
+	public long getItemId( int arg0 ) {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public int getItemViewType( int arg0 )
-	{
+	public int getItemViewType( int arg0 ) {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public int getViewTypeCount()
-	{
+	public int getViewTypeCount() {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean hasStableIds()
-	{
+	public boolean hasStableIds() {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public void registerDataSetObserver( DataSetObserver arg0 )
-	{
+	public void registerDataSetObserver( DataSetObserver arg0 ) {
+
 		throw new UnsupportedOperationException();
 	}
 
-	public void unregisterDataSetObserver( DataSetObserver arg0 )
-	{
+	public void unregisterDataSetObserver( DataSetObserver arg0 ) {
+
 		throw new UnsupportedOperationException();
 	}
 }

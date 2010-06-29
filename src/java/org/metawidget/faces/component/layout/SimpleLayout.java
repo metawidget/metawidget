@@ -33,15 +33,15 @@ import org.metawidget.layout.iface.Layout;
  */
 
 public class SimpleLayout
-	implements Layout<UIComponent, UIComponent, UIMetawidget>
-{
+	implements Layout<UIComponent, UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public void layoutWidget( UIComponent widget, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
-	{
+	public void layoutWidget( UIComponent widget, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+
 		List<UIComponent> children = container.getChildren();
 
 		// Note: delegating to the Renderer to do the adding, such that it can decorate

@@ -57,8 +57,8 @@ import org.w3c.dom.Element;
  */
 
 public abstract class MetawidgetTag
-	extends BodyTagSupport
-{
+	extends BodyTagSupport {
+
 	//
 	// Private statics
 	//
@@ -108,8 +108,8 @@ public abstract class MetawidgetTag
 	// Constructor
 	//
 
-	public MetawidgetTag()
-	{
+	public MetawidgetTag() {
+
 		mPipeline = newPipeline();
 	}
 
@@ -117,26 +117,25 @@ public abstract class MetawidgetTag
 	// Public methods
 	//
 
-	public String getPath()
-	{
+	public String getPath() {
+
 		return mPath;
 	}
 
-	public String getPathPrefix()
-	{
+	public String getPathPrefix() {
+
 		return mPathPrefix;
 	}
 
-	public void setConfig( String config )
-	{
+	public void setConfig( String config ) {
+
 		mConfig = config;
 		mNeedsConfiguring = true;
 	}
 
-	public String getLabelString( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public String getLabelString( Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return "";
 		}
 
@@ -144,12 +143,10 @@ public abstract class MetawidgetTag
 
 		String label = attributes.get( LABEL );
 
-		if ( label != null )
-		{
+		if ( label != null ) {
 			// (may be forced blank)
 
-			if ( "".equals( label ) )
-			{
+			if ( "".equals( label ) ) {
 				return null;
 			}
 
@@ -157,8 +154,7 @@ public abstract class MetawidgetTag
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -169,14 +165,12 @@ public abstract class MetawidgetTag
 
 		String name = attributes.get( NAME );
 
-		if ( name != null )
-		{
+		if ( name != null ) {
 			// (localize if possible)
 
 			String localized = getLocalizedKey( name );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -190,93 +184,85 @@ public abstract class MetawidgetTag
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
-	public String getLocalizedKey( String key )
-	{
-		if ( mBundle == null )
-		{
+	public String getLocalizedKey( String key ) {
+
+		if ( mBundle == null ) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			String localizedKey = mBundle.getString( key );
 
-			if ( localizedKey != null )
-			{
+			if ( localizedKey != null ) {
 				return localizedKey;
 			}
-		}
-		catch ( MissingResourceException e )
-		{
+		} catch ( MissingResourceException e ) {
 			// Fall through
 		}
 
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
 
-	public FacetTag getFacet( String name )
-	{
-		if ( mFacets == null )
-		{
+	public FacetTag getFacet( String name ) {
+
+		if ( mFacets == null ) {
 			return null;
 		}
 
 		return mFacets.get( name );
 	}
 
-	public void setFacet( String name, FacetTag facetTag )
-	{
-		if ( mFacets == null )
-		{
+	public void setFacet( String name, FacetTag facetTag ) {
+
+		if ( mFacets == null ) {
 			mFacets = CollectionUtils.newHashMap();
 		}
 
 		mFacets.put( name, facetTag );
 	}
 
-	public void setStub( String path, StubTag stubTag )
-	{
-		if ( mStubs == null )
-		{
+	public void setStub( String path, StubTag stubTag ) {
+
+		if ( mStubs == null ) {
 			mStubs = CollectionUtils.newHashMap();
 		}
 
 		mStubs.put( path, stubTag );
 	}
 
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mPipeline.isReadOnly();
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
+	public void setReadOnly( boolean readOnly ) {
+
 		mPipeline.setReadOnly( readOnly );
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mPipeline.setInspector( inspector );
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<MetawidgetTag>... inspectionResultProcessors )
-	{
+	public void setInspectionResultProcessors( InspectionResultProcessor<MetawidgetTag>... inspectionResultProcessors ) {
+
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder )
-	{
+	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder ) {
+
 		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
-	public void setWidgetProcessors( WidgetProcessor<Tag, MetawidgetTag>... WidgetProcessors )
-	{
+	public void setWidgetProcessors( WidgetProcessor<Tag, MetawidgetTag>... WidgetProcessors ) {
+
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( WidgetProcessors ) );
 	}
 
-	public void setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout )
-	{
+	public void setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout ) {
+
 		mPipeline.setLayout( layout );
 	}
 
@@ -284,8 +270,8 @@ public abstract class MetawidgetTag
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public PageContext getPageContext()
-	{
+	public PageContext getPageContext() {
+
 		return pageContext;
 	}
 
@@ -293,8 +279,8 @@ public abstract class MetawidgetTag
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -302,10 +288,9 @@ public abstract class MetawidgetTag
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 */
 
-	public void putClientProperty( Object key, Object value )
-	{
-		if ( mClientProperties == null )
-		{
+	public void putClientProperty( Object key, Object value ) {
+
+		if ( mClientProperties == null ) {
 			mClientProperties = CollectionUtils.newHashMap();
 		}
 
@@ -317,10 +302,9 @@ public abstract class MetawidgetTag
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getClientProperty( Object key )
-	{
-		if ( mClientProperties == null )
-		{
+	public <T> T getClientProperty( Object key ) {
+
+		if ( mClientProperties == null ) {
 			return null;
 		}
 
@@ -329,8 +313,8 @@ public abstract class MetawidgetTag
 
 	@Override
 	public int doStartTag()
-		throws JspException
-	{
+		throws JspException {
+
 		// According to this bug report https://issues.apache.org/bugzilla/show_bug.cgi?id=16001 and
 		// this article http://onjava.com/pub/a/onjava/2001/11/07/jsp12.html?page=3, we do not need
 		// to worry about overriding super.release() for values associated with an optional property
@@ -348,16 +332,13 @@ public abstract class MetawidgetTag
 
 	@Override
 	public int doEndTag()
-		throws JspException
-	{
+		throws JspException {
+
 		configure();
 
-		try
-		{
+		try {
 			mPipeline.buildWidgets( inspect() );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 
@@ -371,10 +352,9 @@ public abstract class MetawidgetTag
 	 * it directly.</strong>
 	 */
 
-	public StubTag getStub( String path )
-	{
-		if ( mStubs == null )
-		{
+	public StubTag getStub( String path ) {
+
+		if ( mStubs == null ) {
 			return null;
 		}
 
@@ -392,8 +372,8 @@ public abstract class MetawidgetTag
 	 * <code>property</code> for Spring).
 	 */
 
-	protected void setPathInternal( String path )
-	{
+	protected void setPathInternal( String path ) {
+
 		mPath = path;
 
 		// If changed the path, all bets are off what the prefix is
@@ -401,8 +381,8 @@ public abstract class MetawidgetTag
 		mPathPrefix = null;
 	}
 
-	protected void setPathPrefix( String pathPrefix )
-	{
+	protected void setPathPrefix( String pathPrefix ) {
+
 		mPathPrefix = pathPrefix;
 	}
 
@@ -414,8 +394,8 @@ public abstract class MetawidgetTag
 	 * app.
 	 */
 
-	protected void setBundle( ResourceBundle bundle )
-	{
+	protected void setBundle( ResourceBundle bundle ) {
+
 		mBundle = bundle;
 	}
 
@@ -426,15 +406,15 @@ public abstract class MetawidgetTag
 	 * version.
 	 */
 
-	protected W3CPipeline<Tag, BodyTag, MetawidgetTag> newPipeline()
-	{
+	protected W3CPipeline<Tag, BodyTag, MetawidgetTag> newPipeline() {
+
 		return new MetawidgetTagPipeline();
 	}
 
 	protected abstract void beforeBuildCompoundWidget( Element element );
 
-	protected void initNestedMetawidget( MetawidgetTag nestedMetawidget, Map<String, String> attributes )
-	{
+	protected void initNestedMetawidget( MetawidgetTag nestedMetawidget, Map<String, String> attributes ) {
+
 		// Don't reconfigure...
 
 		nestedMetawidget.setConfig( null );
@@ -446,23 +426,18 @@ public abstract class MetawidgetTag
 		nestedMetawidget.setBundle( mBundle );
 	}
 
-	protected String inspect()
-	{
+	protected String inspect() {
+
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
 		String type = typeAndNames.getType();
 
 		// Inject the PageContext (in case it is used)
 
-		try
-		{
+		try {
 			JspAnnotationInspector.setThreadLocalPageContext( pageContext );
-		}
-		catch ( NoClassDefFoundError e )
-		{
+		} catch ( NoClassDefFoundError e ) {
 			// Fail gracefully (if running without JspAnnotationInspector installed)
-		}
-		catch ( UnsupportedClassVersionError e )
-		{
+		} catch ( UnsupportedClassVersionError e ) {
 			// Fail gracefully (if running without annotations)
 		}
 
@@ -472,15 +447,13 @@ public abstract class MetawidgetTag
 
 		// (pageContext may be null in unit tests)
 
-		if ( pageContext != null )
-		{
+		if ( pageContext != null ) {
 			// Try to locate the runtime bean. This allows some Inspectors
 			// to act on it polymorphically.
 
 			Object obj = pageContext.findAttribute( type );
 
-			if ( obj != null )
-			{
+			if ( obj != null ) {
 				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
 				String additionalInspectionResult = inspect( obj, type, typeAndNames.getNamesAsArray() );
 
@@ -490,12 +463,9 @@ public abstract class MetawidgetTag
 				// type (eg. contactForm) and one the runtime bean (eg.
 				// org.metawidget.example.struts.addressbook.form.BusinessContactForm)
 
-				if ( inspectionResult == null )
-				{
+				if ( inspectionResult == null ) {
 					inspectionResult = additionalInspectionResult;
-				}
-				else if ( additionalInspectionResult != null )
-				{
+				} else if ( additionalInspectionResult != null ) {
 					Document inspectionResultDocument = XmlUtils.documentFromString( inspectionResult );
 					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResultDocument.getDocumentElement(), 0 );
 					Document additionalInspectionResultDocument = XmlUtils.documentFromString( additionalInspectionResult );
@@ -510,41 +480,32 @@ public abstract class MetawidgetTag
 		return inspectionResult;
 	}
 
-	protected void configure()
-	{
-		if ( !mNeedsConfiguring )
-		{
+	protected void configure() {
+
+		if ( !mNeedsConfiguring ) {
 			return;
 		}
 
 		mNeedsConfiguring = false;
 
-		try
-		{
+		try {
 			ServletContext servletContext = pageContext.getServletContext();
 			ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
 
-			if ( configReader == null )
-			{
+			if ( configReader == null ) {
 				configReader = new ServletConfigReader( servletContext );
 				servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
 			}
 
-			if ( mConfig != null )
-			{
-				try
-				{
+			if ( mConfig != null ) {
+				try {
 					configReader.configure( mConfig, this );
-				}
-				catch ( MetawidgetException e )
-				{
-					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
-					{
+				} catch ( MetawidgetException e ) {
+					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) ) {
 						throw e;
 					}
 
-					if ( !LOGGED_MISSING_CONFIG )
-					{
+					if ( !LOGGED_MISSING_CONFIG ) {
 						LOGGED_MISSING_CONFIG = true;
 						LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 					}
@@ -552,9 +513,7 @@ public abstract class MetawidgetTag
 			}
 
 			mPipeline.configureDefaults( configReader, getDefaultConfiguration(), MetawidgetTag.class );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
@@ -566,17 +525,16 @@ public abstract class MetawidgetTag
 	//
 
 	protected class MetawidgetTagPipeline
-		extends W3CPipeline<Tag, BodyTag, MetawidgetTag>
-	{
+		extends W3CPipeline<Tag, BodyTag, MetawidgetTag> {
+
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Tag tag )
-		{
-			if ( tag instanceof StubTag )
-			{
+		protected Map<String, String> getAdditionalAttributes( Tag tag ) {
+
+			if ( tag instanceof StubTag ) {
 				return ( (StubTag) tag ).getAttributesMap();
 			}
 
@@ -585,16 +543,16 @@ public abstract class MetawidgetTag
 
 		@Override
 		protected void buildCompoundWidget( Element element )
-			throws Exception
-		{
+			throws Exception {
+
 			MetawidgetTag.this.beforeBuildCompoundWidget( element );
 			super.buildCompoundWidget( element );
 		}
 
 		@Override
 		protected MetawidgetTag buildNestedMetawidget( final Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			final MetawidgetTag metawidgetTag = MetawidgetTag.this.getClass().newInstance();
 			MetawidgetTag.this.initNestedMetawidget( metawidgetTag, attributes );
 
@@ -602,8 +560,8 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected MetawidgetTag getPipelineOwner()
-		{
+		protected MetawidgetTag getPipelineOwner() {
+
 			return MetawidgetTag.this;
 		}
 	}

@@ -33,14 +33,14 @@ import org.w3c.dom.Element;
  */
 
 public class JexlInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testAnnotations()
-	{
+	public void testAnnotations() {
+
 		JexlInspector inspector = new JexlInspector();
 		assertTrue( null == inspector.inspect( (Object) null, null ) );
 
@@ -116,21 +116,18 @@ public class JexlInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
-	public void testBadExpression()
-	{
-		try
-		{
+	public void testBadExpression() {
+
+		try {
 			new JexlInspector().inspect( new Bar(), Bar.class.getName() );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'", e.getMessage() );
 		}
 	}
 
-	public void testThis()
-	{
+	public void testThis() {
+
 		ThisTest thisTest1 = new ThisTest();
 		thisTest1.setIdentity( "ThisTest #1" );
 		ThisTest thisTest2 = new ThisTest();
@@ -168,8 +165,8 @@ public class JexlInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@UiJexlAttributes( { @UiJexlAttribute( name = "value-is-el", expression = "this.baz" ), @UiJexlAttribute( name = "value-is-text", expression = "'text'" ), @UiJexlAttribute( name = "expression-is-false", expression = "if ( !this.expressionResult ) 'was set'" ) } )
 		public String	bar1;
 
@@ -177,43 +174,43 @@ public class JexlInspectorTest
 		public String	bar2;
 
 		@UiJexlAttribute( name = { "attribute1", "attribute2" }, expression = "if ( this.expressionResult ) { 'true'; }" )
-		public String bar3;
+		public String	bar3;
 
 		@UiJexlAttribute( name = "array", expression = "this.array" )
-		public String bar4;
+		public String	bar4;
 
 		@UiJexlAttribute( name = "collection", expression = "this.collection" )
-		public String bar5;
+		public String	bar5;
 
-		public String getBaz()
-		{
+		public String getBaz() {
+
 			return "from-baz";
 		}
 
-		public boolean isExpressionResult()
-		{
+		public boolean isExpressionResult() {
+
 			return true;
 		}
 
-		public boolean[] getArray()
-		{
-			return new boolean[]{ true, false };
+		public boolean[] getArray() {
+
+			return new boolean[] { true, false };
 		}
 
-		public Collection<String> getCollection()
-		{
+		public Collection<String> getCollection() {
+
 			return CollectionUtils.newArrayList( "collection1", "collection2" );
 		}
 	}
 
-	public static class Bar
-	{
+	public static class Bar {
+
 		@UiJexlAttribute( name = "foo", expression = "${baz}" )
 		public String	baz;
 	}
 
-	public static class ThisTest
-	{
+	public static class ThisTest {
+
 		private String		mIdentity;
 
 		private ThisTest	mChild;
@@ -227,23 +224,23 @@ public class JexlInspectorTest
 		@UiJexlAttribute( name = "who-am-i", expression = "this.identity" )
 		public String		me;
 
-		public ThisTest getChild()
-		{
+		public ThisTest getChild() {
+
 			return mChild;
 		}
 
-		public void setChild( ThisTest child )
-		{
+		public void setChild( ThisTest child ) {
+
 			this.mChild = child;
 		}
 
-		public String getIdentity()
-		{
+		public String getIdentity() {
+
 			return this.mIdentity;
 		}
 
-		public void setIdentity( String identity )
-		{
+		public void setIdentity( String identity ) {
+
 			this.mIdentity = identity;
 		}
 	}

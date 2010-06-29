@@ -69,8 +69,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GwtMetawidget
 	extends FlowPanel
-	implements HasName
-{
+	implements HasName {
+
 	//
 	// Private statics
 	//
@@ -173,8 +173,8 @@ public class GwtMetawidget
 	// Constructor
 	//
 
-	public GwtMetawidget()
-	{
+	public GwtMetawidget() {
+
 		mPipeline = newPipeline();
 	}
 
@@ -192,8 +192,8 @@ public class GwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getToInspect()
-	{
+	public <T> T getToInspect() {
+
 		return (T) mToInspect;
 	}
 
@@ -204,8 +204,8 @@ public class GwtMetawidget
 	 * sets it to point to the given Object.
 	 */
 
-	public void setToInspect( Object toInspect )
-	{
+	public void setToInspect( Object toInspect ) {
+
 		updateToInspectWithoutInvalidate( toInspect );
 		invalidateInspection();
 	}
@@ -217,23 +217,16 @@ public class GwtMetawidget
 	 * not call it directly.</strong>
 	 */
 
-	public void updateToInspectWithoutInvalidate( Object toInspect )
-	{
-		if ( mToInspect == null )
-		{
-			if ( mPath == null && toInspect != null )
-			{
+	public void updateToInspectWithoutInvalidate( Object toInspect ) {
+
+		if ( mToInspect == null ) {
+			if ( mPath == null && toInspect != null ) {
 				mPath = toInspect.getClass().getName();
 			}
-		}
-		else if ( mToInspect.getClass().getName().equals( mPath ) )
-		{
-			if ( toInspect == null )
-			{
+		} else if ( mToInspect.getClass().getName().equals( mPath ) ) {
+			if ( toInspect == null ) {
 				mPath = null;
-			}
-			else
-			{
+			} else {
 				mPath = toInspect.getClass().getName();
 			}
 		}
@@ -251,58 +244,58 @@ public class GwtMetawidget
 	 * our immediate parent.
 	 */
 
-	public void setPath( String path )
-	{
+	public void setPath( String path ) {
+
 		mPath = path;
 		invalidateInspection();
 	}
 
-	public String getPath()
-	{
+	public String getPath() {
+
 		return mPath;
 	}
 
-	public void setName( String name )
-	{
+	public void setName( String name ) {
+
 		mName = name;
 	}
 
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mPipeline.setInspector( inspector );
 		invalidateInspection();
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor )
-	{
+	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor ) {
+
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
-	{
+	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder ) {
+
 		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
 	}
 
-	public void addWidgetProcessor( WidgetProcessor<Widget, GwtMetawidget> widgetProcessor )
-	{
+	public void addWidgetProcessor( WidgetProcessor<Widget, GwtMetawidget> widgetProcessor ) {
+
 		mPipeline.addWidgetProcessor( widgetProcessor );
 		invalidateInspection();
 	}
 
-	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
-	{
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public void setLayout( Layout<Widget, Panel, GwtMetawidget> layout )
-	{
+	public void setLayout( Layout<Widget, Panel, GwtMetawidget> layout ) {
+
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
 	}
@@ -313,17 +306,16 @@ public class GwtMetawidget
 	 * The Dictionary name must be a JavaScript variable declared in the host HTML page.
 	 */
 
-	public void setDictionaryName( String dictionaryName )
-	{
+	public void setDictionaryName( String dictionaryName ) {
+
 		mDictionaryName = dictionaryName;
 		mDictionary = null;
 		invalidateWidgets();
 	}
 
-	public String getLabelString( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public String getLabelString( Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return "";
 		}
 
@@ -331,12 +323,10 @@ public class GwtMetawidget
 
 		String label = attributes.get( LABEL );
 
-		if ( label != null )
-		{
+		if ( label != null ) {
 			// (may be forced blank)
 
-			if ( "".equals( label ) )
-			{
+			if ( "".equals( label ) ) {
 				return null;
 			}
 
@@ -344,8 +334,7 @@ public class GwtMetawidget
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -356,14 +345,12 @@ public class GwtMetawidget
 
 		String name = attributes.get( NAME );
 
-		if ( name != null )
-		{
+		if ( name != null ) {
 			// (localize if possible)
 
 			String localized = getLocalizedKey( name );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -377,32 +364,26 @@ public class GwtMetawidget
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
-	public String getLocalizedKey( String key )
-	{
-		if ( mDictionaryName == null )
-		{
+	public String getLocalizedKey( String key ) {
+
+		if ( mDictionaryName == null ) {
 			return null;
 		}
 
-		try
-		{
-			if ( mDictionary == null )
-			{
+		try {
+			if ( mDictionary == null ) {
 				mDictionary = Dictionary.getDictionary( mDictionaryName );
 			}
 
 			return mDictionary.get( key );
-		}
-		catch ( MissingResourceException e )
-		{
+		} catch ( MissingResourceException e ) {
 			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 		}
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
-		if ( mPipeline.isReadOnly() == readOnly )
-		{
+	public void setReadOnly( boolean readOnly ) {
+
+		if ( mPipeline.isReadOnly() == readOnly ) {
 			return;
 		}
 
@@ -410,18 +391,18 @@ public class GwtMetawidget
 		invalidateWidgets();
 	}
 
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mPipeline.isReadOnly();
 	}
 
-	public int getMaximumInspectionDepth()
-	{
+	public int getMaximumInspectionDepth() {
+
 		return mPipeline.getMaximumInspectionDepth();
 	}
 
-	public void setMaximumInspectionDepth( int maximumInspectionDepth )
-	{
+	public void setMaximumInspectionDepth( int maximumInspectionDepth ) {
+
 		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
@@ -431,42 +412,35 @@ public class GwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T extends Widget> T getWidget( String... names )
-	{
-		if ( names == null )
-		{
+	public <T extends Widget> T getWidget( String... names ) {
+
+		if ( names == null ) {
 			return null;
 		}
 
-		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-		{
+		if ( mNeedToBuildWidgets != BUILDING_COMPLETE ) {
 			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling getWidget( \"" + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + "\" )" );
 		}
 
 		Map<String, Widget> children = mAddedWidgets;
 
-		for ( int loop = 0, length = names.length; loop < length; loop++ )
-		{
-			if ( children == null )
-			{
+		for ( int loop = 0, length = names.length; loop < length; loop++ ) {
+			if ( children == null ) {
 				return null;
 			}
 
 			String name = names[loop];
 			Widget widget = children.get( name );
 
-			if ( widget == null )
-			{
+			if ( widget == null ) {
 				return null;
 			}
 
-			if ( loop == length - 1 )
-			{
+			if ( loop == length - 1 ) {
 				return (T) widget;
 			}
 
-			if ( !( widget instanceof GwtMetawidget ) )
-			{
+			if ( !( widget instanceof GwtMetawidget ) ) {
 				return null;
 			}
 
@@ -489,12 +463,11 @@ public class GwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getValue( String... names )
-	{
+	public <T> T getValue( String... names ) {
+
 		Widget widget = getWidget( names );
 
-		if ( widget == null )
-		{
+		if ( widget == null ) {
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
 		}
 
@@ -509,8 +482,8 @@ public class GwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getValue( Widget widget )
-	{
+	public <T> T getValue( Widget widget ) {
+
 		return (T) getValue( widget, mPipeline.getWidgetBuilder() );
 	}
 
@@ -522,12 +495,11 @@ public class GwtMetawidget
 	 * not ideal, so clients may prefer to use binding instead.
 	 */
 
-	public void setValue( Object value, String... names )
-	{
+	public void setValue( Object value, String... names ) {
+
 		Widget widget = getWidget( names );
 
-		if ( widget == null )
-		{
+		if ( widget == null ) {
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
 		}
 
@@ -538,16 +510,15 @@ public class GwtMetawidget
 	 * Sets the given Widget to the specified value.
 	 */
 
-	public void setValue( Object value, Widget widget )
-	{
-		if ( !setValue( value, widget, mPipeline.getWidgetBuilder() ) )
-		{
+	public void setValue( Object value, Widget widget ) {
+
+		if ( !setValue( value, widget, mPipeline.getWidgetBuilder() ) ) {
 			throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
 		}
 	}
 
-	public Facet getFacet( String name )
-	{
+	public Facet getFacet( String name ) {
+
 		return mFacets.get( name );
 	}
 
@@ -555,10 +526,9 @@ public class GwtMetawidget
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 */
 
-	public void putClientProperty( Object key, Object value )
-	{
-		if ( mClientProperties == null )
-		{
+	public void putClientProperty( Object key, Object value ) {
+
+		if ( mClientProperties == null ) {
 			mClientProperties = new HashMap<Object, Object>();
 		}
 
@@ -570,10 +540,9 @@ public class GwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getClientProperty( Object key )
-	{
-		if ( mClientProperties == null )
-		{
+	public <T> T getClientProperty( Object key ) {
+
+		if ( mClientProperties == null ) {
 			return null;
 		}
 
@@ -581,20 +550,16 @@ public class GwtMetawidget
 	}
 
 	@Override
-	public boolean remove( int index )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	public boolean remove( int index ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 
 			Widget widget = getChildren().get( index );
 
-			if ( widget instanceof Facet )
-			{
+			if ( widget instanceof Facet ) {
 				mFacets.remove( ( (Facet) widget ).getName() );
-			}
-			else
-			{
+			} else {
 				mExistingWidgets.remove( widget );
 			}
 		}
@@ -603,18 +568,14 @@ public class GwtMetawidget
 	}
 
 	@Override
-	public boolean remove( Widget widget )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	public boolean remove( Widget widget ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 
-			if ( widget instanceof Facet )
-			{
+			if ( widget instanceof Facet ) {
 				mFacets.remove( ( (Facet) widget ).getName() );
-			}
-			else
-			{
+			} else {
 				mExistingWidgets.remove( widget );
 			}
 		}
@@ -623,12 +584,11 @@ public class GwtMetawidget
 	}
 
 	@Override
-	public void clear()
-	{
+	public void clear() {
+
 		super.clear();
 
-		if ( !mIgnoreAddRemove )
-		{
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 
 			mFacets.clear();
@@ -643,8 +603,8 @@ public class GwtMetawidget
 	 * it directly.</strong>
 	 */
 
-	public Set<Widget> fetchExistingUnusedWidgets()
-	{
+	public Set<Widget> fetchExistingUnusedWidgets() {
+
 		return mExistingUnusedWidgets;
 	}
 
@@ -652,8 +612,8 @@ public class GwtMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Inspector getInspector()
-	{
+	public Inspector getInspector() {
+
 		return mPipeline.getInspector();
 	}
 
@@ -668,25 +628,21 @@ public class GwtMetawidget
 	 * version.
 	 */
 
-	protected Pipeline newPipeline()
-	{
+	protected Pipeline newPipeline() {
+
 		return new Pipeline();
 	}
 
 	@Override
-	protected void add( Widget child, com.google.gwt.user.client.Element container )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	protected void add( Widget child, com.google.gwt.user.client.Element container ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 
-			if ( child instanceof Facet )
-			{
+			if ( child instanceof Facet ) {
 				Facet facet = (Facet) child;
 				mFacets.put( facet.getName(), facet );
-			}
-			else
-			{
+			} else {
 				mExistingWidgets.add( child );
 			}
 
@@ -702,19 +658,15 @@ public class GwtMetawidget
 	}
 
 	@Override
-	protected void insert( Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	protected void insert( Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 
-			if ( child instanceof Facet )
-			{
+			if ( child instanceof Facet ) {
 				Facet facet = (Facet) child;
 				mFacets.put( facet.getName(), facet );
-			}
-			else
-			{
+			} else {
 				mExistingWidgets.add( child );
 			}
 
@@ -736,8 +688,8 @@ public class GwtMetawidget
 	 * operations (such as adding/removing stubs, changing read-only etc.)
 	 */
 
-	protected void invalidateInspection()
-	{
+	protected void invalidateInspection() {
+
 		mLastInspection = null;
 		invalidateWidgets();
 	}
@@ -750,18 +702,15 @@ public class GwtMetawidget
 	 * one.
 	 */
 
-	protected void invalidateWidgets()
-	{
+	protected void invalidateWidgets() {
+
 		// If widgets are already invalidated...
 
-		if ( mNeedToBuildWidgets == BUILDING_NEEDED )
-		{
+		if ( mNeedToBuildWidgets == BUILDING_NEEDED ) {
 			// ...cancel the pending rebuild...
 
 			mBuildWidgets.cancel();
-		}
-		else
-		{
+		} else {
 			mNeedToBuildWidgets = BUILDING_NEEDED;
 
 			// ...otherwise, clear the widgets
@@ -772,11 +721,11 @@ public class GwtMetawidget
 
 		// Schedule a new build
 
-		mBuildWidgets = new Timer()
-		{
+		mBuildWidgets = new Timer() {
+
 			@Override
-			public void run()
-			{
+			public void run() {
+
 				buildWidgets();
 			}
 		};
@@ -784,26 +733,22 @@ public class GwtMetawidget
 		mBuildWidgets.schedule( BUILD_DELAY );
 	}
 
-	protected void configure()
-	{
+	protected void configure() {
+
 		// Sensible defaults
 		//
 		// We cannot use ConfigReader, because GWT's client-side JavaScript is not up to it
 
-		if ( mPipeline.getInspector() == null )
-		{
-			if ( DEFAULT_INSPECTOR == null )
-			{
+		if ( mPipeline.getInspector() == null ) {
+			if ( DEFAULT_INSPECTOR == null ) {
 				DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
 			}
 
 			mPipeline.setInspector( DEFAULT_INSPECTOR );
 		}
 
-		if ( mPipeline.getWidgetBuilder() == null )
-		{
-			if ( DEFAULT_WIDGETBUILDER == null )
-			{
+		if ( mPipeline.getWidgetBuilder() == null ) {
+			if ( DEFAULT_WIDGETBUILDER == null ) {
 				@SuppressWarnings( "unchecked" )
 				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new GwtWidgetBuilder() );
 				DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
@@ -812,20 +757,16 @@ public class GwtMetawidget
 			mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 		}
 
-		if ( mPipeline.getWidgetProcessors() == null )
-		{
-			if ( DEFAULT_HASNAME_PROCESSOR == null )
-			{
+		if ( mPipeline.getWidgetProcessors() == null ) {
+			if ( DEFAULT_HASNAME_PROCESSOR == null ) {
 				DEFAULT_HASNAME_PROCESSOR = new HasNameProcessor();
 			}
 
 			mPipeline.addWidgetProcessor( DEFAULT_HASNAME_PROCESSOR );
 		}
 
-		if ( mPipeline.getLayout() == null )
-		{
-			if ( DEFAULT_LAYOUT == null )
-			{
+		if ( mPipeline.getLayout() == null ) {
+			if ( DEFAULT_LAYOUT == null ) {
 				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) );
 			}
 
@@ -842,18 +783,16 @@ public class GwtMetawidget
 	 * the time this method returns.
 	 */
 
-	protected void buildWidgets()
-	{
+	protected void buildWidgets() {
+
 		// No need to build?
 
-		if ( mNeedToBuildWidgets != BUILDING_NEEDED )
-		{
+		if ( mNeedToBuildWidgets != BUILDING_NEEDED ) {
 			// For unit tests: if buildWidgets is already underway, rely on
 			// mExecuteAfterBuildWidgets being injected into it. This is preferrable to running
 			// buildWidgets() twice without calling invalidateWidgets()
 
-			if ( mNeedToBuildWidgets == BUILDING_COMPLETE && mExecuteAfterBuildWidgets != null )
-			{
+			if ( mNeedToBuildWidgets == BUILDING_COMPLETE && mExecuteAfterBuildWidgets != null ) {
 				Timer executeAfterBuildWidgets = mExecuteAfterBuildWidgets;
 				mExecuteAfterBuildWidgets = null;
 
@@ -867,41 +806,33 @@ public class GwtMetawidget
 
 		configure();
 
-		if ( mToInspect != null )
-		{
+		if ( mToInspect != null ) {
 			Inspector inspector = getInspector();
 
-			if ( mLastInspection == null )
-			{
+			if ( mLastInspection == null ) {
 				// Special support for GwtRemoteInspectorProxy
 
-				if ( inspector instanceof GwtRemoteInspectorProxy )
-				{
+				if ( inspector instanceof GwtRemoteInspectorProxy ) {
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>()
-					{
-						public void onFailure( Throwable caught )
-						{
+					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>() {
+
+						public void onFailure( Throwable caught ) {
+
 							GwtUtils.alert( caught );
 
 							mNeedToBuildWidgets = BUILDING_COMPLETE;
 						}
 
-						public void onSuccess( String inspectionResult )
-						{
+						public void onSuccess( String inspectionResult ) {
+
 							mLastInspection = inspectionResult;
 
-							try
-							{
+							try {
 								mIgnoreAddRemove = true;
 								mPipeline.buildWidgets( mLastInspection );
-							}
-							catch ( Exception e )
-							{
+							} catch ( Exception e ) {
 								GwtUtils.alert( e );
-							}
-							finally
-							{
+							} finally {
 								mIgnoreAddRemove = false;
 							}
 
@@ -909,8 +840,7 @@ public class GwtMetawidget
 
 							// For unit tests
 
-							if ( mExecuteAfterBuildWidgets != null )
-							{
+							if ( mExecuteAfterBuildWidgets != null ) {
 								Timer executeAfterBuildWidgets = mExecuteAfterBuildWidgets;
 								mExecuteAfterBuildWidgets = null;
 
@@ -925,24 +855,18 @@ public class GwtMetawidget
 
 			// Regular GwtInspectors
 
-			try
-			{
+			try {
 				mIgnoreAddRemove = true;
 
-				if ( mLastInspection == null )
-				{
+				if ( mLastInspection == null ) {
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 					mLastInspection = mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 				}
 
 				mPipeline.buildWidgets( mLastInspection );
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				GwtUtils.alert( e );
-			}
-			finally
-			{
+			} finally {
 				mIgnoreAddRemove = false;
 			}
 
@@ -950,23 +874,21 @@ public class GwtMetawidget
 
 			// For unit tests
 
-			if ( mExecuteAfterBuildWidgets != null )
-			{
+			if ( mExecuteAfterBuildWidgets != null ) {
 				mExecuteAfterBuildWidgets.run();
 				mExecuteAfterBuildWidgets = null;
 			}
 		}
 	}
 
-	protected void startBuild()
-	{
+	protected void startBuild() {
+
 		mExistingUnusedWidgets = new HashSet<Widget>( mExistingWidgets );
 	}
 
-	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
-	{
-		if ( widget == null )
-		{
+	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes ) {
+
+		if ( widget == null ) {
 			return null;
 		}
 
@@ -974,16 +896,15 @@ public class GwtMetawidget
 
 		String styleName = getStyleName();
 
-		if ( styleName != null )
-		{
+		if ( styleName != null ) {
 			widget.setStyleName( styleName );
 		}
 
 		return widget;
 	}
 
-	protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes )
-	{
+	protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes ) {
+
 		String name = attributes.get( NAME );
 		mAddedWidgets.put( name, widget );
 	}
@@ -992,39 +913,35 @@ public class GwtMetawidget
 	 * Hook so subclasses can change which class gets created.
 	 */
 
-	protected GwtMetawidget buildNestedMetawidget()
-	{
+	protected GwtMetawidget buildNestedMetawidget() {
+
 		return new GwtMetawidget();
 	}
 
 	protected void initNestedMetawidget( GwtMetawidget nestedMetawidget, Map<String, String> attributes )
-		throws Exception
-	{
+		throws Exception {
+
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
 		nestedMetawidget.setToInspect( mToInspect );
 	}
 
-	protected void endBuild()
-	{
-		if ( mExistingUnusedWidgets != null )
-		{
+	protected void endBuild() {
+
+		if ( mExistingUnusedWidgets != null ) {
 			Layout<Widget, Panel, GwtMetawidget> layout = mPipeline.getLayout();
-			for ( Widget widgetExisting : mExistingUnusedWidgets )
-			{
+			for ( Widget widgetExisting : mExistingUnusedWidgets ) {
 				Map<String, String> miscAttributes = new HashMap<String, String>();
 
 				// Manually created components default to no section
 
 				miscAttributes.put( SECTION, "" );
 
-				if ( widgetExisting instanceof Stub )
-				{
+				if ( widgetExisting instanceof Stub ) {
 					Map<String, String> stubAttributes = ( (Stub) widgetExisting ).getAttributes();
 
-					if ( stubAttributes != null )
-					{
+					if ( stubAttributes != null ) {
 						miscAttributes.putAll( stubAttributes );
 					}
 				}
@@ -1038,18 +955,15 @@ public class GwtMetawidget
 	// Private members
 	//
 
-	private Object getValue( Widget widget, WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
-	{
+	private Object getValue( Widget widget, WidgetBuilder<Widget, GwtMetawidget> widgetBuilder ) {
+
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
-		{
-			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
-			{
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
+			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
 				Object value = getValue( widget, widgetBuilderChild );
 
-				if ( value != null )
-				{
+				if ( value != null ) {
 					return value;
 				}
 			}
@@ -1059,24 +973,20 @@ public class GwtMetawidget
 
 		// Interrogate GwtValueAccessors
 
-		if ( widgetBuilder instanceof GwtValueAccessor )
-		{
+		if ( widgetBuilder instanceof GwtValueAccessor ) {
 			return ( (GwtValueAccessor) widgetBuilder ).getValue( widget );
 		}
 
 		return null;
 	}
 
-	private boolean setValue( Object value, Widget widget, WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
-	{
+	private boolean setValue( Object value, Widget widget, WidgetBuilder<Widget, GwtMetawidget> widgetBuilder ) {
+
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
-		{
-			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
-			{
-				if ( setValue( value, widget, widgetBuilderChild ) )
-				{
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
+			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
+				if ( setValue( value, widget, widgetBuilderChild ) ) {
 					return true;
 				}
 			}
@@ -1086,8 +996,7 @@ public class GwtMetawidget
 
 		// Interrogate GwtValueAccessors
 
-		if ( widgetBuilder instanceof GwtValueAccessor )
-		{
+		if ( widgetBuilder instanceof GwtValueAccessor ) {
 			return ( (GwtValueAccessor) widgetBuilder ).setValue( widget, value );
 		}
 
@@ -1099,30 +1008,30 @@ public class GwtMetawidget
 	//
 
 	protected class Pipeline
-		extends GwtPipeline<Widget, Panel, GwtMetawidget>
-	{
+		extends GwtPipeline<Widget, Panel, GwtMetawidget> {
+
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected void startBuild()
-		{
+		protected void startBuild() {
+
 			GwtMetawidget.this.startBuild();
 			super.startBuild();
 		}
 
 		@Override
-		protected Widget buildWidget( String elementName, Map<String, String> attributes )
-		{
+		protected Widget buildWidget( String elementName, Map<String, String> attributes ) {
+
 			Widget widget = super.buildWidget( elementName, attributes );
 			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
 		}
 
 		@Override
 		protected GwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			GwtMetawidget nestedMetawidget = GwtMetawidget.this.buildNestedMetawidget();
 			GwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
@@ -1130,10 +1039,9 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Widget widget )
-		{
-			if ( widget instanceof Stub )
-			{
+		protected Map<String, String> getAdditionalAttributes( Widget widget ) {
+
+			if ( widget instanceof Stub ) {
 				return ( (Stub) widget ).getAttributes();
 			}
 
@@ -1141,22 +1049,22 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes )
-		{
+		protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes ) {
+
 			GwtMetawidget.this.layoutWidget( widget, elementName, attributes );
 			super.layoutWidget( widget, elementName, attributes );
 		}
 
 		@Override
-		protected void endBuild()
-		{
+		protected void endBuild() {
+
 			GwtMetawidget.this.endBuild();
 			super.endBuild();
 		}
 
 		@Override
-		protected GwtMetawidget getPipelineOwner()
-		{
+		protected GwtMetawidget getPipelineOwner() {
+
 			return GwtMetawidget.this;
 		}
 	}

@@ -29,10 +29,10 @@ import org.metawidget.swt.SwtMetawidget;
  * @author Stefan Ackermann, Richard Kennard
  */
 
-public class Main
-{
-	public static void main( String[] args )
-	{
+public class Main {
+
+	public static void main( String[] args ) {
+
 		// Data model
 
 		Person person = new Person();
@@ -44,7 +44,7 @@ public class Main
 		shell.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
 
 		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.None );
-		metawidget.setLayoutData( new CC().height( "200px" ).width( "200px" ));
+		metawidget.setLayoutData( new CC().height( "200px" ).width( "200px" ) );
 		metawidget.setToInspect( person );
 
 		// Shell
@@ -52,10 +52,8 @@ public class Main
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}

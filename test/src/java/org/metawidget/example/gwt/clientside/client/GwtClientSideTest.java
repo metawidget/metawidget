@@ -46,21 +46,21 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class GwtClientSideTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.example.gwt.clientside.GwtClientSideTest";
 	}
 
 	public void testClientSide()
-		throws Exception
-	{
+		throws Exception {
+
 		FlowPanel panel = new FlowPanel();
 		final ClientSideModule clientSideModule = new ClientSideModule( panel );
 		clientSideModule.onModuleLoad();
@@ -74,12 +74,12 @@ public class GwtClientSideTest
 		final Button generateButton = (Button) panel.getWidget( 2 );
 		final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 3 );
 
-		executeAfterBuildWidgets( metawidget, new Timer()
-		{
+		executeAfterBuildWidgets( metawidget, new Timer() {
+
 			@SuppressWarnings( { "deprecation", "unchecked" } )
 			@Override
-			public void run()
-			{
+			public void run() {
+
 				// Save before populating
 
 				FlexTable flexTable1 = (FlexTable) metawidget.getWidget( 0 );
@@ -116,27 +116,27 @@ public class GwtClientSideTest
 				// Save after populating
 
 				fireClickEvent( saveButton );
-				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, rating=4, releaseDate=" ));
-				assertEquals( releaseDate, ((Map<String, Object>) metawidget.getToInspect()).get( "releaseDate" ));
+				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, rating=4, releaseDate=" ) );
+				assertEquals( releaseDate, ( (Map<String, Object>) metawidget.getToInspect() ).get( "releaseDate" ) );
 
 				fireClickEvent( sampleButton2 );
 				fireClickEvent( generateButton );
 
-				executeAfterBuildWidgets( metawidget, new Timer()
-				{
+				executeAfterBuildWidgets( metawidget, new Timer() {
+
 					@Override
-					public void run()
-					{
-						executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "homeAddress" ), new Timer()
-						{
+					public void run() {
+
+						executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "homeAddress" ), new Timer() {
+
 							@Override
-							public void run()
-							{
-								executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "workAddress" ), new Timer()
-								{
+							public void run() {
+
+								executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "workAddress" ), new Timer() {
+
 									@Override
-									public void run()
-									{
+									public void run() {
+
 										// Default generation
 
 										FlexTable flexTable2 = (FlexTable) metawidget.getWidget( 0 );
@@ -185,32 +185,32 @@ public class GwtClientSideTest
 										textArea.setText( textArea.getText().replace( "<property name=\"postcode\"/>", "<property name=\"postcode\"/><action name=\"lookupPostcode\" section=\"An Action\"/>" ) );
 										fireClickEvent( generateButton );
 
-										executeAfterBuildWidgets( metawidget, new Timer()
-										{
+										executeAfterBuildWidgets( metawidget, new Timer() {
+
 											@Override
-											public void run()
-											{
-												executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "homeAddress" ), new Timer()
-												{
+											public void run() {
+
+												executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "homeAddress" ), new Timer() {
+
 													@Override
-													public void run()
-													{
-														executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "workAddress" ), new Timer()
-														{
+													public void run() {
+
+														executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "workAddress" ), new Timer() {
+
 															@Override
-															public void run()
-															{
+															public void run() {
+
 																FlexTable flexTableRegenerated = (FlexTable) metawidget.getWidget( 0 );
 
 																FlexTable nestedFlexTableRegenerated1 = (FlexTable) ( (GwtMetawidget) flexTableRegenerated.getWidget( 4, 1 ) ).getWidget( 0 );
-																assertEquals( "An Action", ((Label) nestedFlexTableRegenerated1.getWidget( 4, 0 )).getText() );
-																assertEquals( "section-heading", ((Label) nestedFlexTableRegenerated1.getWidget( 4, 0 )).getStyleName() );
+																assertEquals( "An Action", ( (Label) nestedFlexTableRegenerated1.getWidget( 4, 0 ) ).getText() );
+																assertEquals( "section-heading", ( (Label) nestedFlexTableRegenerated1.getWidget( 4, 0 ) ).getStyleName() );
 																assertTrue( nestedFlexTableRegenerated1.getWidget( 5, 1 ) instanceof Button );
 																fireClickEvent( nestedFlexTableRegenerated1.getWidget( 5, 1 ) );
 
 																FlexTable nestedFlexTableRegenerated2 = (FlexTable) ( (GwtMetawidget) flexTableRegenerated.getWidget( 5, 1 ) ).getWidget( 0 );
-																assertEquals( "An Action", ((Label) nestedFlexTableRegenerated2.getWidget( 4, 0 )).getText() );
-																assertEquals( "section-heading", ((Label) nestedFlexTableRegenerated2.getWidget( 4, 0 )).getStyleName() );
+																assertEquals( "An Action", ( (Label) nestedFlexTableRegenerated2.getWidget( 4, 0 ) ).getText() );
+																assertEquals( "section-heading", ( (Label) nestedFlexTableRegenerated2.getWidget( 4, 0 ) ).getStyleName() );
 																assertTrue( nestedFlexTableRegenerated2.getWidget( 5, 1 ) instanceof Button );
 																fireClickEvent( nestedFlexTableRegenerated2.getWidget( 5, 1 ) );
 
@@ -222,11 +222,11 @@ public class GwtClientSideTest
 																fireClickEvent( sampleButton3 );
 																fireClickEvent( generateButton );
 
-																executeAfterBuildWidgets( metawidget, new Timer()
-																{
+																executeAfterBuildWidgets( metawidget, new Timer() {
+
 																	@Override
-																	public void run()
-																	{
+																	public void run() {
+
 																		FlexTable flexTable3 = (FlexTable) metawidget.getWidget( 0 );
 																		assertEquals( "Pet name:", flexTable3.getText( 0, 0 ) );
 																		( (TextBox) flexTable3.getWidget( 0, 1 ) ).setText( "Millie" );
@@ -246,11 +246,11 @@ public class GwtClientSideTest
 																		fireClickEvent( sampleButton1 );
 																		fireClickEvent( generateButton );
 
-																		executeAfterBuildWidgets( metawidget, new Timer()
-																		{
+																		executeAfterBuildWidgets( metawidget, new Timer() {
+
 																			@Override
-																			public void run()
-																			{
+																			public void run() {
+
 																				FlexTable flexTable4 = (FlexTable) metawidget.getWidget( 0 );
 																				assertEquals( "Artist:", flexTable4.getText( 0, 0 ) );
 																			}
@@ -281,13 +281,13 @@ public class GwtClientSideTest
 	 * Wrapped to avoid 'synthetic access' warning
 	 */
 
-	/*package private*/void finish()
-	{
+	/* package private */void finish() {
+
 		super.finishTest();
 	}
 
-	/*package private*/void fireClickEvent( HasHandlers widget )
-	{
+	/* package private */void fireClickEvent( HasHandlers widget ) {
+
 		Document document = Document.get();
 		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );
 		DomEvent.fireNativeEvent( nativeEvent, widget );

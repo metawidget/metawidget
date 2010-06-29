@@ -64,8 +64,8 @@ import org.w3c.dom.Element;
  */
 
 public abstract class BaseObjectInspector
-	implements Inspector
-{
+	implements Inspector {
+
 	//
 	// Private members
 	//
@@ -84,8 +84,8 @@ public abstract class BaseObjectInspector
 	// Constructors
 	//
 
-	protected BaseObjectInspector()
-	{
+	protected BaseObjectInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
@@ -96,8 +96,8 @@ public abstract class BaseObjectInspector
 	 * configuring property styles and action styles.
 	 */
 
-	protected BaseObjectInspector( BaseObjectInspectorConfig config )
-	{
+	protected BaseObjectInspector( BaseObjectInspectorConfig config ) {
+
 		mPropertyStyle = config.getPropertyStyle();
 		mActionStyle = config.getActionStyle();
 	}
@@ -106,17 +106,15 @@ public abstract class BaseObjectInspector
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		// If no type, return nothing
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			Object childToInspect = null;
 			String childName = null;
 			Class<?> declaredChildType;
@@ -124,14 +122,12 @@ public abstract class BaseObjectInspector
 
 			// If the path has a parent...
 
-			if ( names != null && names.length > 0 )
-			{
+			if ( names != null && names.length > 0 ) {
 				// ...inspect its property for useful annotations...
 
 				Pair<Object, Class<?>> pair = traverse( toInspect, type, true, names );
 
-				if ( pair == null )
-				{
+				if ( pair == null ) {
 					return null;
 				}
 
@@ -145,8 +141,7 @@ public abstract class BaseObjectInspector
 
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
-				if ( propertyInParent == null )
-				{
+				if ( propertyInParent == null ) {
 					return null;
 				}
 
@@ -154,8 +149,7 @@ public abstract class BaseObjectInspector
 
 				// ...provided it has a getter
 
-				if ( propertyInParent.isReadable() )
-				{
+				if ( propertyInParent.isReadable() ) {
 					parentAttributes = inspectParent( parent, propertyInParent );
 					childToInspect = propertyInParent.read( parent );
 				}
@@ -163,12 +157,10 @@ public abstract class BaseObjectInspector
 
 			// ...otherwise, just start at the end point
 
-			else
-			{
+			else {
 				Pair<Object, Class<?>> pair = traverse( toInspect, type, false );
 
-				if ( pair == null )
-				{
+				if ( pair == null ) {
 					return null;
 				}
 
@@ -181,8 +173,7 @@ public abstract class BaseObjectInspector
 
 			// Inspect child properties
 
-			if ( childToInspect == null || declaredChildType.isPrimitive() )
-			{
+			if ( childToInspect == null || declaredChildType.isPrimitive() ) {
 				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, declaredChildType ) );
 
 				// If pointed directly at a type, return properties even
@@ -190,13 +181,10 @@ public abstract class BaseObjectInspector
 				// we can inspect parameterized types of Collections without having
 				// to iterate over and grab the first element in that Collection
 
-				if ( names == null || names.length == 0 )
-				{
+				if ( names == null || names.length == 0 ) {
 					inspect( childToInspect, declaredChildType, entity );
 				}
-			}
-			else
-			{
+			} else {
 				Class<?> actualChildType = childToInspect.getClass();
 				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
 				inspect( childToInspect, actualChildType, entity );
@@ -208,8 +196,7 @@ public abstract class BaseObjectInspector
 
 			// Nothing of consequence to return?
 
-			if ( isInspectionEmpty( entity ) )
-			{
+			if ( isInspectionEmpty( entity ) ) {
 				return null;
 			}
 
@@ -222,8 +209,7 @@ public abstract class BaseObjectInspector
 
 			// If there were parent attributes, we may have a useful child name
 
-			if ( childName != null )
-			{
+			if ( childName != null ) {
 				entity.setAttribute( NAME, childName );
 			}
 
@@ -237,9 +223,7 @@ public abstract class BaseObjectInspector
 			// Return the document
 
 			return XmlUtils.documentToString( document, false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
 	}
@@ -262,18 +246,16 @@ public abstract class BaseObjectInspector
 	 */
 
 	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> traitAttributes = inspectTrait( propertyInParent );
 		Map<String, String> propertyAttributes = inspectProperty( propertyInParent );
 
-		if ( traitAttributes == null )
-		{
+		if ( traitAttributes == null ) {
 			return propertyAttributes;
 		}
 
-		if ( propertyAttributes == null )
-		{
+		if ( propertyAttributes == null ) {
 			return traitAttributes;
 		}
 
@@ -296,20 +278,18 @@ public abstract class BaseObjectInspector
 	 */
 
 	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
-		throws Exception
-	{
+		throws Exception {
+
 		Document document = toAddTo.getOwnerDocument();
 
 		// Inspect properties
 
-		for ( Property property : getProperties( classToInspect ).values() )
-		{
+		for ( Property property : getProperties( classToInspect ).values() ) {
 			Map<String, String> traitAttributes = inspectTrait( property );
 			Map<String, String> propertyAttributes = inspectProperty( property );
 			Map<String, String> entityAttributes = inspectPropertyAsEntity( property, toInspect );
 
-			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( propertyAttributes == null || propertyAttributes.isEmpty() ) && ( entityAttributes == null || entityAttributes.isEmpty() ) )
-			{
+			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( propertyAttributes == null || propertyAttributes.isEmpty() ) && ( entityAttributes == null || entityAttributes.isEmpty() ) ) {
 				continue;
 			}
 
@@ -325,13 +305,11 @@ public abstract class BaseObjectInspector
 
 		// Inspect actions
 
-		for ( Action action : getActions( classToInspect ).values() )
-		{
+		for ( Action action : getActions( classToInspect ).values() ) {
 			Map<String, String> traitAttributes = inspectTrait( action );
 			Map<String, String> actionAttributes = inspectAction( action );
 
-			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( actionAttributes == null || actionAttributes.isEmpty() ) )
-			{
+			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( actionAttributes == null || actionAttributes.isEmpty() ) ) {
 				continue;
 			}
 
@@ -357,8 +335,8 @@ public abstract class BaseObjectInspector
 	 */
 
 	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
-		throws Exception
-	{
+		throws Exception {
+
 		return null;
 	}
 
@@ -379,8 +357,8 @@ public abstract class BaseObjectInspector
 	 */
 
 	protected Map<String, String> inspectTrait( Trait trait )
-		throws Exception
-	{
+		throws Exception {
+
 		return null;
 	}
 
@@ -393,8 +371,8 @@ public abstract class BaseObjectInspector
 	 */
 
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		return null;
 	}
 
@@ -407,8 +385,8 @@ public abstract class BaseObjectInspector
 	 */
 
 	protected Map<String, String> inspectAction( Action action )
-		throws Exception
-	{
+		throws Exception {
+
 		return null;
 	}
 
@@ -423,8 +401,8 @@ public abstract class BaseObjectInspector
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
 	 */
 
-	protected boolean shouldInspectPropertyAsEntity( Property property )
-	{
+	protected boolean shouldInspectPropertyAsEntity( Property property ) {
+
 		return false;
 	}
 
@@ -432,10 +410,9 @@ public abstract class BaseObjectInspector
 	// Protected final methods
 	//
 
-	protected final Map<String, Property> getProperties( Class<?> clazz )
-	{
-		if ( mPropertyStyle == null )
-		{
+	protected final Map<String, Property> getProperties( Class<?> clazz ) {
+
+		if ( mPropertyStyle == null ) {
 			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
 
 			@SuppressWarnings( "unchecked" )
@@ -446,10 +423,9 @@ public abstract class BaseObjectInspector
 		return mPropertyStyle.getProperties( clazz );
 	}
 
-	protected final Map<String, Action> getActions( Class<?> clazz )
-	{
-		if ( mActionStyle == null )
-		{
+	protected final Map<String, Action> getActions( Class<?> clazz ) {
+
+		if ( mActionStyle == null ) {
 			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
 
 			@SuppressWarnings( "unchecked" )
@@ -475,10 +451,9 @@ public abstract class BaseObjectInspector
 	 */
 
 	private Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
-		throws Exception
-	{
-		if ( !shouldInspectPropertyAsEntity( property ) )
-		{
+		throws Exception {
+
+		if ( !shouldInspectPropertyAsEntity( property ) ) {
 			return null;
 		}
 
@@ -495,16 +470,12 @@ public abstract class BaseObjectInspector
 		// Note: If the type is final (which includes Java primitives) there is no
 		// need to call the getter because there cannot be a subtype
 
-		if ( property.isReadable() && !Modifier.isFinal( entityClass.getModifiers() ) )
-		{
+		if ( property.isReadable() && !Modifier.isFinal( entityClass.getModifiers() ) ) {
 			Object propertyValue = null;
 
-			try
-			{
+			try {
 				propertyValue = property.read( toInspect );
-			}
-			catch ( Throwable t )
-			{
+			} catch ( Throwable t ) {
 				// By definition, a 'getter' method should not affect the state
 				// of the object, so it should not fail. However, sometimes a getter's
 				// implementation may rely on another object being in a certain state (eg.
@@ -512,8 +483,7 @@ public abstract class BaseObjectInspector
 				// We therefore treat value as 'null', so that at least we inspect the type
 			}
 
-			if ( propertyValue != null )
-			{
+			if ( propertyValue != null ) {
 				entityClass = propertyValue.getClass();
 			}
 		}
@@ -532,15 +502,13 @@ public abstract class BaseObjectInspector
 	 * @return true if the inspection is 'empty'
 	 */
 
-	private boolean isInspectionEmpty( Element elementEntity )
-	{
-		if ( elementEntity.hasAttributes() )
-		{
+	private boolean isInspectionEmpty( Element elementEntity ) {
+
+		if ( elementEntity.hasAttributes() ) {
 			return false;
 		}
 
-		if ( elementEntity.hasChildNodes() )
-		{
+		if ( elementEntity.hasChildNodes() ) {
 			return false;
 		}
 
@@ -552,16 +520,14 @@ public abstract class BaseObjectInspector
 	 *         returns null.
 	 */
 
-	private Pair<Object, Class<?>> traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
-	{
+	private Pair<Object, Class<?>> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
+
 		// Special support for direct class lookup
 
-		if ( toTraverse == null )
-		{
+		if ( toTraverse == null ) {
 			// If there are names, return null
 
-			if ( onlyToParent )
-			{
+			if ( onlyToParent ) {
 				return null;
 			}
 
@@ -569,8 +535,7 @@ public abstract class BaseObjectInspector
 
 			Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( clazz == null )
-			{
+			if ( clazz == null ) {
 				return null;
 			}
 
@@ -585,8 +550,7 @@ public abstract class BaseObjectInspector
 
 		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
-		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) )
-		{
+		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) ) {
 			return null;
 		}
 
@@ -594,20 +558,17 @@ public abstract class BaseObjectInspector
 
 		Object traverse = toTraverse;
 
-		if ( names != null && names.length > 0 )
-		{
+		if ( names != null && names.length > 0 ) {
 			Set<Object> traversed = CollectionUtils.newHashSet();
 			traversed.add( traverse );
 
 			int length = names.length;
 
-			for ( int loop = 0; loop < length; loop++ )
-			{
+			for ( int loop = 0; loop < length; loop++ ) {
 				String name = names[loop];
 				Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
 
-				if ( property == null || !property.isReadable() )
-				{
+				if ( property == null || !property.isReadable() ) {
 					return null;
 				}
 
@@ -618,8 +579,7 @@ public abstract class BaseObjectInspector
 				// cyclic reference because it only looks at types, not objects),
 				// BaseObjectInspector can detect cycles and nip them in the bud
 
-				if ( !traversed.add( traverse ) )
-				{
+				if ( !traversed.add( traverse ) ) {
 					// Trace, rather than do a debug log, because it makes for a nicer 'out
 					// of the box' experience
 
@@ -630,13 +590,11 @@ public abstract class BaseObjectInspector
 				// Always come in this loop once, even if onlyToParent, because we
 				// want to do the recursion check
 
-				if ( onlyToParent && loop >= length - 1 )
-				{
+				if ( onlyToParent && loop >= length - 1 ) {
 					return new Pair<Object, Class<?>>( parentTraverse, traverseDeclaredType );
 				}
 
-				if ( traverse == null )
-				{
+				if ( traverse == null ) {
 					return null;
 				}
 

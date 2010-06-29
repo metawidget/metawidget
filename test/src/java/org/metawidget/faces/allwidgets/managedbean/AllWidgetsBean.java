@@ -16,19 +16,18 @@
 
 package org.metawidget.faces.allwidgets.managedbean;
 
-
 /**
  * @author Richard Kennard
  */
 
-public class AllWidgetsBean
-{
+public class AllWidgetsBean {
+
 	//
 	// Public methods
 	//
 
-	public String save()
-	{
+	public String save() {
+
 		return "saved";
 	}
 }

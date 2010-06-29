@@ -42,8 +42,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class PanelGroupLayoutDecorator
-	extends UIComponentNestedSectionLayoutDecorator
-{
+	extends UIComponentNestedSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -58,8 +58,8 @@ public class PanelGroupLayoutDecorator
 	// Constructor
 	//
 
-	public PanelGroupLayoutDecorator( PanelGroupLayoutDecoratorConfig config )
-	{
+	public PanelGroupLayoutDecorator( PanelGroupLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyle = config.getStyle();
@@ -72,8 +72,8 @@ public class PanelGroupLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
-	{
+	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
@@ -87,12 +87,9 @@ public class PanelGroupLayoutDecorator
 
 		String sectionStyleClass = StringUtils.camelCase( getState( container, metawidget ).currentSection );
 
-		if ( mStyleClass == null )
-		{
+		if ( mStyleClass == null ) {
 			panel.setStyleClass( sectionStyleClass );
-		}
-		else
-		{
+		} else {
 			panel.setStyleClass( mStyleClass + ' ' + sectionStyleClass );
 		}
 

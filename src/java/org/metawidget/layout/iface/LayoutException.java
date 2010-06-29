@@ -23,8 +23,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class LayoutException
-	extends MetawidgetException
-{
+	extends MetawidgetException {
+
 	//
 	// Private statics
 	//
@@ -42,10 +42,9 @@ public class LayoutException
 	 * LayoutExceptions.
 	 */
 
-	public static LayoutException newException( Throwable cause )
-	{
-		if ( cause instanceof LayoutException )
-		{
+	public static LayoutException newException( Throwable cause ) {
+
+		if ( cause instanceof LayoutException ) {
 			return (LayoutException) cause;
 		}
 
@@ -58,8 +57,8 @@ public class LayoutException
 	 * For consistency with <code>LayoutException.newException( Throwable )</code>.
 	 */
 
-	public static LayoutException newException( String message )
-	{
+	public static LayoutException newException( String message ) {
+
 		return new LayoutException( message );
 	}
 
@@ -69,8 +68,8 @@ public class LayoutException
 	 * For consistency with <code>LayoutException.newException( Throwable )</code>.
 	 */
 
-	public static LayoutException newException( String message, Throwable cause )
-	{
+	public static LayoutException newException( String message, Throwable cause ) {
+
 		return new LayoutException( message, cause );
 	}
 
@@ -78,18 +77,18 @@ public class LayoutException
 	// Constructor
 	//
 
-	private LayoutException( String message )
-	{
+	private LayoutException( String message ) {
+
 		super( message );
 	}
 
-	private LayoutException( Throwable cause )
-	{
+	private LayoutException( Throwable cause ) {
+
 		super( cause );
 	}
 
-	private LayoutException( String message, Throwable cause )
-	{
+	private LayoutException( String message, Throwable cause ) {
+
 		super( message, cause );
 	}
 }

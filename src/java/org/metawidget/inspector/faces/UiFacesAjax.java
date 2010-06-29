@@ -29,8 +29,8 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesAjax
-{
+public @interface UiFacesAjax {
+
 	/**
 	 * Name of the event that triggers the AJAX call.
 	 */

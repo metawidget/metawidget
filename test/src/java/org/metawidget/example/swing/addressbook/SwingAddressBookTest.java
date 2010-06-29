@@ -67,15 +67,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SwingAddressBookTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testAddressBook()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set Locale because we will be checking date formatting
 
 		Locale.setDefault( Locale.UK );
@@ -103,12 +103,12 @@ public class SwingAddressBookTest
 		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( buttonsPanel ).fill == GridBagConstraints.BOTH );
 		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( buttonsPanel ).anchor == GridBagConstraints.WEST );
 		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( buttonsPanel ).gridwidth == GridBagConstraints.REMAINDER );
-		assertTrue( ((Container) buttonsPanel.getComponent( 0 )).getLayout() instanceof FlowLayout );
-		JButton buttonSearch = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 0 );
+		assertTrue( ( (Container) buttonsPanel.getComponent( 0 ) ).getLayout() instanceof FlowLayout );
+		JButton buttonSearch = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Search", buttonSearch.getText() );
 
 		buttonSearch.getAction().actionPerformed( null );
-		assertTrue( ContactType.PERSONAL == ((JComboBox) metawidgetSearch.getComponent( "type" )).getSelectedItem() );
+		assertTrue( ContactType.PERSONAL == ( (JComboBox) metawidgetSearch.getComponent( "type" ) ).getSelectedItem() );
 
 		ContactsController contactsController = addressBook.getContactsController();
 		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
@@ -134,16 +134,13 @@ public class SwingAddressBookTest
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
 		assertTrue( metawidgetContact.getComponent( "firstname" ) instanceof JLabel );
-		assertEquals( "Male", ((JLabel) metawidgetContact.getComponent( "gender" )).getText() );
+		assertEquals( "Male", ( (JLabel) metawidgetContact.getComponent( "gender" ) ).getText() );
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
-		try
-		{
+		try {
 			metawidgetContact.getValue( "bad-value" );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			// Should throw MetawidgetException
 		}
 
@@ -161,7 +158,7 @@ public class SwingAddressBookTest
 
 		// Read-only editing does nothing
 
-		assertFalse( model.isCellEditable( 0, 0 ));
+		assertFalse( model.isCellEditable( 0, 0 ) );
 		JPopupMenu popupMenu = (JPopupMenu) communications.getComponent( 1 );
 		MouseEvent popupMouseEvent = new MouseEvent( communications, 0, System.currentTimeMillis(), 0, 0, 0, 0, true );
 		communications.getMouseListeners()[0].mouseReleased( popupMouseEvent );
@@ -170,12 +167,12 @@ public class SwingAddressBookTest
 		// Check editing
 
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		assertTrue( ((Container) buttonsPanel.getComponent( 0 )).getLayout() instanceof FlowLayout );
-		JButton editButton = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 0 );
+		assertTrue( ( (Container) buttonsPanel.getComponent( 0 ) ).getLayout() instanceof FlowLayout );
+		JButton editButton = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Edit", editButton.getText() );
 		editButton.getAction().actionPerformed( null );
 
-		assertTrue( Gender.MALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
+		assertTrue( Gender.MALE == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
 		metawidgetContact.setValue( "Sapien", "surname" );
 		assertTrue( metawidgetContact.getComponentCount() == 19 );
 
@@ -183,7 +180,7 @@ public class SwingAddressBookTest
 
 		assertTrue( model.getRowCount() == 2 );
 
-		assertTrue( model.isCellEditable( 0, 0 ));
+		assertTrue( model.isCellEditable( 0, 0 ) );
 		@SuppressWarnings( "unchecked" )
 		ListTableModel<Communication> communicationModel = (ListTableModel<Communication>) model;
 
@@ -231,17 +228,17 @@ public class SwingAddressBookTest
 		communications.setCellEditor( editor );
 		final Set<String> stopCellEditing = CollectionUtils.newHashSet();
 
-		editor.addCellEditorListener( new CellEditorListener()
-		{
+		editor.addCellEditorListener( new CellEditorListener() {
+
 			@Override
-			public void editingStopped( ChangeEvent e )
-			{
+			public void editingStopped( ChangeEvent e ) {
+
 				stopCellEditing.add( "editingStopped" );
 			}
 
 			@Override
-			public void editingCanceled( ChangeEvent e )
-			{
+			public void editingCanceled( ChangeEvent e ) {
+
 				// Do nothing
 			}
 		} );
@@ -253,7 +250,7 @@ public class SwingAddressBookTest
 		assertEquals( "[editingStopped]", stopCellEditing.toString() );
 		Rectangle cellRect = communications.getCellRect( 0, 0, true );
 		popupMenu.setLocation( cellRect.x, cellRect.y );
-		((JMenuItem) popupMenu.getComponent( 0 )).getAction().actionPerformed( null );
+		( (JMenuItem) popupMenu.getComponent( 0 ) ).getAction().actionPerformed( null );
 		assertFalse( popupMenu.isVisible() );
 
 		// Check 'adding' a blank communication
@@ -270,19 +267,16 @@ public class SwingAddressBookTest
 
 		metawidgetContact.setValue( "foo", "dateOfBirth" );
 
-		try
-		{
+		try {
 			metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( "Unparseable date: \"foo\"", e.getCause().getCause().getMessage() );
 		}
 
 		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		JButton buttonSave = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 0 );
+		JButton buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Save", buttonSave.getText() );
 		buttonSave.getAction().actionPerformed( null );
 
@@ -329,9 +323,9 @@ public class SwingAddressBookTest
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		JButton buttonBack = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 1 );
+		JButton buttonBack = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 1 );
 		assertEquals( "Back", buttonBack.getText() );
-		editButton = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 0 );
+		editButton = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Edit", editButton.getText() );
 		editButton.getAction().actionPerformed( null );
 		assertEquals( "Charles Montgomery", metawidgetContact.getValue( "firstname" ) );
@@ -344,7 +338,7 @@ public class SwingAddressBookTest
 		metawidgetContact.setValue( "A Company", "company" );
 
 		assertTrue( metawidgetContact.getComponentCount() == 21 );
-		buttonSave = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 0 );
+		buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		buttonSave.getAction().actionPerformed( null );
 
 		assertTrue( 2 == ( (BusinessContact) contact ).getNumberOfStaff() );
@@ -352,9 +346,9 @@ public class SwingAddressBookTest
 
 		// Check deleting
 
-		JButton buttonDelete = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 1 );
+		JButton buttonDelete = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 1 );
 		assertEquals( "Delete", buttonDelete.getText() );
-		JButton buttonCancel = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 2 );
+		JButton buttonCancel = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 2 );
 		assertEquals( "Cancel", buttonCancel.getText() );
 
 		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
@@ -372,23 +366,23 @@ public class SwingAddressBookTest
 		metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
 
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		buttonCancel = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 2 );
+		buttonCancel = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 2 );
 		assertEquals( "Cancel", buttonCancel.getText() );
 		buttonCancel.getAction().actionPerformed( null );
 		assertFalse( dialog.isVisible() );
 
 		// Check adding
 
-		assertEquals( "Mr", ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 ));
-		assertTrue( 5 == ((JComboBox) metawidgetContact.getComponent( "title" )).getItemCount() );
+		assertEquals( "Mr", ( (JComboBox) metawidgetContact.getComponent( "title" ) ).getItemAt( 0 ) );
+		assertTrue( 5 == ( (JComboBox) metawidgetContact.getComponent( "title" ) ).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
 		metawidgetContact.setValue( "Contact", "surname" );
-		assertTrue( 3 == ((JComboBox) metawidgetContact.getComponent( "gender" )).getItemCount() );
-		assertTrue( null == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
-		((JComboBox) metawidgetContact.getComponent( "gender" )).setSelectedItem( Gender.FEMALE );
+		assertTrue( 3 == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getItemCount() );
+		assertTrue( null == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
+		( (JComboBox) metawidgetContact.getComponent( "gender" ) ).setSelectedItem( Gender.FEMALE );
 
-		buttonSave = (JButton) ((SwingMetawidget) buttonsPanel.getComponent( 0 )).getComponent( 0 );
+		buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Save", buttonSave.getText() );
 		buttonSave.getAction().actionPerformed( null );
 		assertTrue( contactsTable.getRowCount() == 6 );
@@ -399,15 +393,15 @@ public class SwingAddressBookTest
 		assertEquals( "Miss Business Contact", contact.getFullname() );
 		assertTrue( Gender.FEMALE == contact.getGender() );
 		metawidgetContact.setReadOnly( true );
-		assertEquals( "Female", ((JLabel) metawidgetContact.getComponent( "gender" )).getText() );
+		assertEquals( "Female", ( (JLabel) metawidgetContact.getComponent( "gender" ) ).getText() );
 
 		metawidgetContact.setReadOnly( false );
-		assertTrue( Gender.FEMALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
+		assertTrue( Gender.FEMALE == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
 	}
 
 	public void testListTableModel()
-		throws Exception
-	{
+		throws Exception {
+
 		// Test nulls
 
 		ListTableModel<Foo> model = new ListTableModel<Foo>( Foo.class, null );
@@ -463,15 +457,12 @@ public class SwingAddressBookTest
 
 		model = new ListTableModel<Foo>( Foo.class, fooList, "Baz" );
 
-		try
-		{
+		try {
 			model.getColumnClass( 0 );
 			assertTrue( false );
-		}
-		catch( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertTrue( e.getCause() instanceof NoSuchMethodException );
-			assertTrue( e.getCause().getMessage().contains( "Baz()" ));
+			assertTrue( e.getCause().getMessage().contains( "Baz()" ) );
 		}
 	}
 
@@ -480,8 +471,8 @@ public class SwingAddressBookTest
 	//
 
 	public static class Foo
-		implements Comparable<Foo>
-	{
+		implements Comparable<Foo> {
+
 		//
 		//
 		// Private members
@@ -498,29 +489,29 @@ public class SwingAddressBookTest
 		//
 		//
 
-		public String getFoo()
-		{
+		public String getFoo() {
+
 			return mFoo;
 		}
 
-		public void setFoo( String foo )
-		{
+		public void setFoo( String foo ) {
+
 			mFoo = foo;
 		}
 
-		public Boolean getBar()
-		{
+		public Boolean getBar() {
+
 			return mBar;
 		}
 
-		public void setBar( Boolean bar )
-		{
+		public void setBar( Boolean bar ) {
+
 			mBar = bar;
 		}
 
 		@Override
-		public int compareTo( Foo that )
-		{
+		public int compareTo( Foo that ) {
+
 			return hashCode() - that.hashCode();
 		}
 	}

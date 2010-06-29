@@ -30,8 +30,8 @@ import android.widget.TextView;
  * @author Richard Kennard, Tomasz Bartczak
  */
 
-public final class AndroidUtils
-{
+public final class AndroidUtils {
+
 	//
 	// Public statics
 	//
@@ -49,12 +49,11 @@ public final class AndroidUtils
 	// ...seems to suggest only the container can do this at present, but that this will be enhanced
 	// in future?
 	//
-	public static void applyStyle( View view, int style, AndroidMetawidget metawidget )
-	{
+	public static void applyStyle( View view, int style, AndroidMetawidget metawidget ) {
+
 		// No style?
 
-		if ( style == 0 )
-		{
+		if ( style == 0 ) {
 			return;
 		}
 
@@ -70,15 +69,12 @@ public final class AndroidUtils
 		int rightPadding;
 		int bottomPadding;
 
-		if ( padding == BOGUS_DEFAULT )
-		{
+		if ( padding == BOGUS_DEFAULT ) {
 			leftPadding = attributes.getDimensionPixelSize( 1, 0 );
 			topPadding = attributes.getDimensionPixelSize( 2, 0 );
 			rightPadding = attributes.getDimensionPixelSize( 3, 0 );
 			bottomPadding = attributes.getDimensionPixelSize( 4, 0 );
-		}
-		else
-		{
+		} else {
 			leftPadding = padding;
 			topPadding = padding;
 			rightPadding = padding;
@@ -87,8 +83,7 @@ public final class AndroidUtils
 
 		view.setPadding( leftPadding, topPadding, rightPadding, bottomPadding );
 
-		if ( view instanceof TextView )
-		{
+		if ( view instanceof TextView ) {
 			attributes = metawidget.getContext().obtainStyledAttributes( style, TEXTVIEW_ATTRIBUTES );
 			TextView textView = (TextView) view;
 
@@ -96,8 +91,7 @@ public final class AndroidUtils
 
 			ColorStateList colors = attributes.getColorStateList( 0 );
 
-			if ( colors != null )
-			{
+			if ( colors != null ) {
 				textView.setTextColor( colors );
 			}
 
@@ -105,8 +99,7 @@ public final class AndroidUtils
 
 			int gravity = attributes.getInteger( 1, BOGUS_DEFAULT );
 
-			if ( gravity != BOGUS_DEFAULT )
-			{
+			if ( gravity != BOGUS_DEFAULT ) {
 				textView.setGravity( gravity );
 			}
 
@@ -117,8 +110,7 @@ public final class AndroidUtils
 			attributes = metawidget.getContext().obtainStyledAttributes( style, TEXTVIEW_ATTRIBUTES_SIZE );
 			int textSize = attributes.getDimensionPixelSize( 0, BOGUS_DEFAULT );
 
-			if ( textSize != BOGUS_DEFAULT )
-			{
+			if ( textSize != BOGUS_DEFAULT ) {
 				textView.setTextSize( textSize );
 			}
 		}
@@ -153,8 +145,8 @@ public final class AndroidUtils
 	// Private constructor
 	//
 
-	private AndroidUtils()
-	{
+	private AndroidUtils() {
+
 		// Can never be called
 	}
 }

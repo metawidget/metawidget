@@ -31,8 +31,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ContactsServiceImpl
 	extends RemoteServiceServlet
-	implements ContactsService
-{
+	implements ContactsService {
+
 	//
 	// Private statics
 	//
@@ -49,24 +49,24 @@ public class ContactsServiceImpl
 	// Public methods
 	//
 
-	public List<Contact> getAllByExample( ContactSearch search )
-	{
+	public List<Contact> getAllByExample( ContactSearch search ) {
+
 		return mContactsController.getAllByExample( search );
 	}
 
-	public Contact load( long id )
-	{
+	public Contact load( long id ) {
+
 		return mContactsController.load( id );
 	}
 
 	public void save( Contact contact )
-		throws Exception
-	{
+		throws Exception {
+
 		mContactsController.save( contact );
 	}
 
-	public boolean delete( Contact contact )
-	{
+	public boolean delete( Contact contact ) {
+
 		return mContactsController.delete( contact );
 	}
 }

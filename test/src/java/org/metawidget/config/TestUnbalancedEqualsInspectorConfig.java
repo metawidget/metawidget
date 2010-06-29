@@ -21,15 +21,15 @@ package org.metawidget.config;
  */
 
 public class TestUnbalancedEqualsInspectorConfig
-	extends TestNoHashCodeInspectorConfig
-{
+	extends TestNoHashCodeInspectorConfig {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return 0;
 	}
 }

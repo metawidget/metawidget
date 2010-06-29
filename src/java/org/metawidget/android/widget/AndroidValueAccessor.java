@@ -24,8 +24,8 @@ import android.view.View;
  * @author Richard Kennard
  */
 
-public interface AndroidValueAccessor
-{
+public interface AndroidValueAccessor {
+
 	//
 	// Methods
 	//

@@ -31,15 +31,15 @@ import org.metawidget.util.WidgetBuilderUtils;
  */
 
 public class WidgetBuilderUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilderUtils()
-		throws Exception
-	{
+		throws Exception {
+
 		// getType
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();

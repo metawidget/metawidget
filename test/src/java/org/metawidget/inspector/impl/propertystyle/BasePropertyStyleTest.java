@@ -31,22 +31,21 @@ import org.w3c.dom.Element;
  */
 
 public class BasePropertyStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class, new BasePropertyStyleConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class, new BasePropertyStyleConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testExcludedBaseType()
-	{
+	public void testExcludedBaseType() {
+
 		// Default excludeBaseType
 
 		BasePropertyStyle propertyStyle = new JavaBeanPropertyStyle();

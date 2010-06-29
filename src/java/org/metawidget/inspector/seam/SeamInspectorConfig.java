@@ -33,8 +33,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class SeamInspectorConfig
-	implements NeedsResourceResolver
-{
+	implements NeedsResourceResolver {
+
 	//
 	// Private members
 	//
@@ -47,10 +47,9 @@ public class SeamInspectorConfig
 	// Public methods
 	//
 
-	public InputStream getComponentsInputStream()
-	{
-		if ( mComponentsInputStream != null )
-		{
+	public InputStream getComponentsInputStream() {
+
+		if ( mComponentsInputStream != null ) {
 			return mComponentsInputStream;
 		}
 
@@ -63,8 +62,8 @@ public class SeamInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SeamInspectorConfig setComponentsInputStream( InputStream stream )
-	{
+	public SeamInspectorConfig setComponentsInputStream( InputStream stream ) {
+
 		mComponentsInputStream = stream;
 
 		// Fluent interface
@@ -72,21 +71,17 @@ public class SeamInspectorConfig
 		return this;
 	}
 
-	public ResourceResolver getResourceResolver()
-	{
-		if ( mResourceResolver == null )
-		{
-			return new ResourceResolver()
-			{
+	public ResourceResolver getResourceResolver() {
+
+		if ( mResourceResolver == null ) {
+			return new ResourceResolver() {
+
 				@Override
-				public InputStream openResource( String resource )
-				{
-					try
-					{
+				public InputStream openResource( String resource ) {
+
+					try {
 						return ClassUtils.openResource( resource );
-					}
-					catch ( Exception e )
-					{
+					} catch ( Exception e ) {
 						throw InspectorException.newException( e );
 					}
 				}
@@ -97,36 +92,31 @@ public class SeamInspectorConfig
 	}
 
 	@Override
-	public void setResourceResolver( ResourceResolver resourceResolver )
-	{
+	public void setResourceResolver( ResourceResolver resourceResolver ) {
+
 		mResourceResolver = resourceResolver;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (SeamInspectorConfig) that ).mResourceResolver ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (SeamInspectorConfig) that ).mResourceResolver ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mComponentsInputStream, ( (SeamInspectorConfig) that ).mComponentsInputStream ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mComponentsInputStream, ( (SeamInspectorConfig) that ).mComponentsInputStream ) ) {
 			return false;
 		}
 
@@ -134,8 +124,8 @@ public class SeamInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mComponentsInputStream );

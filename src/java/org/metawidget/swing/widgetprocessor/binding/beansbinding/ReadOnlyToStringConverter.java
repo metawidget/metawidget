@@ -20,9 +20,9 @@ import org.jdesktop.beansbinding.Converter;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Convenience Converter to call <code>toString</code> during <code>convertForward</code>. This allows
- * <code>convertForward</code> to generically support many types without an explicit Converter, so long
- * as they never try to <code>convertReverse</code>.
+ * Convenience Converter to call <code>toString</code> during <code>convertForward</code>. This
+ * allows <code>convertForward</code> to generically support many types without an explicit
+ * Converter, so long as they never try to <code>convertReverse</code>.
  * <p>
  * In the event this Converter is used to <code>convertReverse</code>, throws
  * <code>UnsupportedOperationException</code>.
@@ -31,23 +31,22 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class ReadOnlyToStringConverter<SV>
-	extends Converter<SV, String>
-{
+	extends Converter<SV, String> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String convertForward( SV value )
-	{
+	public String convertForward( SV value ) {
+
 		return StringUtils.quietValueOf( value );
 	}
 
 	@Override
-	public SV convertReverse( String value )
-	{
-		if ( value == null )
-		{
+	public SV convertReverse( String value ) {
+
+		if ( value == null ) {
 			return null;
 		}
 

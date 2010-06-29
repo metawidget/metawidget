@@ -30,8 +30,8 @@ import android.view.ViewGroup;
  */
 
 public class TextViewLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget>
-{
+	extends LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> {
+
 	//
 	// Private members
 	//
@@ -49,15 +49,15 @@ public class TextViewLayoutDecoratorConfig
 	 */
 
 	@Override
-	public TextViewLayoutDecoratorConfig setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout )
-	{
+	public TextViewLayoutDecoratorConfig setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getStyle()
-	{
+	public int getStyle() {
+
 		return mStyle;
 	}
 
@@ -65,32 +65,28 @@ public class TextViewLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TextViewLayoutDecoratorConfig setStyle( int style )
-	{
+	public TextViewLayoutDecoratorConfig setStyle( int style ) {
+
 		mStyle = style;
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mStyle != ( (TextViewLayoutDecoratorConfig) that ).mStyle )
-		{
+		if ( mStyle != ( (TextViewLayoutDecoratorConfig) that ).mStyle ) {
 			return false;
 		}
 
@@ -98,8 +94,8 @@ public class TextViewLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + mStyle;
 

@@ -40,20 +40,19 @@ import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
  */
 
 public class SaveAction
-	extends Action
-{
+	extends Action {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	public ActionForward execute( ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response )
-		throws Exception
-	{
+		throws Exception {
+
 		// Sanity check
 
-		if ( form == null )
-		{
+		if ( form == null ) {
 			return mapping.findForward( "home" );
 		}
 
@@ -61,8 +60,7 @@ public class SaveAction
 
 		ContactForm formContact = (ContactForm) form;
 
-		if ( request.getParameter( "edit" ) != null )
-		{
+		if ( request.getParameter( "edit" ) != null ) {
 			formContact.setReadOnly( false );
 			return mapping.findForward( "contact" );
 		}
@@ -77,17 +75,14 @@ public class SaveAction
 
 		Contact contact;
 
-		if ( formContact instanceof PersonalContactForm )
-		{
+		if ( formContact instanceof PersonalContactForm ) {
 			contact = new PersonalContact();
 
 			PersonalContactForm formPersonalContact = (PersonalContactForm) form;
 			PersonalContact contactPersonal = (PersonalContact) contact;
 
 			contactPersonal.setDateOfBirth( formPersonalContact.getDateOfBirth() );
-		}
-		else
-		{
+		} else {
 			contact = new BusinessContact();
 
 			BusinessContactForm formBusinessContact = (BusinessContactForm) form;
@@ -108,18 +103,14 @@ public class SaveAction
 
 		// Add Communication (if any)
 
-		if ( request.getParameter( "addCommunication" ) != null )
-		{
+		if ( request.getParameter( "addCommunication" ) != null ) {
 			String type = request.getParameter( "communication.type" );
 			String value = request.getParameter( "communication.value" );
 
-			try
-			{
-				contact.addCommunication( new Communication( type, value ));
+			try {
+				contact.addCommunication( new Communication( type, value ) );
 				formContact.setCommunications( contact.getCommunications() );
-			}
-			catch( Exception e )
-			{
+			} catch ( Exception e ) {
 				ActionErrors errors = new ActionErrors();
 				errors.add( "save", new ActionMessage( e.getMessage(), false ) );
 				addErrors( request, errors );
@@ -130,8 +121,7 @@ public class SaveAction
 
 		// Delete Communication (if any)
 
-		else if ( request.getParameter( "deleteCommunication" ) != null )
-		{
+		else if ( request.getParameter( "deleteCommunication" ) != null ) {
 			String id = request.getParameter( "deleteCommunicationId" );
 			contact.removeCommunication( Long.parseLong( id ) );
 			formContact.setCommunications( contact.getCommunications() );
@@ -139,15 +129,11 @@ public class SaveAction
 
 		// Save
 
-		if ( request.getParameter( "save" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
-		{
-			try
-			{
+		if ( request.getParameter( "save" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null ) {
+			try {
 				controller.save( contact );
 				formContact.setId( contact.getId() );
-			}
-			catch( Exception e )
-			{
+			} catch ( Exception e ) {
 				ActionErrors errors = new ActionErrors();
 				errors.add( "save", new ActionMessage( e.getMessage(), false ) );
 				addErrors( request, errors );
@@ -155,16 +141,14 @@ public class SaveAction
 				return mapping.findForward( "contact" );
 			}
 
-			if ( request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
-			{
+			if ( request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null ) {
 				return mapping.findForward( "contact" );
 			}
 		}
 
 		// Delete
 
-		if ( request.getParameter( "delete" ) != null )
-		{
+		if ( request.getParameter( "delete" ) != null ) {
 			controller.delete( contact );
 		}
 

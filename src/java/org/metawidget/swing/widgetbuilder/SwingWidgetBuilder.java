@@ -60,55 +60,48 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class SwingWidgetBuilder
-	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider
-{
+	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
+
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Component component )
-	{
-		if ( component instanceof JComboBox )
-		{
+	public String getValueProperty( Component component ) {
+
+		if ( component instanceof JComboBox ) {
 			return "selectedItem";
 		}
 
-		if ( component instanceof JTextComponent )
-		{
+		if ( component instanceof JTextComponent ) {
 			return "text";
 		}
 
-		if ( component instanceof JSpinner )
-		{
+		if ( component instanceof JSpinner ) {
 			return "value";
 		}
 
-		if ( component instanceof JSlider )
-		{
+		if ( component instanceof JSlider ) {
 			return "value";
 		}
 
-		if ( component instanceof JCheckBox )
-		{
+		if ( component instanceof JCheckBox ) {
 			return "selected";
 		}
 
 		return null;
 	}
 
-	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub();
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new JButton( metawidget.getLabelString( attributes ) );
 		}
 
@@ -116,8 +109,7 @@ public class SwingWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -128,8 +120,7 @@ public class SwingWidgetBuilder
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
-		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return new JCheckBox();
 		}
 
@@ -137,32 +128,26 @@ public class SwingWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			JComboBox comboBox = new JComboBox();
 
 			// Add an empty choice (if nullable, and not required)
 
-			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-			{
+			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
 				comboBox.addItem( null );
 			}
 
 			List<String> values = CollectionUtils.fromString( lookup );
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
 
-			for ( String value : values )
-			{
+			for ( String value : values ) {
 				// Convert (if supported)
 
 				Object convertedValue;
 
-				if ( converter == null )
-				{
+				if ( converter == null ) {
 					convertedValue = value;
-				}
-				else
-				{
+				} else {
 					convertedValue = converter.convertFromString( value, clazz );
 				}
 
@@ -173,8 +158,7 @@ public class SwingWidgetBuilder
 
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-			{
+			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
 				Map<String, String> labelsMap = SwingWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 
 				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
@@ -184,23 +168,19 @@ public class SwingWidgetBuilder
 			return comboBox;
 		}
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				// booleans
 
-				if ( boolean.class.equals( clazz ) )
-				{
+				if ( boolean.class.equals( clazz ) ) {
 					return new JCheckBox();
 				}
 
 				// chars
 
-				if ( char.class.equals( clazz ) )
-				{
+				if ( char.class.equals( clazz ) ) {
 					return new JTextField();
 				}
 
@@ -209,8 +189,7 @@ public class SwingWidgetBuilder
 				String minimumValue = attributes.get( MINIMUM_VALUE );
 				String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
-				{
+				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
 					JSlider slider = new JSlider();
 					slider.setMinimum( Integer.parseInt( minimumValue ) );
 					slider.setValue( slider.getMinimum() );
@@ -223,100 +202,81 @@ public class SwingWidgetBuilder
 
 				JSpinner spinner = new JSpinner();
 
-				if ( byte.class.equals( clazz ) )
-				{
+				if ( byte.class.equals( clazz ) ) {
 					byte value = 0;
 					byte minimum = Byte.MIN_VALUE;
 					byte maximum = Byte.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Byte.parseByte( minimumValue );
 						value = (byte) Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Byte.parseByte( maximumValue );
 						value = (byte) Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (byte) 1 );
-				}
-				else if ( short.class.equals( clazz ) )
-				{
+				} else if ( short.class.equals( clazz ) ) {
 					short value = 0;
 					short minimum = Short.MIN_VALUE;
 					short maximum = Short.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Short.parseShort( minimumValue );
 						value = (short) Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Short.parseShort( maximumValue );
 						value = (short) Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (short) 1 );
-				}
-				else if ( int.class.equals( clazz ) )
-				{
+				} else if ( int.class.equals( clazz ) ) {
 					int value = 0;
 					int minimum = Integer.MIN_VALUE;
 					int maximum = Integer.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Integer.parseInt( minimumValue );
 						value = Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Integer.parseInt( maximumValue );
 						value = Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, 1 );
-				}
-				else if ( long.class.equals( clazz ) )
-				{
+				} else if ( long.class.equals( clazz ) ) {
 					long value = 0;
 					long minimum = Long.MIN_VALUE;
 					long maximum = Long.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Long.parseLong( minimumValue );
 						value = Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Long.parseLong( maximumValue );
 						value = Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (long) 1 );
-				}
-				else if ( float.class.equals( clazz ) )
-				{
+				} else if ( float.class.equals( clazz ) ) {
 					float value = 0;
 					float minimum = -Float.MAX_VALUE;
 					float maximum = Float.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Float.parseFloat( minimumValue );
 						value = Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Float.parseFloat( maximumValue );
 						value = Math.min( value, maximum );
 					}
@@ -325,31 +285,24 @@ public class SwingWidgetBuilder
 
 					float stepSize;
 
-					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
-					{
+					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
 						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-					}
-					else
-					{
+					} else {
 						stepSize = 0.1f;
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
-				}
-				else if ( double.class.equals( clazz ) )
-				{
+				} else if ( double.class.equals( clazz ) ) {
 					double value = 0;
 					double minimum = -Double.MAX_VALUE;
 					double maximum = Double.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Double.parseDouble( minimumValue );
 						value = Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Double.parseDouble( maximumValue );
 						value = Math.min( value, maximum );
 					}
@@ -358,12 +311,9 @@ public class SwingWidgetBuilder
 
 					double stepSize;
 
-					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
-					{
+					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
 						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-					}
-					else
-					{
+					} else {
 						stepSize = 0.1d;
 					}
 
@@ -375,15 +325,12 @@ public class SwingWidgetBuilder
 
 			// Strings
 
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
+			if ( String.class.equals( clazz ) ) {
+				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 					return new JPasswordField();
 				}
 
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					JTextArea textarea = new JTextArea();
 
 					// Since we know we are dealing with Strings, we consider
@@ -404,8 +351,7 @@ public class SwingWidgetBuilder
 
 			// Dates
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				return new JTextField();
 			}
 
@@ -415,23 +361,20 @@ public class SwingWidgetBuilder
 			// BeansBinding gets upset at doing 'setValue( null )' if the Integer
 			// is null. We can still use JSpinner/JSliders for primitives, though.
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return new JTextField();
 			}
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub();
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new JTextField();
 		}
 
@@ -455,8 +398,8 @@ public class SwingWidgetBuilder
 	 * type as the property it maps to (eg. float or double, int or long).
 	 */
 
-	private void setSpinnerModel( JSpinner spinner, Number value, Comparable<? extends Number> minimum, Comparable<? extends Number> maximum, Number stepSize )
-	{
+	private void setSpinnerModel( JSpinner spinner, Number value, Comparable<? extends Number> minimum, Comparable<? extends Number> maximum, Number stepSize ) {
+
 		spinner.setModel( new SpinnerNumberModel( value, minimum, maximum, stepSize ) );
 		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
 	}
@@ -470,8 +413,8 @@ public class SwingWidgetBuilder
 	 */
 
 	private static class LookupComboBoxEditor
-		extends BasicComboBoxEditor
-	{
+		extends BasicComboBoxEditor {
+
 		//
 		//
 		// Private members
@@ -486,10 +429,9 @@ public class SwingWidgetBuilder
 		//
 		//
 
-		public LookupComboBoxEditor( Map<String, String> lookups )
-		{
-			if ( lookups == null )
-			{
+		public LookupComboBoxEditor( Map<String, String> lookups ) {
+
+			if ( lookups == null ) {
 				throw new NullPointerException( "lookups" );
 			}
 
@@ -503,8 +445,8 @@ public class SwingWidgetBuilder
 		//
 
 		@Override
-		public void setItem( Object item )
-		{
+		public void setItem( Object item ) {
+
 			super.setItem( mLookups.get( item ) );
 		}
 	}
@@ -514,8 +456,8 @@ public class SwingWidgetBuilder
 	 */
 
 	private static class LookupComboBoxRenderer
-		extends BasicComboBoxRenderer
-	{
+		extends BasicComboBoxRenderer {
+
 		//
 		//
 		// Private statics
@@ -538,10 +480,9 @@ public class SwingWidgetBuilder
 		//
 		//
 
-		public LookupComboBoxRenderer( Map<String, String> lookups )
-		{
-			if ( lookups == null )
-			{
+		public LookupComboBoxRenderer( Map<String, String> lookups ) {
+
+			if ( lookups == null ) {
 				throw new NullPointerException( "lookups" );
 			}
 
@@ -555,14 +496,13 @@ public class SwingWidgetBuilder
 		//
 
 		@Override
-		public Component getListCellRendererComponent( JList list, Object value, int index, boolean selected, boolean hasFocus )
-		{
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean selected, boolean hasFocus ) {
+
 			Component component = super.getListCellRendererComponent( list, value, index, selected, hasFocus );
 
 			String lookup = mLookups.get( value );
 
-			if ( lookup != null )
-			{
+			if ( lookup != null ) {
 				( (JLabel) component ).setText( lookup );
 			}
 

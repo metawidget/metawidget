@@ -50,14 +50,14 @@ import android.widget.TextView;
  */
 
 public class AndroidWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testReadOnly()
-	{
+	public void testReadOnly() {
+
 		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 		ReadOnlyWidgetBuilder androidWidgetBuilder = new ReadOnlyWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -128,8 +128,8 @@ public class AndroidWidgetBuilderTest
 	}
 
 	public void testActive()
-		throws Exception
-	{
+		throws Exception {
+
 		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -161,25 +161,22 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP, "foo, bar,baz" );
 		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ArrayAdapter<String> adapter1 = (ArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
-		assertEquals( "foo", adapter1.getItem( 0 ));
-		assertEquals( "foo", ((TextView) adapter1.getView( 0, null, null )).getText() );
-		assertEquals( "bar", adapter1.getItem( 1 ));
-		assertEquals( "bar", ((TextView) adapter1.getView( 1, null, null )).getText() );
-		assertEquals( "baz", adapter1.getItem( 2 ));
-		assertEquals( "baz", ((TextView) adapter1.getView( 2, null, null )).getText() );
+		ArrayAdapter<String> adapter1 = (ArrayAdapter<String>) ( (AdapterView) spinner ).getAdapter();
+		assertEquals( "foo", adapter1.getItem( 0 ) );
+		assertEquals( "foo", ( (TextView) adapter1.getView( 0, null, null ) ).getText() );
+		assertEquals( "bar", adapter1.getItem( 1 ) );
+		assertEquals( "bar", ( (TextView) adapter1.getView( 1, null, null ) ).getText() );
+		assertEquals( "baz", adapter1.getItem( 2 ) );
+		assertEquals( "baz", ( (TextView) adapter1.getView( 2, null, null ) ).getText() );
 
 		// Lookups (with labels)
 
 		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2" );
 
-		try
-		{
+		try {
 			spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "Labels list must be same size as values list", e.getMessage() );
 		}
 
@@ -188,13 +185,13 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ArrayAdapter<String> adapter2 = (ArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
-		assertEquals( "foo", adapter2.getItem( 0 ));
-		assertEquals( "Foo #1", ((TextView) adapter2.getView( 0, null, null )).getText() );
-		assertEquals( "bar", adapter2.getItem( 1 ));
-		assertEquals( "Bar #2", ((TextView) adapter2.getView( 1, null, null )).getText() );
-		assertEquals( "baz", adapter2.getItem( 2 ));
-		assertEquals( "Baz #3", ((TextView) adapter2.getView( 2, null, null )).getText() );
+		ArrayAdapter<String> adapter2 = (ArrayAdapter<String>) ( (AdapterView) spinner ).getAdapter();
+		assertEquals( "foo", adapter2.getItem( 0 ) );
+		assertEquals( "Foo #1", ( (TextView) adapter2.getView( 0, null, null ) ).getText() );
+		assertEquals( "bar", adapter2.getItem( 1 ) );
+		assertEquals( "Bar #2", ( (TextView) adapter2.getView( 1, null, null ) ).getText() );
+		assertEquals( "baz", adapter2.getItem( 2 ) );
+		assertEquals( "Baz #3", ( (TextView) adapter2.getView( 2, null, null ) ).getText() );
 
 		// Lookups (with required)
 
@@ -202,15 +199,15 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, String.class.getName() );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ArrayAdapter<String> adapter3 = (ArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
-		assertTrue( null == adapter3.getItem( 0 ));
-		assertEquals( "", ((TextView) adapter3.getView( 0, null, null )).getText() );
-		assertEquals( "foo", adapter3.getItem( 1 ));
-		assertEquals( "Foo #1", ((TextView) adapter3.getView( 1, null, null )).getText() );
-		assertEquals( "bar", adapter3.getItem( 2 ));
-		assertEquals( "Bar #2", ((TextView) adapter3.getView( 2, null, null )).getText() );
-		assertEquals( "baz", adapter3.getItem( 3 ));
-		assertEquals( "Baz #3", ((TextView) adapter3.getView( 3, null, null )).getText() );
+		ArrayAdapter<String> adapter3 = (ArrayAdapter<String>) ( (AdapterView) spinner ).getAdapter();
+		assertTrue( null == adapter3.getItem( 0 ) );
+		assertEquals( "", ( (TextView) adapter3.getView( 0, null, null ) ).getText() );
+		assertEquals( "foo", adapter3.getItem( 1 ) );
+		assertEquals( "Foo #1", ( (TextView) adapter3.getView( 1, null, null ) ).getText() );
+		assertEquals( "bar", adapter3.getItem( 2 ) );
+		assertEquals( "Bar #2", ( (TextView) adapter3.getView( 2, null, null ) ).getText() );
+		assertEquals( "baz", adapter3.getItem( 3 ) );
+		assertEquals( "Baz #3", ( (TextView) adapter3.getView( 3, null, null ) ).getText() );
 
 		// boolean (little B)
 
@@ -283,8 +280,8 @@ public class AndroidWidgetBuilderTest
 	}
 
 	@SuppressWarnings( "deprecation" )
-	public void testGetSetValue()
-	{
+	public void testGetSetValue() {
+
 		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
 
 		// Pass through

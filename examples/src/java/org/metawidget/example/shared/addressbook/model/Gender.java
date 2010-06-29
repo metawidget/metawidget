@@ -22,22 +22,21 @@ package org.metawidget.example.shared.addressbook.model;
  * @author Richard Kennard
  */
 
-public enum Gender
-{
-	MALE
-	{
+public enum Gender {
+	MALE {
+
 		@Override
-		public String toString()
-		{
+		public String toString() {
+
 			return "Male";
 		}
 	},
 
-	FEMALE
-	{
+	FEMALE {
+
 		@Override
-		public String toString()
-		{
+		public String toString() {
+
 			return "Female";
 		}
 	}

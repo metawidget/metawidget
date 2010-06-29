@@ -57,18 +57,17 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
 
 @SuppressWarnings( "deprecation" )
 public class RichFacesWidgetBuilder
-	implements WidgetBuilder<UIComponent, UIMetawidget>
-{
+	implements WidgetBuilder<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
-	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Not for RichFaces?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return null;
 		}
 
@@ -76,8 +75,7 @@ public class RichFacesWidgetBuilder
 		// allows manual input and if you set enableManualInput=false it behaves a
 		// bit screwy for our liking (ie. if you hit backspace the browser goes back)
 
-		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
-		{
+		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) ) {
 			return null;
 		}
 
@@ -85,26 +83,22 @@ public class RichFacesWidgetBuilder
 		Application application = context.getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			return null;
 		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz == null )
-		{
+		if ( clazz == null ) {
 			return null;
 		}
 
 		// Primitives
 
-		if ( clazz.isPrimitive() )
-		{
+		if ( clazz.isPrimitive() ) {
 			// Not for RichFaces
 
-			if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) )
-			{
+			if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) ) {
 				return null;
 			}
 
@@ -112,8 +106,7 @@ public class RichFacesWidgetBuilder
 
 			UIComponent ranged = createRanged( attributes );
 
-			if ( ranged != null )
-			{
+			if ( ranged != null ) {
 				return ranged;
 			}
 
@@ -125,70 +118,43 @@ public class RichFacesWidgetBuilder
 
 			String minimumValue = attributes.get( MINIMUM_VALUE );
 
-			if ( minimumValue != null && !"".equals( minimumValue ) )
-			{
+			if ( minimumValue != null && !"".equals( minimumValue ) ) {
 				spinner.setMinValue( minimumValue );
-			}
-			else if ( byte.class.equals( clazz ) )
-			{
+			} else if ( byte.class.equals( clazz ) ) {
 				spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ) );
-			}
-			else if ( short.class.equals( clazz ) )
-			{
+			} else if ( short.class.equals( clazz ) ) {
 				spinner.setMinValue( String.valueOf( Short.MIN_VALUE ) );
-			}
-			else if ( int.class.equals( clazz ) )
-			{
+			} else if ( int.class.equals( clazz ) ) {
 				spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ) );
-			}
-			else if ( long.class.equals( clazz ) )
-			{
+			} else if ( long.class.equals( clazz ) ) {
 				spinner.setMinValue( String.valueOf( Long.MIN_VALUE ) );
-			}
-			else if ( float.class.equals( clazz ) )
-			{
+			} else if ( float.class.equals( clazz ) ) {
 				spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ) );
-			}
-			else if ( double.class.equals( clazz ) )
-			{
+			} else if ( double.class.equals( clazz ) ) {
 				spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ) );
 			}
 
 			String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-			if ( maximumValue != null && !"".equals( maximumValue ) )
-			{
+			if ( maximumValue != null && !"".equals( maximumValue ) ) {
 				spinner.setMaxValue( maximumValue );
-			}
-			else if ( byte.class.equals( clazz ) )
-			{
+			} else if ( byte.class.equals( clazz ) ) {
 				spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ) );
-			}
-			else if ( short.class.equals( clazz ) )
-			{
+			} else if ( short.class.equals( clazz ) ) {
 				spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ) );
-			}
-			else if ( int.class.equals( clazz ) )
-			{
+			} else if ( int.class.equals( clazz ) ) {
 				spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ) );
-			}
-			else if ( long.class.equals( clazz ) )
-			{
+			} else if ( long.class.equals( clazz ) ) {
 				spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ) );
-			}
-			else if ( float.class.equals( clazz ) )
-			{
+			} else if ( float.class.equals( clazz ) ) {
 				spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ) );
-			}
-			else if ( double.class.equals( clazz ) )
-			{
+			} else if ( double.class.equals( clazz ) ) {
 				spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ) );
 			}
 
 			// HtmlInputNumberSpinner-specific properties
 
-			if ( spinner instanceof HtmlInputNumberSpinner )
-			{
+			if ( spinner instanceof HtmlInputNumberSpinner ) {
 				HtmlInputNumberSpinner htmlSpinner = (HtmlInputNumberSpinner) spinner;
 
 				// Wraps around?
@@ -197,8 +163,7 @@ public class RichFacesWidgetBuilder
 
 				// Stepped
 
-				if ( float.class.equals( clazz ) || double.class.equals( clazz ) )
-				{
+				if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
 					htmlSpinner.setStep( "0.1" );
 				}
 			}
@@ -211,22 +176,18 @@ public class RichFacesWidgetBuilder
 		// Note: when http://jira.jboss.org/jira/browse/RF-2023 gets implemented, that
 		// would allow external, app-level configuration of this Calendar
 
-		if ( Date.class.isAssignableFrom( clazz ) )
-		{
+		if ( Date.class.isAssignableFrom( clazz ) ) {
 			UICalendar calendar = (UICalendar) application.createComponent( "org.richfaces.Calendar" );
 
-			if ( attributes.containsKey( DATETIME_PATTERN ) )
-			{
+			if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 				calendar.setDatePattern( attributes.get( DATETIME_PATTERN ) );
 			}
 
-			if ( attributes.containsKey( LOCALE ) )
-			{
+			if ( attributes.containsKey( LOCALE ) ) {
 				calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
 			}
 
-			if ( attributes.containsKey( TIME_ZONE ) )
-			{
+			if ( attributes.containsKey( TIME_ZONE ) ) {
 				calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
 			}
 
@@ -235,14 +196,12 @@ public class RichFacesWidgetBuilder
 
 		// Object primitives
 
-		if ( Number.class.isAssignableFrom( clazz ) )
-		{
+		if ( Number.class.isAssignableFrom( clazz ) ) {
 			// Ranged
 
 			UIComponent ranged = createRanged( attributes );
 
-			if ( ranged != null )
-			{
+			if ( ranged != null ) {
 				return ranged;
 			}
 
@@ -254,10 +213,8 @@ public class RichFacesWidgetBuilder
 
 		// Colors (as of RichFaces 3.3.1)
 
-		if ( Color.class.isAssignableFrom( clazz ) )
-		{
-			if ( WidgetBuilderUtils.isReadOnly( attributes ) )
-			{
+		if ( Color.class.isAssignableFrom( clazz ) ) {
+			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
 				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
 			}
 
@@ -269,12 +226,10 @@ public class RichFacesWidgetBuilder
 		// Note: for suggestion box to work in table column footer facets, you need
 		// https://jira.jboss.org/jira/browse/RF-7700
 
-		if ( String.class.equals( clazz ) )
-		{
+		if ( String.class.equals( clazz ) ) {
 			String facesSuggest = attributes.get( FACES_SUGGEST );
 
-			if ( facesSuggest != null )
-			{
+			if ( facesSuggest != null ) {
 				UIComponent stubComponent = application.createComponent( "org.metawidget.Stub" );
 				List<UIComponent> children = stubComponent.getChildren();
 
@@ -309,8 +264,7 @@ public class RichFacesWidgetBuilder
 				suggestionBox.setVar( "_internal" );
 				children.add( suggestionBox );
 
-				try
-				{
+				try {
 					// RichFaces 3.2/JSF 1.2 mode
 					//
 					// Note: we wrap the MethodExpression as an Object[] to stop link-time
@@ -323,9 +277,7 @@ public class RichFacesWidgetBuilder
 
 					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { Object.class } ) };
 					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
-				}
-				catch ( Throwable t )
-				{
+				} catch ( Throwable t ) {
 					// RichFaces 3.1/JSF 1.1 mode
 
 					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[] { Object.class } );
@@ -359,15 +311,14 @@ public class RichFacesWidgetBuilder
 	// Private methods
 	//
 
-	private UIComponent createRanged( Map<String, String> attributes )
-	{
+	private UIComponent createRanged( Map<String, String> attributes ) {
+
 		// Ranged
 
 		String minimumValue = attributes.get( MINIMUM_VALUE );
 		String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-		if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
-		{
+		if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
 

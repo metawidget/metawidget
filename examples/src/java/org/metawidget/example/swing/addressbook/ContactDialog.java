@@ -66,8 +66,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class ContactDialog
-	extends JDialog
-{
+	extends JDialog {
+
 	//
 	// Private statics
 	//
@@ -99,8 +99,8 @@ public class ContactDialog
 	//
 
 	@SuppressWarnings( "serial" )
-	public ContactDialog( ContactsControllerProvider provider, final Contact contact )
-	{
+	public ContactDialog( ContactsControllerProvider provider, final Contact contact ) {
+
 		mProvider = provider;
 
 		setSize( new Dimension( 800, 600 ) );
@@ -128,20 +128,16 @@ public class ContactDialog
 
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
-		if ( builder.length() > 0 )
-		{
+		if ( builder.length() > 0 ) {
 			builder.append( " - " );
 		}
 
 		// Personal/business icon
 
-		if ( contact instanceof PersonalContact )
-		{
+		if ( contact instanceof PersonalContact ) {
 			builder.append( bundle.getString( "personalContact" ) );
 			imageLabel.setIcon( new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
-		}
-		else
-		{
+		} else {
 			builder.append( bundle.getString( "businessContact" ) );
 			imageLabel.setIcon( new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
 		}
@@ -169,21 +165,19 @@ public class ContactDialog
 		scrollPane.setPreferredSize( new Dimension( 150, 150 ) );
 
 		final JPopupMenu menuPopup = new JPopupMenu();
-		menuPopup.add( new AbstractAction( bundle.getString( "delete" ) )
-		{
-			public void actionPerformed( ActionEvent event )
-			{
+		menuPopup.add( new AbstractAction( bundle.getString( "delete" ) ) {
+
+			public void actionPerformed( ActionEvent event ) {
+
 				menuPopup.setVisible( false );
 
-				if ( mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
-				{
+				if ( mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION ) {
 					return;
 				}
 
 				int rowAtPoint = communicationsTable.rowAtPoint( menuPopup.getLocation() );
 
-				if ( rowAtPoint < 0 || rowAtPoint >= mCommunicationsModel.getRowCount() )
-				{
+				if ( rowAtPoint < 0 || rowAtPoint >= mCommunicationsModel.getRowCount() ) {
 					return;
 				}
 
@@ -195,17 +189,15 @@ public class ContactDialog
 		} );
 		communicationsTable.add( menuPopup );
 
-		communicationsTable.addMouseListener( new MouseAdapter()
-		{
+		communicationsTable.addMouseListener( new MouseAdapter() {
+
 			@Override
-			public void mouseReleased( MouseEvent event )
-			{
-				if ( event.isPopupTrigger() && !mContactMetawidget.isReadOnly() )
-				{
+			public void mouseReleased( MouseEvent event ) {
+
+				if ( event.isPopupTrigger() && !mContactMetawidget.isReadOnly() ) {
 					menuPopup.setLocation( event.getLocationOnScreen() );
 
-					if ( communicationsTable.getCellEditor() != null )
-					{
+					if ( communicationsTable.getCellEditor() != null ) {
 						communicationsTable.getCellEditor().stopCellEditing();
 					}
 
@@ -235,8 +227,8 @@ public class ContactDialog
 	//
 
 	@UiHidden
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mContactMetawidget.isReadOnly();
 	}
 
@@ -245,15 +237,15 @@ public class ContactDialog
 	 */
 
 	@UiHidden
-	public void setShowConfirmDialog( boolean showConfirmDialog )
-	{
+	public void setShowConfirmDialog( boolean showConfirmDialog ) {
+
 		mShowConfirmDialog = showConfirmDialog;
 	}
 
 	@UiAction
 	@UiJexlAttribute( name = HIDDEN, expression = "!this.readOnly" )
-	public void edit()
-	{
+	public void edit() {
+
 		mContactMetawidget.setReadOnly( false );
 
 		mCommunicationsModel.setEditable( true );
@@ -263,17 +255,14 @@ public class ContactDialog
 
 	@UiAction
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly" )
-	public void save()
-	{
-		try
-		{
+	public void save() {
+
+		try {
 			mContactMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 			contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
 			mProvider.getContactsController().save( contact );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			JOptionPane.showMessageDialog( ContactDialog.this, e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
@@ -285,12 +274,11 @@ public class ContactDialog
 	@UiAction
 	@UiComesAfter( "save" )
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly || this.newContact" )
-	public void delete()
-	{
+	public void delete() {
+
 		Contact contact = mContactMetawidget.getToInspect();
 
-		if ( !mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION )
-		{
+		if ( !mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION ) {
 			return;
 		}
 
@@ -302,8 +290,8 @@ public class ContactDialog
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
 	@UiJexlAttribute( name = LABEL, expression = "if ( this.readOnly ) 'Back'" )
-	public void cancel()
-	{
+	public void cancel() {
+
 		setVisible( false );
 	}
 
@@ -313,8 +301,8 @@ public class ContactDialog
 
 	private static class CommunicationEditor
 		extends AbstractCellEditor
-		implements TableCellEditor
-	{
+		implements TableCellEditor {
+
 		//
 		// Private statics
 		//
@@ -333,8 +321,8 @@ public class ContactDialog
 		// Constructor
 		//
 
-		public CommunicationEditor()
-		{
+		public CommunicationEditor() {
+
 			mEditor = new SwingMetawidget();
 			mEditor.setMetawidgetLayout( new org.metawidget.swing.layout.BoxLayout() );
 			mEditor.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
@@ -344,18 +332,17 @@ public class ContactDialog
 		// Public methods
 		//
 
-		public Object getCellEditorValue()
-		{
+		public Object getCellEditorValue() {
+
 			return mEditor.getValue( mColumnName );
 		}
 
 		@SuppressWarnings( "unchecked" )
-		public Component getTableCellEditorComponent( JTable table, Object value, boolean selected, int row, int column )
-		{
+		public Component getTableCellEditorComponent( JTable table, Object value, boolean selected, int row, int column ) {
+
 			Communication communication = ( (ListTableModel<Communication>) table.getModel() ).getValueAt( row );
 
-			if ( communication == null )
-			{
+			if ( communication == null ) {
 				communication = new Communication();
 			}
 

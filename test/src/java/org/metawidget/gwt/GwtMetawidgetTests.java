@@ -34,15 +34,15 @@ import com.google.gwt.junit.client.GWTTestCase;
  */
 
 public class GwtMetawidgetTests
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
@@ -50,8 +50,8 @@ public class GwtMetawidgetTests
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Gwt Metawidget Tests" );
 		suite.addTestSuite( ExtGwtWidgetBuilderTest.class );
 		suite.addTestSuite( FlexTableLayoutTest.class );

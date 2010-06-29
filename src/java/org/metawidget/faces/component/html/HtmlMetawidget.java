@@ -30,8 +30,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class HtmlMetawidget
-	extends UIMetawidget
-{
+	extends UIMetawidget {
+
 	//
 	// Private members
 	//
@@ -44,35 +44,35 @@ public class HtmlMetawidget
 	// Public methods
 	//
 
-	public String getStyle()
-	{
+	public String getStyle() {
+
 		return mStyle;
 	}
 
-	public void setStyle( String style )
-	{
+	public void setStyle( String style ) {
+
 		mStyle = style;
 	}
 
-	public String getStyleClass()
-	{
+	public String getStyleClass() {
+
 		return mStyleClass;
 	}
 
-	public void setStyleClass( String styleClass )
-	{
+	public void setStyleClass( String styleClass ) {
+
 		mStyleClass = styleClass;
 	}
 
 	@Override
-	public String getComponentType()
-	{
+	public String getComponentType() {
+
 		return "org.metawidget.HtmlMetawidget";
 	}
 
 	@Override
-	public Object saveState( FacesContext context )
-	{
+	public Object saveState( FacesContext context ) {
+
 		Object values[] = new Object[3];
 		values[0] = super.saveState( context );
 		values[1] = mStyle;
@@ -82,10 +82,9 @@ public class HtmlMetawidget
 	}
 
 	@Override
-	public void restoreState( FacesContext context, Object state )
-	{
-		if ( !( state instanceof Object[] ))
-		{
+	public void restoreState( FacesContext context, Object state ) {
+
+		if ( !( state instanceof Object[] ) ) {
 			throw MetawidgetException.newException( "State saving out-of-sync with component tree. Consider setting javax.faces.PARTIAL_STATE_SAVING to false" );
 		}
 
@@ -101,8 +100,8 @@ public class HtmlMetawidget
 	//
 
 	@Override
-	protected String getDefaultConfiguration()
-	{
+	protected String getDefaultConfiguration() {
+
 		return "org/metawidget/faces/component/html/metawidget-html-default.xml";
 	}
 
@@ -112,8 +111,8 @@ public class HtmlMetawidget
 
 	@Override
 	protected UIMetawidget buildNestedMetawidget( String componentType, Map<String, String> attributes )
-		throws Exception
-	{
+		throws Exception {
+
 		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) super.buildNestedMetawidget( componentType, attributes );
 
 		// Attributes

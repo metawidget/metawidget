@@ -39,15 +39,15 @@ import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
  */
 
 public class SwingXWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingXWidgetBuilder widgetBuilder = new SwingXWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
@@ -65,8 +65,8 @@ public class SwingXWidgetBuilderTest
 
 	@SuppressWarnings( { "deprecation", "unchecked" } )
 	public void testValuePropertyProvider()
-		throws Exception
-	{
+		throws Exception {
+
 		DateHolder dateHolder = new DateHolder();
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new SwingXWidgetBuilder(), new SwingWidgetBuilder() ) ) );
@@ -93,8 +93,8 @@ public class SwingXWidgetBuilderTest
 	// Inner class
 	//
 
-	public static class DateHolder
-	{
+	public static class DateHolder {
+
 		//
 		// Private members
 		//
@@ -107,23 +107,23 @@ public class SwingXWidgetBuilderTest
 		// Public methods
 		//
 
-		public Date getDate()
-		{
+		public Date getDate() {
+
 			return mDate;
 		}
 
-		public void setDate( Date date )
-		{
+		public void setDate( Date date ) {
+
 			mDate = date;
 		}
 
-		public String getString()
-		{
+		public String getString() {
+
 			return mString;
 		}
 
-		public void setString( String string )
-		{
+		public void setString( String string ) {
+
 			mString = string;
 		}
 	}

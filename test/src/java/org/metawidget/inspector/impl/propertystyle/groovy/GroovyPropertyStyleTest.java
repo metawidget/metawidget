@@ -35,43 +35,40 @@ import org.metawidget.inspector.impl.propertystyle.groovy.GroovyFoo;
  */
 
 public class GroovyPropertyStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testGroovy()
-	{
+	public void testGroovy() {
+
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( GroovyFoo.class );
 
 		assertTrue( properties.size() == 7 );
 
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
-		assertEquals( Date.class, ((ParameterizedType) properties.get( "bar" ).getGenericType()).getActualTypeArguments()[0] );
-		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ));
+		assertEquals( Date.class, ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
 		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
-		assertEquals( String.class, ((ParameterizedType) properties.get( "methodBaz" ).getGenericType()).getActualTypeArguments()[0] );
+		assertEquals( String.class, ( (ParameterizedType) properties.get( "methodBaz" ).getGenericType() ).getActualTypeArguments()[0] );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );
-		assertEquals( Boolean.class, ((ParameterizedType) properties.get( "methodAbc" ).getGenericType()).getActualTypeArguments()[0] );
+		assertEquals( Boolean.class, ( (ParameterizedType) properties.get( "methodAbc" ).getGenericType() ).getActualTypeArguments()[0] );
 		assertFalse( properties.get( "methodAbc" ).isReadable() );
 		assertTrue( properties.get( "methodAbc" ).isWritable() );
 
-		try
-		{
+		try {
 			properties.get( "foo" ).read( new Object() );
 			assertTrue( false );
-		}
-		catch( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Should fail
 		}
 	}
 
-	public void testIgnoreMetaArrayLengthProperty()
-	{
+	public void testIgnoreMetaArrayLengthProperty() {
+
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( byte[].class );
 		assertTrue( properties.isEmpty() );

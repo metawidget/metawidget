@@ -22,7 +22,6 @@ package android.text.method;
  * @author Richard Kennard
  */
 
-public interface KeyListener
-{
+public interface KeyListener {
 	// Do nothing
 }

@@ -61,26 +61,24 @@ import android.widget.TextView;
  */
 
 public class AndroidWidgetBuilder
-	implements WidgetBuilder<View, AndroidMetawidget>, AndroidValueAccessor
-{
+	implements WidgetBuilder<View, AndroidMetawidget>, AndroidValueAccessor {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "deprecation" )
-	public Object getValue( View view )
-	{
+	public Object getValue( View view ) {
+
 		// CheckBox
 
-		if ( view instanceof CheckBox )
-		{
+		if ( view instanceof CheckBox ) {
 			return Boolean.valueOf( ( (CheckBox) view ).isChecked() );
 		}
 
 		// TextView/EditText
 
-		if ( view instanceof TextView )
-		{
+		if ( view instanceof TextView ) {
 			CharSequence text = ( (TextView) view ).getText();
 
 			// Convert SpannableStringBuilder to Strings
@@ -88,8 +86,7 @@ public class AndroidWidgetBuilder
 			// This is a little controversial, but it's painful to handle SpannableStringBuilder
 			// everywhere in client code
 
-			if ( text instanceof SpannableStringBuilder )
-			{
+			if ( text instanceof SpannableStringBuilder ) {
 				text = text.toString();
 			}
 
@@ -98,16 +95,14 @@ public class AndroidWidgetBuilder
 
 		// DatePicker
 
-		if ( view instanceof DatePicker )
-		{
+		if ( view instanceof DatePicker ) {
 			DatePicker datePicker = (DatePicker) view;
 			return new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
 		}
 
 		// Spinner
 
-		if ( view instanceof Spinner )
-		{
+		if ( view instanceof Spinner ) {
 			return ( (Spinner) view ).getSelectedItem();
 		}
 
@@ -115,28 +110,25 @@ public class AndroidWidgetBuilder
 	}
 
 	@SuppressWarnings( "deprecation" )
-	public boolean setValue( Object value, View view )
-	{
+	public boolean setValue( Object value, View view ) {
+
 		// CheckBox
 
-		if ( view instanceof CheckBox )
-		{
+		if ( view instanceof CheckBox ) {
 			( (CheckBox) view ).setChecked( (Boolean) value );
 			return true;
 		}
 
 		// TextView/EditText
 
-		if ( view instanceof TextView )
-		{
+		if ( view instanceof TextView ) {
 			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
 			return true;
 		}
 
 		// DatePicker
 
-		if ( view instanceof DatePicker )
-		{
+		if ( view instanceof DatePicker ) {
 			Date date = (Date) value;
 			( (DatePicker) view ).updateDate( 1900 + date.getYear(), date.getMonth(), date.getDate() );
 			return true;
@@ -144,8 +136,7 @@ public class AndroidWidgetBuilder
 
 		// Spinner
 
-		if ( view instanceof Spinner )
-		{
+		if ( view instanceof Spinner ) {
 			@SuppressWarnings( "unchecked" )
 			AdapterView adapterView = (AdapterView) view;
 			@SuppressWarnings( "unchecked" )
@@ -160,19 +151,17 @@ public class AndroidWidgetBuilder
 		return false;
 	}
 
-	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
-	{
+	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget ) {
+
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub( metawidget.getContext() );
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new Stub( metawidget.getContext() );
 		}
 
@@ -180,8 +169,7 @@ public class AndroidWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -192,27 +180,23 @@ public class AndroidWidgetBuilder
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
-		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return new CheckBox( metawidget.getContext() );
 		}
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// String Lookups
 
 			String lookup = attributes.get( LOOKUP );
 
-			if ( lookup != null && !"".equals( lookup ) )
-			{
+			if ( lookup != null && !"".equals( lookup ) ) {
 				Spinner spinner = new Spinner( metawidget.getContext() );
 
 				// Empty option
 
 				List<String> lookupList = CollectionUtils.fromString( lookup );
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-				{
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
 					lookupList.add( 0, null );
 				}
 
@@ -225,8 +209,7 @@ public class AndroidWidgetBuilder
 
 				lookupLabelsList = CollectionUtils.fromString( lookupLabels );
 
-				if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-				{
+				if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
 					lookupLabelsList.add( 0, null );
 				}
 
@@ -236,12 +219,10 @@ public class AndroidWidgetBuilder
 				return spinner;
 			}
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				// booleans
 
-				if ( boolean.class.equals( clazz ) )
-				{
+				if ( boolean.class.equals( clazz ) ) {
 					return new CheckBox( metawidget.getContext() );
 				}
 
@@ -249,8 +230,7 @@ public class AndroidWidgetBuilder
 
 				// DigitsInputMethod is 0-9 and +
 
-				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
-				{
+				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) ) {
 					editText.setKeyListener( new DigitsKeyListener() );
 				}
 
@@ -259,24 +239,20 @@ public class AndroidWidgetBuilder
 
 			// Strings
 
-			if ( String.class.equals( clazz ) )
-			{
+			if ( String.class.equals( clazz ) ) {
 				EditText editText = new EditText( metawidget.getContext() );
 
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
+				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 					editText.setTransformationMethod( PasswordTransformationMethod.getInstance() );
 				}
 
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					editText.setMinLines( 3 );
 				}
 
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-				if ( maximumLength != null && !"".equals( maximumLength ) )
-				{
+				if ( maximumLength != null && !"".equals( maximumLength ) ) {
 					editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( Integer.parseInt( maximumLength ) ) } );
 				}
 
@@ -285,12 +261,10 @@ public class AndroidWidgetBuilder
 
 			// Dates
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				// Not-nullable dates can use a DatePicker...
 
-				if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-				{
+				if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
 					return new DatePicker( metawidget.getContext() );
 				}
 
@@ -305,14 +279,12 @@ public class AndroidWidgetBuilder
 
 			// Numbers
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				EditText editText = new EditText( metawidget.getContext() );
 
 				// DigitsInputMethod is 0-9 and +
 
-				if ( Byte.class.isAssignableFrom( clazz ) || Short.class.isAssignableFrom( clazz ) || Integer.class.isAssignableFrom( clazz ) || Long.class.isAssignableFrom( clazz ) )
-				{
+				if ( Byte.class.isAssignableFrom( clazz ) || Short.class.isAssignableFrom( clazz ) || Integer.class.isAssignableFrom( clazz ) || Long.class.isAssignableFrom( clazz ) ) {
 					editText.setKeyListener( new DigitsKeyListener() );
 				}
 
@@ -321,16 +293,14 @@ public class AndroidWidgetBuilder
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub( metawidget.getContext() );
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new EditText( metawidget.getContext() );
 		}
 
@@ -348,8 +318,8 @@ public class AndroidWidgetBuilder
 	 */
 
 	static class LookupArrayAdapter<T>
-		extends ArrayAdapter<T>
-	{
+		extends ArrayAdapter<T> {
+
 		//
 		// Private members
 		//
@@ -365,14 +335,12 @@ public class AndroidWidgetBuilder
 		 *            List of human-readable labels. Never null.
 		 */
 
-		public LookupArrayAdapter( Context context, List<T> values, List<String> labels )
-		{
+		public LookupArrayAdapter( Context context, List<T> values, List<String> labels ) {
+
 			super( context, 0, values );
 
-			if ( labels != null && !labels.isEmpty() )
-			{
-				if ( labels.size() != values.size() )
-				{
+			if ( labels != null && !labels.isEmpty() ) {
+				if ( labels.size() != values.size() ) {
 					throw MetawidgetException.newException( "Labels list must be same size as values list" );
 				}
 
@@ -385,14 +353,14 @@ public class AndroidWidgetBuilder
 		//
 
 		@Override
-		public View getView( int position, View convertView, ViewGroup parentView )
-		{
+		public View getView( int position, View convertView, ViewGroup parentView ) {
+
 			return initView( position, convertView, parentView, R.layout.simple_spinner_item );
 		}
 
 		@Override
-		public View getDropDownView( int position, View convertView, ViewGroup parentView )
-		{
+		public View getDropDownView( int position, View convertView, ViewGroup parentView ) {
+
 			return initView( position, convertView, parentView, R.layout.simple_spinner_dropdown_item );
 		}
 
@@ -400,33 +368,27 @@ public class AndroidWidgetBuilder
 		// Private methods
 		//
 
-		private View initView( int position, View convertView, ViewGroup parentView, int textViewResourceId )
-		{
+		private View initView( int position, View convertView, ViewGroup parentView, int textViewResourceId ) {
+
 			View viewToUse = convertView;
 
-			if ( viewToUse == null )
-			{
+			if ( viewToUse == null ) {
 				Context context = getContext();
 
-				if ( context != null )
-				{
+				if ( context != null ) {
 					viewToUse = ( (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) ).inflate( textViewResourceId, parentView, false );
 				}
 
 				// Just-in-time create: layoutInflater.inflate does not work during onMeasure. Why?
 
-				if ( viewToUse == null )
-				{
+				if ( viewToUse == null ) {
 					viewToUse = new TextView( context );
 				}
 			}
 
-			if ( mLabels == null )
-			{
+			if ( mLabels == null ) {
 				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( getItem( position ) ) );
-			}
-			else
-			{
+			} else {
 				( (TextView) viewToUse ).setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
 			}
 

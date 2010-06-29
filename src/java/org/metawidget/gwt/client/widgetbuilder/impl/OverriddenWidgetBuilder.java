@@ -36,41 +36,36 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class OverriddenWidgetBuilder
-	implements WidgetBuilder<Widget, GwtMetawidget>
-{
+	implements WidgetBuilder<Widget, GwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
-	{
+	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget ) {
+
 		String name = attributes.get( NAME );
 
-		if ( name == null )
-		{
+		if ( name == null ) {
 			return null;
 		}
 
 		Widget widget = null;
 		Set<Widget> existingUnusedWidgets = metawidget.fetchExistingUnusedWidgets();
 
-		for ( Widget widgetExisting : existingUnusedWidgets )
-		{
-			if ( !( widgetExisting instanceof HasName ) )
-			{
+		for ( Widget widgetExisting : existingUnusedWidgets ) {
+			if ( !( widgetExisting instanceof HasName ) ) {
 				continue;
 			}
 
-			if ( name.equals( ( (HasName) widgetExisting ).getName() ) )
-			{
+			if ( name.equals( ( (HasName) widgetExisting ).getName() ) ) {
 				widget = widgetExisting;
 				break;
 			}
 		}
 
-		if ( widget != null )
-		{
+		if ( widget != null ) {
 			existingUnusedWidgets.remove( widget );
 		}
 

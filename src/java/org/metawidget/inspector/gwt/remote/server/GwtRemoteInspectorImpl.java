@@ -43,14 +43,14 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * <strong>This Inspector is designed to work 'out of the box' for most cases. However, use of
  * Serializable as a parameter type is not optimal for GWT. We recommend deriving your own interface
  * with your own business-model-specific base class instead.</strong>
-
+ *
  * @author Richard Kennard
  */
 
 public class GwtRemoteInspectorImpl
 	extends RemoteServiceServlet
-	implements GwtRemoteInspector
-{
+	implements GwtRemoteInspector {
+
 	//
 	// Private statics
 	//
@@ -67,8 +67,8 @@ public class GwtRemoteInspectorImpl
 	// Constructor
 	//
 
-	public GwtRemoteInspectorImpl()
-	{
+	public GwtRemoteInspectorImpl() {
+
 		mPipeline = newPipeline();
 	}
 
@@ -78,8 +78,8 @@ public class GwtRemoteInspectorImpl
 
 	@Override
 	public void init( ServletConfig servletConfig )
-		throws ServletException
-	{
+		throws ServletException {
+
 		super.init( servletConfig );
 
 		// Locate metawidget.xml (if any)
@@ -87,8 +87,7 @@ public class GwtRemoteInspectorImpl
 		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
 		String config = getConfigInitParameter( servletConfig );
 
-		if ( config != null )
-		{
+		if ( config != null ) {
 			servletConfigReader.configure( config, this );
 		}
 
@@ -97,18 +96,18 @@ public class GwtRemoteInspectorImpl
 		mPipeline.configureDefaults( servletConfigReader, getDefaultConfiguration(), GwtRemoteInspectorImpl.class );
 	}
 
-	public String inspect( Serializable toInspect, String type, String[] names )
-	{
+	public String inspect( Serializable toInspect, String type, String[] names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mPipeline.setInspector( inspector );
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<GwtRemoteInspectorImpl>... inspectionResultProcessors )
-	{
+	public void setInspectionResultProcessors( InspectionResultProcessor<GwtRemoteInspectorImpl>... inspectionResultProcessors ) {
+
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
@@ -123,13 +122,13 @@ public class GwtRemoteInspectorImpl
 	 * version.
 	 */
 
-	protected GwtRemoteInspectorImplPipeline newPipeline()
-	{
+	protected GwtRemoteInspectorImplPipeline newPipeline() {
+
 		return new GwtRemoteInspectorImplPipeline();
 	}
 
-	protected String getDefaultConfiguration()
-	{
+	protected String getDefaultConfiguration() {
+
 		return "org/metawidget/inspector/gwt/remote/server/metawidget-gwt-default.xml";
 	}
 
@@ -137,8 +136,8 @@ public class GwtRemoteInspectorImpl
 	 * Refactored to support <code>GwtRemoteInspectorTestImpl</code>.
 	 */
 
-	protected String getConfigInitParameter( ServletConfig servletConfig )
-	{
+	protected String getConfigInitParameter( ServletConfig servletConfig ) {
+
 		return servletConfig.getInitParameter( "config" );
 	}
 
@@ -151,15 +150,15 @@ public class GwtRemoteInspectorImpl
 	 */
 
 	protected class GwtRemoteInspectorImplPipeline
-		extends W3CPipeline<Object, Object, GwtRemoteInspectorImpl>
-	{
+		extends W3CPipeline<Object, Object, GwtRemoteInspectorImpl> {
+
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected GwtRemoteInspectorImpl getPipelineOwner()
-		{
+		protected GwtRemoteInspectorImpl getPipelineOwner() {
+
 			// For passing to processInspectionResult
 
 			return GwtRemoteInspectorImpl.this;
@@ -170,15 +169,15 @@ public class GwtRemoteInspectorImpl
 		//
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Object stub )
-		{
+		protected Map<String, String> getAdditionalAttributes( Object stub ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		protected GwtRemoteInspectorImpl buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			throw new UnsupportedOperationException();
 		}
 	}

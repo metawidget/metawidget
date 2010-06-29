@@ -25,8 +25,8 @@ import org.metawidget.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
  */
 
 public class AllWidgetsForm
-	extends ActionForm
-{
+	extends ActionForm {
+
 	//
 	// Private statics
 	//
@@ -43,8 +43,8 @@ public class AllWidgetsForm
 	// Public methods
 	//
 
-	public AllWidgets getAllWidgets()
-	{
+	public AllWidgets getAllWidgets() {
+
 		return mAllWidgets;
 	}
 }

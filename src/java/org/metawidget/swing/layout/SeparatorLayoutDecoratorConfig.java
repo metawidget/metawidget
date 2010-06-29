@@ -30,8 +30,8 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class SeparatorLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>
-{
+	extends LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Private members
 	//
@@ -49,15 +49,15 @@ public class SeparatorLayoutDecoratorConfig
 	 */
 
 	@Override
-	public SeparatorLayoutDecoratorConfig setLayout( Layout<JComponent, JComponent, SwingMetawidget> layout )
-	{
+	public SeparatorLayoutDecoratorConfig setLayout( Layout<JComponent, JComponent, SwingMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getAlignment()
-	{
+	public int getAlignment() {
+
 		return mAlignment;
 	}
 
@@ -67,33 +67,29 @@ public class SeparatorLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SeparatorLayoutDecoratorConfig setAlignment( int alignment )
-	{
+	public SeparatorLayoutDecoratorConfig setAlignment( int alignment ) {
+
 		mAlignment = alignment;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mAlignment != ( (SeparatorLayoutDecoratorConfig) that ).mAlignment )
-		{
+		if ( mAlignment != ( (SeparatorLayoutDecoratorConfig) that ).mAlignment ) {
 			return false;
 		}
 
@@ -101,8 +97,8 @@ public class SeparatorLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + mAlignment;
 

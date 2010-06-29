@@ -40,14 +40,14 @@ import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingPro
  */
 
 public class CarApplication
-	extends SingleFrameApplication
-{
+	extends SingleFrameApplication {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Application.launch( CarApplication.class, args );
 	}
 
@@ -64,8 +64,8 @@ public class CarApplication
 	//
 
 	@Action
-	public void save( ActionEvent event )
-	{
+	public void save( ActionEvent event ) {
+
 		mMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mMetawidget );
 		JOptionPane.showMessageDialog( getMainFrame(), "Saved " + mCar );
 	}
@@ -75,8 +75,8 @@ public class CarApplication
 	//
 
 	@Override
-	protected void startup()
-	{
+	protected void startup() {
+
 		startupWithoutShow();
 		show( getMainFrame() );
 	}
@@ -87,8 +87,8 @@ public class CarApplication
 	 * Separated out from <code>startup</code> for ease of unit testing.
 	 */
 
-	protected void startupWithoutShow()
-	{
+	protected void startupWithoutShow() {
+
 		// Model
 
 		mCar = new Car();
@@ -135,11 +135,11 @@ public class CarApplication
 
 		// Trigger rebuild UI after click 'addOwner'
 
-		mCar.addActionListener( new ActionListener()
-		{
+		mCar.addActionListener( new ActionListener() {
+
 			@Override
-			public void actionPerformed( ActionEvent event )
-			{
+			public void actionPerformed( ActionEvent event ) {
+
 				// Save in case changed make/type
 
 				mMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mMetawidget );

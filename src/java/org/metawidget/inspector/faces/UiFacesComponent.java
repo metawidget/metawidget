@@ -24,18 +24,18 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should be rendered using the given Faces <code>UIComponent</code> in the UI.
  * <p>
- * Use of this annotation does not bind the business class to the UI quite as tightly
- * as it may appear, because JSF has a loosely coupled relationship between
- * <code>&lt;component-name&gt;</code> and <code>&lt;component-class&gt;</code>, and
- * a further loose coupling between <code>&lt;component&gt;</code> and <code>&lt;render-kit&gt;</code> - as
- * defined in <code>faces-config.xml</code>.
+ * Use of this annotation does not bind the business class to the UI quite as tightly as it may
+ * appear, because JSF has a loosely coupled relationship between
+ * <code>&lt;component-name&gt;</code> and <code>&lt;component-class&gt;</code>, and a further loose
+ * coupling between <code>&lt;component&gt;</code> and <code>&lt;render-kit&gt;</code> - as defined
+ * in <code>faces-config.xml</code>.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesComponent
-{
-	String value( );
+public @interface UiFacesComponent {
+
+	String value();
 }

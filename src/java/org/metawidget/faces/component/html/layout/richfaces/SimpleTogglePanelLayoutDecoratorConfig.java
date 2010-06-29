@@ -31,8 +31,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class SimpleTogglePanelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
-{
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> {
+
 	//
 	// Private members
 	//
@@ -67,15 +67,15 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 */
 
 	@Override
-	public SimpleTogglePanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
-	{
+	public SimpleTogglePanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public String getStyle()
-	{
+	public String getStyle() {
+
 		return mStyle;
 	}
 
@@ -83,15 +83,15 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SimpleTogglePanelLayoutDecoratorConfig setStyle( String style )
-	{
+	public SimpleTogglePanelLayoutDecoratorConfig setStyle( String style ) {
+
 		mStyle = style;
 
 		return this;
 	}
 
-	public String getStyleClass()
-	{
+	public String getStyleClass() {
+
 		return mStyleClass;
 	}
 
@@ -99,15 +99,15 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SimpleTogglePanelLayoutDecoratorConfig setStyleClass( String styleClass )
-	{
+	public SimpleTogglePanelLayoutDecoratorConfig setStyleClass( String styleClass ) {
+
 		mStyleClass = styleClass;
 
 		return this;
 	}
 
-	public String getSwitchType()
-	{
+	public String getSwitchType() {
+
 		return mSwitchType;
 	}
 
@@ -115,15 +115,15 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SimpleTogglePanelLayoutDecoratorConfig setSwitchType( String switchType )
-	{
+	public SimpleTogglePanelLayoutDecoratorConfig setSwitchType( String switchType ) {
+
 		mSwitchType = switchType;
 
 		return this;
 	}
 
-	public boolean isOpened()
-	{
+	public boolean isOpened() {
+
 		return mOpened;
 	}
 
@@ -131,48 +131,41 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SimpleTogglePanelLayoutDecoratorConfig setOpened( boolean opened )
-	{
+	public SimpleTogglePanelLayoutDecoratorConfig setOpened( boolean opened ) {
+
 		mOpened = opened;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mStyle ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mStyle ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mStyleClass ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mStyleClass ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mSwitchType, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mSwitchType ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mSwitchType, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mSwitchType ) ) {
 			return false;
 		}
 
-		if ( mOpened != ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mOpened )
-		{
+		if ( mOpened != ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mOpened ) {
 			return false;
 		}
 
@@ -180,8 +173,8 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );

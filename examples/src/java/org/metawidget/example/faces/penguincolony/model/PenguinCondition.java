@@ -22,8 +22,8 @@ import org.metawidget.inspector.annotation.UiComesAfter;
  * @author Richard Kennard
  */
 
-public class PenguinCondition
-{
+public class PenguinCondition {
+
 	//
 	// Private members
 	//
@@ -38,35 +38,35 @@ public class PenguinCondition
 	// Public methods
 	//
 
-	public Condition getBeak()
-	{
+	public Condition getBeak() {
+
 		return mBeak;
 	}
 
-	public void setBeak( Condition beak )
-	{
+	public void setBeak( Condition beak ) {
+
 		mBeak = beak;
 	}
 
 	@UiComesAfter( "beak" )
-	public Condition getWings()
-	{
+	public Condition getWings() {
+
 		return mWings;
 	}
 
-	public void setWings( Condition wings )
-	{
+	public void setWings( Condition wings ) {
+
 		mWings = wings;
 	}
 
 	@UiComesAfter( "wings" )
-	public Condition getFeet()
-	{
+	public Condition getFeet() {
+
 		return mFeet;
 	}
 
-	public void setFeet( Condition feet )
-	{
+	public void setFeet( Condition feet ) {
+
 		mFeet = feet;
 	}
 }

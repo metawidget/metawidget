@@ -28,26 +28,26 @@ import junit.framework.TestCase;
  */
 
 public class CollectionUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testCollectionUtils()
-		throws Exception
-	{
+		throws Exception {
+
 		assertTrue( CollectionUtils.newArrayList( 2 ) != null );
 
 		List<String> list = CollectionUtils.newArrayList( "foo", "bar" );
 		assertTrue( list instanceof ArrayList<?> );
-		assertEquals( "foo", list.get( 0 ));
-		assertEquals( "bar", list.get( 1 ));
-		assertEquals( "|foo|bar|", CollectionUtils.toString( list, "|", true, true ));
+		assertEquals( "foo", list.get( 0 ) );
+		assertEquals( "bar", list.get( 1 ) );
+		assertEquals( "|foo|bar|", CollectionUtils.toString( list, "|", true, true ) );
 
 		assertTrue( CollectionUtils.newLinkedHashMap() != null );
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings( "unchecked" )
 		Set<Comparable> emptySet = Collections.emptySet();
 		assertTrue( CollectionUtils.sort( emptySet ).isEmpty() );
 

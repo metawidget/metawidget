@@ -26,14 +26,14 @@ import android.view.ViewGroup;
  */
 
 public class TabWidget
-	extends ViewGroup
-{
+	extends ViewGroup {
+
 	//
 	// Constructors
 	//
 
-	public TabWidget( Context context )
-	{
+	public TabWidget( Context context ) {
+
 		super( context );
 	}
 }

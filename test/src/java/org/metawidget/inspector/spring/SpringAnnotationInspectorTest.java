@@ -31,16 +31,16 @@ import org.w3c.dom.Element;
  */
 
 public class SpringAnnotationInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		SpringAnnotationInspector inspector = new SpringAnnotationInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -70,8 +70,8 @@ public class SpringAnnotationInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@UiSpringLookup( "bar" )
 		public Object	object1;
 

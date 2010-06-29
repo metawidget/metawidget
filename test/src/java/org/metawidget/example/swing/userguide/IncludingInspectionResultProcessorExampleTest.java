@@ -37,20 +37,20 @@ import org.w3c.dom.Element;
  */
 
 public class IncludingInspectionResultProcessorExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testIncludingInspectionResultProcessorExample()
-		throws Exception
-	{
+		throws Exception {
+
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
-		metawidget.putClientProperty( "include", new String[]{ "age", "retired" } );
+		metawidget.putClientProperty( "include", new String[] { "age", "retired" } );
 		metawidget.setToInspect( person );
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JLabel );
@@ -68,11 +68,11 @@ public class IncludingInspectionResultProcessorExampleTest
 	//
 
 	static class IncludingInspectionResultProcessor
-		implements InspectionResultProcessor<SwingMetawidget>
-	{
+		implements InspectionResultProcessor<SwingMetawidget> {
+
 		@Override
-		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget )
-		{
+		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget ) {
+
 			String[] includes = (String[]) metawidget.getClientProperty( "include" );
 			Document document = XmlUtils.documentFromString( inspectionResult );
 			Element entity = (Element) document.getDocumentElement().getFirstChild();
@@ -80,12 +80,10 @@ public class IncludingInspectionResultProcessorExampleTest
 
 			// Pull out the names in order
 
-			for( String include : includes )
-			{
+			for ( String include : includes ) {
 				Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, include );
 
-				if ( property == null )
-				{
+				if ( property == null ) {
 					continue;
 				}
 
@@ -95,8 +93,7 @@ public class IncludingInspectionResultProcessorExampleTest
 
 			// Cleanup the rest
 
-			for( int loop = 0; loop < propertiesToCleanup; loop++ )
-			{
+			for ( int loop = 0; loop < propertiesToCleanup; loop++ ) {
 				entity.removeChild( entity.getFirstChild() );
 			}
 

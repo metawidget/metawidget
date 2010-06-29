@@ -42,10 +42,10 @@ import org.w3c.dom.Element;
  * environments can 'wire together' properties using ELs in much the same way as Web environments
  * can.
  * <p>
- * <code>JexlXmlInspector</code> inspects <code>inspection-result-1.0.xsd</code>-compliant
- * files (such as <code>metawidget-metadata.xml</code>), in the same way as
- * <code>XmlInspector</code>. Any attributes conforming to a <code>${...}</code> convention
- * (ie. same as JSTL) are passed to JEXL. These expressions can include conditions. For example:
+ * <code>JexlXmlInspector</code> inspects <code>inspection-result-1.0.xsd</code>-compliant files
+ * (such as <code>metawidget-metadata.xml</code>), in the same way as <code>XmlInspector</code>. Any
+ * attributes conforming to a <code>${...}</code> convention (ie. same as JSTL) are passed to JEXL.
+ * These expressions can include conditions. For example:
  * <p>
  * <code>${if ( foo.bar ) 'baz'}</code>
  * <p>
@@ -57,8 +57,8 @@ import org.w3c.dom.Element;
  */
 
 public class JexlXmlInspector
-	extends BaseXmlInspector
-{
+	extends BaseXmlInspector {
+
 	//
 	// Private statics
 	//
@@ -73,8 +73,8 @@ public class JexlXmlInspector
 	// Constructors
 	//
 
-	public JexlXmlInspector( JexlXmlInspectorConfig config )
-	{
+	public JexlXmlInspector( JexlXmlInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -83,8 +83,8 @@ public class JexlXmlInspector
 	//
 
 	@Override
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		LOCAL_TOINSPECT.set( toInspect );
 
 		String inspect = super.inspect( toInspect, type, names );
@@ -100,16 +100,15 @@ public class JexlXmlInspector
 	//
 
 	@Override
-	protected String getExtendsAttribute()
-	{
+	protected String getExtendsAttribute() {
+
 		return "extends";
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Element toInspect )
-	{
-		if ( PROPERTY.equals( toInspect.getNodeName() ) )
-		{
+	protected Map<String, String> inspectProperty( Element toInspect ) {
+
+		if ( PROPERTY.equals( toInspect.getNodeName() ) ) {
 			return inspect( toInspect );
 		}
 
@@ -117,10 +116,9 @@ public class JexlXmlInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectAction( Element toInspect )
-	{
-		if ( ACTION.equals( toInspect.getNodeName() ) )
-		{
+	protected Map<String, String> inspectAction( Element toInspect ) {
+
+		if ( ACTION.equals( toInspect.getNodeName() ) ) {
 			return inspect( toInspect );
 		}
 
@@ -131,12 +129,11 @@ public class JexlXmlInspector
 	 * Get the JexlContext. Creates one if necessary.
 	 */
 
-	protected JexlContext getContext()
-	{
+	protected JexlContext getContext() {
+
 		JexlContext context = LOCAL_CONTEXT.get();
 
-		if ( context == null )
-		{
+		if ( context == null ) {
 			context = createContext( LOCAL_TOINSPECT.get() );
 			LOCAL_CONTEXT.set( context );
 		}
@@ -150,16 +147,15 @@ public class JexlXmlInspector
 	 * Subclasses can override this method to control what is available in the context.
 	 */
 
-	protected JexlContext createContext( Object toInspect )
-	{
+	protected JexlContext createContext( Object toInspect ) {
+
 		JexlContext context = JexlHelper.createContext();
 		@SuppressWarnings( "unchecked" )
 		Map<String, Object> contextMap = context.getVars();
 
 		// Put the toInspect in under 'this'
 
-		if ( toInspect != null )
-		{
+		if ( toInspect != null ) {
 			contextMap.put( "this", toInspect );
 		}
 
@@ -170,33 +166,28 @@ public class JexlXmlInspector
 	// Private methods
 	//
 
-	private Map<String, String> inspect( Element toInspect )
-	{
+	private Map<String, String> inspect( Element toInspect ) {
+
 		Map<String, String> attributes = XmlUtils.getAttributesAsMap( toInspect );
 
 		// For each attribute value...
 
-		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) )
-		{
+		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) ) {
 			String value = entry.getValue();
 
 			// ...that looks like a value reference...
 
 			Matcher matcher = PATTERN_BINDING.matcher( value );
 
-			if ( !matcher.matches() )
-			{
+			if ( !matcher.matches() ) {
 				continue;
 			}
 
 			// ...evaluate it...
 
-			try
-			{
+			try {
 				value = StringUtils.quietValueOf( ExpressionFactory.createExpression( matcher.group( 1 ) ).evaluate( getContext() ) );
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
 			}
 

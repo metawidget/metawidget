@@ -37,14 +37,14 @@ import org.w3c.dom.Element;
  */
 
 public class OvalInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		OvalInspector inspector = new OvalInspector();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -93,8 +93,8 @@ public class OvalInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@NotNull
 		public String	bar;
 

@@ -22,19 +22,19 @@ package org.metawidget.util.simple;
  * @author Richard Kennard
  */
 
-public class PathUtils
-{
+public class PathUtils {
+
 	//
 	// Public statics
 	//
 
-	public static TypeAndNames parsePath( String path )
-	{
+	public static TypeAndNames parsePath( String path ) {
+
 		return new TypeAndNames( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
 
-	public static TypeAndNames parsePath( String path, char separator )
-	{
+	public static TypeAndNames parsePath( String path, char separator ) {
+
 		return new TypeAndNames( path, separator );
 	}
 
@@ -44,8 +44,8 @@ public class PathUtils
 	 * Uses lazy initialization to save on regex calls.
 	 */
 
-	public static class TypeAndNames
-	{
+	public static class TypeAndNames {
+
 		//
 		//
 		// Private methods
@@ -68,8 +68,8 @@ public class PathUtils
 		//
 		//
 
-		public TypeAndNames( String path, char separator )
-		{
+		public TypeAndNames( String path, char separator ) {
+
 			mPath = path.trim();
 			mSeparator = separator;
 		}
@@ -80,63 +80,50 @@ public class PathUtils
 		//
 		//
 
-		public String getType()
-		{
-			if ( mParsedType == null )
-			{
+		public String getType() {
+
+			if ( mParsedType == null ) {
 				int indexOfTypeEnd = mPath.indexOf( mSeparator );
 
 				// Just type?
 
-				if ( indexOfTypeEnd == -1 )
-				{
+				if ( indexOfTypeEnd == -1 ) {
 					mParsedType = mPath;
 					mParsedNames = "";
-				}
-				else
-				{
+				} else {
 					mParsedType = mPath.substring( 0, indexOfTypeEnd );
 
 					// Ends in separator?
 
-					if ( indexOfTypeEnd == mPath.length() - 1 )
-					{
+					if ( indexOfTypeEnd == mPath.length() - 1 ) {
 						mParsedNames = "";
-					}
-					else
-					{
+					} else {
 						mParsedNames = mPath.substring( indexOfTypeEnd + 1 );
 					}
 				}
-
 
 			}
 
 			return mParsedType;
 		}
 
-		public String getNames()
-		{
-			if ( mParsedNames == null )
-			{
+		public String getNames() {
+
+			if ( mParsedNames == null ) {
 				getType();
 			}
 
 			return mParsedNames;
 		}
 
-		public String[] getNamesAsArray()
-		{
-			if ( mParsedNamesAsArray == null )
-			{
+		public String[] getNamesAsArray() {
+
+			if ( mParsedNamesAsArray == null ) {
 				String names = getNames();
 
-				if ( "".equals( names ))
-				{
+				if ( "".equals( names ) ) {
 					mParsedNamesAsArray = EMPTY_STRING_ARRAY;
-				}
-				else
-				{
+				} else {
 					mParsedNamesAsArray = getNames().split( "\\" + mSeparator );
 				}
 			}
@@ -155,8 +142,8 @@ public class PathUtils
 	// Private constructor
 	//
 
-	private PathUtils()
-	{
+	private PathUtils() {
+
 		// Can never be called
 	}
 }

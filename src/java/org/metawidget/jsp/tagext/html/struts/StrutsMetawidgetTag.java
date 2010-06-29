@@ -31,48 +31,44 @@ import org.w3c.dom.Element;
  */
 
 public class StrutsMetawidgetTag
-	extends BaseHtmlMetawidgetTag
-{
+	extends BaseHtmlMetawidgetTag {
+
 	//
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods
 	//
 
-	public void setProperty( String property )
-	{
+	public void setProperty( String property ) {
+
 		super.setPathInternal( property );
 
 		// Take the LHS minus the first property (if any), as we assume that will
 		// be supplied by the form
 
-		if ( property != null )
-		{
+		if ( property != null ) {
 			int lastIndexOf = property.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-			if ( lastIndexOf != -1 )
-			{
+			if ( lastIndexOf != -1 ) {
 				int firstIndexOf = property.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-				if ( firstIndexOf != lastIndexOf )
-				{
-					setPathPrefix( property.substring( firstIndexOf + 1, lastIndexOf + 1 ));
+				if ( firstIndexOf != lastIndexOf ) {
+					setPathPrefix( property.substring( firstIndexOf + 1, lastIndexOf + 1 ) );
 				}
 			}
 		}
 	}
 
 	@Override
-	public String getLocalizedKey( String key )
-	{
+	public String getLocalizedKey( String key ) {
+
 		String localizedKey = super.getLocalizedKey( key );
 
-		if ( localizedKey != null )
-		{
+		if ( localizedKey != null ) {
 			return localizedKey;
 		}
 
@@ -80,8 +76,7 @@ public class StrutsMetawidgetTag
 
 		MessageResources resources = (MessageResources) pageContext.getAttribute( Globals.MESSAGES_KEY, PageContext.APPLICATION_SCOPE );
 
-		if ( resources == null )
-		{
+		if ( resources == null ) {
 			return null;
 		}
 
@@ -93,21 +88,20 @@ public class StrutsMetawidgetTag
 	//
 
 	@Override
-	protected String getDefaultConfiguration()
-	{
+	protected String getDefaultConfiguration() {
+
 		return "org/metawidget/jsp/tagext/html/struts/metawidget-struts-default.xml";
 	}
 
 	@Override
-	protected void beforeBuildCompoundWidget( Element element )
-	{
+	protected void beforeBuildCompoundWidget( Element element ) {
+
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
 
 		int firstIndexOf = getPath().indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		if ( firstIndexOf != -1 )
-		{
+		if ( firstIndexOf != -1 ) {
 			setPathPrefix( getPath().substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR );
 		}
 	}

@@ -31,13 +31,13 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class LabelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<Widget, Panel, GwtMetawidget>
-{
+	extends LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> {
+
 	//
 	// Private members
 	//
 
-	private String		mStyleName;
+	private String	mStyleName;
 
 	//
 	// Public methods
@@ -50,15 +50,15 @@ public class LabelLayoutDecoratorConfig
 	 */
 
 	@Override
-	public LabelLayoutDecoratorConfig setLayout( Layout<Widget, Panel, GwtMetawidget> layout )
-	{
+	public LabelLayoutDecoratorConfig setLayout( Layout<Widget, Panel, GwtMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public String getStyleName()
-	{
+	public String getStyleName() {
+
 		return mStyleName;
 	}
 
@@ -66,33 +66,29 @@ public class LabelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public LabelLayoutDecoratorConfig setStyleName( String StyleName )
-	{
+	public LabelLayoutDecoratorConfig setStyleName( String StyleName ) {
+
 		mStyleName = StyleName;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleName, ((LabelLayoutDecoratorConfig) that).mStyleName ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyleName, ( (LabelLayoutDecoratorConfig) that ).mStyleName ) ) {
 			return false;
 		}
 
@@ -100,8 +96,8 @@ public class LabelLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleName );
 

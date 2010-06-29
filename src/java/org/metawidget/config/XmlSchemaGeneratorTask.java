@@ -57,8 +57,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class XmlSchemaGeneratorTask
-	extends Task
-{
+	extends Task {
+
 	//
 	// Private statics
 	//
@@ -81,31 +81,28 @@ public class XmlSchemaGeneratorTask
 	// Public methods
 	//
 
-	public void setJar( String jar )
-	{
+	public void setJar( String jar ) {
+
 		mJar = jar;
 	}
 
-	public void setDestDir( String destDir )
-	{
+	public void setDestDir( String destDir ) {
+
 		mDestDir = destDir;
 	}
 
 	@Override
 	public void execute()
-		throws BuildException
-	{
-		try
-		{
+		throws BuildException {
+
+		try {
 			// Create/clear the dest dir
 
 			File destDir = new File( mDestDir );
 			destDir.mkdirs();
 
-			for ( File file : destDir.listFiles() )
-			{
-				if ( !file.isDirectory() )
-				{
+			for ( File file : destDir.listFiles() ) {
+				if ( !file.isDirectory() ) {
 					file.delete();
 				}
 			}
@@ -141,21 +138,18 @@ public class XmlSchemaGeneratorTask
 			JarFile jarFile = new JarFile( mJar );
 			String lastXsdFilename = null;
 
-			for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); )
-			{
+			for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
 				JarEntry jarEntry = e.nextElement();
 
 				// ...that is a Java class...
 
-				if ( jarEntry.isDirectory() )
-				{
+				if ( jarEntry.isDirectory() ) {
 					continue;
 				}
 
 				String name = jarEntry.getName();
 
-				if ( !name.endsWith( CLASS_SUFFIX ) )
-				{
+				if ( !name.endsWith( CLASS_SUFFIX ) ) {
 					continue;
 				}
 
@@ -165,8 +159,7 @@ public class XmlSchemaGeneratorTask
 
 				int lastIndexOf = qualifiedClassName.lastIndexOf( '.' );
 
-				if ( lastIndexOf == -1 )
-				{
+				if ( lastIndexOf == -1 ) {
 					continue;
 				}
 
@@ -174,8 +167,7 @@ public class XmlSchemaGeneratorTask
 
 				// ...ignore inner classes...
 
-				if ( className.contains( "$" ) )
-				{
+				if ( className.contains( "$" ) ) {
 					continue;
 				}
 
@@ -189,8 +181,7 @@ public class XmlSchemaGeneratorTask
 
 				StringBuilder xsdBuilder = new StringBuilder();
 
-				if ( xsdFile.exists() )
-				{
+				if ( xsdFile.exists() ) {
 					ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
 					IOUtils.streamBetween( new FileInputStream( xsdFile ), streamOut );
 					xsdBuilder.append( streamOut.toString() );
@@ -198,8 +189,7 @@ public class XmlSchemaGeneratorTask
 
 				// ...or create it if it doesn't...
 
-				else
-				{
+				else {
 					xsdBuilder.append( "<?xml version=\"1.0\" ?>\r\n" );
 					xsdBuilder.append( "<xs:schema targetNamespace=\"java:" );
 					xsdBuilder.append( packageName );
@@ -223,15 +213,13 @@ public class XmlSchemaGeneratorTask
 
 				int indexOf = xsdBuilder.indexOf( SCHEMA_END );
 
-				if ( indexOf == -1 )
-				{
+				if ( indexOf == -1 ) {
 					continue;
 				}
 
 				String elementBlock = generateClassBlock( packageName, className );
 
-				if ( elementBlock == null )
-				{
+				if ( elementBlock == null ) {
 					continue;
 				}
 
@@ -243,8 +231,7 @@ public class XmlSchemaGeneratorTask
 
 				String xsdFilename = xsdFile.getName();
 
-				if ( !xsdFilename.equals( lastXsdFilename ) )
-				{
+				if ( !xsdFilename.equals( lastXsdFilename ) ) {
 					indexWriter.write( "\t\t\t<li><a href=\"" + xsdFilename + "\">" + xsdFilename + "</a></li>\r\n" );
 					lastXsdFilename = xsdFilename;
 				}
@@ -256,9 +243,7 @@ public class XmlSchemaGeneratorTask
 
 			indexWriter.write( "\t\t</ul>\r\n\t</body>\r\n</html>" );
 			indexWriter.close();
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new BuildException( e );
 		}
 	}
@@ -268,8 +253,8 @@ public class XmlSchemaGeneratorTask
 	//
 
 	/* package private */String generateClassBlock( String packageName, String className )
-		throws Exception
-	{
+		throws Exception {
+
 		StringBuilder builder = new StringBuilder();
 
 		// Name
@@ -288,15 +273,13 @@ public class XmlSchemaGeneratorTask
 
 		Class<?> clazz = Class.forName( packageName + '.' + className );
 
-		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ) )
-		{
+		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ) ) {
 			return null;
 		}
 
 		// Not immutable and not a Metawidget?
 
-		if ( !new ConfigReader().isImmutable( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
-		{
+		if ( !new ConfigReader().isImmutable( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) ) {
 			return null;
 		}
 
@@ -305,23 +288,19 @@ public class XmlSchemaGeneratorTask
 		boolean configurable = false;
 		boolean optionallyConfigurable = false;
 
-		for ( Constructor<?> constructor : clazz.getConstructors() )
-		{
-			if ( constructor.getParameterTypes().length == 0 )
-			{
+		for ( Constructor<?> constructor : clazz.getConstructors() ) {
+			if ( constructor.getParameterTypes().length == 0 ) {
 				optionallyConfigurable = true;
 				continue;
 			}
 
-			if ( constructor.getParameterTypes().length > 1 )
-			{
+			if ( constructor.getParameterTypes().length > 1 ) {
 				continue;
 			}
 
 			Class<?> parameterType = constructor.getParameterTypes()[0];
 
-			if ( !parameterType.getName().endsWith( "Config" ) )
-			{
+			if ( !parameterType.getName().endsWith( "Config" ) ) {
 				continue;
 			}
 
@@ -333,8 +312,7 @@ public class XmlSchemaGeneratorTask
 
 		String propertiesBlock = generatePropertiesBlock( clazz );
 
-		if ( propertiesBlock != null )
-		{
+		if ( propertiesBlock != null ) {
 			builder.append( propertiesBlock );
 		}
 
@@ -342,12 +320,9 @@ public class XmlSchemaGeneratorTask
 
 		builder.append( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\"" );
 
-		if ( !configurable )
-		{
+		if ( !configurable ) {
 			builder.append( " use=\"prohibited\"" );
-		}
-		else if ( !optionallyConfigurable )
-		{
+		} else if ( !optionallyConfigurable ) {
 			builder.append( " use=\"required\"" );
 		}
 
@@ -365,61 +340,51 @@ public class XmlSchemaGeneratorTask
 	// Private methods
 	//
 
-	private String generatePropertiesBlock( Class<?> clazz )
-	{
+	private String generatePropertiesBlock( Class<?> clazz ) {
+
 		StringBuilder builder = new StringBuilder();
 
 		// Special support for setParameter
 
 		boolean supportSetParameter = false;
 
-		try
-		{
+		try {
 			clazz.getMethod( "setParameter", String.class, Object.class );
 			supportSetParameter = true;
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Okay to fail
 		}
 
-		if ( supportSetParameter )
-		{
+		if ( supportSetParameter ) {
 			// A limitation of XML Schema is that if you want to support multiples of
 			// an element (ie. xs:sequence, maxOccurs='unbounded') then you can't also
 			// support arbitrary order (ie. xs:all). You can't mix the two :(
 
 			builder.append( "\t\t\t<xs:sequence>\r\n" );
 			builder.append( generatePropertyBlock( "parameter", true, String.class, Object.class ) );
-		}
-		else
-		{
+		} else {
 			builder.append( "\t\t\t<xs:all>\r\n" );
 		}
 
 		boolean foundProperty = false;
 
 		BasePropertyStyleConfig propertyStyleConfig = new BasePropertyStyleConfig();
-		propertyStyleConfig.setExcludeBaseType( Pattern.compile( "^(java|javax|org\\.eclipse)\\..*$" ));
+		propertyStyleConfig.setExcludeBaseType( Pattern.compile( "^(java|javax|org\\.eclipse)\\..*$" ) );
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( propertyStyleConfig );
 		Map<String, Property> properties = propertyStyle.getProperties( clazz );
 
-		for ( Property property : properties.values() )
-		{
-			if ( !property.isWritable() )
-			{
+		for ( Property property : properties.values() ) {
+			if ( !property.isWritable() ) {
 				continue;
 			}
 
-			if ( "config".equals( property.getName() ) )
-			{
+			if ( "config".equals( property.getName() ) ) {
 				continue;
 			}
 
 			String propertyBlock = generatePropertyBlock( property.getName(), false, property.getType() );
 
-			if ( propertyBlock == null )
-			{
+			if ( propertyBlock == null ) {
 				continue;
 			}
 
@@ -427,25 +392,21 @@ public class XmlSchemaGeneratorTask
 			builder.append( propertyBlock );
 		}
 
-		if ( !foundProperty )
-		{
+		if ( !foundProperty ) {
 			return null;
 		}
 
-		if ( supportSetParameter )
-		{
+		if ( supportSetParameter ) {
 			builder.append( "\t\t\t</xs:sequence>\r\n" );
-		}
-		else
-		{
+		} else {
 			builder.append( "\t\t\t</xs:all>\r\n" );
 		}
 
 		return builder.toString();
 	}
 
-	private String generatePropertyBlock( String name, boolean canOccurMultipleTimes, Class<?>... types )
-	{
+	private String generatePropertyBlock( String name, boolean canOccurMultipleTimes, Class<?>... types ) {
+
 		StringBuilder builder = new StringBuilder();
 
 		// Name
@@ -454,8 +415,7 @@ public class XmlSchemaGeneratorTask
 		builder.append( name );
 		builder.append( "\" minOccurs=\"0\"" );
 
-		if ( canOccurMultipleTimes )
-		{
+		if ( canOccurMultipleTimes ) {
 			builder.append( " maxOccurs=\"unbounded\"" );
 		}
 
@@ -465,12 +425,10 @@ public class XmlSchemaGeneratorTask
 
 		// Types
 
-		for ( Class<?> type : types )
-		{
+		for ( Class<?> type : types ) {
 			String typeBlock = generateTypeBlock( type );
 
-			if ( typeBlock == null )
-			{
+			if ( typeBlock == null ) {
 				return null;
 			}
 
@@ -486,41 +444,35 @@ public class XmlSchemaGeneratorTask
 		return builder.toString();
 	}
 
-	private String generateTypeBlock( Class<?> type )
-	{
+	private String generateTypeBlock( Class<?> type ) {
+
 		// Properties to ignore (should never be set via metawidget.xml)
 
-		if ( ResourceResolver.class.equals( type ) )
-		{
+		if ( ResourceResolver.class.equals( type ) ) {
 			return null;
 		}
 
 		// Primitives
 
-		if ( boolean.class.equals( type ) )
-		{
+		if ( boolean.class.equals( type ) ) {
 			return "\t\t\t\t\t\t\t<xs:element name=\"boolean\" type=\"xs:boolean\"/>\r\n";
 		}
 
-		if ( int.class.equals( type ) )
-		{
+		if ( int.class.equals( type ) ) {
 			return "\t\t\t\t\t\t\t<xs:element name=\"int\" type=\"xs:int\"/>\r\n";
 		}
 
-		if ( ResourceBundle.class.equals( type ) )
-		{
+		if ( ResourceBundle.class.equals( type ) ) {
 			return "\t\t\t\t\t\t\t<xs:element name=\"bundle\" type=\"xs:string\"/>\r\n";
 		}
 
-		if ( String.class.equals( type ) )
-		{
+		if ( String.class.equals( type ) ) {
 			return "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>\r\n";
 		}
 
 		// InputStreams
 
-		if ( InputStream.class.equals( type ) )
-		{
+		if ( InputStream.class.equals( type ) ) {
 			StringBuilder builder = new StringBuilder();
 
 			builder.append( "\t\t\t\t\t\t\t<xs:choice>\r\n" );
@@ -534,22 +486,16 @@ public class XmlSchemaGeneratorTask
 
 		// Collections
 
-		if ( type.isArray() || List.class.equals( type ) || Set.class.equals( type ) )
-		{
+		if ( type.isArray() || List.class.equals( type ) || Set.class.equals( type ) ) {
 			StringBuilder builder = new StringBuilder();
 
 			builder.append( "\t\t\t\t\t\t\t<xs:element name=\"" );
 
-			if ( type.isArray() )
-			{
+			if ( type.isArray() ) {
 				builder.append( "array" );
-			}
-			else if ( List.class.equals( type ) )
-			{
+			} else if ( List.class.equals( type ) ) {
 				builder.append( "list" );
-			}
-			else if ( Set.class.equals( type ) )
-			{
+			} else if ( Set.class.equals( type ) ) {
 				builder.append( "set" );
 			}
 

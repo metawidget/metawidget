@@ -25,14 +25,14 @@ import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
  */
 
 public class FacetTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testFacet()
-	{
+	public void testFacet() {
+
 		Facet facet = new Facet( null );
 		facet.setName( "foo" );
 		assertEquals( "foo", facet.getName() );

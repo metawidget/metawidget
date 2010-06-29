@@ -27,8 +27,8 @@ import java.lang.annotation.Annotation;
  */
 
 public abstract class BaseProperty
-	implements Property
-{
+	implements Property {
+
 	//
 	// Private methods
 	//
@@ -41,8 +41,8 @@ public abstract class BaseProperty
 	// Constructor
 	//
 
-	public BaseProperty( String name, Class<?> type )
-	{
+	public BaseProperty( String name, Class<?> type ) {
+
 		mName = name;
 		mType = type;
 	}
@@ -51,24 +51,24 @@ public abstract class BaseProperty
 	// Public methods
 	//
 
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public Class<?> getType()
-	{
+	public Class<?> getType() {
+
 		return mType;
 	}
 
-	public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
-	{
+	public boolean isAnnotationPresent( Class<? extends Annotation> annotation ) {
+
 		return ( getAnnotation( annotation ) != null );
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		return mName;
 	}
 }

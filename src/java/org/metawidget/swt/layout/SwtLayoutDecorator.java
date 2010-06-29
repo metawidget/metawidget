@@ -37,8 +37,8 @@ import org.metawidget.swt.SwtMetawidget;
  * @author Richard Kennard
  */
 
-public interface SwtLayoutDecorator
-{
+public interface SwtLayoutDecorator {
+
 	//
 	// Methods
 	//

@@ -35,8 +35,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HeadingTagLayoutDecorator
-	extends JspFlatSectionLayoutDecorator
-{
+	extends JspFlatSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -49,8 +49,8 @@ public class HeadingTagLayoutDecorator
 	// Constructor
 	//
 
-	public HeadingTagLayoutDecorator( HeadingTagLayoutDecoratorConfig config )
-	{
+	public HeadingTagLayoutDecorator( HeadingTagLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyle = config.getStyle();
@@ -62,20 +62,18 @@ public class HeadingTagLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, BodyTag containerTag, MetawidgetTag metawidgetTag )
-	{
-		StringBuffer buffer = new StringBuffer( "<h" );
-		buffer.append( String.valueOf( level + 1 ));
+	protected void addSectionWidget( String section, int level, BodyTag containerTag, MetawidgetTag metawidgetTag ) {
 
-		if ( mStyle != null )
-		{
+		StringBuffer buffer = new StringBuffer( "<h" );
+		buffer.append( String.valueOf( level + 1 ) );
+
+		if ( mStyle != null ) {
 			buffer.append( " style=\"" );
 			buffer.append( mStyle );
 			buffer.append( "\"" );
 		}
 
-		if ( mStyleClass != null )
-		{
+		if ( mStyleClass != null ) {
 			buffer.append( " class=\"" );
 			buffer.append( mStyleClass );
 			buffer.append( "\"" );
@@ -87,17 +85,14 @@ public class HeadingTagLayoutDecorator
 
 		String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection != null )
-		{
+		if ( localizedSection != null ) {
 			buffer.append( localizedSection );
-		}
-		else
-		{
+		} else {
 			buffer.append( section );
 		}
 
 		buffer.append( "</h" );
-		buffer.append( String.valueOf( level + 1 ));
+		buffer.append( String.valueOf( level + 1 ) );
 		buffer.append( ">" );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();

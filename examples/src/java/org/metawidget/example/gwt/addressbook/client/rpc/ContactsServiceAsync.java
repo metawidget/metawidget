@@ -29,8 +29,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
  */
 
 public interface ContactsServiceAsync
-	extends RemoteService
-{
+	extends RemoteService {
+
 	//
 	// Methods
 	//

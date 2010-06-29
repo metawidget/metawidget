@@ -37,15 +37,15 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class GroupLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		// Start app
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -107,8 +107,8 @@ public class GroupLayoutTest
 	// Inner class
 	//
 
-	static class PersonAtTutorialEnd
-	{
+	static class PersonAtTutorialEnd {
+
 		public String	name;
 
 		@UiComesAfter( "name" )
@@ -124,13 +124,13 @@ public class GroupLayoutTest
 		public String	employer;
 	}
 
-	static class Foo
-	{
+	static class Foo {
+
 		@UiAttribute( name = "required", value = "true" )
-		public String bar;
+		public String	bar;
 
 		@UiRequired
 		@UiReadOnly
-		public String baz;
+		public String	baz;
 	}
 }

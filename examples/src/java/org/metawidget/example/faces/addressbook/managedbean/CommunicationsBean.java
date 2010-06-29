@@ -25,20 +25,18 @@ import org.metawidget.example.shared.addressbook.controller.CommunicationsContro
  */
 
 public class CommunicationsBean
-	extends CommunicationsController
-{
+	extends CommunicationsController {
+
 	//
 	// Private statics
 	//
 
 	private final static SelectItem[]	ALL_COMMUNICATION_TYPE_SELECT_ITEMS;
 
-	static
-	{
+	static {
 		ALL_COMMUNICATION_TYPE_SELECT_ITEMS = new SelectItem[ALL_COMMUNICATION_TYPES.length];
 
-		for ( int loop = 0; loop < ALL_COMMUNICATION_TYPES.length; loop++ )
-		{
+		for ( int loop = 0; loop < ALL_COMMUNICATION_TYPES.length; loop++ ) {
 			ALL_COMMUNICATION_TYPE_SELECT_ITEMS[loop] = new SelectItem( ALL_COMMUNICATION_TYPES[loop] );
 		}
 	}
@@ -47,8 +45,8 @@ public class CommunicationsBean
 	// Public methods
 	//
 
-	public SelectItem[] getAllAsSelectItems()
-	{
+	public SelectItem[] getAllAsSelectItems() {
+
 		return ALL_COMMUNICATION_TYPE_SELECT_ITEMS;
 	}
 }

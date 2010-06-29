@@ -40,19 +40,18 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class StandardValidatorProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Only validate EditableValueHolders
 
-		if ( !( component instanceof EditableValueHolder ))
-		{
+		if ( !( component instanceof EditableValueHolder ) ) {
 			return component;
 		}
 
@@ -66,47 +65,36 @@ public class StandardValidatorProcessor
 		String minimumValue = attributes.get( MINIMUM_VALUE );
 		String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-		if ( minimumValue != null || maximumValue != null )
-		{
+		if ( minimumValue != null || maximumValue != null ) {
 			String type = attributes.get( ACTUAL_CLASS );
 
-			if ( type == null )
-			{
+			if ( type == null ) {
 				type = attributes.get( TYPE );
 			}
 
-			if ( double.class.getName().equals( type ) || Double.class.getName().equals( type ) )
-			{
-				if ( !hasExistingValidator( editableValueHolder, DoubleRangeValidator.class ))
-				{
+			if ( double.class.getName().equals( type ) || Double.class.getName().equals( type ) ) {
+				if ( !hasExistingValidator( editableValueHolder, DoubleRangeValidator.class ) ) {
 					DoubleRangeValidator validator = (DoubleRangeValidator) application.createValidator( "javax.faces.DoubleRange" );
 					editableValueHolder.addValidator( validator );
 
-					if ( minimumValue != null && !"".equals( minimumValue ))
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						validator.setMinimum( Double.parseDouble( minimumValue ) );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ))
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						validator.setMaximum( Double.parseDouble( maximumValue ) );
 					}
 				}
-			}
-			else
-			{
-				if ( !hasExistingValidator( editableValueHolder, LongRangeValidator.class ))
-				{
+			} else {
+				if ( !hasExistingValidator( editableValueHolder, LongRangeValidator.class ) ) {
 					LongRangeValidator validator = (LongRangeValidator) application.createValidator( "javax.faces.LongRange" );
 					editableValueHolder.addValidator( validator );
 
-					if ( minimumValue != null && !"".equals( minimumValue ))
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						validator.setMinimum( Long.parseLong( minimumValue ) );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ))
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						validator.setMaximum( Long.parseLong( maximumValue ) );
 					}
 				}
@@ -118,19 +106,15 @@ public class StandardValidatorProcessor
 		String minimumLength = attributes.get( MINIMUM_LENGTH );
 		String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-		if ( minimumLength != null || maximumLength != null )
-		{
-			if ( !hasExistingValidator( editableValueHolder, LengthValidator.class ))
-			{
+		if ( minimumLength != null || maximumLength != null ) {
+			if ( !hasExistingValidator( editableValueHolder, LengthValidator.class ) ) {
 				LengthValidator validator = (LengthValidator) application.createValidator( "javax.faces.Length" );
 
-				if ( minimumLength != null && !"".equals( minimumLength ))
-				{
+				if ( minimumLength != null && !"".equals( minimumLength ) ) {
 					validator.setMinimum( Integer.parseInt( minimumLength ) );
 				}
 
-				if ( maximumLength != null && !"".equals( maximumLength ))
-				{
+				if ( maximumLength != null && !"".equals( maximumLength ) ) {
 					validator.setMaximum( Integer.parseInt( maximumLength ) );
 				}
 
@@ -145,19 +129,16 @@ public class StandardValidatorProcessor
 	// Private methods
 	//
 
-	private boolean hasExistingValidator( EditableValueHolder editableValueHolder, Class<? extends Validator> validatorClass )
-	{
+	private boolean hasExistingValidator( EditableValueHolder editableValueHolder, Class<? extends Validator> validatorClass ) {
+
 		Validator[] validators = editableValueHolder.getValidators();
 
-		if ( validators == null )
-		{
+		if ( validators == null ) {
 			return false;
 		}
 
-		for( Validator validator : validators )
-		{
-			if ( validatorClass.isAssignableFrom( validator.getClass() ))
-			{
+		for ( Validator validator : validators ) {
+			if ( validatorClass.isAssignableFrom( validator.getClass() ) ) {
 				return true;
 			}
 		}

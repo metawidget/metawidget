@@ -37,8 +37,8 @@ import javax.faces.el.ValueBinding;
  */
 
 @SuppressWarnings( "deprecation" )
-public final class FacesUtils
-{
+public final class FacesUtils {
+
 	//
 	// Public statics
 	//
@@ -56,8 +56,8 @@ public final class FacesUtils
 	 *             if <code>value</code> is <code>null</code>
 	 */
 
-	public static boolean isExpression( String value )
-	{
+	public static boolean isExpression( String value ) {
+
 		return PATTERN_EXPRESSION.matcher( value ).matches();
 	}
 
@@ -66,12 +66,11 @@ public final class FacesUtils
 	 *         returns the original String
 	 */
 
-	public static String unwrapExpression( String value )
-	{
+	public static String unwrapExpression( String value ) {
+
 		Matcher matcher = PATTERN_EXPRESSION.matcher( value );
 
-		if ( !matcher.matches() )
-		{
+		if ( !matcher.matches() ) {
 			return value;
 		}
 
@@ -83,10 +82,9 @@ public final class FacesUtils
 	 *         returns the original String
 	 */
 
-	public static String wrapExpression( String value )
-	{
-		if ( isExpression( value ) )
-		{
+	public static String wrapExpression( String value ) {
+
+		if ( isExpression( value ) ) {
 			return value;
 		}
 
@@ -100,27 +98,23 @@ public final class FacesUtils
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
 
-	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, String expressionString )
-	{
+	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, String expressionString ) {
+
 		// Try to find a child...
 
-		for ( UIComponent child : component.getChildren() )
-		{
+		for ( UIComponent child : component.getChildren() ) {
 			// ...with the binding we're interested in
 
 			ValueBinding childValueBinding = child.getValueBinding( "value" );
 
-			if ( childValueBinding == null )
-			{
+			if ( childValueBinding == null ) {
 				continue;
 			}
 
 			// (note: ValueBinding.equals() does not compare expression strings)
 
-			if ( expressionString.equals( childValueBinding.getExpressionString() ) )
-			{
-				if ( child.isRendered() )
-				{
+			if ( expressionString.equals( childValueBinding.getExpressionString() ) ) {
+				if ( child.isRendered() ) {
 					return child;
 				}
 			}
@@ -136,14 +130,12 @@ public final class FacesUtils
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
 
-	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, String expressionString )
-	{
+	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, String expressionString ) {
+
 		// Try to find a child...
 
-		for ( UIComponent child : component.getChildren() )
-		{
-			if ( !( child instanceof ActionSource ) )
-			{
+		for ( UIComponent child : component.getChildren() ) {
+			if ( !( child instanceof ActionSource ) ) {
 				continue;
 			}
 
@@ -151,17 +143,14 @@ public final class FacesUtils
 
 			MethodBinding childMethodBinding = ( (ActionSource) child ).getAction();
 
-			if ( childMethodBinding == null )
-			{
+			if ( childMethodBinding == null ) {
 				continue;
 			}
 
 			// (note: MethodBinding.equals() does not compare expression strings)
 
-			if ( expressionString.equals( childMethodBinding.getExpressionString() ) )
-			{
-				if ( child.isRendered() )
-				{
+			if ( expressionString.equals( childMethodBinding.getExpressionString() ) ) {
+				if ( child.isRendered() ) {
 					return child;
 				}
 			}
@@ -170,14 +159,12 @@ public final class FacesUtils
 		return null;
 	}
 
-	public static UIParameter findParameterWithName( UIComponent component, String name )
-	{
+	public static UIParameter findParameterWithName( UIComponent component, String name ) {
+
 		// Try to find a child parameter...
 
-		for ( UIComponent child : component.getChildren() )
-		{
-			if ( !( child instanceof UIParameter ) )
-			{
+		for ( UIComponent child : component.getChildren() ) {
+			if ( !( child instanceof UIParameter ) ) {
 				continue;
 			}
 
@@ -185,8 +172,7 @@ public final class FacesUtils
 
 			UIParameter parameter = (UIParameter) child;
 
-			if ( name.equals( parameter.getName() ) )
-			{
+			if ( name.equals( parameter.getName() ) ) {
 				return parameter;
 			}
 		}
@@ -195,39 +181,33 @@ public final class FacesUtils
 	}
 
 	public static void render( FacesContext context, UIComponent component )
-		throws IOException
-	{
-		if ( component == null || !component.isRendered() )
-		{
+		throws IOException {
+
+		if ( component == null || !component.isRendered() ) {
 			return;
 		}
 
 		component.encodeBegin( context );
 
-		if ( component.getRendersChildren() )
-		{
+		if ( component.getRendersChildren() ) {
 			component.encodeChildren( context );
-		}
-		else
-		{
+		} else {
 			renderChildren( context, component );
 		}
 
 		component.encodeEnd( context );
 	}
 
-	public static void copyParameters( UIComponent from, UIComponent to )
-	{
+	public static void copyParameters( UIComponent from, UIComponent to ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
 		// For each child parameter...
 
-		for ( UIComponent component : from.getChildren() )
-		{
-			if ( !( component instanceof UIParameter ) )
-			{
+		for ( UIComponent component : from.getChildren() ) {
+			if ( !( component instanceof UIParameter ) ) {
 				continue;
 			}
 
@@ -250,8 +230,8 @@ public final class FacesUtils
 	 * is set to <code>true</code>.
 	 */
 
-	public static boolean isUseSystemEvents()
-	{
+	public static boolean isUseSystemEvents() {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 
@@ -263,10 +243,9 @@ public final class FacesUtils
 	//
 
 	private static void renderChildren( FacesContext context, UIComponent component )
-		throws IOException
-	{
-		for ( UIComponent componentChild : component.getChildren() )
-		{
+		throws IOException {
+
+		for ( UIComponent componentChild : component.getChildren() ) {
 			render( context, componentChild );
 		}
 	}
@@ -294,8 +273,8 @@ public final class FacesUtils
 	// Private constructor
 	//
 
-	private FacesUtils()
-	{
+	private FacesUtils() {
+
 		// Can never be called
 	}
 }

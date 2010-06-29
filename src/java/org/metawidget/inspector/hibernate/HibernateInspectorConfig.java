@@ -20,15 +20,14 @@ import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a HibernateInspector prior to use. Once instantiated,
- * Inspectors are immutable.
+ * Configures a HibernateInspector prior to use. Once instantiated, Inspectors are immutable.
  *
  * @author Richard Kennard
  */
 
 public class HibernateInspectorConfig
-	extends BaseXmlInspectorConfig
-{
+	extends BaseXmlInspectorConfig {
+
 	//
 	// Private members
 	//
@@ -39,8 +38,8 @@ public class HibernateInspectorConfig
 	// Constructor
 	//
 
-	public HibernateInspectorConfig()
-	{
+	public HibernateInspectorConfig() {
+
 		setDefaultFile( "hibernate.cfg.xml" );
 	}
 
@@ -49,24 +48,23 @@ public class HibernateInspectorConfig
 	//
 
 	/**
-	 * Whether the Inspector returns &lt;id&gt; properties as
-	 * <code>hidden="true"</code>. True by default.
+	 * Whether the Inspector returns &lt;id&gt; properties as <code>hidden="true"</code>. True by
+	 * default.
 	 * <p>
-	 * Hibernate recommends using synthetic ids, so generally they don't appear
-	 * in the UI.
+	 * Hibernate recommends using synthetic ids, so generally they don't appear in the UI.
 	 */
 
-	public boolean isHideIds()
-	{
+	public boolean isHideIds() {
+
 		return mHideIds;
 	}
 
 	/**
-	 * @return	this, as part of a fluent interface
+	 * @return this, as part of a fluent interface
 	 */
 
-	public HibernateInspectorConfig setHideIds( boolean hideIds )
-	{
+	public HibernateInspectorConfig setHideIds( boolean hideIds ) {
+
 		mHideIds = hideIds;
 
 		// Fluent interface
@@ -75,25 +73,21 @@ public class HibernateInspectorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mHideIds != ((HibernateInspectorConfig) that).mHideIds )
-		{
+		if ( mHideIds != ( (HibernateInspectorConfig) that ).mHideIds ) {
 			return false;
 		}
 
@@ -101,8 +95,8 @@ public class HibernateInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
 

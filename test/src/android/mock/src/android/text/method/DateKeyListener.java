@@ -23,7 +23,6 @@ package android.text.method;
  */
 
 public class DateKeyListener
-	implements KeyListener
-{
+	implements KeyListener {
 	// Do nothing
 }

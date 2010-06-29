@@ -41,8 +41,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class OutputTextLayoutDecorator
-	extends UIComponentFlatSectionLayoutDecorator
-{
+	extends UIComponentFlatSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -55,8 +55,8 @@ public class OutputTextLayoutDecorator
 	// Constructor
 	//
 
-	public OutputTextLayoutDecorator( OutputTextLayoutDecoratorConfig config )
-	{
+	public OutputTextLayoutDecorator( OutputTextLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyle = config.getStyle();
@@ -68,8 +68,8 @@ public class OutputTextLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, UIComponent container, UIMetawidget metawidget )
-	{
+	protected void addSectionWidget( String section, int level, UIComponent container, UIMetawidget metawidget ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		HtmlOutputText heading = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
@@ -81,8 +81,7 @@ public class OutputTextLayoutDecorator
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

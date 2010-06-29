@@ -29,34 +29,32 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class NestedWidgetsConverter
-	implements Converter
-{
+	implements Converter {
+
 	//
 	// Public methods
 	//
 
-	public Object getAsObject( FacesContext context, UIComponent component, String value )
-	{
+	public Object getAsObject( FacesContext context, UIComponent component, String value ) {
+
 		String[] values = ArrayUtils.fromString( value );
 
-		if ( values.length == 0 )
-		{
+		if ( values.length == 0 ) {
 			return null;
 		}
 
 		NestedWidgets nestedWidgets = new NestedWidgets();
 		nestedWidgets.setNestedTextbox1( values[0] );
 
-		if ( values.length > 1 )
-		{
+		if ( values.length > 1 ) {
 			nestedWidgets.setNestedTextbox2( values[1] );
 		}
 
 		return nestedWidgets;
 	}
 
-	public String getAsString( FacesContext context, UIComponent component, Object value )
-	{
+	public String getAsString( FacesContext context, UIComponent component, Object value ) {
+
 		return StringUtils.quietValueOf( value );
 	}
 }

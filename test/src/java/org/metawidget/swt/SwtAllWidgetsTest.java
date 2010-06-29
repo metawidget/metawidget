@@ -49,14 +49,14 @@ import org.metawidget.swt.widgetprocessor.binding.reflection.ReflectionBindingPr
  */
 
 public class SwtAllWidgetsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 		shell.setLayout( new FillLayout() );
@@ -70,10 +70,8 @@ public class SwtAllWidgetsTest
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
@@ -92,8 +90,8 @@ public class SwtAllWidgetsTest
 	//
 
 	public void testAllWidgets()
-		throws Exception
-	{
+		throws Exception {
+
 		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// Model
@@ -340,7 +338,7 @@ public class SwtAllWidgetsTest
 		assertTrue( ( (GridData) metawidget.getChildren()[58].getLayoutData() ).exclude );
 
 		Composite separatorComposite = (Composite) metawidget.getChildren()[59];
-		assertTrue( ((org.eclipse.swt.layout.GridLayout) separatorComposite.getLayout() ).marginWidth == 0 );
+		assertTrue( ( (org.eclipse.swt.layout.GridLayout) separatorComposite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Section Break", ( (Label) separatorComposite.getChildren()[0] ).getText() );
 		assertTrue( separatorComposite.getChildren()[1] instanceof Label );
 		assertTrue( ( separatorComposite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
@@ -362,13 +360,10 @@ public class SwtAllWidgetsTest
 		assertTrue( metawidget.getChildren()[64] instanceof Button );
 		Button button = ( (Button) metawidget.getChildren()[64] );
 		assertEquals( "Do action", button.getText() );
-		try
-		{
+		try {
 			button.notifyListeners( SWT.Selection, null );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
@@ -376,13 +371,10 @@ public class SwtAllWidgetsTest
 
 		// Check MetawidgetException
 
-		try
-		{
+		try {
 			metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( "Could not parse 'bad date'", e.getCause().getMessage() );
 		}
 

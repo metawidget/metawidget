@@ -28,25 +28,23 @@ import org.apache.commons.beanutils.Converter;
  */
 
 public class ToStringConverter
-	implements Converter
-{
+	implements Converter {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "unchecked" )
-	public Object convert( Class clazz, Object value )
-	{
-		if ( value == null || "".equals( value ) )
-		{
+	public Object convert( Class clazz, Object value ) {
+
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 
 		// Convert enums to their .name() form, not their .toString() form, so that we can
 		// use .valueOf() in EnumConverter.
 
-		if ( value instanceof Enum )
-		{
+		if ( value instanceof Enum ) {
 			return ( (Enum) value ).name();
 		}
 
@@ -54,8 +52,7 @@ public class ToStringConverter
 		// org.apache.commons.beanutils.converters.DateConverter.convertToString never
 		// gets called?
 
-		if ( value instanceof Date )
-		{
+		if ( value instanceof Date ) {
 			return DateFormat.getDateInstance( DateFormat.SHORT ).format( (Date) value );
 		}
 

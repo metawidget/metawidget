@@ -36,14 +36,14 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class UIComponentFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget>
-{
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected UIComponentFlatSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config )
-	{
+	protected UIComponentFlatSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -52,24 +52,23 @@ public abstract class UIComponentFlatSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected String[] getSections( Map<String, String> attributes )
-	{
+	protected String[] getSections( Map<String, String> attributes ) {
+
 		return ArrayUtils.fromString( attributes.get( SECTION ) );
 	}
 
 	@Override
-	protected State getState( UIComponent container, UIMetawidget metawidget )
-	{
+	protected State getState( UIComponent container, UIMetawidget metawidget ) {
+
 		State state = (State) metawidget.getClientProperty( getClass() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidget.putClientProperty( getClass(), state );
 		}
@@ -78,8 +77,8 @@ public abstract class UIComponentFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( UIComponent component )
-	{
+	protected boolean isEmptyStub( UIComponent component ) {
+
 		return ( component instanceof UIStub && component.getChildren().isEmpty() );
 	}
 }

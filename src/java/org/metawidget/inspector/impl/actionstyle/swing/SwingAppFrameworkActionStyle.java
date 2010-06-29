@@ -29,38 +29,34 @@ import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
  */
 
 public class SwingAppFrameworkActionStyle
-	extends MethodActionStyle
-{
+	extends MethodActionStyle {
+
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected boolean matchAction( Method method )
-	{
+	protected boolean matchAction( Method method ) {
+
 		// Exclude Swing AppFramework actions
 
-		if ( method.getDeclaringClass().getPackage().getName().startsWith( "org.jdesktop" ))
-		{
+		if ( method.getDeclaringClass().getPackage().getName().startsWith( "org.jdesktop" ) ) {
 			return false;
 		}
 
 		org.jdesktop.application.Action action = method.getAnnotation( org.jdesktop.application.Action.class );
 
-		if ( action == null )
-		{
+		if ( action == null ) {
 			return false;
 		}
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
 
-		if ( parameterTypes.length > 1 )
-		{
+		if ( parameterTypes.length > 1 ) {
 			throw InspectorException.newException( "@Action " + method + " must not have more than one parameter" );
 		}
 
-		if ( parameterTypes.length == 1 && !parameterTypes[0].equals( ActionEvent.class ))
-		{
+		if ( parameterTypes.length == 1 && !parameterTypes[0].equals( ActionEvent.class ) ) {
 			throw InspectorException.newException( "@Action " + method + " parameter must be a " + ActionEvent.class.getName() );
 		}
 

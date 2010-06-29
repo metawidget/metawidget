@@ -22,17 +22,16 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * Facet for GWT environments.
  * <p>
- * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are
- * 'decorations' (such as button bars) to be recognized and arranged at the discretion of the
- * Layout.
+ * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
+ * (such as button bars) to be recognized and arranged at the discretion of the Layout.
  *
  * @author Richard Kennard
  */
 
 public class Facet
 	extends SimplePanel
-	implements HasName
-{
+	implements HasName {
+
 	//
 	// Private members
 	//
@@ -43,13 +42,13 @@ public class Facet
 	// Public methods
 	//
 
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public void setName( String name )
-	{
+	public void setName( String name ) {
+
 		mName = name;
 	}
 }

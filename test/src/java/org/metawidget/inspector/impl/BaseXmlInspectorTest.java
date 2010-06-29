@@ -25,16 +25,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class BaseXmlInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class, new BaseXmlInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class, new BaseXmlInspectorConfig() {
 			// Subclass
 		} );
 	}

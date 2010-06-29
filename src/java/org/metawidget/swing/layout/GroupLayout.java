@@ -45,8 +45,8 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class GroupLayout
-	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
-{
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Private statics
 	//
@@ -61,13 +61,13 @@ public class GroupLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
-	{
+	public void onStartBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( container );
 		container.setLayout( groupLayout );
 
@@ -86,12 +86,11 @@ public class GroupLayout
 		groupLayout.setVerticalGroup( state.groupVertical );
 	}
 
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-		{
+		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 ) {
 			return;
 		}
 
@@ -106,16 +105,13 @@ public class GroupLayout
 
 		// Label
 
-		if ( attributes != null )
-		{
+		if ( attributes != null ) {
 			String labelText = metawidget.getLabelString( attributes );
 
-			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-			{
+			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 				// Required
 
-				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-				{
+				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 					labelText += "*";
 				}
 
@@ -136,27 +132,25 @@ public class GroupLayout
 		parallelGroup.addComponent( component );
 	}
 
-	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		// Make all labels the same width
 
 		State state = getState( container );
 		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
 
-		if ( !state.labels.isEmpty() )
-		{
+		if ( !state.labels.isEmpty() ) {
 			groupLayout.linkSize( SwingConstants.HORIZONTAL, state.labels.toArray( EMPTY_COMPONENTS_ARRAY ) );
 		}
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
-	{
+	public void onEndBuild( SwingMetawidget metawidget ) {
+
 		// Buttons
 
 		Facet facetButtons = metawidget.getFacet( "buttons" );
 
-		if ( facetButtons != null )
-		{
+		if ( facetButtons != null ) {
 			State state = getState( metawidget );
 			javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) metawidget.getLayout();
 			state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( facetButtons ) );
@@ -169,12 +163,11 @@ public class GroupLayout
 	// Private methods
 	//
 
-	private State getState( JComponent container )
-	{
+	private State getState( JComponent container ) {
+
 		State state = (State) container.getClientProperty( GroupLayout.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			container.putClientProperty( GroupLayout.class, state );
 		}
@@ -190,8 +183,8 @@ public class GroupLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */ParallelGroup		groupHorizontal;
 
 		/* package private */SequentialGroup	groupVertical;

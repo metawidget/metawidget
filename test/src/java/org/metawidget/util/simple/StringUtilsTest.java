@@ -25,28 +25,28 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class StringUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testStringUtils()
-		throws Exception
-	{
-		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
+		throws Exception {
+
+		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ) );
 
 		// uncamelCase
 
-		assertTrue( null == StringUtils.uncamelCase( null ));
-		assertEquals( "Camel cased", StringUtils.uncamelCase( "camelCased" ));
-		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ));
+		assertTrue( null == StringUtils.uncamelCase( null ) );
+		assertEquals( "Camel cased", StringUtils.uncamelCase( "camelCased" ) );
+		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ) );
 
 		// camelCase
 
-		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ));
-		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ));
-		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ));
-		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ));
+		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ) );
+		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ) );
+		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
+		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
 	}
 }

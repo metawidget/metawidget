@@ -27,8 +27,8 @@ import org.eclipse.core.databinding.conversion.Converter;
  */
 
 public class DateToStringConverter
-	extends Converter
-{
+	extends Converter {
+
 	//
 	// Private members
 	//
@@ -39,8 +39,8 @@ public class DateToStringConverter
 	// Constructor
 	//
 
-	public DateToStringConverter( String pattern )
-	{
+	public DateToStringConverter( String pattern ) {
+
 		super( Date.class, String.class );
 
 		mFormat = new SimpleDateFormat( pattern );
@@ -52,15 +52,13 @@ public class DateToStringConverter
 	//
 
 	@Override
-	public Object convert( Object toConvert )
-	{
-		if ( toConvert == null )
-		{
+	public Object convert( Object toConvert ) {
+
+		if ( toConvert == null ) {
 			return "";
 		}
 
-		synchronized ( mFormat )
-		{
+		synchronized ( mFormat ) {
 			return mFormat.format( toConvert );
 		}
 	}

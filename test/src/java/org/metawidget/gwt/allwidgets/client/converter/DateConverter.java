@@ -28,8 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class DateConverter
-	extends BaseConverter<Date>
-{
+	extends BaseConverter<Date> {
+
 	//
 	// Private members
 	//
@@ -40,8 +40,8 @@ public class DateConverter
 	// Constructor
 	//
 
-	public DateConverter()
-	{
+	public DateConverter() {
+
 		mFormat = DateTimeFormat.getShortDateFormat();
 	}
 
@@ -49,10 +49,9 @@ public class DateConverter
 	// Public methods
 	//
 
-	public Date convertFromWidget( Widget widget, Object value, Class<?> type )
-	{
-		if ( value == null || "".equals( value ))
-		{
+	public Date convertFromWidget( Widget widget, Object value, Class<?> type ) {
+
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 
@@ -60,10 +59,9 @@ public class DateConverter
 	}
 
 	@Override
-	public Object convertForWidget( Widget widget, Date value )
-	{
-		if ( value == null )
-		{
+	public Object convertForWidget( Widget widget, Date value ) {
+
+		if ( value == null ) {
 			return null;
 		}
 

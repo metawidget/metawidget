@@ -24,15 +24,15 @@ import java.lang.annotation.Target;
 /**
  * Annotates arbitrary attributes for the UI.
  * <p>
- * This annotation can be used when no other Inspector is available for the
- * given attributes, and as an alternative to using XmlInspector.
+ * This annotation can be used when no other Inspector is available for the given attributes, and as
+ * an alternative to using XmlInspector.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiAttributes
-{
+public @interface UiAttributes {
+
 	UiAttribute[] value();
 }

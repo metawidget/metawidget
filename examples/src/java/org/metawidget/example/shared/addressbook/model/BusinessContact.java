@@ -28,8 +28,8 @@ import org.metawidget.inspector.annotation.UiSection;
  */
 
 public class BusinessContact
-	extends Contact
-{
+	extends Contact {
+
 	//
 	// Private statics
 	//
@@ -48,13 +48,13 @@ public class BusinessContact
 	// Constructor
 	//
 
-	public BusinessContact()
-	{
+	public BusinessContact() {
+
 		// Default constructor
 	}
 
-	public BusinessContact( String title, String firstname, String surname )
-	{
+	public BusinessContact( String title, String firstname, String surname ) {
+
 		super( title, firstname, surname );
 	}
 
@@ -63,13 +63,13 @@ public class BusinessContact
 	//
 
 	@UiComesAfter( "surname" )
-	public String getCompany()
-	{
+	public String getCompany() {
+
 		return mCompany;
 	}
 
-	public void setCompany( String company )
-	{
+	public void setCompany( String company ) {
+
 		mCompany = company;
 	}
 
@@ -78,20 +78,20 @@ public class BusinessContact
 	 * <p>
 	 * Note: this method is annotated <code>UiAttributes</code>. Metawidget is designed to use
 	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
-	 * like <code>org.hibernate.validator.Min</code> and <code>org.hibernate.validator.Max</code>
-	 * in preference to <code>UiAttribute</code>.
+	 * like <code>org.hibernate.validator.Min</code> and <code>org.hibernate.validator.Max</code> in
+	 * preference to <code>UiAttribute</code>.
 	 */
 
 	@UiComesAfter( "communications" )
 	@UiSection( "Other" )
 	@UiAttributes( { @UiAttribute( name = MINIMUM_VALUE, value = "0" ), @UiAttribute( name = MAXIMUM_VALUE, value = "100" ) } )
-	public int getNumberOfStaff()
-	{
+	public int getNumberOfStaff() {
+
 		return mNumberOfStaff;
 	}
 
-	public void setNumberOfStaff( int numberOfStaff )
-	{
+	public void setNumberOfStaff( int numberOfStaff ) {
+
 		mNumberOfStaff = numberOfStaff;
 	}
 }

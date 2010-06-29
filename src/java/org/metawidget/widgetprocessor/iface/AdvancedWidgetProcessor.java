@@ -32,8 +32,8 @@ package org.metawidget.widgetprocessor.iface;
  */
 
 public interface AdvancedWidgetProcessor<W, M extends W>
-	extends WidgetProcessor<W, M>
-{
+	extends WidgetProcessor<W, M> {
+
 	//
 	// Methods
 	//

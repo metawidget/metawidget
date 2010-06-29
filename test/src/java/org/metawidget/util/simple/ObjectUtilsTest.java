@@ -23,22 +23,22 @@ import junit.framework.TestCase;
  */
 
 public class ObjectUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testNullSafeHashCode()
-		throws Exception
-	{
+		throws Exception {
+
 		assertTrue( 0 == ObjectUtils.nullSafeHashCode( null ) );
 		assertTrue( "foo".hashCode() == ObjectUtils.nullSafeHashCode( "foo" ) );
 	}
 
 	public void testNullSafeEquals()
-		throws Exception
-	{
+		throws Exception {
+
 		assertTrue( true == ObjectUtils.nullSafeEquals( null, null ) );
 		assertTrue( false == ObjectUtils.nullSafeEquals( null, "foo" ) );
 		assertTrue( false == ObjectUtils.nullSafeEquals( "foo", null ) );
@@ -46,8 +46,8 @@ public class ObjectUtilsTest
 	}
 
 	public void testNullSafeCompareTo()
-		throws Exception
-	{
+		throws Exception {
+
 		assertTrue( 0 == ObjectUtils.nullSafeCompareTo( null, null ) );
 		assertTrue( -1 == ObjectUtils.nullSafeCompareTo( null, "foo" ) );
 		assertTrue( 1 == ObjectUtils.nullSafeCompareTo( "foo", null ) );

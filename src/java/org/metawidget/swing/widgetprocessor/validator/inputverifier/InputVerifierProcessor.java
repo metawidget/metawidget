@@ -38,26 +38,24 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public abstract class InputVerifierProcessor
-	implements WidgetProcessor<JComponent, SwingMetawidget>
-{
+	implements WidgetProcessor<JComponent, SwingMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ) )
-		{
+		if ( PROPERTY.equals( elementName ) ) {
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 		}
 
 		InputVerifier verifier = getInputVerifier( component, attributes, metawidget, path );
 
-		if ( verifier == null )
-		{
+		if ( verifier == null ) {
 			return component;
 		}
 

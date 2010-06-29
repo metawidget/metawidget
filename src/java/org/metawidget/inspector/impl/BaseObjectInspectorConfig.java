@@ -41,8 +41,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class BaseObjectInspectorConfig
-{
+public class BaseObjectInspectorConfig {
+
 	//
 	// Private statics
 	//
@@ -73,12 +73,11 @@ public class BaseObjectInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseObjectInspectorConfig setPropertyStyle( PropertyStyle propertyStyle )
-	{
+	public BaseObjectInspectorConfig setPropertyStyle( PropertyStyle propertyStyle ) {
+
 		mPropertyStyle = propertyStyle;
 
-		if ( propertyStyle == null )
-		{
+		if ( propertyStyle == null ) {
 			mNullPropertyStyle = true;
 		}
 
@@ -93,12 +92,11 @@ public class BaseObjectInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseObjectInspectorConfig setActionStyle( ActionStyle actionStyle )
-	{
+	public BaseObjectInspectorConfig setActionStyle( ActionStyle actionStyle ) {
+
 		mActionStyle = actionStyle;
 
-		if ( actionStyle == null )
-		{
+		if ( actionStyle == null ) {
 			mNullActionStyle = true;
 		}
 
@@ -108,40 +106,33 @@ public class BaseObjectInspectorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ( (BaseObjectInspectorConfig) that ).mPropertyStyle ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ( (BaseObjectInspectorConfig) that ).mPropertyStyle ) ) {
 			return false;
 		}
 
-		if ( mNullPropertyStyle != ( (BaseObjectInspectorConfig) that ).mNullPropertyStyle )
-		{
+		if ( mNullPropertyStyle != ( (BaseObjectInspectorConfig) that ).mNullPropertyStyle ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mActionStyle, ( (BaseObjectInspectorConfig) that ).mActionStyle ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mActionStyle, ( (BaseObjectInspectorConfig) that ).mActionStyle ) ) {
 			return false;
 		}
 
-		if ( mNullActionStyle != ( (BaseObjectInspectorConfig) that ).mNullActionStyle )
-		{
+		if ( mNullActionStyle != ( (BaseObjectInspectorConfig) that ).mNullActionStyle ) {
 			return false;
 		}
 
@@ -149,8 +140,8 @@ public class BaseObjectInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPropertyStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullPropertyStyle );
@@ -168,14 +159,12 @@ public class BaseObjectInspectorConfig
 	 * Gets the style used to recognize properties.
 	 */
 
-	protected PropertyStyle getPropertyStyle()
-	{
-		if ( mPropertyStyle == null && !mNullPropertyStyle )
-		{
+	protected PropertyStyle getPropertyStyle() {
+
+		if ( mPropertyStyle == null && !mNullPropertyStyle ) {
 			// Do not initialise unless needed, so that we can be shipped without
 
-			if ( DEFAULT_PROPERTY_STYLE == null )
-			{
+			if ( DEFAULT_PROPERTY_STYLE == null ) {
 				DEFAULT_PROPERTY_STYLE = new JavaBeanPropertyStyle();
 			}
 
@@ -189,20 +178,15 @@ public class BaseObjectInspectorConfig
 	 * Gets the style used to recognize actions.
 	 */
 
-	protected ActionStyle getActionStyle()
-	{
-		if ( mActionStyle == null && !mNullActionStyle )
-		{
+	protected ActionStyle getActionStyle() {
+
+		if ( mActionStyle == null && !mNullActionStyle ) {
 			// Do not initialise unless needed, so that we can be shipped without
 
-			if ( DEFAULT_ACTION_STYLE == null )
-			{
-				try
-				{
+			if ( DEFAULT_ACTION_STYLE == null ) {
+				try {
 					DEFAULT_ACTION_STYLE = new MetawidgetActionStyle();
-				}
-				catch ( Throwable t )
-				{
+				} catch ( Throwable t ) {
 					// MetawidgetActionStyle is unsupported on JDK 1.4, as well as
 					// some environments might choose to ship without it
 				}

@@ -25,34 +25,34 @@ import org.metawidget.util.LogUtils.Log;
  */
 
 public class LogUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static String getLastTraceMessage()
-	{
+	public static String getLastTraceMessage() {
+
 		return LogUtils.LAST_TRACE_MESSAGE;
 	}
 
-	public static String getLastDebugMessage()
-	{
+	public static String getLastDebugMessage() {
+
 		return LogUtils.LAST_DEBUG_MESSAGE;
 	}
 
-	public static String getLastInfoMessage()
-	{
+	public static String getLastInfoMessage() {
+
 		return LogUtils.LAST_INFO_MESSAGE;
 	}
 
-	public static void clearLastWarnMessage()
-	{
+	public static void clearLastWarnMessage() {
+
 		LogUtils.LAST_WARN_MESSAGE = null;
 	}
 
-	public static String getLastWarnMessage()
-	{
+	public static String getLastWarnMessage() {
+
 		return LogUtils.LAST_WARN_MESSAGE;
 	}
 
@@ -61,8 +61,8 @@ public class LogUtilsTest
 	//
 
 	public void testLogger()
-		throws Exception
-	{
+		throws Exception {
+
 		// At the very least, test that calling the logging methods doesn't throw an Exception
 
 		Log log = LogUtils.getLog( LogUtilsTest.class );

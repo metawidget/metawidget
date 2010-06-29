@@ -32,14 +32,14 @@ import org.w3c.dom.Element;
  */
 
 public class JspAnnotationInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testLookup()
-	{
+	public void testLookup() {
+
 		JspAnnotationInspector.setThreadLocalPageContext( new MockPageContext() );
 
 		JspAnnotationInspector inspector = new JspAnnotationInspector();
@@ -75,29 +75,23 @@ public class JspAnnotationInspectorTest
 
 		assertTrue( 3 == entity.getChildNodes().getLength() );
 
-		JspAnnotationInspector.setThreadLocalPageContext( null);
+		JspAnnotationInspector.setThreadLocalPageContext( null );
 	}
 
-	public void testAttribute()
-	{
+	public void testAttribute() {
+
 		JspAnnotationInspector inspector = new JspAnnotationInspector();
 
-		try
-		{
+		try {
 			inspector.inspect( new Bar(), Bar.class.getName() );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "ThreadLocalPageContext not set", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			JspAnnotationInspector.setThreadLocalPageContext( new DummyPageContext() );
 			inspector.inspect( new Bar(), Bar.class.getName() );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Expression 'bad-expression' is not of the form ${...}", e.getMessage() );
 		}
 	}
@@ -106,8 +100,8 @@ public class JspAnnotationInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@UiJspLookup( "${foo.bar}" )
 		public Object	object1;
 
@@ -118,8 +112,8 @@ public class JspAnnotationInspectorTest
 		public Object	object3;
 	}
 
-	public static class Bar
-	{
+	public static class Bar {
+
 		@UiJspAttribute( name = "baz", expression = "bad-expression" )
 		public Object	object1;
 	}

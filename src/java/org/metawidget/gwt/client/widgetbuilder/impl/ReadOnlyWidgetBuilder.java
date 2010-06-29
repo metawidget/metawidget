@@ -40,38 +40,35 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor
-{
+	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor {
+
 	//
 	// Public methods
 	//
 
-	public Object getValue( Widget widget )
-	{
+	public Object getValue( Widget widget ) {
+
 		// Label (not HasText, because CheckBox is a HasText)
 
-		if ( widget instanceof Label )
-		{
+		if ( widget instanceof Label ) {
 			return ( (HasText) widget ).getText();
 		}
 
 		return null;
 	}
 
-	public boolean setValue( Widget widget, Object value )
-	{
+	public boolean setValue( Widget widget, Object value ) {
+
 		// Label (not HasText, because CheckBox is a HasText)
 
-		if ( widget instanceof Label )
-		{
+		if ( widget instanceof Label ) {
 			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
 			return true;
 		}
 
 		// Panel (fail gracefully for MASKED fields)
 
-		if ( widget instanceof SimplePanel )
-		{
+		if ( widget instanceof SimplePanel ) {
 			return true;
 		}
 
@@ -80,33 +77,29 @@ public class ReadOnlyWidgetBuilder
 		return false;
 	}
 
-	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
-	{
+	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget ) {
+
 		// Not read-only?
 
-		if ( !GwtUtils.isReadOnly( attributes ))
-		{
+		if ( !GwtUtils.isReadOnly( attributes ) ) {
 			return null;
 		}
 
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub();
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new Stub();
 		}
 
 		// Masked (return a Panel, so that we DO still render a label)
 
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			return new SimplePanel();
 		}
 
@@ -114,44 +107,37 @@ public class ReadOnlyWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			return new Label();
 		}
 
-		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) )
-		{
+		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) ) {
 			return new Label();
 		}
 
-		if ( String.class.getName().equals( type ) )
-		{
+		if ( String.class.getName().equals( type ) ) {
 			return new Label();
 		}
 
-		if ( Date.class.getName().equals( type ) )
-		{
+		if ( Date.class.getName().equals( type ) ) {
 			return new Label();
 		}
 
 		// Collections
 
-		if ( GwtUtils.isCollection( type ) )
-		{
+		if ( GwtUtils.isCollection( type ) ) {
 			return new Stub();
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new Label();
 		}
 

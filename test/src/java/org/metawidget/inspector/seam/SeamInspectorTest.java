@@ -36,31 +36,27 @@ import org.w3c.dom.Element;
  */
 
 public class SeamInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testSeamInspector()
-	{
+	public void testSeamInspector() {
+
 		SeamInspectorConfig config = new SeamInspectorConfig();
-		config.setResourceResolver( new ResourceResolver()
-		{
+		config.setResourceResolver( new ResourceResolver() {
+
 			@Override
-			public InputStream openResource( String resource )
-			{
-				try
-				{
-					if ( "components.xml".equals( resource ) )
-					{
+			public InputStream openResource( String resource ) {
+
+				try {
+					if ( "components.xml".equals( resource ) ) {
 						return ClassUtils.openResource( "org/metawidget/inspector/seam/test-components.xml" );
 					}
 
 					return ClassUtils.openResource( resource );
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					throw InspectorException.newException( e );
 				}
 			}
@@ -94,8 +90,8 @@ public class SeamInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
-	public void testNoPageflow()
-	{
+	public void testNoPageflow() {
+
 		SeamInspectorConfig config = new SeamInspectorConfig();
 		config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
 
@@ -103,23 +99,19 @@ public class SeamInspectorTest
 		assertTrue( null == inspector.inspect( null, "newuser.contact" ) );
 	}
 
-	public void testMissingFile()
-	{
-		try
-		{
+	public void testMissingFile() {
+
+		try {
 			new SeamInspector();
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH", e.getMessage() );
 		}
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( SeamInspectorConfig.class, new SeamInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( SeamInspectorConfig.class, new SeamInspectorConfig() {
 			// Subclass
 		}, "componentsInputStream" );
 	}

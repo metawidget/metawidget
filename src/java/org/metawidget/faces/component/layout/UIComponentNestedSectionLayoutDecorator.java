@@ -34,14 +34,14 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class UIComponentNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget>
-{
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected UIComponentNestedSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config )
-	{
+	protected UIComponentNestedSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -50,19 +50,18 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected State<UIComponent> getState( UIComponent container, UIMetawidget metawidget )
-	{
+	protected State<UIComponent> getState( UIComponent container, UIMetawidget metawidget ) {
+
 		@SuppressWarnings( "unchecked" )
 		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( getClass() );
 
-		if ( stateMap == null )
-		{
+		if ( stateMap == null ) {
 			stateMap = CollectionUtils.newHashMap();
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
@@ -70,8 +69,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 		@SuppressWarnings( "unchecked" )
 		State<UIComponent> state = stateMap.get( container );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State<UIComponent>();
 			stateMap.put( container, state );
 		}
@@ -80,8 +78,8 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( UIComponent component )
-	{
+	protected boolean isEmptyStub( UIComponent component ) {
+
 		return ( component instanceof UIStub && component.getChildren().isEmpty() );
 	}
 }

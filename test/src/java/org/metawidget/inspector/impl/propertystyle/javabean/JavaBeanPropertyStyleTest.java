@@ -37,14 +37,14 @@ import org.metawidget.inspector.impl.propertystyle.Property;
  */
 
 public class JavaBeanPropertyStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testJavaBeanPropertyStyle()
-	{
+	public void testJavaBeanPropertyStyle() {
+
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
@@ -69,13 +69,10 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
 		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
 
-		try
-		{
+		try {
 			properties.get( "foo" ).read( new Object() );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Should fail
 		}
 
@@ -95,19 +92,19 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
 	}
 
-	public void testInterfaceBasedPropertyStyle()
-	{
+	public void testInterfaceBasedPropertyStyle() {
+
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Proxied_$$_javassist_.class );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 
-		properties = propertyStyle.getProperties( new InterfaceFoo()
-		{
+		properties = propertyStyle.getProperties( new InterfaceFoo() {
+
 			@Override
-			public Object getInterfaceBar()
-			{
+			public Object getInterfaceBar() {
+
 				return null;
 			}
 		}.getClass() );
@@ -116,25 +113,19 @@ public class JavaBeanPropertyStyleTest
 		assertFalse( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 	}
 
-	public void testFieldAndGetter()
-	{
+	public void testFieldAndGetter() {
+
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
-		try
-		{
+		try {
 			propertyStyle.getProperties( ErrorFoo.class );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public setter method. Should be one or the other", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			propertyStyle.getProperties( ErrorFoo2.class );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public getter method. Should be one or the other", e.getMessage() );
 		}
 	}
@@ -144,114 +135,113 @@ public class JavaBeanPropertyStyleTest
 	//
 
 	class Foo
-		extends SuperFoo
-	{
+		extends SuperFoo {
+
 		@Column( nullable = false )
 		public String		foo;
 
 		public List<Date>	bar;
 
 		@NotNull
-		public String getMethodFoo()
-		{
+		public String getMethodFoo() {
+
 			return null;
 		}
 
 		@Length( min = 5 )
-		public void setMethodBar( String methodBar )
-		{
+		public void setMethodBar( String methodBar ) {
+
 			// Do nothing
 		}
 
-		public List<String> getMethodBaz()
-		{
+		public List<String> getMethodBaz() {
+
 			return null;
 		}
 
-		public void setMethodAbc( List<Boolean> methodAbc )
-		{
+		public void setMethodAbc( List<Boolean> methodAbc ) {
+
 			// Do nothing
 		}
 
 		@Override
-		public void setMethodGetterInSuper( String methodGetterInSuper )
-		{
+		public void setMethodGetterInSuper( String methodGetterInSuper ) {
+
 			// Do nothing
 		}
 
-		public String getMethodSetterInSuper()
-		{
+		public String getMethodSetterInSuper() {
+
 			return null;
 		}
 
 		@Override
-		public String getMethodCovariant()
-		{
+		public String getMethodCovariant() {
+
 			return null;
 		}
 
-		public String getterIgnoreBecauseLowercase()
-		{
+		public String getterIgnoreBecauseLowercase() {
+
 			return null;
 		}
 
-		public void setterIgnoreBecauseLowercase( String ignore )
-		{
+		public void setterIgnoreBecauseLowercase( String ignore ) {
+
 			// Do nothing
 		}
 	}
 
 	class ErrorFoo
-		extends Foo
-	{
-		public void setFoo( String aFoo )
-		{
+		extends Foo {
+
+		public void setFoo( String aFoo ) {
+
 			// Will error
 		}
 	}
 
 	class ErrorFoo2
-		extends ErrorFoo
-	{
-		public String getFoo()
-		{
+		extends ErrorFoo {
+
+		public String getFoo() {
+
 			return null;
 		}
 	}
 
-	class SuperFoo
-	{
+	class SuperFoo {
+
 		public boolean	baz;
 
-		public String getMethodGetterInSuper()
-		{
+		public String getMethodGetterInSuper() {
+
 			return null;
 		}
 
-		public void setMethodGetterInSuper( String methodSetterInSuper )
-		{
+		public void setMethodGetterInSuper( String methodSetterInSuper ) {
+
 			// Do nothing
 		}
 
-		public void setMethodSetterInSuper( String methodSetterInSuper )
-		{
+		public void setMethodSetterInSuper( String methodSetterInSuper ) {
+
 			// Do nothing
 		}
 
-		public Object getMethodCovariant()
-		{
+		public Object getMethodCovariant() {
+
 			return null;
 		}
 	}
 
 	class FooPropertyStyle
-		extends JavaBeanPropertyStyle
-	{
+		extends JavaBeanPropertyStyle {
+
 		@Override
-		protected boolean isExcludedBaseType( Class<?> classToExclude )
-		{
-			if ( SuperFoo.class.equals( classToExclude ) )
-			{
+		protected boolean isExcludedBaseType( Class<?> classToExclude ) {
+
+			if ( SuperFoo.class.equals( classToExclude ) ) {
 				return true;
 			}
 
@@ -260,17 +250,17 @@ public class JavaBeanPropertyStyleTest
 	}
 
 	class Proxied_$$_javassist_
-		implements InterfaceFoo
-	{
+		implements InterfaceFoo {
+
 		@Override
-		public Object getInterfaceBar()
-		{
+		public Object getInterfaceBar() {
+
 			return null;
 		}
 	}
 
-	interface InterfaceFoo
-	{
+	interface InterfaceFoo {
+
 		@UiMasked
 		Object getInterfaceBar();
 	}

@@ -36,8 +36,8 @@ import android.widget.ListView;
  */
 
 public class MainActivity
-	extends Activity
-{
+	extends Activity {
+
 	//
 	// Private statics
 	//
@@ -55,8 +55,8 @@ public class MainActivity
 	//
 
 	@Override
-	public void onCreate( Bundle bundle )
-	{
+	public void onCreate( Bundle bundle ) {
+
 		super.onCreate( bundle );
 
 		mContactSearch = new ContactSearch();
@@ -74,18 +74,17 @@ public class MainActivity
 		// Contacts List
 
 		final ListView contactsView = (ListView) findViewById( R.id.contacts );
-		contactsView.setOnItemClickListener( new ListView.OnItemClickListener()
-		{
+		contactsView.setOnItemClickListener( new ListView.OnItemClickListener() {
+
 			@SuppressWarnings( "unchecked" )
-			public void onItemClick( AdapterView viewAdapter, View view, int position, long id )
-			{
+			public void onItemClick( AdapterView viewAdapter, View view, int position, long id ) {
+
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 
 				Contact contact = (Contact) viewAdapter.getAdapter().getItem( position );
 
-				if ( contact == null )
-				{
+				if ( contact == null ) {
 					return;
 				}
 
@@ -98,8 +97,8 @@ public class MainActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu( Menu menu )
-	{
+	public boolean onCreateOptionsMenu( Menu menu ) {
+
 		super.onCreateOptionsMenu( menu );
 
 		menu.add( MENU_GROUP_ID, R.string.search, 0, R.string.search );
@@ -110,16 +109,14 @@ public class MainActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( MenuItem item )
-	{
+	public boolean onOptionsItemSelected( MenuItem item ) {
+
 		AddressBookApplication application = (AddressBookApplication) getApplication();
 		ListView contacts = (ListView) findViewById( R.id.contacts );
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-		switch ( item.getItemId() )
-		{
-			case R.string.search:
-			{
+		switch ( item.getItemId() ) {
+			case R.string.search: {
 				// Manual mapping
 
 				mContactSearch.setFirstname( (String) metawidget.getValue( "firstname" ) );
@@ -127,12 +124,9 @@ public class MainActivity
 
 				String type = metawidget.getValue( "type" );
 
-				if ( type == null || "".equals( type ) )
-				{
+				if ( type == null || "".equals( type ) ) {
 					mContactSearch.setType( null );
-				}
-				else
-				{
+				} else {
 					mContactSearch.setType( ContactType.valueOf( type ) );
 				}
 
@@ -140,8 +134,7 @@ public class MainActivity
 				break;
 			}
 
-			case R.string.addPersonal:
-			{
+			case R.string.addPersonal: {
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "personal" );
@@ -150,8 +143,7 @@ public class MainActivity
 				break;
 			}
 
-			case R.string.addBusiness:
-			{
+			case R.string.addBusiness: {
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "business" );
@@ -169,8 +161,8 @@ public class MainActivity
 	//
 
 	@Override
-	protected void onActivityResult( int requestCode, int resultCode, Intent data )
-	{
+	protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+
 		super.onActivityResult( requestCode, resultCode, data );
 
 		ListView contacts = (ListView) findViewById( R.id.contacts );

@@ -26,32 +26,29 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class NestedWidgetsConverter
-	implements Converter
-{
+	implements Converter {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "unchecked" )
-	public Object convert( Class clazz, Object value )
-	{
-		if ( String.class.equals( clazz ))
-		{
+	public Object convert( Class clazz, Object value ) {
+
+		if ( String.class.equals( clazz ) ) {
 			return StringUtils.quietValueOf( value );
 		}
 
 		String[] values = ArrayUtils.fromString( (String) value );
 
-		if ( values.length == 0 )
-		{
+		if ( values.length == 0 ) {
 			return null;
 		}
 
 		NestedWidgets nestedWidgets = new NestedWidgets();
 		nestedWidgets.setNestedTextbox1( values[0] );
 
-		if ( values.length > 1 )
-		{
+		if ( values.length > 1 ) {
 			nestedWidgets.setNestedTextbox2( values[1] );
 		}
 

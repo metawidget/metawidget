@@ -25,15 +25,15 @@ import junit.framework.TestCase;
  */
 
 public class ArrayUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testArrayUtils()
-		throws Exception
-	{
+		throws Exception {
+
 		String[] compareTo = new String[] { "foo", "bar", "baz" };
 
 		// fromString

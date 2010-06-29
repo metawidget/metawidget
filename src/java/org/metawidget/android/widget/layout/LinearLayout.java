@@ -36,8 +36,8 @@ import android.widget.TextView;
  */
 
 public class LinearLayout
-	implements AdvancedLayout<View, ViewGroup, AndroidMetawidget>
-{
+	implements AdvancedLayout<View, ViewGroup, AndroidMetawidget> {
+
 	//
 	// Private members
 	//
@@ -48,13 +48,13 @@ public class LinearLayout
 	// Constructor
 	//
 
-	public LinearLayout()
-	{
+	public LinearLayout() {
+
 		this( new LinearLayoutConfig() );
 	}
 
-	public LinearLayout( LinearLayoutConfig config )
-	{
+	public LinearLayout( LinearLayoutConfig config ) {
+
 		mLabelStyle = config.getLabelStyle();
 	}
 
@@ -63,23 +63,22 @@ public class LinearLayout
 	//
 
 	@Override
-	public void onStartBuild( AndroidMetawidget metawidget )
-	{
+	public void onStartBuild( AndroidMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void startContainerLayout( ViewGroup container, AndroidMetawidget metawidget )
-	{
+	public void startContainerLayout( ViewGroup container, AndroidMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void layoutWidget( View view, String elementName, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget )
-	{
+	public void layoutWidget( View view, String elementName, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget ) {
+
 		// Ignore empty Stubs
 
-		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
-		{
+		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 ) {
 			return;
 		}
 
@@ -90,8 +89,7 @@ public class LinearLayout
 
 		// Labels
 
-		if ( needsLabel )
-		{
+		if ( needsLabel ) {
 			TextView textView = new TextView( metawidget.getContext() );
 			textView.setText( labelText + ": " );
 
@@ -106,18 +104,17 @@ public class LinearLayout
 	}
 
 	@Override
-	public void endContainerLayout( ViewGroup container, AndroidMetawidget metawidget )
-	{
+	public void endContainerLayout( ViewGroup container, AndroidMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void onEndBuild( AndroidMetawidget metawidget )
-	{
+	public void onEndBuild( AndroidMetawidget metawidget ) {
+
 		View viewButtons = metawidget.getFacet( "buttons" );
 
-		if ( viewButtons != null )
-		{
+		if ( viewButtons != null ) {
 			metawidget.addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 	}
@@ -126,20 +123,16 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected void layoutWidget( View view, ViewGroup viewToAddTo, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel )
-	{
+	protected void layoutWidget( View view, ViewGroup viewToAddTo, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel ) {
+
 		android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
 
-		if ( params == null )
-		{
+		if ( params == null ) {
 			// Hack for sizing ListViews
 
-			if ( view instanceof ListView )
-			{
+			if ( view instanceof ListView ) {
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, 100 );
-			}
-			else
-			{
+			} else {
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT );
 			}
 		}
@@ -151,15 +144,15 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected ViewGroup newViewToAddTo( ViewGroup metawidget )
-	{
+	protected ViewGroup newViewToAddTo( ViewGroup metawidget ) {
+
 		// AndroidMetawidget is already a LinearLayout
 
 		return metawidget;
 	}
 
-	protected ViewGroup getLayout( ViewGroup container )
-	{
+	protected ViewGroup getLayout( ViewGroup container ) {
+
 		// AndroidMetawidget is already a LinearLayout
 
 		return container;

@@ -17,15 +17,14 @@
 package org.metawidget.iface;
 
 /**
- * Interface to indicate a class (ie. an <code>Inspector</code>, a
- * <code>Layout</code> etc) should be considered immutable.
+ * Interface to indicate a class (ie. an <code>Inspector</code>, a <code>Layout</code> etc) should
+ * be considered immutable.
  * <p>
  * Note: this interface is not an annotation, in order to support JDK 1.4.
  *
  * @author Richard Kennard
  */
 
-public interface Immutable
-{
+public interface Immutable {
 	// Just a marker interface
 }

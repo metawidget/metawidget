@@ -22,22 +22,21 @@ package org.metawidget.example.shared.addressbook.model;
  * @author Richard Kennard
  */
 
-public enum ContactType
-{
-	PERSONAL
-	{
+public enum ContactType {
+	PERSONAL {
+
 		@Override
-		public String toString()
-		{
+		public String toString() {
+
 			return "Personal";
 		}
 	},
 
-	BUSINESS
-	{
+	BUSINESS {
+
 		@Override
-		public String toString()
-		{
+		public String toString() {
+
 			return "Business";
 		}
 	}

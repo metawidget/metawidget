@@ -39,14 +39,14 @@ import android.util.AttributeSet;
  */
 
 public class AndroidMetawidgetTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Android Metawidget Tests" );
 
 		suite.addTestSuite( AndroidConfigReaderTest.class );
@@ -68,8 +68,8 @@ public class AndroidMetawidgetTests
 	//
 
 	public static class MockAttributeSet
-		implements AttributeSet
-	{
+		implements AttributeSet {
+
 		//
 		// Private members
 		//
@@ -80,47 +80,45 @@ public class AndroidMetawidgetTests
 		// Supported public methods
 		//
 
-		public void setAttributeValue( String key, String value )
-		{
+		public void setAttributeValue( String key, String value ) {
+
 			mAttributes.put( key, value );
 		}
 
-		public String getAttributeValue( String object, String key )
-		{
+		public String getAttributeValue( String object, String key ) {
+
 			return mAttributes.get( key );
 		}
 
-		public int getAttributeCount()
-		{
+		public int getAttributeCount() {
+
 			return mAttributes.size();
 		}
 
-		public String getAttributeValue( int index )
-		{
+		public String getAttributeValue( int index ) {
+
 			Iterator<String> iterator = mAttributes.values().iterator();
 
-			for ( int loop = 0; loop < index - 1; loop++ )
-			{
+			for ( int loop = 0; loop < index - 1; loop++ ) {
 				iterator.next();
 			}
 
 			return iterator.next();
 		}
 
-		public String getAttributeName( int index )
-		{
+		public String getAttributeName( int index ) {
+
 			Iterator<String> iterator = mAttributes.keySet().iterator();
 
-			for ( int loop = 0; loop < index - 1; loop++ )
-			{
+			for ( int loop = 0; loop < index - 1; loop++ ) {
 				iterator.next();
 			}
 
 			return iterator.next();
 		}
 
-		public int getAttributeResourceValue( String object, String string, int i )
-		{
+		public int getAttributeResourceValue( String object, String string, int i ) {
+
 			return 0;
 		}
 
@@ -129,104 +127,104 @@ public class AndroidMetawidgetTests
 		//
 
 		@Override
-		public boolean getAttributeBooleanValue( int arg0, boolean arg1 )
-		{
+		public boolean getAttributeBooleanValue( int arg0, boolean arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public boolean getAttributeBooleanValue( String arg0, String arg1, boolean arg2 )
-		{
+		public boolean getAttributeBooleanValue( String arg0, String arg1, boolean arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public float getAttributeFloatValue( int arg0, float arg1 )
-		{
+		public float getAttributeFloatValue( int arg0, float arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public float getAttributeFloatValue( String arg0, String arg1, float arg2 )
-		{
+		public float getAttributeFloatValue( String arg0, String arg1, float arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeIntValue( int arg0, int arg1 )
-		{
+		public int getAttributeIntValue( int arg0, int arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeIntValue( String arg0, String arg1, int arg2 )
-		{
+		public int getAttributeIntValue( String arg0, String arg1, int arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeListValue( int arg0, String[] arg1, int arg2 )
-		{
+		public int getAttributeListValue( int arg0, String[] arg1, int arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeListValue( String arg0, String arg1, String[] arg2, int arg3 )
-		{
+		public int getAttributeListValue( String arg0, String arg1, String[] arg2, int arg3 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeNameResource( int arg0 )
-		{
+		public int getAttributeNameResource( int arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeResourceValue( int arg0, int arg1 )
-		{
+		public int getAttributeResourceValue( int arg0, int arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeUnsignedIntValue( int arg0, int arg1 )
-		{
+		public int getAttributeUnsignedIntValue( int arg0, int arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributeUnsignedIntValue( String arg0, String arg1, int arg2 )
-		{
+		public int getAttributeUnsignedIntValue( String arg0, String arg1, int arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getClassAttribute()
-		{
+		public String getClassAttribute() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getIdAttribute()
-		{
+		public String getIdAttribute() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getIdAttributeResourceValue( int arg0 )
-		{
+		public int getIdAttributeResourceValue( int arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getPositionDescription()
-		{
+		public String getPositionDescription() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getStyleAttribute()
-		{
+		public int getStyleAttribute() {
+
 			throw new UnsupportedOperationException();
 		}
 	}

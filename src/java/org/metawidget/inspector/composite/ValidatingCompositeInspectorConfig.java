@@ -29,8 +29,8 @@ import org.metawidget.util.simple.ObjectUtils;
 
 public class ValidatingCompositeInspectorConfig
 	extends CompositeInspectorConfig
-	implements NeedsResourceResolver
-{
+	implements NeedsResourceResolver {
+
 	//
 	// Private members
 	//
@@ -41,10 +41,9 @@ public class ValidatingCompositeInspectorConfig
 	// Public methods
 	//
 
-	public ResourceResolver getResourceResolver()
-	{
-		if ( mResourceResolver == null )
-		{
+	public ResourceResolver getResourceResolver() {
+
+		if ( mResourceResolver == null ) {
 			mResourceResolver = new ConfigReader();
 		}
 
@@ -52,31 +51,27 @@ public class ValidatingCompositeInspectorConfig
 	}
 
 	@Override
-	public void setResourceResolver( ResourceResolver resourceResolver )
-	{
+	public void setResourceResolver( ResourceResolver resourceResolver ) {
+
 		mResourceResolver = resourceResolver;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (ValidatingCompositeInspectorConfig) that ).mResourceResolver ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (ValidatingCompositeInspectorConfig) that ).mResourceResolver ) ) {
 			return false;
 		}
 
@@ -84,8 +79,8 @@ public class ValidatingCompositeInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 

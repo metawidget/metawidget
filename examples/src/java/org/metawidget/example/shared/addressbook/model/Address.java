@@ -31,8 +31,8 @@ import org.metawidget.inspector.annotation.UiLookup;
  */
 
 public class Address
-	implements Serializable
-{
+	implements Serializable {
+
 	//
 	// Private statics
 	//
@@ -58,58 +58,58 @@ public class Address
 	//
 
 	@UiHidden
-	public Contact getOwner()
-	{
+	public Contact getOwner() {
+
 		return mOwner;
 	}
 
-	public void setOwner( Contact owner )
-	{
+	public void setOwner( Contact owner ) {
+
 		mOwner = owner;
 	}
 
 	@UiComesAfter( "owner" )
-	public String getStreet()
-	{
+	public String getStreet() {
+
 		return mStreet;
 	}
 
-	public void setStreet( String street )
-	{
+	public void setStreet( String street ) {
+
 		mStreet = street;
 	}
 
 	@UiComesAfter( "street" )
-	public String getCity()
-	{
+	public String getCity() {
+
 		return mCity;
 	}
 
-	public void setCity( String city )
-	{
+	public void setCity( String city ) {
+
 		mCity = city;
 	}
 
 	@UiComesAfter( "city" )
 	@UiLookup( { "Anytown", "Cyberton", "Lostville", "Whereverton" } )
-	public String getState()
-	{
+	public String getState() {
+
 		return mState;
 	}
 
-	public void setState( String state )
-	{
+	public void setState( String state ) {
+
 		mState = state;
 	}
 
 	@UiComesAfter( "state" )
-	public String getPostcode()
-	{
+	public String getPostcode() {
+
 		return mPostcode;
 	}
 
-	public void setPostcode( String postcode )
-	{
+	public void setPostcode( String postcode ) {
+
 		mPostcode = postcode;
 	}
 }

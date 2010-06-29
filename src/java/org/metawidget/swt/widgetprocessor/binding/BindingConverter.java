@@ -22,8 +22,8 @@ package org.metawidget.swt.widgetprocessor.binding;
  * @author Richard Kennard
  */
 
-public interface BindingConverter
-{
+public interface BindingConverter {
+
 	//
 	// Methods
 	//

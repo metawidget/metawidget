@@ -25,14 +25,14 @@ import org.metawidget.example.shared.addressbook.model.ContactType;
  */
 
 public class ContactTypeConverter
-	extends EnumConverter<ContactType>
-{
+	extends EnumConverter<ContactType> {
+
 	//
 	// Constructor
 	//
 
-	public ContactTypeConverter()
-	{
+	public ContactTypeConverter() {
+
 		super( ContactType.class );
 	}
 }

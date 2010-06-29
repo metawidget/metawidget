@@ -34,8 +34,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class BaseXmlInspectorConfig
-	implements NeedsResourceResolver
-{
+	implements NeedsResourceResolver {
+
 	//
 	// Private members
 	//
@@ -52,12 +52,10 @@ public class BaseXmlInspectorConfig
 	// Public methods
 	//
 
-	public InputStream[] getInputStreams()
-	{
-		if ( mInputStreams == null && mDefaultFile != null )
-		{
-			if ( mResourceResolver != null )
-			{
+	public InputStream[] getInputStreams() {
+
+		if ( mInputStreams == null && mDefaultFile != null ) {
+			if ( mResourceResolver != null ) {
 				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
 			}
 
@@ -65,12 +63,9 @@ public class BaseXmlInspectorConfig
 			// by ConfigReader when using metawidget.xml, but is generally not set manually when
 			// people are creating Inspectors by hand)
 
-			try
-			{
+			try {
 				return new InputStream[] { ClassUtils.openResource( mDefaultFile ) };
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
 			}
 		}
@@ -87,8 +82,8 @@ public class BaseXmlInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseXmlInspectorConfig setInputStreams( InputStream... streams )
-	{
+	public BaseXmlInspectorConfig setInputStreams( InputStream... streams ) {
+
 		mInputStreams = streams;
 
 		return this;
@@ -100,8 +95,8 @@ public class BaseXmlInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseXmlInspectorConfig setInputStream( InputStream stream )
-	{
+	public BaseXmlInspectorConfig setInputStream( InputStream stream ) {
+
 		mDefaultFile = null;
 		mInputStreams = new InputStream[] { stream };
 
@@ -110,21 +105,17 @@ public class BaseXmlInspectorConfig
 		return this;
 	}
 
-	public ResourceResolver getResourceResolver()
-	{
-		if ( mResourceResolver == null )
-		{
-			return new ResourceResolver()
-			{
+	public ResourceResolver getResourceResolver() {
+
+		if ( mResourceResolver == null ) {
+			return new ResourceResolver() {
+
 				@Override
-				public InputStream openResource( String resource )
-				{
-					try
-					{
+				public InputStream openResource( String resource ) {
+
+					try {
 						return ClassUtils.openResource( resource );
-					}
-					catch ( Exception e )
-					{
+					} catch ( Exception e ) {
 						throw InspectorException.newException( e );
 					}
 				}
@@ -135,8 +126,8 @@ public class BaseXmlInspectorConfig
 	}
 
 	@Override
-	public void setResourceResolver( ResourceResolver resourceResolver )
-	{
+	public void setResourceResolver( ResourceResolver resourceResolver ) {
+
 		mResourceResolver = resourceResolver;
 	}
 
@@ -145,8 +136,8 @@ public class BaseXmlInspectorConfig
 	 * BaseXmlInspector JavaDoc)
 	 */
 
-	public PropertyStyle getRestrictAgainstObject()
-	{
+	public PropertyStyle getRestrictAgainstObject() {
+
 		return mRestrictAgainstObject;
 	}
 
@@ -157,8 +148,8 @@ public class BaseXmlInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseXmlInspectorConfig setRestrictAgainstObject( PropertyStyle restrictAgainstObject )
-	{
+	public BaseXmlInspectorConfig setRestrictAgainstObject( PropertyStyle restrictAgainstObject ) {
+
 		mRestrictAgainstObject = restrictAgainstObject;
 
 		// Fluent interface
@@ -167,40 +158,33 @@ public class BaseXmlInspectorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ( (BaseXmlInspectorConfig) that ).mDefaultFile ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ( (BaseXmlInspectorConfig) that ).mDefaultFile ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (BaseXmlInspectorConfig) that ).mResourceResolver ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (BaseXmlInspectorConfig) that ).mResourceResolver ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ( (BaseXmlInspectorConfig) that ).mInputStreams ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ( (BaseXmlInspectorConfig) that ).mInputStreams ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mRestrictAgainstObject, ( (BaseXmlInspectorConfig) that ).mRestrictAgainstObject ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mRestrictAgainstObject, ( (BaseXmlInspectorConfig) that ).mRestrictAgainstObject ) ) {
 			return false;
 		}
 
@@ -208,8 +192,8 @@ public class BaseXmlInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDefaultFile );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
@@ -223,8 +207,8 @@ public class BaseXmlInspectorConfig
 	// Protected methods
 	//
 
-	protected void setDefaultFile( String defaultFile )
-	{
+	protected void setDefaultFile( String defaultFile ) {
+
 		mDefaultFile = defaultFile;
 	}
 }

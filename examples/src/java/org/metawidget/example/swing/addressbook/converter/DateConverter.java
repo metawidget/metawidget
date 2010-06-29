@@ -27,16 +27,15 @@ import org.jdesktop.beansbinding.Converter;
  */
 
 public class DateConverter
-	extends Converter<Date, String>
-{
+	extends Converter<Date, String> {
+
 	//
 	// Private statics
 	//
 
 	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
 
-	static
-	{
+	static {
 		FORMAT.setLenient( false );
 	}
 
@@ -45,36 +44,29 @@ public class DateConverter
 	//
 
 	@Override
-	public String convertForward( Date date )
-	{
-		if ( date == null )
-		{
+	public String convertForward( Date date ) {
+
+		if ( date == null ) {
 			return "";
 		}
 
-		synchronized ( FORMAT )
-		{
+		synchronized ( FORMAT ) {
 			return FORMAT.format( date );
 		}
 	}
 
 	@Override
-	public Date convertReverse( String date )
-	{
-		if ( date == null || "".equals( date ))
-		{
+	public Date convertReverse( String date ) {
+
+		if ( date == null || "".equals( date ) ) {
 			return null;
 		}
 
-		try
-		{
-			synchronized ( FORMAT )
-			{
+		try {
+			synchronized ( FORMAT ) {
 				return FORMAT.parse( date );
 			}
-		}
-		catch( ParseException e )
-		{
+		} catch ( ParseException e ) {
 			throw new RuntimeException( e );
 		}
 	}

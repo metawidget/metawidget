@@ -40,22 +40,21 @@ import org.metawidget.util.TestUtils;
  */
 
 public class TabbedPaneLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class, new TabbedPaneLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class, new TabbedPaneLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testTabPlacement()
-	{
+	public void testTabPlacement() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		metawidget.setToInspect( new Foo() );
@@ -80,8 +79,8 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( 3 == panel.getComponentCount() );
 	}
 
-	public void testNestedTabs()
-	{
+	public void testNestedTabs() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -136,8 +135,8 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( metawidget.getComponent( 4 ) == metawidget.getComponent( "stu" ) );
 	}
 
-	public void testNestedTabsWithGroupLayout()
-	{
+	public void testNestedTabsWithGroupLayout() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GroupLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -180,8 +179,8 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 
-	public void testFlatSectionAroundNestedSectionLayoutDecorator()
-	{
+	public void testFlatSectionAroundNestedSectionLayoutDecorator() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GroupLayout() ) ) ) ) );
 		metawidget.setToInspect( new Baz() );
@@ -208,8 +207,8 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Baz() );
@@ -225,14 +224,14 @@ public class TabbedPaneLayoutDecoratorTest
 	// Inner class
 	//
 
-	static class Foo
-	{
+	static class Foo {
+
 		@UiSection( "Section" )
 		public String	bar;
 	}
 
-	static class Bar
-	{
+	static class Bar {
+
 		public String	abc;
 
 		@UiSection( { "Foo", "Bar" } )
@@ -254,8 +253,8 @@ public class TabbedPaneLayoutDecoratorTest
 		public String	stu;
 	}
 
-	static class Baz
-	{
+	static class Baz {
+
 		@UiSection( { "Foo", "Bar" } )
 		public String	abc;
 

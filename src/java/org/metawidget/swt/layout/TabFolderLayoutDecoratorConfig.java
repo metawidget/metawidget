@@ -30,8 +30,8 @@ import org.metawidget.swt.SwtMetawidget;
  */
 
 public class TabFolderLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<Control, Composite, SwtMetawidget>
-{
+	extends LayoutDecoratorConfig<Control, Composite, SwtMetawidget> {
+
 	//
 	// Private members
 	//
@@ -49,15 +49,15 @@ public class TabFolderLayoutDecoratorConfig
 	 */
 
 	@Override
-	public TabFolderLayoutDecoratorConfig setLayout( Layout<Control, Composite, SwtMetawidget> layout )
-	{
+	public TabFolderLayoutDecoratorConfig setLayout( Layout<Control, Composite, SwtMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getTabLocation()
-	{
+	public int getTabLocation() {
+
 		return mTabLocation;
 	}
 
@@ -67,33 +67,29 @@ public class TabFolderLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabFolderLayoutDecoratorConfig setTabLocation( int TabLocation )
-	{
+	public TabFolderLayoutDecoratorConfig setTabLocation( int TabLocation ) {
+
 		mTabLocation = TabLocation;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mTabLocation != ( (TabFolderLayoutDecoratorConfig) that ).mTabLocation )
-		{
+		if ( mTabLocation != ( (TabFolderLayoutDecoratorConfig) that ).mTabLocation ) {
 			return false;
 		}
 
@@ -101,8 +97,8 @@ public class TabFolderLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + mTabLocation;
 

@@ -48,8 +48,8 @@ import org.w3c.dom.Element;
  */
 
 public class JexlInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Private members
 	//
@@ -62,13 +62,13 @@ public class JexlInspector
 	// Constructor
 	//
 
-	public JexlInspector()
-	{
+	public JexlInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public JexlInspector( BaseObjectInspectorConfig config )
-	{
+	public JexlInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -78,15 +78,12 @@ public class JexlInspector
 
 	@Override
 	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
-		throws Exception
-	{
-		try
-		{
+		throws Exception {
+
+		try {
 			LOCAL_TOINSPECT.set( parentToInspect );
 			return super.inspectParent( parentToInspect, propertyInParent );
-		}
-		finally
-		{
+		} finally {
 			LOCAL_CONTEXT.remove();
 			LOCAL_TOINSPECT.remove();
 		}
@@ -94,16 +91,13 @@ public class JexlInspector
 
 	@Override
 	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
-		throws Exception
-	{
-		try
-		{
+		throws Exception {
+
+		try {
 			LOCAL_TOINSPECT.set( toInspect );
 
 			super.inspect( toInspect, classToInspect, toAddTo );
-		}
-		finally
-		{
+		} finally {
 			LOCAL_CONTEXT.remove();
 			LOCAL_TOINSPECT.remove();
 		}
@@ -111,8 +105,8 @@ public class JexlInspector
 
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiJexlAttributes/UiJexlAttribute
@@ -123,47 +117,41 @@ public class JexlInspector
 	}
 
 	protected void putJexlAttributes( Map<String, String> attributes, UiJexlAttributes jexlAttributes, UiJexlAttribute jexlAttribute )
-		throws Exception
-	{
+		throws Exception {
+
 		// UiJexlAttribute
 
-		if ( jexlAttribute != null )
-		{
+		if ( jexlAttribute != null ) {
 			putJexlAttribute( jexlAttribute, attributes );
 		}
 
 		// UiJexlAttributes
 
-		if ( jexlAttributes != null )
-		{
-			for ( UiJexlAttribute nestedJexlAttribute : jexlAttributes.value() )
-			{
+		if ( jexlAttributes != null ) {
+			for ( UiJexlAttribute nestedJexlAttribute : jexlAttributes.value() ) {
 				putJexlAttribute( nestedJexlAttribute, attributes );
 			}
 		}
 	}
 
 	protected void putJexlAttribute( UiJexlAttribute jexlAttribute, Map<String, String> attributes )
-		throws Exception
-	{
+		throws Exception {
+
 		String expression = jexlAttribute.expression();
 
 		// Likely mistake
 
-		if ( expression.startsWith( "${" ) )
-		{
+		if ( expression.startsWith( "${" ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' should be of the form 'foo.bar', not '${foo.bar}'" );
 		}
 
 		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext() );
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return;
 		}
 
-		for( String attributeName : jexlAttribute.name())
-		{
+		for ( String attributeName : jexlAttribute.name() ) {
 			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}
@@ -172,12 +160,11 @@ public class JexlInspector
 	 * Get the JexlContext. Creates one if necessary.
 	 */
 
-	protected JexlContext getContext()
-	{
+	protected JexlContext getContext() {
+
 		JexlContext context = LOCAL_CONTEXT.get();
 
-		if ( context == null )
-		{
+		if ( context == null ) {
 			context = createContext( LOCAL_TOINSPECT.get() );
 			LOCAL_CONTEXT.set( context );
 		}
@@ -191,16 +178,15 @@ public class JexlInspector
 	 * Subclasses can override this method to control what is available in the context.
 	 */
 
-	protected JexlContext createContext( Object toInspect )
-	{
+	protected JexlContext createContext( Object toInspect ) {
+
 		JexlContext context = JexlHelper.createContext();
 		@SuppressWarnings( "unchecked" )
 		Map<String, Object> contextMap = context.getVars();
 
 		// Put the toInspect in as 'this'
 
-		if ( toInspect != null )
-		{
+		if ( toInspect != null ) {
 			contextMap.put( "this", toInspect );
 		}
 

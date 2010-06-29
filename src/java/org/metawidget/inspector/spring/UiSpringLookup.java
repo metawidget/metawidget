@@ -25,18 +25,18 @@ import java.lang.annotation.Target;
  * Annotates the value returned by the field should belong to the set returned by the given EL
  * expression.
  * <p>
- * Because Spring's <code>s:options</code> tag takes a JSP EL expression, not a 'Spring beans
- * aware' expression, this annotation is best used in conjunction with
- * <code>InternalResourceViewResolver.setExposeContextBeansAsAttributes</code> (available in
- * Spring 2.5+).
+ * Because Spring's <code>s:options</code> tag takes a JSP EL expression, not a 'Spring beans aware'
+ * expression, this annotation is best used in conjunction with
+ * <code>InternalResourceViewResolver.setExposeContextBeansAsAttributes</code> (available in Spring
+ * 2.5+).
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiSpringLookup
-{
+public @interface UiSpringLookup {
+
 	/**
 	 * Value of the lookup. Equivalent to
 	 * <code>org.springframework.web.servlet.tags.form.OptionsTag.setItems</code>

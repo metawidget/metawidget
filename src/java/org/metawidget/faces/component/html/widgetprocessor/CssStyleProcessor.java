@@ -31,15 +31,15 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class CssStyleProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Note: this only applies the styles to UIStubs at the top-level. In practice, this seemed
 		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles
 		// to all their subcomponents too
@@ -48,30 +48,22 @@ public class CssStyleProcessor
 		String style = ( (HtmlMetawidget) metawidget ).getStyle();
 		String styleClass = ( (HtmlMetawidget) metawidget ).getStyleClass();
 
-		if ( style != null )
-		{
+		if ( style != null ) {
 			String existingStyle = (String) componentAttributes.get( "style" );
 
-			if ( existingStyle == null || "".equals( existingStyle ) )
-			{
+			if ( existingStyle == null || "".equals( existingStyle ) ) {
 				componentAttributes.put( "style", style );
-			}
-			else
-			{
+			} else {
 				componentAttributes.put( "style", existingStyle + " " + style );
 			}
 		}
 
-		if ( styleClass != null )
-		{
+		if ( styleClass != null ) {
 			String existingStyleClass = (String) componentAttributes.get( "styleClass" );
 
-			if ( existingStyleClass == null || "".equals( existingStyleClass ) )
-			{
+			if ( existingStyleClass == null || "".equals( existingStyleClass ) ) {
 				componentAttributes.put( "styleClass", styleClass );
-			}
-			else
-			{
+			} else {
 				componentAttributes.put( "styleClass", existingStyleClass + " " + styleClass );
 			}
 		}

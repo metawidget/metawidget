@@ -31,15 +31,14 @@ import java.lang.annotation.Target;
  * <p>
  * To remove the label entirely (including its column) specify an empty String. To render a blank
  * label (preserving its column) specify a value that gets looked up in a
- * <code>ResourceBundle</code>, and have the <code>ResourceBundle</code> return an empty
- * String.
+ * <code>ResourceBundle</code>, and have the <code>ResourceBundle</code> return an empty String.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiLabel
-{
+public @interface UiLabel {
+
 	String value();
 }

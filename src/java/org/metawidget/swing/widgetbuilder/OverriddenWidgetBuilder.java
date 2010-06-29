@@ -36,36 +36,32 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class OverriddenWidgetBuilder
-	implements WidgetBuilder<JComponent, SwingMetawidget>
-{
+	implements WidgetBuilder<JComponent, SwingMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		String name = attributes.get( NAME );
 
-		if ( name == null )
-		{
+		if ( name == null ) {
 			return null;
 		}
 
 		Component component = null;
 		List<JComponent> existingUnusedComponents = metawidget.fetchExistingUnusedComponents();
 
-		for ( Component componentExisting : existingUnusedComponents )
-		{
-			if ( name.equals( componentExisting.getName() ) )
-			{
+		for ( Component componentExisting : existingUnusedComponents ) {
+			if ( name.equals( componentExisting.getName() ) ) {
 				component = componentExisting;
 				break;
 			}
 		}
 
-		if ( component != null )
-		{
+		if ( component != null ) {
 			existingUnusedComponents.remove( component );
 		}
 

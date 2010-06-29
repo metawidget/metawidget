@@ -32,16 +32,15 @@ import org.w3c.dom.Element;
  */
 
 public class BaseObjectInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( BaseObjectInspectorConfig.class, new BaseObjectInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( BaseObjectInspectorConfig.class, new BaseObjectInspectorConfig() {
 			// Subclass
 		} );
 	}
@@ -50,10 +49,10 @@ public class BaseObjectInspectorTest
 	 * Test that parent properties <em>and</em> parent traits get merged in properly.
 	 */
 
-	public void testInspectParent()
-	{
+	public void testInspectParent() {
+
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new PropertyAndTraitAnnotation(), PropertyAndTraitAnnotation.class.getName(), "foo" ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new PropertyAndTraitAnnotation(), PropertyAndTraitAnnotation.class.getName(), "foo" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -69,22 +68,19 @@ public class BaseObjectInspectorTest
 
 		// Test null parent doesn't throw NullPointerException
 
-		assertTrue( null == inspector.inspect( null, PropertyAndTraitAnnotation.class.getName(), "foo" ));
+		assertTrue( null == inspector.inspect( null, PropertyAndTraitAnnotation.class.getName(), "foo" ) );
 	}
 
-	public void testNullPropertyStyle()
-	{
+	public void testNullPropertyStyle() {
+
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
 
 		// Shoud fail hard
 
-		try
-		{
+		try {
 			assertTrue( inspector.getProperties( null ).isEmpty() );
 			assertTrue( false );
-		}
-		catch( NullPointerException e )
-		{
+		} catch ( NullPointerException e ) {
 			// true
 		}
 
@@ -97,19 +93,16 @@ public class BaseObjectInspectorTest
 		assertTrue( inspector.getProperties( null ).isEmpty() );
 	}
 
-	public void testNullActionStyle()
-	{
+	public void testNullActionStyle() {
+
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
 
 		// Shoud fail hard
 
-		try
-		{
+		try {
 			assertTrue( inspector.getActions( null ).isEmpty() );
 			assertTrue( false );
-		}
-		catch( NullPointerException e )
-		{
+		} catch ( NullPointerException e ) {
 			// true
 		}
 
@@ -126,10 +119,10 @@ public class BaseObjectInspectorTest
 	// Inner class
 	//
 
-	public static class PropertyAndTraitAnnotation
-	{
+	public static class PropertyAndTraitAnnotation {
+
 		@UiMasked
 		@UiLabel( "Foo" )
-		public String foo;
+		public String	foo;
 	}
 }

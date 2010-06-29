@@ -29,14 +29,14 @@ import java.util.Map;
  */
 
 public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
-	extends LayoutDecorator<W, C, M>
-{
+	extends LayoutDecorator<W, C, M> {
+
 	//
 	// Constructor
 	//
 
-	protected FlatSectionLayoutDecorator( LayoutDecoratorConfig<W, C, M> config )
-	{
+	protected FlatSectionLayoutDecorator( LayoutDecoratorConfig<W, C, M> config ) {
+
 		super( config );
 	}
 
@@ -45,8 +45,8 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	//
 
 	@Override
-	public void startContainerLayout( C container, M metawidget )
-	{
+	public void startContainerLayout( C container, M metawidget ) {
+
 		super.startContainerLayout( container, metawidget );
 
 		State state = getState( container, metawidget );
@@ -54,35 +54,31 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	}
 
 	@Override
-	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget )
-	{
+	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget ) {
+
 		// If our delegate is itself a NestedSectionLayoutDecorator, strip the section
 
 		State state = getState( container, metawidget );
 
-		if ( getDelegate() instanceof NestedSectionLayoutDecorator<?, ?, ?> )
-		{
+		if ( getDelegate() instanceof NestedSectionLayoutDecorator<?, ?, ?> ) {
 			String section = stripSection( attributes );
 
 			// Stay where we are?
 
-			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) )
-			{
+			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
 
 			// End nested LayoutDecorator's current section
 
-			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) )
-			{
+			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) ) {
 				super.endContainerLayout( container, metawidget );
 			}
 
 			// Ignore empty stubs. Do not create a new heading in case it ends up being empty
 
-			if ( isEmptyStub( widget ) )
-			{
+			if ( isEmptyStub( widget ) ) {
 				return;
 			}
 
@@ -90,43 +86,35 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 			// Add a heading
 
-			if ( !"".equals( section ) )
-			{
+			if ( !"".equals( section ) ) {
 				addSectionWidget( section, 0, container, metawidget );
 			}
-		}
-		else
-		{
+		} else {
 			String[] sections = getSections( attributes );
 
 			// Stay where we are?
 
-			if ( sections.length == 0 || sections.equals( state.currentSections ) )
-			{
+			if ( sections.length == 0 || sections.equals( state.currentSections ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
 
 			// For each of the new sections...
 
-			for ( int level = 0; level < sections.length; level++ )
-			{
+			for ( int level = 0; level < sections.length; level++ ) {
 				String section = sections[level];
 
 				// ...that are different from our current...
 
-				if ( "".equals( section ) )
-				{
+				if ( "".equals( section ) ) {
 					continue;
 				}
 
-				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
-				{
+				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) ) {
 					continue;
 				}
 
-				if ( isEmptyStub( widget ) )
-				{
+				if ( isEmptyStub( widget ) ) {
 					continue;
 				}
 
@@ -174,8 +162,8 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	public static class State
-	{
+	public static class State {
+
 		public String[]	currentSections;
 	}
 }

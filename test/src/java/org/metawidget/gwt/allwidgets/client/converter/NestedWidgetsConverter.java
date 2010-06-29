@@ -30,26 +30,24 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class NestedWidgetsConverter
-	extends BaseConverter<NestedWidgets>
-{
+	extends BaseConverter<NestedWidgets> {
+
 	//
 	// Public methods
 	//
 
-	public NestedWidgets convertFromWidget( Widget widget, Object value, Class<?> type )
-	{
+	public NestedWidgets convertFromWidget( Widget widget, Object value, Class<?> type ) {
+
 		List<String> values = GwtUtils.fromString( (String) value, StringUtils.SEPARATOR_COMMA_CHAR );
 
-		if ( values.isEmpty() )
-		{
+		if ( values.isEmpty() ) {
 			return null;
 		}
 
 		NestedWidgets nestedWidgets = new NestedWidgets();
 		nestedWidgets.setNestedTextbox1( values.get( 0 ) );
 
-		if ( values.size() > 1 )
-		{
+		if ( values.size() > 1 ) {
 			nestedWidgets.setNestedTextbox2( values.get( 1 ) );
 		}
 

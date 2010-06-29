@@ -30,26 +30,26 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class LayoutUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayoutException()
-		throws Exception
-	{
-		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( null ));
+		throws Exception {
+
+		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( null ) );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( LARGE, TRUE );
-		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ));
+		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
 		attributes.clear();
 		attributes.put( WIDE, TRUE );
-		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ));
+		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
 		attributes.clear();
-		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( attributes ));
+		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 	}
 }

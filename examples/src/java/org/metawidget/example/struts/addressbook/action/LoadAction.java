@@ -37,20 +37,19 @@ import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
  */
 
 public class LoadAction
-	extends Action
-{
+	extends Action {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	public ActionForward execute( ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response )
-		throws Exception
-	{
+		throws Exception {
+
 		String id = request.getParameter( "id" );
 
-		if ( id != null )
-		{
+		if ( id != null ) {
 			// Look up the ContactsController...
 
 			ServletContext context = request.getSession().getServletContext();
@@ -65,16 +64,13 @@ public class LoadAction
 
 			ContactForm formContact;
 
-			if ( contact instanceof PersonalContact )
-			{
+			if ( contact instanceof PersonalContact ) {
 				formContact = new PersonalContactForm();
 				PersonalContactForm formPersonalContact = (PersonalContactForm) formContact;
 				PersonalContact contactPersonal = (PersonalContact) contact;
 
 				formPersonalContact.setDateOfBirth( contactPersonal.getDateOfBirth() );
-			}
-			else
-			{
+			} else {
 				formContact = new BusinessContactForm();
 				BusinessContactForm formBusinessContact = (BusinessContactForm) formContact;
 				BusinessContact contactBusiness = (BusinessContact) contact;

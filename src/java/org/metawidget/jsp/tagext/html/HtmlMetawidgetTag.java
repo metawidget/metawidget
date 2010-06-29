@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
  */
 
 public class HtmlMetawidgetTag
-	extends BaseHtmlMetawidgetTag
-{
+	extends BaseHtmlMetawidgetTag {
+
 	//
 	// Private statics
 	//
@@ -50,19 +50,17 @@ public class HtmlMetawidgetTag
 	 * (eg. <code>${customerSearch}</code>) so that we can 'inspect from parent' if needed.
 	 */
 
-	public void setValue( String value )
-	{
+	public void setValue( String value ) {
+
 		super.setPathInternal( value );
 
 		// Take the whole LHS of the path as the prefix, so that names are unique
 
-		if ( value != null )
-		{
+		if ( value != null ) {
 			int lastIndexOf = value.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-			if ( lastIndexOf != -1 )
-			{
-				setPathPrefix( value.substring( 0, lastIndexOf + 1 ));
+			if ( lastIndexOf != -1 ) {
+				setPathPrefix( value.substring( 0, lastIndexOf + 1 ) );
 			}
 		}
 	}
@@ -71,8 +69,8 @@ public class HtmlMetawidgetTag
 	 * Sets the LocalizationContext used to localize labels.
 	 */
 
-	public void setBundle( LocalizationContext bundle )
-	{
+	public void setBundle( LocalizationContext bundle ) {
+
 		super.setBundle( bundle.getResourceBundle() );
 	}
 
@@ -81,14 +79,14 @@ public class HtmlMetawidgetTag
 	//
 
 	@Override
-	protected String getDefaultConfiguration()
-	{
+	protected String getDefaultConfiguration() {
+
 		return "org/metawidget/jsp/tagext/html/metawidget-html-default.xml";
 	}
 
 	@Override
-	protected void beforeBuildCompoundWidget( Element element )
-	{
+	protected void beforeBuildCompoundWidget( Element element ) {
+
 		// Take the whole path as the name prefix, so that names are unique
 
 		setPathPrefix( getPath() + StringUtils.SEPARATOR_DOT_CHAR );

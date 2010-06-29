@@ -26,24 +26,24 @@ import android.util.AttributeSet;
  */
 
 public class TableLayout
-	extends LinearLayout
-{
+	extends LinearLayout {
+
 	//
 	// Constructor
 	//
 
-	public TableLayout( Context context )
-	{
+	public TableLayout( Context context ) {
+
 		super( context );
 	}
 
-	public TableLayout( Context context, AttributeSet attributeSet )
-	{
+	public TableLayout( Context context, AttributeSet attributeSet ) {
+
 		super( context, attributeSet );
 	}
 
-	public TableLayout( Context context, AttributeSet attributeSet, int index )
-	{
+	public TableLayout( Context context, AttributeSet attributeSet, int index ) {
+
 		super( context, attributeSet, index );
 	}
 
@@ -51,8 +51,8 @@ public class TableLayout
 	// Public methods
 	//
 
-	public void setColumnStretchable( int column, boolean stretchable )
-	{
+	public void setColumnStretchable( int column, boolean stretchable ) {
+
 		// Do nothing
 	}
 
@@ -61,8 +61,7 @@ public class TableLayout
 	//
 
 	public static class LayoutParams
-		extends android.widget.LinearLayout.LayoutParams
-	{
+		extends android.widget.LinearLayout.LayoutParams {
 		// Do nothing
 	}
 }

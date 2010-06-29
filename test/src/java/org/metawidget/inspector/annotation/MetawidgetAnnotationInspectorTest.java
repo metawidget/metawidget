@@ -30,27 +30,27 @@ import org.w3c.dom.Element;
  */
 
 public class MetawidgetAnnotationInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
 
-	private MetawidgetAnnotationInspector mInspector;
+	private MetawidgetAnnotationInspector	mInspector;
 
 	//
 	// Public methods
 	//
 
 	@Override
-	public void setUp()
-	{
+	public void setUp() {
+
 		mInspector = new MetawidgetAnnotationInspector();
 	}
 
-	public void testInspection()
-	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( new Address(), Address.class.getName() ));
+	public void testInspection() {
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( new Address(), Address.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -119,10 +119,10 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( null == action.getNextSibling() );
 	}
 
-	public void testLookup()
-	{
+	public void testLookup() {
+
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -159,24 +159,21 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( property.getAttributes().getLength() == 11 );
 	}
 
-	public void testBadAction()
-	{
-		try
-		{
+	public void testBadAction() {
+
+		try {
 			mInspector.inspect( new BadAction1(), BadAction1.class.getName() );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "@UiAction public void org.metawidget.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing(java.lang.String) must not take any parameters", e.getMessage() );
 		}
 	}
 
-	public void testInspectString()
-	{
+	public void testInspectString() {
+
 		// Should 'short circuit' and return null, as an optimization for CompositeInspector
 
-		assertTrue( null == mInspector.inspect( "foo", String.class.getName() ));
+		assertTrue( null == mInspector.inspect( "foo", String.class.getName() ) );
 
 		// Should gather annotations from parent
 
@@ -194,15 +191,15 @@ public class MetawidgetAnnotationInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@UiRequired
 		@UiLookup( value = { "foo,", "bar" } )
 		@UiWide
 		public Object	object1;
 
 		@UiLabel( "bar" )
-		@UiAttributes( { @UiAttribute( name = "foo1", value = "bar1" ), @UiAttribute( name="foo2", value="bar2" ) })
+		@UiAttributes( { @UiAttribute( name = "foo1", value = "bar1" ), @UiAttribute( name = "foo2", value = "bar2" ) } )
 		@UiHidden
 		@UiReadOnly
 		@UiDontExpand
@@ -215,17 +212,17 @@ public class MetawidgetAnnotationInspectorTest
 		@UiAction
 		@UiComesAfter( "string1" )
 		@UiSection( "Bar" )
-		public void doNothing()
-		{
+		public void doNothing() {
+
 			// Do nothing
 		}
 	}
 
-	public static class BadAction1
-	{
+	public static class BadAction1 {
+
 		@UiAction
-		public void doNothing( String foo )
-		{
+		public void doNothing( String foo ) {
+
 			// Do nothing
 		}
 	}

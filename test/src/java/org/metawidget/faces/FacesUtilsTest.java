@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class FacesUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWrapping()
-		throws Exception
-	{
+		throws Exception {
+
 		assertTrue( true == FacesUtils.isExpression( "#{foo}" ) );
 		assertTrue( false == FacesUtils.isExpression( "foo" ) );
 		assertTrue( true == FacesUtils.isExpression( "#{!empty bar ? '' : '#{foo}'}" ) );
@@ -40,16 +40,16 @@ public class FacesUtilsTest
 		assertTrue( false == FacesUtils.isExpression( "{!empty bar ? '' : '#{foo}'}" ) );
 		assertTrue( false == FacesUtils.isExpression( "#!empty bar ? '' : '#{foo}'}" ) );
 
-		assertEquals( "foo", FacesUtils.unwrapExpression( "#{foo}" ));
-		assertEquals( "foo", FacesUtils.unwrapExpression( "foo" ));
-		assertEquals( "#{foo", FacesUtils.unwrapExpression( "#{foo" ));
-		assertEquals( "{foo}", FacesUtils.unwrapExpression( "{foo}" ));
-		assertEquals( "foo}", FacesUtils.unwrapExpression( "foo}" ));
+		assertEquals( "foo", FacesUtils.unwrapExpression( "#{foo}" ) );
+		assertEquals( "foo", FacesUtils.unwrapExpression( "foo" ) );
+		assertEquals( "#{foo", FacesUtils.unwrapExpression( "#{foo" ) );
+		assertEquals( "{foo}", FacesUtils.unwrapExpression( "{foo}" ) );
+		assertEquals( "foo}", FacesUtils.unwrapExpression( "foo}" ) );
 
-		assertEquals( "#{foo}", FacesUtils.wrapExpression( "foo" ));
-		assertEquals( "#{foo}", FacesUtils.wrapExpression( "#{foo}" ));
-		assertEquals( "#{#{foo}", FacesUtils.wrapExpression( "#{foo" ));
-		assertEquals( "#{{foo}}", FacesUtils.wrapExpression( "{foo}" ));
-		assertEquals( "#{foo}}", FacesUtils.wrapExpression( "foo}" ));
+		assertEquals( "#{foo}", FacesUtils.wrapExpression( "foo" ) );
+		assertEquals( "#{foo}", FacesUtils.wrapExpression( "#{foo}" ) );
+		assertEquals( "#{#{foo}", FacesUtils.wrapExpression( "#{foo" ) );
+		assertEquals( "#{{foo}}", FacesUtils.wrapExpression( "{foo}" ) );
+		assertEquals( "#{foo}}", FacesUtils.wrapExpression( "foo}" ) );
 	}
 }

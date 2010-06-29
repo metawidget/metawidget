@@ -42,14 +42,14 @@ import org.metawidget.util.TestUtils;
  */
 
 public class ExampleTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Example Tests" );
 		suite.addTestSuite( CastorInspectorExampleTest.class );
 		suite.addTestSuite( ExcludingWidgetBuilderExampleTest.class );
@@ -75,10 +75,10 @@ public class ExampleTests
 		return suite;
 	}
 
-	public void testEqualsAndHashCode()
-	{
-		TestUtils.testEqualsAndHashcode( Communication.class, new Communication()
-		{
+	public void testEqualsAndHashCode() {
+
+		TestUtils.testEqualsAndHashcode( Communication.class, new Communication() {
+
 			final static long	serialVersionUID	= 1l;
 		} );
 	}

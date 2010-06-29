@@ -39,26 +39,23 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class OverriddenWidgetBuilder
-	implements WidgetBuilder<Control, SwtMetawidget>
-{
+	implements WidgetBuilder<Control, SwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
-	{
+	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
+
 		String name = attributes.get( NAME );
 
-		if ( name == null )
-		{
+		if ( name == null ) {
 			return null;
 		}
 
-		for ( Control componentExisting : metawidget.getChildren() )
-		{
-			if ( name.equals( componentExisting.getData( NAME ) ) )
-			{
+		for ( Control componentExisting : metawidget.getChildren() ) {
+			if ( name.equals( componentExisting.getData( NAME ) ) ) {
 				return componentExisting;
 			}
 		}

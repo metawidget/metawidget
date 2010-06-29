@@ -24,10 +24,10 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public class Main
-{
-	public static void main( String[] args )
-	{
+public class Main {
+
+	public static void main( String[] args ) {
+
 		// Data model
 
 		Person person = new Person();

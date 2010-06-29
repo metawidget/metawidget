@@ -21,7 +21,6 @@ package org.metawidget.config;
  */
 
 public class TestNoEqualsSubclassInspectorConfig
-	extends TestInspectorConfig
-{
+	extends TestInspectorConfig {
 	// Does not override equals() or hashCode()
 }

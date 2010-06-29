@@ -25,24 +25,24 @@ import com.google.gwt.junit.client.GWTTestCase;
  */
 
 public class FlexTableLayoutTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testConfig()
-	{
+	public void testConfig() {
+
 		FlexTableLayoutConfig config1 = new FlexTableLayoutConfig();
 		FlexTableLayoutConfig config2 = new FlexTableLayoutConfig();
 
-		assertFalse( config1.equals( "foo" ));
+		assertFalse( config1.equals( "foo" ) );
 		assertEquals( config1, config1 );
 		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
@@ -51,7 +51,7 @@ public class FlexTableLayoutTest
 
 		config1.setNumberOfColumns( 2 );
 		assertTrue( 2 == config1.getNumberOfColumns() );
-		assertFalse( config1.equals( config2 ));
+		assertFalse( config1.equals( config2 ) );
 
 		config2.setNumberOfColumns( 2 );
 		assertEquals( config1, config2 );
@@ -61,7 +61,7 @@ public class FlexTableLayoutTest
 
 		config1.setTableStyleName( "table-style-name" );
 		assertEquals( "table-style-name", config1.getTableStyleName() );
-		assertFalse( config1.equals( config2 ));
+		assertFalse( config1.equals( config2 ) );
 
 		config2.setTableStyleName( "table-style-name" );
 		assertEquals( config1, config2 );
@@ -72,7 +72,7 @@ public class FlexTableLayoutTest
 		config1.setColumnStyleNames( "column-style-name1", "column-style-name2" );
 		assertEquals( "column-style-name1", config1.getColumnStyleNames()[0] );
 		assertEquals( "column-style-name2", config1.getColumnStyleNames()[1] );
-		assertFalse( config1.equals( config2 ));
+		assertFalse( config1.equals( config2 ) );
 
 		config2.setColumnStyleNames( "column-style-name1", "column-style-name2" );
 		assertEquals( config1, config2 );
@@ -82,24 +82,21 @@ public class FlexTableLayoutTest
 
 		config1.setFooterStyleName( "footer-style-name" );
 		assertEquals( "footer-style-name", config1.getFooterStyleName() );
-		assertFalse( config1.equals( config2 ));
+		assertFalse( config1.equals( config2 ) );
 
 		config2.setFooterStyleName( "footer-style-name" );
 		assertEquals( config1, config2 );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
-	public void testNumberOfColumns()
-	{
+	public void testNumberOfColumns() {
+
 		FlexTableLayoutConfig config = new FlexTableLayoutConfig();
 
-		try
-		{
+		try {
 			config.setNumberOfColumns( -1 );
 			assertTrue( false );
-		}
-		catch( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertEquals( "numberOfColumns must be >= 0", e.getMessage() );
 		}
 	}

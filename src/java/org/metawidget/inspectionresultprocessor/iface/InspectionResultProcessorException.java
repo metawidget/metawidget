@@ -23,8 +23,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class InspectionResultProcessorException
-	extends MetawidgetException
-{
+	extends MetawidgetException {
+
 	//
 	// Private statics
 	//
@@ -38,14 +38,13 @@ public class InspectionResultProcessorException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting InspectionResultProcessorExceptions within
-	 * InspectionResultProcessorExceptions.
+	 * Using static constructor methods prevents unnecessarily nesting
+	 * InspectionResultProcessorExceptions within InspectionResultProcessorExceptions.
 	 */
 
-	public static InspectionResultProcessorException newException( Throwable cause )
-	{
-		if ( cause instanceof InspectionResultProcessorException )
-		{
+	public static InspectionResultProcessorException newException( Throwable cause ) {
+
+		if ( cause instanceof InspectionResultProcessorException ) {
 			return (InspectionResultProcessorException) cause;
 		}
 
@@ -55,22 +54,24 @@ public class InspectionResultProcessorException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * For consistency with <code>InspectionResultProcessorException.newException( Throwable )</code>.
+	 * For consistency with
+	 * <code>InspectionResultProcessorException.newException( Throwable )</code>.
 	 */
 
-	public static InspectionResultProcessorException newException( String message )
-	{
+	public static InspectionResultProcessorException newException( String message ) {
+
 		return new InspectionResultProcessorException( message );
 	}
 
 	/**
 	 * Static constructor.
 	 * <p>
-	 * For consistency with <code>InspectionResultProcessorException.newException( Throwable )</code>.
+	 * For consistency with
+	 * <code>InspectionResultProcessorException.newException( Throwable )</code>.
 	 */
 
-	public static InspectionResultProcessorException newException( String message, Throwable cause )
-	{
+	public static InspectionResultProcessorException newException( String message, Throwable cause ) {
+
 		return new InspectionResultProcessorException( message, cause );
 	}
 
@@ -78,18 +79,18 @@ public class InspectionResultProcessorException
 	// Constructor
 	//
 
-	private InspectionResultProcessorException( String message )
-	{
+	private InspectionResultProcessorException( String message ) {
+
 		super( message );
 	}
 
-	private InspectionResultProcessorException( Throwable cause )
-	{
+	private InspectionResultProcessorException( Throwable cause ) {
+
 		super( cause );
 	}
 
-	private InspectionResultProcessorException( String message, Throwable cause )
-	{
+	private InspectionResultProcessorException( String message, Throwable cause ) {
+
 		super( message, cause );
 	}
 }

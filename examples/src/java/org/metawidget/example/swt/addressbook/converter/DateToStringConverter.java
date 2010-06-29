@@ -26,16 +26,15 @@ import org.eclipse.core.databinding.conversion.Converter;
  */
 
 public class DateToStringConverter
-	extends Converter
-{
+	extends Converter {
+
 	//
 	// Private statics
 	//
 
 	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
 
-	static
-	{
+	static {
 		FORMAT.setLenient( false );
 	}
 
@@ -43,8 +42,8 @@ public class DateToStringConverter
 	// Constructor
 	//
 
-	public DateToStringConverter()
-	{
+	public DateToStringConverter() {
+
 		super( Date.class, String.class );
 	}
 
@@ -53,15 +52,13 @@ public class DateToStringConverter
 	//
 
 	@Override
-	public Object convert( Object toConvert )
-	{
-		if ( toConvert == null )
-		{
+	public Object convert( Object toConvert ) {
+
+		if ( toConvert == null ) {
 			return "";
 		}
 
-		synchronized ( FORMAT )
-		{
+		synchronized ( FORMAT ) {
 			return FORMAT.format( toConvert );
 		}
 	}

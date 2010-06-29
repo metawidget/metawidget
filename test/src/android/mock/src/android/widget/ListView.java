@@ -25,14 +25,14 @@ import android.content.Context;
  */
 
 public class ListView
-	extends AdapterView<Adapter>
-{
+	extends AdapterView<Adapter> {
+
 	//
 	// Constructor
 	//
 
-	public ListView( Context context )
-	{
+	public ListView( Context context ) {
+
 		super( context );
 	}
 
@@ -40,8 +40,8 @@ public class ListView
 	// Public methods
 	//
 
-	public void setOnItemClickListener( OnItemClickListener onItemClickListener )
-	{
+	public void setOnItemClickListener( OnItemClickListener onItemClickListener ) {
+
 		// Do nothing
 	}
 }

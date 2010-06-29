@@ -60,8 +60,8 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
  */
 
 public class SwingAllWidgetsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Protected statics
 	//
@@ -72,8 +72,8 @@ public class SwingAllWidgetsTest
 	// Constructor
 	//
 
-	public SwingAllWidgetsTest()
-	{
+	public SwingAllWidgetsTest() {
+
 		// Default constructor
 	}
 
@@ -81,8 +81,8 @@ public class SwingAllWidgetsTest
 	 * JUnit 3.7 constructor (SwingAllWidgetsTest gets run under JDK 1.4 using JUnit 3).
 	 */
 
-	public SwingAllWidgetsTest( String name )
-	{
+	public SwingAllWidgetsTest( String name ) {
+
 		super( name );
 	}
 
@@ -91,8 +91,8 @@ public class SwingAllWidgetsTest
 	//
 
 	public void testAllWidgets()
-		throws Exception
-	{
+		throws Exception {
+
 		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// BeanUtilsBinding
@@ -107,8 +107,8 @@ public class SwingAllWidgetsTest
 	//
 
 	protected void runTest( AdvancedWidgetProcessor<JComponent, SwingMetawidget> processor )
-		throws Exception
-	{
+		throws Exception {
+
 		// Model
 
 		AllWidgets allWidgets = new AllWidgets$$EnhancerByCGLIB$$1234();
@@ -119,7 +119,7 @@ public class SwingAllWidgetsTest
 		metawidget.addWidgetProcessor( processor );
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		metawidget.setToInspect( allWidgets );
 
@@ -127,61 +127,43 @@ public class SwingAllWidgetsTest
 
 		// Test missing components
 
-		try
-		{
+		try {
 			metawidget.getValue( "no-such-component" );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e1 )
-		{
+		} catch ( MetawidgetException e1 ) {
 			assertEquals( "No component named 'no-such-component'", e1.getMessage() );
 
-			try
-			{
+			try {
 				metawidget.getValue( "textbox", "no-such-component" );
 				assertTrue( false );
-			}
-			catch ( MetawidgetException e2 )
-			{
+			} catch ( MetawidgetException e2 ) {
 				assertEquals( "No component named 'textbox', 'no-such-component'", e2.getMessage() );
 
-				try
-				{
+				try {
 					metawidget.getValue( "textbox", "no-such-component1", "no-such-component2" );
 					assertTrue( false );
-				}
-				catch ( MetawidgetException e3 )
-				{
+				} catch ( MetawidgetException e3 ) {
 					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 				}
 			}
 		}
 
-		try
-		{
+		try {
 			metawidget.setValue( null, "no-such-component" );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e1 )
-		{
+		} catch ( MetawidgetException e1 ) {
 			assertEquals( "No component named 'no-such-component'", e1.getMessage() );
 
-			try
-			{
+			try {
 				metawidget.setValue( null, "textbox", "no-such-component" );
 				assertTrue( false );
-			}
-			catch ( MetawidgetException e2 )
-			{
+			} catch ( MetawidgetException e2 ) {
 				assertEquals( "No component named 'textbox', 'no-such-component'", e2.getMessage() );
 
-				try
-				{
+				try {
 					metawidget.setValue( null, "textbox", "no-such-component1", "no-such-component2" );
 					assertTrue( false );
-				}
-				catch ( MetawidgetException e3 )
-				{
+				} catch ( MetawidgetException e3 ) {
 					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 				}
 			}
@@ -449,7 +431,7 @@ public class SwingAllWidgetsTest
 		( (JTextField) metawidget.getComponent( 57 ) ).setText( "bad date" );
 
 		JPanel separatorPanel = (JPanel) metawidget.getComponent( 58 );
-		assertEquals( "Section Break", ((JLabel) separatorPanel.getComponent( 0 )).getText() );
+		assertEquals( "Section Break", ( (JLabel) separatorPanel.getComponent( 0 ) ).getText() );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).gridwidth );
 		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
@@ -462,13 +444,10 @@ public class SwingAllWidgetsTest
 		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 61 ) ).fill );
 		JButton button = ( (JButton) metawidget.getComponent( 61 ) );
 		assertEquals( "Do action", button.getText() );
-		try
-		{
+		try {
 			button.doClick();
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
@@ -481,13 +460,10 @@ public class SwingAllWidgetsTest
 
 		// Check MetawidgetException
 
-		try
-		{
+		try {
 			processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( "Could not parse 'bad date'", e.getCause().getCause().getMessage() );
 		}
 

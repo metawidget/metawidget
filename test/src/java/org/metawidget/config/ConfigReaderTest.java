@@ -76,15 +76,15 @@ import org.xml.sax.SAXException;
  */
 
 public class ConfigReaderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testReader()
-		throws Exception
-	{
+		throws Exception {
+
 		// Configure
 
 		String xml = "<?xml version=\"1.0\"?>";
@@ -273,8 +273,8 @@ public class ConfigReaderTest
 	}
 
 	public void testNoDefaultConstructor()
-		throws Exception
-	{
+		throws Exception {
+
 		// With config hint
 
 		String xml = "<?xml version=\"1.0\"?>";
@@ -284,13 +284,10 @@ public class ConfigReaderTest
 
 		ConfigReader configReader = new ConfigReader();
 
-		try
-		{
+		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a default constructor. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
 		}
 
@@ -301,13 +298,10 @@ public class ConfigReaderTest
 		xml += "	<titledPanelLayoutDecorator xmlns=\"java:org.metawidget.swing.layout\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Layout.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.swing.layout.TitledPanelLayoutDecorator does not have a default constructor. Did you mean config=\"org.metawidget.layout.decorator.LayoutDecoratorConfig\"?".equals( e.getMessage() ) );
 		}
 
@@ -318,20 +312,17 @@ public class ConfigReaderTest
 		xml += "	<class xmlns=\"java:java.lang\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Class.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class java.lang.Class does not have a default constructor".equals( e.getMessage() ) );
 		}
 	}
 
 	public void testBadUrl()
-		throws Exception
-	{
+		throws Exception {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
 		xml += "	<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
@@ -343,13 +334,10 @@ public class ConfigReaderTest
 
 		ConfigReader configReader = new ConfigReader();
 
-		try
-		{
+		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			String message = e.getMessage();
 
 			// If, bizzarely, the host actually does resolve (maybe your ISP puts in a special
@@ -360,8 +348,8 @@ public class ConfigReaderTest
 	}
 
 	public void testBadFile()
-		throws Exception
-	{
+		throws Exception {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
 		xml += "	<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
@@ -373,61 +361,52 @@ public class ConfigReaderTest
 
 		ConfigReader configReader = new ConfigReader();
 
-		try
-		{
+		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( e.getMessage().startsWith( "java.io.FileNotFoundException:" ) );
 		}
 	}
 
 	public void testForgottenConfigAttribute()
-		throws Exception
-	{
+		throws Exception {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\">";
 		xml += "<propertyStyle><groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\"/></propertyStyle>";
 		xml += "</propertyTypeInspector></metawidget>";
 
-		try
-		{
+		try {
 			ConfigReader configReader = new ConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(GroovyPropertyStyle)".equals( e.getMessage() ) );
 		}
 	}
 
 	public void testLikelyMethod()
-		throws Exception
-	{
+		throws Exception {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
 		xml += "<propertyStyle><boolean>true</boolean></propertyStyle>";
 		xml += "</propertyTypeInspector></metawidget>";
 
-		try
-		{
+		try {
 			ConfigReader configReader = new ConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?".equals( e.getMessage() ) );
 		}
 	}
 
-	public void testSupportedTypes()
-	{
+	public void testSupportedTypes() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\">";
@@ -491,8 +470,8 @@ public class ConfigReaderTest
 		assertTrue( Gender.MALE.equals( inspector.getGender() ) );
 	}
 
-	public void testUnsupportedType()
-	{
+	public void testUnsupportedType() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\">";
@@ -500,19 +479,16 @@ public class ConfigReaderTest
 		xml += "</testInspector>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.config.Date or supported tag <date>" ) );
 		}
 	}
 
-	public void testBadNamesapce()
-	{
+	public void testBadNamesapce() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"org.metawidget.config\" config=\"TestInspectorConfig\">";
@@ -520,19 +496,16 @@ public class ConfigReaderTest
 		xml += "</testInspector>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config' of element <testInspector> must start with java:".equals( e.getMessage() ) );
 		}
 	}
 
-	public void testEmptyCollection()
-	{
+	public void testEmptyCollection() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\">";
@@ -550,8 +523,8 @@ public class ConfigReaderTest
 		assertTrue( inspector.getSet().isEmpty() );
 	}
 
-	public void testMetawidgetExceptionDuringConstruction()
-	{
+	public void testMetawidgetExceptionDuringConstruction() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\">";
@@ -559,19 +532,16 @@ public class ConfigReaderTest
 		xml += "</testInspector>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ) );
 		}
 	}
 
-	public void testSetterWithNoParameters()
-	{
+	public void testSetterWithNoParameters() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\">";
@@ -579,101 +549,80 @@ public class ConfigReaderTest
 		xml += "</testInspector>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ) );
 		}
 	}
 
-	public void testNoInspector()
-	{
+	public void testNoInspector() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "No match for class org.metawidget.config.TestInspector within config".equals( e.getMessage() ) );
 		}
 	}
 
-	public void testMultipleInspectors()
-	{
+	public void testMultipleInspectors() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\"/>";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "Already configured a class org.metawidget.config.TestInspector, ambiguous match with class org.metawidget.config.TestInspector".equals( e.getMessage() ) );
 		}
 	}
 
-	public void testMissingResource()
-	{
+	public void testMissingResource() {
+
 		ConfigReader configReader = new ConfigReader();
 
-		try
-		{
+		try {
 			configReader.configure( (String) null, null );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
-		try
-		{
+		try {
 			configReader.configure( "", null );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
-		try
-		{
+		try {
 			configReader.configure( " ", null );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
-		try
-		{
+		try {
 			configReader.configure( " foo", null );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
 		}
 	}
 
 	public void testCaching()
-		throws Exception
-	{
+		throws Exception {
+
 		ValidatingConfigReader configReader = new ValidatingConfigReader();
 		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
 		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
@@ -744,21 +693,18 @@ public class ConfigReaderTest
 		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag(), "widgetBuilder" );
 		assertTrue( 4 == configReader.mResourceCache.size() );
 
-		try
-		{
+		try {
 			configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag() );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "org.metawidget.inspector.iface.InspectorException: org.metawidget.iface.MetawidgetException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ) );
 		}
 
 		assertTrue( 4 == configReader.mResourceCache.size() );
 	}
 
-	public void testLogging()
-	{
+	public void testLogging() {
+
 		ConfigReader configReader = new ConfigReader();
 		configReader.configure( "org/metawidget/config/metawidget-test-logging.xml", BaseHtmlMetawidgetTag.class, "widgetBuilder" );
 		configReader.configure( "org/metawidget/config/metawidget-test-logging.xml", SpringMetawidgetTag.class, "widgetBuilder" );
@@ -770,8 +716,8 @@ public class ConfigReaderTest
 	}
 
 	public void testImmutable()
-		throws Exception
-	{
+		throws Exception {
+
 		// Via InputStream
 
 		String startXml = "<?xml version=\"1.0\"?>";
@@ -917,34 +863,31 @@ public class ConfigReaderTest
 	}
 
 	public void testPatternCache()
-		throws Exception
-	{
+		throws Exception {
+
 		assertFalse( Pattern.compile( "foo" ).equals( Pattern.compile( "foo" ) ) );
 
 		ConfigReader configReader = new ConfigReader();
 		assertTrue( configReader.createNative( "pattern", null, "foo" ).equals( configReader.createNative( "pattern", null, "foo" ) ) );
 	}
 
-	public void testUppercase()
-	{
+	public void testUppercase() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<TestInspector xmlns=\"java:org.metawidget.config\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "XML node 'TestInspector' should start with a lowercase letter".equals( e.getMessage() ) );
 		}
 	}
 
-	public void testBadConfigImplementation()
-	{
+	public void testBadConfigImplementation() {
+
 		// No equals
 
 		String xml = "<?xml version=\"1.0\"?>";
@@ -952,13 +895,10 @@ public class ConfigReaderTest
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestNoEqualsInspectorConfig\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.TestNoEqualsInspectorConfig does not override .equals(), so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
@@ -969,13 +909,10 @@ public class ConfigReaderTest
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestNoHashCodeInspectorConfig\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.TestNoHashCodeInspectorConfig does not override .hashCode(), so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
@@ -986,17 +923,14 @@ public class ConfigReaderTest
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestUnbalancedEqualsInspectorConfig\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 
 			// assertTrue( false );
 			//
 			// (works running JUnit in Eclipse, but not via Ant. Does the VM cache reflection
 			// results or something?)
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.TestNoHashCodeInspectorConfig implements .equals(), but .hashCode() is implemented by class org.metawidget.config.TestUnbalancedEqualsInspectorConfig, so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
@@ -1007,13 +941,10 @@ public class ConfigReaderTest
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"java.lang.String\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.TestInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute".equals( e.getMessage() ) );
 		}
 
@@ -1024,13 +955,10 @@ public class ConfigReaderTest
 		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"java.lang.String\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
 		}
 
@@ -1041,13 +969,10 @@ public class ConfigReaderTest
 		xml += "<object xmlns=\"java:java.lang\" config=\"java.lang.String\"/>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Object.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertTrue( "class java.lang.Object does not have a constructor that takes a class java.lang.String, as specified by your config attribute. It only has a config-less constructor".equals( e.getMessage() ) );
 		}
 
@@ -1088,8 +1013,8 @@ public class ConfigReaderTest
 	}
 
 	public void testEnum()
-		throws Exception
-	{
+		throws Exception {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<beansBindingProcessor xmlns=\"java:org.metawidget.swing.widgetprocessor.binding.beansbinding\" config=\"BeansBindingProcessorConfig\">";
@@ -1103,15 +1028,15 @@ public class ConfigReaderTest
 		assertTrue( UpdateStrategy.READ_WRITE.equals( updateStrategyField.get( processor ) ) );
 	}
 
-	public void testOnlyCacheIfSuccessful()
-	{
-		ConfigReader configReader = new ConfigReader()
-		{
+	public void testOnlyCacheIfSuccessful() {
+
+		ConfigReader configReader = new ConfigReader() {
+
 			private int	mOpenResource;
 
 			@Override
-			public InputStream openResource( String resource )
-			{
+			public InputStream openResource( String resource ) {
+
 				String xml = "<?xml version=\"1.0\"?>";
 				xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 				xml += "<htmlMetawidgetTag xmlns=\"java:org.metawidget.jsp.tagext.html\">";
@@ -1129,8 +1054,7 @@ public class ConfigReaderTest
 				xml += "	</inspector>";
 				xml += "	<widgetBuilder>";
 
-				switch ( mOpenResource )
-				{
+				switch ( mOpenResource ) {
 					case 0:
 						xml += "		<compositeWidgetBuilderFoo xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
 						xml += "			<widgetBuilders>";
@@ -1163,13 +1087,10 @@ public class ConfigReaderTest
 			}
 		};
 
-		try
-		{
+		try {
 			configReader.configure( "foo", HtmlMetawidgetTag.class );
 			assertTrue( false );
-		}
-		catch ( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "No such class org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderFoo or supported tag <compositeWidgetBuilderFoo>", e.getMessage() );
 		}
 
@@ -1181,8 +1102,8 @@ public class ConfigReaderTest
 	//
 
 	static class ValidatingConfigReader
-		extends ConfigReader
-	{
+		extends ConfigReader {
+
 		//
 		// Private members
 		//
@@ -1193,17 +1114,14 @@ public class ConfigReaderTest
 		// Constructor
 		//
 
-		public ValidatingConfigReader()
-		{
+		public ValidatingConfigReader() {
+
 			SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
 			InputStream in = super.openResource( "org/metawidget/config/metawidget-1.0.xsd" );
 
-			try
-			{
+			try {
 				mFactory.setSchema( factory.newSchema( new StreamSource( in ) ) );
-			}
-			catch ( SAXException e )
-			{
+			} catch ( SAXException e ) {
 				throw MetawidgetException.newException( e );
 			}
 		}
@@ -1213,15 +1131,15 @@ public class ConfigReaderTest
 		//
 
 		@Override
-		public InputStream openResource( String resource )
-		{
+		public InputStream openResource( String resource ) {
+
 			mOpenedResource++;
 
 			return super.openResource( resource );
 		}
 
-		public int getOpenedResource()
-		{
+		public int getOpenedResource() {
+
 			return mOpenedResource;
 		}
 	}

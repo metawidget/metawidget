@@ -36,14 +36,14 @@ import org.metawidget.util.LogUtilsTest;
  */
 
 public class SwingJdk14Test
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Constructor
 	//
 
-	public SwingJdk14Test( String name )
-	{
+	public SwingJdk14Test( String name ) {
+
 		super( name );
 	}
 
@@ -51,8 +51,8 @@ public class SwingJdk14Test
 	// Public methods
 	//
 
-	public void testJdk14()
-	{
+	public void testJdk14() {
+
 		// Check works 'out of the box' on JDK 1.4
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -81,14 +81,11 @@ public class SwingJdk14Test
 		xml += "	</swingMetawidget>";
 		xml += "</metawidget>";
 
-		try
-		{
+		try {
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class );
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
-			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspector(). Did you mean setInspector(Inspector)?".equals( e.getMessage() ));
+		} catch ( MetawidgetException e ) {
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspector(). Did you mean setInspector(Inspector)?".equals( e.getMessage() ) );
 		}
 
 		assertTrue( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version".equals( LogUtilsTest.getLastDebugMessage() ) );

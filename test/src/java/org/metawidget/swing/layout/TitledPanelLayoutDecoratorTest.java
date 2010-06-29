@@ -43,14 +43,14 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class TitledPanelLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testTitledPanelLayoutDecorator()
-	{
+	public void testTitledPanelLayoutDecorator() {
+
 		SwingMetawidget swingMetawidget = new SwingMetawidget();
 		swingMetawidget.setMetawidgetLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>().setLayout( new GridBagLayout() ) ) );
 		swingMetawidget.setToInspect( new Foo() );
@@ -102,8 +102,8 @@ public class TitledPanelLayoutDecoratorTest
 		assertTrue( 8 == swingMetawidget.getComponentCount() );
 	}
 
-	public void testNestedPanels()
-	{
+	public void testNestedPanels() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>().setLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -145,8 +145,8 @@ public class TitledPanelLayoutDecoratorTest
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>().setLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -162,8 +162,8 @@ public class TitledPanelLayoutDecoratorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	bar;
 
 		@UiComesAfter( "bar" )
@@ -184,8 +184,8 @@ public class TitledPanelLayoutDecoratorTest
 		public String	jkl;
 	}
 
-	static class Bar
-	{
+	static class Bar {
+
 		public String	abc;
 
 		@UiSection( { "Foo", "Bar" } )

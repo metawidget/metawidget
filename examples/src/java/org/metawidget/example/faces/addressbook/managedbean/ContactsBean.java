@@ -25,20 +25,18 @@ import org.metawidget.example.shared.addressbook.controller.ContactsController;
  */
 
 public class ContactsBean
-	extends ContactsController
-{
+	extends ContactsController {
+
 	//
 	// Private statics
 	//
 
-	private final static SelectItem[] ALL_TITLES_SELECT_ITEMS;
+	private final static SelectItem[]	ALL_TITLES_SELECT_ITEMS;
 
-	static
-	{
+	static {
 		ALL_TITLES_SELECT_ITEMS = new SelectItem[ALL_TITLES.length];
 
-		for( int loop = 0; loop < ALL_TITLES.length; loop++ )
-		{
+		for ( int loop = 0; loop < ALL_TITLES.length; loop++ ) {
 			ALL_TITLES_SELECT_ITEMS[loop] = new SelectItem( ALL_TITLES[loop] );
 		}
 	}
@@ -47,8 +45,8 @@ public class ContactsBean
 	// Public methods
 	//
 
-	public SelectItem[] getAllTitlesAsSelectItems()
-	{
+	public SelectItem[] getAllTitlesAsSelectItems() {
+
 		return ALL_TITLES_SELECT_ITEMS;
 	}
 }

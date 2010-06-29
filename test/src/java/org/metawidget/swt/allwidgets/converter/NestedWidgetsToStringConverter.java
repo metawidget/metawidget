@@ -25,14 +25,14 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class NestedWidgetsToStringConverter
-	extends Converter
-{
+	extends Converter {
+
 	//
 	// Constructor
 	//
 
-	public NestedWidgetsToStringConverter()
-	{
+	public NestedWidgetsToStringConverter() {
+
 		super( NestedWidgets.class, String.class );
 	}
 
@@ -40,8 +40,8 @@ public class NestedWidgetsToStringConverter
 	// Public methods
 	//
 
-	public Object convert( Object toConvert )
-	{
+	public Object convert( Object toConvert ) {
+
 		return StringUtils.quietValueOf( toConvert );
 	}
 }

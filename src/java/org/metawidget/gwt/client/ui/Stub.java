@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.HasName;
 
 public class Stub
 	extends FlowPanel
-	implements HasName
-{
+	implements HasName {
+
 	//
 	// Private members
 	//
@@ -49,19 +49,20 @@ public class Stub
 	// Constructors
 	//
 
-	public Stub()
-	{
+	public Stub() {
+
 		// Default constructor
 	}
 
 	/**
 	 * Convenience constructor.
 	 * <p>
-	 * Useful for creating stubs that will otherwise be empty, such as <code>metawidget.add( new Stub( "foo" ))</code>
+	 * Useful for creating stubs that will otherwise be empty, such as
+	 * <code>metawidget.add( new Stub( "foo" ))</code>
 	 */
 
-	public Stub( String name )
-	{
+	public Stub( String name ) {
+
 		setName( name );
 	}
 
@@ -69,28 +70,27 @@ public class Stub
 	// Public methods
 	//
 
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public void setName( String name )
-	{
+	public void setName( String name ) {
+
 		mName = name;
 	}
 
-	public void setAttribute( String name, String value )
-	{
-		if ( mAttributes == null )
-		{
+	public void setAttribute( String name, String value ) {
+
+		if ( mAttributes == null ) {
 			mAttributes = new HashMap<String, String>();
 		}
 
 		mAttributes.put( name, value );
 	}
 
-	public Map<String, String> getAttributes()
-	{
+	public Map<String, String> getAttributes() {
+
 		return mAttributes;
 	}
 }

@@ -32,16 +32,16 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 
 public class ContactSearchController
-	extends SimpleFormController
-{
+	extends SimpleFormController {
+
 	//
 	// Protected methods
 	//
 
 	@Override
 	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception
-	{
+		throws Exception {
+
 		super.initBinder( request, binder );
 
 		binder.registerCustomEditor( ContactType.class, new EnumEditor<ContactType>( ContactType.class ) );
@@ -49,19 +49,17 @@ public class ContactSearchController
 
 	@Override
 	protected ModelAndView onSubmit( HttpServletRequest request, HttpServletResponse response, Object command, BindException errors )
-		throws Exception
-	{
+		throws Exception {
+
 		// Add Personal
 
-		if ( request.getParameter( "addPersonal" ) != null )
-		{
-			return new ModelAndView( new RedirectView( "contact.html" ));
+		if ( request.getParameter( "addPersonal" ) != null ) {
+			return new ModelAndView( new RedirectView( "contact.html" ) );
 		}
 
 		// Add Business
 
-		if ( request.getParameter( "addBusiness" ) != null )
-		{
+		if ( request.getParameter( "addBusiness" ) != null ) {
 			return new ModelAndView( new RedirectView( "contact.html?business" ) );
 		}
 

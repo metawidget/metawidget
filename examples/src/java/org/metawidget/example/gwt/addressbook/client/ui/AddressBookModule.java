@@ -52,8 +52,8 @@ import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
  */
 
 public class AddressBookModule
-	implements EntryPoint
-{
+	implements EntryPoint {
+
 	//
 	// Package-level members
 	//
@@ -67,8 +67,8 @@ public class AddressBookModule
 	/**
 	 * List of Contacts in the FlexTable.
 	 * <p>
-	 * We maintain this list separately, as the FlexTable doesn't contain
-	 * the <code>id</code>s we need for loading.
+	 * We maintain this list separately, as the FlexTable doesn't contain the <code>id</code>s we
+	 * need for loading.
 	 */
 
 	List<Contact>			mContactsList;
@@ -83,13 +83,13 @@ public class AddressBookModule
 	// Constructor
 	//
 
-	public AddressBookModule()
-	{
+	public AddressBookModule() {
+
 		this( RootPanel.get() );
 	}
 
-	public AddressBookModule( Panel panel )
-	{
+	public AddressBookModule( Panel panel ) {
+
 		mPanel = panel;
 	}
 
@@ -97,8 +97,8 @@ public class AddressBookModule
 	// Public methods
 	//
 
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
+
 		// Model
 
 		mContactsService = (ContactsServiceAsync) GWT.create( ContactsService.class );
@@ -114,17 +114,16 @@ public class AddressBookModule
 		formatter.setStyleName( 1, "column-half" );
 
 		reloadContacts();
-		mContacts.addClickHandler( new ClickHandler()
-		{
+		mContacts.addClickHandler( new ClickHandler() {
+
 			@Override
-			public void onClick( ClickEvent event )
-			{
+			public void onClick( ClickEvent event ) {
+
 				int rowIndex = mContacts.getCellForEvent( event ).getRowIndex();
 
 				// Ignore clicks on the header row
 
-				if ( rowIndex == 0 )
-				{
+				if ( rowIndex == 0 ) {
 					return;
 				}
 
@@ -132,15 +131,15 @@ public class AddressBookModule
 
 				long contactId = mContactsList.get( rowIndex - 1 ).getId();
 
-				mContactsService.load( contactId, new AsyncCallback<Contact>()
-				{
-					public void onFailure( Throwable caught )
-					{
+				mContactsService.load( contactId, new AsyncCallback<Contact>() {
+
+					public void onFailure( Throwable caught ) {
+
 						Window.alert( caught.getMessage() );
 					}
 
-					public void onSuccess( Contact contact )
-					{
+					public void onSuccess( Contact contact ) {
+
 						showContactDialog( contact );
 					}
 				} );
@@ -156,7 +155,7 @@ public class AddressBookModule
 		layoutConfig.setTableStyleName( "table-form" );
 		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column" );
 		layoutConfig.setFooterStyleName( "buttons" );
-		metawidget.setLayout( new FlexTableLayout( layoutConfig ));
+		metawidget.setLayout( new FlexTableLayout( layoutConfig ) );
 
 		metawidget.setToInspect( mContactSearch );
 
@@ -171,11 +170,11 @@ public class AddressBookModule
 
 		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
 
-		Button searchButton = new Button( dictionary.get( "search" ));
-		searchButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		Button searchButton = new Button( dictionary.get( "search" ) );
+		searchButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				// Example of manual mapping. See ContactDialog for an example of using automatic
 				// Bindings
 
@@ -184,12 +183,9 @@ public class AddressBookModule
 
 				String type = metawidget.getValue( "type" );
 
-				if ( type == null || "".equals( type ) )
-				{
+				if ( type == null || "".equals( type ) ) {
 					mContactSearch.setType( null );
-				}
-				else
-				{
+				} else {
 					mContactSearch.setType( ContactType.valueOf( type ) );
 				}
 
@@ -198,21 +194,21 @@ public class AddressBookModule
 		} );
 		panel.add( searchButton );
 
-		Button addPersonalButton = new Button( dictionary.get( "addPersonal" ));
-		addPersonalButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		Button addPersonalButton = new Button( dictionary.get( "addPersonal" ) );
+		addPersonalButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				showContactDialog( new PersonalContact() );
 			}
 		} );
 		panel.add( addPersonalButton );
 
-		Button addBusinessButton = new Button( dictionary.get( "addBusiness" ));
-		addBusinessButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		Button addBusinessButton = new Button( dictionary.get( "addBusiness" ) );
+		addBusinessButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				showContactDialog( new BusinessContact() );
 			}
 		} );
@@ -220,30 +216,27 @@ public class AddressBookModule
 
 		// Add to either RootPanel or the given Panel (for unit tests)
 
-		if ( mPanel instanceof RootPanel )
-		{
+		if ( mPanel instanceof RootPanel ) {
 			RootPanel.get( "metawidget" ).add( metawidget );
 			RootPanel.get( "contacts" ).add( mContacts );
-		}
-		else
-		{
+		} else {
 			mPanel.add( metawidget );
 			mPanel.add( mContacts );
 		}
 	}
 
-	public Panel getPanel()
-	{
+	public Panel getPanel() {
+
 		return mPanel;
 	}
 
-	public ContactsServiceAsync getContactsService()
-	{
+	public ContactsServiceAsync getContactsService() {
+
 		return mContactsService;
 	}
 
-	public void reloadContacts()
-	{
+	public void reloadContacts() {
+
 		// Header
 
 		CellFormatter cellFormatter = mContacts.getCellFormatter();
@@ -256,33 +249,29 @@ public class AddressBookModule
 
 		// Contacts
 
-		mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>()
-		{
-			public void onFailure( Throwable caught )
-			{
+		mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>() {
+
+			public void onFailure( Throwable caught ) {
+
 				Window.alert( caught.getMessage() );
 			}
 
-			public void onSuccess( List<Contact> contacts )
-			{
+			public void onSuccess( List<Contact> contacts ) {
+
 				mContactsList = contacts;
 				int row = 1;
 
 				// Add the given contacts
 
-				for ( Contact contact : contacts )
-				{
+				for ( Contact contact : contacts ) {
 					mContacts.setText( row, 0, contact.getFullname() );
 					mContacts.setText( row, 1, GwtUtils.toString( contact.getCommunications(), ',' ) );
 
 					Image image = new Image();
 
-					if ( contact instanceof BusinessContact )
-					{
+					if ( contact instanceof BusinessContact ) {
 						image.setUrl( "media/business-small.gif" );
-					}
-					else
-					{
+					} else {
 						image.setUrl( "media/personal-small.gif" );
 					}
 
@@ -293,8 +282,7 @@ public class AddressBookModule
 
 				// Cleanup any extra rows
 
-				while ( mContacts.getRowCount() > row )
-				{
+				while ( mContacts.getRowCount() > row ) {
 					mContacts.removeRow( row );
 				}
 			}
@@ -305,16 +293,12 @@ public class AddressBookModule
 	// Private methods
 	//
 
-	/*package private*/void showContactDialog( Contact contact )
-	{
-		if ( contact instanceof BusinessContact )
-		{
-			if ( mBusinessContactDialog == null )
-			{
+	/* package private */void showContactDialog( Contact contact ) {
+
+		if ( contact instanceof BusinessContact ) {
+			if ( mBusinessContactDialog == null ) {
 				mBusinessContactDialog = new ContactDialog( AddressBookModule.this, contact );
-			}
-			else
-			{
+			} else {
 				mBusinessContactDialog.rebind( contact );
 			}
 
@@ -322,12 +306,9 @@ public class AddressBookModule
 			return;
 		}
 
-		if ( mPersonalContactDialog == null )
-		{
+		if ( mPersonalContactDialog == null ) {
 			mPersonalContactDialog = new ContactDialog( AddressBookModule.this, contact );
-		}
-		else
-		{
+		} else {
 			mPersonalContactDialog.rebind( contact );
 		}
 

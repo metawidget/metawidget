@@ -56,8 +56,8 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class SwtMetawidget
-	extends Composite
-{
+	extends Composite {
+
 	//
 	// Private statics
 	//
@@ -112,37 +112,36 @@ public class SwtMetawidget
 	// Constructor
 	//
 
-	public SwtMetawidget( Composite parent, int style )
-	{
+	public SwtMetawidget( Composite parent, int style ) {
+
 		super( parent, style );
 		mPipeline = newPipeline();
 
 		// This covers most cases
 
-		addControlListener( new ControlListener()
-		{
+		addControlListener( new ControlListener() {
+
 			@Override
-			public void controlResized( ControlEvent arg0 )
-			{
+			public void controlResized( ControlEvent arg0 ) {
+
 				buildWidgets();
 			}
 
 			@Override
-			public void controlMoved( ControlEvent arg0 )
-			{
+			public void controlMoved( ControlEvent arg0 ) {
+
 				buildWidgets();
 			}
 		} );
 
 		// This covers, say, clicking 'Edit' and going from read-only to non-read-only
 
-		addPaintListener( new PaintListener()
-		{
+		addPaintListener( new PaintListener() {
+
 			@Override
-			public void paintControl( PaintEvent event )
-			{
-				if ( event.count == 0 )
-				{
+			public void paintControl( PaintEvent event ) {
+
+				if ( event.count == 0 ) {
 					buildWidgets();
 				}
 			}
@@ -160,8 +159,8 @@ public class SwtMetawidget
 	 * sets it to point to the given Object.
 	 */
 
-	public void setToInspect( Object toInspect )
-	{
+	public void setToInspect( Object toInspect ) {
+
 		updateToInspectWithoutInvalidate( toInspect );
 		invalidateInspection();
 	}
@@ -173,23 +172,16 @@ public class SwtMetawidget
 	 * not call it directly.</strong>
 	 */
 
-	public void updateToInspectWithoutInvalidate( Object toInspect )
-	{
-		if ( mToInspect == null )
-		{
-			if ( mInspectionPath == null && toInspect != null )
-			{
+	public void updateToInspectWithoutInvalidate( Object toInspect ) {
+
+		if ( mToInspect == null ) {
+			if ( mInspectionPath == null && toInspect != null ) {
 				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 			}
-		}
-		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mInspectionPath ) )
-		{
-			if ( toInspect == null )
-			{
+		} else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mInspectionPath ) ) {
+			if ( toInspect == null ) {
 				mInspectionPath = null;
-			}
-			else
-			{
+			} else {
 				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 			}
 		}
@@ -207,8 +199,8 @@ public class SwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getToInspect()
-	{
+	public <T> T getToInspect() {
+
 		return (T) mToInspect;
 	}
 
@@ -216,74 +208,74 @@ public class SwtMetawidget
 	 * Sets the path to be inspected.
 	 */
 
-	public void setInspectionPath( String inspectionPath )
-	{
+	public void setInspectionPath( String inspectionPath ) {
+
 		mInspectionPath = inspectionPath;
 		invalidateInspection();
 	}
 
-	public String getInspectionPath()
-	{
+	public String getInspectionPath() {
+
 		return mInspectionPath;
 	}
 
-	public void setConfig( String config )
-	{
+	public void setConfig( String config ) {
+
 		mConfig = config;
 		mNeedsConfiguring = true;
 		invalidateInspection();
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mPipeline.setInspector( inspector );
 		invalidateInspection();
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor )
-	{
+	public void addInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor ) {
+
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
-	public void removeInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor )
-	{
+	public void removeInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor ) {
+
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<SwtMetawidget>... inspectionResultProcessors )
-	{
+	public void setInspectionResultProcessors( InspectionResultProcessor<SwtMetawidget>... inspectionResultProcessors ) {
+
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 		invalidateWidgets();
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
-	{
+	public void setWidgetBuilder( WidgetBuilder<Control, SwtMetawidget> widgetBuilder ) {
+
 		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateWidgets();
 	}
 
-	public void addWidgetProcessor( WidgetProcessor<Control, SwtMetawidget> widgetProcessor )
-	{
+	public void addWidgetProcessor( WidgetProcessor<Control, SwtMetawidget> widgetProcessor ) {
+
 		mPipeline.addWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
-	public void removeWidgetProcessor( WidgetProcessor<Control, SwtMetawidget> widgetProcessor )
-	{
+	public void removeWidgetProcessor( WidgetProcessor<Control, SwtMetawidget> widgetProcessor ) {
+
 		mPipeline.removeWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
-	public void setWidgetProcessors( WidgetProcessor<Control, SwtMetawidget>... widgetProcessors )
-	{
+	public void setWidgetProcessors( WidgetProcessor<Control, SwtMetawidget>... widgetProcessors ) {
+
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 		invalidateWidgets();
 	}
 
-	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
-	{
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
 		buildWidgets();
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
@@ -297,22 +289,21 @@ public class SwtMetawidget
 	 * <code>setLayout( null )</code> do?
 	 */
 
-	public void setMetawidgetLayout( Layout<Control, Composite, SwtMetawidget> layout )
-	{
+	public void setMetawidgetLayout( Layout<Control, Composite, SwtMetawidget> layout ) {
+
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
 	}
 
-	public void setBundle( ResourceBundle bundle )
-	{
+	public void setBundle( ResourceBundle bundle ) {
+
 		mBundle = bundle;
 		invalidateWidgets();
 	}
 
-	public String getLabelString( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public String getLabelString( Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return "";
 		}
 
@@ -320,12 +311,10 @@ public class SwtMetawidget
 
 		String label = attributes.get( LABEL );
 
-		if ( label != null )
-		{
+		if ( label != null ) {
 			// (may be forced blank)
 
-			if ( "".equals( label ) )
-			{
+			if ( "".equals( label ) ) {
 				return null;
 			}
 
@@ -333,8 +322,7 @@ public class SwtMetawidget
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -345,14 +333,12 @@ public class SwtMetawidget
 
 		String name = attributes.get( NAME );
 
-		if ( name != null )
-		{
+		if ( name != null ) {
 			// (localize if possible)
 
 			String localized = getLocalizedKey( name );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -366,32 +352,27 @@ public class SwtMetawidget
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
-	public String getLocalizedKey( String key )
-	{
-		if ( mBundle == null )
-		{
+	public String getLocalizedKey( String key ) {
+
+		if ( mBundle == null ) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			return mBundle.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+		} catch ( MissingResourceException e ) {
 			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 		}
 	}
 
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mPipeline.isReadOnly();
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
-		if ( mPipeline.isReadOnly() == readOnly )
-		{
+	public void setReadOnly( boolean readOnly ) {
+
+		if ( mPipeline.isReadOnly() == readOnly ) {
 			return;
 		}
 
@@ -399,13 +380,13 @@ public class SwtMetawidget
 		invalidateWidgets();
 	}
 
-	public int getMaximumInspectionDepth()
-	{
+	public int getMaximumInspectionDepth() {
+
 		return mPipeline.getMaximumInspectionDepth();
 	}
 
-	public void setMaximumInspectionDepth( int maximumInspectionDepth )
-	{
+	public void setMaximumInspectionDepth( int maximumInspectionDepth ) {
+
 		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
@@ -423,8 +404,8 @@ public class SwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getValue( String... names )
-	{
+	public <T> T getValue( String... names ) {
+
 		Pair<Control, String> controlAndValueProperty = getControlAndValueProperty( names );
 		return (T) ClassUtils.getProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight() );
 	}
@@ -437,8 +418,8 @@ public class SwtMetawidget
 	 * is not ideal, so clients may prefer to use bindingClass instead.
 	 */
 
-	public void setValue( Object value, String... names )
-	{
+	public void setValue( Object value, String... names ) {
+
 		Pair<Control, String> controlAndValueProperty = getControlAndValueProperty( names );
 		ClassUtils.setProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight(), value );
 	}
@@ -450,8 +431,8 @@ public class SwtMetawidget
 	 * want to fail gracefully if, say, someone tries to bind to a JPanel.
 	 */
 
-	public String getValueProperty( Control control )
-	{
+	public String getValueProperty( Control control ) {
+
 		return getValueProperty( control, mPipeline.getWidgetBuilder() );
 	}
 
@@ -460,25 +441,22 @@ public class SwtMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T extends Control> T getControl( String... names )
-	{
-		if ( names == null || names.length == 0 )
-		{
+	public <T extends Control> T getControl( String... names ) {
+
+		if ( names == null || names.length == 0 ) {
 			return null;
 		}
 
 		Control topControl = this;
 
-		for ( int loop = 0, length = names.length; loop < length; loop++ )
-		{
+		for ( int loop = 0, length = names.length; loop < length; loop++ ) {
 			String name = names[loop];
 
 			// May need building 'just in time' if we are calling getControl
 			// immediately after a 'setToInspect'. See
 			// SwtMetawidgetTest.testNestedWithManualInspector
 
-			if ( topControl instanceof SwtMetawidget )
-			{
+			if ( topControl instanceof SwtMetawidget ) {
 				( (SwtMetawidget) topControl ).buildWidgets();
 			}
 
@@ -486,13 +464,11 @@ public class SwtMetawidget
 
 			topControl = getControl( (Composite) topControl, name );
 
-			if ( loop == length - 1 )
-			{
+			if ( loop == length - 1 ) {
 				return (T) topControl;
 			}
 
-			if ( topControl == null )
-			{
+			if ( topControl == null ) {
 				throw MetawidgetException.newException( "No such control '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
 			}
 		}
@@ -500,8 +476,8 @@ public class SwtMetawidget
 		return (T) topControl;
 	}
 
-	public Facet getFacet( String name )
-	{
+	public Facet getFacet( String name ) {
+
 		buildWidgets();
 
 		return mFacets.get( name );
@@ -511,8 +487,8 @@ public class SwtMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -520,10 +496,9 @@ public class SwtMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Composite getCurrentLayoutComposite()
-	{
-		if ( mCurrentLayoutComposite == null )
-		{
+	public Composite getCurrentLayoutComposite() {
+
+		if ( mCurrentLayoutComposite == null ) {
 			return this;
 		}
 
@@ -535,16 +510,16 @@ public class SwtMetawidget
 	//
 
 	@Override
-	public org.eclipse.swt.widgets.Layout getLayout()
-	{
+	public org.eclipse.swt.widgets.Layout getLayout() {
+
 		buildWidgets();
 
 		return super.getLayout();
 	}
 
 	@Override
-	public Control[] getChildren()
-	{
+	public Control[] getChildren() {
+
 		buildWidgets();
 
 		return super.getChildren();
@@ -561,8 +536,8 @@ public class SwtMetawidget
 	 * version.
 	 */
 
-	protected Pipeline newPipeline()
-	{
+	protected Pipeline newPipeline() {
+
 		return new Pipeline();
 	}
 
@@ -573,8 +548,8 @@ public class SwtMetawidget
 	 * operations (such as adding/removing stubs, changing read-only etc.)
 	 */
 
-	protected void invalidateInspection()
-	{
+	protected void invalidateInspection() {
+
 		mLastInspection = null;
 		invalidateWidgets();
 	}
@@ -583,60 +558,51 @@ public class SwtMetawidget
 	 * Invalidates the widgets.
 	 */
 
-	protected void invalidateWidgets()
-	{
-		if ( mNeedToBuildWidgets )
-		{
+	protected void invalidateWidgets() {
+
+		if ( mNeedToBuildWidgets ) {
 			return;
 		}
 
 		mNeedToBuildWidgets = true;
 	}
 
-	protected void configure()
-	{
-		if ( !mNeedsConfiguring )
-		{
+	protected void configure() {
+
+		if ( !mNeedsConfiguring ) {
 			return;
 		}
 
 		// Special support for visual IDE builders
 
-		if ( mInspectionPath == null )
-		{
+		if ( mInspectionPath == null ) {
 			return;
 		}
 
 		mNeedsConfiguring = false;
 
-		try
-		{
-			if ( mConfig != null )
-			{
+		try {
+			if ( mConfig != null ) {
 				CONFIG_READER.configure( mConfig, this );
 			}
 
 			// SwtMetawidget uses setMetawidgetLayout, not setLayout
 
-			if ( mPipeline.getLayout() == null )
-			{
+			if ( mPipeline.getLayout() == null ) {
 				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
 			}
 
 			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwtMetawidget.class );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
 
-	protected void buildWidgets()
-	{
+	protected void buildWidgets() {
+
 		// No need to build?
 
-		if ( !mNeedToBuildWidgets )
-		{
+		if ( !mNeedToBuildWidgets ) {
 			return;
 		}
 
@@ -650,8 +616,7 @@ public class SwtMetawidget
 		// for child add/remove events (as we use in Android, GWT, Swing etc), so instead we
 		// implement this as the delta of 'what was here originally' versus 'what was generated'
 
-		for ( Control control : mControlsToDispose )
-		{
+		for ( Control control : mControlsToDispose ) {
 			control.dispose();
 		}
 
@@ -661,10 +626,8 @@ public class SwtMetawidget
 
 		// Detect facets
 
-		for ( Control control : getChildren() )
-		{
-			if ( control instanceof Facet )
-			{
+		for ( Control control : getChildren() ) {
+			if ( control instanceof Facet ) {
 				mFacets.put( (String) control.getData( NAME ), (Facet) control );
 				continue;
 			}
@@ -672,10 +635,8 @@ public class SwtMetawidget
 
 		// Build widgets
 
-		try
-		{
-			if ( mLastInspection == null )
-			{
+		try {
+			if ( mLastInspection == null ) {
 				mLastInspection = inspect();
 			}
 
@@ -686,10 +647,8 @@ public class SwtMetawidget
 			// Note: we cannot simply do this in layoutWidget, because some controls may get created
 			// just-in-time, such as Labels
 
-			for ( Control control : getChildren() )
-			{
-				if ( !mExistingControls.remove( control ) )
-				{
+			for ( Control control : getChildren() ) {
+				if ( !mExistingControls.remove( control ) ) {
 					mControlsToDispose.add( control );
 				}
 			}
@@ -699,20 +658,17 @@ public class SwtMetawidget
 
 			Composite topParent = getParent();
 
-			while ( topParent != null )
-			{
+			while ( topParent != null ) {
 				topParent.layout();
 				topParent = topParent.getParent();
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
 
-	protected void layoutWidget( Control control, String elementName, Map<String, String> attributes )
-	{
+	protected void layoutWidget( Control control, String elementName, Map<String, String> attributes ) {
+
 		// Set the name of the component.
 
 		control.setData( NAME, attributes.get( NAME ) );
@@ -727,22 +683,19 @@ public class SwtMetawidget
 
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( control );
 
-		if ( additionalAttributes != null )
-		{
+		if ( additionalAttributes != null ) {
 			attributes.putAll( additionalAttributes );
 		}
 
 		// BasePipeline will call .layoutWidget
 	}
 
-	protected void endBuild()
-	{
-		for ( Control existingControl : CollectionUtils.newArrayList( mExistingUnusedControls ) )
-		{
+	protected void endBuild() {
+
+		for ( Control existingControl : CollectionUtils.newArrayList( mExistingUnusedControls ) ) {
 			// Unused facets don't count
 
-			if ( existingControl instanceof Facet )
-			{
+			if ( existingControl instanceof Facet ) {
 				existingControl.moveBelow( null );
 				continue;
 			}
@@ -756,10 +709,9 @@ public class SwtMetawidget
 		}
 	}
 
-	protected String inspect()
-	{
-		if ( mInspectionPath == null )
-		{
+	protected String inspect() {
+
+		if ( mInspectionPath == null ) {
 			return null;
 		}
 
@@ -767,8 +719,8 @@ public class SwtMetawidget
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	protected void initNestedMetawidget( SwtMetawidget nestedMetawidget, Map<String, String> attributes )
-	{
+	protected void initNestedMetawidget( SwtMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
 		// Don't copy setConfig(). Instead, copy runtime values
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
@@ -781,73 +733,61 @@ public class SwtMetawidget
 	// Private methods
 	//
 
-	private Pair<Control, String> getControlAndValueProperty( String... names )
-	{
+	private Pair<Control, String> getControlAndValueProperty( String... names ) {
+
 		Control control = getControl( names );
 
-		if ( control == null )
-		{
+		if ( control == null ) {
 			throw MetawidgetException.newException( "No control named '" + ArrayUtils.toString( names, "', '" ) + "'" );
 		}
 
 		String controlProperty = getValueProperty( control );
 
-		if ( controlProperty == null )
-		{
+		if ( controlProperty == null ) {
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + control.getClass().getName() );
 		}
 
 		return new Pair<Control, String>( control, controlProperty );
 	}
 
-	private String getValueProperty( Control control, WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
-	{
+	private String getValueProperty( Control control, WidgetBuilder<Control, SwtMetawidget> widgetBuilder ) {
+
 		// Recurse into CompositeWidgetBuilders
 
-		try
-		{
-			if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
-			{
-				for ( WidgetBuilder<Control, SwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Control, SwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
-				{
+		try {
+			if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
+				for ( WidgetBuilder<Control, SwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Control, SwtMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
 					String valueProperty = getValueProperty( control, widgetBuilderChild );
 
-					if ( valueProperty != null )
-					{
+					if ( valueProperty != null ) {
 						return valueProperty;
 					}
 				}
 
 				return null;
 			}
-		}
-		catch ( NoClassDefFoundError e )
-		{
+		} catch ( NoClassDefFoundError e ) {
 			// May not be shipping with CompositeWidgetBuilder
 		}
 
 		// Interrogate ValuePropertyProviders
 
-		if ( widgetBuilder instanceof SwtValuePropertyProvider )
-		{
+		if ( widgetBuilder instanceof SwtValuePropertyProvider ) {
 			return ( (SwtValuePropertyProvider) widgetBuilder ).getValueProperty( control );
 		}
 
 		return null;
 	}
 
-	private Control getControl( Composite container, String name )
-	{
-		for ( Control childComponent : container.getChildren() )
-		{
+	private Control getControl( Composite container, String name ) {
+
+		for ( Control childComponent : container.getChildren() ) {
 			// Drill into unnamed containers (ie. for TabFolders)
 
-			if ( childComponent.getData( NAME ) == null && childComponent instanceof Composite )
-			{
+			if ( childComponent.getData( NAME ) == null && childComponent instanceof Composite ) {
 				childComponent = getControl( (Composite) childComponent, name );
 
-				if ( childComponent != null )
-				{
+				if ( childComponent != null ) {
 					return childComponent;
 				}
 
@@ -856,8 +796,7 @@ public class SwtMetawidget
 
 			// Match by name
 
-			if ( name.equals( childComponent.getData( NAME ) ) )
-			{
+			if ( name.equals( childComponent.getData( NAME ) ) ) {
 				return childComponent;
 			}
 		}
@@ -872,21 +811,19 @@ public class SwtMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<Control, Composite, SwtMetawidget>
-	{
+		extends W3CPipeline<Control, Composite, SwtMetawidget> {
+
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected Control buildWidget( String elementName, Map<String, String> attributes )
-		{
-			if ( !ENTITY.equals( elementName ))
-			{
+		protected Control buildWidget( String elementName, Map<String, String> attributes ) {
+
+			if ( !ENTITY.equals( elementName ) ) {
 				Layout<Control, Composite, SwtMetawidget> layout = getLayout();
 
-				if ( layout instanceof SwtLayoutDecorator )
-				{
+				if ( layout instanceof SwtLayoutDecorator ) {
 					mCurrentLayoutComposite = ( (SwtLayoutDecorator) layout ).startBuildWidget( elementName, attributes, SwtMetawidget.this, SwtMetawidget.this );
 				}
 			}
@@ -895,17 +832,16 @@ public class SwtMetawidget
 		}
 
 		@Override
-		protected void layoutWidget( Control control, String elementName, Map<String, String> attributes )
-		{
+		protected void layoutWidget( Control control, String elementName, Map<String, String> attributes ) {
+
 			SwtMetawidget.this.layoutWidget( control, elementName, attributes );
 			super.layoutWidget( control, elementName, attributes );
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Control control )
-		{
-			if ( control instanceof Stub )
-			{
+		protected Map<String, String> getAdditionalAttributes( Control control ) {
+
+			if ( control instanceof Stub ) {
 				return ( (Stub) control ).getAttributes();
 			}
 
@@ -914,8 +850,8 @@ public class SwtMetawidget
 
 		@Override
 		public SwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			SwtMetawidget nestedMetawidget = SwtMetawidget.this.getClass().getConstructor( Composite.class, int.class ).newInstance( getPipelineOwner(), SWT.None );
 			SwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
@@ -923,15 +859,15 @@ public class SwtMetawidget
 		}
 
 		@Override
-		protected void endBuild()
-		{
+		protected void endBuild() {
+
 			SwtMetawidget.this.endBuild();
 			super.endBuild();
 		}
 
 		@Override
-		protected SwtMetawidget getPipelineOwner()
-		{
+		protected SwtMetawidget getPipelineOwner() {
+
 			return SwtMetawidget.this;
 		}
 	}

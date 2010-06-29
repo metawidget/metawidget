@@ -33,8 +33,8 @@ package org.metawidget.layout.iface;
  */
 
 public interface AdvancedLayout<W, C extends W, M extends C>
-	extends Layout<W, C, M>
-{
+	extends Layout<W, C, M> {
+
 	//
 	// Methods
 	//

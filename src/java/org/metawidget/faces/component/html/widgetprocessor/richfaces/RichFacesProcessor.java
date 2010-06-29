@@ -39,19 +39,18 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class RichFacesProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "deprecation" )
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Ignore empty stubs
 
-		if ( component instanceof UIStub && component.getChildCount() == 0 )
-		{
+		if ( component instanceof UIStub && component.getChildCount() == 0 ) {
 			return component;
 		}
 
@@ -59,8 +58,7 @@ public class RichFacesProcessor
 
 		String ajaxEvent = attributes.get( FACES_AJAX_EVENT );
 
-		if ( ajaxEvent != null )
-		{
+		if ( ajaxEvent != null ) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
 
@@ -78,8 +76,7 @@ public class RichFacesProcessor
 
 			String ajaxAction = attributes.get( FACES_AJAX_ACTION );
 
-			if ( ajaxAction != null )
-			{
+			if ( ajaxAction != null ) {
 				ajaxSupport.setAction( application.createMethodBinding( ajaxAction, new Class[0] ) );
 			}
 

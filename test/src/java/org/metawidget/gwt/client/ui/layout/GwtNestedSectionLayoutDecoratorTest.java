@@ -31,21 +31,21 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class GwtNestedSectionLayoutDecoratorTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testEmptyStub()
-	{
-		TabPanelLayoutDecorator layoutDecorator = new TabPanelLayoutDecorator( new LayoutDecoratorConfig<Widget, Panel, GwtMetawidget>().setLayout( new FlexTableLayout() ));
+	public void testEmptyStub() {
+
+		TabPanelLayoutDecorator layoutDecorator = new TabPanelLayoutDecorator( new LayoutDecoratorConfig<Widget, Panel, GwtMetawidget>().setLayout( new FlexTableLayout() ) );
 		assertTrue( false == layoutDecorator.isEmptyStub( null ) );
 		assertTrue( false == layoutDecorator.isEmptyStub( new CheckBox() ) );
 

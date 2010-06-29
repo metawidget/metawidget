@@ -37,15 +37,15 @@ import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingPro
  */
 
 public class SwingAppFrameworkTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testCarApplication()
-		throws Exception
-	{
+		throws Exception {
+
 		// Create app
 
 		CarApplication carApplication = new CarApplication();

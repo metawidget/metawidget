@@ -42,8 +42,8 @@ import org.metawidget.util.CollectionUtils;
 @SuppressWarnings( "deprecation" )
 public class UIStub
 	extends UIComponentBase
-	implements ActionSource
-{
+	implements ActionSource {
+
 	//
 	// Private members
 	//
@@ -57,14 +57,14 @@ public class UIStub
 	//
 
 	@Override
-	public String getFamily()
-	{
+	public String getFamily() {
+
 		return "org.metawidget";
 	}
 
 	@Override
-	public String getRendererType()
-	{
+	public String getRendererType() {
+
 		return "org.metawidget.Stub";
 	}
 
@@ -77,8 +77,8 @@ public class UIStub
 	 * type (ie. a Map).
 	 */
 
-	public Map<String, String> getStubAttributesAsMap()
-	{
+	public Map<String, String> getStubAttributesAsMap() {
+
 		// Static attributes
 
 		String stubAttributes = mStubAttributes;
@@ -87,13 +87,11 @@ public class UIStub
 
 		ValueBinding bindingStubAttributes = getValueBinding( "attributes" );
 
-		if ( bindingStubAttributes != null )
-		{
+		if ( bindingStubAttributes != null ) {
 			stubAttributes = (String) bindingStubAttributes.getValue( getFacesContext() );
 		}
 
-		if ( stubAttributes == null )
-		{
+		if ( stubAttributes == null ) {
 			return null;
 		}
 
@@ -101,19 +99,16 @@ public class UIStub
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) )
-		{
+		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) ) {
 			// (use .length(), not .isEmpty(), so that we're 1.4 compatible)
 
-			if ( nameAndValue.length() == 0 )
-			{
+			if ( nameAndValue.length() == 0 ) {
 				continue;
 			}
 
 			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
 
-			if ( nameAndValueList.size() != 2 || nameAndValueList.get( 1 ).length() == 0 )
-			{
+			if ( nameAndValueList.size() != 2 || nameAndValueList.get( 1 ).length() == 0 ) {
 				throw new FacesException( "Unrecognized value '" + nameAndValue + "'" );
 			}
 
@@ -123,14 +118,14 @@ public class UIStub
 		return attributes;
 	}
 
-	public void setStubAttributes( String stubAttributes )
-	{
+	public void setStubAttributes( String stubAttributes ) {
+
 		mStubAttributes = stubAttributes;
 	}
 
 	@Override
-	public Object saveState( FacesContext context )
-	{
+	public Object saveState( FacesContext context ) {
+
 		Object values[] = new Object[2];
 		values[0] = super.saveState( context );
 		values[1] = mStubAttributes;
@@ -139,8 +134,8 @@ public class UIStub
 	}
 
 	@Override
-	public void restoreState( FacesContext context, Object state )
-	{
+	public void restoreState( FacesContext context, Object state ) {
+
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
@@ -148,60 +143,60 @@ public class UIStub
 	}
 
 	@Override
-	public MethodBinding getAction()
-	{
+	public MethodBinding getAction() {
+
 		return mAction;
 	}
 
 	@Override
-	public void setAction( MethodBinding action )
-	{
+	public void setAction( MethodBinding action ) {
+
 		mAction = action;
 	}
 
 	@Override
-	public MethodBinding getActionListener()
-	{
+	public MethodBinding getActionListener() {
+
 		// Do nothing: UIStub is just a stub
 
 		return null;
 	}
 
 	@Override
-	public void setActionListener( MethodBinding arg0 )
-	{
+	public void setActionListener( MethodBinding arg0 ) {
+
 		// Do nothing: UIStub is just a stub
 	}
 
 	@Override
-	public ActionListener[] getActionListeners()
-	{
+	public ActionListener[] getActionListeners() {
+
 		// Do nothing: UIStub is just a stub
 
 		return null;
 	}
 
 	@Override
-	public void addActionListener( ActionListener arg0 )
-	{
+	public void addActionListener( ActionListener arg0 ) {
+
 		// Do nothing: UIStub is just a stub
 	}
 
 	@Override
-	public void removeActionListener( ActionListener arg0 )
-	{
+	public void removeActionListener( ActionListener arg0 ) {
+
 		// Do nothing: UIStub is just a stub
 	}
 
 	@Override
-	public void setImmediate( boolean arg0 )
-	{
+	public void setImmediate( boolean arg0 ) {
+
 		// Do nothing: UIStub is just a stub
 	}
 
 	@Override
-	public boolean isImmediate()
-	{
+	public boolean isImmediate() {
+
 		// Do nothing: UIStub is just a stub
 
 		return false;

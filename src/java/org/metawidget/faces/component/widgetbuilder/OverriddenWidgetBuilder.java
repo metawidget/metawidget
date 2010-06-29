@@ -39,21 +39,20 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 @SuppressWarnings( "deprecation" )
 public class OverriddenWidgetBuilder
-	implements WidgetBuilder<UIComponent, UIMetawidget>
-{
+	implements WidgetBuilder<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Metawidget has no valueBinding? Not overridable, then
 
 		ValueBinding metawidgetValueBinding = metawidget.getValueBinding( "value" );
 
-		if ( metawidgetValueBinding == null )
-		{
+		if ( metawidgetValueBinding == null ) {
 			return null;
 		}
 
@@ -61,10 +60,8 @@ public class OverriddenWidgetBuilder
 
 		String binding = attributes.get( FACES_EXPRESSION );
 
-		if ( ACTION.equals( elementName ) )
-		{
-			if ( binding == null )
-			{
+		if ( ACTION.equals( elementName ) ) {
+			if ( binding == null ) {
 				String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 			}
@@ -74,14 +71,10 @@ public class OverriddenWidgetBuilder
 
 		// Properties
 
-		if ( binding == null )
-		{
-			if ( ENTITY.equals( elementName ) )
-			{
+		if ( binding == null ) {
+			if ( ENTITY.equals( elementName ) ) {
 				binding = metawidgetValueBinding.getExpressionString();
-			}
-			else
-			{
+			} else {
 				String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 			}

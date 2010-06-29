@@ -29,19 +29,18 @@ import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
  */
 
 public class MetawidgetActionStyle
-	extends MethodActionStyle
-{
+	extends MethodActionStyle {
+
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected boolean matchAction( Method method )
-	{
+	protected boolean matchAction( Method method ) {
+
 		UiAction action = method.getAnnotation( UiAction.class );
 
-		if ( action == null )
-		{
+		if ( action == null ) {
 			return false;
 		}
 
@@ -49,8 +48,7 @@ public class MetawidgetActionStyle
 		// action methods themselves may take, say, a java.awt.event.ActionEvent and they may
 		// be annotated by something framework-specific like org.jdesktop.application.Action
 
-		if ( method.getParameterTypes().length > 0 )
-		{
+		if ( method.getParameterTypes().length > 0 ) {
 			throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
 		}
 

@@ -45,19 +45,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class OvalInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public OvalInspector()
-	{
+	public OvalInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public OvalInspector( BaseObjectInspectorConfig config )
-	{
+	public OvalInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -67,28 +67,25 @@ public class OvalInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// NotNull
 
-		if ( property.isAnnotationPresent( NotNull.class ) )
-		{
+		if ( property.isAnnotationPresent( NotNull.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
 		// NotEmpty
 
-		if ( property.isAnnotationPresent( NotEmpty.class ) )
-		{
+		if ( property.isAnnotationPresent( NotEmpty.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
 		// NotBlank
 
-		if ( property.isAnnotationPresent( NotBlank.class ) )
-		{
+		if ( property.isAnnotationPresent( NotBlank.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
@@ -96,8 +93,7 @@ public class OvalInspector
 
 		Range range = property.getAnnotation( Range.class );
 
-		if ( range != null )
-		{
+		if ( range != null ) {
 			attributes.put( MAXIMUM_VALUE, niceValueOf( range.max() ) );
 			attributes.put( MINIMUM_VALUE, niceValueOf( range.min() ) );
 		}
@@ -106,8 +102,7 @@ public class OvalInspector
 
 		Min min = property.getAnnotation( Min.class );
 
-		if ( min != null )
-		{
+		if ( min != null ) {
 			attributes.put( MINIMUM_VALUE, niceValueOf( min.value() ) );
 		}
 
@@ -115,8 +110,7 @@ public class OvalInspector
 
 		Max max = property.getAnnotation( Max.class );
 
-		if ( max != null )
-		{
+		if ( max != null ) {
 			attributes.put( MAXIMUM_VALUE, niceValueOf( max.value() ) );
 		}
 
@@ -124,15 +118,12 @@ public class OvalInspector
 
 		Length length = property.getAnnotation( Length.class );
 
-		if ( length != null )
-		{
-			if ( length.min() > 0 )
-			{
+		if ( length != null ) {
+			if ( length.min() > 0 ) {
 				attributes.put( MINIMUM_LENGTH, String.valueOf( length.min() ) );
 			}
 
-			if ( length.max() > 0 )
-			{
+			if ( length.max() > 0 ) {
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ) );
 			}
 		}
@@ -141,8 +132,7 @@ public class OvalInspector
 
 		MinLength minLength = property.getAnnotation( MinLength.class );
 
-		if ( minLength != null )
-		{
+		if ( minLength != null ) {
 			attributes.put( MINIMUM_LENGTH, String.valueOf( minLength.value() ) );
 		}
 
@@ -150,8 +140,7 @@ public class OvalInspector
 
 		MaxLength maxLength = property.getAnnotation( MaxLength.class );
 
-		if ( maxLength != null )
-		{
+		if ( maxLength != null ) {
 			attributes.put( MAXIMUM_LENGTH, String.valueOf( maxLength.value() ) );
 		}
 
@@ -168,10 +157,9 @@ public class OvalInspector
 	 *         parsed back again as an integer/long.
 	 */
 
-	private String niceValueOf( double value )
-	{
-		if ( value % 1 == 0 )
-		{
+	private String niceValueOf( double value ) {
+
+		if ( value % 1 == 0 ) {
 			return String.valueOf( Double.valueOf( value ).intValue() );
 		}
 

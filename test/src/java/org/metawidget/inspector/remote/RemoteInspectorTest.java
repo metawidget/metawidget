@@ -37,15 +37,15 @@ import org.w3c.dom.Element;
  */
 
 public class RemoteInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testInspection()
-		throws Exception
-	{
+		throws Exception {
+
 		// Inspect back-end
 
 		String toInspect = "<?xml version=\"1.0\"?>";
@@ -70,7 +70,7 @@ public class RemoteInspectorTest
 
 		// Inspect
 
-		Document document = XmlUtils.documentFromString( inspectorMeta.inspect( backEnd, new Communication(), Communication.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspectorMeta.inspect( backEnd, new Communication(), Communication.class.getName() ) );
 
 		// Test
 

@@ -32,25 +32,22 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 
 public class XmlUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testCachingContentHandler()
-		throws Exception
-	{
+		throws Exception {
+
 		SimpleContentHandler simpleContentHandler = new SimpleContentHandler();
 		CachingContentHandler cachingContentHandler = new CachingContentHandler( simpleContentHandler );
 
-		try
-		{
+		try {
 			cachingContentHandler.replay( simpleContentHandler );
 			assertTrue( false );
-		}
-		catch ( SAXException e )
-		{
+		} catch ( SAXException e ) {
 			assertEquals( "Nothing to replay. Not cached any SAX events", e.getMessage() );
 		}
 
@@ -58,7 +55,7 @@ public class XmlUtilsTest
 
 		Field delegateField = CachingContentHandler.class.getDeclaredField( "mDelegate" );
 		delegateField.setAccessible( true );
-		assertTrue( simpleContentHandler == delegateField.get( cachingContentHandler ));
+		assertTrue( simpleContentHandler == delegateField.get( cachingContentHandler ) );
 
 		// Fire events
 
@@ -81,13 +78,10 @@ public class XmlUtilsTest
 
 		assertTrue( null == delegateField.get( cachingContentHandler ) );
 
-		try
-		{
+		try {
 			cachingContentHandler.startDocument();
 			assertTrue( false );
-		}
-		catch ( SAXException e )
-		{
+		} catch ( SAXException e ) {
 			assertEquals( "Already cached SAX events. CachingContentHandler can only cache SAX events once", e.getMessage() );
 		}
 
@@ -99,13 +93,11 @@ public class XmlUtilsTest
 
 		attributes.clear();
 
-		for( int loop = 0, length = characters.length; loop < length; loop++ )
-		{
+		for ( int loop = 0, length = characters.length; loop < length; loop++ ) {
 			characters[loop] = '_';
 		}
 
-		for( int loop = 0, length = ignorableWhitespaceCharacters.length; loop < length; loop++ )
-		{
+		for ( int loop = 0, length = ignorableWhitespaceCharacters.length; loop < length; loop++ ) {
 			ignorableWhitespaceCharacters[loop] = '_';
 		}
 
@@ -124,8 +116,8 @@ public class XmlUtilsTest
 	}
 
 	public void testCachingContentHandlerFragment()
-		throws Exception
-	{
+		throws Exception {
+
 		SimpleContentHandler simpleContentHandler = new SimpleContentHandler();
 		CachingContentHandler cachingContentHandler = new CachingContentHandler( simpleContentHandler );
 		cachingContentHandler.startElement( "se-uri", "se-localName", "se-name", new AttributesImpl() );
@@ -150,8 +142,8 @@ public class XmlUtilsTest
 	// Private members
 	//
 
-	private void assertSimpleContentHandler( SimpleContentHandler simpleContentHandler )
-	{
+	private void assertSimpleContentHandler( SimpleContentHandler simpleContentHandler ) {
+
 		assertTrue( simpleContentHandler.mEvents.size() == 10 );
 		assertEquals( "startDocument", simpleContentHandler.mEvents.get( 0 )[0] );
 		assertEquals( "processingInstruction", simpleContentHandler.mEvents.get( 1 )[0] );
@@ -191,8 +183,8 @@ public class XmlUtilsTest
 	//
 
 	/* package private */static class SimpleContentHandler
-		extends DefaultHandler
-	{
+		extends DefaultHandler {
+
 		//
 		// Public members
 		//
@@ -204,62 +196,62 @@ public class XmlUtilsTest
 		//
 
 		@Override
-		public void startDocument()
-		{
+		public void startDocument() {
+
 			mEvents.add( new Object[] { "startDocument" } );
 		}
 
 		@Override
-		public void processingInstruction( String target, String data )
-		{
+		public void processingInstruction( String target, String data ) {
+
 			mEvents.add( new Object[] { "processingInstruction", target, data } );
 		}
 
 		@Override
-		public void skippedEntity( String name )
-		{
+		public void skippedEntity( String name ) {
+
 			mEvents.add( new Object[] { "skippedEntity", name } );
 		}
 
 		@Override
-		public void startPrefixMapping( String prefix, String uri )
-		{
+		public void startPrefixMapping( String prefix, String uri ) {
+
 			mEvents.add( new Object[] { "startPrefixMapping", prefix, uri } );
 		}
 
 		@Override
-		public void endPrefixMapping( String prefix )
-		{
+		public void endPrefixMapping( String prefix ) {
+
 			mEvents.add( new Object[] { "endPrefixMapping", prefix } );
 		}
 
 		@Override
-		public void startElement( String uri, String localName, String name, Attributes attributes )
-		{
+		public void startElement( String uri, String localName, String name, Attributes attributes ) {
+
 			mEvents.add( new Object[] { "startElement", uri, localName, name, new AttributesImpl( attributes ) } );
 		}
 
 		@Override
-		public void characters( char[] characters, int start, int length )
-		{
+		public void characters( char[] characters, int start, int length ) {
+
 			mEvents.add( new Object[] { "characters", characters, start, length } );
 		}
 
 		@Override
-		public void ignorableWhitespace( char[] characters, int start, int length )
-		{
+		public void ignorableWhitespace( char[] characters, int start, int length ) {
+
 			mEvents.add( new Object[] { "ignorableWhitespace", characters, start, length } );
 		}
 
 		@Override
-		public void endElement( String uri, String localName, String name )
-		{
+		public void endElement( String uri, String localName, String name ) {
+
 			mEvents.add( new Object[] { "endElement", uri, localName, name } );
 		}
 
 		@Override
-		public void endDocument()
-		{
+		public void endDocument() {
+
 			mEvents.add( new Object[] { "endDocument" } );
 		}
 	}

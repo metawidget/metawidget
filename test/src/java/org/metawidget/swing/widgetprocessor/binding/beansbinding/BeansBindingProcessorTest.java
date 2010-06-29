@@ -41,15 +41,15 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class BeansBindingProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testBinding()
-		throws Exception
-	{
+		throws Exception {
+
 		// Model
 
 		Foo foo = new Foo();
@@ -95,8 +95,8 @@ public class BeansBindingProcessorTest
 	}
 
 	public void testSingleComponentBinding()
-		throws Exception
-	{
+		throws Exception {
+
 		// Model
 
 		Foo foo = new Foo();
@@ -118,28 +118,25 @@ public class BeansBindingProcessorTest
 	}
 
 	public void testReadOnlyToStringConverter()
-		throws Exception
-	{
+		throws Exception {
+
 		// Model
 
 		ReadOnlyToStringConverter<Boolean> converter = new ReadOnlyToStringConverter<Boolean>();
 
 		assertEquals( "true", converter.convertForward( Boolean.TRUE ) );
 
-		try
-		{
+		try {
 			converter.convertReverse( "true" );
 			assertTrue( false );
-		}
-		catch ( UnsupportedOperationException e )
-		{
+		} catch ( UnsupportedOperationException e ) {
 			assertTrue( e.getMessage().indexOf( "cannot convertReverse" ) != -1 );
 		}
 	}
 
 	public void testConvert()
-		throws Exception
-	{
+		throws Exception {
+
 		// convertReverse with built in Converter
 
 		BeansBindingProcessor binding = new BeansBindingProcessor();
@@ -150,18 +147,18 @@ public class BeansBindingProcessorTest
 		final StringBuilder builder = new StringBuilder();
 
 		BeansBindingProcessorConfig config = new BeansBindingProcessorConfig();
-		config.setConverter( String.class, Integer.class, new Converter<String, Integer>()
-		{
+		config.setConverter( String.class, Integer.class, new Converter<String, Integer>() {
+
 			@Override
-			public Integer convertForward( String value )
-			{
+			public Integer convertForward( String value ) {
+
 				builder.append( "convertedForward" );
 				return Integer.valueOf( value );
 			}
 
 			@Override
-			public String convertReverse( Integer value )
-			{
+			public String convertReverse( Integer value ) {
+
 				return String.valueOf( value );
 			}
 		} );
@@ -172,27 +169,24 @@ public class BeansBindingProcessorTest
 	}
 
 	public void testNoGetterSetterType()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( new NoGetSetFoo() );
 
-		try
-		{
+		try {
 			metawidget.getComponent( 0 );
 			assertTrue( false );
-		}
-		catch ( WidgetProcessorException e )
-		{
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "Property 'bar' has no getter and no setter (or parent is null)", e.getMessage() );
 		}
 	}
 
 	public void testUnknownType()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setInspector( new PropertyTypeInspector() );
@@ -202,14 +196,11 @@ public class BeansBindingProcessorTest
 		CantLoadSaveFoo cantLoadSaveFoo = new CantLoadSaveFoo();
 		metawidget.setToInspect( cantLoadSaveFoo );
 
-		try
-		{
+		try {
 			metawidget.setValue( "1/1/2001", "bar" );
 			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
-		}
-		catch ( WidgetProcessorException e )
-		{
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}
 
@@ -218,28 +209,24 @@ public class BeansBindingProcessorTest
 		cantLoadSaveFoo.setBar( new Date() );
 		metawidget.setToInspect( cantLoadSaveFoo );
 
-		try
-		{
+		try {
 			metawidget.getComponent( 0 );
 			assertTrue( false );
-		}
-		catch ( WidgetProcessorException e )
-		{
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig() {
 			// Subclass
 		}, "converters" );
 		TestUtils.testEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
 	}
 
-	public void testNumberConverter()
-	{
+	public void testNumberConverter() {
+
 		NumberConverter<Integer> numberConverter = new NumberConverter<Integer>( Integer.class );
 
 		assertTrue( null == numberConverter.convertReverse( null ) );
@@ -252,8 +239,8 @@ public class BeansBindingProcessorTest
 	// Inner class
 	//
 
-	protected static class Foo
-	{
+	protected static class Foo {
+
 		//
 		// Private members
 		//
@@ -270,65 +257,65 @@ public class BeansBindingProcessorTest
 		// Public methods
 		//
 
-		public long getBar()
-		{
+		public long getBar() {
+
 			return mBar;
 		}
 
-		public void setBar( long bar )
-		{
+		public void setBar( long bar ) {
+
 			long oldBar = mBar;
 			mBar = bar;
 			mPropertyChangeSupport.firePropertyChange( "bar", oldBar, mBar );
 		}
 
-		public int getBaz()
-		{
+		public int getBaz() {
+
 			return mBaz;
 		}
 
-		public void addPropertyChangeListener( PropertyChangeListener listener )
-		{
+		public void addPropertyChangeListener( PropertyChangeListener listener ) {
+
 			mPropertyChangeSupport.addPropertyChangeListener( listener );
 		}
 
-		public void removePropertyChangeListener( PropertyChangeListener listener )
-		{
+		public void removePropertyChangeListener( PropertyChangeListener listener ) {
+
 			mPropertyChangeSupport.removePropertyChangeListener( listener );
 		}
 
-		public List<String> getList()
-		{
+		public List<String> getList() {
+
 			return mList;
 		}
 
-		public void setList( List<String> list )
-		{
+		public void setList( List<String> list ) {
+
 			mList = list;
 		}
 	}
 
-	protected static class CantLoadSaveFoo
-	{
+	protected static class CantLoadSaveFoo {
+
 		private Date	mBar;
 
 		//
 		// Public methods
 		//
 
-		public Date getBar()
-		{
+		public Date getBar() {
+
 			return mBar;
 		}
 
-		public void setBar( Date bar )
-		{
+		public void setBar( Date bar ) {
+
 			mBar = bar;
 		}
 	}
 
-	protected static class NoGetSetFoo
-	{
+	protected static class NoGetSetFoo {
+
 		//
 		// Public methods
 		//

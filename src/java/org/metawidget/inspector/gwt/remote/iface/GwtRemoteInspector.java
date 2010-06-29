@@ -45,8 +45,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath( "metawidget-inspector" )
 public interface GwtRemoteInspector
-	extends RemoteService
-{
+	extends RemoteService {
+
 	//
 	// Methods
 	//

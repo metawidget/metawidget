@@ -45,16 +45,16 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilderExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "unchecked" )
 	public void testWidgetBuilderExample()
-		throws Exception
-	{
+		throws Exception {
+
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -74,8 +74,8 @@ public class ReadOnlyWidgetBuilderExampleTest
 
 	@SuppressWarnings( "unchecked" )
 	public void testBoundWidgetBuilderExample()
-		throws Exception
-	{
+		throws Exception {
+
 		PersonalContact contact = new PersonalContact();
 		contact.setFirstname( "Homer" );
 
@@ -85,19 +85,19 @@ public class ReadOnlyWidgetBuilderExampleTest
 		metawidget.setReadOnly( true );
 		metawidget.setToInspect( contact );
 
-		assertEquals( "Title:", ((JLabel) metawidget.getComponent( 0 )).getText() );
-		assertEquals( "", ((JTextField) metawidget.getComponent( 1 )).getText() );
+		assertEquals( "Title:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
+		assertEquals( "", ( (JTextField) metawidget.getComponent( 1 ) ).getText() );
 		assertFalse( ( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
-		assertEquals( "Firstname:", ((JLabel) metawidget.getComponent( 2 )).getText() );
-		assertEquals( "Homer", ((JTextField) metawidget.getComponent( 3 )).getText() );
+		assertEquals( "Firstname:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
+		assertEquals( "Homer", ( (JTextField) metawidget.getComponent( 3 ) ).getText() );
 		assertFalse( ( (JTextField) metawidget.getComponent( 3 ) ).isEditable() );
 
 		Foo foo = new Foo();
 		foo.setContact( contact );
 		metawidget.setToInspect( foo );
 
-		assertEquals( "Contact:", ((JLabel) metawidget.getComponent( 0 )).getText() );
-		assertEquals( "Homer", ((JTextField) metawidget.getComponent( 1 )).getText() );
+		assertEquals( "Contact:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
+		assertEquals( "Homer", ( (JTextField) metawidget.getComponent( 1 ) ).getText() );
 		assertFalse( ( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
 		assertTrue( 3 == metawidget.getComponentCount() );
 	}
@@ -107,25 +107,22 @@ public class ReadOnlyWidgetBuilderExampleTest
 	//
 
 	static class ReadOnlyTextFieldWidgetBuilder
-		implements WidgetBuilder<JComponent, SwingMetawidget>
-	{
+		implements WidgetBuilder<JComponent, SwingMetawidget> {
+
 		@Override
-		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		{
-			if ( !WidgetBuilderUtils.isReadOnly( attributes ) )
-			{
+		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
+			if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 				return null;
 			}
 
-			if ( TRUE.equals( attributes.get( HIDDEN )))
-			{
+			if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 				return null;
 			}
 
 			Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-			if ( String.class.equals( clazz ) || clazz.isPrimitive() || TRUE.equals( attributes.get( DONT_EXPAND )))
-			{
+			if ( String.class.equals( clazz ) || clazz.isPrimitive() || TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 				JTextField textField = new JTextField();
 				textField.setEditable( false );
 
@@ -136,18 +133,18 @@ public class ReadOnlyWidgetBuilderExampleTest
 		}
 	}
 
-	public static class Foo
-	{
-		private Contact mContact;
+	public static class Foo {
+
+		private Contact	mContact;
 
 		@UiDontExpand
-		public Contact getContact()
-		{
+		public Contact getContact() {
+
 			return mContact;
 		}
 
-		public void setContact( Contact contact )
-		{
+		public void setContact( Contact contact ) {
+
 			mContact = contact;
 		}
 	}

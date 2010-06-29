@@ -36,14 +36,14 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class SwingFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget>
-{
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected SwingFlatSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config )
-	{
+	protected SwingFlatSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -52,8 +52,8 @@ public abstract class SwingFlatSectionLayoutDecorator
 	//
 
 	@Override
-	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		super.startContainerLayout( container, metawidget );
 		container.putClientProperty( getClass(), null );
 	}
@@ -63,24 +63,23 @@ public abstract class SwingFlatSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected String[] getSections( Map<String, String> attributes )
-	{
+	protected String[] getSections( Map<String, String> attributes ) {
+
 		return ArrayUtils.fromString( attributes.get( SECTION ) );
 	}
 
 	@Override
-	protected State getState( JComponent container, SwingMetawidget metawidget )
-	{
+	protected State getState( JComponent container, SwingMetawidget metawidget ) {
+
 		State state = (State) container.getClientProperty( getClass() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			container.putClientProperty( getClass(), state );
 		}
@@ -89,8 +88,8 @@ public abstract class SwingFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( JComponent component )
-	{
+	protected boolean isEmptyStub( JComponent component ) {
+
 		return ( component instanceof Stub && component.getComponentCount() == 0 );
 	}
 }

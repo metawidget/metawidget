@@ -24,20 +24,20 @@ import org.metawidget.inspector.faces.UiFacesNumberConverter;
  * @author Richard Kennard
  */
 
-public class StubConverterTest
-{
+public class StubConverterTest {
+
 	//
 	// Public methods
 	//
 
 	@UiFacesNumberConverter( pattern = "0.00" )
-	public int getFoo()
-	{
+	public int getFoo() {
+
 		return 1;
 	}
 
-	public int getBar()
-	{
+	public int getBar() {
+
 		return 2;
 	}
 }

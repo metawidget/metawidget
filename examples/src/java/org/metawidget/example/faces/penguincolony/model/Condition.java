@@ -16,14 +16,10 @@
 
 package org.metawidget.example.faces.penguincolony.model;
 
-
 /**
  * @author Richard Kennard
  */
 
-public enum Condition
-{
-	Good,
-	Fair,
-	Poor
+public enum Condition {
+	Good, Fair, Poor
 }

@@ -27,14 +27,14 @@ import org.metawidget.pipeline.w3c.MetawidgetPipelineTest;
  */
 
 public class PipelineTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Pipeline Tests" );
 		suite.addTestSuite( MetawidgetPipelineTest.class );
 

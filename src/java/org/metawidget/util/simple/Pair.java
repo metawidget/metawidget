@@ -22,8 +22,8 @@ package org.metawidget.util.simple;
  * @author Richard Kennard
  */
 
-public class Pair<L, R>
-{
+public class Pair<L, R> {
+
 	//
 	// Private members
 	//
@@ -42,8 +42,8 @@ public class Pair<L, R>
 	//
 	// ...because we always seem to be 'return'ing a Pair, never assigning one
 
-	public Pair( L left, R right )
-	{
+	public Pair( L left, R right ) {
+
 		mLeft = left;
 		mRight = right;
 	}
@@ -52,41 +52,36 @@ public class Pair<L, R>
 	// Public methods
 	//
 
-	public L getLeft()
-	{
+	public L getLeft() {
+
 		return mLeft;
 	}
 
-	public R getRight()
-	{
+	public R getRight() {
+
 		return mRight;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mLeft, ( (Pair<?, ?>) that ).mLeft ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mLeft, ( (Pair<?, ?>) that ).mLeft ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mRight, ( (Pair<?, ?>) that ).mRight ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mRight, ( (Pair<?, ?>) that ).mRight ) ) {
 			return false;
 		}
 
@@ -94,8 +89,8 @@ public class Pair<L, R>
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLeft );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRight );
@@ -104,8 +99,8 @@ public class Pair<L, R>
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		return mLeft + ":" + mRight;
 	}
 }

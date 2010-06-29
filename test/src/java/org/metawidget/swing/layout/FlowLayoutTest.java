@@ -33,15 +33,15 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		JComponent container = new JPanel();
 
@@ -51,7 +51,7 @@ public class FlowLayoutTest
 		flowLayout.startContainerLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof java.awt.FlowLayout );
-		assertFalse( ( metawidget.getLayout() instanceof java.awt.FlowLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof java.awt.FlowLayout ) );
 
 		// layoutWidget
 

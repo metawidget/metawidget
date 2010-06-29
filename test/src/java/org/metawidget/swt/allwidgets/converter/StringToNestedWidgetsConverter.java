@@ -25,14 +25,14 @@ import org.metawidget.util.ArrayUtils;
  */
 
 public class StringToNestedWidgetsConverter
-	extends Converter
-{
+	extends Converter {
+
 	//
 	// Constructor
 	//
 
-	public StringToNestedWidgetsConverter()
-	{
+	public StringToNestedWidgetsConverter() {
+
 		super( String.class, NestedWidgets.class );
 	}
 
@@ -40,20 +40,18 @@ public class StringToNestedWidgetsConverter
 	// Public methods
 	//
 
-	public Object convert( Object toConvert )
-	{
+	public Object convert( Object toConvert ) {
+
 		String[] values = ArrayUtils.fromString( (String) toConvert );
 
-		if ( values.length == 0 )
-		{
+		if ( values.length == 0 ) {
 			return null;
 		}
 
 		NestedWidgets nestedWidgets = new NestedWidgets();
 		nestedWidgets.setNestedTextbox1( values[0] );
 
-		if ( values.length > 1 )
-		{
+		if ( values.length > 1 ) {
 			nestedWidgets.setNestedTextbox2( values[1] );
 		}
 

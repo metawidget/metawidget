@@ -50,19 +50,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class GroovyPropertyStyle
-	extends BasePropertyStyle
-{
+	extends BasePropertyStyle {
+
 	//
 	// Constructor
 	//
 
-	public GroovyPropertyStyle()
-	{
+	public GroovyPropertyStyle() {
+
 		this( new BasePropertyStyleConfig() );
 	}
 
-	public GroovyPropertyStyle( BasePropertyStyleConfig config )
-	{
+	public GroovyPropertyStyle( BasePropertyStyleConfig config ) {
+
 		super( config );
 	}
 
@@ -75,8 +75,8 @@ public class GroovyPropertyStyle
 	 */
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?> clazz )
-	{
+	protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+
 		// TreeMap so that returns alphabetically sorted properties
 
 		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
@@ -89,12 +89,10 @@ public class GroovyPropertyStyle
 		@SuppressWarnings( "unchecked" )
 		List<MetaProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
-		for ( MetaProperty property : properties )
-		{
+		for ( MetaProperty property : properties ) {
 			// Not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
 
-			if ( !( property instanceof MetaBeanProperty ) )
-			{
+			if ( !( property instanceof MetaBeanProperty ) ) {
 				continue;
 			}
 
@@ -105,8 +103,7 @@ public class GroovyPropertyStyle
 
 			// Only public properties
 
-			if ( !Modifier.isPublic( metaBeanProperty.getModifiers() ) )
-			{
+			if ( !Modifier.isPublic( metaBeanProperty.getModifiers() ) ) {
 				continue;
 			}
 
@@ -118,21 +115,15 @@ public class GroovyPropertyStyle
 
 			Class<?> declaringClass;
 
-			if ( metaBeanProperty.getGetter() != null )
-			{
+			if ( metaBeanProperty.getGetter() != null ) {
 				declaringClass = ClassUtils.niceForName( metaBeanProperty.getGetter().getDeclaringClass().getName() );
-			}
-			else if ( metaBeanProperty.getSetter() != null )
-			{
+			} else if ( metaBeanProperty.getSetter() != null ) {
 				declaringClass = ClassUtils.niceForName( metaBeanProperty.getSetter().getDeclaringClass().getName() );
-			}
-			else
-			{
+			} else {
 				declaringClass = clazz;
 			}
 
-			if ( isExcluded( declaringClass, name, type ) )
-			{
+			if ( isExcluded( declaringClass, name, type ) ) {
 				continue;
 			}
 
@@ -155,20 +146,18 @@ public class GroovyPropertyStyle
 	 */
 
 	@Override
-	protected boolean isExcludedBaseType( Class<?> classToExclude )
-	{
+	protected boolean isExcludedBaseType( Class<?> classToExclude ) {
+
 		// (classToExclude might be null in the Groovy Console applet. We won't need this
 		// after we can use .getTheClass)
 
-		if ( classToExclude == null )
-		{
+		if ( classToExclude == null ) {
 			return false;
 		}
 
 		String className = classToExclude.getName();
 
-		if ( className.startsWith( "org.groovy." ) )
-		{
+		if ( className.startsWith( "org.groovy." ) ) {
 			return true;
 		}
 
@@ -187,10 +176,9 @@ public class GroovyPropertyStyle
 	 */
 
 	@Override
-	protected boolean isExcludedName( String name )
-	{
-		if ( "metaClass".equals( name ) )
-		{
+	protected boolean isExcludedName( String name ) {
+
+		if ( "metaClass".equals( name ) ) {
 			return true;
 		}
 
@@ -206,8 +194,8 @@ public class GroovyPropertyStyle
 	 */
 
 	private static class GroovyProperty
-		extends BaseProperty
-	{
+		extends BaseProperty {
+
 		//
 		//
 		// Private members
@@ -228,37 +216,31 @@ public class GroovyPropertyStyle
 		//
 		//
 
-		public GroovyProperty( MetaBeanProperty property, Class<?> javaClass )
-		{
+		public GroovyProperty( MetaBeanProperty property, Class<?> javaClass ) {
+
 			super( property.getName(), property.getType() );
 
 			mProperty = property;
 
-			try
-			{
+			try {
 				CachedField field = mProperty.getField();
 
-				if ( field != null )
-				{
+				if ( field != null ) {
 					mField = field.field;
 				}
 
 				MetaMethod getterMethod = mProperty.getGetter();
 
-				if ( getterMethod != null )
-				{
+				if ( getterMethod != null ) {
 					mGetterMethod = javaClass.getMethod( getterMethod.getName() );
 				}
 
 				MetaMethod setterMethod = mProperty.getSetter();
 
-				if ( setterMethod != null )
-				{
+				if ( setterMethod != null ) {
 					mSetterMethod = javaClass.getMethod( setterMethod.getName(), setterMethod.getNativeParameterTypes() );
 				}
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
 			}
 		}
@@ -269,62 +251,53 @@ public class GroovyPropertyStyle
 		//
 		//
 
-		public boolean isReadable()
-		{
+		public boolean isReadable() {
+
 			return ( mProperty.getGetter() != null );
 		}
 
-		public Object read( Object obj )
-		{
-			try
-			{
+		public Object read( Object obj ) {
+
+			try {
 				return mProperty.getProperty( obj );
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
 			}
 		}
 
-		public boolean isWritable()
-		{
+		public boolean isWritable() {
+
 			return ( mProperty.getSetter() != null );
 		}
 
-		public <T extends Annotation> T getAnnotation( Class<T> annotation )
-		{
-			if ( mField != null )
-			{
+		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
+
+			if ( mField != null ) {
 				return mField.getAnnotation( annotation );
 			}
 
-			if ( mGetterMethod != null )
-			{
+			if ( mGetterMethod != null ) {
 				return mGetterMethod.getAnnotation( annotation );
 			}
 
-			if ( mSetterMethod != null )
-			{
+			if ( mSetterMethod != null ) {
 				return mSetterMethod.getAnnotation( annotation );
 			}
 
 			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
 		}
 
-		public Type getGenericType()
-		{
-			if ( mField != null )
-			{
+		public Type getGenericType() {
+
+			if ( mField != null ) {
 				return mField.getGenericType();
 			}
 
-			if ( mGetterMethod != null )
-			{
+			if ( mGetterMethod != null ) {
 				return mGetterMethod.getGenericReturnType();
 			}
 
-			if ( mSetterMethod != null )
-			{
+			if ( mSetterMethod != null ) {
 				return mSetterMethod.getGenericParameterTypes()[0];
 			}
 

@@ -35,8 +35,8 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface WidgetBuilder<W, M extends W>
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//

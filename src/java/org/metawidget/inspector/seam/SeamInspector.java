@@ -41,8 +41,8 @@ import org.w3c.dom.Element;
  */
 
 public class SeamInspector
-	implements Inspector
-{
+	implements Inspector {
+
 	//
 	// Private statics
 	//
@@ -66,24 +66,21 @@ public class SeamInspector
 	// Constructors
 	//
 
-	public SeamInspector()
-	{
+	public SeamInspector() {
+
 		this( new SeamInspectorConfig() );
 	}
 
-	public SeamInspector( SeamInspectorConfig config )
-	{
+	public SeamInspector( SeamInspectorConfig config ) {
+
 		// components.xml
 
 		Element root;
 
-		try
-		{
+		try {
 			Document documentParsed = XmlUtils.newDocumentBuilder().parse( config.getComponentsInputStream() );
 			root = documentParsed.getDocumentElement();
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
 
@@ -94,18 +91,14 @@ public class SeamInspector
 		List<InputStream> pageflowDefinitionStreams = CollectionUtils.newArrayList();
 		Element pageflowValue = XmlUtils.getChildNamed( root, JBPM_ELEMENT, PAGEFLOW_DEFINITIONS_ELEMENT, "value" );
 
-		while ( pageflowValue != null )
-		{
+		while ( pageflowValue != null ) {
 			pageflowDefinitionStreams.add( resolver.openResource( pageflowValue.getTextContent() ) );
 			pageflowValue = XmlUtils.getSiblingNamed( pageflowValue, "value" );
 		}
 
-		if ( pageflowDefinitionStreams.isEmpty() )
-		{
+		if ( pageflowDefinitionStreams.isEmpty() ) {
 			mPageflowInspector = null;
-		}
-		else
-		{
+		} else {
 			BaseXmlInspectorConfig jpdlConfig = new BaseXmlInspectorConfig();
 			jpdlConfig.setInputStreams( pageflowDefinitionStreams.toArray( new InputStream[pageflowDefinitionStreams.size()] ) );
 			mPageflowInspector = new PageflowInspector( jpdlConfig );
@@ -117,12 +110,11 @@ public class SeamInspector
 	//
 
 	@Override
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		// Pageflow
 
-		if ( mPageflowInspector != null )
-		{
+		if ( mPageflowInspector != null ) {
 			return mPageflowInspector.inspect( toInspect, type, names );
 		}
 

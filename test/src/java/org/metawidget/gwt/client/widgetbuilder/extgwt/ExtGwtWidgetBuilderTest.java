@@ -32,21 +32,21 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class ExtGwtWidgetBuilderTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		ExtGwtWidgetBuilder widgetBuilder = new ExtGwtWidgetBuilder();
 
 		Map<String, String> attributes = new HashMap<String, String>();
@@ -79,8 +79,8 @@ public class ExtGwtWidgetBuilderTest
 	}
 
 	public void testValueAccessor()
-		throws Exception
-	{
+		throws Exception {
+
 		final ExtGwtWidgetBuilder widgetBuilder = new ExtGwtWidgetBuilder();
 
 		assertTrue( false == widgetBuilder.setValue( new TextBox(), null ) );

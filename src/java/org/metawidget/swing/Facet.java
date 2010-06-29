@@ -21,9 +21,8 @@ import javax.swing.JPanel;
 /**
  * Facet for Swing environments.
  * <p>
- * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are
- * 'decorations' (such as button bars) to be recognized and arranged at the discretion of the
- * Layout.
+ * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
+ * (such as button bars) to be recognized and arranged at the discretion of the Layout.
  * <p>
  * We define separate Facet widgets, as opposed to simply a <code>SwingMetawidget.addFacet</code>
  * method, as this is more amenable to visual UI builders.
@@ -32,8 +31,8 @@ import javax.swing.JPanel;
  */
 
 public class Facet
-	extends JPanel
-{
+	extends JPanel {
+
 	//
 	// Private statics
 	//

@@ -33,15 +33,15 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
  */
 
 public class InputVerifierProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testValidator()
-		throws Exception
-	{
+		throws Exception {
+
 		// Model
 
 		Foo foo1 = new Foo();
@@ -88,8 +88,8 @@ public class InputVerifierProcessorTest
 	// Inner class
 	//
 
-	protected static class Foo
-	{
+	protected static class Foo {
+
 		//
 		//
 		// Private members
@@ -106,38 +106,38 @@ public class InputVerifierProcessorTest
 		//
 		//
 
-		public long getBar()
-		{
+		public long getBar() {
+
 			return mBar;
 		}
 
-		public void setBar( long bar )
-		{
+		public void setBar( long bar ) {
+
 			mBar = bar;
 		}
 
-		public Foo getNestedFoo()
-		{
+		public Foo getNestedFoo() {
+
 			return mNestedFoo;
 		}
 
-		public void setNestedFoo( Foo nestedFoo )
-		{
+		public void setNestedFoo( Foo nestedFoo ) {
+
 			mNestedFoo = nestedFoo;
 		}
 	}
 
 	protected static class TestInputVerifierProcessor
 		extends InputVerifierProcessor
-		implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>
-	{
+		implements AdvancedWidgetProcessor<JComponent, SwingMetawidget> {
+
 		//
 		// Public methods
 		//
 
 		@Override
-		public void onStartBuild( SwingMetawidget metawidget )
-		{
+		public void onStartBuild( SwingMetawidget metawidget ) {
+
 			metawidget.putClientProperty( "onStartBuild", Boolean.TRUE );
 		}
 
@@ -146,18 +146,17 @@ public class InputVerifierProcessorTest
 		//
 
 		@Override
-		protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, final SwingMetawidget metawidget, final String path )
-		{
-			if ( component instanceof SwingMetawidget )
-			{
+		protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, final SwingMetawidget metawidget, final String path ) {
+
+			if ( component instanceof SwingMetawidget ) {
 				return null;
 			}
 
-			return new InputVerifier()
-			{
+			return new InputVerifier() {
+
 				@Override
-				public boolean verify( JComponent input )
-				{
+				public boolean verify( JComponent input ) {
+
 					metawidget.putClientProperty( "onVerify", path );
 					return false;
 				}
@@ -165,8 +164,8 @@ public class InputVerifierProcessorTest
 		}
 
 		@Override
-		public void onEndBuild( SwingMetawidget metawidget )
-		{
+		public void onEndBuild( SwingMetawidget metawidget ) {
+
 			metawidget.putClientProperty( "onEndBuild", Boolean.TRUE );
 		}
 	}

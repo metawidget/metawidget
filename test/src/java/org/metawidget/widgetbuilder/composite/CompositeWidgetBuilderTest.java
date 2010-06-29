@@ -32,15 +32,15 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class CompositeWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testDefensiveCopy()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingXWidgetBuilder widgetBuilder1 = new SwingXWidgetBuilder();
 		SwingWidgetBuilder widgetBuilder2 = new SwingWidgetBuilder();
 		@SuppressWarnings( "unchecked" )
@@ -57,34 +57,28 @@ public class CompositeWidgetBuilderTest
 
 		// Test duplicates
 
-		try
-		{
+		try {
 			@SuppressWarnings( "unchecked" )
-			WidgetBuilder<JComponent, SwingMetawidget>[] duplicateWidgetBuilders = new WidgetBuilder[]{ widgetBuilder1, widgetBuilder2, widgetBuilder1 };
+			WidgetBuilder<JComponent, SwingMetawidget>[] duplicateWidgetBuilders = new WidgetBuilder[] { widgetBuilder1, widgetBuilder2, widgetBuilder1 };
 
-			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( duplicateWidgetBuilders ));
+			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( duplicateWidgetBuilders ) );
 			assertTrue( false );
-		}
-		catch( WidgetBuilderException e )
-		{
+		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder's list of WidgetBuilders contains two of the same org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder", e.getMessage() );
 		}
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public void testMinimumWidgetBuilders()
-	{
+	public void testMinimumWidgetBuilders() {
+
 		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
 
 		// Null WidgetBuilders
 
-		try
-		{
+		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 			assertTrue( false );
-		}
-		catch ( WidgetBuilderException e )
-		{
+		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
 
@@ -92,49 +86,39 @@ public class CompositeWidgetBuilderTest
 
 		config.setWidgetBuilders( new WidgetBuilder[0] );
 
-		try
-		{
+		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 			assertTrue( false );
-		}
-		catch ( WidgetBuilderException e )
-		{
+		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
 
 		// 1 WidgetBuilder
 
-		config.setWidgetBuilders( new WidgetBuilder[]{ new SwingWidgetBuilder() } );
+		config.setWidgetBuilders( new WidgetBuilder[] { new SwingWidgetBuilder() } );
 
-		try
-		{
+		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 			assertTrue( false );
-		}
-		catch ( WidgetBuilderException e )
-		{
+		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
 
 		// 2 WidgetBuilders
 
-		config.setWidgetBuilders( new WidgetBuilder[]{ new SwingWidgetBuilder(), new SwingXWidgetBuilder() } );
+		config.setWidgetBuilders( new WidgetBuilder[] { new SwingWidgetBuilder(), new SwingXWidgetBuilder() } );
 
-		try
-		{
+		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 			assertTrue( true );
-		}
-		catch ( WidgetBuilderException e )
-		{
+		} catch ( WidgetBuilderException e ) {
 			assertTrue( false );
 		}
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class, new CompositeWidgetBuilderConfig<Object, Object>()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class, new CompositeWidgetBuilderConfig<Object, Object>() {
 			// Subclass
 		} );
 	}

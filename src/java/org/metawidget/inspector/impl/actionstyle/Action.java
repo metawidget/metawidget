@@ -25,7 +25,6 @@ import org.metawidget.inspector.impl.Trait;
  */
 
 public interface Action
-	extends Trait
-{
+	extends Trait {
 	// Same methods as Trait
 }

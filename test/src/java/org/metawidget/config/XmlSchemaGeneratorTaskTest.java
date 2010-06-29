@@ -29,8 +29,8 @@ import org.metawidget.util.IOUtils;
  */
 
 public class XmlSchemaGeneratorTaskTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -42,15 +42,14 @@ public class XmlSchemaGeneratorTaskTest
 	//
 
 	public void testExecute()
-		throws Exception
-	{
+		throws Exception {
+
 		// Run the task
 
 		String jar = System.getProperty( "test.org.metawidget.config.JAR" );
 		String destDir = System.getProperty( "test.org.metawidget.config.DEST_DIR" );
 
-		if ( jar == null || destDir == null )
-		{
+		if ( jar == null || destDir == null ) {
 			assertTrue( false );
 			return;
 		}
@@ -68,8 +67,7 @@ public class XmlSchemaGeneratorTaskTest
 
 		// For each file...
 
-		for( File file : new File( destDir ).listFiles() )
-		{
+		for ( File file : new File( destDir ).listFiles() ) {
 			// ...read the contents...
 
 			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
@@ -80,27 +78,24 @@ public class XmlSchemaGeneratorTaskTest
 
 			String filename = file.getName();
 
-			if ( "index.html".equals( filename ))
-			{
-				assertTrue( filename, contents.contains( "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">" ));
-				assertTrue( filename, contents.contains( "<title>Metawidget XML Schemas</title>" ));
-				assertTrue( filename, contents.contains( "<body>" ));
-				assertTrue( filename, contents.contains( "<h1>Metawidget XML Schemas</h1>" ));
-				assertTrue( filename, contents.contains( "<h2>Inspection Results</h2>" ));
-				assertTrue( filename, contents.contains( "<h2>External Configuration</h2>" ));
-				assertTrue( filename, contents.contains( "</body>" ));
-				assertTrue( filename, contents.contains( "</html>" ));
+			if ( "index.html".equals( filename ) ) {
+				assertTrue( filename, contents.contains( "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">" ) );
+				assertTrue( filename, contents.contains( "<title>Metawidget XML Schemas</title>" ) );
+				assertTrue( filename, contents.contains( "<body>" ) );
+				assertTrue( filename, contents.contains( "<h1>Metawidget XML Schemas</h1>" ) );
+				assertTrue( filename, contents.contains( "<h2>Inspection Results</h2>" ) );
+				assertTrue( filename, contents.contains( "<h2>External Configuration</h2>" ) );
+				assertTrue( filename, contents.contains( "</body>" ) );
+				assertTrue( filename, contents.contains( "</html>" ) );
 
-				for( File nestedFile : new File( destDir ).listFiles() )
-				{
+				for ( File nestedFile : new File( destDir ).listFiles() ) {
 					String nestedFilename = nestedFile.getName();
 
-					if ( "index.html".equals( nestedFilename ))
-					{
+					if ( "index.html".equals( nestedFilename ) ) {
 						continue;
 					}
 
-					assertTrue( nestedFilename, contents.contains( "<li><a href=\"" + nestedFilename + "\">" + nestedFilename + "</a></li>" ));
+					assertTrue( nestedFilename, contents.contains( "<li><a href=\"" + nestedFilename + "\">" + nestedFilename + "</a></li>" ) );
 				}
 
 				continue;
@@ -111,27 +106,27 @@ public class XmlSchemaGeneratorTaskTest
 			int indexOf = filename.indexOf( "-" );
 			String packageName = filename.substring( 0, indexOf );
 
-			assertTrue( filename, contents.contains( "<?xml version=\"1.0\" ?>" ));
-			assertTrue( filename, contents.contains( "<xs:schema targetNamespace=\"java:" + packageName + "\" xmlns=\"java:" + packageName + "\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">" ));
-			assertTrue( filename, contents.contains( "<xs:complexType>" ));
-			assertTrue( filename, contents.contains( "</xs:complexType>" ));
-			assertTrue( filename, contents.contains( "</xs:schema>" ));
+			assertTrue( filename, contents.contains( "<?xml version=\"1.0\" ?>" ) );
+			assertTrue( filename, contents.contains( "<xs:schema targetNamespace=\"java:" + packageName + "\" xmlns=\"java:" + packageName + "\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">" ) );
+			assertTrue( filename, contents.contains( "<xs:complexType>" ) );
+			assertTrue( filename, contents.contains( "</xs:complexType>" ) );
+			assertTrue( filename, contents.contains( "</xs:schema>" ) );
 
 			// ...and things we SHOULDN'T
 
 			// (don't want to see Java base class properties)
 
-			assertTrue( filename, !contents.contains( "name=\"class\"" ));
+			assertTrue( filename, !contents.contains( "name=\"class\"" ) );
 
 			// (don't want to see SWT Control properties)
 
-			assertTrue( filename, !contents.contains( "name=\"backgroundMode\"" ));
+			assertTrue( filename, !contents.contains( "name=\"backgroundMode\"" ) );
 		}
 	}
 
 	public void testGenerateClassBlock()
-		throws Exception
-	{
+		throws Exception {
+
 		// Not concrete
 
 		String schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.impl", "BaseObjectInspector" );
@@ -251,8 +246,8 @@ public class XmlSchemaGeneratorTaskTest
 	//
 
 	@Override
-	public void setUp()
-	{
+	public void setUp() {
+
 		mXmlSchemaGeneratorTask = new XmlSchemaGeneratorTask();
 	}
 }

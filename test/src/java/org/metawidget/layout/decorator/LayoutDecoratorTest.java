@@ -29,32 +29,27 @@ import org.metawidget.util.TestUtils;
  */
 
 public class LayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( LayoutDecoratorConfig.class, new LayoutDecoratorConfig<Object,Object,Object>()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( LayoutDecoratorConfig.class, new LayoutDecoratorConfig<Object, Object, Object>() {
 			// Subclass
 		} );
 	}
 
 	public void testLayoutDecorator()
-		throws Exception
-	{
-		try
-		{
-			new LayoutDecorator<JComponent, JComponent, SwingMetawidget>( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>() )
-			{
+		throws Exception {
+
+		try {
+			new LayoutDecorator<JComponent, JComponent, SwingMetawidget>( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>() ) {
 				// Just a LayoutDecorator
 			};
-		}
-		catch ( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertEquals( "org.metawidget.layout.decorator.LayoutDecoratorTest$2 needs a Layout to decorate (use org.metawidget.layout.decorator.LayoutDecoratorConfig.setLayout)", e.getMessage() );
 		}
 	}

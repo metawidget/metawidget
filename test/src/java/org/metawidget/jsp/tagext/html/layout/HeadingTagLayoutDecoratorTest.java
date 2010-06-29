@@ -25,16 +25,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class HeadingTagLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( HeadingTagLayoutDecoratorConfig.class, new HeadingTagLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( HeadingTagLayoutDecoratorConfig.class, new HeadingTagLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

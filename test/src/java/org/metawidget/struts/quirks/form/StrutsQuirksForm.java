@@ -30,8 +30,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class StrutsQuirksForm
-	extends ActionForm
-{
+	extends ActionForm {
+
 	//
 	// Private statics
 	//
@@ -50,8 +50,8 @@ public class StrutsQuirksForm
 	// Constructor
 	//
 
-	public StrutsQuirksForm()
-	{
+	public StrutsQuirksForm() {
+
 		mList.add( new DisplayTagQuirks( 0, "Foo", "A Foo" ) );
 		mList.add( new DisplayTagQuirks( 1, "Bar", "A Bar" ) );
 		mList.add( new DisplayTagQuirks( 2, "Baz", "A Baz" ) );
@@ -62,24 +62,24 @@ public class StrutsQuirksForm
 	//
 
 	@UiStrutsLookup( name = "lookupValues", property = "values", labelName = "lookupLabels", labelProperty = "labels" )
-	public String getLookup()
-	{
+	public String getLookup() {
+
 		return mLookup;
 	}
 
-	public void setLookup( String lookup )
-	{
+	public void setLookup( String lookup ) {
+
 		mLookup = lookup;
 	}
 
 	@UiComesAfter( "lookup" )
-	public List<DisplayTagQuirks> getList()
-	{
+	public List<DisplayTagQuirks> getList() {
+
 		return mList;
 	}
 
-	public void setList( List<DisplayTagQuirks> list )
-	{
+	public void setList( List<DisplayTagQuirks> list ) {
+
 		mList = list;
 	}
 }

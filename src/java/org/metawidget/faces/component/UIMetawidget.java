@@ -74,8 +74,8 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
-	extends UIComponentBase
-{
+	extends UIComponentBase {
+
 	//
 	// Public statics
 	//
@@ -152,8 +152,8 @@ public abstract class UIMetawidget
 	// Constructor
 	//
 
-	public UIMetawidget()
-	{
+	public UIMetawidget() {
+
 		mPipeline = newPipeline();
 
 		// Default renderer
@@ -167,12 +167,9 @@ public abstract class UIMetawidget
 		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636, so it is not
 		// enabled by default
 
-		if ( FacesUtils.isUseSystemEvents() )
-		{
+		if ( FacesUtils.isUseSystemEvents() ) {
 			mBuildWidgetsTrigger = new SystemEventSupport( this );
-		}
-		else
-		{
+		} else {
 			mBuildWidgetsTrigger = new RemoveDuplicatesSupport( this );
 		}
 	}
@@ -182,48 +179,44 @@ public abstract class UIMetawidget
 	//
 
 	@Override
-	public String getFamily()
-	{
+	public String getFamily() {
+
 		return "org.metawidget";
 	}
 
-	public void setValue( Object value )
-	{
+	public void setValue( Object value ) {
+
 		mValue = value;
 	}
 
-	public Object getValue()
-	{
-		if ( mValue != null )
-		{
+	public Object getValue() {
+
+		if ( mValue != null ) {
 			return mValue;
 		}
 
 		ValueBinding valueBinding = getValueBinding( "value" );
 
-		if ( valueBinding == null )
-		{
+		if ( valueBinding == null ) {
 			return null;
 		}
 
 		return valueBinding.getValue( getFacesContext() );
 	}
 
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		// Dynamic read-only (takes precedence if set)
 
 		ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
-		if ( bindingReadOnly != null )
-		{
+		if ( bindingReadOnly != null ) {
 			return (Boolean) bindingReadOnly.getValue( getFacesContext() );
 		}
 
 		// Static read only
 
-		if ( mReadOnly != null )
-		{
+		if ( mReadOnly != null ) {
 			return mReadOnly.booleanValue();
 		}
 
@@ -232,59 +225,59 @@ public abstract class UIMetawidget
 		return false;
 	}
 
-	public void setReadOnly( Boolean readOnly )
-	{
+	public void setReadOnly( Boolean readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 
-	public void setConfig( String config )
-	{
+	public void setConfig( String config ) {
+
 		mConfig = config;
 		mNeedsConfiguring = true;
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mPipeline.setInspector( inspector );
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor )
-	{
+	public void addInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor ) {
+
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 	}
 
-	public void removeInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor )
-	{
+	public void removeInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor ) {
+
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<UIMetawidget>... inspectionResultProcessors )
-	{
+	public void setInspectionResultProcessors( InspectionResultProcessor<UIMetawidget>... inspectionResultProcessors ) {
+
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder )
-	{
+	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder ) {
+
 		mPipeline.setWidgetBuilder( widgetBuilder );
 	}
 
-	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors )
-	{
+	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors ) {
+
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 	}
 
-	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
-	{
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public void setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
-	{
+	public void setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout ) {
+
 		mPipeline.setLayout( layout );
 	}
 
-	public Layout<UIComponent, UIComponent, UIMetawidget> getLayout()
-	{
+	public Layout<UIComponent, UIComponent, UIMetawidget> getLayout() {
+
 		return mPipeline.getLayout();
 	}
 
@@ -303,8 +296,8 @@ public abstract class UIMetawidget
 	 * <code>#{controller.current}</code> from its parent will always return <code>null</code>.
 	 */
 
-	public void setInspectFromParent( boolean inspectFromParent )
-	{
+	public void setInspectFromParent( boolean inspectFromParent ) {
+
 		mInspectFromParent = inspectFromParent;
 	}
 
@@ -313,10 +306,9 @@ public abstract class UIMetawidget
 	 *         <code>UiLabel( "#{foo.name}'s name" )</code>
 	 */
 
-	public String getLabelString( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public String getLabelString( Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return "";
 		}
 
@@ -324,12 +316,10 @@ public abstract class UIMetawidget
 
 		String label = attributes.get( LABEL );
 
-		if ( label != null )
-		{
+		if ( label != null ) {
 			// (may be forced blank)
 
-			if ( "".equals( label ) )
-			{
+			if ( "".equals( label ) ) {
 				return null;
 			}
 
@@ -337,8 +327,7 @@ public abstract class UIMetawidget
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -349,14 +338,12 @@ public abstract class UIMetawidget
 
 		String name = attributes.get( NAME );
 
-		if ( name != null )
-		{
+		if ( name != null ) {
 			// (localize if possible)
 
 			String localized = getLocalizedKey( name );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -370,8 +357,8 @@ public abstract class UIMetawidget
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
-	public String getLocalizedKey( String key )
-	{
+	public String getLocalizedKey( String key ) {
+
 		String localizedKey = null;
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -381,12 +368,10 @@ public abstract class UIMetawidget
 
 		ValueBinding bindingBundle = getValueBinding( "bundle" );
 
-		if ( bindingBundle != null )
-		{
+		if ( bindingBundle != null ) {
 			// (watch out when localizing blank labels)
 
-			if ( key == null || key.trim().length() == 0 )
-			{
+			if ( key == null || key.trim().length() == 0 ) {
 				return "";
 			}
 
@@ -395,22 +380,17 @@ public abstract class UIMetawidget
 
 			// (check for containsKey first, because BundleMap will return a dummy value otherwise)
 
-			if ( bundleMap.containsKey( key ) )
-			{
+			if ( bundleMap.containsKey( key ) ) {
 				localizedKey = bundleMap.get( key );
 			}
 		}
 
 		// App-specific bundle
 
-		else if ( appBundle != null )
-		{
-			try
-			{
+		else if ( appBundle != null ) {
+			try {
 				localizedKey = ResourceBundle.getBundle( appBundle ).getString( key );
-			}
-			catch ( MissingResourceException e )
-			{
+			} catch ( MissingResourceException e ) {
 				// Fail gracefully: we seem to have problems locating, say,
 				// org.jboss.seam.core.SeamResourceBundle?
 
@@ -420,13 +400,11 @@ public abstract class UIMetawidget
 
 		// No bundle
 
-		else
-		{
+		else {
 			return null;
 		}
 
-		if ( localizedKey != null )
-		{
+		if ( localizedKey != null ) {
 			return localizedKey;
 		}
 
@@ -439,12 +417,11 @@ public abstract class UIMetawidget
 	 * This method will not override existing, manually specified <code>&lt;f:param /&gt;</code>
 	 */
 
-	public void setParameter( String name, Object value )
-	{
+	public void setParameter( String name, Object value ) {
+
 		UIParameter parameter = FacesUtils.findParameterWithName( this, name );
 
-		if ( parameter != null )
-		{
+		if ( parameter != null ) {
 			return;
 		}
 
@@ -463,10 +440,9 @@ public abstract class UIMetawidget
 	 * <code>ResponseStateManagerImpl</code>.
 	 */
 
-	public void putClientProperty( Object key, Object value )
-	{
-		if ( mClientProperties == null )
-		{
+	public void putClientProperty( Object key, Object value ) {
+
+		if ( mClientProperties == null ) {
 			mClientProperties = CollectionUtils.newHashMap();
 		}
 
@@ -481,10 +457,9 @@ public abstract class UIMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getClientProperty( Object key )
-	{
-		if ( mClientProperties == null )
-		{
+	public <T> T getClientProperty( Object key ) {
+
+		if ( mClientProperties == null ) {
 			return null;
 		}
 
@@ -492,12 +467,11 @@ public abstract class UIMetawidget
 	}
 
 	@Override
-	public boolean isRendered()
-	{
+	public boolean isRendered() {
+
 		boolean rendered = super.isRendered();
 
-		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport )
-		{
+		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport ) {
 			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).isRendered( rendered );
 		}
 
@@ -506,10 +480,9 @@ public abstract class UIMetawidget
 
 	@Override
 	public void encodeBegin( FacesContext context )
-		throws IOException
-	{
-		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport )
-		{
+		throws IOException {
+
+		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport ) {
 			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).encodeBegin( context );
 		}
 
@@ -520,21 +493,16 @@ public abstract class UIMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
-		if ( LOG.isTraceEnabled() )
-		{
-			LOG.trace( "inspect {0}{1} (start)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ));
+	public String inspect( Object toInspect, String type, String... names ) {
+
+		if ( LOG.isTraceEnabled() ) {
+			LOG.trace( "inspect {0}{1} (start)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 		}
 
-		try
-		{
+		try {
 			return mPipeline.inspect( toInspect, type, names );
-		}
-		finally
-		{
-			if ( LOG.isTraceEnabled() )
-			{
+		} finally {
+			if ( LOG.isTraceEnabled() ) {
 				LOG.trace( "inspect {0}{1} (end)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 			}
 		}
@@ -554,8 +522,8 @@ public abstract class UIMetawidget
 	public abstract String getComponentType();
 
 	@Override
-	public Object saveState( FacesContext context )
-	{
+	public Object saveState( FacesContext context ) {
+
 		Object values[] = new Object[5];
 		values[0] = super.saveState( context );
 		values[1] = mValue;
@@ -567,8 +535,8 @@ public abstract class UIMetawidget
 	}
 
 	@Override
-	public void restoreState( FacesContext context, Object state )
-	{
+	public void restoreState( FacesContext context, Object state ) {
+
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
@@ -589,30 +557,28 @@ public abstract class UIMetawidget
 	 * version.
 	 */
 
-	protected Pipeline newPipeline()
-	{
+	protected Pipeline newPipeline() {
+
 		return new Pipeline();
 	}
 
 	protected void buildWidgets()
-		throws Exception
-	{
+		throws Exception {
+
 		configure();
 
 		// Inspect from the value binding...
 
 		ValueBinding valueBinding = getValueBinding( "value" );
 
-		if ( valueBinding != null )
-		{
+		if ( valueBinding != null ) {
 			mPipeline.buildWidgets( inspect( valueBinding, mInspectFromParent ) );
 			return;
 		}
 
 		// ...or from a raw value (for jBPM)...
 
-		if ( mValue != null )
-		{
+		if ( mValue != null ) {
 			mPipeline.buildWidgets( inspect( null, (String) mValue ) );
 			return;
 		}
@@ -623,8 +589,8 @@ public abstract class UIMetawidget
 	}
 
 	protected UIMetawidget buildNestedMetawidget( String componentType, Map<String, String> attributes )
-		throws Exception
-	{
+		throws Exception {
+
 		// Create the nested Metawidget...
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -643,12 +609,10 @@ public abstract class UIMetawidget
 		// Note: initNestedPipeline takes care of literal values. This is concerned with the value
 		// binding
 
-		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) )
-		{
+		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) ) {
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
-			if ( bindingReadOnly != null )
-			{
+			if ( bindingReadOnly != null ) {
 				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
 			}
 		}
@@ -684,10 +648,9 @@ public abstract class UIMetawidget
 	 * components
 	 */
 
-	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
-	{
-		if ( valueBinding == null )
-		{
+	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent ) {
+
+		if ( valueBinding == null ) {
 			return null;
 		}
 
@@ -696,12 +659,10 @@ public abstract class UIMetawidget
 		FacesContext context = getFacesContext();
 		String valueBindingString = valueBinding.getExpressionString();
 
-		if ( !inspectFromParent || !FacesUtils.isExpression( valueBindingString ) )
-		{
+		if ( !inspectFromParent || !FacesUtils.isExpression( valueBindingString ) ) {
 			Object toInspect = valueBinding.getValue( context );
 
-			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
-			{
+			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) ) {
 				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
 				return inspect( toInspect, classToInspect.getName() );
 			}
@@ -717,12 +678,10 @@ public abstract class UIMetawidget
 		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813. A workaround is
 		// to assign the function's return value to a temporary, request-scoped variable using c:set
 
-		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 )
-		{
+		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 ) {
 			int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-			if ( lastIndexOf != -1 )
-			{
+			if ( lastIndexOf != -1 ) {
 				// ...traverse from the parent as there may be useful metadata there (such as 'name'
 				// and 'type')
 
@@ -730,8 +689,7 @@ public abstract class UIMetawidget
 				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapExpression( binding.substring( 0, lastIndexOf ) ) );
 				Object toInspect = bindingParent.getValue( context );
 
-				if ( toInspect != null )
-				{
+				if ( toInspect != null ) {
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
 					return inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
@@ -741,10 +699,9 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	protected void configure()
-	{
-		if ( !mNeedsConfiguring )
-		{
+	protected void configure() {
+
+		if ( !mNeedsConfiguring ) {
 			return;
 		}
 
@@ -756,40 +713,29 @@ public abstract class UIMetawidget
 		Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
 		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
 
-		if ( configReader == null )
-		{
+		if ( configReader == null ) {
 			configReader = new FacesConfigReader();
 			applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
 		}
 
-		if ( mConfig != null )
-		{
-			try
-			{
-				if ( LOG.isTraceEnabled() )
-				{
+		if ( mConfig != null ) {
+			try {
+				if ( LOG.isTraceEnabled() ) {
 					LOG.trace( "configure from {0} (start)", mConfig );
 				}
 
 				configReader.configure( mConfig, this );
-			}
-			catch ( MetawidgetException e )
-			{
-				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
-				{
+			} catch ( MetawidgetException e ) {
+				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) ) {
 					throw e;
 				}
 
-				if ( !LOGGED_MISSING_CONFIG )
-				{
+				if ( !LOGGED_MISSING_CONFIG ) {
 					LOGGED_MISSING_CONFIG = true;
 					LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 				}
-			}
-			finally
-			{
-				if ( LOG.isTraceEnabled() )
-				{
+			} finally {
+				if ( LOG.isTraceEnabled() ) {
 					LOG.trace( "configure from {0} (end)", mConfig );
 				}
 			}
@@ -806,8 +752,8 @@ public abstract class UIMetawidget
 	 * Build child widgets.
 	 */
 
-	protected void startBuild()
-	{
+	protected void startBuild() {
+
 		LOG.trace( "startBuild" );
 
 		// Metawidget has no valueBinding? Won't be destroying/recreating any components, then.
@@ -817,8 +763,7 @@ public abstract class UIMetawidget
 		// Metawidget with previously inspected components, and we don't want them destroyed
 		// here and/or unnecessarily re-inspected in endBuild
 
-		if ( getValueBinding( "value" ) == null )
-		{
+		if ( getValueBinding( "value" ) == null ) {
 			return;
 		}
 
@@ -828,24 +773,21 @@ public abstract class UIMetawidget
 
 		List<UIComponent> children = getChildren();
 
-		for ( Iterator<UIComponent> i = children.iterator(); i.hasNext(); )
-		{
+		for ( Iterator<UIComponent> i = children.iterator(); i.hasNext(); ) {
 			UIComponent componentChild = i.next();
 			Map<String, Object> attributes = componentChild.getAttributes();
 
 			// The first time in, children will have no metadata attached. Use this opportunity
 			// to tag the initial children so that we never recreate them
 
-			if ( !attributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) )
-			{
+			if ( !attributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) ) {
 				attributes.put( COMPONENT_ATTRIBUTE_NOT_RECREATABLE, true );
 				continue;
 			}
 
 			// Do not remove locked or overridden components...
 
-			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
-			{
+			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) ) {
 				// ...but always remove their metadata, otherwise
 				// they will not be removed/re-added (and therefore re-ordered) upon POSTback
 
@@ -857,8 +799,8 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes )
-	{
+	protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes ) {
+
 		Map<String, Object> componentAttributes = component.getAttributes();
 		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 
@@ -874,22 +816,20 @@ public abstract class UIMetawidget
 
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
 
-		if ( additionalAttributes != null )
-		{
+		if ( additionalAttributes != null ) {
 			attributes.putAll( additionalAttributes );
 		}
 
 		// BasePipeline will call .layoutWidget
 	}
 
-	protected void endBuild()
-	{
+	protected void endBuild() {
+
 		List<UIComponent> children = getChildren();
 
 		// Inspect any remaining components, and sort them to the bottom
 
-		for ( int loop = 0, index = 0, length = children.size(); loop < length; loop++ )
-		{
+		for ( int loop = 0, index = 0, length = children.size(); loop < length; loop++ ) {
 			UIComponent component = children.get( index );
 
 			// If this component has already been processed by the inspection (ie. contains
@@ -901,8 +841,7 @@ public abstract class UIMetawidget
 
 			Map<String, Object> miscAttributes = component.getAttributes();
 
-			if ( miscAttributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) || !component.isRendered() || component instanceof UIParameter )
-			{
+			if ( miscAttributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) || !component.isRendered() || component instanceof UIParameter ) {
 				index++;
 				continue;
 			}
@@ -916,18 +855,14 @@ public abstract class UIMetawidget
 
 			ValueBinding binding = component.getValueBinding( "value" );
 
-			if ( binding != null )
-			{
+			if ( binding != null ) {
 				String inspectionResult = inspect( binding, true );
 
-				if ( inspectionResult != null )
-				{
+				if ( inspectionResult != null ) {
 					Element root = XmlUtils.documentFromString( inspectionResult ).getDocumentElement();
 					childAttributes.putAll( XmlUtils.getAttributesAsMap( root.getFirstChild() ) );
 				}
-			}
-			else
-			{
+			} else {
 				// If no found metadata, default to no section.
 				//
 				// This is so if a user puts, say, a <t:div/> in the component tree, it doesn't
@@ -947,8 +882,8 @@ public abstract class UIMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<UIComponent, UIComponent, UIMetawidget>
-	{
+		extends W3CPipeline<UIComponent, UIComponent, UIMetawidget> {
+
 		//
 		// Public methods
 		//
@@ -958,14 +893,14 @@ public abstract class UIMetawidget
 		 */
 
 		@Override
-		public boolean isReadOnly()
-		{
+		public boolean isReadOnly() {
+
 			return UIMetawidget.this.isReadOnly();
 		}
 
 		@Override
-		public void setReadOnly( boolean readOnly )
-		{
+		public void setReadOnly( boolean readOnly ) {
+
 			UIMetawidget.this.setReadOnly( readOnly );
 		}
 
@@ -974,17 +909,16 @@ public abstract class UIMetawidget
 		//
 
 		@Override
-		protected void startBuild()
-		{
+		protected void startBuild() {
+
 			super.startBuild();
 			UIMetawidget.this.startBuild();
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( UIComponent widget )
-		{
-			if ( widget instanceof UIStub )
-			{
+		protected Map<String, String> getAdditionalAttributes( UIComponent widget ) {
+
+			if ( widget instanceof UIStub ) {
 				return ( (UIStub) widget ).getStubAttributesAsMap();
 			}
 
@@ -992,17 +926,15 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent buildWidget( String elementName, Map<String, String> attributes )
-		{
-			if ( LOG.isTraceEnabled() )
-			{
+		protected UIComponent buildWidget( String elementName, Map<String, String> attributes ) {
+
+			if ( LOG.isTraceEnabled() ) {
 				LOG.trace( "buildWidget for {0} named {1} (start)", elementName, attributes.get( NAME ) );
 			}
 
 			UIComponent widget = super.buildWidget( elementName, attributes );
 
-			if ( LOG.isTraceEnabled() )
-			{
+			if ( LOG.isTraceEnabled() ) {
 				LOG.trace( "buildWidget returned {0} (end)", widget );
 			}
 
@@ -1011,28 +943,28 @@ public abstract class UIMetawidget
 
 		@Override
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			return UIMetawidget.this.buildNestedMetawidget( UIMetawidget.this.getComponentType(), attributes );
 		}
 
 		@Override
-		protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes )
-		{
+		protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes ) {
+
 			UIMetawidget.this.layoutWidget( component, elementName, attributes );
 			super.layoutWidget( component, elementName, attributes );
 		}
 
 		@Override
-		protected void endBuild()
-		{
+		protected void endBuild() {
+
 			super.endBuild();
 			UIMetawidget.this.endBuild();
 		}
 
 		@Override
-		protected UIMetawidget getPipelineOwner()
-		{
+		protected UIMetawidget getPipelineOwner() {
+
 			return UIMetawidget.this;
 		}
 	}
@@ -1078,14 +1010,14 @@ public abstract class UIMetawidget
 	 */
 
 	private static class RemoveDuplicatesSupport
-		extends BuildWidgetsSupport
-	{
+		extends BuildWidgetsSupport {
+
 		//
 		// Constructor
 		//
 
-		public RemoveDuplicatesSupport( UIMetawidget metawidget )
-		{
+		public RemoveDuplicatesSupport( UIMetawidget metawidget ) {
+
 			super( metawidget );
 		}
 
@@ -1098,14 +1030,13 @@ public abstract class UIMetawidget
 		 * get called. Therefore our 'remove duplicates' code will never get called either.
 		 */
 
-		public void isRendered( boolean rendered )
-		{
+		public void isRendered( boolean rendered ) {
+
 			// Note: we explored not doing this until after the processUpdates phase, in case
 			// the value of 'rendered' changes, but it didn't seem to make any difference to our
 			// unit tests?
 
-			if ( !rendered )
-			{
+			if ( !rendered ) {
 				getMetawidget().getChildren().clear();
 			}
 		}
@@ -1116,14 +1047,11 @@ public abstract class UIMetawidget
 		 */
 
 		public void encodeBegin( FacesContext context )
-			throws IOException
-		{
-			try
-			{
+			throws IOException {
+
+			try {
 				buildWidgets();
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				// IOException does not take a Throwable 'cause' argument until Java 6, so
 				// as we need to stay 1.4 compatible we output the trace here
 
@@ -1146,14 +1074,14 @@ public abstract class UIMetawidget
 
 	private static class SystemEventSupport
 		extends BuildWidgetsSupport
-		implements SystemEventListener
-	{
+		implements SystemEventListener {
+
 		//
 		// Constructor
 		//
 
-		public SystemEventSupport( UIMetawidget metawidget )
-		{
+		public SystemEventSupport( UIMetawidget metawidget ) {
+
 			super( metawidget );
 
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -1161,8 +1089,7 @@ public abstract class UIMetawidget
 
 			// Warning against using an old version of RichFaces
 
-			if ( root == null )
-			{
+			if ( root == null ) {
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 			}
 
@@ -1187,20 +1114,17 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
-		public boolean isListenerForSource( Object source )
-		{
+		public boolean isListenerForSource( Object source ) {
+
 			return ( source instanceof UIViewRoot );
 		}
 
 		public void processEvent( SystemEvent event )
-			throws AbortProcessingException
-		{
-			try
-			{
+			throws AbortProcessingException {
+
+			try {
 				buildWidgets();
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				// At this level, it is more 'proper' to throw an AbortProcessingException than
 				// a MetawidgetException, as that is what the layers above are expecting
 
@@ -1214,8 +1138,8 @@ public abstract class UIMetawidget
 	 * <code>SystemEventsSupport</code>.
 	 */
 
-	private static class BuildWidgetsSupport
-	{
+	private static class BuildWidgetsSupport {
+
 		//
 		// Private members
 		//
@@ -1226,8 +1150,8 @@ public abstract class UIMetawidget
 		// Constructor
 		//
 
-		public BuildWidgetsSupport( UIMetawidget metawidget )
-		{
+		public BuildWidgetsSupport( UIMetawidget metawidget ) {
+
 			mMetawidget = metawidget;
 		}
 
@@ -1235,21 +1159,20 @@ public abstract class UIMetawidget
 		// Protected methods
 		//
 
-		protected UIMetawidget getMetawidget()
-		{
+		protected UIMetawidget getMetawidget() {
+
 			return mMetawidget;
 		}
 
 		protected void buildWidgets()
-			throws Exception
-		{
+			throws Exception {
+
 			// Validation error? Do not rebuild, as we will lose the invalid values in the
 			// components. This is needed when partial state saving is inactive (ie. in JSF 1.x; in
 			// JSF 2 if using JSP; in JSF 2 Facelets if turned off explicitly). It is *not* needed
 			// in JSF 2 Facelets with partial state saving turned on
 
-			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null )
-			{
+			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null ) {
 				// Remove duplicates
 				//
 				// Remove the top-level version of each duplicate, not the nested-level version,
@@ -1257,12 +1180,10 @@ public abstract class UIMetawidget
 				// 'moved'. We will not be rebuilding the component tree, so we want the
 				// 'moved' one (ie. at its final destination)
 
-				for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); )
-				{
+				for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); ) {
 					UIComponent component = i.next();
 
-					if ( findComponentWithId( mMetawidget, component.getId(), component ) != null )
-					{
+					if ( findComponentWithId( mMetawidget, component.getId(), component ) != null ) {
 						i.remove();
 					}
 				}
@@ -1279,29 +1200,24 @@ public abstract class UIMetawidget
 		// Private methods
 		//
 
-		private UIComponent findComponentWithId( UIComponent component, String id, UIComponent ignore )
-		{
-			if ( id == null )
-			{
+		private UIComponent findComponentWithId( UIComponent component, String id, UIComponent ignore ) {
+
+			if ( id == null ) {
 				return null;
 			}
 
-			for ( UIComponent child : component.getChildren() )
-			{
-				if ( child == ignore )
-				{
+			for ( UIComponent child : component.getChildren() ) {
+				if ( child == ignore ) {
 					continue;
 				}
 
-				if ( id.equals( child.getId() ) )
-				{
+				if ( id.equals( child.getId() ) ) {
 					return child;
 				}
 
 				UIComponent found = findComponentWithId( child, id, ignore );
 
-				if ( found != null )
-				{
+				if ( found != null ) {
 					return found;
 				}
 			}

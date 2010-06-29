@@ -33,15 +33,15 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class BoxLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		JComponent container = new JPanel();
 
@@ -51,7 +51,7 @@ public class BoxLayoutTest
 		boxLayout.startContainerLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof javax.swing.BoxLayout );
-		assertFalse( ( metawidget.getLayout() instanceof javax.swing.BoxLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof javax.swing.BoxLayout ) );
 
 		// layoutWidget
 

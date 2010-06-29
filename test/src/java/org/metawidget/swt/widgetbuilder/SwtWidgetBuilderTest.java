@@ -36,15 +36,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SwtWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		SwtWidgetBuilder widgetBuilder = new SwtWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -60,14 +60,11 @@ public class SwtWidgetBuilderTest
 		assertTrue( 2 == slider.getSelection() );
 		assertTrue( 99 == slider.getMaximum() );
 
-		try
-		{
+		try {
 			attributes.put( MINIMUM_VALUE, "1.5" );
 			slider = (Scale) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 			assertTrue( false );
-		}
-		catch( NumberFormatException e )
-		{
+		} catch ( NumberFormatException e ) {
 			assertEquals( "For input string: \"1.5\"", e.getMessage() );
 		}
 
@@ -91,13 +88,13 @@ public class SwtWidgetBuilderTest
 		attributes.put( TYPE, byte.class.getName() );
 
 		Spinner spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ((byte) 2) == spinner.getMinimum() );
-		assertTrue( ((byte) 2) == spinner.getSelection() );
+		assertTrue( ( (byte) 2 ) == spinner.getMinimum() );
+		assertTrue( ( (byte) 2 ) == spinner.getSelection() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "99" );
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ((byte) 99) == spinner.getMaximum() );
+		assertTrue( ( (byte) 99 ) == spinner.getMaximum() );
 
 		// shorts
 
@@ -106,13 +103,13 @@ public class SwtWidgetBuilderTest
 		attributes.put( TYPE, short.class.getName() );
 
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ((short) 3) == spinner.getMinimum() );
-		assertTrue( ((short) 3) == spinner.getSelection() );
+		assertTrue( ( (short) 3 ) == spinner.getMinimum() );
+		assertTrue( ( (short) 3 ) == spinner.getSelection() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "98" );
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ((short) 98) == spinner.getMaximum() );
+		assertTrue( ( (short) 98 ) == spinner.getMaximum() );
 
 		// ints
 

@@ -43,42 +43,37 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class ReflectionBindingProcessor
-	implements WidgetProcessor<JComponent,SwingMetawidget>
-{
+	implements WidgetProcessor<JComponent, SwingMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	@SuppressWarnings( "serial" )
-	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		// Only bind to Actions
 
-		if ( !ACTION.equals( elementName ))
-		{
+		if ( !ACTION.equals( elementName ) ) {
 			return component;
 		}
 
-		if ( component instanceof Stub )
-		{
+		if ( component instanceof Stub ) {
 			return component;
 		}
 
-		if ( !( component instanceof AbstractButton ))
-		{
+		if ( !( component instanceof AbstractButton ) ) {
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
 		}
 
-		if ( metawidget == null )
-		{
+		if ( metawidget == null ) {
 			return component;
 		}
 
 		Object toInspect = metawidget.getToInspect();
 
-		if ( toInspect == null )
-		{
+		if ( toInspect == null ) {
 			return component;
 		}
 
@@ -88,12 +83,10 @@ public class ReflectionBindingProcessor
 
 		String[] names = PathUtils.parsePath( metawidget.getPath() ).getNamesAsArray();
 
-		for( String name : names )
-		{
+		for ( String name : names ) {
 			toInspect = ClassUtils.getProperty( toInspect, name );
 
-			if ( toInspect == null )
-			{
+			if ( toInspect == null ) {
 				return component;
 			}
 		}
@@ -104,30 +97,24 @@ public class ReflectionBindingProcessor
 		final Class<?> fireActionOnClass = fireActionOn.getClass();
 		final String actionName = attributes.get( NAME );
 
-		button.setAction( new AbstractAction( button.getText() )
-		{
+		button.setAction( new AbstractAction( button.getText() ) {
+
 			@Override
-			public void actionPerformed( ActionEvent e )
-			{
-				try
-				{
-					try
-					{
+			public void actionPerformed( ActionEvent e ) {
+
+				try {
+					try {
 						// Parameterless methods
 
 						final Method parameterlessActionMethod = fireActionOnClass.getMethod( actionName, (Class[]) null );
 						parameterlessActionMethod.invoke( fireActionOn, (Object[]) null );
-					}
-					catch ( NoSuchMethodException exception1 )
-					{
+					} catch ( NoSuchMethodException exception1 ) {
 						// ActionEvent-parameter based methods
 
 						final Method parameterizedActionMethod = fireActionOnClass.getMethod( actionName, ActionEvent.class );
 						parameterizedActionMethod.invoke( fireActionOn, new ActionEvent( fireActionOn, 0, actionName ) );
 					}
-				}
-				catch ( Exception exception2 )
-				{
+				} catch ( Exception exception2 ) {
 					throw WidgetProcessorException.newException( exception2 );
 				}
 			}

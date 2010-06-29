@@ -26,15 +26,15 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class ComesAfterInspectionResultProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testNoComesAfter()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<?xml version=\"1.0\"?>";
@@ -63,8 +63,8 @@ public class ComesAfterInspectionResultProcessorTest
 	}
 
 	public void testComesAfterAll()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<?xml version=\"1.0\"?>";
@@ -93,8 +93,8 @@ public class ComesAfterInspectionResultProcessorTest
 	}
 
 	public void testSingleComesAfter()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<?xml version=\"1.0\"?>";
@@ -123,8 +123,8 @@ public class ComesAfterInspectionResultProcessorTest
 	}
 
 	public void testMultipleComesAfter()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<?xml version=\"1.0\"?>";
@@ -155,8 +155,8 @@ public class ComesAfterInspectionResultProcessorTest
 	}
 
 	public void testNonDeterministicComesAfter()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<?xml version=\"1.0\"?>";
@@ -187,8 +187,8 @@ public class ComesAfterInspectionResultProcessorTest
 	}
 
 	public void testIteratedComesAfter()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<?xml version=\"1.0\"?>";
@@ -218,10 +218,9 @@ public class ComesAfterInspectionResultProcessorTest
 		assertEquals( validateXml, outputXml );
 	}
 
-	public void testInfiniteLoop()
-	{
-		try
-		{
+	public void testInfiniteLoop() {
+
+		try {
 			String inputXml = "<?xml version=\"1.0\"?>";
 			inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
 			inputXml += "<entity type=\"InfiniteFoo\">";
@@ -233,17 +232,14 @@ public class ComesAfterInspectionResultProcessorTest
 
 			new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 			assertTrue( false );
-		}
-		catch ( InspectionResultProcessorException e )
-		{
+		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but foo comes after bar", e.getMessage() );
 		}
 	}
 
-	public void testComesAfterItself()
-	{
-		try
-		{
+	public void testComesAfterItself() {
+
+		try {
 			String inputXml = "<?xml version=\"1.0\"?>";
 			inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 			inputXml += "<entity type=\"Foo\">";
@@ -254,9 +250,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 			new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 			assertTrue( false );
-		}
-		catch ( InspectionResultProcessorException e )
-		{
+		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "'bar' comes-after itself", e.getMessage() );
 		}
 	}

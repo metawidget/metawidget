@@ -22,8 +22,8 @@ import org.metawidget.example.shared.addressbook.controller.ContactsController;
  * @author Richard Kennard
  */
 
-public interface ContactsControllerProvider
-{
+public interface ContactsControllerProvider {
+
 	//
 	// Methods
 	//

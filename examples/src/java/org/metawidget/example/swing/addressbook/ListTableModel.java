@@ -34,8 +34,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class ListTableModel<T extends Comparable<T>>
-	extends AbstractTableModel
-{
+	extends AbstractTableModel {
+
 	//
 	// Private statics
 	//
@@ -60,8 +60,8 @@ public class ListTableModel<T extends Comparable<T>>
 	// Constructor
 	//
 
-	public ListTableModel( Class<T> clazz, Collection<T> collection, String... columns )
-	{
+	public ListTableModel( Class<T> clazz, Collection<T> collection, String... columns ) {
+
 		mClass = clazz;
 		mColumns = columns;
 
@@ -72,14 +72,11 @@ public class ListTableModel<T extends Comparable<T>>
 	// Public methods
 	//
 
-	public void importCollection( Collection<T> collection )
-	{
-		if ( collection == null )
-		{
+	public void importCollection( Collection<T> collection ) {
+
+		if ( collection == null ) {
 			mList = CollectionUtils.newArrayList();
-		}
-		else
-		{
+		} else {
 			mList = CollectionUtils.newArrayList( collection );
 			CollectionUtils.sort( mList );
 		}
@@ -87,53 +84,51 @@ public class ListTableModel<T extends Comparable<T>>
 		fireTableDataChanged();
 	}
 
-	public List<T> exportList()
-	{
+	public List<T> exportList() {
+
 		return CollectionUtils.newArrayList( mList );
 	}
 
-	public void setEditable( boolean editable )
-	{
+	public void setEditable( boolean editable ) {
+
 		mEditable = editable;
 	}
 
-	public void setExtraBlankRow( boolean extraBlankRow )
-	{
+	public void setExtraBlankRow( boolean extraBlankRow ) {
+
 		mExtraBlankRow = extraBlankRow;
 	}
 
 	@Override
-	public boolean isCellEditable( int rowIndex, int columnIndex )
-	{
+	public boolean isCellEditable( int rowIndex, int columnIndex ) {
+
 		return mEditable;
 	}
 
-	public int getColumnCount()
-	{
+	public int getColumnCount() {
+
 		// (mColumns can never be null)
 
 		return mColumns.length;
 	}
 
 	@Override
-	public String getColumnName( int columnIndex )
-	{
-		if ( columnIndex >= getColumnCount() )
-		{
+	public String getColumnName( int columnIndex ) {
+
+		if ( columnIndex >= getColumnCount() ) {
 			return null;
 		}
 
 		return mColumns[columnIndex];
 	}
 
-	public int getRowCount()
-	{
+	public int getRowCount() {
+
 		// (mList can never be null)
 
 		int rows = mList.size();
 
-		if ( mExtraBlankRow )
-		{
+		if ( mExtraBlankRow ) {
 			rows++;
 		}
 
@@ -141,54 +136,45 @@ public class ListTableModel<T extends Comparable<T>>
 	}
 
 	@Override
-	public Class<?> getColumnClass( int columnIndex )
-	{
+	public Class<?> getColumnClass( int columnIndex ) {
+
 		String column = getColumnName( columnIndex );
 
-		if ( column == null )
-		{
+		if ( column == null ) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			Method methodRead;
 
-			try
-			{
+			try {
 				methodRead = mClass.getMethod( "get" + column );
-			}
-			catch ( NoSuchMethodException e )
-			{
+			} catch ( NoSuchMethodException e ) {
 				methodRead = mClass.getMethod( "is" + column );
 			}
 
 			return methodRead.getReturnType();
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
 
-	public T getValueAt( int rowIndex )
-	{
+	public T getValueAt( int rowIndex ) {
+
 		// Sanity check
 
-		if ( rowIndex >= mList.size() )
-		{
+		if ( rowIndex >= mList.size() ) {
 			return null;
 		}
 
 		return mList.get( rowIndex );
 	}
 
-	public Object getValueAt( int rowIndex, int columnIndex )
-	{
+	public Object getValueAt( int rowIndex, int columnIndex ) {
+
 		// Sanity check
 
-		if ( columnIndex >= mColumns.length )
-		{
+		if ( columnIndex >= mColumns.length ) {
 			return null;
 		}
 
@@ -196,8 +182,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 		T t = getValueAt( rowIndex );
 
-		if ( t == null )
-		{
+		if ( t == null ) {
 			return null;
 		}
 
@@ -206,53 +191,41 @@ public class ListTableModel<T extends Comparable<T>>
 		String column = getColumnName( columnIndex );
 		Class<?> clazz = t.getClass();
 
-		try
-		{
+		try {
 			Method methodRead;
 
-			try
-			{
+			try {
 				methodRead = clazz.getMethod( "get" + column );
-			}
-			catch ( NoSuchMethodException e )
-			{
+			} catch ( NoSuchMethodException e ) {
 				methodRead = clazz.getMethod( "is" + column );
 			}
 
 			return methodRead.invoke( t );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
 
 	@Override
-	public void setValueAt( Object value, int rowIndex, int columnIndex )
-	{
+	public void setValueAt( Object value, int rowIndex, int columnIndex ) {
+
 		// Sanity check
 
-		if ( columnIndex >= mColumns.length )
-		{
+		if ( columnIndex >= mColumns.length ) {
 			return;
 		}
 
 		// Just-in-time creation
 
-		if ( rowIndex == ( getRowCount() - 1 ) && mExtraBlankRow )
-		{
-			if ( value == null || "".equals( value ) )
-			{
+		if ( rowIndex == ( getRowCount() - 1 ) && mExtraBlankRow ) {
+			if ( value == null || "".equals( value ) ) {
 				return;
 			}
 
-			try
-			{
+			try {
 				mList.add( mClass.newInstance() );
 				fireTableRowsInserted( rowIndex, rowIndex );
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw new RuntimeException( e );
 			}
 		}
@@ -261,8 +234,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 		T t = getValueAt( rowIndex );
 
-		if ( t == null )
-		{
+		if ( t == null ) {
 			return;
 		}
 
@@ -271,24 +243,18 @@ public class ListTableModel<T extends Comparable<T>>
 		String column = getColumnName( columnIndex );
 		Class<?> clazz = t.getClass();
 
-		try
-		{
+		try {
 			Method methodRead;
 
-			try
-			{
+			try {
 				methodRead = clazz.getMethod( "get" + column );
-			}
-			catch ( NoSuchMethodException e )
-			{
+			} catch ( NoSuchMethodException e ) {
 				methodRead = clazz.getMethod( "is" + column );
 			}
 
 			Method methodWrite = clazz.getMethod( "set" + column, methodRead.getReturnType() );
 			methodWrite.invoke( t, value );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}

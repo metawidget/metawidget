@@ -18,15 +18,14 @@ package org.metawidget.faces.component.html.widgetbuilder;
 
 import org.metawidget.util.simple.ObjectUtils;
 
-
 /**
  * Configures a HtmlWidgetBuilder prior to use. Once instantiated, WidgetBuilders are immutable.
  *
  * @author Richard Kennard
  */
 
-public class HtmlWidgetBuilderConfig
-{
+public class HtmlWidgetBuilderConfig {
+
 	//
 	// Private members
 	//
@@ -41,8 +40,8 @@ public class HtmlWidgetBuilderConfig
 	// Public methods
 	//
 
-	public String getDataTableStyleClass()
-	{
+	public String getDataTableStyleClass() {
+
 		return mDataTableStyleClass;
 	}
 
@@ -50,15 +49,15 @@ public class HtmlWidgetBuilderConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlWidgetBuilderConfig setDataTableStyleClass( String dataTableStyleClass )
-	{
+	public HtmlWidgetBuilderConfig setDataTableStyleClass( String dataTableStyleClass ) {
+
 		mDataTableStyleClass = dataTableStyleClass;
 
 		return this;
 	}
 
-	public String[] getDataTableColumnClasses()
-	{
+	public String[] getDataTableColumnClasses() {
+
 		return mDataTableColumnClasses;
 	}
 
@@ -66,15 +65,15 @@ public class HtmlWidgetBuilderConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlWidgetBuilderConfig setDataTableColumnClasses( String... dataTableColumnClasses )
-	{
+	public HtmlWidgetBuilderConfig setDataTableColumnClasses( String... dataTableColumnClasses ) {
+
 		mDataTableColumnClasses = dataTableColumnClasses;
 
 		return this;
 	}
 
-	public String[] getDataTableRowClasses()
-	{
+	public String[] getDataTableRowClasses() {
+
 		return mDataTableRowClasses;
 	}
 
@@ -82,43 +81,37 @@ public class HtmlWidgetBuilderConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlWidgetBuilderConfig setDataTableRowClasses( String... dataTableRowClasses )
-	{
+	public HtmlWidgetBuilderConfig setDataTableRowClasses( String... dataTableRowClasses ) {
+
 		mDataTableRowClasses = dataTableRowClasses;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mDataTableStyleClass, ((HtmlWidgetBuilderConfig) that).mDataTableStyleClass ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mDataTableStyleClass, ( (HtmlWidgetBuilderConfig) that ).mDataTableStyleClass ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mDataTableColumnClasses, ((HtmlWidgetBuilderConfig) that).mDataTableColumnClasses ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mDataTableColumnClasses, ( (HtmlWidgetBuilderConfig) that ).mDataTableColumnClasses ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mDataTableRowClasses, ((HtmlWidgetBuilderConfig) that).mDataTableRowClasses ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mDataTableRowClasses, ( (HtmlWidgetBuilderConfig) that ).mDataTableRowClasses ) ) {
 			return false;
 		}
 
@@ -126,8 +119,8 @@ public class HtmlWidgetBuilderConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableStyleClass );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableColumnClasses );

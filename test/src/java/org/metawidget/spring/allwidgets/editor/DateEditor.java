@@ -26,16 +26,15 @@ import java.text.SimpleDateFormat;
  */
 
 public class DateEditor
-	extends PropertyEditorSupport
-{
+	extends PropertyEditorSupport {
+
 	//
 	// Private statics
 	//
 
 	private final static DateFormat	FORMAT	= new SimpleDateFormat( "E MMM dd HH:mm:ss z yyyy" );
 
-	static
-	{
+	static {
 		FORMAT.setLenient( false );
 	}
 
@@ -44,40 +43,33 @@ public class DateEditor
 	//
 
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
+
 		Object value = getValue();
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return "";
 		}
 
-		synchronized ( FORMAT )
-		{
+		synchronized ( FORMAT ) {
 			return FORMAT.format( value );
 		}
 	}
 
 	@Override
 	public void setAsText( String text )
-		throws IllegalArgumentException
-	{
-		if ( text == null || "".equals( text ))
-		{
+		throws IllegalArgumentException {
+
+		if ( text == null || "".equals( text ) ) {
 			setValue( null );
 			return;
 		}
 
-		try
-		{
-			synchronized ( FORMAT )
-			{
-				setValue( FORMAT.parse( text ));
+		try {
+			synchronized ( FORMAT ) {
+				setValue( FORMAT.parse( text ) );
 			}
-		}
-		catch( ParseException e )
-		{
+		} catch ( ParseException e ) {
 			throw new IllegalArgumentException( e );
 		}
 	}

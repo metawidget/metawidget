@@ -33,17 +33,16 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class HasNameProcessor
-	implements WidgetProcessor<Widget, GwtMetawidget>
-{
+	implements WidgetProcessor<Widget, GwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
-	{
-		if ( widget instanceof HasName )
-		{
+	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget ) {
+
+		if ( widget instanceof HasName ) {
 			( (HasName) widget ).setName( attributes.get( NAME ) );
 		}
 

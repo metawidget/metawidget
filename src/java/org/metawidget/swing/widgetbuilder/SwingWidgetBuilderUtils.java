@@ -28,23 +28,21 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * @author Richard Kennard
  */
 
-public class SwingWidgetBuilderUtils
-{
+public class SwingWidgetBuilderUtils {
+
 	//
 	// Public statics
 	//
 
-	public static Map<String, String> getLabelsMap( List<String> values, List<String> labels )
-	{
+	public static Map<String, String> getLabelsMap( List<String> values, List<String> labels ) {
+
 		Map<String, String> labelsMap = CollectionUtils.newHashMap();
 
-		if ( labels.size() != values.size() )
-		{
+		if ( labels.size() != values.size() ) {
 			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 		}
 
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = values.size(); loop < length; loop++ ) {
 			labelsMap.put( values.get( loop ), labels.get( loop ) );
 		}
 
@@ -55,8 +53,8 @@ public class SwingWidgetBuilderUtils
 	// Private constructor
 	//
 
-	private SwingWidgetBuilderUtils()
-	{
+	private SwingWidgetBuilderUtils() {
+
 		// Can never be called
 	}
 }

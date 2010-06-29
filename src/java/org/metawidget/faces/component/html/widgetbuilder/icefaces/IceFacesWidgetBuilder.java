@@ -48,18 +48,18 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  * fields.
  * <p>
  * <code>IceFacesWidgetBuilder</code> extends <code>HtmlWidgetBuilder</code>, which is a little
- * unusual for a widget builder (they normally implement <code>WidgetBuilder</code> directly), but in this
- * case most of the components we create are ICEfaces-extended versions of regular components, and
- * we want to reuse a lot of <code>HtmlWidgetBuilder</code>'s secondary methods. Note that whilst we
- * extend <code>HtmlWidgetBuilder</code> we only create ICEfaces components, not any regular
- * components.
+ * unusual for a widget builder (they normally implement <code>WidgetBuilder</code> directly), but
+ * in this case most of the components we create are ICEfaces-extended versions of regular
+ * components, and we want to reuse a lot of <code>HtmlWidgetBuilder</code>'s secondary methods.
+ * Note that whilst we extend <code>HtmlWidgetBuilder</code> we only create ICEfaces components, not
+ * any regular components.
  *
  * @author Richard Kennard
  */
 
 public class IceFacesWidgetBuilder
-	extends HtmlWidgetBuilder
-{
+	extends HtmlWidgetBuilder {
+
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
@@ -68,19 +68,17 @@ public class IceFacesWidgetBuilder
 	 */
 
 	@Override
-	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Not for ICEfaces?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return null;
 		}
 
 		String componentName = attributes.get( FACES_COMPONENT );
 
-		if ( componentName != null )
-		{
+		if ( componentName != null ) {
 			return null;
 		}
 
@@ -89,8 +87,7 @@ public class IceFacesWidgetBuilder
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			HtmlCommandButton button = (HtmlCommandButton) application.createComponent( "com.icesoft.faces.HtmlCommandButton" );
 			button.setValue( metawidget.getLabelString( attributes ) );
 			button.setPartialSubmit( true );
@@ -102,8 +99,7 @@ public class IceFacesWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -113,22 +109,19 @@ public class IceFacesWidgetBuilder
 
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
-		if ( facesLookup != null && !"".equals( facesLookup ) )
-		{
+		if ( facesLookup != null && !"".equals( facesLookup ) ) {
 			UIComponent component;
 
 			// UISelectMany...
 
-			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) )
-			{
+			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
 				component = application.createComponent( "com.icesoft.faces.HtmlSelectManyCheckbox" );
 				( (HtmlSelectManyCheckbox) component ).setPartialSubmit( true );
 			}
 
 			// ...otherwise just a UISelectOne
 
-			else
-			{
+			else {
 				component = application.createComponent( "com.icesoft.faces.HtmlSelectOneListbox" );
 				( (HtmlSelectOneListbox) component ).setSize( 1 );
 				( (HtmlSelectOneListbox) component ).setPartialSubmit( true );
@@ -140,13 +133,11 @@ public class IceFacesWidgetBuilder
 
 		// clazz may be null, if type is symbolic (eg. type="Login Screen")
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 			// Lookup)
 
-			if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-			{
+			if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 				HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) application.createComponent( "com.icesoft.faces.HtmlSelectBooleanCheckbox" );
 				htmlSelectBooleanCheckbox.setPartialSubmit( true );
 
@@ -157,22 +148,19 @@ public class IceFacesWidgetBuilder
 
 			String lookup = attributes.get( LOOKUP );
 
-			if ( lookup != null && !"".equals( lookup ) )
-			{
+			if ( lookup != null && !"".equals( lookup ) ) {
 				UIComponent component;
 
 				// UISelectMany...
 
-				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() )
-				{
+				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 					component = application.createComponent( "com.icesoft.faces.HtmlSelectManyCheckbox" );
 					( (HtmlSelectManyCheckbox) component ).setPartialSubmit( true );
 				}
 
 				// ...otherwise just a UISelectOne
 
-				else
-				{
+				else {
 					component = application.createComponent( "com.icesoft.faces.HtmlSelectOneListbox" );
 					( (HtmlSelectOneListbox) component ).setSize( 1 );
 					( (HtmlSelectOneListbox) component ).setPartialSubmit( true );
@@ -184,16 +172,14 @@ public class IceFacesWidgetBuilder
 
 			// Other types
 
-			if ( boolean.class.equals( clazz ) )
-			{
+			if ( boolean.class.equals( clazz ) ) {
 				HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) application.createComponent( "com.icesoft.faces.HtmlSelectBooleanCheckbox" );
 				htmlSelectBooleanCheckbox.setPartialSubmit( true );
 
 				return htmlSelectBooleanCheckbox;
 			}
 
-			if ( char.class.equals( clazz ) )
-			{
+			if ( char.class.equals( clazz ) ) {
 				HtmlInputText htmlInputText = (HtmlInputText) application.createComponent( "com.icesoft.faces.HtmlInputText" );
 				htmlInputText.setMaxlength( 1 );
 				htmlInputText.setPartialSubmit( true );
@@ -201,22 +187,19 @@ public class IceFacesWidgetBuilder
 				return htmlInputText;
 			}
 
-			if ( clazz.isPrimitive() || Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( clazz.isPrimitive() || Number.class.isAssignableFrom( clazz ) ) {
 				HtmlInputText htmlInputText = (HtmlInputText) application.createComponent( "com.icesoft.faces.HtmlInputText" );
 				htmlInputText.setPartialSubmit( true );
 
 				return htmlInputText;
 			}
 
-			if ( Date.class.isAssignableFrom( clazz ) )
-			{
+			if ( Date.class.isAssignableFrom( clazz ) ) {
 				SelectInputDate selectInputDate = (SelectInputDate) application.createComponent( "com.icesoft.faces.SelectInputDate" );
 				selectInputDate.setRenderAsPopup( true );
 				selectInputDate.setPartialSubmit( true );
 
-				if ( attributes.containsKey( DATETIME_PATTERN ) )
-				{
+				if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 					selectInputDate.setPopupDateFormat( attributes.get( DATETIME_PATTERN ) );
 				}
 
@@ -224,10 +207,8 @@ public class IceFacesWidgetBuilder
 				return selectInputDate;
 			}
 
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
+			if ( String.class.equals( clazz ) ) {
+				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 					HtmlInputSecret htmlInputSecret = (HtmlInputSecret) application.createComponent( "com.icesoft.faces.HtmlInputSecret" );
 					htmlInputSecret.setPartialSubmit( true );
 					setMaximumLength( htmlInputSecret, attributes );
@@ -235,8 +216,7 @@ public class IceFacesWidgetBuilder
 					return htmlInputSecret;
 				}
 
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					HtmlInputTextarea htmlInputTextarea = (HtmlInputTextarea) application.createComponent( "com.icesoft.faces.HtmlInputTextarea" );
 					htmlInputTextarea.setPartialSubmit( true );
 

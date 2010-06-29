@@ -30,8 +30,8 @@ import org.metawidget.inspector.faces.UiFacesAttribute;
  * @author Richard Kennard
  */
 
-public class Penguin
-{
+public class Penguin {
+
 	//
 	// Private members
 	//
@@ -52,13 +52,13 @@ public class Penguin
 	// Constructor
 	//
 
-	public Penguin()
-	{
+	public Penguin() {
+
 		// Default constructor
 	}
 
-	public Penguin( String name, String species )
-	{
+	public Penguin( String name, String species ) {
+
 		mName = name;
 		mSpecies = species;
 	}
@@ -68,82 +68,82 @@ public class Penguin
 	//
 
 	@UiRequired
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public void setName( String name )
-	{
+	public void setName( String name ) {
+
 		mName = name;
 	}
 
 	@UiRequired
 	@UiLookup( { "Banded penguin", "Brush-tailed penguin", "Crested penguin", "Great penguin", "Little penguin" } )
 	@UiComesAfter( "name" )
-	public String getSpecies()
-	{
+	public String getSpecies() {
+
 		return mSpecies;
 	}
 
-	public void setSpecies( String species )
-	{
+	public void setSpecies( String species ) {
+
 		mSpecies = species;
 	}
 
 	@UiComesAfter( "species" )
-	public Date getDateOfBirth()
-	{
+	public Date getDateOfBirth() {
+
 		return mDateOfBirth;
 	}
 
-	public void setDateOfBirth( Date dateOfBirth )
-	{
+	public void setDateOfBirth( Date dateOfBirth ) {
+
 		mDateOfBirth = dateOfBirth;
 	}
 
 	@UiAction
 	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
-	public void addCondition()
-	{
+	public void addCondition() {
+
 		mCondition = new PenguinCondition();
 	}
 
 	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
-	public PenguinCondition getCondition()
-	{
+	public PenguinCondition getCondition() {
+
 		return mCondition;
 	}
 
-	public void setCondition( PenguinCondition condition )
-	{
+	public void setCondition( PenguinCondition condition ) {
+
 		mCondition = condition;
 	}
 
 	@UiComesAfter( { "addCondition", "condition" } )
 	@UiLookup( { "Dancing", "Fishing", "Mating", "Skiing", "Other" } )
-	public String[] getHobbies()
-	{
+	public String[] getHobbies() {
+
 		return mHobbies;
 	}
 
-	public void setHobbies( String[] hobbies )
-	{
+	public void setHobbies( String[] hobbies ) {
+
 		mHobbies = hobbies;
 	}
 
 	@UiLarge
 	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.hobbies}" )
 	@UiComesAfter( "hobbies" )
-	public String getDescribeHobby()
-	{
+	public String getDescribeHobby() {
+
 		return mDescribeHobby;
 	}
 
-	public void setDescribeHobby( String DescribeHobby )
-	{
+	public void setDescribeHobby( String DescribeHobby ) {
+
 		mDescribeHobby = DescribeHobby;
 	}
 }

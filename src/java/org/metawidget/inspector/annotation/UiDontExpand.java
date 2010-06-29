@@ -22,8 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the field should not be expanded to show its
- * children in the UI.
+ * Annotates the field should not be expanded to show its children in the UI.
  * <p>
  * UiDontExpand is implied if the field has a lookup value.
  *
@@ -32,7 +31,6 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiDontExpand
-{
+public @interface UiDontExpand {
 	// Just a marker annotation
 }

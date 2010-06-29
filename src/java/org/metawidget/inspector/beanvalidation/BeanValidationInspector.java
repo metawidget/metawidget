@@ -38,19 +38,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class BeanValidationInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public BeanValidationInspector()
-	{
+	public BeanValidationInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public BeanValidationInspector( BaseObjectInspectorConfig config )
-	{
+	public BeanValidationInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -60,35 +60,31 @@ public class BeanValidationInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Digits
 
 		Digits digits = property.getAnnotation( Digits.class );
 
-		if ( digits != null )
-		{
+		if ( digits != null ) {
 			int integerDigits = digits.integer();
 
-			if ( integerDigits > 0 )
-			{
+			if ( integerDigits > 0 ) {
 				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( integerDigits ) );
 			}
 
 			int fractionalDigits = digits.fraction();
 
-			if ( fractionalDigits > 0 )
-			{
+			if ( fractionalDigits > 0 ) {
 				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( fractionalDigits ) );
 			}
 		}
 
 		// NotNull
 
-		if ( property.isAnnotationPresent( NotNull.class ) )
-		{
+		if ( property.isAnnotationPresent( NotNull.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
@@ -96,8 +92,7 @@ public class BeanValidationInspector
 
 		Min min = property.getAnnotation( Min.class );
 
-		if ( min != null )
-		{
+		if ( min != null ) {
 			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ) );
 		}
 
@@ -105,8 +100,7 @@ public class BeanValidationInspector
 
 		Max max = property.getAnnotation( Max.class );
 
-		if ( max != null )
-		{
+		if ( max != null ) {
 			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
 		}
 
@@ -114,15 +108,12 @@ public class BeanValidationInspector
 
 		Size size = property.getAnnotation( Size.class );
 
-		if ( size != null )
-		{
-			if ( size.min() > 0 )
-			{
+		if ( size != null ) {
+			if ( size.min() > 0 ) {
 				attributes.put( MINIMUM_LENGTH, String.valueOf( size.min() ) );
 			}
 
-			if ( size.max() > 0 )
-			{
+			if ( size.max() > 0 ) {
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( size.max() ) );
 			}
 		}

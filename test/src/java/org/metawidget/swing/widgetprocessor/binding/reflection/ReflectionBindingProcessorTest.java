@@ -36,21 +36,21 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class ReflectionBindingProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Package-level members
 	//
 
-	int mActionFired;
+	int	mActionFired;
 
 	//
 	// Public methods
 	//
 
 	public void testBinding()
-		throws Exception
-	{
+		throws Exception {
+
 		// Configure
 
 		CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
@@ -62,15 +62,15 @@ public class ReflectionBindingProcessorTest
 		metawidget.setInspector( new CompositeInspector( compositeConfig ) );
 		metawidget.setToInspect( new Foo() );
 
-		JButton button = (JButton) ((SwingMetawidget) metawidget.getComponent( 1 )).getComponent( 0 );
+		JButton button = (JButton) ( (SwingMetawidget) metawidget.getComponent( 1 ) ).getComponent( 0 );
 
 		assertTrue( mActionFired == 0 );
 		button.doClick();
 		assertTrue( mActionFired == 1 );
 	}
 
-	public void testNullBinding()
-	{
+	public void testNullBinding() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
@@ -93,16 +93,13 @@ public class ReflectionBindingProcessorTest
 		assertEquals( button.getAction(), null );
 	}
 
-	public void testBadBinding()
-	{
+	public void testBadBinding() {
+
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
-		try
-		{
+		try {
 			binding.processWidget( new JTextField(), ACTION, null, null );
-		}
-		catch( WidgetProcessorException e )
-		{
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "ReflectionBindingProcessor only supports binding actions to AbstractButtons", e.getMessage() );
 		}
 	}
@@ -111,38 +108,38 @@ public class ReflectionBindingProcessorTest
 	// Inner class
 	//
 
-	public class Foo
-	{
+	public class Foo {
+
 		//
 		// Private members
 		//
 
-		private NestedFoo mNestedFoo = new NestedFoo();
+		private NestedFoo	mNestedFoo	= new NestedFoo();
 
 		//
 		// Public methods
 		//
 
-		public NestedFoo getNestedFoo()
-		{
+		public NestedFoo getNestedFoo() {
+
 			return mNestedFoo;
 		}
 
-		public void setNestedFoo( NestedFoo nestedFoo )
-		{
+		public void setNestedFoo( NestedFoo nestedFoo ) {
+
 			mNestedFoo = nestedFoo;
 		}
 	}
 
-	public class NestedFoo
-	{
+	public class NestedFoo {
+
 		//
 		// Public methods
 		//
 
 		@Action
-		public void doAction( java.awt.event.ActionEvent event )
-		{
+		public void doAction( java.awt.event.ActionEvent event ) {
+
 			mActionFired++;
 		}
 	}

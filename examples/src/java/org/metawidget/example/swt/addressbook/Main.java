@@ -49,14 +49,14 @@ import org.metawidget.util.CollectionUtils;
  * @author Stefan Ackermann, Richard Kennard
  */
 
-public class Main
-{
+public class Main {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 
@@ -65,10 +65,8 @@ public class Main
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
@@ -100,8 +98,8 @@ public class Main
 	// Constructor
 	//
 
-	public Main( Shell shell )
-	{
+	public Main( Shell shell ) {
+
 		mShell = shell;
 		mShell.setText( "Address Book (Metawidget SWT Example)" );
 		mShell.setLayout( new GridLayout( 2, false ) );
@@ -138,34 +136,30 @@ public class Main
 	//
 
 	@UiHidden
-	public Shell getShell()
-	{
+	public Shell getShell() {
+
 		return mShell;
 	}
 
 	@UiHidden
-	public ContactsController getContactsController()
-	{
+	public ContactsController getContactsController() {
+
 		return mContactsController;
 	}
 
-	public void fireRefresh()
-	{
+	public void fireRefresh() {
+
 		List<Contact> contacts = mContactsController.getAllByExample( mContactSearch );
 		int loop = 0;
 
-		for ( ; loop < contacts.size(); loop++ )
-		{
+		for ( ; loop < contacts.size(); loop++ ) {
 			// Add/edit row...
 
 			TableItem item;
 
-			if ( loop < mResultsTable.getItemCount() )
-			{
+			if ( loop < mResultsTable.getItemCount() ) {
 				item = mResultsTable.getItem( loop );
-			}
-			else
-			{
+			} else {
 				item = new TableItem( mResultsTable, SWT.NONE );
 			}
 
@@ -176,39 +170,32 @@ public class Main
 			item.setText( 1, contact.getFullname() );
 			item.setText( 2, CollectionUtils.toString( contact.getCommunications() ) );
 
-			if ( contact instanceof PersonalContact )
-			{
+			if ( contact instanceof PersonalContact ) {
 				item.setImage( 3, mPersonalContactImage );
-			}
-			else
-			{
+			} else {
 				item.setImage( 3, mBusinessContactImage );
 			}
 		}
 
 		// Delete hanging rows
 
-		if ( loop < mResultsTable.getItemCount() )
-		{
+		if ( loop < mResultsTable.getItemCount() ) {
 			mResultsTable.remove( loop, mResultsTable.getItemCount() - 1 );
 		}
 	}
 
 	@UiAction
-	public void search()
-	{
+	public void search() {
+
 		// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
 
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
 		String type = (String) mSearchMetawidget.getValue( "type" );
 
-		if ( "".equals( type ) )
-		{
+		if ( "".equals( type ) ) {
 			mContactSearch.setType( null );
-		}
-		else
-		{
+		} else {
 			mContactSearch.setType( ContactType.valueOf( type ) );
 		}
 
@@ -217,16 +204,16 @@ public class Main
 
 	@UiAction
 	@UiComesAfter( "search" )
-	public void addPersonal()
-	{
+	public void addPersonal() {
+
 		mContactDialog.open( new PersonalContact() );
 		mContactDialog.waitForDispose();
 	}
 
 	@UiAction
 	@UiComesAfter( "addPersonal" )
-	public void addBusiness()
-	{
+	public void addBusiness() {
+
 		mContactDialog.open( new BusinessContact() );
 		mContactDialog.waitForDispose();
 	}
@@ -235,8 +222,8 @@ public class Main
 	// Private methods
 	//
 
-	private SwtMetawidget createSearchSection()
-	{
+	private SwtMetawidget createSearchSection() {
+
 		// Metawidget
 
 		mSearchMetawidget = new SwtMetawidget( mShell, SWT.NONE );
@@ -265,8 +252,8 @@ public class Main
 		return mSearchMetawidget;
 	}
 
-	private void createResultsSection()
-	{
+	private void createResultsSection() {
+
 		// Create table
 
 		mResultsTable = new Table( mShell, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL );
@@ -295,14 +282,14 @@ public class Main
 
 		// When table is double clicked...
 
-		mResultsTable.addSelectionListener( new SelectionListener()
-		{
+		mResultsTable.addSelectionListener( new SelectionListener() {
+
 			@Override
-			public void widgetDefaultSelected( SelectionEvent event )
-			{
+			public void widgetDefaultSelected( SelectionEvent event ) {
+
 				// ...fetch the Contact...
 
-				Contact contact = mContactsController.load( Long.parseLong( ((TableItem) event.item).getText( 0 ) ) );
+				Contact contact = mContactsController.load( Long.parseLong( ( (TableItem) event.item ).getText( 0 ) ) );
 
 				// ...and display it
 
@@ -311,8 +298,8 @@ public class Main
 			}
 
 			@Override
-			public void widgetSelected( SelectionEvent arg0 )
-			{
+			public void widgetSelected( SelectionEvent arg0 ) {
+
 				// Do nothing
 			}
 		} );

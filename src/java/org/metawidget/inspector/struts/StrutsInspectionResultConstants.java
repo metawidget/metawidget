@@ -23,8 +23,8 @@ package org.metawidget.inspector.struts;
  * @author Richard Kennard
  */
 
-public final class StrutsInspectionResultConstants
-{
+public final class StrutsInspectionResultConstants {
+
 	//
 	// Public statics
 	//
@@ -41,8 +41,8 @@ public final class StrutsInspectionResultConstants
 	// Private constructor
 	//
 
-	private StrutsInspectionResultConstants()
-	{
+	private StrutsInspectionResultConstants() {
+
 		// Can never be called
 	}
 }

@@ -36,30 +36,32 @@ import java.lang.annotation.Target;
  * precedence. For example...
  * <p>
  * <code>
- * @UiFacesLookup( "#{foo}" )<br/>
- * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression = "#{!empty bar ? '' : null}" )
- * </code>
- * <p>
- * ...in general, you should avoid such ambiguous situations. For example, you could instead use...
- * <p>
- * <code>
- * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression = "#{!empty bar ? '' : '#{foo}'}" )
- * </code>
- * <p>
- * Also consider using <code>FacesInspectorConfig.setInjectThis</code>.
- * </p>
  *
+ * @UiFacesLookup( "#{foo}" )<br/>
+ * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression =
+ *                    "#{!empty bar ? '' : null}" ) </code>
+ *                    <p>
+ *                    ...in general, you should avoid such ambiguous situations. For example, you
+ *                    could instead use...
+ *                    <p>
+ *                    <code>
+ * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression =
+ *                    "#{!empty bar ? '' : '#{foo}'}" ) </code>
+ *                    <p>
+ *                    Also consider using <code>FacesInspectorConfig.setInjectThis</code>.
+ *                    </p>
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesAttribute
-{
+public @interface UiFacesAttribute {
+
 	/**
 	 * Attribute to set.
 	 * <p>
-	 * Multiple attributes can be specified if you need to set multiple attributes to the same expression.
+	 * Multiple attributes can be specified if you need to set multiple attributes to the same
+	 * expression.
 	 */
 
 	String[] name();

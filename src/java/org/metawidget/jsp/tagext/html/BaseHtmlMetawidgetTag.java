@@ -27,8 +27,8 @@ import org.metawidget.jsp.tagext.MetawidgetTag;
  */
 
 public abstract class BaseHtmlMetawidgetTag
-	extends MetawidgetTag
-{
+	extends MetawidgetTag {
+
 	//
 	// Private statics
 	//
@@ -49,28 +49,28 @@ public abstract class BaseHtmlMetawidgetTag
 	// Public methods
 	//
 
-	public String getStyle()
-	{
+	public String getStyle() {
+
 		return mStyle;
 	}
 
-	public void setStyle( String style )
-	{
+	public void setStyle( String style ) {
+
 		mStyle = style;
 	}
 
-	public String getStyleClass()
-	{
+	public String getStyleClass() {
+
 		return mStyleClass;
 	}
 
-	public void setStyleClass( String styleClass )
-	{
+	public void setStyleClass( String styleClass ) {
+
 		mStyleClass = styleClass;
 	}
 
-	public boolean isCreateHiddenFields()
-	{
+	public boolean isCreateHiddenFields() {
+
 		return mCreateHiddenFields;
 	}
 
@@ -82,8 +82,8 @@ public abstract class BaseHtmlMetawidgetTag
 	 * modified by malicious clients before being returned to the server.
 	 */
 
-	public void setCreateHiddenFields( boolean createHiddenFields )
-	{
+	public void setCreateHiddenFields( boolean createHiddenFields ) {
+
 		mCreateHiddenFields = createHiddenFields;
 	}
 
@@ -92,8 +92,8 @@ public abstract class BaseHtmlMetawidgetTag
 	//
 
 	@Override
-	protected void initNestedMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
-	{
+	protected void initNestedMetawidget( MetawidgetTag metawidget, Map<String, String> attributes ) {
+
 		super.initNestedMetawidget( metawidget, attributes );
 
 		BaseHtmlMetawidgetTag tag = (BaseHtmlMetawidgetTag) metawidget;

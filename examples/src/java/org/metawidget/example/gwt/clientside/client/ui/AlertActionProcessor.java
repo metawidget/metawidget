@@ -37,26 +37,24 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class AlertActionProcessor
-	implements WidgetProcessor<Widget, GwtMetawidget>
-{
+	implements WidgetProcessor<Widget, GwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Widget processWidget( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget )
-	{
+	public Widget processWidget( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget ) {
+
 		// Only bind to Actions
 
-		if ( !ACTION.equals( elementName ))
-		{
+		if ( !ACTION.equals( elementName ) ) {
 			return widget;
 		}
 
 		// How can we bind without addClickListener?
 
-		if ( !( widget instanceof FocusWidget ) )
-		{
+		if ( !( widget instanceof FocusWidget ) ) {
 			throw new RuntimeException( "AlertActionProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 		}
 
@@ -67,14 +65,13 @@ public class AlertActionProcessor
 		// Bind the action
 
 		FocusWidget focusWidget = (FocusWidget) widget;
-		focusWidget.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		focusWidget.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();
 
-				if ( !names.isEmpty() )
-				{
+				if ( !names.isEmpty() ) {
 					names += StringUtils.SEPARATOR_DOT_CHAR;
 				}
 
@@ -84,8 +81,7 @@ public class AlertActionProcessor
 
 				// (do not Window.alert during unit tests)
 
-				if ( parent instanceof RootPanel )
-				{
+				if ( parent instanceof RootPanel ) {
 					Window.alert( "AlertActionProcessor detected button click for: " + names );
 				}
 			}

@@ -25,21 +25,18 @@ import org.metawidget.layout.iface.LayoutException;
  */
 
 public class SimpleLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testException()
-	{
-		try
-		{
+	public void testException() {
+
+		try {
 			new SimpleLayout().layoutWidget( null, null, null, null, null );
 			assertTrue( false );
-		}
-		catch( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertTrue( e.getCause() instanceof NullPointerException );
 		}
 	}

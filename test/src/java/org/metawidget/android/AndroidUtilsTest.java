@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class AndroidUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testUtils()
-		throws Exception
-	{
+		throws Exception {
+
 		AndroidUtils.applyStyle( null, 0, null );
 		assertTrue( true );
 	}

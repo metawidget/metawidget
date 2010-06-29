@@ -34,8 +34,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class CompositeWidgetBuilder<W, M extends W>
-	implements WidgetBuilder<W, M>
-{
+	implements WidgetBuilder<W, M> {
+
 	//
 	// Private members
 	//
@@ -47,14 +47,13 @@ public class CompositeWidgetBuilder<W, M extends W>
 	//
 
 	@SuppressWarnings( "unchecked" )
-	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W, M> config )
-	{
+	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W, M> config ) {
+
 		WidgetBuilder<W, M>[] widgetBuilders = config.getWidgetBuilders();
 
 		// Must have at least two WidgetBuilders
 
-		if ( widgetBuilders == null || widgetBuilders.length < 2 )
-		{
+		if ( widgetBuilders == null || widgetBuilders.length < 2 ) {
 			throw WidgetBuilderException.newException( "CompositeWidgetBuilder needs at least two WidgetBuilders" );
 		}
 
@@ -62,14 +61,11 @@ public class CompositeWidgetBuilder<W, M extends W>
 
 		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
 
-		for( int loop = 0, length = widgetBuilders.length; loop < length; loop++ )
-		{
+		for ( int loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
 			WidgetBuilder widgetBuilder = widgetBuilders[loop];
 
-			for( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ )
-			{
-				if ( mWidgetBuilders[checkDuplicates].equals( widgetBuilder ) )
-				{
+			for ( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ ) {
+				if ( mWidgetBuilders[checkDuplicates].equals( widgetBuilder ) ) {
 					throw WidgetBuilderException.newException( "CompositeWidgetBuilder's list of WidgetBuilders contains two of the same " + widgetBuilder.getClass().getName() );
 				}
 			}
@@ -82,14 +78,12 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Public methods
 	//
 
-	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
-	{
-		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders )
-		{
+	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget ) {
+
+		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders ) {
 			W widget = widgetBuilder.buildWidget( elementName, attributes, metawidget );
 
-			if ( widget != null )
-			{
+			if ( widget != null ) {
 				return widget;
 			}
 		}
@@ -101,8 +95,8 @@ public class CompositeWidgetBuilder<W, M extends W>
 	 * Exposed for <code>getValue</code> calls.
 	 */
 
-	public WidgetBuilder<W, M>[] getWidgetBuilders()
-	{
+	public WidgetBuilder<W, M>[] getWidgetBuilders() {
+
 		// Defensive copy
 
 		@SuppressWarnings( "unchecked" )

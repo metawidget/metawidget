@@ -36,29 +36,28 @@ import org.metawidget.swt.SwtMetawidget;
  */
 
 public class RowLayout
-	implements AdvancedLayout<Control, Composite, SwtMetawidget>
-{
+	implements AdvancedLayout<Control, Composite, SwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
-	public void onStartBuild( SwtMetawidget metawidget )
-	{
+	public void onStartBuild( SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		container.setLayout( new org.eclipse.swt.layout.RowLayout() );
 	}
 
-	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		// Do not layout space for empty stubs
 
-		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 )
-		{
+		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 ) {
 			RowData stubData = new RowData();
 			stubData.exclude = true;
 			control.setLayoutData( stubData );
@@ -69,13 +68,13 @@ public class RowLayout
 	}
 
 	@Override
-	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void onEndBuild( SwtMetawidget metawidget )
-	{
+	public void onEndBuild( SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 }

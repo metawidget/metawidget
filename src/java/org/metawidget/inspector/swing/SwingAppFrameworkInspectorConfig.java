@@ -24,32 +24,30 @@ import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionSt
  * Configures a SwingAppFrameworkInspector prior to use. Once instantiated, Inspectors are
  * immutable.
  * <p>
- * <code>SwingAppFrameworkInspector</code> differs from most Inspectors in that it defaults to
- * using <code>SwingAppFrameworkActionStyle</code> instead of <code>MetawidgetActionStyle</code>.
+ * <code>SwingAppFrameworkInspector</code> differs from most Inspectors in that it defaults to using
+ * <code>SwingAppFrameworkActionStyle</code> instead of <code>MetawidgetActionStyle</code>.
  *
  * @author Richard Kennard
  */
 
 public class SwingAppFrameworkInspectorConfig
-	extends BaseObjectInspectorConfig
-{
+	extends BaseObjectInspectorConfig {
+
 	//
 	// Private statics
 	//
 
-	private static ActionStyle DEFAULT_APPFRAMEWORK_ACTION_STYLE;
+	private static ActionStyle	DEFAULT_APPFRAMEWORK_ACTION_STYLE;
 
 	//
 	// Package private methods
 	//
 
 	@Override
-	protected ActionStyle getActionStyle()
-	{
-		if ( mActionStyle == null && !mNullActionStyle )
-		{
-			if ( DEFAULT_APPFRAMEWORK_ACTION_STYLE == null )
-			{
+	protected ActionStyle getActionStyle() {
+
+		if ( mActionStyle == null && !mNullActionStyle ) {
+			if ( DEFAULT_APPFRAMEWORK_ACTION_STYLE == null ) {
 				DEFAULT_APPFRAMEWORK_ACTION_STYLE = new SwingAppFrameworkActionStyle();
 			}
 

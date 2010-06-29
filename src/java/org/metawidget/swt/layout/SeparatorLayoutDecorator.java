@@ -36,20 +36,20 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class SeparatorLayoutDecorator
-	extends SwtFlatSectionLayoutDecorator
-{
+	extends SwtFlatSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
 
-	private int					mAlignment;
+	private int	mAlignment;
 
 	//
 	// Constructor
 	//
 
-	public SeparatorLayoutDecorator( SeparatorLayoutDecoratorConfig config )
-	{
+	public SeparatorLayoutDecorator( SeparatorLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mAlignment = config.getAlignment();
@@ -60,8 +60,8 @@ public class SeparatorLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, Composite container, SwtMetawidget metawidget )
-	{
+	protected void addSectionWidget( String section, int level, Composite container, SwtMetawidget metawidget ) {
+
 		Composite separatorComposite = new Composite( container, SWT.NONE );
 		GridLayout gridLayout = new GridLayout( 2, false );
 		gridLayout.marginWidth = 0;
@@ -71,8 +71,7 @@ public class SeparatorLayoutDecorator
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 
@@ -85,8 +84,7 @@ public class SeparatorLayoutDecorator
 		separatorLayoutData.grabExcessHorizontalSpace = true;
 		separator.setLayoutData( separatorLayoutData );
 
-		if ( mAlignment == SWT.RIGHT )
-		{
+		if ( mAlignment == SWT.RIGHT ) {
 			separator.moveAbove( label );
 		}
 

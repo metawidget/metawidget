@@ -34,8 +34,8 @@ import org.w3c.dom.Element;
  */
 
 public class XmlInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -47,8 +47,8 @@ public class XmlInspectorTest
 	//
 
 	@Override
-	public void setUp()
-	{
+	public void setUp() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
@@ -80,8 +80,8 @@ public class XmlInspectorTest
 		mInspector = new XmlInspector( config );
 	}
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -128,8 +128,8 @@ public class XmlInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
-	public void testTraverseViaParent()
-	{
+	public void testTraverseViaParent() {
+
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -153,79 +153,64 @@ public class XmlInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}
 
-	public void testMissingType()
-	{
-		try
-		{
+	public void testMissingType() {
+
+		try {
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ) );
 		}
 
-		try
-		{
+		try {
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ) );
 		}
 	}
 
-	public void testNullType()
-	{
+	public void testNullType() {
+
 		assertTrue( null == mInspector.inspect( null, (String) null ) );
 	}
 
-	public void testBadName()
-	{
+	public void testBadName() {
+
 		assertEquals( mInspector.inspect( null, "no-such-type" ), null );
 		assertEquals( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ), null );
 		assertEquals( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ), null );
 	}
 
-	public void testDefaultConfig()
-	{
-		try
-		{
+	public void testDefaultConfig() {
+
+		try {
 			new XmlInspector( new XmlInspectorConfig() );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
 		}
 	}
 
-	public void testTypos()
-	{
-		try
-		{
+	public void testTypos() {
+
+		try {
 			mInspector.inspect( null, "Typo1" );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Attribute named 'readonly' should be 'read-only'", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			mInspector.inspect( null, "Typo2" );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Attribute named 'dontexpand' should be 'dont-expand'", e.getMessage() );
 		}
 	}
 
-	public void testRestrictAgainstObject()
-	{
+	public void testRestrictAgainstObject() {
+
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"ImaginaryObject\">";
@@ -242,38 +227,38 @@ public class XmlInspectorTest
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
 
-		assertEquals( null, mInspector.inspect( null, "MissingObject" ));
-		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ));
-		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ));
+		assertEquals( null, mInspector.inspect( null, "MissingObject" ) );
+		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
+		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 
 		NullObject nullObject = new NullObject();
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 
 		// With restrictAgainstObject
 
 		config.setRestrictAgainstObject( new JavaBeanPropertyStyle() );
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
-		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ));
-		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ));
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
-		assertTrue( null != mInspector.inspect( new String(), NullObject.class.getName() ));
-		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
-		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ));
-		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ));
+		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
+		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
+		assertTrue( null != mInspector.inspect( new String(), NullObject.class.getName() ) );
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ) );
+		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ) );
 
 		// With several levels deep
 
 		nullObject.nestedNullObject = new NullObject();
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
-		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ));
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ) );
 
 		// With recursion
 
 		nullObject.nestedNullObject = nullObject;
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ));
-		assertTrue( null == mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ));
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
+		assertTrue( null == mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 		assertEquals( "XmlInspector prevented infinite recursion on org.metawidget.inspector.xml.XmlInspectorTest$NullObject/nestedNullObject. Consider marking nestedNullObject as hidden='true'", LogUtilsTest.getLastTraceMessage() );
 	}
 
@@ -281,8 +266,8 @@ public class XmlInspectorTest
 	// Inner class
 	//
 
-	public static class NullObject
-	{
-		public NullObject nestedNullObject;
+	public static class NullObject {
+
+		public NullObject	nestedNullObject;
 	}
 }

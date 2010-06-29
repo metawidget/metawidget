@@ -38,14 +38,14 @@ import org.metawidget.util.TestUtils;
  */
 
 public class TabFolderLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 		shell.setLayout( new FillLayout() );
@@ -57,10 +57,8 @@ public class TabFolderLayoutDecoratorTest
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
@@ -72,16 +70,15 @@ public class TabFolderLayoutDecoratorTest
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( TabFolderLayoutDecoratorConfig.class, new TabFolderLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( TabFolderLayoutDecoratorConfig.class, new TabFolderLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testNestedTabs()
-	{
+	public void testNestedTabs() {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setMetawidgetLayout( new TabFolderLayoutDecorator( new TabFolderLayoutDecoratorConfig().setLayout( new TabFolderLayoutDecorator( new TabFolderLayoutDecoratorConfig().setLayout( new GridLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -140,14 +137,14 @@ public class TabFolderLayoutDecoratorTest
 		assertTrue( metawidget.getChildren()[4] == metawidget.getControl( "stu" ) );
 	}
 
-	public void testFlatSectionAroundNestedSectionLayoutDecorator()
-	{
+	public void testFlatSectionAroundNestedSectionLayoutDecorator() {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new TabFolderLayoutDecorator( new TabFolderLayoutDecoratorConfig().setLayout( new GridLayout() ) ) ) ) );
 		metawidget.setToInspect( new Baz() );
 
 		Composite composite = (Composite) metawidget.getChildren()[0];
-		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Foo", ( (Label) composite.getChildren()[0] ).getText() );
 		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 
@@ -159,7 +156,7 @@ public class TabFolderLayoutDecoratorTest
 		assertTrue( 2 == innerPanel.getChildren().length );
 
 		composite = (Composite) metawidget.getChildren()[2];
-		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Baz", ( (Label) composite.getChildren()[0] ).getText() );
 		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
 
@@ -173,14 +170,14 @@ public class TabFolderLayoutDecoratorTest
 	// Inner class
 	//
 
-	static class Foo
-	{
+	static class Foo {
+
 		@UiSection( "Section" )
 		public String	bar;
 	}
 
-	static class Bar
-	{
+	static class Bar {
+
 		public String	abc;
 
 		@UiSection( { "Foo", "Bar" } )
@@ -202,8 +199,8 @@ public class TabFolderLayoutDecoratorTest
 		public String	stu;
 	}
 
-	static class Baz
-	{
+	static class Baz {
+
 		@UiSection( { "Foo", "Bar" } )
 		public String	abc;
 

@@ -33,8 +33,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Richard Kennard
  */
 
-public final class LogUtils
-{
+public final class LogUtils {
+
 	//
 	// Public statics
 	//
@@ -52,14 +52,11 @@ public final class LogUtils
 	 * with, say, a Swing applet.
 	 */
 
-	public static Log getLog( Class<?> clazz )
-	{
-		try
-		{
+	public static Log getLog( Class<?> clazz ) {
+
+		try {
 			return new CommonsLog( clazz );
-		}
-		catch ( NoClassDefFoundError e )
-		{
+		} catch ( NoClassDefFoundError e ) {
 			return new UtilLog( clazz.getName() );
 		}
 	}
@@ -73,8 +70,8 @@ public final class LogUtils
 	 * with, say, a Swing applet.
 	 */
 
-	public interface Log
-	{
+	public interface Log {
+
 		//
 		// Methods
 		//
@@ -147,8 +144,8 @@ public final class LogUtils
 	 */
 
 	private static class UtilLog
-		implements Log
-	{
+		implements Log {
+
 		//
 		// Private members
 		//
@@ -159,8 +156,8 @@ public final class LogUtils
 		// Constructor
 		//
 
-		public UtilLog( String logger )
-		{
+		public UtilLog( String logger ) {
+
 			mLogger = Logger.getLogger( logger );
 		}
 
@@ -168,80 +165,80 @@ public final class LogUtils
 		// Public methods
 		//
 
-		public boolean isTraceEnabled()
-		{
+		public boolean isTraceEnabled() {
+
 			return mLogger.isLoggable( Level.FINER );
 		}
 
-		public void trace( String trace, Object... arguments )
-		{
+		public void trace( String trace, Object... arguments ) {
+
 			LAST_TRACE_MESSAGE = log( Level.FINER, trace, arguments );
 		}
 
-		public void trace( String trace, Throwable throwable )
-		{
+		public void trace( String trace, Throwable throwable ) {
+
 			mLogger.log( Level.FINER, trace, throwable );
 		}
 
-		public boolean isDebugEnabled()
-		{
+		public boolean isDebugEnabled() {
+
 			return mLogger.isLoggable( Level.FINE );
 		}
 
-		public void debug( String debug, Object... arguments )
-		{
+		public void debug( String debug, Object... arguments ) {
+
 			LAST_DEBUG_MESSAGE = log( Level.FINE, debug, arguments );
 		}
 
-		public void debug( String debug, Throwable throwable )
-		{
+		public void debug( String debug, Throwable throwable ) {
+
 			mLogger.log( Level.FINE, debug, throwable );
 		}
 
-		public boolean isInfoEnabled()
-		{
+		public boolean isInfoEnabled() {
+
 			return mLogger.isLoggable( Level.INFO );
 		}
 
-		public void info( String info, Object... arguments )
-		{
+		public void info( String info, Object... arguments ) {
+
 			LAST_INFO_MESSAGE = log( Level.INFO, info, arguments );
 		}
 
-		public void info( String info, Throwable throwable )
-		{
+		public void info( String info, Throwable throwable ) {
+
 			mLogger.log( Level.INFO, info, throwable );
 		}
 
-		public boolean isWarnEnabled()
-		{
+		public boolean isWarnEnabled() {
+
 			return mLogger.isLoggable( Level.WARNING );
 		}
 
-		public void warn( String warning, Object... arguments )
-		{
+		public void warn( String warning, Object... arguments ) {
+
 			LAST_WARN_MESSAGE = log( Level.WARNING, warning, arguments );
 		}
 
-		public void warn( String warning, Throwable throwable )
-		{
+		public void warn( String warning, Throwable throwable ) {
+
 			LAST_WARN_MESSAGE = warning;
 
 			mLogger.log( Level.WARNING, warning, throwable );
 		}
 
-		public boolean isErrorEnabled()
-		{
+		public boolean isErrorEnabled() {
+
 			return mLogger.isLoggable( Level.SEVERE );
 		}
 
-		public void error( String error, Object... arguments )
-		{
+		public void error( String error, Object... arguments ) {
+
 			log( Level.SEVERE, error, arguments );
 		}
 
-		public void error( String error, Throwable throwable )
-		{
+		public void error( String error, Throwable throwable ) {
+
 			mLogger.log( Level.SEVERE, error, throwable );
 		}
 
@@ -249,10 +246,9 @@ public final class LogUtils
 		// Private methods
 		//
 
-		private String log( Level level, String message, Object... arguments )
-		{
-			if ( arguments.length == 0 )
-			{
+		private String log( Level level, String message, Object... arguments ) {
+
+			if ( arguments.length == 0 ) {
 				mLogger.log( level, message );
 				return message;
 			}
@@ -268,8 +264,8 @@ public final class LogUtils
 	 */
 
 	private static class CommonsLog
-		implements Log
-	{
+		implements Log {
+
 		//
 		// Private members
 		//
@@ -280,8 +276,8 @@ public final class LogUtils
 		// Constructor
 		//
 
-		public CommonsLog( Class<?> clazz )
-		{
+		public CommonsLog( Class<?> clazz ) {
+
 			mLog = LogFactory.getLog( clazz );
 		}
 
@@ -289,131 +285,116 @@ public final class LogUtils
 		// Methods
 		//
 
-		public boolean isTraceEnabled()
-		{
+		public boolean isTraceEnabled() {
+
 			return mLog.isTraceEnabled();
 		}
 
-		public void trace( String trace, Object... arguments )
-		{
-			if ( arguments.length == 0 )
-			{
+		public void trace( String trace, Object... arguments ) {
+
+			if ( arguments.length == 0 ) {
 				LAST_TRACE_MESSAGE = trace;
 				mLog.trace( trace );
-			}
-			else
-			{
+			} else {
 				String logged = MessageFormat.format( trace, arguments );
 				LAST_TRACE_MESSAGE = logged;
 				mLog.trace( logged );
 			}
 		}
 
-		public void trace( String trace, Throwable throwable )
-		{
+		public void trace( String trace, Throwable throwable ) {
+
 			mLog.trace( trace, throwable );
 		}
 
-		public boolean isDebugEnabled()
-		{
+		public boolean isDebugEnabled() {
+
 			return mLog.isDebugEnabled();
 		}
 
-		public void debug( String debug, Object... arguments )
-		{
-			if ( arguments.length == 0 )
-			{
+		public void debug( String debug, Object... arguments ) {
+
+			if ( arguments.length == 0 ) {
 				LAST_DEBUG_MESSAGE = debug;
 				mLog.debug( debug );
-			}
-			else
-			{
+			} else {
 				String logged = MessageFormat.format( debug, arguments );
 				LAST_DEBUG_MESSAGE = logged;
 				mLog.debug( logged );
 			}
 		}
 
-		public void debug( String debug, Throwable throwable )
-		{
+		public void debug( String debug, Throwable throwable ) {
+
 			LAST_DEBUG_MESSAGE = debug;
 
 			mLog.debug( debug, throwable );
 		}
 
-		public boolean isInfoEnabled()
-		{
+		public boolean isInfoEnabled() {
+
 			return mLog.isInfoEnabled();
 		}
 
-		public void info( String info, Object... arguments )
-		{
-			if ( arguments.length == 0 )
-			{
+		public void info( String info, Object... arguments ) {
+
+			if ( arguments.length == 0 ) {
 				LAST_INFO_MESSAGE = info;
 				mLog.info( info );
-			}
-			else
-			{
+			} else {
 				String logged = MessageFormat.format( info, arguments );
 				LAST_INFO_MESSAGE = logged;
 				mLog.info( logged );
 			}
 		}
 
-		public void info( String info, Throwable throwable )
-		{
+		public void info( String info, Throwable throwable ) {
+
 			LAST_INFO_MESSAGE = info;
 
 			mLog.info( info, throwable );
 		}
 
-		public boolean isWarnEnabled()
-		{
+		public boolean isWarnEnabled() {
+
 			return mLog.isWarnEnabled();
 		}
 
-		public void warn( String warning, Object... arguments )
-		{
-			if ( arguments.length == 0 )
-			{
+		public void warn( String warning, Object... arguments ) {
+
+			if ( arguments.length == 0 ) {
 				LAST_WARN_MESSAGE = warning;
 				mLog.warn( warning );
-			}
-			else
-			{
+			} else {
 				String logged = MessageFormat.format( warning, arguments );
 				LAST_WARN_MESSAGE = logged;
 				mLog.warn( logged );
 			}
 		}
 
-		public void warn( String warning, Throwable throwable )
-		{
+		public void warn( String warning, Throwable throwable ) {
+
 			LAST_WARN_MESSAGE = warning;
 
 			mLog.warn( warning, throwable );
 		}
 
-		public boolean isErrorEnabled()
-		{
+		public boolean isErrorEnabled() {
+
 			return mLog.isErrorEnabled();
 		}
 
-		public void error( String error, Object... arguments )
-		{
-			if ( arguments.length == 0 )
-			{
+		public void error( String error, Object... arguments ) {
+
+			if ( arguments.length == 0 ) {
 				mLog.error( error );
-			}
-			else
-			{
+			} else {
 				mLog.error( MessageFormat.format( error, arguments ) );
 			}
 		}
 
-		public void error( String error, Throwable throwable )
-		{
+		public void error( String error, Throwable throwable ) {
+
 			mLog.error( error, throwable );
 		}
 	}
@@ -422,8 +403,8 @@ public final class LogUtils
 	// Private constructor
 	//
 
-	private LogUtils()
-	{
+	private LogUtils() {
+
 		// Can never be called
 	}
 }

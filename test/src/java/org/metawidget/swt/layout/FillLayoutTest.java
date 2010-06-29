@@ -29,15 +29,15 @@ import org.metawidget.swt.SwtMetawidgetTests;
  */
 
 public class FillLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		Composite composite = new Composite( metawidget, SWT.NONE );
 
@@ -47,6 +47,6 @@ public class FillLayoutTest
 		fillLayout.startContainerLayout( composite, metawidget );
 
 		assertTrue( composite.getLayout() instanceof org.eclipse.swt.layout.FillLayout );
-		assertFalse( ( metawidget.getLayout() instanceof org.eclipse.swt.layout.FillLayout ));
+		assertFalse( ( metawidget.getLayout() instanceof org.eclipse.swt.layout.FillLayout ) );
 	}
 }

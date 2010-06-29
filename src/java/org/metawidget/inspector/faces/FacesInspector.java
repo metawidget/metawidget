@@ -43,8 +43,8 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings( "deprecation" )
 public class FacesInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Private members
 	//
@@ -61,13 +61,13 @@ public class FacesInspector
 	// Constructor
 	//
 
-	public FacesInspector()
-	{
+	public FacesInspector() {
+
 		this( new FacesInspectorConfig() );
 	}
 
-	public FacesInspector( FacesInspectorConfig config )
-	{
+	public FacesInspector( FacesInspectorConfig config ) {
+
 		super( config );
 
 		mInjectThis = config.isInjectThis();
@@ -79,40 +79,31 @@ public class FacesInspector
 
 	@Override
 	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
-		throws Exception
-	{
-		try
-		{
-			if ( mInjectThis )
-			{
+		throws Exception {
+
+		try {
+			if ( mInjectThis ) {
 				LOCAL_TOINSPECT.set( parentToInspect );
 			}
 
 			return super.inspectParent( parentToInspect, propertyInParent );
-		}
-		finally
-		{
+		} finally {
 			LOCAL_TOINSPECT.remove();
 		}
 	}
 
 	@Override
 	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
-		throws Exception
-	{
-		try
-		{
-			if ( mInjectThis )
-			{
+		throws Exception {
+
+		try {
+			if ( mInjectThis ) {
 				LOCAL_TOINSPECT.set( toInspect );
 			}
 
 			super.inspect( toInspect, classToInspect, toAddTo );
-		}
-		finally
-		{
-			if ( mInjectThis )
-			{
+		} finally {
+			if ( mInjectThis ) {
 				LOCAL_TOINSPECT.remove();
 			}
 		}
@@ -120,23 +111,21 @@ public class FacesInspector
 
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )
-		throws Exception
-	{
+		throws Exception {
+
 		// UiFacesAttributes/UiFacesAttribute
 
 		UiFacesAttributes facesAttributes = trait.getAnnotation( UiFacesAttributes.class );
 		UiFacesAttribute facesAttribute = trait.getAnnotation( UiFacesAttribute.class );
 
-		if ( facesAttributes == null && facesAttribute == null )
-		{
+		if ( facesAttributes == null && facesAttribute == null ) {
 			return null;
 		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if ( context == null )
-		{
+		if ( context == null ) {
 			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
 		}
 
@@ -144,17 +133,14 @@ public class FacesInspector
 
 		// UiFacesAttribute
 
-		if ( facesAttribute != null )
-		{
+		if ( facesAttribute != null ) {
 			putFacesAttribute( context, application, attributes, facesAttribute );
 		}
 
 		// UiFacesAttributes
 
-		if ( facesAttributes != null )
-		{
-			for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
-			{
+		if ( facesAttributes != null ) {
+			for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() ) {
 				putFacesAttribute( context, application, attributes, nestedFacesAttribute );
 			}
 		}
@@ -164,23 +150,21 @@ public class FacesInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// ExpressionLookup
 
 		UiFacesLookup expressionLookup = property.getAnnotation( UiFacesLookup.class );
 
-		if ( expressionLookup != null )
-		{
+		if ( expressionLookup != null ) {
 			attributes.put( FACES_LOOKUP, expressionLookup.value() );
 		}
 
 		UiFacesSuggest expressionSuggest = property.getAnnotation( UiFacesSuggest.class );
 
-		if ( expressionSuggest != null )
-		{
+		if ( expressionSuggest != null ) {
 			attributes.put( FACES_SUGGEST, expressionSuggest.value() );
 		}
 
@@ -188,8 +172,7 @@ public class FacesInspector
 
 		UiFacesComponent component = property.getAnnotation( UiFacesComponent.class );
 
-		if ( component != null )
-		{
+		if ( component != null ) {
 			attributes.put( FACES_COMPONENT, component.value() );
 		}
 
@@ -197,14 +180,11 @@ public class FacesInspector
 
 		UiFacesAjax ajax = property.getAnnotation( UiFacesAjax.class );
 
-		if ( ajax != null )
-		{
+		if ( ajax != null ) {
 			attributes.put( FACES_AJAX_EVENT, ajax.event() );
 
-			if ( !"".equals( ajax.action() ))
-			{
-				if ( !FacesUtils.isExpression( ajax.action() ) )
-				{
+			if ( !"".equals( ajax.action() ) ) {
+				if ( !FacesUtils.isExpression( ajax.action() ) ) {
 					throw InspectorException.newException( "Expression '" + ajax.action() + "' is not of the form #{...}" );
 				}
 
@@ -216,97 +196,78 @@ public class FacesInspector
 
 		UiFacesConverter converter = property.getAnnotation( UiFacesConverter.class );
 
-		if ( converter != null )
-		{
+		if ( converter != null ) {
 			attributes.put( FACES_CONVERTER_ID, converter.value() );
 		}
 
 		UiFacesNumberConverter numberConverter = property.getAnnotation( UiFacesNumberConverter.class );
 
-		if ( numberConverter != null )
-		{
-			if ( !"".equals( numberConverter.currencyCode() ) )
-			{
+		if ( numberConverter != null ) {
+			if ( !"".equals( numberConverter.currencyCode() ) ) {
 				attributes.put( CURRENCY_CODE, numberConverter.currencyCode() );
 			}
 
-			if ( !"".equals( numberConverter.currencySymbol() ) )
-			{
+			if ( !"".equals( numberConverter.currencySymbol() ) ) {
 				attributes.put( CURRENCY_SYMBOL, numberConverter.currencySymbol() );
 			}
 
-			if ( numberConverter.groupingUsed() )
-			{
+			if ( numberConverter.groupingUsed() ) {
 				attributes.put( NUMBER_USES_GROUPING_SEPARATORS, TRUE );
 			}
 
-			if ( numberConverter.minIntegerDigits() != -1 )
-			{
+			if ( numberConverter.minIntegerDigits() != -1 ) {
 				attributes.put( MINIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.minIntegerDigits() ) );
 			}
 
-			if ( numberConverter.maxIntegerDigits() != -1 )
-			{
+			if ( numberConverter.maxIntegerDigits() != -1 ) {
 				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.maxIntegerDigits() ) );
 			}
 
-			if ( numberConverter.minFractionDigits() != -1 )
-			{
+			if ( numberConverter.minFractionDigits() != -1 ) {
 				attributes.put( MINIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.minFractionDigits() ) );
 			}
 
-			if ( numberConverter.maxFractionDigits() != -1 )
-			{
+			if ( numberConverter.maxFractionDigits() != -1 ) {
 				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( numberConverter.maxFractionDigits() ) );
 			}
 
-			if ( !"".equals( numberConverter.locale() ) )
-			{
+			if ( !"".equals( numberConverter.locale() ) ) {
 				attributes.put( LOCALE, numberConverter.locale() );
 			}
 
-			if ( !"".equals( numberConverter.pattern() ) )
-			{
+			if ( !"".equals( numberConverter.pattern() ) ) {
 				attributes.put( NUMBER_PATTERN, numberConverter.pattern() );
 			}
 
-			if ( !"".equals( numberConverter.type() ) )
-			{
+			if ( !"".equals( numberConverter.type() ) ) {
 				attributes.put( NUMBER_TYPE, numberConverter.type() );
 			}
 		}
 
 		UiFacesDateTimeConverter dateTimeConverter = property.getAnnotation( UiFacesDateTimeConverter.class );
 
-		if ( dateTimeConverter != null )
-		{
-			if ( !"".equals( dateTimeConverter.dateStyle() ) )
-			{
+		if ( dateTimeConverter != null ) {
+			if ( !"".equals( dateTimeConverter.dateStyle() ) ) {
 				attributes.put( DATE_STYLE, dateTimeConverter.dateStyle() );
 			}
 
-			if ( !"".equals( dateTimeConverter.locale() ) )
-			{
+			if ( !"".equals( dateTimeConverter.locale() ) ) {
 				attributes.put( LOCALE, dateTimeConverter.locale() );
 			}
 
-			if ( !"".equals( dateTimeConverter.pattern() ) )
-			{
+			if ( !"".equals( dateTimeConverter.pattern() ) ) {
 				attributes.put( DATETIME_PATTERN, dateTimeConverter.pattern() );
 			}
 
-			if ( !"".equals( dateTimeConverter.timeStyle() ) )
-			{
+			if ( !"".equals( dateTimeConverter.timeStyle() ) ) {
 				attributes.put( TIME_STYLE, dateTimeConverter.timeStyle() );
 			}
 
-			if ( !"".equals( dateTimeConverter.timeZone() ) )
-			{
+			if ( !"".equals( dateTimeConverter.timeZone() ) ) {
 				attributes.put( TIME_ZONE, dateTimeConverter.timeZone() );
 			}
 
-			if ( !"".equals( dateTimeConverter.type() ) )
-			{
+			if ( !"".equals( dateTimeConverter.type() ) ) {
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
 			}
 		}
@@ -314,29 +275,25 @@ public class FacesInspector
 		return attributes;
 	}
 
-	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute )
-	{
+	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute ) {
+
 		String expression = facesAttribute.expression();
 
-		if ( !FacesUtils.isExpression( expression ) )
-		{
+		if ( !FacesUtils.isExpression( expression ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
 		}
 
-		if ( mInjectThis )
-		{
+		if ( mInjectThis ) {
 			context.getExternalContext().getRequestMap().put( "this", LOCAL_TOINSPECT.get() );
 		}
 
 		Object value = application.createValueBinding( expression ).getValue( context );
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return;
 		}
 
-		for( String attributeName : facesAttribute.name() )
-		{
+		for ( String attributeName : facesAttribute.name() ) {
 			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}

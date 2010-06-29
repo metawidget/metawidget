@@ -45,15 +45,15 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
  */
 
 public class JGoodiesValidatorProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testValidator()
-		throws Exception
-	{
+		throws Exception {
+
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -94,18 +94,17 @@ public class JGoodiesValidatorProcessorTest
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
 		metawidget.setToInspect( new Foo() );
 		metawidget.setWidgetProcessors( (WidgetProcessor<JComponent, SwingMetawidget>[]) null );
-		metawidget.addWidgetProcessor( new JGoodiesValidatorProcessor()
-		{
+		metawidget.addWidgetProcessor( new JGoodiesValidatorProcessor() {
+
 			@Override
-			protected Validator<?> getValidator( final JComponent component, final Map<String, String> attributes, String path )
-			{
-				return new Validator<String>()
-				{
+			protected Validator<?> getValidator( final JComponent component, final Map<String, String> attributes, String path ) {
+
+				return new Validator<String>() {
+
 					@Override
-					public ValidationResult validate( String validationTarget )
-					{
-						if ( "error".equals( validationTarget ) )
-						{
+					public ValidationResult validate( String validationTarget ) {
+
+						if ( "error".equals( validationTarget ) ) {
 							ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator error", Severity.ERROR, attributes.get( NAME ) );
 							ValidationResult validationResult = new ValidationResult();
 							validationResult.add( message );
@@ -113,8 +112,7 @@ public class JGoodiesValidatorProcessorTest
 							return validationResult;
 						}
 
-						if ( "warning".equals( validationTarget ) )
-						{
+						if ( "warning".equals( validationTarget ) ) {
 							ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator warning", Severity.WARNING, attributes.get( NAME ) );
 							ValidationResult validationResult = new ValidationResult();
 							validationResult.add( message );
@@ -149,8 +147,8 @@ public class JGoodiesValidatorProcessorTest
 	// Inner class
 	//
 
-	protected static class Foo
-	{
+	protected static class Foo {
+
 		//
 		//
 		// Private members
@@ -166,23 +164,23 @@ public class JGoodiesValidatorProcessorTest
 		//
 
 		@UiRequired
-		public String getBar()
-		{
+		public String getBar() {
+
 			return mBar;
 		}
 
-		public void setBar( String bar )
-		{
+		public void setBar( String bar ) {
+
 			mBar = bar;
 		}
 
-		public String getNotValidated()
-		{
+		public String getNotValidated() {
+
 			return null;
 		}
 
-		public void setNotValidated( String notValidated )
-		{
+		public void setNotValidated( String notValidated ) {
+
 			// Do nothing
 		}
 	}

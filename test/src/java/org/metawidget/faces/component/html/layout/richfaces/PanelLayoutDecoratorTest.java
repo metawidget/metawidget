@@ -25,16 +25,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class PanelLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( PanelLayoutDecoratorConfig.class, new PanelLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( PanelLayoutDecoratorConfig.class, new PanelLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

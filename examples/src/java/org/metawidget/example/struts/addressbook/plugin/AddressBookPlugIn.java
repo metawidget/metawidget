@@ -38,14 +38,14 @@ import org.metawidget.example.struts.addressbook.converter.ToStringConverter;
  */
 
 public class AddressBookPlugIn
-	implements PlugIn
-{
+	implements PlugIn {
+
 	//
 	// Public methods
 	//
 
-	public void init( ActionServlet servlet, ModuleConfig config )
-	{
+	public void init( ActionServlet servlet, ModuleConfig config ) {
+
 		ServletContext context = servlet.getServletContext();
 
 		// Application-wide Controllers
@@ -64,8 +64,8 @@ public class AddressBookPlugIn
 		ConvertUtils.register( converterDate, Date.class );
 	}
 
-	public void destroy()
-	{
+	public void destroy() {
+
 		// Do nothing
 	}
 }

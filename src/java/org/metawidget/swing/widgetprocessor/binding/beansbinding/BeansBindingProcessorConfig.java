@@ -31,8 +31,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class BeansBindingProcessorConfig
-{
+public class BeansBindingProcessorConfig {
+
 	//
 	// Private members
 	//
@@ -45,8 +45,8 @@ public class BeansBindingProcessorConfig
 	// Public methods
 	//
 
-	public UpdateStrategy getUpdateStrategy()
-	{
+	public UpdateStrategy getUpdateStrategy() {
+
 		return mUpdateStrategy;
 	}
 
@@ -56,15 +56,15 @@ public class BeansBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BeansBindingProcessorConfig setUpdateStrategy( UpdateStrategy updateStrategy )
-	{
+	public BeansBindingProcessorConfig setUpdateStrategy( UpdateStrategy updateStrategy ) {
+
 		mUpdateStrategy = updateStrategy;
 
 		return this;
 	}
 
-	public Map<ConvertFromTo<?, ?>, Converter<?, ?>> getConverters()
-	{
+	public Map<ConvertFromTo<?, ?>, Converter<?, ?>> getConverters() {
+
 		return mConverters;
 	}
 
@@ -91,10 +91,9 @@ public class BeansBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <S, T> BeansBindingProcessorConfig setConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
-	{
-		if ( mConverters == null )
-		{
+	public <S, T> BeansBindingProcessorConfig setConverter( Class<S> source, Class<T> target, Converter<S, T> converter ) {
+
+		if ( mConverters == null ) {
 			mConverters = CollectionUtils.newHashMap();
 		}
 
@@ -104,30 +103,25 @@ public class BeansBindingProcessorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mUpdateStrategy, ( (BeansBindingProcessorConfig) that ).mUpdateStrategy ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mUpdateStrategy, ( (BeansBindingProcessorConfig) that ).mUpdateStrategy ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (BeansBindingProcessorConfig) that ).mConverters ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (BeansBindingProcessorConfig) that ).mConverters ) ) {
 			return false;
 		}
 
@@ -135,8 +129,8 @@ public class BeansBindingProcessorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mUpdateStrategy );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );

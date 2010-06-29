@@ -28,16 +28,16 @@ import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingPro
  */
 
 public class SwingAllWidgetsBeansBindingTest
-	extends SwingAllWidgetsTest
-{
+	extends SwingAllWidgetsTest {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	public void testAllWidgets()
-		throws Exception
-	{
+		throws Exception {
+
 		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// BeansBinding

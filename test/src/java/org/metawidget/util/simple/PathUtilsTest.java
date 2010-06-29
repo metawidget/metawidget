@@ -25,15 +25,15 @@ import org.metawidget.util.simple.PathUtils;
  */
 
 public class PathUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testPathUtils()
-		throws Exception
-	{
+		throws Exception {
+
 		assertEquals( "foo", PathUtils.parsePath( "foo" ).getType() );
 		assertEquals( "foo", PathUtils.parsePath( " foo " ).getType() );
 		assertEquals( "foo", PathUtils.parsePath( "foo/" ).getType() );

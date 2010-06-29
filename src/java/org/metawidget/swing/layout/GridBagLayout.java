@@ -47,8 +47,8 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class GridBagLayout
-	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
-{
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Private statics
 	//
@@ -81,13 +81,13 @@ public class GridBagLayout
 	// Constructor
 	//
 
-	public GridBagLayout()
-	{
+	public GridBagLayout() {
+
 		this( new GridBagLayoutConfig() );
 	}
 
-	public GridBagLayout( GridBagLayoutConfig config )
-	{
+	public GridBagLayout( GridBagLayoutConfig config ) {
+
 		mNumberOfColumns = config.getNumberOfColumns();
 		mLabelAlignment = config.getLabelAlignment();
 		mLabelForeground = config.getLabelForeground();
@@ -101,13 +101,13 @@ public class GridBagLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
-	{
+	public void onStartBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		container.putClientProperty( GridBagLayout.class, null );
 		State state = getState( container );
 
@@ -134,12 +134,11 @@ public class GridBagLayout
 		state.defaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-		{
+		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 ) {
 			return;
 		}
 
@@ -148,8 +147,7 @@ public class GridBagLayout
 		State state = getState( container );
 		boolean spanAllColumns = willFillHorizontally( component, attributes );
 
-		if ( spanAllColumns && state.currentColumn > 0 )
-		{
+		if ( spanAllColumns && state.currentColumn > 0 ) {
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
@@ -158,8 +156,7 @@ public class GridBagLayout
 
 		String labelText = null;
 
-		if ( attributes != null )
-		{
+		if ( attributes != null ) {
 			labelText = metawidget.getLabelString( attributes );
 		}
 
@@ -169,20 +166,16 @@ public class GridBagLayout
 
 		GridBagConstraints componentConstraints = new GridBagConstraints();
 
-		if ( !( component instanceof JButton ) )
-		{
+		if ( !( component instanceof JButton ) ) {
 			componentConstraints.fill = GridBagConstraints.BOTH;
 		}
 
 		componentConstraints.anchor = GridBagConstraints.WEST;
 		componentConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 
-		if ( labelText != null )
-		{
+		if ( labelText != null ) {
 			componentConstraints.gridx++;
-		}
-		else
-		{
+		} else {
 			componentConstraints.gridwidth = 2;
 		}
 
@@ -192,8 +185,7 @@ public class GridBagLayout
 		componentConstraints.weightx = 1.0f / numberOfColumns;
 		componentConstraints.insets = INSETS_COMPONENT;
 
-		if ( spanAllColumns )
-		{
+		if ( spanAllColumns ) {
 			componentConstraints.gridwidth = ( mRequiredAlignment == SwingConstants.RIGHT ? ( numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
 			state.currentColumn = numberOfColumns - 1;
 		}
@@ -201,8 +193,7 @@ public class GridBagLayout
 		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
 		// embedded in a JScrollPane are their own spacer row
 
-		if ( willFillVertically( component, attributes ) )
-		{
+		if ( willFillVertically( component, attributes ) ) {
 			componentConstraints.weighty = 1.0f;
 			state.needSpacerRow = false;
 		}
@@ -215,23 +206,20 @@ public class GridBagLayout
 
 		state.currentColumn++;
 
-		if ( state.currentColumn >= numberOfColumns )
-		{
+		if ( state.currentColumn >= numberOfColumns ) {
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
 	}
 
-	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		// Spacer row: see JavaDoc for state.needSpacerRow
 
 		State state = getState( container );
 
-		if ( state.needSpacerRow )
-		{
-			if ( state.currentColumn > 0 )
-			{
+		if ( state.needSpacerRow ) {
+			if ( state.currentColumn > 0 ) {
 				state.currentColumn = 0;
 				state.currentRow++;
 			}
@@ -246,17 +234,15 @@ public class GridBagLayout
 		}
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
-	{
+	public void onEndBuild( SwingMetawidget metawidget ) {
+
 		// Buttons
 
 		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
-		if ( buttonsFacet != null )
-		{
+		if ( buttonsFacet != null ) {
 			State state = getState( metawidget );
-			if ( state.currentColumn > 0 )
-			{
+			if ( state.currentColumn > 0 ) {
 				state.currentColumn = 0;
 				state.currentRow++;
 			}
@@ -275,24 +261,21 @@ public class GridBagLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	protected String layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		State state = getState( container );
 
 		// Add label
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-		{
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			JLabel label = new JLabel();
 			label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
-			if ( mLabelFont != null )
-			{
+			if ( mLabelFont != null ) {
 				label.setFont( mLabelFont );
 			}
 
-			if ( mLabelForeground != null )
-			{
+			if ( mLabelForeground != null ) {
 				label.setForeground( mLabelForeground );
 			}
 
@@ -302,20 +285,15 @@ public class GridBagLayout
 
 			String labelTextToUse = labelText;
 
-			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-			{
-				if ( mRequiredAlignment == SwingConstants.CENTER )
-				{
+			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
+				if ( mRequiredAlignment == SwingConstants.CENTER ) {
 					labelTextToUse += mRequiredText;
-				}
-				else if ( mRequiredAlignment == SwingConstants.LEFT )
-				{
+				} else if ( mRequiredAlignment == SwingConstants.LEFT ) {
 					labelTextToUse = mRequiredText + labelTextToUse;
 				}
 			}
 
-			if ( mLabelSuffix != null )
-			{
+			if ( mLabelSuffix != null ) {
 				labelTextToUse += mLabelSuffix;
 			}
 
@@ -336,12 +314,9 @@ public class GridBagLayout
 			// Apply some vertical padding, and some left padding on everything but the
 			// first column, so the label lines up with the component nicely
 
-			if ( state.currentColumn == 0 )
-			{
+			if ( state.currentColumn == 0 ) {
 				labelConstraints.insets = state.defaultLabelInsetsFirstColumn;
-			}
-			else
-			{
+			} else {
 				labelConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 			}
 
@@ -351,17 +326,15 @@ public class GridBagLayout
 		return labelText;
 	}
 
-	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		State state = getState( container );
 
-		if ( mRequiredAlignment != SwingConstants.RIGHT )
-		{
+		if ( mRequiredAlignment != SwingConstants.RIGHT ) {
 			return;
 		}
 
-		if ( attributes == null || !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || metawidget.isReadOnly() )
-		{
+		if ( attributes == null || !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || metawidget.isReadOnly() ) {
 			return;
 		}
 
@@ -373,42 +346,35 @@ public class GridBagLayout
 		starConstraints.gridy = state.currentRow;
 		starConstraints.anchor = GridBagConstraints.NORTHWEST;
 
-		if ( state.currentColumn == 0 )
-		{
+		if ( state.currentColumn == 0 ) {
 			starConstraints.insets = state.defaultLabelInsetsFirstColumn;
-		}
-		else
-		{
+		} else {
 			starConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 		}
 
 		container.add( star, starConstraints );
 	}
 
-	protected boolean willFillHorizontally( JComponent component, Map<String, String> attributes )
-	{
-		if ( component instanceof JScrollPane )
-		{
+	protected boolean willFillHorizontally( JComponent component, Map<String, String> attributes ) {
+
+		if ( component instanceof JScrollPane ) {
 			return true;
 		}
 
-		if ( component instanceof SwingMetawidget )
-		{
+		if ( component instanceof SwingMetawidget ) {
 			return true;
 		}
 
 		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
 
-	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
-	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
-		{
+	protected boolean willFillVertically( JComponent component, Map<String, String> attributes ) {
+
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;
 		}
 
-		if ( component instanceof JScrollPane )
-		{
+		if ( component instanceof JScrollPane ) {
 			return true;
 		}
 
@@ -425,22 +391,20 @@ public class GridBagLayout
 	 * Nested Metawidgets are always just single column.
 	 */
 
-	private int getEffectiveNumberOfColumns( SwingMetawidget metawidget )
-	{
-		if ( metawidget.getParent() instanceof SwingMetawidget )
-		{
+	private int getEffectiveNumberOfColumns( SwingMetawidget metawidget ) {
+
+		if ( metawidget.getParent() instanceof SwingMetawidget ) {
 			return 1;
 		}
 
 		return mNumberOfColumns;
 	}
 
-	private State getState( JComponent container )
-	{
+	private State getState( JComponent container ) {
+
 		State state = (State) container.getClientProperty( GridBagLayout.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			container.putClientProperty( GridBagLayout.class, state );
 		}
@@ -456,8 +420,8 @@ public class GridBagLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */int		currentColumn;
 
 		/* package private */int		currentRow;

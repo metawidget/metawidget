@@ -23,8 +23,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class InspectorException
-	extends MetawidgetException
-{
+	extends MetawidgetException {
+
 	//
 	// Private statics
 	//
@@ -42,10 +42,9 @@ public class InspectorException
 	 * InspectorExceptions.
 	 */
 
-	public static InspectorException newException( Throwable cause )
-	{
-		if ( cause instanceof InspectorException )
-		{
+	public static InspectorException newException( Throwable cause ) {
+
+		if ( cause instanceof InspectorException ) {
 			return (InspectorException) cause;
 		}
 
@@ -58,8 +57,8 @@ public class InspectorException
 	 * For consistency with <code>InspectorException.newException( Throwable )</code>.
 	 */
 
-	public static InspectorException newException( String message )
-	{
+	public static InspectorException newException( String message ) {
+
 		return new InspectorException( message );
 	}
 
@@ -67,13 +66,13 @@ public class InspectorException
 	// Constructor
 	//
 
-	private InspectorException( String message )
-	{
+	private InspectorException( String message ) {
+
 		super( message );
 	}
 
-	private InspectorException( Throwable cause )
-	{
+	private InspectorException( Throwable cause ) {
+
 		super( cause );
 	}
 }

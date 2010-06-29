@@ -30,8 +30,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class BaseActionStyle
-	implements ActionStyle
-{
+	implements ActionStyle {
+
 	//
 	// Private members
 	//
@@ -53,42 +53,33 @@ public abstract class BaseActionStyle
 	// Public methods
 	//
 
-	public Map<String, Action> getActions( Class<?> clazz )
-	{
-		synchronized ( mActionCache )
-		{
+	public Map<String, Action> getActions( Class<?> clazz ) {
+
+		synchronized ( mActionCache ) {
 			Map<String, Action> actions = getCachedActions( clazz );
 
-			if ( actions == null )
-			{
+			if ( actions == null ) {
 				// If the class is not a proxy...
 
-				if ( !isProxy( clazz ) )
-				{
+				if ( !isProxy( clazz ) ) {
 					// ...inspect it normally
 
 					actions = inspectActions( clazz );
-				}
-				else
-				{
+				} else {
 					// ...otherwise, if the superclass is not just java.lang.Object...
 
 					Class<?> superclass = clazz.getSuperclass();
 
-					if ( !superclass.equals( Object.class ) )
-					{
+					if ( !superclass.equals( Object.class ) ) {
 						// ...inspect the superclass
 
 						actions = getCachedActions( superclass );
 
-						if ( actions == null )
-						{
+						if ( actions == null ) {
 							actions = inspectActions( superclass );
 							cacheActions( superclass, actions );
 						}
-					}
-					else
-					{
+					} else {
 						// ...otherwise, inspect each interface and merge
 
 						actions = inspectActions( clazz.getInterfaces() );
@@ -118,19 +109,17 @@ public abstract class BaseActionStyle
 	 * <code>ByCGLIB$$</code> in their name.
 	 */
 
-	protected boolean isProxy( Class<?> clazz )
-	{
+	protected boolean isProxy( Class<?> clazz ) {
+
 		// (don't use .getSimpleName or .contains, for J2SE 1.4 compatibility)
 
 		String name = clazz.getName();
 
-		if ( name.indexOf( "_$$_javassist_" ) != -1 )
-		{
+		if ( name.indexOf( "_$$_javassist_" ) != -1 ) {
 			return true;
 		}
 
-		if ( name.indexOf( "ByCGLIB$$" ) != -1 )
-		{
+		if ( name.indexOf( "ByCGLIB$$" ) != -1 ) {
 			return true;
 		}
 
@@ -144,16 +133,14 @@ public abstract class BaseActionStyle
 	 * proxied class.
 	 */
 
-	protected Map<String, Action> inspectActions( Class<?>[] classes )
-	{
+	protected Map<String, Action> inspectActions( Class<?>[] classes ) {
+
 		Map<String, Action> actionsToReturn = CollectionUtils.newTreeMap();
 
-		for ( Class<?> clazz : classes )
-		{
+		for ( Class<?> clazz : classes ) {
 			Map<String, Action> actions = getCachedActions( clazz );
 
-			if ( actions == null )
-			{
+			if ( actions == null ) {
 				actions = inspectActions( clazz );
 				cacheActions( clazz, actions );
 			}
@@ -170,13 +157,13 @@ public abstract class BaseActionStyle
 
 	protected abstract Map<String, Action> inspectActions( Class<?> clazz );
 
-	protected Map<String, Action> getCachedActions( Class<?> clazz )
-	{
+	protected Map<String, Action> getCachedActions( Class<?> clazz ) {
+
 		return mActionCache.get( clazz );
 	}
 
-	protected void cacheActions( Class<?> clazz, Map<String, Action> actions )
-	{
+	protected void cacheActions( Class<?> clazz, Map<String, Action> actions ) {
+
 		mActionCache.put( clazz, Collections.unmodifiableMap( actions ) );
 	}
 }

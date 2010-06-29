@@ -25,20 +25,20 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class CompositeInspectorConfig
-{
+public class CompositeInspectorConfig {
+
 	//
 	// Private members
 	//
 
-	private Inspector[]		mInspectors;
+	private Inspector[]	mInspectors;
 
 	//
 	// Public methods
 	//
 
-	public Inspector[] getInspectors()
-	{
+	public Inspector[] getInspectors() {
+
 		return mInspectors;
 	}
 
@@ -51,33 +51,29 @@ public class CompositeInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public CompositeInspectorConfig setInspectors( Inspector... inspectors )
-	{
+	public CompositeInspectorConfig setInspectors( Inspector... inspectors ) {
+
 		mInspectors = inspectors;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mInspectors, ((CompositeInspectorConfig) that).mInspectors ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mInspectors, ( (CompositeInspectorConfig) that ).mInspectors ) ) {
 			return false;
 		}
 
@@ -85,8 +81,8 @@ public class CompositeInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return ObjectUtils.nullSafeHashCode( mInspectors );
 	}
 }

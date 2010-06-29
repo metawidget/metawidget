@@ -33,24 +33,24 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class WidgetProcessorExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetProcessorExample()
-		throws Exception
-	{
+		throws Exception {
+
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));
+		metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix( "Tip:" ) ) );
 		metawidget.setToInspect( person );
 
-		assertEquals( "Tip:age", ((JComponent) metawidget.getComponent( 1 )).getToolTipText() );
-		assertEquals( "Tip:name", ((JComponent) metawidget.getComponent( 3 )).getToolTipText() );
-		assertEquals( "Tip:retired", ((JComponent) metawidget.getComponent( 5 )).getToolTipText() );
+		assertEquals( "Tip:age", ( (JComponent) metawidget.getComponent( 1 ) ).getToolTipText() );
+		assertEquals( "Tip:name", ( (JComponent) metawidget.getComponent( 3 ) ).getToolTipText() );
+		assertEquals( "Tip:retired", ( (JComponent) metawidget.getComponent( 5 ) ).getToolTipText() );
 	}
 
 	//
@@ -58,30 +58,34 @@ public class WidgetProcessorExampleTest
 	//
 
 	static class TooltipProcessor
-		implements WidgetProcessor<JComponent, SwingMetawidget>
-	{
-		private String mPrefix;
+		implements WidgetProcessor<JComponent, SwingMetawidget> {
+
+		private String	mPrefix;
 
 		public TooltipProcessor( TooltipProcessorConfig config ) {
+
 			mPrefix = config.getPrefix();
 		}
 
-		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		{
+		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 			widget.setToolTipText( mPrefix + attributes.get( NAME ) );
 			return widget;
 		}
 	}
 
 	static class TooltipProcessorConfig {
-		private String mPrefix;
+
+		private String	mPrefix;
 
 		public TooltipProcessorConfig setPrefix( String prefix ) {
+
 			mPrefix = prefix;
 			return this;
 		}
 
 		public String getPrefix() {
+
 			return mPrefix;
 		}
 

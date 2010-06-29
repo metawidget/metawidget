@@ -39,24 +39,22 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class RequiredAttributeProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Only validate EditableValueHolders
 
-		if ( !( component instanceof EditableValueHolder ))
-		{
+		if ( !( component instanceof EditableValueHolder ) ) {
 			return component;
 		}
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( !TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return component;
 		}
 
@@ -64,13 +62,10 @@ public class RequiredAttributeProcessor
 
 		// JSF 1.2 support
 
-		try
-		{
+		try {
 			Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
 			method.invoke( editableValueHolder, metawidget.getLabelString( attributes ) );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Fail gracefully
 		}
 

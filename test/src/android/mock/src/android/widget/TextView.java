@@ -30,8 +30,8 @@ import android.view.View;
  */
 
 public class TextView
-	extends View
-{
+	extends View {
+
 	//
 	// Private members
 	//
@@ -50,8 +50,8 @@ public class TextView
 	// Constructor
 	//
 
-	public TextView( Context context )
-	{
+	public TextView( Context context ) {
+
 		super( context );
 	}
 
@@ -59,73 +59,73 @@ public class TextView
 	// Public methods
 	//
 
-	public CharSequence getText()
-	{
+	public CharSequence getText() {
+
 		return mText;
 	}
 
-	public void setText( CharSequence text )
-	{
+	public void setText( CharSequence text ) {
+
 		mText = text;
 	}
 
-	public void setText( CharSequence text, BufferType bufferType )
-	{
+	public void setText( CharSequence text, BufferType bufferType ) {
+
 		mText = text;
 	}
 
-	public void setTextSize( int textSize )
-	{
+	public void setTextSize( int textSize ) {
+
 		// Ignore
 	}
 
-	public void setGravity( int gravity )
-	{
+	public void setGravity( int gravity ) {
+
 		// Ignore
 	}
 
-	public void setTextColor( ColorStateList colors )
-	{
+	public void setTextColor( ColorStateList colors ) {
+
 		// Ignore
 	}
 
-	public void setTransformationMethod( TransformationMethod transformationMethod )
-	{
+	public void setTransformationMethod( TransformationMethod transformationMethod ) {
+
 		mTransformationMethod = transformationMethod;
 	}
 
-	public TransformationMethod getTransformationMethod()
-	{
+	public TransformationMethod getTransformationMethod() {
+
 		return mTransformationMethod;
 	}
 
-	public void setMinLines( int minLines )
-	{
+	public void setMinLines( int minLines ) {
+
 		mMinLines = minLines;
 	}
 
-	public void setFilters( InputFilter[] inputFilters )
-	{
+	public void setFilters( InputFilter[] inputFilters ) {
+
 		mInputFilters = inputFilters;
 	}
 
-	public InputFilter[] getFilters()
-	{
+	public InputFilter[] getFilters() {
+
 		return mInputFilters;
 	}
 
-	public void setKeyListener( KeyListener keyListener )
-	{
+	public void setKeyListener( KeyListener keyListener ) {
+
 		mKeyListener = keyListener;
 	}
 
-	public KeyListener getKeyListener()
-	{
+	public KeyListener getKeyListener() {
+
 		return mKeyListener;
 	}
 
-	public int getMinLines()
-	{
+	public int getMinLines() {
+
 		return mMinLines;
 	}
 
@@ -133,8 +133,7 @@ public class TextView
 	// Inner class
 	//
 
-	public static enum BufferType
-	{
+	public static enum BufferType {
 		SPANNABLE
 	}
 }

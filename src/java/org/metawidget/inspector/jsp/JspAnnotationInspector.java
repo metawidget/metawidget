@@ -41,8 +41,8 @@ import org.metawidget.util.ThreadUtils;
  */
 
 public class JspAnnotationInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Private member
 	//
@@ -65,8 +65,8 @@ public class JspAnnotationInspector
 	 * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
 	 */
 
-	public static void setThreadLocalPageContext( PageContext pageContext )
-	{
+	public static void setThreadLocalPageContext( PageContext pageContext ) {
+
 		LOCAL_PAGE_CONTEXT.set( pageContext );
 	}
 
@@ -74,13 +74,13 @@ public class JspAnnotationInspector
 	// Constructor
 	//
 
-	public JspAnnotationInspector()
-	{
+	public JspAnnotationInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public JspAnnotationInspector( BaseObjectInspectorConfig config )
-	{
+	public JspAnnotationInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -90,34 +90,29 @@ public class JspAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )
-		throws Exception
-	{
+		throws Exception {
+
 		// UiJspAttributes/UiJspAttribute
 
 		UiJspAttributes jspAttributes = trait.getAnnotation( UiJspAttributes.class );
 		UiJspAttribute jspAttribute = trait.getAnnotation( UiJspAttribute.class );
 
-		if ( jspAttributes == null && jspAttribute == null )
-		{
+		if ( jspAttributes == null && jspAttribute == null ) {
 			return null;
 		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
 
-		if ( pageContext == null )
-		{
+		if ( pageContext == null ) {
 			throw InspectorException.newException( "ThreadLocalPageContext not set" );
 		}
 
 		ExpressionEvaluator expressionEvaluator;
 
-		try
-		{
+		try {
 			expressionEvaluator = pageContext.getExpressionEvaluator();
-		}
-		catch ( Throwable t )
-		{
+		} catch ( Throwable t ) {
 			throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
 		}
 
@@ -125,17 +120,14 @@ public class JspAnnotationInspector
 
 		// UiJspAttribute
 
-		if ( jspAttribute != null )
-		{
+		if ( jspAttribute != null ) {
 			putJspAttribute( expressionEvaluator, variableResolver, attributes, jspAttribute );
 		}
 
 		// UiJspAttributes
 
-		if ( jspAttributes != null )
-		{
-			for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() )
-			{
+		if ( jspAttributes != null ) {
+			for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() ) {
 				putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
 			}
 		}
@@ -145,16 +137,15 @@ public class JspAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiJspLookup
 
 		UiJspLookup jspLookup = property.getAnnotation( UiJspLookup.class );
 
-		if ( jspLookup != null )
-		{
+		if ( jspLookup != null ) {
 			attributes.put( JSP_LOOKUP, jspLookup.value() );
 		}
 
@@ -162,24 +153,21 @@ public class JspAnnotationInspector
 	}
 
 	protected void putJspAttribute( ExpressionEvaluator expressionEvaluator, VariableResolver variableResolver, Map<String, String> attributes, UiJspAttribute jspAttribute )
-		throws Exception
-	{
+		throws Exception {
+
 		String expression = jspAttribute.expression();
 
-		if ( !JspUtils.isExpression( expression ) )
-		{
+		if ( !JspUtils.isExpression( expression ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form ${...}" );
 		}
 
 		Object value = expressionEvaluator.evaluate( expression, Object.class, variableResolver, null );
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return;
 		}
 
-		for ( String attributeName : jspAttribute.name() )
-		{
+		for ( String attributeName : jspAttribute.name() ) {
 			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}

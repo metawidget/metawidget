@@ -37,14 +37,14 @@ import android.widget.TextView;
  */
 
 public class TableLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testTableLayout()
-	{
+	public void testTableLayout() {
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 
 		Stub stub = new Stub( null );
@@ -113,7 +113,7 @@ public class TableLayoutTest
 
 		// (spacer)
 
-		assertTrue( null == ((TextView) nestedNestedMetawidget.getChildAt( 0 )).getText() );
+		assertTrue( null == ( (TextView) nestedNestedMetawidget.getChildAt( 0 ) ).getText() );
 		assertTrue( 1 == nestedNestedMetawidget.getChildCount() );
 
 		// Get/set nested value
@@ -132,8 +132,8 @@ public class TableLayoutTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	bar;
 
 		@UiComesAfter( "bar" )

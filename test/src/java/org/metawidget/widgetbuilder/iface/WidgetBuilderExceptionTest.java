@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class WidgetBuilderExceptionTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilderException()
-		throws Exception
-	{
+		throws Exception {
+
 		Throwable throwable = new Throwable();
 		assertTrue( throwable == WidgetBuilderException.newException( throwable ).getCause() );
 

@@ -26,8 +26,8 @@ import android.widget.FrameLayout.LayoutParams;
  * @author Richard Kennard
  */
 
-public class View
-{
+public class View {
+
 	//
 	// Public statics
 	//
@@ -52,18 +52,18 @@ public class View
 	// Constructor
 	//
 
-	public View( Context context )
-	{
+	public View( Context context ) {
+
 		// Ignore context
 	}
 
-	public View( Context context, AttributeSet attributeSet )
-	{
+	public View( Context context, AttributeSet attributeSet ) {
+
 		// Ignore context
 	}
 
-	public View( Context context, AttributeSet attributeSet, int index )
-	{
+	public View( Context context, AttributeSet attributeSet, int index ) {
+
 		// Ignore context
 	}
 
@@ -71,78 +71,78 @@ public class View
 	// Public methods
 	//
 
-	public Context getContext()
-	{
+	public Context getContext() {
+
 		return null;
 	}
 
-	public ViewParent getParent()
-	{
+	public ViewParent getParent() {
+
 		return mParent;
 	}
 
-	public void setParent( ViewParent parent )
-	{
+	public void setParent( ViewParent parent ) {
+
 		mParent = parent;
 	}
 
-	public ViewGroup.LayoutParams getLayoutParams()
-	{
+	public ViewGroup.LayoutParams getLayoutParams() {
+
 		return null;
 	}
 
-	public void setId( int id )
-	{
+	public void setId( int id ) {
+
 		// Do nothing
 	}
 
-	public Object getTag()
-	{
+	public Object getTag() {
+
 		return mTag;
 	}
 
-	public void setTag( Object tag )
-	{
+	public void setTag( Object tag ) {
+
 		mTag = tag;
 	}
 
-	public void setLayoutParams( LayoutParams layoutParams )
-	{
+	public void setLayoutParams( LayoutParams layoutParams ) {
+
 		// Do nothing
 	}
 
-	public void setVisibility( int visibility )
-	{
+	public void setVisibility( int visibility ) {
+
 		mVisibility = visibility;
 	}
 
-	public int getVisibility()
-	{
+	public int getVisibility() {
+
 		return mVisibility;
 	}
 
-	public View findViewWithTag( String string )
-	{
+	public View findViewWithTag( String string ) {
+
 		return null;
 	}
 
-	public void setFocusable( boolean b )
-	{
+	public void setFocusable( boolean b ) {
+
 		// Do nothing
 	}
 
-	public void setFocusableInTouchMode( boolean b )
-	{
+	public void setFocusableInTouchMode( boolean b ) {
+
 		// Do nothing
 	}
 
-	public void requestFocus()
-	{
+	public void requestFocus() {
+
 		// Do nothing
 	}
 
-	public void setPadding( int leftPadding, int topPadding, int rightPadding, int bottomPadding )
-	{
+	public void setPadding( int leftPadding, int topPadding, int rightPadding, int bottomPadding ) {
+
 		// Do nothing
 	}
 
@@ -150,13 +150,13 @@ public class View
 	// Protected methods
 	//
 
-	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec )
-	{
+	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
+
 		// Do nothing
 	}
 
-	protected void postInvalidate()
-	{
+	protected void postInvalidate() {
+
 		// Do nothing
 	}
 }

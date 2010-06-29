@@ -52,8 +52,8 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class BeanUtilsBindingProcessor
-	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>, BindingConverter
-{
+	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>, BindingConverter {
+
 	//
 	// Private statics
 	//
@@ -70,13 +70,13 @@ public class BeanUtilsBindingProcessor
 	// Constructor
 	//
 
-	public BeanUtilsBindingProcessor()
-	{
+	public BeanUtilsBindingProcessor() {
+
 		this( new BeanUtilsBindingProcessorConfig() );
 	}
 
-	public BeanUtilsBindingProcessor( BeanUtilsBindingProcessorConfig config )
-	{
+	public BeanUtilsBindingProcessor( BeanUtilsBindingProcessorConfig config ) {
+
 		mPropertyStyle = config.getPropertyStyle();
 	}
 
@@ -85,20 +85,19 @@ public class BeanUtilsBindingProcessor
 	//
 
 	@Override
-	public void onStartBuild( SwingMetawidget metawidget )
-	{
+	public void onStartBuild( SwingMetawidget metawidget ) {
+
 		metawidget.putClientProperty( BeanUtilsBindingProcessor.class, null );
 	}
 
 	@Override
-	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		// Unwrap JScrollPanes (for JTextAreas etc)
 
 		JComponent componentToBind = component;
 
-		if ( componentToBind instanceof JScrollPane )
-		{
+		if ( componentToBind instanceof JScrollPane ) {
 			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
 		}
 
@@ -106,32 +105,26 @@ public class BeanUtilsBindingProcessor
 
 		String componentProperty = metawidget.getValueProperty( componentToBind );
 
-		if ( componentProperty == null )
-		{
+		if ( componentProperty == null ) {
 			return component;
 		}
 
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ) )
-		{
+		if ( PROPERTY.equals( elementName ) ) {
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 		}
 
-		try
-		{
+		try {
 			// Convert 'com.Foo/bar/baz' into BeanUtils notation 'bar.baz'
 
 			String names = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 
 			Object sourceValue;
 
-			try
-			{
+			try {
 				sourceValue = retrieveValueFromObject( metawidget, metawidget.getToInspect(), names );
-			}
-			catch ( NoSuchMethodException e )
-			{
+			} catch ( NoSuchMethodException e ) {
 				throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
 			}
 
@@ -140,15 +133,12 @@ public class BeanUtilsBindingProcessor
 
 			State state = getState( metawidget );
 
-			if ( state.bindings == null )
-			{
+			if ( state.bindings == null ) {
 				state.bindings = CollectionUtils.newHashSet();
 			}
 
 			state.bindings.add( binding );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw WidgetProcessorException.newException( e );
 		}
 
@@ -164,97 +154,79 @@ public class BeanUtilsBindingProcessor
 	 * compatible with the original setToInspect.
 	 */
 
-	public void rebind( Object toRebind, SwingMetawidget metawidget )
-	{
+	public void rebind( Object toRebind, SwingMetawidget metawidget ) {
+
 		metawidget.updateToInspectWithoutInvalidate( toRebind );
 		State state = getState( metawidget );
 
 		// Our bindings
 
-		if ( state.bindings != null )
-		{
-			try
-			{
-				for ( SavedBinding binding : state.bindings )
-				{
+		if ( state.bindings != null ) {
+			try {
+				for ( SavedBinding binding : state.bindings ) {
 					Object sourceValue;
 					String names = binding.getNames();
 
-					try
-					{
+					try {
 						sourceValue = retrieveValueFromObject( metawidget, toRebind, names );
-					}
-					catch ( NoSuchMethodException e )
-					{
+					} catch ( NoSuchMethodException e ) {
 						throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
 					}
 
 					saveValueToWidget( binding, sourceValue );
 				}
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw WidgetProcessorException.newException( e );
 			}
 		}
 
 		// Nested bindings
 
-		for ( Component component : metawidget.getComponents() )
-		{
-			if ( component instanceof SwingMetawidget )
-			{
+		for ( Component component : metawidget.getComponents() ) {
+			if ( component instanceof SwingMetawidget ) {
 				rebind( toRebind, (SwingMetawidget) component );
 			}
 		}
 	}
 
-	public void save( SwingMetawidget metawidget )
-	{
+	public void save( SwingMetawidget metawidget ) {
+
 		State state = getState( metawidget );
 
 		// Our bindings
 
-		if ( state.bindings != null )
-		{
-			try
-			{
-				for ( SavedBinding binding : state.bindings )
-				{
-					if ( !binding.isSettable() )
-					{
+		if ( state.bindings != null ) {
+			try {
+				for ( SavedBinding binding : state.bindings ) {
+					if ( !binding.isSettable() ) {
 						continue;
 					}
 
 					Object componentValue = retrieveValueFromWidget( binding );
 					saveValueToObject( metawidget, binding.getNames(), componentValue );
 				}
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw WidgetProcessorException.newException( e );
 			}
 		}
 
 		// Nested bindings
 
-		for ( Component component : metawidget.getComponents() )
-		{
-			if ( component instanceof SwingMetawidget )
-			{
+		for ( Component component : metawidget.getComponents() ) {
+			if ( component instanceof SwingMetawidget ) {
 				save( (SwingMetawidget) component );
 			}
 		}
 	}
 
-	public Object convertFromString( String value, Class<?> expectedType )
-	{
+	public Object convertFromString( String value, Class<?> expectedType ) {
+
 		return ConvertUtils.convert( value, expectedType );
 	}
 
 	@Override
-	public void onEndBuild( SwingMetawidget metawidget )
-	{
+	public void onEndBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
@@ -269,10 +241,9 @@ public class BeanUtilsBindingProcessor
 	 */
 
 	protected Object retrieveValueFromObject( SwingMetawidget metawidget, Object source, String names )
-		throws Exception
-	{
-		switch ( mPropertyStyle )
-		{
+		throws Exception {
+
+		switch ( mPropertyStyle ) {
 			case BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA:
 				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
 
@@ -291,12 +262,11 @@ public class BeanUtilsBindingProcessor
 	 */
 
 	protected void saveValueToObject( SwingMetawidget metawidget, String names, Object componentValue )
-		throws Exception
-	{
+		throws Exception {
+
 		Object source = metawidget.getToInspect();
 
-		switch ( mPropertyStyle )
-		{
+		switch ( mPropertyStyle ) {
 			case BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA:
 
 				// Traverse to the setter...
@@ -304,8 +274,7 @@ public class BeanUtilsBindingProcessor
 				String[] namesAsArray = names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
 				Object parent = scalaTraverse( source, true, namesAsArray );
 
-				if ( parent == null )
-				{
+				if ( parent == null ) {
 					return;
 				}
 
@@ -331,14 +300,14 @@ public class BeanUtilsBindingProcessor
 	}
 
 	protected Object retrieveValueFromWidget( SavedBinding binding )
-		throws Exception
-	{
+		throws Exception {
+
 		return PropertyUtils.getProperty( binding.getComponent(), binding.getComponentProperty() );
 	}
 
 	protected void saveValueToWidget( SavedBinding binding, Object sourceValue )
-		throws Exception
-	{
+		throws Exception {
+
 		BeanUtils.setProperty( binding.getComponent(), binding.getComponentProperty(), sourceValue );
 	}
 
@@ -347,33 +316,29 @@ public class BeanUtilsBindingProcessor
 	//
 
 	private Object scalaTraverse( Object toTraverse, boolean onlyToParent, String... names )
-		throws Exception
-	{
+		throws Exception {
+
 		// Sanity check
 
-		if ( toTraverse == null )
-		{
+		if ( toTraverse == null ) {
 			return null;
 		}
 
 		// Traverse through names (if any)
 
-		if ( names == null )
-		{
+		if ( names == null ) {
 			return toTraverse;
 		}
 
 		int length = names.length;
 
-		if ( length == 0 )
-		{
+		if ( length == 0 ) {
 			return toTraverse;
 		}
 
 		// Only to parent?
 
-		if ( onlyToParent )
-		{
+		if ( onlyToParent ) {
 			length--;
 		}
 
@@ -381,8 +346,7 @@ public class BeanUtilsBindingProcessor
 
 		Object traverse = toTraverse;
 
-		for ( int loop = 0; loop < length; loop++ )
-		{
+		for ( int loop = 0; loop < length; loop++ ) {
 			// Scala getter methods are just 'foo()', not 'getFoo()'
 
 			Method readMethod = traverse.getClass().getMethod( names[loop] );
@@ -390,8 +354,7 @@ public class BeanUtilsBindingProcessor
 
 			// Can go no further?
 
-			if ( traverse == null )
-			{
+			if ( traverse == null ) {
 				break;
 			}
 		}
@@ -399,12 +362,11 @@ public class BeanUtilsBindingProcessor
 		return traverse;
 	}
 
-	private State getState( SwingMetawidget metawidget )
-	{
+	private State getState( SwingMetawidget metawidget ) {
+
 		State state = (State) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidget.putClientProperty( BeanUtilsBindingProcessor.class, state );
 		}
@@ -420,13 +382,13 @@ public class BeanUtilsBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */Set<SavedBinding>	bindings;
 	}
 
-	class SavedBinding
-	{
+	class SavedBinding {
+
 		//
 		//
 		// Private members
@@ -447,8 +409,8 @@ public class BeanUtilsBindingProcessor
 		//
 		//
 
-		public SavedBinding( Component component, String componentProperty, String names, boolean noSetter )
-		{
+		public SavedBinding( Component component, String componentProperty, String names, boolean noSetter ) {
+
 			mComponent = component;
 			mComponentProperty = componentProperty;
 			mNames = names;
@@ -461,13 +423,13 @@ public class BeanUtilsBindingProcessor
 		//
 		//
 
-		public Component getComponent()
-		{
+		public Component getComponent() {
+
 			return mComponent;
 		}
 
-		public String getComponentProperty()
-		{
+		public String getComponentProperty() {
+
 			return mComponentProperty;
 		}
 
@@ -477,13 +439,13 @@ public class BeanUtilsBindingProcessor
 		 * Stored in BeanUtils style <code>foo.bar.baz</code>.
 		 */
 
-		public String getNames()
-		{
+		public String getNames() {
+
 			return mNames;
 		}
 
-		public boolean isSettable()
-		{
+		public boolean isSettable() {
+
 			return !mNoSetter;
 		}
 	}

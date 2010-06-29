@@ -26,15 +26,15 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * PropertyStyle for Scala-style properties.
  * <p>
  * Scala-style properties can <em>almost</em> be handled using <code>JavaBeanPropertyStyle</code>,
- * but you have to use Scala's <code>BeanProperty</code> annotation everywhere which is
- * cumbersome. This <code>PropertyStyle</code> is designed to access Scala properties natively.
+ * but you have to use Scala's <code>BeanProperty</code> annotation everywhere which is cumbersome.
+ * This <code>PropertyStyle</code> is designed to access Scala properties natively.
  *
  * @author Richard Kennard
  */
 
 public class ScalaPropertyStyle
-	extends JavaBeanPropertyStyle
-{
+	extends JavaBeanPropertyStyle {
+
 	//
 	// Private statics
 	//
@@ -51,8 +51,8 @@ public class ScalaPropertyStyle
 	 */
 
 	@Override
-	protected void lookupFields( Map<String, Property> properties, Class<?> clazz )
-	{
+	protected void lookupFields( Map<String, Property> properties, Class<?> clazz ) {
+
 		// Not supported
 	}
 
@@ -61,16 +61,13 @@ public class ScalaPropertyStyle
 	 */
 
 	@Override
-	protected String isGetter( Method method )
-	{
-		try
-		{
+	protected String isGetter( Method method ) {
+
+		try {
 			String name = method.getName();
 			method.getDeclaringClass().getDeclaredField( name );
 			return name;
-		}
-		catch ( NoSuchFieldException e )
-		{
+		} catch ( NoSuchFieldException e ) {
 			return null;
 		}
 	}
@@ -80,12 +77,11 @@ public class ScalaPropertyStyle
 	 */
 
 	@Override
-	protected String isSetter( Method method )
-	{
+	protected String isSetter( Method method ) {
+
 		String methodName = method.getName();
 
-		if ( !methodName.endsWith( SCALA_SET_SUFFIX ) )
-		{
+		if ( !methodName.endsWith( SCALA_SET_SUFFIX ) ) {
 			return null;
 		}
 

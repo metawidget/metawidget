@@ -30,8 +30,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class PanelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
-{
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> {
+
 	//
 	// Private members
 	//
@@ -51,15 +51,15 @@ public class PanelLayoutDecoratorConfig
 	 */
 
 	@Override
-	public PanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
-	{
+	public PanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public String getStyle()
-	{
+	public String getStyle() {
+
 		return mStyle;
 	}
 
@@ -67,15 +67,15 @@ public class PanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public PanelLayoutDecoratorConfig setStyle( String style )
-	{
+	public PanelLayoutDecoratorConfig setStyle( String style ) {
+
 		mStyle = style;
 
 		return this;
 	}
 
-	public String getStyleClass()
-	{
+	public String getStyleClass() {
+
 		return mStyleClass;
 	}
 
@@ -83,38 +83,33 @@ public class PanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public PanelLayoutDecoratorConfig setStyleClass( String styleClass )
-	{
+	public PanelLayoutDecoratorConfig setStyleClass( String styleClass ) {
+
 		mStyleClass = styleClass;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelLayoutDecoratorConfig) that ).mStyle ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelLayoutDecoratorConfig) that ).mStyle ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (PanelLayoutDecoratorConfig) that ).mStyleClass ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (PanelLayoutDecoratorConfig) that ).mStyleClass ) ) {
 			return false;
 		}
 
@@ -122,8 +117,8 @@ public class PanelLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );

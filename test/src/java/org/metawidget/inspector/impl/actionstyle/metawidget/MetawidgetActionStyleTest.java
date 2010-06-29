@@ -30,52 +30,49 @@ import org.metawidget.inspector.impl.actionstyle.Action;
  */
 
 public class MetawidgetActionStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testMetawidgetActionStyle()
-	{
+	public void testMetawidgetActionStyle() {
+
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
 		Map<String, Action> actions = actionStyle.getActions( Foo.class );
 
 		assertTrue( actions.size() == 1 );
 		assertEquals( "bar", actions.get( "bar" ).toString() );
 
-		try
-		{
+		try {
 			actionStyle.getActions( BadFoo.class );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "@UiAction public abstract void org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters", e.getMessage() );
 		}
 	}
 
-	public void testInterfaceBasedActionStyle()
-	{
+	public void testInterfaceBasedActionStyle() {
+
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
 		Map<String, Action> actions = actionStyle.getActions( Proxied_$$_javassist_.class );
 
-		assertTrue( actions instanceof TreeMap<?,?> );
-		assertTrue( actions.get( "bar1" ).isAnnotationPresent( UiAction.class ));
-		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ));
+		assertTrue( actions instanceof TreeMap<?, ?> );
+		assertTrue( actions.get( "bar1" ).isAnnotationPresent( UiAction.class ) );
+		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ) );
 		assertTrue( actions.size() == 2 );
 
-		actions = actionStyle.getActions( new InterfaceBar()
-		{
+		actions = actionStyle.getActions( new InterfaceBar() {
+
 			@Override
-			public void baz()
-			{
+			public void baz() {
+
 				// Do nothing
 			}
 
 		}.getClass() );
 
-		assertTrue( actions instanceof TreeMap<?,?> );
+		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.isEmpty() );
 
 	}
@@ -84,44 +81,43 @@ public class MetawidgetActionStyleTest
 	// Inner class
 	//
 
-	abstract class Foo
-	{
+	abstract class Foo {
+
 		@UiAction
 		public abstract void bar();
 
 		@UiAction
 		protected abstract void shouldntFindMe();
 
-		@SuppressWarnings("unused")
+		@SuppressWarnings( "unused" )
 		@UiAction
-		private void shouldntFindMeEither()
-		{
+		private void shouldntFindMeEither() {
+
 			// Do nothing
 		}
 	}
 
-	abstract class BadFoo
-	{
+	abstract class BadFoo {
+
 		@UiAction
 		public abstract void bar( String baz );
 	}
 
 	abstract class Proxied_$$_javassist_
-		implements InterfaceFoo, InterfaceBar
-	{
+		implements InterfaceFoo, InterfaceBar {
 		// Abstract
 	}
 
-	interface InterfaceFoo
-	{
+	interface InterfaceFoo {
+
 		@UiAction
 		void bar1();
 
 		void bar2();
 	}
 
-	interface InterfaceBar
-	{
+	interface InterfaceBar {
+
 		@UiAction
 		void baz();
 	}

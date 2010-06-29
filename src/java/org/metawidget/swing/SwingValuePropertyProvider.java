@@ -24,8 +24,8 @@ import java.awt.Component;
  * @author Richard Kennard
  */
 
-public interface SwingValuePropertyProvider
-{
+public interface SwingValuePropertyProvider {
+
 	//
 	// Methods
 	//

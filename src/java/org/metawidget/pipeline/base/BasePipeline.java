@@ -57,8 +57,8 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * @author Richard Kennard
  */
 
-public abstract class BasePipeline<W, C extends W, E, M extends C>
-{
+public abstract class BasePipeline<W, C extends W, E, M extends C> {
+
 	//
 	// Private statics
 	//
@@ -87,18 +87,18 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	// Public methods
 	//
 
-	public void setReadOnly( boolean readOnly )
-	{
+	public void setReadOnly( boolean readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mReadOnly;
 	}
 
-	public int getMaximumInspectionDepth()
-	{
+	public int getMaximumInspectionDepth() {
+
 		return mMaximumInspectionDepth;
 	}
 
@@ -117,18 +117,18 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 *            0 for top-level only, 1 for 1 level deep etc.
 	 */
 
-	public void setMaximumInspectionDepth( int maximumInspectionDepth )
-	{
+	public void setMaximumInspectionDepth( int maximumInspectionDepth ) {
+
 		mMaximumInspectionDepth = maximumInspectionDepth;
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mInspector = inspector;
 	}
 
-	public Inspector getInspector()
-	{
+	public Inspector getInspector() {
+
 		return mInspector;
 	}
 
@@ -143,47 +143,43 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * WidgetProcessors. Note ordering of InspectionResultProcessors is significant.
 	 */
 
-	public List<InspectionResultProcessor<M>> getInspectionResultProcessors()
-	{
+	public List<InspectionResultProcessor<M>> getInspectionResultProcessors() {
+
 		return mInspectionResultProcessors;
 	}
 
-	public void setInspectionResultProcessors( List<InspectionResultProcessor<M>> inspectionResultProcessors )
-	{
+	public void setInspectionResultProcessors( List<InspectionResultProcessor<M>> inspectionResultProcessors ) {
+
 		mInspectionResultProcessors = inspectionResultProcessors;
 	}
 
-	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessor )
-	{
-		if ( mInspectionResultProcessors == null )
-		{
+	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessor ) {
+
+		if ( mInspectionResultProcessors == null ) {
 			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>();
-		}
-		else if ( mInspectionResultProcessors.contains( inspectionResultProcessor ))
-		{
+		} else if ( mInspectionResultProcessors.contains( inspectionResultProcessor ) ) {
 			throw InspectionResultProcessorException.newException( "List of InspectionResultProcessors already contains " + inspectionResultProcessor.getClass().getName() );
 		}
 
 		mInspectionResultProcessors.add( inspectionResultProcessor );
 	}
 
-	public void removeInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors )
-	{
-		if ( mInspectionResultProcessors == null )
-		{
+	public void removeInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors ) {
+
+		if ( mInspectionResultProcessors == null ) {
 			return;
 		}
 
 		mInspectionResultProcessors.remove( inspectionResultProcessors );
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder )
-	{
+	public void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder ) {
+
 		mWidgetBuilder = widgetBuilder;
 	}
 
-	public WidgetBuilder<W, M> getWidgetBuilder()
-	{
+	public WidgetBuilder<W, M> getWidgetBuilder() {
+
 		return mWidgetBuilder;
 	}
 
@@ -210,42 +206,38 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * There, we use a List of WidgetProcessors. Note ordering of WidgetProcessors is significant.
 	 */
 
-	public List<WidgetProcessor<W, M>> getWidgetProcessors()
-	{
+	public List<WidgetProcessor<W, M>> getWidgetProcessors() {
+
 		return mWidgetProcessors;
 	}
 
-	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors )
-	{
+	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors ) {
+
 		mWidgetProcessors = widgetProcessors;
 	}
 
-	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )
-	{
-		if ( mWidgetProcessors == null )
-		{
+	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
+
+		if ( mWidgetProcessors == null ) {
 			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>();
-		}
-		else if ( mWidgetProcessors.contains( widgetProcessor ))
-		{
+		} else if ( mWidgetProcessors.contains( widgetProcessor ) ) {
 			throw WidgetProcessorException.newException( "List of WidgetProcessors already contains " + widgetProcessor.getClass().getName() );
 		}
 
 		mWidgetProcessors.add( widgetProcessor );
 	}
 
-	public void removeWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )
-	{
-		if ( mWidgetProcessors == null )
-		{
+	public void removeWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
+
+		if ( mWidgetProcessors == null ) {
 			return;
 		}
 
 		mWidgetProcessors.remove( widgetProcessor );
 	}
 
-	public Layout<W, C, M> getLayout()
-	{
+	public Layout<W, C, M> getLayout() {
+
 		return mLayout;
 	}
 
@@ -253,8 +245,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * Set the Layout to use for the Metawidget.
 	 */
 
-	public void setLayout( Layout<W, C, M> layout )
-	{
+	public void setLayout( Layout<W, C, M> layout ) {
+
 		mLayout = layout;
 	}
 
@@ -267,17 +259,15 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * using our same <code>Inspector</code>.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
-		if ( mInspector == null )
-		{
+	public String inspect( Object toInspect, String type, String... names ) {
+
+		if ( mInspector == null ) {
 			throw new NullPointerException( "No inspector configured" );
 		}
 
 		String inspectionResult = mInspector.inspect( toInspect, type, names );
 
-		if ( inspectionResult == null )
-		{
+		if ( inspectionResult == null ) {
 			return null;
 		}
 
@@ -292,20 +282,18 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 */
 
 	public void buildWidgets( String inspectionResult )
-		throws Exception
-	{
+		throws Exception {
+
 		startBuild();
 
-		if ( inspectionResult != null )
-		{
+		if ( inspectionResult != null ) {
 			// Build simple widget (from the top-level element)
 
 			E root = getDocumentElement( inspectionResult );
 			E element = getChildAt( root, 0 );
 			Map<String, String> attributes = getAttributesAsMap( element );
 
-			if ( isReadOnly() )
-			{
+			if ( isReadOnly() ) {
 				attributes.put( READ_ONLY, TRUE );
 			}
 
@@ -321,16 +309,12 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
 			// elements)
 
-			if ( widget == null )
-			{
+			if ( widget == null ) {
 				buildCompoundWidget( element );
-			}
-			else
-			{
+			} else {
 				widget = processWidget( widget, elementName, attributes );
 
-				if ( widget != null )
-				{
+				if ( widget != null ) {
 					layoutWidget( widget, elementName, attributes );
 				}
 			}
@@ -361,8 +345,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * </ul>
 	 */
 
-	public void initNestedPipeline( BasePipeline<W, C, E, M> nestedPipeline, Map<String, String> attributes )
-	{
+	public void initNestedPipeline( BasePipeline<W, C, E, M> nestedPipeline, Map<String, String> attributes ) {
+
 		nestedPipeline.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 		nestedPipeline.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
@@ -385,14 +369,12 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 */
 
 	protected void buildCompoundWidget( E element )
-		throws Exception
-	{
-		for ( int loop = 0, length = getChildCount( element ); loop < length; loop++ )
-		{
+		throws Exception {
+
+		for ( int loop = 0, length = getChildCount( element ); loop < length; loop++ ) {
 			E child = getChildAt( element, loop );
 
-			if ( child == null )
-			{
+			if ( child == null ) {
 				continue;
 			}
 
@@ -400,8 +382,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 			String childName = attributes.get( NAME );
 
-			if ( childName == null || "".equals( childName ) )
-			{
+			if ( childName == null || "".equals( childName ) ) {
 				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
 			}
 
@@ -409,8 +390,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 			boolean forcedReadOnly = false;
 
-			if ( !TRUE.equals( attributes.get( READ_ONLY ) ) && isReadOnly() )
-			{
+			if ( !TRUE.equals( attributes.get( READ_ONLY ) ) && isReadOnly() ) {
 				attributes.put( READ_ONLY, TRUE );
 				forcedReadOnly = true;
 			}
@@ -418,18 +398,15 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 			String elementName = getElementName( child );
 			W widget = buildWidget( elementName, attributes );
 
-			if ( widget == null )
-			{
-				if ( mMaximumInspectionDepth <= 0 )
-				{
+			if ( widget == null ) {
+				if ( mMaximumInspectionDepth <= 0 ) {
 					continue;
 				}
 
 				// If setReadOnly( true ), remove our forced attribute so the nestedMetawidget
 				// can differentiate whether it was forced or in the inspector XML
 
-				if ( forcedReadOnly )
-				{
+				if ( forcedReadOnly ) {
 					attributes.remove( READ_ONLY );
 				}
 
@@ -438,8 +415,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 			Map<String, String> additionalAttributes = getAdditionalAttributes( widget );
 
-			if ( additionalAttributes != null )
-			{
+			if ( additionalAttributes != null ) {
 				attributes.putAll( additionalAttributes );
 			}
 
@@ -447,8 +423,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 			// A WidgetProcessor could return null to cancel the widget
 
-			if ( widget == null )
-			{
+			if ( widget == null ) {
 				continue;
 			}
 
@@ -474,16 +449,13 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 	protected abstract Map<String, String> getAttributesAsMap( E element );
 
-	protected void startBuild()
-	{
+	protected void startBuild() {
+
 		M pipelineOwner = getPipelineOwner();
 
-		if ( mWidgetProcessors != null )
-		{
-			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-			{
-				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> )
-				{
+		if ( mWidgetProcessors != null ) {
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors ) {
+				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> ) {
 					( (AdvancedWidgetProcessor<W, M>) widgetProcessor ).onStartBuild( pipelineOwner );
 				}
 			}
@@ -491,8 +463,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 		// (layout can be null if no path, in an IDE visual builder)
 
-		if ( mLayout instanceof AdvancedLayout<?, ?, ?> )
-		{
+		if ( mLayout instanceof AdvancedLayout<?, ?, ?> ) {
 			AdvancedLayout<W, C, M> advancedLayout = (AdvancedLayout<W, C, M>) mLayout;
 
 			advancedLayout.onStartBuild( pipelineOwner );
@@ -500,22 +471,19 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 		}
 	}
 
-	protected String processInspectionResult( String inspectionResult )
-	{
+	protected String processInspectionResult( String inspectionResult ) {
+
 		String processedInspectionResult = inspectionResult;
 
-		if ( mInspectionResultProcessors != null )
-		{
+		if ( mInspectionResultProcessors != null ) {
 			M pipelineOwner = getPipelineOwner();
 
-			for ( InspectionResultProcessor<M> inspectionResultProcessor : mInspectionResultProcessors )
-			{
+			for ( InspectionResultProcessor<M> inspectionResultProcessor : mInspectionResultProcessors ) {
 				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, pipelineOwner );
 
 				// An InspectionResultProcessor could return null to cancel the inspection
 
-				if ( processedInspectionResult == null )
-				{
+				if ( processedInspectionResult == null ) {
 					return null;
 				}
 			}
@@ -535,8 +503,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 	protected abstract Map<String, String> getAdditionalAttributes( W widget );
 
-	protected W buildWidget( String elementName, Map<String, String> attributes )
-	{
+	protected W buildWidget( String elementName, Map<String, String> attributes ) {
+
 		return mWidgetBuilder.buildWidget( elementName, attributes, getPipelineOwner() );
 	}
 
@@ -544,22 +512,19 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * Process the built widget.
 	 */
 
-	protected W processWidget( W widget, String elementName, Map<String, String> attributes )
-	{
+	protected W processWidget( W widget, String elementName, Map<String, String> attributes ) {
+
 		W processedWidget = widget;
 
-		if ( mWidgetProcessors != null )
-		{
+		if ( mWidgetProcessors != null ) {
 			M pipelineOwner = getPipelineOwner();
 
-			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-			{
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors ) {
 				processedWidget = widgetProcessor.processWidget( processedWidget, elementName, attributes, pipelineOwner );
 
 				// A WidgetProcessor could return null to cancel the widget
 
-				if ( processedWidget == null )
-				{
+				if ( processedWidget == null ) {
 					return null;
 				}
 			}
@@ -577,23 +542,20 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 	 * Lays out the built and processed widget.
 	 */
 
-	protected void layoutWidget( W widget, String elementName, Map<String, String> attributes )
-	{
+	protected void layoutWidget( W widget, String elementName, Map<String, String> attributes ) {
+
 		M pipelineOwner = getPipelineOwner();
 
 		mLayout.layoutWidget( widget, elementName, attributes, pipelineOwner, pipelineOwner );
 	}
 
-	protected void endBuild()
-	{
+	protected void endBuild() {
+
 		M pipelineOwner = getPipelineOwner();
 
-		if ( mWidgetProcessors != null )
-		{
-			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-			{
-				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> )
-				{
+		if ( mWidgetProcessors != null ) {
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors ) {
+				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> ) {
 					( (AdvancedWidgetProcessor<W, M>) widgetProcessor ).onEndBuild( pipelineOwner );
 				}
 			}
@@ -601,8 +563,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 		// (layout can be null if no path, in an IDE visual builder)
 
-		if ( mLayout instanceof AdvancedLayout<?, ?, ?> )
-		{
+		if ( mLayout instanceof AdvancedLayout<?, ?, ?> ) {
 			AdvancedLayout<W, C, M> advancedLayout = (AdvancedLayout<W, C, M>) mLayout;
 
 			advancedLayout.endContainerLayout( pipelineOwner, pipelineOwner );

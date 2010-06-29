@@ -30,8 +30,8 @@ import android.view.View;
  */
 
 public class TabHost
-	extends FrameLayout
-{
+	extends FrameLayout {
+
 	//
 	// Private members
 	//
@@ -42,8 +42,8 @@ public class TabHost
 	// Constructors
 	//
 
-	public TabHost( Context context )
-	{
+	public TabHost( Context context ) {
+
 		super( context );
 	}
 
@@ -51,23 +51,23 @@ public class TabHost
 	// Public methods
 	//
 
-	public TabHost.TabSpec newTabSpec( String name )
-	{
+	public TabHost.TabSpec newTabSpec( String name ) {
+
 		return new TabSpec();
 	}
 
-	public void addTab( TabSpec tabSpec )
-	{
+	public void addTab( TabSpec tabSpec ) {
+
 		mTabs.add( tabSpec );
 	}
 
-	public TabSpec getTabSpec( int index )
-	{
+	public TabSpec getTabSpec( int index ) {
+
 		return mTabs.get( index );
 	}
 
-	public void setup()
-	{
+	public void setup() {
+
 		// Enforce must call setup() before addTab()
 
 		mTabs = CollectionUtils.newArrayList();
@@ -77,13 +77,13 @@ public class TabHost
 	// Inner class
 	//
 
-	public static interface TabContentFactory
-	{
+	public static interface TabContentFactory {
+
 		View createTabContent( String tag );
 	}
 
-	public static class TabSpec
-	{
+	public static class TabSpec {
+
 		//
 		// Private members
 		//
@@ -96,27 +96,27 @@ public class TabHost
 		// Public methods
 		//
 
-		public TabSpec setIndicator( CharSequence indicator )
-		{
+		public TabSpec setIndicator( CharSequence indicator ) {
+
 			mIndicator = indicator;
 
 			return this;
 		}
 
-		public CharSequence getIndicator()
-		{
+		public CharSequence getIndicator() {
+
 			return mIndicator;
 		}
 
-		public TabSpec setContent( TabContentFactory content )
-		{
+		public TabSpec setContent( TabContentFactory content ) {
+
 			mContent = content;
 
 			return this;
 		}
 
-		public TabContentFactory getContent()
-		{
+		public TabContentFactory getContent() {
+
 			return mContent;
 		}
 	}

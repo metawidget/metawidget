@@ -36,8 +36,8 @@ import android.widget.TextView;
  */
 
 public class TextViewLayoutDecorator
-	extends AndroidNestedSectionLayoutDecorator
-{
+	extends AndroidNestedSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -48,8 +48,8 @@ public class TextViewLayoutDecorator
 	// Constructor
 	//
 
-	public TextViewLayoutDecorator( TextViewLayoutDecoratorConfig config )
-	{
+	public TextViewLayoutDecorator( TextViewLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyle = config.getStyle();
@@ -60,8 +60,8 @@ public class TextViewLayoutDecorator
 	//
 
 	@Override
-	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget )
-	{
+	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget ) {
+
 		TextView textView = new TextView( metawidget.getContext() );
 
 		// Apply style (if any)
@@ -73,8 +73,7 @@ public class TextViewLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

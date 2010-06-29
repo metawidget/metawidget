@@ -40,8 +40,8 @@ import org.richfaces.component.UITabPanel;
  */
 
 public class TabPanelLayoutDecorator
-	extends UIComponentNestedSectionLayoutDecorator
-{
+	extends UIComponentNestedSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -52,8 +52,8 @@ public class TabPanelLayoutDecorator
 	// Constructor
 	//
 
-	public TabPanelLayoutDecorator( TabPanelLayoutDecoratorConfig config )
-	{
+	public TabPanelLayoutDecorator( TabPanelLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mHeaderAlignment = config.getHeaderAlignment();
@@ -64,8 +64,8 @@ public class TabPanelLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
-	{
+	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
@@ -74,8 +74,7 @@ public class TabPanelLayoutDecorator
 
 		// Whole new UITabPanel?
 
-		if ( previousSectionWidget == null )
-		{
+		if ( previousSectionWidget == null ) {
 			tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
 			tabPanel.setId( viewRoot.createUniqueId() );
 			tabPanel.setSwitchType( "client" );
@@ -88,9 +87,7 @@ public class TabPanelLayoutDecorator
 			tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, tabPanelAttributes );
 
 			getDelegate().layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
-		}
-		else
-		{
+		} else {
 			tabPanel = (UITabPanel) previousSectionWidget.getParent().getParent();
 		}
 
@@ -105,8 +102,7 @@ public class TabPanelLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

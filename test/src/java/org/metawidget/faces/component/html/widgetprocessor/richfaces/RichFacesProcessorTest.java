@@ -38,8 +38,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class RichFacesProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -51,8 +51,8 @@ public class RichFacesProcessorTest
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		RichFacesProcessor processor = new RichFacesProcessor();
 
 		// Pass through
@@ -99,8 +99,8 @@ public class RichFacesProcessorTest
 
 	@Override
 	protected void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockRichFacesFacesContext();
@@ -108,8 +108,8 @@ public class RichFacesProcessorTest
 
 	@Override
 	protected void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();
@@ -120,18 +120,17 @@ public class RichFacesProcessorTest
 	//
 
 	protected static class MockRichFacesFacesContext
-		extends MockFacesContext
-	{
+		extends MockFacesContext {
+
 		//
 		// Protected methods
 		//
 
 		@Override
 		public UIComponent createComponent( String componentName )
-			throws FacesException
-		{
-			if ( "org.ajax4jsf.Support".equals( componentName ) )
-			{
+			throws FacesException {
+
+			if ( "org.ajax4jsf.Support".equals( componentName ) ) {
 				return new HtmlAjaxSupport();
 			}
 

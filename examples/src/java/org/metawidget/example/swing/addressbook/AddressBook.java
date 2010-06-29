@@ -55,8 +55,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class AddressBook
-	implements ContactsControllerProvider
-{
+	implements ContactsControllerProvider {
+
 	//
 	// Private statics
 	//
@@ -79,25 +79,20 @@ public class AddressBook
 	// Constructor
 	//
 
-	public AddressBook( Container container )
-	{
+	public AddressBook( Container container ) {
+
 		// Nimbus look and feel (if available)
 		//
 		// Note: applies to both application and applet version of AddressBook
 
-		try
-		{
-			for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() )
-			{
-				if ( "Nimbus".equals( info.getName() ) )
-				{
+		try {
+			for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() ) {
+				if ( "Nimbus".equals( info.getName() ) ) {
 					UIManager.setLookAndFeel( info.getClassName() );
 					break;
 				}
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Okay to fail
 		}
 
@@ -114,13 +109,10 @@ public class AddressBook
 		JLabel label;
 		URL url = Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/addressbook.gif" );
 
-		if ( url != null )
-		{
+		if ( url != null ) {
 			ImageIcon imageAddressBook = new ImageIcon( url );
 			label = new JLabel( imageAddressBook );
-		}
-		else
-		{
+		} else {
 			label = new JLabel();
 		}
 
@@ -132,12 +124,9 @@ public class AddressBook
 
 		JPanel panelRight = new JPanel();
 
-		if ( container instanceof ImagePanel )
-		{
+		if ( container instanceof ImagePanel ) {
 			panelRight.setOpaque( false );
-		}
-		else
-		{
+		} else {
 			panelRight.setBackground( Color.white );
 		}
 
@@ -156,40 +145,40 @@ public class AddressBook
 	//
 
 	@UiHidden
-	public ContactsController getContactsController()
-	{
+	public ContactsController getContactsController() {
+
 		return mContactsController;
 	}
 
 	@Override
-	public void fireRefresh()
-	{
+	public void fireRefresh() {
+
 		mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 	}
 
 	@UiAction
-	public void search()
-	{
+	public void search() {
+
 		// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
 
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
-		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ));
+		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ) );
 
 		fireRefresh();
 	}
 
 	@UiAction
 	@UiComesAfter( "search" )
-	public void addPersonal()
-	{
+	public void addPersonal() {
+
 		new ContactDialog( AddressBook.this, new PersonalContact() ).setVisible( true );
 	}
 
 	@UiAction
 	@UiComesAfter( "addPersonal" )
-	public void addBusiness()
-	{
+	public void addBusiness() {
+
 		new ContactDialog( AddressBook.this, new BusinessContact() ).setVisible( true );
 	}
 
@@ -197,8 +186,8 @@ public class AddressBook
 	// Private methods
 	//
 
-	private JComponent createSearchSection()
-	{
+	private JComponent createSearchSection() {
+
 		// Metawidget
 
 		mSearchMetawidget = new SwingMetawidget();
@@ -222,16 +211,16 @@ public class AddressBook
 	}
 
 	@SuppressWarnings( "serial" )
-	private JComponent createResultsSection()
-	{
+	private JComponent createResultsSection() {
+
 		final JTable table = new JTable( mModel );
 		table.setAutoCreateColumnsFromModel( true );
 
-		table.setDefaultRenderer( Set.class, new DefaultTableCellRenderer()
-		{
+		table.setDefaultRenderer( Set.class, new DefaultTableCellRenderer() {
+
 			@Override
-			public void setValue( Object value )
-			{
+			public void setValue( Object value ) {
+
 				setText( CollectionUtils.toString( (Set<?>) value ) );
 			}
 		} );
@@ -239,26 +228,22 @@ public class AddressBook
 		URL personalIconUrl = Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/personal-small.gif" );
 		URL businessIconUrl = Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/business-small.gif" );
 
-		if ( personalIconUrl != null && businessIconUrl != null )
-		{
+		if ( personalIconUrl != null && businessIconUrl != null ) {
 			final ImageIcon iconPersonal = new ImageIcon( personalIconUrl );
 			final ImageIcon iconBusiness = new ImageIcon( businessIconUrl );
 
-			table.setDefaultRenderer( Class.class, new DefaultTableCellRenderer()
-			{
+			table.setDefaultRenderer( Class.class, new DefaultTableCellRenderer() {
+
 				{
 					setHorizontalAlignment( SwingConstants.CENTER );
 				}
 
 				@Override
-				public void setValue( Object value )
-				{
-					if ( PersonalContact.class.equals( value ) )
-					{
+				public void setValue( Object value ) {
+
+					if ( PersonalContact.class.equals( value ) ) {
 						setIcon( iconPersonal );
-					}
-					else
-					{
+					} else {
 						setIcon( iconBusiness );
 					}
 				}
@@ -271,15 +256,14 @@ public class AddressBook
 		table.setRowSelectionAllowed( true );
 		table.getColumnModel().getColumn( 2 ).setMaxWidth( 60 );
 
-		table.addMouseListener( new MouseAdapter()
-		{
+		table.addMouseListener( new MouseAdapter() {
+
 			@Override
-			public void mouseClicked( MouseEvent event )
-			{
+			public void mouseClicked( MouseEvent event ) {
+
 				// When table is double clicked...
 
-				if ( event.getClickCount() != 2 )
-				{
+				if ( event.getClickCount() != 2 ) {
 					return;
 				}
 

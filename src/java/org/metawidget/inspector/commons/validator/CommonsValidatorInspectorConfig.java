@@ -19,21 +19,20 @@ package org.metawidget.inspector.commons.validator;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
- * Configures a CommonsValidatorInspector prior to use. Once instantiated,
- * Inspectors are immutable.
+ * Configures a CommonsValidatorInspector prior to use. Once instantiated, Inspectors are immutable.
  *
  * @author Richard Kennard
  */
 
 public class CommonsValidatorInspectorConfig
-	extends BaseXmlInspectorConfig
-{
+	extends BaseXmlInspectorConfig {
+
 	//
 	// Constructor
 	//
 
-	public CommonsValidatorInspectorConfig()
-	{
+	public CommonsValidatorInspectorConfig() {
+
 		setDefaultFile( "validation.xml" );
 	}
 }

@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Control;
  * @author Richard Kennard
  */
 
-public interface SwtValuePropertyProvider
-{
+public interface SwtValuePropertyProvider {
+
 	//
 	// Methods
 	//

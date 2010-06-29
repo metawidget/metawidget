@@ -39,15 +39,15 @@ import org.w3c.dom.Element;
  */
 
 public class MetawidgetPipelineTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testIndentation()
-		throws Exception
-	{
+		throws Exception {
+
 		new Pipeline().testIndentation();
 	}
 
@@ -56,33 +56,33 @@ public class MetawidgetPipelineTest
 	 */
 
 	public void testInspectionResultProcessorReturningNull()
-		throws Exception
-	{
+		throws Exception {
+
 		final List<String> called = CollectionUtils.newArrayList();
 
-		Pipeline pipeline = new Pipeline()
-		{
+		Pipeline pipeline = new Pipeline() {
+
 			@Override
-			public String inspect( Object toInspect, String type, String... names )
-			{
+			public String inspect( Object toInspect, String type, String... names ) {
+
 				return super.processInspectionResult( null );
 			}
 		};
 
-		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>()
-		{
+		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>() {
+
 			@Override
-			public String processInspectionResult( String inspectionResult, Object metawidget )
-			{
+			public String processInspectionResult( String inspectionResult, Object metawidget ) {
+
 				called.add( "InspectionResultProcessor #1" );
 				return null;
 			}
 		} );
-		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>()
-		{
+		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>() {
+
 			@Override
-			public String processInspectionResult( String inspectionResult, Object metawidget )
-			{
+			public String processInspectionResult( String inspectionResult, Object metawidget ) {
+
 				called.add( "InspectionResultProcessor #2" );
 				return null;
 			}
@@ -99,57 +99,57 @@ public class MetawidgetPipelineTest
 	 */
 
 	public void testWidgetProcessorReturningNull()
-		throws Exception
-	{
+		throws Exception {
+
 		final List<String> called = CollectionUtils.newArrayList();
 
 		// This little test harness reinforces the minimal relationship between Inspectors
 		// and WidgetBuilders. Here, we are returning Strings not real GUI widgets.
 
-		Pipeline pipeline = new Pipeline()
-		{
+		Pipeline pipeline = new Pipeline() {
+
 			@Override
 			protected void buildCompoundWidget( Element element )
-				throws Exception
-			{
+				throws Exception {
+
 				called.add( "buildCompoundWidget" );
 				super.buildCompoundWidget( element );
 			}
 
 			@Override
-			protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
-			{
+			protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes ) {
+
 				called.add( "layoutWidget" );
 				super.layoutWidget( widget, elementName, attributes );
 			}
 		};
 
-		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>()
-		{
+		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>() {
+
 			@Override
-			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
-			{
+			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget ) {
+
 				// Return null if no type (this will kick us into buildCompoundWidget)
 
 				return attributes.get( TYPE );
 			}
 		} );
 
-		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>()
-		{
+		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>() {
+
 			@Override
-			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget )
-			{
+			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget ) {
+
 				called.add( "WidgetProcessor #1" );
 				return null;
 			}
 		} );
 
-		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>()
-		{
+		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>() {
+
 			@Override
-			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget )
-			{
+			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget ) {
+
 				called.add( "WidgetProcessor #2" );
 				return null;
 			}
@@ -179,40 +179,40 @@ public class MetawidgetPipelineTest
 	 */
 
 	public void testStubWithNullAttributes()
-		throws Exception
-	{
+		throws Exception {
+
 		final List<String> called = CollectionUtils.newArrayList();
 
-		Pipeline pipeline = new Pipeline()
-		{
+		Pipeline pipeline = new Pipeline() {
+
 			@Override
 			protected void buildCompoundWidget( Element element )
-				throws Exception
-			{
+				throws Exception {
+
 				called.add( "buildCompoundWidget" );
 				super.buildCompoundWidget( element );
 			}
 
 			@Override
-			protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
-			{
+			protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes ) {
+
 				called.add( "addWidget" );
 				super.layoutWidget( widget, elementName, attributes );
 			}
 
 			@Override
-			protected Map<String, String> getAdditionalAttributes( Object widget )
-			{
+			protected Map<String, String> getAdditionalAttributes( Object widget ) {
+
 				called.add( "nullAttributes" );
 				return null;
 			}
 		};
 
-		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>()
-		{
+		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>() {
+
 			@Override
-			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
-			{
+			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget ) {
+
 				// Will return null for the top-level (because no NAME), which will trigger
 				// buildCompoundWidget, and will return not-null for first property (because has a
 				// NAME)
@@ -231,27 +231,24 @@ public class MetawidgetPipelineTest
 		assertEquals( "addWidget", called.get( 2 ) );
 	}
 
-	public void testDuplicateInspectionResultProcessors()
-	{
+	public void testDuplicateInspectionResultProcessors() {
+
 		Pipeline pipeline = new Pipeline();
 		@SuppressWarnings( "unchecked" )
 		InspectionResultProcessor<Object> inspectionResultProcessor1 = new ComesAfterInspectionResultProcessor();
 
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
 
-		try
-		{
+		try {
 			pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
 			assertTrue( false );
-		}
-		catch( InspectionResultProcessorException e )
-		{
+		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "List of InspectionResultProcessors already contains org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor", e.getMessage() );
 		}
 	}
 
-	public void testDuplicateWidgetProcessors()
-	{
+	public void testDuplicateWidgetProcessors() {
+
 		Pipeline pipeline = new Pipeline();
 		@SuppressWarnings( "unchecked" )
 		WidgetProcessor<Object, Object> widgetProcessor1 = (WidgetProcessor) new ReflectionBindingProcessor();
@@ -261,13 +258,10 @@ public class MetawidgetPipelineTest
 		pipeline.addWidgetProcessor( widgetProcessor1 );
 		pipeline.addWidgetProcessor( widgetProcessor2 );
 
-		try
-		{
+		try {
 			pipeline.addWidgetProcessor( widgetProcessor1 );
 			assertTrue( false );
-		}
-		catch( WidgetProcessorException e )
-		{
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "List of WidgetProcessors already contains org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor", e.getMessage() );
 		}
 	}
@@ -277,15 +271,15 @@ public class MetawidgetPipelineTest
 	//
 
 	static class Pipeline
-		extends W3CPipeline<Object, Object, Object>
-	{
+		extends W3CPipeline<Object, Object, Object> {
+
 		//
 		// Public methods
 		//
 
 		public void testIndentation()
-			throws Exception
-		{
+			throws Exception {
+
 			Element element = getChildAt( getDocumentElement( "<foo><bar>baz</bar></foo>" ), 0 );
 			assertEquals( "bar", element.getNodeName() );
 
@@ -301,39 +295,39 @@ public class MetawidgetPipelineTest
 		//
 
 		@Override
-		protected void startBuild()
-		{
+		protected void startBuild() {
+
 			// Do nothing
 		}
 
 		@Override
-		protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
-		{
+		protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes ) {
+
 			// Do nothing
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Object widget )
-		{
+		protected Map<String, String> getAdditionalAttributes( Object widget ) {
+
 			return null;
 		}
 
 		@Override
 		protected Object buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			return null;
 		}
 
 		@Override
-		protected void endBuild()
-		{
+		protected void endBuild() {
+
 			// Do nothing
 		}
 
 		@Override
-		protected Object getPipelineOwner()
-		{
+		protected Object getPipelineOwner() {
+
 			return null;
 		}
 	}

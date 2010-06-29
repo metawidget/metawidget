@@ -30,8 +30,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public final class ClassUtils
-{
+public final class ClassUtils {
+
 	//
 	// Public statics
 	//
@@ -45,68 +45,54 @@ public final class ClassUtils
 	public final static Class<?>[]	NO_CLASSES			= new Class[0];
 
 	/**
-	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package
-	 * is not available on all target platforms.
+	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package is
+	 * not available on all target platforms.
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static Method getReadMethod( Class clazz, String property )
-	{
+	public static Method getReadMethod( Class clazz, String property ) {
+
 		String propertyUppercased = StringUtils.uppercaseFirstLetter( property );
 
-		try
-		{
+		try {
 			return clazz.getMethod( JAVABEAN_GET_PREFIX + propertyUppercased );
-		}
-		catch ( Exception e1 )
-		{
-			try
-			{
+		} catch ( Exception e1 ) {
+			try {
 				return clazz.getMethod( JAVABEAN_IS_PREFIX + propertyUppercased );
-			}
-			catch ( Exception e2 )
-			{
+			} catch ( Exception e2 ) {
 				throw new RuntimeException( "No such method " + JAVABEAN_GET_PREFIX + propertyUppercased + "() or " + JAVABEAN_IS_PREFIX + propertyUppercased + "() on " + clazz, e1 );
 			}
 		}
 	}
 
 	/**
-	 * Lookup JavaBean-convention setter without using <code>java.beans</code>, as that package
-	 * is not available on all target platforms.
+	 * Lookup JavaBean-convention setter without using <code>java.beans</code>, as that package is
+	 * not available on all target platforms.
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static Method getWriteMethod( Class clazz, String property, Class type )
-	{
+	public static Method getWriteMethod( Class clazz, String property, Class type ) {
+
 		String propertyUppercased = StringUtils.uppercaseFirstLetter( property );
 
 		// First, try and match based on subtypes of the property type
 
 		Class typeSuper = type;
 
-		while ( typeSuper != null )
-		{
-			try
-			{
+		while ( typeSuper != null ) {
+			try {
 				return clazz.getMethod( JAVABEAN_SET_PREFIX + propertyUppercased, typeSuper );
-			}
-			catch ( Throwable t )
-			{
+			} catch ( Throwable t ) {
 				typeSuper = typeSuper.getSuperclass();
 			}
 		}
 
 		// Next, try and match based on interfaces of the property type
 
-		for ( Class anInterface : type.getInterfaces() )
-		{
-			try
-			{
+		for ( Class anInterface : type.getInterfaces() ) {
+			try {
 				return clazz.getMethod( JAVABEAN_SET_PREFIX + propertyUppercased, anInterface );
-			}
-			catch ( Throwable t )
-			{
+			} catch ( Throwable t ) {
 				// Keep trying
 			}
 		}
@@ -115,22 +101,18 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Get the value of the JavaBean-convention property without using <code>java.beans</code>,
-	 * as that package is not available on all target platforms.
+	 * Get the value of the JavaBean-convention property without using <code>java.beans</code>, as
+	 * that package is not available on all target platforms.
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> T getProperty( Object base, String property )
-	{
-		try
-		{
+	public static <T> T getProperty( Object base, String property ) {
+
+		try {
 			Method method = getReadMethod( base.getClass(), property );
 			return (T) method.invoke( base );
-		}
-		catch ( Exception e )
-		{
-			if ( base == null )
-			{
+		} catch ( Exception e ) {
+			if ( base == null ) {
 				throw new RuntimeException( "Unable to get '" + property + "' because base is null", e );
 			}
 
@@ -139,14 +121,13 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Set the value of the JavaBean-convention property without using <code>java.beans</code>,
-	 * as that package is not available on all target platforms.
+	 * Set the value of the JavaBean-convention property without using <code>java.beans</code>, as
+	 * that package is not available on all target platforms.
 	 */
 
-	public static void setProperty( Object base, String property, Object value )
-	{
-		try
-		{
+	public static void setProperty( Object base, String property, Object value ) {
+
+		try {
 			Class<?> baseClass = base.getClass();
 
 			// Determine the type based on the 'read' method, not the value.getClass(), because
@@ -155,9 +136,7 @@ public final class ClassUtils
 			Method method = getReadMethod( baseClass, property );
 			method = getWriteMethod( baseClass, property, method.getReturnType() );
 			method.invoke( base, value );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( "Unable to set '" + property + "' of '" + base + "' to '" + value + "'", e );
 		}
 	}
@@ -170,20 +149,17 @@ public final class ClassUtils
 	 * better to 'inspect from parent' (see <code>UIMetawidget</code>).
 	 */
 
-	public static boolean isPrimitiveWrapper( Class<?> clazz )
-	{
-		if ( Number.class.isAssignableFrom( clazz ) )
-		{
+	public static boolean isPrimitiveWrapper( Class<?> clazz ) {
+
+		if ( Number.class.isAssignableFrom( clazz ) ) {
 			return true;
 		}
 
-		if ( Boolean.class.isAssignableFrom( clazz ) )
-		{
+		if ( Boolean.class.isAssignableFrom( clazz ) ) {
 			return true;
 		}
 
-		if ( Character.class.isAssignableFrom( clazz ) )
-		{
+		if ( Character.class.isAssignableFrom( clazz ) ) {
 			return true;
 		}
 
@@ -195,45 +171,37 @@ public final class ClassUtils
 	 * <code>int.class</code>)
 	 */
 
-	public static Class<?> getWrapperClass( Class<?> clazz )
-	{
-		if ( clazz.equals( byte.class ) )
-		{
+	public static Class<?> getWrapperClass( Class<?> clazz ) {
+
+		if ( clazz.equals( byte.class ) ) {
 			return Byte.class;
 		}
 
-		if ( clazz.equals( short.class ) )
-		{
+		if ( clazz.equals( short.class ) ) {
 			return Short.class;
 		}
 
-		if ( clazz.equals( int.class ) )
-		{
+		if ( clazz.equals( int.class ) ) {
 			return Integer.class;
 		}
 
-		if ( clazz.equals( long.class ) )
-		{
+		if ( clazz.equals( long.class ) ) {
 			return Long.class;
 		}
 
-		if ( clazz.equals( float.class ) )
-		{
+		if ( clazz.equals( float.class ) ) {
 			return Float.class;
 		}
 
-		if ( clazz.equals( double.class ) )
-		{
+		if ( clazz.equals( double.class ) ) {
 			return Double.class;
 		}
 
-		if ( clazz.equals( boolean.class ) )
-		{
+		if ( clazz.equals( boolean.class ) ) {
 			return Boolean.class;
 		}
 
-		if ( clazz.equals( char.class ) )
-		{
+		if ( clazz.equals( char.class ) ) {
 			return Character.class;
 		}
 
@@ -245,20 +213,15 @@ public final class ClassUtils
 	 * <code>ClassNotFoundException</code>.
 	 */
 
-	public static boolean classExists( String clazz )
-	{
-		try
-		{
+	public static boolean classExists( String clazz ) {
+
+		try {
 			Class.forName( clazz, false, null );
 
 			return true;
-		}
-		catch ( ClassNotFoundException e )
-		{
+		} catch ( ClassNotFoundException e ) {
 			return false;
-		}
-		catch ( AccessControlException e )
-		{
+		} catch ( AccessControlException e ) {
 			// Not accessible (eg. running in an applet)
 
 			return false;
@@ -269,8 +232,8 @@ public final class ClassUtils
 	 * Return the unproxied version of a class proxied by, say, CGLIB or Javassist.
 	 */
 
-	public static Class<?> getUnproxiedClass( Class<?> clazz )
-	{
+	public static Class<?> getUnproxiedClass( Class<?> clazz ) {
+
 		return getUnproxiedClass( clazz, PROXY_PATTERN );
 	}
 
@@ -278,8 +241,8 @@ public final class ClassUtils
 	 * Return the unproxied version of a class proxied by, say, CGLIB or Javassist.
 	 * <p>
 	 * Unproxying a class back to its original type is desirable so that
-	 * <code>BaseObjectInspector</code>-based and <code>BaseXmlInspector</code>-based
-	 * inspectors can merge to a common type.
+	 * <code>BaseObjectInspector</code>-based and <code>BaseXmlInspector</code>-based inspectors can
+	 * merge to a common type.
 	 * <p>
 	 * However, unproxying may not always be possible. If the proxied class is not an extension of
 	 * some base class but simply a <code>java.lang.Object</code> that implements one or more
@@ -287,10 +250,9 @@ public final class ClassUtils
 	 * <code>getUnproxiedClass</code> just returns the original (proxied) class.
 	 */
 
-	public static Class<?> getUnproxiedClass( Class<?> clazz, Pattern proxyPattern )
-	{
-		if ( proxyPattern == null || !proxyPattern.matcher( clazz.getName() ).find() )
-		{
+	public static Class<?> getUnproxiedClass( Class<?> clazz, Pattern proxyPattern ) {
+
+		if ( proxyPattern == null || !proxyPattern.matcher( clazz.getName() ).find() ) {
 			return clazz;
 		}
 
@@ -300,16 +262,15 @@ public final class ClassUtils
 		// that implements one or more interfaces, we cannot know which interface is the 'right' one
 		// to return. In that class, just return the original (proxied) class
 
-		if ( Object.class.equals( superclass ) )
-		{
+		if ( Object.class.equals( superclass ) ) {
 			return clazz;
 		}
 
 		return superclass;
 	}
 
-	public static Class<?> niceForName( String className )
-	{
+	public static Class<?> niceForName( String className ) {
+
 		// Try Thread.currentThread().getContextClassLoader(), in case metawidget.jar
 		// is in JRE/lib/ext (which it might be for desktop apps)
 
@@ -320,66 +281,54 @@ public final class ClassUtils
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
 	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
-	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic
-	 * type, such as 'Login Screen')</li>
+	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
+	 * such as 'Login Screen')</li>
 	 * </ul>
 	 *
 	 * @throws NullPointerException
 	 *             if className is null
 	 */
 
-	public static Class<?> niceForName( String className, ClassLoader classLoader )
-	{
-		try
-		{
-			if ( classLoader != null )
-			{
+	public static Class<?> niceForName( String className, ClassLoader classLoader ) {
+
+		try {
+			if ( classLoader != null ) {
 				return Class.forName( className, false, classLoader );
 			}
 
 			// Use Class.forName() if there is no contextClassLoader (eg. Android)
 
 			return Class.forName( className, false, ClassUtils.class.getClassLoader() );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			if ( "byte".equals( className ) )
-			{
+		} catch ( ClassNotFoundException e ) {
+			if ( "byte".equals( className ) ) {
 				return byte.class;
 			}
 
-			if ( "short".equals( className ) )
-			{
+			if ( "short".equals( className ) ) {
 				return short.class;
 			}
 
-			if ( "int".equals( className ) )
-			{
+			if ( "int".equals( className ) ) {
 				return int.class;
 			}
 
-			if ( "long".equals( className ) )
-			{
+			if ( "long".equals( className ) ) {
 				return long.class;
 			}
 
-			if ( "float".equals( className ) )
-			{
+			if ( "float".equals( className ) ) {
 				return float.class;
 			}
 
-			if ( "double".equals( className ) )
-			{
+			if ( "double".equals( className ) ) {
 				return double.class;
 			}
 
-			if ( "boolean".equals( className ) )
-			{
+			if ( "boolean".equals( className ) ) {
 				return boolean.class;
 			}
 
-			if ( "char".equals( className ) )
-			{
+			if ( "char".equals( className ) ) {
 				return char.class;
 			}
 
@@ -394,14 +343,13 @@ public final class ClassUtils
 	 * 1.5-specific.
 	 */
 
-	public static String getSimpleName( Class<?> clazz )
-	{
+	public static String getSimpleName( Class<?> clazz ) {
+
 		String className = clazz.getName();
 
 		int lastIndexOf = className.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		if ( lastIndexOf != -1 )
-		{
+		if ( lastIndexOf != -1 ) {
 			className = className.substring( lastIndexOf + 1 );
 		}
 
@@ -418,10 +366,9 @@ public final class ClassUtils
 	 */
 
 	public static InputStream openResource( String resource )
-		throws FileNotFoundException
-	{
-		if ( resource == null || "".equals( resource.trim() ) )
-		{
+		throws FileNotFoundException {
+
+		if ( resource == null || "".equals( resource.trim() ) ) {
 			throw new FileNotFoundException( "No resource specified" );
 		}
 
@@ -429,12 +376,10 @@ public final class ClassUtils
 
 		ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
 
-		if ( loaderContext != null )
-		{
+		if ( loaderContext != null ) {
 			InputStream stream = loaderContext.getResourceAsStream( resource );
 
-			if ( stream != null )
-			{
+			if ( stream != null ) {
 				return stream;
 			}
 		}
@@ -443,8 +388,7 @@ public final class ClassUtils
 
 		InputStream stream = ClassUtils.class.getResourceAsStream( resource );
 
-		if ( stream != null )
-		{
+		if ( stream != null ) {
 			return stream;
 		}
 
@@ -461,8 +405,8 @@ public final class ClassUtils
 	// Private constructor
 	//
 
-	private ClassUtils()
-	{
+	private ClassUtils() {
+
 		// Can never be called
 	}
 }

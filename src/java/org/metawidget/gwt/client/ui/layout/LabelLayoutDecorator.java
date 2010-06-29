@@ -34,8 +34,8 @@ import com.google.gwt.user.client.ui.Panel;
  */
 
 public class LabelLayoutDecorator
-	extends GwtFlatSectionLayoutDecorator
-{
+	extends GwtFlatSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -46,8 +46,8 @@ public class LabelLayoutDecorator
 	// Constructor
 	//
 
-	public LabelLayoutDecorator( LabelLayoutDecoratorConfig config )
-	{
+	public LabelLayoutDecorator( LabelLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyleName = config.getStyleName();
@@ -58,8 +58,8 @@ public class LabelLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, Panel container, GwtMetawidget metawidget )
-	{
+	protected void addSectionWidget( String section, int level, Panel container, GwtMetawidget metawidget ) {
+
 		Label label = new Label();
 		label.setStyleName( mStyleName );
 
@@ -67,8 +67,7 @@ public class LabelLayoutDecorator
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

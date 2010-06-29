@@ -28,14 +28,14 @@ import android.content.DialogInterface;
  */
 
 public class ConfirmDialog
-	extends AlertDialog
-{
+	extends AlertDialog {
+
 	//
 	// Public statics
 	//
 
-	public static void show( Context context, CharSequence title, CharSequence message, DialogInterface.OnClickListener listener )
-	{
+	public static void show( Context context, CharSequence title, CharSequence message, DialogInterface.OnClickListener listener ) {
+
 		Dialog dialog = new ConfirmDialog( context, title, message, listener );
 		dialog.show();
 	}
@@ -44,8 +44,8 @@ public class ConfirmDialog
 	// Contructor
 	//
 
-	protected ConfirmDialog( Context context, CharSequence title, CharSequence message, DialogInterface.OnClickListener listener )
-	{
+	protected ConfirmDialog( Context context, CharSequence title, CharSequence message, DialogInterface.OnClickListener listener ) {
+
 		super( context );
 
 		setTitle( title );

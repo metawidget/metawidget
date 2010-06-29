@@ -25,16 +25,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class OutputTextLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class, new OutputTextLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class, new OutputTextLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

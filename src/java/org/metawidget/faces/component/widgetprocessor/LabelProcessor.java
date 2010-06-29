@@ -36,35 +36,29 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class LabelProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		Method method;
 
-		try
-		{
+		try {
 			method = component.getClass().getMethod( "setLabel", String.class );
-		}
-		catch( NoSuchMethodException e )
-		{
+		} catch ( NoSuchMethodException e ) {
 			// Fail gracefully for JSF 1.1
 
 			return component;
 		}
 
-		try
-		{
+		try {
 			method.invoke( component, metawidget.getLabelString( attributes ) );
 			return component;
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw WidgetProcessorException.newException( e );
 		}
 	}

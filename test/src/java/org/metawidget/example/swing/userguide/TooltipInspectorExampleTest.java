@@ -40,19 +40,19 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class TooltipInspectorExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testInspectorExample()
-		throws Exception
-	{
+		throws Exception {
+
 		TestPerson person = new TestPerson();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new TooltipInspector() )) );
+		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new TooltipInspector() ) ) );
 		metawidget.addWidgetProcessor( new TooltipProcessor() );
 		metawidget.setToInspect( person );
 
@@ -67,13 +67,13 @@ public class TooltipInspectorExampleTest
 
 	@Retention( RetentionPolicy.RUNTIME )
 	@Target( { ElementType.FIELD, ElementType.METHOD } )
-	static @interface Tooltip
-	{
+	static @interface Tooltip {
+
 		String value();
 	}
 
-	static class TestPerson
-	{
+	static class TestPerson {
+
 		@Tooltip( "tooltip-name" )
 		public String	name;
 
@@ -85,18 +85,17 @@ public class TooltipInspectorExampleTest
 	}
 
 	static class TooltipInspector
-		extends BaseObjectInspector
-	{
+		extends BaseObjectInspector {
+
 		@Override
 		protected Map<String, String> inspectProperty( Property property )
-			throws Exception
-		{
+			throws Exception {
+
 			Map<String, String> attributes = CollectionUtils.newHashMap();
 
 			Tooltip tooltip = property.getAnnotation( Tooltip.class );
 
-			if ( tooltip != null )
-			{
+			if ( tooltip != null ) {
 				attributes.put( "tooltip", tooltip.value() );
 			}
 
@@ -105,10 +104,10 @@ public class TooltipInspectorExampleTest
 	}
 
 	static class TooltipProcessor
-		implements WidgetProcessor<JComponent, SwingMetawidget>
-	{
-		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		{
+		implements WidgetProcessor<JComponent, SwingMetawidget> {
+
+		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 			widget.setToolTipText( attributes.get( "tooltip" ) );
 			return widget;
 		}

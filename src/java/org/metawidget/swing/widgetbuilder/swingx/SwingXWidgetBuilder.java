@@ -42,16 +42,15 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class SwingXWidgetBuilder
-	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider
-{
+	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
+
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Component component )
-	{
-		if ( component instanceof JXDatePicker )
-		{
+	public String getValueProperty( Component component ) {
+
+		if ( component instanceof JXDatePicker ) {
 			return "date";
 		}
 
@@ -62,19 +61,17 @@ public class SwingXWidgetBuilder
 	// Public methods
 	//
 
-	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		// Not for us?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub();
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			return null;
 		}
 
@@ -82,8 +79,7 @@ public class SwingXWidgetBuilder
 
 		// Dates
 
-		if ( Date.class.equals( clazz ) )
-		{
+		if ( Date.class.equals( clazz ) ) {
 			return new JXDatePicker();
 		}
 

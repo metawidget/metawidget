@@ -24,8 +24,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-public interface Converter<T>
-{
+public interface Converter<T> {
+
 	//
 	// Methods
 	//
@@ -33,7 +33,9 @@ public interface Converter<T>
 	/**
 	 * Convert the given value (as returned by the given Widget) into the given class
 	 *
-	 * @param intoClass	the class to convert into. Useful for handling subclasses (eg. see NumberConverter)
+	 * @param intoClass
+	 *            the class to convert into. Useful for handling subclasses (eg. see
+	 *            NumberConverter)
 	 */
 
 	T convertFromWidget( Widget widget, Object value, Class<?> intoClass );

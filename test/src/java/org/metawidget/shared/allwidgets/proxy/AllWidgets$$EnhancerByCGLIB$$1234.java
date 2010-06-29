@@ -27,8 +27,8 @@ import org.metawidget.shared.allwidgets.model.AllWidgets;
  */
 
 public class AllWidgets$$EnhancerByCGLIB$$1234
-	extends AllWidgets
-{
+	extends AllWidgets {
+
 	//
 	// Private statics
 	//

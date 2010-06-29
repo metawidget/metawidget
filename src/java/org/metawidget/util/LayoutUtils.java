@@ -28,8 +28,8 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public final class LayoutUtils
-{
+public final class LayoutUtils {
+
 	//
 	// Public methods
 	//
@@ -43,21 +43,19 @@ public final class LayoutUtils
 	 * @return the stripped section
 	 */
 
-	public static String stripSection( Map<String, String> attributes )
-	{
+	public static String stripSection( Map<String, String> attributes ) {
+
 		String sections = attributes.remove( SECTION );
 
 		// (null means 'no change to current section')
 
-		if ( sections == null )
-		{
+		if ( sections == null ) {
 			return null;
 		}
 
 		String[] sectionsAsArray = ArrayUtils.fromString( sections );
 
-		switch ( sectionsAsArray.length )
-		{
+		switch ( sectionsAsArray.length ) {
 			// (empty String means 'end current section')
 
 			case 0:
@@ -77,8 +75,8 @@ public final class LayoutUtils
 	// Private constructor
 	//
 
-	private LayoutUtils()
-	{
+	private LayoutUtils() {
+
 		// Can never be called
 	}
 }

@@ -25,16 +25,15 @@ import java.text.ParseException;
  */
 
 public class DateEditor
-	extends PropertyEditorSupport
-{
+	extends PropertyEditorSupport {
+
 	//
 	// Private statics
 	//
 
 	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
 
-	static
-	{
+	static {
 		FORMAT.setLenient( false );
 	}
 
@@ -43,40 +42,33 @@ public class DateEditor
 	//
 
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
+
 		Object value = getValue();
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return "";
 		}
 
-		synchronized ( FORMAT )
-		{
+		synchronized ( FORMAT ) {
 			return FORMAT.format( value );
 		}
 	}
 
 	@Override
 	public void setAsText( String text )
-		throws IllegalArgumentException
-	{
-		if ( text == null || "".equals( text ))
-		{
+		throws IllegalArgumentException {
+
+		if ( text == null || "".equals( text ) ) {
 			setValue( null );
 			return;
 		}
 
-		try
-		{
-			synchronized ( FORMAT )
-			{
-				setValue( FORMAT.parse( text ));
+		try {
+			synchronized ( FORMAT ) {
+				setValue( FORMAT.parse( text ) );
 			}
-		}
-		catch( ParseException e )
-		{
+		} catch ( ParseException e ) {
 			// Do not throw new IllegalArgumentException( e ), as it
 			// gives a very ugly stack trace
 

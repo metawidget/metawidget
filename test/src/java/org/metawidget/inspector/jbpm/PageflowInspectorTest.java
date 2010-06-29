@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
  */
 
 public class PageflowInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -44,16 +44,16 @@ public class PageflowInspectorTest
 	//
 
 	@Override
-	public void setUp()
-	{
+	public void setUp() {
+
 		BaseXmlInspectorConfig config = new BaseXmlInspectorConfig();
 		ConfigReader reader = new ConfigReader();
-		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow2.jpdl.xml" ));
+		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow2.jpdl.xml" ) );
 		mInspector = new PageflowInspector( config );
 	}
 
-	public void testProperties()
-	{
+	public void testProperties() {
+
 		String xml = mInspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
 

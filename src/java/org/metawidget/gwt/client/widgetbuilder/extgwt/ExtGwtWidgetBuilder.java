@@ -39,37 +39,33 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class ExtGwtWidgetBuilder
-	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor
-{
+	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor {
+
 	//
 	// Public methods
 	//
 
-	public Object getValue( Widget widget )
-	{
-		if ( widget instanceof DateField )
-		{
+	public Object getValue( Widget widget ) {
+
+		if ( widget instanceof DateField ) {
 			return ( (DateField) widget ).getValue();
 		}
 
-		if ( widget instanceof Slider )
-		{
+		if ( widget instanceof Slider ) {
 			return ( (Slider) widget ).getValue();
 		}
 
 		return null;
 	}
 
-	public boolean setValue( Widget widget, Object value )
-	{
-		if ( widget instanceof DateField )
-		{
+	public boolean setValue( Widget widget, Object value ) {
+
+		if ( widget instanceof DateField ) {
 			( (DateField) widget ).setValue( (Date) value );
 			return true;
 		}
 
-		if ( widget instanceof Slider )
-		{
+		if ( widget instanceof Slider ) {
 			( (Slider) widget ).setValue( (Integer) value );
 			return true;
 		}
@@ -80,50 +76,43 @@ public class ExtGwtWidgetBuilder
 	}
 
 	@Override
-	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
-	{
+	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget ) {
+
 		// Not for ExtGWT?
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return null;
 		}
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return null;
 		}
 
-		if ( attributes.containsKey( LOOKUP ) )
-		{
+		if ( attributes.containsKey( LOOKUP ) ) {
 			return null;
 		}
 
 		String type = GwtUtils.getActualClassOrType( attributes );
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			return null;
 		}
 
 		// Dates
 
-		if ( Date.class.getName().equals( type ) )
-		{
+		if ( Date.class.getName().equals( type ) ) {
 			return new DateField();
 		}
 
 		// Slider
 
-		if ( GwtUtils.isIntegerPrimitive( type ) )
-		{
+		if ( GwtUtils.isIntegerPrimitive( type ) ) {
 			// Ranged
 
 			String minimumValue = attributes.get( MINIMUM_VALUE );
 			String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
-			{
+			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
 				Slider slider = new Slider();
 				slider.setMinValue( (int) Math.ceil( Double.parseDouble( minimumValue ) ) );
 				slider.setMaxValue( (int) Math.floor( Double.parseDouble( maximumValue ) ) );

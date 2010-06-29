@@ -26,8 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class EnumConverter<T extends Enum<T>>
-	extends BaseConverter<T>
-{
+	extends BaseConverter<T> {
+
 	//
 	// Private members
 	//
@@ -38,8 +38,8 @@ public class EnumConverter<T extends Enum<T>>
 	// Constructor
 	//
 
-	public EnumConverter( Class<T> anEnum )
-	{
+	public EnumConverter( Class<T> anEnum ) {
+
 		mEnum = anEnum;
 	}
 
@@ -47,10 +47,9 @@ public class EnumConverter<T extends Enum<T>>
 	// Public methods
 	//
 
-	public T convertFromWidget( Widget widget, Object value, Class<?> type )
-	{
-		if ( value == null || "".equals( value ))
-		{
+	public T convertFromWidget( Widget widget, Object value, Class<?> type ) {
+
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 
@@ -58,15 +57,13 @@ public class EnumConverter<T extends Enum<T>>
 	}
 
 	@Override
-	public Object convertForWidget( Widget widget, T value )
-	{
-		if ( value == null )
-		{
+	public Object convertForWidget( Widget widget, T value ) {
+
+		if ( value == null ) {
 			return null;
 		}
 
-		if ( widget instanceof Label )
-		{
+		if ( widget instanceof Label ) {
 			return value.toString();
 		}
 

@@ -29,8 +29,8 @@ import java.nio.channels.WritableByteChannel;
  * @author Richard Kennard
  */
 
-public final class IOUtils
-{
+public final class IOUtils {
+
 	//
 	// Public statics
 	//
@@ -41,47 +41,35 @@ public final class IOUtils
 	 * Note: this implementation uses NIO.
 	 */
 
-	public static void streamBetween( InputStream in, OutputStream out )
-	{
-		try
-		{
-			try
-			{
-				try
-				{
+	public static void streamBetween( InputStream in, OutputStream out ) {
+
+		try {
+			try {
+				try {
 					// (must create a local buffer for Thread-safety)
 
 					ByteBuffer buffer = ByteBuffer.allocate( BUFFER_SIZE );
 					WritableByteChannel channelOut = Channels.newChannel( out );
 					ReadableByteChannel channelIn = Channels.newChannel( in );
 
-					while ( channelIn.read( buffer ) != -1 )
-					{
+					while ( channelIn.read( buffer ) != -1 ) {
 						buffer.flip();
 						channelOut.write( buffer );
 						buffer.clear();
 					}
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					throw new RuntimeException( e );
-				}
-				finally
-				{
+				} finally {
 					// Separate blocks for out.close() and in.close(), as noted
 					// by Bloch:
 					// http://mail.openjdk.java.net/pipermail/coin-dev/2009-February/000011.html
 
 					out.close();
 				}
-			}
-			finally
-			{
+			} finally {
 				in.close();
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Convert to unchecked Exception
 
 			throw new RuntimeException( e );
@@ -103,8 +91,8 @@ public final class IOUtils
 	// Private constructor
 	//
 
-	private IOUtils()
-	{
+	private IOUtils() {
+
 		// Can never be called
 	}
 }

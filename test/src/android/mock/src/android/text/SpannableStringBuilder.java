@@ -23,8 +23,8 @@ package android.text;
  */
 
 public class SpannableStringBuilder
-	implements CharSequence
-{
+	implements CharSequence {
+
 	//
 	// Private members
 	//
@@ -35,8 +35,8 @@ public class SpannableStringBuilder
 	// Constructor
 	//
 
-	public SpannableStringBuilder( CharSequence string )
-	{
+	public SpannableStringBuilder( CharSequence string ) {
+
 		mString = string;
 	}
 
@@ -45,8 +45,8 @@ public class SpannableStringBuilder
 	//
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		return mString.toString();
 	}
 
@@ -55,20 +55,20 @@ public class SpannableStringBuilder
 	//
 
 	@Override
-	public char charAt( int index )
-	{
+	public char charAt( int index ) {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int length()
-	{
+	public int length() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public CharSequence subSequence( int start, int end )
-	{
+	public CharSequence subSequence( int start, int end ) {
+
 		throw new UnsupportedOperationException();
 	}
 }

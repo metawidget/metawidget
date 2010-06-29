@@ -26,26 +26,25 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleBindingProcessorTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testConfig()
-	{
+	public void testConfig() {
+
 		SimpleBindingProcessorConfig config1 = new SimpleBindingProcessorConfig();
 		SimpleBindingProcessorConfig config2 = new SimpleBindingProcessorConfig();
 
 		assertFalse( config1.equals( "foo" ) );
-		assertFalse( config1.equals( new SimpleBindingProcessorConfig()
-		{
+		assertFalse( config1.equals( new SimpleBindingProcessorConfig() {
 			// Subclass
 		} ) );
 		assertEquals( config1, config1 );
@@ -54,29 +53,29 @@ public class SimpleBindingProcessorTest
 
 		// adapter
 
-		SimpleBindingProcessorAdapter<Date> adapter = new SimpleBindingProcessorAdapter<Date>()
-		{
+		SimpleBindingProcessorAdapter<Date> adapter = new SimpleBindingProcessorAdapter<Date>() {
+
 			@Override
-			public Object getProperty( Date object, String... property )
-			{
+			public Object getProperty( Date object, String... property ) {
+
 				return null;
 			}
 
 			@Override
-			public Class<?> getPropertyType( Date object, String... property )
-			{
+			public Class<?> getPropertyType( Date object, String... property ) {
+
 				return null;
 			}
 
 			@Override
-			public void invokeAction( Date object, String... action )
-			{
+			public void invokeAction( Date object, String... action ) {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setProperty( Date object, Object value, String... property )
-			{
+			public void setProperty( Date object, Object value, String... property ) {
+
 				// Do nothing
 			}
 		};
@@ -93,17 +92,17 @@ public class SimpleBindingProcessorTest
 
 		// converter
 
-		Converter<Date> converter = new Converter<Date>()
-		{
+		Converter<Date> converter = new Converter<Date>() {
+
 			@Override
-			public Object convertForWidget( Widget widget, Date value )
-			{
+			public Object convertForWidget( Widget widget, Date value ) {
+
 				return null;
 			}
 
 			@Override
-			public Date convertFromWidget( Widget widget, Object value, Class<?> intoClass )
-			{
+			public Date convertFromWidget( Widget widget, Object value, Class<?> intoClass ) {
+
 				return null;
 			}
 		};

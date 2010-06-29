@@ -42,16 +42,16 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class WidgetBuilderExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "unchecked" )
 	public void testWidgetProcessorExample()
-		throws Exception
-	{
+		throws Exception {
+
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -61,8 +61,8 @@ public class WidgetBuilderExampleTest
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JPanel );
-		assertTrue( ((JPanel) metawidget.getComponent( 5 )).getComponent( 0 ) instanceof JRadioButton );
-		assertTrue( ((JPanel) metawidget.getComponent( 5 )).getComponent( 1 ) instanceof JRadioButton );
+		assertTrue( ( (JPanel) metawidget.getComponent( 5 ) ).getComponent( 0 ) instanceof JRadioButton );
+		assertTrue( ( (JPanel) metawidget.getComponent( 5 ) ).getComponent( 1 ) instanceof JRadioButton );
 	}
 
 	//
@@ -70,12 +70,11 @@ public class WidgetBuilderExampleTest
 	//
 
 	static class JRadioButtonWidgetBuilder
-		implements WidgetBuilder<JComponent, SwingMetawidget>
-	{
-		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		{
-			if ( !"boolean".equals( attributes.get( TYPE ) ) )
-			{
+		implements WidgetBuilder<JComponent, SwingMetawidget> {
+
+		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
+			if ( !"boolean".equals( attributes.get( TYPE ) ) ) {
 				return null;
 			}
 

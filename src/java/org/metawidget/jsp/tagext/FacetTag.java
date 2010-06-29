@@ -31,8 +31,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  */
 
 public class FacetTag
-	extends BodyTagSupport
-{
+	extends BodyTagSupport {
+
 	//
 	// Private statics
 	//
@@ -51,32 +51,30 @@ public class FacetTag
 	// Public methods
 	//
 
-	public void setName( String name )
-	{
+	public void setName( String name ) {
+
 		mName = name;
 	}
 
 	/**
 	 * Get the body content as saved during <code>doEndTag</code>.
 	 * <p>
-	 * It seems <code>getBodyContent().toString</code> only returns a meaningful result
-	 * while we are in the <code>doEndTag</code> method. We capture it there for use
-	 * later.
+	 * It seems <code>getBodyContent().toString</code> only returns a meaningful result while we are
+	 * in the <code>doEndTag</code> method. We capture it there for use later.
 	 */
 
-	public String getSavedBodyContent()
-	{
+	public String getSavedBodyContent() {
+
 		return mSavedBodyContent;
 	}
 
 	@Override
 	public int doEndTag()
-		throws JspException
-	{
+		throws JspException {
+
 		MetawidgetTag tagMetawidget = (MetawidgetTag) findAncestorWithClass( this, MetawidgetTag.class );
 
-		if ( tagMetawidget == null )
-		{
+		if ( tagMetawidget == null ) {
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
 		}
 

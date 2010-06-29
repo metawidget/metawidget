@@ -26,8 +26,8 @@ package org.metawidget.config;
  * @author Richard Kennard
  */
 
-public interface NeedsResourceResolver
-{
+public interface NeedsResourceResolver {
+
 	//
 	// Methods
 	//

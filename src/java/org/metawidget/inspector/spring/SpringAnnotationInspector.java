@@ -32,19 +32,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SpringAnnotationInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public SpringAnnotationInspector()
-	{
+	public SpringAnnotationInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public SpringAnnotationInspector( BaseObjectInspectorConfig config )
-	{
+	public SpringAnnotationInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -54,29 +54,26 @@ public class SpringAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// SpringLookup
 
 		UiSpringLookup springLookup = property.getAnnotation( UiSpringLookup.class );
 
-		if ( springLookup != null )
-		{
+		if ( springLookup != null ) {
 			attributes.put( SPRING_LOOKUP, springLookup.value() );
 
 			String itemValue = springLookup.itemValue();
 
-			if ( !"".equals( itemValue ))
-			{
+			if ( !"".equals( itemValue ) ) {
 				attributes.put( SPRING_LOOKUP_ITEM_VALUE, itemValue );
 			}
 
 			String itemLabel = springLookup.itemLabel();
 
-			if ( !"".equals( itemLabel ))
-			{
+			if ( !"".equals( itemLabel ) ) {
 				attributes.put( SPRING_LOOKUP_ITEM_LABEL, itemLabel );
 			}
 		}

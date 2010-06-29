@@ -34,14 +34,14 @@ import android.widget.EditText;
  */
 
 public class AndroidMetawidgetTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testGettersAndSetters()
-	{
+	public void testGettersAndSetters() {
+
 		// setToInspect and getPath
 
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
@@ -99,47 +99,35 @@ public class AndroidMetawidgetTest
 		assertTrue( androidMetawidget.isReadOnly() );
 	}
 
-	public void testGetSetValue()
-	{
+	public void testGetSetValue() {
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 
-		try
-		{
+		try {
 			androidMetawidget.getValue();
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "No names specified", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			androidMetawidget.getValue( "foo" );
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "No View with tag foo", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			androidMetawidget.setValue( 2 );
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "No names specified", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			androidMetawidget.setValue( 2, "foo" );
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "No View with tag foo", e.getMessage() );
 		}
 
@@ -147,8 +135,8 @@ public class AndroidMetawidgetTest
 		editText.setTag( "foo" );
 		editText.setText( "Bar" );
 		androidMetawidget.addView( editText );
-		assertEquals( "Bar", androidMetawidget.getValue( "foo" ));
+		assertEquals( "Bar", androidMetawidget.getValue( "foo" ) );
 		androidMetawidget.setValue( "Baz", "foo" );
-		assertEquals( "Baz", androidMetawidget.getValue( "foo" ));
+		assertEquals( "Baz", androidMetawidget.getValue( "foo" ) );
 	}
 }

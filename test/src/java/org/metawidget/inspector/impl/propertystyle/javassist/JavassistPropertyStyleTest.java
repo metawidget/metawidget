@@ -32,18 +32,18 @@ import org.metawidget.inspector.impl.propertystyle.Property;
  */
 
 public class JavassistPropertyStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testJavassist()
-	{
+	public void testJavassist() {
+
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
-		assertTrue( properties instanceof LinkedHashMap<?,?> );
+		assertTrue( properties instanceof LinkedHashMap<?, ?> );
 
 		Iterator<Property> i = properties.values().iterator();
 		assertEquals( "superBar", i.next().getName() );
@@ -58,12 +58,12 @@ public class JavassistPropertyStyleTest
 		assertFalse( i.hasNext() );
 	}
 
-	public void testInterfaceBasedPropertyStyle()
-	{
+	public void testInterfaceBasedPropertyStyle() {
+
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class );
 
-		assertTrue( properties instanceof LinkedHashMap<?,?> );
+		assertTrue( properties instanceof LinkedHashMap<?, ?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 	}
 
@@ -72,8 +72,8 @@ public class JavassistPropertyStyleTest
 	//
 
 	class Foo
-		extends SuperFoo
-	{
+		extends SuperFoo {
+
 		@SuppressWarnings( "unused" )
 		private boolean	ignoreMe;
 
@@ -81,51 +81,51 @@ public class JavassistPropertyStyleTest
 
 		public Long		bar;
 
-		public String getMethodFoo()
-		{
+		public String getMethodFoo() {
+
 			return null;
 		}
 
-		public int getMethodBar()
-		{
+		public int getMethodBar() {
+
 			return 0;
 		}
 
-		public List<String> getMethodBaz()
-		{
+		public List<String> getMethodBaz() {
+
 			return null;
 		}
 	}
 
-	class SuperFoo
-	{
+	class SuperFoo {
+
 		public Byte		superFoo;
 
 		public Object	superBar;
 
-		public String getMethodSuperFoo()
-		{
+		public String getMethodSuperFoo() {
+
 			return null;
 		}
 
-		public void setMethodSuperBar( int superBarParam )
-		{
+		public void setMethodSuperBar( int superBarParam ) {
+
 			// Do nothing
 		}
 	}
 
 	class ProxiedByCGLIB$$
-		implements InterfaceFoo
-	{
+		implements InterfaceFoo {
+
 		@Override
-		public Object getInterfaceBar()
-		{
+		public Object getInterfaceBar() {
+
 			return null;
 		}
 	}
 
-	interface InterfaceFoo
-	{
+	interface InterfaceFoo {
+
 		@UiMasked
 		Object getInterfaceBar();
 	}

@@ -42,8 +42,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class StandardValidatorProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -55,20 +55,20 @@ public class StandardValidatorProcessorTest
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		StandardValidatorProcessor processor = new StandardValidatorProcessor();
 
 		// Only EditableValueHolders
 
 		HtmlOutputText htmlOutputText = new HtmlOutputText();
-		assertTrue( htmlOutputText == processor.processWidget( htmlOutputText, ACTION, null, null ));
+		assertTrue( htmlOutputText == processor.processWidget( htmlOutputText, ACTION, null, null ) );
 
 		// Pass through
 
 		HtmlInputText htmlInputText = new HtmlInputText();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, null ));
+		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, null ) );
 		assertTrue( 0 == htmlInputText.getValidators().length );
 		assertTrue( null == htmlInputText.getLabel() );
 
@@ -78,36 +78,36 @@ public class StandardValidatorProcessorTest
 
 		attributes.put( NAME, "foo" );
 		attributes.put( MINIMUM_VALUE, "2" );
-		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ));
+		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ) );
 		assertTrue( 1 == htmlInputText.getValidators().length );
-		assertTrue( 2 == ((LongRangeValidator) htmlInputText.getValidators()[0]).getMinimum() );
-		assertTrue( 0 == ((LongRangeValidator) htmlInputText.getValidators()[0]).getMaximum() );
+		assertTrue( 2 == ( (LongRangeValidator) htmlInputText.getValidators()[0] ).getMinimum() );
+		assertTrue( 0 == ( (LongRangeValidator) htmlInputText.getValidators()[0] ).getMaximum() );
 		assertTrue( null == htmlInputText.getLabel() );
 
 		// Should not touch existing validators
 
 		attributes.put( MAXIMUM_VALUE, "4" );
-		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ));
+		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ) );
 		assertTrue( 1 == htmlInputText.getValidators().length );
-		assertTrue( 2 == ((LongRangeValidator) htmlInputText.getValidators()[0]).getMinimum() );
-		assertTrue( 0 == ((LongRangeValidator) htmlInputText.getValidators()[0]).getMaximum() );
+		assertTrue( 2 == ( (LongRangeValidator) htmlInputText.getValidators()[0] ).getMinimum() );
+		assertTrue( 0 == ( (LongRangeValidator) htmlInputText.getValidators()[0] ).getMaximum() );
 
 		// Double range
 
 		attributes.put( TYPE, double.class.getName() );
-		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ));
+		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ) );
 		assertTrue( 2 == htmlInputText.getValidators().length );
-		assertTrue( 2d == ((DoubleRangeValidator) htmlInputText.getValidators()[1]).getMinimum() );
-		assertTrue( 4d == ((DoubleRangeValidator) htmlInputText.getValidators()[1]).getMaximum() );
+		assertTrue( 2d == ( (DoubleRangeValidator) htmlInputText.getValidators()[1] ).getMinimum() );
+		assertTrue( 4d == ( (DoubleRangeValidator) htmlInputText.getValidators()[1] ).getMaximum() );
 
 		// Length range
 
 		attributes.put( MINIMUM_LENGTH, "3" );
 		attributes.put( MAXIMUM_LENGTH, "10" );
-		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ));
+		assertTrue( htmlInputText == processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget ) );
 		assertTrue( 3 == htmlInputText.getValidators().length );
-		assertTrue( 3 == ((LengthValidator) htmlInputText.getValidators()[2]).getMinimum() );
-		assertTrue( 10 == ((LengthValidator) htmlInputText.getValidators()[2]).getMaximum() );
+		assertTrue( 3 == ( (LengthValidator) htmlInputText.getValidators()[2] ).getMinimum() );
+		assertTrue( 10 == ( (LengthValidator) htmlInputText.getValidators()[2] ).getMaximum() );
 	}
 
 	//
@@ -116,23 +116,22 @@ public class StandardValidatorProcessorTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = newMockFacesContext();
 	}
 
-	protected MockFacesContext newMockFacesContext()
-	{
-		return new MockFacesContext()
-		{
+	protected MockFacesContext newMockFacesContext() {
+
+		return new MockFacesContext() {
+
 			@Override
 			public UIComponent createComponent( String componentName )
-				throws FacesException
-			{
-				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) )
-				{
+				throws FacesException {
+
+				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) ) {
 					return new HtmlLookupOutputText();
 				}
 
@@ -143,8 +142,8 @@ public class StandardValidatorProcessorTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

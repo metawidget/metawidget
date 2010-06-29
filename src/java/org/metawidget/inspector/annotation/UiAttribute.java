@@ -24,16 +24,16 @@ import java.lang.annotation.Target;
 /**
  * Annotates an arbitrary Metawidget attribute.
  * <p>
- * This annotation can be used when no other Inspector is available for the
- * given attribute, and as an alternative to using XmlInspector.
+ * This annotation can be used when no other Inspector is available for the given attribute, and as
+ * an alternative to using XmlInspector.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiAttribute
-{
+public @interface UiAttribute {
+
 	String name();
 
 	String value();

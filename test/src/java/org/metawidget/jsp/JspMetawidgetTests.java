@@ -56,14 +56,14 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JspMetawidgetTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "JSP Metawidget Tests" );
 		suite.addTestSuite( DisplayTagWidgetBuilderTest.class );
 		suite.addTestSuite( HeadingTagLayoutDecoratorTest.class );
@@ -83,8 +83,8 @@ public class JspMetawidgetTests
 	//
 
 	public static class MockPageContext
-		extends PageContext
-	{
+		extends PageContext {
+
 		//
 		// Private members
 		//
@@ -96,8 +96,8 @@ public class JspMetawidgetTests
 		//
 
 		@Override
-		public ServletContext getServletContext()
-		{
+		public ServletContext getServletContext() {
+
 			return mServletContext;
 		}
 
@@ -106,161 +106,161 @@ public class JspMetawidgetTests
 		//
 
 		@Override
-		public void forward( String arg0 )
-		{
+		public void forward( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Exception getException()
-		{
+		public Exception getException() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Object getPage()
-		{
+		public Object getPage() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ServletRequest getRequest()
-		{
+		public ServletRequest getRequest() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ServletResponse getResponse()
-		{
+		public ServletResponse getResponse() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ServletConfig getServletConfig()
-		{
+		public ServletConfig getServletConfig() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public HttpSession getSession()
-		{
+		public HttpSession getSession() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void handlePageException( Exception arg0 )
-		{
+		public void handlePageException( Exception arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void handlePageException( Throwable arg0 )
-		{
+		public void handlePageException( Throwable arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void include( String arg0, boolean arg1 )
-		{
+		public void include( String arg0, boolean arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void include( String arg0 )
-		{
+		public void include( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void initialize( Servlet arg0, ServletRequest arg1, ServletResponse arg2, String arg3, boolean arg4, int arg5, boolean arg6 )
-			throws IllegalStateException, IllegalArgumentException
-		{
+			throws IllegalStateException, IllegalArgumentException {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void release()
-		{
+		public void release() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Object findAttribute( String arg0 )
-		{
+		public Object findAttribute( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Object getAttribute( String arg0, int arg1 )
-		{
+		public Object getAttribute( String arg0, int arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Object getAttribute( String arg0 )
-		{
+		public Object getAttribute( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Enumeration<?> getAttributeNamesInScope( int arg0 )
-		{
+		public Enumeration<?> getAttributeNamesInScope( int arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getAttributesScope( String arg0 )
-		{
+		public int getAttributesScope( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ExpressionEvaluator getExpressionEvaluator()
-		{
+		public ExpressionEvaluator getExpressionEvaluator() {
+
 			return new MockExpressionEvaluator();
 		}
 
 		@Override
-		public JspWriter getOut()
-		{
+		public JspWriter getOut() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public VariableResolver getVariableResolver()
-		{
+		public VariableResolver getVariableResolver() {
+
 			return new MockVariableResolver();
 		}
 
 		@Override
-		public void removeAttribute( String arg0, int arg1 )
-		{
+		public void removeAttribute( String arg0, int arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void removeAttribute( String arg0 )
-		{
+		public void removeAttribute( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setAttribute( String arg0, Object arg1, int arg2 )
-		{
+		public void setAttribute( String arg0, Object arg1, int arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setAttribute( String arg0, Object arg1 )
-		{
+		public void setAttribute( String arg0, Object arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 	}
 
 	@SuppressWarnings( "deprecation" )
 	static class MockServletContext
-		implements ServletContext
-	{
+		implements ServletContext {
+
 		//
 		// Private members
 		//
@@ -272,20 +272,20 @@ public class JspMetawidgetTests
 		//
 
 		@Override
-		public Object getAttribute( String key )
-		{
+		public Object getAttribute( String key ) {
+
 			return mAttributes.get( key );
 		}
 
 		@Override
-		public void setAttribute( String key, Object value )
-		{
+		public void setAttribute( String key, Object value ) {
+
 			mAttributes.put( key, value );
 		}
 
 		@Override
-		public URL getResource( String arg0 )
-		{
+		public URL getResource( String arg0 ) {
+
 			return null;
 		}
 
@@ -294,156 +294,154 @@ public class JspMetawidgetTests
 		//
 
 		@Override
-		public Enumeration<?> getAttributeNames()
-		{
+		public Enumeration<?> getAttributeNames() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ServletContext getContext( String arg0 )
-		{
+		public ServletContext getContext( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getContextPath()
-		{
+		public String getContextPath() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getInitParameter( String arg0 )
-		{
+		public String getInitParameter( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Enumeration<?> getInitParameterNames()
-		{
+		public Enumeration<?> getInitParameterNames() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getMajorVersion()
-		{
+		public int getMajorVersion() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getMimeType( String arg0 )
-		{
+		public String getMimeType( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public int getMinorVersion()
-		{
+		public int getMinorVersion() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public RequestDispatcher getNamedDispatcher( String arg0 )
-		{
+		public RequestDispatcher getNamedDispatcher( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getRealPath( String arg0 )
-		{
+		public String getRealPath( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public RequestDispatcher getRequestDispatcher( String arg0 )
-		{
+		public RequestDispatcher getRequestDispatcher( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public InputStream getResourceAsStream( String arg0 )
-		{
+		public InputStream getResourceAsStream( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Set<?> getResourcePaths( String arg0 )
-		{
+		public Set<?> getResourcePaths( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getServerInfo()
-		{
+		public String getServerInfo() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Servlet getServlet( String arg0 )
-		{
+		public Servlet getServlet( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public String getServletContextName()
-		{
+		public String getServletContextName() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Enumeration<?> getServletNames()
-		{
+		public Enumeration<?> getServletNames() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Enumeration<?> getServlets()
-		{
+		public Enumeration<?> getServlets() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void log( String arg0 )
-		{
+		public void log( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void log( Exception arg0, String arg1 )
-		{
+		public void log( Exception arg0, String arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void log( String arg0, Throwable arg1 )
-		{
+		public void log( String arg0, Throwable arg1 ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void removeAttribute( String arg0 )
-		{
+		public void removeAttribute( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 	}
 
 	static class MockExpressionEvaluator
-		extends ExpressionEvaluator
-	{
+		extends ExpressionEvaluator {
+
 		//
 		// Public methods
 		//
 
 		@SuppressWarnings( "unchecked" )
 		@Override
-		public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 )
-		{
-			if ( expression.startsWith( "${array" ))
-			{
-				return new int[]{ 1, 2 };
+		public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 ) {
+
+			if ( expression.startsWith( "${array" ) ) {
+				return new int[] { 1, 2 };
 			}
 
-			if ( expression.startsWith( "${collection" ))
-			{
+			if ( expression.startsWith( "${collection" ) ) {
 				return CollectionUtils.newArrayList( expression, expression );
 			}
 
@@ -452,18 +450,18 @@ public class JspMetawidgetTests
 
 		@Override
 		@SuppressWarnings( "unchecked" )
-		public Expression parseExpression( String arg0, Class arg1, FunctionMapper arg2 )
-		{
+		public Expression parseExpression( String arg0, Class arg1, FunctionMapper arg2 ) {
+
 			throw new UnsupportedOperationException();
 		}
 	}
 
 	static class MockVariableResolver
-		implements VariableResolver
-	{
+		implements VariableResolver {
+
 		@Override
-		public Object resolveVariable( String arg0 )
-		{
+		public Object resolveVariable( String arg0 ) {
+
 			throw new UnsupportedOperationException();
 		}
 	}

@@ -32,8 +32,8 @@ import javax.faces.convert.Converter;
  * @author Richard Kennard
  */
 
-public interface ConverterProcessor
-{
+public interface ConverterProcessor {
+
 	//
 	// Methods
 	//

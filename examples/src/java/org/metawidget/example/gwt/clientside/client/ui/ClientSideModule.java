@@ -46,8 +46,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class ClientSideModule
-	implements EntryPoint
-{
+	implements EntryPoint {
+
 	//
 	// Package-level statics
 	//
@@ -58,8 +58,7 @@ public class ClientSideModule
 
 	final static String	SAMPLE3;
 
-	static
-	{
+	static {
 		String sample1 = "<metawidget-metadata>\r\n\r\n\t<!-- Album Sample -->\r\n\r\n\t<entity type=\"sample\">";
 		sample1 += "\r\n\t\t<property name=\"artist\" required=\"true\"/>";
 		sample1 += "\r\n\t\t<property name=\"album\" required=\"true\"/>";
@@ -108,13 +107,13 @@ public class ClientSideModule
 	// Constructor
 	//
 
-	public ClientSideModule()
-	{
+	public ClientSideModule() {
+
 		this( RootPanel.get() );
 	}
 
-	public ClientSideModule( Panel panel )
-	{
+	public ClientSideModule( Panel panel ) {
+
 		mPanel = panel;
 	}
 
@@ -122,8 +121,8 @@ public class ClientSideModule
 	// Public methods
 	//
 
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
+
 		// TextArea
 
 		final TextArea textarea = new TextArea();
@@ -135,31 +134,31 @@ public class ClientSideModule
 		FlowPanel sampleButtons = new FlowPanel();
 		sampleButtons.setStylePrimaryName( "samples" );
 		Button sampleButton1 = new Button( "Sample #1" );
-		sampleButton1.addClickHandler( new ClickHandler()
-		{
+		sampleButton1.addClickHandler( new ClickHandler() {
+
 			@Override
-			public void onClick( ClickEvent event )
-			{
+			public void onClick( ClickEvent event ) {
+
 				textarea.setText( SAMPLE1 );
 			}
 		} );
 		sampleButtons.add( sampleButton1 );
 		Button sampleButton2 = new Button( "Sample #2" );
-		sampleButton2.addClickHandler( new ClickHandler()
-		{
+		sampleButton2.addClickHandler( new ClickHandler() {
+
 			@Override
-			public void onClick( ClickEvent event )
-			{
+			public void onClick( ClickEvent event ) {
+
 				textarea.setText( SAMPLE2 );
 			}
 		} );
 		sampleButtons.add( sampleButton2 );
 		Button sampleButton3 = new Button( "Sample #3" );
-		sampleButton3.addClickHandler( new ClickHandler()
-		{
+		sampleButton3.addClickHandler( new ClickHandler() {
+
 			@Override
-			public void onClick( ClickEvent event )
-			{
+			public void onClick( ClickEvent event ) {
+
 				textarea.setText( SAMPLE3 );
 			}
 		} );
@@ -189,17 +188,16 @@ public class ClientSideModule
 		buttonsFacet.setName( "buttons" );
 
 		Button saveButton = new Button( "Save" );
-		saveButton.addClickHandler( new ClickHandler()
-		{
+		saveButton.addClickHandler( new ClickHandler() {
+
 			@Override
-			public void onClick( ClickEvent event )
-			{
+			public void onClick( ClickEvent event ) {
+
 				metawidget.getWidgetProcessor( MapBindingProcessor.class ).save( metawidget );
 
 				// (do not Window.alert during unit tests)
 
-				if ( mPanel instanceof RootPanel )
-				{
+				if ( mPanel instanceof RootPanel ) {
 					Window.alert( "MapPropertyBinding retrieved the following values:\n\n" + model.toString() );
 				}
 			}
@@ -212,16 +210,16 @@ public class ClientSideModule
 		layoutConfig.setTableStyleName( "table-form" );
 		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
 		layoutConfig.setFooterStyleName( "buttons" );
-		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( layoutConfig )).setStyleName( "section-heading" )));
+		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( layoutConfig ) ).setStyleName( "section-heading" ) ) );
 
 		// Load button
 
 		Button generateButton = new Button( "Generate" );
-		generateButton.addClickHandler( new ClickHandler()
-		{
+		generateButton.addClickHandler( new ClickHandler() {
+
 			@Override
-			public void onClick( ClickEvent event )
-			{
+			public void onClick( ClickEvent event ) {
+
 				model.clear();
 				metawidget.setToInspect( model );
 			}
@@ -229,15 +227,12 @@ public class ClientSideModule
 
 		// Add to either RootPanel or the given Panel (for unit tests)
 
-		if ( mPanel instanceof RootPanel )
-		{
+		if ( mPanel instanceof RootPanel ) {
 			RootPanel.get( "textarea-column" ).add( sampleButtons );
 			RootPanel.get( "textarea-column" ).add( textarea );
 			RootPanel.get( "generate-column" ).add( generateButton );
 			RootPanel.get( "metawidget" ).add( metawidget );
-		}
-		else
-		{
+		} else {
 			mPanel.add( sampleButtons );
 			mPanel.add( textarea );
 			mPanel.add( generateButton );
@@ -245,8 +240,8 @@ public class ClientSideModule
 		}
 	}
 
-	public Panel getPanel()
-	{
+	public Panel getPanel() {
+
 		return mPanel;
 	}
 }

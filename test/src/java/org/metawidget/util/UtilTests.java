@@ -30,14 +30,14 @@ import org.metawidget.util.simple.StringUtilsTest;
  */
 
 public class UtilTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Util Tests" );
 		suite.addTestSuite( ArrayUtilsTest.class );
 		suite.addTestSuite( ClassUtilsTest.class );

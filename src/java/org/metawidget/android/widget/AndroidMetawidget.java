@@ -66,8 +66,8 @@ import android.widget.LinearLayout;
  */
 
 public class AndroidMetawidget
-	extends LinearLayout
-{
+	extends LinearLayout {
+
 	//
 	// Private statics
 	//
@@ -116,16 +116,16 @@ public class AndroidMetawidget
 	// Constructor
 	//
 
-	public AndroidMetawidget( Context context )
-	{
+	public AndroidMetawidget( Context context ) {
+
 		super( context );
 		mPipeline = newPipeline();
 
 		setOrientation( LinearLayout.VERTICAL );
 	}
 
-	public AndroidMetawidget( Context context, AttributeSet attributes )
-	{
+	public AndroidMetawidget( Context context, AttributeSet attributes ) {
+
 		super( context, attributes );
 		mPipeline = newPipeline();
 
@@ -135,8 +135,7 @@ public class AndroidMetawidget
 
 		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
 
-		if ( mConfig != 0 )
-		{
+		if ( mConfig != 0 ) {
 			mNeedsConfiguring = true;
 		}
 
@@ -144,8 +143,7 @@ public class AndroidMetawidget
 
 		String readOnly = attributes.getAttributeValue( null, "readOnly" );
 
-		if ( readOnly != null && !"".equals( readOnly ) )
-		{
+		if ( readOnly != null && !"".equals( readOnly ) ) {
 			mPipeline.setReadOnly( Boolean.parseBoolean( readOnly ) );
 		}
 	}
@@ -161,23 +159,16 @@ public class AndroidMetawidget
 	 * sets it to point to the given Object.
 	 */
 
-	public void setToInspect( Object toInspect )
-	{
-		if ( mToInspect == null )
-		{
-			if ( mPath == null && toInspect != null )
-			{
+	public void setToInspect( Object toInspect ) {
+
+		if ( mToInspect == null ) {
+			if ( mPath == null && toInspect != null ) {
 				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 			}
-		}
-		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) )
-		{
-			if ( toInspect == null )
-			{
+		} else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) ) {
+			if ( toInspect == null ) {
 				mPath = null;
-			}
-			else
-			{
+			} else {
 				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 			}
 		}
@@ -195,14 +186,14 @@ public class AndroidMetawidget
 	 * relative to our immediate parent.
 	 */
 
-	public void setPath( String path )
-	{
+	public void setPath( String path ) {
+
 		mPath = path;
 		invalidateInspection();
 	}
 
-	public String getPath()
-	{
+	public String getPath() {
+
 		return mPath;
 	}
 
@@ -212,41 +203,40 @@ public class AndroidMetawidget
 	 * Typically, the id will be retrieved by <code>R.raw.inspector</code>
 	 */
 
-	public void setConfig( int config )
-	{
+	public void setConfig( int config ) {
+
 		mConfig = config;
 		mNeedsConfiguring = true;
 		invalidateInspection();
 	}
 
-	public void setInspector( Inspector inspector )
-	{
+	public void setInspector( Inspector inspector ) {
+
 		mPipeline.setInspector( inspector );
 		invalidateInspection();
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
-	{
+	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder ) {
+
 		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
 	}
 
-	public void setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout )
-	{
+	public void setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout ) {
+
 		mPipeline.setLayout( layout );
 		invalidateInspection();
 	}
 
-	public void setBundle( Class<?> bundle )
-	{
+	public void setBundle( Class<?> bundle ) {
+
 		mBundle = bundle;
 		invalidateWidgets();
 	}
 
-	public String getLabelString( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public String getLabelString( Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return "";
 		}
 
@@ -254,12 +244,10 @@ public class AndroidMetawidget
 
 		String label = attributes.get( LABEL );
 
-		if ( label != null )
-		{
+		if ( label != null ) {
 			// (may be forced blank)
 
-			if ( "".equals( label ) )
-			{
+			if ( "".equals( label ) ) {
 				return null;
 			}
 
@@ -267,8 +255,7 @@ public class AndroidMetawidget
 
 			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -279,14 +266,12 @@ public class AndroidMetawidget
 
 		String name = attributes.get( NAME );
 
-		if ( name != null )
-		{
+		if ( name != null ) {
 			// (localize if possible)
 
 			String localized = getLocalizedKey( name );
 
-			if ( localized != null )
-			{
+			if ( localized != null ) {
 				return localized.trim();
 			}
 
@@ -303,33 +288,28 @@ public class AndroidMetawidget
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
-	public String getLocalizedKey( String key )
-	{
-		if ( mBundle == null )
-		{
+	public String getLocalizedKey( String key ) {
+
+		if ( mBundle == null ) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			int id = (Integer) mBundle.getField( key ).get( null );
 			return getContext().getResources().getText( id ).toString();
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 		}
 	}
 
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mPipeline.isReadOnly();
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
-		if ( mPipeline.isReadOnly() == readOnly )
-		{
+	public void setReadOnly( boolean readOnly ) {
+
+		if ( mPipeline.isReadOnly() == readOnly ) {
 			return;
 		}
 
@@ -337,13 +317,13 @@ public class AndroidMetawidget
 		invalidateWidgets();
 	}
 
-	public int getMaximumInspectionDepth()
-	{
+	public int getMaximumInspectionDepth() {
+
 		return mPipeline.getMaximumInspectionDepth();
 	}
 
-	public void setMaximumInspectionDepth( int maximumInspectionDepth )
-	{
+	public void setMaximumInspectionDepth( int maximumInspectionDepth ) {
+
 		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
@@ -352,10 +332,9 @@ public class AndroidMetawidget
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 */
 
-	public void putClientProperty( Object key, Object value )
-	{
-		if ( mClientProperties == null )
-		{
+	public void putClientProperty( Object key, Object value ) {
+
+		if ( mClientProperties == null ) {
 			mClientProperties = CollectionUtils.newHashMap();
 		}
 
@@ -367,10 +346,9 @@ public class AndroidMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getClientProperty( Object key )
-	{
-		if ( mClientProperties == null )
-		{
+	public <T> T getClientProperty( Object key ) {
+
+		if ( mClientProperties == null ) {
 			return null;
 		}
 
@@ -382,16 +360,15 @@ public class AndroidMetawidget
 	//
 
 	@Override
-	public int getChildCount()
-	{
+	public int getChildCount() {
+
 		buildWidgets();
 		return super.getChildCount();
 	}
 
-	public void addView( View child, LayoutParams params )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	public void addView( View child, LayoutParams params ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 		}
 
@@ -399,10 +376,9 @@ public class AndroidMetawidget
 	}
 
 	@Override
-	public void addView( View child )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	public void addView( View child ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 		}
 
@@ -410,10 +386,9 @@ public class AndroidMetawidget
 	}
 
 	@Override
-	public void removeAllViews()
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	public void removeAllViews() {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 		}
 
@@ -421,10 +396,9 @@ public class AndroidMetawidget
 	}
 
 	@Override
-	public void removeView( View view )
-	{
-		if ( !mIgnoreAddRemove )
-		{
+	public void removeView( View view ) {
+
+		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
 		}
 
@@ -432,8 +406,8 @@ public class AndroidMetawidget
 	}
 
 	@Override
-	public View getChildAt( int index )
-	{
+	public View getChildAt( int index ) {
+
 		buildWidgets();
 		return super.getChildAt( index );
 	}
@@ -450,17 +424,15 @@ public class AndroidMetawidget
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getValue( String... names )
-	{
-		if ( names == null || names.length == 0 )
-		{
+	public <T> T getValue( String... names ) {
+
+		if ( names == null || names.length == 0 ) {
 			throw MetawidgetException.newException( "No names specified" );
 		}
 
 		View view = findViewWithTags( names );
 
-		if ( view == null )
-		{
+		if ( view == null ) {
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 		}
 
@@ -475,28 +447,25 @@ public class AndroidMetawidget
 	 * is not ideal.
 	 */
 
-	public void setValue( Object value, String... names )
-	{
-		if ( names == null || names.length == 0 )
-		{
+	public void setValue( Object value, String... names ) {
+
+		if ( names == null || names.length == 0 ) {
 			throw MetawidgetException.newException( "No names specified" );
 		}
 
 		View view = findViewWithTags( names );
 
-		if ( view == null )
-		{
+		if ( view == null ) {
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 		}
 
-		if ( !setValue( value, view, mPipeline.getWidgetBuilder() ) )
-		{
+		if ( !setValue( value, view, mPipeline.getWidgetBuilder() ) ) {
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
 		}
 	}
 
-	public Facet getFacet( String name )
-	{
+	public Facet getFacet( String name ) {
+
 		buildWidgets();
 
 		return mFacets.get( name );
@@ -506,8 +475,8 @@ public class AndroidMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -518,8 +487,8 @@ public class AndroidMetawidget
 	 * it directly.</strong>
 	 */
 
-	public Set<View> fetchExistingUnusedViews()
-	{
+	public Set<View> fetchExistingUnusedViews() {
+
 		return mExistingUnusedViews;
 	}
 
@@ -534,14 +503,14 @@ public class AndroidMetawidget
 	 * version.
 	 */
 
-	protected Pipeline newPipeline()
-	{
+	protected Pipeline newPipeline() {
+
 		return new Pipeline();
 	}
 
 	@Override
-	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec )
-	{
+	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
+
 		buildWidgets();
 		super.onMeasure( widthMeasureSpec, heightMeasureSpec );
 	}
@@ -550,8 +519,8 @@ public class AndroidMetawidget
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 */
 
-	protected void invalidateInspection()
-	{
+	protected void invalidateInspection() {
+
 		mLastInspection = null;
 		invalidateWidgets();
 	}
@@ -560,10 +529,9 @@ public class AndroidMetawidget
 	 * Invalidates the widgets.
 	 */
 
-	protected void invalidateWidgets()
-	{
-		if ( mNeedToBuildWidgets )
-		{
+	protected void invalidateWidgets() {
+
+		if ( mNeedToBuildWidgets ) {
 			return;
 		}
 
@@ -572,21 +540,17 @@ public class AndroidMetawidget
 		postInvalidate();
 	}
 
-	protected void configure()
-	{
-		if ( !mNeedsConfiguring )
-		{
+	protected void configure() {
+
+		if ( !mNeedsConfiguring ) {
 			return;
 		}
 
 		mNeedsConfiguring = false;
 
-		try
-		{
-			if ( mConfig != 0 )
-			{
-				if ( CONFIG_READER == null )
-				{
+		try {
+			if ( mConfig != 0 ) {
+				if ( CONFIG_READER == null ) {
 					CONFIG_READER = new AndroidConfigReader( getContext() );
 				}
 
@@ -598,10 +562,8 @@ public class AndroidMetawidget
 			// Unlike the other Metawidgets, we don't handle these via ConfigReader because we
 			// couldn't figure out how to read a metawidget-android-default.xml file from the JAR
 
-			if ( mPipeline.getInspector() == null )
-			{
-				if ( DEFAULT_INSPECTOR == null )
-				{
+			if ( mPipeline.getInspector() == null ) {
+				if ( DEFAULT_INSPECTOR == null ) {
 					// Relax the dependancy on MetawidgetAnnotationInspector (if the class is
 					// hard-coded, rather than using Class.forName, Dalvik seems to pick
 					// the dependancy up even if we never come down this codepath)
@@ -613,20 +575,16 @@ public class AndroidMetawidget
 				mPipeline.setInspector( DEFAULT_INSPECTOR );
 			}
 
-			if ( mPipeline.getInspectionResultProcessors() == null )
-			{
-				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null )
-				{
+			if ( mPipeline.getInspectionResultProcessors() == null ) {
+				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null ) {
 					DEFAULT_INSPECTIONRESULTPROCESSOR = new ComesAfterInspectionResultProcessor<AndroidMetawidget>();
 				}
 
 				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
 			}
 
-			if ( mPipeline.getWidgetBuilder() == null )
-			{
-				if ( DEFAULT_WIDGETBUILDER == null )
-				{
+			if ( mPipeline.getWidgetBuilder() == null ) {
+				if ( DEFAULT_WIDGETBUILDER == null ) {
 					@SuppressWarnings( "unchecked" )
 					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new AndroidWidgetBuilder() );
 					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
@@ -635,28 +593,23 @@ public class AndroidMetawidget
 				mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 			}
 
-			if ( mPipeline.getLayout() == null )
-			{
-				if ( DEFAULT_LAYOUT == null )
-				{
+			if ( mPipeline.getLayout() == null ) {
+				if ( DEFAULT_LAYOUT == null ) {
 					DEFAULT_LAYOUT = new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() ) );
 				}
 
 				mPipeline.setLayout( DEFAULT_LAYOUT );
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
 
-	protected void buildWidgets()
-	{
+	protected void buildWidgets() {
+
 		// No need to build?
 
-		if ( !mNeedToBuildWidgets )
-		{
+		if ( !mNeedToBuildWidgets ) {
 			return;
 		}
 
@@ -665,38 +618,29 @@ public class AndroidMetawidget
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
 
-		try
-		{
-			if ( mLastInspection == null )
-			{
+		try {
+			if ( mLastInspection == null ) {
 				mLastInspection = inspect();
 			}
 
 			mPipeline.buildWidgets( mLastInspection );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
-		}
-		finally
-		{
+		} finally {
 			mIgnoreAddRemove = false;
 		}
 	}
 
-	protected void startBuild()
-	{
-		if ( mExistingViews == null )
-		{
+	protected void startBuild() {
+
+		if ( mExistingViews == null ) {
 			mExistingViews = CollectionUtils.newHashSet();
 			mFacets = CollectionUtils.newHashMap();
 
-			for ( int loop = 0, length = getChildCount(); loop < length; loop++ )
-			{
+			for ( int loop = 0, length = getChildCount(); loop < length; loop++ ) {
 				View view = getChildAt( loop );
 
-				if ( view instanceof Facet )
-				{
+				if ( view instanceof Facet ) {
 					Facet facet = (Facet) view;
 
 					mFacets.put( facet.getName(), facet );
@@ -712,17 +656,15 @@ public class AndroidMetawidget
 		mExistingUnusedViews = CollectionUtils.newHashSet( mExistingViews );
 	}
 
-	protected void layoutWidget( View view, String elementName, Map<String, String> attributes )
-	{
+	protected void layoutWidget( View view, String elementName, Map<String, String> attributes ) {
+
 		String childName = attributes.get( NAME );
 		view.setTag( childName );
 
 		// Remove, then re-add to layout (to re-order the component)
 
-		if ( mPipeline.getLayout() != null )
-		{
-			if ( view.getParent() != null )
-			{
+		if ( mPipeline.getLayout() != null ) {
+			if ( view.getParent() != null ) {
 				( (ViewGroup) view.getParent() ).removeView( view );
 			}
 		}
@@ -730,22 +672,19 @@ public class AndroidMetawidget
 		// BasePipeline will call .layoutWidget
 	}
 
-	protected void endBuild()
-	{
+	protected void endBuild() {
+
 		// End layout
 
 		Layout<View, ViewGroup, AndroidMetawidget> layout = mPipeline.getLayout();
 
-		if ( layout != null )
-		{
+		if ( layout != null ) {
 			Map<String, String> noAttributes = CollectionUtils.newHashMap();
 
-			for ( View viewExisting : mExistingUnusedViews )
-			{
+			for ( View viewExisting : mExistingUnusedViews ) {
 				// In case View has been moved into a nested Layout during last build
 
-				if ( viewExisting.getParent() != null )
-				{
+				if ( viewExisting.getParent() != null ) {
 					( (ViewGroup) viewExisting.getParent() ).removeView( viewExisting );
 				}
 
@@ -754,10 +693,9 @@ public class AndroidMetawidget
 		}
 	}
 
-	protected String inspect()
-	{
-		if ( mPath == null )
-		{
+	protected String inspect() {
+
+		if ( mPath == null ) {
 			return null;
 		}
 
@@ -765,8 +703,8 @@ public class AndroidMetawidget
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	protected void initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes )
-	{
+	protected void initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
@@ -777,23 +715,20 @@ public class AndroidMetawidget
 	// Private methods
 	//
 
-	private View findViewWithTags( String... tags )
-	{
-		if ( tags == null )
-		{
+	private View findViewWithTags( String... tags ) {
+
+		if ( tags == null ) {
 			return null;
 		}
 
 		ViewGroup viewgroup = this;
 
-		for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ )
-		{
+		for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ ) {
 			Object tag = tags[tagsLoop];
 
 			// buildWidgets just-in-time
 
-			if ( viewgroup instanceof AndroidMetawidget )
-			{
+			if ( viewgroup instanceof AndroidMetawidget ) {
 				( (AndroidMetawidget) viewgroup ).buildWidgets();
 			}
 
@@ -803,22 +738,19 @@ public class AndroidMetawidget
 
 			// Not found
 
-			if ( match == null )
-			{
+			if ( match == null ) {
 				return null;
 			}
 
 			// Found
 
-			if ( tagsLoop == tagsLength - 1 )
-			{
+			if ( tagsLoop == tagsLength - 1 ) {
 				return match;
 			}
 
 			// Keep traversing
 
-			if ( !( match instanceof ViewGroup ) )
-			{
+			if ( !( match instanceof ViewGroup ) ) {
 				return null;
 			}
 
@@ -837,22 +769,19 @@ public class AndroidMetawidget
 	 * This stops us incorrectly finding arbitrary bits of tag in arbitrary bits of the heirarchy.
 	 */
 
-	private View findViewWithTag( ViewGroup viewgroup, Object tag )
-	{
-		for ( int childLoop = 0, childLength = viewgroup.getChildCount(); childLoop < childLength; childLoop++ )
-		{
+	private View findViewWithTag( ViewGroup viewgroup, Object tag ) {
+
+		for ( int childLoop = 0, childLength = viewgroup.getChildCount(); childLoop < childLength; childLoop++ ) {
 			View child = viewgroup.getChildAt( childLoop );
 			Object childTag = child.getTag();
 
 			// Only recurse if child does not define a tag (eg. something like
 			// an embedded Layout or a TableRow)
 
-			if ( childTag == null && child instanceof ViewGroup )
-			{
+			if ( childTag == null && child instanceof ViewGroup ) {
 				View view = findViewWithTag( (ViewGroup) child, tag );
 
-				if ( view != null )
-				{
+				if ( view != null ) {
 					return view;
 				}
 
@@ -861,8 +790,7 @@ public class AndroidMetawidget
 
 			// Keep looking
 
-			if ( !tag.equals( child.getTag() ) )
-			{
+			if ( !tag.equals( child.getTag() ) ) {
 				continue;
 			}
 
@@ -876,18 +804,15 @@ public class AndroidMetawidget
 		return null;
 	}
 
-	private Object getValue( View widget, WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
-	{
+	private Object getValue( View widget, WidgetBuilder<View, AndroidMetawidget> widgetBuilder ) {
+
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
-		{
-			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
-			{
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
+			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
 				Object value = getValue( widget, widgetBuilderChild );
 
-				if ( value != null )
-				{
+				if ( value != null ) {
 					return value;
 				}
 			}
@@ -897,24 +822,20 @@ public class AndroidMetawidget
 
 		// Interrogate AndroidValueAccessors
 
-		if ( widgetBuilder instanceof AndroidValueAccessor )
-		{
+		if ( widgetBuilder instanceof AndroidValueAccessor ) {
 			return ( (AndroidValueAccessor) widgetBuilder ).getValue( widget );
 		}
 
 		return null;
 	}
 
-	private boolean setValue( Object value, View widget, WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
-	{
+	private boolean setValue( Object value, View widget, WidgetBuilder<View, AndroidMetawidget> widgetBuilder ) {
+
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
-		{
-			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
-			{
-				if ( setValue( value, widget, widgetBuilderChild ) )
-				{
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
+			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
+				if ( setValue( value, widget, widgetBuilderChild ) ) {
 					return true;
 				}
 			}
@@ -924,8 +845,7 @@ public class AndroidMetawidget
 
 		// Interrogate AndroidValueAccessors
 
-		if ( widgetBuilder instanceof AndroidValueAccessor )
-		{
+		if ( widgetBuilder instanceof AndroidValueAccessor ) {
 			return ( (AndroidValueAccessor) widgetBuilder ).setValue( value, widget );
 		}
 
@@ -937,31 +857,30 @@ public class AndroidMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<View, ViewGroup, AndroidMetawidget>
-	{
+		extends W3CPipeline<View, ViewGroup, AndroidMetawidget> {
+
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected void startBuild()
-		{
+		protected void startBuild() {
+
 			super.startBuild();
 			AndroidMetawidget.this.startBuild();
 		}
 
 		@Override
-		protected void layoutWidget( View view, String elementName, Map<String, String> attributes )
-		{
+		protected void layoutWidget( View view, String elementName, Map<String, String> attributes ) {
+
 			AndroidMetawidget.this.layoutWidget( view, elementName, attributes );
 			super.layoutWidget( view, elementName, attributes );
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( View view )
-		{
-			if ( view instanceof Stub )
-			{
+		protected Map<String, String> getAdditionalAttributes( View view ) {
+
+			if ( view instanceof Stub ) {
 				return ( (Stub) view ).getAttributes();
 			}
 
@@ -970,8 +889,8 @@ public class AndroidMetawidget
 
 		@Override
 		public AndroidMetawidget buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			Constructor<?> constructor = AndroidMetawidget.this.getClass().getConstructor( Context.class );
 			AndroidMetawidget nestedMetawidget = (AndroidMetawidget) constructor.newInstance( getContext() );
 			AndroidMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
@@ -980,15 +899,15 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected void endBuild()
-		{
+		protected void endBuild() {
+
 			AndroidMetawidget.this.endBuild();
 			super.endBuild();
 		}
 
 		@Override
-		protected AndroidMetawidget getPipelineOwner()
-		{
+		protected AndroidMetawidget getPipelineOwner() {
+
 			return AndroidMetawidget.this;
 		}
 	}

@@ -34,8 +34,8 @@ import android.content.res.Resources;
  */
 
 public class AndroidConfigReader
-	extends ConfigReader
-{
+	extends ConfigReader {
+
 	//
 	// Private members
 	//
@@ -46,8 +46,8 @@ public class AndroidConfigReader
 	// Constructor
 	//
 
-	public AndroidConfigReader( Context context )
-	{
+	public AndroidConfigReader( Context context ) {
+
 		mContext = context;
 	}
 
@@ -62,18 +62,16 @@ public class AndroidConfigReader
 	 */
 
 	@Override
-	public InputStream openResource( String resource )
-	{
-		if ( !resource.startsWith( "@" ) )
-		{
+	public InputStream openResource( String resource ) {
+
+		if ( !resource.startsWith( "@" ) ) {
 			throw MetawidgetException.newException( "Resource name does not start with '@': " + resource );
 		}
 
 		Resources resources = mContext.getResources();
 		int id = resources.getIdentifier( resource, null, null );
 
-		if ( id == 0 )
-		{
+		if ( id == 0 ) {
 			throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + resource );
 		}
 
@@ -92,15 +90,13 @@ public class AndroidConfigReader
 
 	@Override
 	protected Object createNative( String name, Class<?> namespace, String recordedText )
-		throws Exception
-	{
-		if ( "int".equals( name ) && recordedText.startsWith( "@" ))
-		{
+		throws Exception {
+
+		if ( "int".equals( name ) && recordedText.startsWith( "@" ) ) {
 			Resources resources = mContext.getResources();
 			int id = resources.getIdentifier( recordedText, null, null );
 
-			if ( id == 0 )
-			{
+			if ( id == 0 ) {
 				throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + recordedText );
 			}
 

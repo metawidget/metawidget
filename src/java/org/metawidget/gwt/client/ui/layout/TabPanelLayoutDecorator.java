@@ -37,14 +37,14 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class TabPanelLayoutDecorator
-	extends GwtNestedSectionLayoutDecorator
-{
+	extends GwtNestedSectionLayoutDecorator {
+
 	//
 	// Constructor
 	//
 
-	public TabPanelLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config )
-	{
+	public TabPanelLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -53,14 +53,13 @@ public class TabPanelLayoutDecorator
 	//
 
 	@Override
-	protected Panel createSectionWidget( Panel previousSectionWidget, Map<String, String> attributes, Panel container, GwtMetawidget metawidget )
-	{
+	protected Panel createSectionWidget( Panel previousSectionWidget, Map<String, String> attributes, Panel container, GwtMetawidget metawidget ) {
+
 		// Whole new tab panel?
 
 		TabPanel tabPanel;
 
-		if ( previousSectionWidget == null )
-		{
+		if ( previousSectionWidget == null ) {
 			tabPanel = new TabPanel();
 
 			// Add to parent container
@@ -69,9 +68,7 @@ public class TabPanelLayoutDecorator
 			tabPanelAttributes.put( LABEL, "" );
 			tabPanelAttributes.put( LARGE, TRUE );
 			getDelegate().layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
-		}
-		else
-		{
+		} else {
 			tabPanel = (TabPanel) previousSectionWidget.getParent().getParent().getParent();
 		}
 
@@ -84,15 +81,13 @@ public class TabPanelLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 
 		tabPanel.add( newPanel, localizedSection );
 
-		if ( previousSectionWidget == null )
-		{
+		if ( previousSectionWidget == null ) {
 			tabPanel.selectTab( 0 );
 		}
 

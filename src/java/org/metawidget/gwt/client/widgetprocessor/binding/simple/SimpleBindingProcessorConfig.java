@@ -28,8 +28,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class SimpleBindingProcessorConfig
-{
+public class SimpleBindingProcessorConfig {
+
 	//
 	// Private members
 	//
@@ -42,8 +42,8 @@ public class SimpleBindingProcessorConfig
 	// Public methods
 	//
 
-	public Map<Class<?>, SimpleBindingProcessorAdapter<?>> getAdapters()
-	{
+	public Map<Class<?>, SimpleBindingProcessorAdapter<?>> getAdapters() {
+
 		return mAdapters;
 	}
 
@@ -61,10 +61,9 @@ public class SimpleBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <T> SimpleBindingProcessorConfig setAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> Adapter )
-	{
-		if ( mAdapters == null )
-		{
+	public <T> SimpleBindingProcessorConfig setAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> Adapter ) {
+
+		if ( mAdapters == null ) {
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>();
 		}
 
@@ -73,8 +72,8 @@ public class SimpleBindingProcessorConfig
 		return this;
 	}
 
-	public Map<Class<?>, Converter<?>> getConverters()
-	{
+	public Map<Class<?>, Converter<?>> getConverters() {
+
 		return mConverters;
 	}
 
@@ -91,10 +90,9 @@ public class SimpleBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <T> SimpleBindingProcessorConfig setConverter( Class<T> forClass, Converter<T> converter )
-	{
-		if ( mConverters == null )
-		{
+	public <T> SimpleBindingProcessorConfig setConverter( Class<T> forClass, Converter<T> converter ) {
+
+		if ( mConverters == null ) {
 			mConverters = new HashMap<Class<?>, Converter<?>>();
 		}
 
@@ -104,30 +102,25 @@ public class SimpleBindingProcessorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mAdapters, ( (SimpleBindingProcessorConfig) that ).mAdapters ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mAdapters, ( (SimpleBindingProcessorConfig) that ).mAdapters ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (SimpleBindingProcessorConfig) that ).mConverters ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (SimpleBindingProcessorConfig) that ).mConverters ) ) {
 			return false;
 		}
 
@@ -135,8 +128,8 @@ public class SimpleBindingProcessorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mAdapters );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );

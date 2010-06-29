@@ -30,8 +30,8 @@ import org.metawidget.inspector.faces.UiFacesAttribute;
  * @author Richard Kennard
  */
 
-public class RichFacesAjaxQuirks
-{
+public class RichFacesAjaxQuirks {
+
 	//
 	// Private members
 	//
@@ -48,43 +48,43 @@ public class RichFacesAjaxQuirks
 
 	@UiLookup( { "Hide", "Show" } )
 	@UiFacesAjax( event = "onchange" )
-	public String getSelect()
-	{
+	public String getSelect() {
+
 		return mSelect;
 	}
 
-	public void setSelect( String select )
-	{
+	public void setSelect( String select ) {
+
 		mSelect = select;
 	}
 
 	@UiFacesAttribute( name = HIDDEN, expression = "#{this.select != 'Show'}" )
 	@UiFacesAjax( event = "onclick", action = "#{richQuirksAjax.updateLabel}" )
 	@UiComesAfter( "select" )
-	public boolean isCheckbox()
-	{
+	public boolean isCheckbox() {
+
 		return mCheckbox;
 	}
 
-	public void setCheckbox( boolean checkbox )
-	{
+	public void setCheckbox( boolean checkbox ) {
+
 		mCheckbox = checkbox;
 	}
 
 	@UiComesAfter( "checkbox" )
 	@UiReadOnly
-	public String getLabel()
-	{
+	public String getLabel() {
+
 		return mLabel;
 	}
 
-	public void setLabel( String label )
-	{
+	public void setLabel( String label ) {
+
 		mLabel = label;
 	}
 
-	public void updateLabel()
-	{
+	public void updateLabel() {
+
 		mLabel = "clicked";
 	}
 }

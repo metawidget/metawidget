@@ -29,15 +29,15 @@ import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
  */
 
 public class StrutsMetawidgetTagTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testMetawidget()
-		throws Exception
-	{
+		throws Exception {
+
 		StrutsMetawidgetTag metawidget = new StrutsMetawidgetTag();
 
 		// Property without prefix

@@ -26,14 +26,14 @@ import java.util.Map;
  */
 
 public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
-	extends LayoutDecorator<W, C, M>
-{
+	extends LayoutDecorator<W, C, M> {
+
 	//
 	// Constructor
 	//
 
-	protected NestedSectionLayoutDecorator( LayoutDecoratorConfig<W, C, M> config )
-	{
+	protected NestedSectionLayoutDecorator( LayoutDecoratorConfig<W, C, M> config ) {
+
 		super( config );
 	}
 
@@ -42,8 +42,8 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	//
 
 	@Override
-	public void startContainerLayout( C container, M metawidget )
-	{
+	public void startContainerLayout( C container, M metawidget ) {
+
 		super.startContainerLayout( container, metawidget );
 
 		State<C> state = getState( container, metawidget );
@@ -52,21 +52,17 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	}
 
 	@Override
-	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget )
-	{
+	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget ) {
+
 		String section = stripSection( attributes );
 		State<C> state = getState( container, metawidget );
 
 		// Stay where we are?
 
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.currentSectionWidget == null )
-			{
+		if ( section == null || section.equals( state.currentSection ) ) {
+			if ( state.currentSectionWidget == null ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
-			}
-			else
-			{
+			} else {
 				super.layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
 			}
 
@@ -79,8 +75,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		// End current section
 
-		if ( state.currentSectionWidget != null )
-		{
+		if ( state.currentSectionWidget != null ) {
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
 		}
 
@@ -88,16 +83,14 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		// No new section?
 
-		if ( "".equals( section ) )
-		{
+		if ( "".equals( section ) ) {
 			super.layoutWidget( widget, elementName, attributes, container, metawidget );
 			return;
 		}
 
 		// Ignore empty stubs. Do not create a new tab in case it ends up being empty
 
-		if ( isEmptyStub( widget ) )
-		{
+		if ( isEmptyStub( widget ) ) {
 			return;
 		}
 
@@ -110,14 +103,13 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	}
 
 	@Override
-	public void endContainerLayout( C container, M metawidget )
-	{
+	public void endContainerLayout( C container, M metawidget ) {
+
 		// End hanging layouts
 
 		State<C> state = getState( container, metawidget );
 
-		if ( state.currentSectionWidget != null )
-		{
+		if ( state.currentSectionWidget != null ) {
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
 		}
 
@@ -152,8 +144,8 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	public static class State<C>
-	{
+	public static class State<C> {
+
 		public String	currentSection;
 
 		public C		currentSectionWidget;

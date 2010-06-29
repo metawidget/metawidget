@@ -65,8 +65,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class ContactDialog
-	extends Dialog
-{
+	extends Dialog {
+
 	//
 	// Private members
 	//
@@ -91,8 +91,8 @@ public class ContactDialog
 	// Constructor
 	//
 
-	public ContactDialog( Main main )
-	{
+	public ContactDialog( Main main ) {
+
 		super( main.getShell(), SWT.NONE );
 
 		mMain = main;
@@ -102,8 +102,8 @@ public class ContactDialog
 	// Public methods
 	//
 
-	public void open( final Contact contact )
-	{
+	public void open( final Contact contact ) {
+
 		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
 		mShell.setSize( 800, 600 );
 
@@ -126,20 +126,16 @@ public class ContactDialog
 
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
-		if ( builder.length() > 0 )
-		{
+		if ( builder.length() > 0 ) {
 			builder.append( " - " );
 		}
 
 		// Personal/business icon
 
-		if ( contact instanceof PersonalContact )
-		{
+		if ( contact instanceof PersonalContact ) {
 			builder.append( "Personal Contact" );
 			imageLabel.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
-		}
-		else
-		{
+		} else {
 			builder.append( "Business Contact" );
 			imageLabel.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
 		}
@@ -180,20 +176,18 @@ public class ContactDialog
 		mCommunicationsEditor.horizontalAlignment = SWT.LEFT;
 		mCommunicationsEditor.grabHorizontal = true;
 
-		mCommunicationsTable.addMouseListener( new MouseAdapter()
-		{
+		mCommunicationsTable.addMouseListener( new MouseAdapter() {
+
 			@Override
-			public void mouseDown( MouseEvent event )
-			{
-				if ( mContactMetawidget.isReadOnly() )
-				{
+			public void mouseDown( MouseEvent event ) {
+
+				if ( mContactMetawidget.isReadOnly() ) {
 					return;
 				}
 
 				// Commit any previous editor control
 
-				if ( mCommunicationsEditor.getEditor() != null )
-				{
+				if ( mCommunicationsEditor.getEditor() != null ) {
 					SwtMetawidget communicationMetawidget = (SwtMetawidget) mCommunicationsEditor.getEditor();
 					communicationMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( communicationMetawidget );
 					communicationMetawidget.dispose();
@@ -201,17 +195,13 @@ public class ContactDialog
 
 					Communication communication = communicationMetawidget.getToInspect();
 
-					if ( communication.getType() != null && !"".equals( communication.getType() ) )
-					{
+					if ( communication.getType() != null && !"".equals( communication.getType() ) ) {
 						Set<Communication> communications = contact.getCommunications();
 
-						if ( communications == null )
-						{
+						if ( communications == null ) {
 							communications = CollectionUtils.newHashSet( communication );
 							contact.setCommunications( communications );
-						}
-						else
-						{
+						} else {
 							contact.getCommunications().add( communication );
 						}
 
@@ -221,8 +211,7 @@ public class ContactDialog
 
 				// Ignore pop-up menu
 
-				if ( event.button != 1 )
-				{
+				if ( event.button != 1 ) {
 					return;
 				}
 
@@ -231,8 +220,7 @@ public class ContactDialog
 				Point point = new Point( event.x, event.y );
 				TableItem item = mCommunicationsTable.getItem( point );
 
-				if ( item == null )
-				{
+				if ( item == null ) {
 					return;
 				}
 
@@ -240,11 +228,9 @@ public class ContactDialog
 
 				int selectedColumn = -1;
 
-				for ( int loop = 0, length = mCommunicationsTable.getColumnCount(); loop < length; loop++ )
-				{
+				for ( int loop = 0, length = mCommunicationsTable.getColumnCount(); loop < length; loop++ ) {
 					Rectangle rect = item.getBounds( loop );
-					if ( rect.contains( point ) )
-					{
+					if ( rect.contains( point ) ) {
 						selectedColumn = loop;
 						break;
 					}
@@ -252,8 +238,7 @@ public class ContactDialog
 
 				// ...if any...
 
-				if ( selectedColumn == -1 )
-				{
+				if ( selectedColumn == -1 ) {
 					return;
 				}
 
@@ -278,30 +263,27 @@ public class ContactDialog
 		Menu deleteMenu = new Menu( mShell, SWT.POP_UP );
 		final MenuItem deleteItem = new MenuItem( deleteMenu, SWT.PUSH );
 		deleteItem.setText( "Delete" );
-		deleteItem.addSelectionListener( new SelectionAdapter()
-		{
+		deleteItem.addSelectionListener( new SelectionAdapter() {
+
 			@Override
-			public void widgetSelected( SelectionEvent event )
-			{
+			public void widgetSelected( SelectionEvent event ) {
+
 				// Identify the selected row...
 
 				int selectionIndex = mCommunicationsTable.getSelectionIndex();
 
-				if ( selectionIndex == -1 )
-				{
+				if ( selectionIndex == -1 ) {
 					return;
 				}
 
 				// ...prompt for confirmation...
 
-				if ( mShowConfirmDialog )
-				{
+				if ( mShowConfirmDialog ) {
 					MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
 					messageBox.setText( getText() );
 					messageBox.setMessage( "Sure you want to delete this communication?" );
 
-					if ( messageBox.open() != SWT.OK )
-					{
+					if ( messageBox.open() != SWT.OK ) {
 						return;
 					}
 				}
@@ -313,10 +295,10 @@ public class ContactDialog
 				fireRefresh();
 			}
 		} );
-		deleteMenu.addListener( SWT.Show, new Listener()
-		{
-			public void handleEvent( Event event )
-			{
+		deleteMenu.addListener( SWT.Show, new Listener() {
+
+			public void handleEvent( Event event ) {
+
 				deleteItem.setEnabled( !mContactMetawidget.isReadOnly() );
 			}
 		} );
@@ -341,56 +323,45 @@ public class ContactDialog
 		mButtonsMetawidget.setLayoutData( data );
 	}
 
-	public void waitForDispose()
-	{
+	public void waitForDispose() {
+
 		mShell.open();
 		Display display = getParent().getDisplay();
-		while ( !mShell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !mShell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
 	}
 
-	public void fireRefresh()
-	{
+	public void fireRefresh() {
+
 		Set<Communication> communications = ( (Contact) mContactMetawidget.getToInspect() ).getCommunications();
 
-		if ( mCommunications == null )
-		{
-			if ( communications == null )
-			{
+		if ( mCommunications == null ) {
+			if ( communications == null ) {
 				mCommunications = CollectionUtils.newArrayList();
-			}
-			else
-			{
+			} else {
 				mCommunications = CollectionUtils.newArrayList( communications );
 			}
 		}
 
 		// Add blank entry at bottom
 
-		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || !"".equals( StringUtils.quietValueOf( mCommunications.get( mCommunications.size() - 1 ) ) ) ) )
-		{
+		if ( !mContactMetawidget.isReadOnly() && ( mCommunications.isEmpty() || !"".equals( StringUtils.quietValueOf( mCommunications.get( mCommunications.size() - 1 ) ) ) ) ) {
 			mCommunications.add( new Communication() );
 		}
 
 		int loop = 0;
 
-		for ( ; loop < mCommunications.size(); loop++ )
-		{
+		for ( ; loop < mCommunications.size(); loop++ ) {
 			// Add/edit row...
 
 			TableItem item;
 
-			if ( loop < mCommunicationsTable.getItemCount() )
-			{
+			if ( loop < mCommunicationsTable.getItemCount() ) {
 				item = mCommunicationsTable.getItem( loop );
-			}
-			else
-			{
+			} else {
 				item = new TableItem( mCommunicationsTable, SWT.NONE );
 			}
 
@@ -404,15 +375,14 @@ public class ContactDialog
 
 		// Delete hanging rows
 
-		if ( loop < mCommunicationsTable.getItemCount() )
-		{
+		if ( loop < mCommunicationsTable.getItemCount() ) {
 			mCommunicationsTable.remove( loop, mCommunicationsTable.getItemCount() - 1 );
 		}
 	}
 
 	@UiHidden
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mContactMetawidget.isReadOnly();
 	}
 
@@ -421,15 +391,15 @@ public class ContactDialog
 	 */
 
 	@UiHidden
-	public void setShowConfirmDialog( boolean showConfirmDialog )
-	{
+	public void setShowConfirmDialog( boolean showConfirmDialog ) {
+
 		mShowConfirmDialog = showConfirmDialog;
 	}
 
 	@UiAction
 	@UiJexlAttribute( name = HIDDEN, expression = "!this.readOnly" )
-	public void edit()
-	{
+	public void edit() {
+
 		mContactMetawidget.setReadOnly( false );
 
 		// setReadOnly invalidates the widget, but because SWT uses heavyweight, native components
@@ -443,17 +413,14 @@ public class ContactDialog
 
 	@UiAction
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly" )
-	public void save()
-	{
-		try
-		{
+	public void save() {
+
+		try {
 			mContactMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 
 			mMain.getContactsController().save( contact );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_ERROR | SWT.OK );
 			messageBox.setText( "Save Error" );
 			messageBox.setMessage( e.getMessage() );
@@ -469,18 +436,16 @@ public class ContactDialog
 	@UiAction
 	@UiComesAfter( "save" )
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly || this.newContact" )
-	public void delete()
-	{
+	public void delete() {
+
 		Contact contact = mContactMetawidget.getToInspect();
 
-		if ( mShowConfirmDialog )
-		{
+		if ( mShowConfirmDialog ) {
 			MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
 			messageBox.setText( getText() );
 			messageBox.setMessage( "Sure you want to delete this contact?" );
 
-			if ( messageBox.open() != SWT.OK )
-			{
+			if ( messageBox.open() != SWT.OK ) {
 				return;
 			}
 		}
@@ -493,8 +458,8 @@ public class ContactDialog
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
 	@UiJexlAttribute( name = LABEL, expression = "if ( this.readOnly ) 'Back'" )
-	public void cancel()
-	{
+	public void cancel() {
+
 		mShell.dispose();
 	}
 }

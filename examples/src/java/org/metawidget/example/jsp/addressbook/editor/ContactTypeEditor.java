@@ -25,19 +25,18 @@ import org.metawidget.example.shared.addressbook.model.ContactType;
  */
 
 public class ContactTypeEditor
-	extends PropertyEditorSupport
-{
+	extends PropertyEditorSupport {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
+
 		ContactType value = (ContactType) getValue();
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return "";
 		}
 
@@ -49,10 +48,9 @@ public class ContactTypeEditor
 
 	@Override
 	public void setAsText( String text )
-		throws IllegalArgumentException
-	{
-		if ( text == null || "".equals( text ) )
-		{
+		throws IllegalArgumentException {
+
+		if ( text == null || "".equals( text ) ) {
 			setValue( null );
 			return;
 		}

@@ -79,8 +79,8 @@ import org.metawidget.util.simple.StringUtils;
 
 @SuppressWarnings( "deprecation" )
 public class HtmlTableLayoutRenderer
-	extends HtmlLayoutRenderer
-{
+	extends HtmlLayoutRenderer {
+
 	//
 	// Private statics
 	//
@@ -103,8 +103,8 @@ public class HtmlTableLayoutRenderer
 
 	@Override
 	public void encodeBegin( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		( (UIMetawidget) metawidget ).putClientProperty( HtmlTableLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
@@ -126,22 +126,19 @@ public class HtmlTableLayoutRenderer
 		State state = getState( metawidget );
 		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
 
-		if ( parameterLabelStyle != null )
-		{
+		if ( parameterLabelStyle != null ) {
 			state.labelStyle = (String) parameterLabelStyle.getValue();
 		}
 
 		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
 
-		if ( parameterComponentStyle != null )
-		{
+		if ( parameterComponentStyle != null ) {
 			state.componentStyle = (String) parameterComponentStyle.getValue();
 		}
 
 		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
 
-		if ( parameterRequiredStyle != null )
-		{
+		if ( parameterRequiredStyle != null ) {
 			state.requiredStyle = (String) parameterRequiredStyle.getValue();
 		}
 
@@ -149,15 +146,13 @@ public class HtmlTableLayoutRenderer
 
 		UIParameter parameterColumnClasses = FacesUtils.findParameterWithName( metawidget, "columnClasses" );
 
-		if ( parameterColumnClasses != null )
-		{
+		if ( parameterColumnClasses != null ) {
 			state.columnClasses = ( (String) parameterColumnClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
 		}
 
 		UIParameter parameterRowClasses = FacesUtils.findParameterWithName( metawidget, "rowClasses" );
 
-		if ( parameterRowClasses != null )
-		{
+		if ( parameterRowClasses != null ) {
 			state.rowClasses = ( (String) parameterRowClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
 		}
 
@@ -165,12 +160,10 @@ public class HtmlTableLayoutRenderer
 
 		UIParameter parameterColumns = FacesUtils.findParameterWithName( metawidget, "columns" );
 
-		if ( parameterColumns != null )
-		{
+		if ( parameterColumns != null ) {
 			state.columns = Integer.parseInt( (String) parameterColumns.getValue() );
 
-			if ( state.columns < 0 )
-			{
+			if ( state.columns < 0 ) {
 				throw LayoutException.newException( "columns must be >= 0" );
 			}
 		}
@@ -179,8 +172,7 @@ public class HtmlTableLayoutRenderer
 
 		UIComponent componentHeader = metawidget.getFacet( "header" );
 
-		if ( componentHeader != null )
-		{
+		if ( componentHeader != null ) {
 			writer.startElement( "thead", metawidget );
 			writer.startElement( "tr", metawidget );
 			writer.startElement( "td", metawidget );
@@ -205,8 +197,7 @@ public class HtmlTableLayoutRenderer
 
 		UIComponent componentFooter = metawidget.getFacet( "footer" );
 
-		if ( componentFooter != null )
-		{
+		if ( componentFooter != null ) {
 			writer.startElement( "tfoot", metawidget );
 			writer.startElement( "tr", metawidget );
 			writer.startElement( "td", metawidget );
@@ -235,14 +226,12 @@ public class HtmlTableLayoutRenderer
 	 */
 
 	protected void layoutHiddenChildren( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		List<UIComponent> children = metawidget.getChildren();
 
-		for ( UIComponent componentChild : children )
-		{
-			if ( !( componentChild instanceof HtmlInputHidden ) )
-			{
+		for ( UIComponent componentChild : children ) {
+			if ( !( componentChild instanceof HtmlInputHidden ) ) {
 				continue;
 			}
 
@@ -252,15 +241,14 @@ public class HtmlTableLayoutRenderer
 
 	@Override
 	public void encodeChildren( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		State state = getState( metawidget );
 
 		// (layoutChildren may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			return;
 		}
 
@@ -271,18 +259,14 @@ public class HtmlTableLayoutRenderer
 		state.currentColumn = 0;
 		state.currentRow = 0;
 
-		for ( UIComponent componentChild : children )
-		{
+		for ( UIComponent componentChild : children ) {
 			// ...that is visible...
 
-			if ( componentChild instanceof UIStub )
-			{
+			if ( componentChild instanceof UIStub ) {
 				boolean visibleChildren = false;
 
-				for ( UIComponent stubChild : componentChild.getChildren() )
-				{
-					if ( !stubChild.isRendered() )
-					{
+				for ( UIComponent stubChild : componentChild.getChildren() ) {
+					if ( !stubChild.isRendered() ) {
 						continue;
 					}
 
@@ -290,24 +274,20 @@ public class HtmlTableLayoutRenderer
 					break;
 				}
 
-				if ( !visibleChildren )
-				{
+				if ( !visibleChildren ) {
 					continue;
 				}
 			}
 
-			if ( componentChild instanceof UIParameter )
-			{
+			if ( componentChild instanceof UIParameter ) {
 				continue;
 			}
 
-			if ( componentChild instanceof HtmlInputHidden )
-			{
+			if ( componentChild instanceof HtmlInputHidden ) {
 				continue;
 			}
 
-			if ( !componentChild.isRendered() )
-			{
+			if ( !componentChild.isRendered() ) {
 				continue;
 			}
 
@@ -328,8 +308,8 @@ public class HtmlTableLayoutRenderer
 
 	@Override
 	public void encodeEnd( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		ResponseWriter writer = context.getResponseWriter();
 		writer.endElement( "tbody" );
 		writer.endElement( "table" );
@@ -340,8 +320,8 @@ public class HtmlTableLayoutRenderer
 	//
 
 	protected void layoutBeforeChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
-		throws IOException
-	{
+		throws IOException {
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		String cssId = getCssId( childComponent );
@@ -356,14 +336,12 @@ public class HtmlTableLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( metadataAttributes != null )
-		{
+		if ( metadataAttributes != null ) {
 			// Large components get a whole row
 
 			boolean largeComponent = ( metawidget instanceof UIData || TRUE.equals( metadataAttributes.get( LARGE ) ) );
 
-			if ( largeComponent && state.currentColumn != 1 )
-			{
+			if ( largeComponent && state.currentColumn != 1 ) {
 				writer.endElement( "tr" );
 				state.currentColumn = 1;
 			}
@@ -371,14 +349,12 @@ public class HtmlTableLayoutRenderer
 
 		// Start a new row, if necessary
 
-		if ( state.currentColumn == 1 || state.currentColumn > state.columns )
-		{
+		if ( state.currentColumn == 1 || state.currentColumn > state.columns ) {
 			state.currentColumn = 1;
 
 			writer.startElement( "tr", metawidget );
 
-			if ( cssId != null )
-			{
+			if ( cssId != null ) {
 				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX, null );
 			}
 
@@ -393,13 +369,11 @@ public class HtmlTableLayoutRenderer
 		// Zero-column layouts need an extra row
 		// (though we colour it the same from a CSS perspective)
 
-		if ( labelWritten && state.columns == 0 )
-		{
+		if ( labelWritten && state.columns == 0 ) {
 			writer.endElement( "tr" );
 			writer.startElement( "tr", metawidget );
 
-			if ( cssId != null )
-			{
+			if ( cssId != null ) {
 				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX + "2", null );
 			}
 
@@ -410,15 +384,13 @@ public class HtmlTableLayoutRenderer
 
 		writer.startElement( "td", metawidget );
 
-		if ( cssId != null )
-		{
+		if ( cssId != null ) {
 			writer.writeAttribute( "id", TABLE_PREFIX + cssId + COMPONENT_CELL_SUFFIX, null );
 		}
 
 		// CSS
 
-		if ( state.componentStyle != null )
-		{
+		if ( state.componentStyle != null ) {
 			writer.writeAttribute( "style", state.componentStyle, null );
 		}
 
@@ -430,41 +402,35 @@ public class HtmlTableLayoutRenderer
 
 		// Metawidgets, tables and large components span all columns
 
-		if ( childComponent instanceof UIMetawidget || childComponent instanceof UIData || SimpleLayoutUtils.isSpanAllColumns( metadataAttributes ) )
-		{
+		if ( childComponent instanceof UIMetawidget || childComponent instanceof UIData || SimpleLayoutUtils.isSpanAllColumns( metadataAttributes ) ) {
 			colspan = ( state.columns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			state.currentColumn = state.columns;
 
-			if ( !labelWritten )
-			{
+			if ( !labelWritten ) {
 				colspan++;
 			}
 
 			// Nested table Metawidgets span the required column too (as they have their own
 			// required column)
 
-			if ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) )
-			{
+			if ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) {
 				colspan++;
 			}
 		}
 
 		// Components without labels span two columns
 
-		else if ( !labelWritten )
-		{
+		else if ( !labelWritten ) {
 			colspan = 2;
 		}
 
 		// Everyone else spans just one
 
-		else
-		{
+		else {
 			colspan = 1;
 		}
 
-		if ( colspan > 1 )
-		{
+		if ( colspan > 1 ) {
 			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 		}
 	}
@@ -475,10 +441,9 @@ public class HtmlTableLayoutRenderer
 
 	@Override
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
-		throws IOException
-	{
-		if ( getLabelText( componentNeedingLabel ) == null )
-		{
+		throws IOException {
+
+		if ( getLabelText( componentNeedingLabel ) == null ) {
 			return false;
 		}
 
@@ -486,8 +451,7 @@ public class HtmlTableLayoutRenderer
 		writer.startElement( "th", metawidget );
 
 		String cssId = getCssId( componentNeedingLabel );
-		if ( cssId != null )
-		{
+		if ( cssId != null ) {
 			writer.writeAttribute( "id", TABLE_PREFIX + cssId + LABEL_CELL_SUFFIX, null );
 		}
 
@@ -495,8 +459,7 @@ public class HtmlTableLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( state.labelStyle != null )
-		{
+		if ( state.labelStyle != null ) {
 			writer.writeAttribute( "style", state.labelStyle, null );
 		}
 
@@ -510,8 +473,8 @@ public class HtmlTableLayoutRenderer
 	}
 
 	protected void layoutAfterChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
-		throws IOException
-	{
+		throws IOException {
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		// End the component column
@@ -522,18 +485,14 @@ public class HtmlTableLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || !childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) )
-		{
+		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || !childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) ) {
 			// (except embedded table Metawidgets, which have their own required column)
-		}
-		else
-		{
+		} else {
 			writer.startElement( "td", metawidget );
 
 			// CSS
 
-			if ( state.requiredStyle != null )
-			{
+			if ( state.requiredStyle != null ) {
 				writer.writeAttribute( "style", state.requiredStyle, null );
 			}
 
@@ -546,30 +505,26 @@ public class HtmlTableLayoutRenderer
 
 		// End the row, if necessary
 
-		if ( state.currentColumn >= state.columns )
-		{
+		if ( state.currentColumn >= state.columns ) {
 			state.currentColumn = 0;
 			writer.endElement( "tr" );
 		}
 	}
 
 	protected void layoutRequired( FacesContext context, UIComponent metawidget, UIComponent child )
-		throws IOException
-	{
+		throws IOException {
+
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> attributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( attributes != null )
-		{
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() )
-			{
+		if ( attributes != null ) {
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() ) {
 				// UIStubs can have attributes="required: true". UIMetawidgets with
 				// rendererType="simple" can be over required fields
 
-				if ( child instanceof UIInput || child instanceof UIStub || child instanceof UIMetawidget )
-				{
+				if ( child instanceof UIInput || child instanceof UIStub || child instanceof UIMetawidget ) {
 					writer.write( "*" );
 					return;
 				}
@@ -584,12 +539,11 @@ public class HtmlTableLayoutRenderer
 		writer.endElement( "div" );
 	}
 
-	protected String getCssId( UIComponent metawidget )
-	{
+	protected String getCssId( UIComponent metawidget ) {
+
 		ValueBinding binding = metawidget.getValueBinding( "value" );
 
-		if ( binding == null )
-		{
+		if ( binding == null ) {
 			return null;
 		}
 
@@ -597,8 +551,8 @@ public class HtmlTableLayoutRenderer
 	}
 
 	protected void writeColumnStyleClass( UIComponent metawidget, ResponseWriter writer, int columnStyleClass )
-		throws IOException
-	{
+		throws IOException {
+
 		State state = getState( metawidget );
 
 		// Note: As per the JSF spec, columnClasses do not repeat like rowClasses do. See...
@@ -609,15 +563,13 @@ public class HtmlTableLayoutRenderer
 		// columns specified in the "columns" attribute, no "class" attribute is output for each
 		// column greater than the number of [styleClasses]'
 
-		if ( state.columnClasses == null || state.columnClasses.length <= columnStyleClass )
-		{
+		if ( state.columnClasses == null || state.columnClasses.length <= columnStyleClass ) {
 			return;
 		}
 
 		String columnClass = state.columnClasses[columnStyleClass];
 
-		if ( columnClass.length() == 0 )
-		{
+		if ( columnClass.length() == 0 ) {
 			return;
 		}
 
@@ -625,19 +577,17 @@ public class HtmlTableLayoutRenderer
 	}
 
 	protected void writeRowStyleClass( UIComponent metawidget, ResponseWriter writer, int rowStyleClass )
-		throws IOException
-	{
+		throws IOException {
+
 		State state = getState( metawidget );
 
-		if ( state.rowClasses == null )
-		{
+		if ( state.rowClasses == null ) {
 			return;
 		}
 
 		String rowClass = state.rowClasses[rowStyleClass % state.rowClasses.length];
 
-		if ( rowClass.length() == 0 )
-		{
+		if ( rowClass.length() == 0 ) {
 			return;
 		}
 
@@ -648,12 +598,11 @@ public class HtmlTableLayoutRenderer
 	// Private methods
 	//
 
-	/* package private */State getState( UIComponent metawidget )
-	{
+	/* package private */State getState( UIComponent metawidget ) {
+
 		State state = (State) ( (UIMetawidget) metawidget ).getClientProperty( HtmlTableLayoutRenderer.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			( (UIMetawidget) metawidget ).putClientProperty( HtmlTableLayoutRenderer.class, state );
 		}
@@ -669,8 +618,8 @@ public class HtmlTableLayoutRenderer
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */int		currentColumn;
 
 		/* package private */int		columns	= 1;

@@ -25,8 +25,8 @@ import android.app.Application;
  */
 
 public class AddressBookApplication
-	extends Application
-{
+	extends Application {
+
 	//
 	// Private members
 	//
@@ -38,8 +38,8 @@ public class AddressBookApplication
 	//
 
 	@Override
-	public void onCreate()
-	{
+	public void onCreate() {
+
 		super.onCreate();
 
 		// Controllers
@@ -47,8 +47,8 @@ public class AddressBookApplication
 		mContactsController = new ContactsController();
 	}
 
-	public ContactsController getContactsController()
-	{
+	public ContactsController getContactsController() {
+
 		return mContactsController;
 	}
 }

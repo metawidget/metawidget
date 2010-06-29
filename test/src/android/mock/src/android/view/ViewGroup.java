@@ -33,8 +33,8 @@ import android.util.AttributeSet;
 
 public class ViewGroup
 	extends View
-	implements ViewParent
-{
+	implements ViewParent {
+
 	//
 	// Private members
 	//
@@ -45,18 +45,18 @@ public class ViewGroup
 	// Constructor
 	//
 
-	public ViewGroup( Context context )
-	{
+	public ViewGroup( Context context ) {
+
 		super( context );
 	}
 
-	public ViewGroup( Context context, AttributeSet attributeSet )
-	{
+	public ViewGroup( Context context, AttributeSet attributeSet ) {
+
 		super( context, attributeSet );
 	}
 
-	public ViewGroup( Context context, AttributeSet attributeSet, int index )
-	{
+	public ViewGroup( Context context, AttributeSet attributeSet, int index ) {
+
 		super( context, attributeSet, index );
 	}
 
@@ -64,34 +64,34 @@ public class ViewGroup
 	// Public methods
 	//
 
-	public void addView( View child )
-	{
+	public void addView( View child ) {
+
 		addView( child, null );
 	}
 
-	public void addView( View child, LayoutParams params )
-	{
+	public void addView( View child, LayoutParams params ) {
+
 		child.setParent( this );
 		mChildren.add( child );
 	}
 
-	public void removeView( View view )
-	{
+	public void removeView( View view ) {
+
 		mChildren.remove( view );
 	}
 
-	public void removeAllViews()
-	{
+	public void removeAllViews() {
+
 		mChildren.clear();
 	}
 
-	public View getChildAt( int childIndex )
-	{
+	public View getChildAt( int childIndex ) {
+
 		return mChildren.get( childIndex );
 	}
 
-	public int getChildCount()
-	{
+	public int getChildCount() {
+
 		return mChildren.size();
 	}
 
@@ -99,8 +99,8 @@ public class ViewGroup
 	// Inner class
 	//
 
-	public static class LayoutParams
-	{
+	public static class LayoutParams {
+
 		//
 		// Public statics
 		//
@@ -113,143 +113,143 @@ public class ViewGroup
 		// Constructor
 		//
 
-		public LayoutParams()
-		{
+		public LayoutParams() {
+
 			// Ignore
 		}
 
-		public LayoutParams( Context context, AttributeSet attributeSet )
-		{
+		public LayoutParams( Context context, AttributeSet attributeSet ) {
+
 			// Ignore
 		}
 
-		public LayoutParams( int int1, int int2 )
-		{
+		public LayoutParams( int int1, int int2 ) {
+
 			// Ignore
 		}
 
-		public LayoutParams( LayoutParams toCopy )
-		{
+		public LayoutParams( LayoutParams toCopy ) {
+
 			// Ignore
 		}
 	}
 
 	public static class MarginLayoutParams
-		extends LayoutParams
-	{
+		extends LayoutParams {
+
 		//
 		// Constructor
 		//
 
-		public MarginLayoutParams()
-		{
+		public MarginLayoutParams() {
+
 			// Default constructor
 		}
 
-		public MarginLayoutParams( int int1, int int2 )
-		{
+		public MarginLayoutParams( int int1, int int2 ) {
+
 			super( int1, int2 );
 		}
 
-		public MarginLayoutParams( MarginLayoutParams toCopy )
-		{
+		public MarginLayoutParams( MarginLayoutParams toCopy ) {
+
 			super( toCopy );
 		}
 	}
 
 	@Override
-	public void bringChildToFront( View arg0 )
-	{
+	public void bringChildToFront( View arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void childDrawableStateChanged( View arg0 )
-	{
+	public void childDrawableStateChanged( View arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void clearChildFocus( View arg0 )
-	{
+	public void clearChildFocus( View arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void createContextMenu( ContextMenu arg0 )
-	{
+	public void createContextMenu( ContextMenu arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public View focusSearch( View arg0, int arg1 )
-	{
+	public View focusSearch( View arg0, int arg1 ) {
+
 		return null;
 	}
 
 	@Override
-	public void focusableViewAvailable( View arg0 )
-	{
+	public void focusableViewAvailable( View arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public boolean getChildVisibleRect( View arg0, Rect arg1, Point arg2 )
-	{
+	public boolean getChildVisibleRect( View arg0, Rect arg1, Point arg2 ) {
+
 		return false;
 	}
 
 	@Override
-	public void invalidateChild( View arg0, Rect arg1 )
-	{
+	public void invalidateChild( View arg0, Rect arg1 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public ViewParent invalidateChildInParent( int[] arg0, Rect arg1 )
-	{
+	public ViewParent invalidateChildInParent( int[] arg0, Rect arg1 ) {
+
 		return null;
 	}
 
 	@Override
-	public boolean isLayoutRequested()
-	{
+	public boolean isLayoutRequested() {
+
 		return false;
 	}
 
 	@Override
-	public void recomputeViewAttributes( View arg0 )
-	{
+	public void recomputeViewAttributes( View arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void requestChildFocus( View arg0, View arg1 )
-	{
+	public void requestChildFocus( View arg0, View arg1 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void requestDisallowInterceptTouchEvent( boolean arg0 )
-	{
+	public void requestDisallowInterceptTouchEvent( boolean arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void requestLayout()
-	{
+	public void requestLayout() {
+
 		// Do nothing
 	}
 
 	@Override
-	public void requestTransparentRegion( View arg0 )
-	{
+	public void requestTransparentRegion( View arg0 ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public boolean showContextMenuForChild( View arg0 )
-	{
+	public boolean showContextMenuForChild( View arg0 ) {
+
 		return false;
 	}
 }

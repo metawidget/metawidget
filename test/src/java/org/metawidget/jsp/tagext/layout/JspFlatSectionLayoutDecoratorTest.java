@@ -32,16 +32,16 @@ import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
  */
 
 public class JspFlatSectionLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testEmptyStub()
-		throws Exception
-	{
-		HeadingTagLayoutDecorator layoutDecorator = new HeadingTagLayoutDecorator( new HeadingTagLayoutDecoratorConfig().setLayout( new HtmlTableLayout() ));
+		throws Exception {
+
+		HeadingTagLayoutDecorator layoutDecorator = new HeadingTagLayoutDecorator( new HeadingTagLayoutDecoratorConfig().setLayout( new HtmlTableLayout() ) );
 		assertTrue( false == layoutDecorator.isEmptyStub( null ) );
 		assertTrue( false == layoutDecorator.isEmptyStub( new HtmlMetawidgetTag() ) );
 

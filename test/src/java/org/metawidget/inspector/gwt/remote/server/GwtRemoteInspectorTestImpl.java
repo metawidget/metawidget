@@ -28,21 +28,21 @@ import javax.servlet.ServletConfig;
  */
 
 public class GwtRemoteInspectorTestImpl
-	extends GwtRemoteInspectorImpl
-{
+	extends GwtRemoteInspectorImpl {
+
 	//
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected String getConfigInitParameter( ServletConfig servletConfig )
-	{
+	protected String getConfigInitParameter( ServletConfig servletConfig ) {
+
 		return "metawidget.xml";
 	}
 }

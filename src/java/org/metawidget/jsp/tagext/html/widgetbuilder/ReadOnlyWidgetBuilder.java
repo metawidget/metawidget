@@ -39,8 +39,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
- * ReadOnlyWidgetBuilder for 'plain' JSP environment (eg. just a servlet-based backend, no Struts/Spring
- * etc) that outputs HTML.
+ * ReadOnlyWidgetBuilder for 'plain' JSP environment (eg. just a servlet-based backend, no
+ * Struts/Spring etc) that outputs HTML.
  * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
  *
@@ -48,39 +48,35 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<Tag, MetawidgetTag>
-{
+	implements WidgetBuilder<Tag, MetawidgetTag> {
+
 	//
 	// Public methods
 	//
 
-	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// Not read-only?
 
-		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
-		{
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 			return null;
 		}
 
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return null;
 		}
 
 		// Action (read-only actions ignored)
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new HtmlStubTag();
 		}
 
 		// Masked (return an empty String, so that we DO still render a label)
 
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			return new LiteralTag( "" );
 		}
 
@@ -88,15 +84,13 @@ public class ReadOnlyWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			return writeReadOnlyTag( attributes, metawidget );
 		}
 
 		String jspLookup = attributes.get( JSP_LOOKUP );
 
-		if ( jspLookup != null && !"".equals( jspLookup ) )
-		{
+		if ( jspLookup != null && !"".equals( jspLookup ) ) {
 			return writeReadOnlyTag( attributes, metawidget );
 		}
 
@@ -104,55 +98,47 @@ public class ReadOnlyWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
 			// Object primitives
 
-			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
-			{
+			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
 			// Dates
 
-			if ( Date.class.isAssignableFrom( clazz ) )
-			{
+			if ( Date.class.isAssignableFrom( clazz ) ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
 			// Strings
 
-			if ( String.class.equals( clazz ) )
-			{
+			if ( String.class.equals( clazz ) ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new HtmlStubTag();
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return writeReadOnlyTag( attributes, metawidget );
 		}
 
@@ -165,8 +151,8 @@ public class ReadOnlyWidgetBuilder
 	// Private methods
 	//
 
-	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
@@ -176,17 +162,14 @@ public class ReadOnlyWidgetBuilder
 
 		String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-		if ( lookupLabels != null )
-		{
+		if ( lookupLabels != null ) {
 			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ) );
 			int indexOf = lookupList.indexOf( value );
 
-			if ( indexOf != -1 )
-			{
+			if ( indexOf != -1 ) {
 				List<String> lookupLabelsList = CollectionUtils.fromString( lookupLabels );
 
-				if ( indexOf < lookupLabelsList.size() )
-				{
+				if ( indexOf < lookupLabelsList.size() ) {
 					value = lookupLabelsList.get( indexOf );
 				}
 			}
@@ -194,30 +177,24 @@ public class ReadOnlyWidgetBuilder
 
 		buffer.append( value );
 
-		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-		{
+		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 			Tag hiddenTag = HtmlWidgetBuilderUtils.writeHiddenTag( attributes, metawidget );
 
-			try
-			{
+			try {
 				buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
-			}
-			catch( JspException e )
-			{
+			} catch ( JspException e ) {
 				throw WidgetBuilderException.newException( e );
 			}
 
 			// If value is empty, output an &nbsp; to stop this field being treated
 			// as 'just a hidden field'
 
-			if ( "".equals( value ) )
-			{
+			if ( "".equals( value ) ) {
 				buffer.append( "&nbsp;" );
 			}
 		}
 
 		return new LiteralTag( buffer.toString() );
 	}
-
 
 }

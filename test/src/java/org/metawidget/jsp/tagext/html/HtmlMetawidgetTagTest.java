@@ -33,15 +33,15 @@ import org.metawidget.jsp.tagext.StubTag;
  */
 
 public class HtmlMetawidgetTagTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testMetawidget()
-		throws Exception
-	{
+		throws Exception {
+
 		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
 
 		// Value without prefix
@@ -62,8 +62,8 @@ public class HtmlMetawidgetTagTest
 	}
 
 	public void testLifecyle()
-		throws Exception
-	{
+		throws Exception {
+
 		// We must use doStartTag(), not rely on super.release()
 
 		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
@@ -88,15 +88,15 @@ public class HtmlMetawidgetTagTest
 		needsConfiguring.setAccessible( true );
 		needsConfiguring.set( metawidget, false );
 
-		assertTrue( null != facets.get( metawidget ));
-		assertTrue( null != stubs.get( metawidget ));
-		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ));
+		assertTrue( null != facets.get( metawidget ) );
+		assertTrue( null != stubs.get( metawidget ) );
+		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ) );
 
 		// Should reset facets and stubs
 
 		metawidget.doStartTag();
-		assertTrue( null == facets.get( metawidget ));
-		assertTrue( null == stubs.get( metawidget ));
-		assertTrue( true == (Boolean) needsConfiguring.get( metawidget ));
+		assertTrue( null == facets.get( metawidget ) );
+		assertTrue( null == stubs.get( metawidget ) );
+		assertTrue( true == (Boolean) needsConfiguring.get( metawidget ) );
 	}
 }

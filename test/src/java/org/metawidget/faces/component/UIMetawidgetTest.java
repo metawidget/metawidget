@@ -46,8 +46,8 @@ import org.metawidget.util.LogUtilsTest;
  */
 
 public class UIMetawidgetTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -59,16 +59,13 @@ public class UIMetawidgetTest
 	//
 
 	public void testMetawidget()
-		throws Exception
-	{
+		throws Exception {
+
 		UIMetawidget metawidget = new HtmlMetawidget();
 
-		try
-		{
+		try {
 			metawidget.encodeBegin( null );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Should fail with an IOException (not a MetawidgetException)
 
 			assertTrue( e instanceof IOException );
@@ -76,87 +73,81 @@ public class UIMetawidgetTest
 	}
 
 	public void testValidationError()
-		throws Exception
-	{
+		throws Exception {
+
 		final StringBuilder result = new StringBuilder();
 
-		UIMetawidget metawidget = new HtmlMetawidget()
-		{
+		UIMetawidget metawidget = new HtmlMetawidget() {
+
 			@Override
 			public void encodeBegin( FacesContext context )
-				throws IOException
-			{
+				throws IOException {
+
 				result.append( "encodeBegin called;" );
 
 				super.encodeBegin( context );
 			}
 
 			@Override
-			protected void configure()
-			{
+			protected void configure() {
+
 				// Should not be called
 
 				result.append( "configure called;" );
 			}
 
 			@Override
-			protected void startBuild()
-			{
+			protected void startBuild() {
+
 				// Should not be called
 
 				result.append( "startBuild called;" );
 			}
 
-
 		};
 
-		MockFacesContext context = new MockFacesContext()
-		{
+		MockFacesContext context = new MockFacesContext() {
+
 			@Override
-			public Severity getMaximumSeverity()
-			{
+			public Severity getMaximumSeverity() {
+
 				return FacesMessage.SEVERITY_INFO;
 			}
 
 			@Override
-			public RenderKit getRenderKit()
-			{
+			public RenderKit getRenderKit() {
+
 				result.append( "getRenderKit called;" );
 				return null;
 			}
 
 			@Override
-			public Map<Object, Object> getAttributes()
-			{
+			public Map<Object, Object> getAttributes() {
+
 				result.append( "getAttributes called;" );
 				return null;
 			}
 		};
 
-		try
-		{
+		try {
 			metawidget.encodeBegin( context );
 
 			// Should throw a NullPointerException, because getRenderKit is null
 
 			assertTrue( false );
-		}
-		catch ( NullPointerException e )
-		{
+		} catch ( NullPointerException e ) {
 			// Should go straight to getRenderKit or pushComponentToEL, because validation error
 
-			assertTrue( "encodeBegin called;getRenderKit called;".equals( result.toString() ) || "encodeBegin called;getAttributes called;".equals( result.toString() ));
-		}
-		finally
-		{
+			assertTrue( "encodeBegin called;getRenderKit called;".equals( result.toString() ) || "encodeBegin called;getAttributes called;".equals( result.toString() ) );
+		} finally {
 			context.unregisterCurrentInstance();
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings( "deprecation" )
 	public void testNotRecreatable()
-		throws Exception
-	{
+		throws Exception {
+
 		UIMetawidget metawidget = new HtmlMetawidget();
 		HtmlOutputText recreatableComponent1 = new HtmlOutputText();
 		recreatableComponent1.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, "something" );
@@ -171,25 +162,22 @@ public class UIMetawidgetTest
 		metawidget.getChildren().add( recreatableComponent2 );
 
 		assertTrue( 3 == metawidget.getChildCount() );
-		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ));
+		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ) );
 		metawidget.startBuild();
 		assertTrue( 1 == metawidget.getChildCount() );
 		assertTrue( notRecreatableComponent == metawidget.getChildren().get( 0 ) );
 	}
 
 	public void testStub()
-		throws Exception
-	{
+		throws Exception {
+
 		UIStub stub = new UIStub();
 		stub.setStubAttributes( "rendered:" );
 
-		try
-		{
+		try {
 			stub.getStubAttributesAsMap();
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Should fail
 
 			assertTrue( "Unrecognized value 'rendered:'".equals( e.getMessage() ) );
@@ -197,13 +185,10 @@ public class UIMetawidgetTest
 
 		stub.setStubAttributes( "rendered:;" );
 
-		try
-		{
+		try {
 			stub.getStubAttributesAsMap();
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Should fail
 
 			assertTrue( "Unrecognized value 'rendered:'".equals( e.getMessage() ) );
@@ -219,9 +204,9 @@ public class UIMetawidgetTest
 		assertTrue( attributes.equals( stub.getStubAttributesAsMap() ) );
 	}
 
-	public void testMissingDefaultConfig()
-	{
-		assertTrue( null == FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ));
+	public void testMissingDefaultConfig() {
+
+		assertTrue( null == FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ) );
 
 		// Should not error (just log)
 
@@ -236,15 +221,12 @@ public class UIMetawidgetTest
 
 		// Should error
 
-		try
-		{
+		try {
 			metawidget.setConfig( "does-not-exist.xml" );
 			metawidget.configure();
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
-			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage());
+		} catch ( MetawidgetException e ) {
+			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage() );
 		}
 
 		// Should not re-log
@@ -253,7 +235,7 @@ public class UIMetawidgetTest
 		metawidget = new HtmlMetawidget();
 		metawidget.configure();
 
-		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ));
+		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}
 
 	//
@@ -262,8 +244,8 @@ public class UIMetawidgetTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -271,8 +253,8 @@ public class UIMetawidgetTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

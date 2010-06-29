@@ -34,8 +34,8 @@ import org.metawidget.faces.component.widgetprocessor.ReadableIdProcessor;
  */
 
 public class ReadableIdProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -48,8 +48,8 @@ public class ReadableIdProcessorTest
 
 	@SuppressWarnings( "deprecation" )
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		ReadableIdProcessor processor = new ReadableIdProcessor();
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 
@@ -122,8 +122,8 @@ public class ReadableIdProcessorTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -131,8 +131,8 @@ public class ReadableIdProcessorTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

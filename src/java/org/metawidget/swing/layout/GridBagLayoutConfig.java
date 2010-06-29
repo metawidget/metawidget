@@ -30,8 +30,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class GridBagLayoutConfig
-{
+public class GridBagLayoutConfig {
+
 	//
 	// Private members
 	//
@@ -54,8 +54,8 @@ public class GridBagLayoutConfig
 	// Public methods
 	//
 
-	public int getNumberOfColumns()
-	{
+	public int getNumberOfColumns() {
+
 		return mNumberOfColumns;
 	}
 
@@ -63,10 +63,9 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setNumberOfColumns( int numberOfColumns )
-	{
-		if ( numberOfColumns < 1 )
-		{
+	public GridBagLayoutConfig setNumberOfColumns( int numberOfColumns ) {
+
+		if ( numberOfColumns < 1 ) {
 			throw LayoutException.newException( "numberOfColumns must be >= 1" );
 		}
 
@@ -75,8 +74,8 @@ public class GridBagLayoutConfig
 		return this;
 	}
 
-	public int getLabelAlignment()
-	{
+	public int getLabelAlignment() {
+
 		return mLabelAlignment;
 	}
 
@@ -84,15 +83,15 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setLabelAlignment( int labelAlignment )
-	{
+	public GridBagLayoutConfig setLabelAlignment( int labelAlignment ) {
+
 		mLabelAlignment = labelAlignment;
 
 		return this;
 	}
 
-	public Color getLabelForeground()
-	{
+	public Color getLabelForeground() {
+
 		return mLabelForeground;
 	}
 
@@ -100,15 +99,15 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setLabelForeground( Color labelForeground )
-	{
+	public GridBagLayoutConfig setLabelForeground( Color labelForeground ) {
+
 		mLabelForeground = labelForeground;
 
 		return this;
 	}
 
-	public Font getLabelFont()
-	{
+	public Font getLabelFont() {
+
 		return mLabelFont;
 	}
 
@@ -116,15 +115,15 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setLabelFont( Font labelFont )
-	{
+	public GridBagLayoutConfig setLabelFont( Font labelFont ) {
+
 		mLabelFont = labelFont;
 
 		return this;
 	}
 
-	public String getLabelSuffix()
-	{
+	public String getLabelSuffix() {
+
 		return mLabelSuffix;
 	}
 
@@ -132,15 +131,15 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setLabelSuffix( String labelSuffix )
-	{
+	public GridBagLayoutConfig setLabelSuffix( String labelSuffix ) {
+
 		mLabelSuffix = labelSuffix;
 
 		return this;
 	}
 
-	public int getRequiredAlignment()
-	{
+	public int getRequiredAlignment() {
+
 		return mRequiredAlignment;
 	}
 
@@ -148,15 +147,15 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setRequiredAlignment( int requiredAlignment )
-	{
+	public GridBagLayoutConfig setRequiredAlignment( int requiredAlignment ) {
+
 		mRequiredAlignment = requiredAlignment;
 
 		return this;
 	}
 
-	public String getRequiredText()
-	{
+	public String getRequiredText() {
+
 		return mRequiredText;
 	}
 
@@ -164,63 +163,53 @@ public class GridBagLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public GridBagLayoutConfig setRequiredText( String requiredText )
-	{
+	public GridBagLayoutConfig setRequiredText( String requiredText ) {
+
 		mRequiredText = requiredText;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mNumberOfColumns != ( (GridBagLayoutConfig) that ).mNumberOfColumns )
-		{
+		if ( mNumberOfColumns != ( (GridBagLayoutConfig) that ).mNumberOfColumns ) {
 			return false;
 		}
 
-		if ( mLabelAlignment != ( (GridBagLayoutConfig) that ).mLabelAlignment )
-		{
+		if ( mLabelAlignment != ( (GridBagLayoutConfig) that ).mLabelAlignment ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mLabelFont, ( (GridBagLayoutConfig) that ).mLabelFont ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mLabelFont, ( (GridBagLayoutConfig) that ).mLabelFont ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mLabelForeground, ( (GridBagLayoutConfig) that ).mLabelForeground ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mLabelForeground, ( (GridBagLayoutConfig) that ).mLabelForeground ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ( (GridBagLayoutConfig) that ).mLabelSuffix ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ( (GridBagLayoutConfig) that ).mLabelSuffix ) ) {
 			return false;
 		}
 
-		if ( mRequiredAlignment != ( (GridBagLayoutConfig) that ).mRequiredAlignment )
-		{
+		if ( mRequiredAlignment != ( (GridBagLayoutConfig) that ).mRequiredAlignment ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ( (GridBagLayoutConfig) that ).mRequiredText ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ( (GridBagLayoutConfig) that ).mRequiredText ) ) {
 			return false;
 		}
 
@@ -228,8 +217,8 @@ public class GridBagLayoutConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + mNumberOfColumns;
 		hashCode = 31 * hashCode + mLabelAlignment;

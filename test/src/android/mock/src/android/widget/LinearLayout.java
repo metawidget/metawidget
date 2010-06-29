@@ -27,8 +27,8 @@ import android.view.ViewGroup;
  */
 
 public class LinearLayout
-	extends ViewGroup
-{
+	extends ViewGroup {
+
 	//
 	// Public statics
 	//
@@ -47,18 +47,18 @@ public class LinearLayout
 	// Constructor
 	//
 
-	public LinearLayout( Context context )
-	{
+	public LinearLayout( Context context ) {
+
 		super( context );
 	}
 
-	public LinearLayout( Context context, AttributeSet attributeSet )
-	{
+	public LinearLayout( Context context, AttributeSet attributeSet ) {
+
 		super( context, attributeSet );
 	}
 
-	public LinearLayout( Context context, AttributeSet attributeSet, int index )
-	{
+	public LinearLayout( Context context, AttributeSet attributeSet, int index ) {
+
 		super( context, attributeSet, index );
 	}
 
@@ -66,13 +66,13 @@ public class LinearLayout
 	// Public methods
 	//
 
-	public void setOrientation( int orientation )
-	{
+	public void setOrientation( int orientation ) {
+
 		mOrientation = orientation;
 	}
 
-	public int getOrientation()
-	{
+	public int getOrientation() {
+
 		return mOrientation;
 	}
 
@@ -81,24 +81,24 @@ public class LinearLayout
 	//
 
 	public static class LayoutParams
-		extends MarginLayoutParams
-	{
+		extends MarginLayoutParams {
+
 		//
 		// Constructor
 		//
 
-		public LayoutParams()
-		{
+		public LayoutParams() {
+
 			// Default constructor
 		}
 
-		public LayoutParams( int int1, int int2 )
-		{
+		public LayoutParams( int int1, int int2 ) {
+
 			super( int1, int2 );
 		}
 
-		public LayoutParams( MarginLayoutParams toCopy )
-		{
+		public LayoutParams( MarginLayoutParams toCopy ) {
+
 			super( toCopy );
 		}
 	}

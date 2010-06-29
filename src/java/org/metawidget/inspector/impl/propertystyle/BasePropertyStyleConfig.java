@@ -26,8 +26,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class BasePropertyStyleConfig
-{
+public class BasePropertyStyleConfig {
+
 	//
 	// Private statics
 	//
@@ -57,12 +57,11 @@ public class BasePropertyStyleConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BasePropertyStyleConfig setExcludeBaseType( Pattern excludeBaseType )
-	{
+	public BasePropertyStyleConfig setExcludeBaseType( Pattern excludeBaseType ) {
+
 		mExcludeBaseType = excludeBaseType;
 
-		if ( excludeBaseType == null )
-		{
+		if ( excludeBaseType == null ) {
 			mNullExcludeBaseType = true;
 		}
 
@@ -71,12 +70,10 @@ public class BasePropertyStyleConfig
 		return this;
 	}
 
-	public Pattern getExcludeBaseType()
-	{
-		if ( mExcludeBaseType == null && !mNullExcludeBaseType )
-		{
-			if ( DEFAULT_EXCLUDE_BASE_TYPE == null )
-			{
+	public Pattern getExcludeBaseType() {
+
+		if ( mExcludeBaseType == null && !mNullExcludeBaseType ) {
+			if ( DEFAULT_EXCLUDE_BASE_TYPE == null ) {
 				DEFAULT_EXCLUDE_BASE_TYPE = Pattern.compile( "^(java|javax)\\..*$" );
 			}
 
@@ -87,30 +84,25 @@ public class BasePropertyStyleConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mExcludeBaseType, ( (BasePropertyStyleConfig) that ).mExcludeBaseType ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mExcludeBaseType, ( (BasePropertyStyleConfig) that ).mExcludeBaseType ) ) {
 			return false;
 		}
 
-		if ( mNullExcludeBaseType != ( (BasePropertyStyleConfig) that ).mNullExcludeBaseType )
-		{
+		if ( mNullExcludeBaseType != ( (BasePropertyStyleConfig) that ).mNullExcludeBaseType ) {
 			return false;
 		}
 
@@ -118,8 +110,8 @@ public class BasePropertyStyleConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mExcludeBaseType );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeBaseType );

@@ -56,15 +56,15 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class SwingMetawidgetTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testBeanInfo()
-		throws Exception
-	{
+		throws Exception {
+
 		BeanInfo info = Introspector.getBeanInfo( SwingMetawidget.class );
 
 		assertEquals( "Metawidget", info.getBeanDescriptor().getDisplayName() );
@@ -76,15 +76,15 @@ public class SwingMetawidgetTest
 	}
 
 	@SuppressWarnings( "serial" )
-	public void testRepainting()
-	{
+	public void testRepainting() {
+
 		final StringBuilder builder = new StringBuilder();
 
-		SwingMetawidget metawidget = new SwingMetawidget()
-		{
+		SwingMetawidget metawidget = new SwingMetawidget() {
+
 			@Override
-			public void repaint()
-			{
+			public void repaint() {
+
 				builder.append( "repaint\n" );
 				super.repaint();
 			}
@@ -122,8 +122,8 @@ public class SwingMetawidgetTest
 		assertEquals( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ), builder.toString() );
 	}
 
-	public void testNestedWithManualInspector()
-	{
+	public void testNestedWithManualInspector() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() );
@@ -136,8 +136,8 @@ public class SwingMetawidgetTest
 		assertEquals( "Bar", metawidget.getValue( "foo", "name" ) );
 	}
 
-	public void testRecursion()
-	{
+	public void testRecursion() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 		RecursiveFoo foo = new RecursiveFoo();
@@ -147,8 +147,8 @@ public class SwingMetawidgetTest
 		assertTrue( null == ( (SwingMetawidget) metawidget.getComponent( "foo" ) ).getComponent( "foo" ) );
 	}
 
-	public void testMaximumInspectionDepth()
-	{
+	public void testMaximumInspectionDepth() {
+
 		Foo foo1 = new Foo();
 		Foo foo2 = new Foo();
 		Foo foo3 = new Foo();
@@ -191,15 +191,15 @@ public class SwingMetawidgetTest
 	}
 
 	public void testRebind()
-		throws Exception
-	{
+		throws Exception {
+
 		_testRebind( new BeansBindingProcessor(), org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
 		_testRebind( new BeanUtilsBindingProcessor(), "Property 'name' has no getter" );
 	}
 
 	public void testGroovy()
-		throws Exception
-	{
+		throws Exception {
+
 		// Test supporting the enum dropdown for a dynamic type...
 
 		// ...both nullable (the default)...
@@ -237,8 +237,8 @@ public class SwingMetawidgetTest
 		assertTrue( component instanceof JTextField );
 	}
 
-	public void testNestedActionBinding()
-	{
+	public void testNestedActionBinding() {
+
 		Foo foo1 = new Foo();
 		Foo foo2 = new Foo();
 		Foo foo3 = new Foo();
@@ -260,8 +260,8 @@ public class SwingMetawidgetTest
 		assertEquals( "FooActionBindingProcessor fired", ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() );
 	}
 
-	public void testFacet()
-	{
+	public void testFacet() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.add( new Facet() );
 
@@ -285,46 +285,46 @@ public class SwingMetawidgetTest
 		assertTrue( metawidget.getComponentCount() == 2 );
 	}
 
-	public void testRequiredBoolean()
-	{
+	public void testRequiredBoolean() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new FooRequiredBoolean() );
 
 		assertTrue( metawidget.getComponent( 1 ) instanceof JCheckBox );
 	}
 
-	public void testLabelString()
-	{
+	public void testLabelString() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 
-		assertEquals( "", metawidget.getLabelString( null ));
+		assertEquals( "", metawidget.getLabelString( null ) );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertEquals( "", metawidget.getLabelString( attributes ));
+		assertEquals( "", metawidget.getLabelString( attributes ) );
 
 		attributes.put( NAME, "foo" );
-		assertEquals( "Foo", metawidget.getLabelString( attributes ));
+		assertEquals( "Foo", metawidget.getLabelString( attributes ) );
 
 		attributes.put( LABEL, "foo" );
-		assertEquals( "foo", metawidget.getLabelString( attributes ));
+		assertEquals( "foo", metawidget.getLabelString( attributes ) );
 	}
 
-	public void testValidate()
-	{
+	public void testValidate() {
+
 		final List<String> called = CollectionUtils.newArrayList();
 
 		@SuppressWarnings( "serial" )
-		SwingMetawidget metawidget = new SwingMetawidget()
-		{
+		SwingMetawidget metawidget = new SwingMetawidget() {
+
 			@Override
-			public void validate()
-			{
+			public void validate() {
+
 				called.add( "validate" );
 			}
 
 			@Override
-			protected void endBuild()
-			{
+			protected void endBuild() {
+
 				called.add( "endBuild" );
 			}
 		};
@@ -333,17 +333,17 @@ public class SwingMetawidgetTest
 
 		// validate should be called after super.endBuild in SwingMetawidget
 
-		assertEquals( "endBuild", called.get( 0 ));
-		assertEquals( "validate", called.get( 1 ));
+		assertEquals( "endBuild", called.get( 0 ) );
+		assertEquals( "validate", called.get( 1 ) );
 		assertTrue( 2 == called.size() );
 	}
 
-	public void testGetWidgetProcessor()
-	{
+	public void testGetWidgetProcessor() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		metawidget.setToInspect( new PersonalContact() );
-		assertTrue( null != metawidget.getWidgetProcessor( BeansBindingProcessor.class ));
+		assertTrue( null != metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
 	}
 
 	//
@@ -351,8 +351,8 @@ public class SwingMetawidgetTest
 	//
 
 	private void _testRebind( WidgetProcessor<JComponent, SwingMetawidget> processor, String errorMessage )
-		throws Exception
-	{
+		throws Exception {
+
 		// Bind
 
 		Foo foo1 = new Foo();
@@ -398,7 +398,7 @@ public class SwingMetawidgetTest
 		// Check different component
 
 		metawidget.setToInspect( foo2 );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelAlignment( SwingConstants.RIGHT ) ));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelAlignment( SwingConstants.RIGHT ) ) );
 		assertTrue( textField != metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
 		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );
@@ -407,13 +407,10 @@ public class SwingMetawidgetTest
 
 		// Check error
 
-		try
-		{
+		try {
 			processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, new Object(), metawidget );
 			assertTrue( false );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			assertEquals( errorMessage, e.getCause().getMessage() );
 		}
 	}
@@ -422,8 +419,8 @@ public class SwingMetawidgetTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		//
 		//
 		// Private members
@@ -440,56 +437,55 @@ public class SwingMetawidgetTest
 		//
 		//
 
-		public String getName()
-		{
+		public String getName() {
+
 			return mName;
 		}
 
-		public void setName( String name )
-		{
+		public void setName( String name ) {
+
 			mName = name;
 		}
 
-		public Foo getFoo()
-		{
+		public Foo getFoo() {
+
 			return mFoo;
 		}
 
-		public void setFoo( Foo foo )
-		{
+		public void setFoo( Foo foo ) {
+
 			mFoo = foo;
 		}
 
 		@UiAction
-		public void doAction()
-		{
+		public void doAction() {
+
 			// Do nothing
 		}
 	}
 
 	public static class FooActionBindingProcessor
-		implements WidgetProcessor<JComponent, SwingMetawidget>
-	{
+		implements WidgetProcessor<JComponent, SwingMetawidget> {
+
 		//
 		// Public methods
 		//
 
 		@Override
 		@SuppressWarnings( "serial" )
-		public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget )
-		{
-			if ( !ACTION.equals( elementName ) )
-			{
+		public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget ) {
+
+			if ( !ACTION.equals( elementName ) ) {
 				return component;
 			}
 
 			JButton button = (JButton) component;
 
-			button.setAction( new AbstractAction( button.getText() )
-			{
+			button.setAction( new AbstractAction( button.getText() ) {
+
 				@Override
-				public void actionPerformed( ActionEvent e )
-				{
+				public void actionPerformed( ActionEvent e ) {
+
 					metawidget.setValue( "FooActionBindingProcessor fired", "name" );
 				}
 			} );
@@ -498,20 +494,20 @@ public class SwingMetawidgetTest
 		}
 	}
 
-	public static class FooRequiredBoolean
-	{
+	public static class FooRequiredBoolean {
+
 		//
 		// Public methods
 		//
 
 		@UiRequired
-		public Boolean getBoolean()
-		{
+		public Boolean getBoolean() {
+
 			return null;
 		}
 
-		public void setBoolean( Boolean aBoolean )
-		{
+		public void setBoolean( Boolean aBoolean ) {
+
 			// Do nothing
 		}
 	}

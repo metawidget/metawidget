@@ -23,8 +23,8 @@ package org.metawidget.shared.allwidgets.model;
  */
 
 public class AllWidgets_$$_javassist_1
-	extends AllWidgets
-{
+	extends AllWidgets {
+
 	//
 	// Private statics
 	//

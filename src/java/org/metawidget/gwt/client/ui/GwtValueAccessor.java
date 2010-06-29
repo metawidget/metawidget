@@ -24,8 +24,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-public interface GwtValueAccessor
-{
+public interface GwtValueAccessor {
+
 	//
 	// Methods
 	//

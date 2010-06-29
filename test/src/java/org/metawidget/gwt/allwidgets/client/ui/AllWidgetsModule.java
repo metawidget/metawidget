@@ -46,8 +46,8 @@ import com.google.gwt.user.client.ui.Panel;
  */
 
 public class AllWidgetsModule
-	implements EntryPoint
-{
+	implements EntryPoint {
+
 	//
 	// Private members
 	//
@@ -58,8 +58,8 @@ public class AllWidgetsModule
 	// Constructor
 	//
 
-	public AllWidgetsModule( Panel panel )
-	{
+	public AllWidgetsModule( Panel panel ) {
+
 		mPanel = panel;
 	}
 
@@ -67,13 +67,13 @@ public class AllWidgetsModule
 	// Public methods
 	//
 
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
+
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
-		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 )))) );
+		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 		metawidget.setToInspect( new AllWidgets() );
 
 		// Binding
@@ -90,7 +90,7 @@ public class AllWidgetsModule
 
 		// Stubs
 
-		metawidget.add( new Stub( "mystery" ));
+		metawidget.add( new Stub( "mystery" ) );
 
 		// Embedded buttons
 
@@ -99,13 +99,13 @@ public class AllWidgetsModule
 		metawidget.add( buttonsFacet );
 
 		final Button saveButton = new Button( "Save" );
-		saveButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		saveButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				metawidget.setReadOnly( true );
-				metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 0 ))).setStyleName( "aSectionStyleName" )) );
+				metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 0 ) ) ).setStyleName( "aSectionStyleName" ) ) );
 				metawidget.setDictionaryName( "bundle" );
 			}
 		} );

@@ -36,8 +36,8 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface PropertyStyle
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//

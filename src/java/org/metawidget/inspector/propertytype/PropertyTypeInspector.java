@@ -41,19 +41,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class PropertyTypeInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public PropertyTypeInspector()
-	{
+	public PropertyTypeInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public PropertyTypeInspector( BaseObjectInspectorConfig config )
-	{
+	public PropertyTypeInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -62,15 +62,15 @@ public class PropertyTypeInspector
 	//
 
 	@Override
-	protected boolean shouldInspectPropertyAsEntity( Property property )
-	{
+	protected boolean shouldInspectPropertyAsEntity( Property property ) {
+
 		return true;
 	}
 
 	@Override
 	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Type
@@ -90,15 +90,13 @@ public class PropertyTypeInspector
 		// WidgetBuilders will always need to check ACTUAL_CLASS
 		// 3. We don't want to use a proxied class as the 'type'
 
-		if ( !actualClass.equals( declaredClass ))
-		{
+		if ( !actualClass.equals( declaredClass ) ) {
 			attributes.put( ACTUAL_CLASS, actualClass.getName() );
 		}
 
 		// Special support for Booleans, which are tri-state
 
-		if ( Boolean.class.equals( actualClass ) )
-		{
+		if ( Boolean.class.equals( actualClass ) ) {
 			attributes.put( LOOKUP, "true, false" );
 			attributes.put( LOOKUP_LABELS, "Yes, No" );
 		}
@@ -108,8 +106,8 @@ public class PropertyTypeInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// No setter
@@ -118,15 +116,13 @@ public class PropertyTypeInspector
 		// has no setter, but IS a complex type, then it should not be considered READ_ONLY
 		// as it may be settable by its nested primitives
 
-		if ( !property.isWritable() )
-		{
+		if ( !property.isWritable() ) {
 			attributes.put( NO_SETTER, TRUE );
 		}
 
 		// No getter
 
-		if ( !property.isReadable() )
-		{
+		if ( !property.isReadable() ) {
 			attributes.put( NO_GETTER, TRUE );
 		}
 

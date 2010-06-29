@@ -31,8 +31,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class HeadingTagLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<Tag, BodyTag, MetawidgetTag>
-{
+	extends LayoutDecoratorConfig<Tag, BodyTag, MetawidgetTag> {
+
 	//
 	// Private members
 	//
@@ -52,15 +52,15 @@ public class HeadingTagLayoutDecoratorConfig
 	 */
 
 	@Override
-	public HeadingTagLayoutDecoratorConfig setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout )
-	{
+	public HeadingTagLayoutDecoratorConfig setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public String getStyle()
-	{
+	public String getStyle() {
+
 		return mStyle;
 	}
 
@@ -68,15 +68,15 @@ public class HeadingTagLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HeadingTagLayoutDecoratorConfig setStyle( String style )
-	{
+	public HeadingTagLayoutDecoratorConfig setStyle( String style ) {
+
 		mStyle = style;
 
 		return this;
 	}
 
-	public String getStyleClass()
-	{
+	public String getStyleClass() {
+
 		return mStyleClass;
 	}
 
@@ -84,38 +84,33 @@ public class HeadingTagLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HeadingTagLayoutDecoratorConfig setStyleClass( String styleClass )
-	{
+	public HeadingTagLayoutDecoratorConfig setStyleClass( String styleClass ) {
+
 		mStyleClass = styleClass;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (HeadingTagLayoutDecoratorConfig) that ).mStyle ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (HeadingTagLayoutDecoratorConfig) that ).mStyle ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (HeadingTagLayoutDecoratorConfig) that ).mStyleClass ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (HeadingTagLayoutDecoratorConfig) that ).mStyleClass ) ) {
 			return false;
 		}
 
@@ -123,8 +118,8 @@ public class HeadingTagLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );

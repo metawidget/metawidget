@@ -42,41 +42,36 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class ReflectionBindingProcessor
-	implements WidgetProcessor<Control, SwtMetawidget>
-{
+	implements WidgetProcessor<Control, SwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Control processWidget( Control component, String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
-	{
+	public Control processWidget( Control component, String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
+
 		// Only bind to Actions
 
-		if ( !ACTION.equals( elementName ) )
-		{
+		if ( !ACTION.equals( elementName ) ) {
 			return component;
 		}
 
-		if ( component instanceof Stub )
-		{
+		if ( component instanceof Stub ) {
 			return component;
 		}
 
-		if ( !( component instanceof Button ) )
-		{
+		if ( !( component instanceof Button ) ) {
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to Buttons" );
 		}
 
-		if ( metawidget == null )
-		{
+		if ( metawidget == null ) {
 			return component;
 		}
 
 		Object toInspect = metawidget.getToInspect();
 
-		if ( toInspect == null )
-		{
+		if ( toInspect == null ) {
 			return component;
 		}
 
@@ -86,12 +81,10 @@ public class ReflectionBindingProcessor
 
 		String[] names = PathUtils.parsePath( metawidget.getInspectionPath() ).getNamesAsArray();
 
-		for ( String name : names )
-		{
+		for ( String name : names ) {
 			toInspect = ClassUtils.getProperty( toInspect, name );
 
-			if ( toInspect == null )
-			{
+			if ( toInspect == null ) {
 				return component;
 			}
 		}
@@ -102,18 +95,15 @@ public class ReflectionBindingProcessor
 		final Class<?> fireActionOnClass = fireActionOn.getClass();
 		final String actionName = attributes.get( NAME );
 
-		button.addSelectionListener( new SelectionAdapter()
-		{
+		button.addSelectionListener( new SelectionAdapter() {
+
 			@Override
-			public void widgetSelected( SelectionEvent e )
-			{
-				try
-				{
+			public void widgetSelected( SelectionEvent e ) {
+
+				try {
 					final Method parameterlessActionMethod = fireActionOnClass.getMethod( actionName, (Class[]) null );
 					parameterlessActionMethod.invoke( fireActionOn, (Object[]) null );
-				}
-				catch ( Exception exception )
-				{
+				} catch ( Exception exception ) {
 					throw WidgetProcessorException.newException( exception );
 				}
 			}

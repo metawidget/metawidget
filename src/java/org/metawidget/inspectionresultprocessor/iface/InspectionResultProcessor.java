@@ -37,17 +37,18 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface InspectionResultProcessor<M>
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//
 
 	/**
 	 * @param inspectionResult
-	 *            the inspection result to process, as XML conforming to inspection-result-1.0.xsd. Never null
-	 * @return the processed inspection result, as XML conforming to inspection-result-1.0.xsd. Can be null if the InspectionResultProcessor wishes
-	 *         to cancel the inspection
+	 *            the inspection result to process, as XML conforming to inspection-result-1.0.xsd.
+	 *            Never null
+	 * @return the processed inspection result, as XML conforming to inspection-result-1.0.xsd. Can
+	 *         be null if the InspectionResultProcessor wishes to cancel the inspection
 	 */
 
 	String processInspectionResult( String inspectionResult, M metawidget );

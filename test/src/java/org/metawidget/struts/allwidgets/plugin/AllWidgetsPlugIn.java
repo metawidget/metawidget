@@ -31,14 +31,14 @@ import org.metawidget.struts.allwidgets.converter.NestedWidgetsConverter;
  */
 
 public class AllWidgetsPlugIn
-	implements PlugIn
-{
+	implements PlugIn {
+
 	//
 	// Public methods
 	//
 
-	public void init( ActionServlet servlet, ModuleConfig config )
-	{
+	public void init( ActionServlet servlet, ModuleConfig config ) {
+
 		DateConverter converterDate = new DateConverter();
 		converterDate.setPattern( "E MMM dd HH:mm:ss z yyyy" );
 		ConvertUtils.register( converterDate, Date.class );
@@ -46,8 +46,8 @@ public class AllWidgetsPlugIn
 		ConvertUtils.register( new NestedWidgetsConverter(), NestedWidgets.class );
 	}
 
-	public void destroy()
-	{
+	public void destroy() {
+
 		// Do nothing
 	}
 }

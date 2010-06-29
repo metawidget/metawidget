@@ -32,15 +32,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class ReadOnlyWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		ReadOnlyWidgetBuilder widgetBuilder = new ReadOnlyWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 

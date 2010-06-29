@@ -33,8 +33,8 @@ import org.metawidget.inspector.struts.UiStrutsLookup;
  */
 
 public abstract class ContactForm
-	extends ValidatorForm
-{
+	extends ValidatorForm {
+
 	//
 	// Private statics
 	//
@@ -68,13 +68,13 @@ public abstract class ContactForm
 	//
 
 	@UiHidden
-	public long getId()
-	{
+	public long getId() {
+
 		return mId;
 	}
 
-	public void setId( long id )
-	{
+	public void setId( long id ) {
+
 		mId = id;
 	}
 
@@ -85,13 +85,13 @@ public abstract class ContactForm
 	 */
 
 	@UiStrutsLookup( name = "contacts", property = "allTitles" )
-	public String getTitle()
-	{
+	public String getTitle() {
+
 		return mTitle;
 	}
 
-	public void setTitle( String title )
-	{
+	public void setTitle( String title ) {
+
 		mTitle = title;
 	}
 
@@ -102,13 +102,13 @@ public abstract class ContactForm
 	 */
 
 	@UiComesAfter( "title" )
-	public String getFirstname()
-	{
+	public String getFirstname() {
+
 		return mFirstname;
 	}
 
-	public void setFirstname( String firstname )
-	{
+	public void setFirstname( String firstname ) {
+
 		mFirstname = firstname;
 	}
 
@@ -119,13 +119,13 @@ public abstract class ContactForm
 	 */
 
 	@UiComesAfter( "firstname" )
-	public String getSurname()
-	{
+	public String getSurname() {
+
 		return mSurname;
 	}
 
-	public void setSurname( String surname )
-	{
+	public void setSurname( String surname ) {
+
 		mSurname = surname;
 	}
 
@@ -134,60 +134,60 @@ public abstract class ContactForm
 	 */
 
 	@UiComesAfter( { "dateOfBirthAsString", "surname", "company" } )
-	public Gender getGender()
-	{
+	public Gender getGender() {
+
 		return mGender;
 	}
 
-	public void setGender( Gender gender )
-	{
+	public void setGender( Gender gender ) {
+
 		mGender = gender;
 	}
 
 	@UiComesAfter( "gender" )
 	@UiSection( "Contact Details" )
-	public Address getAddress()
-	{
+	public Address getAddress() {
+
 		return mAddress;
 	}
 
-	public void setAddress( Address address )
-	{
+	public void setAddress( Address address ) {
+
 		mAddress = address;
 	}
 
 	@UiComesAfter( "address" )
-	public Set<Communication> getCommunications()
-	{
+	public Set<Communication> getCommunications() {
+
 		return mCommunications;
 	}
 
-	public void setCommunications( Set<Communication> communications )
-	{
+	public void setCommunications( Set<Communication> communications ) {
+
 		mCommunications = communications;
 	}
 
 	@UiComesAfter
 	@UiSection( "Other" )
 	@UiLarge
-	public String getNotes()
-	{
+	public String getNotes() {
+
 		return mNotes;
 	}
 
-	public void setNotes( String notes )
-	{
+	public void setNotes( String notes ) {
+
 		mNotes = notes;
 	}
 
 	@UiHidden
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mReadOnly;
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
+	public void setReadOnly( boolean readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 }

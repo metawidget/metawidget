@@ -107,14 +107,14 @@ import org.metawidget.util.CollectionUtils;
 
 @SuppressWarnings( "all" )
 public class FacesMetawidgetTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
 		suite.addTestSuite( CssStyleProcessorTest.class );
 		suite.addTestSuite( FacesUtilsTest.class );
@@ -147,20 +147,20 @@ public class FacesMetawidgetTests
 	//
 
 	public static class MockFacesContext
-		extends FacesContext
-	{
+		extends FacesContext {
+
 		//
 		// Protected members
 		//
 
-		protected Map<String, Object>	mApplicationMap = CollectionUtils.newHashMap();
+		protected Map<String, Object>	mApplicationMap	= CollectionUtils.newHashMap();
 
 		//
 		// Constructor
 		//
 
-		public MockFacesContext()
-		{
+		public MockFacesContext() {
+
 			FacesContext.setCurrentInstance( this );
 		}
 
@@ -168,8 +168,8 @@ public class FacesMetawidgetTests
 		// Public methods
 		//
 
-		public void unregisterCurrentInstance()
-		{
+		public void unregisterCurrentInstance() {
+
 			FacesContext.setCurrentInstance( null );
 		}
 
@@ -178,44 +178,41 @@ public class FacesMetawidgetTests
 		//
 
 		@Override
-		public Application getApplication()
-		{
-			return new Application()
-			{
+		public Application getApplication() {
+
+			return new Application() {
+
 				//
 				// Supported public methods
 				//
 
 				@Override
 				public UIComponent createComponent( String componentName )
-					throws FacesException
-				{
+					throws FacesException {
+
 					return MockFacesContext.this.createComponent( componentName );
 				}
 
 				@Override
 				public ValueBinding createValueBinding( String expressionString )
-					throws ReferenceSyntaxException
-				{
+					throws ReferenceSyntaxException {
+
 					return new MockValueBinding( expressionString );
 				}
 
 				@Override
 				public Validator createValidator( String validatorName )
-					throws FacesException
-				{
-					if ( "javax.faces.LongRange".equals( validatorName ) )
-					{
+					throws FacesException {
+
+					if ( "javax.faces.LongRange".equals( validatorName ) ) {
 						return new LongRangeValidator();
 					}
 
-					if ( "javax.faces.DoubleRange".equals( validatorName ) )
-					{
+					if ( "javax.faces.DoubleRange".equals( validatorName ) ) {
 						return new DoubleRangeValidator();
 					}
 
-					if ( "javax.faces.Length".equals( validatorName ) )
-					{
+					if ( "javax.faces.Length".equals( validatorName ) ) {
 						return new LengthValidator();
 					}
 
@@ -227,216 +224,215 @@ public class FacesMetawidgetTests
 				//
 
 				@Override
-				public void addComponent( String s, String s1 )
-				{
+				public void addComponent( String s, String s1 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public ExpressionFactory getExpressionFactory()
-				{
+				public ExpressionFactory getExpressionFactory() {
+
 					throw new NoSuchMethodError( "MockFacesContext mimics JSF 1.1" );
 				}
 
 				@Override
-				public void addConverter( String s, String s1 )
-				{
+				public void addConverter( String s, String s1 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void addConverter( Class class1, String s )
-				{
+				public void addConverter( Class class1, String s ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void addValidator( String s, String s1 )
-				{
+				public void addValidator( String s, String s1 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
 				public UIComponent createComponent( ValueBinding valuebinding, FacesContext facescontext, String s )
-					throws FacesException
-				{
+					throws FacesException {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Converter createConverter( String s )
-				{
+				public Converter createConverter( String s ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Converter createConverter( Class class1 )
-				{
+				public Converter createConverter( Class class1 ) {
+
 					return null;
 				}
 
 				@Override
 				public MethodBinding createMethodBinding( String expression, Class[] params )
-					throws ReferenceSyntaxException
-				{
+					throws ReferenceSyntaxException {
+
 					return new MockMethodBinding( expression, params );
 				}
 
 				@Override
-				public ActionListener getActionListener()
-				{
+				public ActionListener getActionListener() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<String> getComponentTypes()
-				{
+				public Iterator<String> getComponentTypes() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<String> getConverterIds()
-				{
+				public Iterator<String> getConverterIds() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<Class<?>> getConverterTypes()
-				{
+				public Iterator<Class<?>> getConverterTypes() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Locale getDefaultLocale()
-				{
+				public Locale getDefaultLocale() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getDefaultRenderKitId()
-				{
+				public String getDefaultRenderKitId() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getMessageBundle()
-				{
+				public String getMessageBundle() {
+
 					return null;
 				}
 
 				@Override
-				public NavigationHandler getNavigationHandler()
-				{
+				public NavigationHandler getNavigationHandler() {
+
 					return null;
 				}
 
 				@Override
-				public PropertyResolver getPropertyResolver()
-				{
+				public PropertyResolver getPropertyResolver() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public StateManager getStateManager()
-				{
+				public StateManager getStateManager() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<Locale> getSupportedLocales()
-				{
+				public Iterator<Locale> getSupportedLocales() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<String> getValidatorIds()
-				{
+				public Iterator<String> getValidatorIds() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public VariableResolver getVariableResolver()
-				{
+				public VariableResolver getVariableResolver() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public ViewHandler getViewHandler()
-				{
+				public ViewHandler getViewHandler() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setActionListener( ActionListener actionlistener )
-				{
+				public void setActionListener( ActionListener actionlistener ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setDefaultLocale( Locale locale )
-				{
+				public void setDefaultLocale( Locale locale ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setDefaultRenderKitId( String s )
-				{
+				public void setDefaultRenderKitId( String s ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setMessageBundle( String s )
-				{
+				public void setMessageBundle( String s ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setNavigationHandler( NavigationHandler navigationhandler )
-				{
+				public void setNavigationHandler( NavigationHandler navigationhandler ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setPropertyResolver( PropertyResolver propertyresolver )
-				{
+				public void setPropertyResolver( PropertyResolver propertyresolver ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setStateManager( StateManager statemanager )
-				{
+				public void setStateManager( StateManager statemanager ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setSupportedLocales( Collection<Locale> arg0 )
-				{
+				public void setSupportedLocales( Collection<Locale> arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setVariableResolver( VariableResolver variableresolver )
-				{
+				public void setVariableResolver( VariableResolver variableresolver ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void setViewHandler( ViewHandler viewhandler )
-				{
+				public void setViewHandler( ViewHandler viewhandler ) {
+
 					throw new UnsupportedOperationException();
 				}
 			};
 		}
 
 		@Override
-		public UIViewRoot getViewRoot()
-		{
-			return new UIViewRoot()
-			{
+		public UIViewRoot getViewRoot() {
+
+			return new UIViewRoot() {
 
 				@Override
-				public String createUniqueId()
-				{
+				public String createUniqueId() {
+
 					return "unique-id";
 				}
 			};
@@ -447,42 +443,42 @@ public class FacesMetawidgetTests
 		//
 
 		@Override
-		public void addMessage( String s, FacesMessage facesmessage )
-		{
+		public void addMessage( String s, FacesMessage facesmessage ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Iterator<String> getClientIdsWithMessages()
-		{
+		public Iterator<String> getClientIdsWithMessages() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ExternalContext getExternalContext()
-		{
-			return new ExternalContext()
-			{
+		public ExternalContext getExternalContext() {
+
+			return new ExternalContext() {
+
 				//
 				// Supported public methods
 				//
 
 				@Override
-				public Map<String, Object> getApplicationMap()
-				{
+				public Map<String, Object> getApplicationMap() {
+
 					return MockFacesContext.this.mApplicationMap;
 				}
 
 				@Override
 				public URL getResource( String arg0 )
-					throws MalformedURLException
-				{
+					throws MalformedURLException {
+
 					return null;
 				}
 
 				@Override
-				public String getInitParameter( String name )
-				{
+				public String getInitParameter( String name ) {
+
 					return null;
 				}
 
@@ -492,191 +488,191 @@ public class FacesMetawidgetTests
 
 				@Override
 				public void dispatch( String arg0 )
-					throws IOException
-				{
+					throws IOException {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String encodeActionURL( String arg0 )
-				{
+				public String encodeActionURL( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String encodeNamespace( String arg0 )
-				{
+				public String encodeNamespace( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String encodeResourceURL( String arg0 )
-				{
+				public String encodeResourceURL( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getAuthType()
-				{
+				public String getAuthType() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Object getContext()
-				{
+				public Object getContext() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map getInitParameterMap()
-				{
+				public Map getInitParameterMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getRemoteUser()
-				{
+				public String getRemoteUser() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Object getRequest()
-				{
+				public Object getRequest() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getRequestContextPath()
-				{
+				public String getRequestContextPath() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, Object> getRequestCookieMap()
-				{
+				public Map<String, Object> getRequestCookieMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, String> getRequestHeaderMap()
-				{
+				public Map<String, String> getRequestHeaderMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, String[]> getRequestHeaderValuesMap()
-				{
+				public Map<String, String[]> getRequestHeaderValuesMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Locale getRequestLocale()
-				{
+				public Locale getRequestLocale() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<Locale> getRequestLocales()
-				{
+				public Iterator<Locale> getRequestLocales() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, Object> getRequestMap()
-				{
+				public Map<String, Object> getRequestMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, String> getRequestParameterMap()
-				{
+				public Map<String, String> getRequestParameterMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Iterator<String> getRequestParameterNames()
-				{
+				public Iterator<String> getRequestParameterNames() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, String[]> getRequestParameterValuesMap()
-				{
+				public Map<String, String[]> getRequestParameterValuesMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getRequestPathInfo()
-				{
+				public String getRequestPathInfo() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public String getRequestServletPath()
-				{
+				public String getRequestServletPath() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public InputStream getResourceAsStream( String arg0 )
-				{
+				public InputStream getResourceAsStream( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Set<String> getResourcePaths( String arg0 )
-				{
+				public Set<String> getResourcePaths( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Object getResponse()
-				{
+				public Object getResponse() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Object getSession( boolean arg0 )
-				{
+				public Object getSession( boolean arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Map<String, Object> getSessionMap()
-				{
+				public Map<String, Object> getSessionMap() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public Principal getUserPrincipal()
-				{
+				public Principal getUserPrincipal() {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public boolean isUserInRole( String arg0 )
-				{
+				public boolean isUserInRole( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 				}
 
 				@Override
-				public void log( String arg0 )
-				{
+				public void log( String arg0 ) {
+
 					throw new UnsupportedOperationException();
 
 				}
 
 				@Override
-				public void log( String arg0, Throwable arg1 )
-				{
+				public void log( String arg0, Throwable arg1 ) {
+
 					throw new UnsupportedOperationException();
 
 				}
 
 				@Override
 				public void redirect( String arg0 )
-					throws IOException
-				{
+					throws IOException {
+
 					throw new UnsupportedOperationException();
 
 				}
@@ -685,86 +681,86 @@ public class FacesMetawidgetTests
 		}
 
 		@Override
-		public Severity getMaximumSeverity()
-		{
+		public Severity getMaximumSeverity() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Iterator<FacesMessage> getMessages()
-		{
+		public Iterator<FacesMessage> getMessages() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Iterator<FacesMessage> getMessages( String s )
-		{
+		public Iterator<FacesMessage> getMessages( String s ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public RenderKit getRenderKit()
-		{
+		public RenderKit getRenderKit() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public boolean getRenderResponse()
-		{
+		public boolean getRenderResponse() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public boolean getResponseComplete()
-		{
+		public boolean getResponseComplete() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ResponseStream getResponseStream()
-		{
+		public ResponseStream getResponseStream() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public ResponseWriter getResponseWriter()
-		{
+		public ResponseWriter getResponseWriter() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void release()
-		{
+		public void release() {
+
 			FacesContext.setCurrentInstance( null );
 		}
 
 		@Override
-		public void renderResponse()
-		{
+		public void renderResponse() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void responseComplete()
-		{
+		public void responseComplete() {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setResponseStream( ResponseStream responsestream )
-		{
+		public void setResponseStream( ResponseStream responsestream ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setResponseWriter( ResponseWriter responsewriter )
-		{
+		public void setResponseWriter( ResponseWriter responsewriter ) {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setViewRoot( UIViewRoot uiviewroot )
-		{
+		public void setViewRoot( UIViewRoot uiviewroot ) {
+
 			throw new UnsupportedOperationException();
 		}
 
@@ -772,85 +768,69 @@ public class FacesMetawidgetTests
 		// Supported protected methods
 		//
 
-		protected UIComponent createComponent( String componentName )
-		{
-			if ( "javax.faces.HtmlOutputText".equals( componentName ) )
-			{
+		protected UIComponent createComponent( String componentName ) {
+
+			if ( "javax.faces.HtmlOutputText".equals( componentName ) ) {
 				return new HtmlOutputText();
 			}
 
-			if ( "javax.faces.HtmlInputHidden".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlInputHidden".equals( componentName ) ) {
 				return new HtmlInputHidden();
 			}
 
-			if ( "javax.faces.HtmlInputText".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlInputText".equals( componentName ) ) {
 				return new HtmlInputText();
 			}
 
-			if ( "javax.faces.HtmlInputTextarea".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlInputTextarea".equals( componentName ) ) {
 				return new HtmlInputTextarea();
 			}
 
-			if ( "javax.faces.HtmlInputSecret".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlInputSecret".equals( componentName ) ) {
 				return new HtmlInputSecret();
 			}
 
-			if ( "javax.faces.HtmlCommandButton".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlCommandButton".equals( componentName ) ) {
 				return new HtmlCommandButton();
 			}
 
-			if ( "javax.faces.HtmlSelectOneListbox".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlSelectOneListbox".equals( componentName ) ) {
 				return new HtmlSelectOneListbox();
 			}
 
-			if ( "javax.faces.HtmlSelectManyCheckbox".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlSelectManyCheckbox".equals( componentName ) ) {
 				return new HtmlSelectManyCheckbox();
 			}
 
-			if ( "javax.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlSelectBooleanCheckbox".equals( componentName ) ) {
 				return new HtmlSelectBooleanCheckbox();
 			}
 
-			if ( "javax.faces.HtmlDataTable".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlDataTable".equals( componentName ) ) {
 				return new HtmlDataTable();
 			}
 
-			if ( "javax.faces.HtmlCommandLink".equals( componentName ) )
-			{
+			if ( "javax.faces.HtmlCommandLink".equals( componentName ) ) {
 				return new HtmlCommandLink();
 			}
 
-			if ( "javax.faces.Column".equals( componentName ) )
-			{
+			if ( "javax.faces.Column".equals( componentName ) ) {
 				return new HtmlColumn();
 			}
 
-			if ( "javax.faces.SelectItems".equals( componentName ) )
-			{
+			if ( "javax.faces.SelectItems".equals( componentName ) ) {
 				return new UISelectItems();
 			}
 
-			if ( "javax.faces.SelectItem".equals( componentName ) )
-			{
+			if ( "javax.faces.SelectItem".equals( componentName ) ) {
 				return new UISelectItem();
 			}
 
-			if ( "org.metawidget.Stub".equals( componentName ) )
-			{
+			if ( "org.metawidget.Stub".equals( componentName ) ) {
 				return new UIStub();
 			}
 
-			if ( "javax.faces.Parameter".equals( componentName ) )
-			{
+			if ( "javax.faces.Parameter".equals( componentName ) ) {
 				return new UIParameter();
 			}
 
@@ -859,8 +839,8 @@ public class FacesMetawidgetTests
 	}
 
 	public static class MockComponent
-		extends UIComponentBase
-	{
+		extends UIComponentBase {
+
 		//
 		// Private members
 		//
@@ -871,8 +851,8 @@ public class FacesMetawidgetTests
 		// Constructor
 		//
 
-		public MockComponent( String family )
-		{
+		public MockComponent( String family ) {
+
 			mFamily = family;
 		}
 
@@ -881,15 +861,15 @@ public class FacesMetawidgetTests
 		//
 
 		@Override
-		public String getFamily()
-		{
+		public String getFamily() {
+
 			return mFamily;
 		}
 	}
 
 	public static class MockValueBinding
-		extends ValueBinding
-	{
+		extends ValueBinding {
+
 		//
 		// Private members
 		//
@@ -900,8 +880,8 @@ public class FacesMetawidgetTests
 		// Constructor
 		//
 
-		public MockValueBinding( String expressionString )
-		{
+		public MockValueBinding( String expressionString ) {
+
 			mExpressionString = expressionString;
 		}
 
@@ -910,29 +890,27 @@ public class FacesMetawidgetTests
 		//
 
 		@Override
-		public String getExpressionString()
-		{
+		public String getExpressionString() {
+
 			return mExpressionString;
 		}
 
 		@Override
 		public Class getType( FacesContext context )
-			throws EvaluationException, PropertyNotFoundException
-		{
+			throws EvaluationException, PropertyNotFoundException {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public Object getValue( FacesContext context )
-			throws EvaluationException, PropertyNotFoundException
-		{
-			if ( mExpressionString.startsWith( "#{array" ))
-			{
-				return new String[]{ mExpressionString, mExpressionString };
+			throws EvaluationException, PropertyNotFoundException {
+
+			if ( mExpressionString.startsWith( "#{array" ) ) {
+				return new String[] { mExpressionString, mExpressionString };
 			}
 
-			if ( mExpressionString.startsWith( "#{collection" ))
-			{
+			if ( mExpressionString.startsWith( "#{collection" ) ) {
 				return CollectionUtils.newArrayList( mExpressionString, mExpressionString );
 			}
 
@@ -941,36 +919,36 @@ public class FacesMetawidgetTests
 
 		@Override
 		public boolean isReadOnly( FacesContext context )
-			throws EvaluationException, PropertyNotFoundException
-		{
+			throws EvaluationException, PropertyNotFoundException {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void setValue( FacesContext context, Object value )
-			throws EvaluationException, PropertyNotFoundException
-		{
+			throws EvaluationException, PropertyNotFoundException {
+
 			throw new UnsupportedOperationException();
 		}
 	}
 
 	public static class MockMethodBinding
-		extends MethodBinding
-	{
+		extends MethodBinding {
+
 		//
 		// Private members
 		//
 
 		private String	mExpressionString;
 
-		private Class[] mParams;
+		private Class[]	mParams;
 
 		//
 		// Constructor
 		//
 
-		public MockMethodBinding( String expressionString, Class[] params )
-		{
+		public MockMethodBinding( String expressionString, Class[] params ) {
+
 			mExpressionString = expressionString;
 			mParams = params;
 		}
@@ -980,27 +958,27 @@ public class FacesMetawidgetTests
 		//
 
 		@Override
-		public String getExpressionString()
-		{
+		public String getExpressionString() {
+
 			return mExpressionString;
 		}
 
-		public Class[] getParams()
-		{
+		public Class[] getParams() {
+
 			return mParams;
 		}
 
 		@Override
 		public Class getType( FacesContext context )
-			throws MethodNotFoundException
-		{
+			throws MethodNotFoundException {
+
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public Object invoke( FacesContext context, Object[] args )
-			throws EvaluationException, MethodNotFoundException
-		{
+			throws EvaluationException, MethodNotFoundException {
+
 			throw new UnsupportedOperationException();
 		}
 	}

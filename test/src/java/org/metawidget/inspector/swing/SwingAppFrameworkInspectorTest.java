@@ -30,17 +30,17 @@ import org.w3c.dom.Element;
  */
 
 public class SwingAppFrameworkInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testAnnotations()
-	{
+	public void testAnnotations() {
+
 		SwingAppFrameworkInspector inspector = new SwingAppFrameworkInspector();
 
-		Document document = XmlUtils.documentFromString( inspector.inspect( null, Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -66,11 +66,11 @@ public class SwingAppFrameworkInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@Action( name = "barLabel" )
-		public boolean doBar()
-		{
+		public boolean doBar() {
+
 			return true;
 		}
 	}

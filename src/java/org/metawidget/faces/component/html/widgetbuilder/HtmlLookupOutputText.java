@@ -34,8 +34,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class HtmlLookupOutputText
-	extends HtmlOutputText
-{
+	extends HtmlOutputText {
+
 	//
 	// Private members
 	//
@@ -48,40 +48,35 @@ public class HtmlLookupOutputText
 	// Public methods
 	//
 
-	public void setLabels( List<String> values, List<String> labels )
-	{
+	public void setLabels( List<String> values, List<String> labels ) {
+
 		mValues = values;
 		mLabels = labels;
 
-		if ( mValues.size() != mLabels.size() )
-		{
+		if ( mValues.size() != mLabels.size() ) {
 			throw WidgetBuilderException.newException( "There are " + mValues.size() + " possible values, but " + mLabels.size() + " possible labels" );
 		}
 	}
 
 	@Override
-	public Object getValue()
-	{
+	public Object getValue() {
+
 		Object value = super.getValue();
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return null;
 		}
 
 		// Special support for Collections
 
-		if ( value instanceof Collection<?> )
-		{
+		if ( value instanceof Collection<?> ) {
 			Collection<?> values = (Collection<?>) value;
 
-			if ( values.isEmpty() )
-			{
+			if ( values.isEmpty() ) {
 				return null;
 			}
 
-			try
-			{
+			try {
 				boolean gotConverter = false;
 				Converter converter = null;
 				Collection<Object> labels;
@@ -89,23 +84,17 @@ public class HtmlLookupOutputText
 				// Try to return the same Collection type. But don't do
 				// value.getClass().newInstance() because it might be a PersistentSet or something
 
-				if ( value instanceof Set<?> )
-				{
+				if ( value instanceof Set<?> ) {
 					labels = CollectionUtils.newHashSet();
-				}
-				else
-				{
+				} else {
 					labels = CollectionUtils.newArrayList();
 				}
 
-				for ( Object itemValue : values )
-				{
+				for ( Object itemValue : values ) {
 					Object label = null;
 
-					if ( itemValue != null )
-					{
-						if ( !gotConverter )
-						{
+					if ( itemValue != null ) {
+						if ( !gotConverter ) {
 							converter = getFacesContext().getApplication().createConverter( itemValue.getClass() );
 							gotConverter = true;
 						}
@@ -117,9 +106,7 @@ public class HtmlLookupOutputText
 				}
 
 				return labels;
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw WidgetBuilderException.newException( e );
 			}
 		}
@@ -128,8 +115,7 @@ public class HtmlLookupOutputText
 
 		Converter converter = getConverter();
 
-		if ( converter == null )
-		{
+		if ( converter == null ) {
 			converter = getFacesContext().getApplication().createConverter( value.getClass() );
 		}
 
@@ -137,8 +123,8 @@ public class HtmlLookupOutputText
 	}
 
 	@Override
-	public Object saveState( FacesContext context )
-	{
+	public Object saveState( FacesContext context ) {
+
 		Object values[] = new Object[3];
 		values[0] = super.saveState( context );
 		values[1] = mValues;
@@ -149,8 +135,8 @@ public class HtmlLookupOutputText
 
 	@Override
 	@SuppressWarnings( "unchecked" )
-	public void restoreState( FacesContext context, Object state )
-	{
+	public void restoreState( FacesContext context, Object state ) {
+
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
@@ -162,18 +148,15 @@ public class HtmlLookupOutputText
 	// Private members
 	//
 
-	private Object convertAndLookup( Converter converter, Object value )
-	{
+	private Object convertAndLookup( Converter converter, Object value ) {
+
 		// Convert...
 
 		String convertedValue;
 
-		if ( converter != null )
-		{
+		if ( converter != null ) {
 			convertedValue = converter.getAsString( getFacesContext(), this, value );
-		}
-		else
-		{
+		} else {
 			convertedValue = String.valueOf( value );
 		}
 
@@ -181,8 +164,7 @@ public class HtmlLookupOutputText
 
 		int indexOf = mValues.indexOf( convertedValue );
 
-		if ( indexOf != -1 )
-		{
+		if ( indexOf != -1 ) {
 			return mLabels.get( indexOf );
 		}
 

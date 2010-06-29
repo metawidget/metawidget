@@ -29,9 +29,9 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiLookup
-{
-	String[] value( );
+public @interface UiLookup {
 
-	String[] labels( ) default {};
+	String[] value();
+
+	String[] labels() default {};
 }

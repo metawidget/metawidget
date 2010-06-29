@@ -27,8 +27,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public abstract class BaseConverter<T>
-	implements Converter<T>
-{
+	implements Converter<T> {
+
 	//
 	// Public methods
 	//
@@ -39,8 +39,8 @@ public abstract class BaseConverter<T>
 	 * By default, uses <code>StringUtils.quietValueOf</code>.
 	 */
 
-	public Object convertForWidget( Widget widget, T value )
-	{
+	public Object convertForWidget( Widget widget, T value ) {
+
 		return StringUtils.quietValueOf( value );
 	}
 }

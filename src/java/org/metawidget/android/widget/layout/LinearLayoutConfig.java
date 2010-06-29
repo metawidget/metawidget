@@ -22,8 +22,8 @@ package org.metawidget.android.widget.layout;
  * @author Richard Kennard
  */
 
-public class LinearLayoutConfig
-{
+public class LinearLayoutConfig {
+
 	//
 	// Private members
 	//
@@ -34,8 +34,8 @@ public class LinearLayoutConfig
 	// Public methods
 	//
 
-	public int getLabelStyle()
-	{
+	public int getLabelStyle() {
+
 		return mLabelStyle;
 	}
 
@@ -43,32 +43,28 @@ public class LinearLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public LinearLayoutConfig setLabelStyle( int labelStyle )
-	{
+	public LinearLayoutConfig setLabelStyle( int labelStyle ) {
+
 		mLabelStyle = labelStyle;
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mLabelStyle != ( (LinearLayoutConfig) that ).mLabelStyle )
-		{
+		if ( mLabelStyle != ( (LinearLayoutConfig) that ).mLabelStyle ) {
 			return false;
 		}
 
@@ -76,8 +72,8 @@ public class LinearLayoutConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return mLabelStyle;
 	}
 }

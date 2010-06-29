@@ -33,8 +33,8 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public final class WidgetBuilderUtils
-{
+public final class WidgetBuilderUtils {
+
 	//
 	// Public methods
 	//
@@ -54,15 +54,13 @@ public final class WidgetBuilderUtils
 	 * @return true if the attributes have READ_ONLY set to TRUE, or NO_SETTER set to true.
 	 */
 
-	public static boolean isReadOnly( Map<String, String> attributes )
-	{
-		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-		{
+	public static boolean isReadOnly( Map<String, String> attributes ) {
+
+		if ( TRUE.equals( attributes.get( READ_ONLY ) ) ) {
 			return true;
 		}
 
-		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-		{
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 			return true;
 		}
 
@@ -75,19 +73,17 @@ public final class WidgetBuilderUtils
 	 * @return ACTUAL_CLASS of, if none, TYPE or, if none, null. Never an empty String.
 	 */
 
-	public static String getActualClassOrType( Map<String, String> attributes )
-	{
+	public static String getActualClassOrType( Map<String, String> attributes ) {
+
 		String type = attributes.get( ACTUAL_CLASS );
 
-		if ( type != null && !"".equals( type ) )
-		{
+		if ( type != null && !"".equals( type ) ) {
 			return type;
 		}
 
 		type = attributes.get( TYPE );
 
-		if ( "".equals( type ) )
-		{
+		if ( "".equals( type ) ) {
 			return null;
 		}
 
@@ -98,15 +94,13 @@ public final class WidgetBuilderUtils
 	 * Returns true if the lookup is nullable, not required, or has a forced empty choice.
 	 */
 
-	public static boolean needsEmptyLookupItem( Map<String, String> attributes )
-	{
-		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) )
-		{
+	public static boolean needsEmptyLookupItem( Map<String, String> attributes ) {
+
+		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) ) {
 			return true;
 		}
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return false;
 		}
 
@@ -118,12 +112,10 @@ public final class WidgetBuilderUtils
 		// Note: there's an extra caveat for Groovy dynamic types: if we can't load
 		// the class, assume it is non-primitive and therefore add a null choice
 
-		if ( type != null )
-		{
+		if ( type != null ) {
 			Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( clazz != null && clazz.isPrimitive() )
-			{
+			if ( clazz != null && clazz.isPrimitive() ) {
 				return false;
 			}
 		}
@@ -135,8 +127,8 @@ public final class WidgetBuilderUtils
 	// Private constructor
 	//
 
-	private WidgetBuilderUtils()
-	{
+	private WidgetBuilderUtils() {
+
 		// Can never be called
 	}
 }

@@ -37,8 +37,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TitledPanelLayoutDecorator
-	extends SwingNestedSectionLayoutDecorator
-{
+	extends SwingNestedSectionLayoutDecorator {
+
 	//
 	// Private statics
 	//
@@ -59,8 +59,8 @@ public class TitledPanelLayoutDecorator
 	// Constructor
 	//
 
-	public TitledPanelLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config )
-	{
+	public TitledPanelLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -69,8 +69,8 @@ public class TitledPanelLayoutDecorator
 	//
 
 	@Override
-	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		JPanel titledPanel = new JPanel();
 		titledPanel.setOpaque( false );
 
@@ -79,12 +79,11 @@ public class TitledPanelLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 
-		titledPanel.setBorder( BorderFactory.createCompoundBorder( OUTER_BORDER, BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( localizedSection ), INNER_BORDER )));
+		titledPanel.setBorder( BorderFactory.createCompoundBorder( OUTER_BORDER, BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( localizedSection ), INNER_BORDER ) ) );
 
 		// Add to parent container
 

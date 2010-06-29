@@ -35,32 +35,29 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class ImmediateAttributeProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		String immediateString = attributes.get( FACES_IMMEDIATE );
 
-		if ( immediateString == null )
-		{
+		if ( immediateString == null ) {
 			return component;
 		}
 
 		boolean immediate = Boolean.parseBoolean( immediateString );
 
-		if ( component instanceof ActionSource )
-		{
+		if ( component instanceof ActionSource ) {
 			( (ActionSource) component ).setImmediate( immediate );
 			return component;
 		}
 
-		if ( component instanceof EditableValueHolder )
-		{
+		if ( component instanceof EditableValueHolder ) {
 			( (EditableValueHolder) component ).setImmediate( immediate );
 			return component;
 		}

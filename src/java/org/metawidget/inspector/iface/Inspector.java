@@ -33,14 +33,15 @@ import org.metawidget.iface.Immutable;
  * <em>not</em> redundant for Object-based Inspectors).
  * <p>
  * In particular, this interface does not pass an <code>M metawidget</code> or any other kind of
- * 'helper context' as the other interfaces do. This is because Inspectors are meant to exist independent
- * of any particular UI framework. Indeed, they can exist on back-end tiers where no UI framework is
- * available at all. This seems to work for most use cases encountered so far. Theoretically, though, if you
- * find yourself needing access to a context, consider:
+ * 'helper context' as the other interfaces do. This is because Inspectors are meant to exist
+ * independent of any particular UI framework. Indeed, they can exist on back-end tiers where no UI
+ * framework is available at all. This seems to work for most use cases encountered so far.
+ * Theoretically, though, if you find yourself needing access to a context, consider:
  * <ul>
  * <li>passing it in a Thread local (<code>JspAnnotationInspector</code> does this); or</li>
- * <li>passing an <code>Object[]</code> containing the object to be inspected <em>and</em> the context to <code>toInspect</code>, and
- * build something like <code>CompositeInspector</code> to strip that context back out before calling the regular <code>Inspectors</code>; or</li>
+ * <li>passing an <code>Object[]</code> containing the object to be inspected <em>and</em> the
+ * context to <code>toInspect</code>, and build something like <code>CompositeInspector</code> to
+ * strip that context back out before calling the regular <code>Inspectors</code>; or</li>
  * <li>use an <code>InspectionResultProcessor</code>.</li>
  * </ul>
  *
@@ -48,8 +49,8 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface Inspector
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//

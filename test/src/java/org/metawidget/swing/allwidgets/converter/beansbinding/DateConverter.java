@@ -29,8 +29,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class DateConverter
-	extends Converter<Date,String>
-{
+	extends Converter<Date, String> {
+
 	//
 	// Private members
 	//
@@ -41,8 +41,8 @@ public class DateConverter
 	// Constructor
 	//
 
-	public DateConverter( String pattern )
-	{
+	public DateConverter( String pattern ) {
+
 		mFormat = new SimpleDateFormat( pattern );
 		mFormat.setLenient( false );
 	}
@@ -52,35 +52,28 @@ public class DateConverter
 	//
 
 	@Override
-	public String convertForward( Date value )
-	{
-		if ( value == null )
-		{
+	public String convertForward( Date value ) {
+
+		if ( value == null ) {
 			return "";
 		}
 
-		synchronized ( mFormat )
-		{
+		synchronized ( mFormat ) {
 			return mFormat.format( value );
 		}
 	}
 
 	@Override
-	public Date convertReverse( String value )
-	{
-		if ( value == null || "".equals( value ))
-		{
+	public Date convertReverse( String value ) {
+
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 
-		synchronized ( mFormat )
-		{
-			try
-			{
+		synchronized ( mFormat ) {
+			try {
 				return mFormat.parse( value );
-			}
-			catch( ParseException e )
-			{
+			} catch ( ParseException e ) {
 				throw MetawidgetException.newException( "Could not parse '" + value + "'", e );
 			}
 		}

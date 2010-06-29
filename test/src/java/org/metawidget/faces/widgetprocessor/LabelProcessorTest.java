@@ -35,8 +35,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class LabelProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -48,8 +48,8 @@ public class LabelProcessorTest
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		LabelProcessor processor = new LabelProcessor();
 
 		HtmlInputText htmlInputText = new HtmlInputText();
@@ -65,8 +65,8 @@ public class LabelProcessorTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -74,8 +74,8 @@ public class LabelProcessorTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

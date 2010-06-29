@@ -29,15 +29,15 @@ import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
  */
 
 public class SpringMetawidgetTagTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testMetawidget()
-		throws Exception
-	{
+		throws Exception {
+
 		SpringMetawidgetTag metawidget = new SpringMetawidgetTag();
 
 		// Path without prefix

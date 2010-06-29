@@ -47,8 +47,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public abstract class Contact
-	implements Comparable<Contact>, Serializable
-{
+	implements Comparable<Contact>, Serializable {
+
 	//
 	// Private statics
 	//
@@ -79,13 +79,13 @@ public abstract class Contact
 	// Constructor
 	//
 
-	public Contact()
-	{
+	public Contact() {
+
 		this( null, null, null );
 	}
 
-	public Contact( String title, String firstname, String surname )
-	{
+	public Contact( String title, String firstname, String surname ) {
+
 		mTitle = title;
 		mFirstname = firstname;
 		mSurname = surname;
@@ -106,13 +106,13 @@ public abstract class Contact
 	 */
 
 	@UiHidden
-	public long getId()
-	{
+	public long getId() {
+
 		return mId;
 	}
 
-	public void setId( long id )
-	{
+	public void setId( long id ) {
+
 		mId = id;
 	}
 
@@ -130,13 +130,13 @@ public abstract class Contact
 	 */
 
 	@UiRequired
-	public String getTitle()
-	{
+	public String getTitle() {
+
 		return mTitle;
 	}
 
-	public void setTitle( String title )
-	{
+	public void setTitle( String title ) {
+
 		mTitle = title;
 	}
 
@@ -151,13 +151,13 @@ public abstract class Contact
 
 	@UiComesAfter( "title" )
 	@UiRequired
-	public String getFirstname()
-	{
+	public String getFirstname() {
+
 		return mFirstname;
 	}
 
-	public void setFirstname( String firstname )
-	{
+	public void setFirstname( String firstname ) {
+
 		mFirstname = firstname;
 	}
 
@@ -178,40 +178,35 @@ public abstract class Contact
 	@UiComesAfter( "firstname" )
 	@UiRequired
 	@UiAttribute( name = MAXIMUM_LENGTH, value = "50" )
-	public String getSurname()
-	{
+	public String getSurname() {
+
 		return mSurname;
 	}
 
-	public void setSurname( String surname )
-	{
+	public void setSurname( String surname ) {
+
 		mSurname = surname;
 	}
 
 	@UiHidden
-	public String getFullname()
-	{
+	public String getFullname() {
+
 		StringBuilder builder = new StringBuilder();
 
-		if ( mTitle != null )
-		{
+		if ( mTitle != null ) {
 			builder.append( mTitle );
 		}
 
-		if ( mFirstname != null )
-		{
-			if ( builder.length() > 0 )
-			{
+		if ( mFirstname != null ) {
+			if ( builder.length() > 0 ) {
 				builder.append( ' ' );
 			}
 
 			builder.append( mFirstname );
 		}
 
-		if ( mSurname != null )
-		{
-			if ( builder.length() > 0 )
-			{
+		if ( mSurname != null ) {
+			if ( builder.length() > 0 ) {
 				builder.append( ' ' );
 			}
 
@@ -222,53 +217,50 @@ public abstract class Contact
 	}
 
 	@UiComesAfter( { "dateOfBirth", "surname", "company" } )
-	public Gender getGender()
-	{
+	public Gender getGender() {
+
 		return mGender;
 	}
 
-	public void setGender( Gender gender )
-	{
+	public void setGender( Gender gender ) {
+
 		mGender = gender;
 	}
 
 	@UiComesAfter( "gender" )
 	@UiSection( "Contact Details" )
-	public Address getAddress()
-	{
+	public Address getAddress() {
+
 		return mAddress;
 	}
 
-	public void setAddress( Address address )
-	{
+	public void setAddress( Address address ) {
+
 		mAddress = address;
 	}
 
 	@UiComesAfter( "address" )
-	public Set<Communication> getCommunications()
-	{
+	public Set<Communication> getCommunications() {
+
 		return mCommunications;
 	}
 
-	public void setCommunications( Set<Communication> communications )
-	{
+	public void setCommunications( Set<Communication> communications ) {
+
 		mCommunications = communications;
 	}
 
-	public boolean addCommunication( Communication communication )
-	{
-		if ( communication.getType() == null || "".equals( communication.getType() ) )
-		{
+	public boolean addCommunication( Communication communication ) {
+
+		if ( communication.getType() == null || "".equals( communication.getType() ) ) {
 			throw new RuntimeException( "Communication type is required" );
 		}
 
-		if ( communication.getValue() == null || "".equals( communication.getValue() ) )
-		{
+		if ( communication.getValue() == null || "".equals( communication.getValue() ) ) {
 			throw new RuntimeException( "Communication value is required" );
 		}
 
-		if ( mCommunications == null )
-		{
+		if ( mCommunications == null ) {
 			// (don't use CollectionUtils.newHashSet() here, to avoid
 			// dragging CollectionUtils in under GWT)
 
@@ -278,27 +270,23 @@ public abstract class Contact
 		return mCommunications.add( communication );
 	}
 
-	public boolean removeCommunication( Communication communication )
-	{
-		if ( mCommunications == null )
-		{
+	public boolean removeCommunication( Communication communication ) {
+
+		if ( mCommunications == null ) {
 			return false;
 		}
 
 		return mCommunications.remove( communication );
 	}
 
-	public boolean removeCommunication( long id )
-	{
-		if ( mCommunications == null )
-		{
+	public boolean removeCommunication( long id ) {
+
+		if ( mCommunications == null ) {
 			return false;
 		}
 
-		for ( Iterator<Communication> i = mCommunications.iterator(); i.hasNext(); )
-		{
-			if ( i.next().getId() != id )
-			{
+		for ( Iterator<Communication> i = mCommunications.iterator(); i.hasNext(); ) {
+			if ( i.next().getId() != id ) {
 				continue;
 			}
 
@@ -316,20 +304,19 @@ public abstract class Contact
 	@UiComesAfter
 	@UiSection( "Other" )
 	@UiLarge
-	public String getNotes()
-	{
+	public String getNotes() {
+
 		return mNotes;
 	}
 
-	public void setNotes( String notes )
-	{
+	public void setNotes( String notes ) {
+
 		mNotes = notes;
 	}
 
-	public int compareTo( Contact that )
-	{
-		if ( that == null )
-		{
+	public int compareTo( Contact that ) {
+
+		if ( that == null ) {
 			return -1;
 		}
 
@@ -337,29 +324,24 @@ public abstract class Contact
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
 		Contact contactThat = (Contact) that;
 
-		if ( mId == 0 )
-		{
-			if ( contactThat.mId != 0 )
-			{
+		if ( mId == 0 ) {
+			if ( contactThat.mId != 0 ) {
 				return false;
 			}
 
@@ -370,10 +352,9 @@ public abstract class Contact
 	}
 
 	@Override
-	public int hashCode()
-	{
-		if ( mId == 0 )
-		{
+	public int hashCode() {
+
+		if ( mId == 0 ) {
 			return super.hashCode();
 		}
 
@@ -384,8 +365,8 @@ public abstract class Contact
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		return getFullname();
 	}
 }

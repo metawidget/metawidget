@@ -39,8 +39,8 @@ import org.w3c.dom.Element;
  */
 
 public class PropertyTypeInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -52,13 +52,13 @@ public class PropertyTypeInspectorTest
 	//
 
 	@Override
-	public void setUp()
-	{
+	public void setUp() {
+
 		mInspector = new PropertyTypeInspector();
 	}
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		PersonalContact personalContact = new PersonalContact();
 		Document document = XmlUtils.documentFromString( mInspector.inspect( personalContact, PersonalContact.class.getName() ) );
 
@@ -114,8 +114,8 @@ public class PropertyTypeInspectorTest
 		assertEquals( Contact.class.getName(), property.getAttribute( TYPE ) );
 	}
 
-	public void testInspectString()
-	{
+	public void testInspectString() {
+
 		// Test pointed directly at an actual String
 
 		String xml = mInspector.inspect( "foo", String.class.getName() );
@@ -166,8 +166,8 @@ public class PropertyTypeInspectorTest
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 	}
 
-	public void testTraverseViaParent()
-	{
+	public void testTraverseViaParent() {
+
 		// Indirectly pointed at a not null complex type
 
 		PropertyTypeInspector inspector = new PropertyTypeInspector();
@@ -208,8 +208,8 @@ public class PropertyTypeInspectorTest
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 	}
 
-	public void testCovariantReturn()
-	{
+	public void testCovariantReturn() {
+
 		// Superclass
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( new SuperFoo(), SuperFoo.class.getName() ) );
@@ -255,8 +255,8 @@ public class PropertyTypeInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
-	public void testCovariantSetter()
-	{
+	public void testCovariantSetter() {
+
 		Document document = XmlUtils.documentFromString( mInspector.inspect( new SubFoo2(), SubFoo2.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -276,8 +276,8 @@ public class PropertyTypeInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
-	public void testInfiniteRecursion()
-	{
+	public void testInfiniteRecursion() {
+
 		RecursiveFoo recursiveFoo = new RecursiveFoo();
 		recursiveFoo.foo = recursiveFoo;
 
@@ -331,20 +331,20 @@ public class PropertyTypeInspectorTest
 		assertEquals( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo", "foo" ), null );
 	}
 
-	public void testBadName()
-	{
+	public void testBadName() {
+
 		assertEquals( mInspector.inspect( new SubFoo(), "no-such-type" ), null );
 		assertEquals( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-name" ), null );
 		assertEquals( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-parent-name", "foo" ), null );
 	}
 
-	public void testNullType()
-	{
+	public void testNullType() {
+
 		assertTrue( null == mInspector.inspect( null, null ) );
 	}
 
-	public void testBoolean()
-	{
+	public void testBoolean() {
+
 		// Boolean (big 'b')
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, Boolean.class.getName() ) );
@@ -401,8 +401,8 @@ public class PropertyTypeInspectorTest
 		assertTrue( 2 == entity.getAttributes().getLength() );
 	}
 
-	public void testTraverseActualTypes()
-	{
+	public void testTraverseActualTypes() {
+
 		DeclaredTypeTester test = new DeclaredTypeTester();
 		test.foo = new DeclaredTypeTester();
 		( (DeclaredTypeTester) test.foo ).foo = new DeclaredTypeTester();
@@ -440,8 +440,8 @@ public class PropertyTypeInspectorTest
 	// Inner classes
 	//
 
-	protected static class DeclaredTypeTester
-	{
+	protected static class DeclaredTypeTester {
+
 		public Object	foo;
 
 		public Object	fOO;
@@ -449,28 +449,28 @@ public class PropertyTypeInspectorTest
 		public Contact	value;
 	}
 
-	protected static class SuperFoo
-	{
-		public Contact getContact()
-		{
+	protected static class SuperFoo {
+
+		public Contact getContact() {
+
 			return null;
 		}
 
-		protected String getShouldntFindMe()
-		{
+		protected String getShouldntFindMe() {
+
 			return null;
 		}
 
 		@SuppressWarnings( "unused" )
-		private String getShouldntFindMeEither()
-		{
+		private String getShouldntFindMeEither() {
+
 			return null;
 		}
 	}
 
 	protected static class SubFoo
-		extends SuperFoo
-	{
+		extends SuperFoo {
+
 		public final static int	notVisible	= 0;
 
 		//
@@ -478,58 +478,58 @@ public class PropertyTypeInspectorTest
 		//
 
 		@Override
-		public PersonalContact getContact()
-		{
+		public PersonalContact getContact() {
+
 			return null;
 		}
 
-		public final PropertyChangeListener[] getPropertyChangeListeners()
-		{
+		public final PropertyChangeListener[] getPropertyChangeListeners() {
+
 			return null;
 		}
 
-		public final VetoableChangeListener[] getVetoableChangeListeners()
-		{
+		public final VetoableChangeListener[] getVetoableChangeListeners() {
+
 			return null;
 		}
 
-		public void setBar( String bar )
-		{
+		public void setBar( String bar ) {
+
 			// Do nothing
 		}
 	}
 
 	protected static class SubFoo2
-		extends SuperFoo
-	{
+		extends SuperFoo {
+
 		//
 		// Public methods
 		//
 
 		@Override
-		public PersonalContact getContact()
-		{
+		public PersonalContact getContact() {
+
 			return null;
 		}
 
-		public void setContact( Contact contact )
-		{
+		public void setContact( Contact contact ) {
+
 			// Do nothing
 		}
 	}
 
-	public static class RecursiveFoo
-	{
+	public static class RecursiveFoo {
+
 		public Object	foo;
 	}
 
-	public static class StringHolder
-	{
+	public static class StringHolder {
+
 		public String	string;
 	}
 
-	public static class BooleanHolder
-	{
+	public static class BooleanHolder {
+
 		public boolean	littleBoolean;
 
 		public Boolean	bigBoolean;

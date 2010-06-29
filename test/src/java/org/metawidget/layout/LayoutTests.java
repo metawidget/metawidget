@@ -29,14 +29,14 @@ import org.metawidget.layout.impl.LayoutUtilsTest;
  */
 
 public class LayoutTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Layout Tests" );
 		suite.addTestSuite( LayoutDecoratorTest.class );
 		suite.addTestSuite( LayoutExceptionTest.class );

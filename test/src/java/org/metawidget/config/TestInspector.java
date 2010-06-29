@@ -30,8 +30,8 @@ import org.metawidget.inspector.iface.Inspector;
  */
 
 public class TestInspector
-	implements Inspector
-{
+	implements Inspector {
+
 	//
 	// Private members
 	//
@@ -62,10 +62,9 @@ public class TestInspector
 	// Constructor
 	//
 
-	public TestInspector( TestInspectorConfig config )
-	{
-		if ( config.isFailDuringConstruction() )
-		{
+	public TestInspector( TestInspectorConfig config ) {
+
+		if ( config.isFailDuringConstruction() ) {
 			throw new RuntimeException( "Failed during construction" );
 		}
 
@@ -82,33 +81,33 @@ public class TestInspector
 		mGender = config.getGender();
 	}
 
-	public TestInspector( TestNoEqualsInspectorConfig config )
-	{
+	public TestInspector( TestNoEqualsInspectorConfig config ) {
+
 		// Do nothing
 	}
 
-	public TestInspector( TestNoHashCodeInspectorConfig config )
-	{
+	public TestInspector( TestNoHashCodeInspectorConfig config ) {
+
 		// Do nothing
 	}
 
-	public TestInspector( TestUnbalancedEqualsInspectorConfig config )
-	{
+	public TestInspector( TestUnbalancedEqualsInspectorConfig config ) {
+
 		// Do nothing
 	}
 
-	public TestInspector( TestNoEqualsSubclassInspectorConfig config )
-	{
+	public TestInspector( TestNoEqualsSubclassInspectorConfig config ) {
+
 		// Do nothing
 	}
 
-	public TestInspector( TestNoEqualsHasMethodsSubclassInspectorConfig config )
-	{
+	public TestInspector( TestNoEqualsHasMethodsSubclassInspectorConfig config ) {
+
 		// Do nothing
 	}
 
-	public TestInspector( TestDumbHashCodeInspectorConfig config )
-	{
+	public TestInspector( TestDumbHashCodeInspectorConfig config ) {
+
 		// Do nothing
 	}
 
@@ -116,63 +115,63 @@ public class TestInspector
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return null;
 	}
 
-	public List<Object> getList()
-	{
+	public List<Object> getList() {
+
 		return mList;
 	}
 
-	public Set<Object> getSet()
-	{
+	public Set<Object> getSet() {
+
 		return mSet;
 	}
 
-	public int getInt()
-	{
+	public int getInt() {
+
 		return mInt;
 	}
 
-	public int getConstant()
-	{
+	public int getConstant() {
+
 		return mConstant;
 	}
 
-	public int getExternalConstant()
-	{
+	public int getExternalConstant() {
+
 		return mExternalConstant;
 	}
 
-	public boolean isBoolean()
-	{
+	public boolean isBoolean() {
+
 		return mBoolean;
 	}
 
-	public Pattern getPattern()
-	{
+	public Pattern getPattern() {
+
 		return mPattern;
 	}
 
-	public InputStream getInputStream()
-	{
+	public InputStream getInputStream() {
+
 		return mInputStream;
 	}
 
-	public ResourceBundle getResourceBundle()
-	{
+	public ResourceBundle getResourceBundle() {
+
 		return mResourceBundle;
 	}
 
-	public String[] getStringArray()
-	{
+	public String[] getStringArray() {
+
 		return mStringArray;
 	}
 
-	public Gender getGender()
-	{
+	public Gender getGender() {
+
 		return mGender;
 	}
 }

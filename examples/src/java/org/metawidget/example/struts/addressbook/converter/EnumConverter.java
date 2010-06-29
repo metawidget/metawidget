@@ -25,17 +25,16 @@ import org.apache.commons.beanutils.Converter;
  */
 
 public class EnumConverter
-	implements Converter
-{
+	implements Converter {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "unchecked" )
-	public Object convert( Class clazz, Object value )
-	{
-		if ( value == null || "".equals( value ))
-		{
+	public Object convert( Class clazz, Object value ) {
+
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 

@@ -31,8 +31,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 
 public class GroovyConsoleApplet
-	extends JApplet
-{
+	extends JApplet {
+
 	//
 	// Private statics
 	//
@@ -50,27 +50,22 @@ public class GroovyConsoleApplet
 	//
 
 	@Override
-	public void start()
-	{
+	public void start() {
+
 		// Nimbus look and feel (if available)
 		//
 		// Note: we tried <param name="java_arguments" value="-Djnlp.packEnabled=true
 		// -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"/>
 		// but that didn't seem to work?
 
-		try
-		{
-			for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() )
-			{
-				if ( "Nimbus".equals( info.getName() ) )
-				{
+		try {
+			for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() ) {
+				if ( "Nimbus".equals( info.getName() ) ) {
 					UIManager.setLookAndFeel( info.getClassName() );
 					break;
 				}
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			// Okay to fail
 		}
 
@@ -83,8 +78,7 @@ public class GroovyConsoleApplet
 
 		String script = getParameter( "script" );
 
-		if ( script != null )
-		{
+		if ( script != null ) {
 			// (applet PARAM tag does not support newlines, so we roll our own convention)
 
 			script = script.replaceAll( Matcher.quoteReplacement( "\\n" ), "\n" );
@@ -94,10 +88,10 @@ public class GroovyConsoleApplet
 
 			// (crashes unless we use .invokeLater)
 
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				public void run()
-				{
+			SwingUtilities.invokeLater( new Runnable() {
+
+				public void run() {
+
 					JTextPane inputArea = mConsole.getInputArea();
 					inputArea.setText( parsedScript );
 					inputArea.setCaretPosition( 0 );
@@ -107,8 +101,8 @@ public class GroovyConsoleApplet
 	}
 
 	@Override
-	public void stop()
-	{
+	public void stop() {
+
 		mConsole.exit();
 	}
 }

@@ -26,35 +26,31 @@ import org.metawidget.util.TestUtils;
  */
 
 public class HtmlTableLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class, new HtmlTableLayoutConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class, new HtmlTableLayoutConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testMinimumColumns()
-	{
+	public void testMinimumColumns() {
+
 		HtmlTableLayoutConfig config = new HtmlTableLayoutConfig();
 		assertTrue( 1 == config.getNumberOfColumns() );
 
 		config.setNumberOfColumns( 0 );
 		assertTrue( 0 == config.getNumberOfColumns() );
 
-		try
-		{
+		try {
 			config.setNumberOfColumns( -1 );
 			assertTrue( false );
-		}
-		catch( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertEquals( "numberOfColumns must be >= 0", e.getMessage() );
 		}
 	}

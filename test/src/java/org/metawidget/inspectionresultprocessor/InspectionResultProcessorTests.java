@@ -28,14 +28,14 @@ import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultP
  */
 
 public class InspectionResultProcessorTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "InspectionResultProcessor Tests" );
 		suite.addTestSuite( InspectionResultProcessorExceptionTest.class );
 		suite.addTestSuite( ComesAfterInspectionResultProcessorTest.class );

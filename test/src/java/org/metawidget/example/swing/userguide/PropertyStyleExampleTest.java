@@ -36,15 +36,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class PropertyStyleExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testPropertyStyleExample()
-		throws Exception
-	{
+		throws Exception {
+
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -61,26 +61,22 @@ public class PropertyStyleExampleTest
 	//
 
 	static class BundlePropertyStyle
-		extends JavaBeanPropertyStyle
-	{
+		extends JavaBeanPropertyStyle {
+
 		@Override
-		protected Map<String, Property> inspectProperties( Class<?> clazz )
-		{
-			try
-			{
+		protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+
+			try {
 				Map<String, Property> properties = CollectionUtils.newHashMap();
 				ResourceBundle bundle = ResourceBundle.getBundle( "org/metawidget/example/swing/userguide/Bundle" );
 
-				for ( Enumeration<String> e = bundle.getKeys(); e.hasMoreElements(); )
-				{
+				for ( Enumeration<String> e = bundle.getKeys(); e.hasMoreElements(); ) {
 					String key = e.nextElement();
 					properties.put( key, new FieldProperty( key, clazz.getField( key ) ) );
 				}
 
 				return properties;
-			}
-			catch ( Exception ex )
-			{
+			} catch ( Exception ex ) {
 				throw InspectorException.newException( ex );
 			}
 		}

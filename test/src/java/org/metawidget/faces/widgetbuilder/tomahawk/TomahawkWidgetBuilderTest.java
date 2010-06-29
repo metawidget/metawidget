@@ -37,40 +37,40 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class TomahawkWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
 
-	private FacesContext mContext;
+	private FacesContext	mContext;
 
 	//
 	// Public methods
 	//
 
 	public void testTomahawkWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		TomahawkWidgetBuilder widgetBuilder = new TomahawkWidgetBuilder();
 
 		// Pass throughs
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( LOOKUP );
 		attributes.put( FACES_LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( TYPE, Pattern.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		// SelectInputDate
 
@@ -85,8 +85,8 @@ public class TomahawkWidgetBuilderTest
 
 	@Override
 	protected void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -94,8 +94,8 @@ public class TomahawkWidgetBuilderTest
 
 	@Override
 	protected void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

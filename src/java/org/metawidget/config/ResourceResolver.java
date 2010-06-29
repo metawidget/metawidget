@@ -21,10 +21,10 @@ import java.io.InputStream;
 /**
  * Interface for resolving references to resources.
  * <p>
- * Most resources can be resolved using standard <code>ClassLoader.getResource</code> code.
- * However some environments have specialized resource areas which are inaccessible to
- * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which
- * can only be accessed through <code>ServletContext</code>. Similarly, Android environments must
+ * Most resources can be resolved using standard <code>ClassLoader.getResource</code> code. However
+ * some environments have specialized resource areas which are inaccessible to
+ * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which can
+ * only be accessed through <code>ServletContext</code>. Similarly, Android environments must
  * resolve resources using <code>Context.getResources</code>.
  * <p>
  * Note: this class is not located under <code>org.metawidget.iface</code>, because GWT does not
@@ -33,8 +33,8 @@ import java.io.InputStream;
  * @author Richard Kennard
  */
 
-public interface ResourceResolver
-{
+public interface ResourceResolver {
+
 	//
 	// Methods
 	//

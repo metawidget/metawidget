@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class WidgetProcessorExceptionTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetProcessorException()
-		throws Exception
-	{
+		throws Exception {
+
 		Throwable throwable = new Throwable();
 		assertTrue( throwable == WidgetProcessorException.newException( throwable ).getCause() );
 

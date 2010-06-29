@@ -30,8 +30,8 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class TabbedPaneLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>
-{
+	extends LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Private members
 	//
@@ -49,15 +49,15 @@ public class TabbedPaneLayoutDecoratorConfig
 	 */
 
 	@Override
-	public TabbedPaneLayoutDecoratorConfig setLayout( Layout<JComponent, JComponent, SwingMetawidget> layout )
-	{
+	public TabbedPaneLayoutDecoratorConfig setLayout( Layout<JComponent, JComponent, SwingMetawidget> layout ) {
+
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getTabPlacement()
-	{
+	public int getTabPlacement() {
+
 		return mTabPlacement;
 	}
 
@@ -68,33 +68,29 @@ public class TabbedPaneLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabbedPaneLayoutDecoratorConfig setTabPlacement( int TabPlacement )
-	{
+	public TabbedPaneLayoutDecoratorConfig setTabPlacement( int TabPlacement ) {
+
 		mTabPlacement = TabPlacement;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mTabPlacement != ( (TabbedPaneLayoutDecoratorConfig) that ).mTabPlacement )
-		{
+		if ( mTabPlacement != ( (TabbedPaneLayoutDecoratorConfig) that ).mTabPlacement ) {
 			return false;
 		}
 
@@ -102,8 +98,8 @@ public class TabbedPaneLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + mTabPlacement;
 

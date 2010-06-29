@@ -23,14 +23,14 @@ import org.metawidget.example.shared.addressbook.model.Gender;
  */
 
 public class GenderConverter
-	extends EnumConverter<Gender>
-{
+	extends EnumConverter<Gender> {
+
 	//
 	// Constructor
 	//
 
-	public GenderConverter()
-	{
+	public GenderConverter() {
+
 		super( Gender.class );
 	}
 }

@@ -46,8 +46,8 @@ import org.metawidget.util.CollectionUtils;
 // but still run against JSF 1.2
 //
 @SuppressWarnings( "deprecation" )
-public class ContactBean
-{
+public class ContactBean {
+
 	//
 	// Private members
 	//
@@ -64,24 +64,24 @@ public class ContactBean
 	//
 
 	@UiHidden
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mReadOnly;
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
+	public void setReadOnly( boolean readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 
 	@UiHidden
-	public Contact getCurrent()
-	{
+	public Contact getCurrent() {
+
 		return mCurrent;
 	}
 
-	public void setCurrent( Contact current )
-	{
+	public void setCurrent( Contact current ) {
+
 		mCurrent = current;
 		mModelCommunications = null;
 
@@ -90,26 +90,19 @@ public class ContactBean
 
 	@UiHidden
 	@SuppressWarnings( "unchecked" )
-	public ListDataModel getCurrentCommunications()
-	{
-		if ( mModelCommunications == null )
-		{
+	public ListDataModel getCurrentCommunications() {
+
+		if ( mModelCommunications == null ) {
 			Contact contact = getCurrent();
 
-			if ( contact == null )
-			{
+			if ( contact == null ) {
 				mModelCommunications = new ListDataModel();
-			}
-			else
-			{
+			} else {
 				Set<Communication> communications = contact.getCommunications();
 
-				if ( communications == null )
-				{
+				if ( communications == null ) {
 					mModelCommunications = new ListDataModel();
-				}
-				else
-				{
+				} else {
 					// (sort for consistency in unit tests)
 
 					List<Communication> sortedCommunications = CollectionUtils.newArrayList( communications );
@@ -125,22 +118,19 @@ public class ContactBean
 
 	@UiAction
 	@UiFacesAttribute( name = HIDDEN, expression = "#{!contact.readOnly}" )
-	public void edit()
-	{
+	public void edit() {
+
 		mReadOnly = false;
 	}
 
 	@UiAction
 	@UiFacesAttribute( name = HIDDEN, expression = "#{contact.readOnly}" )
 	public String save()
-		throws Exception
-	{
-		try
-		{
+		throws Exception {
+
+		try {
 			getContactsBean().save( mCurrent );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( e.getMessage() ) );
 			return null;
 		}
@@ -152,8 +142,8 @@ public class ContactBean
 	@UiFacesAttribute( name = HIDDEN, expression = "#{contact.readOnly || contact.current.id == 0}" )
 	@UiComesAfter( "save" )
 	public String delete()
-		throws Exception
-	{
+		throws Exception {
+
 		getContactsBean().delete( getCurrent() );
 
 		return "index";
@@ -164,21 +154,18 @@ public class ContactBean
 	@UiFacesAttributes( { @UiFacesAttribute( name = LABEL, expression = "#{contact.readOnly ? 'Back' : null}" ) } )
 	@UiAttribute( name = FACES_IMMEDIATE, value = "true" )
 	public String cancel()
-		throws Exception
-	{
+		throws Exception {
+
 		return "index";
 	}
 
-	public void addCommunication()
-	{
+	public void addCommunication() {
+
 		CommunicationBean bean = getCommunicationBean();
 
-		try
-		{
+		try {
 			getCurrent().addCommunication( bean.getCurrent() );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( e.getMessage() ) );
 			return;
 		}
@@ -187,8 +174,8 @@ public class ContactBean
 		mModelCommunications = null;
 	}
 
-	public void deleteCommunication()
-	{
+	public void deleteCommunication() {
+
 		Communication communication = (Communication) mModelCommunications.getRowData();
 		getCurrent().removeCommunication( communication );
 
@@ -199,16 +186,16 @@ public class ContactBean
 	// Private methods
 	//
 
-	private ContactsBean getContactsBean()
-	{
+	private ContactsBean getContactsBean() {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		VariableResolver variableResolver = context.getApplication().getVariableResolver();
 
 		return (ContactsBean) variableResolver.resolveVariable( context, "contacts" );
 	}
 
-	private CommunicationBean getCommunicationBean()
-	{
+	private CommunicationBean getCommunicationBean() {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		VariableResolver variableResolver = context.getApplication().getVariableResolver();
 

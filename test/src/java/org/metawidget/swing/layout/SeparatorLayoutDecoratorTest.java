@@ -41,22 +41,21 @@ import org.metawidget.util.TestUtils;
  */
 
 public class SeparatorLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testAlignment()
-	{
+	public void testAlignment() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new Foo() );
 
@@ -84,8 +83,8 @@ public class SeparatorLayoutDecoratorTest
 		assertTrue( 4 == metawidget.getComponentCount() );
 	}
 
-	public void testNestedSeparators()
-	{
+	public void testNestedSeparators() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -127,8 +126,8 @@ public class SeparatorLayoutDecoratorTest
 		assertTrue( 21 == metawidget.getComponentCount() );
 	}
 
-	public void testEmptyStub()
-	{
+	public void testEmptyStub() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		metawidget.setToInspect( new Baz() );
@@ -153,8 +152,8 @@ public class SeparatorLayoutDecoratorTest
 		assertTrue( 1 == metawidget.getComponentCount() );
 	}
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -170,14 +169,14 @@ public class SeparatorLayoutDecoratorTest
 	// Inner class
 	//
 
-	static class Foo
-	{
+	static class Foo {
+
 		@UiSection( "Section" )
 		public String	bar;
 	}
 
-	public static class Bar
-	{
+	public static class Bar {
+
 		public String	abc;
 
 		@UiSection( { "Foo", "Bar" } )
@@ -203,15 +202,15 @@ public class SeparatorLayoutDecoratorTest
 		public String	stu;
 	}
 
-	static class Baz
-	{
+	static class Baz {
+
 		@UiSection( "Section" )
 		@UiHidden
 		public String	abc;
 	}
 
-	public static class Zoo
-	{
+	public static class Zoo {
+
 		public String	name;
 	}
 }

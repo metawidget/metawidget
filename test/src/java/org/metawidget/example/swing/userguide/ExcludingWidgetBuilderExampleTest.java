@@ -41,21 +41,21 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ExcludingWidgetBuilderExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	@SuppressWarnings( "unchecked" )
 	public void testWidgetBuilderExample()
-		throws Exception
-	{
+		throws Exception {
+
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new ExcludingWidgetBuilder(), new SwingWidgetBuilder() ) ) );
-		metawidget.putClientProperty( "exclude", new String[]{ "age", "retired" } );
+		metawidget.putClientProperty( "exclude", new String[] { "age", "retired" } );
 		metawidget.setToInspect( person );
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JLabel );
@@ -69,15 +69,14 @@ public class ExcludingWidgetBuilderExampleTest
 	//
 
 	static class ExcludingWidgetBuilder
-		implements WidgetBuilder<JComponent, SwingMetawidget>
-	{
+		implements WidgetBuilder<JComponent, SwingMetawidget> {
+
 		@Override
-		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		{
+		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 			String[] exclude = (String[]) metawidget.getClientProperty( "exclude" );
 
-			if ( ArrayUtils.contains( exclude, attributes.get( NAME )))
-			{
+			if ( ArrayUtils.contains( exclude, attributes.get( NAME ) ) ) {
 				return new Stub();
 			}
 

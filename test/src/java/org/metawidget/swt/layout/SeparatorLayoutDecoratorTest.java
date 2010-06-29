@@ -38,14 +38,14 @@ import org.metawidget.util.TestUtils;
  */
 
 public class SeparatorLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 		shell.setLayout( new FillLayout() );
@@ -57,10 +57,8 @@ public class SeparatorLayoutDecoratorTest
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
@@ -72,41 +70,40 @@ public class SeparatorLayoutDecoratorTest
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testAlignment()
-	{
+	public void testAlignment() {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setToInspect( new Foo() );
 
-		Composite composite = (Composite) metawidget.getChildren()[ 0 ];
-		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
-		assertEquals( "Section", ( (Label) composite.getChildren()[ 0 ] ).getText() );
-		assertTrue( composite.getChildren()[ 1 ] instanceof Label );
+		Composite composite = (Composite) metawidget.getChildren()[0];
+		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertEquals( "Section", ( (Label) composite.getChildren()[0] ).getText() );
+		assertTrue( composite.getChildren()[1] instanceof Label );
 		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
-		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[ 1 ] ).getText() );
-		assertTrue( metawidget.getChildren()[ 2 ] instanceof Text );
+		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[1] ).getText() );
+		assertTrue( metawidget.getChildren()[2] instanceof Text );
 		assertTrue( 3 == metawidget.getChildren().length );
 
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setAlignment( SWT.RIGHT ).setLayout( new GridLayout() ) ) );
-		composite = (Composite) metawidget.getChildren()[ 0 ];
-		assertTrue( ((org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
-		assertEquals( "Section", ( (Label) composite.getChildren()[ 1 ] ).getText() );
-		assertTrue( composite.getChildren()[ 0 ] instanceof Label );
+		composite = (Composite) metawidget.getChildren()[0];
+		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertEquals( "Section", ( (Label) composite.getChildren()[1] ).getText() );
+		assertTrue( composite.getChildren()[0] instanceof Label );
 		assertTrue( ( composite.getChildren()[0].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
-		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[ 1 ] ).getText() );
-		assertTrue( metawidget.getChildren()[ 2] instanceof Text );
+		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[1] ).getText() );
+		assertTrue( metawidget.getChildren()[2] instanceof Text );
 		assertTrue( 3 == metawidget.getChildren().length );
 	}
 
-	public void testNestedSeparators()
-	{
+	public void testNestedSeparators() {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new GridLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
@@ -158,14 +155,14 @@ public class SeparatorLayoutDecoratorTest
 	// Inner class
 	//
 
-	static class Foo
-	{
+	static class Foo {
+
 		@UiSection( "Section" )
 		public String	bar;
 	}
 
-	public static class Bar
-	{
+	public static class Bar {
+
 		public String	abc;
 
 		@UiSection( { "Foo", "Bar" } )
@@ -191,8 +188,8 @@ public class SeparatorLayoutDecoratorTest
 		public String	stu;
 	}
 
-	public static class Zoo
-	{
+	public static class Zoo {
+
 		public String	name;
 	}
 }

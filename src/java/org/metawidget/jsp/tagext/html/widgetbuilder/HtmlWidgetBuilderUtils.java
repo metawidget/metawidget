@@ -36,14 +36,14 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class HtmlWidgetBuilderUtils
-{
+public class HtmlWidgetBuilderUtils {
+
 	//
 	// Public statics
 	//
 
-	public static Tag writeHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	public static Tag writeHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
@@ -55,12 +55,11 @@ public class HtmlWidgetBuilderUtils
 		return new LiteralTag( buffer.toString() );
 	}
 
-	public static String writeValueAttribute( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	public static String writeValueAttribute( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		String result = evaluateAsText( attributes, metawidget );
 
-		if ( result == null || "".equals( result ) )
-		{
+		if ( result == null || "".equals( result ) ) {
 			return "";
 		}
 
@@ -82,8 +81,8 @@ public class HtmlWidgetBuilderUtils
 	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
 	 */
 
-	public static String writeAttributes( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	public static String writeAttributes( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
@@ -92,8 +91,7 @@ public class HtmlWidgetBuilderUtils
 
 		String name = attributes.get( NAME );
 
-		if ( metawidget.getPathPrefix() != null )
-		{
+		if ( metawidget.getPathPrefix() != null ) {
 			name = metawidget.getPathPrefix() + name;
 		}
 
@@ -104,15 +102,13 @@ public class HtmlWidgetBuilderUtils
 
 		BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
 
-		if ( htmlMetawidgetTag.getStyle() != null )
-		{
+		if ( htmlMetawidgetTag.getStyle() != null ) {
 			buffer.append( " style=\"" );
 			buffer.append( htmlMetawidgetTag.getStyle() );
 			buffer.append( "\"" );
 		}
 
-		if ( htmlMetawidgetTag.getStyleClass() != null )
-		{
+		if ( htmlMetawidgetTag.getStyleClass() != null ) {
 			buffer.append( " class=\"" );
 			buffer.append( htmlMetawidgetTag.getStyleClass() );
 			buffer.append( "\"" );
@@ -125,23 +121,20 @@ public class HtmlWidgetBuilderUtils
 	 * Evaluate to text (via a PropertyEditor if available).
 	 */
 
-	public static String evaluateAsText( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	public static String evaluateAsText( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		Object evaluated = evaluate( attributes, metawidget );
 
-		if ( evaluated == null )
-		{
+		if ( evaluated == null ) {
 			return "";
 		}
 
 		Class<?> clazz = evaluated.getClass();
 
-		while ( clazz != null )
-		{
+		while ( clazz != null ) {
 			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
 
-			if ( editor != null )
-			{
+			if ( editor != null ) {
 				editor.setValue( evaluated );
 				return editor.getAsText();
 			}
@@ -152,25 +145,21 @@ public class HtmlWidgetBuilderUtils
 		return StringUtils.quietValueOf( evaluated );
 	}
 
-	public static Object evaluate( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		if ( metawidget.getPathPrefix() == null )
-		{
+	public static Object evaluate( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
+		if ( metawidget.getPathPrefix() == null ) {
 			return null;
 		}
 
 		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
 	}
 
-	public static Object evaluate( String expression, MetawidgetTag metawidget )
-	{
-		try
-		{
+	public static Object evaluate( String expression, MetawidgetTag metawidget ) {
+
+		try {
 			PageContext context = metawidget.getPageContext();
 			return context.getExpressionEvaluator().evaluate( expression, Object.class, context.getVariableResolver(), null );
-		}
-		catch ( Throwable t )
-		{
+		} catch ( Throwable t ) {
 			// EL should fail gracefully
 			//
 			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
@@ -183,8 +172,8 @@ public class HtmlWidgetBuilderUtils
 	// Private constructor
 	//
 
-	private HtmlWidgetBuilderUtils()
-	{
+	private HtmlWidgetBuilderUtils() {
+
 		// Can never be called
 	}
 }

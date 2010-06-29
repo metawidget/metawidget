@@ -30,14 +30,14 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 
 /**
  * PhaseListener to load a Contact from a Request parameter.
- * 
+ *
  * @author Richard Kennard
  */
 
 @SuppressWarnings( "deprecation" )
 public class LoadContactListener
-	implements javax.faces.event.PhaseListener
-{
+	implements javax.faces.event.PhaseListener {
+
 	//
 	// Private statics
 	//
@@ -48,13 +48,13 @@ public class LoadContactListener
 	// Public methods
 	//
 
-	public PhaseId getPhaseId()
-	{
+	public PhaseId getPhaseId() {
+
 		return PhaseId.RESTORE_VIEW;
 	}
 
-	public void beforePhase( PhaseEvent event )
-	{
+	public void beforePhase( PhaseEvent event ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 
@@ -62,8 +62,7 @@ public class LoadContactListener
 
 		String[] id = parameters.get( "contact.load" );
 
-		if ( id != null )
-		{
+		if ( id != null ) {
 			VariableResolver resolver = context.getApplication().getVariableResolver();
 
 			ContactsBean contactsBean = (ContactsBean) resolver.resolveVariable( context, "contacts" );
@@ -74,8 +73,8 @@ public class LoadContactListener
 		}
 	}
 
-	public void afterPhase( PhaseEvent event )
-	{
+	public void afterPhase( PhaseEvent event ) {
+
 		// nop
 	}
 }

@@ -37,8 +37,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class StandardBindingProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -51,8 +51,8 @@ public class StandardBindingProcessorTest
 
 	@SuppressWarnings( "deprecation" )
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		StandardBindingProcessor processor = new StandardBindingProcessor();
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
@@ -112,8 +112,8 @@ public class StandardBindingProcessorTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -121,8 +121,8 @@ public class StandardBindingProcessorTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

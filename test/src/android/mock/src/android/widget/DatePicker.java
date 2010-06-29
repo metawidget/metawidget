@@ -26,24 +26,24 @@ import android.view.View;
  */
 
 public class DatePicker
-	extends View
-{
+	extends View {
+
 	//
 	// Private members
 	//
 
 	private int	mDayOfMonth;
 
-	private int mMonth;
+	private int	mMonth;
 
-	private int mYear;
+	private int	mYear;
 
 	//
 	// Constructor
 	//
 
-	public DatePicker( Context context )
-	{
+	public DatePicker( Context context ) {
+
 		super( context );
 	}
 
@@ -51,23 +51,23 @@ public class DatePicker
 	// Public methods
 	//
 
-	public int getDayOfMonth()
-	{
+	public int getDayOfMonth() {
+
 		return mDayOfMonth;
 	}
 
-	public int getMonth()
-	{
+	public int getMonth() {
+
 		return mMonth;
 	}
 
-	public int getYear()
-	{
+	public int getYear() {
+
 		return mYear;
 	}
 
-	public void updateDate( int year, int month, int dayOfMonth )
-	{
+	public void updateDate( int year, int month, int dayOfMonth ) {
+
 		mYear = year;
 		mMonth = month;
 		mDayOfMonth = dayOfMonth;

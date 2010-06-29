@@ -25,8 +25,8 @@ import org.metawidget.inspector.annotation.UiAction;
  */
 
 public class GwtNestedQuirks
-	implements Serializable
-{
+	implements Serializable {
+
 	//
 	// Private statics
 	//
@@ -38,8 +38,8 @@ public class GwtNestedQuirks
 	//
 
 	@UiAction
-	public void nestedAction()
-	{
+	public void nestedAction() {
+
 		throw new RuntimeException( "nestedAction called" );
 	}
 }

@@ -37,8 +37,8 @@ import org.w3c.dom.Element;
  */
 
 public class StrutsInspector
-	extends BaseXmlInspector
-{
+	extends BaseXmlInspector {
+
 	//
 	// Private statics
 	//
@@ -51,8 +51,8 @@ public class StrutsInspector
 	// Constructor
 	//
 
-	public StrutsInspector( StrutsInspectorConfig config )
-	{
+	public StrutsInspector( StrutsInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -62,19 +62,17 @@ public class StrutsInspector
 
 	@Override
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
-		throws Exception
-	{
+		throws Exception {
+
 		Document document = builder.newDocument();
 		Element root = document.createElement( FORM_BEANS_ELEMENT );
 		document.appendChild( root );
 
-		for ( InputStream file : files )
-		{
+		for ( InputStream file : files ) {
 			Document documentParsed = builder.parse( file );
 			Element formBeans = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), FORM_BEANS_ELEMENT );
 
-			if ( formBeans == null )
-			{
+			if ( formBeans == null ) {
 				continue;
 			}
 
@@ -85,22 +83,19 @@ public class StrutsInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Element toInspect )
-	{
-		if ( !FORM_PROPERTY_ELEMENT.equals( toInspect.getNodeName() ) )
-		{
+	protected Map<String, String> inspectProperty( Element toInspect ) {
+
+		if ( !FORM_PROPERTY_ELEMENT.equals( toInspect.getNodeName() ) ) {
 			return null;
 		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		if ( toInspect.hasAttribute( getNameAttribute() ) )
-		{
+		if ( toInspect.hasAttribute( getNameAttribute() ) ) {
 			attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
 		}
 
-		if ( toInspect.hasAttribute( getTypeAttribute() ) )
-		{
+		if ( toInspect.hasAttribute( getTypeAttribute() ) ) {
 			attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
 		}
 
@@ -115,8 +110,8 @@ public class StrutsInspector
 	 */
 
 	@Override
-	protected String getTopLevelTypeAttribute()
-	{
+	protected String getTopLevelTypeAttribute() {
+
 		return NAME;
 	}
 }

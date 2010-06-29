@@ -34,8 +34,8 @@ import org.metawidget.inspector.annotation.UiLabel;
  */
 
 public class PersonalContactForm
-	extends ContactForm
-{
+	extends ContactForm {
+
 	//
 	// Private statics
 	//
@@ -46,9 +46,9 @@ public class PersonalContactForm
 	// Private members
 	//
 
-	private String	mDateOfBirthAsString;
+	private String				mDateOfBirthAsString;
 
-	private Date	mOfBirth;
+	private Date				mOfBirth;
 
 	//
 	// Public methods
@@ -64,54 +64,49 @@ public class PersonalContactForm
 
 	@UiComesAfter( "surname" )
 	@UiLabel( "dateOfBirth" )
-	public String getDateOfBirthAsString()
-	{
+	public String getDateOfBirthAsString() {
+
 		return mDateOfBirthAsString;
 	}
 
-	public void setDateOfBirthAsString( String ofBirthAsString )
-	{
+	public void setDateOfBirthAsString( String ofBirthAsString ) {
+
 		mDateOfBirthAsString = ofBirthAsString;
 	}
 
 	@UiHidden
-	public Date getDateOfBirth()
-	{
+	public Date getDateOfBirth() {
+
 		return mOfBirth;
 	}
 
-	public void setDateOfBirth( Date ofBirth )
-	{
+	public void setDateOfBirth( Date ofBirth ) {
+
 		mOfBirth = ofBirth;
 
-		if ( mOfBirth != null )
-		{
+		if ( mOfBirth != null ) {
 			mDateOfBirthAsString = ConvertUtils.convert( mOfBirth );
 		}
 	}
 
 	@Override
-	public ActionErrors validate( ActionMapping mapping, HttpServletRequest request )
-	{
+	public ActionErrors validate( ActionMapping mapping, HttpServletRequest request ) {
+
 		ActionErrors errors = new ActionErrors();
 
 		// Date of Birth
 
-		try
-		{
-			if ( mDateOfBirthAsString != null )
-			{
+		try {
+			if ( mDateOfBirthAsString != null ) {
 				mOfBirth = (Date) ConvertUtils.convert( mDateOfBirthAsString, Date.class );
 			}
-		}
-		catch( Exception e )
-		{
+		} catch ( Exception e ) {
 			errors.add( "dateOfBirth", new ActionMessage( ConversionException.class.getName(), mDateOfBirthAsString ) );
 		}
 
 		// Base class
 
-		errors.add( super.validate( mapping, request ));
+		errors.add( super.validate( mapping, request ) );
 
 		return errors;
 	}

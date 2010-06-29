@@ -20,21 +20,21 @@ package org.metawidget.config;
  * @author Richard Kennard
  */
 
-public class TestDumbHashCodeInspectorConfig
-{
+public class TestDumbHashCodeInspectorConfig {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return super.hashCode();
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
+	public boolean equals( Object that ) {
+
 		return super.equals( that );
 	}
 }

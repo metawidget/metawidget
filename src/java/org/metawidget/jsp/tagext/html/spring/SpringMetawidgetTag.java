@@ -31,48 +31,44 @@ import org.w3c.dom.Element;
  */
 
 public class SpringMetawidgetTag
-	extends BaseHtmlMetawidgetTag
-{
+	extends BaseHtmlMetawidgetTag {
+
 	//
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods
 	//
 
-	public void setPath( String path )
-	{
+	public void setPath( String path ) {
+
 		super.setPathInternal( path );
 
 		// Take the LHS minus the first path (if any), as we assume that will
 		// be supplied by the form
 
-		if ( path != null )
-		{
+		if ( path != null ) {
 			int lastIndexOf = path.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-			if ( lastIndexOf != -1 )
-			{
+			if ( lastIndexOf != -1 ) {
 				int firstIndexOf = path.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-				if ( firstIndexOf != lastIndexOf )
-				{
-					setPathPrefix( path.substring( firstIndexOf + 1, lastIndexOf + 1 ));
+				if ( firstIndexOf != lastIndexOf ) {
+					setPathPrefix( path.substring( firstIndexOf + 1, lastIndexOf + 1 ) );
 				}
 			}
 		}
 	}
 
 	@Override
-	public String getLocalizedKey( String key )
-	{
+	public String getLocalizedKey( String key ) {
+
 		String localizedKey = super.getLocalizedKey( key );
 
-		if ( localizedKey != null )
-		{
+		if ( localizedKey != null ) {
 			return localizedKey;
 		}
 
@@ -93,21 +89,20 @@ public class SpringMetawidgetTag
 	//
 
 	@Override
-	protected String getDefaultConfiguration()
-	{
+	protected String getDefaultConfiguration() {
+
 		return "org/metawidget/jsp/tagext/html/spring/metawidget-spring-default.xml";
 	}
 
 	@Override
-	protected void beforeBuildCompoundWidget( Element element )
-	{
+	protected void beforeBuildCompoundWidget( Element element ) {
+
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
 
 		int firstIndexOf = getPath().indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		if ( firstIndexOf != -1 )
-		{
+		if ( firstIndexOf != -1 ) {
 			setPathPrefix( getPath().substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR );
 		}
 	}

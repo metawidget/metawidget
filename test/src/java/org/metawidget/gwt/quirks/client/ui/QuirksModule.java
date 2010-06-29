@@ -38,8 +38,8 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class QuirksModule
-	implements EntryPoint
-{
+	implements EntryPoint {
+
 	//
 	// Private members
 	//
@@ -50,8 +50,8 @@ public class QuirksModule
 	// Constructor
 	//
 
-	public QuirksModule( Panel panel )
-	{
+	public QuirksModule( Panel panel ) {
+
 		mPanel = panel;
 	}
 
@@ -59,8 +59,8 @@ public class QuirksModule
 	// Public methods
 	//
 
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
+
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
@@ -90,7 +90,7 @@ public class QuirksModule
 		// Tabbed Metawidget
 
 		GwtMetawidget tabbedMetawidget = new GwtMetawidget();
-		tabbedMetawidget.setLayout( new TabPanelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new TabPanelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) ) )));
+		tabbedMetawidget.setLayout( new TabPanelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new TabPanelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) ) ) ) );
 		tabbedMetawidget.setToInspect( new GwtTabQuirks() );
 
 		// Add to the given Panel (for unit tests)

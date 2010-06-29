@@ -23,8 +23,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class WidgetBuilderException
-	extends MetawidgetException
-{
+	extends MetawidgetException {
+
 	//
 	// Private statics
 	//
@@ -38,14 +38,13 @@ public class WidgetBuilderException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting WidgetBuilderExceptions within
-	 * WidgetBuilderExceptions.
+	 * Using static constructor methods prevents unnecessarily nesting WidgetBuilderExceptions
+	 * within WidgetBuilderExceptions.
 	 */
 
-	public static WidgetBuilderException newException( Throwable cause )
-	{
-		if ( cause instanceof WidgetBuilderException )
-		{
+	public static WidgetBuilderException newException( Throwable cause ) {
+
+		if ( cause instanceof WidgetBuilderException ) {
 			return (WidgetBuilderException) cause;
 		}
 
@@ -58,8 +57,8 @@ public class WidgetBuilderException
 	 * For consistency with <code>WidgetBuilderException.newException( Throwable )</code>.
 	 */
 
-	public static WidgetBuilderException newException( String message )
-	{
+	public static WidgetBuilderException newException( String message ) {
+
 		return new WidgetBuilderException( message );
 	}
 
@@ -69,8 +68,8 @@ public class WidgetBuilderException
 	 * For consistency with <code>WidgetBuilderException.newException( Throwable )</code>.
 	 */
 
-	public static WidgetBuilderException newException( String message, Throwable cause )
-	{
+	public static WidgetBuilderException newException( String message, Throwable cause ) {
+
 		return new WidgetBuilderException( message, cause );
 	}
 
@@ -78,18 +77,18 @@ public class WidgetBuilderException
 	// Constructor
 	//
 
-	private WidgetBuilderException( String message )
-	{
+	private WidgetBuilderException( String message ) {
+
 		super( message );
 	}
 
-	private WidgetBuilderException( Throwable cause )
-	{
+	private WidgetBuilderException( Throwable cause ) {
+
 		super( cause );
 	}
 
-	private WidgetBuilderException( String message, Throwable cause )
-	{
+	private WidgetBuilderException( String message, Throwable cause ) {
+
 		super( message, cause );
 	}
 }

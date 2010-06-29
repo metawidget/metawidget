@@ -36,14 +36,14 @@ import org.w3c.dom.NodeList;
  */
 
 public class PageflowInspector
-	extends BaseXmlInspector
-{
+	extends BaseXmlInspector {
+
 	//
 	// Constructor
 	//
 
-	public PageflowInspector( BaseXmlInspectorConfig config )
-	{
+	public PageflowInspector( BaseXmlInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -56,8 +56,8 @@ public class PageflowInspector
 	 */
 
 	@Override
-	protected String getTopLevelTypeAttribute()
-	{
+	protected String getTopLevelTypeAttribute() {
+
 		return NAME;
 	}
 
@@ -66,8 +66,8 @@ public class PageflowInspector
 	 */
 
 	@Override
-	protected String getTypeAttribute()
-	{
+	protected String getTypeAttribute() {
+
 		return "to";
 	}
 
@@ -76,8 +76,8 @@ public class PageflowInspector
 	 */
 
 	@Override
-	protected void preprocessDocument( Document document )
-	{
+	protected void preprocessDocument( Document document ) {
+
 		Element root = document.getDocumentElement();
 
 		String pagePrefix = root.getAttribute( "name" ) + StringUtils.SEPARATOR_DOT_CHAR;
@@ -87,12 +87,10 @@ public class PageflowInspector
 
 		NodeList rootChildren = root.getChildNodes();
 
-		for ( int loopPages = 0, lengthPages = rootChildren.getLength(); loopPages < lengthPages; )
-		{
+		for ( int loopPages = 0, lengthPages = rootChildren.getLength(); loopPages < lengthPages; ) {
 			Node pageNode = rootChildren.item( loopPages );
 
-			if ( !"page".equals( pageNode.getNodeName() ) )
-			{
+			if ( !"page".equals( pageNode.getNodeName() ) ) {
 				root.removeChild( pageNode );
 				lengthPages--;
 				continue;
@@ -110,12 +108,10 @@ public class PageflowInspector
 
 			NodeList pageChildren = pageNode.getChildNodes();
 
-			for ( int loopTransition = 0, lengthTransitions = pageChildren.getLength(); loopTransition < lengthTransitions; )
-			{
+			for ( int loopTransition = 0, lengthTransitions = pageChildren.getLength(); loopTransition < lengthTransitions; ) {
 				Node transitionNode = pageChildren.item( loopTransition );
 
-				if ( !"transition".equals( transitionNode.getNodeName() ) )
-				{
+				if ( !"transition".equals( transitionNode.getNodeName() ) ) {
 					pageNode.removeChild( transitionNode );
 					lengthTransitions--;
 					continue;
@@ -127,8 +123,8 @@ public class PageflowInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectAction( Element toInspect )
-	{
+	protected Map<String, String> inspectAction( Element toInspect ) {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Name

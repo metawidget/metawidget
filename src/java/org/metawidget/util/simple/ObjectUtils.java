@@ -22,8 +22,8 @@ package org.metawidget.util.simple;
  * @author Richard Kennard
  */
 
-public final class ObjectUtils
-{
+public final class ObjectUtils {
+
 	//
 	// Public statics
 	//
@@ -32,17 +32,15 @@ public final class ObjectUtils
 	 * @return 0 if toHash is null, otherwise returns toHash.hashCode()
 	 */
 
-	public static int nullSafeHashCode( Object toHash )
-	{
-		if ( toHash == null )
-		{
+	public static int nullSafeHashCode( Object toHash ) {
+
+		if ( toHash == null ) {
 			return 0;
 		}
 
 		// Array.hashCode is broken by default
 
-		if ( toHash.getClass().isArray() )
-		{
+		if ( toHash.getClass().isArray() ) {
 			return deepHashCode( (Object[]) toHash );
 		}
 
@@ -61,19 +59,16 @@ public final class ObjectUtils
 	 *         otherwise returns object1.equals( object2 )
 	 */
 
-	public static boolean nullSafeEquals( Object object1, Object object2 )
-	{
-		if ( object1 == null )
-		{
+	public static boolean nullSafeEquals( Object object1, Object object2 ) {
+
+		if ( object1 == null ) {
 			return ( object2 == null );
 		}
 
 		// Array.equals is broken by default
 
-		if ( object1.getClass().isArray() )
-		{
-			if ( object2 == null || !object2.getClass().isArray() )
-			{
+		if ( object1.getClass().isArray() ) {
+			if ( object2 == null || !object2.getClass().isArray() ) {
 				return false;
 			}
 
@@ -89,19 +84,15 @@ public final class ObjectUtils
 	 *         object1.compareTo( object2 )
 	 */
 
-	public static <T> int nullSafeCompareTo( Comparable<T> object1, T object2 )
-	{
-		if ( object1 == null )
-		{
-			if ( object2 == null )
-			{
+	public static <T> int nullSafeCompareTo( Comparable<T> object1, T object2 ) {
+
+		if ( object1 == null ) {
+			if ( object2 == null ) {
 				return 0;
 			}
 
 			return -1;
-		}
-		else if ( object2 == null )
-		{
+		} else if ( object2 == null ) {
 			return 1;
 		}
 
@@ -117,24 +108,19 @@ public final class ObjectUtils
 	 * by GWT 1.7.
 	 */
 
-	private static int deepHashCode( Object a[] )
-	{
-		if ( a == null )
-		{
+	private static int deepHashCode( Object a[] ) {
+
+		if ( a == null ) {
 			return 0;
 		}
 
 		int result = 1;
 
-		for ( Object element : a )
-		{
+		for ( Object element : a ) {
 			int elementHash = 0;
-			if ( element instanceof Object[] )
-			{
+			if ( element instanceof Object[] ) {
 				elementHash = deepHashCode( (Object[]) element );
-			}
-			else if ( element != null )
-			{
+			} else if ( element != null ) {
 				elementHash = element.hashCode();
 			}
 
@@ -149,49 +135,39 @@ public final class ObjectUtils
 	 * GWT 1.7.
 	 */
 
-	private static boolean deepEquals( Object[] a1, Object[] a2 )
-	{
-		if ( a1 == a2 )
-		{
+	private static boolean deepEquals( Object[] a1, Object[] a2 ) {
+
+		if ( a1 == a2 ) {
 			return true;
 		}
-		if ( a1 == null || a2 == null )
-		{
+		if ( a1 == null || a2 == null ) {
 			return false;
 		}
 		int length = a1.length;
-		if ( a2.length != length )
-		{
+		if ( a2.length != length ) {
 			return false;
 		}
 
-		for ( int i = 0; i < length; i++ )
-		{
+		for ( int i = 0; i < length; i++ ) {
 			Object e1 = a1[i];
 			Object e2 = a2[i];
 
-			if ( e1 == e2 )
-			{
+			if ( e1 == e2 ) {
 				continue;
 			}
-			if ( e1 == null )
-			{
+			if ( e1 == null ) {
 				return false;
 			}
 
 			// Figure out whether the two elements are equal
 			boolean eq;
-			if ( e1 instanceof Object[] && e2 instanceof Object[] )
-			{
+			if ( e1 instanceof Object[] && e2 instanceof Object[] ) {
 				eq = deepEquals( (Object[]) e1, (Object[]) e2 );
-			}
-			else
-			{
+			} else {
 				eq = e1.equals( e2 );
 			}
 
-			if ( !eq )
-			{
+			if ( !eq ) {
 				return false;
 			}
 		}
@@ -202,8 +178,8 @@ public final class ObjectUtils
 	// Private constructor
 	//
 
-	private ObjectUtils()
-	{
+	private ObjectUtils() {
+
 		// Can never be called
 	}
 }

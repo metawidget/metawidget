@@ -42,8 +42,8 @@ import com.google.gwt.user.client.ui.ListBox;
  * @author Richard Kennard
  */
 
-public final class GwtUtils
-{
+public final class GwtUtils {
+
 	//
 	// Public statics
 	//
@@ -55,25 +55,21 @@ public final class GwtUtils
 	 * to use Class.forName to create a Class.
 	 */
 
-	public static boolean isPrimitive( String className )
-	{
-		if ( GwtUtils.isIntegerPrimitive( className ) )
-		{
+	public static boolean isPrimitive( String className ) {
+
+		if ( GwtUtils.isIntegerPrimitive( className ) ) {
 			return true;
 		}
 
-		if ( "float".equals( className ) || "double".equals( className ) )
-		{
+		if ( "float".equals( className ) || "double".equals( className ) ) {
 			return true;
 		}
 
-		if ( "boolean".equals( className ) )
-		{
+		if ( "boolean".equals( className ) ) {
 			return true;
 		}
 
-		if ( "char".equals( className ) )
-		{
+		if ( "char".equals( className ) ) {
 			return true;
 		}
 
@@ -88,15 +84,13 @@ public final class GwtUtils
 	 * number compatible' is useful for widgets like sliders and spinners.
 	 */
 
-	public static boolean isIntegerPrimitive( String className )
-	{
-		if ( "byte".equals( className ) || "short".equals( className ) )
-		{
+	public static boolean isIntegerPrimitive( String className ) {
+
+		if ( "byte".equals( className ) || "short".equals( className ) ) {
 			return true;
 		}
 
-		if ( "int".equals( className ) || "long".equals( className ) )
-		{
+		if ( "int".equals( className ) || "long".equals( className ) ) {
 			return true;
 		}
 
@@ -110,30 +104,25 @@ public final class GwtUtils
 	 * to use Class.forName to create a Class.
 	 */
 
-	public static boolean isPrimitiveWrapper( String className )
-	{
-		if ( Byte.class.getName().equals( className ) || Short.class.getName().equals( className ) )
-		{
+	public static boolean isPrimitiveWrapper( String className ) {
+
+		if ( Byte.class.getName().equals( className ) || Short.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( Integer.class.getName().equals( className ) || Long.class.getName().equals( className ) )
-		{
+		if ( Integer.class.getName().equals( className ) || Long.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( Float.class.getName().equals( className ) || Double.class.getName().equals( className ) )
-		{
+		if ( Float.class.getName().equals( className ) || Double.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( Boolean.class.getName().equals( className ) )
-		{
+		if ( Boolean.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( Character.class.getName().equals( className ) )
-		{
+		if ( Character.class.getName().equals( className ) ) {
 			return true;
 		}
 
@@ -150,25 +139,21 @@ public final class GwtUtils
 	 * ...subclasses may need to override this method if they introduce a new Collection subtype.
 	 */
 
-	public static boolean isCollection( String className )
-	{
-		if ( Collection.class.getName().equals( className ) )
-		{
+	public static boolean isCollection( String className ) {
+
+		if ( Collection.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) )
-		{
+		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) )
-		{
+		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) ) {
 			return true;
 		}
 
-		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) )
-		{
+		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) ) {
 			return true;
 		}
 
@@ -181,10 +166,9 @@ public final class GwtUtils
 	 * This version does not use regular expressions.
 	 */
 
-	public static List<String> fromString( String collection, char separator )
-	{
-		if ( collection == null || "".equals( collection ) )
-		{
+	public static List<String> fromString( String collection, char separator ) {
+
+		if ( collection == null || "".equals( collection ) ) {
 			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
 
 			@SuppressWarnings( { "cast", "unchecked" } )
@@ -194,15 +178,13 @@ public final class GwtUtils
 
 		List<String> split = new ArrayList<String>();
 
-		for ( String item : collection.split( String.valueOf( separator ) ) )
-		{
+		for ( String item : collection.split( String.valueOf( separator ) ) ) {
 			split.add( item.trim() );
 		}
 
 		// Hack for collections with an empty string on the end (eg. "Foo,Bar,")
 
-		if ( collection.charAt( collection.length() - 1 ) == separator )
-		{
+		if ( collection.charAt( collection.length() - 1 ) == separator ) {
 			split.add( "" );
 		}
 
@@ -215,19 +197,16 @@ public final class GwtUtils
 	 * This version does not use regular expressions.
 	 */
 
-	public static String toString( String[] collection, char separator )
-	{
-		if ( collection == null )
-		{
+	public static String toString( String[] collection, char separator ) {
+
+		if ( collection == null ) {
 			return "";
 		}
 
 		StringBuilder builder = new StringBuilder();
 
-		for ( String item : collection )
-		{
-			if ( builder.length() > 0 )
-			{
+		for ( String item : collection ) {
+			if ( builder.length() > 0 ) {
 				builder.append( separator );
 			}
 
@@ -243,19 +222,16 @@ public final class GwtUtils
 	 * This version does not use regular expressions.
 	 */
 
-	public static String toString( Collection<?> collection, char separator )
-	{
-		if ( collection == null )
-		{
+	public static String toString( Collection<?> collection, char separator ) {
+
+		if ( collection == null ) {
 			return "";
 		}
 
 		StringBuilder builder = new StringBuilder();
 
-		for ( Object item : collection )
-		{
-			if ( builder.length() > 0 )
-			{
+		for ( Object item : collection ) {
+			if ( builder.length() > 0 ) {
 				builder.append( separator );
 			}
 
@@ -265,12 +241,10 @@ public final class GwtUtils
 		return builder.toString();
 	}
 
-	public static void setListBoxSelectedItem( ListBox listBox, String value )
-	{
-		for ( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ )
-		{
-			if ( value.equals( listBox.getValue( loop ) ) )
-			{
+	public static void setListBoxSelectedItem( ListBox listBox, String value ) {
+
+		for ( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ ) {
+			if ( value.equals( listBox.getValue( loop ) ) ) {
 				listBox.setSelectedIndex( loop );
 				return;
 			}
@@ -279,18 +253,16 @@ public final class GwtUtils
 		// Fail quietly
 	}
 
-	public static void alert( Throwable caught )
-	{
+	public static void alert( Throwable caught ) {
+
 		StringBuilder builder = new StringBuilder( caught.getClass().getName() );
 
-		if ( caught.getMessage() != null )
-		{
+		if ( caught.getMessage() != null ) {
 			builder.append( ": " );
 			builder.append( caught.getMessage() );
 		}
 
-		for ( Object item : caught.getStackTrace() )
-		{
+		for ( Object item : caught.getStackTrace() ) {
 			builder.append( "\n\t" );
 			builder.append( item );
 		}
@@ -313,15 +285,13 @@ public final class GwtUtils
 	 * @return true if the attributes have READ_ONLY set to TRUE, or NO_SETTER set to true.
 	 */
 
-	public static boolean isReadOnly( Map<String, String> attributes )
-	{
-		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-		{
+	public static boolean isReadOnly( Map<String, String> attributes ) {
+
+		if ( TRUE.equals( attributes.get( READ_ONLY ) ) ) {
 			return true;
 		}
 
-		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-		{
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 			return true;
 		}
 
@@ -334,19 +304,17 @@ public final class GwtUtils
 	 * @return ACTUAL_CLASS of, if none, TYPE or, if none, null. Never an empty String.
 	 */
 
-	public static String getActualClassOrType( Map<String, String> attributes )
-	{
+	public static String getActualClassOrType( Map<String, String> attributes ) {
+
 		String type = attributes.get( ACTUAL_CLASS );
 
-		if ( type != null && !"".equals( type ) )
-		{
+		if ( type != null && !"".equals( type ) ) {
 			return type;
 		}
 
 		type = attributes.get( TYPE );
 
-		if ( "".equals( type ) )
-		{
+		if ( "".equals( type ) ) {
 			return null;
 		}
 
@@ -357,15 +325,13 @@ public final class GwtUtils
 	 * Returns true if the lookup is nullable, not required, or has a forced empty choice.
 	 */
 
-	public static boolean needsEmptyLookupItem( Map<String, String> attributes )
-	{
-		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) )
-		{
+	public static boolean needsEmptyLookupItem( Map<String, String> attributes ) {
+
+		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) ) {
 			return true;
 		}
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return false;
 		}
 
@@ -377,29 +343,26 @@ public final class GwtUtils
 		// Note: there's an extra caveat for Groovy dynamic types: if we can't load
 		// the class, assume it is non-primitive and therefore add a null choice
 
-		if ( type != null && isPrimitive( type ) )
-		{
+		if ( type != null && isPrimitive( type ) ) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public static String stripSection( Map<String, String> attributes )
-	{
+	public static String stripSection( Map<String, String> attributes ) {
+
 		String sections = attributes.remove( SECTION );
 
 		// (null means 'no change to current section')
 
-		if ( sections == null )
-		{
+		if ( sections == null ) {
 			return null;
 		}
 
 		List<String> sectionAsArray = GwtUtils.fromString( sections, ',' );
 
-		switch ( sectionAsArray.size() )
-		{
+		switch ( sectionAsArray.size() ) {
 			// (empty String means 'end current section')
 
 			case 0:
@@ -419,8 +382,8 @@ public final class GwtUtils
 	// Private constructor
 	//
 
-	private GwtUtils()
-	{
+	private GwtUtils() {
+
 		// Can never be called
 	}
 }

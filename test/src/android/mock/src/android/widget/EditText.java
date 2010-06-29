@@ -25,14 +25,14 @@ import android.content.Context;
  */
 
 public class EditText
-	extends TextView
-{
+	extends TextView {
+
 	//
 	// Constructor
 	//
 
-	public EditText( Context context )
-	{
+	public EditText( Context context ) {
+
 		super( context );
 	}
 }

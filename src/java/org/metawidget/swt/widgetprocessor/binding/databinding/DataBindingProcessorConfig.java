@@ -26,8 +26,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class DataBindingProcessorConfig
-{
+public class DataBindingProcessorConfig {
+
 	//
 	// Private members
 	//
@@ -38,8 +38,8 @@ public class DataBindingProcessorConfig
 	// Public methods
 	//
 
-	public IConverter[] getConverters()
-	{
+	public IConverter[] getConverters() {
+
 		return mConverters;
 	}
 
@@ -49,33 +49,29 @@ public class DataBindingProcessorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public DataBindingProcessorConfig setConverters( IConverter... converters )
-	{
+	public DataBindingProcessorConfig setConverters( IConverter... converters ) {
+
 		mConverters = converters;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (DataBindingProcessorConfig) that ).mConverters ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (DataBindingProcessorConfig) that ).mConverters ) ) {
 			return false;
 		}
 
@@ -83,8 +79,8 @@ public class DataBindingProcessorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );
 

@@ -43,8 +43,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleBindingProcessor
-	implements AdvancedWidgetProcessor<Widget, GwtMetawidget>
-{
+	implements AdvancedWidgetProcessor<Widget, GwtMetawidget> {
+
 	//
 	// Private members
 	//
@@ -57,21 +57,18 @@ public class SimpleBindingProcessor
 	// Constructor
 	//
 
-	public SimpleBindingProcessor()
-	{
+	public SimpleBindingProcessor() {
+
 		this( new SimpleBindingProcessorConfig() );
 	}
 
-	public SimpleBindingProcessor( SimpleBindingProcessorConfig config )
-	{
+	public SimpleBindingProcessor( SimpleBindingProcessorConfig config ) {
+
 		// Custom adapters
 
-		if ( config.getAdapters() == null )
-		{
+		if ( config.getAdapters() == null ) {
 			mAdapters = null;
-		}
-		else
-		{
+		} else {
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>( config.getAdapters() );
 		}
 
@@ -95,8 +92,7 @@ public class SimpleBindingProcessor
 
 		// Custom converters
 
-		if ( config.getConverters() != null )
-		{
+		if ( config.getConverters() != null ) {
 			mConverters.putAll( config.getConverters() );
 		}
 	}
@@ -106,22 +102,20 @@ public class SimpleBindingProcessor
 	//
 
 	@Override
-	public void onStartBuild( GwtMetawidget metawidget )
-	{
+	public void onStartBuild( GwtMetawidget metawidget ) {
+
 		metawidget.putClientProperty( SimpleBindingProcessor.class, null );
 	}
 
 	@Override
-	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
-	{
+	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget ) {
+
 		// Nested Metawidgets are not bound, only remembered
 
-		if ( widget instanceof GwtMetawidget )
-		{
+		if ( widget instanceof GwtMetawidget ) {
 			State state = getState( metawidget );
 
-			if ( state.nestedMetawidgets == null )
-			{
+			if ( state.nestedMetawidgets == null ) {
 				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
 			}
 
@@ -131,15 +125,13 @@ public class SimpleBindingProcessor
 
 		// SimpleBindingProcessor doesn't bind to Stubs or FlexTables
 
-		if ( widget instanceof Stub || widget instanceof FlexTable )
-		{
+		if ( widget instanceof Stub || widget instanceof FlexTable ) {
 			return widget;
 		}
 
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ) || ACTION.equals( elementName ) )
-		{
+		if ( PROPERTY.equals( elementName ) || ACTION.equals( elementName ) ) {
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 		}
 
@@ -147,34 +139,30 @@ public class SimpleBindingProcessor
 
 		// Bind actions
 
-		if ( ACTION.equals( elementName ) )
-		{
-			if ( !( widget instanceof FocusWidget ) )
-			{
+		if ( ACTION.equals( elementName ) ) {
+			if ( !( widget instanceof FocusWidget ) ) {
 				throw new RuntimeException( "SimpleBindingProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 			}
 
 			// Bind the action
 
 			FocusWidget focusWidget = (FocusWidget) widget;
-			focusWidget.addClickHandler( new ClickHandler()
-			{
-				public void onClick( ClickEvent event )
-				{
+			focusWidget.addClickHandler( new ClickHandler() {
+
+				public void onClick( ClickEvent event ) {
+
 					// Use the adapter...
 
 					Object toInvokeOn = metawidget.getToInspect();
 
-					if ( toInvokeOn == null )
-					{
+					if ( toInvokeOn == null ) {
 						return;
 					}
 
 					Class<?> classToBindTo = toInvokeOn.getClass();
 					SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
-					if ( adapter == null )
-					{
+					if ( adapter == null ) {
 						throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
 					}
 
@@ -191,16 +179,14 @@ public class SimpleBindingProcessor
 
 		Object toInspect = metawidget.getToInspect();
 
-		if ( toInspect == null )
-		{
+		if ( toInspect == null ) {
 			return widget;
 		}
 
 		Class<?> classToBindTo = toInspect.getClass();
 		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
-		if ( adapter == null )
-		{
+		if ( adapter == null ) {
 			throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
 		}
 
@@ -213,33 +199,27 @@ public class SimpleBindingProcessor
 		Class<?> propertyType = adapter.getPropertyType( toInspect, names );
 		Converter<Object> converter = getConverter( propertyType );
 
-		if ( converter != null )
-		{
+		if ( converter != null ) {
 			value = converter.convertForWidget( widget, value );
 		}
 
 		// ...and set it
 
-		try
-		{
+		try {
 			metawidget.setValue( value, widget );
 
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-			{
+			if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 				return widget;
 			}
 
 			State state = getState( metawidget );
 
-			if ( state.bindings == null )
-			{
+			if ( state.bindings == null ) {
 				state.bindings = new HashSet<Object[]>();
 			}
 
 			state.bindings.add( new Object[] { widget, names, converter, propertyType } );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			Window.alert( path + ": " + e.getMessage() );
 		}
 
@@ -255,30 +235,27 @@ public class SimpleBindingProcessor
 	 * compatible with the original setToInspect.
 	 */
 
-	public void rebind( Object toRebind, GwtMetawidget metawidget )
-	{
+	public void rebind( Object toRebind, GwtMetawidget metawidget ) {
+
 		metawidget.updateToInspectWithoutInvalidate( toRebind );
 
 		State state = getState( metawidget );
 
 		// Our bindings
 
-		if ( state.bindings != null )
-		{
+		if ( state.bindings != null ) {
 			// From the adapter...
 
 			Class<?> classToRebind = toRebind.getClass();
 			SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToRebind );
 
-			if ( adapter == null )
-			{
+			if ( adapter == null ) {
 				throw new RuntimeException( "Don't know how to rebind to a " + classToRebind );
 			}
 
 			// ...for each bound property...
 
-			for ( Object[] binding : state.bindings )
-			{
+			for ( Object[] binding : state.bindings ) {
 				Widget widget = (Widget) binding[0];
 				String[] names = (String[]) binding[1];
 				@SuppressWarnings( "unchecked" )
@@ -290,8 +267,7 @@ public class SimpleBindingProcessor
 
 				// ...convert it (if necessary)...
 
-				if ( converter != null )
-				{
+				if ( converter != null ) {
 					value = converter.convertForWidget( widget, value );
 				}
 
@@ -303,27 +279,23 @@ public class SimpleBindingProcessor
 
 		// Nested bindings
 
-		if ( state.nestedMetawidgets != null )
-		{
-			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
-			{
+		if ( state.nestedMetawidgets != null ) {
+			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets ) {
 				rebind( toRebind, nestedMetawidget );
 			}
 		}
 	}
 
-	public void save( GwtMetawidget metawidget )
-	{
+	public void save( GwtMetawidget metawidget ) {
+
 		State state = getState( metawidget );
 
 		// Our bindings
 
-		if ( state.bindings != null )
-		{
+		if ( state.bindings != null ) {
 			Object toSave = metawidget.getToInspect();
 
-			if ( toSave == null )
-			{
+			if ( toSave == null ) {
 				return;
 			}
 
@@ -332,15 +304,13 @@ public class SimpleBindingProcessor
 			Class<?> classToBindTo = toSave.getClass();
 			SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
-			if ( adapter == null )
-			{
+			if ( adapter == null ) {
 				throw new RuntimeException( "Don't know how to save to a " + classToBindTo );
 			}
 
 			// ...for each bound property...
 
-			for ( Object[] binding : state.bindings )
-			{
+			for ( Object[] binding : state.bindings ) {
 				Widget widget = (Widget) binding[0];
 				String[] names = (String[]) binding[1];
 				@SuppressWarnings( "unchecked" )
@@ -353,8 +323,7 @@ public class SimpleBindingProcessor
 
 				// ...convert it (if necessary)...
 
-				if ( value != null && converter != null )
-				{
+				if ( value != null && converter != null ) {
 					value = converter.convertFromWidget( widget, value, type );
 				}
 
@@ -366,18 +335,16 @@ public class SimpleBindingProcessor
 
 		// Nested bindings
 
-		if ( state.nestedMetawidgets != null )
-		{
-			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
-			{
+		if ( state.nestedMetawidgets != null ) {
+			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets ) {
 				save( nestedMetawidget );
 			}
 		}
 	}
 
 	@Override
-	public void onEndBuild( GwtMetawidget metawidget )
-	{
+	public void onEndBuild( GwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
@@ -394,22 +361,19 @@ public class SimpleBindingProcessor
 	 * subclass-specific Adapter is also registered.
 	 */
 
-	protected <T extends SimpleBindingProcessorAdapter<?>> T getAdapter( Class<?> classToBindTo )
-	{
-		if ( mAdapters == null )
-		{
+	protected <T extends SimpleBindingProcessorAdapter<?>> T getAdapter( Class<?> classToBindTo ) {
+
+		if ( mAdapters == null ) {
 			return null;
 		}
 
 		Class<?> classTraversal = classToBindTo;
 
-		while ( classTraversal != null )
-		{
+		while ( classTraversal != null ) {
 			@SuppressWarnings( "unchecked" )
 			T adapter = (T) mAdapters.get( classTraversal );
 
-			if ( adapter != null )
-			{
+			if ( adapter != null ) {
 				return adapter;
 			}
 
@@ -432,17 +396,15 @@ public class SimpleBindingProcessor
 	 * Converter is also registered.
 	 */
 
-	private <T extends Converter<?>> T getConverter( Class<?> classToConvert )
-	{
+	private <T extends Converter<?>> T getConverter( Class<?> classToConvert ) {
+
 		Class<?> classTraversal = classToConvert;
 
-		while ( classTraversal != null )
-		{
+		while ( classTraversal != null ) {
 			@SuppressWarnings( "unchecked" )
 			T converter = (T) mConverters.get( classTraversal );
 
-			if ( converter != null )
-			{
+			if ( converter != null ) {
 				return converter;
 			}
 
@@ -452,12 +414,11 @@ public class SimpleBindingProcessor
 		return null;
 	}
 
-	/* package private */State getState( GwtMetawidget metawidget )
-	{
+	/* package private */State getState( GwtMetawidget metawidget ) {
+
 		State state = (State) metawidget.getClientProperty( SimpleBindingProcessor.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidget.putClientProperty( SimpleBindingProcessor.class, state );
 		}
@@ -473,8 +434,8 @@ public class SimpleBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */Set<Object[]>		bindings;
 
 		/* package private */Set<GwtMetawidget>	nestedMetawidgets;

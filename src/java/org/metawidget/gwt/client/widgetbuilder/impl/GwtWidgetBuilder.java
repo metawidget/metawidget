@@ -48,33 +48,30 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class GwtWidgetBuilder
-	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor
-{
+	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor {
+
 	//
 	// Public methods
 	//
 
-	public Object getValue( Widget widget )
-	{
+	public Object getValue( Widget widget ) {
+
 		// CheckBox (must come before HasText, because CheckBox extends
 		// ButtonBase which implements HasHTML which extends HasText)
 
-		if ( widget instanceof CheckBox )
-		{
+		if ( widget instanceof CheckBox ) {
 			return ( (CheckBox) widget ).getValue();
 		}
 
 		// HasText
 
-		if ( widget instanceof HasText )
-		{
+		if ( widget instanceof HasText ) {
 			return ( (HasText) widget ).getText();
 		}
 
 		// ListBox
 
-		if ( widget instanceof ListBox )
-		{
+		if ( widget instanceof ListBox ) {
 			ListBox listBox = (ListBox) widget;
 			return listBox.getValue( listBox.getSelectedIndex() );
 		}
@@ -82,29 +79,26 @@ public class GwtWidgetBuilder
 		return null;
 	}
 
-	public boolean setValue( Widget widget, Object value )
-	{
+	public boolean setValue( Widget widget, Object value ) {
+
 		// CheckBox (must come before HasText, because CheckBox extends
 		// ButtonBase which implements HasHTML which extends HasText)
 
-		if ( widget instanceof CheckBox )
-		{
+		if ( widget instanceof CheckBox ) {
 			( (CheckBox) widget ).setValue( (Boolean) value );
 			return true;
 		}
 
 		// HasText
 
-		if ( widget instanceof HasText )
-		{
+		if ( widget instanceof HasText ) {
 			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
 			return true;
 		}
 
 		// ListBox
 
-		if ( widget instanceof ListBox )
-		{
+		if ( widget instanceof ListBox ) {
 			GwtUtils.setListBoxSelectedItem( (ListBox) widget, StringUtils.quietValueOf( value ) );
 			return true;
 		}
@@ -115,19 +109,17 @@ public class GwtWidgetBuilder
 	}
 
 	@Override
-	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
-	{
+	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget ) {
+
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub();
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new Button( metawidget.getLabelString( attributes ) );
 		}
 
@@ -135,16 +127,14 @@ public class GwtWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
-		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return new CheckBox();
 		}
 
@@ -152,8 +142,7 @@ public class GwtWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			ListBox listBox = new ListBox();
 			listBox.setVisibleItemCount( 1 );
 
@@ -161,19 +150,16 @@ public class GwtWidgetBuilder
 			return listBox;
 		}
 
-		if ( GwtUtils.isPrimitive( type ) )
-		{
+		if ( GwtUtils.isPrimitive( type ) ) {
 			// booleans
 
-			if ( "boolean".equals( type ) )
-			{
+			if ( "boolean".equals( type ) ) {
 				return new CheckBox();
 			}
 
 			// chars
 
-			if ( "char".equals( type ) )
-			{
+			if ( "char".equals( type ) ) {
 				TextBox textbox = new TextBox();
 				textbox.setMaxLength( 1 );
 
@@ -187,15 +173,12 @@ public class GwtWidgetBuilder
 
 		// Strings
 
-		if ( String.class.getName().equals( type ) )
-		{
-			if ( TRUE.equals( attributes.get( MASKED ) ) )
-			{
+		if ( String.class.getName().equals( type ) ) {
+			if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 				return new PasswordTextBox();
 			}
 
-			if ( TRUE.equals( attributes.get( LARGE ) ) )
-			{
+			if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 				return new TextArea();
 			}
 
@@ -203,8 +186,7 @@ public class GwtWidgetBuilder
 
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-			if ( maximumLength != null && !"".equals( maximumLength ) )
-			{
+			if ( maximumLength != null && !"".equals( maximumLength ) ) {
 				textBox.setMaxLength( Integer.parseInt( maximumLength ) );
 			}
 
@@ -213,17 +195,14 @@ public class GwtWidgetBuilder
 
 		// Dates
 
-		if ( Date.class.getName().equals( type ) )
-		{
+		if ( Date.class.getName().equals( type ) ) {
 			return new TextBox();
 		}
 
-		if ( GwtUtils.isPrimitiveWrapper( type ) )
-		{
+		if ( GwtUtils.isPrimitiveWrapper( type ) ) {
 			// Characters
 
-			if ( Character.class.getName().equals( type ) )
-			{
+			if ( Character.class.getName().equals( type ) ) {
 				TextBox textbox = new TextBox();
 				textbox.setMaxLength( 1 );
 
@@ -237,15 +216,13 @@ public class GwtWidgetBuilder
 
 		// Collections
 
-		if ( GwtUtils.isCollection( type ) )
-		{
+		if ( GwtUtils.isCollection( type ) ) {
 			return new Stub();
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new TextBox();
 		}
 
@@ -258,10 +235,9 @@ public class GwtWidgetBuilder
 	// Private methods
 	//
 
-	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
-	{
-		if ( values == null )
-		{
+	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes ) {
+
+		if ( values == null ) {
 			return;
 		}
 
@@ -270,27 +246,23 @@ public class GwtWidgetBuilder
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		if ( GwtUtils.needsEmptyLookupItem( attributes ) )
-		{
+		if ( GwtUtils.needsEmptyLookupItem( attributes ) ) {
 			addListBoxItem( listBox, "", null );
 		}
 
 		// See if we're using labels
 
-		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-		{
+		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() ) {
 			throw new RuntimeException( "Labels list must be same size as values list" );
 		}
 
 		// Add the select items
 
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = values.size(); loop < length; loop++ ) {
 			String value = values.get( loop );
 			String label = null;
 
-			if ( labels != null && !labels.isEmpty() )
-			{
+			if ( labels != null && !labels.isEmpty() ) {
 				label = labels.get( loop );
 			}
 
@@ -298,10 +270,9 @@ public class GwtWidgetBuilder
 		}
 	}
 
-	private void addListBoxItem( ListBox listBox, String value, String label )
-	{
-		if ( label != null )
-		{
+	private void addListBoxItem( ListBox listBox, String value, String label ) {
+
+		if ( label != null ) {
 			listBox.addItem( label, value );
 			return;
 		}

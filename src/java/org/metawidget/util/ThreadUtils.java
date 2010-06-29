@@ -16,15 +16,14 @@
 
 package org.metawidget.util;
 
-
 /**
  * Utilities for working with Threads
  *
  * @author Richard Kennard
  */
 
-public final class ThreadUtils
-{
+public final class ThreadUtils {
+
 	//
 	// Public statics
 	//
@@ -33,8 +32,8 @@ public final class ThreadUtils
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> ThreadLocal<K> newThreadLocal()
-	{
+	public static final <K> ThreadLocal<K> newThreadLocal() {
+
 		return new ThreadLocal<K>();
 	}
 
@@ -42,8 +41,8 @@ public final class ThreadUtils
 	// Private constructor
 	//
 
-	private ThreadUtils()
-	{
+	private ThreadUtils() {
+
 		// Can never be called
 	}
 }

@@ -34,8 +34,8 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface ActionStyle
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//

@@ -26,14 +26,14 @@ import android.view.ViewGroup;
  */
 
 public class FrameLayout
-	extends ViewGroup
-{
+	extends ViewGroup {
+
 	//
 	// Constructors
 	//
 
-	public FrameLayout( Context context )
-	{
+	public FrameLayout( Context context ) {
+
 		super( context );
 	}
 
@@ -42,19 +42,19 @@ public class FrameLayout
 	//
 
 	public static class LayoutParams
-		extends MarginLayoutParams
-	{
+		extends MarginLayoutParams {
+
 		//
 		// Constructor
 		//
 
-		public LayoutParams()
-		{
+		public LayoutParams() {
+
 			// Default constructor
 		}
 
-		public LayoutParams( int int1, int int2 )
-		{
+		public LayoutParams( int int1, int int2 ) {
+
 			super( int1, int2 );
 		}
 	}

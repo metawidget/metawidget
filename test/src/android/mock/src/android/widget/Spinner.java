@@ -25,14 +25,14 @@ import android.content.Context;
  */
 
 public class Spinner
-	extends AdapterView<SpinnerAdapter>
-{
+	extends AdapterView<SpinnerAdapter> {
+
 	//
 	// Constructor
 	//
 
-	public Spinner( Context context )
-	{
+	public Spinner( Context context ) {
+
 		super( context );
 	}
 
@@ -40,8 +40,8 @@ public class Spinner
 	// Public methods
 	//
 
-	public void setAdapter( SpinnerAdapter adapter )
-	{
+	public void setAdapter( SpinnerAdapter adapter ) {
+
 		super.setAdapter( adapter );
 	}
 }

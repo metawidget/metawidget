@@ -24,16 +24,16 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should use the standard Faces <code>NumberConverter</code>.
  * <p>
- * Note: the <code>NumberConverter</code> property <code>integerOnly</code> is not specified
- * using this annotation, as it can be inferred from the property's type.
+ * Note: the <code>NumberConverter</code> property <code>integerOnly</code> is not specified using
+ * this annotation, as it can be inferred from the property's type.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesNumberConverter
-{
+public @interface UiFacesNumberConverter {
+
 	String currencyCode() default "";
 
 	String currencySymbol() default "";

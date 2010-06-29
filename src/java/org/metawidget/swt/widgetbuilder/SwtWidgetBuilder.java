@@ -50,40 +50,36 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class SwtWidgetBuilder
-	implements WidgetBuilder<Control, SwtMetawidget>, SwtValuePropertyProvider
-{
+	implements WidgetBuilder<Control, SwtMetawidget>, SwtValuePropertyProvider {
+
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Control control )
-	{
-		if ( control instanceof Text || control instanceof Combo )
-		{
+	public String getValueProperty( Control control ) {
+
+		if ( control instanceof Text || control instanceof Combo ) {
 			return "text";
 		}
 
-		if ( control instanceof Spinner || control instanceof Scale || control instanceof Button )
-		{
+		if ( control instanceof Spinner || control instanceof Scale || control instanceof Button ) {
 			return "selection";
 		}
 
 		return null;
 	}
 
-	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
-	{
+	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
+
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			Button button = new Button( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			button.setText( metawidget.getLabelString( attributes ) );
 
@@ -94,8 +90,7 @@ public class SwtWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -106,8 +101,7 @@ public class SwtWidgetBuilder
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
-		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return new Button( metawidget.getCurrentLayoutComposite(), SWT.CHECK );
 		}
 
@@ -115,32 +109,26 @@ public class SwtWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			Combo comboDropDown = new Combo( metawidget.getCurrentLayoutComposite(), SWT.READ_ONLY );
 
 			// Add an empty choice (if nullable, and not required)
 
-			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-			{
+			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
 				comboDropDown.add( "" );
 			}
 
 			List<String> values = CollectionUtils.fromString( lookup );
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
 
-			for ( String value : values )
-			{
+			for ( String value : values ) {
 				// Convert (if supported)
 
 				Object convertedValue;
 
-				if ( converter == null )
-				{
+				if ( converter == null ) {
 					convertedValue = value;
-				}
-				else
-				{
+				} else {
 					convertedValue = converter.convertFromString( value, clazz );
 				}
 
@@ -152,23 +140,19 @@ public class SwtWidgetBuilder
 			return comboDropDown;
 		}
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				// booleans
 
-				if ( boolean.class.equals( clazz ) )
-				{
+				if ( boolean.class.equals( clazz ) ) {
 					return new Button( metawidget.getCurrentLayoutComposite(), SWT.CHECK );
 				}
 
 				// chars
 
-				if ( char.class.equals( clazz ) )
-				{
+				if ( char.class.equals( clazz ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 				}
 
@@ -177,8 +161,7 @@ public class SwtWidgetBuilder
 				String minimumValue = attributes.get( MINIMUM_VALUE );
 				String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
-				{
+				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
 					Scale scale = new Scale( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 					scale.setMinimum( Integer.parseInt( minimumValue ) );
 					scale.setSelection( scale.getMinimum() );
@@ -189,85 +172,68 @@ public class SwtWidgetBuilder
 
 				// Not-ranged
 
-				if ( byte.class.equals( clazz ) )
-				{
+				if ( byte.class.equals( clazz ) ) {
 					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 					byte value = 0;
 					byte minimum = Byte.MIN_VALUE;
 					byte maximum = Byte.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Byte.parseByte( minimumValue );
 						value = (byte) Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Byte.parseByte( maximumValue );
 						value = (byte) Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (byte) 1 );
 					return spinner;
-				}
-				else if ( short.class.equals( clazz ) )
-				{
+				} else if ( short.class.equals( clazz ) ) {
 					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 					short value = 0;
 					short minimum = Short.MIN_VALUE;
 					short maximum = Short.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Short.parseShort( minimumValue );
 						value = (short) Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Short.parseShort( maximumValue );
 						value = (short) Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, (short) 1 );
 					return spinner;
-				}
-				else if ( int.class.equals( clazz ) )
-				{
+				} else if ( int.class.equals( clazz ) ) {
 					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 
 					int value = 0;
 					int minimum = Integer.MIN_VALUE;
 					int maximum = Integer.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ) )
-					{
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Integer.parseInt( minimumValue );
 						value = Math.max( value, minimum );
 					}
 
-					if ( maximumValue != null && !"".equals( maximumValue ) )
-					{
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Integer.parseInt( maximumValue );
 						value = Math.min( value, maximum );
 					}
 
 					setSpinnerModel( spinner, value, minimum, maximum, 1 );
 					return spinner;
-				}
-				else if ( long.class.equals( clazz ) )
-				{
+				} else if ( long.class.equals( clazz ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
-				}
-				else if ( float.class.equals( clazz ) )
-				{
+				} else if ( float.class.equals( clazz ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
-				}
-				else if ( double.class.equals( clazz ) )
-				{
+				} else if ( double.class.equals( clazz ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 				}
 
@@ -276,15 +242,12 @@ public class SwtWidgetBuilder
 
 			// Strings
 
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
+			if ( String.class.equals( clazz ) ) {
+				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.PASSWORD | SWT.BORDER );
 				}
 
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
 				}
 
@@ -293,8 +256,7 @@ public class SwtWidgetBuilder
 
 			// Dates
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 			}
 
@@ -303,23 +265,20 @@ public class SwtWidgetBuilder
 			// Note: we use a text field, not a Spinner or Scale, because we need to be able to
 			// convey 'null'
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 			}
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 		}
 
@@ -343,8 +302,8 @@ public class SwtWidgetBuilder
 	 * type as the property it maps to (eg. float or double, int or long).
 	 */
 
-	private void setSpinnerModel( Spinner spinner, int selection, int minimum, int maximum, int increment )
-	{
+	private void setSpinnerModel( Spinner spinner, int selection, int minimum, int maximum, int increment ) {
+
 		spinner.setMinimum( minimum );
 		spinner.setMaximum( maximum );
 		spinner.setSelection( selection );

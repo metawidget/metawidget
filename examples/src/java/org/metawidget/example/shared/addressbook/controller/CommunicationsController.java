@@ -20,8 +20,8 @@ package org.metawidget.example.shared.addressbook.controller;
  * @author Richard Kennard
  */
 
-public class CommunicationsController
-{
+public class CommunicationsController {
+
 	//
 	// Protected members
 	//
@@ -36,8 +36,8 @@ public class CommunicationsController
 	 * A real-world implementation would likely use a database lookup.
 	 */
 
-	public String[] getAll()
-	{
+	public String[] getAll() {
+
 		return ALL_COMMUNICATION_TYPES;
 	}
 }

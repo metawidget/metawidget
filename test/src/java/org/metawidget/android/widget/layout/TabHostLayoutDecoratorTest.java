@@ -41,14 +41,14 @@ import android.widget.TextView;
  */
 
 public class TabHostLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testTabHostLayoutDecorator()
-	{
+	public void testTabHostLayoutDecorator() {
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 		androidMetawidget.setLayout( new TabHostLayoutDecorator( new LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget>().setLayout( new TableLayout() ) ) );
 		androidMetawidget.setToInspect( new Foo() );
@@ -130,8 +130,8 @@ public class TabHostLayoutDecoratorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	bar;
 
 		@UiComesAfter( "bar" )

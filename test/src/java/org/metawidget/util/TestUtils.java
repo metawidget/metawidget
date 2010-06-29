@@ -41,8 +41,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class TestUtils
-{
+public class TestUtils {
+
 	//
 	// Public methods
 	//
@@ -56,26 +56,23 @@ public class TestUtils
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, String... exclude )
-	{
+	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, String... exclude ) {
+
 		testEqualsAndHashcode( clazz, subclass, (Map) null, exclude );
 	}
 
-	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, Map<?,?> dummyTypes, String... exclude )
-	{
-		try
-		{
+	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, Map<?, ?> dummyTypes, String... exclude ) {
+
+		try {
 			testEqualsAndHashcode( clazz.newInstance(), clazz.newInstance(), subclass, dummyTypes, exclude );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T, S extends T> void testEqualsAndHashcode( T object1, T object2, S subclass, String... exclude )
-	{
+	public static <T, S extends T> void testEqualsAndHashcode( T object1, T object2, S subclass, String... exclude ) {
+
 		testEqualsAndHashcode( object1, object2, subclass, (Map) null, exclude );
 	}
 
@@ -85,10 +82,9 @@ public class TestUtils
 	 *            already supported (eg. int, String etc). Can be null
 	 */
 
-	public static <T, S extends T, D> void testEqualsAndHashcode( T object1, T object2, S subclass, Map<?,?> dummyTypes, String... exclude )
-	{
-		try
-		{
+	public static <T, S extends T, D> void testEqualsAndHashcode( T object1, T object2, S subclass, Map<?, ?> dummyTypes, String... exclude ) {
+
+		try {
 			// Test top-level object
 
 			Assert.assertFalse( object1.equals( null ) );
@@ -104,19 +100,16 @@ public class TestUtils
 
 			JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
-			for ( Property property : propertyStyle.getProperties( object1.getClass() ).values() )
-			{
+			for ( Property property : propertyStyle.getProperties( object1.getClass() ).values() ) {
 				String propertyName = property.getName();
 
-				if ( ArrayUtils.contains( exclude, propertyName ) )
-				{
+				if ( ArrayUtils.contains( exclude, propertyName ) ) {
 					continue;
 				}
 
 				// Setter
 
-				if ( !property.isWritable() )
-				{
+				if ( !property.isWritable() ) {
 					Assert.assertTrue( "Property '" + propertyName + "' has no setter", false );
 					continue;
 				}
@@ -127,33 +120,24 @@ public class TestUtils
 				Class<?> propertyType = property.getType();
 				Method writeMethod = ClassUtils.getWriteMethod( object1.getClass(), propertyName, propertyType );
 
-				if ( !propertyType.isPrimitive() )
-				{
+				if ( !propertyType.isPrimitive() ) {
 					// (this doesn't apply to ResourceResolver)
 
-					if ( !ResourceResolver.class.equals( propertyType ) )
-					{
+					if ( !ResourceResolver.class.equals( propertyType ) ) {
 						Method readMethod = null;
 
-						try
-						{
+						try {
 							readMethod = ClassUtils.getReadMethod( object1.getClass(), propertyName );
-						}
-						catch ( Exception e1 )
-						{
-							try
-							{
+						} catch ( Exception e1 ) {
+							try {
 								readMethod = object1.getClass().getDeclaredMethod( "get" + StringUtils.uppercaseFirstLetter( propertyName ) );
 								readMethod.setAccessible( true );
-							}
-							catch ( Exception e2 )
-							{
+							} catch ( Exception e2 ) {
 								// Fair enough, no such method
 							}
 						}
 
-						if ( readMethod != null && readMethod.invoke( object1 ) != null )
-						{
+						if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
 							writeMethod.invoke( object1, new Object[] { null } );
 							Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
 							Assert.assertFalse( object1.equals( object2 ) );
@@ -172,97 +156,66 @@ public class TestUtils
 
 				// Simple types
 
-				if ( int.class.isAssignableFrom( propertyType ) )
-				{
+				if ( int.class.isAssignableFrom( propertyType ) ) {
 					toSet = 42;
-				}
-				else if ( Font.class.isAssignableFrom( propertyType ) )
-				{
+				} else if ( Font.class.isAssignableFrom( propertyType ) ) {
 					toSet = new JPanel().getFont();
-				}
-				else if ( Color.class.isAssignableFrom( propertyType ) )
-				{
+				} else if ( Color.class.isAssignableFrom( propertyType ) ) {
 					toSet = Color.blue;
-				}
-				else if ( String.class.isAssignableFrom( propertyType ) )
-				{
+				} else if ( String.class.isAssignableFrom( propertyType ) ) {
 					toSet = "foo";
-				}
-				else if ( boolean.class.equals( propertyType ) )
-				{
+				} else if ( boolean.class.equals( propertyType ) ) {
 					// (toggle from the default)
 
-					if ( property.isReadable() )
-					{
+					if ( property.isReadable() ) {
 						toSet = !( (Boolean) ClassUtils.getProperty( object1, propertyName ) );
-					}
-					else
-					{
+					} else {
 						toSet = true;
 					}
 				}
 
 				// Dummy types
 
-				else if ( dummyTypes != null && dummyTypes.containsKey( propertyType ) )
-				{
+				else if ( dummyTypes != null && dummyTypes.containsKey( propertyType ) ) {
 					toSet = dummyTypes.get( propertyType );
-				}
-				else if ( propertyType.isArray() )
-				{
+				} else if ( propertyType.isArray() ) {
 					Class<?> componentType = propertyType.getComponentType();
 
-					if ( String.class.equals( componentType ) )
-					{
+					if ( String.class.equals( componentType ) ) {
 						toSet = new String[] { "foo", "bar", "baz" };
-					}
-					else if ( InputStream.class.isAssignableFrom( componentType ) )
-					{
+					} else if ( InputStream.class.isAssignableFrom( componentType ) ) {
 						continue;
-					}
-					else if ( componentType.isInterface() )
-					{
+					} else if ( componentType.isInterface() ) {
 						Object[] array = (Object[]) Array.newInstance( componentType, 3 );
 						array[0] = newProxyInstance( componentType );
 						array[1] = newProxyInstance( componentType );
 						toSet = array;
-					}
-					else
-					{
+					} else {
 						throw new Exception( "Don't know how to test an array property of " + propertyType );
 					}
 				}
 
 				// Dynamic proxy
 
-				else if ( propertyType.isInterface() )
-				{
+				else if ( propertyType.isInterface() ) {
 					toSet = newProxyInstance( propertyType );
-				}
-				else if ( propertyType.isEnum() )
-				{
+				} else if ( propertyType.isEnum() ) {
 					toSet = propertyType.getEnumConstants()[0];
 
 					// (toggle from the default)
 
-					if ( property.isReadable() && toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) )
-					{
+					if ( property.isReadable() && toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) ) {
 						toSet = propertyType.getEnumConstants()[1];
 					}
 				}
 
 				// Types that are never equal to each other
 
-				else if ( InputStream.class.isAssignableFrom( propertyType ) )
-				{
+				else if ( InputStream.class.isAssignableFrom( propertyType ) ) {
 					continue;
-				}
-				else if ( Pattern.class.isAssignableFrom( propertyType ) )
-				{
+				} else if ( Pattern.class.isAssignableFrom( propertyType ) ) {
 					continue;
-				}
-				else
-				{
+				} else {
 					throw new Exception( "Don't know how to test a property of " + propertyType );
 				}
 
@@ -275,8 +228,7 @@ public class TestUtils
 
 				// Getter
 
-				if ( property.isReadable() )
-				{
+				if ( property.isReadable() ) {
 					Assert.assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) );
 				}
 
@@ -288,9 +240,7 @@ public class TestUtils
 				Assert.assertTrue( object1.equals( object2 ) );
 				Assert.assertTrue( object1.hashCode() == object2.hashCode() );
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
@@ -299,20 +249,18 @@ public class TestUtils
 	// Private methods
 	//
 
-	private static Object newProxyInstance( Class<?> clazz )
-	{
-		return Proxy.newProxyInstance( TestUtils.class.getClassLoader(), new Class[] { clazz }, new InvocationHandler()
-		{
+	private static Object newProxyInstance( Class<?> clazz ) {
+
+		return Proxy.newProxyInstance( TestUtils.class.getClassLoader(), new Class[] { clazz }, new InvocationHandler() {
+
 			public Object invoke( Object proxy, Method method, Object[] args )
-				throws Throwable
-			{
-				if ( "equals".equals( method.getName() ) )
-				{
+				throws Throwable {
+
+				if ( "equals".equals( method.getName() ) ) {
 					return ( proxy == args[0] );
 				}
 
-				if ( "hashCode".equals( method.getName() ) )
-				{
+				if ( "hashCode".equals( method.getName() ) ) {
 					return System.identityHashCode( proxy );
 				}
 
@@ -325,8 +273,8 @@ public class TestUtils
 	// Private constructor
 	//
 
-	private TestUtils()
-	{
+	private TestUtils() {
+
 		// Can never be called
 	}
 }

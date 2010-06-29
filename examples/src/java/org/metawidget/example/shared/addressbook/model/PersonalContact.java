@@ -25,8 +25,8 @@ import org.metawidget.inspector.annotation.UiComesAfter;
  */
 
 public class PersonalContact
-	extends Contact
-{
+	extends Contact {
+
 	//
 	// Private statics
 	//
@@ -43,13 +43,13 @@ public class PersonalContact
 	// Constructor
 	//
 
-	public PersonalContact()
-	{
+	public PersonalContact() {
+
 		// Default constructor
 	}
 
-	public PersonalContact( String title, String firstname, String surname )
-	{
+	public PersonalContact( String title, String firstname, String surname ) {
+
 		super( title, firstname, surname );
 	}
 
@@ -58,13 +58,13 @@ public class PersonalContact
 	//
 
 	@UiComesAfter( "surname" )
-	public Date getDateOfBirth()
-	{
+	public Date getDateOfBirth() {
+
 		return mDateOfBirth;
 	}
 
-	public void setDateOfBirth( Date ofBirth )
-	{
+	public void setDateOfBirth( Date ofBirth ) {
+
 		mDateOfBirth = ofBirth;
 	}
 }

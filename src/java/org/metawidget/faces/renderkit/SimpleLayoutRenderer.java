@@ -27,20 +27,20 @@ import org.metawidget.faces.FacesUtils;
 /**
  * Layout to simply output components one after another, with no labels and no structure.
  * <p>
- * This Layout is suited to rendering single components, or for rendering components whose
- * layout relies entirely on CSS.
- * This implementation recognizes the following <code>&lt;f:facet&gt;</code> names:
+ * This Layout is suited to rendering single components, or for rendering components whose layout
+ * relies entirely on CSS. This implementation recognizes the following <code>&lt;f:facet&gt;</code>
+ * names:
  * <p>
  * <ul>
- * 	<li><code>after<code></li>
+ * <li><code>after<code></li>
  * </ul>
  *
  * @author Richard Kennard
  */
 
 public class SimpleLayoutRenderer
-	extends Renderer
-{
+	extends Renderer {
+
 	//
 	// Private statics
 	//
@@ -53,8 +53,8 @@ public class SimpleLayoutRenderer
 
 	@Override
 	public void encodeEnd( FacesContext context, UIComponent component )
-		throws IOException
-	{
-		FacesUtils.render( context, component.getFacet( AFTER_FACET ));
+		throws IOException {
+
+		FacesUtils.render( context, component.getFacet( AFTER_FACET ) );
 	}
 }

@@ -40,17 +40,17 @@ import org.w3c.dom.Element;
  */
 
 public class Java5InspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		Inspector inspector = new Java5Inspector();
 
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -84,7 +84,7 @@ public class Java5InspectorTest
 
 		Bar bar = new Bar();
 		bar.foo = Foo.FOO1;
-		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ));
+		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
@@ -96,7 +96,7 @@ public class Java5InspectorTest
 
 		// Test pointed directly at an enum
 
-		document = XmlUtils.documentFromString( inspector.inspect( Foo.FOO1, Foo.class.getName() ));
+		document = XmlUtils.documentFromString( inspector.inspect( Foo.FOO1, Foo.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
@@ -108,7 +108,7 @@ public class Java5InspectorTest
 
 		// Test pointed directly at an empty enum via a parent
 
-		document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName(), "foo" ));
+		document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName(), "foo" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
@@ -119,8 +119,8 @@ public class Java5InspectorTest
 
 		// Test an enum with PropertyTypeInspector
 
-		inspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new Java5Inspector() ));
-		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ));
+		inspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new Java5Inspector() ) );
+		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
@@ -132,42 +132,41 @@ public class Java5InspectorTest
 		assertTrue( 5 == property.getAttributes().getLength() );
 	}
 
-	public void testInspectString()
-	{
+	public void testInspectString() {
+
 		Java5Inspector inspector = new Java5Inspector();
 
 		// Should 'short circuit' and return null, as an optimization for CompositeInspector
 
-		assertTrue( null == inspector.inspect( "foo", String.class.getName() ));
+		assertTrue( null == inspector.inspect( "foo", String.class.getName() ) );
 	}
 
 	//
 	// Inner classes
 	//
 
-	protected enum Foo
-	{
-		FOO1
-		{
+	protected enum Foo {
+		FOO1 {
+
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "foo1";
 			}
 		},
 
-		FOO2
-		{
+		FOO2 {
+
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "foo2";
 			}
 		}
 	}
 
-	protected static class Bar
-	{
+	protected static class Bar {
+
 		public Foo									foo;
 
 		public Map<Set<String>, List<Set<Date>>>	baz;

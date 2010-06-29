@@ -38,14 +38,14 @@ import org.metawidget.util.LayoutUtils;
 
 public abstract class SwtFlatSectionLayoutDecorator
 	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Control, Composite, SwtMetawidget>
-	implements SwtLayoutDecorator
-{
+	implements SwtLayoutDecorator {
+
 	//
 	// Constructor
 	//
 
-	protected SwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Control, Composite, SwtMetawidget> config )
-	{
+	protected SwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Control, Composite, SwtMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -54,34 +54,31 @@ public abstract class SwtFlatSectionLayoutDecorator
 	//
 
 	@Override
-	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		super.startContainerLayout( container, metawidget );
 		container.setData( getClass().getName(), null );
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		// If our delegate is itself a NestedSectionLayoutDecorator, strip the section
 
 		State state = getState( container, metawidget );
 
-		if ( getDelegate() instanceof NestedSectionLayoutDecorator )
-		{
+		if ( getDelegate() instanceof NestedSectionLayoutDecorator ) {
 			String section = stripSection( attributes );
 
 			// Stay where we are?
 
-			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) )
-			{
+			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 
 			// End nested LayoutDecorator's current section
 
-			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) )
-			{
+			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) ) {
 				super.endContainerLayout( container, metawidget );
 			}
 
@@ -89,37 +86,30 @@ public abstract class SwtFlatSectionLayoutDecorator
 
 			// Add a heading
 
-			if ( !"".equals( section ) )
-			{
+			if ( !"".equals( section ) ) {
 				addSectionWidget( section, 0, container, metawidget );
 			}
-		}
-		else
-		{
+		} else {
 			String[] sections = getSections( attributes );
 
 			// Stay where we are?
 
-			if ( sections.length == 0 || sections.equals( state.currentSections ) )
-			{
+			if ( sections.length == 0 || sections.equals( state.currentSections ) ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 
 			// For each of the new sections...
 
-			for ( int level = 0; level < sections.length; level++ )
-			{
+			for ( int level = 0; level < sections.length; level++ ) {
 				String section = sections[level];
 
 				// ...that are different from our current...
 
-				if ( "".equals( section ) )
-				{
+				if ( "".equals( section ) ) {
 					continue;
 				}
 
-				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
-				{
+				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) ) {
 					continue;
 				}
 
@@ -137,8 +127,8 @@ public abstract class SwtFlatSectionLayoutDecorator
 	}
 
 	@Override
-	public void layoutWidget( Control widget, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public void layoutWidget( Control widget, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		getDelegate().layoutWidget( widget, elementName, attributes, container, metawidget );
 	}
 
@@ -147,24 +137,23 @@ public abstract class SwtFlatSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected String[] getSections( Map<String, String> attributes )
-	{
+	protected String[] getSections( Map<String, String> attributes ) {
+
 		return ArrayUtils.fromString( attributes.get( SECTION ) );
 	}
 
 	@Override
-	protected State getState( Composite container, SwtMetawidget metawidget )
-	{
+	protected State getState( Composite container, SwtMetawidget metawidget ) {
+
 		State state = (State) container.getData( getClass().getName() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			container.setData( getClass().getName(), state );
 		}
@@ -173,8 +162,8 @@ public abstract class SwtFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Control control )
-	{
+	protected boolean isEmptyStub( Control control ) {
+
 		return ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 );
 	}
 
@@ -182,10 +171,9 @@ public abstract class SwtFlatSectionLayoutDecorator
 	// Private methods
 	//
 
-	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
-		if ( getDelegate() instanceof SwtLayoutDecorator )
-		{
+	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
+		if ( getDelegate() instanceof SwtLayoutDecorator ) {
 			return ( (SwtLayoutDecorator) getDelegate() ).startBuildWidget( elementName, attributes, container, metawidget );
 		}
 

@@ -35,8 +35,8 @@ package org.metawidget.inspector;
  * @author Richard Kennard
  */
 
-public final class InspectionResultConstants
-{
+public final class InspectionResultConstants {
+
 	//
 	// Public statics
 	//
@@ -297,8 +297,8 @@ public final class InspectionResultConstants
 	// Private constructor
 	//
 
-	private InspectionResultConstants()
-	{
+	private InspectionResultConstants() {
+
 		// Can never be called
 	}
 }

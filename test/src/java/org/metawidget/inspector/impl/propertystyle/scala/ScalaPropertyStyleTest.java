@@ -33,14 +33,14 @@ import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
  */
 
 public class ScalaPropertyStyleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testScala()
-	{
+	public void testScala() {
+
 		ScalaPropertyStyle propertyStyle = new ScalaPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( org.metawidget.inspector.impl.propertystyle.scala.ScalaFoo.class );
 

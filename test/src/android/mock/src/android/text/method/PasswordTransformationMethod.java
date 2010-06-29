@@ -26,14 +26,14 @@ import android.view.View;
  */
 
 public class PasswordTransformationMethod
-	implements TransformationMethod
-{
+	implements TransformationMethod {
+
 	//
 	// Public statics
 	//
 
-	public static PasswordTransformationMethod getInstance()
-	{
+	public static PasswordTransformationMethod getInstance() {
+
 		return new PasswordTransformationMethod();
 	}
 
@@ -42,14 +42,14 @@ public class PasswordTransformationMethod
 	//
 
 	@Override
-	public CharSequence getTransformation( CharSequence arg0, View arg1 )
-	{
+	public CharSequence getTransformation( CharSequence arg0, View arg1 ) {
+
 		return null;
 	}
 
 	@Override
-	public void onFocusChanged( View arg0, CharSequence arg1, boolean arg2, int arg3, Rect arg4 )
-	{
+	public void onFocusChanged( View arg0, CharSequence arg1, boolean arg2, int arg3, Rect arg4 ) {
+
 		// Do nothing
 	}
 }

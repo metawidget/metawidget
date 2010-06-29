@@ -25,8 +25,8 @@ import org.metawidget.inspector.annotation.UiSection;
  * @author Richard Kennard
  */
 
-public class RemoveDuplicatesSupportTest
-{
+public class RemoveDuplicatesSupportTest {
+
 	//
 	// Private members
 	//
@@ -39,34 +39,34 @@ public class RemoveDuplicatesSupportTest
 	// Public methods
 	//
 
-	public String getFoo1()
-	{
+	public String getFoo1() {
+
 		return mFoo1;
 	}
 
-	public void setFoo1( String foo1 )
-	{
+	public void setFoo1( String foo1 ) {
+
 		mFoo1 = foo1;
 	}
 
 	@UiComesAfter( "foo1" )
-	public RemoveDuplicatesSupportEmbedded getEmbedded()
-	{
+	public RemoveDuplicatesSupportEmbedded getEmbedded() {
+
 		return mEmbedded;
 	}
 
-	public void setEmbedded( RemoveDuplicatesSupportEmbedded embedded )
-	{
+	public void setEmbedded( RemoveDuplicatesSupportEmbedded embedded ) {
+
 		mEmbedded = embedded;
 	}
 
-	public void clearEmbedded()
-	{
+	public void clearEmbedded() {
+
 		setEmbedded( null );
 	}
 
-	public void newEmbedded()
-	{
+	public void newEmbedded() {
+
 		setEmbedded( new RemoveDuplicatesSupportEmbedded() );
 	}
 
@@ -74,8 +74,8 @@ public class RemoveDuplicatesSupportTest
 	// Public methods
 	//
 
-	public class RemoveDuplicatesSupportEmbedded
-	{
+	public class RemoveDuplicatesSupportEmbedded {
+
 		//
 		// Private members
 		//
@@ -90,34 +90,34 @@ public class RemoveDuplicatesSupportTest
 		// Public methods
 		//
 
-		public String getBar1()
-		{
+		public String getBar1() {
+
 			return mBar1;
 		}
 
-		public void setBar1( String bar1 )
-		{
+		public void setBar1( String bar1 ) {
+
 			mBar1 = bar1;
 		}
 
 		@UiSection( "More" )
-		public String getBar2()
-		{
+		public String getBar2() {
+
 			return mBar2;
 		}
 
-		public void setBar2( String bar2 )
-		{
+		public void setBar2( String bar2 ) {
+
 			mBar2 = bar2;
 		}
 
-		public String getBar3()
-		{
+		public String getBar3() {
+
 			return mBar3;
 		}
 
-		public void setBar3( String bar3 )
-		{
+		public void setBar3( String bar3 ) {
+
 			mBar3 = bar3;
 		}
 	}

@@ -32,8 +32,8 @@ import com.google.gwt.xml.client.XMLParser;
  */
 
 public class TextAreaInspector
-	implements Inspector
-{
+	implements Inspector {
+
 	//
 	// Private members
 	//
@@ -44,8 +44,8 @@ public class TextAreaInspector
 	// Constructor
 	//
 
-	public TextAreaInspector( TextArea textArea )
-	{
+	public TextAreaInspector( TextArea textArea ) {
+
 		mTextArea = textArea;
 	}
 
@@ -54,8 +54,8 @@ public class TextAreaInspector
 	//
 
 	@Override
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		// Parse the XML (do this each time as it may have been updated by the user)
 
 		Document document = XMLParser.parse( mTextArea.getText() );
@@ -66,12 +66,10 @@ public class TextAreaInspector
 
 		// Traverse any path
 
-		for ( String name : names )
-		{
+		for ( String name : names ) {
 			Element property = getProperty( entityToReturn, name );
 
-			if ( !property.hasAttribute( "type" ) )
-			{
+			if ( !property.hasAttribute( "type" ) ) {
 				throw InspectorException.newException( "Property '" + name + "' does not have a 'type' attribute" );
 			}
 
@@ -87,17 +85,15 @@ public class TextAreaInspector
 	// Private methods
 	//
 
-	private Element getEntity( Document document, String type )
-	{
+	private Element getEntity( Document document, String type ) {
+
 		Element root = document.getDocumentElement();
 		NodeList entities = root.getElementsByTagName( "entity" );
 
-		for ( int loop = 0, length = entities.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = entities.getLength(); loop < length; loop++ ) {
 			Element entity = (Element) entities.item( loop );
 
-			if ( type.equals( entity.getAttribute( "type" ) ) )
-			{
+			if ( type.equals( entity.getAttribute( "type" ) ) ) {
 				return entity;
 			}
 		}
@@ -105,16 +101,14 @@ public class TextAreaInspector
 		throw new RuntimeException( "No such entity with type '" + type + "'" );
 	}
 
-	private Element getProperty( Element entity, String name )
-	{
+	private Element getProperty( Element entity, String name ) {
+
 		NodeList entities = entity.getElementsByTagName( "property" );
 
-		for ( int loop = 0, length = entities.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = entities.getLength(); loop < length; loop++ ) {
 			Element property = (Element) entities.item( loop );
 
-			if ( name.equals( property.getAttribute( "name" ) ) )
-			{
+			if ( name.equals( property.getAttribute( "name" ) ) ) {
 				return property;
 			}
 		}
@@ -122,10 +116,9 @@ public class TextAreaInspector
 		throw new RuntimeException( "No such property with name '" + name + "' of entity '" + entity.getAttribute( "type" ) + "'" );
 	}
 
-	private static String nodeToString( Node node )
-	{
-		if ( !( node instanceof Element ) )
-		{
+	private static String nodeToString( Node node ) {
+
+		if ( !( node instanceof Element ) ) {
 			return "";
 		}
 
@@ -141,8 +134,7 @@ public class TextAreaInspector
 
 		NamedNodeMap attributes = node.getAttributes();
 
-		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ ) {
 			Node attribute = attributes.item( loop );
 			builder.append( " " );
 			builder.append( attribute.getNodeName() );
@@ -157,8 +149,7 @@ public class TextAreaInspector
 
 		NodeList children = node.getChildNodes();
 
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
 			builder.append( nodeToString( children.item( loop ) ) );
 		}
 

@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 
 public class Facet
-	extends Composite
-{
+	extends Composite {
+
 	//
 	// Private statics
 	//
@@ -44,8 +44,8 @@ public class Facet
 	// Constructor
 	//
 
-	public Facet( Composite parent, int style )
-	{
+	public Facet( Composite parent, int style ) {
+
 		super( parent, style );
 
 		setLayout( new FillLayout() );

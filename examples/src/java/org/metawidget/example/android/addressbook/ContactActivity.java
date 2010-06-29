@@ -53,8 +53,8 @@ import android.widget.TextView;
  */
 
 public class ContactActivity
-	extends Activity
-{
+	extends Activity {
+
 	//
 	// Private statics
 	//
@@ -63,8 +63,7 @@ public class ContactActivity
 
 	private final static DateFormat	FORMAT			= DateFormat.getDateInstance( DateFormat.SHORT );
 
-	static
-	{
+	static {
 		FORMAT.setLenient( false );
 	}
 
@@ -79,8 +78,8 @@ public class ContactActivity
 	//
 
 	@Override
-	public void onCreate( Bundle bundle )
-	{
+	public void onCreate( Bundle bundle ) {
+
 		super.onCreate( bundle );
 
 		// Layout from resource
@@ -96,8 +95,7 @@ public class ContactActivity
 
 		long id = intent.getLongExtra( "contactId", -1 );
 
-		if ( id != -1 )
-		{
+		if ( id != -1 ) {
 			mContact = application.getContactsController().load( id );
 			builderTitle.append( mContact.getFullname() );
 			builderTitle.append( " - " );
@@ -105,28 +103,21 @@ public class ContactActivity
 
 		// Create contact
 
-		else
-		{
+		else {
 			String contactType = intent.getStringExtra( "contactType" );
 
-			if ( "business".equals( contactType ) )
-			{
+			if ( "business".equals( contactType ) ) {
 				mContact = new BusinessContact();
-			}
-			else
-			{
+			} else {
 				mContact = new PersonalContact();
 			}
 		}
 
 		// Set title
 
-		if ( mContact instanceof PersonalContact )
-		{
+		if ( mContact instanceof PersonalContact ) {
 			builderTitle.append( getString( R.string.personalContact ) );
-		}
-		else
-		{
+		} else {
 			builderTitle.append( getString( R.string.businessContact ) );
 		}
 
@@ -137,23 +128,22 @@ public class ContactActivity
 		final ListView communicationsView = (ListView) findViewById( R.id.communications );
 		Set<Communication> communications = mContact.getCommunications();
 
-		if ( communications != null )
-		{
-			communicationsView.setAdapter( new ArrayAdapter<Communication>( this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( communications )) );
+		if ( communications != null ) {
+			communicationsView.setAdapter( new ArrayAdapter<Communication>( this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( communications ) ) );
 		}
 
-		communicationsView.setOnItemClickListener( new ListView.OnItemClickListener()
-		{
+		communicationsView.setOnItemClickListener( new ListView.OnItemClickListener() {
+
 			@SuppressWarnings( "unchecked" )
-			public void onItemClick( AdapterView viewAdapter, View view, int position, long itemId )
-			{
+			public void onItemClick( AdapterView viewAdapter, View view, int position, long itemId ) {
+
 				Communication communication = (Communication) viewAdapter.getAdapter().getItem( position );
 
-				new CommunicationDialog( ContactActivity.this, mContact, communication, new DialogInterface.OnClickListener()
-				{
-					public void onClick( DialogInterface dialog, int button )
-					{
-						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ));
+				new CommunicationDialog( ContactActivity.this, mContact, communication, new DialogInterface.OnClickListener() {
+
+					public void onClick( DialogInterface dialog, int button ) {
+
+						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ) );
 					}
 				} ).show();
 			}
@@ -164,8 +154,7 @@ public class ContactActivity
 		final AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 		metawidget.setToInspect( mContact );
 
-		if ( id == -1 )
-		{
+		if ( id == -1 ) {
 			metawidget.setReadOnly( false );
 		}
 
@@ -173,8 +162,7 @@ public class ContactActivity
 
 		refresh();
 
-		if ( !metawidget.isReadOnly() )
-		{
+		if ( !metawidget.isReadOnly() ) {
 			View view = metawidget.findViewWithTag( "title" );
 			view.setFocusable( true );
 			view.setFocusableInTouchMode( true );
@@ -183,24 +171,20 @@ public class ContactActivity
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu( Menu menu )
-	{
+	public boolean onPrepareOptionsMenu( Menu menu ) {
+
 		super.onPrepareOptionsMenu( menu );
 		menu.clear();
 
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-		if ( metawidget.isReadOnly() )
-		{
+		if ( metawidget.isReadOnly() ) {
 			menu.add( MENU_GROUP_ID, R.string.edit, 0, R.string.edit );
-		}
-		else
-		{
+		} else {
 			menu.add( MENU_GROUP_ID, R.string.addCommunication, 0, R.string.addCommunication );
 			menu.add( MENU_GROUP_ID, R.string.save, 1, R.string.save );
 
-			if ( mContact.getId() != -1 )
-			{
+			if ( mContact.getId() != -1 ) {
 				menu.add( MENU_GROUP_ID, R.string.delete, 2, R.string.delete );
 			}
 		}
@@ -209,13 +193,12 @@ public class ContactActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( MenuItem item )
-	{
+	public boolean onOptionsItemSelected( MenuItem item ) {
+
 		final AddressBookApplication application = (AddressBookApplication) getApplication();
 		final AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-		switch ( item.getItemId() )
-		{
+		switch ( item.getItemId() ) {
 			case R.string.edit:
 				metawidget.setReadOnly( false );
 				refresh();
@@ -226,29 +209,24 @@ public class ContactActivity
 				break;
 
 			case R.string.save:
-				if ( !save() )
-				{
+				if ( !save() ) {
 					return false;
 				}
 
-				try
-				{
+				try {
 					application.getContactsController().save( mContact );
 					finish();
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( getString( R.string.saveError ) ).setMessage( e.getMessage() ).setPositiveButton( getString( R.string.ok ), null ).show();
 				}
 				break;
 
 			case R.string.delete:
-				ConfirmDialog.show( ContactActivity.this, getString( R.string.deleteContact ), getString( R.string.confirmDeleteContact ), new DialogInterface.OnClickListener()
-				{
-					public void onClick( DialogInterface dialog, int button )
-					{
-						if ( button == DialogInterface.BUTTON1 )
-						{
+				ConfirmDialog.show( ContactActivity.this, getString( R.string.deleteContact ), getString( R.string.confirmDeleteContact ), new DialogInterface.OnClickListener() {
+
+					public void onClick( DialogInterface dialog, int button ) {
+
+						if ( button == DialogInterface.BUTTON1 ) {
 							application.getContactsController().delete( mContact );
 							finish();
 						}
@@ -257,12 +235,12 @@ public class ContactActivity
 				break;
 
 			case R.string.addCommunication:
-				new CommunicationDialog( ContactActivity.this, mContact, null, new DialogInterface.OnClickListener()
-				{
-					public void onClick( DialogInterface dialog, int button )
-					{
+				new CommunicationDialog( ContactActivity.this, mContact, null, new DialogInterface.OnClickListener() {
+
+					public void onClick( DialogInterface dialog, int button ) {
+
 						ListView communicationsView = (ListView) findViewById( R.id.communications );
-						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ));
+						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ) );
 					}
 				} ).show();
 				break;
@@ -281,8 +259,8 @@ public class ContactActivity
 	 * @return true if the data was successfully transferred
 	 */
 
-	protected void refresh()
-	{
+	protected void refresh() {
+
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		metawidget.setValue( mContact.getTitle(), "title" );
@@ -291,16 +269,11 @@ public class ContactActivity
 
 		Gender gender = mContact.getGender();
 
-		if ( gender == null )
-		{
+		if ( gender == null ) {
 			metawidget.setValue( null, "gender" );
-		}
-		else if ( metawidget.findViewWithTag( "gender" ) instanceof TextView )
-		{
+		} else if ( metawidget.findViewWithTag( "gender" ) instanceof TextView ) {
 			metawidget.setValue( gender, "gender" );
-		}
-		else
-		{
+		} else {
 			metawidget.setValue( gender.name(), "gender" );
 		}
 
@@ -310,20 +283,15 @@ public class ContactActivity
 		metawidget.setValue( mContact.getAddress().getPostcode(), "address", "postcode" );
 		metawidget.setValue( mContact.getNotes(), "notes" );
 
-		if ( mContact instanceof PersonalContact )
-		{
+		if ( mContact instanceof PersonalContact ) {
 			Date dateOfBirth = ( (PersonalContact) mContact ).getDateOfBirth();
 
-			if ( dateOfBirth != null )
-			{
-				synchronized ( FORMAT )
-				{
+			if ( dateOfBirth != null ) {
+				synchronized ( FORMAT ) {
 					metawidget.setValue( FORMAT.format( ( (PersonalContact) mContact ).getDateOfBirth() ), "dateOfBirth" );
 				}
 			}
-		}
-		else
-		{
+		} else {
 			metawidget.setValue( ( (BusinessContact) mContact ).getCompany(), "company" );
 			metawidget.setValue( StringUtils.quietValueOf( ( (BusinessContact) mContact ).getNumberOfStaff() ), "numberOfStaff" );
 		}
@@ -335,8 +303,8 @@ public class ContactActivity
 	 * @return true if the data was successfully transferred
 	 */
 
-	protected boolean save()
-	{
+	protected boolean save() {
+
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		mContact.setTitle( (String) metawidget.getValue( "title" ) );
@@ -345,12 +313,9 @@ public class ContactActivity
 
 		String gender = (String) metawidget.getValue( "gender" );
 
-		if ( gender == null || "".equals( gender ) )
-		{
+		if ( gender == null || "".equals( gender ) ) {
 			mContact.setGender( null );
-		}
-		else
-		{
+		} else {
 			mContact.setGender( Gender.valueOf( gender ) );
 		}
 
@@ -360,42 +325,29 @@ public class ContactActivity
 		mContact.getAddress().setPostcode( (String) metawidget.getValue( "address", "postcode" ) );
 		mContact.setNotes( (String) metawidget.getValue( "notes" ) );
 
-		if ( mContact instanceof PersonalContact )
-		{
+		if ( mContact instanceof PersonalContact ) {
 			String dateOfBirth = (String) metawidget.getValue( "dateOfBirth" );
 
-			if ( dateOfBirth == null || "".equals( dateOfBirth ) )
-			{
+			if ( dateOfBirth == null || "".equals( dateOfBirth ) ) {
 				( (PersonalContact) mContact ).setDateOfBirth( null );
-			}
-			else
-			{
-				try
-				{
-					synchronized ( FORMAT )
-					{
+			} else {
+				try {
+					synchronized ( FORMAT ) {
 						( (PersonalContact) mContact ).setDateOfBirth( FORMAT.parse( dateOfBirth ) );
 					}
-				}
-				catch ( ParseException e )
-				{
+				} catch ( ParseException e ) {
 					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( getString( R.string.dateError ) ).setMessage( "Unable to recognize date '" + dateOfBirth + "'\n\nPlease re-enter the date" ).setPositiveButton( "OK", null ).show();
 
 					return false;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			( (BusinessContact) mContact ).setCompany( (String) metawidget.getValue( "company" ) );
 			String numberOfStaff = (String) metawidget.getValue( "numberOfStaff" );
 
-			if ( numberOfStaff == null || "".equals( numberOfStaff ) )
-			{
+			if ( numberOfStaff == null || "".equals( numberOfStaff ) ) {
 				( (BusinessContact) mContact ).setNumberOfStaff( 0 );
-			}
-			else
-			{
+			} else {
 				( (BusinessContact) mContact ).setNumberOfStaff( Integer.parseInt( numberOfStaff ) );
 			}
 		}

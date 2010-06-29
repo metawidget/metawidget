@@ -20,14 +20,14 @@ package org.metawidget.gwt.client.widgetprocessor.binding.simple;
  * Adapter around business objects to support <code>SimpleBindingProcessor</code>.
  * <p>
  * All business objects used by <code>SimpleBindingProcessor</code> must be wrapped by a
- * <code>SimpleBindingProcessorAdapter</code>. The supplied <code>SimpleBindingProcessorAdapterGenerator</code>
- * automates the creation of adapters.
+ * <code>SimpleBindingProcessorAdapter</code>. The supplied
+ * <code>SimpleBindingProcessorAdapterGenerator</code> automates the creation of adapters.
  *
  * @author Richard Kennard
  */
 
-public interface SimpleBindingProcessorAdapter<T>
-{
+public interface SimpleBindingProcessorAdapter<T> {
+
 	//
 	// Methods
 	//

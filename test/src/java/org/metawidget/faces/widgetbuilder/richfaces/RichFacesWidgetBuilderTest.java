@@ -56,8 +56,8 @@ import org.richfaces.component.html.HtmlSuggestionBox;
  */
 
 public class RichFacesWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -70,8 +70,8 @@ public class RichFacesWidgetBuilderTest
 
 	@SuppressWarnings( "deprecation" )
 	public void testRichFacesWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		RichFacesWidgetBuilder widgetBuilder = new RichFacesWidgetBuilder();
 
 		// Read-only pass throughs
@@ -201,14 +201,14 @@ public class RichFacesWidgetBuilderTest
 
 		HtmlInputText htmlInputText = (HtmlInputText) stub.getChildren().get( 0 );
 		UISuggestionBox suggestionBox = (UISuggestionBox) stub.getChildren().get( 1 );
-		assertTrue( htmlInputText.getId().startsWith( "suggestionText_" ));
+		assertTrue( htmlInputText.getId().startsWith( "suggestionText_" ) );
 		assertEquals( "aStyle", htmlInputText.getStyle() );
 		assertEquals( "aStyleClass", htmlInputText.getStyleClass() );
-		assertTrue( suggestionBox.getId().startsWith( "suggestionBox_" ));
+		assertTrue( suggestionBox.getId().startsWith( "suggestionBox_" ) );
 		assertEquals( suggestionBox.getFor(), htmlInputText.getId() );
 		assertEquals( "#{foo.bar}", suggestionBox.getSuggestionAction().getExpressionString() );
-		assertTrue( Object.class == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams()[0] );
-		assertTrue( 1 == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams().length );
+		assertTrue( Object.class == ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams()[0] );
+		assertTrue( 1 == ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams().length );
 		assertTrue( suggestionBox.getChildCount() == 1 );
 		assertTrue( suggestionBox.getChildren().get( 0 ) instanceof UIColumn );
 		assertTrue( suggestionBox.getChildren().get( 0 ).getId() != null );
@@ -234,8 +234,8 @@ public class RichFacesWidgetBuilderTest
 
 	@Override
 	protected void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockRichFacesFacesContext();
@@ -243,8 +243,8 @@ public class RichFacesWidgetBuilderTest
 
 	@Override
 	protected void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();
@@ -255,33 +255,29 @@ public class RichFacesWidgetBuilderTest
 	//
 
 	protected static class MockRichFacesFacesContext
-		extends MockFacesContext
-	{
+		extends MockFacesContext {
+
 		//
 		// Protected methods
 		//
 
 		@Override
 		public UIComponent createComponent( String componentName )
-			throws FacesException
-		{
-			if ( "org.richfaces.inputNumberSlider".equals( componentName ) )
-			{
+			throws FacesException {
+
+			if ( "org.richfaces.inputNumberSlider".equals( componentName ) ) {
 				return new HtmlInputNumberSlider();
 			}
 
-			if ( "org.richfaces.inputNumberSpinner".equals( componentName ) )
-			{
+			if ( "org.richfaces.inputNumberSpinner".equals( componentName ) ) {
 				return new HtmlInputNumberSpinner();
 			}
 
-			if ( "org.richfaces.Calendar".equals( componentName ) )
-			{
+			if ( "org.richfaces.Calendar".equals( componentName ) ) {
 				return new HtmlCalendar();
 			}
 
-			if ( "org.richfaces.SuggestionBox".equals( componentName ) )
-			{
+			if ( "org.richfaces.SuggestionBox".equals( componentName ) ) {
 				return new HtmlSuggestionBox();
 			}
 

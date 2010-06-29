@@ -42,8 +42,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 
 public class LiteralTag
-	extends TagSupport
-{
+	extends TagSupport {
+
 	//
 	// Private statics
 	//
@@ -60,8 +60,8 @@ public class LiteralTag
 	// Constructor
 	//
 
-	public LiteralTag( String literal )
-	{
+	public LiteralTag( String literal ) {
+
 		mLiteral = literal;
 	}
 
@@ -71,17 +71,14 @@ public class LiteralTag
 
 	@Override
 	public int doEndTag()
-		throws JspException
-	{
-		try
-		{
+		throws JspException {
+
+		try {
 			JspWriter writer = pageContext.getOut();
 			writer.write( mLiteral );
 
 			return super.doEndTag();
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw new JspException( e );
 		}
 	}

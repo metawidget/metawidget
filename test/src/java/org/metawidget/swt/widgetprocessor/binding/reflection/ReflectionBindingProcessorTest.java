@@ -37,8 +37,8 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class ReflectionBindingProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Package-level members
 	//
@@ -50,8 +50,8 @@ public class ReflectionBindingProcessorTest
 	//
 
 	public void testBinding()
-		throws Exception
-	{
+		throws Exception {
+
 		// Configure
 
 		CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
@@ -70,8 +70,8 @@ public class ReflectionBindingProcessorTest
 		assertTrue( mActionFired == 1 );
 	}
 
-	public void testNullBinding()
-	{
+	public void testNullBinding() {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
@@ -90,16 +90,13 @@ public class ReflectionBindingProcessorTest
 		binding.processWidget( button, ACTION, null, metawidget );
 	}
 
-	public void testBadBinding()
-	{
+	public void testBadBinding() {
+
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
-		try
-		{
+		try {
 			binding.processWidget( new Text( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE ), ACTION, null, null );
-		}
-		catch ( WidgetProcessorException e )
-		{
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "ReflectionBindingProcessor only supports binding actions to Buttons", e.getMessage() );
 		}
 	}
@@ -108,8 +105,8 @@ public class ReflectionBindingProcessorTest
 	// Inner class
 	//
 
-	public class Foo
-	{
+	public class Foo {
+
 		//
 		// Private members
 		//
@@ -120,26 +117,26 @@ public class ReflectionBindingProcessorTest
 		// Public methods
 		//
 
-		public NestedFoo getNestedFoo()
-		{
+		public NestedFoo getNestedFoo() {
+
 			return mNestedFoo;
 		}
 
-		public void setNestedFoo( NestedFoo nestedFoo )
-		{
+		public void setNestedFoo( NestedFoo nestedFoo ) {
+
 			mNestedFoo = nestedFoo;
 		}
 	}
 
-	public class NestedFoo
-	{
+	public class NestedFoo {
+
 		//
 		// Public methods
 		//
 
 		@Action
-		public void doAction()
-		{
+		public void doAction() {
+
 			mActionFired++;
 		}
 	}

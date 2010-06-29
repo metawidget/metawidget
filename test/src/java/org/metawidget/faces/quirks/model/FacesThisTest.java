@@ -27,8 +27,8 @@ import org.metawidget.inspector.faces.UiFacesAttribute;
  * @author Richard Kennard
  */
 
-public class FacesThisTest
-{
+public class FacesThisTest {
+
 	//
 	// Private members
 	//
@@ -41,15 +41,15 @@ public class FacesThisTest
 	// Constructor
 	//
 
-	public FacesThisTest()
-	{
+	public FacesThisTest() {
+
 		mIdentity = "FacesThisTest #1";
 		mChild = new FacesThisTest( true );
 		mChild.mIdentity = "FacesThisTest #2";
 	}
 
-	public FacesThisTest( boolean noMore )
-	{
+	public FacesThisTest( boolean noMore ) {
+
 		// No more children
 	}
 
@@ -64,30 +64,30 @@ public class FacesThisTest
 	 */
 
 	@UiFacesAttribute( name = LABEL, expression = "#{this.identity}" )
-	public String getMe()
-	{
+	public String getMe() {
+
 		return null;
 	}
 
 	@UiHidden
-	public FacesThisTest getChild()
-	{
+	public FacesThisTest getChild() {
+
 		return mChild;
 	}
 
-	public void setChild( FacesThisTest child )
-	{
+	public void setChild( FacesThisTest child ) {
+
 		this.mChild = child;
 	}
 
 	@UiHidden
-	public String getIdentity()
-	{
+	public String getIdentity() {
+
 		return this.mIdentity;
 	}
 
-	public void setIdentity( String identity )
-	{
+	public void setIdentity( String identity ) {
+
 		this.mIdentity = identity;
 	}
 }

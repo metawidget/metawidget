@@ -31,8 +31,8 @@ import java.util.Date;
  */
 
 public class AllWidgets
-	implements Serializable
-{
+	implements Serializable {
+
 	//
 	// Private statics
 	//
@@ -132,8 +132,8 @@ public class AllWidgets
 	// Constructor
 	//
 
-	public AllWidgets()
-	{
+	public AllWidgets() {
+
 		// Test two levels of nesting
 
 		mNestedWidgets.setFurtherNestedWidgets( new NestedWidgets() );
@@ -143,338 +143,338 @@ public class AllWidgets
 	// Public methods
 	//
 
-	public String getTextbox()
-	{
+	public String getTextbox() {
+
 		return mTextbox;
 	}
 
-	public void setTextbox( String textbox )
-	{
+	public void setTextbox( String textbox ) {
+
 		mTextbox = textbox;
 	}
 
-	public String getLimitedTextbox()
-	{
+	public String getLimitedTextbox() {
+
 		return mLimitedTextbox;
 	}
 
-	public void setLimitedTextbox( String limitedTextbox )
-	{
+	public void setLimitedTextbox( String limitedTextbox ) {
+
 		mLimitedTextbox = limitedTextbox;
 	}
 
-	public String getTextarea()
-	{
+	public String getTextarea() {
+
 		return mTextarea;
 	}
 
-	public void setTextarea( String textarea )
-	{
+	public void setTextarea( String textarea ) {
+
 		mTextarea = textarea;
 	}
 
-	public String getPassword()
-	{
+	public String getPassword() {
+
 		return mPassword;
 	}
 
-	public void setPassword( String password )
-	{
+	public void setPassword( String password ) {
+
 		mPassword = password;
 	}
 
-	public byte getByte()
-	{
+	public byte getByte() {
+
 		return mByte;
 	}
 
-	public void setByte( byte aByte )
-	{
+	public void setByte( byte aByte ) {
+
 		mByte = aByte;
 	}
 
-	public Byte getByteObject()
-	{
+	public Byte getByteObject() {
+
 		return mByteObject;
 	}
 
-	public void setByteObject( Byte object )
-	{
+	public void setByteObject( Byte object ) {
+
 		mByteObject = object;
 	}
 
-	public short getShort()
-	{
+	public short getShort() {
+
 		return mShort;
 	}
 
-	public void setShort( short aShort )
-	{
+	public void setShort( short aShort ) {
+
 		mShort = aShort;
 	}
 
-	public Short getShortObject()
-	{
+	public Short getShortObject() {
+
 		return mShortObject;
 	}
 
-	public void setShortObject( Short object )
-	{
+	public void setShortObject( Short object ) {
+
 		mShortObject = object;
 	}
 
-	public int getInt()
-	{
+	public int getInt() {
+
 		return mInt;
 	}
 
-	public void setInt( int anInt )
-	{
+	public void setInt( int anInt ) {
+
 		mInt = anInt;
 	}
 
-	public Integer getIntegerObject()
-	{
+	public Integer getIntegerObject() {
+
 		return mIntegerObject;
 	}
 
-	public void setIntegerObject( Integer integerObject )
-	{
+	public void setIntegerObject( Integer integerObject ) {
+
 		mIntegerObject = integerObject;
 	}
 
-	public int getRangedInt()
-	{
+	public int getRangedInt() {
+
 		return mRangedInt;
 	}
 
-	public void setRangedInt( int rangedInt )
-	{
+	public void setRangedInt( int rangedInt ) {
+
 		mRangedInt = rangedInt;
 	}
 
-	public Integer getRangedInteger()
-	{
+	public Integer getRangedInteger() {
+
 		return mRangedInteger;
 	}
 
-	public void setRangedInteger( Integer rangedInteger )
-	{
+	public void setRangedInteger( Integer rangedInteger ) {
+
 		mRangedInteger = rangedInteger;
 	}
 
-	public long getLong()
-	{
+	public long getLong() {
+
 		return mLong;
 	}
 
-	public void setLong( long aLong )
-	{
+	public void setLong( long aLong ) {
+
 		mLong = aLong;
 	}
 
-	public Long getLongObject()
-	{
+	public Long getLongObject() {
+
 		return mLongObject;
 	}
 
-	public void setLongObject( Long longObject )
-	{
+	public void setLongObject( Long longObject ) {
+
 		mLongObject = longObject;
 	}
 
-	public float getFloat()
-	{
+	public float getFloat() {
+
 		return mFloat;
 	}
 
-	public void setFloat( float aFloat )
-	{
+	public void setFloat( float aFloat ) {
+
 		mFloat = aFloat;
 	}
 
-	public Float getFloatObject()
-	{
+	public Float getFloatObject() {
+
 		return mFloatObject;
 	}
 
-	public void setFloatObject( Float object )
-	{
+	public void setFloatObject( Float object ) {
+
 		mFloatObject = object;
 	}
 
-	public double getDouble()
-	{
+	public double getDouble() {
+
 		return mDouble;
 	}
 
-	public void setDouble( double aDouble )
-	{
+	public void setDouble( double aDouble ) {
+
 		mDouble = aDouble;
 	}
 
-	public Double getDoubleObject()
-	{
+	public Double getDoubleObject() {
+
 		return mDoubleObject;
 	}
 
-	public void setDoubleObject( Double object )
-	{
+	public void setDoubleObject( Double object ) {
+
 		mDoubleObject = object;
 	}
 
-	public char getChar()
-	{
+	public char getChar() {
+
 		return mChar;
 	}
 
-	public void setChar( char aChar )
-	{
+	public void setChar( char aChar ) {
+
 		mChar = aChar;
 	}
 
-	public boolean isBoolean()
-	{
+	public boolean isBoolean() {
+
 		return mBoolean;
 	}
 
-	public void setBoolean( boolean aBoolean )
-	{
+	public void setBoolean( boolean aBoolean ) {
+
 		mBoolean = aBoolean;
 	}
 
-	public Boolean getBooleanObject()
-	{
+	public Boolean getBooleanObject() {
+
 		return mBooleanObject;
 	}
 
-	public void setBooleanObject( Boolean object )
-	{
+	public void setBooleanObject( Boolean object ) {
+
 		mBooleanObject = object;
 	}
 
-	public String getDropdown()
-	{
+	public String getDropdown() {
+
 		return mDropdown;
 	}
 
-	public void setDropdown( String dropdown )
-	{
+	public void setDropdown( String dropdown ) {
+
 		mDropdown = dropdown;
 	}
 
-	public String getDropdownWithLabels()
-	{
+	public String getDropdownWithLabels() {
+
 		return mDropdownWithLabels;
 	}
 
-	public void setDropdownWithLabels( String dropdownWithLabels )
-	{
+	public void setDropdownWithLabels( String dropdownWithLabels ) {
+
 		mDropdownWithLabels = dropdownWithLabels;
 	}
 
-	public byte getNotNullDropdown()
-	{
+	public byte getNotNullDropdown() {
+
 		return mNotNullDropdown;
 	}
 
-	public void setNotNullDropdown( byte notNullDropdown )
-	{
+	public void setNotNullDropdown( byte notNullDropdown ) {
+
 		mNotNullDropdown = notNullDropdown;
 	}
 
-	public String getNotNullObjectDropdown()
-	{
+	public String getNotNullObjectDropdown() {
+
 		return mNotNullObjectDropdown;
 	}
 
-	public void setNotNullObjectDropdown( String notNullObjectDropdown )
-	{
+	public void setNotNullObjectDropdown( String notNullObjectDropdown ) {
+
 		mNotNullObjectDropdown = notNullObjectDropdown;
 	}
 
-	public NestedWidgets getNestedWidgets()
-	{
+	public NestedWidgets getNestedWidgets() {
+
 		return mNestedWidgets;
 	}
 
-	public void setNestedWidgets( NestedWidgets nestedWidgets )
-	{
+	public void setNestedWidgets( NestedWidgets nestedWidgets ) {
+
 		mNestedWidgets = nestedWidgets;
 	}
 
-	public NestedWidgets getReadOnlyNestedWidgets()
-	{
+	public NestedWidgets getReadOnlyNestedWidgets() {
+
 		return mReadOnlyNestedWidgets;
 	}
 
-	public void setReadOnlyNestedWidgets( NestedWidgets readOnlyNestedWidgets )
-	{
+	public void setReadOnlyNestedWidgets( NestedWidgets readOnlyNestedWidgets ) {
+
 		mReadOnlyNestedWidgets = readOnlyNestedWidgets;
 	}
 
-	public NestedWidgets getNestedWidgetsDontExpand()
-	{
+	public NestedWidgets getNestedWidgetsDontExpand() {
+
 		return mNestedWidgetsDontExpand;
 	}
 
-	public void setNestedWidgetsDontExpand( NestedWidgets nestedWidgetsDontExpand )
-	{
+	public void setNestedWidgetsDontExpand( NestedWidgets nestedWidgetsDontExpand ) {
+
 		mNestedWidgetsDontExpand = nestedWidgetsDontExpand;
 	}
 
-	public NestedWidgets getReadOnlyNestedWidgetsDontExpand()
-	{
+	public NestedWidgets getReadOnlyNestedWidgetsDontExpand() {
+
 		return mReadOnlyNestedWidgetsDontExpand;
 	}
 
-	public Date getDate()
-	{
+	public Date getDate() {
+
 		return mDate;
 	}
 
-	public void setDate( Date date )
-	{
+	public void setDate( Date date ) {
+
 		mDate = date;
 	}
 
-	public String getHidden()
-	{
+	public String getHidden() {
+
 		return mHidden;
 	}
 
-	public void setHidden( String hidden )
-	{
+	public void setHidden( String hidden ) {
+
 		mHidden = hidden;
 	}
 
-	public String getReadOnly()
-	{
+	public String getReadOnly() {
+
 		return mReadOnly;
 	}
 
-	public void setReadOnly( String readOnly )
-	{
+	public void setReadOnly( String readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 
 	/**
-	 * The ArrayList is defined as a 'Collection' at the getter/setter level, to test 'actual' versus
-	 * 'declared' types.
+	 * The ArrayList is defined as a 'Collection' at the getter/setter level, to test 'actual'
+	 * versus 'declared' types.
 	 */
 
-	public Collection<String> getCollection()
-	{
+	public Collection<String> getCollection() {
+
 		return mCollection;
 	}
 
-	public void setCollection( Collection<String> collection )
-	{
+	public void setCollection( Collection<String> collection ) {
+
 		mCollection = collection;
 	}
 
-	public void doAction()
-	{
+	public void doAction() {
+
 		// Throw an Exception so that unit tests can catch it
 
 		throw new RuntimeException( "doAction called" );
@@ -485,8 +485,8 @@ public class AllWidgets
 	//
 
 	public static class NestedWidgets
-		implements Serializable
-	{
+		implements Serializable {
+
 		//
 		//
 		// Private statics
@@ -513,39 +513,39 @@ public class AllWidgets
 		//
 		//
 
-		public String getNestedTextbox1()
-		{
+		public String getNestedTextbox1() {
+
 			return mNestedTextbox1;
 		}
 
-		public void setNestedTextbox1( String nestedTextbox1 )
-		{
+		public void setNestedTextbox1( String nestedTextbox1 ) {
+
 			mNestedTextbox1 = nestedTextbox1;
 		}
 
-		public String getNestedTextbox2()
-		{
+		public String getNestedTextbox2() {
+
 			return mNestedTextbox2;
 		}
 
-		public void setNestedTextbox2( String nestedTextbox2 )
-		{
+		public void setNestedTextbox2( String nestedTextbox2 ) {
+
 			mNestedTextbox2 = nestedTextbox2;
 		}
 
-		public NestedWidgets getFurtherNestedWidgets()
-		{
+		public NestedWidgets getFurtherNestedWidgets() {
+
 			return mFurtherNestedWidgets;
 		}
 
-		public void setFurtherNestedWidgets( NestedWidgets furtherNestedWidgets )
-		{
+		public void setFurtherNestedWidgets( NestedWidgets furtherNestedWidgets ) {
+
 			mFurtherNestedWidgets = furtherNestedWidgets;
 		}
 
 		@Override
-		public String toString()
-		{
+		public String toString() {
+
 			return mNestedTextbox1 + ", " + mNestedTextbox2;
 		}
 	}

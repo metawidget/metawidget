@@ -41,45 +41,40 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class TomahawkWidgetBuilder
-	implements WidgetBuilder<UIComponent, UIMetawidget>
-{
+	implements WidgetBuilder<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
-	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Not for Tomahawk?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return null;
 		}
 
-		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
-		{
+		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) ) {
 			return null;
 		}
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			return null;
 		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz == null )
-		{
+		if ( clazz == null ) {
 			return null;
 		}
 
 		// HtmlInputFileUpload
 
-		if ( UploadedFile.class.isAssignableFrom( clazz ) )
-		{
+		if ( UploadedFile.class.isAssignableFrom( clazz ) ) {
 			return application.createComponent( "org.apache.myfaces.HtmlInputFileUpload" );
 		}
 

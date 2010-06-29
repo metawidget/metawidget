@@ -35,16 +35,16 @@ import org.w3c.dom.Element;
  */
 
 public class JpaInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		JpaInspector inspector = new JpaInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -81,11 +81,11 @@ public class JpaInspectorTest
 		assertTrue( property.getAttributes().getLength() == 3 );
 	}
 
-	public void testHideIds()
-	{
+	public void testHideIds() {
+
 		JpaInspectorConfig config = new JpaInspectorConfig().setHideIds( false );
 		JpaInspector inspector = new JpaInspector( config );
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		Element entity = (Element) document.getFirstChild().getFirstChild();
@@ -97,7 +97,7 @@ public class JpaInspectorTest
 		config = new JpaInspectorConfig();
 		config.setHideIds( true );
 		inspector = new JpaInspector( config );
-		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 		entity = (Element) document.getFirstChild().getFirstChild();
@@ -108,10 +108,9 @@ public class JpaInspectorTest
 		assertTrue( property.getAttributes().getLength() == 2 );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( JpaInspectorConfig.class, new JpaInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( JpaInspectorConfig.class, new JpaInspectorConfig() {
 			// Subclass
 		} );
 	}
@@ -120,11 +119,11 @@ public class JpaInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@Id
 		@Column
-		public String id;
+		public String	id;
 
 		@Column( nullable = false, length = 10 )
 		public String	bar;

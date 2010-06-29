@@ -59,14 +59,14 @@ import org.metawidget.inspector.xml.XmlInspectorTest;
  */
 
 public class InspectorTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "Inspector Tests" );
 		suite.addTestSuite( BaseObjectInspectorTest.class );
 		suite.addTestSuite( BasePropertyStyleTest.class );

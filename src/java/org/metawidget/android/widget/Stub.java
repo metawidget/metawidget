@@ -46,8 +46,8 @@ import android.widget.LinearLayout;
  */
 
 public class Stub
-	extends LinearLayout
-{
+	extends LinearLayout {
+
 	//
 	// Private statics
 	//
@@ -64,34 +64,31 @@ public class Stub
 	// Constructor
 	//
 
-	public Stub( Context context )
-	{
+	public Stub( Context context ) {
+
 		super( context );
 	}
 
-	public Stub( Context context, AttributeSet attributes )
-	{
+	public Stub( Context context, AttributeSet attributes ) {
+
 		super( context, attributes );
 
 		setTag( attributes.getAttributeValue( null, "tag" ) );
 
 		// For each attribute...
 
-		for ( int loop = 0, length = attributes.getAttributeCount(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = attributes.getAttributeCount(); loop < length; loop++ ) {
 			// ...that looks like a stub attribute...
 
 			String name = attributes.getAttributeName( loop );
 
-			if ( !name.startsWith( ATTRIBUTE_PREFIX ) )
-			{
+			if ( !name.startsWith( ATTRIBUTE_PREFIX ) ) {
 				continue;
 			}
 
 			name = name.substring( ATTRIBUTE_PREFIX.length() );
 
-			if ( !StringUtils.isFirstLetterUppercase( name ) )
-			{
+			if ( !StringUtils.isFirstLetterUppercase( name ) ) {
 				continue;
 			}
 
@@ -106,18 +103,17 @@ public class Stub
 	// Public methods
 	//
 
-	public void setAttribute( String name, String value )
-	{
-		if ( mAttributes == null )
-		{
+	public void setAttribute( String name, String value ) {
+
+		if ( mAttributes == null ) {
 			mAttributes = CollectionUtils.newHashMap();
 		}
 
 		mAttributes.put( name, value );
 	}
 
-	public Map<String, String> getAttributes()
-	{
+	public Map<String, String> getAttributes() {
+
 		return mAttributes;
 	}
 }

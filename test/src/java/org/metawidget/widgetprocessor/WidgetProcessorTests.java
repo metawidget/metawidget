@@ -27,14 +27,14 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorExceptionTest;
  */
 
 public class WidgetProcessorTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "WidgetProcessor Tests" );
 		suite.addTestSuite( WidgetProcessorExceptionTest.class );
 

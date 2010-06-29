@@ -28,8 +28,8 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public final class SimpleLayoutUtils
-{
+public final class SimpleLayoutUtils {
+
 	//
 	// Public methods
 	//
@@ -38,20 +38,17 @@ public final class SimpleLayoutUtils
 	 * Returns true if the field is 'large' or 'wide'.
 	 */
 
-	public static boolean isSpanAllColumns( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public static boolean isSpanAllColumns( Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return false;
 		}
 
-		if ( TRUE.equals( attributes.get( LARGE ) ) )
-		{
+		if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;
 		}
 
-		if ( TRUE.equals( attributes.get( WIDE ) ) )
-		{
+		if ( TRUE.equals( attributes.get( WIDE ) ) ) {
 			return true;
 		}
 
@@ -62,20 +59,17 @@ public final class SimpleLayoutUtils
 	 * Returns true if the label is blank or if the element is an 'action'.
 	 */
 
-	public static boolean needsLabel( String labelText, String elementName )
-	{
-		if ( labelText == null )
-		{
+	public static boolean needsLabel( String labelText, String elementName ) {
+
+		if ( labelText == null ) {
 			return false;
 		}
 
-		if ( labelText.trim().length() == 0 )
-		{
+		if ( labelText.trim().length() == 0 ) {
 			return false;
 		}
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return false;
 		}
 
@@ -86,8 +80,8 @@ public final class SimpleLayoutUtils
 	// Private constructor
 	//
 
-	private SimpleLayoutUtils()
-	{
+	private SimpleLayoutUtils() {
+
 		// Can never be called
 	}
 }

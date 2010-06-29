@@ -26,8 +26,8 @@ import javax.swing.JFrame;
  */
 
 public class MainFrame
-	extends JFrame
-{
+	extends JFrame {
+
 	//
 	// Private statics
 	//
@@ -38,8 +38,8 @@ public class MainFrame
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		MainFrame frame = new MainFrame();
 		frame.pack();
 		frame.setVisible( true );
@@ -55,8 +55,8 @@ public class MainFrame
 	// Constructor
 	//
 
-	public MainFrame()
-	{
+	public MainFrame() {
+
 		super( "Address Book (Metawidget Swing Example)" );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		getContentPane().setBackground( Color.white );
@@ -83,8 +83,8 @@ public class MainFrame
 	 * Used by Unit Tests.
 	 */
 
-	public AddressBook getAddressBook()
-	{
+	public AddressBook getAddressBook() {
+
 		return mAddressBook;
 	}
 }

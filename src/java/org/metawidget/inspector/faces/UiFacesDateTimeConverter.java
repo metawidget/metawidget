@@ -29,8 +29,8 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesDateTimeConverter
-{
+public @interface UiFacesDateTimeConverter {
+
 	String dateStyle() default "";
 
 	String locale() default "";

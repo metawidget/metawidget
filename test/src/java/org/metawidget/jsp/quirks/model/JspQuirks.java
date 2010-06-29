@@ -22,25 +22,25 @@ package org.metawidget.jsp.quirks.model;
  * @author Richard Kennard
  */
 
-public class JspQuirks
-{
+public class JspQuirks {
+
 	//
 	// Private members
 	//
 
-	private String						mStubOut;
+	private String	mStubOut;
 
 	//
 	// Public methods
 	//
 
-	public String getStubOut()
-	{
+	public String getStubOut() {
+
 		return mStubOut;
 	}
 
-	public void setStubOut( String stubOut )
-	{
+	public void setStubOut( String stubOut ) {
+
 		mStubOut = stubOut;
 	}
 }

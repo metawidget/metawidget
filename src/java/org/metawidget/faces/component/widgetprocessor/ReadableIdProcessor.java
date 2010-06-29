@@ -54,50 +54,44 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 @SuppressWarnings( "deprecation" )
 public class ReadableIdProcessor
-	implements AdvancedWidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements AdvancedWidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public void onStartBuild( UIMetawidget metawidget )
-	{
+	public void onStartBuild( UIMetawidget metawidget ) {
+
 		metawidget.putClientProperty( ReadableIdProcessor.class, null );
 	}
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Does widget need an id?
 		//
 		// Note: it is very dangerous to reassign an id if the widget already has one,
 		// as it will create duplicates in the child component list
 
-		if ( component.getId() != null )
-		{
+		if ( component.getId() != null ) {
 			return component;
 		}
 
 		// Base action ids on the methodBinding
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			MethodBinding methodBinding = ( (ActionSource) component ).getAction();
 
-			if ( methodBinding != null )
-			{
+			if ( methodBinding != null ) {
 				setUniqueId( component, methodBinding.getExpressionString(), metawidget );
 			}
-		}
-		else
-		{
+		} else {
 			// Base property ids on the valueBinding
 
 			ValueBinding valueBinding = component.getValueBinding( "value" );
 
-			if ( valueBinding != null )
-			{
+			if ( valueBinding != null ) {
 				setUniqueId( component, valueBinding.getExpressionString(), metawidget );
 			}
 		}
@@ -106,8 +100,8 @@ public class ReadableIdProcessor
 	}
 
 	@Override
-	public void onEndBuild( UIMetawidget metawidget )
-	{
+	public void onEndBuild( UIMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
@@ -115,21 +109,20 @@ public class ReadableIdProcessor
 	// Protected methods
 	//
 
-	protected void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget )
-	{
+	protected void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget ) {
+
 		String id = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
 		setUniqueId( id, component, metawidget );
 	}
 
-	protected void setUniqueId( String id, UIComponent component, UIMetawidget metawidget )
-	{
+	protected void setUniqueId( String id, UIComponent component, UIMetawidget metawidget ) {
+
 		String originalId = id;
 
 		// Suffix nested Metawidgets/Stubs, because otherwise if they only expand to a single child
 		// they will give that child component a '_2' suffixed id
 
-		if ( component instanceof UIMetawidget )
-		{
+		if ( component instanceof UIMetawidget ) {
 			originalId += "_Metawidget";
 		}
 
@@ -139,10 +132,8 @@ public class ReadableIdProcessor
 		String nonDuplicateId = originalId;
 		int suffix = 1;
 
-		while ( true )
-		{
-			if ( clientIds.add( nonDuplicateId ) )
-			{
+		while ( true ) {
+			if ( clientIds.add( nonDuplicateId ) ) {
 				break;
 			}
 
@@ -152,35 +143,28 @@ public class ReadableIdProcessor
 
 		// Support stubs
 
-		if ( component instanceof UIStub )
-		{
+		if ( component instanceof UIStub ) {
 			List<UIComponent> children = component.getChildren();
 
-			if ( !children.isEmpty() )
-			{
+			if ( !children.isEmpty() ) {
 				int childSuffix = 1;
 
-				for ( UIComponent childComponent : children )
-				{
+				for ( UIComponent childComponent : children ) {
 					// Does widget need an id?
 					//
 					// Note: it is very dangerous to reassign an id if the widget already has one,
 					// as it will create duplicates in the child component list
 
-					if ( childComponent.getId() != null )
-					{
+					if ( childComponent.getId() != null ) {
 						continue;
 					}
 
 					// Give the first Stub component the same id as the original. This is 'cleaner'
 					// as the Stub's id never makes it to the output HTML
 
-					if ( childSuffix > 1 )
-					{
+					if ( childSuffix > 1 ) {
 						childComponent.setId( nonDuplicateId + '_' + childSuffix );
-					}
-					else
-					{
+					} else {
 						childComponent.setId( nonDuplicateId );
 					}
 
@@ -207,12 +191,11 @@ public class ReadableIdProcessor
 	 * Gets client ids of existing children, so as to avoid naming clashes.
 	 */
 
-	private Set<String> getClientIds( UIMetawidget metawidget )
-	{
+	private Set<String> getClientIds( UIMetawidget metawidget ) {
+
 		Set<String> clientIds = metawidget.getClientProperty( ReadableIdProcessor.class );
 
-		if ( clientIds == null )
-		{
+		if ( clientIds == null ) {
 			// (cache in the metawidget because this could be expensive)
 
 			clientIds = CollectionUtils.newHashSet();
@@ -224,15 +207,13 @@ public class ReadableIdProcessor
 		return clientIds;
 	}
 
-	private void getClientIds( UIComponent component, Set<String> clientIds )
-	{
-		for ( Iterator<UIComponent> i = component.getFacetsAndChildren(); i.hasNext(); )
-		{
+	private void getClientIds( UIComponent component, Set<String> clientIds ) {
+
+		for ( Iterator<UIComponent> i = component.getFacetsAndChildren(); i.hasNext(); ) {
 			UIComponent childComponent = i.next();
 			String id = childComponent.getId();
 
-			if ( id != null )
-			{
+			if ( id != null ) {
 				clientIds.add( id );
 			}
 

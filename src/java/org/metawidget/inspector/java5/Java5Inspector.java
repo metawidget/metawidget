@@ -37,19 +37,19 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class Java5Inspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public Java5Inspector()
-	{
+	public Java5Inspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public Java5Inspector( BaseObjectInspectorConfig config )
-	{
+	public Java5Inspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -58,21 +58,20 @@ public class Java5Inspector
 	//
 
 	@Override
-	protected boolean shouldInspectPropertyAsEntity( Property property )
-	{
+	protected boolean shouldInspectPropertyAsEntity( Property property ) {
+
 		return true;
 	}
 
 	@Override
 	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Enums - classToInspect may an Enum type or an enum instance type (ie. Foo$1)
 
-		if ( Enum.class.isAssignableFrom( actualClass ) )
-		{
+		if ( Enum.class.isAssignableFrom( actualClass ) ) {
 			// Invoke 'magic' values method
 			//
 			// This actually proved more reliable than using 'getEnumConstants', as that
@@ -88,8 +87,7 @@ public class Java5Inspector
 			List<String> lookup = CollectionUtils.newArrayList();
 			List<String> lookupLabels = CollectionUtils.newArrayList();
 
-			for ( Enum<?> anEnum : enums )
-			{
+			for ( Enum<?> anEnum : enums ) {
 				// Convert enum values to their .name() form, not their .toString()
 				// form, so that clients can use .valueOf() to convert them back
 
@@ -104,12 +102,9 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			if ( actualClass.isEnum() )
-			{
+			if ( actualClass.isEnum() ) {
 				attributes.put( TYPE, actualClass.getName() );
-			}
-			else
-			{
+			} else {
 				attributes.put( TYPE, actualClass.getSuperclass().getName() );
 			}
 		}
@@ -119,52 +114,41 @@ public class Java5Inspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Generics
 
 		Type type = property.getGenericType();
 
-		if ( type instanceof ParameterizedType )
-		{
+		if ( type instanceof ParameterizedType ) {
 			Type[] typeActuals = null;
 
-			try
-			{
+			try {
 				typeActuals = ( (ParameterizedType) type ).getActualTypeArguments();
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				// Android 1.1_r1 fails here with a ClassNotFoundException
 			}
 
-			if ( typeActuals != null && typeActuals.length > 0 )
-			{
+			if ( typeActuals != null && typeActuals.length > 0 ) {
 				StringBuilder builder = new StringBuilder();
 
-				for ( Type typeActual : typeActuals )
-				{
+				for ( Type typeActual : typeActuals ) {
 					// Android 1.1_r1 sometimes provides null typeActuals while
 					// testing the AddressBook application
 
-					if ( typeActual == null )
-					{
+					if ( typeActual == null ) {
 						continue;
 					}
 
-					if ( builder.length() > 0 )
-					{
+					if ( builder.length() > 0 ) {
 						builder.append( StringUtils.SEPARATOR_COMMA );
 					}
 
-					if ( typeActual instanceof Class<?> )
-					{
+					if ( typeActual instanceof Class<?> ) {
 						builder.append( ( (Class<?>) typeActual ).getName() );
-					}
-					else
-					{
+					} else {
 						builder.append( typeActual.toString() );
 					}
 				}

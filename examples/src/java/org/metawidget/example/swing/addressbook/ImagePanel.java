@@ -28,8 +28,8 @@ import javax.swing.JPanel;
  */
 
 public class ImagePanel
-	extends JPanel
-{
+	extends JPanel {
+
 	//
 	// Private statics
 	//
@@ -46,8 +46,8 @@ public class ImagePanel
 	// Constructor
 	//
 
-	public ImagePanel()
-	{
+	public ImagePanel() {
+
 		setOpaque( false );
 	}
 
@@ -55,14 +55,14 @@ public class ImagePanel
 	// Public methods
 	//
 
-	public void setImage( URL url )
-	{
+	public void setImage( URL url ) {
+
 		mImage = new ImageIcon( url ).getImage();
 	}
 
 	@Override
-	public void paint( Graphics graphics )
-	{
+	public void paint( Graphics graphics ) {
+
 		graphics.drawImage( mImage, 0, 0, mImage.getWidth( null ), mImage.getHeight( null ), null );
 
 		super.paint( graphics );

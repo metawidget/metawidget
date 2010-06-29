@@ -30,8 +30,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class TestInspectorConfig
-{
+public class TestInspectorConfig {
+
 	//
 	// Public statics
 	//
@@ -70,196 +70,184 @@ public class TestInspectorConfig
 	// Public methods
 	//
 
-	public void setList( List<Object> list )
-	{
+	public void setList( List<Object> list ) {
+
 		mList = list;
 	}
 
-	public List<Object> getList()
-	{
+	public List<Object> getList() {
+
 		return mList;
 	}
 
-	public void setSet( Set<Object> set )
-	{
+	public void setSet( Set<Object> set ) {
+
 		mSet = set;
 	}
 
-	public Set<Object> getSet()
-	{
+	public Set<Object> getSet() {
+
 		return mSet;
 	}
 
-	public void setInt( int anInt )
-	{
+	public void setInt( int anInt ) {
+
 		mInt = anInt;
 	}
 
-	public int getConstant()
-	{
+	public int getConstant() {
+
 		return mConstant;
 	}
 
-	public void setConstant( int constant )
-	{
+	public void setConstant( int constant ) {
+
 		mConstant = constant;
 	}
 
-	public int getExternalConstant()
-	{
+	public int getExternalConstant() {
+
 		return mExternalConstant;
 	}
 
-	public void setExternalConstant( int externalConstant )
-	{
+	public void setExternalConstant( int externalConstant ) {
+
 		mExternalConstant = externalConstant;
 	}
 
-	public int getInt()
-	{
+	public int getInt() {
+
 		return mInt;
 	}
 
-	public boolean isBoolean()
-	{
+	public boolean isBoolean() {
+
 		return mBoolean;
 	}
 
-	public void setBoolean( boolean aBoolean )
-	{
+	public void setBoolean( boolean aBoolean ) {
+
 		mBoolean = aBoolean;
 	}
 
-	public Pattern getPattern()
-	{
+	public Pattern getPattern() {
+
 		return mPattern;
 	}
 
-	public void setPattern( Pattern pattern )
-	{
+	public void setPattern( Pattern pattern ) {
+
 		mPattern = pattern;
 	}
 
-	public InputStream getInputStream()
-	{
+	public InputStream getInputStream() {
+
 		return mInputStream;
 	}
 
-	public void setInputStream( InputStream inputStream )
-	{
+	public void setInputStream( InputStream inputStream ) {
+
 		mInputStream = inputStream;
 	}
 
-	public ResourceBundle getResourceBundle()
-	{
+	public ResourceBundle getResourceBundle() {
+
 		return mResourceBundle;
 	}
 
-	public void setResourceBundle( ResourceBundle resourceBundle )
-	{
+	public void setResourceBundle( ResourceBundle resourceBundle ) {
+
 		mResourceBundle = resourceBundle;
 	}
 
-	public String[] getStringArray()
-	{
+	public String[] getStringArray() {
+
 		return mStringArray;
 	}
 
-	public void setStringArray( String[] stringArray )
-	{
+	public void setStringArray( String[] stringArray ) {
+
 		mStringArray = stringArray;
 	}
 
-	public Gender getGender()
-	{
+	public Gender getGender() {
+
 		return mGender;
 	}
 
-	public void setGender( Gender gender )
-	{
+	public void setGender( Gender gender ) {
+
 		mGender = gender;
 	}
 
-	public void setFailDuringConstruction( boolean failDuringConstruction )
-	{
+	public void setFailDuringConstruction( boolean failDuringConstruction ) {
+
 		mFailDuringConstruction = true;
 	}
 
-	public boolean isFailDuringConstruction()
-	{
+	public boolean isFailDuringConstruction() {
+
 		return mFailDuringConstruction;
 	}
 
-	public void setDate( Date date )
-	{
+	public void setDate( Date date ) {
+
 		// Test unsupported types
 	}
 
-	public void setNoParameters()
-	{
+	public void setNoParameters() {
+
 		throw new UnsupportedOperationException( "Called setNoParameters" );
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mList, ( (TestInspectorConfig) that ).mList ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mList, ( (TestInspectorConfig) that ).mList ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mSet, ( (TestInspectorConfig) that ).mSet ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mSet, ( (TestInspectorConfig) that ).mSet ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mInt, ( (TestInspectorConfig) that ).mInt ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mInt, ( (TestInspectorConfig) that ).mInt ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mBoolean, ( (TestInspectorConfig) that ).mBoolean ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mBoolean, ( (TestInspectorConfig) that ).mBoolean ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mPattern, ( (TestInspectorConfig) that ).mPattern ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mPattern, ( (TestInspectorConfig) that ).mPattern ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mInputStream, ( (TestInspectorConfig) that ).mInputStream ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mInputStream, ( (TestInspectorConfig) that ).mInputStream ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceBundle, ( (TestInspectorConfig) that ).mResourceBundle ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mResourceBundle, ( (TestInspectorConfig) that ).mResourceBundle ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mStringArray, ( (TestInspectorConfig) that ).mStringArray ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mStringArray, ( (TestInspectorConfig) that ).mStringArray ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mFailDuringConstruction, ( (TestInspectorConfig) that ).mFailDuringConstruction ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mFailDuringConstruction, ( (TestInspectorConfig) that ).mFailDuringConstruction ) ) {
 			return false;
 		}
 
@@ -267,8 +255,8 @@ public class TestInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mList );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSet );

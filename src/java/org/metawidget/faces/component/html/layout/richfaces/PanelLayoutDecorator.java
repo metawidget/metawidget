@@ -39,8 +39,8 @@ import org.richfaces.component.html.HtmlPanel;
  */
 
 public class PanelLayoutDecorator
-	extends UIComponentNestedSectionLayoutDecorator
-{
+	extends UIComponentNestedSectionLayoutDecorator {
+
 	//
 	// Private members
 	//
@@ -53,8 +53,8 @@ public class PanelLayoutDecorator
 	// Constructor
 	//
 
-	public PanelLayoutDecorator( PanelLayoutDecoratorConfig config )
-	{
+	public PanelLayoutDecorator( PanelLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mStyle = config.getStyle();
@@ -66,8 +66,8 @@ public class PanelLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
-	{
+	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
@@ -82,8 +82,7 @@ public class PanelLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

@@ -46,27 +46,26 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
  */
 
 public class JGoodiesValidatorProcessor
-	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>
-{
+	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public void onStartBuild( SwingMetawidget metawidget )
-	{
+	public void onStartBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public JComponent processWidget( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent processWidget( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		// Required?
 
 		boolean required = ( TRUE.equals( attributes.get( REQUIRED ) ) );
 
-		if ( required )
-		{
+		if ( required ) {
 			ValidationComponentUtils.setMandatory( component, true );
 		}
 
@@ -75,24 +74,19 @@ public class JGoodiesValidatorProcessor
 		String path = metawidget.getPath();
 		String name = attributes.get( NAME );
 
-		if ( PROPERTY.equals( elementName ) )
-		{
+		if ( PROPERTY.equals( elementName ) ) {
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
 		}
 
 		Validator<?> validator = getValidator( component, attributes, path );
 
-		if ( validator == null )
-		{
+		if ( validator == null ) {
 			// Do not attachValidator if no validator and not required
 
-			if ( !required )
-			{
+			if ( !required ) {
 				return component;
 			}
-		}
-		else
-		{
+		} else {
 			ValidationComponentUtils.setMessageKey( component, name );
 		}
 
@@ -104,8 +98,8 @@ public class JGoodiesValidatorProcessor
 	}
 
 	@Override
-	public void onEndBuild( SwingMetawidget metawidget )
-	{
+	public void onEndBuild( SwingMetawidget metawidget ) {
+
 		ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( metawidget );
 		ValidationComponentUtils.updateComponentTreeMandatoryBorder( metawidget );
 	}
@@ -118,8 +112,8 @@ public class JGoodiesValidatorProcessor
 	 * Return the appropriate validator for the given JComponent with the given attributes.
 	 */
 
-	protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path )
-	{
+	protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path ) {
+
 		return null;
 	}
 
@@ -127,14 +121,14 @@ public class JGoodiesValidatorProcessor
 	 * Attach the given Validator to the given JComponent.
 	 */
 
-	protected void attachValidator( final JComponent component, final Validator<?> validator, String path, final SwingMetawidget metawidget )
-	{
+	protected void attachValidator( final JComponent component, final Validator<?> validator, String path, final SwingMetawidget metawidget ) {
+
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
-		component.addKeyListener( new KeyAdapter()
-		{
+		component.addKeyListener( new KeyAdapter() {
+
 			@Override
-			public void keyReleased( KeyEvent event )
-			{
+			public void keyReleased( KeyEvent event ) {
+
 				// JGoodies' API concentrates on bulk updates of sub-components in a component tree.
 				// For example the <code>ValidationComponentUtils.updateComponentTreeXXX</code> and
 				// <code>ValidationComponentUtils.visitComponentTree</code> methods take a top-level
@@ -147,8 +141,7 @@ public class JGoodiesValidatorProcessor
 				@SuppressWarnings( "unchecked" )
 				Map<JComponent, ValidationResult> validationResults = (Map<JComponent, ValidationResult>) metawidget.getClientProperty( JGoodiesValidatorProcessor.class );
 
-				if ( validationResults == null )
-				{
+				if ( validationResults == null ) {
 					validationResults = CollectionUtils.newHashMap();
 					metawidget.putClientProperty( JGoodiesValidatorProcessor.class, validationResults );
 				}
@@ -159,18 +152,14 @@ public class JGoodiesValidatorProcessor
 
 				// ...run it through the Validator...
 
-				if ( validator != null )
-				{
+				if ( validator != null ) {
 					@SuppressWarnings( "unchecked" )
 					Validator<Object> objectValidator = (Validator<Object>) validator;
 					ValidationResult validationResult = objectValidator.validate( value );
 
-					if ( validationResult == null )
-					{
+					if ( validationResult == null ) {
 						validationResults.remove( component );
-					}
-					else
-					{
+					} else {
 						validationResults.put( component, validationResult );
 					}
 				}
@@ -178,8 +167,7 @@ public class JGoodiesValidatorProcessor
 				// ...collate all ValidationResults...
 
 				ValidationResult validationResult = new ValidationResult();
-				for ( ValidationResult previousValidationResult : validationResults.values() )
-				{
+				for ( ValidationResult previousValidationResult : validationResults.values() ) {
 					validationResult.addAllFrom( previousValidationResult );
 				}
 
@@ -205,15 +193,14 @@ public class JGoodiesValidatorProcessor
 	 *            components (so can be used correctly with updateComponentTreeXXX)
 	 */
 
-	protected void updateComponent( JComponent component, ValidationResult validationResult, SwingMetawidget metawidget )
-	{
+	protected void updateComponent( JComponent component, ValidationResult validationResult, SwingMetawidget metawidget ) {
+
 		// Note: it may be nicer to only update the JComponent, not revisit the entire
 		// tree, but JGoodies' built-in (private) MandatoryAndBlankBackgroundVisitor uses
 		// its (private) restoreBackground, so seemingly this is the way JGoodies wants us
 		// to do it
 
-		if ( ValidationComponentUtils.isMandatory( component ) )
-		{
+		if ( ValidationComponentUtils.isMandatory( component ) ) {
 			ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( metawidget );
 		}
 

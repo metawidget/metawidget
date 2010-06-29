@@ -25,14 +25,14 @@ import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
  */
 
 public class XmlInspectorConfig
-	extends BaseXmlInspectorConfig
-{
+	extends BaseXmlInspectorConfig {
+
 	//
 	// Constructor
 	//
 
-	public XmlInspectorConfig()
-	{
+	public XmlInspectorConfig() {
+
 		setDefaultFile( "metawidget-metadata.xml" );
 	}
 }

@@ -42,8 +42,8 @@ import org.metawidget.layout.iface.LayoutException;
  */
 
 public abstract class LayoutDecorator<W, C extends W, M extends C>
-	implements AdvancedLayout<W, C, M>
-{
+	implements AdvancedLayout<W, C, M> {
+
 	//
 	// Private members
 	//
@@ -54,12 +54,11 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Constructor
 	//
 
-	protected LayoutDecorator( LayoutDecoratorConfig<W, C, M> config )
-	{
+	protected LayoutDecorator( LayoutDecoratorConfig<W, C, M> config ) {
+
 		mDelegate = config.getLayout();
 
-		if ( mDelegate == null )
-		{
+		if ( mDelegate == null ) {
 			throw LayoutException.newException( getClass().getName() + " needs a Layout to decorate (use " + config.getClass().getName() + ".setLayout)" );
 		}
 	}
@@ -68,41 +67,37 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Public methods
 	//
 
-	public void onStartBuild( M metawidget )
-	{
-		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
-		{
+	public void onStartBuild( M metawidget ) {
+
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> ) {
 			( (AdvancedLayout<W, C, M>) getDelegate() ).onStartBuild( metawidget );
 		}
 	}
 
 	@Override
-	public void startContainerLayout( C container, M metawidget )
-	{
-		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
-		{
+	public void startContainerLayout( C container, M metawidget ) {
+
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> ) {
 			( (AdvancedLayout<W, C, M>) getDelegate() ).startContainerLayout( container, metawidget );
 		}
 	}
 
-	public void layoutWidget( W component, String elementName, Map<String, String> attributes, C container, M metawidget )
-	{
+	public void layoutWidget( W component, String elementName, Map<String, String> attributes, C container, M metawidget ) {
+
 		getDelegate().layoutWidget( component, elementName, attributes, container, metawidget );
 	}
 
 	@Override
-	public void endContainerLayout( C container, M metawidget )
-	{
-		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
-		{
+	public void endContainerLayout( C container, M metawidget ) {
+
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> ) {
 			( (AdvancedLayout<W, C, M>) getDelegate() ).endContainerLayout( container, metawidget );
 		}
 	}
 
-	public void onEndBuild( M metawidget )
-	{
-		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
-		{
+	public void onEndBuild( M metawidget ) {
+
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> ) {
 			( (AdvancedLayout<W, C, M>) getDelegate() ).onEndBuild( metawidget );
 		}
 	}
@@ -111,8 +106,8 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Protected methods
 	//
 
-	protected Layout<W, C, M> getDelegate()
-	{
+	protected Layout<W, C, M> getDelegate() {
+
 		return mDelegate;
 	}
 }

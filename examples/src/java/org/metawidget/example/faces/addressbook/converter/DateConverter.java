@@ -16,7 +16,6 @@
 
 package org.metawidget.example.faces.addressbook.converter;
 
-
 /**
  * Converts Dates to a String representation.
  *
@@ -24,14 +23,14 @@ package org.metawidget.example.faces.addressbook.converter;
  */
 
 public class DateConverter
-	extends javax.faces.convert.DateTimeConverter
-{
+	extends javax.faces.convert.DateTimeConverter {
+
 	//
 	// Constructor
 	//
 
-	public DateConverter()
-	{
+	public DateConverter() {
+
 		setDateStyle( "short" );
 	}
 }

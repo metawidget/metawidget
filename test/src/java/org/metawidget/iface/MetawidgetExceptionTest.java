@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class MetawidgetExceptionTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilderException()
-		throws Exception
-	{
+		throws Exception {
+
 		Throwable throwable = new Throwable();
 		assertTrue( throwable == MetawidgetException.newException( throwable ).getCause() );
 

@@ -29,8 +29,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class TabPanelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
-{
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> {
+
 	//
 	// Private members
 	//
@@ -41,8 +41,8 @@ public class TabPanelLayoutDecoratorConfig
 	// Public methods
 	//
 
-	public String getHeaderAlignment()
-	{
+	public String getHeaderAlignment() {
+
 		return mHeaderAlignment;
 	}
 
@@ -50,33 +50,29 @@ public class TabPanelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabPanelLayoutDecoratorConfig setHeaderAlignment( String headerAlignment )
-	{
+	public TabPanelLayoutDecoratorConfig setHeaderAlignment( String headerAlignment ) {
+
 		mHeaderAlignment = headerAlignment;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelLayoutDecoratorConfig) that ).mHeaderAlignment ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelLayoutDecoratorConfig) that ).mHeaderAlignment ) ) {
 			return false;
 		}
 
@@ -84,8 +80,8 @@ public class TabPanelLayoutDecoratorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHeaderAlignment );
 

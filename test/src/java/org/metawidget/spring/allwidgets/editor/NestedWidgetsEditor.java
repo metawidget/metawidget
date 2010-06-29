@@ -27,26 +27,25 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class NestedWidgetsEditor
-	extends PropertyEditorSupport
-{
+	extends PropertyEditorSupport {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
+
 		return StringUtils.quietValueOf( getValue() );
 	}
 
 	@Override
 	public void setAsText( String text )
-		throws IllegalArgumentException
-	{
+		throws IllegalArgumentException {
+
 		String[] values = ArrayUtils.fromString( text );
 
-		if ( values.length == 0 )
-		{
+		if ( values.length == 0 ) {
 			setValue( null );
 			return;
 		}
@@ -54,8 +53,7 @@ public class NestedWidgetsEditor
 		NestedWidgets nestedWidgets = new NestedWidgets();
 		nestedWidgets.setNestedTextbox1( values[0] );
 
-		if ( values.length > 1 )
-		{
+		if ( values.length > 1 ) {
 			nestedWidgets.setNestedTextbox2( values[1] );
 		}
 

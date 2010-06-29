@@ -28,8 +28,8 @@ import org.metawidget.inspector.impl.Trait;
  */
 
 public interface Property
-	extends Trait
-{
+	extends Trait {
+
 	//
 	// Methods
 	//
@@ -41,8 +41,8 @@ public interface Property
 	/**
 	 * Read the given property for the given object.
 	 * <p>
-	 * Used by PropertyInspector to determine subtypes, and by BaseObjectInspector to traverse
-	 * the object graph.
+	 * Used by PropertyInspector to determine subtypes, and by BaseObjectInspector to traverse the
+	 * object graph.
 	 */
 
 	Object read( Object obj );

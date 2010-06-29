@@ -27,17 +27,17 @@ import java.lang.annotation.Target;
  * The 'camel-cased' version of the section name will first be looked up in any relevant UI
  * <code>ResourceBundle</code>. If no match is found, the section name will be output 'as is'.
  * <p>
- * Once a section heading has been declared, subsequent fields are assumed
- * to belong to the same section until a different section heading is encountered. Sections
- * can be cancelled using a section heading with an empty String. Sections can be nested
- * by specifying multiple section names.
+ * Once a section heading has been declared, subsequent fields are assumed to belong to the same
+ * section until a different section heading is encountered. Sections can be cancelled using a
+ * section heading with an empty String. Sections can be nested by specifying multiple section
+ * names.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiSection
-{
+public @interface UiSection {
+
 	String[] value();
 }

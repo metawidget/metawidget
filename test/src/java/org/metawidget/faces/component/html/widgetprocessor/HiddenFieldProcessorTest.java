@@ -37,8 +37,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class HiddenFieldProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -50,21 +50,21 @@ public class HiddenFieldProcessorTest
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		HiddenFieldProcessor processor = new HiddenFieldProcessor();
 
 		// Pass through
 
 		UIComponent component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, null ));
+		assertTrue( component == processor.processWidget( component, PROPERTY, null, null ) );
 
 		// No setter? No hidden field
 
 		UIStub stub = new UIStub();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( NO_SETTER, TRUE );
-		assertTrue( stub == processor.processWidget( stub, PROPERTY, attributes, null ));
+		assertTrue( stub == processor.processWidget( stub, PROPERTY, attributes, null ) );
 
 		// Stubs become hidden fields directly
 
@@ -91,8 +91,8 @@ public class HiddenFieldProcessorTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -100,8 +100,8 @@ public class HiddenFieldProcessorTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

@@ -22,41 +22,41 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the value returned by the field should belong to the set returned by the
- * named JSP bean and property (as used by Struts' <code>html:options</code>).
+ * Annotates the value returned by the field should belong to the set returned by the named JSP bean
+ * and property (as used by Struts' <code>html:options</code>).
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiStrutsLookup
-{
+public @interface UiStrutsLookup {
+
 	/**
 	 * Name of the bean containing the lookup. Equivalent to
 	 * <code>org.apache.struts.taglib.OptionsTag.setName</code>
 	 */
 
-	String name( );
+	String name();
 
 	/**
 	 * Name of the property to use to build the values collection. Equivalent to
 	 * <code>org.apache.struts.taglib.OptionsTag.setProperty</code>
 	 */
 
-	String property( );
+	String property();
 
 	/**
 	 * Name of the bean containing the labels lookup. Equivalent to
 	 * <code>org.apache.struts.taglib.OptionsTag.setLabelName</code>
 	 */
 
-	String labelName( ) default "";
+	String labelName() default "";
 
 	/**
 	 * Name of the property to use to build the labels collection. Equivalent to
 	 * <code>org.apache.struts.taglib.OptionsTag.setLabelProperty</code>
 	 */
 
-	String labelProperty( ) default "";
+	String labelProperty() default "";
 }

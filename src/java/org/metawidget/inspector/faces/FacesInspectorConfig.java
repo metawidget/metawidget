@@ -26,8 +26,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class FacesInspectorConfig
-	extends BaseObjectInspectorConfig
-{
+	extends BaseObjectInspectorConfig {
+
 	//
 	// Private members
 	//
@@ -52,8 +52,8 @@ public class FacesInspectorConfig
 	 * <code>UiFacesLookup</code> and <code>UiFacesAjax</code>.
 	 */
 
-	public boolean isInjectThis()
-	{
+	public boolean isInjectThis() {
+
 		return mInjectThis;
 	}
 
@@ -61,8 +61,8 @@ public class FacesInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FacesInspectorConfig setInjectThis( boolean injectThis )
-	{
+	public FacesInspectorConfig setInjectThis( boolean injectThis ) {
+
 		mInjectThis = injectThis;
 
 		// Fluent interface
@@ -71,25 +71,21 @@ public class FacesInspectorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mInjectThis != ( (FacesInspectorConfig) that ).mInjectThis )
-		{
+		if ( mInjectThis != ( (FacesInspectorConfig) that ).mInjectThis ) {
 			return false;
 		}
 
@@ -97,8 +93,8 @@ public class FacesInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInjectThis );
 

@@ -59,15 +59,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class GridBagLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		// Without stub
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -76,13 +76,10 @@ public class GridBagLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setToInspect( new Foo() );
 
-		try
-		{
+		try {
 			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ) ) );
 			assertTrue( false );
-		}
-		catch ( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
@@ -226,8 +223,8 @@ public class GridBagLayoutTest
 	}
 
 	public void testWide()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
@@ -272,8 +269,8 @@ public class GridBagLayoutTest
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridy );
 	}
 
-	public void testLabelFont()
-	{
+	public void testLabelFont() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new RequiredFoo() );
 
@@ -295,8 +292,8 @@ public class GridBagLayoutTest
 		assertTrue( newFont.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getFont() ) );
 	}
 
-	public void testLabelSuffix()
-	{
+	public void testLabelSuffix() {
+
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new RequiredFoo() );
 
@@ -369,10 +366,9 @@ public class GridBagLayoutTest
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridy );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class, new GridBagLayoutConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class, new GridBagLayoutConfig() {
 			// Subclass
 		} );
 	}
@@ -381,8 +377,8 @@ public class GridBagLayoutTest
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		// Metawidget
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -405,8 +401,8 @@ public class GridBagLayoutTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	abc;
 
 		@UiComesAfter( "abc" )
@@ -451,8 +447,8 @@ public class GridBagLayoutTest
 		public String	mno;
 	}
 
-	public static class WideFoo
-	{
+	public static class WideFoo {
+
 		public String	abc;
 
 		@UiComesAfter( "abc" )
@@ -469,8 +465,8 @@ public class GridBagLayoutTest
 		public String	mno;
 	}
 
-	public static class RequiredFoo
-	{
+	public static class RequiredFoo {
+
 		@UiRequired
 		public String	abc;
 

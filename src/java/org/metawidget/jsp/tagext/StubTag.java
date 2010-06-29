@@ -38,8 +38,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class StubTag
-	extends BodyTagSupport
-{
+	extends BodyTagSupport {
+
 	//
 	// Private statics
 	//
@@ -68,19 +68,16 @@ public abstract class StubTag
 	//
 
 	public void setAttributes( String attributes )
-		throws JspException
-	{
-		if ( mAttributes == null )
-		{
+		throws JspException {
+
+		if ( mAttributes == null ) {
 			mAttributes = CollectionUtils.newHashMap();
 		}
 
-		for ( String nameAndValue : CollectionUtils.fromString( attributes, ';' ) )
-		{
+		for ( String nameAndValue : CollectionUtils.fromString( attributes, ';' ) ) {
 			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
 
-			if ( nameAndValueList.size() != 2 )
-			{
+			if ( nameAndValueList.size() != 2 ) {
 				throw new JspException( "Unrecognized value '" + nameAndValue + "'" );
 			}
 
@@ -88,8 +85,8 @@ public abstract class StubTag
 		}
 	}
 
-	public Map<String, String> getAttributesMap()
-	{
+	public Map<String, String> getAttributesMap() {
+
 		return mAttributes;
 	}
 
@@ -100,28 +97,24 @@ public abstract class StubTag
 	 * in the <code>doEndTag</code> method. We capture it there for use later.
 	 */
 
-	public String getSavedBodyContent()
-	{
+	public String getSavedBodyContent() {
+
 		return mSavedBodyContent;
 	}
 
 	@Override
 	public int doEndTag()
-		throws JspException
-	{
+		throws JspException {
+
 		MetawidgetTag tagMetawidget = (MetawidgetTag) findAncestorWithClass( this, MetawidgetTag.class );
 
-		if ( tagMetawidget == null )
-		{
+		if ( tagMetawidget == null ) {
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
 		}
 
-		if ( bodyContent == null )
-		{
+		if ( bodyContent == null ) {
 			mSavedBodyContent = null;
-		}
-		else
-		{
+		} else {
 			mSavedBodyContent = bodyContent.getString();
 		}
 
@@ -141,8 +134,8 @@ public abstract class StubTag
 	 * <code>property</code> for Spring).
 	 */
 
-	protected void setPathInternal( String path )
-	{
+	protected void setPathInternal( String path ) {
+
 		mPath = path;
 	}
 }

@@ -43,14 +43,14 @@ import org.metawidget.widgetprocessor.WidgetProcessorTests;
  */
 
 public class AllTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		// Note: if this fails saying 'java.lang.RuntimeException: Stub!' or such, it's
 		// probably because it is picking up the version of JUnit inside android.jar.
 		//

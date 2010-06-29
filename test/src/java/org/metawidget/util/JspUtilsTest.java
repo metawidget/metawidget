@@ -44,8 +44,8 @@ import org.metawidget.jsp.JspUtils.BodyPreparer;
  */
 
 public class JspUtilsTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Package-level statics
 	//
@@ -57,55 +57,55 @@ public class JspUtilsTest
 	//
 
 	public void testBodyTag()
-		throws Exception
-	{
-		Tag testTag = new Tag()
-		{
+		throws Exception {
+
+		Tag testTag = new Tag() {
+
 			@Override
-			public int doEndTag()
-			{
+			public int doEndTag() {
+
 				return Tag.EVAL_PAGE;
 			}
 
 			@Override
-			public int doStartTag()
-			{
+			public int doStartTag() {
+
 				return Tag.EVAL_BODY_INCLUDE;
 			}
 
 			@Override
-			public Tag getParent()
-			{
+			public Tag getParent() {
+
 				return null;
 			}
 
 			@Override
-			public void release()
-			{
+			public void release() {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setPageContext( PageContext context )
-			{
+			public void setPageContext( PageContext context ) {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setParent( Tag parent )
-			{
+			public void setParent( Tag parent ) {
+
 				// Do nothing
 			}
 		};
 
 		final DummyPageContext dummyPageContext = new DummyPageContext();
 
-		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer()
-		{
+		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer() {
+
 			@Override
 			public void prepareBody( PageContext delegateContext )
-				throws IOException
-			{
+				throws IOException {
+
 				JspWriter writer = delegateContext.getOut();
 
 				// Write
@@ -136,8 +136,7 @@ public class JspUtilsTest
 
 				// Hit
 
-				try
-				{
+				try {
 					delegateContext.forward( null );
 					delegateContext.getException();
 					delegateContext.getPage();
@@ -164,9 +163,7 @@ public class JspUtilsTest
 					delegateContext.removeAttribute( null, 0 );
 					delegateContext.setAttribute( null, null );
 					delegateContext.setAttribute( null, null, 0 );
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					throw new IOException( e.getMessage() );
 				}
 
@@ -191,121 +188,120 @@ public class JspUtilsTest
 	}
 
 	public void testSkipBody()
-		throws Exception
-	{
-		Tag testTag = new Tag()
-		{
+		throws Exception {
+
+		Tag testTag = new Tag() {
+
 			@Override
-			public int doEndTag()
-			{
+			public int doEndTag() {
+
 				return Tag.EVAL_PAGE;
 			}
 
 			@Override
-			public int doStartTag()
-			{
+			public int doStartTag() {
+
 				return Tag.SKIP_BODY;
 			}
 
 			@Override
-			public Tag getParent()
-			{
+			public Tag getParent() {
+
 				return null;
 			}
 
 			@Override
-			public void release()
-			{
+			public void release() {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setPageContext( PageContext context )
-			{
+			public void setPageContext( PageContext context ) {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setParent( Tag parent )
-			{
+			public void setParent( Tag parent ) {
+
 				// Do nothing
 			}
 		};
 
 		final DummyPageContext dummyPageContext = new DummyPageContext();
 
-		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer()
-		{
+		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer() {
+
 			@Override
-			public void prepareBody( PageContext delegateContext )
-			{
+			public void prepareBody( PageContext delegateContext ) {
+
 				assertTrue( false );
 			}
 		} );
 	}
 
-	int mRepeat;
+	int	mRepeat;
 
 	public void testRepeatBody()
-		throws Exception
-	{
-		BodyTag testTag = new BodyTag()
-		{
+		throws Exception {
+
+		BodyTag testTag = new BodyTag() {
+
 			@Override
-			public int doEndTag()
-			{
+			public int doEndTag() {
+
 				return Tag.EVAL_PAGE;
 			}
 
 			@Override
-			public int doStartTag()
-			{
+			public int doStartTag() {
+
 				return Tag.EVAL_BODY_INCLUDE;
 			}
 
 			@Override
-			public Tag getParent()
-			{
+			public Tag getParent() {
+
 				return null;
 			}
 
 			@Override
-			public void release()
-			{
+			public void release() {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setPageContext( PageContext context )
-			{
+			public void setPageContext( PageContext context ) {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setParent( Tag parent )
-			{
+			public void setParent( Tag parent ) {
+
 				// Do nothing
 			}
 
 			@Override
-			public void doInitBody()
-			{
+			public void doInitBody() {
+
 				// Do nothing
 			}
 
 			@Override
-			public void setBodyContent( BodyContent bodycontent )
-			{
+			public void setBodyContent( BodyContent bodycontent ) {
+
 				// Do nothing
 			}
 
 			@Override
-			public int doAfterBody()
-			{
+			public int doAfterBody() {
+
 				mRepeat++;
 
-				if ( mRepeat < 5 )
-				{
+				if ( mRepeat < 5 ) {
 					return IterationTag.EVAL_BODY_AGAIN;
 				}
 
@@ -325,8 +321,8 @@ public class JspUtilsTest
 	//
 
 	public static class DummyPageContext
-		extends PageContext
-	{
+		extends PageContext {
+
 		//
 		// Private members
 		//
@@ -337,179 +333,179 @@ public class JspUtilsTest
 		// Public methods
 		//
 
-		public int getPageContextHits()
-		{
+		public int getPageContextHits() {
+
 			return mPageContextHits;
 		}
 
 		@Override
-		public void forward( String relativeUrlPath )
-		{
+		public void forward( String relativeUrlPath ) {
+
 			mPageContextHits++;
 		}
 
 		@Override
-		public Exception getException()
-		{
-			mPageContextHits++;
-			return null;
-		}
+		public Exception getException() {
 
-		@Override
-		public Object getPage()
-		{
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public ServletRequest getRequest()
-		{
+		public Object getPage() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public ServletResponse getResponse()
-		{
+		public ServletRequest getRequest() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public ServletConfig getServletConfig()
-		{
+		public ServletResponse getResponse() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public ServletContext getServletContext()
-		{
+		public ServletConfig getServletConfig() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public HttpSession getSession()
-		{
+		public ServletContext getServletContext() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public void handlePageException( Exception exception )
-		{
-			mPageContextHits++;
-		}
+		public HttpSession getSession() {
 
-		@Override
-		public void handlePageException( Throwable throwable )
-		{
-			mPageContextHits++;
-		}
-
-		@Override
-		public void include( String relativeUrlPath )
-		{
-			mPageContextHits++;
-		}
-
-		@Override
-		public void include( String relativeUrlPath, boolean flush )
-		{
-			mPageContextHits++;
-		}
-
-		@Override
-		public void initialize( Servlet servlet, ServletRequest request, ServletResponse response, String errorPageUrl, boolean needsSession, int bufferSize, boolean autoFlush )
-		{
-			mPageContextHits++;
-		}
-
-		@Override
-		public void release()
-		{
-			mPageContextHits++;
-		}
-
-		@Override
-		public Object findAttribute( String name )
-		{
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public Object getAttribute( String name )
-		{
+		public void handlePageException( Exception exception ) {
+
+			mPageContextHits++;
+		}
+
+		@Override
+		public void handlePageException( Throwable throwable ) {
+
+			mPageContextHits++;
+		}
+
+		@Override
+		public void include( String relativeUrlPath ) {
+
+			mPageContextHits++;
+		}
+
+		@Override
+		public void include( String relativeUrlPath, boolean flush ) {
+
+			mPageContextHits++;
+		}
+
+		@Override
+		public void initialize( Servlet servlet, ServletRequest request, ServletResponse response, String errorPageUrl, boolean needsSession, int bufferSize, boolean autoFlush ) {
+
+			mPageContextHits++;
+		}
+
+		@Override
+		public void release() {
+
+			mPageContextHits++;
+		}
+
+		@Override
+		public Object findAttribute( String name ) {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public Object getAttribute( String name, int scope )
-		{
+		public Object getAttribute( String name ) {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public Enumeration<?> getAttributeNamesInScope( int scope )
-		{
+		public Object getAttribute( String name, int scope ) {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public int getAttributesScope( String name )
-		{
+		public Enumeration<?> getAttributeNamesInScope( int scope ) {
+
+			mPageContextHits++;
+			return null;
+		}
+
+		@Override
+		public int getAttributesScope( String name ) {
+
 			mPageContextHits++;
 			return 0;
 		}
 
 		@Override
-		public ExpressionEvaluator getExpressionEvaluator()
-		{
+		public ExpressionEvaluator getExpressionEvaluator() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public JspWriter getOut()
-		{
+		public JspWriter getOut() {
+
 			assertTrue( false );
 			return null;
 		}
 
 		@Override
-		public VariableResolver getVariableResolver()
-		{
+		public VariableResolver getVariableResolver() {
+
 			mPageContextHits++;
 			return null;
 		}
 
 		@Override
-		public void removeAttribute( String name )
-		{
+		public void removeAttribute( String name ) {
+
 			mPageContextHits++;
 		}
 
 		@Override
-		public void removeAttribute( String name, int scope )
-		{
+		public void removeAttribute( String name, int scope ) {
+
 			mPageContextHits++;
 		}
 
 		@Override
-		public void setAttribute( String name, Object value )
-		{
+		public void setAttribute( String name, Object value ) {
+
 			mPageContextHits++;
 		}
 
 		@Override
-		public void setAttribute( String name, Object value, int scope )
-		{
+		public void setAttribute( String name, Object value, int scope ) {
+
 			mPageContextHits++;
 		}
 	}

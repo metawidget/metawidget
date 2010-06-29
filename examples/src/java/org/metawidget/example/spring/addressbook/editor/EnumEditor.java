@@ -23,8 +23,8 @@ import java.beans.PropertyEditorSupport;
  */
 
 public class EnumEditor<T extends Enum<T>>
-	extends PropertyEditorSupport
-{
+	extends PropertyEditorSupport {
+
 	//
 	// Private members
 	//
@@ -35,8 +35,8 @@ public class EnumEditor<T extends Enum<T>>
 	// Constructor
 	//
 
-	public EnumEditor( Class<T> clazz )
-	{
+	public EnumEditor( Class<T> clazz ) {
+
 		mClass = clazz;
 	}
 
@@ -45,13 +45,12 @@ public class EnumEditor<T extends Enum<T>>
 	//
 
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
+
 		@SuppressWarnings( "unchecked" )
 		T value = (T) getValue();
 
-		if ( value == null )
-		{
+		if ( value == null ) {
 			return "";
 		}
 
@@ -63,10 +62,9 @@ public class EnumEditor<T extends Enum<T>>
 
 	@Override
 	public void setAsText( String text )
-		throws IllegalArgumentException
-	{
-		if ( text == null || "".equals( text ) )
-		{
+		throws IllegalArgumentException {
+
+		if ( text == null || "".equals( text ) ) {
 			setValue( null );
 			return;
 		}

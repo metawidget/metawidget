@@ -30,28 +30,25 @@ import org.metawidget.layout.iface.LayoutException;
 /**
  * Layout to simply output components one after another, with no labels and no structure.
  * <p>
- * This Layout is suited to rendering single components, or for rendering components whose
- * layout relies entirely on CSS.
+ * This Layout is suited to rendering single components, or for rendering components whose layout
+ * relies entirely on CSS.
  *
  * @author Richard Kennard
  */
 
 public class SimpleLayout
-	implements Layout<Tag, BodyTag, MetawidgetTag>
-{
+	implements Layout<Tag, BodyTag, MetawidgetTag> {
+
 	//
 	// Public methods
 	//
 
-	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag )
-	{
-		try
-		{
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag ) {
+
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
-			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag, null ));
-		}
-		catch ( Exception e )
-		{
+			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag, null ) );
+		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}
 	}

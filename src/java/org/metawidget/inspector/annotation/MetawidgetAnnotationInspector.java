@@ -40,19 +40,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class MetawidgetAnnotationInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public MetawidgetAnnotationInspector()
-	{
+	public MetawidgetAnnotationInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public MetawidgetAnnotationInspector( BaseObjectInspectorConfig config )
-	{
+	public MetawidgetAnnotationInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -62,14 +62,13 @@ public class MetawidgetAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiHidden
 
-		if ( trait.isAnnotationPresent( UiHidden.class ) )
-		{
+		if ( trait.isAnnotationPresent( UiHidden.class ) ) {
 			attributes.put( HIDDEN, TRUE );
 		}
 
@@ -77,17 +76,15 @@ public class MetawidgetAnnotationInspector
 
 		UiComesAfter comesAfter = trait.getAnnotation( UiComesAfter.class );
 
-		if ( comesAfter != null )
-		{
-			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
+		if ( comesAfter != null ) {
+			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ) );
 		}
 
 		// UiReadOnly
 
 		UiReadOnly readOnly = trait.getAnnotation( UiReadOnly.class );
 
-		if ( readOnly != null )
-		{
+		if ( readOnly != null ) {
 			attributes.put( READ_ONLY, TRUE );
 		}
 
@@ -95,17 +92,15 @@ public class MetawidgetAnnotationInspector
 
 		UiSection uiSection = trait.getAnnotation( UiSection.class );
 
-		if ( uiSection != null )
-		{
-			attributes.put( SECTION, ArrayUtils.toString( uiSection.value() ));
+		if ( uiSection != null ) {
+			attributes.put( SECTION, ArrayUtils.toString( uiSection.value() ) );
 		}
 
 		// UiLabel
 
 		UiLabel label = trait.getAnnotation( UiLabel.class );
 
-		if ( label != null )
-		{
+		if ( label != null ) {
 			attributes.put( LABEL, label.value() );
 		}
 
@@ -113,8 +108,7 @@ public class MetawidgetAnnotationInspector
 
 		UiAttribute attribute = trait.getAnnotation( UiAttribute.class );
 
-		if ( attribute != null )
-		{
+		if ( attribute != null ) {
 			attributes.put( attribute.name(), attribute.value() );
 		}
 
@@ -122,10 +116,8 @@ public class MetawidgetAnnotationInspector
 
 		UiAttributes uiAttributes = trait.getAnnotation( UiAttributes.class );
 
-		if ( uiAttributes != null )
-		{
-			for ( UiAttribute nestedAttribute : uiAttributes.value() )
-			{
+		if ( uiAttributes != null ) {
+			for ( UiAttribute nestedAttribute : uiAttributes.value() ) {
 				attributes.put( nestedAttribute.name(), nestedAttribute.value() );
 			}
 		}
@@ -135,14 +127,13 @@ public class MetawidgetAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiRequired
 
-		if ( property.isAnnotationPresent( UiRequired.class ) )
-		{
+		if ( property.isAnnotationPresent( UiRequired.class ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
@@ -150,37 +141,32 @@ public class MetawidgetAnnotationInspector
 
 		UiLookup lookup = property.getAnnotation( UiLookup.class );
 
-		if ( lookup != null )
-		{
+		if ( lookup != null ) {
 			attributes.put( LOOKUP, ArrayUtils.toString( lookup.value() ) );
 
 			// (note: values().length == labels().length() is not validated
 			// here, as XmlInspector could bypass it anyway)
 
-			if ( lookup.labels().length > 0 )
-			{
+			if ( lookup.labels().length > 0 ) {
 				attributes.put( LOOKUP_LABELS, ArrayUtils.toString( lookup.labels() ) );
 			}
 		}
 
 		// UiMasked
 
-		if ( property.isAnnotationPresent( UiMasked.class ) )
-		{
+		if ( property.isAnnotationPresent( UiMasked.class ) ) {
 			attributes.put( MASKED, TRUE );
 		}
 
 		// UiLarge
 
-		if ( property.isAnnotationPresent( UiLarge.class ) )
-		{
+		if ( property.isAnnotationPresent( UiLarge.class ) ) {
 			attributes.put( LARGE, TRUE );
 		}
 
 		// UiWide
 
-		if ( property.isAnnotationPresent( UiWide.class ) )
-		{
+		if ( property.isAnnotationPresent( UiWide.class ) ) {
 			attributes.put( WIDE, TRUE );
 		}
 
@@ -188,8 +174,7 @@ public class MetawidgetAnnotationInspector
 
 		UiDontExpand dontExpand = property.getAnnotation( UiDontExpand.class );
 
-		if ( dontExpand != null )
-		{
+		if ( dontExpand != null ) {
 			attributes.put( DONT_EXPAND, TRUE );
 		}
 
@@ -198,14 +183,13 @@ public class MetawidgetAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectAction( Action action )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiAction (this is kind of a dummy match)
 
-		if ( action.isAnnotationPresent( UiAction.class ) )
-		{
+		if ( action.isAnnotationPresent( UiAction.class ) ) {
 			attributes.put( NAME, action.getName() );
 		}
 

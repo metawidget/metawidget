@@ -28,34 +28,31 @@ import com.google.gwt.xml.client.Element;
  */
 
 public class GwtMetawidgetTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
 	public void testPipeline()
-		throws Exception
-	{
+		throws Exception {
+
 		new Pipeline().testIndentation();
 	}
 
-	public void testRemoteInspectorProxy()
-	{
-		try
-		{
+	public void testRemoteInspectorProxy() {
+
+		try {
 			new GwtRemoteInspectorProxy().inspect( new Object(), null, (String[]) null, null );
 			assertTrue( false );
-		}
-		catch( RuntimeException e )
-		{
-			assertTrue( "Objects passed to GwtRemoteInspector must be Serializable".equals( e.getMessage() ));
+		} catch ( RuntimeException e ) {
+			assertTrue( "Objects passed to GwtRemoteInspector must be Serializable".equals( e.getMessage() ) );
 		}
 	}
 
@@ -64,15 +61,15 @@ public class GwtMetawidgetTest
 	//
 
 	static class Pipeline
-		extends GwtPipeline<Object, Object, GwtMetawidget>
-	{
+		extends GwtPipeline<Object, Object, GwtMetawidget> {
+
 		//
 		// Public methods
 		//
 
 		public void testIndentation()
-			throws Exception
-		{
+			throws Exception {
+
 			Element element = getChildAt( getDocumentElement( "<foo><bar>baz</bar></foo>" ), 0 );
 			assertEquals( "bar", element.getNodeName() );
 
@@ -88,39 +85,39 @@ public class GwtMetawidgetTest
 		//
 
 		@Override
-		protected void startBuild()
-		{
+		protected void startBuild() {
+
 			// Do nothing
 		}
 
 		@Override
-		protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes )
-		{
+		protected void layoutWidget( Object widget, String elementName, Map<String, String> attributes ) {
+
 			// Do nothing
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Object stub )
-		{
+		protected Map<String, String> getAdditionalAttributes( Object stub ) {
+
 			return null;
 		}
 
 		@Override
 		protected GwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
-			throws Exception
-		{
+			throws Exception {
+
 			return null;
 		}
 
 		@Override
-		protected void endBuild()
-		{
+		protected void endBuild() {
+
 			// Do nothing
 		}
 
 		@Override
-		protected GwtMetawidget getPipelineOwner()
-		{
+		protected GwtMetawidget getPipelineOwner() {
+
 			return null;
 		}
 	}

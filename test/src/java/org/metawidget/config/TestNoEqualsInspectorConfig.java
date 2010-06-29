@@ -20,15 +20,15 @@ package org.metawidget.config;
  * @author Richard Kennard
  */
 
-public class TestNoEqualsInspectorConfig
-{
+public class TestNoEqualsInspectorConfig {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return 0;
 	}
 }

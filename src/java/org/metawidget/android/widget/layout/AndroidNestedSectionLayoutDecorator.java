@@ -35,14 +35,14 @@ import android.view.ViewGroup;
  */
 
 public abstract class AndroidNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, ViewGroup, AndroidMetawidget>
-{
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, ViewGroup, AndroidMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected AndroidNestedSectionLayoutDecorator( LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> config )
-	{
+	protected AndroidNestedSectionLayoutDecorator( LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -51,27 +51,25 @@ public abstract class AndroidNestedSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected State<ViewGroup> getState( ViewGroup view, AndroidMetawidget metawidget )
-	{
+	protected State<ViewGroup> getState( ViewGroup view, AndroidMetawidget metawidget ) {
+
 		@SuppressWarnings( "unchecked" )
 		Map<View, State<ViewGroup>> stateMap = (Map<View, State<ViewGroup>>) metawidget.getClientProperty( getClass() );
 
-		if ( stateMap == null )
-		{
+		if ( stateMap == null ) {
 			stateMap = CollectionUtils.newHashMap();
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
 		State<ViewGroup> state = stateMap.get( view );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State<ViewGroup>();
 			stateMap.put( view, state );
 		}
@@ -80,8 +78,8 @@ public abstract class AndroidNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( View view )
-	{
-		return ( view instanceof Stub && ((Stub) view).getChildCount() == 0 );
+	protected boolean isEmptyStub( View view ) {
+
+		return ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 );
 	}
 }

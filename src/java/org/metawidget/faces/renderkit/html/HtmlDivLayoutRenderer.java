@@ -56,8 +56,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlDivLayoutRenderer
-	extends HtmlLayoutRenderer
-{
+	extends HtmlLayoutRenderer {
+
 	//
 	// Private statics
 	//
@@ -68,8 +68,8 @@ public class HtmlDivLayoutRenderer
 
 	@Override
 	public void encodeBegin( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		( (UIMetawidget) metawidget ).putClientProperty( HtmlDivLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
@@ -78,8 +78,7 @@ public class HtmlDivLayoutRenderer
 		State state = getState( metawidget );
 		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( metawidget, "outerStyle" );
 
-		if ( parameterOuterStyle != null )
-		{
+		if ( parameterOuterStyle != null ) {
 			state.outerStyle = (String) parameterOuterStyle.getValue();
 		}
 
@@ -87,8 +86,7 @@ public class HtmlDivLayoutRenderer
 
 		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
 
-		if ( parameterLabelStyle != null )
-		{
+		if ( parameterLabelStyle != null ) {
 			state.labelStyle = (String) parameterLabelStyle.getValue();
 		}
 
@@ -96,8 +94,7 @@ public class HtmlDivLayoutRenderer
 
 		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
 
-		if ( parameterRequiredStyle != null )
-		{
+		if ( parameterRequiredStyle != null ) {
 			state.requiredStyle = (String) parameterRequiredStyle.getValue();
 		}
 
@@ -105,8 +102,7 @@ public class HtmlDivLayoutRenderer
 
 		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
 
-		if ( parameterComponentStyle != null )
-		{
+		if ( parameterComponentStyle != null ) {
 			state.componentStyle = (String) parameterComponentStyle.getValue();
 		}
 
@@ -114,8 +110,7 @@ public class HtmlDivLayoutRenderer
 
 		UIParameter parameterStyleClasses = FacesUtils.findParameterWithName( metawidget, "divStyleClasses" );
 
-		if ( parameterStyleClasses != null )
-		{
+		if ( parameterStyleClasses != null ) {
 			state.divStyleClasses = ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
 		}
 
@@ -128,35 +123,30 @@ public class HtmlDivLayoutRenderer
 
 	@Override
 	public void encodeChildren( FacesContext context, UIComponent component )
-		throws IOException
-	{
+		throws IOException {
+
 		List<UIComponent> children = component.getChildren();
 
 		// For each child component...
 
-		for ( UIComponent childComponent : children )
-		{
+		for ( UIComponent childComponent : children ) {
 			// ...that is visible...
 
-			if ( childComponent instanceof UIStub && childComponent.getChildCount() == 0 )
-			{
+			if ( childComponent instanceof UIStub && childComponent.getChildCount() == 0 ) {
 				continue;
 			}
 
-			if ( childComponent instanceof UIParameter )
-			{
+			if ( childComponent instanceof UIParameter ) {
 				continue;
 			}
 
-			if ( !childComponent.isRendered() )
-			{
+			if ( !childComponent.isRendered() ) {
 				continue;
 			}
 
 			// ...(and is not a hidden field)...
 
-			if ( childComponent instanceof HtmlInputHidden )
-			{
+			if ( childComponent instanceof HtmlInputHidden ) {
 				FacesUtils.render( context, childComponent );
 				continue;
 			}
@@ -174,8 +164,8 @@ public class HtmlDivLayoutRenderer
 
 	@Override
 	public void encodeEnd( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		super.encodeEnd( context, metawidget );
 
 		ResponseWriter writer = context.getResponseWriter();
@@ -184,8 +174,7 @@ public class HtmlDivLayoutRenderer
 
 		UIComponent componentFooter = metawidget.getFacet( "footer" );
 
-		if ( componentFooter != null )
-		{
+		if ( componentFooter != null ) {
 			writer.startElement( "div", metawidget );
 			writeStyleAndClass( metawidget, writer, "footer" );
 
@@ -202,18 +191,16 @@ public class HtmlDivLayoutRenderer
 	}
 
 	@Override
-	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor )
-	{
+	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
+
 		HtmlMessage message = super.createInlineMessage( context, metawidget, messageFor );
 
 		// Apply alternate style class (if any)
 
-		if ( message.getStyleClass() == null )
-		{
+		if ( message.getStyleClass() == null ) {
 			State state = getState( metawidget );
 
-			if ( state.divStyleClasses != null && state.divStyleClasses.length > 4 )
-			{
+			if ( state.divStyleClasses != null && state.divStyleClasses.length > 4 ) {
 				message.setStyleClass( state.divStyleClasses[4] );
 			}
 		}
@@ -226,8 +213,8 @@ public class HtmlDivLayoutRenderer
 	//
 
 	protected void layoutBeforeChild( FacesContext context, UIComponent metawidget, UIComponent componentChild )
-		throws IOException
-	{
+		throws IOException {
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		State state = getState( metawidget );
@@ -236,8 +223,7 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", metawidget );
 
-		if ( state.outerStyle != null )
-		{
+		if ( state.outerStyle != null ) {
 			writer.writeAttribute( "style", state.outerStyle, null );
 		}
 
@@ -255,8 +241,7 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", metawidget );
 
-		if ( state.componentStyle != null )
-		{
+		if ( state.componentStyle != null ) {
 			writer.writeAttribute( "style", state.componentStyle, null );
 		}
 
@@ -269,10 +254,9 @@ public class HtmlDivLayoutRenderer
 
 	@Override
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
-		throws IOException
-	{
-		if ( getLabelText( componentNeedingLabel ) == null )
-		{
+		throws IOException {
+
+		if ( getLabelText( componentNeedingLabel ) == null ) {
 			return false;
 		}
 
@@ -282,8 +266,7 @@ public class HtmlDivLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( state.labelStyle != null )
-		{
+		if ( state.labelStyle != null ) {
 			writer.writeAttribute( "style", state.labelStyle, null );
 		}
 
@@ -299,27 +282,24 @@ public class HtmlDivLayoutRenderer
 	}
 
 	protected void layoutRequired( FacesContext context, UIComponent metawidget, UIComponent child )
-		throws IOException
-	{
+		throws IOException {
+
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
-		if ( metadataAttributes == null )
-		{
+		if ( metadataAttributes == null ) {
 			return;
 		}
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( TRUE.equals( metadataAttributes.get( REQUIRED ) ) && !TRUE.equals( metadataAttributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() )
-		{
+		if ( TRUE.equals( metadataAttributes.get( REQUIRED ) ) && !TRUE.equals( metadataAttributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() ) {
 			writer.startElement( "span", metawidget );
 
 			State state = getState( metawidget );
 			String requiredStyle = metadataAttributes.get( state.requiredStyle );
 
-			if ( requiredStyle != null )
-			{
+			if ( requiredStyle != null ) {
 				writer.writeAttribute( "style", requiredStyle, null );
 			}
 
@@ -330,8 +310,8 @@ public class HtmlDivLayoutRenderer
 	}
 
 	protected void layoutAfterChild( FacesContext context, UIComponent component, UIComponent childComponent )
-		throws IOException
-	{
+		throws IOException {
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		writer.endElement( "div" );
@@ -339,19 +319,17 @@ public class HtmlDivLayoutRenderer
 	}
 
 	protected void writeStyleClass( UIComponent metawidget, ResponseWriter writer, int styleClass )
-		throws IOException
-	{
+		throws IOException {
+
 		State state = getState( metawidget );
 
-		if ( state.divStyleClasses == null || state.divStyleClasses.length <= styleClass )
-		{
+		if ( state.divStyleClasses == null || state.divStyleClasses.length <= styleClass ) {
 			return;
 		}
 
 		String columnClass = state.divStyleClasses[styleClass];
 
-		if ( columnClass.length() == 0 )
-		{
+		if ( columnClass.length() == 0 ) {
 			return;
 		}
 
@@ -362,12 +340,11 @@ public class HtmlDivLayoutRenderer
 	// Private methods
 	//
 
-	private State getState( UIComponent metawidget )
-	{
+	private State getState( UIComponent metawidget ) {
+
 		State state = (State) ( (UIMetawidget) metawidget ).getClientProperty( HtmlDivLayoutRenderer.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			( (UIMetawidget) metawidget ).putClientProperty( HtmlDivLayoutRenderer.class, state );
 		}
@@ -383,8 +360,8 @@ public class HtmlDivLayoutRenderer
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */String		outerStyle;
 
 		/* package private */String		labelStyle;

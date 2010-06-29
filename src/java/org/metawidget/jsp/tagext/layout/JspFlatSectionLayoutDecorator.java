@@ -40,14 +40,14 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class JspFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Tag, BodyTag, MetawidgetTag>
-{
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Tag, BodyTag, MetawidgetTag> {
+
 	//
 	// Constructor
 	//
 
-	protected JspFlatSectionLayoutDecorator( LayoutDecoratorConfig<Tag, BodyTag, MetawidgetTag> config )
-	{
+	protected JspFlatSectionLayoutDecorator( LayoutDecoratorConfig<Tag, BodyTag, MetawidgetTag> config ) {
+
 		super( config );
 	}
 
@@ -56,24 +56,23 @@ public abstract class JspFlatSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected String[] getSections( Map<String, String> attributes )
-	{
+	protected String[] getSections( Map<String, String> attributes ) {
+
 		return ArrayUtils.fromString( attributes.get( SECTION ) );
 	}
 
 	@Override
-	protected State getState( BodyTag containerTag, MetawidgetTag metawidgetTag )
-	{
+	protected State getState( BodyTag containerTag, MetawidgetTag metawidgetTag ) {
+
 		State state = (State) metawidgetTag.getClientProperty( getClass() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidgetTag.putClientProperty( getClass(), state );
 		}
@@ -82,17 +81,15 @@ public abstract class JspFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Tag tag )
-	{
-		if ( !( tag instanceof StubTag ) )
-		{
+	protected boolean isEmptyStub( Tag tag ) {
+
+		if ( !( tag instanceof StubTag ) ) {
 			return false;
 		}
 
 		String literal = ( (StubTag) tag ).getSavedBodyContent();
 
-		if ( literal == null || literal.length() == 0 )
-		{
+		if ( literal == null || literal.length() == 0 ) {
 			return true;
 		}
 

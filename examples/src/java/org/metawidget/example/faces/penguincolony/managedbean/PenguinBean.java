@@ -37,8 +37,8 @@ import org.metawidget.util.CollectionUtils;
 // Note: we SuppressWarnings( "unchecked" ) in a few places so that we can compile against JSF 2.0
 // but still run against JSF 1.2
 //
-public class PenguinBean
-{
+public class PenguinBean {
+
 	//
 	// Private statics
 	//
@@ -55,8 +55,8 @@ public class PenguinBean
 	//
 
 	@SuppressWarnings( "unchecked" )
-	public PenguinBean()
-	{
+	public PenguinBean() {
+
 		List<Penguin> all = CollectionUtils.newArrayList();
 		all.add( new Penguin( "Mumble", "Great penguin" ) );
 		all.add( new Penguin( "Tux", "Little penguin" ) );
@@ -77,13 +77,13 @@ public class PenguinBean
 
 	@SuppressWarnings( "unchecked" )
 	@UiAttribute( name = PARAMETERIZED_TYPE, value = "org.metawidget.example.faces.penguincolony.model.Penguin" )
-	public ListDataModel getAll()
-	{
+	public ListDataModel getAll() {
+
 		return mAll;
 	}
 
-	public void createNew()
-	{
+	public void createNew() {
+
 		mPenguinCurrent = new Penguin( "New penguin", "Great penguin" );
 
 		@SuppressWarnings( "unchecked" )
@@ -92,45 +92,45 @@ public class PenguinBean
 		mPopupVisible = true;
 	}
 
-	public void edit()
-	{
+	public void edit() {
+
 		mPenguinCurrent = (Penguin) mAll.getRowData();
 		mPopupVisible = true;
 	}
 
 	@UiHidden
-	public Penguin getCurrent()
-	{
+	public Penguin getCurrent() {
+
 		return mPenguinCurrent;
 	}
 
-	public void setCurrent( Penguin PenguinCurrent )
-	{
+	public void setCurrent( Penguin PenguinCurrent ) {
+
 		mPenguinCurrent = PenguinCurrent;
 	}
 
 	@UiHidden
-	public boolean isPopupVisible()
-	{
+	public boolean isPopupVisible() {
+
 		return mPopupVisible;
 	}
 
-	public void setPopupVisible( boolean popupVisible )
-	{
+	public void setPopupVisible( boolean popupVisible ) {
+
 		mPopupVisible = popupVisible;
 	}
 
 	@UiAction
-	public void back()
-	{
+	public void back() {
+
 		mPopupVisible = false;
 	}
 
 	@UiAttribute( name = FACES_IMMEDIATE, value = "true" )
 	@UiAction
 	@UiComesAfter( "back" )
-	public void delete()
-	{
+	public void delete() {
+
 		@SuppressWarnings( "unchecked" )
 		List<Penguin> list = (List<Penguin>) mAll.getWrappedData();
 		list.remove( mPenguinCurrent );

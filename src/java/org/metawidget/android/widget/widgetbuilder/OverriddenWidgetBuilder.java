@@ -35,36 +35,32 @@ import android.view.View;
  */
 
 public class OverriddenWidgetBuilder
-	implements WidgetBuilder<View, AndroidMetawidget>
-{
+	implements WidgetBuilder<View, AndroidMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
-	{
+	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget ) {
+
 		View view = null;
 		String name = attributes.get( NAME );
 
-		if ( name == null )
-		{
+		if ( name == null ) {
 			return null;
 		}
 
 		Set<View> existingUnusedViews = metawidget.fetchExistingUnusedViews();
 
-		for ( View viewExisting : existingUnusedViews )
-		{
-			if ( name.equals( viewExisting.getTag() ) )
-			{
+		for ( View viewExisting : existingUnusedViews ) {
+			if ( name.equals( viewExisting.getTag() ) ) {
 				view = viewExisting;
 				break;
 			}
 		}
 
-		if ( view != null )
-		{
+		if ( view != null ) {
 			existingUnusedViews.remove( view );
 		}
 

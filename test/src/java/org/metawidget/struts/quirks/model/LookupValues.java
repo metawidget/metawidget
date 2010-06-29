@@ -20,14 +20,14 @@ package org.metawidget.struts.quirks.model;
  * @author Richard Kennard
  */
 
-public class LookupValues
-{
+public class LookupValues {
+
 	//
 	// Public methods
 	//
 
-	public String[] getValues()
-	{
-		return new String[]{ "value1", "value2", "value3" };
+	public String[] getValues() {
+
+		return new String[] { "value1", "value2", "value3" };
 	}
 }

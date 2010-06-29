@@ -36,14 +36,14 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public abstract class GwtFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Widget, Panel, GwtMetawidget>
-{
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Widget, Panel, GwtMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected GwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config )
-	{
+	protected GwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -52,24 +52,23 @@ public abstract class GwtFlatSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return GwtUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected String[] getSections( Map<String, String> attributes )
-	{
+	protected String[] getSections( Map<String, String> attributes ) {
+
 		return GwtUtils.fromString( attributes.get( SECTION ), ',' ).toArray( new String[0] );
 	}
 
 	@Override
-	protected State getState( Panel container, GwtMetawidget metawidget )
-	{
+	protected State getState( Panel container, GwtMetawidget metawidget ) {
+
 		State state = (State) metawidget.getClientProperty( getClass() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidget.putClientProperty( getClass(), state );
 		}
@@ -78,8 +77,8 @@ public abstract class GwtFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Widget widget )
-	{
-		return ( widget instanceof Stub && ((Stub) widget).getWidgetCount() == 0 );
+	protected boolean isEmptyStub( Widget widget ) {
+
+		return ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 );
 	}
 }

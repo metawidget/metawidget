@@ -34,28 +34,26 @@ import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
  */
 
 public class SearchAction
-	extends Action
-{
+	extends Action {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	public ActionForward execute( ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response )
-		throws Exception
-	{
+		throws Exception {
+
 		// Add Personal
 
-		if ( request.getParameter( "addPersonal" ) != null )
-		{
+		if ( request.getParameter( "addPersonal" ) != null ) {
 			request.getSession().setAttribute( "contactForm", new PersonalContactForm() );
 			return mapping.findForward( "contact" );
 		}
 
 		// Add Business
 
-		if ( request.getParameter( "addBusiness" ) != null )
-		{
+		if ( request.getParameter( "addBusiness" ) != null ) {
 			request.getSession().setAttribute( "contactForm", new BusinessContactForm() );
 			return mapping.findForward( "contact" );
 		}
@@ -66,9 +64,9 @@ public class SearchAction
 		request.setAttribute( "contactSearch", contactSearch );
 
 		DynaActionForm actionForm = (DynaActionForm) form;
-		contactSearch.setFirstname( (String) actionForm.get( "firstname" ));
-		contactSearch.setSurname( (String) actionForm.get( "surname" ));
-		contactSearch.setType( (ContactType) actionForm.get( "type" ));
+		contactSearch.setFirstname( (String) actionForm.get( "firstname" ) );
+		contactSearch.setSurname( (String) actionForm.get( "surname" ) );
+		contactSearch.setType( (ContactType) actionForm.get( "type" ) );
 
 		return mapping.findForward( "results" );
 	}

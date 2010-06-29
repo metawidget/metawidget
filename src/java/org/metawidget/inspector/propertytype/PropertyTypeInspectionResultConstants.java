@@ -19,12 +19,12 @@ package org.metawidget.inspector.propertytype;
 /**
  * PropertyType-specific element and attribute names appearing in DOMs conforming to
  * inspection-result-1.0.xsd.
- * 
+ *
  * @author Richard Kennard
  */
 
-public final class PropertyTypeInspectionResultConstants
-{
+public final class PropertyTypeInspectionResultConstants {
+
 	//
 	// Public statics
 	//
@@ -48,8 +48,8 @@ public final class PropertyTypeInspectionResultConstants
 	// Private constructor
 	//
 
-	private PropertyTypeInspectionResultConstants()
-	{
+	private PropertyTypeInspectionResultConstants() {
+
 		// Can never be called
 	}
 }

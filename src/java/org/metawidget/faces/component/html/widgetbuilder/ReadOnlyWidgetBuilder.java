@@ -42,19 +42,18 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<UIComponent, UIMetawidget>
-{
+	implements WidgetBuilder<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		// Not read-only?
 
-		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
-		{
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 			return null;
 		}
 
@@ -63,15 +62,13 @@ public class ReadOnlyWidgetBuilder
 
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return application.createComponent( "org.metawidget.Stub" );
 		}
 
 		// Masked (return a couple of nested Stubs, so that we DO still render a label)
 
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			UIComponent component = application.createComponent( "org.metawidget.Stub" );
 			List<UIComponent> listChildren = component.getChildren();
 			listChildren.add( application.createComponent( "org.metawidget.Stub" ) );
@@ -81,8 +78,7 @@ public class ReadOnlyWidgetBuilder
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return application.createComponent( "org.metawidget.Stub" );
 		}
 
@@ -90,12 +86,10 @@ public class ReadOnlyWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-			if ( lookupLabels == null )
-			{
+			if ( lookupLabels == null ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 
@@ -103,8 +97,7 @@ public class ReadOnlyWidgetBuilder
 
 			List<String> labels = CollectionUtils.fromString( lookupLabels );
 
-			if ( labels.isEmpty() )
-			{
+			if ( labels.isEmpty() ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 
@@ -116,8 +109,7 @@ public class ReadOnlyWidgetBuilder
 
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
-		if ( facesLookup != null && !"".equals( facesLookup ) )
-		{
+		if ( facesLookup != null && !"".equals( facesLookup ) ) {
 			return application.createComponent( "javax.faces.HtmlOutputText" );
 		}
 
@@ -125,62 +117,53 @@ public class ReadOnlyWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 
 			// Object primitives
 
-			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
-			{
+			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 
 			// Dates
 
-			if ( Date.class.isAssignableFrom( clazz ) )
-			{
+			if ( Date.class.isAssignableFrom( clazz ) ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 
 			// Strings
 
-			if ( String.class.equals( clazz ) )
-			{
+			if ( String.class.equals( clazz ) ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 
 			// Collections that will be supported by HtmlWidgetBuilder
 
-			if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() )
-			{
+			if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 				return null;
 			}
 
 			// Other Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return application.createComponent( "javax.faces.HtmlOutputText" );
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return application.createComponent( "javax.faces.HtmlOutputText" );
 		}
 

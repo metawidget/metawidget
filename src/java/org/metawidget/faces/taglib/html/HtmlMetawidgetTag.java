@@ -30,8 +30,8 @@ import org.metawidget.faces.taglib.MetawidgetTag;
  */
 
 public class HtmlMetawidgetTag
-	extends MetawidgetTag
-{
+	extends MetawidgetTag {
+
 	//
 	// Private members
 	//
@@ -45,18 +45,18 @@ public class HtmlMetawidgetTag
 	//
 
 	@Override
-	public String getComponentType()
-	{
+	public String getComponentType() {
+
 		return "org.metawidget.HtmlMetawidget";
 	}
 
-	public void setStyle( String style )
-	{
+	public void setStyle( String style ) {
+
 		mStyle = style;
 	}
 
-	public void setStyleClass( String styleClass )
-	{
+	public void setStyleClass( String styleClass ) {
+
 		mStyleClass = styleClass;
 	}
 
@@ -65,8 +65,8 @@ public class HtmlMetawidgetTag
 	//
 
 	@Override
-	protected void setProperties( UIComponent component )
-	{
+	protected void setProperties( UIComponent component ) {
+
 		super.setProperties( component );
 
 		HtmlMetawidget metawidget = (HtmlMetawidget) component;

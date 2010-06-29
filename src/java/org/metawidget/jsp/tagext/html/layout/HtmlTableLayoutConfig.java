@@ -25,8 +25,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class HtmlTableLayoutConfig
-{
+public class HtmlTableLayoutConfig {
+
 	//
 	// Private members
 	//
@@ -47,8 +47,8 @@ public class HtmlTableLayoutConfig
 	// Public methods
 	//
 
-	public int getNumberOfColumns()
-	{
+	public int getNumberOfColumns() {
+
 		return mNumberOfColumns;
 	}
 
@@ -56,10 +56,9 @@ public class HtmlTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setNumberOfColumns( int numberOfColumns )
-	{
-		if ( numberOfColumns < 0 )
-		{
+	public HtmlTableLayoutConfig setNumberOfColumns( int numberOfColumns ) {
+
+		if ( numberOfColumns < 0 ) {
 			throw LayoutException.newException( "numberOfColumns must be >= 0" );
 		}
 
@@ -68,8 +67,8 @@ public class HtmlTableLayoutConfig
 		return this;
 	}
 
-	public String getTableStyle()
-	{
+	public String getTableStyle() {
+
 		return mTableStyle;
 	}
 
@@ -77,15 +76,15 @@ public class HtmlTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setTableStyle( String tableStyle )
-	{
+	public HtmlTableLayoutConfig setTableStyle( String tableStyle ) {
+
 		mTableStyle = tableStyle;
 
 		return this;
 	}
 
-	public String getTableStyleClass()
-	{
+	public String getTableStyleClass() {
+
 		return mTableStyleClass;
 	}
 
@@ -93,43 +92,44 @@ public class HtmlTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setTableStyleClass( String tableStyleClass )
-	{
+	public HtmlTableLayoutConfig setTableStyleClass( String tableStyleClass ) {
+
 		mTableStyleClass = tableStyleClass;
 
 		return this;
 	}
 
-	public String[] getColumnStyleClasses()
-	{
+	public String[] getColumnStyleClasses() {
+
 		return mColumnStyleClasses;
 	}
 
 	/**
-	 * Array of CSS style classes to apply to table columns in order of: label column, component column, required column.
+	 * Array of CSS style classes to apply to table columns in order of: label column, component
+	 * column, required column.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setColumnStyleClasses( String... columnStyleClasses )
-	{
+	public HtmlTableLayoutConfig setColumnStyleClasses( String... columnStyleClasses ) {
+
 		mColumnStyleClasses = columnStyleClasses;
 
 		return this;
 	}
 
-	public String getFooterStyle()
-	{
+	public String getFooterStyle() {
+
 		return mFooterStyle;
 	}
 
-	public void setFooterStyle( String footerStyle )
-	{
+	public void setFooterStyle( String footerStyle ) {
+
 		mFooterStyle = footerStyle;
 	}
 
-	public String getFooterStyleClass()
-	{
+	public String getFooterStyleClass() {
+
 		return mFooterStyleClass;
 	}
 
@@ -137,58 +137,49 @@ public class HtmlTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setFooterStyleClass( String footerStyleClass )
-	{
+	public HtmlTableLayoutConfig setFooterStyleClass( String footerStyleClass ) {
+
 		mFooterStyleClass = footerStyleClass;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mNumberOfColumns != ((HtmlTableLayoutConfig) that).mNumberOfColumns )
-		{
+		if ( mNumberOfColumns != ( (HtmlTableLayoutConfig) that ).mNumberOfColumns ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ((HtmlTableLayoutConfig) that).mTableStyle ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ( (HtmlTableLayoutConfig) that ).mTableStyle ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ((HtmlTableLayoutConfig) that).mTableStyleClass ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ( (HtmlTableLayoutConfig) that ).mTableStyleClass ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mColumnStyleClasses, ((HtmlTableLayoutConfig) that).mColumnStyleClasses ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mColumnStyleClasses, ( (HtmlTableLayoutConfig) that ).mColumnStyleClasses ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mFooterStyle, ((HtmlTableLayoutConfig) that).mFooterStyle ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mFooterStyle, ( (HtmlTableLayoutConfig) that ).mFooterStyle ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mFooterStyleClass, ((HtmlTableLayoutConfig) that).mFooterStyleClass ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mFooterStyleClass, ( (HtmlTableLayoutConfig) that ).mFooterStyleClass ) ) {
 			return false;
 		}
 
@@ -196,8 +187,8 @@ public class HtmlTableLayoutConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + mNumberOfColumns;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyle );

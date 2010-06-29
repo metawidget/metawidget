@@ -35,15 +35,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SwingWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		SwingWidgetBuilder widgetBuilder = new SwingWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
@@ -58,14 +58,11 @@ public class SwingWidgetBuilderTest
 		assertTrue( 2 == slider.getValue() );
 		assertTrue( 99 == slider.getMaximum() );
 
-		try
-		{
+		try {
 			attributes.put( MINIMUM_VALUE, "1.5" );
 			slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 			assertTrue( false );
-		}
-		catch( NumberFormatException e )
-		{
+		} catch ( NumberFormatException e ) {
 			assertEquals( "For input string: \"1.5\"", e.getMessage() );
 		}
 
@@ -91,13 +88,13 @@ public class SwingWidgetBuilderTest
 		attributes.put( TYPE, byte.class.getName() );
 
 		JSpinner spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((byte) 2) == (Byte) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
-		assertTrue( ((byte) 2) == (Byte) spinner.getValue() );
+		assertTrue( ( (byte) 2 ) == (Byte) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
+		assertTrue( ( (byte) 2 ) == (Byte) spinner.getValue() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "99" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((byte) 99) == (Byte) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( ( (byte) 99 ) == (Byte) ( (SpinnerNumberModel) spinner.getModel() ).getMaximum() );
 
 		// shorts
 
@@ -106,13 +103,13 @@ public class SwingWidgetBuilderTest
 		attributes.put( TYPE, short.class.getName() );
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((short) 3) == (Short) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
-		assertTrue( ((short) 3) == (Short) spinner.getValue() );
+		assertTrue( ( (short) 3 ) == (Short) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
+		assertTrue( ( (short) 3 ) == (Short) spinner.getValue() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "98" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((short) 98) == (Short) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( ( (short) 98 ) == (Short) ( (SpinnerNumberModel) spinner.getModel() ).getMaximum() );
 
 		// ints
 
@@ -121,13 +118,13 @@ public class SwingWidgetBuilderTest
 		attributes.put( TYPE, int.class.getName() );
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( 4 == (Integer) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
+		assertTrue( 4 == (Integer) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
 		assertTrue( 4 == (Integer) spinner.getValue() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "97" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( 97 == (Integer) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( 97 == (Integer) ( (SpinnerNumberModel) spinner.getModel() ).getMaximum() );
 
 		// longs
 
@@ -136,13 +133,13 @@ public class SwingWidgetBuilderTest
 		attributes.put( TYPE, long.class.getName() );
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((long) 5) == (Long) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
-		assertTrue( ((long) 5) == (Long) spinner.getValue() );
+		assertTrue( ( (long) 5 ) == (Long) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
+		assertTrue( ( (long) 5 ) == (Long) spinner.getValue() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "96" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((long) 96) == (Long) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( ( (long) 96 ) == (Long) ( (SpinnerNumberModel) spinner.getModel() ).getMaximum() );
 
 		// floats
 
@@ -152,11 +149,11 @@ public class SwingWidgetBuilderTest
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1.6f == (Float) spinner.getValue() );
-		assertTrue( 0.1f == (Float) ((SpinnerNumberModel) spinner.getModel()).getStepSize() );
+		assertTrue( 0.1f == (Float) ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
 
 		attributes.put( MAXIMUM_FRACTIONAL_DIGITS, "3" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( 0.001f == (Float) ((SpinnerNumberModel) spinner.getModel()).getStepSize() );
+		assertTrue( 0.001f == (Float) ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
@@ -174,7 +171,7 @@ public class SwingWidgetBuilderTest
 		attributes.put( MINIMUM_VALUE, "1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1.6d == (Double) spinner.getValue() );
-		assertTrue( 1000 == Math.round( ((Double) ((SpinnerNumberModel) spinner.getModel()).getStepSize()) * 1000000 ));
+		assertTrue( 1000 == Math.round( ( (Double) ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() ) * 1000000 ) );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );

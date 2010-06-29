@@ -39,8 +39,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class Bundle2VariableTag
-	extends TagSupport
-{
+	extends TagSupport {
+
 	//
 	// Private statics
 	//
@@ -61,43 +61,39 @@ public class Bundle2VariableTag
 	// Public methods
 	//
 
-	public void setBundle( ResourceBundle bundle )
-	{
+	public void setBundle( ResourceBundle bundle ) {
+
 		mBundle = bundle;
 	}
 
-	public void setVariableName( String variableName )
-	{
+	public void setVariableName( String variableName ) {
+
 		mVariableName = variableName;
 	}
 
 	@Override
 	public int doEndTag()
-		throws JspException
-	{
-		if ( mBundle == null )
-		{
+		throws JspException {
+
+		if ( mBundle == null ) {
 			throw new JspException( "Bundle is required" );
 		}
 
-		if ( mVariableName == null || "".equals( mVariableName ) )
-		{
+		if ( mVariableName == null || "".equals( mVariableName ) ) {
 			throw new JspException( "Variable name is required" );
 		}
 
-		try
-		{
+		try {
 			JspWriter writer = pageContext.getOut();
 
 			writer.write( "<script type=\"text/javascript\">\n\tvar " );
 			writer.write( mVariableName );
 			writer.write( " = {\n" );
 
-			List<String> keys = CollectionUtils.newArrayList( mBundle.keySet());
+			List<String> keys = CollectionUtils.newArrayList( mBundle.keySet() );
 			Collections.sort( keys );
 
-			for ( int loop = 0, length = keys.size(); loop < length; loop++ )
-			{
+			for ( int loop = 0, length = keys.size(); loop < length; loop++ ) {
 				String key = keys.get( loop );
 				writer.write( "\t\"" );
 				writer.write( key );
@@ -105,8 +101,7 @@ public class Bundle2VariableTag
 				writer.write( mBundle.getString( key ) );
 				writer.write( "\"" );
 
-				if ( loop < length - 1 )
-				{
+				if ( loop < length - 1 ) {
 					writer.write( "," );
 				}
 
@@ -114,9 +109,7 @@ public class Bundle2VariableTag
 			}
 
 			writer.write( "};\n</script>\n" );
-		}
-		catch ( IOException e )
-		{
+		} catch ( IOException e ) {
 			throw new JspException( e );
 		}
 
@@ -124,8 +117,8 @@ public class Bundle2VariableTag
 	}
 
 	@Override
-	public void release()
-	{
+	public void release() {
+
 		super.release();
 
 		mBundle = null;

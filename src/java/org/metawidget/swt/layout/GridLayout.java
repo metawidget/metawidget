@@ -43,8 +43,8 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class GridLayout
-	implements AdvancedLayout<Control, Composite, SwtMetawidget>
-{
+	implements AdvancedLayout<Control, Composite, SwtMetawidget> {
+
 	//
 	// Private statics
 	//
@@ -75,13 +75,13 @@ public class GridLayout
 	// Constructor
 	//
 
-	public GridLayout()
-	{
+	public GridLayout() {
+
 		this( new GridLayoutConfig() );
 	}
 
-	public GridLayout( GridLayoutConfig config )
-	{
+	public GridLayout( GridLayoutConfig config ) {
+
 		mNumberOfColumns = config.getNumberOfColumns();
 		mLabelAlignment = config.getLabelAlignment();
 		mLabelForeground = config.getLabelForeground();
@@ -95,13 +95,13 @@ public class GridLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwtMetawidget metawidget )
-	{
+	public void onStartBuild( SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		// Calculate default label inset
 		//
 		// We top align all our labels, not just those belonging to 'tall' components,
@@ -113,12 +113,11 @@ public class GridLayout
 		container.setLayout( layoutManager );
 	}
 
-	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		// Do not layout space for empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 )
-		{
+		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 ) {
 			GridData stubData = new GridData();
 			stubData.exclude = true;
 			component.setLayoutData( stubData );
@@ -129,15 +128,13 @@ public class GridLayout
 
 		boolean spanAllColumns = willFillHorizontally( component, attributes );
 
-		if ( spanAllColumns )
-		{
+		if ( spanAllColumns ) {
 			int numberOfChildren = container.getChildren().length;
 			int numberColumnsRemainingOnRow = numberOfChildren % ( mNumberOfColumns * LABEL_AND_CONTROL );
 
-			if ( numberColumnsRemainingOnRow != 0 && numberOfChildren > 1 )
-			{
+			if ( numberColumnsRemainingOnRow != 0 && numberOfChildren > 1 ) {
 				Control lastControl = container.getChildren()[numberOfChildren - 2];
-				((GridData) lastControl.getLayoutData()).horizontalSpan = numberColumnsRemainingOnRow;
+				( (GridData) lastControl.getLayoutData() ).horizontalSpan = numberColumnsRemainingOnRow;
 			}
 		}
 
@@ -145,8 +142,7 @@ public class GridLayout
 
 		String labelText = null;
 
-		if ( attributes != null )
-		{
+		if ( attributes != null ) {
 			labelText = metawidget.getLabelString( attributes );
 		}
 
@@ -157,28 +153,22 @@ public class GridLayout
 		GridData componentLayoutData = new GridData();
 		componentLayoutData.grabExcessHorizontalSpace = true;
 
-		if ( !( component instanceof Button ) )
-		{
+		if ( !( component instanceof Button ) ) {
 			componentLayoutData.horizontalAlignment = SWT.FILL;
 			componentLayoutData.verticalAlignment = SWT.FILL;
 		}
 
-		if ( spanAllColumns )
-		{
+		if ( spanAllColumns ) {
 			componentLayoutData.horizontalSpan = mNumberOfColumns * LABEL_AND_CONTROL;
 
-			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-			{
+			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 				componentLayoutData.horizontalSpan--;
 			}
-		}
-		else if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-		{
+		} else if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			componentLayoutData.horizontalSpan = LABEL_AND_CONTROL;
 		}
 
-		if ( willFillVertically( component, attributes ) )
-		{
+		if ( willFillVertically( component, attributes ) ) {
 			componentLayoutData.grabExcessVerticalSpace = true;
 		}
 
@@ -187,19 +177,18 @@ public class GridLayout
 		component.setLayoutData( componentLayoutData );
 	}
 
-	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void onEndBuild( SwtMetawidget metawidget )
-	{
+	public void onEndBuild( SwtMetawidget metawidget ) {
+
 		// Buttons
 
 		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
-		if ( buttonsFacet != null )
-		{
+		if ( buttonsFacet != null ) {
 			GridData buttonLayoutData = new GridData();
 			buttonLayoutData.horizontalSpan = 2;
 			buttonLayoutData.horizontalAlignment = SWT.FILL;
@@ -214,22 +203,19 @@ public class GridLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		// Add label
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-		{
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			Label label = new Label( container, SWT.None );
 			label.setData( NAME, attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
-			if ( mLabelFont != null )
-			{
+			if ( mLabelFont != null ) {
 				label.setFont( mLabelFont );
 			}
 
-			if ( mLabelForeground != null )
-			{
+			if ( mLabelForeground != null ) {
 				label.setForeground( mLabelForeground );
 			}
 
@@ -239,20 +225,15 @@ public class GridLayout
 
 			String labelTextToUse = labelText;
 
-			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-			{
-				if ( mRequiredAlignment == SWT.CENTER )
-				{
+			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
+				if ( mRequiredAlignment == SWT.CENTER ) {
 					labelTextToUse += mRequiredText;
-				}
-				else if ( mRequiredAlignment == SWT.LEFT )
-				{
+				} else if ( mRequiredAlignment == SWT.LEFT ) {
 					labelTextToUse = mRequiredText + labelTextToUse;
 				}
 			}
 
-			if ( mLabelSuffix != null )
-			{
+			if ( mLabelSuffix != null ) {
 				labelTextToUse += mLabelSuffix;
 			}
 
@@ -269,20 +250,18 @@ public class GridLayout
 		return labelText;
 	}
 
-	protected boolean willFillHorizontally( Control component, Map<String, String> attributes )
-	{
-		if ( component instanceof SwtMetawidget )
-		{
+	protected boolean willFillHorizontally( Control component, Map<String, String> attributes ) {
+
+		if ( component instanceof SwtMetawidget ) {
 			return true;
 		}
 
 		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
 
-	protected boolean willFillVertically( Control component, Map<String, String> attributes )
-	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
-		{
+	protected boolean willFillVertically( Control component, Map<String, String> attributes ) {
+
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;
 		}
 

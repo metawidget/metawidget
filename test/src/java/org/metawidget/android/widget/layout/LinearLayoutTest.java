@@ -36,14 +36,14 @@ import android.widget.TextView;
  */
 
 public class LinearLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testLinearLayout()
-	{
+	public void testLinearLayout() {
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 		androidMetawidget.setLayout( new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new LinearLayout() ) ) );
 
@@ -71,10 +71,9 @@ public class LinearLayoutTest
 		assertTrue( androidMetawidget.getChildCount() == 7 );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( LinearLayoutConfig.class, new LinearLayoutConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( LinearLayoutConfig.class, new LinearLayoutConfig() {
 			// Subclass
 		} );
 	}
@@ -83,8 +82,8 @@ public class LinearLayoutTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	bar;
 
 		@UiComesAfter( "bar" )

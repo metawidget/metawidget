@@ -32,8 +32,8 @@ import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
  * @author Richard Kennard
  */
 
-public class Car
-{
+public class Car {
+
 	//
 	// Private members
 	//
@@ -50,94 +50,86 @@ public class Car
 	// Public methods
 	//
 
-	public String getMake()
-	{
+	public String getMake() {
+
 		return mMake;
 	}
 
-	public void setMake( String make )
-	{
+	public void setMake( String make ) {
+
 		mMake = make;
 	}
 
 	@UiComesAfter( "make" )
 	@UiLookup( { "Sport", "Hatch", "Wagon" } )
-	public String getType()
-	{
+	public String getType() {
+
 		return mType;
 	}
 
-	public void setType( String type )
-	{
+	public void setType( String type ) {
+
 		mType = type;
 	}
 
 	@UiJexlAttribute( name = HIDDEN, expression = "this.owner == null" )
 	@UiComesAfter( "type" )
-	public Owner getOwner()
-	{
+	public Owner getOwner() {
+
 		return mOwner;
 	}
 
-	public void setOwner( Owner owner )
-	{
+	public void setOwner( Owner owner ) {
+
 		mOwner = owner;
 	}
 
 	@Action( name = "add" )
 	@UiJexlAttribute( name = HIDDEN, expression = "this.owner != null" )
-	public void addOwner()
-	{
+	public void addOwner() {
+
 		mOwner = new Owner();
 		fireActionEvent( "addOwner" );
 	}
 
-	public void addActionListener( ActionListener listener )
-	{
+	public void addActionListener( ActionListener listener ) {
+
 		mActionListeners.add( listener );
 	}
 
-	public void removeActionListener( ActionListener listener )
-	{
+	public void removeActionListener( ActionListener listener ) {
+
 		mActionListeners.remove( listener );
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		StringBuilder builder = new StringBuilder();
 
-		if ( mMake != null )
-		{
+		if ( mMake != null ) {
 			builder.append( mMake );
 		}
 
-		if ( mType != null )
-		{
-			if ( builder.length() > 0 )
-			{
+		if ( mType != null ) {
+			if ( builder.length() > 0 ) {
 				builder.append( " " );
 			}
 
 			builder.append( mType );
 		}
 
-		if ( mOwner != null )
-		{
-			if ( builder.length() == 0 )
-			{
+		if ( mOwner != null ) {
+			if ( builder.length() == 0 ) {
 				builder.append( "Owned by " );
-			}
-			else
-			{
+			} else {
 				builder.append( ", owned by " );
 			}
 
 			builder.append( mOwner );
 		}
 
-		if ( builder.length() == 0 )
-		{
+		if ( builder.length() == 0 ) {
 			builder.append( "(no car specified)" );
 		}
 
@@ -148,12 +140,11 @@ public class Car
 	// Protected methods
 	//
 
-	protected void fireActionEvent( String command )
-	{
+	protected void fireActionEvent( String command ) {
+
 		ActionEvent event = new ActionEvent( this, 0, command );
 
-		for ( ActionListener actionListener : mActionListeners )
-		{
+		for ( ActionListener actionListener : mActionListeners ) {
 			actionListener.actionPerformed( event );
 		}
 	}

@@ -20,8 +20,8 @@ package org.metawidget.example.swing.appframework;
  * @author Richard Kennard
  */
 
-public class Owner
-{
+public class Owner {
+
 	//
 	// Private members
 	//
@@ -34,48 +34,44 @@ public class Owner
 	// Public methods
 	//
 
-	public String getFirstname()
-	{
+	public String getFirstname() {
+
 		return mFirstname;
 	}
 
-	public void setFirstname( String firstname )
-	{
+	public void setFirstname( String firstname ) {
+
 		mFirstname = firstname;
 	}
 
-	public String getSurname()
-	{
+	public String getSurname() {
+
 		return mSurname;
 	}
 
-	public void setSurname( String surname )
-	{
+	public void setSurname( String surname ) {
+
 		mSurname = surname;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		StringBuilder builder = new StringBuilder();
 
-		if ( mFirstname != null )
-		{
+		if ( mFirstname != null ) {
 			builder.append( mFirstname );
 		}
 
-		if ( mSurname != null )
-		{
-			if ( builder.length() > 0 )
-			{
+		if ( mSurname != null ) {
+			if ( builder.length() > 0 ) {
 				builder.append( " " );
 			}
 
 			builder.append( mSurname );
 		}
 
-		if ( builder.length() == 0 )
-		{
+		if ( builder.length() == 0 ) {
 			builder.append( "(no name specified)" );
 		}
 

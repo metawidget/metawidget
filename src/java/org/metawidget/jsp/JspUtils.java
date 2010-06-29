@@ -48,14 +48,14 @@ import javax.servlet.jsp.tagext.Tag;
  * @author Richard Kennard
  */
 
-public final class JspUtils
-{
+public final class JspUtils {
+
 	//
 	// Public statics
 	//
 
-	public static boolean isExpression( String binding )
-	{
+	public static boolean isExpression( String binding ) {
+
 		return PATTERN_BINDING.matcher( binding ).matches();
 	}
 
@@ -63,8 +63,8 @@ public final class JspUtils
 	 * @return true if the given HTML consists of nothing but hidden fields
 	 */
 
-	public static boolean isJustHiddenFields( String html )
-	{
+	public static boolean isJustHiddenFields( String html ) {
+
 		return PATTERN_HIDDEN_FIELDS.matcher( html ).matches();
 	}
 
@@ -73,56 +73,44 @@ public final class JspUtils
 	 */
 
 	public static String writeTag( PageContext context, Tag tag, Tag parentTag, BodyPreparer generator )
-		throws JspException
-	{
+		throws JspException {
+
 		PageContextDelegate pageContext = new PageContextDelegate( context );
 
 		tag.setPageContext( pageContext );
 		tag.setParent( parentTag );
 
-		try
-		{
+		try {
 			int returnCode = tag.doStartTag();
 
-			if ( returnCode != Tag.SKIP_BODY )
-			{
-				if ( generator != null )
-				{
-					if ( tag instanceof BodyTag )
-					{
+			if ( returnCode != Tag.SKIP_BODY ) {
+				if ( generator != null ) {
+					if ( tag instanceof BodyTag ) {
 						( (BodyTag) tag ).setBodyContent( new BufferedContent() );
 					}
 
-					try
-					{
+					try {
 						generator.prepareBody( pageContext );
-					}
-					catch ( IOException e )
-					{
+					} catch ( IOException e ) {
 						throw new JspException( e );
 					}
 
-					if ( tag instanceof BodyTag )
-					{
+					if ( tag instanceof BodyTag ) {
 						( (BodyTag) tag ).doInitBody();
 					}
 				}
 
-				if ( tag instanceof IterationTag )
-				{
+				if ( tag instanceof IterationTag ) {
 					returnCode = IterationTag.EVAL_BODY_AGAIN;
 
-					while( returnCode == IterationTag.EVAL_BODY_AGAIN )
-					{
+					while ( returnCode == IterationTag.EVAL_BODY_AGAIN ) {
 						returnCode = ( (IterationTag) tag ).doAfterBody();
 					}
 				}
 			}
 
 			tag.doEndTag();
-		}
-		finally
-		{
+		} finally {
 			tag.release();
 		}
 
@@ -141,12 +129,12 @@ public final class JspUtils
 	 * that has children, the <code>doStartTag</code> and <code>doInitBody</code> methods of the
 	 * various parents and children must be called in the correct order.
 	 * <p>
-	 * To make this easier, <code>writeTag</code> takes a callback method for preparing
-	 * body content after the tag's <code>doStartTag</code> but before its <code>doInitBody</code>.
+	 * To make this easier, <code>writeTag</code> takes a callback method for preparing body content
+	 * after the tag's <code>doStartTag</code> but before its <code>doInitBody</code>.
 	 */
 
-	public interface BodyPreparer
-	{
+	public interface BodyPreparer {
+
 		void prepareBody( PageContext delegateContext )
 			throws JspException, IOException;
 	}
@@ -157,8 +145,8 @@ public final class JspUtils
 	 */
 
 	private static class PageContextDelegate
-		extends PageContext
-	{
+		extends PageContext {
+
 		//
 		//
 		// Private members
@@ -175,8 +163,8 @@ public final class JspUtils
 		//
 		//
 
-		public PageContextDelegate( PageContext context )
-		{
+		public PageContextDelegate( PageContext context ) {
+
 			mContext = context;
 			mWriter = new BufferedContent();
 		}
@@ -188,8 +176,8 @@ public final class JspUtils
 		//
 
 		@Override
-		public JspWriter getOut()
-		{
+		public JspWriter getOut() {
+
 			return mWriter;
 		}
 
@@ -200,173 +188,173 @@ public final class JspUtils
 		//
 
 		@Override
-		public Object findAttribute( String attribute )
-		{
+		public Object findAttribute( String attribute ) {
+
 			return mContext.findAttribute( attribute );
 		}
 
 		@Override
 		public void forward( String relativeUrlPath )
-			throws ServletException, IOException
-		{
+			throws ServletException, IOException {
+
 			mContext.forward( relativeUrlPath );
 		}
 
 		@Override
-		public Object getAttribute( String name, int scope )
-		{
+		public Object getAttribute( String name, int scope ) {
+
 			return mContext.getAttribute( name, scope );
 		}
 
 		@Override
-		public Object getAttribute( String name )
-		{
+		public Object getAttribute( String name ) {
+
 			return mContext.getAttribute( name );
 		}
 
 		@Override
-		public Enumeration<?> getAttributeNamesInScope( int scope )
-		{
+		public Enumeration<?> getAttributeNamesInScope( int scope ) {
+
 			return mContext.getAttributeNamesInScope( scope );
 		}
 
 		@Override
-		public int getAttributesScope( String name )
-		{
+		public int getAttributesScope( String name ) {
+
 			return mContext.getAttributesScope( name );
 		}
 
 		@Override
-		public Exception getException()
-		{
+		public Exception getException() {
+
 			return mContext.getException();
 		}
 
 		@Override
-		public ExpressionEvaluator getExpressionEvaluator()
-		{
+		public ExpressionEvaluator getExpressionEvaluator() {
+
 			return mContext.getExpressionEvaluator();
 		}
 
 		@Override
-		public Object getPage()
-		{
+		public Object getPage() {
+
 			return mContext.getPage();
 		}
 
 		@Override
-		public ServletRequest getRequest()
-		{
+		public ServletRequest getRequest() {
+
 			return mContext.getRequest();
 		}
 
 		@Override
-		public ServletResponse getResponse()
-		{
+		public ServletResponse getResponse() {
+
 			return mContext.getResponse();
 		}
 
 		@Override
-		public ServletConfig getServletConfig()
-		{
+		public ServletConfig getServletConfig() {
+
 			return mContext.getServletConfig();
 		}
 
 		@Override
-		public ServletContext getServletContext()
-		{
+		public ServletContext getServletContext() {
+
 			return mContext.getServletContext();
 		}
 
 		@Override
-		public HttpSession getSession()
-		{
+		public HttpSession getSession() {
+
 			return mContext.getSession();
 		}
 
 		@Override
-		public VariableResolver getVariableResolver()
-		{
+		public VariableResolver getVariableResolver() {
+
 			return mContext.getVariableResolver();
 		}
 
 		@Override
 		public void handlePageException( Exception exception )
-			throws ServletException, IOException
-		{
+			throws ServletException, IOException {
+
 			mContext.handlePageException( exception );
 		}
 
 		@Override
 		public void handlePageException( Throwable throwable )
-			throws ServletException, IOException
-		{
+			throws ServletException, IOException {
+
 			mContext.handlePageException( throwable );
 		}
 
 		@Override
 		public void include( String relativeUrlPath, boolean flush )
-			throws ServletException, IOException
-		{
+			throws ServletException, IOException {
+
 			mContext.include( relativeUrlPath, flush );
 		}
 
 		@Override
 		public void include( String relativeUrlPath )
-			throws ServletException, IOException
-		{
+			throws ServletException, IOException {
+
 			mContext.include( relativeUrlPath );
 		}
 
 		@Override
 		public void initialize( Servlet servlet, ServletRequest request, ServletResponse response, String errorPageUrl, boolean needsSession, int bufferSize, boolean autoFlush )
-			throws IOException, IllegalStateException, IllegalArgumentException
-		{
+			throws IOException, IllegalStateException, IllegalArgumentException {
+
 			mContext.initialize( servlet, request, response, errorPageUrl, needsSession, bufferSize, autoFlush );
 		}
 
 		@Override
-		public void release()
-		{
+		public void release() {
+
 			mContext.release();
 		}
 
 		@Override
-		public void removeAttribute( String name, int scope )
-		{
+		public void removeAttribute( String name, int scope ) {
+
 			mContext.removeAttribute( name, scope );
 		}
 
 		@Override
-		public void removeAttribute( String name )
-		{
+		public void removeAttribute( String name ) {
+
 			mContext.removeAttribute( name );
 		}
 
 		@Override
-		public void setAttribute( String name, Object value, int scope )
-		{
+		public void setAttribute( String name, Object value, int scope ) {
+
 			mContext.setAttribute( name, value, scope );
 		}
 
 		@Override
-		public void setAttribute( String name, Object value )
-		{
+		public void setAttribute( String name, Object value ) {
+
 			mContext.setAttribute( name, value );
 		}
 	}
 
 	/**
-	 * Acts as a buffer for <code>BodyContent</code>. Allows <code>Tag</code> output to be
-	 * buffered temporarily before deciding whether to use it or discard it.
+	 * Acts as a buffer for <code>BodyContent</code>. Allows <code>Tag</code> output to be buffered
+	 * temporarily before deciding whether to use it or discard it.
 	 * <p>
 	 * Since <code>BodyContent</code> extends <code>JspWriter</code>, acts as a buffer for
 	 * <code>JspWriter</code> too.
 	 */
 
 	private static class BufferedContent
-		extends BodyContent
-	{
+		extends BodyContent {
+
 		//
 		//
 		// Private members
@@ -383,8 +371,8 @@ public final class JspUtils
 		//
 		//
 
-		public BufferedContent()
-		{
+		public BufferedContent() {
+
 			super( null );
 			clear();
 		}
@@ -396,184 +384,184 @@ public final class JspUtils
 		//
 
 		@Override
-		public void clear()
-		{
+		public void clear() {
+
 			mStringWriter = new StringWriter();
 			mPrintWriter = new PrintWriter( mStringWriter );
 		}
 
 		@Override
-		public void clearBuffer()
-		{
+		public void clearBuffer() {
+
 			// Do nothing
 		}
 
 		@Override
-		public void close()
-		{
+		public void close() {
+
 			mPrintWriter.close();
 		}
 
 		@Override
-		public void flush()
-		{
+		public void flush() {
+
 			mPrintWriter.flush();
 		}
 
 		@Override
-		public int getRemaining()
-		{
+		public int getRemaining() {
+
 			return 0;
 		}
 
 		@Override
-		public void newLine()
-		{
+		public void newLine() {
+
 			mPrintWriter.println();
 		}
 
 		@Override
-		public void print( boolean value )
-		{
+		public void print( boolean value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( char value )
-		{
+		public void print( char value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( int value )
-		{
+		public void print( int value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( long value )
-		{
+		public void print( long value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( float value )
-		{
+		public void print( float value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( double value )
-		{
+		public void print( double value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( char[] value )
-		{
+		public void print( char[] value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( String value )
-		{
+		public void print( String value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void print( Object value )
-		{
+		public void print( Object value ) {
+
 			mPrintWriter.print( value );
 		}
 
 		@Override
-		public void println()
-		{
+		public void println() {
+
 			mPrintWriter.println();
 		}
 
 		@Override
-		public void println( boolean value )
-		{
+		public void println( boolean value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( char value )
-		{
+		public void println( char value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( int value )
-		{
+		public void println( int value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( long value )
-		{
+		public void println( long value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( float value )
-		{
+		public void println( float value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( double value )
-		{
+		public void println( double value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( char[] value )
-		{
+		public void println( char[] value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( String value )
-		{
+		public void println( String value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void println( Object value )
-		{
+		public void println( Object value ) {
+
 			mPrintWriter.println( value );
 		}
 
 		@Override
-		public void write( char[] cbuf, int off, int len )
-		{
+		public void write( char[] cbuf, int off, int len ) {
+
 			mPrintWriter.write( cbuf, off, len );
 		}
 
 		@Override
-		public String toString()
-		{
+		public String toString() {
+
 			return getString();
 		}
 
 		@Override
-		public Reader getReader()
-		{
+		public Reader getReader() {
+
 			return new StringReader( getString() );
 		}
 
 		@Override
-		public String getString()
-		{
+		public String getString() {
+
 			return mStringWriter.toString();
 		}
 
 		@Override
 		public void writeOut( Writer writer )
-			throws IOException
-		{
+			throws IOException {
+
 			writer.write( getString() );
 		}
 	}
@@ -590,8 +578,8 @@ public final class JspUtils
 	// Private constructor
 	//
 
-	private JspUtils()
-	{
+	private JspUtils() {
+
 		// Can never be called
 	}
 }

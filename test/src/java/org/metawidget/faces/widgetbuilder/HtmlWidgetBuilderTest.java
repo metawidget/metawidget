@@ -60,8 +60,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class HtmlWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -73,8 +73,8 @@ public class HtmlWidgetBuilderTest
 	//
 
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = new ReadOnlyWidgetBuilder();
 		HtmlMetawidget dummyMetawdget = new HtmlMetawidget();
 
@@ -189,18 +189,18 @@ public class HtmlWidgetBuilderTest
 
 	@SuppressWarnings( "deprecation" )
 	public void testSharedWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
 		// Action
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		HtmlCommandButton htmlCommandButton = (HtmlCommandButton) widgetBuilder.buildWidget( ACTION, attributes, new HtmlMetawidget()
-		{
+		HtmlCommandButton htmlCommandButton = (HtmlCommandButton) widgetBuilder.buildWidget( ACTION, attributes, new HtmlMetawidget() {
+
 			@Override
-			public String getLabelString( Map<String, String> passedAttributes )
-			{
+			public String getLabelString( Map<String, String> passedAttributes ) {
+
 				return "foo";
 			}
 		} );
@@ -329,10 +329,9 @@ public class HtmlWidgetBuilderTest
 		furtherAssert( htmlInputTextarea );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig() {
 			// Subclass
 		} );
 	}
@@ -343,23 +342,22 @@ public class HtmlWidgetBuilderTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = newMockFacesContext();
 	}
 
-	protected MockFacesContext newMockFacesContext()
-	{
-		return new MockFacesContext()
-		{
+	protected MockFacesContext newMockFacesContext() {
+
+		return new MockFacesContext() {
+
 			@Override
 			public UIComponent createComponent( String componentName )
-				throws FacesException
-			{
-				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) )
-				{
+				throws FacesException {
+
+				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) ) {
 					return new HtmlLookupOutputText();
 				}
 
@@ -368,20 +366,20 @@ public class HtmlWidgetBuilderTest
 		};
 	}
 
-	protected WidgetBuilder<UIComponent, UIMetawidget> newWidgetBuilder()
-	{
+	protected WidgetBuilder<UIComponent, UIMetawidget> newWidgetBuilder() {
+
 		return new HtmlWidgetBuilder();
 	}
 
-	protected void furtherAssert( UIComponent component )
-	{
+	protected void furtherAssert( UIComponent component ) {
+
 		// Nothing by default
 	}
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();
@@ -391,8 +389,8 @@ public class HtmlWidgetBuilderTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	bar;
 
 		public String	baz;

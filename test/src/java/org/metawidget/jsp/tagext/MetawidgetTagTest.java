@@ -38,15 +38,15 @@ import org.metawidget.util.LogUtilsTest;
  */
 
 public class MetawidgetTagTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testMissingDefaultConfig()
-		throws Exception
-	{
+		throws Exception {
+
 		MockPageContext pageContext = new MockPageContext();
 		Field field = TagSupport.class.getDeclaredField( "pageContext" );
 		field.setAccessible( true );
@@ -54,7 +54,7 @@ public class MetawidgetTagTest
 		MetawidgetTag metawidget = new HtmlMetawidgetTag();
 		field.set( metawidget, pageContext );
 
-		assertTrue( null == pageContext.getServletContext().getAttribute( "metawidget-config-reader" ));
+		assertTrue( null == pageContext.getServletContext().getAttribute( "metawidget-config-reader" ) );
 
 		// Should not error (just log)
 
@@ -67,15 +67,12 @@ public class MetawidgetTagTest
 
 		// Should error
 
-		try
-		{
+		try {
 			metawidget.setConfig( "does-not-exist.xml" );
 			metawidget.configure();
 			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
-			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage());
+		} catch ( MetawidgetException e ) {
+			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage() );
 		}
 
 		// Should not re-log
@@ -84,6 +81,6 @@ public class MetawidgetTagTest
 		metawidget = new HtmlMetawidgetTag();
 		field.set( metawidget, pageContext );
 		metawidget.configure();
-		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ));
+		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}
 }

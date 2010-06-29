@@ -28,14 +28,14 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderExceptionTest;
  */
 
 public class WidgetBuilderTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "WidgetBuilder Tests" );
 		suite.addTestSuite( CompositeWidgetBuilderTest.class );
 		suite.addTestSuite( WidgetBuilderExceptionTest.class );

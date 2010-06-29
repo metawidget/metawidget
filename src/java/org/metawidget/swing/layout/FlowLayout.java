@@ -35,29 +35,28 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayout
-	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
-{
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
-	{
+	public void onStartBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
 	@Override
-	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		container.setLayout( new java.awt.FlowLayout() );
 	}
 
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-		{
+		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 ) {
 			return;
 		}
 
@@ -67,13 +66,13 @@ public class FlowLayout
 	}
 
 	@Override
-	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
-	{
+	public void onEndBuild( SwingMetawidget metawidget ) {
+
 		// Do nothing
 	}
 }

@@ -35,15 +35,15 @@ import org.w3c.dom.Element;
  */
 
 public class CastorInspectorExampleTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testInspectorExample()
-		throws Exception
-	{
+		throws Exception {
+
 		// Set up
 
 		String inputXml = "<!DOCTYPE mapping PUBLIC \"-//EXOLAB/Castor Mapping DTD Version 1.0//EN\" \"http://castor.org/mapping.dtd\">";
@@ -58,7 +58,7 @@ public class CastorInspectorExampleTest
 		// Run processor
 
 		InputStream stream = new ByteArrayInputStream( inputXml.getBytes() );
-		Inspector inspector = new CastorInspector( new BaseXmlInspectorConfig().setInputStream( stream ));
+		Inspector inspector = new CastorInspector( new BaseXmlInspectorConfig().setInputStream( stream ) );
 		String outputXml = inspector.inspect( null, "com.myapp.Foo" );
 
 		// Test result
@@ -79,30 +79,27 @@ public class CastorInspectorExampleTest
 	//
 
 	static class CastorInspector
-		extends BaseXmlInspector
-	{
-		public CastorInspector( BaseXmlInspectorConfig config )
-		{
+		extends BaseXmlInspector {
+
+		public CastorInspector( BaseXmlInspectorConfig config ) {
+
 			super( config );
 		}
 
 		@Override
-		protected Map<String, String> inspectProperty( Element toInspect )
-		{
-			if ( !"field".equals( toInspect.getNodeName() ) )
-			{
+		protected Map<String, String> inspectProperty( Element toInspect ) {
+
+			if ( !"field".equals( toInspect.getNodeName() ) ) {
 				return null;
 			}
 
 			Map<String, String> attributes = CollectionUtils.newHashMap();
 
-			if ( toInspect.hasAttribute( getNameAttribute() ) )
-			{
+			if ( toInspect.hasAttribute( getNameAttribute() ) ) {
 				attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
 			}
 
-			if ( toInspect.hasAttribute( getTypeAttribute() ) )
-			{
+			if ( toInspect.hasAttribute( getTypeAttribute() ) ) {
 				attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
 			}
 
@@ -110,8 +107,8 @@ public class CastorInspectorExampleTest
 		}
 
 		@Override
-		protected String getTopLevelTypeAttribute()
-		{
+		protected String getTopLevelTypeAttribute() {
+
 			return NAME;
 		}
 	}

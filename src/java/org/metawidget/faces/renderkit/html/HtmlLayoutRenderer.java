@@ -52,16 +52,16 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public abstract class HtmlLayoutRenderer
-	extends Renderer
-{
+	extends Renderer {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	public void encodeBegin( FacesContext context, UIComponent metawidget )
-		throws IOException
-	{
+		throws IOException {
+
 		( (UIMetawidget) metawidget ).putClientProperty( HtmlLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
@@ -70,8 +70,7 @@ public abstract class HtmlLayoutRenderer
 		State state = getState( metawidget );
 		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( metawidget, "labelSuffix" );
 
-		if ( parameterLabelSuffix != null )
-		{
+		if ( parameterLabelSuffix != null ) {
 			state.labelSuffix = (String) parameterLabelSuffix.getValue();
 		}
 
@@ -79,8 +78,7 @@ public abstract class HtmlLayoutRenderer
 
 		UIParameter inlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "inlineMessages" );
 
-		if ( inlineMessagesParameter != null )
-		{
+		if ( inlineMessagesParameter != null ) {
 			state.inlineMessages = Boolean.valueOf( (String) inlineMessagesParameter.getValue() );
 		}
 
@@ -88,15 +86,13 @@ public abstract class HtmlLayoutRenderer
 
 		UIParameter messageStyleParameter = FacesUtils.findParameterWithName( metawidget, "messageStyle" );
 
-		if ( messageStyleParameter != null )
-		{
+		if ( messageStyleParameter != null ) {
 			state.messageStyle = (String) messageStyleParameter.getValue();
 		}
 
 		UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( metawidget, "messageStyleClass" );
 
-		if ( messageStyleClassParameter != null )
-		{
+		if ( messageStyleClassParameter != null ) {
 			state.messageStyleClass = (String) messageStyleClassParameter.getValue();
 		}
 	}
@@ -107,8 +103,8 @@ public abstract class HtmlLayoutRenderer
 	 */
 
 	@Override
-	public boolean getRendersChildren()
-	{
+	public boolean getRendersChildren() {
+
 		return true;
 	}
 
@@ -116,8 +112,8 @@ public abstract class HtmlLayoutRenderer
 	// Protected methods
 	//
 
-	protected String getLabelText( UIComponent componentNeedingLabel )
-	{
+	protected String getLabelText( UIComponent componentNeedingLabel ) {
+
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 		return ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
@@ -132,19 +128,17 @@ public abstract class HtmlLayoutRenderer
 
 	@SuppressWarnings( "deprecation" )
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
-		throws IOException
-	{
+		throws IOException {
+
 		// Generally speaking, UICommands are their own label (ie. the text on a button)
 
-		if ( componentNeedingLabel instanceof UICommand )
-		{
+		if ( componentNeedingLabel instanceof UICommand ) {
 			return false;
 		}
 
 		String labelText = getLabelText( componentNeedingLabel );
 
-		if ( !SimpleLayoutUtils.needsLabel( labelText, null ) )
-		{
+		if ( !SimpleLayoutUtils.needsLabel( labelText, null ) ) {
 			return false;
 		}
 
@@ -154,17 +148,13 @@ public abstract class HtmlLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( state.labelSuffix == null )
-		{
+		if ( state.labelSuffix == null ) {
 			state.labelSuffix = ":";
 		}
 
-		if ( labelText.indexOf( "#{" ) != -1 )
-		{
+		if ( labelText.indexOf( "#{" ) != -1 ) {
 			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );
-		}
-		else
-		{
+		} else {
 			componentLabel.setValue( labelText + state.labelSuffix );
 		}
 
@@ -173,59 +163,49 @@ public abstract class HtmlLayoutRenderer
 	}
 
 	protected void layoutChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
-		throws IOException
-	{
+		throws IOException {
+
 		FacesUtils.render( context, childComponent );
 
 		// No need for inline messages?
 
-		if ( childComponent instanceof HtmlInputHidden )
-		{
+		if ( childComponent instanceof HtmlInputHidden ) {
 			return;
 		}
 
 		String messageFor = childComponent.getId();
 
-		if ( childComponent instanceof UIMetawidget )
-		{
+		if ( childComponent instanceof UIMetawidget ) {
 			// (drill into single component UIMetawidgets)
 
 			UIComponent childOfChild = null;
 
-			for ( UIComponent child : childComponent.getChildren() )
-			{
-				if ( child instanceof UIParameter )
-				{
+			for ( UIComponent child : childComponent.getChildren() ) {
+				if ( child instanceof UIParameter ) {
 					continue;
 				}
 
-				if ( childOfChild != null )
-				{
+				if ( childOfChild != null ) {
 					return;
 				}
 
 				childOfChild = child;
 			}
 
-			if ( childOfChild == null )
-			{
+			if ( childOfChild == null ) {
 				return;
 			}
 
 			messageFor = childOfChild.getId();
-		}
-		else if ( !( childComponent instanceof UIInput ) )
-		{
+		} else if ( !( childComponent instanceof UIInput ) ) {
 			return;
 		}
 
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
-		if ( metadataAttributes != null )
-		{
-			if ( TRUE.equals( metadataAttributes.get( READ_ONLY ) ) || ( (UIMetawidget) metawidget ).isReadOnly() )
-			{
+		if ( metadataAttributes != null ) {
+			if ( TRUE.equals( metadataAttributes.get( READ_ONLY ) ) || ( (UIMetawidget) metawidget ).isReadOnly() ) {
 				return;
 			}
 		}
@@ -234,8 +214,7 @@ public abstract class HtmlLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( !state.inlineMessages )
-		{
+		if ( !state.inlineMessages ) {
 			return;
 		}
 
@@ -248,16 +227,15 @@ public abstract class HtmlLayoutRenderer
 	 * Creates an inline <code>HtmlMessage</code> attached to the given <code>messageFor</code> id.
 	 */
 
-	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor )
-	{
+	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
+
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 
 		// If using SystemEvent, avoid setParent because it seems to trigger an infinite recursion
 		// of SystemEvent broadcasts on Mojarra 2.0.2. It is needed for non-SystemEvent
 		// implementations, though
 
-		if ( !FacesUtils.isUseSystemEvents() )
-		{
+		if ( !FacesUtils.isUseSystemEvents() ) {
 			message.setParent( metawidget );
 		}
 
@@ -268,13 +246,11 @@ public abstract class HtmlLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( !"".equals( state.messageStyle ) )
-		{
+		if ( !"".equals( state.messageStyle ) ) {
 			message.setStyle( state.messageStyle );
 		}
 
-		if ( !"".equals( state.messageStyleClass ) )
-		{
+		if ( !"".equals( state.messageStyleClass ) ) {
 			message.setStyleClass( state.messageStyleClass );
 		}
 
@@ -282,19 +258,17 @@ public abstract class HtmlLayoutRenderer
 	}
 
 	protected void writeStyleAndClass( UIComponent metawidget, ResponseWriter writer, String style )
-		throws IOException
-	{
+		throws IOException {
+
 		UIParameter parameterStyle = FacesUtils.findParameterWithName( metawidget, style + "Style" );
 
-		if ( parameterStyle != null )
-		{
+		if ( parameterStyle != null ) {
 			writer.writeAttribute( "style", parameterStyle.getValue(), "style" );
 		}
 
 		UIParameter parameterStyleClass = FacesUtils.findParameterWithName( metawidget, style + "StyleClass" );
 
-		if ( parameterStyleClass != null )
-		{
+		if ( parameterStyleClass != null ) {
 			writer.writeAttribute( "class", parameterStyleClass.getValue(), "class" );
 		}
 	}
@@ -303,12 +277,11 @@ public abstract class HtmlLayoutRenderer
 	// Private methods
 	//
 
-	private State getState( UIComponent metawidget )
-	{
+	private State getState( UIComponent metawidget ) {
+
 		State state = (State) ( (UIMetawidget) metawidget ).getClientProperty( HtmlLayoutRenderer.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			( (UIMetawidget) metawidget ).putClientProperty( HtmlLayoutRenderer.class, state );
 		}
@@ -324,8 +297,8 @@ public abstract class HtmlLayoutRenderer
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */boolean	inlineMessages	= true;
 
 		/* package private */String		messageStyle;

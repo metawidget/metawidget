@@ -29,12 +29,13 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiJexlAttribute
-{
+public @interface UiJexlAttribute {
+
 	/**
 	 * Attribute to set.
 	 * <p>
-	 * Multiple attributes can be specified if you need to set multiple attributes to the same expression.
+	 * Multiple attributes can be specified if you need to set multiple attributes to the same
+	 * expression.
 	 */
 
 	String[] name();

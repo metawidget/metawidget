@@ -34,15 +34,15 @@ import org.metawidget.swt.SwtMetawidgetTests;
  */
 
 public class RowLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		Composite composite = new Composite( metawidget, SWT.NONE );
 
@@ -72,7 +72,7 @@ public class RowLayoutTest
 		assertTrue( 1 == metawidget.getChildren().length );
 
 		rowLayout.layoutWidget( new Text( metawidget, SWT.NONE ), PROPERTY, null, composite, metawidget );
-		assertTrue( metawidget.getChildren()[ 1 ] instanceof Text );
+		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		assertTrue( 2 == metawidget.getChildren().length );
 	}
 }

@@ -25,8 +25,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class LayoutDecoratorConfig<W, C extends W, M extends C>
-{
+public class LayoutDecoratorConfig<W, C extends W, M extends C> {
+
 	//
 	// Private members
 	//
@@ -37,8 +37,8 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C>
 	// Public methods
 	//
 
-	public Layout<W, C, M> getLayout()
-	{
+	public Layout<W, C, M> getLayout() {
+
 		return mLayout;
 	}
 
@@ -46,8 +46,8 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C>
 	 * @return this, as part of a fluent interface
 	 */
 
-	public LayoutDecoratorConfig<W, C, M> setLayout( Layout<W, C, M> layout )
-	{
+	public LayoutDecoratorConfig<W, C, M> setLayout( Layout<W, C, M> layout ) {
+
 		mLayout = layout;
 
 		return this;
@@ -55,20 +55,17 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C>
 
 	@SuppressWarnings( "unchecked" )
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
@@ -76,8 +73,8 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C>
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return ObjectUtils.nullSafeHashCode( mLayout );
 	}
 }

@@ -38,8 +38,8 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface WidgetProcessor<W, M extends W>
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//

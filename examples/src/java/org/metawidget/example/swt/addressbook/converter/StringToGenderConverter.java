@@ -24,14 +24,14 @@ import org.metawidget.example.shared.addressbook.model.Gender;
  */
 
 public class StringToGenderConverter
-	extends Converter
-{
+	extends Converter {
+
 	//
 	// Constructor
 	//
 
-	public StringToGenderConverter()
-	{
+	public StringToGenderConverter() {
+
 		super( String.class, Gender.class );
 	}
 
@@ -40,10 +40,9 @@ public class StringToGenderConverter
 	//
 
 	@Override
-	public Object convert( Object toConvert )
-	{
-		if ( toConvert == null || "".equals( toConvert ))
-		{
+	public Object convert( Object toConvert ) {
+
+		if ( toConvert == null || "".equals( toConvert ) ) {
 			return null;
 		}
 

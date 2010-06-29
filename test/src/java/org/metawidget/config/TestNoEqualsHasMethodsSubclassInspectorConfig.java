@@ -21,14 +21,14 @@ package org.metawidget.config;
  */
 
 public class TestNoEqualsHasMethodsSubclassInspectorConfig
-	extends TestInspectorConfig
-{
+	extends TestInspectorConfig {
+
 	//
 	// Public methods
 	//
 
-	public String getSomeState()
-	{
+	public String getSomeState() {
+
 		return null;
 	}
 }

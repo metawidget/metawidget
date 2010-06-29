@@ -23,8 +23,8 @@ package org.metawidget.inspector.spring;
  * @author Richard Kennard
  */
 
-public final class SpringInspectionResultConstants
-{
+public final class SpringInspectionResultConstants {
+
 	//
 	// Public statics
 	//
@@ -39,8 +39,8 @@ public final class SpringInspectionResultConstants
 	// Private constructor
 	//
 
-	private SpringInspectionResultConstants()
-	{
+	private SpringInspectionResultConstants() {
+
 		// Can never be called
 	}
 }

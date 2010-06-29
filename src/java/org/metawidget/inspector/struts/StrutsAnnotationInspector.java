@@ -32,19 +32,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class StrutsAnnotationInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public StrutsAnnotationInspector()
-	{
+	public StrutsAnnotationInspector() {
+
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public StrutsAnnotationInspector( BaseObjectInspectorConfig config )
-	{
+	public StrutsAnnotationInspector( BaseObjectInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -54,30 +54,27 @@ public class StrutsAnnotationInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// ExpressionLookup
 
 		UiStrutsLookup expressionLookup = property.getAnnotation( UiStrutsLookup.class );
 
-		if ( expressionLookup != null )
-		{
+		if ( expressionLookup != null ) {
 			attributes.put( STRUTS_LOOKUP_NAME, expressionLookup.name() );
 			attributes.put( STRUTS_LOOKUP_PROPERTY, expressionLookup.property() );
 
 			String labelName = expressionLookup.labelName();
 
-			if ( !"".equals( labelName ))
-			{
+			if ( !"".equals( labelName ) ) {
 				attributes.put( STRUTS_LOOKUP_LABEL_NAME, labelName );
 			}
 
 			String labelProperty = expressionLookup.labelProperty();
 
-			if ( !"".equals( labelProperty ))
-			{
+			if ( !"".equals( labelProperty ) ) {
 				attributes.put( STRUTS_LOOKUP_LABEL_PROPERTY, labelProperty );
 			}
 		}

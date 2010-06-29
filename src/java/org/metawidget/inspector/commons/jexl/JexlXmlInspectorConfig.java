@@ -22,21 +22,21 @@ import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
  * Configures an JexlXmlInspector prior to use. Once instantiated, Inspectors are immutable.
  * <p>
  * By default, looks for a file called <code>metawidget-metadata.xml</code>. This is the same
- * default used by <code>XmlInspector</code>, so that <code>JexlInspector</code> can be used
- * as a drop-in replacement for <code>XmlInspector</code>.
+ * default used by <code>XmlInspector</code>, so that <code>JexlInspector</code> can be used as a
+ * drop-in replacement for <code>XmlInspector</code>.
  *
  * @author Richard Kennard
  */
 
 public class JexlXmlInspectorConfig
-	extends BaseXmlInspectorConfig
-{
+	extends BaseXmlInspectorConfig {
+
 	//
 	// Constructor
 	//
 
-	public JexlXmlInspectorConfig()
-	{
+	public JexlXmlInspectorConfig() {
+
 		setDefaultFile( "metawidget-metadata.xml" );
 	}
 }

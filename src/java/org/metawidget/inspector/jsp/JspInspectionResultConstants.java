@@ -17,25 +17,26 @@
 package org.metawidget.inspector.jsp;
 
 /**
- * JSP-specific element and attribute names appearing in DOMs conforming to inspection-result-1.0.xsd.
+ * JSP-specific element and attribute names appearing in DOMs conforming to
+ * inspection-result-1.0.xsd.
  *
  * @author Richard Kennard
  */
 
-public final class JspInspectionResultConstants
-{
+public final class JspInspectionResultConstants {
+
 	//
 	// Public statics
 	//
 
-	public final static String	JSP_LOOKUP				= "jsp-lookup";
+	public final static String	JSP_LOOKUP	= "jsp-lookup";
 
 	//
 	// Private constructor
 	//
 
-	private JspInspectionResultConstants()
-	{
+	private JspInspectionResultConstants() {
+
 		// Can never be called
 	}
 }

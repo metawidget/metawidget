@@ -27,8 +27,8 @@ import javax.swing.JLabel;
  */
 
 public class LookupLabel
-	extends JLabel
-{
+	extends JLabel {
+
 	//
 	// Private statics
 	//
@@ -45,10 +45,9 @@ public class LookupLabel
 	// Constructor
 	//
 
-	public LookupLabel( Map<String, String> lookup )
-	{
-		if ( lookup == null )
-		{
+	public LookupLabel( Map<String, String> lookup ) {
+
+		if ( lookup == null ) {
 			throw new NullPointerException( "lookup" );
 		}
 
@@ -60,16 +59,14 @@ public class LookupLabel
 	//
 
 	@Override
-	public void setText( String text )
-	{
+	public void setText( String text ) {
+
 		String lookup = text;
 
-		if ( lookup != null && mLookup != null )
-		{
+		if ( lookup != null && mLookup != null ) {
 			lookup = mLookup.get( lookup );
 		}
 
 		super.setText( lookup );
 	}
 }
-

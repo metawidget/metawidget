@@ -50,19 +50,19 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class JavaBeanPropertyStyle
-	extends BasePropertyStyle
-{
+	extends BasePropertyStyle {
+
 	//
 	// Constructor
 	//
 
-	public JavaBeanPropertyStyle()
-	{
+	public JavaBeanPropertyStyle() {
+
 		this( new BasePropertyStyleConfig() );
 	}
 
-	public JavaBeanPropertyStyle( BasePropertyStyleConfig config )
-	{
+	public JavaBeanPropertyStyle( BasePropertyStyleConfig config ) {
+
 		super( config );
 	}
 
@@ -75,8 +75,8 @@ public class JavaBeanPropertyStyle
 	 */
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?> clazz )
-	{
+	protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+
 		// TreeMap so that returns alphabetically sorted properties
 
 		Map<String, Property> properties = CollectionUtils.newTreeMap();
@@ -96,19 +96,17 @@ public class JavaBeanPropertyStyle
 	 * This method will be called before <code>lookupGetters</code> and <code>lookupSetters</code>.
 	 */
 
-	protected void lookupFields( Map<String, Property> properties, Class<?> clazz )
-	{
+	protected void lookupFields( Map<String, Property> properties, Class<?> clazz ) {
+
 		// Note: we must use clazz.getFields(), not clazz.getDeclaredFields(), in order
 		// to avoid Applet SecurityExceptions
 
-		for ( Field field : clazz.getFields() )
-		{
+		for ( Field field : clazz.getFields() ) {
 			// Exclude static fields
 
 			int modifiers = field.getModifiers();
 
-			if ( Modifier.isStatic( modifiers ) )
-			{
+			if ( Modifier.isStatic( modifiers ) ) {
 				continue;
 			}
 
@@ -119,8 +117,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) )
-			{
+			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) ) {
 				continue;
 			}
 
@@ -135,26 +132,23 @@ public class JavaBeanPropertyStyle
 	 * <code>lookupSetters</code>.
 	 */
 
-	protected void lookupGetters( Map<String, Property> properties, Class<?> clazz )
-	{
+	protected void lookupGetters( Map<String, Property> properties, Class<?> clazz ) {
+
 		// Note: we must use clazz.getMethods(), not clazz.getDeclaredMethods(), in order
 		// to avoid Applet SecurityExceptions
 
-		for ( Method method : clazz.getMethods() )
-		{
+		for ( Method method : clazz.getMethods() ) {
 			// Get type
 
 			Class<?>[] parameters = method.getParameterTypes();
 
-			if ( parameters.length != 0 )
-			{
+			if ( parameters.length != 0 ) {
 				continue;
 			}
 
 			Class<?> type = method.getReturnType();
 
-			if ( void.class.equals( type ) )
-			{
+			if ( void.class.equals( type ) ) {
 				continue;
 			}
 
@@ -162,15 +156,13 @@ public class JavaBeanPropertyStyle
 
 			String propertyName = isGetter( method );
 
-			if ( propertyName == null )
-			{
+			if ( propertyName == null ) {
 				continue;
 			}
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) )
-			{
+			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) ) {
 				continue;
 			}
 
@@ -179,22 +171,19 @@ public class JavaBeanPropertyStyle
 
 			Property existingProperty = properties.get( propertyName );
 
-			if ( existingProperty instanceof FieldProperty )
-			{
-				throw InspectorException.newException( "JavaBeanProperty '" + ((FieldProperty) existingProperty).getField() + "' has both a public member variable and a public getter method. Should be one or the other" );
+			if ( existingProperty instanceof FieldProperty ) {
+				throw InspectorException.newException( "JavaBeanProperty '" + ( (FieldProperty) existingProperty ).getField() + "' has both a public member variable and a public getter method. Should be one or the other" );
 			}
 
 			// Already found via another getter?
 
-			if ( existingProperty instanceof JavaBeanProperty )
-			{
+			if ( existingProperty instanceof JavaBeanProperty ) {
 				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
 
 				// Beware covariant return types: always prefer the
 				// subclass
 
-				if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) )
-				{
+				if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) ) {
 					continue;
 				}
 			}
@@ -211,26 +200,20 @@ public class JavaBeanPropertyStyle
 	 * @return the property name
 	 */
 
-	protected String isGetter( Method method )
-	{
+	protected String isGetter( Method method ) {
+
 		String methodName = method.getName();
 		String propertyName;
 
-		if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
-		{
+		if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) ) {
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-		}
-		else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
-		{
+		} else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) ) {
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 
-		if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-		{
+		if ( !StringUtils.isFirstLetterUppercase( propertyName ) ) {
 			return null;
 		}
 
@@ -243,16 +226,14 @@ public class JavaBeanPropertyStyle
 	 * This method will be called after <code>lookupFields</code> and <code>lookupGetters</code>.
 	 */
 
-	protected void lookupSetters( Map<String, Property> properties, Class<?> clazz )
-	{
-		for ( Method method : clazz.getMethods() )
-		{
+	protected void lookupSetters( Map<String, Property> properties, Class<?> clazz ) {
+
+		for ( Method method : clazz.getMethods() ) {
 			// Get type
 
 			Class<?>[] parameters = method.getParameterTypes();
 
-			if ( parameters.length != 1 )
-			{
+			if ( parameters.length != 1 ) {
 				continue;
 			}
 
@@ -262,15 +243,13 @@ public class JavaBeanPropertyStyle
 
 			String propertyName = isSetter( method );
 
-			if ( propertyName == null )
-			{
+			if ( propertyName == null ) {
 				continue;
 			}
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) )
-			{
+			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) ) {
 				continue;
 			}
 
@@ -279,15 +258,13 @@ public class JavaBeanPropertyStyle
 
 			Property existingProperty = properties.get( propertyName );
 
-			if ( existingProperty instanceof FieldProperty )
-			{
-				throw InspectorException.newException( "JavaBeanProperty '" + ((FieldProperty) existingProperty).getField() + "' has both a public member variable and a public setter method. Should be one or the other" );
+			if ( existingProperty instanceof FieldProperty ) {
+				throw InspectorException.newException( "JavaBeanProperty '" + ( (FieldProperty) existingProperty ).getField() + "' has both a public member variable and a public setter method. Should be one or the other" );
 			}
 
 			// Already found via its getter?
 
-			if ( existingProperty instanceof JavaBeanProperty )
-			{
+			if ( existingProperty instanceof JavaBeanProperty ) {
 				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
 
 				// Beware covariant return types: always prefer the getter's type
@@ -308,19 +285,17 @@ public class JavaBeanPropertyStyle
 	 * @return the property name
 	 */
 
-	protected String isSetter( Method method )
-	{
+	protected String isSetter( Method method ) {
+
 		String methodName = method.getName();
 
-		if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
-		{
+		if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) ) {
 			return null;
 		}
 
 		String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
 
-		if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-		{
+		if ( !StringUtils.isFirstLetterUppercase( propertyName ) ) {
 			return null;
 		}
 
@@ -339,15 +314,13 @@ public class JavaBeanPropertyStyle
 	 */
 
 	@Override
-	protected boolean isExcludedName( String name )
-	{
-		if ( "propertyChangeListeners".equals( name ) )
-		{
+	protected boolean isExcludedName( String name ) {
+
+		if ( "propertyChangeListeners".equals( name ) ) {
 			return true;
 		}
 
-		if ( "vetoableChangeListeners".equals( name ) )
-		{
+		if ( "vetoableChangeListeners".equals( name ) ) {
 			return true;
 		}
 
@@ -363,8 +336,8 @@ public class JavaBeanPropertyStyle
 	 */
 
 	protected static class FieldProperty
-		extends BaseProperty
-	{
+		extends BaseProperty {
+
 		//
 		// Private methods
 		//
@@ -375,14 +348,13 @@ public class JavaBeanPropertyStyle
 		// Constructor
 		//
 
-		public FieldProperty( String name, Field field )
-		{
+		public FieldProperty( String name, Field field ) {
+
 			super( name, field.getType() );
 
 			mField = field;
 
-			if ( mField == null )
-			{
+			if ( mField == null ) {
 				throw new NullPointerException( "field" );
 			}
 		}
@@ -391,35 +363,32 @@ public class JavaBeanPropertyStyle
 		// Public methods
 		//
 
-		public boolean isReadable()
-		{
+		public boolean isReadable() {
+
 			return true;
 		}
 
-		public Object read( Object obj )
-		{
-			try
-			{
+		public Object read( Object obj ) {
+
+			try {
 				return mField.get( obj );
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
 			}
 		}
 
-		public boolean isWritable()
-		{
+		public boolean isWritable() {
+
 			return true;
 		}
 
-		public <T extends Annotation> T getAnnotation( Class<T> annotation )
-		{
+		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
+
 			return mField.getAnnotation( annotation );
 		}
 
-		public Type getGenericType()
-		{
+		public Type getGenericType() {
+
 			return mField.getGenericType();
 		}
 
@@ -427,8 +396,8 @@ public class JavaBeanPropertyStyle
 		 * Exposed for JavassistPropertyStyle.
 		 */
 
-		public Field getField()
-		{
+		public Field getField() {
+
 			return mField;
 		}
 	}
@@ -438,8 +407,8 @@ public class JavaBeanPropertyStyle
 	 */
 
 	protected static class JavaBeanProperty
-		extends BaseProperty
-	{
+		extends BaseProperty {
+
 		//
 		// Private methods
 		//
@@ -452,8 +421,8 @@ public class JavaBeanPropertyStyle
 		// Constructor
 		//
 
-		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod )
-		{
+		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod ) {
+
 			super( name, clazz );
 
 			mReadMethod = readMethod;
@@ -461,8 +430,7 @@ public class JavaBeanPropertyStyle
 
 			// Must have either a getter or a setter (or both)
 
-			if ( mReadMethod == null && mWriteMethod == null )
-			{
+			if ( mReadMethod == null && mWriteMethod == null ) {
 				throw InspectorException.newException( "JavaBeanProperty '" + name + "' has no getter and no setter" );
 			}
 		}
@@ -471,8 +439,8 @@ public class JavaBeanPropertyStyle
 		// Public methods
 		//
 
-		public boolean isReadable()
-		{
+		public boolean isReadable() {
+
 			return ( mReadMethod != null );
 		}
 
@@ -482,41 +450,34 @@ public class JavaBeanPropertyStyle
 		 * properties of Enums (eg. Gender.isMale)
 		 */
 
-		public Object read( Object obj )
-		{
-			try
-			{
+		public Object read( Object obj ) {
+
+			try {
 				return mReadMethod.invoke( obj );
-			}
-			catch ( Exception e )
-			{
+			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
 			}
 		}
 
-		public boolean isWritable()
-		{
+		public boolean isWritable() {
+
 			return ( mWriteMethod != null );
 		}
 
-		public <T extends Annotation> T getAnnotation( Class<T> annotationClass )
-		{
-			if ( mReadMethod != null )
-			{
+		public <T extends Annotation> T getAnnotation( Class<T> annotationClass ) {
+
+			if ( mReadMethod != null ) {
 				T annotation = mReadMethod.getAnnotation( annotationClass );
 
-				if ( annotation != null )
-				{
+				if ( annotation != null ) {
 					return annotation;
 				}
 			}
 
-			if ( mWriteMethod != null )
-			{
+			if ( mWriteMethod != null ) {
 				T annotation = mWriteMethod.getAnnotation( annotationClass );
 
-				if ( annotation != null )
-				{
+				if ( annotation != null ) {
 					return annotation;
 				}
 
@@ -526,10 +487,9 @@ public class JavaBeanPropertyStyle
 			return null;
 		}
 
-		public Type getGenericType()
-		{
-			if ( mReadMethod != null )
-			{
+		public Type getGenericType() {
+
+			if ( mReadMethod != null ) {
 				return mReadMethod.getGenericReturnType();
 			}
 
@@ -540,8 +500,8 @@ public class JavaBeanPropertyStyle
 		 * Exposed for JavassistPropertyStyle.
 		 */
 
-		public Method getReadMethod()
-		{
+		public Method getReadMethod() {
+
 			return mReadMethod;
 		}
 
@@ -549,8 +509,8 @@ public class JavaBeanPropertyStyle
 		 * Exposed for JavassistPropertyStyle.
 		 */
 
-		public Method getWriteMethod()
-		{
+		public Method getWriteMethod() {
+
 			return mWriteMethod;
 		}
 	}

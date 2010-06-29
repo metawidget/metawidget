@@ -31,19 +31,19 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SwingAppFrameworkInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Constructor
 	//
 
-	public SwingAppFrameworkInspector()
-	{
+	public SwingAppFrameworkInspector() {
+
 		this( new SwingAppFrameworkInspectorConfig() );
 	}
 
-	public SwingAppFrameworkInspector( SwingAppFrameworkInspectorConfig config )
-	{
+	public SwingAppFrameworkInspector( SwingAppFrameworkInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -53,20 +53,18 @@ public class SwingAppFrameworkInspector
 
 	@Override
 	protected Map<String, String> inspectAction( Action action )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// org.jdesktop.application.Action (this is kind of a given)
 
 		org.jdesktop.application.Action actionAnnotation = action.getAnnotation( org.jdesktop.application.Action.class );
 
-		if ( actionAnnotation != null )
-		{
+		if ( actionAnnotation != null ) {
 			attributes.put( NAME, action.getName() );
 
-			if ( !"".equals( actionAnnotation.name() ))
-			{
+			if ( !"".equals( actionAnnotation.name() ) ) {
 				attributes.put( LABEL, actionAnnotation.name() );
 			}
 		}

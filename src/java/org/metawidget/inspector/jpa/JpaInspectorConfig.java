@@ -26,8 +26,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class JpaInspectorConfig
-	extends BaseObjectInspectorConfig
-{
+	extends BaseObjectInspectorConfig {
+
 	//
 	// Private members
 	//
@@ -39,23 +39,22 @@ public class JpaInspectorConfig
 	//
 
 	/**
-	 * Whether the Inspector returns Id properties as <code>hidden="true"</code>. True by
-	 * default.
+	 * Whether the Inspector returns Id properties as <code>hidden="true"</code>. True by default.
 	 * <p>
 	 * JPA recommends using synthetic ids, so generally they don't appear in the UI.
 	 */
 
-	public boolean isHideIds()
-	{
+	public boolean isHideIds() {
+
 		return mHideIds;
 	}
 
 	/**
-	 * @return	this, as part of a fluent interface
+	 * @return this, as part of a fluent interface
 	 */
 
-	public JpaInspectorConfig setHideIds( boolean hideIds )
-	{
+	public JpaInspectorConfig setHideIds( boolean hideIds ) {
+
 		mHideIds = hideIds;
 
 		// Fluent interface
@@ -64,25 +63,21 @@ public class JpaInspectorConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mHideIds != ((JpaInspectorConfig) that).mHideIds )
-		{
+		if ( mHideIds != ( (JpaInspectorConfig) that ).mHideIds ) {
 			return false;
 		}
 
@@ -90,8 +85,8 @@ public class JpaInspectorConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
 

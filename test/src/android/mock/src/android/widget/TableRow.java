@@ -26,14 +26,14 @@ import android.view.ViewGroup;
  */
 
 public class TableRow
-	extends ViewGroup
-{
+	extends ViewGroup {
+
 	//
 	// Constructors
 	//
 
-	public TableRow( Context context )
-	{
+	public TableRow( Context context ) {
+
 		super( context );
 	}
 
@@ -42,12 +42,12 @@ public class TableRow
 	//
 
 	public static class LayoutParams
-		extends ViewGroup.LayoutParams
-	{
+		extends ViewGroup.LayoutParams {
+
 		//
 		// Public members
 		//
 
-		public int span;
+		public int	span;
 	}
 }

@@ -39,8 +39,8 @@ import org.metawidget.util.TestUtils;
  */
 
 public class BeanUtilsBindingProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private statics
 	//
@@ -52,8 +52,8 @@ public class BeanUtilsBindingProcessorTest
 	//
 
 	public void testScalaBinding()
-		throws Exception
-	{
+		throws Exception {
+
 		// Model
 
 		Date dateFirst = new GregorianCalendar( 1975, Calendar.APRIL, 9 ).getTime();
@@ -73,7 +73,7 @@ public class BeanUtilsBindingProcessorTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )) );
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ) ) );
 		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig().setPropertyStyle( new ScalaPropertyStyle() );
 		metawidget.setInspector( new PropertyTypeInspector( config ) );
 		metawidget.setToInspect( scalaFoo );
@@ -95,16 +95,16 @@ public class BeanUtilsBindingProcessorTest
 		// Saving
 
 		Date dateSecond = new GregorianCalendar( 1976, Calendar.MAY, 10 ).getTime();
-		textField.setText( dateFormat.format( dateSecond ));
-		nestedNestedTextField.setText( dateFormat.format( new GregorianCalendar( 1977, Calendar.JUNE, 17 ).getTime() ));
+		textField.setText( dateFormat.format( dateSecond ) );
+		nestedNestedTextField.setText( dateFormat.format( new GregorianCalendar( 1977, Calendar.JUNE, 17 ).getTime() ) );
 		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).save( metawidget );
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime( scalaFoo.bar() );
-		assertTrue( 1976 == calendar.get( Calendar.YEAR ));
+		assertTrue( 1976 == calendar.get( Calendar.YEAR ) );
 		assertTrue( null == scalaFoo2.bar() );
 		calendar.setTime( scalaFoo3.bar() );
-		assertTrue( 1977 == calendar.get( Calendar.YEAR ));
+		assertTrue( 1977 == calendar.get( Calendar.YEAR ) );
 
 		// Rebinding
 
@@ -118,10 +118,9 @@ public class BeanUtilsBindingProcessorTest
 		assertEquals( dateFormat.format( dateFirst ), textField.getText() );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class, new BeanUtilsBindingProcessorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class, new BeanUtilsBindingProcessorConfig() {
 			// Subclass
 		} );
 	}
@@ -130,8 +129,8 @@ public class BeanUtilsBindingProcessorTest
 	// Inner class
 	//
 
-	protected static class ScalaFoo
-	{
+	protected static class ScalaFoo {
+
 		//
 		// Private members
 		//
@@ -146,23 +145,23 @@ public class BeanUtilsBindingProcessorTest
 		// Public methods
 		//
 
-		public Date bar()
-		{
+		public Date bar() {
+
 			return bar;
 		}
 
-		public void bar_$eq( Date theBar )
-		{
+		public void bar_$eq( Date theBar ) {
+
 			bar = theBar;
 		}
 
-		public String notSettable()
-		{
+		public String notSettable() {
+
 			return notSettable;
 		}
 
-		public ScalaFoo nestedFoo()
-		{
+		public ScalaFoo nestedFoo() {
+
 			return nestedFoo;
 		}
 	}

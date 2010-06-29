@@ -29,8 +29,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class MethodActionStyle
-	extends BaseActionStyle
-{
+	extends BaseActionStyle {
+
 	//
 	// Protected methods
 	//
@@ -40,27 +40,24 @@ public abstract class MethodActionStyle
 	 */
 
 	@Override
-	protected Map<String, Action> inspectActions( Class<?> clazz )
-	{
+	protected Map<String, Action> inspectActions( Class<?> clazz ) {
+
 		// TreeMap so that returns alphabetically sorted actions
 
 		Map<String, Action> actions = CollectionUtils.newTreeMap();
 
 		// For each action...
 
-		for( Method method : clazz.getMethods() )
-		{
+		for ( Method method : clazz.getMethods() ) {
 			// ...that is a match...
 
-			if ( !matchAction( method ))
-			{
+			if ( !matchAction( method ) ) {
 				continue;
 			}
 
 			// ...that is not excluded...
 
-			if ( isExcluded( method ))
-			{
+			if ( isExcluded( method ) ) {
 				continue;
 			}
 
@@ -84,8 +81,8 @@ public abstract class MethodActionStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcluded( Method method )
-	{
+	protected boolean isExcluded( Method method ) {
+
 		return false;
 	}
 
@@ -100,8 +97,8 @@ public abstract class MethodActionStyle
 	 */
 
 	protected static class MethodAction
-		extends BaseAction
-	{
+		extends BaseAction {
+
 		//
 		//
 		// Private methods
@@ -116,14 +113,13 @@ public abstract class MethodActionStyle
 		//
 		//
 
-		public MethodAction( String name, Method method )
-		{
+		public MethodAction( String name, Method method ) {
+
 			super( name );
 
 			mMethod = method;
 
-			if ( mMethod == null )
-			{
+			if ( mMethod == null ) {
 				throw new NullPointerException( "method" );
 			}
 		}
@@ -134,8 +130,8 @@ public abstract class MethodActionStyle
 		//
 		//
 
-		public <T extends Annotation> T getAnnotation( Class<T> annotation )
-		{
+		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
+
 			return mMethod.getAnnotation( annotation );
 		}
 	}

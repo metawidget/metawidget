@@ -27,20 +27,20 @@ import java.lang.annotation.Annotation;
  */
 
 public abstract class BaseAction
-	implements Action
-{
+	implements Action {
+
 	//
 	// Private methods
 	//
 
-	private String		mName;
+	private String	mName;
 
 	//
 	// Constructor
 	//
 
-	public BaseAction( String name )
-	{
+	public BaseAction( String name ) {
+
 		mName = name;
 	}
 
@@ -48,19 +48,19 @@ public abstract class BaseAction
 	// Public methods
 	//
 
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
-	{
+	public boolean isAnnotationPresent( Class<? extends Annotation> annotation ) {
+
 		return ( getAnnotation( annotation ) != null );
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		return mName;
 	}
 }

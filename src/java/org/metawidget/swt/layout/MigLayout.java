@@ -43,8 +43,8 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class MigLayout
-	implements AdvancedLayout<Control, Composite, SwtMetawidget>
-{
+	implements AdvancedLayout<Control, Composite, SwtMetawidget> {
+
 	//
 	// Private members
 	//
@@ -55,13 +55,13 @@ public class MigLayout
 	// Constructor
 	//
 
-	public MigLayout()
-	{
+	public MigLayout() {
+
 		this( new MigLayoutConfig() );
 	}
 
-	public MigLayout( MigLayoutConfig config )
-	{
+	public MigLayout( MigLayoutConfig config ) {
+
 		mNumberOfColumns = config.getNumberOfColumns();
 	}
 
@@ -69,13 +69,13 @@ public class MigLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwtMetawidget metawidget )
-	{
+	public void onStartBuild( SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		container.setData( MigLayout.class.getName(), null );
 		State state = getState( container );
 
@@ -107,12 +107,11 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = new GC( container ).getFontMetrics().getLeading();
 	}
 
-	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		// Do not render empty stubs
 
-		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 )
-		{
+		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 ) {
 			// Must 'CC.setHideMode', because already added to Composite
 
 			CC controlConstraints = new CC();
@@ -127,8 +126,7 @@ public class MigLayout
 		State state = getState( container );
 		boolean spanAllColumns = ( control instanceof SwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
-		if ( spanAllColumns && state.currentColumn > 0 )
-		{
+		if ( spanAllColumns && state.currentColumn > 0 ) {
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
@@ -137,8 +135,7 @@ public class MigLayout
 
 		String labelText = null;
 
-		if ( attributes != null )
-		{
+		if ( attributes != null ) {
 			labelText = metawidget.getLabelString( attributes );
 		}
 
@@ -148,20 +145,16 @@ public class MigLayout
 
 		CC controlConstraints = new CC();
 
-		if ( labelText != null )
-		{
+		if ( labelText != null ) {
 			controlConstraints.cell( ( state.currentColumn * 2 ) + 1, state.currentRow );
-		}
-		else
-		{
+		} else {
 			controlConstraints.cell( state.currentColumn * 2, state.currentRow );
 			controlConstraints.spanX( 2 );
 		}
 
 		controlConstraints.pushX( 1f ).growX();
 
-		if ( spanAllColumns )
-		{
+		if ( spanAllColumns ) {
 			controlConstraints.spanX();
 			state.currentColumn = mNumberOfColumns;
 		}
@@ -170,8 +163,7 @@ public class MigLayout
 
 		// Assume large controls should grow vertically
 
-		if ( willFillVertically( control, attributes ) )
-		{
+		if ( willFillVertically( control, attributes ) ) {
 			controlConstraints.pushY( 1f ).growY();
 		}
 
@@ -181,30 +173,27 @@ public class MigLayout
 
 		state.currentColumn++;
 
-		if ( state.currentColumn >= mNumberOfColumns )
-		{
+		if ( state.currentColumn >= mNumberOfColumns ) {
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
 	}
 
-	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
-	public void onEndBuild( SwtMetawidget metawidget )
-	{
+	public void onEndBuild( SwtMetawidget metawidget ) {
+
 		// Buttons
 
 		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
-		if ( buttonsFacet != null )
-		{
+		if ( buttonsFacet != null ) {
 			State state = getState( metawidget );
 
-			if ( state.currentColumn > 0 )
-			{
+			if ( state.currentColumn > 0 ) {
 				state.currentColumn = 0;
 				state.currentRow++;
 			}
@@ -218,24 +207,20 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Control container, SwtMetawidget metawidget )
-	{
+	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Control container, SwtMetawidget metawidget ) {
+
 		State state = getState( (Composite) container );
 
 		// Add label
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
-		{
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			Label label = new Label( ( (Composite) container ), SWT.None );
 
 			// Required
 
-			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-			{
+			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 				label.setText( labelText + "*:" );
-			}
-			else
-			{
+			} else {
 				label.setText( labelText + ":" );
 			}
 
@@ -262,10 +247,9 @@ public class MigLayout
 		return labelText;
 	}
 
-	protected boolean willFillVertically( Control component, Map<String, String> attributes )
-	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
-		{
+	protected boolean willFillVertically( Control component, Map<String, String> attributes ) {
+
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;
 		}
 
@@ -276,12 +260,11 @@ public class MigLayout
 	// Private methods
 	//
 
-	private State getState( Composite container )
-	{
+	private State getState( Composite container ) {
+
 		State state = (State) container.getData( MigLayout.class.getName() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			container.setData( MigLayout.class.getName(), state );
 		}
@@ -297,8 +280,8 @@ public class MigLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */int	currentColumn;
 
 		/* package private */int	currentRow;

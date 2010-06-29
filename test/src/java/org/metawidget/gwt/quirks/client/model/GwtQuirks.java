@@ -23,8 +23,8 @@ import java.io.Serializable;
  */
 
 public class GwtQuirks
-	implements Serializable
-{
+	implements Serializable {
+
 	//
 	// Private statics
 	//
@@ -43,18 +43,18 @@ public class GwtQuirks
 	// Public methods
 	//
 
-	public boolean isBoolean()
-	{
+	public boolean isBoolean() {
+
 		return mBoolean;
 	}
 
-	public void setBoolean( boolean aBoolean )
-	{
+	public void setBoolean( boolean aBoolean ) {
+
 		mBoolean = aBoolean;
 	}
 
-	public GwtNestedQuirks getNestedQuirks()
-	{
+	public GwtNestedQuirks getNestedQuirks() {
+
 		return mNestedQuirks;
 	}
 }

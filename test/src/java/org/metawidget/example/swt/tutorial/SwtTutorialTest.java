@@ -55,14 +55,14 @@ import org.metawidget.swt.layout.SeparatorLayoutDecoratorConfig;
  */
 
 public class SwtTutorialTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 		shell.setLayout( new FillLayout() );
@@ -74,10 +74,8 @@ public class SwtTutorialTest
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
@@ -90,8 +88,8 @@ public class SwtTutorialTest
 	//
 
 	public void testTutorial()
-		throws Exception
-	{
+		throws Exception {
+
 		// Check start of tutorial
 
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
@@ -134,7 +132,7 @@ public class SwtTutorialTest
 		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
 
 		Composite separator = (Composite) metawidget.getChildren()[10];
-		assertTrue( ((GridLayout) separator.getLayout() ).marginWidth == 0 );
+		assertTrue( ( (GridLayout) separator.getLayout() ).marginWidth == 0 );
 		assertEquals( "Work", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
 		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
@@ -183,8 +181,8 @@ public class SwtTutorialTest
 	}
 
 	public void testSectionAtEnd()
-		throws Exception
-	{
+		throws Exception {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setToInspect( new PersonWithSectionAtEnd() );
 		assertEquals( "Age:", ( (Label) metawidget.getChildren()[0] ).getText() );
@@ -193,7 +191,7 @@ public class SwtTutorialTest
 		assertTrue( metawidget.getChildren()[3] instanceof Text );
 
 		Composite separator = (Composite) metawidget.getChildren()[4];
-		assertTrue( ((GridLayout) separator.getLayout() ).marginWidth == 0 );
+		assertTrue( ( (GridLayout) separator.getLayout() ).marginWidth == 0 );
 		assertEquals( "foo", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
 		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
@@ -208,8 +206,8 @@ public class SwtTutorialTest
 	// Inner class
 	//
 
-	static class PersonWithSectionAtEnd
-	{
+	static class PersonWithSectionAtEnd {
+
 		public String	name;
 
 		public int		age;
@@ -218,8 +216,8 @@ public class SwtTutorialTest
 		public boolean	retired;
 	}
 
-	public static class PersonAtTutorialEnd
-	{
+	public static class PersonAtTutorialEnd {
+
 		public String	name;
 
 		@UiComesAfter( "name" )
@@ -231,8 +229,7 @@ public class SwtTutorialTest
 		@UiComesAfter( "retired" )
 		public Gender	gender;
 
-		public enum Gender
-		{
+		public enum Gender {
 			Male, Female
 		}
 

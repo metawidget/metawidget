@@ -32,8 +32,8 @@ import javax.faces.convert.ConverterException;
  */
 
 public abstract class EnumConverter<T extends Enum<T>>
-	implements Converter
-{
+	implements Converter {
+
 	//
 	// Private members
 	//
@@ -44,8 +44,8 @@ public abstract class EnumConverter<T extends Enum<T>>
 	// Constructor
 	//
 
-	protected EnumConverter( Class<T> clazz )
-	{
+	protected EnumConverter( Class<T> clazz ) {
+
 		mClass = clazz;
 	}
 
@@ -54,10 +54,9 @@ public abstract class EnumConverter<T extends Enum<T>>
 	//
 
 	public final Object getAsObject( FacesContext context, UIComponent component, String value )
-		throws ConverterException
-	{
-		if ( value == null || "".equals( value ) )
-		{
+		throws ConverterException {
+
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 
@@ -66,15 +65,13 @@ public abstract class EnumConverter<T extends Enum<T>>
 
 	@SuppressWarnings( "unchecked" )
 	public final String getAsString( FacesContext context, UIComponent component, Object object )
-		throws ConverterException
-	{
-		if ( object == null )
-		{
+		throws ConverterException {
+
+		if ( object == null ) {
 			return "";
 		}
 
-		if ( object instanceof String )
-		{
+		if ( object instanceof String ) {
 			return (String) object;
 		}
 

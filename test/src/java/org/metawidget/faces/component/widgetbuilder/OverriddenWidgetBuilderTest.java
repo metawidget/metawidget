@@ -40,8 +40,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class OverriddenWidgetBuilderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -54,8 +54,8 @@ public class OverriddenWidgetBuilderTest
 
 	@SuppressWarnings( "deprecation" )
 	public void testOverriddenWidget()
-		throws Exception
-	{
+		throws Exception {
+
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{root}" ) );
 		HtmlInputText htmlInputText1 = new HtmlInputText();
@@ -79,34 +79,34 @@ public class OverriddenWidgetBuilderTest
 		// Pass through
 
 		OverriddenWidgetBuilder overriddenWidgetBuilder = new OverriddenWidgetBuilder();
-		assertTrue( null == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+		assertTrue( null == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Test Faces Expression overrides property name
 
 		attributes.put( FACES_EXPRESSION, "#{foo}" );
 		attributes.put( NAME, "bar" );
-		assertTrue( htmlInputText1 == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+		assertTrue( htmlInputText1 == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Test name
 
 		attributes.remove( FACES_EXPRESSION );
-		assertTrue( htmlInputText2 == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+		assertTrue( htmlInputText2 == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Test action
 
 		attributes.put( NAME, "baz" );
-		assertTrue( htmlCommandButton1 == overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ));
+		assertTrue( htmlCommandButton1 == overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) );
 
 		// Test Faces Expression overrides action name
 
 		attributes.put( FACES_EXPRESSION, "#{abc}" );
-		assertTrue( htmlCommandButton2 == overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ));
+		assertTrue( htmlCommandButton2 == overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) );
 
 		// Test ENTITY looks for overrides at the top level (ie. the single widget scenario, where
 		// the top-level type can be represented by a single widget, and then it gets POSTed back)
 
 		attributes.remove( FACES_EXPRESSION );
-		assertTrue( htmlInputText3 == overriddenWidgetBuilder.buildWidget( ENTITY, attributes, metawidget ));
+		assertTrue( htmlInputText3 == overriddenWidgetBuilder.buildWidget( ENTITY, attributes, metawidget ) );
 	}
 
 	//
@@ -115,8 +115,8 @@ public class OverriddenWidgetBuilderTest
 
 	@Override
 	protected final void setUp()
-		throws Exception
-	{
+		throws Exception {
+
 		super.setUp();
 
 		mContext = new MockFacesContext();
@@ -124,8 +124,8 @@ public class OverriddenWidgetBuilderTest
 
 	@Override
 	protected final void tearDown()
-		throws Exception
-	{
+		throws Exception {
+
 		super.tearDown();
 
 		mContext.release();

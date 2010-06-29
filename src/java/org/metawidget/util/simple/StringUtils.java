@@ -22,8 +22,8 @@ package org.metawidget.util.simple;
  * @author Richard Kennard
  */
 
-public final class StringUtils
-{
+public final class StringUtils {
+
 	//
 	// Public statics
 	//
@@ -51,20 +51,19 @@ public final class StringUtils
 
 	public final static String	RESOURCE_KEY_NOT_FOUND_SUFFIX	= "???";
 
-	public static String lowercaseFirstLetter( String in )
-	{
+	public static String lowercaseFirstLetter( String in ) {
+
 		return Character.toLowerCase( in.charAt( 0 ) ) + in.substring( 1 );
 	}
 
-	public static String uppercaseFirstLetter( String in )
-	{
+	public static String uppercaseFirstLetter( String in ) {
+
 		return Character.toUpperCase( in.charAt( 0 ) ) + in.substring( 1 );
 	}
 
-	public static boolean isFirstLetterUppercase( String in )
-	{
-		if ( in.length() == 0 )
-		{
+	public static boolean isFirstLetterUppercase( String in ) {
+
+		if ( in.length() == 0 ) {
 			return false;
 		}
 
@@ -77,12 +76,11 @@ public final class StringUtils
 	 * For example, converts <code>fooBar1</code> into <code>Foo bar 1</code>.
 	 */
 
-	public static String uncamelCase( final String camelCase )
-	{
+	public static String uncamelCase( final String camelCase ) {
+
 		// Nothing to do?
 
-		if ( camelCase == null )
-		{
+		if ( camelCase == null ) {
 			return null;
 		}
 
@@ -96,38 +94,26 @@ public final class StringUtils
 		char lastChar = ' ';
 		char[] chars = camelCase.toCharArray();
 
-		for ( int loop = 0; loop < length; loop++ )
-		{
+		for ( int loop = 0; loop < length; loop++ ) {
 			char c = chars[loop];
 
-			if ( first )
-			{
+			if ( first ) {
 				buffer.append( Character.toUpperCase( c ) );
 				first = false;
-			}
-			else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != ' ' && !Character.isUpperCase( chars[loop + 1] ) ) ) )
-			{
-				if ( Character.isLetter( lastChar ) )
-				{
+			} else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != ' ' && !Character.isUpperCase( chars[loop + 1] ) ) ) ) {
+				if ( Character.isLetter( lastChar ) ) {
 					buffer.append( ' ' );
 				}
 
-				if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) )
-				{
+				if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) ) {
 					buffer.append( Character.toLowerCase( c ) );
-				}
-				else
-				{
+				} else {
 					buffer.append( c );
 				}
-			}
-			else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != ' ' )
-			{
+			} else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != ' ' ) {
 				buffer.append( ' ' );
 				buffer.append( c );
-			}
-			else
-			{
+			} else {
 				buffer.append( c );
 			}
 
@@ -143,8 +129,8 @@ public final class StringUtils
 	 * The first letter is lowercased, as per Java convention.
 	 */
 
-	public static String camelCase( String text )
-	{
+	public static String camelCase( String text ) {
+
 		return camelCase( text, ' ' );
 	}
 
@@ -154,8 +140,8 @@ public final class StringUtils
 	 * The first letter is lowercased, as per Java convention.
 	 */
 
-	public static String camelCase( String text, char separator )
-	{
+	public static String camelCase( String text, char separator ) {
+
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer( text.length() );
@@ -165,27 +151,22 @@ public final class StringUtils
 		boolean lastWasSeparator = false;
 		char[] chars = text.toCharArray();
 
-		for ( char c : chars )
-		{
-			if ( c == separator )
-			{
+		for ( char c : chars ) {
+			if ( c == separator ) {
 				lastWasSeparator = true;
 				continue;
 			}
 
-			if ( !Character.isLetter( c ) && !Character.isDigit( c ) )
-			{
+			if ( !Character.isLetter( c ) && !Character.isDigit( c ) ) {
 				continue;
 			}
 
-			if ( buffer.length() == 0 )
-			{
+			if ( buffer.length() == 0 ) {
 				buffer.append( Character.toLowerCase( c ) );
 				continue;
 			}
 
-			if ( lastWasSeparator )
-			{
+			if ( lastWasSeparator ) {
 				buffer.append( Character.toUpperCase( c ) );
 				lastWasSeparator = false;
 				continue;
@@ -198,14 +179,13 @@ public final class StringUtils
 	}
 
 	/**
-	 * Version of <code>String.valueOf</code> that fails 'quietly' for <code>null</code> Strings
-	 * and returns an empty String rather than a String saying <code>null</code>.
+	 * Version of <code>String.valueOf</code> that fails 'quietly' for <code>null</code> Strings and
+	 * returns an empty String rather than a String saying <code>null</code>.
 	 */
 
-	public static String quietValueOf( Object object )
-	{
-		if ( object == null )
-		{
+	public static String quietValueOf( Object object ) {
+
+		if ( object == null ) {
 			return "";
 		}
 
@@ -216,8 +196,8 @@ public final class StringUtils
 	// Private constructor
 	//
 
-	private StringUtils()
-	{
+	private StringUtils() {
+
 		// Can never be called
 	}
 }

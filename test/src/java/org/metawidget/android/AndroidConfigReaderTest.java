@@ -25,25 +25,22 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class AndroidConfigReaderTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testAndroidConfigReader()
-		throws Exception
-	{
-		AndroidConfigReader androidConfigReader = new AndroidConfigReader( null );
-		assertTrue( true == (Boolean) androidConfigReader.createNative( "boolean", null, "true" ));
-		assertTrue( 123 == (Integer) androidConfigReader.createNative( "int", null, "123" ));
+		throws Exception {
 
-		try
-		{
+		AndroidConfigReader androidConfigReader = new AndroidConfigReader( null );
+		assertTrue( true == (Boolean) androidConfigReader.createNative( "boolean", null, "true" ) );
+		assertTrue( 123 == (Integer) androidConfigReader.createNative( "int", null, "123" ) );
+
+		try {
 			androidConfigReader.openResource( "foo" );
-		}
-		catch( MetawidgetException e )
-		{
+		} catch ( MetawidgetException e ) {
 			assertEquals( "Resource name does not start with '@': foo", e.getMessage() );
 		}
 	}

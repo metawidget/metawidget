@@ -26,27 +26,24 @@ import org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertySt
  */
 
 public class JavassistPropertyStyleDebugOffTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testJavassist()
-	{
+	public void testJavassist() {
+
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
 
-		try
-		{
+		try {
 			propertyStyle.getProperties( Foo.class );
 
 			// Note: this test will fail unless the code has been compiled with debug off
 			// (eg. when running inside Eclipse)
 
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			String message = "Line number information for " + Foo.class + " not available. Did you compile without debug info?";
 			assertEquals( message, e.getMessage() );
 		}
@@ -56,10 +53,10 @@ public class JavassistPropertyStyleDebugOffTest
 	// Inner class
 	//
 
-	class Foo
-	{
-		public String getMethodFoo()
-		{
+	class Foo {
+
+		public String getMethodFoo() {
+
 			return null;
 		}
 	}

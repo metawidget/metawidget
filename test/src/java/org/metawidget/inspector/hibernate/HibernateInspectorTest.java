@@ -35,8 +35,8 @@ import org.w3c.dom.Element;
  */
 
 public class HibernateInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Private members
 	//
@@ -48,41 +48,35 @@ public class HibernateInspectorTest
 	//
 
 	@Override
-	public void setUp()
-	{
+	public void setUp() {
+
 		HibernateInspectorConfig config = new HibernateInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) );
 		mInspector = new HibernateInspector( config );
 	}
 
-	public void testMissingFile()
-	{
-		try
-		{
+	public void testMissingFile() {
+
+		try {
 			new HibernateInspector( new HibernateInspectorConfig() );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate hibernate.cfg.xml on CLASSPATH", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			HibernateInspectorConfig config = new HibernateInspectorConfig();
 			config.setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
 			new HibernateInspector( config );
 			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Expected an XML document starting with 'hibernate-configuration' or 'hibernate-mapping', but got 'foo'", e.getMessage() );
 		}
 	}
 
-	public void testProperties()
-	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ));
+	public void testProperties() {
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -133,13 +127,13 @@ public class HibernateInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
-	public void testHideIds()
-	{
+	public void testHideIds() {
+
 		HibernateInspectorConfig config = new HibernateInspectorConfig().setHideIds( false );
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) );
 		mInspector = new HibernateInspector( config );
 
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -155,9 +149,9 @@ public class HibernateInspectorTest
 		assertFalse( property.hasAttribute( HIDDEN ) );
 	}
 
-	public void testTraverseParent()
-	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo", "bar" ));
+	public void testTraverseParent() {
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo", "bar" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -183,12 +177,10 @@ public class HibernateInspectorTest
 		assertEquals( "15", property.getAttribute( MAXIMUM_LENGTH ) );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class, new HibernateInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class, new HibernateInspectorConfig() {
 			// Subclass
-		},
-		"inputStreams" );
+		}, "inputStreams" );
 	}
 }

@@ -41,8 +41,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class SeparatorLayoutDecorator
-	extends SwingFlatSectionLayoutDecorator
-{
+	extends SwingFlatSectionLayoutDecorator {
+
 	//
 	// Private statics
 	//
@@ -71,8 +71,8 @@ public class SeparatorLayoutDecorator
 	// Constructor
 	//
 
-	public SeparatorLayoutDecorator( SeparatorLayoutDecoratorConfig config )
-	{
+	public SeparatorLayoutDecorator( SeparatorLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mAlignment = config.getAlignment();
@@ -83,8 +83,8 @@ public class SeparatorLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, JComponent container, SwingMetawidget metawidget )
-	{
+	protected void addSectionWidget( String section, int level, JComponent container, SwingMetawidget metawidget ) {
+
 		JPanel separatorPanel = new JPanel();
 		separatorPanel.setBorder( BORDER_SECTION );
 		separatorPanel.setLayout( new java.awt.GridBagLayout() );
@@ -94,8 +94,7 @@ public class SeparatorLayoutDecorator
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 
@@ -105,14 +104,11 @@ public class SeparatorLayoutDecorator
 		separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
 		separatorConstraints.weightx = 1.0;
 
-		if ( mAlignment == SwingConstants.RIGHT )
-		{
+		if ( mAlignment == SwingConstants.RIGHT ) {
 			separatorConstraints.gridx = 0;
 			labelConstraints.gridx = 1;
 			labelConstraints.insets = INSETS_SECTION_LABEL_RIGHT;
-		}
-		else
-		{
+		} else {
 			labelConstraints.insets = INSETS_SECTION_LABEL_LEFT;
 		}
 

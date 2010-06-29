@@ -24,8 +24,8 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public class LookupBean
-{
+public class LookupBean {
+
 	//
 	// Private members
 	//
@@ -36,20 +36,20 @@ public class LookupBean
 	// Constructor
 	//
 
-	public LookupBean()
-	{
+	public LookupBean() {
+
 		mItems = CollectionUtils.newArrayList();
-		mItems.add( new LookupItem( "value1", "label1" ));
-		mItems.add( new LookupItem( "value2", "label2" ));
-		mItems.add( new LookupItem( "value3", "label3" ));
+		mItems.add( new LookupItem( "value1", "label1" ) );
+		mItems.add( new LookupItem( "value2", "label2" ) );
+		mItems.add( new LookupItem( "value3", "label3" ) );
 	}
 
 	//
 	// Public methods
 	//
 
-	public List<LookupItem> getItems()
-	{
+	public List<LookupItem> getItems() {
+
 		return mItems;
 	}
 
@@ -57,22 +57,22 @@ public class LookupBean
 	// Inner class
 	//
 
-	public static class LookupItem
-	{
+	public static class LookupItem {
+
 		//
 		// Private members
 		//
 
-		private String mValue;
+		private String	mValue;
 
-		private String mLabel;
+		private String	mLabel;
 
 		//
 		// Constructor
 		//
 
-		public LookupItem( String value, String label )
-		{
+		public LookupItem( String value, String label ) {
+
 			mValue = value;
 			mLabel = label;
 		}
@@ -81,13 +81,13 @@ public class LookupBean
 		// Public methods
 		//
 
-		public String getValue()
-		{
+		public String getValue() {
+
 			return mValue;
 		}
 
-		public String getLabel()
-		{
+		public String getLabel() {
+
 			return mLabel;
 		}
 	}

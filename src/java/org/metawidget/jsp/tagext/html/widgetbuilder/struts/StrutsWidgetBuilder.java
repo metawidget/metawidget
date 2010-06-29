@@ -62,8 +62,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class StrutsWidgetBuilder
-	implements WidgetBuilder<Tag, MetawidgetTag>
-{
+	implements WidgetBuilder<Tag, MetawidgetTag> {
+
 	//
 	// Private statics
 	//
@@ -74,29 +74,24 @@ public class StrutsWidgetBuilder
 	// Public methods
 	//
 
-	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// Read-only?
 
-		if ( WidgetBuilderUtils.isReadOnly( attributes ) )
-		{
-			if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			{
-				if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-				{
+		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+			if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
+				if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 					return initStrutsTag( new HiddenTag(), attributes, metawidget );
 				}
 
 				return null;
 			}
 
-			if ( ACTION.equals( elementName ) )
-			{
+			if ( ACTION.equals( elementName ) ) {
 				return null;
 			}
 
-			if ( TRUE.equals( attributes.get( MASKED ) ) )
-			{
+			if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 				return null;
 			}
 
@@ -104,15 +99,13 @@ public class StrutsWidgetBuilder
 
 			String lookup = attributes.get( LOOKUP );
 
-			if ( lookup != null && !"".equals( lookup ) )
-			{
+			if ( lookup != null && !"".equals( lookup ) ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
 			String strutsLookupName = attributes.get( STRUTS_LOOKUP_NAME );
 
-			if ( strutsLookupName != null && !"".equals( strutsLookupName ) )
-			{
+			if ( strutsLookupName != null && !"".equals( strutsLookupName ) ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
@@ -120,55 +113,47 @@ public class StrutsWidgetBuilder
 
 			// If no type, assume a String
 
-			if ( type == null )
-			{
+			if ( type == null ) {
 				type = String.class.getName();
 			}
 
 			Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( clazz != null )
-			{
+			if ( clazz != null ) {
 				// Primitives
 
-				if ( clazz.isPrimitive() )
-				{
+				if ( clazz.isPrimitive() ) {
 					return writeReadOnlyTag( attributes, metawidget );
 				}
 
 				// Object primitives
 
-				if ( ClassUtils.isPrimitiveWrapper( clazz ) )
-				{
+				if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
 					return writeReadOnlyTag( attributes, metawidget );
 				}
 
 				// Dates
 
-				if ( Date.class.isAssignableFrom( clazz ) )
-				{
+				if ( Date.class.isAssignableFrom( clazz ) ) {
 					return writeReadOnlyTag( attributes, metawidget );
 				}
 
 				// Strings
 
-				if ( String.class.equals( clazz ) )
-				{
+				if ( String.class.equals( clazz ) ) {
 					return writeReadOnlyTag( attributes, metawidget );
 				}
 
 				// Collections
 
-				if ( Collection.class.isAssignableFrom( clazz ) )
-				{
+				if ( Collection.class.isAssignableFrom( clazz ) ) {
 					return new HtmlStubTag();
 				}
 			}
 
 			// Not simple, but don't expand
 
-			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			{
+			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 				return writeReadOnlyTag( attributes, metawidget );
 			}
 
@@ -179,10 +164,8 @@ public class StrutsWidgetBuilder
 
 		// Hidden?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
-			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-			{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
+			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 				return initStrutsTag( new HiddenTag(), attributes, metawidget );
 			}
 
@@ -191,8 +174,7 @@ public class StrutsWidgetBuilder
 
 		// Actions (ignored)
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new HtmlStubTag();
 		}
 
@@ -200,8 +182,7 @@ public class StrutsWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -212,8 +193,7 @@ public class StrutsWidgetBuilder
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
-		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-		{
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return initStrutsTag( new CheckboxTag(), attributes, metawidget );
 		}
 
@@ -221,8 +201,7 @@ public class StrutsWidgetBuilder
 
 		String strutsLookup = attributes.get( STRUTS_LOOKUP_NAME );
 
-		if ( strutsLookup != null )
-		{
+		if ( strutsLookup != null ) {
 			return writeSelectTag( strutsLookup, attributes.get( STRUTS_LOOKUP_PROPERTY ), attributes, metawidget );
 		}
 
@@ -230,19 +209,15 @@ public class StrutsWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 		}
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
-				if ( boolean.class.equals( clazz ) )
-				{
+			if ( clazz.isPrimitive() ) {
+				if ( boolean.class.equals( clazz ) ) {
 					return initStrutsTag( new CheckboxTag(), attributes, metawidget );
 				}
 
@@ -251,15 +226,12 @@ public class StrutsWidgetBuilder
 
 			// Strings
 
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
+			if ( String.class.equals( clazz ) ) {
+				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 					return initStrutsTag( new PasswordTag(), attributes, metawidget );
 				}
 
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					return initStrutsTag( new TextareaTag(), attributes, metawidget );
 				}
 
@@ -268,30 +240,26 @@ public class StrutsWidgetBuilder
 
 			// Dates
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				return initStrutsTag( new TextTag(), attributes, metawidget );
 			}
 
 			// Booleans (are tri-state)
 
-			if ( Boolean.class.equals( clazz ) )
-			{
+			if ( Boolean.class.equals( clazz ) ) {
 				return writeSelectTag( LIST_BOOLEAN_VALUES, null, attributes, metawidget );
 			}
 
 			// Numbers
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return initStrutsTag( new TextTag(), attributes, metawidget );
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return initStrutsTag( new TextTag(), attributes, metawidget );
 		}
 
@@ -308,44 +276,33 @@ public class StrutsWidgetBuilder
 	 * Initialize the Struts Tag with various attributes, CSS settings etc.
 	 */
 
-	private Tag initStrutsTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	private Tag initStrutsTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// Property
 
 		String name = attributes.get( NAME );
 
-		if ( metawidget.getPathPrefix() != null )
-		{
+		if ( metawidget.getPathPrefix() != null ) {
 			name = metawidget.getPathPrefix() + name;
 		}
 
-		if ( tag instanceof BaseInputTag )
-		{
+		if ( tag instanceof BaseInputTag ) {
 			( (BaseInputTag) tag ).setProperty( name );
-		}
-		else if ( tag instanceof SelectTag )
-		{
+		} else if ( tag instanceof SelectTag ) {
 			( (SelectTag) tag ).setProperty( name );
-		}
-		else if ( tag instanceof CheckboxTag )
-		{
+		} else if ( tag instanceof CheckboxTag ) {
 			( (CheckboxTag) tag ).setProperty( name );
 		}
 
 		// Maxlength
 
-		if ( tag instanceof BaseInputTag )
-		{
-			if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) )
-			{
+		if ( tag instanceof BaseInputTag ) {
+			if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) ) {
 				( (BaseInputTag) tag ).setMaxlength( "1" );
-			}
-			else
-			{
+			} else {
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-				if ( maximumLength != null )
-				{
+				if ( maximumLength != null ) {
 					( (BaseInputTag) tag ).setMaxlength( maximumLength );
 				}
 			}
@@ -353,8 +310,7 @@ public class StrutsWidgetBuilder
 
 		// CSS
 
-		if ( tag instanceof BaseHandlerTag )
-		{
+		if ( tag instanceof BaseHandlerTag ) {
 			BaseHandlerTag tagBaseHandler = (BaseHandlerTag) tag;
 			BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
 			tagBaseHandler.setStyle( htmlMetawidgetTag.getStyle() );
@@ -364,8 +320,8 @@ public class StrutsWidgetBuilder
 		return tag;
 	}
 
-	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		HiddenTag tag = new HiddenTag();
 		initStrutsTag( tag, attributes, metawidget );
 		tag.setWrite( true );
@@ -373,8 +329,7 @@ public class StrutsWidgetBuilder
 		// Note: according to STR-1305 we'll get a proper html:label tag
 		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
 
-		if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-		{
+		if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 			tag.setDisabled( true );
 		}
 
@@ -382,45 +337,39 @@ public class StrutsWidgetBuilder
 		// stop the whole thing vanishing under HtmlTableLayout. This is
 		// a bit hacky, unfortunately
 
-		try
-		{
+		try {
 			String literal = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
 
-			if ( JspUtils.isJustHiddenFields( literal ) )
-			{
+			if ( JspUtils.isJustHiddenFields( literal ) ) {
 				return new LiteralTag( literal + "<span></span>" );
 			}
 
 			return new LiteralTag( literal );
-		}
-		catch ( JspException e )
-		{
+		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
 	}
 
-	private Tag writeSelectTag( final String name, final String property, final Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	private Tag writeSelectTag( final String name, final String property, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// Write the SELECT tag
 
 		final SelectTag tagSelect = new SelectTag();
 		initStrutsTag( tagSelect, attributes, metawidget );
 
-		try
-		{
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
-			{
+		try {
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer() {
+
 				// Within the SELECT tag, write the OPTION tags
 
 				public void prepareBody( PageContext delgateContext )
-					throws JspException, IOException
-				{
+					throws JspException, IOException {
+
 					BodyContent bodyContentSelect = tagSelect.getBodyContent();
 
 					// Empty option
 
-					if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-					{
+					if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
 						OptionTag tagOptionEmpty = new OptionTag();
 						tagOptionEmpty.setValue( "" );
 						bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
@@ -436,15 +385,13 @@ public class StrutsWidgetBuilder
 
 					String labelName = attributes.get( STRUTS_LOOKUP_LABEL_NAME );
 
-					if ( labelName != null )
-					{
+					if ( labelName != null ) {
 						tagOptions.setLabelName( labelName );
 					}
 
 					String labelProperty = attributes.get( STRUTS_LOOKUP_LABEL_PROPERTY );
 
-					if ( labelProperty != null )
-					{
+					if ( labelProperty != null ) {
 						tagOptions.setLabelProperty( labelProperty );
 					}
 
@@ -453,33 +400,29 @@ public class StrutsWidgetBuilder
 			} );
 
 			return new LiteralTag( literal );
-		}
-		catch ( JspException e )
-		{
+		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
 	}
 
-	private Tag writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget )
-	{
+	private Tag writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+
 		// Write the SELECT tag
 
 		final SelectTag tagSelect = new SelectTag();
 		initStrutsTag( tagSelect, attributes, metawidget );
 
-		try
-		{
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
-			{
+		try {
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer() {
+
 				// Within the SELECT tag, write the OPTION tags
 
 				public void prepareBody( PageContext delgateContext )
-					throws JspException, IOException
-				{
+					throws JspException, IOException {
+
 					// See if we're using labels
 
-					if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-					{
+					if ( labels != null && !labels.isEmpty() && labels.size() != values.size() ) {
 						throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 					}
 
@@ -487,8 +430,7 @@ public class StrutsWidgetBuilder
 
 					// Empty option
 
-					if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-					{
+					if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
 						OptionTag tagOptionEmpty = new OptionTag();
 						tagOptionEmpty.setValue( "" );
 						bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
@@ -496,24 +438,22 @@ public class StrutsWidgetBuilder
 
 					// Add the options
 
-					for ( int loop = 0, length = values.size(); loop < length; loop++ )
-					{
+					for ( int loop = 0, length = values.size(); loop < length; loop++ ) {
 						final OptionTag tagOption = new OptionTag();
 						tagOption.setValue( String.valueOf( values.get( loop ) ) );
 
-						if ( labels == null || labels.isEmpty() )
-						{
+						if ( labels == null || labels.isEmpty() ) {
 							bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, null ) );
 							continue;
 						}
 
 						final String label = labels.get( loop );
 
-						bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, new BodyPreparer()
-						{
+						bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, new BodyPreparer() {
+
 							public void prepareBody( PageContext optionDelgateContext )
-								throws IOException
-							{
+								throws IOException {
+
 								tagOption.getBodyContent().write( label );
 							}
 						} ) );
@@ -522,9 +462,7 @@ public class StrutsWidgetBuilder
 			} );
 
 			return new LiteralTag( literal );
-		}
-		catch ( JspException e )
-		{
+		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
 	}

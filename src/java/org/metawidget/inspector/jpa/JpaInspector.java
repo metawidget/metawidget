@@ -36,8 +36,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JpaInspector
-	extends BaseObjectInspector
-{
+	extends BaseObjectInspector {
+
 	//
 	// Private members
 	//
@@ -48,13 +48,13 @@ public class JpaInspector
 	// Constructor
 	//
 
-	public JpaInspector()
-	{
+	public JpaInspector() {
+
 		this( new JpaInspectorConfig() );
 	}
 
-	public JpaInspector( JpaInspectorConfig config )
-	{
+	public JpaInspector( JpaInspectorConfig config ) {
+
 		super( config );
 
 		mHideIds = config.isHideIds();
@@ -66,14 +66,13 @@ public class JpaInspector
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
+		throws Exception {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Large
 
-		if ( property.isAnnotationPresent( Lob.class ) )
-		{
+		if ( property.isAnnotationPresent( Lob.class ) ) {
 			attributes.put( LARGE, TRUE );
 		}
 
@@ -81,35 +80,29 @@ public class JpaInspector
 
 		Column column = property.getAnnotation( Column.class );
 
-		if ( column != null )
-		{
-			if ( !column.nullable() )
-			{
+		if ( column != null ) {
+			if ( !column.nullable() ) {
 				attributes.put( REQUIRED, TRUE );
 			}
 
 			// Length
 
-			if ( column.length() != 255 )
-			{
+			if ( column.length() != 255 ) {
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( column.length() ) );
 			}
 		}
 
 		ManyToOne manyToOne = property.getAnnotation( ManyToOne.class );
 
-		if ( manyToOne != null )
-		{
-			if ( !manyToOne.optional() )
-			{
+		if ( manyToOne != null ) {
+			if ( !manyToOne.optional() ) {
 				attributes.put( REQUIRED, TRUE );
 			}
 		}
 
 		// Hidden
 
-		if ( mHideIds && property.isAnnotationPresent( Id.class ) )
-		{
+		if ( mHideIds && property.isAnnotationPresent( Id.class ) ) {
 			attributes.put( HIDDEN, TRUE );
 		}
 

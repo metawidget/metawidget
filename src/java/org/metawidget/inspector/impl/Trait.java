@@ -29,8 +29,8 @@ import java.lang.annotation.Annotation;
  * @author Richard Kennard
  */
 
-public interface Trait
-{
+public interface Trait {
+
 	//
 	// Methods
 	//

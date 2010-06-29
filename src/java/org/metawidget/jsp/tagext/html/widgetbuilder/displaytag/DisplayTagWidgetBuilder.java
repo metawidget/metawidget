@@ -50,40 +50,35 @@ import org.w3c.dom.NodeList;
  */
 
 public class DisplayTagWidgetBuilder
-	implements WidgetBuilder<Tag, MetawidgetTag>
-{
+	implements WidgetBuilder<Tag, MetawidgetTag> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Tag buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
-	{
-		try
-		{
+	public Tag buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag ) {
+
+		try {
 			// Not for us?
 
-			if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) )
-			{
+			if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) ) {
 				return null;
 			}
 
 			String type = attributes.get( TYPE );
 
-			if ( type == null || "".equals( type ) )
-			{
+			if ( type == null || "".equals( type ) ) {
 				return null;
 			}
 
 			final Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( clazz == null )
-			{
+			if ( clazz == null ) {
 				return null;
 			}
 
-			if ( !( Collection.class.isAssignableFrom( clazz ) ) && !clazz.isArray() )
-			{
+			if ( !( Collection.class.isAssignableFrom( clazz ) ) && !clazz.isArray() ) {
 				return null;
 			}
 
@@ -103,23 +98,20 @@ public class DisplayTagWidgetBuilder
 
 			// Write the DisplayTag
 
-			String literal = JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer()
-			{
+			String literal = JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer() {
+
 				// After DisplayTag.doStartTag, can add columns
 
 				public void prepareBody( PageContext delgateContext )
-					throws JspException
-				{
+					throws JspException {
+
 					// Inspect component type
 
 					String componentType;
 
-					if ( clazz.isArray() )
-					{
+					if ( clazz.isArray() ) {
 						componentType = clazz.getComponentType().getName();
-					}
-					else
-					{
+					} else {
 						componentType = attributes.get( PARAMETERIZED_TYPE );
 					}
 
@@ -127,8 +119,7 @@ public class DisplayTagWidgetBuilder
 
 					// If there is a type...
 
-					if ( componentType != null )
-					{
+					if ( componentType != null ) {
 						// ...iterate over it...
 
 						Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
@@ -136,12 +127,10 @@ public class DisplayTagWidgetBuilder
 
 						// ...and for each property...
 
-						for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
-						{
+						for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
 							Node node = elements.item( loop );
 
-							if ( !( node instanceof Element ) )
-							{
+							if ( !( node instanceof Element ) ) {
 								continue;
 							}
 
@@ -149,8 +138,7 @@ public class DisplayTagWidgetBuilder
 
 							// ...that is visible...
 
-							if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
-							{
+							if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
 								continue;
 							}
 
@@ -167,9 +155,7 @@ public class DisplayTagWidgetBuilder
 			} );
 
 			return new LiteralTag( literal );
-		}
-		catch( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw WidgetBuilderException.newException( e );
 		}
 	}

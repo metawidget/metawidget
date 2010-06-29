@@ -43,15 +43,15 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 @SuppressWarnings( "deprecation" )
 public class StandardBindingProcessor
-	implements WidgetProcessor<UIComponent, UIMetawidget>
-{
+	implements WidgetProcessor<UIComponent, UIMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-	{
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		String name = attributes.get( NAME );
@@ -61,26 +61,21 @@ public class StandardBindingProcessor
 
 		// Bind actions (if no action binding already)
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			ActionSource actionSource = (ActionSource) component;
 			MethodBinding methodBinding = actionSource.getAction();
 
-			if ( methodBinding == null )
-			{
+			if ( methodBinding == null ) {
 				// If there is a faces-expression, use it...
 
-				if ( facesExpression != null )
-				{
+				if ( facesExpression != null ) {
 					methodBinding = application.createMethodBinding( facesExpression, null );
 				}
 
 				// ...otherwise try and construct a binding...
 
-				else if ( name != null && !"".equals( name ) )
-				{
-					if ( metawidgetValueBinding != null )
-					{
+				else if ( name != null && !"".equals( name ) ) {
+					if ( metawidgetValueBinding != null ) {
 						String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 						facesExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
 						methodBinding = application.createMethodBinding( facesExpression, null );
@@ -88,14 +83,12 @@ public class StandardBindingProcessor
 
 					// ...or just use the raw value (for jBPM)
 
-					else
-					{
+					else {
 						methodBinding = application.createMethodBinding( name, null );
 					}
 				}
 
-				if ( methodBinding != null )
-				{
+				if ( methodBinding != null ) {
 					actionSource.setAction( methodBinding );
 				}
 			}
@@ -107,37 +100,30 @@ public class StandardBindingProcessor
 
 		ValueBinding valueBinding = component.getValueBinding( "value" );
 
-		if ( valueBinding == null )
-		{
+		if ( valueBinding == null ) {
 			// If there is a faces-expression, use it...
 
 			String valueBindingExpression = facesExpression;
 
-			if ( valueBindingExpression == null )
-			{
+			if ( valueBindingExpression == null ) {
 				// ...if we are at the top level...
 
-				if ( ENTITY.equals( elementName ) )
-				{
-					if ( metawidgetValueBinding != null )
-					{
+				if ( ENTITY.equals( elementName ) ) {
+					if ( metawidgetValueBinding != null ) {
 						valueBindingExpression = metawidgetValueBinding.getExpressionString();
 					}
 				}
 
 				// ...if we are not at the top level, try and construct the binding
 
-				else if ( metawidgetValueBinding != null && name != null && !"".equals( name ) )
-				{
+				else if ( metawidgetValueBinding != null && name != null && !"".equals( name ) ) {
 					String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 					valueBindingExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
 				}
 			}
 
-			if ( valueBindingExpression != null )
-			{
-				try
-				{
+			if ( valueBindingExpression != null ) {
+				try {
 					// JSF 1.2 mode: some components (such as
 					// org.jboss.seam.core.Validators.validate()) expect ValueExpressions and do
 					// not work with ValueBindings (see JBSEAM-3252)
@@ -148,9 +134,7 @@ public class StandardBindingProcessor
 
 					Object[] valueExpression = new Object[] { application.getExpressionFactory().createValueExpression( context.getELContext(), valueBindingExpression, Object.class ) };
 					attachValueExpression( component, valueExpression[0], attributes );
-				}
-				catch ( NoSuchMethodError e )
-				{
+				} catch ( NoSuchMethodError e ) {
 					// JSF 1.1 mode
 
 					attachValueBinding( component, application.createValueBinding( valueBindingExpression ), attributes );
@@ -174,16 +158,14 @@ public class StandardBindingProcessor
 	 * <code>HtmlInputHidden</code>.
 	 */
 
-	private void attachValueBinding( UIComponent widget, ValueBinding valueBinding, Map<String, String> attributes )
-	{
+	private void attachValueBinding( UIComponent widget, ValueBinding valueBinding, Map<String, String> attributes ) {
+
 		// Support stubs
 
-		if ( widget instanceof UIStub )
-		{
+		if ( widget instanceof UIStub ) {
 			List<UIComponent> children = widget.getChildren();
 
-			for ( UIComponent componentChild : children )
-			{
+			for ( UIComponent componentChild : children ) {
 				attachValueBinding( componentChild, valueBinding, attributes );
 			}
 		}
@@ -197,16 +179,14 @@ public class StandardBindingProcessor
 	 * JSF 1.2 version of attachValueBinding.
 	 */
 
-	private void attachValueExpression( UIComponent widget, Object valueExpression, Map<String, String> attributes )
-	{
+	private void attachValueExpression( UIComponent widget, Object valueExpression, Map<String, String> attributes ) {
+
 		// Support stubs
 
-		if ( widget instanceof UIStub )
-		{
+		if ( widget instanceof UIStub ) {
 			List<UIComponent> children = widget.getChildren();
 
-			for ( UIComponent componentChild : children )
-			{
+			for ( UIComponent componentChild : children ) {
 				attachValueExpression( componentChild, valueExpression, attributes );
 			}
 		}

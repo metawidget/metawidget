@@ -25,8 +25,8 @@ import org.metawidget.jsp.tagext.StubTag;
  */
 
 public class SpringStubTag
-	extends StubTag
-{
+	extends StubTag {
+
 	//
 	// Private statics
 	//
@@ -37,8 +37,8 @@ public class SpringStubTag
 	// Public methods
 	//
 
-	public void setPath( String path )
-	{
+	public void setPath( String path ) {
+
 		setPathInternal( path );
 	}
 }

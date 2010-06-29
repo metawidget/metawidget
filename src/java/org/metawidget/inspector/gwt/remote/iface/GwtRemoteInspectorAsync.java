@@ -23,7 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * GWT asynchronous AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
  * <p>
- * Note: this interface is purely for the AJAX call. It is not related to <code>GwtInspectorAsync</code>.
+ * Note: this interface is purely for the AJAX call. It is not related to
+ * <code>GwtInspectorAsync</code>.
  * <p>
  * <strong>This interface is designed to work 'out of the box' for most cases. However, use of
  * Serializable as a parameter type is not optimal for GWT. We recommend deriving your own interface
@@ -32,8 +33,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Richard Kennard
  */
 
-public interface GwtRemoteInspectorAsync
-{
+public interface GwtRemoteInspectorAsync {
+
 	//
 	// Methods
 	//

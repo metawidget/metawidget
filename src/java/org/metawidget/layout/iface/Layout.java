@@ -41,8 +41,8 @@ import org.metawidget.iface.Immutable;
  */
 
 public interface Layout<W, C extends W, M extends C>
-	extends Immutable
-{
+	extends Immutable {
+
 	//
 	// Methods
 	//

@@ -33,14 +33,14 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class SwingNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget>
-{
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected SwingNestedSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config )
-	{
+	protected SwingNestedSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -49,8 +49,8 @@ public abstract class SwingNestedSectionLayoutDecorator
 	//
 
 	@Override
-	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
-	{
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
+
 		super.startContainerLayout( container, metawidget );
 		container.putClientProperty( getClass(), null );
 	}
@@ -60,19 +60,18 @@ public abstract class SwingNestedSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected State<JComponent> getState( JComponent container, SwingMetawidget metawidget )
-	{
+	protected State<JComponent> getState( JComponent container, SwingMetawidget metawidget ) {
+
 		@SuppressWarnings( "unchecked" )
 		State<JComponent> state = (State<JComponent>) container.getClientProperty( getClass() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State<JComponent>();
 			container.putClientProperty( getClass(), state );
 		}
@@ -81,8 +80,8 @@ public abstract class SwingNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( JComponent component )
-	{
+	protected boolean isEmptyStub( JComponent component ) {
+
 		return ( component instanceof Stub && component.getComponentCount() == 0 );
 	}
 }

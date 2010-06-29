@@ -20,14 +20,14 @@ package org.metawidget.struts.quirks.model;
  * @author Richard Kennard
  */
 
-public class LookupLabels
-{
+public class LookupLabels {
+
 	//
 	// Public methods
 	//
 
-	public String[] getLabels()
-	{
-		return new String[]{ "label1", "label2", "label3" };
+	public String[] getLabels() {
+
+		return new String[] { "label1", "label2", "label3" };
 	}
 }

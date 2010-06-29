@@ -23,8 +23,8 @@ package org.metawidget.inspector.faces;
  * @author Richard Kennard
  */
 
-public final class FacesInspectionResultConstants
-{
+public final class FacesInspectionResultConstants {
+
 	//
 	// Public statics
 	//
@@ -55,8 +55,8 @@ public final class FacesInspectionResultConstants
 	// Private constructor
 	//
 
-	private FacesInspectionResultConstants()
-	{
+	private FacesInspectionResultConstants() {
+
 		// Can never be called
 	}
 }

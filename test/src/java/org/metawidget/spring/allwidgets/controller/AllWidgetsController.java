@@ -31,16 +31,16 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  */
 
 public class AllWidgetsController
-	extends SimpleFormController
-{
+	extends SimpleFormController {
+
 	//
 	// Protected methods
 	//
 
 	@Override
 	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception
-	{
+		throws Exception {
+
 		super.initBinder( request, binder );
 
 		binder.registerCustomEditor( Date.class, new DateEditor() );

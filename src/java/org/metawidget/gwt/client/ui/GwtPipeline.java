@@ -37,34 +37,30 @@ import com.google.gwt.xml.client.XMLParser;
  */
 
 public abstract class GwtPipeline<W, C extends W, M extends C>
-	extends BasePipeline<W, C, Element, M>
-{
+	extends BasePipeline<W, C, Element, M> {
+
 	//
 	// Public methods
 	//
 
 	/**
-	 * Returns the first WidgetProcessor in this pipeline's list of WidgetProcessors (ie. as added by
-	 * <code>addWidgetProcessor</code>) that equals the given class. Note this implementation does not
-	 * use <code>isAssignableFrom</code>, because GWT does not support it.
+	 * Returns the first WidgetProcessor in this pipeline's list of WidgetProcessors (ie. as added
+	 * by <code>addWidgetProcessor</code>) that equals the given class. Note this implementation
+	 * does not use <code>isAssignableFrom</code>, because GWT does not support it.
 	 *
 	 * @param widgetProcessorClass
-	 *            the class to find. Returns <code>null</code> if no
-	 *            such WidgetProcessor
+	 *            the class to find. Returns <code>null</code> if no such WidgetProcessor
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
-	{
-		if ( getWidgetProcessors() == null )
-		{
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
+		if ( getWidgetProcessors() == null ) {
 			return null;
 		}
 
-		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() )
-		{
-			if ( widgetProcessorClass.equals( widgetProcessor.getClass() ) )
-			{
+		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() ) {
+			if ( widgetProcessorClass.equals( widgetProcessor.getClass() ) ) {
 				return (T) widgetProcessor;
 			}
 		}
@@ -77,38 +73,35 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	//
 
 	@Override
-	protected Element getDocumentElement( String xml )
-	{
+	protected Element getDocumentElement( String xml ) {
+
 		Document document = XMLParser.parse( xml );
 		return document.getDocumentElement();
 	}
 
 	@Override
-	protected int getChildCount( Element element )
-	{
+	protected int getChildCount( Element element ) {
+
 		return element.getChildNodes().getLength();
 	}
 
 	@Override
-	protected Element getChildAt( Element element, int index )
-	{
+	protected Element getChildAt( Element element, int index ) {
+
 		// Get the indexed node (ignoring any indentation TextNodes)
 
 		NodeList nodes = element.getChildNodes();
 
 		int actualIndex = 0;
 
-		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ ) {
 			Node node = nodes.item( loop );
 
-			if ( !( node instanceof Element ) )
-			{
+			if ( !( node instanceof Element ) ) {
 				continue;
 			}
 
-			if ( actualIndex == index )
-			{
+			if ( actualIndex == index ) {
 				return (Element) node;
 			}
 
@@ -119,20 +112,19 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	}
 
 	@Override
-	protected String getElementName( Element element )
-	{
+	protected String getElementName( Element element ) {
+
 		return element.getNodeName();
 	}
 
 	@Override
-	protected Map<String, String> getAttributesAsMap( Element element )
-	{
+	protected Map<String, String> getAttributesAsMap( Element element ) {
+
 		NamedNodeMap nodes = element.getAttributes();
 
 		int length = nodes.getLength();
 
-		if ( length == 0 )
-		{
+		if ( length == 0 ) {
 			@SuppressWarnings( { "cast", "unchecked" } )
 			Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
 			return empty;
@@ -140,8 +132,7 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 
 		Map<String, String> attributes = new HashMap<String, String>( length );
 
-		for ( int loop = 0; loop < length; loop++ )
-		{
+		for ( int loop = 0; loop < length; loop++ ) {
 			Node node = nodes.item( loop );
 			attributes.put( node.getNodeName(), node.getNodeValue() );
 		}

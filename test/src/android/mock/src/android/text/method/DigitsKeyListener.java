@@ -23,7 +23,6 @@ package android.text.method;
  */
 
 public class DigitsKeyListener
-	implements KeyListener
-{
+	implements KeyListener {
 	// Do nothing
 }

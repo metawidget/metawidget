@@ -25,14 +25,14 @@ import javax.faces.convert.DateTimeConverter;
  */
 
 public class DateConverter
-	extends DateTimeConverter
-{
+	extends DateTimeConverter {
+
 	//
 	// Constructor
 	//
 
-	public DateConverter()
-	{
+	public DateConverter() {
+
 		setPattern( "E MMM dd HH:mm:ss z yyyy" );
 	}
 }

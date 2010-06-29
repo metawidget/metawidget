@@ -27,28 +27,25 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public final class InspectorUtils
-{
+public final class InspectorUtils {
+
 	//
 	// Public methods
 	//
 
-	public static void putAttributeValue( Map<String, String> attributes, String name, Object value )
-	{
-		if ( value == null )
-		{
+	public static void putAttributeValue( Map<String, String> attributes, String name, Object value ) {
+
+		if ( value == null ) {
 			attributes.put( name, "" );
 			return;
 		}
 
-		if ( value instanceof Collection<?> )
-		{
+		if ( value instanceof Collection<?> ) {
 			attributes.put( name, CollectionUtils.toString( (Collection<?>) value ) );
 			return;
 		}
 
-		if ( value.getClass().isArray() )
-		{
+		if ( value.getClass().isArray() ) {
 			attributes.put( name, ArrayUtils.toString( value ) );
 			return;
 		}
@@ -60,8 +57,8 @@ public final class InspectorUtils
 	// Private constructor
 	//
 
-	private InspectorUtils()
-	{
+	private InspectorUtils() {
+
 		// Can never be called
 	}
 }

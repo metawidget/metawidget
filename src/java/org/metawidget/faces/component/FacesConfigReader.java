@@ -33,8 +33,8 @@ import org.metawidget.inspector.iface.InspectorException;
  */
 
 public class FacesConfigReader
-	extends ConfigReader
-{
+	extends ConfigReader {
+
 	//
 	// Protected methods
 	//
@@ -44,19 +44,15 @@ public class FacesConfigReader
 	 */
 
 	@Override
-	public InputStream openResource( String resource )
-	{
-		try
-		{
+	public InputStream openResource( String resource ) {
+
+		try {
 			URL url = FacesContext.getCurrentInstance().getExternalContext().getResource( "/WEB-INF/" + resource );
 
-			if ( url != null )
-			{
+			if ( url != null ) {
 				return url.openStream();
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
 

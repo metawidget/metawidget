@@ -42,8 +42,8 @@ import org.w3c.dom.NodeList;
  */
 
 public class HibernateInspector
-	extends BaseXmlInspector
-{
+	extends BaseXmlInspector {
+
 	//
 	// Private statics
 	//
@@ -64,8 +64,8 @@ public class HibernateInspector
 	// Constructor
 	//
 
-	public HibernateInspector( HibernateInspectorConfig config )
-	{
+	public HibernateInspector( HibernateInspectorConfig config ) {
+
 		super( config );
 
 		mHideIds = config.isHideIds();
@@ -80,14 +80,14 @@ public class HibernateInspector
 	 */
 
 	@Override
-	protected String getTopLevelTypeAttribute()
-	{
+	protected String getTopLevelTypeAttribute() {
+
 		return NAME;
 	}
 
 	@Override
-	protected String getTypeAttribute()
-	{
+	protected String getTypeAttribute() {
+
 		return "class";
 	}
 
@@ -96,8 +96,8 @@ public class HibernateInspector
 	 */
 
 	@Override
-	protected String getExtendsAttribute()
-	{
+	protected String getExtendsAttribute() {
+
 		return "extends";
 	}
 
@@ -107,16 +107,14 @@ public class HibernateInspector
 
 	@Override
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
-		throws Exception
-	{
+		throws Exception {
+
 		Document documentMaster = null;
 
-		for ( InputStream file : files )
-		{
+		for ( InputStream file : files ) {
 			Document documentParsed = builder.parse( file );
 
-			if ( !documentParsed.hasChildNodes() )
-			{
+			if ( !documentParsed.hasChildNodes() ) {
 				continue;
 			}
 
@@ -125,16 +123,14 @@ public class HibernateInspector
 			Element parsed = documentParsed.getDocumentElement();
 			String nodeName = parsed.getNodeName();
 
-			if ( HIBERNATE_CONFIGURATION_ELEMENT.equals( nodeName ) )
-			{
+			if ( HIBERNATE_CONFIGURATION_ELEMENT.equals( nodeName ) ) {
 				// ...look up each hibernate-mapping file...
 
 				Element mapping = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "session-factory", "mapping" );
 
 				List<InputStream> inputStreamList = CollectionUtils.newArrayList();
 
-				while ( mapping != null )
-				{
+				while ( mapping != null ) {
 					inputStreamList.add( resolver.openResource( mapping.getAttribute( "resource" ) ) );
 					mapping = XmlUtils.getSiblingNamed( mapping, "mapping" );
 				}
@@ -143,8 +139,7 @@ public class HibernateInspector
 
 				parsed = getDocumentElement( builder, resolver, inputStreamList.toArray( EMPTY_INPUTSTREAM_ARRAY ) );
 
-				if ( documentMaster == null || !documentMaster.hasChildNodes() )
-				{
+				if ( documentMaster == null || !documentMaster.hasChildNodes() ) {
 					documentMaster = parsed.getOwnerDocument();
 					continue;
 				}
@@ -152,26 +147,21 @@ public class HibernateInspector
 
 			// ...otherwise, read hibernate-mapping files
 
-			else if ( HIBERNATE_MAPPING_ELEMENT.equals( nodeName ) )
-			{
+			else if ( HIBERNATE_MAPPING_ELEMENT.equals( nodeName ) ) {
 				preprocessDocument( documentParsed );
 
-				if ( documentMaster == null || !documentMaster.hasChildNodes() )
-				{
+				if ( documentMaster == null || !documentMaster.hasChildNodes() ) {
 					documentMaster = documentParsed;
 					continue;
 				}
-			}
-			else
-			{
+			} else {
 				throw InspectorException.newException( "Expected an XML document starting with '" + HIBERNATE_CONFIGURATION_ELEMENT + "' or '" + HIBERNATE_MAPPING_ELEMENT + "', but got '" + nodeName + "'" );
 			}
 
 			XmlUtils.combineElements( documentMaster.getDocumentElement(), parsed, getTopLevelTypeAttribute(), getNameAttribute() );
 		}
 
-		if ( documentMaster == null )
-		{
+		if ( documentMaster == null ) {
 			return null;
 		}
 
@@ -184,25 +174,22 @@ public class HibernateInspector
 	 */
 
 	@Override
-	protected void preprocessDocument( Document document )
-	{
+	protected void preprocessDocument( Document document ) {
+
 		Element root = document.getDocumentElement();
 		String packagePrefix = root.getAttribute( "package" );
 
-		if ( packagePrefix != null && !"".equals( packagePrefix ) )
-		{
+		if ( packagePrefix != null && !"".equals( packagePrefix ) ) {
 			packagePrefix += StringUtils.SEPARATOR_DOT_CHAR;
 
 			NodeList children = root.getChildNodes();
 			String topLevelAttribute = getTopLevelTypeAttribute();
 			String extendsAttribute = getExtendsAttribute();
 
-			for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
-			{
+			for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
 				Node node = children.item( loop );
 
-				if ( !( node instanceof Element ) )
-				{
+				if ( !( node instanceof Element ) ) {
 					continue;
 				}
 
@@ -212,8 +199,7 @@ public class HibernateInspector
 
 				String name = element.getAttribute( topLevelAttribute );
 
-				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
-				{
+				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 ) {
 					element.setAttribute( topLevelAttribute, packagePrefix + name );
 				}
 
@@ -221,8 +207,7 @@ public class HibernateInspector
 
 				String extendsClass = element.getAttribute( extendsAttribute );
 
-				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
-				{
+				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 ) {
 					element.setAttribute( extendsAttribute, packagePrefix + extendsClass );
 				}
 
@@ -234,8 +219,8 @@ public class HibernateInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Element toInspect )
-	{
+	protected Map<String, String> inspectProperty( Element toInspect ) {
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Hibernate has a rich DTD for its mapping files. We try to parse it
@@ -251,8 +236,7 @@ public class HibernateInspector
 
 		// Large
 
-		if ( "clob".equals( type ) )
-		{
+		if ( "clob".equals( type ) ) {
 			attributes.put( TYPE, String.class.getName() );
 			attributes.put( LARGE, TRUE );
 		}
@@ -261,22 +245,19 @@ public class HibernateInspector
 
 		String typeAttribute = getTypeAttribute();
 
-		if ( toInspect.hasAttribute( typeAttribute ) )
-		{
+		if ( toInspect.hasAttribute( typeAttribute ) ) {
 			attributes.put( TYPE, toInspect.getAttribute( typeAttribute ) );
 		}
 
 		// Required
 
-		if ( TRUE.equals( toInspect.getAttribute( "not-null" ) ) )
-		{
+		if ( TRUE.equals( toInspect.getAttribute( "not-null" ) ) ) {
 			attributes.put( REQUIRED, TRUE );
 		}
 
 		// Length
 
-		if ( toInspect.hasAttribute( "length" ) )
-		{
+		if ( toInspect.hasAttribute( "length" ) ) {
 			attributes.put( MAXIMUM_LENGTH, toInspect.getAttribute( "length" ) );
 		}
 
@@ -284,19 +265,16 @@ public class HibernateInspector
 
 		String nodeName = toInspect.getNodeName();
 
-		if ( mHideIds && "id".equals( nodeName ) )
-		{
+		if ( mHideIds && "id".equals( nodeName ) ) {
 			attributes.put( HIDDEN, TRUE );
 		}
 
 		// Parameterized
 
-		if ( "bag".equals( nodeName ) || "list".equals( nodeName ) || "set".equals( nodeName ) )
-		{
+		if ( "bag".equals( nodeName ) || "list".equals( nodeName ) || "set".equals( nodeName ) ) {
 			Element withClass = XmlUtils.getChildWithAttribute( toInspect, typeAttribute );
 
-			if ( withClass != null )
-			{
+			if ( withClass != null ) {
 				attributes.put( PARAMETERIZED_TYPE, withClass.getAttribute( typeAttribute ) );
 			}
 		}
@@ -308,20 +286,18 @@ public class HibernateInspector
 	// Private methods
 	//
 
-	private void prependPackageToClassAttribute( Element element, String packagePrefix )
-	{
+	private void prependPackageToClassAttribute( Element element, String packagePrefix ) {
+
 		// For each child...
 
 		NodeList children = element.getChildNodes();
 
 		String typeAttribute = getTypeAttribute();
 
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
 			Node node = children.item( loop );
 
-			if ( !( node instanceof Element ) )
-			{
+			if ( !( node instanceof Element ) ) {
 				continue;
 			}
 
@@ -331,8 +307,7 @@ public class HibernateInspector
 
 			String clazz = child.getAttribute( typeAttribute );
 
-			if ( clazz != null && !"".equals( clazz ) && clazz.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
-			{
+			if ( clazz != null && !"".equals( clazz ) && clazz.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 ) {
 				child.setAttribute( typeAttribute, packagePrefix + clazz );
 			}
 

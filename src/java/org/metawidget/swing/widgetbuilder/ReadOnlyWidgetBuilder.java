@@ -47,16 +47,15 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider
-{
+	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
+
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Component component )
-	{
-		if ( component instanceof JLabel )
-		{
+	public String getValueProperty( Component component ) {
+
+		if ( component instanceof JLabel ) {
 			return "text";
 		}
 
@@ -64,33 +63,29 @@ public class ReadOnlyWidgetBuilder
 	}
 
 	@Override
-	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-	{
+	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
 		// Not read-only?
 
-		if ( !WidgetBuilderUtils.isReadOnly( attributes ) )
-		{
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 			return null;
 		}
 
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub();
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new Stub();
 		}
 
 		// Masked (return a JPanel, so that we DO still render a label)
 
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			return new JPanel();
 		}
 
@@ -98,14 +93,12 @@ public class ReadOnlyWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			// May have alternate labels
 
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-			{
+			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
 				return new LookupLabel( SwingWidgetBuilderUtils.getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
 			}
 
@@ -116,8 +109,7 @@ public class ReadOnlyWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -125,19 +117,15 @@ public class ReadOnlyWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				return new JLabel();
 			}
 
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+			if ( String.class.equals( clazz ) ) {
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					// Do not use a JLabel: JLabels do not support carriage returns like JTextAreas
 					// do, so a multi-line JTextArea formats to a single line JLabel. Instead use
 					// a non-editable JTextArea within a borderless JScrollPane
@@ -164,33 +152,28 @@ public class ReadOnlyWidgetBuilder
 				return new JLabel();
 			}
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				return new JLabel();
 			}
 
-			if ( Boolean.class.equals( clazz ) )
-			{
+			if ( Boolean.class.equals( clazz ) ) {
 				return new JLabel();
 			}
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return new JLabel();
 			}
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub();
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new JLabel();
 		}
 

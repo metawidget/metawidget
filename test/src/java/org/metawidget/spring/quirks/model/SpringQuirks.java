@@ -24,8 +24,8 @@ import org.metawidget.inspector.spring.UiSpringLookup;
  * @author Richard Kennard
  */
 
-public class SpringQuirks
-{
+public class SpringQuirks {
+
 	//
 	// Private members
 	//
@@ -37,13 +37,13 @@ public class SpringQuirks
 	//
 
 	@UiSpringLookup( value = "${lookup.items}", itemValue = "${'va'}lue", itemLabel = "label" )
-	public String getLookup()
-	{
+	public String getLookup() {
+
 		return mLookup;
 	}
 
-	public void setLookup( String lookup )
-	{
+	public void setLookup( String lookup ) {
+
 		mLookup = lookup;
 	}
 }

@@ -39,8 +39,8 @@ import org.w3c.dom.Element;
  */
 
 public class CommonsValidatorInspector
-	extends BaseXmlInspector
-{
+	extends BaseXmlInspector {
+
 	//
 	// Private statics
 	//
@@ -53,8 +53,8 @@ public class CommonsValidatorInspector
 	// Constructor
 	//
 
-	public CommonsValidatorInspector( CommonsValidatorInspectorConfig config )
-	{
+	public CommonsValidatorInspector( CommonsValidatorInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -64,19 +64,17 @@ public class CommonsValidatorInspector
 
 	@Override
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
-		throws Exception
-	{
+		throws Exception {
+
 		Document document = builder.newDocument();
 		Element root = document.createElement( FORMSET_ELEMENT );
 		document.appendChild( root );
 
-		for ( InputStream file : files )
-		{
+		for ( InputStream file : files ) {
 			Document documentParsed = builder.parse( file );
 			Element formSet = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), FORMSET_ELEMENT );
 
-			if ( formSet == null )
-			{
+			if ( formSet == null ) {
 				continue;
 			}
 
@@ -87,10 +85,9 @@ public class CommonsValidatorInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Element toInspect )
-	{
-		if ( !FIELD_ELEMENT.equals( toInspect.getNodeName() ) )
-		{
+	protected Map<String, String> inspectProperty( Element toInspect ) {
+
+		if ( !FIELD_ELEMENT.equals( toInspect.getNodeName() ) ) {
 			return null;
 		}
 
@@ -101,58 +98,49 @@ public class CommonsValidatorInspector
 		String name = toInspect.getAttribute( getNameAttribute() );
 		attributes.put( NAME, name );
 
-		if ( toInspect.hasAttribute( "depends" ))
-		{
+		if ( toInspect.hasAttribute( "depends" ) ) {
 			StringTokenizer tokenizer = new StringTokenizer( toInspect.getAttribute( "depends" ), "," );
 			Element firstVar = XmlUtils.getChildNamed( toInspect, "var" );
 
-			while( tokenizer.hasMoreTokens() )
-			{
+			while ( tokenizer.hasMoreTokens() ) {
 				String depends = tokenizer.nextToken();
 
 				// Required
 
-				if ( "required".equals( depends ) )
-				{
+				if ( "required".equals( depends ) ) {
 					attributes.put( REQUIRED, TRUE );
 				}
 
 				// Minimum/Maximum values
 
-				if ( "intRange".equals( depends ) || "floatRange".equals( depends ) || "doubleRange".equals( depends ))
-				{
+				if ( "intRange".equals( depends ) || "floatRange".equals( depends ) || "doubleRange".equals( depends ) ) {
 					String min = getVarValue( firstVar, "min" );
 
-					if ( min != null )
-					{
+					if ( min != null ) {
 						attributes.put( MINIMUM_VALUE, min );
 					}
 
 					String max = getVarValue( firstVar, "max" );
 
-					if ( max != null )
-					{
+					if ( max != null ) {
 						attributes.put( MAXIMUM_VALUE, max );
 					}
 
-					if ( min == null && max == null )
-					{
+					if ( min == null && max == null ) {
 						throw InspectorException.newException( "Property '" + name + "' depends on " + depends + " but has no var-name of min or max" );
 					}
 				}
 
 				// Minimum length
 
-				if ( "minlength".equals( depends ) )
-				{
-					attributes.put( MINIMUM_LENGTH, getVarValue( firstVar, "minlength", name, depends ));
+				if ( "minlength".equals( depends ) ) {
+					attributes.put( MINIMUM_LENGTH, getVarValue( firstVar, "minlength", name, depends ) );
 				}
 
 				// Maximum length
 
-				if ( "maxlength".equals( depends ) )
-				{
-					attributes.put( MAXIMUM_LENGTH, getVarValue( firstVar, "maxlength", name, depends ));
+				if ( "maxlength".equals( depends ) ) {
+					attributes.put( MAXIMUM_LENGTH, getVarValue( firstVar, "maxlength", name, depends ) );
 				}
 			}
 		}
@@ -165,8 +153,8 @@ public class CommonsValidatorInspector
 	 */
 
 	@Override
-	protected String getTopLevelTypeAttribute()
-	{
+	protected String getTopLevelTypeAttribute() {
+
 		return NAME;
 	}
 
@@ -175,8 +163,8 @@ public class CommonsValidatorInspector
 	 */
 
 	@Override
-	protected String getNameAttribute()
-	{
+	protected String getNameAttribute() {
+
 		return "property";
 	}
 
@@ -188,12 +176,11 @@ public class CommonsValidatorInspector
 	 * Gets the (mandatory) var-value of the given var-name for the given validator.
 	 */
 
-	private String getVarValue( Element firstVar, String varName, String propertyName, String depend )
-	{
+	private String getVarValue( Element firstVar, String varName, String propertyName, String depend ) {
+
 		String varValue = getVarValue( firstVar, varName );
 
-		if ( varValue == null )
-		{
+		if ( varValue == null ) {
 			throw InspectorException.newException( "Property '" + propertyName + "' depends on " + depend + " but has no var-name of " + varName );
 		}
 
@@ -204,20 +191,17 @@ public class CommonsValidatorInspector
 	 * Gets the (optional) var-value of the given var-name.
 	 */
 
-	private String getVarValue( Element firstVar, String varName )
-	{
+	private String getVarValue( Element firstVar, String varName ) {
+
 		Element var = firstVar;
 
-		while ( var != null )
-		{
+		while ( var != null ) {
 			Element varNameElement = XmlUtils.getChildNamed( var, "var-name" );
 
-			if ( varName.equals( varNameElement.getTextContent() ) )
-			{
+			if ( varName.equals( varNameElement.getTextContent() ) ) {
 				Element varValueElement = XmlUtils.getChildNamed( var, "var-value" );
 
-				if ( varValueElement == null )
-				{
+				if ( varValueElement == null ) {
 					throw InspectorException.newException( "Variable named '" + varName + "' has no var-value" );
 				}
 

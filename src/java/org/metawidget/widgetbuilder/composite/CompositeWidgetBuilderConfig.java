@@ -26,8 +26,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * @author Richard Kennard
  */
 
-public class CompositeWidgetBuilderConfig<W, M extends W>
-{
+public class CompositeWidgetBuilderConfig<W, M extends W> {
+
 	//
 	// Private members
 	//
@@ -38,8 +38,8 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	// Public methods
 	//
 
-	public WidgetBuilder<W, M>[] getWidgetBuilders()
-	{
+	public WidgetBuilder<W, M>[] getWidgetBuilders() {
+
 		return mWidgetBuilders;
 	}
 
@@ -53,33 +53,29 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 
 	// Note: in Java 7 we can probably put @SuppressWarnings( "unchecked" ) here
 	//
-	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( WidgetBuilder<W, M>... widgetBuilders )
-	{
+	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( WidgetBuilder<W, M>... widgetBuilders ) {
+
 		mWidgetBuilders = widgetBuilders;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) )
-		{
+		if ( !ObjectUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) ) {
 			return false;
 		}
 
@@ -87,8 +83,8 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return ObjectUtils.nullSafeHashCode( mWidgetBuilders );
 	}
 }

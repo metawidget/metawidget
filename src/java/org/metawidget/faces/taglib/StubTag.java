@@ -31,8 +31,8 @@ import org.metawidget.iface.MetawidgetException;
 
 @SuppressWarnings( "deprecation" )
 public class StubTag
-	extends UIComponentTag
-{
+	extends UIComponentTag {
+
 	//
 	// Private members
 	//
@@ -48,29 +48,29 @@ public class StubTag
 	//
 
 	@Override
-	public String getComponentType()
-	{
+	public String getComponentType() {
+
 		return "org.metawidget.Stub";
 	}
 
-	public void setAction( String action )
-	{
+	public void setAction( String action ) {
+
 		mAction = action;
 	}
 
-	public void setValue( String value )
-	{
+	public void setValue( String value ) {
+
 		mValue = value;
 	}
 
-	public void setAttributes( String attributes )
-	{
+	public void setAttributes( String attributes ) {
+
 		mAttributes = attributes;
 	}
 
 	@Override
-	public String getRendererType()
-	{
+	public String getRendererType() {
+
 		return null;
 	}
 
@@ -79,8 +79,8 @@ public class StubTag
 	//
 
 	@Override
-	protected void setProperties( UIComponent component )
-	{
+	protected void setProperties( UIComponent component ) {
+
 		super.setProperties( component );
 
 		UIStub componentStub = (UIStub) component;
@@ -88,10 +88,8 @@ public class StubTag
 
 		// Action
 
-		if ( mAction != null )
-		{
-			if ( !isValueReference( mAction ) )
-			{
+		if ( mAction != null ) {
+			if ( !isValueReference( mAction ) ) {
 				throw MetawidgetException.newException( "Action '" + mAction + "' must be an EL expression" );
 			}
 
@@ -100,10 +98,8 @@ public class StubTag
 
 		// Value
 
-		if ( mValue != null )
-		{
-			if ( !isValueReference( mValue ) )
-			{
+		if ( mValue != null ) {
+			if ( !isValueReference( mValue ) ) {
 				throw MetawidgetException.newException( "Value '" + mValue + "' must be an EL expression" );
 			}
 
@@ -112,14 +108,10 @@ public class StubTag
 
 		// Attributes
 
-		if ( mAttributes != null )
-		{
-			if ( isValueReference( mAttributes ) )
-			{
+		if ( mAttributes != null ) {
+			if ( isValueReference( mAttributes ) ) {
 				componentStub.setValueBinding( "attributes", application.createValueBinding( mAttributes ) );
-			}
-			else
-			{
+			} else {
 				componentStub.setStubAttributes( mAttributes );
 			}
 		}

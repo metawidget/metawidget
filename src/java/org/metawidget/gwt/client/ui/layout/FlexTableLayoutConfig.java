@@ -25,8 +25,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class FlexTableLayoutConfig
-{
+public class FlexTableLayoutConfig {
+
 	//
 	// Private members
 	//
@@ -43,8 +43,8 @@ public class FlexTableLayoutConfig
 	// Public methods
 	//
 
-	public int getNumberOfColumns()
-	{
+	public int getNumberOfColumns() {
+
 		return mNumberOfColumns;
 	}
 
@@ -52,10 +52,9 @@ public class FlexTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setNumberOfColumns( int numberOfColumns )
-	{
-		if ( numberOfColumns < 0 )
-		{
+	public FlexTableLayoutConfig setNumberOfColumns( int numberOfColumns ) {
+
+		if ( numberOfColumns < 0 ) {
 			throw LayoutException.newException( "numberOfColumns must be >= 0" );
 		}
 
@@ -64,8 +63,8 @@ public class FlexTableLayoutConfig
 		return this;
 	}
 
-	public String getTableStyleName()
-	{
+	public String getTableStyleName() {
+
 		return mTableStyleName;
 	}
 
@@ -73,33 +72,34 @@ public class FlexTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setTableStyleName( String tableStyleName )
-	{
+	public FlexTableLayoutConfig setTableStyleName( String tableStyleName ) {
+
 		mTableStyleName = tableStyleName;
 
 		return this;
 	}
 
-	public String[] getColumnStyleNames()
-	{
+	public String[] getColumnStyleNames() {
+
 		return mColumnStyleNames;
 	}
 
 	/**
-	 * Array of CSS style classes to apply to table columns in order of: label column, component column, required column.
+	 * Array of CSS style classes to apply to table columns in order of: label column, component
+	 * column, required column.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setColumnStyleNames( String... columnStyleNames )
-	{
+	public FlexTableLayoutConfig setColumnStyleNames( String... columnStyleNames ) {
+
 		mColumnStyleNames = columnStyleNames;
 
 		return this;
 	}
 
-	public String getFooterStyleName()
-	{
+	public String getFooterStyleName() {
+
 		return mFooterStyleName;
 	}
 
@@ -107,48 +107,41 @@ public class FlexTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setFooterStyleName( String footerStyleName )
-	{
+	public FlexTableLayoutConfig setFooterStyleName( String footerStyleName ) {
+
 		mFooterStyleName = footerStyleName;
 
 		return this;
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mNumberOfColumns  != ((FlexTableLayoutConfig) that).mNumberOfColumns )
-		{
+		if ( mNumberOfColumns != ( (FlexTableLayoutConfig) that ).mNumberOfColumns ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mTableStyleName, ((FlexTableLayoutConfig) that).mTableStyleName ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mTableStyleName, ( (FlexTableLayoutConfig) that ).mTableStyleName ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mColumnStyleNames, ((FlexTableLayoutConfig) that).mColumnStyleNames ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mColumnStyleNames, ( (FlexTableLayoutConfig) that ).mColumnStyleNames ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mFooterStyleName, ((FlexTableLayoutConfig) that).mFooterStyleName ))
-		{
+		if ( !ObjectUtils.nullSafeEquals( mFooterStyleName, ( (FlexTableLayoutConfig) that ).mFooterStyleName ) ) {
 			return false;
 		}
 
@@ -156,8 +149,8 @@ public class FlexTableLayoutConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + mNumberOfColumns;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleName );

@@ -30,8 +30,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath( "contacts" )
 public interface ContactsService
-	extends RemoteService
-{
+	extends RemoteService {
+
 	//
 	// Methods
 	//

@@ -34,14 +34,14 @@ import org.metawidget.util.LayoutUtils;
 
 public abstract class SwtNestedSectionLayoutDecorator
 	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Control, Composite, SwtMetawidget>
-	implements SwtLayoutDecorator
-{
+	implements SwtLayoutDecorator {
+
 	//
 	// Constructor
 	//
 
-	protected SwtNestedSectionLayoutDecorator( LayoutDecoratorConfig<Control, Composite, SwtMetawidget> config )
-	{
+	protected SwtNestedSectionLayoutDecorator( LayoutDecoratorConfig<Control, Composite, SwtMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -50,23 +50,21 @@ public abstract class SwtNestedSectionLayoutDecorator
 	//
 
 	@Override
-	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
-	{
+	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
+
 		super.startContainerLayout( container, metawidget );
 		container.setData( getClass().getName(), null );
 	}
 
-	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		String section = stripSection( attributes );
 		State<Composite> state = getState( container, metawidget );
 
 		// Stay where we are?
 
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.currentSectionWidget == null )
-			{
+		if ( section == null || section.equals( state.currentSection ) ) {
+			if ( state.currentSectionWidget == null ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 
@@ -79,8 +77,7 @@ public abstract class SwtNestedSectionLayoutDecorator
 
 		// End current section
 
-		if ( state.currentSectionWidget != null )
-		{
+		if ( state.currentSectionWidget != null ) {
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
 		}
 
@@ -88,8 +85,7 @@ public abstract class SwtNestedSectionLayoutDecorator
 
 		// No new section?
 
-		if ( "".equals( section ) )
-		{
+		if ( "".equals( section ) ) {
 			return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 		}
 
@@ -100,16 +96,13 @@ public abstract class SwtNestedSectionLayoutDecorator
 	}
 
 	@Override
-	public void layoutWidget( Control widget, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
+	public void layoutWidget( Control widget, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
 		State<Composite> state = getState( container, metawidget );
 
-		if ( state.currentSectionWidget == null )
-		{
+		if ( state.currentSectionWidget == null ) {
 			getDelegate().layoutWidget( widget, elementName, attributes, container, metawidget );
-		}
-		else
-		{
+		} else {
 			getDelegate().layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
 		}
 	}
@@ -119,19 +112,18 @@ public abstract class SwtNestedSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected State<Composite> getState( Composite container, SwtMetawidget metawidget )
-	{
+	protected State<Composite> getState( Composite container, SwtMetawidget metawidget ) {
+
 		@SuppressWarnings( "unchecked" )
 		State<Composite> state = (State<Composite>) container.getData( getClass().getName() );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State<Composite>();
 			container.setData( getClass().getName(), state );
 		}
@@ -140,20 +132,19 @@ public abstract class SwtNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Control control )
-	{
-		return ( control instanceof Stub && ((Stub) control).getChildren().length == 0 );
+	protected boolean isEmptyStub( Control control ) {
+
+		return ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 );
 	}
 
 	//
 	// Private methods
 	//
 
-	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
-	{
-		if ( getDelegate() instanceof SwtLayoutDecorator )
-		{
-			return ((SwtLayoutDecorator) getDelegate()).startBuildWidget( elementName, attributes, container, metawidget );
+	private Composite delegateStartBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+
+		if ( getDelegate() instanceof SwtLayoutDecorator ) {
+			return ( (SwtLayoutDecorator) getDelegate() ).startBuildWidget( elementName, attributes, container, metawidget );
 		}
 
 		return container;

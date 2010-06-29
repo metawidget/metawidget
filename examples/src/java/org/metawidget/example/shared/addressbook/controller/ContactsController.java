@@ -39,8 +39,8 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public class ContactsController
-{
+public class ContactsController {
+
 	//
 	// Protected statics
 	//
@@ -65,8 +65,8 @@ public class ContactsController
 	 * Initializes the list with some dummy data.
 	 */
 
-	public ContactsController()
-	{
+	public ContactsController() {
+
 		mAll = Collections.synchronizedMap( new HashMap<Long, Contact>() );
 
 		Contact contact = new PersonalContact( "Mr", "Homer", "Simpson" );
@@ -111,8 +111,8 @@ public class ContactsController
 	 * A real-world implementation would likely use a database lookup.
 	 */
 
-	public String[] getAllTitles()
-	{
+	public String[] getAllTitles() {
+
 		return ALL_TITLES;
 	}
 
@@ -120,39 +120,31 @@ public class ContactsController
 	 * Simulates a Query By Example.
 	 */
 
-	public List<Contact> getAllByExample( ContactSearch search )
-	{
+	public List<Contact> getAllByExample( ContactSearch search ) {
+
 		List<Contact> allByExample = CollectionUtils.newArrayList();
 
-		for ( Contact contact : mAll.values() )
-		{
-			if ( search != null )
-			{
-				if ( !caseInsensitiveContains( contact.getFirstname(), search.getFirstname() ) )
-				{
+		for ( Contact contact : mAll.values() ) {
+			if ( search != null ) {
+				if ( !caseInsensitiveContains( contact.getFirstname(), search.getFirstname() ) ) {
 					continue;
 				}
 
-				if ( !caseInsensitiveContains( contact.getSurname(), search.getSurname() ) )
-				{
+				if ( !caseInsensitiveContains( contact.getSurname(), search.getSurname() ) ) {
 					continue;
 				}
 
-				if ( search.getType() != null )
-				{
-					switch ( search.getType() )
-					{
+				if ( search.getType() != null ) {
+					switch ( search.getType() ) {
 						case PERSONAL:
-							if ( !( contact instanceof PersonalContact ) )
-							{
+							if ( !( contact instanceof PersonalContact ) ) {
 								continue;
 							}
 
 							break;
 
 						case BUSINESS:
-							if ( !( contact instanceof BusinessContact ) )
-							{
+							if ( !( contact instanceof BusinessContact ) ) {
 								continue;
 							}
 					}
@@ -166,32 +158,28 @@ public class ContactsController
 		return allByExample;
 	}
 
-	public Contact load( long id )
-	{
+	public Contact load( long id ) {
+
 		return mAll.get( id );
 	}
 
-	public void save( Contact contact )
-	{
+	public void save( Contact contact ) {
+
 		// Validate required fields
 
-		if ( contact == null )
-		{
+		if ( contact == null ) {
 			throw new RuntimeException( "Contact is required" );
 		}
 
-		if ( contact.getTitle() == null || "".equals( contact.getTitle() ))
-		{
+		if ( contact.getTitle() == null || "".equals( contact.getTitle() ) ) {
 			throw new RuntimeException( "Title is required" );
 		}
 
-		if ( contact.getFirstname() == null || "".equals( contact.getFirstname() ))
-		{
+		if ( contact.getFirstname() == null || "".equals( contact.getFirstname() ) ) {
 			throw new RuntimeException( "Firstname is required" );
 		}
 
-		if ( contact.getSurname() == null || "".equals( contact.getSurname() ))
-		{
+		if ( contact.getSurname() == null || "".equals( contact.getSurname() ) ) {
 			throw new RuntimeException( "Surname is required" );
 		}
 
@@ -199,15 +187,11 @@ public class ContactsController
 
 		long id = contact.getId();
 
-		if ( id == 0 )
-		{
+		if ( id == 0 ) {
 			id = incrementNextContactId();
 			contact.setId( id );
-		}
-		else
-		{
-			if ( !mAll.containsKey( id ))
-			{
+		} else {
+			if ( !mAll.containsKey( id ) ) {
 				throw new RuntimeException( "Contact #" + id + " not found" );
 			}
 		}
@@ -218,18 +202,15 @@ public class ContactsController
 
 		Set<Communication> communications = contact.getCommunications();
 
-		if ( communications != null )
-		{
+		if ( communications != null ) {
 			// Remove those that need saving...
 
 			Set<Communication> toSave = CollectionUtils.newHashSet();
 
-			for ( Iterator<Communication> i = communications.iterator(); i.hasNext(); )
-			{
+			for ( Iterator<Communication> i = communications.iterator(); i.hasNext(); ) {
 				Communication communication = i.next();
 
-				if ( communication.getId() != 0 )
-				{
+				if ( communication.getId() != 0 ) {
 					continue;
 				}
 
@@ -245,18 +226,16 @@ public class ContactsController
 			// using a 'business key' instead of the id for this very reason, but Communication
 			// has no unique 'business key'
 
-			for ( Communication communication : toSave )
-			{
+			for ( Communication communication : toSave ) {
 				communication.setId( incrementNextCommunicationId() );
 				communications.add( communication );
 			}
 		}
 	}
 
-	public boolean delete( Contact contact )
-	{
-		if ( contact == null )
-		{
+	public boolean delete( Contact contact ) {
+
+		if ( contact == null ) {
 			return false;
 		}
 
@@ -267,29 +246,27 @@ public class ContactsController
 	// Private methods
 	//
 
-	private synchronized long incrementNextContactId()
-	{
+	private synchronized long incrementNextContactId() {
+
 		mNextContactId++;
 
 		return mNextContactId;
 	}
 
-	private synchronized long incrementNextCommunicationId()
-	{
+	private synchronized long incrementNextCommunicationId() {
+
 		mNextCommunicationId++;
 
 		return mNextCommunicationId;
 	}
 
-	private boolean caseInsensitiveContains( String container, String contains )
-	{
-		if ( contains == null || contains.length() == 0 )
-		{
+	private boolean caseInsensitiveContains( String container, String contains ) {
+
+		if ( contains == null || contains.length() == 0 ) {
 			return true;
 		}
 
-		if ( container == null )
-		{
+		if ( container == null ) {
 			return false;
 		}
 

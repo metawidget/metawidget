@@ -52,8 +52,8 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class DataBindingProcessor
-	implements AdvancedWidgetProcessor<Control, SwtMetawidget>, BindingConverter
-{
+	implements AdvancedWidgetProcessor<Control, SwtMetawidget>, BindingConverter {
+
 	//
 	// Private members
 	//
@@ -70,21 +70,19 @@ public class DataBindingProcessor
 	// Constructor
 	//
 
-	public DataBindingProcessor()
-	{
+	public DataBindingProcessor() {
+
 		this( new DataBindingProcessorConfig() );
 	}
 
-	public DataBindingProcessor( DataBindingProcessorConfig config )
-	{
+	public DataBindingProcessor( DataBindingProcessorConfig config ) {
+
 		// Register converters
 
 		IConverter[] converters = config.getConverters();
 
-		if ( converters != null )
-		{
-			for ( IConverter converter : converters )
-			{
+		if ( converters != null ) {
+			for ( IConverter converter : converters ) {
 				mConverters.put( new ConvertFromTo( (Class<?>) converter.getFromType(), (Class<?>) converter.getToType() ), converter );
 			}
 		}
@@ -95,24 +93,22 @@ public class DataBindingProcessor
 	//
 
 	@Override
-	public void onStartBuild( SwtMetawidget metawidget )
-	{
+	public void onStartBuild( SwtMetawidget metawidget ) {
+
 		Realm realm = getRealm( metawidget.getDisplay() );
 		metawidget.setData( DataBindingProcessor.class.getName(), new DataBindingContext( realm ) );
 	}
 
 	@Override
-	public Control processWidget( Control control, String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
-	{
-		if ( ACTION.equals( elementName ) )
-		{
+	public Control processWidget( Control control, String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
+
+		if ( ACTION.equals( elementName ) ) {
 			return control;
 		}
 
 		String controlProperty = metawidget.getValueProperty( control );
 
-		if ( controlProperty == null )
-		{
+		if ( controlProperty == null ) {
 			return control;
 		}
 
@@ -125,12 +121,9 @@ public class DataBindingProcessor
 
 		// (NO_SETTER model values are one-way only)
 
-		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-		{
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 			targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_NEVER );
-		}
-		else
-		{
+		} else {
 			targetToModel = new UpdateValueStrategy( UpdateValueStrategy.POLICY_ON_REQUEST );
 		}
 
@@ -139,10 +132,8 @@ public class DataBindingProcessor
 		Object toInspect = metawidget.getToInspect();
 		String propertyName = PathUtils.parsePath( metawidget.getInspectionPath() ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 
-		if ( PROPERTY.equals( elementName ) )
-		{
-			if ( propertyName.length() > 0 )
-			{
+		if ( PROPERTY.equals( elementName ) ) {
+			if ( propertyName.length() > 0 ) {
 				propertyName += StringUtils.SEPARATOR_DOT_CHAR;
 			}
 
@@ -167,32 +158,30 @@ public class DataBindingProcessor
 	}
 
 	@Override
-	public Object convertFromString( String value, Class<?> expectedType )
-	{
+	public Object convertFromString( String value, Class<?> expectedType ) {
+
 		return value;
 	}
 
 	@Override
-	public void onEndBuild( SwtMetawidget metawidget )
-	{
+	public void onEndBuild( SwtMetawidget metawidget ) {
+
 		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
 		bindingContext.updateTargets();
 	}
 
-	public void save( final SwtMetawidget metawidget )
-	{
+	public void save( final SwtMetawidget metawidget ) {
+
 		// Our bindings
 
 		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
 		bindingContext.updateModels();
 
-		for ( Object validationStatusProvider : bindingContext.getValidationStatusProviders() )
-		{
+		for ( Object validationStatusProvider : bindingContext.getValidationStatusProviders() ) {
 			Binding binding = (Binding) validationStatusProvider;
 			BindingStatus bindingStatus = (BindingStatus) binding.getValidationStatus().getValue();
 
-			if ( bindingStatus.isOK() )
-			{
+			if ( bindingStatus.isOK() ) {
 				continue;
 			}
 
@@ -201,10 +190,8 @@ public class DataBindingProcessor
 
 		// Nested bindings
 
-		for ( Control control : metawidget.getChildren() )
-		{
-			if ( control instanceof SwtMetawidget )
-			{
+		for ( Control control : metawidget.getChildren() ) {
+			if ( control instanceof SwtMetawidget ) {
 				save( (SwtMetawidget) control );
 			}
 		}
@@ -218,14 +205,11 @@ public class DataBindingProcessor
 	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
 	 */
 
-	private Realm getRealm( final Display display )
-	{
-		synchronized ( mRealms )
-		{
-			for ( DisplayRealm realm : mRealms )
-			{
-				if ( realm.mDisplay == display )
-				{
+	private Realm getRealm( final Display display ) {
+
+		synchronized ( mRealms ) {
+			for ( DisplayRealm realm : mRealms ) {
+				if ( realm.mDisplay == display ) {
 					return realm;
 				}
 			}
@@ -244,16 +228,14 @@ public class DataBindingProcessor
 	 * IConverter is also registered.
 	 */
 
-	private IConverter getConverter( Class<?> sourceClass, Class<?> targetClass )
-	{
+	private IConverter getConverter( Class<?> sourceClass, Class<?> targetClass ) {
+
 		Class<?> sourceClassTraversal = sourceClass;
 
-		while ( sourceClassTraversal != null )
-		{
+		while ( sourceClassTraversal != null ) {
 			IConverter converter = mConverters.get( new ConvertFromTo( sourceClassTraversal, targetClass ) );
 
-			if ( converter != null )
-			{
+			if ( converter != null ) {
 				return converter;
 			}
 
@@ -272,8 +254,8 @@ public class DataBindingProcessor
 	 */
 
 	static class DisplayRealm
-		extends Realm
-	{
+		extends Realm {
+
 		//
 		// Private members
 		//
@@ -284,8 +266,8 @@ public class DataBindingProcessor
 		// Constructor
 		//
 
-		DisplayRealm( Display display )
-		{
+		DisplayRealm( Display display ) {
+
 			mDisplay = display;
 		}
 
@@ -294,16 +276,16 @@ public class DataBindingProcessor
 		//
 
 		@Override
-		public boolean isCurrent()
-		{
+		public boolean isCurrent() {
+
 			return Display.getCurrent() == mDisplay;
 		}
 
 		// Do not override equals/hashCode, we are not going to be comparing this or hashing it
 	}
 
-	/* package private */final static class ConvertFromTo
-	{
+	/* package private */final static class ConvertFromTo {
+
 		//
 		// Private members
 		//
@@ -316,8 +298,8 @@ public class DataBindingProcessor
 		// Constructor
 		//
 
-		public ConvertFromTo( Class<?> source, Class<?> target )
-		{
+		public ConvertFromTo( Class<?> source, Class<?> target ) {
+
 			mSource = source;
 			mTarget = target;
 		}
@@ -327,30 +309,25 @@ public class DataBindingProcessor
 		//
 
 		@Override
-		public boolean equals( Object that )
-		{
-			if ( this == that )
-			{
+		public boolean equals( Object that ) {
+
+			if ( this == that ) {
 				return true;
 			}
 
-			if ( that == null )
-			{
+			if ( that == null ) {
 				return false;
 			}
 
-			if ( getClass() != that.getClass() )
-			{
+			if ( getClass() != that.getClass() ) {
 				return false;
 			}
 
-			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo) that ).mSource ) )
-			{
+			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo) that ).mSource ) ) {
 				return false;
 			}
 
-			if ( !ObjectUtils.nullSafeEquals( mTarget, ( (ConvertFromTo) that ).mTarget ) )
-			{
+			if ( !ObjectUtils.nullSafeEquals( mTarget, ( (ConvertFromTo) that ).mTarget ) ) {
 				return false;
 			}
 
@@ -358,8 +335,8 @@ public class DataBindingProcessor
 		}
 
 		@Override
-		public int hashCode()
-		{
+		public int hashCode() {
+
 			int hashCode = 1;
 			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSource.hashCode() );
 			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTarget.hashCode() );

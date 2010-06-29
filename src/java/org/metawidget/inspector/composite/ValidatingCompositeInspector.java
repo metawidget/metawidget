@@ -41,8 +41,8 @@ import org.xml.sax.SAXException;
  */
 
 public class ValidatingCompositeInspector
-	extends CompositeInspector
-{
+	extends CompositeInspector {
+
 	//
 	// Private members
 	//
@@ -53,18 +53,15 @@ public class ValidatingCompositeInspector
 	// Constructor
 	//
 
-	public ValidatingCompositeInspector( ValidatingCompositeInspectorConfig config )
-	{
+	public ValidatingCompositeInspector( ValidatingCompositeInspectorConfig config ) {
+
 		super( config );
 
 		InputStream in = config.getResourceResolver().openResource( "org/metawidget/inspector/inspection-result-1.0.xsd" );
 
-		try
-		{
+		try {
 			mSchema = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI ).newSchema( new StreamSource( in ) );
-		}
-		catch ( SAXException e )
-		{
+		} catch ( SAXException e ) {
 			throw InspectorException.newException( e );
 		}
 	}
@@ -75,8 +72,8 @@ public class ValidatingCompositeInspector
 
 	@Override
 	protected Document parseInspectionResult( String xml )
-		throws Exception
-	{
+		throws Exception {
+
 		Document document = super.parseInspectionResult( xml );
 
 		mSchema.newValidator().validate( new DOMSource( document ) );

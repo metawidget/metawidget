@@ -37,14 +37,14 @@ import org.w3c.dom.Element;
  */
 
 public class FacesInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		FacesInspector inspector = new FacesInspector();
 
 		FacesContext context = new MockFacesContext();
@@ -111,44 +111,35 @@ public class FacesInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
-	public void testBadAjax()
-	{
-		try
-		{
+	public void testBadAjax() {
+
+		try {
 			new FacesInspector().inspect( null, BadAjax.class.getName() );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "Expression 'bar' is not of the form #{...}", e.getMessage() );
 		}
 	}
 
-	public void testNoFacesContext()
-	{
-		try
-		{
+	public void testNoFacesContext() {
+
+		try {
 			new FacesInspector().inspect( new NoFacesContextOnPropertyFoo(), NoFacesContextOnPropertyFoo.class.getName() );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
 		}
 
-		try
-		{
+		try {
 			new FacesInspector().inspect( new NoFacesContextOnActionFoo(), NoFacesContextOnActionFoo.class.getName() );
 			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
+		} catch ( InspectorException e ) {
 			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
 		}
 	}
 
-	public void testUtils()
-	{
+	public void testUtils() {
+
 		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "foo.bar" ) );
 		assertEquals( "#{foo.bar", FacesUtils.unwrapExpression( "#{foo.bar" ) );
 		assertEquals( "foo.bar", FacesUtils.unwrapExpression( "#{foo.bar}" ) );
@@ -160,10 +151,9 @@ public class FacesInspectorTest
 		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ) );
 	}
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig() {
 			// Subclass
 		} );
 	}
@@ -172,8 +162,8 @@ public class FacesInspectorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		@UiFacesLookup( "#{foo.bar}" )
 		@UiFacesSuggest( "#{foo.suggest}" )
 		@UiFacesComponent( "foo.component" )
@@ -194,40 +184,40 @@ public class FacesInspectorTest
 		public String	bar;
 	}
 
-	public static class DoubleConverterFoo
-	{
+	public static class DoubleConverterFoo {
+
 		@UiFacesNumberConverter
 		@UiFacesDateTimeConverter
-		public Object getBar()
-		{
+		public Object getBar() {
+
 			return null;
 		}
 	}
 
-	public static class NoFacesContextOnPropertyFoo
-	{
+	public static class NoFacesContextOnPropertyFoo {
+
 		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
-		public Object getBar()
-		{
+		public Object getBar() {
+
 			return null;
 		}
 	}
 
-	public static class NoFacesContextOnActionFoo
-	{
+	public static class NoFacesContextOnActionFoo {
+
 		@UiAction
 		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
-		public Object action()
-		{
+		public Object action() {
+
 			return null;
 		}
 	}
 
-	public static class BadAjax
-	{
+	public static class BadAjax {
+
 		@UiFacesAjax( event = "foo", action = "bar" )
-		public Object getFoo()
-		{
+		public Object getFoo() {
+
 			return null;
 		}
 	}

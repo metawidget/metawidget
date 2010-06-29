@@ -32,21 +32,21 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class CollectionConverter
-	implements Converter
-{
+	implements Converter {
+
 	//
 	// Public methods
 	//
 
 	public Object getAsObject( FacesContext context, UIComponent component, String value )
-		throws ConverterException
-	{
+		throws ConverterException {
+
 		throw new UnsupportedOperationException();
 	}
 
 	public String getAsString( FacesContext context, UIComponent component, Object value )
-		throws ConverterException
-	{
+		throws ConverterException {
+
 		return CollectionUtils.toString( (Collection<?>) value, ", ", false, false );
 	}
 }

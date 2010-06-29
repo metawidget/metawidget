@@ -42,14 +42,14 @@ import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidator
  */
 
 public class SwingMetawidgetTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingProcessorTest.class );
 		suite.addTestSuite( BeanUtilsBindingProcessorTest.class );

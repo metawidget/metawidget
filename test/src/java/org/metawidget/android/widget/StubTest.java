@@ -25,19 +25,19 @@ import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
  */
 
 public class StubTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testStub()
-	{
+	public void testStub() {
+
 		Stub stub = new Stub( null );
 		assertEquals( stub.getAttributes(), null );
 
 		stub.setAttribute( "foo", "bar" );
-		assertEquals( "bar", stub.getAttributes().get( "foo" ));
+		assertEquals( "bar", stub.getAttributes().get( "foo" ) );
 		assertTrue( null == stub.getTag() );
 
 		MockAttributeSet attributeSet = new MockAttributeSet();

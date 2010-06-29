@@ -23,8 +23,8 @@ package org.metawidget.iface;
  */
 
 public class MetawidgetException
-	extends RuntimeException
-{
+	extends RuntimeException {
+
 	//
 	// Private statics
 	//
@@ -38,14 +38,13 @@ public class MetawidgetException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting MetawidgetExceptions
-	 * within MetawidgetExceptions.
+	 * Using static constructor methods prevents unnecessarily nesting MetawidgetExceptions within
+	 * MetawidgetExceptions.
 	 */
 
-	public static MetawidgetException newException( Throwable cause )
-	{
-		if ( cause instanceof MetawidgetException )
-		{
+	public static MetawidgetException newException( Throwable cause ) {
+
+		if ( cause instanceof MetawidgetException ) {
 			return (MetawidgetException) cause;
 		}
 
@@ -58,8 +57,8 @@ public class MetawidgetException
 	 * For consistency with <code>MetawidgetException.newException( Throwable )</code>.
 	 */
 
-	public static MetawidgetException newException( String message )
-	{
+	public static MetawidgetException newException( String message ) {
+
 		return new MetawidgetException( message );
 	}
 
@@ -69,8 +68,8 @@ public class MetawidgetException
 	 * For consistency with <code>MetawidgetException.newException( Throwable )</code>.
 	 */
 
-	public static MetawidgetException newException( String message, Throwable cause )
-	{
+	public static MetawidgetException newException( String message, Throwable cause ) {
+
 		return new MetawidgetException( message, cause );
 	}
 
@@ -78,18 +77,18 @@ public class MetawidgetException
 	// Constructor
 	//
 
-	protected MetawidgetException( String message )
-	{
+	protected MetawidgetException( String message ) {
+
 		super( message );
 	}
 
-	protected MetawidgetException( Throwable cause )
-	{
+	protected MetawidgetException( Throwable cause ) {
+
 		super( cause );
 	}
 
-	protected MetawidgetException( String message, Throwable cause )
-	{
+	protected MetawidgetException( String message, Throwable cause ) {
+
 		super( message, cause );
 	}
 }

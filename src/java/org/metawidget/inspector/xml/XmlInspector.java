@@ -46,8 +46,8 @@ import org.w3c.dom.Element;
  */
 
 public class XmlInspector
-	extends BaseXmlInspector
-{
+	extends BaseXmlInspector {
+
 	//
 	// Constructors
 	//
@@ -60,8 +60,8 @@ public class XmlInspector
 	 * support resolving resources from non-standard locations (such as <code>WEB-INF</code).
 	 */
 
-	public XmlInspector( XmlInspectorConfig config )
-	{
+	public XmlInspector( XmlInspectorConfig config ) {
+
 		super( config );
 	}
 
@@ -70,27 +70,24 @@ public class XmlInspector
 	//
 
 	@Override
-	protected String getExtendsAttribute()
-	{
+	protected String getExtendsAttribute() {
+
 		return "extends";
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Element toInspect )
-	{
-		if ( PROPERTY.equals( toInspect.getNodeName() ) )
-		{
+	protected Map<String, String> inspectProperty( Element toInspect ) {
+
+		if ( PROPERTY.equals( toInspect.getNodeName() ) ) {
 			Map<String, String> attributes = XmlUtils.getAttributesAsMap( toInspect );
 
 			// Warn about some common typos
 
-			if ( attributes.containsKey( "readonly" ) )
-			{
+			if ( attributes.containsKey( "readonly" ) ) {
 				throw InspectorException.newException( "Attribute named 'readonly' should be '" + InspectionResultConstants.READ_ONLY + "'" );
 			}
 
-			if ( attributes.containsKey( "dontexpand" ) )
-			{
+			if ( attributes.containsKey( "dontexpand" ) ) {
 				throw InspectorException.newException( "Attribute named 'dontexpand' should be '" + InspectionResultConstants.DONT_EXPAND + "'" );
 			}
 
@@ -103,10 +100,9 @@ public class XmlInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectAction( Element toInspect )
-	{
-		if ( ACTION.equals( toInspect.getNodeName() ) )
-		{
+	protected Map<String, String> inspectAction( Element toInspect ) {
+
+		if ( ACTION.equals( toInspect.getNodeName() ) ) {
 			return XmlUtils.getAttributesAsMap( toInspect );
 		}
 

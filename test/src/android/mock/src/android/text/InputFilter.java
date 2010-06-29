@@ -22,27 +22,27 @@ package android.text;
  * @author Richard Kennard
  */
 
-public class InputFilter
-{
+public class InputFilter {
+
 	//
 	// Inner class
 	//
 
 	public static class LengthFilter
-		extends InputFilter
-	{
+		extends InputFilter {
+
 		//
 		// Private members
 		//
 
-		private int mLength;
+		private int	mLength;
 
 		//
 		// Constructor
 		//
 
-		public LengthFilter( int length )
-		{
+		public LengthFilter( int length ) {
+
 			mLength = length;
 		}
 
@@ -50,8 +50,8 @@ public class InputFilter
 		// Public methods
 		//
 
-		public int getLength()
-		{
+		public int getLength() {
+
 			return mLength;
 		}
 	}

@@ -35,14 +35,14 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public abstract class GwtNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Widget, Panel, GwtMetawidget>
-{
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Widget, Panel, GwtMetawidget> {
+
 	//
 	// Constructor
 	//
 
-	protected GwtNestedSectionLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config )
-	{
+	protected GwtNestedSectionLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config ) {
+
 		super( config );
 	}
 
@@ -51,27 +51,25 @@ public abstract class GwtNestedSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection( Map<String, String> attributes )
-	{
+	protected String stripSection( Map<String, String> attributes ) {
+
 		return GwtUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected State<Panel> getState( Panel container, GwtMetawidget metawidget )
-	{
+	protected State<Panel> getState( Panel container, GwtMetawidget metawidget ) {
+
 		@SuppressWarnings( "unchecked" )
 		Map<Widget, State<Panel>> stateMap = (Map<Widget, State<Panel>>) metawidget.getClientProperty( getClass() );
 
-		if ( stateMap == null )
-		{
+		if ( stateMap == null ) {
 			stateMap = new HashMap<Widget, State<Panel>>();
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
 		State<Panel> state = stateMap.get( container );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State<Panel>();
 			stateMap.put( container, state );
 		}
@@ -80,8 +78,8 @@ public abstract class GwtNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Widget widget )
-	{
+	protected boolean isEmptyStub( Widget widget ) {
+
 		return ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 );
 	}
 }

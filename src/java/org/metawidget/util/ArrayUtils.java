@@ -28,31 +28,29 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public final class ArrayUtils
-{
+public final class ArrayUtils {
+
 	//
 	// Public statics
 	//
 
-	public static String toString( Object array )
-	{
+	public static String toString( Object array ) {
+
 		return toString( array, StringUtils.SEPARATOR_COMMA );
 	}
 
-	public static String toString( Object array, String separator )
-	{
+	public static String toString( Object array, String separator ) {
+
 		return toString( array, separator, false, false );
 	}
 
-	public static String toString( Object array, String separator, boolean leadingSeparator, boolean trailingSeparator )
-	{
-		if ( array == null )
-		{
+	public static String toString( Object array, String separator, boolean leadingSeparator, boolean trailingSeparator ) {
+
+		if ( array == null ) {
 			return "";
 		}
 
-		if ( !array.getClass().isArray() )
-		{
+		if ( !array.getClass().isArray() ) {
 			throw new UnsupportedOperationException( "Not an array" );
 		}
 
@@ -61,8 +59,7 @@ public final class ArrayUtils
 		// Workaround for bug in J2SE 1.4 - dots don't get escaped properly, even
 		// when using Pattern.LITERAL
 
-		if ( separatorEscaped.equals( "." ) )
-		{
+		if ( separatorEscaped.equals( "." ) ) {
 			separatorEscaped = "\\.";
 		}
 
@@ -73,14 +70,12 @@ public final class ArrayUtils
 
 		StringBuffer buffer = new StringBuffer();
 
-		for ( int loop = 0, length = Array.getLength( array ); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = Array.getLength( array ); loop < length; loop++ ) {
 			String value = String.valueOf( Array.get( array, loop ) );
 
 			// Concatenate the separator
 
-			if ( buffer.length() > 0 || leadingSeparator )
-			{
+			if ( buffer.length() > 0 || leadingSeparator ) {
 				buffer.append( separator );
 			}
 
@@ -93,16 +88,15 @@ public final class ArrayUtils
 			buffer.append( value );
 		}
 
-		if ( trailingSeparator && buffer.length() > 0 )
-		{
+		if ( trailingSeparator && buffer.length() > 0 ) {
 			buffer.append( separator );
 		}
 
 		return buffer.toString();
 	}
 
-	public static String[] fromString( String array )
-	{
+	public static String[] fromString( String array ) {
+
 		return fromString( array, ',' );
 	}
 
@@ -110,10 +104,9 @@ public final class ArrayUtils
 	 * @return the parsed array. Never null
 	 */
 
-	public static String[] fromString( String array, char separator )
-	{
-		if ( array == null )
-		{
+	public static String[] fromString( String array, char separator ) {
+
+		if ( array == null ) {
 			return EMPTY_STRING_ARRAY;
 		}
 
@@ -123,8 +116,8 @@ public final class ArrayUtils
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> T[] add( T[] array, T toAdd )
-	{
+	public static <T> T[] add( T[] array, T toAdd ) {
+
 		T[] newArray = (T[]) Array.newInstance( array.getClass().getComponentType(), array.length + 1 );
 
 		System.arraycopy( array, 0, newArray, 0, array.length );
@@ -134,22 +127,19 @@ public final class ArrayUtils
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> T[] add( T[] array, T... arrayToAdd )
-	{
-		if ( array == null )
-		{
+	public static <T> T[] add( T[] array, T... arrayToAdd ) {
+
+		if ( array == null ) {
 			return arrayToAdd;
 		}
 
-		if ( arrayToAdd == null )
-		{
+		if ( arrayToAdd == null ) {
 			return array;
 		}
 
 		int lengthToAdd = arrayToAdd.length;
 
-		if ( lengthToAdd == 0 )
-		{
+		if ( lengthToAdd == 0 ) {
 			return array;
 		}
 
@@ -162,31 +152,25 @@ public final class ArrayUtils
 		return newArray;
 	}
 
-	public static <T> boolean contains( T[] array, T contains )
-	{
+	public static <T> boolean contains( T[] array, T contains ) {
+
 		return ( indexOf( array, contains ) != -1 );
 	}
 
-	public static <T> int indexOf( T[] array, T contains )
-	{
-		if ( array == null )
-		{
+	public static <T> int indexOf( T[] array, T contains ) {
+
+		if ( array == null ) {
 			return -1;
 		}
 
-		for ( int index = 0; index < array.length; index++ )
-		{
+		for ( int index = 0; index < array.length; index++ ) {
 			Object object = array[index];
 
-			if ( object == null )
-			{
-				if ( contains == null )
-				{
+			if ( object == null ) {
+				if ( contains == null ) {
 					return index;
 				}
-			}
-			else if ( object.equals( contains ) )
-			{
+			} else if ( object.equals( contains ) ) {
 				return index;
 			}
 		}
@@ -195,17 +179,15 @@ public final class ArrayUtils
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> T[] removeAt( T[] array, int index )
-	{
+	public static <T> T[] removeAt( T[] array, int index ) {
+
 		T[] newArray = (T[]) Array.newInstance( array.getClass().getComponentType(), array.length - 1 );
 
-		if ( index > 0 )
-		{
+		if ( index > 0 ) {
 			System.arraycopy( array, 0, newArray, 0, index );
 		}
 
-		if ( index < array.length - 1 )
-		{
+		if ( index < array.length - 1 ) {
 			System.arraycopy( array, index + 1, newArray, index, array.length - ( index + 1 ) );
 		}
 
@@ -222,8 +204,8 @@ public final class ArrayUtils
 	// Private constructor
 	//
 
-	private ArrayUtils()
-	{
+	private ArrayUtils() {
+
 		// Can never be called
 	}
 }

@@ -33,8 +33,8 @@ import org.metawidget.inspector.jsp.UiJspAttributes;
  * @author Richard Kennard
  */
 
-public class ContactController
-{
+public class ContactController {
+
 	//
 	// Private members
 	//
@@ -47,8 +47,8 @@ public class ContactController
 	// Constructor
 	//
 
-	public ContactController( HttpSession session )
-	{
+	public ContactController( HttpSession session ) {
+
 		mSession = session;
 	}
 
@@ -57,27 +57,27 @@ public class ContactController
 	//
 
 	@UiHidden
-	public boolean isReadOnly()
-	{
+	public boolean isReadOnly() {
+
 		return mReadOnly;
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
+	public void setReadOnly( boolean readOnly ) {
+
 		mReadOnly = readOnly;
 	}
 
 	@UiAction
 	@UiJspAttribute( name = HIDDEN, expression = "${!contactController.readOnly}" )
-	public void edit()
-	{
+	public void edit() {
+
 		mReadOnly = false;
 	}
 
 	@UiAction
 	@UiJspAttribute( name = HIDDEN, expression = "${contactController.readOnly}" )
-	public void save()
-	{
+	public void save() {
+
 		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contacts" );
 		Contact contact = (Contact) mSession.getAttribute( "contact" );
 
@@ -87,8 +87,8 @@ public class ContactController
 	@UiAction
 	@UiJspAttribute( name = HIDDEN, expression = "${contactController.readOnly || contact.id == 0}" )
 	@UiComesAfter( "save" )
-	public void delete()
-	{
+	public void delete() {
+
 		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contacts" );
 		Contact contact = (Contact) mSession.getAttribute( "contact" );
 
@@ -99,13 +99,13 @@ public class ContactController
 	@UiComesAfter( { "edit", "delete" } )
 	@UiJspAttributes( { @UiJspAttribute( name = LABEL, expression = "${contactController.readOnly ? 'Back' : null}" ) } )
 	public String cancel()
-		throws Exception
-	{
+		throws Exception {
+
 		return "index";
 	}
 
-	public void addCommunication()
-	{
+	public void addCommunication() {
+
 		Contact contact = (Contact) mSession.getAttribute( "contact" );
 		Communication communication = (Communication) mSession.getAttribute( "communication" );
 
@@ -113,8 +113,8 @@ public class ContactController
 		mSession.setAttribute( "communication", new Communication() );
 	}
 
-	public void deleteCommunication( long communicationId )
-	{
+	public void deleteCommunication( long communicationId ) {
+
 		Contact contact = (Contact) mSession.getAttribute( "contact" );
 		contact.removeCommunication( communicationId );
 	}

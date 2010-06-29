@@ -31,20 +31,20 @@ import org.w3c.dom.Element;
  */
 
 public class StrutsInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testInspection()
-	{
+	public void testInspection() {
+
 		StrutsInspectorConfig config = new StrutsInspectorConfig();
 		ConfigReader configReader = new ConfigReader();
-		config.setInputStreams( configReader.openResource( "org/metawidget/inspector/struts/test-struts-config1.xml" ), configReader.openResource( "org/metawidget/inspector/struts/test-struts-config2.xml" ));
+		config.setInputStreams( configReader.openResource( "org/metawidget/inspector/struts/test-struts-config1.xml" ), configReader.openResource( "org/metawidget/inspector/struts/test-struts-config2.xml" ) );
 		StrutsInspector inspector = new StrutsInspector( config );
 
-		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 

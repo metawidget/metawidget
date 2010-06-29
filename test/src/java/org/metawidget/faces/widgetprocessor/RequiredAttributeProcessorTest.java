@@ -34,15 +34,15 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class RequiredAttributeProcessorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testWidgetProcessor()
-		throws Exception
-	{
+		throws Exception {
+
 		RequiredAttributeProcessor processor = new RequiredAttributeProcessor();
 
 		UIComponent component = new HtmlInputText();

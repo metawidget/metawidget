@@ -25,8 +25,8 @@ import org.metawidget.inspector.annotation.UiComesAfter;
  */
 
 public class ContactSearch
-	implements Serializable
-{
+	implements Serializable {
+
 	//
 	// Private statics
 	//
@@ -47,35 +47,35 @@ public class ContactSearch
 	// Public methods
 	//
 
-	public String getFirstname()
-	{
+	public String getFirstname() {
+
 		return mFirstname;
 	}
 
-	public void setFirstname( String firstname )
-	{
+	public void setFirstname( String firstname ) {
+
 		mFirstname = firstname;
 	}
 
 	@UiComesAfter( "firstname" )
-	public String getSurname()
-	{
+	public String getSurname() {
+
 		return mSurname;
 	}
 
-	public void setSurname( String surname )
-	{
+	public void setSurname( String surname ) {
+
 		mSurname = surname;
 	}
 
 	@UiComesAfter( "surname" )
-	public ContactType getType()
-	{
+	public ContactType getType() {
+
 		return mType;
 	}
 
-	public void setType( ContactType type )
-	{
+	public void setType( ContactType type ) {
+
 		mType = type;
 	}
 }

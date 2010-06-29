@@ -40,8 +40,8 @@ import android.widget.ScrollView;
  */
 
 public class AllWidgetsActivity
-	extends Activity
-{
+	extends Activity {
+
 	//
 	// Protected members
 	//
@@ -55,8 +55,8 @@ public class AllWidgetsActivity
 	//
 
 	@Override
-	public void onCreate( Bundle bundle )
-	{
+	public void onCreate( Bundle bundle ) {
+
 		super.onCreate( bundle );
 
 		mAllWidgets = new AllWidgets_$$_javassist_1();
@@ -77,8 +77,8 @@ public class AllWidgetsActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu( Menu menu )
-	{
+	public boolean onCreateOptionsMenu( Menu menu ) {
+
 		super.onCreateOptionsMenu( menu );
 
 		menu.add( "Save" );
@@ -86,19 +86,16 @@ public class AllWidgetsActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( MenuItem item )
-	{
-		switch ( item.getItemId() )
-		{
+	public boolean onOptionsItemSelected( MenuItem item ) {
+
+		switch ( item.getItemId() ) {
 			case 0:
 				AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-				try
-				{
+				try {
 					// Already saved?
 
-					if ( metawidget.isReadOnly() )
-					{
+					if ( metawidget.isReadOnly() ) {
 						return false;
 					}
 
@@ -114,15 +111,12 @@ public class AllWidgetsActivity
 					// New, read-only View will be a lot shorter
 
 					( (ScrollView) metawidget.getParent() ).fullScroll( View.FOCUS_UP );
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					LogUtils.getLog( AllWidgetsActivity.class ).error( "Save error", e );
 
 					String message = e.getMessage();
 
-					if ( message == null || "".equals( message ) )
-					{
+					if ( message == null || "".equals( message ) ) {
 						message = e.getClass().getSimpleName();
 					}
 
@@ -145,8 +139,8 @@ public class AllWidgetsActivity
 	 * Manual mapping to Metawidget.
 	 */
 
-	private void mapToMetawidget()
-	{
+	private void mapToMetawidget() {
+
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		metawidget.setValue( mAllWidgets.getTextbox(), "textbox" );
@@ -191,8 +185,8 @@ public class AllWidgetsActivity
 	 */
 
 	private void mapFromMetawidget()
-		throws ParseException
-	{
+		throws ParseException {
+
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		mAllWidgets.setTextbox( (String) metawidget.getValue( "textbox" ) );
@@ -203,12 +197,9 @@ public class AllWidgetsActivity
 
 		String byteObject = metawidget.getValue( "byteObject" );
 
-		if ( byteObject == null || "".equals( byteObject ) )
-		{
+		if ( byteObject == null || "".equals( byteObject ) ) {
 			mAllWidgets.setByteObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setByteObject( Byte.valueOf( byteObject ) );
 		}
 
@@ -216,12 +207,9 @@ public class AllWidgetsActivity
 
 		String shortObject = metawidget.getValue( "shortObject" );
 
-		if ( shortObject == null || "".equals( shortObject ) )
-		{
+		if ( shortObject == null || "".equals( shortObject ) ) {
 			mAllWidgets.setShortObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setShortObject( Short.valueOf( shortObject ) );
 		}
 
@@ -229,12 +217,9 @@ public class AllWidgetsActivity
 
 		String integerObject = metawidget.getValue( "integerObject" );
 
-		if ( integerObject == null || "".equals( integerObject ) )
-		{
+		if ( integerObject == null || "".equals( integerObject ) ) {
 			mAllWidgets.setIntegerObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setIntegerObject( Integer.valueOf( integerObject ) );
 		}
 
@@ -242,12 +227,9 @@ public class AllWidgetsActivity
 
 		String rangedInteger = metawidget.getValue( "rangedInteger" );
 
-		if ( rangedInteger == null || "".equals( rangedInteger ) )
-		{
+		if ( rangedInteger == null || "".equals( rangedInteger ) ) {
 			mAllWidgets.setRangedInteger( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setRangedInteger( Integer.valueOf( rangedInteger ) );
 		}
 
@@ -255,12 +237,9 @@ public class AllWidgetsActivity
 
 		String longObject = metawidget.getValue( "longObject" );
 
-		if ( longObject == null || "".equals( longObject ) )
-		{
+		if ( longObject == null || "".equals( longObject ) ) {
 			mAllWidgets.setLongObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setLongObject( Long.valueOf( longObject ) );
 		}
 
@@ -268,12 +247,9 @@ public class AllWidgetsActivity
 
 		String floatObject = metawidget.getValue( "floatObject" );
 
-		if ( floatObject == null || "".equals( floatObject ) )
-		{
+		if ( floatObject == null || "".equals( floatObject ) ) {
 			mAllWidgets.setFloatObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setFloatObject( Float.valueOf( floatObject ) );
 		}
 
@@ -281,12 +257,9 @@ public class AllWidgetsActivity
 
 		String doubleObject = metawidget.getValue( "doubleObject" );
 
-		if ( doubleObject == null || "".equals( doubleObject ) )
-		{
+		if ( doubleObject == null || "".equals( doubleObject ) ) {
 			mAllWidgets.setDoubleObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setDoubleObject( Double.valueOf( doubleObject ) );
 		}
 
@@ -296,12 +269,9 @@ public class AllWidgetsActivity
 
 		String booleanObject = metawidget.getValue( "booleanObject" );
 
-		if ( booleanObject == null || "".equals( booleanObject ) )
-		{
+		if ( booleanObject == null || "".equals( booleanObject ) ) {
 			mAllWidgets.setBooleanObject( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setBooleanObject( Boolean.valueOf( booleanObject ) );
 		}
 
@@ -319,13 +289,11 @@ public class AllWidgetsActivity
 		String nestedWidgetsDontExpandString = metawidget.getValue( "nestedWidgetsDontExpand" );
 		String[] values = ArrayUtils.fromString( nestedWidgetsDontExpandString );
 
-		if ( values.length != 0 )
-		{
+		if ( values.length != 0 ) {
 			NestedWidgets nestedWidgetsDontExpand = new NestedWidgets();
 			nestedWidgetsDontExpand.setNestedTextbox1( values[0] );
 
-			if ( values.length > 1 )
-			{
+			if ( values.length > 1 ) {
 				nestedWidgetsDontExpand.setNestedTextbox2( values[1] );
 			}
 
@@ -334,12 +302,9 @@ public class AllWidgetsActivity
 
 		String date = metawidget.getValue( "date" );
 
-		if ( date == null || "".equals( date ) )
-		{
+		if ( date == null || "".equals( date ) ) {
 			mAllWidgets.setDate( null );
-		}
-		else
-		{
+		} else {
 			mAllWidgets.setDate( mFormat.parse( date ) );
 		}
 

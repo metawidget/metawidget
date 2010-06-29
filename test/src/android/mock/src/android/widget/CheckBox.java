@@ -26,8 +26,8 @@ import android.view.View;
  */
 
 public class CheckBox
-	extends View
-{
+	extends View {
+
 	//
 	// Private members
 	//
@@ -38,8 +38,8 @@ public class CheckBox
 	// Constructor
 	//
 
-	public CheckBox( Context context )
-	{
+	public CheckBox( Context context ) {
+
 		super( context );
 	}
 
@@ -47,13 +47,13 @@ public class CheckBox
 	// Public methods
 	//
 
-	public boolean isChecked()
-	{
+	public boolean isChecked() {
+
 		return mChecked;
 	}
 
-	public void setChecked( boolean checked )
-	{
+	public void setChecked( boolean checked ) {
+
 		mChecked = checked;
 	}
 }

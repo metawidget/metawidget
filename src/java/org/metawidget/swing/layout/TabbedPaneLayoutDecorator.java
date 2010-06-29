@@ -37,8 +37,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TabbedPaneLayoutDecorator
-	extends SwingNestedSectionLayoutDecorator
-{
+	extends SwingNestedSectionLayoutDecorator {
+
 	//
 	// Private statics
 	//
@@ -65,8 +65,8 @@ public class TabbedPaneLayoutDecorator
 	// Constructor
 	//
 
-	public TabbedPaneLayoutDecorator( TabbedPaneLayoutDecoratorConfig config )
-	{
+	public TabbedPaneLayoutDecorator( TabbedPaneLayoutDecoratorConfig config ) {
+
 		super( config );
 
 		mTabPlacement = config.getTabPlacement();
@@ -77,14 +77,13 @@ public class TabbedPaneLayoutDecorator
 	//
 
 	@Override
-	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
 		JTabbedPane tabbedPane;
 
 		// Whole new tabbed pane?
 
-		if ( previousSectionWidget == null )
-		{
+		if ( previousSectionWidget == null ) {
 			tabbedPane = new JTabbedPane();
 			tabbedPane.setBorder( TABBED_PANE_BORDER );
 			tabbedPane.setTabPlacement( mTabPlacement );
@@ -95,9 +94,7 @@ public class TabbedPaneLayoutDecorator
 			tabbedPaneAttributes.put( LABEL, "" );
 			tabbedPaneAttributes.put( LARGE, TRUE );
 			getDelegate().layoutWidget( tabbedPane, PROPERTY, tabbedPaneAttributes, container, metawidget );
-		}
-		else
-		{
+		} else {
 			tabbedPane = (JTabbedPane) previousSectionWidget.getParent();
 		}
 
@@ -111,8 +108,7 @@ public class TabbedPaneLayoutDecorator
 		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null )
-		{
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 

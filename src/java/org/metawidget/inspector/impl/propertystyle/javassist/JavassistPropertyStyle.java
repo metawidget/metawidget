@@ -63,8 +63,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JavassistPropertyStyle
-	extends JavaBeanPropertyStyle
-{
+	extends JavaBeanPropertyStyle {
+
 	//
 	// Protected methods
 	//
@@ -77,16 +77,14 @@ public class JavassistPropertyStyle
 	 */
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?>[] classes )
-	{
+	protected Map<String, Property> inspectProperties( Class<?>[] classes ) {
+
 		Map<String, Property> propertiesToReturn = CollectionUtils.newLinkedHashMap();
 
-		for ( Class<?> clazz : classes )
-		{
+		for ( Class<?> clazz : classes ) {
 			Map<String, Property> properties = getCachedProperties( clazz );
 
-			if ( properties == null )
-			{
+			if ( properties == null ) {
 				properties = inspectProperties( clazz );
 				cacheProperties( clazz, properties );
 			}
@@ -98,10 +96,9 @@ public class JavassistPropertyStyle
 	}
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?> clazz )
-	{
-		try
-		{
+	protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+
+		try {
 			Map<ClassAndLineNumberAndName, Property> lineNumberedProperties = CollectionUtils.newTreeMap();
 
 			ClassPool pool = ClassPool.getDefault();
@@ -111,29 +108,25 @@ public class JavassistPropertyStyle
 
 			Map<String, Property> properties = super.inspectProperties( clazz );
 
-			for ( Property property : properties.values() )
-			{
+			for ( Property property : properties.values() ) {
 				String propertyName = property.getName();
 
 				// ...lookup the corresponding Javassist method...
 
-				if ( property instanceof JavaBeanProperty )
-				{
+				if ( property instanceof JavaBeanProperty ) {
 					CtMethod ctMethod = null;
 					JavaBeanProperty javaBeanProperty = (JavaBeanProperty) property;
 					Method method = javaBeanProperty.getReadMethod();
 
 					// ...by its getter...
 
-					if ( method != null )
-					{
+					if ( method != null ) {
 						ctMethod = getCtMethod( ctClass, method );
 					}
 
 					// ...or its setter...
 
-					else
-					{
+					else {
 						method = javaBeanProperty.getWriteMethod();
 						ctMethod = getCtMethod( ctClass, method, pool.get( property.getType().getName() ) );
 					}
@@ -143,8 +136,7 @@ public class JavassistPropertyStyle
 					MethodInfo methodInfo = ctMethod.getMethodInfo();
 					int lineNumber = methodInfo.getLineNumber( 0 );
 
-					if ( lineNumber == -1 && !ctClass.isInterface() )
-					{
+					if ( lineNumber == -1 && !ctClass.isInterface() ) {
 						throw InspectorException.newException( "Line number information for " + clazz + " not available. Did you compile without debug info?" );
 					}
 
@@ -154,8 +146,7 @@ public class JavassistPropertyStyle
 
 				// ...or the corresponding field
 
-				if ( property instanceof FieldProperty )
-				{
+				if ( property instanceof FieldProperty ) {
 					FieldProperty fieldProperty = (FieldProperty) property;
 					lineNumberedProperties.put( new ClassAndLineNumberAndName( fieldProperty.getField().getDeclaringClass(), 0, propertyName ), property );
 					continue;
@@ -168,15 +159,12 @@ public class JavassistPropertyStyle
 
 			Map<String, Property> sortedProperties = CollectionUtils.newLinkedHashMap();
 
-			for ( Property property : lineNumberedProperties.values() )
-			{
+			for ( Property property : lineNumberedProperties.values() ) {
 				sortedProperties.put( property.getName(), property );
 			}
 
 			return sortedProperties;
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
 	}
@@ -191,18 +179,14 @@ public class JavassistPropertyStyle
 	 */
 
 	private CtMethod getCtMethod( CtClass ctClass, Method method, CtClass... parameters )
-		throws NotFoundException
-	{
+		throws NotFoundException {
+
 		CtClass superClass = ctClass;
 
-		while ( true )
-		{
-			try
-			{
+		while ( true ) {
+			try {
 				return superClass.getDeclaredMethod( method.getName(), parameters );
-			}
-			catch ( NotFoundException e )
-			{
+			} catch ( NotFoundException e ) {
 				superClass = superClass.getSuperclass();
 			}
 		}
@@ -213,8 +197,8 @@ public class JavassistPropertyStyle
 	//
 
 	private static class ClassAndLineNumberAndName
-		implements Comparable<ClassAndLineNumberAndName>
-	{
+		implements Comparable<ClassAndLineNumberAndName> {
+
 		//
 		//
 		// Private members
@@ -233,8 +217,8 @@ public class JavassistPropertyStyle
 		//
 		//
 
-		public ClassAndLineNumberAndName( Class<?> clazz, int lineNumber, String name )
-		{
+		public ClassAndLineNumberAndName( Class<?> clazz, int lineNumber, String name ) {
+
 			mClass = clazz;
 			mLineNumber = lineNumber;
 			mName = name;
@@ -247,16 +231,14 @@ public class JavassistPropertyStyle
 		//
 
 		@Override
-		public int compareTo( ClassAndLineNumberAndName that )
-		{
+		public int compareTo( ClassAndLineNumberAndName that ) {
+
 			// If classes not equal...
 
-			if ( !mClass.equals( that.mClass ) )
-			{
+			if ( !mClass.equals( that.mClass ) ) {
 				// ...superclasses come first
 
-				if ( mClass.isAssignableFrom( that.mClass ) )
-				{
+				if ( mClass.isAssignableFrom( that.mClass ) ) {
 					return -1;
 				}
 
@@ -265,8 +247,7 @@ public class JavassistPropertyStyle
 
 			// ...otherwise, sort by line number...
 
-			if ( mLineNumber != that.mLineNumber )
-			{
+			if ( mLineNumber != that.mLineNumber ) {
 				return mLineNumber - that.mLineNumber;
 			}
 

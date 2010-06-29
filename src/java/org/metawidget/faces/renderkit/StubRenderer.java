@@ -21,15 +21,13 @@ import javax.faces.render.Renderer;
 /**
  * Renders a Stub.
  * <p>
- * Stubs render nothing at all, unless they have child components in which
- * case the children are rendered 'as is' with no further decoration (eg.
- * no &lt;div&gt; tags or &lt;span&gt; tags).
+ * Stubs render nothing at all, unless they have child components in which case the children are
+ * rendered 'as is' with no further decoration (eg. no &lt;div&gt; tags or &lt;span&gt; tags).
  *
  * @author Richard Kennard
  */
 
 public class StubRenderer
-	extends Renderer
-{
+	extends Renderer {
 	// Just renders children
 }

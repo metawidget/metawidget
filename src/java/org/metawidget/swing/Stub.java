@@ -40,8 +40,8 @@ import org.metawidget.util.CollectionUtils;
 // Note: Stub extends JComponent, not JPanel, because in general it should not be opaque
 //
 public class Stub
-	extends JComponent
-{
+	extends JComponent {
+
 	//
 	// Private statics
 	//
@@ -58,8 +58,8 @@ public class Stub
 	// Constructors
 	//
 
-	public Stub()
-	{
+	public Stub() {
+
 		// Default to BoxLayout, so that the controls fill the Stub width-ways. This
 		// is important for things like JTabbedPaneLayout
 
@@ -73,8 +73,8 @@ public class Stub
 	 * <code>metawidget.add( new Stub( "foo" ))</code>
 	 */
 
-	public Stub( String name )
-	{
+	public Stub( String name ) {
+
 		setName( name );
 	}
 
@@ -82,18 +82,17 @@ public class Stub
 	// Public methods
 	//
 
-	public void setAttribute( String name, String value )
-	{
-		if ( mAttributes == null )
-		{
+	public void setAttribute( String name, String value ) {
+
+		if ( mAttributes == null ) {
 			mAttributes = CollectionUtils.newHashMap();
 		}
 
 		mAttributes.put( name, value );
 	}
 
-	public Map<String, String> getAttributes()
-	{
+	public Map<String, String> getAttributes() {
+
 		return mAttributes;
 	}
 }

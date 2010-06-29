@@ -36,24 +36,23 @@ import android.widget.TextView;
  */
 
 public class TextViewLayoutDecoratorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class, new TextViewLayoutDecoratorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class, new TextViewLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}
 
-	public void testTextViewLayoutDecorator()
-	{
+	public void testTextViewLayoutDecorator() {
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() ) ) );
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );
@@ -68,7 +67,7 @@ public class TextViewLayoutDecoratorTest
 		// Heading #1
 
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
-		assertEquals( "heading1", ((TextView) tableRow.getChildAt( 0 ) ).getText() );
+		assertEquals( "heading1", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		assertTrue( android.widget.LinearLayout.VERTICAL == linearLayout.getOrientation() );
@@ -82,10 +81,10 @@ public class TextViewLayoutDecoratorTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 2 == sectionTableLayout.getChildCount() );
 
-		// Heading  #2
+		// Heading #2
 
 		tableRow = (TableRow) tableLayout.getChildAt( 3 );
-		assertEquals( "heading2", ((TextView) tableRow.getChildAt( 0 ) ).getText() );
+		assertEquals( "heading2", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 4 );
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
@@ -103,7 +102,7 @@ public class TextViewLayoutDecoratorTest
 		// Heading #3
 
 		tableRow = (TableRow) tableLayout.getChildAt( 6 );
-		assertEquals( "heading3", ((TextView) tableRow.getChildAt( 0 ) ).getText() );
+		assertEquals( "heading3", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 7 );
 		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
@@ -112,7 +111,7 @@ public class TextViewLayoutDecoratorTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == sectionTableLayout.getChildCount() );
 
-		assertTrue( facet == androidMetawidget.getChildAt( 1 ));
+		assertTrue( facet == androidMetawidget.getChildAt( 1 ) );
 		assertTrue( 2 == androidMetawidget.getChildCount() );
 	}
 
@@ -120,8 +119,8 @@ public class TextViewLayoutDecoratorTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	bar;
 
 		@UiComesAfter( "bar" )

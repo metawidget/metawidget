@@ -34,8 +34,8 @@ import android.widget.LinearLayout;
  */
 
 public class Facet
-	extends LinearLayout
-{
+	extends LinearLayout {
+
 	//
 	// Private members
 	//
@@ -46,13 +46,13 @@ public class Facet
 	// Constructor
 	//
 
-	public Facet( Context context )
-	{
+	public Facet( Context context ) {
+
 		super( context );
 	}
 
-	public Facet( Context context, AttributeSet attributes )
-	{
+	public Facet( Context context, AttributeSet attributes ) {
+
 		super( context, attributes );
 
 		mName = attributes.getAttributeValue( null, "name" );
@@ -62,13 +62,13 @@ public class Facet
 	// Public methods
 	//
 
-	public String getName()
-	{
+	public String getName() {
+
 		return mName;
 	}
 
-	public void setName( String name )
-	{
+	public void setName( String name ) {
+
 		mName = name;
 	}
 }

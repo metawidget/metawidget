@@ -28,15 +28,15 @@ import java.beans.SimpleBeanInfo;
  */
 
 public class SwingMetawidgetBeanInfo
-	extends SimpleBeanInfo
-{
+	extends SimpleBeanInfo {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public BeanDescriptor getBeanDescriptor()
-	{
+	public BeanDescriptor getBeanDescriptor() {
+
 		BeanDescriptor descriptor = new BeanDescriptor( SwingMetawidget.class );
 		descriptor.setDisplayName( "Metawidget" );
 		descriptor.setShortDescription( "org.metawidget.swing.SwingMetawidget - http://metawidget.org" );
@@ -45,10 +45,9 @@ public class SwingMetawidgetBeanInfo
 	}
 
 	@Override
-	public Image getIcon( int kind )
-	{
-		switch( kind )
-		{
+	public Image getIcon( int kind ) {
+
+		switch ( kind ) {
 			case BeanInfo.ICON_MONO_16x16:
 				return loadImage( "icon/mono-16x16.gif" );
 

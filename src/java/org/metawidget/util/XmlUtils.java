@@ -49,8 +49,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Richard Kennard
  */
 
-public class XmlUtils
-{
+public class XmlUtils {
+
 	//
 	// Public statics
 	//
@@ -59,13 +59,12 @@ public class XmlUtils
 	 * Gets the DOM attributes of the given Node as a Map.
 	 */
 
-	public static Map<String, String> getAttributesAsMap( Node node )
-	{
+	public static Map<String, String> getAttributesAsMap( Node node ) {
+
 		NamedNodeMap nodes = node.getAttributes();
 		int length = nodes.getLength();
 
-		if ( length == 0 )
-		{
+		if ( length == 0 ) {
 			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that
 			// we're 1.4 compatible)
 
@@ -76,8 +75,7 @@ public class XmlUtils
 
 		Map<String, String> attributes = CollectionUtils.newHashMap( length );
 
-		for ( int loop = 0; loop < length; loop++ )
-		{
+		for ( int loop = 0; loop < length; loop++ ) {
 			Node attributeNode = nodes.item( loop );
 			attributes.put( attributeNode.getNodeName(), attributeNode.getNodeValue() );
 		}
@@ -93,15 +91,13 @@ public class XmlUtils
 	 * already exist, they are overwritten.
 	 */
 
-	public static void setMapAsAttributes( Element element, Map<String, String> attributes )
-	{
-		if ( attributes == null )
-		{
+	public static void setMapAsAttributes( Element element, Map<String, String> attributes ) {
+
+		if ( attributes == null ) {
 			return;
 		}
 
-		for ( Map.Entry<String, String> entry : attributes.entrySet() )
-		{
+		for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
 			element.setAttribute( entry.getKey(), entry.getValue() );
 		}
 	}
@@ -113,31 +109,26 @@ public class XmlUtils
 	 * XPath-like fashion.
 	 */
 
-	public static Element getChildNamed( Element element, String... names )
-	{
-		if ( element == null )
-		{
+	public static Element getChildNamed( Element element, String... names ) {
+
+		if ( element == null ) {
 			return null;
 		}
 
 		Element child = null;
 		NodeList children = element.getChildNodes();
 
-		outer: for ( String name : names )
-		{
-			for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
-			{
+		outer: for ( String name : names ) {
+			for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
 				Node node = children.item( loop );
 
-				if ( !( node instanceof Element ) )
-				{
+				if ( !( node instanceof Element ) ) {
 					continue;
 				}
 
 				child = (Element) node;
 
-				if ( name.equals( child.getLocalName() ) )
-				{
+				if ( name.equals( child.getLocalName() ) ) {
 					children = child.getChildNodes();
 					continue outer;
 				}
@@ -151,28 +142,24 @@ public class XmlUtils
 		return child;
 	}
 
-	public static Element getChildWithAttribute( Element element, String attributeName )
-	{
-		if ( element == null )
-		{
+	public static Element getChildWithAttribute( Element element, String attributeName ) {
+
+		if ( element == null ) {
 			return null;
 		}
 
 		NodeList children = element.getChildNodes();
 
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
 			Node node = children.item( loop );
 
-			if ( !( node instanceof Element ) )
-			{
+			if ( !( node instanceof Element ) ) {
 				continue;
 			}
 
 			Element child = (Element) node;
 
-			if ( child.hasAttribute( attributeName ) )
-			{
+			if ( child.hasAttribute( attributeName ) ) {
 				return child;
 			}
 		}
@@ -180,21 +167,17 @@ public class XmlUtils
 		return null;
 	}
 
-	public static Element getChildWithAttributeValue( Element element, String attributeName, String attributeValue )
-	{
-		if ( element == null )
-		{
+	public static Element getChildWithAttributeValue( Element element, String attributeName, String attributeValue ) {
+
+		if ( element == null ) {
 			return null;
 		}
 
 		NodeList children;
 
-		try
-		{
+		try {
 			children = element.getChildNodes();
-		}
-		catch ( IllegalArgumentException e )
-		{
+		} catch ( IllegalArgumentException e ) {
 			// We've seen this throw a IllegalArgumentException from
 			// com.sun.org.apache.xerces.internal.dom.DeferredDocumentImpl.getNodeObject(DeferredDocumentImpl.java:1081)
 			// under GWT 1.7
@@ -204,12 +187,9 @@ public class XmlUtils
 
 		int length;
 
-		try
-		{
+		try {
 			length = children.getLength();
-		}
-		catch ( NullPointerException e )
-		{
+		} catch ( NullPointerException e ) {
 			// We've seen this throw a NullPointerException from
 			// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListGetLength(ParentNode.java:696)
 			// under GWT 1.7
@@ -217,16 +197,12 @@ public class XmlUtils
 			return null;
 		}
 
-		for ( int loop = 0; loop < length; loop++ )
-		{
+		for ( int loop = 0; loop < length; loop++ ) {
 			Node node;
 
-			try
-			{
+			try {
 				node = children.item( loop );
-			}
-			catch ( NullPointerException e )
-			{
+			} catch ( NullPointerException e ) {
 				// We've seen this throw a NullPointerException from
 				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListItem(ParentNode.java:780)
 				// under GWT 1.7
@@ -234,22 +210,17 @@ public class XmlUtils
 				continue;
 			}
 
-			if ( !( node instanceof Element ) )
-			{
+			if ( !( node instanceof Element ) ) {
 				continue;
 			}
 
 			Element child = (Element) node;
 
-			try
-			{
-				if ( attributeValue.equals( child.getAttribute( attributeName ) ) )
-				{
+			try {
+				if ( attributeValue.equals( child.getAttribute( attributeName ) ) ) {
 					return child;
 				}
-			}
-			catch ( NullPointerException e )
-			{
+			} catch ( NullPointerException e ) {
 				// We've seen this throw a NullPointerException from
 				// com.sun.org.apache.xerces.internal.dom.DeferredAttrNSImpl.synchronizeData(DeferredAttrNSImpl.java:97)
 				// under GWT 1.7
@@ -261,44 +232,36 @@ public class XmlUtils
 		return null;
 	}
 
-	public static Element getSiblingNamed( Element element, String name )
-	{
-		if ( element == null )
-		{
+	public static Element getSiblingNamed( Element element, String name ) {
+
+		if ( element == null ) {
 			return null;
 		}
 
 		Node nodeNextSibling = element;
 
-		while ( true )
-		{
+		while ( true ) {
 			nodeNextSibling = nodeNextSibling.getNextSibling();
 
-			if ( nodeNextSibling == null )
-			{
+			if ( nodeNextSibling == null ) {
 				return null;
 			}
 
-			if ( !( nodeNextSibling instanceof Element ) )
-			{
+			if ( !( nodeNextSibling instanceof Element ) ) {
 				continue;
 			}
 
-			if ( name.equals( nodeNextSibling.getNodeName() ) )
-			{
+			if ( name.equals( nodeNextSibling.getNodeName() ) ) {
 				return (Element) nodeNextSibling;
 			}
 		}
 	}
 
-	public static Element importElement( Document document, Element element )
-	{
-		try
-		{
+	public static Element importElement( Document document, Element element ) {
+
+		try {
 			return (Element) document.importNode( element, true );
-		}
-		catch ( DOMException e )
-		{
+		} catch ( DOMException e ) {
 			// Note: importNode returns 'DOMException' under Android 1.1_r1
 
 			Element imported = document.createElementNS( element.getNamespaceURI(), element.getNodeName() );
@@ -306,12 +269,10 @@ public class XmlUtils
 
 			NodeList nodeList = imported.getChildNodes();
 
-			for ( int loop = 0; loop < nodeList.getLength(); loop++ )
-			{
+			for ( int loop = 0; loop < nodeList.getLength(); loop++ ) {
 				Node node = nodeList.item( loop );
 
-				if ( !( node instanceof Element ) )
-				{
+				if ( !( node instanceof Element ) ) {
 					continue;
 				}
 
@@ -337,31 +298,26 @@ public class XmlUtils
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
 	 */
 
-	public static String documentToString( Document document, boolean pretty )
-	{
+	public static String documentToString( Document document, boolean pretty ) {
+
 		// Nothing to do?
 
-		if ( document == null )
-		{
+		if ( document == null ) {
 			return "";
 		}
 
 		return nodeToString( document.getFirstChild(), ( pretty ? 0 : -1 ) );
 	}
 
-	public static Document documentFromString( String xml )
-	{
-		if ( xml == null )
-		{
+	public static Document documentFromString( String xml ) {
+
+		if ( xml == null ) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			return newDocumentBuilder().parse( new InputSource( new StringReader( xml ) ) );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
@@ -372,8 +328,8 @@ public class XmlUtils
 	 */
 
 	public static DocumentBuilder newDocumentBuilder()
-		throws ParserConfigurationException
-	{
+		throws ParserConfigurationException {
+
 		return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
 	}
 
@@ -383,8 +339,8 @@ public class XmlUtils
 	 */
 
 	public static class NopEntityResolver
-		implements EntityResolver
-	{
+		implements EntityResolver {
+
 		//
 		//
 		// Private statics
@@ -399,8 +355,8 @@ public class XmlUtils
 		//
 		//
 
-		public InputSource resolveEntity( String publicId, String systemId )
-		{
+		public InputSource resolveEntity( String publicId, String systemId ) {
+
 			return new InputSource( new ByteArrayInputStream( BYTES ) );
 		}
 	}
@@ -412,23 +368,20 @@ public class XmlUtils
 	 * indentation TextNodes).
 	 */
 
-	public static Element getElementAt( Element element, int index )
-	{
+	public static Element getElementAt( Element element, int index ) {
+
 		NodeList nodes = element.getChildNodes();
 
 		int actualIndex = 0;
 
-		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ ) {
 			Node node = nodes.item( loop );
 
-			if ( !( node instanceof Element ) )
-			{
+			if ( !( node instanceof Element ) ) {
 				continue;
 			}
 
-			if ( actualIndex == index )
-			{
+			if ( actualIndex == index ) {
 				return (Element) node;
 			}
 
@@ -447,8 +400,8 @@ public class XmlUtils
 	 * Child elements are matched recursively on childAttributeToCombineOn.
 	 */
 
-	public static void combineElements( Element master, Element toAdd, String topLevelAttributeToCombineOn, String childAttributeToCombineOn )
-	{
+	public static void combineElements( Element master, Element toAdd, String topLevelAttributeToCombineOn, String childAttributeToCombineOn ) {
+
 		// Combine attributes
 		//
 		// Note: when Android is fixed, we can go back to using
@@ -456,15 +409,13 @@ public class XmlUtils
 
 		NamedNodeMap attributesToAdd = toAdd.getAttributes();
 
-		for ( int loop = 0, length = attributesToAdd.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = attributesToAdd.getLength(); loop < length; loop++ ) {
 			Node nodeToAdd = attributesToAdd.item( loop );
 
 			String attributeToAddName = nodeToAdd.getNodeName();
 			String attributeToAddValue = nodeToAdd.getNodeValue();
 
-			if ( attributeToAddValue == null || attributeToAddValue.length() == 0 )
-			{
+			if ( attributeToAddValue == null || attributeToAddValue.length() == 0 ) {
 				master.removeAttribute( attributeToAddName );
 			}
 
@@ -480,63 +431,52 @@ public class XmlUtils
 
 		Node nodeLastMasterCombinePoint = null;
 
-		outerLoop: for ( int addLoop = 0, addLength = childrenToAdd.getLength(); addLoop < addLength; addLoop++ )
-		{
+		outerLoop: for ( int addLoop = 0, addLength = childrenToAdd.getLength(); addLoop < addLength; addLoop++ ) {
 			Node nodeChildToAdd = childrenToAdd.item( addLoop );
 
-			if ( !( nodeChildToAdd instanceof Element ) )
-			{
+			if ( !( nodeChildToAdd instanceof Element ) ) {
 				continue;
 			}
 
 			Element childToAdd = (Element) nodeChildToAdd;
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
-			if ( childToAddName == null || "".equals( childToAddName ) )
-			{
+			if ( childToAddName == null || "".equals( childToAddName ) ) {
 				throw new RuntimeException( "Child node #" + addLoop + " (" + childToAdd.getNodeName() + ") has no @" + topLevelAttributeToCombineOn );
 			}
 
-			if ( !childNamesAdded.add( childToAddName ) )
-			{
+			if ( !childNamesAdded.add( childToAddName ) ) {
 				throw new RuntimeException( "Element has more than one child with @" + topLevelAttributeToCombineOn + " '" + childToAddName + "'" );
 			}
 
 			// ...find one with the same @name in the 'master'...
 
-			for ( int masterLoop = 0, masterLength = masterChildren.getLength(); masterLoop < masterLength; masterLoop++ )
-			{
+			for ( int masterLoop = 0, masterLength = masterChildren.getLength(); masterLoop < masterLength; masterLoop++ ) {
 				Node nodeMasterChild = masterChildren.item( masterLoop );
 
-				if ( !( nodeMasterChild instanceof Element ) )
-				{
+				if ( !( nodeMasterChild instanceof Element ) ) {
 					continue;
 				}
 
 				Element masterChild = (Element) nodeMasterChild;
 				String masterChildName = masterChild.getAttribute( topLevelAttributeToCombineOn );
 
-				if ( !childToAddName.equals( masterChildName ) )
-				{
+				if ( !childToAddName.equals( masterChildName ) ) {
 					continue;
 				}
 
 				String nodeNameInMaster = masterChild.getNodeName();
 				String nodeNameInAdd = childToAdd.getNodeName();
 
-				if ( !nodeNameInMaster.equals( nodeNameInAdd ) )
-				{
+				if ( !nodeNameInMaster.equals( nodeNameInAdd ) ) {
 					throw new RuntimeException( "Matching elements named '" + masterChildName + "', but existing one is a '" + nodeNameInMaster + "' whilst new one is a '" + nodeNameInAdd + "'" );
 				}
 
 				// ...and combine them
 
-				if ( masterLoop == masterLength - 1 )
-				{
+				if ( masterLoop == masterLength - 1 ) {
 					nodeLastMasterCombinePoint = null;
-				}
-				else
-				{
+				} else {
 					nodeLastMasterCombinePoint = masterChild;
 				}
 
@@ -547,8 +487,7 @@ public class XmlUtils
 			// If no such child exists, add one either immediately after the
 			// last matched master...
 
-			if ( nodeLastMasterCombinePoint != null )
-			{
+			if ( nodeLastMasterCombinePoint != null ) {
 				Element imported = XmlUtils.importElement( master.getOwnerDocument(), childToAdd );
 				master.insertBefore( imported, nodeLastMasterCombinePoint.getNextSibling() );
 				nodeLastMasterCombinePoint = imported;
@@ -561,24 +500,24 @@ public class XmlUtils
 		}
 	}
 
-	public static String attributesToString( Attributes attributes )
-	{
+	public static String attributesToString( Attributes attributes ) {
+
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
 
-		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ )
-		{
+		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ ) {
 			buffer.append( " " );
-			buffer.append( attributes.getLocalName( loop ));
+			buffer.append( attributes.getLocalName( loop ) );
 			buffer.append( "=\"" );
-			buffer.append( attributes.getValue( loop ));
+			buffer.append( attributes.getValue( loop ) );
 			buffer.append( "\"" );
 		}
 
 		return buffer.toString();
 
 	}
+
 	//
 	// Inner class
 	//
@@ -597,8 +536,8 @@ public class XmlUtils
 	 */
 
 	public static class CachingContentHandler
-		extends DefaultHandler
-	{
+		extends DefaultHandler {
+
 		//
 		// Private members
 		//
@@ -615,8 +554,8 @@ public class XmlUtils
 		// Constructor
 		//
 
-		public CachingContentHandler( ContentHandler delegate )
-		{
+		public CachingContentHandler( ContentHandler delegate ) {
+
 			mDelegate = delegate;
 		}
 
@@ -624,8 +563,8 @@ public class XmlUtils
 		// Public methods
 		//
 
-		public boolean isPaused()
-		{
+		public boolean isPaused() {
+
 			return mCachingPaused;
 		}
 
@@ -635,17 +574,15 @@ public class XmlUtils
 		 *            led us to call pause)
 		 */
 
-		public void pause( boolean includeLastEvent )
-		{
-			if ( isPaused() )
-			{
+		public void pause( boolean includeLastEvent ) {
+
+			if ( isPaused() ) {
 				throw new RuntimeException( "CachingContentHandler already paused" );
 			}
 
 			mCachingPaused = true;
 
-			if ( !includeLastEvent )
-			{
+			if ( !includeLastEvent ) {
 				mCache.remove( mCache.size() - 1 );
 			}
 		}
@@ -656,17 +593,15 @@ public class XmlUtils
 		 *            led us to call unpause)
 		 */
 
-		public void unpause( boolean includeLastEvent )
-		{
-			if ( !isPaused() )
-			{
+		public void unpause( boolean includeLastEvent ) {
+
+			if ( !isPaused() ) {
 				throw new RuntimeException( "CachingContentHandler not paused" );
 			}
 
 			mCachingPaused = false;
 
-			if ( includeLastEvent )
-			{
+			if ( includeLastEvent ) {
 				mCache.add( mLastCommand );
 			}
 		}
@@ -681,15 +616,13 @@ public class XmlUtils
 		 */
 
 		public void replay( ContentHandler replayTo )
-			throws SAXException
-		{
-			if ( mCache.isEmpty() )
-			{
+			throws SAXException {
+
+			if ( mCache.isEmpty() ) {
 				throw new SAXException( "Nothing to replay. Not cached any SAX events" );
 			}
 
-			for ( CachedCommand cachedEvent : mCache )
-			{
+			for ( CachedCommand cachedEvent : mCache ) {
 				cachedEvent.replay( replayTo );
 			}
 		}
@@ -700,14 +633,12 @@ public class XmlUtils
 
 		@Override
 		public void startDocument()
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new StartDocumentCommand();
 
-			if ( !mCachingPaused )
-			{
-				if ( !mCache.isEmpty() )
-				{
+			if ( !mCachingPaused ) {
+				if ( !mCache.isEmpty() ) {
 					throw new SAXException( "Already cached SAX events. CachingContentHandler can only cache SAX events once" );
 				}
 
@@ -719,12 +650,11 @@ public class XmlUtils
 
 		@Override
 		public void processingInstruction( String target, String data )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new ProcessingInstructionCommand( target, data );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -732,19 +662,18 @@ public class XmlUtils
 		}
 
 		@Override
-		public void setDocumentLocator( Locator locator )
-		{
+		public void setDocumentLocator( Locator locator ) {
+
 			mDelegate.setDocumentLocator( locator );
 		}
 
 		@Override
 		public void skippedEntity( String name )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new SkippedEntityCommand( name );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -753,12 +682,11 @@ public class XmlUtils
 
 		@Override
 		public void startPrefixMapping( String prefix, String uri )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new StartPrefixMappingCommand( prefix, uri );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -767,12 +695,11 @@ public class XmlUtils
 
 		@Override
 		public void endPrefixMapping( String prefix )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new EndPrefixMappingCommand( prefix );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -781,12 +708,11 @@ public class XmlUtils
 
 		@Override
 		public void startElement( String uri, String localName, String name, Attributes attributes )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new StartElementCommand( uri, localName, name, attributes );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -795,12 +721,11 @@ public class XmlUtils
 
 		@Override
 		public void characters( char[] characters, int start, int length )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new CharactersCommand( characters, start, length );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -809,12 +734,11 @@ public class XmlUtils
 
 		@Override
 		public void ignorableWhitespace( char[] characters, int start, int length )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new IgnorableWhitespaceCommand( characters, start, length );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -823,12 +747,11 @@ public class XmlUtils
 
 		@Override
 		public void endElement( String uri, String localName, String name )
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new EndElementCommand( uri, localName, name );
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -837,12 +760,11 @@ public class XmlUtils
 
 		@Override
 		public void endDocument()
-			throws SAXException
-		{
+			throws SAXException {
+
 			mLastCommand = new EndDocumentCommand();
 
-			if ( !mCachingPaused )
-			{
+			if ( !mCachingPaused ) {
 				mCache.add( mLastCommand );
 			}
 
@@ -863,8 +785,8 @@ public class XmlUtils
 		 * The term <code>Command</code> refers to the Command Design Pattern.
 		 */
 
-		private static interface CachedCommand
-		{
+		private static interface CachedCommand {
+
 			//
 			// Methods
 			//
@@ -874,14 +796,14 @@ public class XmlUtils
 		}
 
 		private static class StartDocumentCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Constructor
 			//
 
-			public StartDocumentCommand()
-			{
+			public StartDocumentCommand() {
+
 				// Public for better performance
 			}
 
@@ -890,21 +812,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.startDocument();
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "startDocument";
 			}
 		}
 
 		private static class ProcessingInstructionCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -917,8 +839,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public ProcessingInstructionCommand( String target, String data )
-			{
+			public ProcessingInstructionCommand( String target, String data ) {
+
 				mTarget = target;
 				mData = data;
 			}
@@ -928,21 +850,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.processingInstruction( mTarget, mData );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "processInstruction " + mTarget + " " + mData;
 			}
 		}
 
 		private static class SkippedEntityCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -953,8 +875,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public SkippedEntityCommand( String name )
-			{
+			public SkippedEntityCommand( String name ) {
+
 				mName = name;
 			}
 
@@ -963,21 +885,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.skippedEntity( mName );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "skippedEntity " + mName;
 			}
 		}
 
 		private static class StartPrefixMappingCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -990,8 +912,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public StartPrefixMappingCommand( String prefix, String uri )
-			{
+			public StartPrefixMappingCommand( String prefix, String uri ) {
+
 				mPrefix = prefix;
 				mUri = uri;
 			}
@@ -1001,21 +923,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.startPrefixMapping( mPrefix, mUri );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "startPrefixMapping " + mPrefix + " " + mUri;
 			}
 		}
 
 		private static class EndPrefixMappingCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -1026,8 +948,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public EndPrefixMappingCommand( String prefix )
-			{
+			public EndPrefixMappingCommand( String prefix ) {
+
 				mPrefix = prefix;
 			}
 
@@ -1036,21 +958,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.endPrefixMapping( mPrefix );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "endPrefixMapping " + mPrefix;
 			}
 		}
 
 		private static class StartElementCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -1067,8 +989,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public StartElementCommand( String uri, String localName, String qName, Attributes attributes )
-			{
+			public StartElementCommand( String uri, String localName, String qName, Attributes attributes ) {
+
 				mUri = uri;
 				mLocalName = localName;
 				mQName = qName;
@@ -1083,21 +1005,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.startElement( mUri, mLocalName, mQName, mAttributes );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "startElement " + mUri + " " + mLocalName + " " + mQName + attributesToString( mAttributes );
 			}
 		}
 
 		private static class CharactersCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -1108,8 +1030,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public CharactersCommand( char[] characters, int start, int length )
-			{
+			public CharactersCommand( char[] characters, int start, int length ) {
+
 				// Defensive copy - SAX implementations may reuse the array
 
 				mCharacters = new char[length];
@@ -1121,21 +1043,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.characters( mCharacters, 0, mCharacters.length );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "characters " + String.valueOf( mCharacters );
 			}
 		}
 
 		private static class IgnorableWhitespaceCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -1146,8 +1068,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public IgnorableWhitespaceCommand( char[] characters, int start, int length )
-			{
+			public IgnorableWhitespaceCommand( char[] characters, int start, int length ) {
+
 				// Defensive copy - SAX implementations may reuse the array
 
 				mCharacters = new char[length];
@@ -1159,21 +1081,21 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.ignorableWhitespace( mCharacters, 0, mCharacters.length );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "ignorableWhitespace " + String.valueOf( mCharacters );
 			}
 		}
 
 		private static class EndElementCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Private members
 			//
@@ -1188,8 +1110,8 @@ public class XmlUtils
 			// Constructor
 			//
 
-			public EndElementCommand( String uri, String localName, String qName )
-			{
+			public EndElementCommand( String uri, String localName, String qName ) {
+
 				mUri = uri;
 				mLocalName = localName;
 				mQName = qName;
@@ -1200,27 +1122,27 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.endElement( mUri, mLocalName, mQName );
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "endElement " + mUri + " " + mLocalName + " " + mQName;
 			}
 		}
 
 		private static class EndDocumentCommand
-			implements CachedCommand
-		{
+			implements CachedCommand {
+
 			//
 			// Constructor
 			//
 
-			public EndDocumentCommand()
-			{
+			public EndDocumentCommand() {
+
 				// Public for better performance
 			}
 
@@ -1229,14 +1151,14 @@ public class XmlUtils
 			//
 
 			public void replay( ContentHandler replayTo )
-				throws SAXException
-			{
+				throws SAXException {
+
 				replayTo.endDocument();
 			}
 
 			@Override
-			public String toString()
-			{
+			public String toString() {
+
 				return "endDocument";
 			}
 		}
@@ -1264,12 +1186,11 @@ public class XmlUtils
 	 *            how much to indent the output. -1 for no indent.
 	 */
 
-	private static String nodeToString( Node node, int indent )
-	{
+	private static String nodeToString( Node node, int indent ) {
+
 		// Ignore non-Elements
 
-		if ( !( node instanceof Element ) )
-		{
+		if ( !( node instanceof Element ) ) {
 			return "";
 		}
 
@@ -1279,8 +1200,7 @@ public class XmlUtils
 
 		// Indent
 
-		for ( int loop = 0; loop < indent; loop++ )
-		{
+		for ( int loop = 0; loop < indent; loop++ ) {
 			buffer.append( "   " );
 		}
 
@@ -1295,8 +1215,7 @@ public class XmlUtils
 		String namespace = node.getNamespaceURI();
 		Node parentNode = node.getParentNode();
 
-		if ( namespace != null && ( parentNode == null || !namespace.equals( parentNode.getNamespaceURI() ) ) )
-		{
+		if ( namespace != null && ( parentNode == null || !namespace.equals( parentNode.getNamespaceURI() ) ) ) {
 			buffer.append( " xmlns=\"" );
 			buffer.append( namespace );
 			buffer.append( "\"" );
@@ -1310,29 +1229,25 @@ public class XmlUtils
 
 		Node name = attributes.getNamedItem( "name" );
 
-		if ( name != null )
-		{
+		if ( name != null ) {
 			buffer.append( " name=\"" );
 			buffer.append( escapeForXml( name.getNodeValue() ) );
 			buffer.append( "\"" );
 		}
 
-		for ( int loop = 0; loop < attributes.getLength(); loop++ )
-		{
+		for ( int loop = 0; loop < attributes.getLength(); loop++ ) {
 			Node attribute = attributes.item( loop );
 			String attributeName = attribute.getNodeName();
 
 			// (I'm a bit surprised xmlns is an attribute - is that a bug?)
 
-			if ( "xmlns".equals( attributeName ) )
-			{
+			if ( "xmlns".equals( attributeName ) ) {
 				continue;
 			}
 
 			// (always put name first for easy unit tests)
 
-			if ( "name".equals( attributeName ) )
-			{
+			if ( "name".equals( attributeName ) ) {
 				continue;
 			}
 
@@ -1348,31 +1263,25 @@ public class XmlUtils
 		NodeList children = node.getChildNodes();
 		int length = children.getLength();
 
-		if ( length == 0 )
-		{
+		if ( length == 0 ) {
 			buffer.append( "/>" );
-		}
-		else
-		{
+		} else {
 			buffer.append( ">" );
 
 			int nextIndent = indent;
 
-			if ( indent != -1 )
-			{
+			if ( indent != -1 ) {
 				buffer.append( "\n" );
 				nextIndent++;
 			}
 
-			for ( int loop = 0; loop < length; loop++ )
-			{
+			for ( int loop = 0; loop < length; loop++ ) {
 				buffer.append( nodeToString( children.item( loop ), nextIndent ) );
 			}
 
 			// Indent
 
-			for ( int loop = 0; loop < indent; loop++ )
-			{
+			for ( int loop = 0; loop < indent; loop++ ) {
 				buffer.append( "   " );
 			}
 
@@ -1383,18 +1292,16 @@ public class XmlUtils
 			buffer.append( ">" );
 		}
 
-		if ( indent > 0 )
-		{
+		if ( indent > 0 ) {
 			buffer.append( "\n" );
 		}
 
 		return buffer.toString();
 	}
 
-	private static String escapeForXml( String in )
-	{
-		if ( in == null )
-		{
+	private static String escapeForXml( String in ) {
+
+		if ( in == null ) {
 			return "";
 		}
 
@@ -1414,8 +1321,7 @@ public class XmlUtils
 
 	private final static DocumentBuilderFactory	DOCUMENT_BUILDER_FACTORY;
 
-	static
-	{
+	static {
 		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
 		DOCUMENT_BUILDER_FACTORY.setNamespaceAware( true );
 		DOCUMENT_BUILDER_FACTORY.setIgnoringComments( true );
@@ -1434,8 +1340,8 @@ public class XmlUtils
 	// Private constructor
 	//
 
-	private XmlUtils()
-	{
+	private XmlUtils() {
+
 		// Can never be called
 	}
 }

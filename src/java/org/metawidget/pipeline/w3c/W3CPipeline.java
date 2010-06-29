@@ -32,8 +32,8 @@ import org.w3c.dom.Element;
  */
 
 public abstract class W3CPipeline<W, C extends W, M extends C>
-	extends BasePipeline<W, C, Element, M>
-{
+	extends BasePipeline<W, C, Element, M> {
+
 	//
 	// Public methods
 	//
@@ -52,17 +52,14 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
-	{
-		if ( getWidgetProcessors() == null )
-		{
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
+		if ( getWidgetProcessors() == null ) {
 			return null;
 		}
 
-		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() )
-		{
-			if ( widgetProcessorClass.isAssignableFrom( widgetProcessor.getClass() ) )
-			{
+		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() ) {
+			if ( widgetProcessorClass.isAssignableFrom( widgetProcessor.getClass() ) ) {
 				return (T) widgetProcessor;
 			}
 		}
@@ -81,30 +78,25 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	 *            potentially a subclass)
 	 */
 
-	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass )
-	{
-		if ( getInspector() == null )
-		{
+	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass ) {
+
+		if ( getInspector() == null ) {
 			configReader.configure( configuration, getPipelineOwner(), "inspector" );
 		}
 
-		if ( getInspectionResultProcessors() == null )
-		{
+		if ( getInspectionResultProcessors() == null ) {
 			configReader.configure( configuration, getPipelineOwner(), "inspectionResultProcessors" );
 		}
 
-		if ( getWidgetBuilder() == null )
-		{
+		if ( getWidgetBuilder() == null ) {
 			configReader.configure( configuration, getPipelineOwner(), "widgetBuilder" );
 		}
 
-		if ( getWidgetProcessors() == null )
-		{
+		if ( getWidgetProcessors() == null ) {
 			configReader.configure( configuration, getPipelineOwner(), "widgetProcessors" );
 		}
 
-		if ( getLayout() == null )
-		{
+		if ( getLayout() == null ) {
 			configReader.configure( configuration, getPipelineOwner(), "layout" );
 		}
 	}
@@ -114,33 +106,33 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	//
 
 	@Override
-	protected Element getDocumentElement( String xml )
-	{
+	protected Element getDocumentElement( String xml ) {
+
 		Document document = XmlUtils.documentFromString( xml );
 		return document.getDocumentElement();
 	}
 
 	@Override
-	protected int getChildCount( Element element )
-	{
+	protected int getChildCount( Element element ) {
+
 		return element.getChildNodes().getLength();
 	}
 
 	@Override
-	protected Element getChildAt( Element element, int index )
-	{
+	protected Element getChildAt( Element element, int index ) {
+
 		return XmlUtils.getElementAt( element, index );
 	}
 
 	@Override
-	protected String getElementName( Element element )
-	{
+	protected String getElementName( Element element ) {
+
 		return element.getNodeName();
 	}
 
 	@Override
-	protected Map<String, String> getAttributesAsMap( Element element )
-	{
+	protected Map<String, String> getAttributesAsMap( Element element ) {
+
 		return XmlUtils.getAttributesAsMap( element );
 	}
 }

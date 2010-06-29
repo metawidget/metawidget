@@ -23,15 +23,15 @@ import junit.framework.TestCase;
  */
 
 public class InspectionResultProcessorExceptionTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
 	public void testInspectionResultProcessorException()
-		throws Exception
-	{
+		throws Exception {
+
 		Throwable throwable = new Throwable();
 		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ).getCause() );
 

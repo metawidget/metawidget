@@ -36,14 +36,14 @@ import org.metawidget.swt.widgetprocessor.binding.reflection.ReflectionBindingPr
  */
 
 public class SwtMetawidgetTests
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static Test suite()
-	{
+	public static Test suite() {
+
 		TestSuite suite = new TestSuite( "SwtMetawidget Tests" );
 		suite.addTestSuite( DataBindingProcessorTest.class );
 		suite.addTestSuite( FillLayoutTest.class );

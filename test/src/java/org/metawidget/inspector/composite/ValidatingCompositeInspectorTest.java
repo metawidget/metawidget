@@ -25,16 +25,15 @@ import org.metawidget.util.TestUtils;
  */
 
 public class ValidatingCompositeInspectorTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class, new ValidatingCompositeInspectorConfig()
-		{
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class, new ValidatingCompositeInspectorConfig() {
 			// Subclass
 		} );
 	}

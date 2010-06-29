@@ -24,8 +24,8 @@ import org.metawidget.inspector.annotation.UiSection;
  */
 
 public class BusinessContactForm
-	extends ContactForm
-{
+	extends ContactForm {
+
 	//
 	// Private statics
 	//
@@ -45,25 +45,25 @@ public class BusinessContactForm
 	//
 
 	@UiComesAfter( "surname" )
-	public String getCompany()
-	{
+	public String getCompany() {
+
 		return mCompany;
 	}
 
-	public void setCompany( String company )
-	{
+	public void setCompany( String company ) {
+
 		mCompany = company;
 	}
 
 	@UiComesAfter( "communications" )
 	@UiSection( "Other" )
-	public int getNumberOfStaff()
-	{
+	public int getNumberOfStaff() {
+
 		return mNumberOfStaff;
 	}
 
-	public void setNumberOfStaff( int numberOfStaff )
-	{
+	public void setNumberOfStaff( int numberOfStaff ) {
+
 		mNumberOfStaff = numberOfStaff;
 	}
 }

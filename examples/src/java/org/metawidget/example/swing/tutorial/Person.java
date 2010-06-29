@@ -16,13 +16,12 @@
 
 package org.metawidget.example.swing.tutorial;
 
-
 /**
  * @author Richard Kennard
  */
 
-public class Person
-{
+public class Person {
+
 	public String	name;
 
 	public int		age;

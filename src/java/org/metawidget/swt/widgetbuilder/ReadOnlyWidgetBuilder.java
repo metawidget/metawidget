@@ -44,16 +44,15 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<Control, SwtMetawidget>, SwtValuePropertyProvider
-{
+	implements WidgetBuilder<Control, SwtMetawidget>, SwtValuePropertyProvider {
+
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Control control )
-	{
-		if ( control instanceof Label )
-		{
+	public String getValueProperty( Control control ) {
+
+		if ( control instanceof Label ) {
 			return "text";
 		}
 
@@ -61,33 +60,29 @@ public class ReadOnlyWidgetBuilder
 	}
 
 	@Override
-	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
-	{
+	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
+
 		// Not read-only?
 
-		if ( !WidgetBuilderUtils.isReadOnly( attributes ) )
-		{
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 			return null;
 		}
 
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
 		// Masked (return a Composite, so that we DO still render a label)
 
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			return new Composite( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
@@ -95,8 +90,7 @@ public class ReadOnlyWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
@@ -104,8 +98,7 @@ public class ReadOnlyWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -113,52 +106,43 @@ public class ReadOnlyWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz != null )
-		{
+		if ( clazz != null ) {
 			// Primitives
 
-			if ( clazz.isPrimitive() )
-			{
+			if ( clazz.isPrimitive() ) {
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
+			if ( String.class.equals( clazz ) ) {
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.READ_ONLY | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
 				}
 
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
-			if ( Boolean.class.equals( clazz ) )
-			{
+			if ( Boolean.class.equals( clazz ) ) {
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 

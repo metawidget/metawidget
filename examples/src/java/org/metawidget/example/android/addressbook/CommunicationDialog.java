@@ -33,8 +33,8 @@ import android.content.DialogInterface;
 
 public class CommunicationDialog
 	extends AlertDialog
-	implements DialogInterface.OnClickListener
-{
+	implements DialogInterface.OnClickListener {
+
 	//
 	// Protected members
 	//
@@ -57,8 +57,8 @@ public class CommunicationDialog
 	// Contructor
 	//
 
-	protected CommunicationDialog( Activity activity, Contact contact, Communication communication, DialogInterface.OnClickListener listener )
-	{
+	protected CommunicationDialog( Activity activity, Contact contact, Communication communication, DialogInterface.OnClickListener listener ) {
+
 		super( activity );
 
 		mActivity = activity;
@@ -70,17 +70,14 @@ public class CommunicationDialog
 		mMetawidget.setConfig( R.raw.metawidget );
 		Context context = getContext();
 
-		if ( mCommunication == null )
-		{
-			setTitle( context.getString( R.string.addCommunication ));
+		if ( mCommunication == null ) {
+			setTitle( context.getString( R.string.addCommunication ) );
 			mMetawidget.setToInspect( new Communication() );
 
 			setButton( context.getString( R.string.add ), this );
 			setButton2( context.getString( R.string.cancel ), this );
-		}
-		else
-		{
-			setTitle( context.getString( R.string.editCommunication ));
+		} else {
+			setTitle( context.getString( R.string.editCommunication ) );
 			mMetawidget.setToInspect( mCommunication );
 
 			// Manual mapping
@@ -98,45 +95,33 @@ public class CommunicationDialog
 		setCancelable( true );
 	}
 
-	public void onClick( DialogInterface dialog, int button )
-	{
-		if ( button == DialogInterface.BUTTON1 )
-		{
+	public void onClick( DialogInterface dialog, int button ) {
+
+		if ( button == DialogInterface.BUTTON1 ) {
 			// Manual mapping
 
-			if ( mCommunication == null )
-			{
+			if ( mCommunication == null ) {
 				mCommunication = new Communication();
 			}
 
 			mCommunication.setType( (String) mMetawidget.getValue( "type" ) );
 			mCommunication.setValue( (String) mMetawidget.getValue( "value" ) );
 
-			try
-			{
+			try {
 				mContact.addCommunication( mCommunication );
 				mListener.onClick( dialog, button );
-			}
-			catch( Exception e )
-			{
+			} catch ( Exception e ) {
 				Context context = getContext();
 
-				new AlertDialog.Builder( getCurrentFocus().getContext() )
-					.setTitle( context.getString( R.string.addError ) )
-					.setMessage( e.getMessage() )
-					.setPositiveButton( context.getString( R.string.ok ), null )
-					.show();
+				new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( context.getString( R.string.addError ) ).setMessage( e.getMessage() ).setPositiveButton( context.getString( R.string.ok ), null ).show();
 			}
-		}
-		else if ( button == DialogInterface.BUTTON2 && mCommunication != null )
-		{
+		} else if ( button == DialogInterface.BUTTON2 && mCommunication != null ) {
 			Context context = getContext();
-			ConfirmDialog.show( mActivity, context.getString( R.string.deleteCommunication ), context.getString( R.string.confirmDeleteCommunication ), new DialogInterface.OnClickListener()
-			{
-				public void onClick( DialogInterface confirmDialog, int confirmButton )
-				{
-					if ( confirmButton == DialogInterface.BUTTON1 )
-					{
+			ConfirmDialog.show( mActivity, context.getString( R.string.deleteCommunication ), context.getString( R.string.confirmDeleteCommunication ), new DialogInterface.OnClickListener() {
+
+				public void onClick( DialogInterface confirmDialog, int confirmButton ) {
+
+					if ( confirmButton == DialogInterface.BUTTON1 ) {
 						mContact.removeCommunication( mCommunication );
 						mListener.onClick( confirmDialog, confirmButton );
 					}

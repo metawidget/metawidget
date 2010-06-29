@@ -23,26 +23,25 @@ import com.google.gwt.junit.client.GWTTestCase;
  */
 
 public class LabelLayoutDecoratorTest
-	extends GWTTestCase
-{
+	extends GWTTestCase {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String getModuleName()
-	{
+	public String getModuleName() {
+
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testConfig()
-	{
+	public void testConfig() {
+
 		LabelLayoutDecoratorConfig config1 = new LabelLayoutDecoratorConfig();
 		LabelLayoutDecoratorConfig config2 = new LabelLayoutDecoratorConfig();
 
 		assertFalse( config1.equals( "foo" ) );
-		assertFalse( config1.equals( new LabelLayoutDecoratorConfig()
-		{
+		assertFalse( config1.equals( new LabelLayoutDecoratorConfig() {
 			// Subclass
 		} ) );
 		assertEquals( config1, config1 );

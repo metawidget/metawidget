@@ -47,16 +47,16 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  */
 
 public class IceFacesWidgetBuilderTest
-	extends HtmlWidgetBuilderTest
-{
+	extends HtmlWidgetBuilderTest {
+
 	//
 	// Public methods
 	//
 
 	@Override
 	public void testWidgetBuilder()
-		throws Exception
-	{
+		throws Exception {
+
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
 		// Hidden
@@ -93,57 +93,49 @@ public class IceFacesWidgetBuilderTest
 	//
 
 	@Override
-	protected WidgetBuilder<UIComponent, UIMetawidget> newWidgetBuilder()
-	{
+	protected WidgetBuilder<UIComponent, UIMetawidget> newWidgetBuilder() {
+
 		return new IceFacesWidgetBuilder();
 	}
 
 	@Override
-	protected MockFacesContext newMockFacesContext()
-	{
-		return new MockFacesContext()
-		{
+	protected MockFacesContext newMockFacesContext() {
+
+		return new MockFacesContext() {
+
 			@Override
 			public UIComponent createComponent( String componentName )
-				throws FacesException
-			{
-				if ( "com.icesoft.faces.SelectInputDate".equals( componentName ) )
-				{
+				throws FacesException {
+
+				if ( "com.icesoft.faces.SelectInputDate".equals( componentName ) ) {
 					return new SelectInputDate();
 				}
 
-				if ( "com.icesoft.faces.HtmlInputText".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlInputText".equals( componentName ) ) {
 					return new HtmlInputText();
 				}
 
-				if ( "com.icesoft.faces.HtmlInputTextarea".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlInputTextarea".equals( componentName ) ) {
 					return new HtmlInputTextarea();
 				}
 
-				if ( "com.icesoft.faces.HtmlInputSecret".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlInputSecret".equals( componentName ) ) {
 					return new HtmlInputSecret();
 				}
 
-				if ( "com.icesoft.faces.HtmlCommandButton".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlCommandButton".equals( componentName ) ) {
 					return new HtmlCommandButton();
 				}
 
-				if ( "com.icesoft.faces.HtmlSelectOneListbox".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlSelectOneListbox".equals( componentName ) ) {
 					return new HtmlSelectOneListbox();
 				}
 
-				if ( "com.icesoft.faces.HtmlSelectManyCheckbox".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlSelectManyCheckbox".equals( componentName ) ) {
 					return new HtmlSelectManyCheckbox();
 				}
 
-				if ( "com.icesoft.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
-				{
+				if ( "com.icesoft.faces.HtmlSelectBooleanCheckbox".equals( componentName ) ) {
 					return new HtmlSelectBooleanCheckbox();
 				}
 
@@ -153,21 +145,18 @@ public class IceFacesWidgetBuilderTest
 	}
 
 	@Override
-	protected void furtherAssert( UIComponent component )
-	{
+	protected void furtherAssert( UIComponent component ) {
+
 		// Assert every component we create is an ICEfaces component (never a regular JSF one)
 
 		assertTrue( component.getClass().getPackage().getName().startsWith( "com.icesoft.faces" ) );
 
-		try
-		{
+		try {
 			// Assert that every ICEfaces component has 'partially submit' set to true
 
 			Method partialSubmit = component.getClass().getMethod( "getPartialSubmit" );
 			assertTrue( (Boolean) partialSubmit.invoke( component ) );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}

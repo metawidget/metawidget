@@ -38,38 +38,35 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class MapBindingProcessor
-	implements AdvancedWidgetProcessor<Widget, GwtMetawidget>
-{
+	implements AdvancedWidgetProcessor<Widget, GwtMetawidget> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public void onStartBuild( GwtMetawidget metawidget )
-	{
+	public void onStartBuild( GwtMetawidget metawidget ) {
+
 		// Clear our state
 
 		metawidget.putClientProperty( MapBindingProcessor.class, null );
 	}
 
 	@Override
-	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
-	{
+	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget ) {
+
 		// Don't bind to Actions
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return widget;
 		}
 
 		// Nested Metawidgets are not bound, only remembered
 
-		if ( widget instanceof GwtMetawidget )
-		{
+		if ( widget instanceof GwtMetawidget ) {
 			State state = getState( metawidget );
 
-			if ( state.nestedMetawidgets == null )
-			{
+			if ( state.nestedMetawidgets == null ) {
 				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
 			}
 
@@ -79,57 +76,48 @@ public class MapBindingProcessor
 
 		// MapBindingProcessor doesn't bind to Stubs or FlexTables
 
-		if ( widget instanceof Stub || widget instanceof FlexTable )
-		{
+		if ( widget instanceof Stub || widget instanceof FlexTable ) {
 			return widget;
 		}
 
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ) )
-		{
+		if ( PROPERTY.equals( elementName ) ) {
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 		}
 
-		try
-		{
-			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-			{
+		try {
+			if ( TRUE.equals( attributes.get( READ_ONLY ) ) ) {
 				return widget;
 			}
 
 			State state = getState( metawidget );
 
-			if ( state.bindings == null )
-			{
+			if ( state.bindings == null ) {
 				state.bindings = new HashSet<String[]>();
 			}
 
 			state.bindings.add( PathUtils.parsePath( path ).getNamesAsArray() );
-		}
-		catch ( Exception e )
-		{
+		} catch ( Exception e ) {
 			Window.alert( path + ": " + e.getMessage() );
 		}
 
 		return widget;
 	}
 
-	public void save( GwtMetawidget metawidget )
-	{
+	public void save( GwtMetawidget metawidget ) {
+
 		State state = getState( metawidget );
 
 		// Our bindings
 
-		if ( state.bindings != null )
-		{
+		if ( state.bindings != null ) {
 			@SuppressWarnings( "unchecked" )
 			Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
 
 			// For each bound property...
 
-			for ( String[] binding : state.bindings )
-			{
+			for ( String[] binding : state.bindings ) {
 				// ...fetch the value...
 
 				Object value = metawidget.getValue( binding[binding.length - 1] );
@@ -142,18 +130,16 @@ public class MapBindingProcessor
 
 		// Nested bindings
 
-		if ( state.nestedMetawidgets != null )
-		{
-			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
-			{
+		if ( state.nestedMetawidgets != null ) {
+			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets ) {
 				save( nestedMetawidget );
 			}
 		}
 	}
 
 	@Override
-	public void onEndBuild( GwtMetawidget metawidget )
-	{
+	public void onEndBuild( GwtMetawidget metawidget ) {
+
 		// Do nothing
 	}
 
@@ -161,12 +147,11 @@ public class MapBindingProcessor
 	// Private methods
 	//
 
-	private State getState( GwtMetawidget metawidget )
-	{
+	private State getState( GwtMetawidget metawidget ) {
+
 		State state = (State) metawidget.getClientProperty( MapBindingProcessor.class );
 
-		if ( state == null )
-		{
+		if ( state == null ) {
 			state = new State();
 			metawidget.putClientProperty( MapBindingProcessor.class, state );
 		}
@@ -182,8 +167,8 @@ public class MapBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State
-	{
+	/* package private */static class State {
+
 		/* package private */Set<String[]>		bindings;
 
 		/* package private */Set<GwtMetawidget>	nestedMetawidgets;

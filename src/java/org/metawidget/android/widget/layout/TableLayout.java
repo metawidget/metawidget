@@ -32,8 +32,8 @@ import android.widget.TextView;
  */
 
 public class TableLayout
-	extends LinearLayout
-{
+	extends LinearLayout {
+
 	//
 	// Private statics
 	//
@@ -44,13 +44,13 @@ public class TableLayout
 	// Constructor
 	//
 
-	public TableLayout()
-	{
+	public TableLayout() {
+
 		this( new LinearLayoutConfig() );
 	}
 
-	public TableLayout( LinearLayoutConfig config )
-	{
+	public TableLayout( LinearLayoutConfig config ) {
+
 		super( config );
 	}
 
@@ -59,12 +59,11 @@ public class TableLayout
 	//
 
 	@Override
-	public void endContainerLayout( ViewGroup container, AndroidMetawidget metawidget )
-	{
+	public void endContainerLayout( ViewGroup container, AndroidMetawidget metawidget ) {
+
 		// If the TableLayout was never used, just put an empty space
 
-		if ( container.getChildCount() == 0 )
-		{
+		if ( container.getChildCount() == 0 ) {
 			container.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 
@@ -78,20 +77,18 @@ public class TableLayout
 	//
 
 	@Override
-	protected void layoutWidget( View view, ViewGroup tableRow, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel )
-	{
+	protected void layoutWidget( View view, ViewGroup tableRow, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel ) {
+
 		// View
 
 		View viewToAdd = view;
 
 		// Hack for sizing ListViews
 
-		if ( view instanceof ListView )
-		{
+		if ( view instanceof ListView ) {
 			FrameLayout frameLayout = new FrameLayout( tableRow.getContext() );
 
-			if ( view.getLayoutParams() == null )
-			{
+			if ( view.getLayoutParams() == null ) {
 				view.setLayoutParams( new FrameLayout.LayoutParams( 325, 100 ) );
 			}
 
@@ -104,8 +101,7 @@ public class TableLayout
 
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 
-		if ( !needsLabel )
-		{
+		if ( !needsLabel ) {
 			params.span = LABEL_AND_WIDGET;
 		}
 
@@ -116,8 +112,8 @@ public class TableLayout
 	}
 
 	@Override
-	protected ViewGroup newViewToAddTo( ViewGroup container )
-	{
+	protected ViewGroup newViewToAddTo( ViewGroup container ) {
+
 		return new TableRow( container.getContext() );
 	}
 
@@ -129,10 +125,9 @@ public class TableLayout
 	 */
 
 	@Override
-	protected android.widget.TableLayout getLayout( ViewGroup container )
-	{
-		if ( container.getChildCount() == 0 || !( container.getChildAt( container.getChildCount() - 1 ) instanceof android.widget.TableLayout ))
-		{
+	protected android.widget.TableLayout getLayout( ViewGroup container ) {
+
+		if ( container.getChildCount() == 0 || !( container.getChildAt( container.getChildCount() - 1 ) instanceof android.widget.TableLayout ) ) {
 			android.widget.TableLayout layout = new android.widget.TableLayout( container.getContext() );
 			layout.setOrientation( android.widget.LinearLayout.VERTICAL );
 			layout.setColumnStretchable( 1, true );

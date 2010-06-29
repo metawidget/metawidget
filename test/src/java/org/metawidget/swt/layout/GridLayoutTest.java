@@ -59,14 +59,14 @@ import org.metawidget.util.TestUtils;
  */
 
 public class GridLayoutTest
-	extends TestCase
-{
+	extends TestCase {
+
 	//
 	// Public statics
 	//
 
-	public static void main( String[] args )
-	{
+	public static void main( String[] args ) {
+
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
 		shell.setLayout( new FillLayout() );
@@ -81,10 +81,8 @@ public class GridLayoutTest
 		shell.setVisible( true );
 		shell.open();
 
-		while ( !shell.isDisposed() )
-		{
-			if ( !display.readAndDispatch() )
-			{
+		while ( !shell.isDisposed() ) {
+			if ( !display.readAndDispatch() ) {
 				display.sleep();
 			}
 		}
@@ -97,8 +95,8 @@ public class GridLayoutTest
 	//
 
 	public void testLayout()
-		throws Exception
-	{
+		throws Exception {
+
 		// Without stub
 
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
@@ -107,13 +105,10 @@ public class GridLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setToInspect( new Foo() );
 
-		try
-		{
+		try {
 			metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setNumberOfColumns( 0 ) ) );
 			assertTrue( false );
-		}
-		catch ( LayoutException e )
-		{
+		} catch ( LayoutException e ) {
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
@@ -221,8 +216,8 @@ public class GridLayoutTest
 	}
 
 	public void testWide()
-		throws Exception
-	{
+		throws Exception {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
@@ -230,26 +225,26 @@ public class GridLayoutTest
 		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" ) ) );
 		metawidget.setToInspect( new WideFoo() );
 
-		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[ 0 ] ).getText() ) );
-		assertTrue( metawidget.getChildren()[ 1 ] instanceof Text );
+		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+		assertTrue( metawidget.getChildren()[1] instanceof Text );
 
-		assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[ 2 ] ).getText() ) );
-		assertTrue( metawidget.getChildren()[ 3 ] instanceof Spinner );
+		assertTrue( "Def:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
+		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
 
-		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[ 4 ] ).getText() ) );
-		assertTrue( metawidget.getChildren()[ 5 ] instanceof Text );
+		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
+		assertTrue( metawidget.getChildren()[5] instanceof Text );
 		assertTrue( 3 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
 
-		assertTrue( "Jkl:".equals( ( (Label) metawidget.getChildren()[ 6 ] ).getText() ) );
-		assertTrue( metawidget.getChildren()[ 7 ] instanceof Button );
+		assertTrue( "Jkl:".equals( ( (Label) metawidget.getChildren()[6] ).getText() ) );
+		assertTrue( metawidget.getChildren()[7] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.CHECK ) == SWT.CHECK );
 
-		assertTrue( "Mno:".equals( ( (Label) metawidget.getChildren()[ 8 ] ).getText() ) );
-		assertTrue( metawidget.getChildren()[ 9 ] instanceof Text );
+		assertTrue( "Mno:".equals( ( (Label) metawidget.getChildren()[8] ).getText() ) );
+		assertTrue( metawidget.getChildren()[9] instanceof Text );
 	}
 
-	public void testLabelSuffix()
-	{
+	public void testLabelSuffix() {
+
 		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
 		metawidget.setToInspect( new RequiredFoo() );
 
@@ -269,14 +264,13 @@ public class GridLayoutTest
 		assertTrue( "Abc".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 	}
 
-	public void testConfig()
-	{
+	public void testConfig() {
+
 		Map<Class<?>, Object> dummyTypes = CollectionUtils.newHashMap();
 		dummyTypes.put( Font.class, new Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE ) );
 		dummyTypes.put( Color.class, new Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 ) );
 
-		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig()
-		{
+		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig() {
 			// Subclass
 		}, dummyTypes );
 	}
@@ -285,8 +279,8 @@ public class GridLayoutTest
 	// Inner class
 	//
 
-	public static class Foo
-	{
+	public static class Foo {
+
 		public String	abc;
 
 		@UiComesAfter( "abc" )
@@ -331,8 +325,8 @@ public class GridLayoutTest
 		public String	mno;
 	}
 
-	public static class WideFoo
-	{
+	public static class WideFoo {
+
 		public String	abc;
 
 		@UiComesAfter( "abc" )
@@ -349,8 +343,8 @@ public class GridLayoutTest
 		public String	mno;
 	}
 
-	public static class RequiredFoo
-	{
+	public static class RequiredFoo {
+
 		@UiRequired
 		public String	abc;
 

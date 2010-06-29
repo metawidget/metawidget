@@ -34,15 +34,15 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class OverriddenWidgetBuilder
-	implements WidgetBuilder<Tag, MetawidgetTag>
-{
+	implements WidgetBuilder<Tag, MetawidgetTag> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
-	{
+	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
+
 		return metawidgetTag.getStub( attributes.get( NAME ) );
 	}
 }

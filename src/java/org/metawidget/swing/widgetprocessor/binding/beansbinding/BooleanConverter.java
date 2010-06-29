@@ -23,21 +23,21 @@ import org.jdesktop.beansbinding.Converter;
  */
 
 public class BooleanConverter
-	extends Converter<Boolean, String>
-{
+	extends Converter<Boolean, String> {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public String convertForward( Boolean value )
-	{
+	public String convertForward( Boolean value ) {
+
 		return String.valueOf( value );
 	}
 
 	@Override
-	public Boolean convertReverse( String value )
-	{
+	public Boolean convertReverse( String value ) {
+
 		return Boolean.valueOf( value );
 	}
 }

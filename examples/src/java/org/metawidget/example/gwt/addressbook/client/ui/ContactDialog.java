@@ -64,8 +64,8 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
  */
 
 public class ContactDialog
-	extends DialogBox
-{
+	extends DialogBox {
+
 	//
 	// Package-level members
 	//
@@ -96,8 +96,8 @@ public class ContactDialog
 	// Constructor
 	//
 
-	public ContactDialog( AddressBookModule addressBookModule, final Contact contact )
-	{
+	public ContactDialog( AddressBookModule addressBookModule, final Contact contact ) {
+
 		mAddressBookModule = addressBookModule;
 
 		setStyleName( "contact-dialog" );
@@ -122,20 +122,16 @@ public class ContactDialog
 
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
-		if ( builder.length() > 0 )
-		{
+		if ( builder.length() > 0 ) {
 			builder.append( " - " );
 		}
 
 		// Personal/business icon
 
-		if ( contact instanceof PersonalContact )
-		{
+		if ( contact instanceof PersonalContact ) {
 			builder.append( dictionary.get( "personalContact" ) );
 			image.setUrl( "media/personal.gif" );
-		}
-		else
-		{
+		} else {
 			builder.append( dictionary.get( "businessContact" ) );
 			image.setUrl( "media/business.gif" );
 		}
@@ -154,7 +150,7 @@ public class ContactDialog
 		layoutConfig.setFooterStyleName( "buttons" );
 		LabelLayoutDecoratorConfig layoutDecoratorConfig = new LabelLayoutDecoratorConfig();
 		layoutDecoratorConfig.setStyleName( "section-heading" );
-		layoutDecoratorConfig.setLayout( new FlexTableLayout( layoutConfig ));
+		layoutDecoratorConfig.setLayout( new FlexTableLayout( layoutConfig ) );
 
 		// Use Label for headings. You can try changing this line to...
 		//
@@ -234,22 +230,19 @@ public class ContactDialog
 		mCommunications.setWidget( 1, 1, valueMetawidget );
 
 		Button addButton = new Button( dictionary.get( "add" ) );
-		addButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		addButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				Communication communicationToAdd = new Communication();
 				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ) );
 
 				Contact currentContact = mMetawidget.getToInspect();
 
-				try
-				{
+				try {
 					currentContact.addCommunication( communicationToAdd );
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					Window.alert( e.getMessage() );
 					return;
 				}
@@ -272,28 +265,25 @@ public class ContactDialog
 		buttonsFacet.add( panel );
 
 		mSaveButton = new Button( dictionary.get( "save" ) );
-		mSaveButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
-				try
-				{
+		mSaveButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
+				try {
 					mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mMetawidget );
-				}
-				catch ( Exception e )
-				{
+				} catch ( Exception e ) {
 					Window.alert( e.getMessage() );
 				}
 
-				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>()
-				{
-					public void onFailure( Throwable caught )
-					{
+				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>() {
+
+					public void onFailure( Throwable caught ) {
+
 						Window.alert( caught.getMessage() );
 					}
 
-					public void onSuccess( Object result )
-					{
+					public void onSuccess( Object result ) {
+
 						ContactDialog.this.hide();
 						mAddressBookModule.reloadContacts();
 					}
@@ -303,27 +293,25 @@ public class ContactDialog
 		panel.add( mSaveButton );
 
 		mDeleteButton = new Button( dictionary.get( "delete" ) );
-		mDeleteButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
-				if ( mAddressBookModule.getPanel() instanceof RootPanel )
-				{
-					if ( !Window.confirm( "Sure you want to delete this contact?" ) )
-					{
+		mDeleteButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
+				if ( mAddressBookModule.getPanel() instanceof RootPanel ) {
+					if ( !Window.confirm( "Sure you want to delete this contact?" ) ) {
 						return;
 					}
 				}
 
-				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>()
-				{
-					public void onFailure( Throwable caught )
-					{
+				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>() {
+
+					public void onFailure( Throwable caught ) {
+
 						Window.alert( caught.getMessage() );
 					}
 
-					public void onSuccess( Boolean result )
-					{
+					public void onSuccess( Boolean result ) {
+
 						ContactDialog.this.hide();
 						mAddressBookModule.reloadContacts();
 					}
@@ -333,10 +321,10 @@ public class ContactDialog
 		panel.add( mDeleteButton );
 
 		mEditButton = new Button( dictionary.get( "edit" ) );
-		mEditButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		mEditButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				mMetawidget.setReadOnly( false );
 				setVisibility();
 			}
@@ -344,10 +332,10 @@ public class ContactDialog
 		panel.add( mEditButton );
 
 		mCancelButton = new Button();
-		mCancelButton.addClickHandler( new ClickHandler()
-		{
-			public void onClick( ClickEvent event )
-			{
+		mCancelButton.addClickHandler( new ClickHandler() {
+
+			public void onClick( ClickEvent event ) {
+
 				ContactDialog.this.hide();
 			}
 		} );
@@ -362,8 +350,8 @@ public class ContactDialog
 	// Public methods
 	//
 
-	public void rebind( Contact contact )
-	{
+	public void rebind( Contact contact ) {
+
 		// Reset the Metawidget to either readOnly (for existing contacts) or not readOnly (for new
 		// contacts). If the Metawidget is ALREADY readOnly/not readOnly, then this method
 		// does nothing. Otherwise it recreates all the child widgets based on the existing
@@ -385,19 +373,16 @@ public class ContactDialog
 	// Private methods
 	//
 
-	/* package private */void setVisibility()
-	{
+	/* package private */void setVisibility() {
+
 		boolean readOnly = mMetawidget.isReadOnly();
 		loadCommunications();
 
 		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
 
-		if ( readOnly )
-		{
+		if ( readOnly ) {
 			mCancelButton.setText( dictionary.get( "back" ) );
-		}
-		else
-		{
+		} else {
 			mCancelButton.setText( dictionary.get( "cancel" ) );
 		}
 
@@ -408,8 +393,8 @@ public class ContactDialog
 		mCommunications.getRowFormatter().setVisible( mCommunications.getRowCount() - 1, !readOnly );
 	}
 
-	/* package private */void loadCommunications()
-	{
+	/* package private */void loadCommunications() {
+
 		CellFormatter cellFormatter = mCommunications.getCellFormatter();
 		final Contact contact = mMetawidget.getToInspect();
 		Set<Communication> communications = contact.getCommunications();
@@ -420,38 +405,29 @@ public class ContactDialog
 
 		int row = 1;
 
-		if ( communications != null )
-		{
-			for ( final Communication communication : communications )
-			{
+		if ( communications != null ) {
+			for ( final Communication communication : communications ) {
 				// (push the footer down)
 
-				if ( mCommunications.getRowCount() - 1 <= row )
-				{
+				if ( mCommunications.getRowCount() - 1 <= row ) {
 					mCommunications.insertRow( row );
 				}
 
 				mCommunications.setText( row, 0, communication.getType() );
 				mCommunications.setText( row, 1, communication.getValue() );
 
-				if ( readOnly )
-				{
-					if ( mCommunications.getCellCount( row ) == 3 )
-					{
+				if ( readOnly ) {
+					if ( mCommunications.getCellCount( row ) == 3 ) {
 						mCommunications.removeCell( row, 2 );
 					}
-				}
-				else
-				{
+				} else {
 					final Button deleteButton = new Button( "Delete" );
-					deleteButton.addClickHandler( new ClickHandler()
-					{
-						public void onClick( ClickEvent event )
-						{
-							if ( confirm )
-							{
-								if ( !Window.confirm( "Sure you want to delete this communication?" ) )
-								{
+					deleteButton.addClickHandler( new ClickHandler() {
+
+						public void onClick( ClickEvent event ) {
+
+							if ( confirm ) {
+								if ( !Window.confirm( "Sure you want to delete this communication?" ) ) {
 									return;
 								}
 							}
@@ -471,8 +447,7 @@ public class ContactDialog
 
 		// Cleanup any extra rows
 
-		while ( mCommunications.getRowCount() - 1 > row )
-		{
+		while ( mCommunications.getRowCount() - 1 > row ) {
 			mCommunications.removeRow( row );
 		}
 	}

@@ -23,8 +23,8 @@ import org.metawidget.iface.MetawidgetException;
  */
 
 public class WidgetProcessorException
-	extends MetawidgetException
-{
+	extends MetawidgetException {
+
 	//
 	// Private statics
 	//
@@ -38,14 +38,13 @@ public class WidgetProcessorException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting WidgetProcessorExceptions within
-	 * WidgetProcessorExceptions.
+	 * Using static constructor methods prevents unnecessarily nesting WidgetProcessorExceptions
+	 * within WidgetProcessorExceptions.
 	 */
 
-	public static WidgetProcessorException newException( Throwable cause )
-	{
-		if ( cause instanceof WidgetProcessorException )
-		{
+	public static WidgetProcessorException newException( Throwable cause ) {
+
+		if ( cause instanceof WidgetProcessorException ) {
 			return (WidgetProcessorException) cause;
 		}
 
@@ -58,8 +57,8 @@ public class WidgetProcessorException
 	 * For consistency with <code>WidgetProcessorException.newException( Throwable )</code>.
 	 */
 
-	public static WidgetProcessorException newException( String message )
-	{
+	public static WidgetProcessorException newException( String message ) {
+
 		return new WidgetProcessorException( message );
 	}
 
@@ -69,8 +68,8 @@ public class WidgetProcessorException
 	 * For consistency with <code>WidgetProcessorException.newException( Throwable )</code>.
 	 */
 
-	public static WidgetProcessorException newException( String message, Throwable cause )
-	{
+	public static WidgetProcessorException newException( String message, Throwable cause ) {
+
 		return new WidgetProcessorException( message, cause );
 	}
 
@@ -78,18 +77,18 @@ public class WidgetProcessorException
 	// Constructor
 	//
 
-	private WidgetProcessorException( String message )
-	{
+	private WidgetProcessorException( String message ) {
+
 		super( message );
 	}
 
-	private WidgetProcessorException( Throwable cause )
-	{
+	private WidgetProcessorException( Throwable cause ) {
+
 		super( cause );
 	}
 
-	private WidgetProcessorException( String message, Throwable cause )
-	{
+	private WidgetProcessorException( String message, Throwable cause ) {
+
 		super( message, cause );
 	}
 }

@@ -30,8 +30,8 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class Communication
-	implements Comparable<Communication>, Serializable
-{
+	implements Comparable<Communication>, Serializable {
+
 	//
 	// Private statics
 	//
@@ -52,13 +52,13 @@ public class Communication
 	// Constructor
 	//
 
-	public Communication()
-	{
+	public Communication() {
+
 		// Default constructor
 	}
 
-	public Communication( String type, String value )
-	{
+	public Communication( String type, String value ) {
+
 		mType = type;
 		mValue = value;
 	}
@@ -76,40 +76,39 @@ public class Communication
 	 */
 
 	@UiHidden
-	public long getId()
-	{
+	public long getId() {
+
 		return mId;
 	}
 
-	public void setId( long id )
-	{
+	public void setId( long id ) {
+
 		mId = id;
 	}
 
-	public String getType()
-	{
+	public String getType() {
+
 		return mType;
 	}
 
-	public void setType( String type )
-	{
+	public void setType( String type ) {
+
 		mType = type;
 	}
 
-	public String getValue()
-	{
+	public String getValue() {
+
 		return mValue;
 	}
 
-	public void setValue( String value )
-	{
+	public void setValue( String value ) {
+
 		mValue = value;
 	}
 
-	public int compareTo( Communication that )
-	{
-		if ( that == null )
-		{
+	public int compareTo( Communication that ) {
+
+		if ( that == null ) {
 			return -1;
 		}
 
@@ -117,8 +116,7 @@ public class Communication
 
 		int compareTypes = ObjectUtils.nullSafeCompareTo( getType(), that.getType() );
 
-		if ( compareTypes != 0 )
-		{
+		if ( compareTypes != 0 ) {
 			return compareTypes;
 		}
 
@@ -128,29 +126,24 @@ public class Communication
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
 		Communication communicationThat = (Communication) that;
 
-		if ( mId == 0 )
-		{
-			if ( communicationThat.mId != 0 )
-			{
+		if ( mId == 0 ) {
+			if ( communicationThat.mId != 0 ) {
 				return false;
 			}
 
@@ -161,10 +154,9 @@ public class Communication
 	}
 
 	@Override
-	public int hashCode()
-	{
-		if ( mId == 0 )
-		{
+	public int hashCode() {
+
+		if ( mId == 0 ) {
 			return super.hashCode();
 		}
 
@@ -175,20 +167,17 @@ public class Communication
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
+
 		StringBuilder toReturn = new StringBuilder();
 
-		if ( mType != null && !"".equals( mType ))
-		{
+		if ( mType != null && !"".equals( mType ) ) {
 			toReturn.append( mType );
 			toReturn.append( ':' );
 		}
 
-		if ( mValue != null )
-		{
-			if ( toReturn.length() != 0 )
-			{
+		if ( mValue != null ) {
+			if ( toReturn.length() != 0 ) {
 				toReturn.append( ' ' );
 			}
 

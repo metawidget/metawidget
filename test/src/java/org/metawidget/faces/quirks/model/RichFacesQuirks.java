@@ -36,8 +36,8 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public class RichFacesQuirks
-{
+public class RichFacesQuirks {
+
 	//
 	// Private members
 	//
@@ -75,176 +75,176 @@ public class RichFacesQuirks
 	//
 
 	@UiFacesSuggest( "#{richQuirks.suggest}" )
-	public String getFoo1()
-	{
+	public String getFoo1() {
+
 		return mFoo1;
 	}
 
-	public void setFoo1( String foo1 )
-	{
+	public void setFoo1( String foo1 ) {
+
 		mFoo1 = foo1;
 	}
 
-	public List<String> suggest( Object startsWith )
-	{
+	public List<String> suggest( Object startsWith ) {
+
 		return CollectionUtils.newArrayList( startsWith + " Foo", startsWith + " Bar", startsWith + " Baz" );
 	}
 
 	@UiComesAfter( "foo1" )
-	public String getFoo2()
-	{
+	public String getFoo2() {
+
 		return mFoo2;
 	}
 
-	public void setFoo2( String foo2 )
-	{
+	public void setFoo2( String foo2 ) {
+
 		mFoo2 = foo2;
 	}
 
 	@UiComesAfter( "foo2" )
 	@UiSection( { "Foo", "bar" } )
-	public String getBar1()
-	{
+	public String getBar1() {
+
 		return mBar1;
 	}
 
-	public void setBar1( String bar1 )
-	{
+	public void setBar1( String bar1 ) {
+
 		mBar1 = bar1;
 	}
 
 	@UiComesAfter( "bar1" )
-	public Integer getInteger()
-	{
+	public Integer getInteger() {
+
 		return mInteger;
 	}
 
-	public void setInteger( Integer integer )
-	{
+	public void setInteger( Integer integer ) {
+
 		mInteger = integer;
 	}
 
 	@UiComesAfter( "integer" )
 	@UiSection( { "Foo", "baz" } )
-	public String getBaz1()
-	{
+	public String getBaz1() {
+
 		return mBaz1;
 	}
 
-	public void setBaz1( String baz1 )
-	{
+	public void setBaz1( String baz1 ) {
+
 		mBaz1 = baz1;
 	}
 
 	@UiComesAfter( "baz1" )
-	public String getBaz2()
-	{
+	public String getBaz2() {
+
 		return mBaz2;
 	}
 
-	public void setBaz2( String baz2 )
-	{
+	public void setBaz2( String baz2 ) {
+
 		mBaz2 = baz2;
 	}
 
 	@UiComesAfter( "baz2" )
-	public String getBaz3()
-	{
+	public String getBaz3() {
+
 		return mBaz3;
 	}
 
-	public void setBaz3( String baz3 )
-	{
+	public void setBaz3( String baz3 ) {
+
 		mBaz3 = baz3;
 	}
 
 	@UiComesAfter( "baz3" )
 	@UiSection( "" )
-	public String getAbc()
-	{
+	public String getAbc() {
+
 		return mAbc;
 	}
 
-	public void setAbc( String abc )
-	{
+	public void setAbc( String abc ) {
+
 		mAbc = abc;
 	}
 
 	@UiComesAfter( "abc" )
 	@UiSection( "dEf" )
 	@UiFacesAttribute( name = FACES_COMPONENT, expression = "#{this.dynamicallyChangeDef1 ? 'javax.faces.HtmlInputTextarea': null}" )
-	public String getDef1()
-	{
+	public String getDef1() {
+
 		return mDef1;
 	}
 
-	public void setDef1( String def1 )
-	{
+	public void setDef1( String def1 ) {
+
 		mDef1 = def1;
 	}
 
 	@UiComesAfter( "def1" )
-	public String getDef2()
-	{
+	public String getDef2() {
+
 		return mDef2;
 	}
 
-	public void setDef2( String def2 )
-	{
+	public void setDef2( String def2 ) {
+
 		mDef2 = def2;
 	}
 
 	@UiComesAfter( "def2" )
-	public boolean isShowGhi()
-	{
+	public boolean isShowGhi() {
+
 		return mShowGhi;
 	}
 
-	public void setShowGhi( boolean showGhi )
-	{
+	public void setShowGhi( boolean showGhi ) {
+
 		mShowGhi = showGhi;
 	}
 
 	@UiComesAfter( "showGhi" )
-	public boolean isDynamicallyChangeDef1()
-	{
+	public boolean isDynamicallyChangeDef1() {
+
 		return mDynamicallyChangeDef1;
 	}
 
-	public void setDynamicallyChangeDef1( boolean dynamicallyChangeDef1 )
-	{
+	public void setDynamicallyChangeDef1( boolean dynamicallyChangeDef1 ) {
+
 		mDynamicallyChangeDef1 = dynamicallyChangeDef1;
 	}
 
 	@UiComesAfter( "dynamicallyChangeDef1" )
 	@UiSection( "ghI" )
 	@UiFacesAttribute( name = HIDDEN, expression = "#{!richQuirks.showGhi}" )
-	public String getGhi1()
-	{
+	public String getGhi1() {
+
 		return mGhi1;
 	}
 
-	public void setGhi1( String ghi1 )
-	{
+	public void setGhi1( String ghi1 ) {
+
 		mGhi1 = ghi1;
 	}
 
 	@UiFacesAttribute( name = HIDDEN, expression = "#{!richQuirks.showGhi}" )
-	public String getGhi2()
-	{
+	public String getGhi2() {
+
 		return mGhi2;
 	}
 
-	public void setGhi2( String ghi2 )
-	{
+	public void setGhi2( String ghi2 ) {
+
 		mGhi2 = ghi2;
 	}
 
 	@UiAction
 	@UiComesAfter
 	@UiSection( "" )
-	public void save()
-	{
+	public void save() {
+
 		// Saves in session
 	}
 }

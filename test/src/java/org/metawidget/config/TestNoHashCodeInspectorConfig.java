@@ -21,15 +21,15 @@ package org.metawidget.config;
  */
 
 @SuppressWarnings( "all" )
-class TestNoHashCodeInspectorConfig
-{
+class TestNoHashCodeInspectorConfig {
+
 	//
 	// Public methods
 	//
 
 	@Override
-	public boolean equals( Object that )
-	{
+	public boolean equals( Object that ) {
+
 		return true;
 	}
 }

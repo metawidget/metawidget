@@ -41,20 +41,19 @@ import android.widget.TextView;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<View, AndroidMetawidget>, AndroidValueAccessor
-{
+	implements WidgetBuilder<View, AndroidMetawidget>, AndroidValueAccessor {
+
 	//
 	// Public methods
 	//
 
-	public Object getValue( View view )
-	{
+	public Object getValue( View view ) {
+
 		// TextView
 		//
 		// (don't use instanceof, because CheckBox instanceof TextView)
 
-		if ( TextView.class.equals( view.getClass() ) )
-		{
+		if ( TextView.class.equals( view.getClass() ) ) {
 			CharSequence text = ( (TextView) view ).getText();
 
 			// Convert SpannableStringBuilder to Strings
@@ -62,8 +61,7 @@ public class ReadOnlyWidgetBuilder
 			// This is a little controversial, but it's painful to handle SpannableStringBuilder
 			// everywhere in client code
 
-			if ( text instanceof SpannableStringBuilder )
-			{
+			if ( text instanceof SpannableStringBuilder ) {
 				text = text.toString();
 			}
 
@@ -73,14 +71,13 @@ public class ReadOnlyWidgetBuilder
 		return null;
 	}
 
-	public boolean setValue( Object value, View view )
-	{
+	public boolean setValue( Object value, View view ) {
+
 		// TextView
 		//
 		// (don't use instanceof, because CheckBox instanceof TextView)
 
-		if ( TextView.class.equals( view.getClass() ) )
-		{
+		if ( TextView.class.equals( view.getClass() ) ) {
 			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
 			return true;
 		}
@@ -90,34 +87,30 @@ public class ReadOnlyWidgetBuilder
 		return false;
 	}
 
-	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
-	{
+	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget ) {
+
 		// Not read-only?
 
-		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
-		{
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 			return null;
 		}
 
 		// Hidden
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return new Stub( metawidget.getContext() );
 		}
 
 		// Action
 
-		if ( ACTION.equals( elementName ) )
-		{
+		if ( ACTION.equals( elementName ) ) {
 			return new Stub( metawidget.getContext() );
 		}
 
 		// Masked (return an invisible View, so that we DO still
 		// render a label and reserve some blank space)
 
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
+		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			TextView view = new TextView( metawidget.getContext() );
 			view.setVisibility( View.INVISIBLE );
 
@@ -128,8 +121,7 @@ public class ReadOnlyWidgetBuilder
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ) )
-		{
+		if ( lookup != null && !"".equals( lookup ) ) {
 			return new TextView( metawidget.getContext() );
 		}
 
@@ -137,8 +129,7 @@ public class ReadOnlyWidgetBuilder
 
 		// If no type, assume a String
 
-		if ( type == null )
-		{
+		if ( type == null ) {
 			type = String.class.getName();
 		}
 
@@ -146,45 +137,37 @@ public class ReadOnlyWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz != null )
-		{
-			if ( clazz.isPrimitive() )
-			{
+		if ( clazz != null ) {
+			if ( clazz.isPrimitive() ) {
 				return new TextView( metawidget.getContext() );
 			}
 
-			if ( String.class.equals( clazz ) )
-			{
+			if ( String.class.equals( clazz ) ) {
 				return new TextView( metawidget.getContext() );
 			}
 
-			if ( Date.class.equals( clazz ) )
-			{
+			if ( Date.class.equals( clazz ) ) {
 				return new TextView( metawidget.getContext() );
 			}
 
-			if ( Boolean.class.equals( clazz ) )
-			{
+			if ( Boolean.class.equals( clazz ) ) {
 				return new TextView( metawidget.getContext() );
 			}
 
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
+			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return new TextView( metawidget.getContext() );
 			}
 
 			// Collections
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub( metawidget.getContext() );
 			}
 		}
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-		{
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
 			return new TextView( metawidget.getContext() );
 		}
 

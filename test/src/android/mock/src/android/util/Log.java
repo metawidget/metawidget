@@ -22,14 +22,14 @@ package android.util;
  * @author Richard Kennard
  */
 
-public class Log
-{
+public class Log {
+
 	//
 	// Public methods
 	//
 
-	public static int d( String tag, String message )
-	{
+	public static int d( String tag, String message ) {
+
 		return 0;
 	}
 }

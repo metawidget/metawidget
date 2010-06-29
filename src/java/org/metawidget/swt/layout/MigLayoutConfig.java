@@ -24,20 +24,20 @@ import org.metawidget.layout.iface.LayoutException;
  * @author Richard Kennard
  */
 
-public class MigLayoutConfig
-{
+public class MigLayoutConfig {
+
 	//
 	// Private members
 	//
 
-	private int				mNumberOfColumns	= 1;
+	private int	mNumberOfColumns	= 1;
 
 	//
 	// Public methods
 	//
 
-	public int getNumberOfColumns()
-	{
+	public int getNumberOfColumns() {
+
 		return mNumberOfColumns;
 	}
 
@@ -45,10 +45,9 @@ public class MigLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public MigLayoutConfig setNumberOfColumns( int numberOfColumns )
-	{
-		if ( numberOfColumns < 1 )
-		{
+	public MigLayoutConfig setNumberOfColumns( int numberOfColumns ) {
+
+		if ( numberOfColumns < 1 ) {
 			throw LayoutException.newException( "numberOfColumns must be >= 1" );
 		}
 
@@ -58,25 +57,21 @@ public class MigLayoutConfig
 	}
 
 	@Override
-	public boolean equals( Object that )
-	{
-		if ( this == that )
-		{
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
 			return true;
 		}
 
-		if ( that == null )
-		{
+		if ( that == null ) {
 			return false;
 		}
 
-		if ( getClass() != that.getClass() )
-		{
+		if ( getClass() != that.getClass() ) {
 			return false;
 		}
 
-		if ( mNumberOfColumns != ((MigLayoutConfig) that).mNumberOfColumns )
-		{
+		if ( mNumberOfColumns != ( (MigLayoutConfig) that ).mNumberOfColumns ) {
 			return false;
 		}
 
@@ -84,8 +79,8 @@ public class MigLayoutConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
+
 		return mNumberOfColumns;
 	}
 }

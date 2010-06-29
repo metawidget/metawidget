@@ -31,8 +31,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class BasePropertyStyle
-	implements PropertyStyle
-{
+	implements PropertyStyle {
+
 	//
 	// Private members
 	//
@@ -57,8 +57,8 @@ public abstract class BasePropertyStyle
 	// Constructor
 	//
 
-	protected BasePropertyStyle( BasePropertyStyleConfig config )
-	{
+	protected BasePropertyStyle( BasePropertyStyleConfig config ) {
+
 		mExcludeBaseType = config.getExcludeBaseType();
 	}
 
@@ -66,42 +66,33 @@ public abstract class BasePropertyStyle
 	// Public methods
 	//
 
-	public Map<String, Property> getProperties( Class<?> clazz )
-	{
-		synchronized ( mPropertiesCache )
-		{
+	public Map<String, Property> getProperties( Class<?> clazz ) {
+
+		synchronized ( mPropertiesCache ) {
 			Map<String, Property> properties = getCachedProperties( clazz );
 
-			if ( properties == null )
-			{
+			if ( properties == null ) {
 				// If the class is not a proxy...
 
-				if ( !isProxy( clazz ) )
-				{
+				if ( !isProxy( clazz ) ) {
 					// ...inspect it normally
 
 					properties = inspectProperties( clazz );
-				}
-				else
-				{
+				} else {
 					// ...otherwise, if the superclass is not just java.lang.Object...
 
 					Class<?> superclass = clazz.getSuperclass();
 
-					if ( !superclass.equals( Object.class ) )
-					{
+					if ( !superclass.equals( Object.class ) ) {
 						// ...inspect the superclass
 
 						properties = getCachedProperties( superclass );
 
-						if ( properties == null )
-						{
+						if ( properties == null ) {
 							properties = inspectProperties( superclass );
 							cacheProperties( superclass, properties );
 						}
-					}
-					else
-					{
+					} else {
 						// ...otherwise, inspect each interface and merge
 
 						properties = inspectProperties( clazz.getInterfaces() );
@@ -134,20 +125,17 @@ public abstract class BasePropertyStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcluded( Class<?> classToExclude, String propertyName, Class<?> propertyType )
-	{
-		if ( isExcludedBaseType( classToExclude ) )
-		{
+	protected boolean isExcluded( Class<?> classToExclude, String propertyName, Class<?> propertyType ) {
+
+		if ( isExcludedBaseType( classToExclude ) ) {
 			return true;
 		}
 
-		if ( isExcludedReturnType( propertyType ) )
-		{
+		if ( isExcludedReturnType( propertyType ) ) {
 			return true;
 		}
 
-		if ( isExcludedName( propertyName ) )
-		{
+		if ( isExcludedName( propertyName ) ) {
 			return true;
 		}
 
@@ -166,12 +154,11 @@ public abstract class BasePropertyStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcludedBaseType( Class<?> classToExclude )
-	{
+	protected boolean isExcludedBaseType( Class<?> classToExclude ) {
+
 		String className = classToExclude.getName();
 
-		if ( mExcludeBaseType != null && mExcludeBaseType.matcher( className ).matches() )
-		{
+		if ( mExcludeBaseType != null && mExcludeBaseType.matcher( className ).matches() ) {
 			return true;
 		}
 
@@ -189,8 +176,8 @@ public abstract class BasePropertyStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcludedName( String name )
-	{
+	protected boolean isExcludedName( String name ) {
+
 		return false;
 	}
 
@@ -205,8 +192,8 @@ public abstract class BasePropertyStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcludedReturnType( Class<?> clazz )
-	{
+	protected boolean isExcludedReturnType( Class<?> clazz ) {
+
 		return false;
 	}
 
@@ -220,19 +207,17 @@ public abstract class BasePropertyStyle
 	 * <code>ByCGLIB$$</code> in their name.
 	 */
 
-	protected boolean isProxy( Class<?> clazz )
-	{
+	protected boolean isProxy( Class<?> clazz ) {
+
 		// (don't use .getSimpleName or .contains, for J2SE 1.4 compatibility)
 
 		String name = clazz.getName();
 
-		if ( name.indexOf( "_$$_javassist_" ) != -1 )
-		{
+		if ( name.indexOf( "_$$_javassist_" ) != -1 ) {
 			return true;
 		}
 
-		if ( name.indexOf( "ByCGLIB$$" ) != -1 )
-		{
+		if ( name.indexOf( "ByCGLIB$$" ) != -1 ) {
 			return true;
 		}
 
@@ -247,16 +232,14 @@ public abstract class BasePropertyStyle
 	 * (ie. <code>inspectProperties( Class )</code>).
 	 */
 
-	protected Map<String, Property> inspectProperties( Class<?>[] classes )
-	{
+	protected Map<String, Property> inspectProperties( Class<?>[] classes ) {
+
 		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
 
-		for ( Class<?> clazz : classes )
-		{
+		for ( Class<?> clazz : classes ) {
 			Map<String, Property> properties = getCachedProperties( clazz );
 
-			if ( properties == null )
-			{
+			if ( properties == null ) {
 				properties = inspectProperties( clazz );
 				cacheProperties( clazz, properties );
 			}
@@ -273,13 +256,13 @@ public abstract class BasePropertyStyle
 
 	protected abstract Map<String, Property> inspectProperties( Class<?> clazz );
 
-	protected Map<String, Property> getCachedProperties( Class<?> clazz )
-	{
+	protected Map<String, Property> getCachedProperties( Class<?> clazz ) {
+
 		return mPropertiesCache.get( clazz );
 	}
 
-	protected void cacheProperties( Class<?> clazz, Map<String, Property> properties )
-	{
+	protected void cacheProperties( Class<?> clazz, Map<String, Property> properties ) {
+
 		mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
 	}
 }
