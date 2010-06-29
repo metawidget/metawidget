@@ -91,6 +91,8 @@ public class JspMetawidgetTests
 
 		private ServletContext	mServletContext	= new MockServletContext();
 
+		Map<String, Object>		mAttributes		= CollectionUtils.newHashMap();
+
 		//
 		// Supported public methods
 		//
@@ -99,6 +101,18 @@ public class JspMetawidgetTests
 		public ServletContext getServletContext() {
 
 			return mServletContext;
+		}
+
+		@Override
+		public Object getAttribute( String name ) {
+
+			return mAttributes.get( name );
+		}
+
+		@Override
+		public void setAttribute( String name, Object value ) {
+
+			mAttributes.put( name, value );
 		}
 
 		//
@@ -197,12 +211,6 @@ public class JspMetawidgetTests
 		}
 
 		@Override
-		public Object getAttribute( String arg0 ) {
-
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
 		public Enumeration<?> getAttributeNamesInScope( int arg0 ) {
 
 			throw new UnsupportedOperationException();
@@ -246,12 +254,6 @@ public class JspMetawidgetTests
 
 		@Override
 		public void setAttribute( String arg0, Object arg1, int arg2 ) {
-
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public void setAttribute( String arg0, Object arg1 ) {
 
 			throw new UnsupportedOperationException();
 		}
