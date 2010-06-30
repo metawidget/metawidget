@@ -821,14 +821,6 @@ public class SwingMetawidget
 
 	protected void layoutWidget( Component component, String elementName, Map<String, String> attributes ) {
 
-		// Drill into JScrollPanes
-
-		Component actualComponent = component;
-
-		if ( actualComponent instanceof JScrollPane ) {
-			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
-		}
-
 		// Set the name of the component.
 		//
 		// If this is a JScrollPane, set the name of the top-level JScrollPane. Don't do this before
