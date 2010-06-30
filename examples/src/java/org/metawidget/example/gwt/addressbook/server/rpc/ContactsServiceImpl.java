@@ -37,13 +37,13 @@ public class ContactsServiceImpl
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1l;
+	private final static long				serialVersionUID	= 1l;
 
 	//
 	// Private members
 	//
 
-	private ContactsController	mContactsController	= new ContactsController();
+	private transient ContactsController	mContactsController	= new ContactsController();
 
 	//
 	// Public methods

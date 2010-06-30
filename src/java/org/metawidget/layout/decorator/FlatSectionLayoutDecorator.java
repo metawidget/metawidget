@@ -16,6 +16,7 @@
 
 package org.metawidget.layout.decorator;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -94,7 +95,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 			// Stay where we are?
 
-			if ( sections.length == 0 || sections.equals( state.currentSections ) ) {
+			if ( sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}

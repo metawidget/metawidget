@@ -353,10 +353,6 @@ public class JavaBeanPropertyStyle
 			super( name, field.getType() );
 
 			mField = field;
-
-			if ( mField == null ) {
-				throw new NullPointerException( "field" );
-			}
 		}
 
 		//

@@ -45,17 +45,17 @@ public class Bundle2VariableTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID		= 1l;
+	private final static long			serialVersionUID		= 1l;
 
-	private final static String	DEFAULT_VARIABLE_NAME	= "bundle";
+	private final static String			DEFAULT_VARIABLE_NAME	= "bundle";
 
 	//
 	// Private members
 	//
 
-	private ResourceBundle		mBundle;
+	private transient ResourceBundle	mBundle;
 
-	private String				mVariableName			= DEFAULT_VARIABLE_NAME;
+	private String						mVariableName			= DEFAULT_VARIABLE_NAME;
 
 	//
 	// Public methods

@@ -503,7 +503,7 @@ public class SwingMetawidgetTest
 		@UiRequired
 		public Boolean getBoolean() {
 
-			return null;
+			return Boolean.FALSE;
 		}
 
 		public void setBoolean( Boolean aBoolean ) {

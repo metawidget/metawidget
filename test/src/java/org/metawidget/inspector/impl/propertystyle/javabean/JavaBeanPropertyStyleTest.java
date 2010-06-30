@@ -235,7 +235,7 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	class FooPropertyStyle
+	static class FooPropertyStyle
 		extends JavaBeanPropertyStyle {
 
 		@Override

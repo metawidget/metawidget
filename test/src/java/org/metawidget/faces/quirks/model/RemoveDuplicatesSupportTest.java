@@ -74,7 +74,7 @@ public class RemoveDuplicatesSupportTest {
 	// Public methods
 	//
 
-	public class RemoveDuplicatesSupportEmbedded {
+	public static class RemoveDuplicatesSupportEmbedded {
 
 		//
 		// Private members

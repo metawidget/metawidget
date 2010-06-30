@@ -387,7 +387,7 @@ public class BeanUtilsBindingProcessor
 		/* package private */Set<SavedBinding>	bindings;
 	}
 
-	class SavedBinding {
+	static class SavedBinding {
 
 		//
 		//

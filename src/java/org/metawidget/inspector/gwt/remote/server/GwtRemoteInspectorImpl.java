@@ -47,6 +47,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @author Richard Kennard
  */
 
+// TODO: findbugs!
+
 public class GwtRemoteInspectorImpl
 	extends RemoteServiceServlet
 	implements GwtRemoteInspector {
@@ -55,13 +57,13 @@ public class GwtRemoteInspectorImpl
 	// Private statics
 	//
 
-	private final static long				serialVersionUID	= 1l;
+	private final static long							serialVersionUID	= 1l;
 
 	//
 	// Private members
 	//
 
-	private GwtRemoteInspectorImplPipeline	mPipeline;
+	private transient GwtRemoteInspectorImplPipeline	mPipeline;
 
 	//
 	// Constructor

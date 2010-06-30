@@ -18,6 +18,7 @@ package org.metawidget.swt.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Composite;
@@ -94,7 +95,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 
 			// Stay where we are?
 
-			if ( sections.length == 0 || sections.equals( state.currentSections ) ) {
+			if ( sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 

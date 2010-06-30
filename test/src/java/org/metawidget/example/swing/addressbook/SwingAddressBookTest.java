@@ -474,9 +474,7 @@ public class SwingAddressBookTest
 		implements Comparable<Foo> {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private String	mFoo	= "myFoo";
@@ -484,9 +482,7 @@ public class SwingAddressBookTest
 		private Boolean	mBar	= Boolean.TRUE;
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public String getFoo() {

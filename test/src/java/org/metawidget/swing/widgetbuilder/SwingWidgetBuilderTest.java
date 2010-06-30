@@ -60,7 +60,7 @@ public class SwingWidgetBuilderTest
 
 		try {
 			attributes.put( MINIMUM_VALUE, "1.5" );
-			slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+			widgetBuilder.buildWidget( PROPERTY, attributes, null );
 			assertTrue( false );
 		} catch ( NumberFormatException e ) {
 			assertEquals( "For input string: \"1.5\"", e.getMessage() );

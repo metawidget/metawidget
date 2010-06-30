@@ -243,7 +243,7 @@ public class XmlInspectorTest
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
-		assertTrue( null != mInspector.inspect( new String(), NullObject.class.getName() ) );
+		assertTrue( null != mInspector.inspect( "", NullObject.class.getName() ) );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ) );
 		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ) );

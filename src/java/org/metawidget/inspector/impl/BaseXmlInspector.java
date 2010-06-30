@@ -453,10 +453,6 @@ public abstract class BaseXmlInspector
 						break;
 					}
 				}
-
-				if ( property == null ) {
-					return null;
-				}
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
