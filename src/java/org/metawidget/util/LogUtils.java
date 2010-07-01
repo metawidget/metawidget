@@ -33,6 +33,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Richard Kennard
  */
 
+// TODO: some sense checking around {0}
+
 public final class LogUtils {
 
 	//
@@ -78,11 +80,35 @@ public final class LogUtils {
 
 		boolean isTraceEnabled();
 
+		/**
+		 * Log a trace message.
+		 *
+		 * @param debug
+		 *            message to log
+		 * @param arguments
+		 *            array of arguments that will be merged into the message using standard
+		 *            <code>java.text.MessageFormat</code> notation. As a special case, if the last
+		 *            argument is a Throwable but is not referenced in the message, its stack trace
+		 *            will be printed
+		 */
+
 		void trace( String trace, Object... arguments );
 
 		void trace( String trace, Throwable throwable );
 
 		boolean isDebugEnabled();
+
+		/**
+		 * Log a debug message.
+		 *
+		 * @param debug
+		 *            message to log
+		 * @param arguments
+		 *            array of arguments that will be merged into the message using standard
+		 *            <code>java.text.MessageFormat</code> notation. As a special case, if the last
+		 *            argument is a Throwable but is not referenced in the message, its stack trace
+		 *            will be printed
+		 */
 
 		void debug( String debug, Object... arguments );
 
@@ -90,17 +116,53 @@ public final class LogUtils {
 
 		boolean isInfoEnabled();
 
+		/**
+		 * Log an info message.
+		 *
+		 * @param debug
+		 *            message to log
+		 * @param arguments
+		 *            array of arguments that will be merged into the message using standard
+		 *            <code>java.text.MessageFormat</code> notation. As a special case, if the last
+		 *            argument is a Throwable but is not referenced in the message, its stack trace
+		 *            will be printed
+		 */
+
 		void info( String info, Object... arguments );
 
 		void info( String info, Throwable throwable );
 
 		boolean isWarnEnabled();
 
+		/**
+		 * Log a warning message.
+		 *
+		 * @param debug
+		 *            message to log
+		 * @param arguments
+		 *            array of arguments that will be merged into the message using standard
+		 *            <code>java.text.MessageFormat</code> notation. As a special case, if the last
+		 *            argument is a Throwable but is not referenced in the message, its stack trace
+		 *            will be printed
+		 */
+
 		void warn( String warning, Object... arguments );
 
 		void warn( String warning, Throwable throwable );
 
 		boolean isErrorEnabled();
+
+		/**
+		 * Log an error message.
+		 *
+		 * @param debug
+		 *            message to log
+		 * @param arguments
+		 *            array of arguments that will be merged into the message using standard
+		 *            <code>java.text.MessageFormat</code> notation. As a special case, if the last
+		 *            argument is a Throwable but is not referenced in the message, its stack trace
+		 *            will be printed
+		 */
 
 		void error( String error, Object... arguments );
 
@@ -248,13 +310,26 @@ public final class LogUtils {
 
 		private String log( Level level, String message, Object... arguments ) {
 
-			if ( arguments.length == 0 ) {
+			// Support fast cases with no arguments
+
+			int lastArgument = arguments.length - 1;
+
+			if ( lastArgument == -1 ) {
 				mLogger.log( level, message );
 				return message;
 			}
 
+			// Format the message
+
 			String logged = MessageFormat.format( message, arguments );
-			mLogger.log( level, logged );
+
+			// Support cases with an unused Throwable on the end
+
+			if ( arguments[lastArgument] instanceof Throwable && message.indexOf( '{' + lastArgument + '}' ) == -1 ) {
+				mLogger.log( level, logged, (Throwable) arguments[lastArgument] );
+			} else {
+				mLogger.log( level, logged );
+			}
 			return logged;
 		}
 	}
@@ -292,13 +367,19 @@ public final class LogUtils {
 
 		public void trace( String trace, Object... arguments ) {
 
-			if ( arguments.length == 0 ) {
+			int lastArgument = arguments.length - 1;
+
+			if ( lastArgument == -1 ) {
 				LAST_TRACE_MESSAGE = trace;
 				mLog.trace( trace );
 			} else {
 				String logged = MessageFormat.format( trace, arguments );
 				LAST_TRACE_MESSAGE = logged;
-				mLog.trace( logged );
+				if ( arguments[lastArgument] instanceof Throwable && trace.indexOf( '{' + lastArgument + '}' ) == -1 ) {
+					mLog.trace( logged, (Throwable) arguments[lastArgument] );
+				} else {
+					mLog.trace( logged );
+				}
 			}
 		}
 
@@ -314,13 +395,19 @@ public final class LogUtils {
 
 		public void debug( String debug, Object... arguments ) {
 
-			if ( arguments.length == 0 ) {
+			int lastArgument = arguments.length - 1;
+
+			if ( lastArgument == -1 ) {
 				LAST_DEBUG_MESSAGE = debug;
 				mLog.debug( debug );
 			} else {
 				String logged = MessageFormat.format( debug, arguments );
 				LAST_DEBUG_MESSAGE = logged;
-				mLog.debug( logged );
+				if ( arguments[lastArgument] instanceof Throwable && debug.indexOf( '{' + lastArgument + '}' ) == -1 ) {
+					mLog.debug( logged, (Throwable) arguments[lastArgument] );
+				} else {
+					mLog.debug( logged );
+				}
 			}
 		}
 
@@ -338,13 +425,19 @@ public final class LogUtils {
 
 		public void info( String info, Object... arguments ) {
 
-			if ( arguments.length == 0 ) {
+			int lastArgument = arguments.length - 1;
+
+			if ( lastArgument == -1 ) {
 				LAST_INFO_MESSAGE = info;
 				mLog.info( info );
 			} else {
 				String logged = MessageFormat.format( info, arguments );
 				LAST_INFO_MESSAGE = logged;
-				mLog.info( logged );
+				if ( arguments[lastArgument] instanceof Throwable && info.indexOf( '{' + lastArgument + '}' ) == -1 ) {
+					mLog.info( logged, (Throwable) arguments[lastArgument] );
+				} else {
+					mLog.info( logged );
+				}
 			}
 		}
 
@@ -362,13 +455,19 @@ public final class LogUtils {
 
 		public void warn( String warning, Object... arguments ) {
 
-			if ( arguments.length == 0 ) {
+			int lastArgument = arguments.length - 1;
+
+			if ( lastArgument == -1 ) {
 				LAST_WARN_MESSAGE = warning;
 				mLog.warn( warning );
 			} else {
 				String logged = MessageFormat.format( warning, arguments );
 				LAST_WARN_MESSAGE = logged;
-				mLog.warn( logged );
+				if ( arguments[lastArgument] instanceof Throwable && warning.indexOf( '{' + lastArgument + '}' ) == -1 ) {
+					mLog.warn( logged, (Throwable) arguments[lastArgument] );
+				} else {
+					mLog.warn( logged );
+				}
 			}
 		}
 
@@ -386,10 +485,17 @@ public final class LogUtils {
 
 		public void error( String error, Object... arguments ) {
 
-			if ( arguments.length == 0 ) {
+			int lastArgument = arguments.length - 1;
+
+			if ( lastArgument == -1 ) {
 				mLog.error( error );
 			} else {
-				mLog.error( MessageFormat.format( error, arguments ) );
+				String logged = MessageFormat.format( error, arguments );
+				if ( arguments[lastArgument] instanceof Throwable && error.indexOf( '{' + lastArgument + '}' ) == -1 ) {
+					mLog.error( logged, (Throwable) arguments[lastArgument] );
+				} else {
+					mLog.error( logged );
+				}
 			}
 		}
 
