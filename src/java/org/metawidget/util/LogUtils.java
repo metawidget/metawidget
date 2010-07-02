@@ -92,8 +92,6 @@ public final class LogUtils {
 
 		void trace( String trace, Object... arguments );
 
-		void trace( String trace, Throwable throwable );
-
 		boolean isDebugEnabled();
 
 		/**
@@ -109,8 +107,6 @@ public final class LogUtils {
 		 */
 
 		void debug( String debug, Object... arguments );
-
-		void debug( String debug, Throwable throwable );
 
 		boolean isInfoEnabled();
 
@@ -128,8 +124,6 @@ public final class LogUtils {
 
 		void info( String info, Object... arguments );
 
-		void info( String info, Throwable throwable );
-
 		boolean isWarnEnabled();
 
 		/**
@@ -146,8 +140,6 @@ public final class LogUtils {
 
 		void warn( String warning, Object... arguments );
 
-		void warn( String warning, Throwable throwable );
-
 		boolean isErrorEnabled();
 
 		/**
@@ -163,8 +155,6 @@ public final class LogUtils {
 		 */
 
 		void error( String error, Object... arguments );
-
-		void error( String error, Throwable throwable );
 	}
 
 	//
@@ -235,11 +225,6 @@ public final class LogUtils {
 			LAST_TRACE_MESSAGE = log( Level.FINER, trace, arguments );
 		}
 
-		public void trace( String trace, Throwable throwable ) {
-
-			mLogger.log( Level.FINER, trace, throwable );
-		}
-
 		public boolean isDebugEnabled() {
 
 			return mLogger.isLoggable( Level.FINE );
@@ -248,11 +233,6 @@ public final class LogUtils {
 		public void debug( String debug, Object... arguments ) {
 
 			LAST_DEBUG_MESSAGE = log( Level.FINE, debug, arguments );
-		}
-
-		public void debug( String debug, Throwable throwable ) {
-
-			mLogger.log( Level.FINE, debug, throwable );
 		}
 
 		public boolean isInfoEnabled() {
@@ -265,11 +245,6 @@ public final class LogUtils {
 			LAST_INFO_MESSAGE = log( Level.INFO, info, arguments );
 		}
 
-		public void info( String info, Throwable throwable ) {
-
-			mLogger.log( Level.INFO, info, throwable );
-		}
-
 		public boolean isWarnEnabled() {
 
 			return mLogger.isLoggable( Level.WARNING );
@@ -280,13 +255,6 @@ public final class LogUtils {
 			LAST_WARN_MESSAGE = log( Level.WARNING, warning, arguments );
 		}
 
-		public void warn( String warning, Throwable throwable ) {
-
-			LAST_WARN_MESSAGE = warning;
-
-			mLogger.log( Level.WARNING, warning, throwable );
-		}
-
 		public boolean isErrorEnabled() {
 
 			return mLogger.isLoggable( Level.SEVERE );
@@ -295,11 +263,6 @@ public final class LogUtils {
 		public void error( String error, Object... arguments ) {
 
 			log( Level.SEVERE, error, arguments );
-		}
-
-		public void error( String error, Throwable throwable ) {
-
-			mLogger.log( Level.SEVERE, error, throwable );
 		}
 
 		//
@@ -392,11 +355,6 @@ public final class LogUtils {
 			}
 		}
 
-		public void trace( String trace, Throwable throwable ) {
-
-			mLog.trace( trace, throwable );
-		}
-
 		public boolean isDebugEnabled() {
 
 			return mLog.isDebugEnabled();
@@ -422,13 +380,6 @@ public final class LogUtils {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + debug + "'" );
 				}
 			}
-		}
-
-		public void debug( String debug, Throwable throwable ) {
-
-			LAST_DEBUG_MESSAGE = debug;
-
-			mLog.debug( debug, throwable );
 		}
 
 		public boolean isInfoEnabled() {
@@ -458,13 +409,6 @@ public final class LogUtils {
 			}
 		}
 
-		public void info( String info, Throwable throwable ) {
-
-			LAST_INFO_MESSAGE = info;
-
-			mLog.info( info, throwable );
-		}
-
 		public boolean isWarnEnabled() {
 
 			return mLog.isWarnEnabled();
@@ -492,13 +436,6 @@ public final class LogUtils {
 			}
 		}
 
-		public void warn( String warning, Throwable throwable ) {
-
-			LAST_WARN_MESSAGE = warning;
-
-			mLog.warn( warning, throwable );
-		}
-
 		public boolean isErrorEnabled() {
 
 			return mLog.isErrorEnabled();
@@ -522,11 +459,6 @@ public final class LogUtils {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + error + "'" );
 				}
 			}
-		}
-
-		public void error( String error, Throwable throwable ) {
-
-			mLog.error( error, throwable );
 		}
 	}
 

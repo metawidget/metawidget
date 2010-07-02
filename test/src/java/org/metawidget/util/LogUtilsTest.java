@@ -16,6 +16,8 @@
 
 package org.metawidget.util;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import org.metawidget.util.LogUtils.Log;
@@ -23,6 +25,8 @@ import org.metawidget.util.LogUtils.Log;
 /**
  * @author Richard Kennard
  */
+
+// TODO: test java.util.Logging version
 
 public class LogUtilsTest
 	extends TestCase {
@@ -63,8 +67,6 @@ public class LogUtilsTest
 	public void testLogger()
 		throws Exception {
 
-		// At the very least, test that calling the logging methods doesn't throw an Exception
-
 		Log log = LogUtils.getLog( LogUtilsTest.class );
 
 		// Note: this test will fail if trace is not enabled (eg. when running inside Eclipse)
@@ -92,5 +94,57 @@ public class LogUtilsTest
 		assertTrue( log.isErrorEnabled() );
 		log.error( "error {0}", 5 );
 		log.error( "error", new Throwable() );
+
+		// Test bad messages
+
+		try
+		{
+			log.trace( "trace {0}", 1, 2 );
+			assertTrue( false );
+		}
+		catch( RuntimeException e )
+		{
+			assertEquals( "Given 2 arguments to log, but no {1} in message 'trace {0}'", e.getMessage() );
+		}
+
+		try
+		{
+			log.debug( "debug {0}", "foo", "bar" );
+			assertTrue( false );
+		}
+		catch( RuntimeException e )
+		{
+			assertEquals( "Given 2 arguments to log, but no {1} in message 'debug {0}'", e.getMessage() );
+		}
+
+		try
+		{
+			log.info( "info {0}", null, null );
+			assertTrue( false );
+		}
+		catch( RuntimeException e )
+		{
+			assertEquals( "Given 2 arguments to log, but no {1} in message 'info {0}'", e.getMessage() );
+		}
+
+		try
+		{
+			log.warn( "warn {0}", true, false );
+			assertTrue( false );
+		}
+		catch( RuntimeException e )
+		{
+			assertEquals( "Given 2 arguments to log, but no {1} in message 'warn {0}'", e.getMessage() );
+		}
+
+		try
+		{
+			log.error( "error {0}", new Date(), new Date() );
+			assertTrue( false );
+		}
+		catch( RuntimeException e )
+		{
+			assertEquals( "Given 2 arguments to log, but no {1} in message 'error {0}'", e.getMessage() );
+		}
 	}
 }
