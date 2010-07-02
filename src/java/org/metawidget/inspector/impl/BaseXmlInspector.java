@@ -453,6 +453,13 @@ public abstract class BaseXmlInspector
 						break;
 					}
 				}
+
+				// This check is unnecessary. However it stops a 'potential null pointer access'
+				// warning in Eclipse!
+
+				if ( property == null ) {
+					throw new NullPointerException( "property" );
+				}
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
