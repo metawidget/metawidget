@@ -47,8 +47,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @author Richard Kennard
  */
 
-// TODO: findbugs!
-
 public class GwtRemoteInspectorImpl
 	extends RemoteServiceServlet
 	implements GwtRemoteInspector {
