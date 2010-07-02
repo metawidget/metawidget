@@ -45,6 +45,10 @@ public abstract class BaseActionStyle
 	 * <p>
 	 * This also stops problems with subclasses of <code>BaseActionStyle</code> sharing the same
 	 * static cache.
+	 * <p>
+	 * Note: the cache is unbounded, because the number of Classes in the system is fixed. This even
+	 * applies to hot deployment products such as FakeReplace, because new Classes are replaced such
+	 * that they <code>.equal()</code> their originals.
 	 */
 
 	private final Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newHashMap();
