@@ -271,6 +271,10 @@ public final class LogUtils {
 
 		private String log( Level level, String message, Object... arguments ) {
 
+			if ( !mLogger.isLoggable( level )) {
+				return null;
+			}
+
 			// Support fast cases with no arguments
 
 			int lastArgument = arguments.length - 1;
@@ -334,6 +338,10 @@ public final class LogUtils {
 
 		public void trace( String trace, Object... arguments ) {
 
+			if ( !isTraceEnabled() ) {
+				return;
+			}
+
 			int lastArgument = arguments.length - 1;
 
 			if ( lastArgument == -1 ) {
@@ -362,6 +370,10 @@ public final class LogUtils {
 
 		public void debug( String debug, Object... arguments ) {
 
+			if ( !isDebugEnabled() ) {
+				return;
+			}
+
 			int lastArgument = arguments.length - 1;
 
 			if ( lastArgument == -1 ) {
@@ -388,6 +400,10 @@ public final class LogUtils {
 		}
 
 		public void info( String info, Object... arguments ) {
+
+			if ( !isInfoEnabled() ) {
+				return;
+			}
 
 			int lastArgument = arguments.length - 1;
 
@@ -416,6 +432,10 @@ public final class LogUtils {
 
 		public void warn( String warning, Object... arguments ) {
 
+			if ( !isWarnEnabled() ) {
+				return;
+			}
+
 			int lastArgument = arguments.length - 1;
 
 			if ( lastArgument == -1 ) {
@@ -442,6 +462,10 @@ public final class LogUtils {
 		}
 
 		public void error( String error, Object... arguments ) {
+
+			if ( !isErrorEnabled() ) {
+				return;
+			}
 
 			int lastArgument = arguments.length - 1;
 
