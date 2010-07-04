@@ -35,6 +35,8 @@ import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
 import org.metawidget.example.swt.addressbook.SwtAddressBookTest;
 import org.metawidget.example.swt.tutorial.SwtTutorialTest;
+import org.metawidget.swing.SwingAllWidgetsTest;
+import org.metawidget.swt.SwtAllWidgetsTest;
 import org.metawidget.util.TestUtils;
 
 /**
@@ -47,6 +49,30 @@ public class ExampleTests
 	//
 	// Public statics
 	//
+
+	/**
+	 * Load test of 'real world' performance (so we can attach a performance monitor to it). By
+	 * 'real world' we mean we're testing the example applications as opposed to fine-grained unit
+	 * tests.
+	 */
+
+	public static void main( String[] args )
+		throws Exception {
+
+		long startTime = System.currentTimeMillis();
+		System.out.println( "Started..." );
+
+		for ( int loop = 0, length = 1000; loop < length; loop++ ) {
+
+			new SwingAddressBookTest().testAddressBook();
+			new SwingAllWidgetsTest().testAllWidgets();
+			new SwtAddressBookTest().testAddressBook();
+			new SwtAllWidgetsTest().testAllWidgets();
+		}
+
+		System.out.println( "...finished" );
+		System.out.println( ( ( System.currentTimeMillis() - startTime ) / 1000 ) / 60f + " minutes" );
+	}
 
 	public static Test suite() {
 
