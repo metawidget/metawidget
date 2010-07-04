@@ -35,6 +35,43 @@ import org.metawidget.util.CollectionUtils;
  * A UIStub takes a <code>value</code> binding or an <code>action</code> binding but does nothing
  * with them. Stubs are used to 'stub out' what Metawidget would normally create - either to
  * suppress widget creation entirely or to create child widgets with a different name.
+ * <p>
+ * Note there is no need to use UIStub to replace a component with another, single component. Doing...
+ * <p>
+ * <code>
+ * &lt;m:stub value="#{foo.bar}"&gt;<br/>
+ * &lt;h:inputText value="#{foo.bar}"&gt;<br/>
+ * &lt;/m:stub&gt;
+ * </code>
+ * <p>
+ * ...is equivalent to simply...
+ * <p>
+ * <code>
+ * &lt;h:inputText value="#{foo.bar}"&gt;
+ * </code>
+ * <p>
+ * UIStub is only required when replacing a component with either zero components (ie. to hide it completely)...
+ * <p>
+ * <code>
+ * &lt;m:stub value="#{foo.bar}"/&gt;
+ * </code>
+ * <p>
+ * ...or with multiple components...
+ * <p>
+ * <code>
+ * &lt;m:stub value="#{foo.bar}"&gt;<br/>
+ * &lt;h:outputText value="#{foo.bar}"&gt;<br/>
+ * &lt;h:inputHidden value="#{foo.bar}"&gt;<br/>
+ * &lt;/m:stub&gt;
+ * </code>
+ * <p>
+ * ...or with components of a different value binding...
+ * <p>
+ * <code>
+ * &lt;m:stub value="#{foo.bar}"&gt;<br/>
+ * &lt;h:outputText value="#{foo.myBar}"&gt;<br/>
+ * &lt;/m:stub&gt;
+ * </code>
  *
  * @author Richard Kennard
  */
