@@ -36,7 +36,8 @@ import org.metawidget.util.CollectionUtils;
  * with them. Stubs are used to 'stub out' what Metawidget would normally create - either to
  * suppress widget creation entirely or to create child widgets with a different name.
  * <p>
- * Note there is no need to use UIStub to replace a component with another, single component. Doing...
+ * Note there is generally no need to use UIStub to replace a component with another, single
+ * component. Doing...
  * <p>
  * <code>
  * &lt;m:stub value="#{foo.bar}"&gt;<br/>
@@ -50,7 +51,8 @@ import org.metawidget.util.CollectionUtils;
  * &lt;h:inputText value="#{foo.bar}"&gt;
  * </code>
  * <p>
- * UIStub is only required when replacing a component with either zero components (ie. to hide it completely)...
+ * UIStub is only required when replacing a component with either zero components (ie. to hide it
+ * completely)...
  * <p>
  * <code>
  * &lt;m:stub value="#{foo.bar}"/&gt;
@@ -72,6 +74,11 @@ import org.metawidget.util.CollectionUtils;
  * &lt;h:outputText value="#{foo.myBar}"&gt;<br/>
  * &lt;/m:stub&gt;
  * </code>
+ * <p>
+ * As an exception to this rule, wrapping a single component in a UIStub can be useful to suppress
+ * processing by <code>WidgetProcessors</code>, who will typically ignore Stubs. For example, you can
+ * wrap a component in a UIStub and supply your own Validators, and
+ * <code>StandardValidatorProcessor</code> will pass over it.
  *
  * @author Richard Kennard
  */
