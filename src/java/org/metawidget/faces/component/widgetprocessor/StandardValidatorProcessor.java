@@ -49,7 +49,7 @@ public class StandardValidatorProcessor
 	@Override
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
-		// Only validate EditableValueHolders
+		// Only validate EditableValueHolders (ie. no labels, no Stubs)
 
 		if ( !( component instanceof EditableValueHolder ) ) {
 			return component;
