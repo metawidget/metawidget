@@ -272,7 +272,7 @@ public final class LogUtils {
 		private String log( Level level, String message, Object... arguments ) {
 
 			if ( !mLogger.isLoggable( level )) {
-				return null;
+				return message;
 			}
 
 			// Support fast cases with no arguments
@@ -297,7 +297,7 @@ public final class LogUtils {
 				mLogger.log( level, logged );
 			}
 
-			if ( message.indexOf( "{" + lastArgument + "}" ) == -1 ) {
+			if ( lastArgument >= 0 && message.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 				throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + message + "'" );
 			}
 
@@ -339,6 +339,7 @@ public final class LogUtils {
 		public void trace( String trace, Object... arguments ) {
 
 			if ( !isTraceEnabled() ) {
+				LAST_TRACE_MESSAGE = trace;
 				return;
 			}
 
@@ -357,7 +358,7 @@ public final class LogUtils {
 					mLog.trace( logged );
 				}
 
-				if ( trace.indexOf( "{" + lastArgument + "}" ) == -1 ) {
+				if ( lastArgument >= 0 && trace.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + trace + "'" );
 				}
 			}
@@ -371,6 +372,7 @@ public final class LogUtils {
 		public void debug( String debug, Object... arguments ) {
 
 			if ( !isDebugEnabled() ) {
+				LAST_DEBUG_MESSAGE = debug;
 				return;
 			}
 
@@ -384,11 +386,12 @@ public final class LogUtils {
 				LAST_DEBUG_MESSAGE = logged;
 				if ( arguments[lastArgument] instanceof Throwable && debug.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					mLog.debug( logged, (Throwable) arguments[lastArgument] );
+					lastArgument--;
 				} else {
 					mLog.debug( logged );
 				}
 
-				if ( debug.indexOf( "{" + lastArgument + "}" ) == -1 ) {
+				if ( lastArgument >= 0 && debug.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + debug + "'" );
 				}
 			}
@@ -402,6 +405,7 @@ public final class LogUtils {
 		public void info( String info, Object... arguments ) {
 
 			if ( !isInfoEnabled() ) {
+				LAST_INFO_MESSAGE = info;
 				return;
 			}
 
@@ -415,11 +419,12 @@ public final class LogUtils {
 				LAST_INFO_MESSAGE = logged;
 				if ( arguments[lastArgument] instanceof Throwable && info.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					mLog.info( logged, (Throwable) arguments[lastArgument] );
+					lastArgument--;
 				} else {
 					mLog.info( logged );
 				}
 
-				if ( info.indexOf( "{" + lastArgument + "}" ) == -1 ) {
+				if ( lastArgument >= 0 && info.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + info + "'" );
 				}
 			}
@@ -433,6 +438,7 @@ public final class LogUtils {
 		public void warn( String warning, Object... arguments ) {
 
 			if ( !isWarnEnabled() ) {
+				LAST_WARN_MESSAGE = warning;
 				return;
 			}
 
@@ -446,11 +452,12 @@ public final class LogUtils {
 				LAST_WARN_MESSAGE = logged;
 				if ( arguments[lastArgument] instanceof Throwable && warning.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					mLog.warn( logged, (Throwable) arguments[lastArgument] );
+					lastArgument--;
 				} else {
 					mLog.warn( logged );
 				}
 
-				if ( warning.indexOf( "{" + lastArgument + "}" ) == -1 ) {
+				if ( lastArgument >= 0 && warning.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + warning + "'" );
 				}
 			}
@@ -475,11 +482,12 @@ public final class LogUtils {
 				String logged = MessageFormat.format( error, arguments );
 				if ( arguments[lastArgument] instanceof Throwable && error.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					mLog.error( logged, (Throwable) arguments[lastArgument] );
+					lastArgument--;
 				} else {
 					mLog.error( logged );
 				}
 
-				if ( error.indexOf( "{" + lastArgument + "}" ) == -1 ) {
+				if ( lastArgument >= 0 && error.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + error + "'" );
 				}
 			}
