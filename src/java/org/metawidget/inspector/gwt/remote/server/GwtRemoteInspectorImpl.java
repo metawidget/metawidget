@@ -96,6 +96,16 @@ public class GwtRemoteInspectorImpl
 		mPipeline.configureDefaults( servletConfigReader, getDefaultConfiguration(), GwtRemoteInspectorImpl.class );
 	}
 
+	/**
+	 * Inspect the given Serializable/type using server-side processing and return the result.
+	 * <p>
+	 *
+	 * @return String the inspection result, converted to an XML string. Serialization should be
+	 *         relatively fast because it is using <code>XmlUtils.nodeToString</code>.
+	 *         Deserialization should be relatively fast because it is using the browser's native
+	 *         <code>XmlParser.parse</code>, not JavaScript.
+	 */
+
 	public String inspect( Serializable toInspect, String type, String[] names ) {
 
 		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ) );

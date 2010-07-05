@@ -311,6 +311,10 @@ public class XmlUtils {
 		return nodeToString( document.getFirstChild(), pretty );
 	}
 
+	/**
+	 * See documentToString.
+	 */
+
 	public static String nodeToString( Node node, boolean pretty ) {
 
 		return nodeToString( node, ( pretty ? 0 : -1 ) );

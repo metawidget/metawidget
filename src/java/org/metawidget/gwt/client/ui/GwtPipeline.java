@@ -23,7 +23,6 @@ import java.util.Map;
 import org.metawidget.pipeline.base.BasePipeline;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
-import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
@@ -83,8 +82,7 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	@Override
 	protected Element stringToElement( String xml ) {
 
-		Document document = XMLParser.parse( xml );
-		return document.getDocumentElement();
+		return XMLParser.parse( xml ).getDocumentElement();
 	}
 
 	@Override
