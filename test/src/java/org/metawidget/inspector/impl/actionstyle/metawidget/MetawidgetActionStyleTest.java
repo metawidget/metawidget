@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.impl.actionstyle.metawidget;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,6 +25,7 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
+import org.metawidget.inspector.impl.actionstyle.BaseActionStyle;
 
 /**
  * @author Richard Kennard
@@ -75,6 +77,22 @@ public class MetawidgetActionStyleTest
 		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.isEmpty() );
 
+	}
+
+	public void testClearCache()
+		throws Exception {
+
+		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
+
+		Field propertiesCacheField = BaseActionStyle.class.getDeclaredField( "mActionCache" );
+		propertiesCacheField.setAccessible( true );
+		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
+
+		actionStyle.getActions( Foo.class );
+		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
+
+		actionStyle.clearCache();
+		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 	}
 
 	//

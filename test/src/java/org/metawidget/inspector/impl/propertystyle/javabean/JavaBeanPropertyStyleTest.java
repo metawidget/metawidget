@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.impl.propertystyle.javabean;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 
 /**
@@ -128,6 +130,22 @@ public class JavaBeanPropertyStyleTest
 		} catch ( InspectorException e ) {
 			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public getter method. Should be one or the other", e.getMessage() );
 		}
+	}
+
+	public void testClearCache()
+		throws Exception {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+
+		Field propertiesCacheField = BasePropertyStyle.class.getDeclaredField( "mPropertiesCache" );
+		propertiesCacheField.setAccessible( true );
+		assertTrue( 0 == ((Map<?,?>) propertiesCacheField.get( propertyStyle )).size() );
+
+		propertyStyle.getProperties( Foo.class );
+		assertTrue( 1 == ((Map<?,?>) propertiesCacheField.get( propertyStyle )).size() );
+
+		propertyStyle.clearCache();
+		assertTrue( 0 == ((Map<?,?>) propertiesCacheField.get( propertyStyle )).size() );
 	}
 
 	//

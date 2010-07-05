@@ -117,8 +117,6 @@ public abstract class BasePropertyStyle
 	 * need to clear the properties cache.
 	 */
 
-	// TODO: unit test
-
 	public void clearCache() {
 
 		synchronized ( mPropertiesCache ) {

@@ -104,8 +104,6 @@ public abstract class BaseActionStyle
 	 * need to clear the action cache.
 	 */
 
-	// TODO: unit test
-
 	public void clearCache() {
 
 		synchronized ( mActionCache ) {
