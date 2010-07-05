@@ -99,6 +99,20 @@ public abstract class BaseActionStyle
 		}
 	}
 
+	/**
+	 * SPI for tools such as <a href="http://code.google.com/p/fakereplace">FakeReplace</a> that
+	 * need to clear the action cache.
+	 */
+
+	// TODO: unit test
+
+	public void clearCache() {
+
+		synchronized ( mActionCache ) {
+			mActionCache.clear();
+		}
+	}
+
 	//
 	// Protected methods
 	//

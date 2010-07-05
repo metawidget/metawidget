@@ -112,6 +112,20 @@ public abstract class BasePropertyStyle
 		}
 	}
 
+	/**
+	 * SPI for tools such as <a href="http://code.google.com/p/fakereplace">FakeReplace</a> that
+	 * need to clear the properties cache.
+	 */
+
+	// TODO: unit test
+
+	public void clearCache() {
+
+		synchronized ( mPropertiesCache ) {
+			mPropertiesCache.clear();
+		}
+	}
+
 	//
 	// Protected methods
 	//
