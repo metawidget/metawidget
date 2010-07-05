@@ -50,7 +50,15 @@ public class MetawidgetAnnotationInspectorTest
 
 	public void testInspection() {
 
-		Document document = XmlUtils.documentFromString( mInspector.inspect( new Address(), Address.class.getName() ) );
+		String inspect = mInspector.inspect( new Address(), Address.class.getName() );
+		internalTestInspection( XmlUtils.documentFromString( inspect ) );
+
+		Element domInspect = mInspector.inspectAsDom( new Address(), Address.class.getName() );
+		assertEquals( inspect, XmlUtils.nodeToString( domInspect, false ) );
+		internalTestInspection( domInspect.getOwnerDocument() );
+	}
+
+	private void internalTestInspection( Document document ) {
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -84,17 +92,18 @@ public class MetawidgetAnnotationInspectorTest
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "street", property.getAttribute( NAME ) );
+	}
 
-		// Made-up Entity
+	public void testImaginaryEntity() {
 
 		String xml = mInspector.inspect( new Foo(), Foo.class.getName() );
-		document = XmlUtils.documentFromString( xml );
+		Document document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 
-		property = (Element) entity.getFirstChild().getNextSibling();
+		Element property = (Element) entity.getFirstChild().getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "string1", property.getAttribute( NAME ) );
 		assertEquals( "bar", property.getAttribute( LABEL ) );

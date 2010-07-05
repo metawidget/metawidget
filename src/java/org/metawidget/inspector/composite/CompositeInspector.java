@@ -118,7 +118,7 @@ public class CompositeInspector
 
 	public String inspect( String master, Object toInspect, String type, String... names ) {
 
-		Element element = domInspect( XmlUtils.documentFromString( master ), toInspect, type, names );
+		Element element = inspectAsDom( XmlUtils.documentFromString( master ), toInspect, type, names );
 
 		if ( element == null ) {
 			return null;
@@ -129,7 +129,7 @@ public class CompositeInspector
 
 	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
-		return domInspect( null, toInspect, type, names );
+		return inspectAsDom( null, toInspect, type, names );
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class CompositeInspector
 	 * merges forthcoming inspection results with it.
 	 */
 
-	public Element domInspect( Document masterDocument, Object toInspect, String type, String... names ) {
+	public Element inspectAsDom( Document masterDocument, Object toInspect, String type, String... names ) {
 
 		try {
 			Document masterDocumentToUse = masterDocument;

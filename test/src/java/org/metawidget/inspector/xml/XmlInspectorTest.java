@@ -83,7 +83,15 @@ public class XmlInspectorTest
 
 	public void testInspection() {
 
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" ) );
+		String inspect = mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" );
+		internalTestInspection( XmlUtils.documentFromString( inspect ) );
+
+		Element domInspect = mInspector.inspectAsDom( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" );
+		assertEquals( inspect, XmlUtils.nodeToString( domInspect, false ) );
+		internalTestInspection( domInspect.getOwnerDocument() );
+	}
+
+	private void internalTestInspection( Document document ) {
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 

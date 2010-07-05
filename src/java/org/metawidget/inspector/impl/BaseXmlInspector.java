@@ -151,8 +151,6 @@ public abstract class BaseXmlInspector
 	// Public methods
 	//
 
-	// TODO: unit test fails here if not using domInspect
-
 	public String inspect( Object toInspect, String type, String... names ) {
 
 		Element element = inspectAsDom( toInspect, type, names );

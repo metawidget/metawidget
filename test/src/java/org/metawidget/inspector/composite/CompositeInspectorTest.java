@@ -79,7 +79,14 @@ public class CompositeInspectorTest
 
 		PersonalContact toInspect = new PersonalContact$EnhancerByCGLIB$$1234();
 		xml = inspector.inspect( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
-		Document document = XmlUtils.documentFromString( xml );
+		internalTestInspection( XmlUtils.documentFromString( xml ) );
+
+		Element domInspect = inspector.inspectAsDom( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
+		assertEquals( xml, XmlUtils.nodeToString( domInspect, false ) );
+		internalTestInspection( domInspect.getOwnerDocument() );
+	}
+
+	private void internalTestInspection( Document document ) {
 
 		// Test
 

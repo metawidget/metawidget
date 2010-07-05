@@ -92,7 +92,7 @@ public class MetawidgetActionStyleTest
 		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 
 		actionStyle.clearCache();
-		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
+		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 	}
 
 	//
