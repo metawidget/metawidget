@@ -68,12 +68,20 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 		return null;
 	}
 
+	@Override
+	public String elementToString( Element element ) {
+
+		// TODO: does this work?
+
+		return element.toString();
+	}
+
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected Element getDocumentElement( String xml ) {
+	protected Element stringToElement( String xml ) {
 
 		Document document = XMLParser.parse( xml );
 		return document.getDocumentElement();

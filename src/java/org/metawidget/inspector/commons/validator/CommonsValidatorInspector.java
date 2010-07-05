@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.xml.parsers.DocumentBuilder;
-
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
@@ -63,15 +61,15 @@ public class CommonsValidatorInspector
 	//
 
 	@Override
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
+	protected Element getDocumentElement( ResourceResolver resolver, InputStream... files )
 		throws Exception {
 
-		Document document = builder.newDocument();
+		Document document = XmlUtils.newDocument();
 		Element root = document.createElement( FORMSET_ELEMENT );
 		document.appendChild( root );
 
 		for ( InputStream file : files ) {
-			Document documentParsed = builder.parse( file );
+			Document documentParsed = XmlUtils.parse( file );
 			Element formSet = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), FORMSET_ELEMENT );
 
 			if ( formSet == null ) {

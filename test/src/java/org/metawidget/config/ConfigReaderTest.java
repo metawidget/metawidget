@@ -65,6 +65,7 @@ import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.IOUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils.CachingContentHandler;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
@@ -712,7 +713,12 @@ public class ConfigReaderTest
 		// Test it doesn't log 'Instantiated immutable class
 		// org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder' a second time
 
-		assertEquals( "Reading resource from org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder", LogUtilsTest.getLastDebugMessage() );
+		if ( LogUtils.getLog( ConfigReader.class ).isDebugEnabled() ) {
+			assertEquals( "Reading resource from org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder", LogUtilsTest.getLastDebugMessage() );
+		} else {
+			assertEquals( "Reading resource from {0}", LogUtilsTest.getLastDebugMessage() );
+			assertEquals( "org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder", LogUtilsTest.getLastDebugArguments()[0] );
+		}
 	}
 
 	public void testImmutable()

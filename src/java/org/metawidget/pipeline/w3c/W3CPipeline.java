@@ -101,12 +101,18 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 		}
 	}
 
+	@Override
+	public String elementToString( Element element ) {
+
+		return XmlUtils.nodeToString( element, false );
+	}
+
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected Element getDocumentElement( String xml ) {
+	protected Element stringToElement( String xml ) {
 
 		Document document = XmlUtils.documentFromString( xml );
 		return document.getDocumentElement();

@@ -70,13 +70,13 @@ public class GwtMetawidgetTest
 		public void testIndentation()
 			throws Exception {
 
-			Element element = getChildAt( getDocumentElement( "<foo><bar>baz</bar></foo>" ), 0 );
+			Element element = getChildAt( stringToElement( "<foo><bar>baz</bar></foo>" ), 0 );
 			assertEquals( "bar", element.getNodeName() );
 
-			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
+			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
 			assertEquals( "bar", element.getNodeName() );
 
-			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
+			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
 			assertTrue( null == element );
 		}
 

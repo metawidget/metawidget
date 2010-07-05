@@ -17,6 +17,8 @@
 package org.metawidget.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
@@ -306,8 +308,26 @@ public class XmlUtils {
 			return "";
 		}
 
-		return nodeToString( document.getFirstChild(), ( pretty ? 0 : -1 ) );
+		return nodeToString( document.getFirstChild(), pretty );
 	}
+
+	public static String nodeToString( Node node, boolean pretty ) {
+
+		return nodeToString( node, ( pretty ? 0 : -1 ) );
+	}
+
+	/**
+	 * Converts the given XML into a <code>org.w3c.dom.Document</code>.
+	 * <p>
+	 * Named <code>documentFromString</code>, rather than just <code>parse</code>, because
+	 * <code>DocumentBuilder.parse( String )</code> already exists and, confusingly, uses the String
+	 * as a URI to the XML rather than as the XML itself.
+	 * <p>
+	 * Note: in performance tests, this method was consistently found to be expensive, of the order
+	 * of around 10%. Consider implementing <code>DomInspector</code> on your
+	 * <code>Inspectors</code> or <code>DomInspectionResultProcessor</code> on your
+	 * <code>InspectionResultProcessors</code> to avoid this hit.
+	 */
 
 	public static Document documentFromString( String xml ) {
 
@@ -316,48 +336,31 @@ public class XmlUtils {
 		}
 
 		try {
-			return newDocumentBuilder().parse( new InputSource( new StringReader( xml ) ) );
+			synchronized ( DOCUMENT_BUILDER ) {
+				return DOCUMENT_BUILDER.parse( new InputSource( new StringReader( xml ) ) );
+			}
 		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
 
 	/**
-	 * Creates a new DocumentBuilder using a shared, namespace-aware, comment-ignoring,
-	 * whitespace-ignoring DocumentBuilderFactory.
+	 * Creates a new Document built from a shared, no-external-connection-making DocumentBuilder
+	 * created by a namespace-aware, comment-ignoring, whitespace-ignoring DocumentBuilderFactory.
 	 */
 
-	public static DocumentBuilder newDocumentBuilder()
-		throws ParserConfigurationException {
+	public static Document newDocument() {
 
-		return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+		synchronized ( DOCUMENT_BUILDER ) {
+			return DOCUMENT_BUILDER.newDocument();
+		}
 	}
 
-	/**
-	 * EntityResolver that does a 'no-op' and does not actually resolve entities. Useful to prevent
-	 * <code>DocumentBuilder</code> making URL connections.
-	 */
+	public static Document parse( InputStream stream )
+		throws IOException, SAXException {
 
-	public static class NopEntityResolver
-		implements EntityResolver {
-
-		//
-		//
-		// Private statics
-		//
-		//
-
-		private final static byte[]	BYTES	= "<?xml version='1.0' encoding='UTF-8'?>".getBytes();
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public InputSource resolveEntity( String publicId, String systemId ) {
-
-			return new InputSource( new ByteArrayInputStream( BYTES ) );
+		synchronized ( DOCUMENT_BUILDER ) {
+			return DOCUMENT_BUILDER.parse( stream );
 		}
 	}
 
@@ -1316,25 +1319,59 @@ public class XmlUtils {
 	}
 
 	//
+	// Inner class
+	//
+
+	/**
+	 * EntityResolver that does a 'no-op' and does not actually resolve entities. Useful to prevent
+	 * <code>DocumentBuilder</code> making URL connections.
+	 */
+
+	/* package private */static class NopEntityResolver
+		implements EntityResolver {
+
+		//
+		// Private statics
+		//
+
+		private final static byte[]	BYTES	= "<?xml version='1.0' encoding='UTF-8'?>".getBytes();
+
+		//
+		// Public methods
+		//
+
+		public InputSource resolveEntity( String publicId, String systemId ) {
+
+			return new InputSource( new ByteArrayInputStream( BYTES ) );
+		}
+	}
+
+	//
 	// Private statics
 	//
 
-	private final static DocumentBuilderFactory	DOCUMENT_BUILDER_FACTORY;
+	private final static DocumentBuilder	DOCUMENT_BUILDER;
 
 	static {
-		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-		DOCUMENT_BUILDER_FACTORY.setNamespaceAware( true );
-		DOCUMENT_BUILDER_FACTORY.setIgnoringComments( true );
-		DOCUMENT_BUILDER_FACTORY.setIgnoringElementContentWhitespace( true );
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware( true );
+		factory.setIgnoringComments( true );
+		factory.setIgnoringElementContentWhitespace( true );
+		try {
+			DOCUMENT_BUILDER = factory.newDocumentBuilder();
+			DOCUMENT_BUILDER.setEntityResolver( new NopEntityResolver() );
+		} catch ( ParserConfigurationException e ) {
+			throw new RuntimeException( e );
+		}
 	}
 
-	private final static Pattern				PATTERN_AMP		= Pattern.compile( "&", Pattern.LITERAL );
+	private final static Pattern			PATTERN_AMP		= Pattern.compile( "&", Pattern.LITERAL );
 
-	private final static Pattern				PATTERN_LT		= Pattern.compile( "<", Pattern.LITERAL );
+	private final static Pattern			PATTERN_LT		= Pattern.compile( "<", Pattern.LITERAL );
 
-	private final static Pattern				PATTERN_GT		= Pattern.compile( ">", Pattern.LITERAL );
+	private final static Pattern			PATTERN_GT		= Pattern.compile( ">", Pattern.LITERAL );
 
-	private final static Pattern				PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
+	private final static Pattern			PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
 
 	//
 	// Private constructor

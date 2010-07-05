@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.util.ArrayUtils;
@@ -44,7 +45,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class ComesAfterInspectionResultProcessor<M>
-	implements InspectionResultProcessor<M> {
+	implements InspectionResultProcessor<M>, DomInspectionResultProcessor<Element,M> {
 
 	//
 	// Public methods
@@ -52,15 +53,21 @@ public class ComesAfterInspectionResultProcessor<M>
 
 	public String processInspectionResult( String inspectionResult, M metawidget ) {
 
-		try {
-			Document document = XmlUtils.documentFromString( inspectionResult );
-			Element inspectionResultRoot = document.getDocumentElement();
+		Document document = XmlUtils.documentFromString( inspectionResult );
+		Element inspectionResultRoot = document.getDocumentElement();
 
+		Element newInspectionResultRoot = processInspectionResultAsDom( inspectionResultRoot, metawidget );
+		return XmlUtils.documentToString( newInspectionResultRoot.getOwnerDocument(), false );
+	}
+
+	public Element processInspectionResultAsDom( Element inspectionResultRoot, M metawidget ) {
+
+		try {
 			// Start a new document
 			//
 			// (Android 1.1 did not cope well with shuffling the nodes of an existing document)
 
-			Document newDocument = XmlUtils.newDocumentBuilder().newDocument();
+			Document newDocument = XmlUtils.newDocument();
 			Element newInspectionResultRoot = newDocument.createElementNS( NAMESPACE, ROOT );
 			XmlUtils.setMapAsAttributes( newInspectionResultRoot, XmlUtils.getAttributesAsMap( inspectionResultRoot ) );
 			newDocument.appendChild( newInspectionResultRoot );
@@ -194,7 +201,7 @@ public class ComesAfterInspectionResultProcessor<M>
 				}
 			}
 
-			return XmlUtils.documentToString( newDocument, false );
+			return newInspectionResultRoot;
 		} catch ( Exception e ) {
 			throw InspectionResultProcessorException.newException( e );
 		}

@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -259,7 +260,16 @@ public class XmlInspectorTest
 		nullObject.nestedNullObject = nullObject;
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
 		assertTrue( null == mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
-		assertEquals( "XmlInspector prevented infinite recursion on org.metawidget.inspector.xml.XmlInspectorTest$NullObject/nestedNullObject. Consider marking nestedNullObject as hidden='true'", LogUtilsTest.getLastTraceMessage() );
+
+		if ( LogUtils.getLog( XmlInspector.class ).isTraceEnabled() ) {
+			assertEquals( "XmlInspector prevented infinite recursion on org.metawidget.inspector.xml.XmlInspectorTest$NullObject/nestedNullObject. Consider marking nestedNullObject as hidden='true'", LogUtilsTest.getLastTraceMessage() );
+		} else {
+			assertEquals( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", LogUtilsTest.getLastTraceMessage() );
+			assertEquals( "XmlInspector", LogUtilsTest.getLastTraceArguments()[0] );
+			assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$NullObject", LogUtilsTest.getLastTraceArguments()[1] );
+			assertEquals( "/nestedNullObject", LogUtilsTest.getLastTraceArguments()[2] );
+			assertEquals( "nestedNullObject", LogUtilsTest.getLastTraceArguments()[3] );
+		}
 	}
 
 	//

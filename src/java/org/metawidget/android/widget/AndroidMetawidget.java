@@ -48,6 +48,7 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.w3c.dom.Element;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -98,7 +99,7 @@ public class AndroidMetawidget
 
 	private boolean												mNeedToBuildWidgets;
 
-	String														mLastInspection;
+	Element														mLastInspection;
 
 	private boolean												mIgnoreAddRemove;
 
@@ -472,12 +473,12 @@ public class AndroidMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public String inspect( Object toInspect, String type, String... names ) {
 
-		return mPipeline.inspect( toInspect, type, names );
+		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ));
 	}
 
 	/**
@@ -693,16 +694,6 @@ public class AndroidMetawidget
 		}
 	}
 
-	protected String inspect() {
-
-		if ( mPath == null ) {
-			return null;
-		}
-
-		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
-	}
-
 	protected void initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
@@ -714,6 +705,16 @@ public class AndroidMetawidget
 	//
 	// Private methods
 	//
+
+	private Element inspect() {
+
+		if ( mPath == null ) {
+			return null;
+		}
+
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		return mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+	}
 
 	private View findViewWithTags( String... tags ) {
 

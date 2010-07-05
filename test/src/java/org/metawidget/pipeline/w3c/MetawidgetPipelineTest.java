@@ -29,6 +29,7 @@ import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultP
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidatorProcessor;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -63,7 +64,7 @@ public class MetawidgetPipelineTest
 		Pipeline pipeline = new Pipeline() {
 
 			@Override
-			public String inspect( Object toInspect, String type, String... names ) {
+			public Element inspect( Object toInspect, String type, String... names ) {
 
 				return super.processInspectionResult( null );
 			}
@@ -157,7 +158,7 @@ public class MetawidgetPipelineTest
 
 		// Top-level widget
 
-		pipeline.buildWidgets( "<inspection-result><entity type=\"foo\"/></inspection-result>" );
+		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getDocumentElement() );
 
 		assertTrue( called.size() == 1 );
 		assertEquals( "WidgetProcessor #1", called.get( 0 ) );
@@ -166,7 +167,7 @@ public class MetawidgetPipelineTest
 		// Property-level widget
 
 		called.clear();
-		pipeline.buildWidgets( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" );
+		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getDocumentElement() );
 
 		assertTrue( called.size() == 2 );
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
@@ -223,7 +224,7 @@ public class MetawidgetPipelineTest
 
 		// Top-level widget
 
-		pipeline.buildWidgets( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" );
+		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getDocumentElement() );
 
 		assertTrue( called.size() == 3 );
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
@@ -280,13 +281,13 @@ public class MetawidgetPipelineTest
 		public void testIndentation()
 			throws Exception {
 
-			Element element = getChildAt( getDocumentElement( "<foo><bar>baz</bar></foo>" ), 0 );
+			Element element = getChildAt( stringToElement( "<foo><bar>baz</bar></foo>" ), 0 );
 			assertEquals( "bar", element.getNodeName() );
 
-			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
+			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
 			assertEquals( "bar", element.getNodeName() );
 
-			element = getChildAt( getDocumentElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
+			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
 			assertTrue( null == element );
 		}
 

@@ -51,6 +51,7 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
@@ -93,7 +94,7 @@ public class SwingMetawidget
 
 	private boolean						mNeedToBuildWidgets;
 
-	private String						mLastInspection;
+	private Element						mLastInspection;
 
 	private boolean						mIgnoreAddRemove;
 
@@ -639,12 +640,12 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public String inspect( Object toInspect, String type, String... names ) {
 
-		return mPipeline.inspect( toInspect, type, names );
+		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ));
 	}
 
 	//
@@ -867,16 +868,6 @@ public class SwingMetawidget
 		}
 	}
 
-	protected String inspect() {
-
-		if ( mPath == null ) {
-			return null;
-		}
-
-		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
-	}
-
 	protected void initNestedMetawidget( SwingMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		// Don't copy setConfig(). Instead, copy runtime values
@@ -891,6 +882,16 @@ public class SwingMetawidget
 	//
 	// Private methods
 	//
+
+	private Element inspect() {
+
+		if ( mPath == null ) {
+			return null;
+		}
+
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		return mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+	}
 
 	private Pair<Component, String> getComponentAndValueProperty( String... names ) {
 

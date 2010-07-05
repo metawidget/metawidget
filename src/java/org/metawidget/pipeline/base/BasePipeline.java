@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
+import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
@@ -259,13 +261,19 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * using our same <code>Inspector</code>.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names ) {
+	public E inspect( Object toInspect, String type, String... names ) {
 
 		if ( mInspector == null ) {
 			throw new NullPointerException( "No inspector configured" );
 		}
 
-		String inspectionResult = mInspector.inspect( toInspect, type, names );
+		Object inspectionResult;
+
+		if ( mInspector instanceof DomInspector<?> ) {
+			inspectionResult = ( (DomInspector<?>) mInspector ).inspectAsDom( toInspect, type, names );
+		} else {
+			inspectionResult = mInspector.inspect( toInspect, type, names );
+		}
 
 		if ( inspectionResult == null ) {
 			return null;
@@ -281,7 +289,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
-	public void buildWidgets( String inspectionResult )
+	public void buildWidgets( E inspectionResult )
 		throws Exception {
 
 		startBuild();
@@ -289,8 +297,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( inspectionResult != null ) {
 			// Build simple widget (from the top-level element)
 
-			E root = getDocumentElement( inspectionResult );
-			E element = getChildAt( root, 0 );
+			E element = getChildAt( inspectionResult, 0 );
 			Map<String, String> attributes = getAttributesAsMap( element );
 
 			if ( isReadOnly() ) {
@@ -358,6 +365,15 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		nestedPipeline.setWidgetProcessors( getWidgetProcessors() );
 		nestedPipeline.setLayout( getLayout() );
 	}
+
+	/**
+	 * Serialize the given element to an XML String.
+	 * <p>
+	 * Marked public as <code>*Metawidget</code> clients will often need to use this, and it is
+	 * nicer they reuse the pipeline than call, say, <code>XmlUtils.nodeToString</code> directly.
+	 */
+
+	public abstract String elementToString( E element );
 
 	//
 	// Protected methods
@@ -435,7 +451,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	// Protected abstract methods
 	//
 
-	protected abstract E getDocumentElement( String xml );
+	protected abstract E stringToElement( String xml );
 
 	protected abstract int getChildCount( E element );
 
@@ -471,24 +487,52 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		}
 	}
 
-	protected String processInspectionResult( String inspectionResult ) {
+	/**
+	 * @param inspectionResult
+	 *            may be a String of XML, or an E, depending on whether the Inspector was a
+	 *            DomInspector
+	 */
 
-		String processedInspectionResult = inspectionResult;
+	protected E processInspectionResult( Object inspectionResult ) {
+
+		Object inspectionResultToProcess = inspectionResult;
 
 		if ( mInspectionResultProcessors != null ) {
 			M pipelineOwner = getPipelineOwner();
 
 			for ( InspectionResultProcessor<M> inspectionResultProcessor : mInspectionResultProcessors ) {
-				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, pipelineOwner );
+				if ( inspectionResultProcessor instanceof DomInspectionResultProcessor<?, ?> ) {
+					if ( inspectionResultToProcess instanceof String ) {
+						inspectionResultToProcess = stringToElement( (String) inspectionResultToProcess );
+					}
+					@SuppressWarnings( "unchecked" )
+					DomInspectionResultProcessor<E, M> domInspectionResultProcessor = (DomInspectionResultProcessor<E, M>) inspectionResultProcessor;
+					@SuppressWarnings( "unchecked" )
+					E inspectionResultToProcessElement = (E) inspectionResultToProcess;
+					inspectionResultToProcess = domInspectionResultProcessor.processInspectionResultAsDom( inspectionResultToProcessElement, pipelineOwner );
+				} else {
+					if ( !( inspectionResultToProcess instanceof String ) ) {
+						@SuppressWarnings( "unchecked" )
+						E inspectionResultToProcessElement = (E) inspectionResultToProcess;
+						inspectionResultToProcess = elementToString( inspectionResultToProcessElement );
+					}
+					inspectionResultToProcess = inspectionResultProcessor.processInspectionResult( (String) inspectionResultToProcess, pipelineOwner );
+				}
 
 				// An InspectionResultProcessor could return null to cancel the inspection
 
-				if ( processedInspectionResult == null ) {
+				if ( inspectionResultToProcess == null ) {
 					return null;
 				}
 			}
 		}
 
+		if ( inspectionResultToProcess instanceof String ) {
+			return stringToElement( (String) inspectionResultToProcess );
+		}
+
+		@SuppressWarnings( "unchecked" )
+		E processedInspectionResult = (E) inspectionResultToProcess;
 		return processedInspectionResult;
 	}
 

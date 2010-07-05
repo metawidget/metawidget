@@ -166,28 +166,32 @@ public final class LogUtils {
 	 * tests.
 	 */
 
-	/* package private */static String	LAST_TRACE_MESSAGE;
+	/* package private */static String		LAST_TRACE_MESSAGE;
+
+	/* package private */static Object[]	LAST_TRACE_ARGUMENTS;
 
 	/**
 	 * Lightweight field that stores the last message sent to <code>Log.debug</code>. Intended for
 	 * unit tests.
 	 */
 
-	/* package private */static String	LAST_DEBUG_MESSAGE;
+	/* package private */static String		LAST_DEBUG_MESSAGE;
+
+	/* package private */static Object[]	LAST_DEBUG_ARGUMENTS;
 
 	/**
 	 * Lightweight field that stores the last message sent to <code>Log.info</code>. Intended for
 	 * unit tests.
 	 */
 
-	/* package private */static String	LAST_INFO_MESSAGE;
+	/* package private */static String		LAST_INFO_MESSAGE;
 
 	/**
 	 * Lightweight field that stores the last message sent to <code>Log.warn</code>. Intended for
 	 * unit tests.
 	 */
 
-	/* package private */static String	LAST_WARN_MESSAGE;
+	/* package private */static String		LAST_WARN_MESSAGE;
 
 	/**
 	 * Logging implementation that uses <code>java.util.Logger</code>.
@@ -271,7 +275,7 @@ public final class LogUtils {
 
 		private String log( Level level, String message, Object... arguments ) {
 
-			if ( !mLogger.isLoggable( level )) {
+			if ( !mLogger.isLoggable( level ) ) {
 				return message;
 			}
 
@@ -340,6 +344,7 @@ public final class LogUtils {
 
 			if ( !isTraceEnabled() ) {
 				LAST_TRACE_MESSAGE = trace;
+				LAST_TRACE_ARGUMENTS = arguments;
 				return;
 			}
 
@@ -347,10 +352,12 @@ public final class LogUtils {
 
 			if ( lastArgument == -1 ) {
 				LAST_TRACE_MESSAGE = trace;
+				LAST_TRACE_ARGUMENTS = arguments;
 				mLog.trace( trace );
 			} else {
 				String logged = MessageFormat.format( trace, arguments );
 				LAST_TRACE_MESSAGE = logged;
+				LAST_TRACE_ARGUMENTS = arguments;
 				if ( arguments[lastArgument] instanceof Throwable && trace.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					mLog.trace( logged, (Throwable) arguments[lastArgument] );
 					lastArgument--;
@@ -373,6 +380,7 @@ public final class LogUtils {
 
 			if ( !isDebugEnabled() ) {
 				LAST_DEBUG_MESSAGE = debug;
+				LAST_DEBUG_ARGUMENTS = arguments;
 				return;
 			}
 
@@ -380,10 +388,12 @@ public final class LogUtils {
 
 			if ( lastArgument == -1 ) {
 				LAST_DEBUG_MESSAGE = debug;
+				LAST_DEBUG_ARGUMENTS = arguments;
 				mLog.debug( debug );
 			} else {
 				String logged = MessageFormat.format( debug, arguments );
 				LAST_DEBUG_MESSAGE = logged;
+				LAST_DEBUG_ARGUMENTS = arguments;
 				if ( arguments[lastArgument] instanceof Throwable && debug.indexOf( "{" + lastArgument + "}" ) == -1 ) {
 					mLog.debug( logged, (Throwable) arguments[lastArgument] );
 					lastArgument--;

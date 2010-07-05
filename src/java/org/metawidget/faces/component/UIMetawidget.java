@@ -490,7 +490,7 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public String inspect( Object toInspect, String type, String... names ) {
@@ -500,7 +500,7 @@ public abstract class UIMetawidget
 		}
 
 		try {
-			return mPipeline.inspect( toInspect, type, names );
+			return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ) );
 		} finally {
 			if ( LOG.isTraceEnabled() ) {
 				LOG.trace( "inspect {0}{1} (end)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
@@ -579,7 +579,7 @@ public abstract class UIMetawidget
 		// ...or from a raw value (for jBPM)...
 
 		if ( mValue != null ) {
-			mPipeline.buildWidgets( inspect( null, (String) mValue ) );
+			mPipeline.buildWidgets( mPipeline.inspect( null, (String) mValue ) );
 			return;
 		}
 
@@ -639,64 +639,6 @@ public abstract class UIMetawidget
 		// component!
 
 		return nestedMetawidget;
-	}
-
-	/**
-	 * Inspect the value binding.
-	 * <p>
-	 * A value binding is optional. UIMetawidget can be used purely to lay out manually-specified
-	 * components
-	 */
-
-	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent ) {
-
-		if ( valueBinding == null ) {
-			return null;
-		}
-
-		// Inspect the object directly
-
-		FacesContext context = getFacesContext();
-		String valueBindingString = valueBinding.getExpressionString();
-
-		if ( !inspectFromParent || !FacesUtils.isExpression( valueBindingString ) ) {
-			Object toInspect = valueBinding.getValue( context );
-
-			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) ) {
-				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return inspect( toInspect, classToInspect.getName() );
-			}
-		}
-
-		// In the event the direct object is 'null' or a primitive...
-
-		String binding = FacesUtils.unwrapExpression( valueBindingString );
-
-		// ...and the EL expression is such that we can chop it off to get to the parent...
-		//
-		// Note: using EL functions in generated ValueExpressions only works in JSF 2.0,
-		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813. A workaround is
-		// to assign the function's return value to a temporary, request-scoped variable using c:set
-
-		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 ) {
-			int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
-
-			if ( lastIndexOf != -1 ) {
-				// ...traverse from the parent as there may be useful metadata there (such as 'name'
-				// and 'type')
-
-				Application application = context.getApplication();
-				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapExpression( binding.substring( 0, lastIndexOf ) ) );
-				Object toInspect = bindingParent.getValue( context );
-
-				if ( toInspect != null ) {
-					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-					return inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
-				}
-			}
-		}
-
-		return null;
 	}
 
 	protected void configure() {
@@ -856,11 +798,10 @@ public abstract class UIMetawidget
 			ValueBinding binding = component.getValueBinding( "value" );
 
 			if ( binding != null ) {
-				String inspectionResult = inspect( binding, true );
+				Element inspectionResult = inspect( binding, true );
 
 				if ( inspectionResult != null ) {
-					Element root = XmlUtils.documentFromString( inspectionResult ).getDocumentElement();
-					childAttributes.putAll( XmlUtils.getAttributesAsMap( root.getFirstChild() ) );
+					childAttributes.putAll( XmlUtils.getAttributesAsMap( inspectionResult.getFirstChild() ) );
 				}
 			} else {
 				// If no found metadata, default to no section.
@@ -875,6 +816,68 @@ public abstract class UIMetawidget
 		}
 
 		LOG.trace( "endBuild" );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Inspect the value binding.
+	 * <p>
+	 * A value binding is optional. UIMetawidget can be used purely to lay out manually-specified
+	 * components
+	 */
+
+	private Element inspect( ValueBinding valueBinding, boolean inspectFromParent ) {
+
+		if ( valueBinding == null ) {
+			return null;
+		}
+
+		// Inspect the object directly
+
+		FacesContext context = getFacesContext();
+		String valueBindingString = valueBinding.getExpressionString();
+
+		if ( !inspectFromParent || !FacesUtils.isExpression( valueBindingString ) ) {
+			Object toInspect = valueBinding.getValue( context );
+
+			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) ) {
+				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
+				return mPipeline.inspect( toInspect, classToInspect.getName() );
+			}
+		}
+
+		// In the event the direct object is 'null' or a primitive...
+
+		String binding = FacesUtils.unwrapExpression( valueBindingString );
+
+		// ...and the EL expression is such that we can chop it off to get to the parent...
+		//
+		// Note: using EL functions in generated ValueExpressions only works in JSF 2.0,
+		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813. A workaround is
+		// to assign the function's return value to a temporary, request-scoped variable using c:set
+
+		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 ) {
+			int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
+
+			if ( lastIndexOf != -1 ) {
+				// ...traverse from the parent as there may be useful metadata there (such as 'name'
+				// and 'type')
+
+				Application application = context.getApplication();
+				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapExpression( binding.substring( 0, lastIndexOf ) ) );
+				Object toInspect = bindingParent.getValue( context );
+
+				if ( toInspect != null ) {
+					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
+					return mPipeline.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+				}
+			}
+		}
+
+		return null;
 	}
 
 	//

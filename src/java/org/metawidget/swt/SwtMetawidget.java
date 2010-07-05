@@ -48,6 +48,7 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.w3c.dom.Element;
 
 /**
  * Metawidget for SWT environments.
@@ -84,7 +85,7 @@ public class SwtMetawidget
 
 	private boolean						mNeedToBuildWidgets;
 
-	private String						mLastInspection;
+	private Element						mLastInspection;
 
 	private Map<String, Facet>			mFacets					= CollectionUtils.newHashMap();
 
@@ -484,16 +485,16 @@ public class SwtMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public String inspect( Object toInspect, String type, String... names ) {
 
-		return mPipeline.inspect( toInspect, type, names );
+		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ));
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to attach Controls to the current Composite as defined by the Layout. This allows the Layout to introduce new Composites, such as for TabFolders.
 	 */
 
 	public Composite getCurrentLayoutComposite() {
@@ -709,16 +710,6 @@ public class SwtMetawidget
 		}
 	}
 
-	protected String inspect() {
-
-		if ( mInspectionPath == null ) {
-			return null;
-		}
-
-		TypeAndNames typeAndNames = PathUtils.parsePath( mInspectionPath );
-		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
-	}
-
 	protected void initNestedMetawidget( SwtMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		// Don't copy setConfig(). Instead, copy runtime values
@@ -732,6 +723,16 @@ public class SwtMetawidget
 	//
 	// Private methods
 	//
+
+	private Element inspect() {
+
+		if ( mInspectionPath == null ) {
+			return null;
+		}
+
+		TypeAndNames typeAndNames = PathUtils.parsePath( mInspectionPath );
+		return mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+	}
 
 	private Pair<Control, String> getControlAndValueProperty( String... names ) {
 

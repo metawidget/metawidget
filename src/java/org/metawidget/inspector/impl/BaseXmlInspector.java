@@ -22,9 +22,8 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-
 import org.metawidget.config.ResourceResolver;
+import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -35,7 +34,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
-import org.metawidget.util.XmlUtils.NopEntityResolver;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -94,7 +92,7 @@ import org.w3c.dom.NodeList;
  */
 
 public abstract class BaseXmlInspector
-	implements Inspector {
+	implements Inspector, DomInspector<Element> {
 
 	//
 	// Protected members
@@ -123,15 +121,12 @@ public abstract class BaseXmlInspector
 	protected BaseXmlInspector( BaseXmlInspectorConfig config ) {
 
 		try {
-			DocumentBuilder builder = newDocumentBuilder( config );
-
 			// Look up the XML file
 
-			builder.setEntityResolver( new NopEntityResolver() );
 			InputStream[] files = config.getInputStreams();
 
 			if ( files != null && files.length > 0 ) {
-				mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
+				mRoot = getDocumentElement( config.getResourceResolver(), config.getInputStreams() );
 			}
 
 			if ( mRoot == null ) {
@@ -156,7 +151,20 @@ public abstract class BaseXmlInspector
 	// Public methods
 	//
 
+	// TODO: unit test fails here if not using domInspect
+
 	public String inspect( Object toInspect, String type, String... names ) {
+
+		Element element = inspectAsDom( toInspect, type, names );
+
+		if ( element == null ) {
+			return null;
+		}
+
+		return XmlUtils.nodeToString( element, false );
+	}
+
+	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 		// If no type, return nothing
 
@@ -219,7 +227,7 @@ public abstract class BaseXmlInspector
 				}
 			}
 
-			Document document = XmlUtils.newDocumentBuilder().newDocument();
+			Document document = XmlUtils.newDocument();
 			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect properties
@@ -245,9 +253,9 @@ public abstract class BaseXmlInspector
 				XmlUtils.setMapAsAttributes( entity, parentAttributes );
 			}
 
-			// Return the document
+			// Return the root
 
-			return XmlUtils.documentToString( document, false );
+			return root;
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
@@ -257,19 +265,13 @@ public abstract class BaseXmlInspector
 	// Protected methods
 	//
 
-	protected DocumentBuilder newDocumentBuilder( BaseXmlInspectorConfig config )
-		throws Exception {
-
-		return XmlUtils.newDocumentBuilder();
-	}
-
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
+	protected Element getDocumentElement( ResourceResolver resolver, InputStream... files )
 		throws Exception {
 
 		Document documentMaster = null;
 
 		for ( InputStream file : files ) {
-			Document documentParsed = builder.parse( file );
+			Document documentParsed = XmlUtils.parse( file );
 
 			if ( !documentParsed.hasChildNodes() ) {
 				continue;

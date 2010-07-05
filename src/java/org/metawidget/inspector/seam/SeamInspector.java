@@ -78,7 +78,7 @@ public class SeamInspector
 		Element root;
 
 		try {
-			Document documentParsed = XmlUtils.newDocumentBuilder().parse( config.getComponentsInputStream() );
+			Document documentParsed = XmlUtils.parse( config.getComponentsInputStream() );
 			root = documentParsed.getDocumentElement();
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );

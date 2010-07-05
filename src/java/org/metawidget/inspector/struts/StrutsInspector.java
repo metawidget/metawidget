@@ -21,8 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.InputStream;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
@@ -61,15 +59,15 @@ public class StrutsInspector
 	//
 
 	@Override
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
+	protected Element getDocumentElement( ResourceResolver resolver, InputStream... files )
 		throws Exception {
 
-		Document document = builder.newDocument();
+		Document document = XmlUtils.newDocument();
 		Element root = document.createElement( FORM_BEANS_ELEMENT );
 		document.appendChild( root );
 
 		for ( InputStream file : files ) {
-			Document documentParsed = builder.parse( file );
+			Document documentParsed = XmlUtils.parse( file );
 			Element formBeans = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), FORM_BEANS_ELEMENT );
 
 			if ( formBeans == null ) {

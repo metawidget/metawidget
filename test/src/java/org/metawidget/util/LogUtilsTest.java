@@ -40,9 +40,19 @@ public class LogUtilsTest
 		return LogUtils.LAST_TRACE_MESSAGE;
 	}
 
+	public static Object[] getLastTraceArguments() {
+
+		return LogUtils.LAST_TRACE_ARGUMENTS;
+	}
+
 	public static String getLastDebugMessage() {
 
 		return LogUtils.LAST_DEBUG_MESSAGE;
+	}
+
+	public static Object[] getLastDebugArguments() {
+
+		return LogUtils.LAST_DEBUG_ARGUMENTS;
 	}
 
 	public static String getLastInfoMessage() {

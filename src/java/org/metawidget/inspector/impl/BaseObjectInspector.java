@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
@@ -64,7 +65,7 @@ import org.w3c.dom.Element;
  */
 
 public abstract class BaseObjectInspector
-	implements Inspector {
+	implements Inspector, DomInspector<Element> {
 
 	//
 	// Private members
@@ -107,6 +108,17 @@ public abstract class BaseObjectInspector
 	//
 
 	public String inspect( Object toInspect, String type, String... names ) {
+
+		Element element = inspectAsDom( toInspect, type, names );
+
+		if ( element == null ) {
+			return null;
+		}
+
+		return XmlUtils.nodeToString( element, false );
+	}
+
+	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 		// If no type, return nothing
 
@@ -168,7 +180,7 @@ public abstract class BaseObjectInspector
 				declaredChildType = pair.getRight();
 			}
 
-			Document document = XmlUtils.newDocumentBuilder().newDocument();
+			Document document = XmlUtils.newDocument();
 			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect child properties
@@ -222,7 +234,7 @@ public abstract class BaseObjectInspector
 
 			// Return the document
 
-			return XmlUtils.documentToString( document, false );
+			return root;
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}

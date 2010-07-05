@@ -47,7 +47,6 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -267,7 +266,7 @@ public abstract class MetawidgetTag
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public PageContext getPageContext() {
@@ -276,12 +275,12 @@ public abstract class MetawidgetTag
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public String inspect( Object toInspect, String type, String... names ) {
 
-		return mPipeline.inspect( toInspect, type, names );
+		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ) );
 	}
 
 	/**
@@ -426,7 +425,7 @@ public abstract class MetawidgetTag
 		nestedMetawidget.setBundle( mBundle );
 	}
 
-	protected String inspect() {
+	protected Element inspect() {
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
 		String type = typeAndNames.getType();
@@ -443,7 +442,7 @@ public abstract class MetawidgetTag
 
 		// Inspect using the 'raw' type (eg. contactForm)
 
-		String inspectionResult = inspect( null, type, typeAndNames.getNamesAsArray() );
+		Element inspectionResult = mPipeline.inspect( null, type, typeAndNames.getNamesAsArray() );
 
 		// (pageContext may be null in unit tests)
 
@@ -455,7 +454,7 @@ public abstract class MetawidgetTag
 
 			if ( obj != null ) {
 				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-				String additionalInspectionResult = inspect( obj, type, typeAndNames.getNamesAsArray() );
+				Element additionalInspectionResult = mPipeline.inspect( obj, type, typeAndNames.getNamesAsArray() );
 
 				// Combine the subtrees.
 				//
@@ -466,13 +465,9 @@ public abstract class MetawidgetTag
 				if ( inspectionResult == null ) {
 					inspectionResult = additionalInspectionResult;
 				} else if ( additionalInspectionResult != null ) {
-					Document inspectionResultDocument = XmlUtils.documentFromString( inspectionResult );
-					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResultDocument.getDocumentElement(), 0 );
-					Document additionalInspectionResultDocument = XmlUtils.documentFromString( additionalInspectionResult );
-					Element additionalInspectionResultElement = XmlUtils.getElementAt( additionalInspectionResultDocument.getDocumentElement(), 0 );
-					XmlUtils.combineElements( inspectionResultElement, additionalInspectionResultElement, NAME, null );
-
-					inspectionResult = XmlUtils.documentToString( inspectionResultDocument, false );
+					Element inspectionResultEntity = XmlUtils.getElementAt( inspectionResult, 0 );
+					Element additionalInspectionResultEntity = XmlUtils.getElementAt( additionalInspectionResult, 0 );
+					XmlUtils.combineElements( inspectionResultEntity, additionalInspectionResultEntity, NAME, null );
 				}
 			}
 		}

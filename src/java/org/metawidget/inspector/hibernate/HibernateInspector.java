@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
@@ -106,13 +104,13 @@ public class HibernateInspector
 	 */
 
 	@Override
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
+	protected Element getDocumentElement( ResourceResolver resolver, InputStream... files )
 		throws Exception {
 
 		Document documentMaster = null;
 
 		for ( InputStream file : files ) {
-			Document documentParsed = builder.parse( file );
+			Document documentParsed = XmlUtils.parse( file );
 
 			if ( !documentParsed.hasChildNodes() ) {
 				continue;
@@ -137,7 +135,7 @@ public class HibernateInspector
 
 				// ...and combine them
 
-				parsed = getDocumentElement( builder, resolver, inputStreamList.toArray( EMPTY_INPUTSTREAM_ARRAY ) );
+				parsed = getDocumentElement( resolver, inputStreamList.toArray( EMPTY_INPUTSTREAM_ARRAY ) );
 
 				if ( documentMaster == null || !documentMaster.hasChildNodes() ) {
 					documentMaster = parsed.getOwnerDocument();

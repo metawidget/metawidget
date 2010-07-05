@@ -29,6 +29,7 @@ import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -301,7 +302,16 @@ public class PropertyTypeInspectorTest
 		// Second level (should block)
 
 		assertEquals( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ), null );
-		assertEquals( "PropertyTypeInspector prevented infinite recursion on org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo/foo. Consider annotating foo as @UiHidden", LogUtilsTest.getLastTraceMessage() );
+
+		if ( LogUtils.getLog( PropertyTypeInspector.class ).isTraceEnabled() ) {
+			assertEquals( "PropertyTypeInspector prevented infinite recursion on org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo/foo. Consider annotating foo as @UiHidden", LogUtilsTest.getLastTraceMessage() );
+		} else {
+			assertEquals( "{0} prevented infinite recursion on {1}{2}. Consider annotating {3} as @UiHidden", LogUtilsTest.getLastTraceMessage() );
+			assertEquals( "PropertyTypeInspector", LogUtilsTest.getLastTraceArguments()[0] );
+			assertEquals( "org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo", LogUtilsTest.getLastTraceArguments()[1] );
+			assertEquals( "/foo", LogUtilsTest.getLastTraceArguments()[2] );
+			assertEquals( "foo", LogUtilsTest.getLastTraceArguments()[3] );
+		}
 
 		// Start over
 

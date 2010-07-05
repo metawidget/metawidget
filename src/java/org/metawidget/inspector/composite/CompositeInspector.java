@@ -18,6 +18,7 @@ package org.metawidget.inspector.composite;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
@@ -26,6 +27,7 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Delegates inspection to one or more sub-inspectors, then combines the resulting DOMs.
@@ -49,7 +51,7 @@ import org.w3c.dom.Document;
  */
 
 public class CompositeInspector
-	implements Inspector {
+	implements Inspector, DomInspector<Element> {
 
 	//
 	// Private statics
@@ -116,21 +118,63 @@ public class CompositeInspector
 
 	public String inspect( String master, Object toInspect, String type, String... names ) {
 
+		Element element = domInspect( XmlUtils.documentFromString( master ), toInspect, type, names );
+
+		if ( element == null ) {
+			return null;
+		}
+
+		return XmlUtils.nodeToString( element, false );
+	}
+
+	public Element inspectAsDom( Object toInspect, String type, String... names ) {
+
+		return domInspect( null, toInspect, type, names );
+	}
+
+	/**
+	 * If your architecture is strongly separated, some metadata may only be available in one tier
+	 * (eg. JPA annotations in the backend) and some only available in another tier (eg.
+	 * struts-config.xml in the front-end).
+	 * <p>
+	 * For this, <code>CompositeInspector</code> supplies this overloaded method outside the normal
+	 * <code>DomInspector</code> interface. It takes an additional DOM of inspection results, and
+	 * merges forthcoming inspection results with it.
+	 */
+
+	public Element domInspect( Document masterDocument, Object toInspect, String type, String... names ) {
+
 		try {
+			Document masterDocumentToUse = masterDocument;
+
 			// Run each Inspector...
 
-			Document masterDocument = XmlUtils.documentFromString( master );
-
 			for ( Inspector inspector : mInspectors ) {
-				String xml = inspector.inspect( toInspect, type, names );
-
-				if ( xml == null ) {
-					continue;
-				}
 
 				// ...parse the result...
 
-				Document inspectionDocument = parseInspectionResult( xml );
+				Document inspectionDocument;
+
+				if ( inspector instanceof DomInspector<?> ) {
+
+					@SuppressWarnings( "unchecked" )
+					DomInspector<Element> domInspector = (DomInspector<Element>) inspector;
+					Element element = domInspector.inspectAsDom( toInspect, type, names );
+
+					if ( element == null ) {
+						continue;
+					}
+
+					inspectionDocument = element.getOwnerDocument();
+				} else {
+					String xml = inspector.inspect( toInspect, type, names );
+
+					if ( xml == null ) {
+						continue;
+					}
+
+					inspectionDocument = parseInspectionResult( xml );
+				}
 
 				// ...(trace)...
 
@@ -141,19 +185,19 @@ public class CompositeInspector
 
 				// ...and combine them
 
-				if ( !inspectionDocument.hasChildNodes() ) {
+				if ( inspectionDocument == null || !inspectionDocument.hasChildNodes() ) {
 					continue;
 				}
 
-				if ( masterDocument == null || !masterDocument.hasChildNodes() ) {
-					masterDocument = inspectionDocument;
+				if ( masterDocumentToUse == null || !masterDocumentToUse.hasChildNodes() ) {
+					masterDocumentToUse = inspectionDocument;
 					continue;
 				}
 
-				XmlUtils.combineElements( masterDocument.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
+				XmlUtils.combineElements( masterDocumentToUse.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
 			}
 
-			if ( masterDocument == null || !masterDocument.hasChildNodes() ) {
+			if ( masterDocumentToUse == null || !masterDocumentToUse.hasChildNodes() ) {
 				if ( LOG.isDebugEnabled() ) {
 					LOG.debug( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				}
@@ -164,11 +208,11 @@ public class CompositeInspector
 			// (debug)
 
 			if ( LOG.isDebugEnabled() ) {
-				String formattedXml = XmlUtils.documentToString( masterDocument, true );
+				String formattedXml = XmlUtils.documentToString( masterDocumentToUse, true );
 				LOG.debug( "Inspected {0}{1}\r\n{2}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
 			}
 
-			return XmlUtils.documentToString( masterDocument, false );
+			return masterDocumentToUse.getDocumentElement();
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}

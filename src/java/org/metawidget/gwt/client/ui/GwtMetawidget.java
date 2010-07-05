@@ -51,6 +51,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.xml.client.Element;
 
 /**
  * Metawidget for GWT environments.
@@ -157,7 +158,7 @@ public class GwtMetawidget
 
 	/* package private */int								mNeedToBuildWidgets;
 
-	/* package private */String								mLastInspection;
+	/* package private */Element							mLastInspection;
 
 	/* package private */boolean							mIgnoreAddRemove;
 
@@ -609,7 +610,7 @@ public class GwtMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders.
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
 	public Inspector getInspector() {
@@ -825,7 +826,7 @@ public class GwtMetawidget
 
 						public void onSuccess( String inspectionResult ) {
 
-							mLastInspection = inspectionResult;
+							mLastInspection = mPipeline.stringToElement( inspectionResult );
 
 							try {
 								mIgnoreAddRemove = true;
