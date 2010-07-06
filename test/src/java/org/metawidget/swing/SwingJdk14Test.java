@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 
@@ -67,12 +68,9 @@ public class SwingJdk14Test
 		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
 		assertTrue( 7 == metawidget.getComponentCount() );
 
-		if ( LogUtils.getLog( ConfigReader.class ).isDebugEnabled() ) {
-			assertTrue( "\tInstantiated immutable class org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor (no config)".equals( LogUtilsTest.getLastDebugMessage() ) );
-		} else {
-			assertTrue( "\tInstantiated immutable {0} (no config)".equals( LogUtilsTest.getLastDebugMessage() ) );
-			assertEquals( "class org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor", LogUtilsTest.getLastDebugArguments()[0] );
-		}
+		assertTrue( !LogUtils.getLog( ConfigReader.class ).isDebugEnabled() );
+		assertTrue( "\tInstantiated immutable {0} (no config)".equals( LogUtilsTest.getLastDebugMessage() ) );
+		assertEquals( ReflectionBindingProcessor.class, LogUtilsTest.getLastDebugArguments()[0] );
 
 		// Check warning
 

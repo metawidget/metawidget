@@ -25,8 +25,8 @@ package org.metawidget.widgetprocessor.iface;
  * <code>WidgetProcessorAdapter</code> class (to provide default implementations for subclasses who
  * don't override all the methods); second, it makes <code>WidgetProcessor</code> an example of the
  * Strategy pattern; third, it makes <code>WidgetProcessor</code> amenable to automatic function
- * objects (closures) in Java 7. This latter point is especially useful when using
- * <code>WidgetProcessor</code>s to attach event handler.
+ * objects (part of closures in Java 7). This latter point is especially useful when using
+ * <code>WidgetProcessor</code>s to attach event handlers.
  *
  * @author Richard Kennard
  */

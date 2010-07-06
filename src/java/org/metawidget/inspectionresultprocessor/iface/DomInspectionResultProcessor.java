@@ -22,12 +22,12 @@ package org.metawidget.inspectionresultprocessor.iface;
  * <code>DomInspectionResultProcessor</code> is an <em>optional</em> interface that enables an
  * optimisation. Like most optimisations it unfortunately adds some complexity. The basic idea is
  * that, whilst XML is a great lowest-common-denominator for the
- * <code>InspectionResultProcessor</code> interface, perfect for platform-neutral implementations,
+ * <code>InspectionResultProcessor</code> interface (perfect for platform-neutral implementations)
  * serializing to and from XML strings is expensive.
  * <p>
  * Most InspectionResultProcessors maintain their inspection results internally in a DOM. This
  * interface allows them to expose that DOM directly, rather than serializing it to a String,
- * whereupon the Metawidget must typically deserialize it again.
+ * whereupon the Metawidget must typically deserialize it back again.
  *
  * @author Richard Kennard
  */

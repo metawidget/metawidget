@@ -21,13 +21,13 @@ package org.metawidget.inspector.iface;
  * <p>
  * <code>DomInspector</code> is an <em>optional</em> interface that enables an optimisation. Like
  * most optimisations it unfortunately adds some complexity. The basic idea is that, whilst XML is a
- * great lowest-common-denominator for the <code>Inspector</code> interface, perfect for passing
+ * great lowest-common-denominator for the <code>Inspector</code> interface (perfect for passing
  * between disparate technologies and tiers in order to allow maximum flexibility in what can be
- * inspected, serializing to and from XML strings is expensive.
+ * inspected) serializing to and from XML strings is expensive.
  * <p>
  * Most Inspectors maintain their inspection results internally in a DOM. This interface allows them
  * to expose that DOM directly, rather than serializing it to a String, whereupon either the
- * Metawidget or a <code>CompositeInspector</code> must typically deserialize it again.
+ * Metawidget or a <code>CompositeInspector</code> must typically deserialize it back again.
  *
  * @author Richard Kennard
  */

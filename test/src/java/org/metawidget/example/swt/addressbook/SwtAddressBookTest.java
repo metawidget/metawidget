@@ -274,6 +274,7 @@ public class SwtAddressBookTest
 
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
+		// TODO: doesn't work from a load test?
 		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
@@ -281,6 +282,7 @@ public class SwtAddressBookTest
 		assertEquals( "Mobile", communication.getType() );
 		assertEquals( "(0402) 123 456", communication.getValue() );
 		assertFalse( iterator.hasNext() );
+		dialog.dispose();
 
 		// Check re-viewing
 
@@ -299,6 +301,7 @@ public class SwtAddressBookTest
 		metawidgetSearch.setValue( "", "type" );
 		searchButton.notifyListeners( SWT.Selection, null );
 		assertTrue( contactsTable.getItemCount() == 6 );
+		dialog.dispose();
 
 		// Open dialog for Business Contact
 
@@ -331,6 +334,7 @@ public class SwtAddressBookTest
 
 		assertTrue( 2 == ( (BusinessContact) contact ).getNumberOfStaff() );
 		assertEquals( "A Company", ( (BusinessContact) contact ).getCompany() );
+		dialog.dispose();
 
 		// Check deleting
 
@@ -350,6 +354,7 @@ public class SwtAddressBookTest
 		deleteButton.notifyListeners( SWT.Selection, null );
 		assertTrue( contactsController.getAllByExample( null ).size() == 5 );
 		assertTrue( contactsTable.getItemCount() == 5 );
+		dialog.dispose();
 
 		// Open dialog for new Personal Contact
 
@@ -366,6 +371,7 @@ public class SwtAddressBookTest
 		assertEquals( "Cancel", cancelButton.getText() );
 		cancelButton.notifyListeners( SWT.Selection, null );
 		assertTrue( metawidgetContact.isDisposed() );
+		dialog.dispose();
 
 		// Check adding
 
@@ -386,6 +392,7 @@ public class SwtAddressBookTest
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
 		assertTrue( contactsTable.getItemCount() == 6 );
+		dialog.dispose();
 
 		// Check viewing
 
@@ -399,5 +406,11 @@ public class SwtAddressBookTest
 
 		metawidgetContact.setReadOnly( false );
 		assertEquals( "FEMALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
+		dialog.dispose();
+
+		// All done
+
+		main.dispose();
+		shell.dispose();
 	}
 }

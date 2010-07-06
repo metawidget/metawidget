@@ -80,13 +80,17 @@ public class Main {
 
 	private Shell							mShell;
 
+	private Image							mBackgroundImage;
+
+	private Image							mLeftImage;
+
 	private ContactSearch					mContactSearch;
 
 	/* package private */Table				mResultsTable;
 
-	private Image							mPersonalContactImage;
+	/* package private */Image				mPersonalContactImage;
 
-	private Image							mBusinessContactImage;
+	/* package private */Image				mBusinessContactImage;
 
 	private SwtMetawidget					mSearchMetawidget;
 
@@ -107,7 +111,8 @@ public class Main {
 
 		mShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
 		mShell.setBackground( new Color( mShell.getDisplay(), 255, 255, 255 ) );
-		mShell.setBackgroundImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ) ) );
+		mBackgroundImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ));
+		mShell.setBackgroundImage( mBackgroundImage );
 
 		// Model
 
@@ -117,7 +122,8 @@ public class Main {
 		// Left-hand image
 
 		Label label = new Label( mShell, SWT.NONE );
-		label.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/addressbook.gif" ) ) );
+		mLeftImage =  new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/addressbook.gif" ));
+		label.setImage(mLeftImage );
 		GridData data = new GridData();
 		data.verticalAlignment = SWT.TOP;
 		data.verticalSpan = 2;
@@ -216,6 +222,12 @@ public class Main {
 
 		mContactDialog.open( new BusinessContact() );
 		mContactDialog.waitForDispose();
+	}
+
+	public void dispose()
+	{
+		mBackgroundImage.dispose();
+		mLeftImage.dispose();
 	}
 
 	//

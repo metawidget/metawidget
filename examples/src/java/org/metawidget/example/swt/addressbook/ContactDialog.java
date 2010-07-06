@@ -75,6 +75,10 @@ public class ContactDialog
 
 	private Main								mMain;
 
+	private Image								mBackgroundImage;
+
+	private Image								mLeftImage;
+
 	/* package private */SwtMetawidget			mContactMetawidget;
 
 	/* package private */Table					mCommunicationsTable;
@@ -111,7 +115,8 @@ public class ContactDialog
 
 		mShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
 		mShell.setBackground( new Color( mShell.getDisplay(), 255, 255, 255 ) );
-		mShell.setBackgroundImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ) ) );
+		mBackgroundImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ));
+		mShell.setBackgroundImage( mBackgroundImage );
 
 		mShell.setLayout( new GridLayout( 2, false ) );
 
@@ -134,12 +139,13 @@ public class ContactDialog
 
 		if ( contact instanceof PersonalContact ) {
 			builder.append( "Personal Contact" );
-			imageLabel.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
+			mLeftImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/personal.gif" ) );
 		} else {
 			builder.append( "Business Contact" );
-			imageLabel.setImage( new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
+			mLeftImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/business.gif" ) );
 		}
 
+		imageLabel.setImage( mLeftImage );
 		mShell.setText( builder.toString() );
 
 		// Metawidget
@@ -429,7 +435,7 @@ public class ContactDialog
 			return;
 		}
 
-		mShell.dispose();
+		dispose();
 		mMain.fireRefresh();
 	}
 
@@ -451,7 +457,7 @@ public class ContactDialog
 		}
 
 		mMain.getContactsController().delete( contact );
-		mShell.dispose();
+		dispose();
 		mMain.fireRefresh();
 	}
 
@@ -460,6 +466,13 @@ public class ContactDialog
 	@UiJexlAttribute( name = LABEL, expression = "if ( this.readOnly ) 'Back'" )
 	public void cancel() {
 
+		dispose();
+	}
+
+	public void dispose() {
+
+		mBackgroundImage.dispose();
+		mLeftImage.dispose();
 		mShell.dispose();
 	}
 }

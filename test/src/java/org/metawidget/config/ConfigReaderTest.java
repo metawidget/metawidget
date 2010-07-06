@@ -716,6 +716,7 @@ public class ConfigReaderTest
 		if ( LogUtils.getLog( ConfigReader.class ).isDebugEnabled() ) {
 			assertEquals( "Reading resource from org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder", LogUtilsTest.getLastDebugMessage() );
 		} else {
+			assertTrue( !LogUtils.getLog( ConfigReader.class ).isDebugEnabled() );
 			assertEquals( "Reading resource from {0}", LogUtilsTest.getLastDebugMessage() );
 			assertEquals( "org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder", LogUtilsTest.getLastDebugArguments()[0] );
 		}

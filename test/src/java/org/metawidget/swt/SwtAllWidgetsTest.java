@@ -100,7 +100,8 @@ public class SwtAllWidgetsTest
 
 		// App
 
-		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
+		Shell shell = new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE );
+		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.NONE );
 		metawidget.setConfig( "org/metawidget/swt/allwidgets/metawidget.xml" );
 
 		// Binding
@@ -469,5 +470,9 @@ public class SwtAllWidgetsTest
 		assertEquals( "Read Only", ( (Label) metawidget.getChildren()[61] ).getText() );
 
 		assertTrue( metawidget.getChildren().length == 65 );
+
+		// All done
+
+		shell.dispose();
 	}
 }
