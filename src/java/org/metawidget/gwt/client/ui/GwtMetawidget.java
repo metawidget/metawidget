@@ -610,7 +610,8 @@ public class GwtMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for
+	 * Collections).
 	 */
 
 	public Inspector getInspector() {
