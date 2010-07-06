@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -79,6 +80,7 @@ public class SwingAddressBookTest
 		// Set Locale because we will be checking date formatting
 
 		Locale.setDefault( Locale.UK );
+		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// Start app
 
@@ -282,7 +284,7 @@ public class SwingAddressBookTest
 
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
+		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398908800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();

@@ -18,6 +18,7 @@ package org.metawidget.example.swt.addressbook;
 
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
@@ -64,6 +65,7 @@ public class SwtAddressBookTest
 		// Set Locale because we will be checking date formatting
 
 		Locale.setDefault( Locale.UK );
+		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// Start app
 
@@ -274,8 +276,7 @@ public class SwtAddressBookTest
 
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		// TODO: doesn't work from a load test?
-		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398944800000l );
+		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398908800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();
