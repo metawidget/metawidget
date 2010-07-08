@@ -17,6 +17,7 @@
 package org.metawidget.swing.layout;
 
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a MigLayout prior to use. Once instantiated, Layouts are immutable.
@@ -30,7 +31,9 @@ public class MigLayoutConfig {
 	// Private members
 	//
 
-	private int	mNumberOfColumns	= 1;
+	private int		mNumberOfColumns	= 1;
+
+	private boolean	mSupportMnemonics	= true;
 
 	//
 	// Public methods
@@ -56,6 +59,22 @@ public class MigLayoutConfig {
 		return this;
 	}
 
+	public boolean isSupportMnemonics() {
+
+		return mSupportMnemonics;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public MigLayoutConfig setSupportMnemonics( boolean supportMnemonics ) {
+
+		mSupportMnemonics = supportMnemonics;
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -75,12 +94,20 @@ public class MigLayoutConfig {
 			return false;
 		}
 
+		if ( mSupportMnemonics != ( (MigLayoutConfig) that ).mSupportMnemonics ) {
+			return false;
+		}
+
 		return true;
 	}
 
 	@Override
 	public int hashCode() {
 
-		return mNumberOfColumns;
+		int hashCode = 1;
+		hashCode = 31 * hashCode + mNumberOfColumns;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportMnemonics );
+
+		return hashCode;
 	}
 }

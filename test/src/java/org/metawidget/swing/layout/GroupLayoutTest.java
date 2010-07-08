@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
@@ -26,6 +28,7 @@ import junit.framework.TestCase;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -103,6 +106,19 @@ public class GroupLayoutTest
 		assertEquals( "Bar:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 	}
 
+	public void testMnemonics() {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new GroupLayout() );
+		metawidget.setToInspect( new MnemonicFoo() );
+
+		JLabel label = (JLabel) metawidget.getComponent( 0 );
+		assertEquals( "Abc:", label.getText() );
+		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
+		assertEquals( KeyEvent.VK_B, label.getDisplayedMnemonic() );
+		assertTrue( 1 == label.getDisplayedMnemonicIndex() );
+	}
+
 	//
 	// Inner class
 	//
@@ -132,5 +148,11 @@ public class GroupLayoutTest
 		@UiRequired
 		@UiReadOnly
 		public String	baz;
+	}
+
+	public static class MnemonicFoo {
+
+		@UiLabel( "A&bc" )
+		public String	abc;
 	}
 }

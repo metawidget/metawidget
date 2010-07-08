@@ -23,6 +23,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
@@ -39,17 +40,48 @@ public class LayoutUtilsTest
 	public void testLayoutException()
 		throws Exception {
 
-		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( null ) );
+		assertTrue( !SimpleLayoutUtils.isSpanAllColumns( null ) );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( LARGE, TRUE );
-		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+		assertTrue( SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
 		attributes.clear();
 		attributes.put( WIDE, TRUE );
-		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+		assertTrue( SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
 		attributes.clear();
-		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+		assertTrue( !SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+	}
+
+	public void testStripMnemonic()
+		throws Exception {
+
+		assertEquals( "Company", LayoutUtils.stripMnemonic( "Company" ).getLeft() );
+		assertTrue( -1 == LayoutUtils.stripMnemonic( "Company" ).getRight() );
+
+		assertEquals( "Company", LayoutUtils.stripMnemonic( "&Company" ).getLeft() );
+		assertTrue( 0 == LayoutUtils.stripMnemonic( "&Company" ).getRight() );
+
+		assertEquals( "Company", LayoutUtils.stripMnemonic( "Compan&y" ).getLeft() );
+		assertTrue( 6 == LayoutUtils.stripMnemonic( "Compan&y" ).getRight() );
+
+		assertEquals( "C&ompany", LayoutUtils.stripMnemonic( "C&&ompa&ny" ).getLeft() );
+		assertTrue( 6 == LayoutUtils.stripMnemonic( "C&&ompa&ny" ).getRight() );
+
+		assertEquals( "Company", LayoutUtils.stripMnemonic( "C&ompa&ny" ).getLeft() );
+		assertTrue( 1 == LayoutUtils.stripMnemonic( "C&ompa&ny" ).getRight() );
+
+		assertEquals( "Company&", LayoutUtils.stripMnemonic( "Company&" ).getLeft() );
+		assertTrue( -1 == LayoutUtils.stripMnemonic( "Company&" ).getRight() );
+
+		assertEquals( "Company&", LayoutUtils.stripMnemonic( "Company&&" ).getLeft() );
+		assertTrue( -1 == LayoutUtils.stripMnemonic( "Company&&" ).getRight() );
+
+		assertEquals( "&Company", LayoutUtils.stripMnemonic( "&&Company" ).getLeft() );
+		assertTrue( -1 == LayoutUtils.stripMnemonic( "&&Company" ).getRight() );
+
+		assertEquals( "&Company", LayoutUtils.stripMnemonic( "&&&Company" ).getLeft() );
+		assertTrue( 1 == LayoutUtils.stripMnemonic( "&&&Company" ).getRight() );
 	}
 }

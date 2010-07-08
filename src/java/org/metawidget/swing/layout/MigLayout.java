@@ -33,6 +33,8 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.LayoutUtils;
+import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
@@ -58,6 +60,8 @@ public class MigLayout
 
 	private final int			mNumberOfColumns;
 
+	private final boolean		mSupportMnemonics;
+
 	//
 	// Constructor
 	//
@@ -70,6 +74,7 @@ public class MigLayout
 	public MigLayout( MigLayoutConfig config ) {
 
 		mNumberOfColumns = config.getNumberOfColumns();
+		mSupportMnemonics = config.isSupportMnemonics();
 	}
 
 	//
@@ -217,7 +222,7 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+	protected void layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		State state = getState( container );
 
@@ -229,11 +234,28 @@ public class MigLayout
 
 			// Required
 
+			Pair<String, Integer> stripMnemonic = LayoutUtils.stripMnemonic( labelText );
+			String labelTextToUse = stripMnemonic.getLeft();
+
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
-				label.setText( labelText + "*:" );
+				label.setText( labelTextToUse + "*:" );
 			} else {
-				label.setText( labelText + ":" );
+				label.setText( labelTextToUse + ":" );
 			}
+
+			// Mnemonic
+
+			label.setLabelFor( component );
+
+			int mnemonicIndex = stripMnemonic.getRight();
+
+			if ( mnemonicIndex != -1 && mSupportMnemonics )
+			{
+				label.setDisplayedMnemonic( labelTextToUse.charAt( mnemonicIndex ) );
+				label.setDisplayedMnemonicIndex( mnemonicIndex );
+			}
+
+			// ComponentConstraints
 
 			CC labelConstraints = new CC();
 			labelConstraints.cell( state.currentColumn * 2, state.currentRow );
@@ -253,8 +275,6 @@ public class MigLayout
 
 			container.add( label, labelConstraints );
 		}
-
-		return labelText;
 	}
 
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes ) {

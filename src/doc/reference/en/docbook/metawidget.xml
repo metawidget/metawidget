@@ -8695,6 +8695,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td><parameter>requiredText</parameter></td>
 								<td>Text to display for required fields. Defaults to a star (*)</td>
 							</tr>
+							<tr>
+								<td><parameter>supportMnemonics</parameter></td>
+								<td>Whether to convert &amp;'s in labels into keyboard mnemonics</td>
+							</tr>
 						</tbody>						
 					</informaltable>					
 				</section>
@@ -8734,6 +8738,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>numberOfColumns</parameter></td>
 								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>supportMnemonics</parameter></td>
+								<td>Whether to convert &amp;'s in labels into keyboard mnemonics</td>
 							</tr>
 						</tbody>						
 					</informaltable>					

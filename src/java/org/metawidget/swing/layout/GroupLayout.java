@@ -34,6 +34,8 @@ import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LayoutUtils;
+import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
@@ -109,15 +111,32 @@ public class GroupLayout
 			String labelText = metawidget.getLabelString( attributes );
 
 			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
-				// Required
-
-				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
-					labelText += "*";
-				}
-
 				JLabel label = new JLabel();
 				label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
-				label.setText( labelText + ":" );
+
+				// Required
+
+				Pair<String, Integer> stripMnemonic = LayoutUtils.stripMnemonic( labelText );
+				String labelTextToUse = stripMnemonic.getLeft();
+
+				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
+					labelTextToUse += "*";
+				}
+
+				label.setText( labelTextToUse + ":" );
+
+				// Mnemonic
+
+				label.setLabelFor( component );
+
+				int mnemonicIndex = stripMnemonic.getRight();
+
+				if ( mnemonicIndex != -1 ) {
+					label.setDisplayedMnemonic( labelTextToUse.charAt( mnemonicIndex ) );
+					label.setDisplayedMnemonicIndex( mnemonicIndex );
+				}
+
+				// Groups
 
 				sequentialGroup.addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
 				parallelGroup.addComponent( label );

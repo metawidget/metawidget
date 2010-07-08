@@ -21,6 +21,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -366,6 +367,25 @@ public class GridBagLayoutTest
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridy );
 	}
 
+	public void testMnemonics() {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new MnemonicFoo() );
+
+		JLabel label = (JLabel) metawidget.getComponent( 0 );
+		assertEquals( "Abc:", label.getText() );
+		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
+		assertEquals( KeyEvent.VK_A, label.getDisplayedMnemonic() );
+		assertTrue( 0 == label.getDisplayedMnemonicIndex() );
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setSupportMnemonics( false )));
+		label = (JLabel) metawidget.getComponent( 0 );
+		assertEquals( "Abc:", label.getText() );
+		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
+		assertEquals( 0, label.getDisplayedMnemonic() );
+		assertTrue( -1 == label.getDisplayedMnemonicIndex() );
+	}
+
 	public void testConfig() {
 
 		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class, new GridBagLayoutConfig() {
@@ -487,5 +507,11 @@ public class GridBagLayoutTest
 		@UiRequired
 		@UiLabel( "" )
 		public String	mno;
+	}
+
+	public static class MnemonicFoo {
+
+		@UiLabel( "&Abc" )
+		public String	abc;
 	}
 }

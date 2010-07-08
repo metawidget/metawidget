@@ -44,6 +44,8 @@ public class GridBagLayoutConfig {
 
 	private Font	mLabelFont;
 
+	private boolean	mSupportMnemonics	= true;
+
 	private String	mLabelSuffix		= ":";
 
 	private int		mRequiredAlignment	= SwingConstants.CENTER;
@@ -118,6 +120,22 @@ public class GridBagLayoutConfig {
 	public GridBagLayoutConfig setLabelFont( Font labelFont ) {
 
 		mLabelFont = labelFont;
+
+		return this;
+	}
+
+	public boolean isSupportMnemonics() {
+
+		return mSupportMnemonics;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public GridBagLayoutConfig setSupportMnemonics( boolean supportMnemonics ) {
+
+		mSupportMnemonics = supportMnemonics;
 
 		return this;
 	}
@@ -201,6 +219,10 @@ public class GridBagLayoutConfig {
 			return false;
 		}
 
+		if ( mSupportMnemonics != ( (GridBagLayoutConfig) that ).mSupportMnemonics ) {
+			return false;
+		}
+
 		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ( (GridBagLayoutConfig) that ).mLabelSuffix ) ) {
 			return false;
 		}
@@ -224,6 +246,7 @@ public class GridBagLayoutConfig {
 		hashCode = 31 * hashCode + mLabelAlignment;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelFont );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelForeground );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportMnemonics );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelSuffix );
 		hashCode = 31 * hashCode + mRequiredAlignment;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredText );

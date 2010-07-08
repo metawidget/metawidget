@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -269,6 +271,26 @@ public class MigLayoutTest
 		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getHorizontal().getGrow() );
 	}
 
+	public void testMnemonics() {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
+		metawidget.setToInspect( new MnemonicFoo() );
+
+		JLabel label = (JLabel) metawidget.getComponent( 0 );
+		assertEquals( "Abc:", label.getText() );
+		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
+		assertEquals( KeyEvent.VK_C, label.getDisplayedMnemonic() );
+		assertTrue( 2 == label.getDisplayedMnemonicIndex() );
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setSupportMnemonics( false )));
+		label = (JLabel) metawidget.getComponent( 0 );
+		assertEquals( "Abc:", label.getText() );
+		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
+		assertEquals( 0, label.getDisplayedMnemonic() );
+		assertTrue( -1 == label.getDisplayedMnemonicIndex() );
+	}
+
 	public void testConfig() {
 
 		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig() {
@@ -353,5 +375,11 @@ public class MigLayoutTest
 	public static class NastyNestingBottom {
 
 		public String	string;
+	}
+
+	public static class MnemonicFoo {
+
+		@UiLabel( "Ab&c" )
+		public String	abc;
 	}
 }

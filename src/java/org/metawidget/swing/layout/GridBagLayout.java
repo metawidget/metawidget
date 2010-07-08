@@ -36,6 +36,8 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.LayoutUtils;
+import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
@@ -71,6 +73,8 @@ public class GridBagLayout
 
 	private final Color			mLabelForeground;
 
+	private final boolean		mSupportMnemonics;
+
 	private final String		mLabelSuffix;
 
 	private final int			mRequiredAlignment;
@@ -92,6 +96,7 @@ public class GridBagLayout
 		mLabelAlignment = config.getLabelAlignment();
 		mLabelForeground = config.getLabelForeground();
 		mLabelFont = config.getLabelFont();
+		mSupportMnemonics = config.isSupportMnemonics();
 		mLabelSuffix = config.getLabelSuffix();
 		mRequiredAlignment = config.getRequiredAlignment();
 		mRequiredText = config.getRequiredText();
@@ -261,7 +266,7 @@ public class GridBagLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+	protected void layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		State state = getState( container );
 
@@ -283,7 +288,8 @@ public class GridBagLayout
 
 			// Required
 
-			String labelTextToUse = labelText;
+			Pair<String, Integer> stripMnemonic = LayoutUtils.stripMnemonic( labelText );
+			String labelTextToUse = stripMnemonic.getLeft();
 
 			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 				if ( mRequiredAlignment == SwingConstants.CENTER ) {
@@ -298,6 +304,19 @@ public class GridBagLayout
 			}
 
 			label.setText( labelTextToUse );
+
+			// Mnemonic
+
+			label.setLabelFor( component );
+
+			int mnemonicIndex = stripMnemonic.getRight();
+
+			if ( mnemonicIndex != -1 && mSupportMnemonics ) {
+				label.setDisplayedMnemonic( labelTextToUse.charAt( mnemonicIndex ) );
+				label.setDisplayedMnemonicIndex( mnemonicIndex );
+			}
+
+			// GridBagConstraints
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
 			labelConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
@@ -322,8 +341,6 @@ public class GridBagLayout
 
 			container.add( label, labelConstraints );
 		}
-
-		return labelText;
 	}
 
 	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {

@@ -20,12 +20,14 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.util.simple.Pair;
+
 /**
  * Utilities for working with Layouts.
  * <p>
  * Some of the logic behind Layout decisions can be a little involved, so we refactor it here.
  *
- * @author Richard Kennard
+ * @author Richard Kennard, Bernhard Huber
  */
 
 public final class LayoutUtils {
@@ -70,6 +72,79 @@ public final class LayoutUtils {
 				return section;
 		}
 	}
+
+	/**
+	 * Strips the given text and returns the text without any MNEMONIC_MARKER and also the index of
+	 * the first marker.
+	 */
+
+	public static Pair<String, Integer> stripMnemonic( String withMnemonic ) {
+
+		// Find initial marker (if any)
+
+		int markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR );
+
+		if ( markerIndex == -1 ) {
+			return new Pair<String, Integer>( withMnemonic, MNEMONIC_INDEX_NONE );
+		}
+
+		// Find subsequent markers
+
+		int mnemonicIndex = -1;
+		int begin = 0;
+		int length = withMnemonic.length();
+		int numberOfDoubleMarkers = 0;
+		StringBuffer buffer = new StringBuffer();
+
+		do {
+
+			markerIndex++;
+
+			// Marker index with nothing after it? Invalid, but fail gracefully
+
+			if ( markerIndex == length ) {
+				break;
+			}
+
+			// Check whether the next index has a mnemonic marker, too (eg. '&&')
+
+			int end;
+
+			if ( withMnemonic.charAt( markerIndex ) == MNEMONIC_INDICATOR ) {
+				end = markerIndex;
+				numberOfDoubleMarkers++;
+			} else {
+				end = markerIndex - 1;
+				if ( mnemonicIndex == -1 ) {
+					mnemonicIndex = end - numberOfDoubleMarkers;
+				}
+			}
+			buffer.append( withMnemonic.substring( begin, end ) );
+			begin = end + 1;
+
+			// Calculate next markerIndex, starting from begin
+
+			if ( begin < length ) {
+				markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR, begin );
+			} else {
+				break;
+			}
+		} while ( markerIndex != -1 );
+
+		// Return the stripped mnemonic
+
+		buffer.append( withMnemonic.substring( begin ) );
+
+		return new Pair<String, Integer>( buffer.toString(), mnemonicIndex );
+	}
+
+	//
+	// Private statics
+	//
+
+	private final static char	MNEMONIC_INDICATOR	= '&';
+
+	private final static int	MNEMONIC_INDEX_NONE	= -1;
 
 	//
 	// Private constructor
