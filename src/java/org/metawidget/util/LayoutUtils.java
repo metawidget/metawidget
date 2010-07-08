@@ -90,8 +90,8 @@ public final class LayoutUtils {
 
 		// Find subsequent markers
 
-		int mnemonicIndex = -1;
-		int begin = 0;
+		int mnemonicIndex = MNEMONIC_INDEX_NONE;
+		int beginIndex = 0;
 		int length = withMnemonic.length();
 		int numberOfDoubleMarkers = 0;
 		StringBuffer buffer = new StringBuffer();
@@ -106,34 +106,43 @@ public final class LayoutUtils {
 				break;
 			}
 
-			// Check whether the next index has a mnemonic marker, too (eg. '&&')
-
-			int end;
+			// If the next character is a mnemonic marker too (eg. '&&')...
 
 			if ( withMnemonic.charAt( markerIndex ) == MNEMONIC_INDICATOR ) {
-				end = markerIndex;
+
+				// ...skip it...
+
 				numberOfDoubleMarkers++;
+
 			} else {
-				end = markerIndex - 1;
+
+				// ...otherwise record the first mnemonic
+
+				markerIndex--;
 				if ( mnemonicIndex == -1 ) {
-					mnemonicIndex = end - numberOfDoubleMarkers;
+					mnemonicIndex = markerIndex - numberOfDoubleMarkers;
 				}
 			}
-			buffer.append( withMnemonic.substring( begin, end ) );
-			begin = end + 1;
+
+			// Record the string without mnemonics
+
+			buffer.append( withMnemonic.substring( beginIndex, markerIndex ) );
+			beginIndex = markerIndex + 1;
 
 			// Calculate next markerIndex, starting from begin
 
-			if ( begin < length ) {
-				markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR, begin );
+			if ( beginIndex < length ) {
+				markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR, beginIndex );
 			} else {
 				break;
 			}
 		} while ( markerIndex != -1 );
 
-		// Return the stripped mnemonic
+		// Record any remainder
 
-		buffer.append( withMnemonic.substring( begin ) );
+		buffer.append( withMnemonic.substring( beginIndex ) );
+
+		// Return the stripped mnemonic
 
 		return new Pair<String, Integer>( buffer.toString(), mnemonicIndex );
 	}
