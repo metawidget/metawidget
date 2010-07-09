@@ -24,6 +24,9 @@ import java.util.Map;
  * Utilities for working with Layouts.
  * <p>
  * Some of the logic behind Layout decisions can be a little involved, so we refactor it here.
+ * <p>
+ * In this context, 'simple' means 'with minimal class dependencies, suitable to be compiled into
+ * JavaScript' (eg. for GWT).
  *
  * @author Richard Kennard
  */
@@ -75,6 +78,103 @@ public final class SimpleLayoutUtils {
 
 		return true;
 	}
+
+	/**
+	 * Strips the given text and returns the text without any MNEMONIC_MARKER (&) and also the index
+	 * of the first marker.
+	 * <p>
+	 * For escaping purposes, treats two MNEMONIC_MARKERs together as an escaped MNEMONIC_MARKER.
+	 * Also, ignores MNEMONIC_MARKER followed by a space, because it is not likely this is intended
+	 * to be a mnemonic.
+	 */
+
+	public static Pair<String, Integer> stripMnemonic( String withMnemonic ) {
+
+		// Find initial marker (if any)
+
+		int markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR );
+
+		if ( markerIndex == -1 ) {
+			return new Pair<String, Integer>( withMnemonic, MNEMONIC_INDEX_NONE );
+		}
+
+		// Find subsequent markers
+
+		int mnemonicIndex = MNEMONIC_INDEX_NONE;
+		int beginIndex = 0;
+		int length = withMnemonic.length();
+		int numberOfDoubleMarkers = 0;
+		StringBuffer buffer = new StringBuffer();
+
+		do {
+			markerIndex++;
+
+			// Marker index with nothing after it? Invalid, but fail gracefully
+
+			if ( markerIndex == length ) {
+				break;
+			}
+
+			char markerChar = withMnemonic.charAt( markerIndex );
+
+			switch ( markerChar ) {
+
+				// If the next character is a mnemonic marker too (eg. '&&'), skip it...
+
+				case MNEMONIC_INDICATOR:
+					numberOfDoubleMarkers++;
+					break;
+
+				// ...if it is a space, ignore it...
+
+				case ' ':
+					break;
+
+				// ...otherwise record the first mnemonic
+
+				default:
+					markerIndex--;
+					if ( mnemonicIndex == -1 ) {
+						mnemonicIndex = markerIndex - numberOfDoubleMarkers;
+					}
+			}
+
+			// Record the string without mnemonics
+
+			buffer.append( withMnemonic.substring( beginIndex, markerIndex ) );
+			beginIndex = markerIndex + 1;
+
+			// Special support for preserving MNEMONIC_INDICATOR followed by a space
+
+			if ( markerChar == ' ' ) {
+				buffer.append( ' ' );
+			}
+
+			// Calculate next markerIndex, starting from begin
+
+			if ( beginIndex < length ) {
+				markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR, beginIndex );
+			} else {
+				break;
+			}
+		} while ( markerIndex != -1 );
+
+		// Record any remainder
+
+		buffer.append( withMnemonic.substring( beginIndex ) );
+
+		// Return the stripped mnemonic
+
+		return new Pair<String, Integer>( buffer.toString(), mnemonicIndex );
+	}
+
+	//
+	// Private statics
+	//
+
+	private final static char	MNEMONIC_INDICATOR	= '&';
+
+	private final static int	MNEMONIC_INDEX_NONE	= -1;
 
 	//
 	// Private constructor

@@ -36,7 +36,6 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
@@ -288,7 +287,7 @@ public class GridBagLayout
 
 			// Required
 
-			Pair<String, Integer> stripMnemonic = LayoutUtils.stripMnemonic( labelText );
+			Pair<String, Integer> stripMnemonic = SimpleLayoutUtils.stripMnemonic( labelText );
 			String labelTextToUse = stripMnemonic.getLeft();
 
 			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
