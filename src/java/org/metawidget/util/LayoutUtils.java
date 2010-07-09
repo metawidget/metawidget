@@ -74,8 +74,12 @@ public final class LayoutUtils {
 	}
 
 	/**
-	 * Strips the given text and returns the text without any MNEMONIC_MARKER and also the index of
-	 * the first marker.
+	 * Strips the given text and returns the text without any MNEMONIC_MARKER (&) and also the index
+	 * of the first marker.
+	 * <p>
+	 * For escaping purposes, treats two MNEMONIC_MARKERs together as an escaped MNEMONIC_MARKER.
+	 * Also, ignores MNEMONIC_MARKER followed by a space, because it is not likely this is intended
+	 * to be a mnemonic.
 	 */
 
 	public static Pair<String, Integer> stripMnemonic( String withMnemonic ) {
@@ -97,7 +101,6 @@ public final class LayoutUtils {
 		StringBuffer buffer = new StringBuffer();
 
 		do {
-
 			markerIndex++;
 
 			// Marker index with nothing after it? Invalid, but fail gracefully
@@ -106,28 +109,40 @@ public final class LayoutUtils {
 				break;
 			}
 
-			// If the next character is a mnemonic marker too (eg. '&&')...
+			char markerChar = withMnemonic.charAt( markerIndex );
 
-			if ( withMnemonic.charAt( markerIndex ) == MNEMONIC_INDICATOR ) {
+			switch ( markerChar ) {
 
-				// ...skip it...
+				// If the next character is a mnemonic marker too (eg. '&&'), skip it...
 
-				numberOfDoubleMarkers++;
+				case MNEMONIC_INDICATOR:
+					numberOfDoubleMarkers++;
+					break;
 
-			} else {
+				// ...if it is a space, ignore it...
+
+				case ' ':
+					break;
 
 				// ...otherwise record the first mnemonic
 
-				markerIndex--;
-				if ( mnemonicIndex == -1 ) {
-					mnemonicIndex = markerIndex - numberOfDoubleMarkers;
-				}
+				default:
+					markerIndex--;
+					if ( mnemonicIndex == -1 ) {
+						mnemonicIndex = markerIndex - numberOfDoubleMarkers;
+					}
 			}
 
 			// Record the string without mnemonics
 
 			buffer.append( withMnemonic.substring( beginIndex, markerIndex ) );
 			beginIndex = markerIndex + 1;
+
+			// Special support for preserving MNEMONIC_INDICATOR followed by a space
+
+			if ( markerChar == ' ' ) {
+				buffer.append( ' ' );
+			}
 
 			// Calculate next markerIndex, starting from begin
 

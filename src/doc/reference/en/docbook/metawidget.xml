@@ -10067,6 +10067,37 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				
 			</section>
 		
+			<section id="section-howto-performance-dominspector">
+				<title>DomInspector and DomInspectionResultProcessor</title>
+				
+				<para>
+					By default the <classname>Inspector</classname> and <classname>InspectionResultProcessor</classname>
+					interfaces operate on XML strings. These are a great lowest-common-denominator, perfect for passing
+					between disparate technologies and tiers in order to allow maximum flexibility in what can be
+					inspected.
+				</para>
+				
+				<para>
+					However, serializing to and from XML strings is expensive. This is especially true for those
+					<classname>Inspector</classname>s and <classname>InspectionResultProcessor</classname>s that
+					maintain their results internally in a DOM object, because the <classname>Inspector</classname>
+					or <classname>InspectionResultProcessor</classname> must serialize its DOM to a string, whereupon
+					the <classname>Metawidget</classname> typically deserializes it back again to a DOM.
+				</para>
+				
+				<para>
+					To optimize this scenario, <classname>Inspector</classname>s and <classname>InspectionResultProcessor</classname>s
+					can optionally implement <classname>DomInspector</classname> and <classname>DomInspectionResultProcessor</classname>
+					respectively. These interfaces allow them to expose their DOM directly, skipping the serialization/deserialization.
+				</para>
+				
+				<para>
+					If your <classname>Inspector</classname> extends <classname>BaseObjectInspector</classname> or
+					<classname>BaseXmlInspector</classname>, this optimization is implemented for you.
+				</para>
+				
+ 			</section>
+
 			<section id="section-howto-performance-rebind">
 				<title>Rebinding</title>
 				
