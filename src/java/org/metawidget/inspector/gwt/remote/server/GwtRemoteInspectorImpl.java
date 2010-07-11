@@ -98,7 +98,6 @@ public class GwtRemoteInspectorImpl
 
 	/**
 	 * Inspect the given Serializable/type using server-side processing and return the result.
-	 * <p>
 	 *
 	 * @return String the inspection result, converted to an XML string. Serialization should be
 	 *         relatively fast because it is using <code>XmlUtils.nodeToString</code>.

@@ -70,8 +70,6 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	@Override
 	public String elementToString( Element element ) {
 
-		// TODO: does this work?
-
 		return element.toString();
 	}
 

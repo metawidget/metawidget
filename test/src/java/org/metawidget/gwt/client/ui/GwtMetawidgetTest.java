@@ -43,7 +43,10 @@ public class GwtMetawidgetTest
 	public void testPipeline()
 		throws Exception {
 
-		new Pipeline().testIndentation();
+		Pipeline pipeline = new Pipeline();
+
+		pipeline.testIndentation();
+		pipeline.testDomConversion();
 	}
 
 	public void testRemoteInspectorProxy() {
@@ -78,6 +81,15 @@ public class GwtMetawidgetTest
 
 			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
 			assertTrue( null == element );
+		}
+
+		public void testDomConversion() {
+
+			Element foo = stringToElement( "<foo><bar>baz</bar></foo>" );
+			Element bar = getChildAt( foo, 0 );
+			assertEquals( "bar", bar.getNodeName() );
+
+			assertEquals( elementToString( foo ), "<foo><bar>baz</bar></foo>" );
 		}
 
 		//
