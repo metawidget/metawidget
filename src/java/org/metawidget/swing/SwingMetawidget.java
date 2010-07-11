@@ -217,6 +217,15 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public Inspector getInspector() {
+
+		return mPipeline.getInspector();
+	}
+
 	public void addInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
@@ -637,15 +646,6 @@ public class SwingMetawidget
 			mFacets.clear();
 			mExistingComponents.clear();
 		}
-	}
-
-	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
-	 */
-
-	public String inspect( Object toInspect, String type, String... names ) {
-
-		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ));
 	}
 
 	//

@@ -101,12 +101,6 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 		}
 	}
 
-	@Override
-	public String elementToString( Element element ) {
-
-		return XmlUtils.nodeToString( element, false );
-	}
-
 	//
 	// Protected methods
 	//
@@ -117,6 +111,13 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 		Document document = XmlUtils.documentFromString( xml );
 		return document.getDocumentElement();
 	}
+
+	@Override
+	protected String elementToString( Element element ) {
+
+		return XmlUtils.nodeToString( element, false );
+	}
+
 
 	@Override
 	protected int getChildCount( Element element ) {

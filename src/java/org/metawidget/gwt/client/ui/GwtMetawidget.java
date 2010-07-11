@@ -272,6 +272,15 @@ public class GwtMetawidget
 		invalidateInspection();
 	}
 
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public Inspector getInspector() {
+
+		return mPipeline.getInspector();
+	}
+
 	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
@@ -607,16 +616,6 @@ public class GwtMetawidget
 	public Set<Widget> fetchExistingUnusedWidgets() {
 
 		return mExistingUnusedWidgets;
-	}
-
-	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for
-	 * Collections).
-	 */
-
-	public Inspector getInspector() {
-
-		return mPipeline.getInspector();
 	}
 
 	//

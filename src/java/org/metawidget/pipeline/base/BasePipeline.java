@@ -366,15 +366,6 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		nestedPipeline.setLayout( getLayout() );
 	}
 
-	/**
-	 * Serialize the given element to an XML String.
-	 * <p>
-	 * Marked public as <code>*Metawidget</code> clients will often need to use this, and it is
-	 * nicer they reuse the pipeline than call, say, <code>XmlUtils.nodeToString</code> directly.
-	 */
-
-	public abstract String elementToString( E element );
-
 	//
 	// Protected methods
 	//
@@ -452,6 +443,12 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	//
 
 	protected abstract E stringToElement( String xml );
+
+	/**
+	 * Serialize the given element to an XML String.
+	 */
+
+	protected abstract String elementToString( E element );
 
 	protected abstract int getChildCount( E element );
 

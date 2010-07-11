@@ -233,6 +233,15 @@ public class SwtMetawidget
 		invalidateInspection();
 	}
 
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public Inspector getInspector() {
+
+		return mPipeline.getInspector();
+	}
+
 	public void addInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
@@ -485,16 +494,9 @@ public class SwtMetawidget
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
-	 */
-
-	public String inspect( Object toInspect, String type, String... names ) {
-
-		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ));
-	}
-
-	/**
-	 * This method is public for use by WidgetBuilders to attach Controls to the current Composite as defined by the Layout. This allows the Layout to introduce new Composites, such as for TabFolders.
+	 * This method is public for use by WidgetBuilders to attach Controls to the current Composite
+	 * as defined by the Layout. This allows the Layout to introduce new Composites, such as for
+	 * TabFolders.
 	 */
 
 	public Composite getCurrentLayoutComposite() {

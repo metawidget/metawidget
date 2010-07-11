@@ -244,6 +244,15 @@ public abstract class MetawidgetTag
 		mPipeline.setInspector( inspector );
 	}
 
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public Inspector getInspector() {
+
+		return mPipeline.getInspector();
+	}
+
 	public void setInspectionResultProcessors( InspectionResultProcessor<MetawidgetTag>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
@@ -266,21 +275,13 @@ public abstract class MetawidgetTag
 	}
 
 	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
+	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for
+	 * Collections).
 	 */
 
 	public PageContext getPageContext() {
 
 		return pageContext;
-	}
-
-	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
-	 */
-
-	public String inspect( Object toInspect, String type, String... names ) {
-
-		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ) );
 	}
 
 	/**

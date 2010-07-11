@@ -45,7 +45,6 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -239,6 +238,15 @@ public abstract class UIMetawidget
 	public void setInspector( Inspector inspector ) {
 
 		mPipeline.setInspector( inspector );
+	}
+
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public Inspector getInspector()
+	{
+		return mPipeline.getInspector();
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor ) {
@@ -487,25 +495,6 @@ public abstract class UIMetawidget
 		}
 
 		super.encodeBegin( context );
-	}
-
-	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
-	 */
-
-	public String inspect( Object toInspect, String type, String... names ) {
-
-		if ( LOG.isTraceEnabled() ) {
-			LOG.trace( "inspect {0}{1} (start)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
-		}
-
-		try {
-			return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ) );
-		} finally {
-			if ( LOG.isTraceEnabled() ) {
-				LOG.trace( "inspect {0}{1} (end)", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
-			}
-		}
 	}
 
 	/**

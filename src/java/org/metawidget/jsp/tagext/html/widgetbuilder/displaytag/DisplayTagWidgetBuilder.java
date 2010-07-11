@@ -115,7 +115,7 @@ public class DisplayTagWidgetBuilder
 						componentType = attributes.get( PARAMETERIZED_TYPE );
 					}
 
-					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+					String inspectedType = metawidgetTag.getInspector().inspect( null, componentType, (String[]) null );
 
 					// If there is a type...
 

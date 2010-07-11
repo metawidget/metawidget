@@ -217,6 +217,15 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public Inspector getInspector()
+	{
+		return mPipeline.getInspector();
+	}
+
 	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
@@ -470,15 +479,6 @@ public class AndroidMetawidget
 		buildWidgets();
 
 		return mFacets.get( name );
-	}
-
-	/**
-	 * This method is public for use by WidgetBuilders to perform nested inspections (eg. for Collections).
-	 */
-
-	public String inspect( Object toInspect, String type, String... names ) {
-
-		return mPipeline.elementToString( mPipeline.inspect( toInspect, type, names ));
 	}
 
 	/**
