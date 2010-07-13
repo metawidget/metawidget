@@ -1628,7 +1628,12 @@ public class ConfigReader
 					buffer.append( ", " );
 				}
 
-				buffer.append( ClassUtils.getSimpleName( parameterType ) );
+				if ( parameterType.isArray() ) {
+					buffer.append( ClassUtils.getSimpleName( parameterType.getComponentType() ) );
+					buffer.append( "[]" );
+				} else {
+					buffer.append( ClassUtils.getSimpleName( parameterType ) );
+				}
 			}
 
 			buffer.insert( 0, "(" );

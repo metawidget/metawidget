@@ -3593,7 +3593,7 @@ public class Main {
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		<symbol>metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
-		metawidget.putClientProperty( "include", new String[]{ "age", "retired" } );</symbol>
+		metawidget.putClientProperty( "include", new String[]{ "retired", "age" } );</symbol>
 		metawidget.setToInspect( person );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );

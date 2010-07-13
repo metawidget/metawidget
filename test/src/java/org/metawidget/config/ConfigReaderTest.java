@@ -402,7 +402,21 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?".equals( e.getMessage() ) );
+			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?", e.getMessage() );
+		}
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<swingMetawidget xmlns=\"java:org.metawidget.swing\">";
+		xml += "<inspectionResultProcessors><list><comesAfterInspectionResultProcessor xmlns=\"java:org.metawidget.inspectionresultprocessor.sort\"/></list></inspectionResultProcessors>";
+		xml += "</swingMetawidget></metawidget>";
+
+		try {
+			ConfigReader configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class );
+			assertTrue( false );
+		} catch ( MetawidgetException e ) {
+			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspectionResultProcessors(ArrayList). Did you mean setInspectionResultProcessors(InspectionResultProcessor[])?", e.getMessage() );
 		}
 	}
 
