@@ -259,9 +259,28 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
 	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
 	 * using our same <code>Inspector</code>.
+	 * <p>
+	 * In addition, this method runs the <code>InspectionResultProcessors</code>.
 	 */
 
-	public E inspect( Object toInspect, String type, String... names ) {
+	public String inspect( Object toInspect, String type, String... names ) {
+
+		E element = inspectAsDom( toInspect, type, names );
+		return elementToString( element );
+	}
+
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method mirrors the <code>DomInspector</code> interface. Internally it looks up the
+	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
+	 * using our same <code>Inspector</code>.
+	 * <p>
+	 * In addition, this method runs the <code>InspectionResultProcessors</code>.
+	 */
+
+	public E inspectAsDom( Object toInspect, String type, String... names ) {
 
 		if ( mInspector == null ) {
 			throw new NullPointerException( "No inspector configured" );
@@ -446,6 +465,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	/**
 	 * Serialize the given element to an XML String.
+	 *
+	 * @param element	the element to serialize. May be null.
 	 */
 
 	protected abstract String elementToString( E element );

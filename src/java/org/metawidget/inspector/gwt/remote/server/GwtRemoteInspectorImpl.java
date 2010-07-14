@@ -107,7 +107,7 @@ public class GwtRemoteInspectorImpl
 
 	public String inspect( Serializable toInspect, String type, String[] names ) {
 
-		return mPipeline.getInspector().inspect( toInspect, type, names );
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	public void setInspector( Inspector inspector ) {

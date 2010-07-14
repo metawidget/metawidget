@@ -64,7 +64,7 @@ public class MetawidgetPipelineTest
 		Pipeline pipeline = new Pipeline() {
 
 			@Override
-			public Element inspect( Object toInspect, String type, String... names ) {
+			public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 				return super.processInspectionResult( null );
 			}
@@ -89,7 +89,7 @@ public class MetawidgetPipelineTest
 			}
 		} );
 
-		assertTrue( null == pipeline.inspect( null, null ) );
+		assertTrue( null == pipeline.inspectAsDom( null, null ) );
 		assertTrue( called.size() == 1 );
 		assertEquals( "InspectionResultProcessor #1", called.get( 0 ) );
 		assertFalse( called.contains( "InspectionResultProcessor #2" ) );

@@ -244,9 +244,9 @@ public abstract class UIMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public Inspector getInspector()
+	public String inspect( Object toInspect, String type, String... names )
 	{
-		return mPipeline.getInspector();
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<UIMetawidget> inspectionResultProcessor ) {
@@ -568,7 +568,7 @@ public abstract class UIMetawidget
 		// ...or from a raw value (for jBPM)...
 
 		if ( mValue != null ) {
-			mPipeline.buildWidgets( mPipeline.inspect( null, (String) mValue ) );
+			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, (String) mValue ) );
 			return;
 		}
 
@@ -834,7 +834,7 @@ public abstract class UIMetawidget
 
 			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) ) {
 				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return mPipeline.inspect( toInspect, classToInspect.getName() );
+				return mPipeline.inspectAsDom( toInspect, classToInspect.getName() );
 			}
 		}
 
@@ -861,7 +861,7 @@ public abstract class UIMetawidget
 
 				if ( toInspect != null ) {
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-					return mPipeline.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+					return mPipeline.inspectAsDom( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
 			}
 		}

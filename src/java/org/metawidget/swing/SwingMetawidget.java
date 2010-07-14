@@ -221,9 +221,9 @@ public class SwingMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public Inspector getInspector() {
-
-		return mPipeline.getInspector();
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor ) {
@@ -890,7 +890,7 @@ public class SwingMetawidget
 		}
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
 	private Pair<Component, String> getComponentAndValueProperty( String... names ) {

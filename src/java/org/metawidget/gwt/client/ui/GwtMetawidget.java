@@ -276,9 +276,9 @@ public class GwtMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public Inspector getInspector() {
-
-		return mPipeline.getInspector();
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor ) {
@@ -808,7 +808,7 @@ public class GwtMetawidget
 		configure();
 
 		if ( mToInspect != null ) {
-			Inspector inspector = getInspector();
+			Inspector inspector = mPipeline.getInspector();
 
 			if ( mLastInspection == null ) {
 				// Special support for GwtRemoteInspectorProxy
@@ -861,7 +861,7 @@ public class GwtMetawidget
 
 				if ( mLastInspection == null ) {
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					mLastInspection = mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+					mLastInspection = mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 				}
 
 				mPipeline.buildWidgets( mLastInspection );

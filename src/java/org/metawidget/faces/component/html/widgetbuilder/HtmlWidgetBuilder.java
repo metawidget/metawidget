@@ -524,7 +524,7 @@ public class HtmlWidgetBuilder
 		String inspectedType = null;
 
 		if ( componentType != null ) {
-			inspectedType = metawidget.getInspector().inspect( null, componentType, (String[]) null );
+			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
 		}
 
 		// If there is no type...

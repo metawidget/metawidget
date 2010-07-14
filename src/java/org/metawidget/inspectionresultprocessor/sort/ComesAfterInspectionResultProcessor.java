@@ -45,7 +45,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class ComesAfterInspectionResultProcessor<M>
-	implements InspectionResultProcessor<M>, DomInspectionResultProcessor<Element,M> {
+	implements InspectionResultProcessor<M>, DomInspectionResultProcessor<Element, M> {
 
 	//
 	// Public methods
@@ -93,15 +93,20 @@ public class ComesAfterInspectionResultProcessor<M>
 
 				// (if no comes-after, move them across to the new document)
 
-				if ( !trait.hasAttribute( COMES_AFTER ) ) {
+				if ( !hasComesAfter( trait, metawidget ) ) {
 					newEntity.appendChild( XmlUtils.importElement( newDocument, trait ) );
 					continue;
 				}
 
-				traitsWithComesAfter.put( trait, ArrayUtils.fromString( trait.getAttribute( COMES_AFTER ) ) );
+				traitsWithComesAfter.put( trait, ArrayUtils.fromString( getComesAfter( trait, metawidget ) ) );
 			}
 
 			// Next, sort the traits
+			//
+			// Note: this has O(sqr(n)) complexity. We could plug-in something smarter for large
+			// numbers of traits.
+			//
+			// TODO: what is the complexity? There are two inner loops
 
 			int infiniteLoop = traitsWithComesAfter.size();
 			infiniteLoop *= infiniteLoop;
@@ -132,8 +137,8 @@ public class ComesAfterInspectionResultProcessor<M>
 					Element traitWithComesAfter = entry.getKey();
 					String[] comesAfter = entry.getValue();
 
-					// ...if it 'Comes After everything', make sure there are only
-					// other 'Comes After everything's left...
+					// ...if it 'comesAfter everything', make sure there are only
+					// other 'comesAfter everything's left...
 
 					if ( comesAfter.length == 0 ) {
 						for ( String[] traitWithComesAfterExisting : traitsWithComesAfter.values() ) {
@@ -145,7 +150,7 @@ public class ComesAfterInspectionResultProcessor<M>
 						newEntity.appendChild( XmlUtils.importElement( newDocument, traitWithComesAfter ) );
 					}
 
-					// ...or, if it 'Comes After' something, make sure none of those
+					// ...or, if it 'comesAfter' something, make sure none of those
 					// somethings are left...
 
 					else {
@@ -205,5 +210,27 @@ public class ComesAfterInspectionResultProcessor<M>
 		} catch ( Exception e ) {
 			throw InspectionResultProcessorException.newException( e );
 		}
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Hook for subclasses wishing to customize the 'comes-after' indicator.
+	 */
+
+	protected boolean hasComesAfter( Element element, M metawidget ) {
+
+		return element.hasAttribute( COMES_AFTER );
+	}
+
+	/**
+	 * Hook for subclasses wishing to customize the 'comes-after' indicator.
+	 */
+
+	protected String getComesAfter( Element element, M metawidget ) {
+
+		return element.getAttribute( COMES_AFTER );
 	}
 }

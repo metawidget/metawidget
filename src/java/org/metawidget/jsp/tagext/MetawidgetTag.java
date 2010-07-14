@@ -443,7 +443,7 @@ public abstract class MetawidgetTag
 
 		// Inspect using the 'raw' type (eg. contactForm)
 
-		Element inspectionResult = mPipeline.inspect( null, type, typeAndNames.getNamesAsArray() );
+		Element inspectionResult = mPipeline.inspectAsDom( null, type, typeAndNames.getNamesAsArray() );
 
 		// (pageContext may be null in unit tests)
 
@@ -455,7 +455,7 @@ public abstract class MetawidgetTag
 
 			if ( obj != null ) {
 				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-				Element additionalInspectionResult = mPipeline.inspect( obj, type, typeAndNames.getNamesAsArray() );
+				Element additionalInspectionResult = mPipeline.inspectAsDom( obj, type, typeAndNames.getNamesAsArray() );
 
 				// Combine the subtrees.
 				//
