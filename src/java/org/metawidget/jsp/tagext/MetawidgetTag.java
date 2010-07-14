@@ -248,9 +248,9 @@ public abstract class MetawidgetTag
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public Inspector getInspector() {
-
-		return mPipeline.getInspector();
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<MetawidgetTag>... inspectionResultProcessors ) {
