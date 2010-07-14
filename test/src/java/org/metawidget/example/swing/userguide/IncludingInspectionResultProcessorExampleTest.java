@@ -43,14 +43,13 @@ public class IncludingInspectionResultProcessorExampleTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public void testIncludingInspectionResultProcessorExample()
 		throws Exception {
 
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspectionResultProcessors( new IncludingInspectionResultProcessor() );
+		metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
 		metawidget.putClientProperty( "include", new String[] { "retired", "age" } );
 		metawidget.setToInspect( person );
 

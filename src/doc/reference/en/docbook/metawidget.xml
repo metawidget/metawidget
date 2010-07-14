@@ -3487,7 +3487,9 @@ public class CastorInspector
 				<title>Defaults</title>
 				
 				<para>
-					Most Metawidgets have default <classname>InspectionResultProcessor</classname>s. You can see the default by looking in the
+					All Metawidgets have default <classname>InspectionResultProcessor</classname>s. Overriding the default means the default is no
+					longer instantiated. This may not be what you want, so you may want to instantiate the default along with your
+					new <classname>InspectionResultProcessor</classname>. You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
 				</para>
@@ -3592,7 +3594,7 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		<symbol>metawidget.setInspectionResultProcessors( new IncludingInspectionResultProcessor() );
+		<symbol>metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
 		metawidget.putClientProperty( "include", new String[]{ "retired", "age" } );</symbol>
 		metawidget.setToInspect( person );
 
@@ -4402,7 +4404,9 @@ void onEndBuild( M metawidget );</programlisting>
 				<title>Defaults</title>
 				
 				<para>
-					Most Metawidgets have default <classname>WidgetProcessor</classname>s. You can see the default by looking in the
+					Some Metawidgets have default <classname>WidgetProcessor</classname>s. Overriding the default means the default is no
+					longer instantiated. This may not be what you want, so you may want to instantiate the default along with your
+					new <classname>WidgetProcessor</classname>. You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
 				</para>
@@ -10155,7 +10159,18 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 
 				<section id="section-inspectors-annotation-troubleshooting-2">
 					<title>My inspector is not finding my annotations</title>
+
+					<para>
+						First, check you annotations are marked to 'retain at runtime':
+					</para>
 					
+					<programlisting language="java">@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.FIELD, ElementType.METHOD } )	
+public @interface MyAnnotation {
+
+	String value();
+}</programlisting>
+										
 					<para>
 						Annotations are designed to 'silently fall away' in environments that do not
 						support them: they never throw <classname>ClassDefNotFoundError</classname>. For example,
