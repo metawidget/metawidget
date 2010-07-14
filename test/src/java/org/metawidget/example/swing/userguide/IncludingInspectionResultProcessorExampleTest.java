@@ -43,22 +43,23 @@ public class IncludingInspectionResultProcessorExampleTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public void testIncludingInspectionResultProcessorExample()
 		throws Exception {
 
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
-		metawidget.putClientProperty( "include", new String[] { "age", "retired" } );
+		metawidget.setInspectionResultProcessors( new IncludingInspectionResultProcessor() );
+		metawidget.putClientProperty( "include", new String[] { "retired", "age" } );
 		metawidget.setToInspect( person );
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JLabel );
-		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
-		assertEquals( "age", metawidget.getComponent( 1 ).getName() );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JCheckBox );
+		assertEquals( "retired", metawidget.getComponent( 1 ).getName() );
 		assertTrue( metawidget.getComponent( 2 ) instanceof JLabel );
-		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
-		assertEquals( "retired", metawidget.getComponent( 3 ).getName() );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
+		assertEquals( "age", metawidget.getComponent( 3 ).getName() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JPanel );
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}

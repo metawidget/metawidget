@@ -3592,7 +3592,7 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		<symbol>metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
+		<symbol>metawidget.setInspectionResultProcessors( new IncludingInspectionResultProcessor() );
 		metawidget.putClientProperty( "include", new String[]{ "retired", "age" } );</symbol>
 		metawidget.setToInspect( person );
 
