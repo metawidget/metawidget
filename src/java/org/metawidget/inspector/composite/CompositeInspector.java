@@ -145,57 +145,7 @@ public class CompositeInspector
 	public Element inspectAsDom( Document masterDocument, Object toInspect, String type, String... names ) {
 
 		try {
-			Document masterDocumentToUse = masterDocument;
-
-			// Run each Inspector...
-
-			for ( Inspector inspector : mInspectors ) {
-
-				// ...parse the result...
-
-				Document inspectionDocument;
-
-				if ( inspector instanceof DomInspector<?> ) {
-
-					@SuppressWarnings( "unchecked" )
-					DomInspector<Element> domInspector = (DomInspector<Element>) inspector;
-					Element element = domInspector.inspectAsDom( toInspect, type, names );
-
-					if ( element == null ) {
-						continue;
-					}
-
-					inspectionDocument = element.getOwnerDocument();
-				} else {
-					String xml = inspector.inspect( toInspect, type, names );
-
-					if ( xml == null ) {
-						continue;
-					}
-
-					inspectionDocument = parseInspectionResult( xml );
-				}
-
-				// ...(trace)...
-
-				if ( LOG.isTraceEnabled() ) {
-					String formattedXml = XmlUtils.documentToString( inspectionDocument, true );
-					LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
-				}
-
-				// ...and combine them
-
-				if ( inspectionDocument == null || !inspectionDocument.hasChildNodes() ) {
-					continue;
-				}
-
-				if ( masterDocumentToUse == null || !masterDocumentToUse.hasChildNodes() ) {
-					masterDocumentToUse = inspectionDocument;
-					continue;
-				}
-
-				XmlUtils.combineElements( masterDocumentToUse.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
-			}
+			Document masterDocumentToUse = runInspectors( masterDocument, toInspect, type, names );
 
 			if ( masterDocumentToUse == null || !masterDocumentToUse.hasChildNodes() ) {
 				if ( LOG.isDebugEnabled() ) {
@@ -221,6 +171,94 @@ public class CompositeInspector
 	//
 	// Protected methods
 	//
+
+	/**
+	 * Run the sub-Inspectors on the given toInspect and combine the result.
+	 * <p>
+	 * Subclasses may override this method to, say, run some other Inspectors concurrently.
+	 */
+
+	protected Document runInspectors( Document masterDocument, Object toInspect, String type, String... names )
+		throws Exception {
+
+		Document masterDocumentToUse = masterDocument;
+
+		// Run each Inspector...
+
+		for ( Inspector inspector : mInspectors ) {
+
+			// ...parse the result...
+
+			Document inspectionDocument = runInspector( inspector, toInspect, type, names );
+
+			// ...combine them...
+
+			masterDocumentToUse = combineInspectionResult( masterDocumentToUse, inspectionDocument );
+		}
+
+		// ...and return them
+
+		return masterDocumentToUse;
+	}
+
+	protected Document runInspector( Inspector inspector, Object toInspect, String type, String... names )
+		throws Exception {
+
+		// DomInspector...
+
+		if ( inspector instanceof DomInspector<?> ) {
+
+			@SuppressWarnings( "unchecked" )
+			DomInspector<Element> domInspector = (DomInspector<Element>) inspector;
+			Element element = domInspector.inspectAsDom( toInspect, type, names );
+
+			if ( element == null ) {
+				return null;
+			}
+
+			if ( LOG.isTraceEnabled() ) {
+				String xml = XmlUtils.nodeToString( element, true );
+				LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), xml );
+			}
+
+			return element.getOwnerDocument();
+		}
+
+		// ...or just regular Inspector
+
+		String xml = inspector.inspect( toInspect, type, names );
+
+		if ( xml == null ) {
+			return null;
+		}
+
+		LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), xml );
+		return parseInspectionResult( xml );
+	}
+
+	protected Document combineInspectionResult( Document masterDocument, Document inspectionDocument )
+	{
+		// Short circuit...
+
+		if ( inspectionDocument == null || !inspectionDocument.hasChildNodes() ) {
+			return masterDocument;
+		}
+
+		if ( masterDocument == null || !masterDocument.hasChildNodes() ) {
+			return inspectionDocument;
+		}
+
+		// ...or full combine
+
+		XmlUtils.combineElements( masterDocument.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
+		return masterDocument;
+	}
+
+	/**
+	 * Parse the given XML string into a Document.
+	 * <p>
+	 * Subclasses may override this method to hook in validation.
+	 */
 
 	protected Document parseInspectionResult( String xml )
 		throws Exception {

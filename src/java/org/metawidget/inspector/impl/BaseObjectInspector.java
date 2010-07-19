@@ -528,6 +528,13 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
+	 * Traverses the given Object using properties of the given names.
+	 * <p>
+	 * Note: traversal involves calling Property.read, which invokes getter methods and can
+	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
+	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
+	 * the database.
+	 *
 	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
 	 *         returns null.
 	 */
