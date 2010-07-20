@@ -344,6 +344,13 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 * <p>
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
+	 *
+	 * @param declaredClass
+	 *            the class passed to <code>inspect</code>, or the class declared by the Object's
+	 *            parent (ie. its getter method)
+	 * @param actualClass
+	 *            the actual class of the Object. If you are searching for annotations, generally
+	 *            you should inspect actualClass rather than declaredClass
 	 */
 
 	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )

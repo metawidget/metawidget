@@ -103,10 +103,8 @@ public class ComesAfterInspectionResultProcessor<M>
 
 			// Next, sort the traits
 			//
-			// Note: this has O(sqr(n)) complexity. We could plug-in something smarter for large
+			// Note: this has high big-O complexity. We could plug-in something smarter for large
 			// numbers of traits.
-			//
-			// TODO: what is the complexity? There are two inner loops
 
 			int infiniteLoop = traitsWithComesAfter.size();
 			infiniteLoop *= infiniteLoop;
