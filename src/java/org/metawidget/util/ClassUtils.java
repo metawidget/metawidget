@@ -42,8 +42,6 @@ public final class ClassUtils {
 
 	public final static String		JAVABEAN_IS_PREFIX	= "is";
 
-	public final static Class<?>[]	NO_CLASSES			= new Class[0];
-
 	/**
 	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package is
 	 * not available on all target platforms.

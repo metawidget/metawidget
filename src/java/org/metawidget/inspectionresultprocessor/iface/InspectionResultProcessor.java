@@ -30,6 +30,8 @@ import org.metawidget.iface.Immutable;
  * business object properties based on a defined ordering, or choose only certain properties based
  * on the UI screen being displayed. In more advanced cases, you could 'unpack' an inspection result
  * that contained nested entities so that you could, say, iterate over a Collection.
+ * <p>
+ * Note: InspectionResultProcessors are an example of the Strategy design pattern.
  *
  * @param <M>
  *            Metawidget that supports this InspectionResultProcessor

@@ -71,13 +71,9 @@ public class ValidatingCompositeInspector
 	//
 
 	@Override
-	protected Document parseInspectionResult( String xml )
+	protected void validate( Document document )
 		throws Exception {
 
-		Document document = super.parseInspectionResult( xml );
-
 		mSchema.newValidator().validate( new DOMSource( document ) );
-
-		return document;
 	}
 }

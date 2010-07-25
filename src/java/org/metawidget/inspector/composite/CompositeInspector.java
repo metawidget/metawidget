@@ -221,6 +221,7 @@ public class CompositeInspector
 				LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), xml );
 			}
 
+			validate( element.getOwnerDocument() );
 			return element.getOwnerDocument();
 		}
 
@@ -233,7 +234,10 @@ public class CompositeInspector
 		}
 
 		LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), xml );
-		return parseInspectionResult( xml );
+		Document document = XmlUtils.documentFromString( xml );
+		validate( document );
+
+		return document;
 	}
 
 	protected Document combineInspectionResult( Document masterDocument, Document inspectionDocument )
@@ -255,14 +259,14 @@ public class CompositeInspector
 	}
 
 	/**
-	 * Parse the given XML string into a Document.
+	 * Does nothing by default.
 	 * <p>
-	 * Subclasses may override this method to hook in validation.
+	 * Subclasses can override this method to hook in validation.
 	 */
 
-	protected Document parseInspectionResult( String xml )
+	protected void validate( Document document )
 		throws Exception {
 
-		return XmlUtils.documentFromString( xml );
+		// Do nothing
 	}
 }

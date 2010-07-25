@@ -26,6 +26,8 @@ import org.metawidget.iface.Immutable;
  * <p>
  * WidgetBuilders must be immutable (or, at least, appear that way to clients. They can have caches
  * or configuration settings internally, as long as they are threadsafe).
+ * <p>
+ * Note: the name Widget<em>Builder</em> refers to the Builder design pattern.
  *
  * @param <W>
  *            base class of widgets that this WidgetBuilder builds
