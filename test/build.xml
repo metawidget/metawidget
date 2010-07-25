@@ -342,12 +342,9 @@
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
 
 		<java classname="junit.textui.TestRunner" failonerror="true" fork="true" jvm="${java4.dir}/bin/java" dir="${relative.dir}/${build.dir}/${run.dir}">
-			<arg line="org.metawidget.swing.SwingAllWidgetsTest org.metawidget.swing.SwingJdk14Test"/>
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
+			<arg line="org.metawidget.swing.SwingAllWidgetsTest org.metawidget.swing.SwingJdk14Test org.metawidget.util.LogUtilsTest"/>
 			<classpath>
-				<fileset dir="${relative.dir}/lib">
-					<exclude name="android.jar"/>
-					<exclude name="junit*.jar"/>
-				</fileset>
 				<fileset dir="${relative.dir}/test/lib">
 					<include name="emma.jar"/>
 				</fileset>

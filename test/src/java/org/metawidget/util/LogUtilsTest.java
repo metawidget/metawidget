@@ -26,10 +26,17 @@ import org.metawidget.util.LogUtils.Log;
  * @author Richard Kennard
  */
 
-// TODO: test java.util.Logging version
-
 public class LogUtilsTest
 	extends TestCase {
+
+	//
+	// Constructor
+	//
+
+	public LogUtilsTest( String name ) {
+
+		super( name );
+	}
 
 	//
 	// Public statics
@@ -83,22 +90,22 @@ public class LogUtilsTest
 
 		assertTrue( log.isTraceEnabled() );
 		log.trace( "trace {0}", 1 );
-		assertEquals( "trace 1", getLastTraceMessage() );
+		assertTrue( "trace 1".equals( getLastTraceMessage() ));
 		log.trace( "trace", new Throwable() );
 
 		assertTrue( log.isDebugEnabled() );
 		log.debug( "debug {0}", 2 );
-		assertEquals( "debug 2", getLastDebugMessage() );
+		assertTrue( "debug 2".equals( getLastDebugMessage() ));
 		log.debug( "debug", new Throwable() );
 
 		assertTrue( log.isInfoEnabled() );
 		log.info( "info {0}", 3 );
-		assertEquals( "info 3", getLastInfoMessage() );
+		assertTrue( "info 3".equals( getLastInfoMessage() ));
 		log.info( "info", new Throwable() );
 
 		assertTrue( log.isWarnEnabled() );
 		log.warn( "warn {0}", 4 );
-		assertEquals( "warn 4", getLastWarnMessage() );
+		assertTrue( "warn 4".equals( getLastWarnMessage() ));
 		log.warn( "warn", new Throwable() );
 
 		assertTrue( log.isErrorEnabled() );
@@ -114,7 +121,7 @@ public class LogUtilsTest
 		}
 		catch( RuntimeException e )
 		{
-			assertEquals( "Given 2 arguments to log, but no {1} in message 'trace {0}'", e.getMessage() );
+			assertTrue( "Given 2 arguments to log, but no {1} in message 'trace {0}'".equals( e.getMessage() ));
 		}
 
 		try
@@ -124,7 +131,7 @@ public class LogUtilsTest
 		}
 		catch( RuntimeException e )
 		{
-			assertEquals( "Given 2 arguments to log, but no {1} in message 'debug {0}'", e.getMessage() );
+			assertTrue( "Given 2 arguments to log, but no {1} in message 'debug {0}'".equals( e.getMessage() ));
 		}
 
 		try
@@ -134,7 +141,7 @@ public class LogUtilsTest
 		}
 		catch( RuntimeException e )
 		{
-			assertEquals( "Given 2 arguments to log, but no {1} in message 'info {0}'", e.getMessage() );
+			assertTrue( "Given 2 arguments to log, but no {1} in message 'info {0}'".equals( e.getMessage() ));
 		}
 
 		try
@@ -144,7 +151,7 @@ public class LogUtilsTest
 		}
 		catch( RuntimeException e )
 		{
-			assertEquals( "Given 2 arguments to log, but no {1} in message 'warn {0}'", e.getMessage() );
+			assertTrue( "Given 2 arguments to log, but no {1} in message 'warn {0}'".equals( e.getMessage() ));
 		}
 
 		try
@@ -154,7 +161,7 @@ public class LogUtilsTest
 		}
 		catch( RuntimeException e )
 		{
-			assertEquals( "Given 2 arguments to log, but no {1} in message 'error {0}'", e.getMessage() );
+			assertTrue( "Given 2 arguments to log, but no {1} in message 'error {0}'".equals( e.getMessage() ));
 		}
 	}
 }
