@@ -157,9 +157,9 @@ public class AllWidgetsActivity
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getRangedInteger() ), "rangedInteger" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getLong() ), "long" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getLongObject() ), "longObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getFloatObject() ), "float" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getFloat() ), "float" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getFloatObject() ), "floatObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDoubleObject() ), "double" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDouble() ), "double" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDoubleObject() ), "doubleObject" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getChar() ), "char" );
 		metawidget.setValue( mAllWidgets.isBoolean(), "boolean" );

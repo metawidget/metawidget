@@ -1,8 +1,6 @@
 Testing The Old Fashioned Way :)
 --------------------------------
 
-This process needs to be upgraded once Android has unit testing support.
-
 For Android Address Book, test:
 
 test-search:

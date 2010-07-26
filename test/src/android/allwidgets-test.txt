@@ -1,8 +1,6 @@
 Testing The Old Fashioned Way :)
 --------------------------------
 
-This process needs to be upgraded once Android has unit testing support.
-
 For Android AllWidgets, test:
 
 * The layout is a LinearLayout (including the nested layouts)
@@ -21,5 +19,7 @@ For Android AllWidgets, test:
 Editing all values and choosing 'Save' (from the menu) reports the changed values as a read-only screen. Test:
 
 * All values appear (except mystery value)
+* The two floats don't both get given the same value
+* The two doubles don't both get given the same value
 * Password label appears but has a blank line for the value
 * Boolean object saves correctly (ie. 'Yes' maps to 'true')

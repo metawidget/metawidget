@@ -84,38 +84,37 @@ public class CompositeInspectorTest
 		Element domInspect = inspector.inspectAsDom( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
 		assertEquals( xml, XmlUtils.nodeToString( domInspect, false ) );
 		internalTestInspection( domInspect.getOwnerDocument() );
-	}
 
-	private void internalTestInspection( Document document ) {
+		// As a normal Inspector (not a DomInspector)
 
-		// Test
+		final String finalXml = xml;
 
-		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		config.setInspectors( new Inspector()
+		{
+			@Override
+			public String inspect( Object inspect, String type, String... names ) {
 
-		// Entity
+				return finalXml;
+			}
+		} );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
-		assertFalse( entity.hasAttribute( NAME ) );
+		inspector = new ValidatingCompositeInspector( config );
+		xml = inspector.inspect( null, null );
+		internalTestInspection( XmlUtils.documentFromString( xml ) );
 
-		// Properties
+		// As a normal Inspector (not a DomInspector) with a null result
 
-		Element property = (Element) entity.getFirstChild();
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "id", property.getAttribute( NAME ) );
-		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		config.setInspectors( new Inspector()
+		{
+			@Override
+			public String inspect( Object inspect, String type, String... names ) {
 
-		property = (Element) property.getNextSibling();
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "fullname", property.getAttribute( NAME ) );
-		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+				return null;
+			}
+		} );
 
-		property = (Element) property.getNextSibling();
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "title", property.getAttribute( NAME ) );
-		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
-		assertEquals( "Mr, Mrs, Miss, Dr, Cpt", property.getAttribute( LOOKUP ) );
+		inspector = new ValidatingCompositeInspector( config );
+		assertTrue( null == inspector.inspect( null, null ));
 	}
 
 	public void testDefensiveCopy()
@@ -147,6 +146,42 @@ public class CompositeInspectorTest
 		TestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class, new CompositeInspectorConfig() {
 			// Subclass
 		} );
+	}
+
+	//
+	// Private methods
+	//
+
+	private void internalTestInspection( Document document ) {
+
+		// Test
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "id", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "fullname", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "title", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( "Mr, Mrs, Miss, Dr, Cpt", property.getAttribute( LOOKUP ) );
 	}
 
 	//
