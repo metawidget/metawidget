@@ -3458,8 +3458,8 @@ public class CastorInspector
 				
 				<para>
 					In most cases the <classname>InspectionResultProcessor</classname> will simply be modifying the given <parameter>inspectionResult</parameter>.
-					However it can decide to swap it out by returning a different DOM. This new DOM will then be passed down the list. Alternatively,
-					the <classname>InspectionResultProcessor</classname> can return <parameter>null</parameter> to cancel inspection entirely. No further
+					However it can decide to swap it out by returning a different String. This new String will then be passed down the list. Alternatively,
+					the <classname>InspectionResultProcessor</classname> can return <parameter>null</parameter> to cancel inspection result processing entirely. No further
 					<classname>InspectionResultProcessor</classname>s will be called, as shown in <xref linkend="section-architecture-inspectionresultprocessors-abort"/>.
 				</para>
 
@@ -3475,7 +3475,7 @@ public class CastorInspector
 				-->
 				
 				<figure id="section-architecture-inspectionresultprocessors-abort">
-					<title>An InspectionResultProcessor can abort the inspection</title>
+					<title>An InspectionResultProcessor can abort the inspection result processing</title>
 					<screenshot>
 						<graphic fileref="images/activitydiagrams/architecture-inspectionresultprocessors-abort.png" width="100mm"/>
 					</screenshot>							
@@ -4643,7 +4643,7 @@ public class Main {
 					This is a simple interface that defines only one method:
 				</para>
 				
-				<programlisting language="java">void layoutWidget(W widget,String elementName,Map&lt;String, String&gt; attributes,C container,M metawidget);</programlisting>
+				<programlisting language="java">void layoutWidget(W widget, String elementName, Map&lt;String, String&gt; attributes, C container, M metawidget);</programlisting>
 
 				<para>
 					Where <parameter>W</parameter> is a widget class (ie. <classname>Control</classname>, <classname>JComponent</classname> etc),
@@ -4674,9 +4674,9 @@ public class Main {
 
 				<programlisting language="java">void onStartBuild(M metawidget);
 				
-void startContainerLayout(W container,M metawidget);
+void startContainerLayout(W container, M metawidget);
 				
-void endContainerLayout(W container,M metawidget);
+void endContainerLayout(W container, M metawidget);
 
 void onEndBuild(M metawidget);</programlisting>
 				
@@ -4992,7 +4992,7 @@ public class HtmlListLayout
 	public void onStartBuild( MetawidgetTag metawidgetTag ) {}
 
 	public void startContainerLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
-		try	{
+		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "&lt;ul&gt;" );
 		} catch ( Exception e ) {
@@ -10060,7 +10060,9 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				<title>Memory Usage</title>
 				
 				<para>
-					All <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s,
+					All <classname>Inspector</classname>s, <classname>PropertyStyle</classname>s,
+					<classname>ActionStyle</classname>s,
+					<classname>InspectionResultProcessor</classname>s,
 					<classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
 					and <classname>Layout</classname>s are immutable. This means you only
 					need a single instance of them for your entire application.
