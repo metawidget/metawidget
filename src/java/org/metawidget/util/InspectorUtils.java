@@ -40,6 +40,10 @@ public final class InspectorUtils {
 			return;
 		}
 
+		// If the value is a Collection or an Array, convert it to 'foo,bar,baz' format. This lets
+		// you use, say, UiJexlAttribute to populate a 'lookup' XML attribute with values retrieved
+		// from an EL expression (which in turn could access a database)
+
 		if ( value instanceof Collection<?> ) {
 			attributes.put( name, CollectionUtils.toString( (Collection<?>) value ) );
 			return;
