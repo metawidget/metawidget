@@ -211,9 +211,7 @@ public class JavassistPropertyStyle
 		implements Comparable<ClassAndLineNumberAndName> {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private Class<?>	mClass;
@@ -223,9 +221,7 @@ public class JavassistPropertyStyle
 		private String		mName;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public ClassAndLineNumberAndName( Class<?> clazz, int lineNumber, String name ) {
@@ -236,9 +232,7 @@ public class JavassistPropertyStyle
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override
