@@ -43,9 +43,9 @@ public class CommonsValidatorInspector
 	// Private statics
 	//
 
-	private final static String	FORMSET_ELEMENT	= "formset";
+	private static final String	FORMSET_ELEMENT	= "formset";
 
-	private final static String	FIELD_ELEMENT	= "field";
+	private static final String	FIELD_ELEMENT	= "field";
 
 	//
 	// Constructor

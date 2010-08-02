@@ -58,7 +58,7 @@ public class BeanUtilsBindingProcessor
 	// Private statics
 	//
 
-	private final static String	SCALA_SET_SUFFIX	= "_$eq";
+	private static final String	SCALA_SET_SUFFIX	= "_$eq";
 
 	//
 	// Private members

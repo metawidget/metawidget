@@ -51,7 +51,7 @@ public class MigLayout
 	// Private statics
 	//
 
-	private final static String	LABEL_NAME_SUFFIX	= "_label";
+	private static final String	LABEL_NAME_SUFFIX	= "_label";
 
 	//
 	// Private members

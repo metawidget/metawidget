@@ -198,7 +198,7 @@ public final class ArrayUtils {
 	// Private statics
 	//
 
-	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
+	private static final String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
 	// Private constructor

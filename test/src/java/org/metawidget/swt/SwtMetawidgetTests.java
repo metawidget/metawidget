@@ -59,5 +59,5 @@ public class SwtMetawidgetTests
 		return suite;
 	}
 
-	public final static Display	TEST_DISPLAY	= new Display();
+	public static final Display	TEST_DISPLAY	= new Display();
 }

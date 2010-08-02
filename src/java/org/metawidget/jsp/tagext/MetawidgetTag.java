@@ -62,11 +62,11 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private final static long							serialVersionUID		= 1l;
+	private static final long							serialVersionUID		= 1l;
 
-	private final static String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
+	private static final String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
-	private final static String							DEFAULT_USER_CONFIG		= "metawidget.xml";
+	private static final String							DEFAULT_USER_CONFIG		= "metawidget.xml";
 
 	private static boolean								LOGGED_MISSING_CONFIG;
 

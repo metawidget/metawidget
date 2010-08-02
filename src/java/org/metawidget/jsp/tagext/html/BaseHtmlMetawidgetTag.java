@@ -33,7 +33,7 @@ public abstract class BaseHtmlMetawidgetTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1l;
+	private static final long	serialVersionUID	= 1l;
 
 	//
 	// Protected members

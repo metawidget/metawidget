@@ -82,7 +82,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	DATATABLE_ROW_ACTION	= "dataTableRowEditAction";
+	private static final String	DATATABLE_ROW_ACTION	= "dataTableRowEditAction";
 
 	/**
 	 * The number of items in a multi-select lookup at which it should change from being a
@@ -90,7 +90,7 @@ public class HtmlWidgetBuilder
 	 * stops the Metawidget blowing out horizontally.
 	 */
 
-	private final static int	SHORT_LOOKUP_SIZE		= 3;
+	private static final int	SHORT_LOOKUP_SIZE		= 3;
 
 	//
 	// Private members

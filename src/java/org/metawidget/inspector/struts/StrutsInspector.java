@@ -41,9 +41,9 @@ public class StrutsInspector
 	// Private statics
 	//
 
-	private final static String	FORM_BEANS_ELEMENT		= "form-beans";
+	private static final String	FORM_BEANS_ELEMENT		= "form-beans";
 
-	private final static String	FORM_PROPERTY_ELEMENT	= "form-property";
+	private static final String	FORM_PROPERTY_ELEMENT	= "form-property";
 
 	//
 	// Constructor

@@ -48,7 +48,7 @@ public class FlexTableLayout
 	// Private statics
 	//
 
-	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
+	private static final int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
 
 	//
 	// Private members

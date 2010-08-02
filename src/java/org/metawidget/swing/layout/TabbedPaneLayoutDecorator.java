@@ -47,13 +47,13 @@ public class TabbedPaneLayoutDecorator
 	 * The border around the entire tabbed pane.
 	 */
 
-	private final static Border	TABBED_PANE_BORDER	= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
+	private static final Border	TABBED_PANE_BORDER	= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
 
 	/**
 	 * The insets around each tab.
 	 */
 
-	private final static Border	TAB_PANEL_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+	private static final Border	TAB_PANEL_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
 	//
 	// Private members

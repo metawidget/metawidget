@@ -45,9 +45,9 @@ public class Bundle2VariableTag
 	// Private statics
 	//
 
-	private final static long			serialVersionUID		= 1l;
+	private static final long			serialVersionUID		= 1l;
 
-	private final static String			DEFAULT_VARIABLE_NAME	= "bundle";
+	private static final String			DEFAULT_VARIABLE_NAME	= "bundle";
 
 	//
 	// Private members

@@ -53,7 +53,7 @@ public abstract class Contact
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1l;
+	private static final long	serialVersionUID	= 1l;
 
 	//
 	// Private members

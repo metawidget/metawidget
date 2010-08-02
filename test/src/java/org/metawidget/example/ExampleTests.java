@@ -105,7 +105,7 @@ public class ExampleTests
 
 		TestUtils.testEqualsAndHashcode( Communication.class, new Communication() {
 
-			final static long	serialVersionUID	= 1l;
+			static final long	serialVersionUID	= 1l;
 		} );
 	}
 }

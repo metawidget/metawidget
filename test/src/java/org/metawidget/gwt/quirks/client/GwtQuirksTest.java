@@ -52,7 +52,7 @@ public class GwtQuirksTest
 	// Private statics
 	//
 
-	private final static int	TEST_FINISH_DELAY	= 50 * 5000;
+	private static final int	TEST_FINISH_DELAY	= 50 * 5000;
 
 	//
 	// Public methods

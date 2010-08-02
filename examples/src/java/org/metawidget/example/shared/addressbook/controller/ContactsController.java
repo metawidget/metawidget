@@ -45,7 +45,7 @@ public class ContactsController {
 	// Protected statics
 	//
 
-	protected final static String[]	ALL_TITLES	= { "Mr", "Mrs", "Miss", "Dr", "Cpt" };
+	protected static final String[]	ALL_TITLES	= { "Mr", "Mrs", "Miss", "Dr", "Cpt" };
 
 	//
 	// Private members

@@ -47,7 +47,7 @@ public class JspAnnotationInspector
 	// Private member
 	//
 
-	private final static ThreadLocal<PageContext>	LOCAL_PAGE_CONTEXT	= ThreadUtils.newThreadLocal();
+	private static final ThreadLocal<PageContext>	LOCAL_PAGE_CONTEXT	= ThreadUtils.newThreadLocal();
 
 	//
 	// Public statics

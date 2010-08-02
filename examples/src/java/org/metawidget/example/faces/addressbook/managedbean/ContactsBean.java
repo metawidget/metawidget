@@ -31,7 +31,7 @@ public class ContactsBean
 	// Private statics
 	//
 
-	private final static SelectItem[]	ALL_TITLES_SELECT_ITEMS;
+	private static final SelectItem[]	ALL_TITLES_SELECT_ITEMS;
 
 	static {
 		ALL_TITLES_SELECT_ITEMS = new SelectItem[ALL_TITLES.length];

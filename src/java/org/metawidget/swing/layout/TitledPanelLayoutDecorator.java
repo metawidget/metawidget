@@ -47,13 +47,13 @@ public class TitledPanelLayoutDecorator
 	 * The border around the entire titled panel.
 	 */
 
-	private final static Border	OUTER_BORDER	= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
+	private static final Border	OUTER_BORDER	= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
 
 	/**
 	 * The insets inside the titled panel.
 	 */
 
-	private final static Border	INNER_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+	private static final Border	INNER_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
 	//
 	// Constructor

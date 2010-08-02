@@ -36,11 +36,11 @@ public final class ClassUtils {
 	// Public statics
 	//
 
-	public final static String		JAVABEAN_SET_PREFIX	= "set";
+	public static final String		JAVABEAN_SET_PREFIX	= "set";
 
-	public final static String		JAVABEAN_GET_PREFIX	= "get";
+	public static final String		JAVABEAN_GET_PREFIX	= "get";
 
-	public final static String		JAVABEAN_IS_PREFIX	= "is";
+	public static final String		JAVABEAN_IS_PREFIX	= "is";
 
 	/**
 	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package is
@@ -397,7 +397,7 @@ public final class ClassUtils {
 	// Private statics
 	//
 
-	private final static Pattern	PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
+	private static final Pattern	PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
 
 	//
 	// Private constructor

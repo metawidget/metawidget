@@ -49,15 +49,15 @@ public class HtmlTableLayout
 	// Private statics
 	//
 
-	private final static String	TABLE_PREFIX						= "table-";
+	private static final String	TABLE_PREFIX						= "table-";
 
-	private final static String	ROW_SUFFIX							= "-row";
+	private static final String	ROW_SUFFIX							= "-row";
 
-	private final static String	CELL_SUFFIX							= "-cell";
+	private static final String	CELL_SUFFIX							= "-cell";
 
-	private final static int	JUST_COMPONENT_AND_REQUIRED			= 2;
+	private static final int	JUST_COMPONENT_AND_REQUIRED			= 2;
 
-	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
+	private static final int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
 
 	//
 	// Private members

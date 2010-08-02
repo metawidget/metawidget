@@ -49,9 +49,9 @@ public class GridLayout
 	// Private statics
 	//
 
-	private final static int	LABEL_AND_CONTROL	= 2;
+	private static final int	LABEL_AND_CONTROL	= 2;
 
-	private final static String	LABEL_NAME_SUFFIX	= "_label";
+	private static final String	LABEL_NAME_SUFFIX	= "_label";
 
 	//
 	// Private members

@@ -83,7 +83,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public final static String				COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
+	public static final String				COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
 
 	/**
 	 * Component-level attribute used to prevent recreation.
@@ -109,7 +109,7 @@ public abstract class UIMetawidget
 	 * field.
 	 */
 
-	public final static String				COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
+	public static final String				COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
 
 	//
 	// Private statics
@@ -119,11 +119,11 @@ public abstract class UIMetawidget
 	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private final static String				APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
+	private static final String				APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
 
-	private final static String				DEFAULT_USER_CONFIG					= "metawidget.xml";
+	private static final String				DEFAULT_USER_CONFIG					= "metawidget.xml";
 
-	/* package private */final static Log	LOG									= LogUtils.getLog( UIMetawidget.class );
+	/* package private */static final Log	LOG									= LogUtils.getLog( UIMetawidget.class );
 
 	private static boolean					LOGGED_MISSING_CONFIG;
 

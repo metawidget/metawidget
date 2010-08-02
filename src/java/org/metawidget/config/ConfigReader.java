@@ -84,9 +84,9 @@ public class ConfigReader
 	 * Dummy config to cache by if immutable has no Config.
 	 */
 
-	/* package private */final static String				IMMUTABLE_NO_CONFIG			= "no-config";
+	/* package private */static final String				IMMUTABLE_NO_CONFIG			= "no-config";
 
-	/* package private */final static Log					LOG							= LogUtils.getLog( ConfigReader.class );
+	/* package private */static final Log					LOG							= LogUtils.getLog( ConfigReader.class );
 
 	//
 	// Protected members
@@ -612,7 +612,7 @@ public class ConfigReader
 		// Private statics
 		//
 
-		private final static String		JAVA_NAMESPACE_PREFIX					= "java:";
+		private static final String		JAVA_NAMESPACE_PREFIX					= "java:";
 
 		/**
 		 * Possible 'encountered' states.
@@ -620,21 +620,21 @@ public class ConfigReader
 		 * Note: not using enum, for JDK 1.4 compatibility.
 		 */
 
-		private final static int		ENCOUNTERED_METHOD						= 0;
+		private static final int		ENCOUNTERED_METHOD						= 0;
 
-		private final static int		ENCOUNTERED_NATIVE_TYPE					= 1;
+		private static final int		ENCOUNTERED_NATIVE_TYPE					= 1;
 
-		private final static int		ENCOUNTERED_NATIVE_COLLECTION_TYPE		= 2;
+		private static final int		ENCOUNTERED_NATIVE_COLLECTION_TYPE		= 2;
 
-		private final static int		ENCOUNTERED_CONFIGURED_TYPE				= 3;
+		private static final int		ENCOUNTERED_CONFIGURED_TYPE				= 3;
 
-		private final static int		ENCOUNTERED_JAVA_OBJECT					= 4;
+		private static final int		ENCOUNTERED_JAVA_OBJECT					= 4;
 
-		private final static int		ENCOUNTERED_ALREADY_CACHED_IMMUTABLE	= 5;
+		private static final int		ENCOUNTERED_ALREADY_CACHED_IMMUTABLE	= 5;
 
-		private final static int		ENCOUNTERED_WRONG_TYPE					= 6;
+		private static final int		ENCOUNTERED_WRONG_TYPE					= 6;
 
-		private final static int		ENCOUNTERED_WRONG_NAME					= 7;
+		private static final int		ENCOUNTERED_WRONG_NAME					= 7;
 
 		/**
 		 * Possible 'expecting' states.
@@ -642,13 +642,13 @@ public class ConfigReader
 		 * Note: not using enum, for JDK 1.4 compatibility.
 		 */
 
-		private final static int		EXPECTING_ROOT							= 0;
+		private static final int		EXPECTING_ROOT							= 0;
 
-		private final static int		EXPECTING_TO_CONFIGURE					= 1;
+		private static final int		EXPECTING_TO_CONFIGURE					= 1;
 
-		private final static int		EXPECTING_OBJECT						= 2;
+		private static final int		EXPECTING_OBJECT						= 2;
 
-		private final static int		EXPECTING_METHOD						= 3;
+		private static final int		EXPECTING_METHOD						= 3;
 
 		//
 		// Private members

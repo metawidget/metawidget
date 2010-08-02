@@ -63,11 +63,11 @@ public class SwtMetawidget
 	// Private statics
 	//
 
-	private final static long			serialVersionUID		= 1l;
+	private static final long			serialVersionUID		= 1l;
 
-	private final static ConfigReader	CONFIG_READER			= new ConfigReader();
+	private static final ConfigReader	CONFIG_READER			= new ConfigReader();
 
-	private final static String			DEFAULT_CONFIG			= "org/metawidget/swt/metawidget-swt-default.xml";
+	private static final String			DEFAULT_CONFIG			= "org/metawidget/swt/metawidget-swt-default.xml";
 
 	//
 	// Private members

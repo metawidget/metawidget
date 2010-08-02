@@ -36,6 +36,8 @@ import java.lang.annotation.Target;
  * @author Richard Kennard
  */
 
+// TODO: Apply to ElementType.TYPE?
+
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiLabel {

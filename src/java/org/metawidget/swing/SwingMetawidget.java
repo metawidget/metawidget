@@ -70,13 +70,13 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private static final long			serialVersionUID	= 1l;
 
-	private final static ConfigReader	CONFIG_READER		= new ConfigReader();
+	private static final ConfigReader	CONFIG_READER		= new ConfigReader();
 
-	private final static String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
+	private static final String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
 
-	private final static Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private static final Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	// Private members

@@ -57,7 +57,7 @@ public class CompositeInspector
 	// Private statics
 	//
 
-	private final static Log				LOG	= LogUtils.getLog( CompositeInspector.class );
+	private static final Log				LOG	= LogUtils.getLog( CompositeInspector.class );
 
 	//
 	// Private members

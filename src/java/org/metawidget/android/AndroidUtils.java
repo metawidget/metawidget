@@ -124,22 +124,22 @@ public final class AndroidUtils {
 	 * Array of View style attributes.
 	 */
 
-	private final static int[]	VIEW_ATTRIBUTES				= new int[] { R.attr.padding, R.attr.paddingLeft, R.attr.paddingTop, R.attr.paddingRight, R.attr.paddingBottom };
+	private static final int[]	VIEW_ATTRIBUTES				= new int[] { R.attr.padding, R.attr.paddingLeft, R.attr.paddingTop, R.attr.paddingRight, R.attr.paddingBottom };
 
 	/**
 	 * Array of TextView style attributes.
 	 */
 
-	private final static int[]	TEXTVIEW_ATTRIBUTES			= new int[] { R.attr.textColor, R.attr.gravity };
+	private static final int[]	TEXTVIEW_ATTRIBUTES			= new int[] { R.attr.textColor, R.attr.gravity };
 
 	/**
 	 * For some reason you must call textSize separately to textColor, as discovered by kretes:
 	 * https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3448466
 	 */
 
-	private final static int[]	TEXTVIEW_ATTRIBUTES_SIZE	= new int[] { R.attr.textSize };
+	private static final int[]	TEXTVIEW_ATTRIBUTES_SIZE	= new int[] { R.attr.textSize };
 
-	private final static int	BOGUS_DEFAULT				= -1;
+	private static final int	BOGUS_DEFAULT				= -1;
 
 	//
 	// Private constructor

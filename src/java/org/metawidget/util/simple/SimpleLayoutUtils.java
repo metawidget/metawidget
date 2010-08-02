@@ -172,9 +172,9 @@ public final class SimpleLayoutUtils {
 	// Private statics
 	//
 
-	private final static char	MNEMONIC_INDICATOR	= '&';
+	private static final char	MNEMONIC_INDICATOR	= '&';
 
-	private final static int	MNEMONIC_INDEX_NONE	= -1;
+	private static final int	MNEMONIC_INDEX_NONE	= -1;
 
 	//
 	// Private constructor

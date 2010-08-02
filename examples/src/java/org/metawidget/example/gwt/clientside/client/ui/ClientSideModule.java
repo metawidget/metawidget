@@ -52,11 +52,11 @@ public class ClientSideModule
 	// Package-level statics
 	//
 
-	final static String	SAMPLE1;
+	static final String	SAMPLE1;
 
-	final static String	SAMPLE2;
+	static final String	SAMPLE2;
 
-	final static String	SAMPLE3;
+	static final String	SAMPLE3;
 
 	static {
 		String sample1 = "<metawidget-metadata>\r\n\r\n\t<!-- Album Sample -->\r\n\r\n\t<entity type=\"sample\">";

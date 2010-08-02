@@ -29,5 +29,5 @@ public class AllWidgets$$EnhancerByCGLIB$$1234
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1l;
+	private static final long	serialVersionUID	= 1l;
 }

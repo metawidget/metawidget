@@ -65,7 +65,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	// Private statics
 	//
 
-	private final static int					DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
+	private static final int					DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	// Private members

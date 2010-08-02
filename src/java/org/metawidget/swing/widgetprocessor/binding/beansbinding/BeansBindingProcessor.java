@@ -391,7 +391,7 @@ public class BeansBindingProcessor
 		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 	}
 
-	/* package private */final static class ConvertFromTo<S, T> {
+	/* package private */static final class ConvertFromTo<S, T> {
 
 		//
 		// Private members

@@ -263,11 +263,11 @@ public final class FacesUtils {
 	 * </code>
 	 */
 
-	private final static Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)(.*)(\\})" );
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)(.*)(\\})" );
 
-	private final static String		EXPRESSION_START	= "#{";
+	private static final String		EXPRESSION_START	= "#{";
 
-	private final static String		EXPRESSION_END		= "}";
+	private static final String		EXPRESSION_END		= "}";
 
 	//
 	// Private constructor

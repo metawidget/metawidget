@@ -66,7 +66,7 @@ public class SwingAllWidgetsTest
 	// Protected statics
 	//
 
-	protected final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
+	protected static final String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
 	// Constructor

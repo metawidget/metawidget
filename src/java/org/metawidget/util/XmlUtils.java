@@ -1338,7 +1338,7 @@ public class XmlUtils {
 		// Private statics
 		//
 
-		private final static byte[]	BYTES	= "<?xml version='1.0' encoding='UTF-8'?>".getBytes();
+		private static final byte[]	BYTES	= "<?xml version='1.0' encoding='UTF-8'?>".getBytes();
 
 		//
 		// Public methods
@@ -1354,7 +1354,7 @@ public class XmlUtils {
 	// Private statics
 	//
 
-	private final static DocumentBuilder	DOCUMENT_BUILDER;
+	private static final DocumentBuilder	DOCUMENT_BUILDER;
 
 	static {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -1369,13 +1369,13 @@ public class XmlUtils {
 		}
 	}
 
-	private final static Pattern			PATTERN_AMP		= Pattern.compile( "&", Pattern.LITERAL );
+	private static final Pattern			PATTERN_AMP		= Pattern.compile( "&", Pattern.LITERAL );
 
-	private final static Pattern			PATTERN_LT		= Pattern.compile( "<", Pattern.LITERAL );
+	private static final Pattern			PATTERN_LT		= Pattern.compile( "<", Pattern.LITERAL );
 
-	private final static Pattern			PATTERN_GT		= Pattern.compile( ">", Pattern.LITERAL );
+	private static final Pattern			PATTERN_GT		= Pattern.compile( ">", Pattern.LITERAL );
 
-	private final static Pattern			PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
+	private static final Pattern			PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
 
 	//
 	// Private constructor

@@ -29,9 +29,9 @@ public class BeanUtilsBindingProcessorConfig {
 	// Public statics
 	//
 
-	public final static int	PROPERTYSTYLE_JAVABEAN	= 0;
+	public static final int	PROPERTYSTYLE_JAVABEAN	= 0;
 
-	public final static int	PROPERTYSTYLE_SCALA		= 1;
+	public static final int	PROPERTYSTYLE_SCALA		= 1;
 
 	//
 	// Private members

@@ -35,21 +35,21 @@ public final class StringUtils {
 	 * path, we must use '/' not '.' as the separator.
 	 */
 
-	public final static char	SEPARATOR_FORWARD_SLASH_CHAR	= '/';
+	public static final char	SEPARATOR_FORWARD_SLASH_CHAR	= '/';
 
-	public final static String	SEPARATOR_FORWARD_SLASH			= String.valueOf( SEPARATOR_FORWARD_SLASH_CHAR );
+	public static final String	SEPARATOR_FORWARD_SLASH			= String.valueOf( SEPARATOR_FORWARD_SLASH_CHAR );
 
-	public final static char	SEPARATOR_DOT_CHAR				= '.';
+	public static final char	SEPARATOR_DOT_CHAR				= '.';
 
-	public final static String	SEPARATOR_DOT					= String.valueOf( SEPARATOR_DOT_CHAR );
+	public static final String	SEPARATOR_DOT					= String.valueOf( SEPARATOR_DOT_CHAR );
 
-	public final static char	SEPARATOR_COMMA_CHAR			= ',';
+	public static final char	SEPARATOR_COMMA_CHAR			= ',';
 
-	public final static String	SEPARATOR_COMMA					= String.valueOf( SEPARATOR_COMMA_CHAR );
+	public static final String	SEPARATOR_COMMA					= String.valueOf( SEPARATOR_COMMA_CHAR );
 
-	public final static String	RESOURCE_KEY_NOT_FOUND_PREFIX	= "???";
+	public static final String	RESOURCE_KEY_NOT_FOUND_PREFIX	= "???";
 
-	public final static String	RESOURCE_KEY_NOT_FOUND_SUFFIX	= "???";
+	public static final String	RESOURCE_KEY_NOT_FOUND_SUFFIX	= "???";
 
 	public static String lowercaseFirstLetter( String in ) {
 

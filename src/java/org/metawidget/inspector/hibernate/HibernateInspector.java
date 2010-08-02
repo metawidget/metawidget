@@ -46,11 +46,11 @@ public class HibernateInspector
 	// Private statics
 	//
 
-	private final static String			HIBERNATE_CONFIGURATION_ELEMENT	= "hibernate-configuration";
+	private static final String			HIBERNATE_CONFIGURATION_ELEMENT	= "hibernate-configuration";
 
-	private final static String			HIBERNATE_MAPPING_ELEMENT		= "hibernate-mapping";
+	private static final String			HIBERNATE_MAPPING_ELEMENT		= "hibernate-mapping";
 
-	private final static InputStream[]	EMPTY_INPUTSTREAM_ARRAY			= new InputStream[0];
+	private static final InputStream[]	EMPTY_INPUTSTREAM_ARRAY			= new InputStream[0];
 
 	//
 	// Private members

@@ -29,7 +29,7 @@ public final class PropertyTypeInspectionResultConstants {
 	// Public statics
 	//
 
-	public final static String	NO_GETTER		= "no-getter";
+	public static final String	NO_GETTER		= "no-getter";
 
 	/**
 	 * Actual class of the property's value.
@@ -42,7 +42,7 @@ public final class PropertyTypeInspectionResultConstants {
 	 * XML-based inspectors. In particular, we don't want to use a proxied class as the 'type'.
 	 */
 
-	public final static String	ACTUAL_CLASS	= "actual-class";
+	public static final String	ACTUAL_CLASS	= "actual-class";
 
 	//
 	// Private constructor

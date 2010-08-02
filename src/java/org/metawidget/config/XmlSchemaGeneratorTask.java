@@ -63,11 +63,11 @@ public class XmlSchemaGeneratorTask
 	// Private statics
 	//
 
-	private final static String	CLASS_SUFFIX	= ".class";
+	private static final String	CLASS_SUFFIX	= ".class";
 
-	private final static String	XSD_SUFFIX		= "-1.0.xsd";
+	private static final String	XSD_SUFFIX		= "-1.0.xsd";
 
-	private final static String	SCHEMA_END		= "\r\n</xs:schema>";
+	private static final String	SCHEMA_END		= "\r\n</xs:schema>";
 
 	//
 	// Private members

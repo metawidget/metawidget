@@ -33,7 +33,7 @@ public class DateConverter
 	// Private statics
 	//
 
-	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
+	private static final DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
 
 	static {
 		FORMAT.setLenient( false );

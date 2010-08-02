@@ -31,7 +31,7 @@ public class CommunicationsBean
 	// Private statics
 	//
 
-	private final static SelectItem[]	ALL_COMMUNICATION_TYPE_SELECT_ITEMS;
+	private static final SelectItem[]	ALL_COMMUNICATION_TYPE_SELECT_ITEMS;
 
 	static {
 		ALL_COMMUNICATION_TYPE_SELECT_ITEMS = new SelectItem[ALL_COMMUNICATION_TYPES.length];

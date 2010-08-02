@@ -60,9 +60,9 @@ public class GwtAddressBookTest
 	 * Time to execute the /contacts service.
 	 */
 
-	private final static int	CONTACTS_SERVICE_DELAY	= 1000;
+	private static final int	CONTACTS_SERVICE_DELAY	= 1000;
 
-	private final static int	TEST_FINISH_DELAY		= 500 * CONTACTS_SERVICE_DELAY;
+	private static final int	TEST_FINISH_DELAY		= 500 * CONTACTS_SERVICE_DELAY;
 
 	//
 	// Public methods

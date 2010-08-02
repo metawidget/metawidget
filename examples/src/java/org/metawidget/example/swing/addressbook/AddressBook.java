@@ -61,7 +61,7 @@ public class AddressBook
 	// Private statics
 	//
 
-	private final static int		COMPONENT_SPACING	= 5;
+	private static final int		COMPONENT_SPACING	= 5;
 
 	//
 	// Private members

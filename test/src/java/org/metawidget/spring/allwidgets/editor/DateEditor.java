@@ -32,7 +32,7 @@ public class DateEditor
 	// Private statics
 	//
 
-	private final static DateFormat	FORMAT	= new SimpleDateFormat( "E MMM dd HH:mm:ss z yyyy" );
+	private static final DateFormat	FORMAT	= new SimpleDateFormat( "E MMM dd HH:mm:ss z yyyy" );
 
 	static {
 		FORMAT.setLenient( false );

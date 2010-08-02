@@ -50,7 +50,7 @@ public class JspUtilsTest
 	// Package-level statics
 	//
 
-	final static String	NEWLINE	= System.getProperty( "line.separator" );
+	static final String	NEWLINE	= System.getProperty( "line.separator" );
 
 	//
 	// Public methods

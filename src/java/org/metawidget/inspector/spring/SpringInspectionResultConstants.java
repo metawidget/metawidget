@@ -29,11 +29,11 @@ public final class SpringInspectionResultConstants {
 	// Public statics
 	//
 
-	public final static String	SPRING_LOOKUP				= "spring-lookup";
+	public static final String	SPRING_LOOKUP				= "spring-lookup";
 
-	public final static String	SPRING_LOOKUP_ITEM_VALUE	= "spring-lookup-item-value";
+	public static final String	SPRING_LOOKUP_ITEM_VALUE	= "spring-lookup-item-value";
 
-	public final static String	SPRING_LOOKUP_ITEM_LABEL	= "spring-lookup-item-label";
+	public static final String	SPRING_LOOKUP_ITEM_LABEL	= "spring-lookup-item-label";
 
 	//
 	// Private constructor

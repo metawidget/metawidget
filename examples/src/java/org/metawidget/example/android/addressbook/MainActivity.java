@@ -42,7 +42,7 @@ public class MainActivity
 	// Private statics
 	//
 
-	private final static int	MENU_GROUP_ID	= 0;
+	private static final int	MENU_GROUP_ID	= 0;
 
 	//
 	// Protected members

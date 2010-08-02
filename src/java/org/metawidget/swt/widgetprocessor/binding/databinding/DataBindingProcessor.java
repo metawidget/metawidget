@@ -284,7 +284,7 @@ public class DataBindingProcessor
 		// Do not override equals/hashCode, we are not going to be comparing this or hashing it
 	}
 
-	/* package private */final static class ConvertFromTo {
+	/* package private */static final class ConvertFromTo {
 
 		//
 		// Private members

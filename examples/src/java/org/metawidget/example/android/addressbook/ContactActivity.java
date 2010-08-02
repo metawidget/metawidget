@@ -59,9 +59,9 @@ public class ContactActivity
 	// Private statics
 	//
 
-	private final static int		MENU_GROUP_ID	= 0;
+	private static final int		MENU_GROUP_ID	= 0;
 
-	private final static DateFormat	FORMAT			= DateFormat.getDateInstance( DateFormat.SHORT );
+	private static final DateFormat	FORMAT			= DateFormat.getDateInstance( DateFormat.SHORT );
 
 	static {
 		FORMAT.setLenient( false );

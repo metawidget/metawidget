@@ -83,7 +83,7 @@ public class SwtAllWidgetsTest
 	// Private statics
 	//
 
-	private final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
+	private static final String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
 	// Public methods

@@ -72,9 +72,9 @@ public class ContactDialog
 	// Private statics
 	//
 
-	private final static long				serialVersionUID	= 1l;
+	private static final long				serialVersionUID	= 1l;
 
-	private final static int				COMPONENT_SPACING	= 5;
+	private static final int				COMPONENT_SPACING	= 5;
 
 	//
 	// Package-level members
@@ -307,7 +307,7 @@ public class ContactDialog
 		// Private statics
 		//
 
-		private final static long	serialVersionUID	= 1l;
+		private static final long	serialVersionUID	= 1l;
 
 		//
 		// Private members

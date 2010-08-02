@@ -49,7 +49,7 @@ public class FacesInspector
 	// Private members
 	//
 
-	private final static ThreadLocal<Object>	LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
+	private static final ThreadLocal<Object>	LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
 
 	//
 	// Private members

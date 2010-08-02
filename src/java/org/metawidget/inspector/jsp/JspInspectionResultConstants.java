@@ -29,7 +29,7 @@ public final class JspInspectionResultConstants {
 	// Public statics
 	//
 
-	public final static String	JSP_LOOKUP	= "jsp-lookup";
+	public static final String	JSP_LOOKUP	= "jsp-lookup";
 
 	//
 	// Private constructor

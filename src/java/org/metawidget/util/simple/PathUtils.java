@@ -136,7 +136,7 @@ public class PathUtils {
 	// Private statics
 	//
 
-	final static String[]	EMPTY_STRING_ARRAY	= new String[0];
+	static final String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
 	// Private constructor

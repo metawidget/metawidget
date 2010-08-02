@@ -76,11 +76,11 @@ public class GwtMetawidget
 	// Private statics
 	//
 
-	private final static int								BUILDING_COMPLETE		= 0;
+	private static final int								BUILDING_COMPLETE		= 0;
 
-	private final static int								BUILDING_IN_PROGRESS	= 1;
+	private static final int								BUILDING_IN_PROGRESS	= 1;
 
-	private final static int								BUILDING_NEEDED			= 2;
+	private static final int								BUILDING_NEEDED			= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -92,7 +92,7 @@ public class GwtMetawidget
 	 * into one.
 	 */
 
-	private final static int								BUILD_DELAY				= 50;
+	private static final int								BUILD_DELAY				= 50;
 
 	/**
 	 * Static cache of the default Inspector.

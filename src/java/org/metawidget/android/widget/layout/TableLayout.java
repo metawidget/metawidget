@@ -38,7 +38,7 @@ public class TableLayout
 	// Private statics
 	//
 
-	private final static int	LABEL_AND_WIDGET	= 2;
+	private static final int	LABEL_AND_WIDGET	= 2;
 
 	//
 	// Constructor

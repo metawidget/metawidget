@@ -481,7 +481,7 @@ public class PropertyTypeInspectorTest
 	protected static class SubFoo
 		extends SuperFoo {
 
-		public final static int	notVisible	= 0;
+		public static final int	notVisible	= 0;
 
 		//
 		// Public methods

@@ -29,13 +29,13 @@ public final class StrutsInspectionResultConstants {
 	// Public statics
 	//
 
-	public final static String	STRUTS_LOOKUP_NAME				= "struts-lookup-name";
+	public static final String	STRUTS_LOOKUP_NAME				= "struts-lookup-name";
 
-	public final static String	STRUTS_LOOKUP_PROPERTY			= "struts-lookup-property";
+	public static final String	STRUTS_LOOKUP_PROPERTY			= "struts-lookup-property";
 
-	public final static String	STRUTS_LOOKUP_LABEL_NAME		= "struts-lookup-label-name";
+	public static final String	STRUTS_LOOKUP_LABEL_NAME		= "struts-lookup-label-name";
 
-	public final static String	STRUTS_LOOKUP_LABEL_PROPERTY	= "struts-lookup-label-property";
+	public static final String	STRUTS_LOOKUP_LABEL_PROPERTY	= "struts-lookup-label-property";
 
 	//
 	// Private constructor

@@ -47,14 +47,14 @@ public class SeamInspector
 	// Private statics
 	//
 
-	private final static String		JBPM_ELEMENT					= "jbpm";
+	private static final String		JBPM_ELEMENT					= "jbpm";
 
 	/**
 	 * In Seam, pageflows can be defined in <code>components.xml</code> in a
 	 * <code>pageflow-definitions/code> block.
 	 */
 
-	private final static String		PAGEFLOW_DEFINITIONS_ELEMENT	= "pageflow-definitions";
+	private static final String		PAGEFLOW_DEFINITIONS_ELEMENT	= "pageflow-definitions";
 
 	//
 	// Private members

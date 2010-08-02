@@ -85,7 +85,7 @@ public final class IOUtils {
 	 * itself must not be!
 	 */
 
-	private final static int	BUFFER_SIZE	= 1024 * 64;
+	private static final int	BUFFER_SIZE	= 1024 * 64;
 
 	//
 	// Private constructor

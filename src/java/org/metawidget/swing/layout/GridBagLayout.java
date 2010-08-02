@@ -54,11 +54,11 @@ public class GridBagLayout
 	// Private statics
 	//
 
-	private final static int	SMALL_GAP			= 3;
+	private static final int	SMALL_GAP			= 3;
 
-	private final static Insets	INSETS_COMPONENT	= new Insets( 0, 0, SMALL_GAP, 0 );
+	private static final Insets	INSETS_COMPONENT	= new Insets( 0, 0, SMALL_GAP, 0 );
 
-	private final static String	LABEL_NAME_SUFFIX	= "_label";
+	private static final String	LABEL_NAME_SUFFIX	= "_label";
 
 	//
 	// Private members

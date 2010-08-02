@@ -39,7 +39,7 @@ public class ScalaPropertyStyle
 	// Private statics
 	//
 
-	private final static String	SCALA_SET_SUFFIX	= "_$eq";
+	private static final String	SCALA_SET_SUFFIX	= "_$eq";
 
 	//
 	// Protected methods

@@ -86,15 +86,15 @@ public class SimpleBindingProcessorAdapterGenerator
 	 * avoid keyword clashes (eg. 'class')
 	 */
 
-	private final static String	VARIABLE_NAME_PREFIX	= "the";
+	private static final String	VARIABLE_NAME_PREFIX	= "the";
 
-	private final static int	WRITE_GETTER			= 0;
+	private static final int	WRITE_GETTER			= 0;
 
-	private final static int	WRITE_TYPE_GETTER		= 1;
+	private static final int	WRITE_TYPE_GETTER		= 1;
 
-	private final static int	WRITE_SETTER			= 2;
+	private static final int	WRITE_SETTER			= 2;
 
-	private final static int	WRITE_ACTION			= 3;
+	private static final int	WRITE_ACTION			= 3;
 
 	/**
 	 * Maximum depth of recursion to avoid infinite recursion.
@@ -104,7 +104,7 @@ public class SimpleBindingProcessorAdapterGenerator
 	 * objects are not known.
 	 */
 
-	private final static int	MAXIMUM_DEPTH			= 10;
+	private static final int	MAXIMUM_DEPTH			= 10;
 
 	//
 	// Private members

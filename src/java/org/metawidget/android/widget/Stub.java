@@ -52,7 +52,7 @@ public class Stub
 	// Private statics
 	//
 
-	private final static String	ATTRIBUTE_PREFIX	= "attrib";
+	private static final String	ATTRIBUTE_PREFIX	= "attrib";
 
 	//
 	// Private members

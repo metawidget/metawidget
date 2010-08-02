@@ -36,7 +36,7 @@ public class TestInspectorConfig {
 	// Public statics
 	//
 
-	public final static int	CONSTANT_VALUE	= 42;
+	public static final int	CONSTANT_VALUE	= 42;
 
 	//
 	// Private members

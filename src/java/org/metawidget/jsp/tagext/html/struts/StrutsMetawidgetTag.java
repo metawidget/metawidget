@@ -37,7 +37,7 @@ public class StrutsMetawidgetTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1l;
+	private static final long	serialVersionUID	= 1l;
 
 	//
 	// Public methods

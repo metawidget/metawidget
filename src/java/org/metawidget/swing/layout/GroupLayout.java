@@ -52,11 +52,11 @@ public class GroupLayout
 	// Private statics
 	//
 
-	private final static Component[]	EMPTY_COMPONENTS_ARRAY	= new Component[] {};
+	private static final Component[]	EMPTY_COMPONENTS_ARRAY	= new Component[] {};
 
-	private final static int			COMPONENT_GAP			= 3;
+	private static final int			COMPONENT_GAP			= 3;
 
-	private final static String			LABEL_NAME_SUFFIX		= "_label";
+	private static final String			LABEL_NAME_SUFFIX		= "_label";
 
 	//
 	// Public methods

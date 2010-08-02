@@ -45,7 +45,7 @@ public class SimpleLayoutRenderer
 	// Private statics
 	//
 
-	private final static String	AFTER_FACET	= "after";
+	private static final String	AFTER_FACET	= "after";
 
 	//
 	// Public methods

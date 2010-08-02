@@ -51,15 +51,15 @@ public class SeparatorLayoutDecorator
 	 * The border around the entire separator.
 	 */
 
-	private final static Border	BORDER_SECTION				= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
+	private static final Border	BORDER_SECTION				= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
 
 	/**
 	 * The insets around the separator label.
 	 */
 
-	private final static Insets	INSETS_SECTION_LABEL_LEFT	= new Insets( 0, 0, 0, 5 );
+	private static final Insets	INSETS_SECTION_LABEL_LEFT	= new Insets( 0, 0, 0, 5 );
 
-	private final static Insets	INSETS_SECTION_LABEL_RIGHT	= new Insets( 0, 5, 0, 0 );
+	private static final Insets	INSETS_SECTION_LABEL_RIGHT	= new Insets( 0, 5, 0, 0 );
 
 	//
 	// Private members

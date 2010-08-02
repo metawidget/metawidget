@@ -65,9 +65,9 @@ public class MigLayoutTest
 	// Private statics
 	//
 
-	private final static int	SPAN_ALL	= 2097051;
+	private static final int	SPAN_ALL	= 2097051;
 
-	private final static int	GROW_ALL	= 100;
+	private static final int	GROW_ALL	= 100;
 
 	//
 	// Public statics
