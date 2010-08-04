@@ -887,6 +887,11 @@ public class GwtMetawidget
 		mExistingUnusedWidgets = new HashSet<Widget>( mExistingWidgets );
 	}
 
+	/**
+	 * @param attributes
+	 *            attributes of the widget to layout. Never null
+	 */
+
 	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes ) {
 
 		if ( widget == null ) {
@@ -903,6 +908,12 @@ public class GwtMetawidget
 
 		return widget;
 	}
+
+	/**
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
+	 */
 
 	protected void layoutWidget( Widget widget, String elementName, Map<String, String> attributes ) {
 

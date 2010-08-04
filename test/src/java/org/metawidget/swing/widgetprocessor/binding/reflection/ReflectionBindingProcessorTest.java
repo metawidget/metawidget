@@ -137,6 +137,10 @@ public class ReflectionBindingProcessorTest
 		// Public methods
 		//
 
+		/**
+		 * @param event
+		 */
+
 		@Action
 		public void doAction( java.awt.event.ActionEvent event ) {
 

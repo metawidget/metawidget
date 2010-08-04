@@ -506,6 +506,10 @@ public class SwingMetawidgetTest
 			return Boolean.FALSE;
 		}
 
+		/**
+		 * @param aBoolean
+		 */
+
 		public void setBoolean( Boolean aBoolean ) {
 
 			// Do nothing

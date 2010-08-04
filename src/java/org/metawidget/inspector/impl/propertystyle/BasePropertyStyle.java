@@ -192,6 +192,8 @@ public abstract class BasePropertyStyle
 	 * <p>
 	 * By default, does not exclude any names.
 	 *
+	 * @param name
+	 *            to consider for exclusion
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
@@ -208,6 +210,8 @@ public abstract class BasePropertyStyle
 	 * <p>
 	 * By default, does not exclude any return types.
 	 *
+	 * @param clazz
+	 *            return type to consider for exclusion
 	 * @return true if the property should be excluded, false otherwise
 	 */
 

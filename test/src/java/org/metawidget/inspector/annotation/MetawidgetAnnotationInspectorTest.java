@@ -229,6 +229,10 @@ public class MetawidgetAnnotationInspectorTest
 
 	public static class BadAction1 {
 
+		/**
+		 * @param foo
+		 */
+
 		@UiAction
 		public void doNothing( String foo ) {
 

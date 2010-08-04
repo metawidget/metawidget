@@ -104,29 +104,29 @@ public class GridLayout
 
 		// Calculate default label inset
 		//
-		// We top align all our labels, not just those belonging to 'tall' components,
-		// so that tall components, regular components and nested Metawidget components all line up.
-		// However, we still want the JLabels to be middle aligned for one-line components (such as
-		// JTextFields), so we top inset them a bit
+		// We top align all our labels, not just those belonging to 'tall' controls,
+		// so that tall controls, regular controls and nested Metawidget controls all line up.
+		// However, we still want the JLabels to be middle aligned for one-line controls (such as
+		// Text boxes), so we top inset them a bit
 
 		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( mNumberOfColumns * LABEL_AND_CONTROL, false );
 		container.setLayout( layoutManager );
 	}
 
-	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		// Do not layout space for empty stubs
 
-		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 ) {
+		if ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 ) {
 			GridData stubData = new GridData();
 			stubData.exclude = true;
-			component.setLayoutData( stubData );
+			control.setLayoutData( stubData );
 			return;
 		}
 
-		// Special support for large components
+		// Special support for large controls
 
-		boolean spanAllColumns = willFillHorizontally( component, attributes );
+		boolean spanAllColumns = willFillHorizontally( control, attributes );
 
 		if ( spanAllColumns ) {
 			int numberOfChildren = container.getChildren().length;
@@ -146,35 +146,35 @@ public class GridLayout
 			labelText = metawidget.getLabelString( attributes );
 		}
 
-		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
+		layoutBeforeChild( control, labelText, elementName, attributes, container, metawidget );
 
-		// ...and layout the component
+		// ...and layout the control
 
-		GridData componentLayoutData = new GridData();
-		componentLayoutData.grabExcessHorizontalSpace = true;
+		GridData controlLayoutData = new GridData();
+		controlLayoutData.grabExcessHorizontalSpace = true;
 
-		if ( !( component instanceof Button ) ) {
-			componentLayoutData.horizontalAlignment = SWT.FILL;
-			componentLayoutData.verticalAlignment = SWT.FILL;
+		if ( !( control instanceof Button ) ) {
+			controlLayoutData.horizontalAlignment = SWT.FILL;
+			controlLayoutData.verticalAlignment = SWT.FILL;
 		}
 
 		if ( spanAllColumns ) {
-			componentLayoutData.horizontalSpan = mNumberOfColumns * LABEL_AND_CONTROL;
+			controlLayoutData.horizontalSpan = mNumberOfColumns * LABEL_AND_CONTROL;
 
 			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
-				componentLayoutData.horizontalSpan--;
+				controlLayoutData.horizontalSpan--;
 			}
 		} else if ( !SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
-			componentLayoutData.horizontalSpan = LABEL_AND_CONTROL;
+			controlLayoutData.horizontalSpan = LABEL_AND_CONTROL;
 		}
 
-		if ( willFillVertically( component, attributes ) ) {
-			componentLayoutData.grabExcessVerticalSpace = true;
+		if ( willFillVertically( control, attributes ) ) {
+			controlLayoutData.grabExcessVerticalSpace = true;
 		}
 
 		// Add it
 
-		component.setLayoutData( componentLayoutData );
+		control.setLayoutData( controlLayoutData );
 	}
 
 	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
@@ -203,7 +203,7 @@ public class GridLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+	protected String layoutBeforeChild( Control control, String labelText, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		// Add label
 
@@ -244,22 +244,27 @@ public class GridLayout
 			labelLayoutData.verticalAlignment = SWT.FILL;
 
 			label.setLayoutData( labelLayoutData );
-			label.moveAbove( component );
+			label.moveAbove( control );
 		}
 
 		return labelText;
 	}
 
-	protected boolean willFillHorizontally( Control component, Map<String, String> attributes ) {
+	protected boolean willFillHorizontally( Control control, Map<String, String> attributes ) {
 
-		if ( component instanceof SwtMetawidget ) {
+		if ( control instanceof SwtMetawidget ) {
 			return true;
 		}
 
 		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
 
-	protected boolean willFillVertically( Control component, Map<String, String> attributes ) {
+	/**
+	 * @param control
+	 *            control that may fill vertically
+	 */
+
+	protected boolean willFillVertically( Control control, Map<String, String> attributes ) {
 
 		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;

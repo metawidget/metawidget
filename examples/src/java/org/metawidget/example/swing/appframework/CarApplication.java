@@ -67,7 +67,7 @@ public class CarApplication
 	public void save( ActionEvent event ) {
 
 		mMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mMetawidget );
-		JOptionPane.showMessageDialog( getMainFrame(), "Saved " + mCar );
+		JOptionPane.showMessageDialog( getMainFrame(), mCar + " " + event.getActionCommand() + "d" );
 	}
 
 	//

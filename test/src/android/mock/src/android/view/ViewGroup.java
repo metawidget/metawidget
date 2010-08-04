@@ -69,6 +69,10 @@ public class ViewGroup
 		addView( child, null );
 	}
 
+	/**
+	 * @param params
+	 */
+
 	public void addView( View child, LayoutParams params ) {
 
 		child.setParent( this );
@@ -118,15 +122,29 @@ public class ViewGroup
 			// Ignore
 		}
 
+		/**
+		 * @param context
+		 * @param attributeSet
+		 */
+
 		public LayoutParams( Context context, AttributeSet attributeSet ) {
 
 			// Ignore
 		}
 
+		/**
+		 * @param int1
+		 * @param int2
+		 */
+
 		public LayoutParams( int int1, int int2 ) {
 
 			// Ignore
 		}
+
+		/**
+		 * @param toCopy
+		 */
 
 		public LayoutParams( LayoutParams toCopy ) {
 

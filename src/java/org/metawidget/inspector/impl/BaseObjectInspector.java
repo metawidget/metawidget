@@ -373,6 +373,9 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
+	 *
+	 * @param trait
+	 *            the trait to inspect
 	 */
 
 	protected Map<String, String> inspectTrait( Trait trait )
@@ -387,6 +390,9 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
+	 *
+	 * @param property
+	 *            the property to inspect
 	 */
 
 	protected Map<String, String> inspectProperty( Property property )
@@ -401,6 +407,9 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
+	 *
+	 * @param action
+	 *            the action to inspect
 	 */
 
 	protected Map<String, String> inspectAction( Action action )
@@ -418,6 +427,9 @@ public abstract class BaseObjectInspector
 	 * getter to retrieve the value) so is <code>false</code> by default.
 	 * <p>
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
+	 *
+	 * @param property
+	 *            the property to inspect
 	 */
 
 	protected boolean shouldInspectPropertyAsEntity( Property property ) {

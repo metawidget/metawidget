@@ -81,30 +81,54 @@ public class TestInspector
 		mGender = config.getGender();
 	}
 
+	/**
+	 * @param config
+	 */
+
 	public TestInspector( TestNoEqualsInspectorConfig config ) {
 
 		// Do nothing
 	}
+
+	/**
+	 * @param config
+	 */
 
 	public TestInspector( TestNoHashCodeInspectorConfig config ) {
 
 		// Do nothing
 	}
 
+	/**
+	 * @param config
+	 */
+
 	public TestInspector( TestUnbalancedEqualsInspectorConfig config ) {
 
 		// Do nothing
 	}
+
+	/**
+	 * @param config
+	 */
 
 	public TestInspector( TestNoEqualsSubclassInspectorConfig config ) {
 
 		// Do nothing
 	}
 
+	/**
+	 * @param config
+	 */
+
 	public TestInspector( TestNoEqualsHasMethodsSubclassInspectorConfig config ) {
 
 		// Do nothing
 	}
+
+	/**
+	 * @param config
+	 */
 
 	public TestInspector( TestDumbHashCodeInspectorConfig config ) {
 

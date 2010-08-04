@@ -71,13 +71,15 @@ public abstract class MethodActionStyle
 	}
 
 	/**
-	 * Whether to exclude the given action when searching for actions.
+	 * Whether to exclude the given method when searching for actions.
 	 * <p>
-	 * This can be useful when the convention or base class define actions that are
-	 * framework-specific, and should be filtered out from 'real' business model actions.
+	 * This can be useful when the convention or base class define methods that are
+	 * framework-specific, and should be filtered out from 'real' business model methods.
 	 * <p>
-	 * By default, does not exclude any actions.
+	 * By default, does not exclude any methods.
 	 *
+	 * @param method
+	 *            method to consider excluding
 	 * @return true if the property should be excluded, false otherwise
 	 */
 

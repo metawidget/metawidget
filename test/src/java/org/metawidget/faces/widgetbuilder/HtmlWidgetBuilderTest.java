@@ -371,6 +371,10 @@ public class HtmlWidgetBuilderTest
 		return new HtmlWidgetBuilder();
 	}
 
+	/**
+	 * @param component
+	 */
+
 	protected void furtherAssert( UIComponent component ) {
 
 		// Nothing by default

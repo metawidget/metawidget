@@ -166,6 +166,10 @@ public class JavaBeanPropertyStyleTest
 			return null;
 		}
 
+		/**
+		 * @param methodBar
+		 */
+
 		@Length( min = 5 )
 		public void setMethodBar( String methodBar ) {
 
@@ -176,6 +180,10 @@ public class JavaBeanPropertyStyleTest
 
 			return null;
 		}
+
+		/**
+		 * @param methodAbc
+		 */
 
 		public void setMethodAbc( List<Boolean> methodAbc ) {
 
@@ -204,6 +212,10 @@ public class JavaBeanPropertyStyleTest
 			return null;
 		}
 
+		/**
+		 * @param ignore
+		 */
+
 		public void setterIgnoreBecauseLowercase( String ignore ) {
 
 			// Do nothing
@@ -212,6 +224,10 @@ public class JavaBeanPropertyStyleTest
 
 	class ErrorFoo
 		extends Foo {
+
+		/**
+		 * @param aFoo
+		 */
 
 		public void setFoo( String aFoo ) {
 
@@ -237,10 +253,18 @@ public class JavaBeanPropertyStyleTest
 			return null;
 		}
 
+		/**
+		 * @param methodSetterInSuper
+		 */
+
 		public void setMethodGetterInSuper( String methodSetterInSuper ) {
 
 			// Do nothing
 		}
+
+		/**
+		 * @param methodSetterInSuper
+		 */
 
 		public void setMethodSetterInSuper( String methodSetterInSuper ) {
 

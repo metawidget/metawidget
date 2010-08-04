@@ -180,6 +180,10 @@ public class TestInspectorConfig {
 		mGender = gender;
 	}
 
+	/**
+	 * @param failDuringConstruction
+	 */
+
 	public void setFailDuringConstruction( boolean failDuringConstruction ) {
 
 		mFailDuringConstruction = true;
@@ -189,6 +193,10 @@ public class TestInspectorConfig {
 
 		return mFailDuringConstruction;
 	}
+
+	/**
+	 * @param date
+	 */
 
 	public void setDate( Date date ) {
 

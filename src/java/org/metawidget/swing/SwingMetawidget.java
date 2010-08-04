@@ -820,6 +820,12 @@ public class SwingMetawidget
 		mExistingUnusedComponents = CollectionUtils.newArrayList( mExistingComponents );
 	}
 
+	/**
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
+	 */
+
 	protected void layoutWidget( Component component, String elementName, Map<String, String> attributes ) {
 
 		// Set the name of the component.

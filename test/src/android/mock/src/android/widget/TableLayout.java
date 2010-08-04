@@ -51,6 +51,11 @@ public class TableLayout
 	// Public methods
 	//
 
+	/**
+	 * @param column
+	 * @param stretchable
+	 */
+
 	public void setColumnStretchable( int column, boolean stretchable ) {
 
 		// Do nothing

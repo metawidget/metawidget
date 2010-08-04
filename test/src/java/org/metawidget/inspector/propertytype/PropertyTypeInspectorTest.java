@@ -503,6 +503,10 @@ public class PropertyTypeInspectorTest
 			return null;
 		}
 
+		/**
+		 * @param bar
+		 */
+
 		public void setBar( String bar ) {
 
 			// Do nothing
@@ -521,6 +525,10 @@ public class PropertyTypeInspectorTest
 
 			return null;
 		}
+
+		/**
+		 * @param contact
+		 */
 
 		public void setContact( Contact contact ) {
 

@@ -238,6 +238,9 @@ public class BeanUtilsBindingProcessor
 	 * Retrieve value identified by the given names from the given source.
 	 * <p>
 	 * Clients may override this method to incorporate their own getter convention.
+	 *
+	 * @param metawidget
+	 *            Metawidget to retrieve value from
 	 */
 
 	protected Object retrieveValueFromObject( SwingMetawidget metawidget, Object source, String names )

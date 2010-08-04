@@ -42,10 +42,20 @@ public class ArrayAdapter<T>
 	// Constructors
 	//
 
+	/**
+	 * @param context
+	 */
+
 	public ArrayAdapter( Context context ) {
 
 		// Ignore context
 	}
+
+	/**
+	 * @param context
+	 * @param textViewResourceId
+	 * @param values
+	 */
 
 	public ArrayAdapter( Context context, int textViewResourceId, List<T> values ) {
 
@@ -60,6 +70,12 @@ public class ArrayAdapter<T>
 
 		return null;
 	}
+
+	/**
+	 * @param position
+	 * @param convertView
+	 * @param parentView
+	 */
 
 	public View getDropDownView( int position, View convertView, ViewGroup parentView ) {
 
@@ -81,6 +97,10 @@ public class ArrayAdapter<T>
 
 		return null;
 	}
+
+	/**
+	 * @param resource
+	 */
 
 	public void setDropDownViewResource( int resource ) {
 

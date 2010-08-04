@@ -51,6 +51,10 @@ public class TabHost
 	// Public methods
 	//
 
+	/**
+	 * @param name
+	 */
+
 	public TabHost.TabSpec newTabSpec( String name ) {
 
 		return new TabSpec();

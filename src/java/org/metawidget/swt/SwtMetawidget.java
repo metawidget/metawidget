@@ -670,6 +670,12 @@ public class SwtMetawidget
 		}
 	}
 
+	/**
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
+	 */
+
 	protected void layoutWidget( Control control, String elementName, Map<String, String> attributes ) {
 
 		// Set the name of the component.

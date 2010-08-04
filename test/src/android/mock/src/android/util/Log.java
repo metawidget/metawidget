@@ -28,6 +28,11 @@ public class Log {
 	// Public methods
 	//
 
+	/**
+	 * @param tag
+	 * @param message
+	 */
+
 	public static int d( String tag, String message ) {
 
 		return 0;

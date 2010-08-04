@@ -263,6 +263,14 @@ public abstract class BaseXmlInspector
 	// Protected methods
 	//
 
+	/**
+	 * Parse the given InputStreams into a single DOM Document, and return its root.
+	 *
+	 * @param resolver
+	 *            helper in case <code>getDocumentElement</code> needs to resolve references defined
+	 *            in the <code>InputStream</code>.
+	 */
+
 	protected Element getDocumentElement( ResourceResolver resolver, InputStream... files )
 		throws Exception {
 
@@ -291,6 +299,16 @@ public abstract class BaseXmlInspector
 
 		return documentMaster.getDocumentElement();
 	}
+
+	/**
+	 * Hook for subclasses to preprocess the document after the Inspector is initialized.
+	 * <p>
+	 * For example, <code>HibernateInspector</code> preprocesses the class names in Hibernate
+	 * mapping files to make them fully qualified.
+	 *
+	 * @param document
+	 *            DOM of XML being processed
+	 */
 
 	protected void preprocessDocument( Document document ) {
 
@@ -379,6 +397,9 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is a property.
+	 *
+	 * @param toInspect
+	 *            DOM element to inspect
 	 */
 
 	protected Map<String, String> inspectProperty( Element toInspect ) {
@@ -388,6 +409,9 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is an action.
+	 *
+	 * @param toInspect
+	 *            DOM element to inspect
 	 */
 
 	protected Map<String, String> inspectAction( Element toInspect ) {

@@ -262,6 +262,8 @@ public class CompositeInspector
 	 * Does nothing by default.
 	 * <p>
 	 * Subclasses can override this method to hook in validation.
+	 *
+	 * @param document	the inspection result DOM
 	 */
 
 	protected void validate( Document document )

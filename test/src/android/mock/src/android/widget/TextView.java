@@ -69,20 +69,37 @@ public class TextView
 		mText = text;
 	}
 
+	/**
+	 * @param text
+	 * @param bufferType
+	 */
+
 	public void setText( CharSequence text, BufferType bufferType ) {
 
 		mText = text;
 	}
+
+	/**
+	 * @param textSize
+	 */
 
 	public void setTextSize( int textSize ) {
 
 		// Ignore
 	}
 
+	/**
+	 * @param gravity
+	 */
+
 	public void setGravity( int gravity ) {
 
 		// Ignore
 	}
+
+	/**
+	 * @param colors
+	 */
 
 	public void setTextColor( ColorStateList colors ) {
 

@@ -179,6 +179,10 @@ public class JGoodiesValidatorProcessorTest
 			return null;
 		}
 
+		/**
+		 * @param notValidated
+		 */
+
 		public void setNotValidated( String notValidated ) {
 
 			// Do nothing

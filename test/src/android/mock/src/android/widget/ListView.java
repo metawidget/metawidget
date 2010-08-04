@@ -40,6 +40,10 @@ public class ListView
 	// Public methods
 	//
 
+	/**
+	 * @param onItemClickListener
+	 */
+
 	public void setOnItemClickListener( OnItemClickListener onItemClickListener ) {
 
 		// Do nothing

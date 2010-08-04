@@ -52,15 +52,30 @@ public class View {
 	// Constructor
 	//
 
+	/**
+	 * @param context
+	 */
+
 	public View( Context context ) {
 
 		// Ignore context
 	}
 
+	/**
+	 * @param context
+	 * @param attributeSet
+	 */
+
 	public View( Context context, AttributeSet attributeSet ) {
 
 		// Ignore context
 	}
+
+	/**
+	 * @param context
+	 * @param attributeSet
+	 * @param index
+	 */
 
 	public View( Context context, AttributeSet attributeSet, int index ) {
 
@@ -91,6 +106,10 @@ public class View {
 		return null;
 	}
 
+	/**
+	 * @param id
+	 */
+
 	public void setId( int id ) {
 
 		// Do nothing
@@ -105,6 +124,10 @@ public class View {
 
 		mTag = tag;
 	}
+
+	/**
+	 * @param layoutParams
+	 */
 
 	public void setLayoutParams( LayoutParams layoutParams ) {
 
@@ -121,17 +144,29 @@ public class View {
 		return mVisibility;
 	}
 
-	public View findViewWithTag( String string ) {
+	/**
+	 * @param tag
+	 */
+
+	public View findViewWithTag( String tag ) {
 
 		return null;
 	}
 
-	public void setFocusable( boolean b ) {
+	/**
+	 * @param focusable
+	 */
+
+	public void setFocusable( boolean focusable ) {
 
 		// Do nothing
 	}
 
-	public void setFocusableInTouchMode( boolean b ) {
+	/**
+	 * @param focusable
+	 */
+
+	public void setFocusableInTouchMode( boolean focusable ) {
 
 		// Do nothing
 	}
@@ -141,6 +176,13 @@ public class View {
 		// Do nothing
 	}
 
+	/**
+	 * @param leftPadding
+	 * @param topPadding
+	 * @param rightPadding
+	 * @param bottomPadding
+	 */
+
 	public void setPadding( int leftPadding, int topPadding, int rightPadding, int bottomPadding ) {
 
 		// Do nothing
@@ -149,6 +191,11 @@ public class View {
 	//
 	// Protected methods
 	//
+
+	/**
+	 * @param widthMeasureSpec
+	 * @param heightMeasureSpec
+	 */
 
 	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
 

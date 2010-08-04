@@ -293,6 +293,10 @@ public class FlexTableLayout
 		flexTable.setHTML( row, column, "<div></div>" );
 	}
 
+	/**
+	 * @param metawidget the Metawidget doing the layout
+	 */
+
 	protected String getStyleName( int styleName, GwtMetawidget metawidget ) {
 
 		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName ) {

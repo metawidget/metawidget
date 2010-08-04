@@ -48,6 +48,10 @@ public class FacesThisTest {
 		mChild.mIdentity = "FacesThisTest #2";
 	}
 
+	/**
+	 * @param noMore
+	 */
+
 	public FacesThisTest( boolean noMore ) {
 
 		// No more children

@@ -216,6 +216,15 @@ public class ComesAfterInspectionResultProcessor<M>
 
 	/**
 	 * Hook for subclasses wishing to customize the 'comes-after' indicator.
+	 * <p>
+	 * This can be useful is, say, you wanted to implement different 'comes-after' values for
+	 * different screens. You may have a 'comes-after-summary' attribute and a 'comes-after-detail'
+	 * attribute, and choose between them based on some property of the Metawidget. Similar to the
+	 * approach discussed here:
+	 * http://kennardconsulting.blogspot.com/2010/07/customizing-which-form-fields-are_14.html
+	 *
+	 * @param metawidget
+	 *            Metawidget doing the rendering
 	 */
 
 	protected boolean hasComesAfter( Element element, M metawidget ) {
@@ -225,6 +234,15 @@ public class ComesAfterInspectionResultProcessor<M>
 
 	/**
 	 * Hook for subclasses wishing to customize the 'comes-after' indicator.
+	 * <p>
+	 * This can be useful is, say, you wanted to implement different 'comes-after' values for
+	 * different screens. You may have a 'comes-after-summary' attribute and a 'comes-after-detail'
+	 * attribute, and choose between them based on some property of the Metawidget. Similar to the
+	 * approach discussed here:
+	 * http://kennardconsulting.blogspot.com/2010/07/customizing-which-form-fields-are_14.html
+	 *
+	 * @param metawidget
+	 *            Metawidget doing the rendering
 	 */
 
 	protected String getComesAfter( Element element, M metawidget ) {

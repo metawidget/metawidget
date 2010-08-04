@@ -265,7 +265,7 @@ public class GridBagLayout
 	// Protected methods
 	//
 
-	protected void layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+	protected void layoutBeforeChild( JComponent child, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		State state = getState( container );
 
@@ -306,7 +306,7 @@ public class GridBagLayout
 
 			// Mnemonic
 
-			label.setLabelFor( component );
+			label.setLabelFor( child );
 
 			int mnemonicIndex = stripMnemonic.getRight();
 
@@ -342,7 +342,12 @@ public class GridBagLayout
 		}
 	}
 
-	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+	/**
+	 * @param child
+	 *            component being laid out
+	 */
+
+	protected void layoutAfterChild( JComponent child, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		State state = getState( container );
 

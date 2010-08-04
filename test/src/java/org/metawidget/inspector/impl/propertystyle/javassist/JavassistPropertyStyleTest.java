@@ -108,6 +108,10 @@ public class JavassistPropertyStyleTest
 			return null;
 		}
 
+		/**
+		 * @param superBarParam
+		 */
+
 		public void setMethodSuperBar( int superBarParam ) {
 
 			// Do nothing

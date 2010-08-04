@@ -92,16 +92,16 @@ public class MigLayout
 		// Create the Layout
 		//
 		// Note: we don't use column/row constraints, because we don't know
-		// what the components will be in advance. Rather, we use 'cell' and 'push'
+		// what the controls will be in advance. Rather, we use 'cell' and 'push'
 
 		org.eclipse.swt.widgets.Layout layout = new net.miginfocom.swt.MigLayout( layoutConstraints );
 		container.setLayout( layout );
 
 		// Calculate default label inset
 		//
-		// We top align all our labels, not just those belonging to 'tall' components,
-		// so that tall components, regular components and nested Metawidget components all line up.
-		// However, we still want the Labels to be middle aligned for one-line components (such as
+		// We top align all our labels, not just those belonging to 'tall' controls,
+		// so that tall controls, regular controls and nested Metawidget controls all line up.
+		// However, we still want the Labels to be middle aligned for one-line controls (such as
 		// Text boxes), so we top inset them a bit
 
 		state.defaultLabelVerticalPadding = new GC( container ).getFontMetrics().getLeading();
@@ -121,7 +121,7 @@ public class MigLayout
 			return;
 		}
 
-		// Special support for large components
+		// Special support for large controls
 
 		State state = getState( container );
 		boolean spanAllColumns = ( control instanceof SwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
@@ -141,7 +141,7 @@ public class MigLayout
 
 		layoutBeforeChild( control, labelText, elementName, attributes, container, metawidget );
 
-		// ...and layout the component
+		// ...and layout the control
 
 		CC controlConstraints = new CC();
 
@@ -207,7 +207,7 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Control container, SwtMetawidget metawidget ) {
+	protected String layoutBeforeChild( Control control, String labelText, String elementName, Map<String, String> attributes, Control container, SwtMetawidget metawidget ) {
 
 		State state = getState( (Composite) container );
 
@@ -228,26 +228,31 @@ public class MigLayout
 			labelConstraints.cell( state.currentColumn * 2, state.currentRow );
 			labelConstraints.growX();
 
-			// Top align all labels, not just those belonging to 'tall' components,
-			// so that tall components, regular components and nested Metawidget
-			// components all line up
+			// Top align all labels, not just those belonging to 'tall' controls,
+			// so that tall controls, regular controls and nested Metawidget
+			// controls all line up
 
 			labelConstraints.alignY( "top" );
 
-			// Apply some vertical padding so the label lines up with the component nicely
+			// Apply some vertical padding so the label lines up with the control nicely
 
 			labelConstraints.pad( state.defaultLabelVerticalPadding, 0, state.defaultLabelVerticalPadding, 0 );
 
 			// Add it
 
 			label.setLayoutData( labelConstraints );
-			label.moveAbove( component );
+			label.moveAbove( control );
 		}
 
 		return labelText;
 	}
 
-	protected boolean willFillVertically( Control component, Map<String, String> attributes ) {
+	/**
+	 * @param control
+	 *            control that may fill vertically
+	 */
+
+	protected boolean willFillVertically( Control control, Map<String, String> attributes ) {
 
 		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) {
 			return true;

@@ -309,7 +309,12 @@ public class HtmlDivLayoutRenderer
 		}
 	}
 
-	protected void layoutAfterChild( FacesContext context, UIComponent component, UIComponent childComponent )
+	/**
+	 * @param metawidget the Metawidget doing the layout
+	 * @param child	the component being laid out
+	 */
+
+	protected void layoutAfterChild( FacesContext context, UIComponent metawidget, UIComponent child )
 		throws IOException {
 
 		ResponseWriter writer = context.getResponseWriter();

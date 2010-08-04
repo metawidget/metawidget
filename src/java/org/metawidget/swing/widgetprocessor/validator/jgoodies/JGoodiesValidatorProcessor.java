@@ -110,6 +110,13 @@ public class JGoodiesValidatorProcessor
 
 	/**
 	 * Return the appropriate validator for the given JComponent with the given attributes.
+	 *
+	 * @param component
+	 *            component validator will be attached to (by <code>attachValidator</code>)
+	 * @param attributes
+	 *            attributes of the widget to layout. Never null
+	 * @param path
+	 *            path to the business object property (of the form com.myapp.Foo/bar/baz)
 	 */
 
 	protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path ) {
