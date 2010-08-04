@@ -87,6 +87,11 @@ public class HiddenFieldProcessor
 	// Protected methods
 	//
 
+	/**
+	 * @param attributes
+	 *            attributes of the widget. Never null
+	 */
+
 	protected UIComponent wrapWithHiddenField( UIComponent component, Map<String, String> attributes ) {
 
 		Application application = FacesContext.getCurrentInstance().getApplication();

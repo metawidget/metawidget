@@ -20,6 +20,12 @@ package org.metawidget.iface;
  * Interface to indicate a class (ie. an <code>Inspector</code>, a <code>Layout</code> etc) should
  * be considered immutable.
  * <p>
+ * Immutable classes should:
+ * <ul>
+ * <li>not provide any setter methods or mutators
+ * <li>mark all fields final and private
+ * </ul>
+ * <p>
  * Note: this interface is not an annotation, in order to support JDK 1.4.
  *
  * @author Richard Kennard

@@ -117,6 +117,9 @@ public class SimpleTogglePanelLayoutDecorator
 
 	/**
 	 * Hook so subclasses can change what determines opened/closed.
+	 *
+	 * @param attributes
+	 *            attributes of the widget. Never null
 	 */
 
 	protected boolean isOpened( Map<String, String> attributes ) {

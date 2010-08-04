@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for JSP environments.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -64,6 +64,11 @@ public abstract class MetawidgetTag
 
 	private static final long							serialVersionUID		= 1l;
 
+	/**
+	 * Cache the ConfigReader at the ServletContext level. Although, interestingly, this can also be
+	 * used to inject a different ConfigReader if needed (ie. for Grails).
+	 */
+	
 	private static final String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
 	private static final String							DEFAULT_USER_CONFIG		= "metawidget.xml";
@@ -248,8 +253,8 @@ public abstract class MetawidgetTag
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 

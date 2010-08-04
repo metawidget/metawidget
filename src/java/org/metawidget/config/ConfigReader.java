@@ -74,7 +74,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 
 public class ConfigReader
-	implements ResourceResolver {
+	implements ResourceResolver, Immutable {
 
 	//
 	// Package private statics
@@ -84,15 +84,17 @@ public class ConfigReader
 	 * Dummy config to cache by if immutable has no Config.
 	 */
 
-	/* package private */static final String				IMMUTABLE_NO_CONFIG			= "no-config";
+	/* package private */static final String						IMMUTABLE_NO_CONFIG			= "no-config";
 
-	/* package private */static final Log					LOG							= LogUtils.getLog( ConfigReader.class );
+	/* package private */static final Log							LOG							= LogUtils.getLog( ConfigReader.class );
+
+	/* package private */static final String						JAVA_NAMESPACE_PREFIX		= "java:";
 
 	//
 	// Protected members
 	//
 
-	protected SAXParserFactory								mFactory;
+	protected final SAXParserFactory								mFactory;
 
 	//
 	// Package private members
@@ -102,7 +104,7 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	/* package private */Map<String, CachingContentHandler>	mResourceCache				= CollectionUtils.newHashMap();
+	/* package private */final Map<String, CachingContentHandler>	mResourceCache				= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by a unique location (ie. the resource name) and
@@ -111,7 +113,7 @@ public class ConfigReader
 	 * all child <code>Inspector</code>s and their various <code>xxxConfig</code>s.
 	 */
 
-	/* package private */Map<String, Map<Integer, Object>>	mImmutableByLocationCache	= CollectionUtils.newHashMap();
+	/* package private */final Map<String, Map<Integer, Object>>	mImmutableByLocationCache	= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by their Class (and within that their Config).
@@ -121,7 +123,7 @@ public class ConfigReader
 	 * <code>Inspector</code>s.
 	 */
 
-	/* package private */Map<Class<?>, Map<Object, Object>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
+	/* package private */final Map<Class<?>, Map<Object, Object>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
 
 	/**
 	 * Patterns do not cache well, because <code>java.util.regex.Pattern</code> does not override
@@ -129,7 +131,7 @@ public class ConfigReader
 	 * same instance.
 	 */
 
-	/* package private */Map<String, Pattern>				mPatternCache				= CollectionUtils.newHashMap();
+	/* package private */final Map<String, Pattern>					mPatternCache				= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -592,6 +594,33 @@ public class ConfigReader
 	}
 
 	/**
+	 * Lookup a class based on the URI namespace and the local name of the XML tag.
+	 *
+	 * @param uri
+	 *            the URI namespace, to be used as the package name
+	 * @param localName
+	 *            the name of the tag, to be used as the class name
+	 */
+
+	protected Class<?> lookupClass( String uri, String localName )
+		throws SAXException {
+
+		if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ) ) {
+			throw new SAXException( "Namespace '" + uri + "' of element <" + localName + "> must start with " + JAVA_NAMESPACE_PREFIX );
+		}
+
+		String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
+		String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
+		Class<?> clazz = ClassUtils.niceForName( toConstruct, getClass().getClassLoader() );
+
+		if ( clazz == null ) {
+			throw MetawidgetException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );
+		}
+
+		return clazz;
+	}
+
+	/**
 	 * Certain classes are both immutable. We only ever need one instance of such classes for an
 	 * entire application.
 	 */
@@ -611,8 +640,6 @@ public class ConfigReader
 		//
 		// Private statics
 		//
-
-		private static final String		JAVA_NAMESPACE_PREFIX					= "java:";
 
 		/**
 		 * Possible 'encountered' states.
@@ -803,7 +830,7 @@ public class ConfigReader
 							return;
 						}
 
-						Class<?> toConfigureClass = classForName( uri, localName );
+						Class<?> toConfigureClass = lookupClass( uri, localName );
 
 						// Match by Class...
 
@@ -1048,7 +1075,7 @@ public class ConfigReader
 						Object object = mConstructing.pop();
 
 						if ( encountered == ENCOUNTERED_CONFIGURED_TYPE ) {
-							Class<?> classToConstruct = classForName( uri, localName );
+							Class<?> classToConstruct = lookupClass( uri, localName );
 							Object configuredObject = null;
 
 							// Immutable by class (and config)? Don't re-instantiate
@@ -1196,7 +1223,7 @@ public class ConfigReader
 		private void handleNonNativeObject( String uri, String localName, Attributes attributes )
 			throws Exception {
 
-			Class<?> classToConstruct = classForName( uri, localName );
+			Class<?> classToConstruct = lookupClass( uri, localName );
 
 			// Already cached (by location)?
 			//
@@ -1207,7 +1234,7 @@ public class ConfigReader
 			Object object = null;
 
 			if ( isImmutable( classToConstruct ) ) {
-				object = getImmutableByLocation( classToConstruct );
+				object = getImmutableByLocation();
 			}
 
 			// Configured types
@@ -1314,7 +1341,7 @@ public class ConfigReader
 			throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
 		}
 
-		private Object getImmutableByLocation( Class<?> clazz ) {
+		private Object getImmutableByLocation() {
 
 			// No cache (ie. XML coming from a nameless InputStream)?
 
@@ -1482,28 +1509,6 @@ public class ConfigReader
 				LOG.debug( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version" );
 				return true;
 			}
-		}
-
-		/**
-		 * Resolves a class based on the URI namespace and the local name of the XML tag.
-		 */
-
-		private Class<?> classForName( String uri, String localName )
-			throws SAXException {
-
-			if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ) ) {
-				throw new SAXException( "Namespace '" + uri + "' of element <" + localName + "> must start with " + JAVA_NAMESPACE_PREFIX );
-			}
-
-			String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
-			String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
-			Class<?> clazz = ClassUtils.niceForName( toConstruct, getClass().getClassLoader() );
-
-			if ( clazz == null ) {
-				throw MetawidgetException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );
-			}
-
-			return clazz;
 		}
 
 		/**

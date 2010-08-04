@@ -657,6 +657,16 @@ public class AndroidMetawidget
 		mExistingUnusedViews = CollectionUtils.newHashSet( mExistingViews );
 	}
 
+	/**
+	 * @param view
+	 *            the widget to layout. Never null
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
+	 * @param attributes
+	 *            attributes of the widget to layout. Never null
+	 */
+
 	protected void layoutWidget( View view, String elementName, Map<String, String> attributes ) {
 
 		String childName = attributes.get( NAME );

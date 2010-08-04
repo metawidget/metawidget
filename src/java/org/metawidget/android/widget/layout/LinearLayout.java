@@ -100,7 +100,7 @@ public class LinearLayout
 
 		// View
 
-		layoutWidget( view, viewToAddTo, container, metawidget, needsLabel );
+		layoutWidget( view, viewToAddTo, container, needsLabel );
 	}
 
 	@Override
@@ -123,7 +123,16 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected void layoutWidget( View view, ViewGroup viewToAddTo, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel ) {
+	/**
+	 * @param viewToAddTo
+	 *            the view to add to. This may be different from container. For example it may be a
+	 *            TableRow
+	 * @param hasLabel
+	 *            whether the view has a label. This may affect how it is laid out. For example a
+	 *            TableRow may need to span two columns
+	 */
+
+	protected void layoutWidget( View view, ViewGroup viewToAddTo, ViewGroup container, boolean hasLabel ) {
 
 		android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
 

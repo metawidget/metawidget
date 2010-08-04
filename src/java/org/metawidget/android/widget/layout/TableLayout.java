@@ -77,7 +77,7 @@ public class TableLayout
 	//
 
 	@Override
-	protected void layoutWidget( View view, ViewGroup tableRow, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel ) {
+	protected void layoutWidget( View view, ViewGroup tableRow, ViewGroup container, boolean hasLabel ) {
 
 		// View
 
@@ -101,7 +101,7 @@ public class TableLayout
 
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 
-		if ( !needsLabel ) {
+		if ( !hasLabel ) {
 			params.span = LABEL_AND_WIDGET;
 		}
 

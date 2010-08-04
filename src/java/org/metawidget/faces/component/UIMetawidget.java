@@ -491,7 +491,7 @@ public abstract class UIMetawidget
 		throws IOException {
 
 		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport ) {
-			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).encodeBegin( context );
+			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).encodeBegin();
 		}
 
 		super.encodeBegin( context );
@@ -729,6 +729,12 @@ public abstract class UIMetawidget
 			i.remove();
 		}
 	}
+
+	/**
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
+	 */
 
 	protected void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes ) {
 
@@ -1038,7 +1044,7 @@ public abstract class UIMetawidget
 		 * is the best we can do under JSF 1.x
 		 */
 
-		public void encodeBegin( FacesContext context )
+		public void encodeBegin()
 			throws IOException {
 
 			try {
