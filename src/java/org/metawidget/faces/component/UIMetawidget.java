@@ -34,7 +34,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AbortProcessingException;
-import javax.faces.event.PostAddToViewEvent;
+import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
@@ -1091,21 +1091,7 @@ public abstract class UIMetawidget
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 			}
 
-			// For GET requests, this gets fired during RenderResponsePhase and builds the
-			// components for the first time. Note that under partial state saving the built
-			// components are NOT serialized. You can prove this by putting 'if context.isPostback'
-			// around the 'subscribeToViewEvent': if you don't subscribe on POST-back, all widgets
-			// (except manually defined widgets) disappear.
-			//
-			// For POST requests (at least with partial state saving on), this gets fired during
-			// RestoreViewPhase and restores the components so that HTTP values can be POSTed into
-			// them
-			//
-			// The only missing part of the puzzle is what happens if the POSTed back values update
-			// the model such that the components should change? For this, see
-			// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1313
-
-			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
+			root.subscribeToViewEvent( PreRenderViewEvent.class, this );
 		}
 
 		//
