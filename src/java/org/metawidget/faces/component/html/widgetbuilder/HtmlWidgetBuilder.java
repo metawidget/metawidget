@@ -286,6 +286,10 @@ public class HtmlWidgetBuilder
 		return null;
 	}
 
+	//
+	// Protected methods
+	//
+
 	protected void initFacesSelect( UIComponent component, String facesLookup, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		// (pageDirection is a 'safer' default for anything but short lists)

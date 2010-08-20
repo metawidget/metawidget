@@ -52,7 +52,7 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  * in this case most of the components we create are ICEfaces-extended versions of regular
  * components, and we want to reuse a lot of <code>HtmlWidgetBuilder</code>'s secondary methods.
  * Note that whilst we extend <code>HtmlWidgetBuilder</code> we only create ICEfaces components, not
- * any regular components.
+ * any regular JSF components.
  *
  * @author Richard Kennard
  */
