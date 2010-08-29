@@ -22,7 +22,7 @@ import org.jdesktop.beansbinding.Converter;
  * @author Richard Kennard
  */
 
-public class BooleanConverter
+class BooleanConverter
 	extends Converter<Boolean, String> {
 
 	//

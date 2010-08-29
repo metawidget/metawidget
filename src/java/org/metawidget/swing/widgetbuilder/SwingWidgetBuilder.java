@@ -416,17 +416,13 @@ public class SwingWidgetBuilder
 		extends BasicComboBoxEditor {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private Map<String, String>	mLookups;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public LookupComboBoxEditor( Map<String, String> lookups ) {
@@ -439,9 +435,7 @@ public class SwingWidgetBuilder
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override
@@ -459,25 +453,19 @@ public class SwingWidgetBuilder
 		extends BasicComboBoxRenderer {
 
 		//
-		//
 		// Private statics
-		//
 		//
 
 		private static final long	serialVersionUID	= 1l;
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private Map<String, String>	mLookups;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public LookupComboBoxRenderer( Map<String, String> lookups ) {
@@ -490,9 +478,7 @@ public class SwingWidgetBuilder
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override

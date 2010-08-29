@@ -23,7 +23,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * @author Richard Kennard
  */
 
-public class NumberConverter<T extends Number>
+class NumberConverter<T extends Number>
 	extends Converter<T, String> {
 
 	//

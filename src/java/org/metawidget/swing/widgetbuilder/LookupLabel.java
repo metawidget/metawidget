@@ -26,7 +26,7 @@ import javax.swing.JLabel;
  * @author Richard Kennard
  */
 
-public class LookupLabel
+class LookupLabel
 	extends JLabel {
 
 	//

@@ -27,6 +27,9 @@ package org.metawidget.iface;
  * </ul>
  * <p>
  * Note: this interface is not an annotation, in order to support JDK 1.4.
+ * <p>
+ * <strong>This is an internal API and is subject to change. Clients should use one of its
+ * subinterfaces (ie. <code>Inspector</code>, <code>Layout</code> etc) instead.</strong>
  *
  * @author Richard Kennard
  */
