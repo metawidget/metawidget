@@ -29,6 +29,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * Component to output text based on a lookup value.
+ * <p>
+ * <strong>This is an internal API and is subject to change.</strong>
  *
  * @author Richard Kennard
  */
