@@ -32,7 +32,9 @@ public class JpaInspectorConfig
 	// Private members
 	//
 
-	private boolean	mHideIds	= true;
+	private boolean	mHideIds		= true;
+
+	private boolean	mHideTransients	= false;
 
 	//
 	// Public methods
@@ -62,6 +64,36 @@ public class JpaInspectorConfig
 		return this;
 	}
 
+	/**
+	 * Whether the Inspector returns Transient properties as <code>hidden="true"</code>. False by
+	 * default.
+	 * <p>
+	 * There is not a firm relationship between whether a field should be persisted by JPA, and
+	 * whether it should appear in the UI. Some architectures prefer Transient fields to be hidden
+	 * in the UI by default, but some prefer them to be visible. The latter applies both to
+	 * 'synthetic' fields such as <code>getAge</code> that calculates based off a persisted
+	 * <code>getDateOfBirth</code>, and also to overridden JPA fields (which generally must be
+	 * marked <code>Transient</code> in the subclass).
+	 */
+
+	public boolean isHideTransients() {
+
+		return mHideTransients;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JpaInspectorConfig setHideTransients( boolean hideTransients ) {
+
+		mHideTransients = hideTransients;
+
+		// Fluent interface
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -81,6 +113,10 @@ public class JpaInspectorConfig
 			return false;
 		}
 
+		if ( mHideTransients != ( (JpaInspectorConfig) that ).mHideTransients ) {
+			return false;
+		}
+
 		return super.equals( that );
 	}
 
@@ -89,6 +125,7 @@ public class JpaInspectorConfig
 
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideTransients );
 
 		return hashCode;
 	}

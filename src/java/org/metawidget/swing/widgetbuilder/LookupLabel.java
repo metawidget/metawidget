@@ -22,11 +22,13 @@ import javax.swing.JLabel;
 
 /**
  * Label whose values use a lookup.
+ * <p>
+ * This class is <code>public</code> for binding implementations such as BeansBinding.
  *
  * @author Richard Kennard
  */
 
-class LookupLabel
+public class LookupLabel
 	extends JLabel {
 
 	//

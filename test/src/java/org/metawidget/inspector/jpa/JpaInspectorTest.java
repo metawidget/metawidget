@@ -22,6 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import junit.framework.TestCase;
 
@@ -83,7 +84,10 @@ public class JpaInspectorTest
 
 	public void testHideIds() {
 
-		JpaInspectorConfig config = new JpaInspectorConfig().setHideIds( false );
+		// Show ids
+
+		JpaInspectorConfig config = new JpaInspectorConfig();
+		config.setHideIds( false );
 		JpaInspector inspector = new JpaInspector( config );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -92,10 +96,9 @@ public class JpaInspectorTest
 
 		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "id" ), null );
 
-		// Show id
+		// Hidden by default
 
 		config = new JpaInspectorConfig();
-		config.setHideIds( true );
 		inspector = new JpaInspector( config );
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -106,6 +109,35 @@ public class JpaInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
+	}
+
+	public void testHideTransients() {
+
+		// Hide transient
+
+		JpaInspectorConfig config = new JpaInspectorConfig();
+		config.setHideTransients( true );
+		JpaInspector inspector = new JpaInspector( config );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+
+		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "transient1" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		// Shown by default
+
+		config = new JpaInspectorConfig();
+		inspector = new JpaInspector( config );
+		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getFirstChild().getFirstChild();
+
+		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "transient1" ), null );
 	}
 
 	public void testConfig() {
@@ -134,5 +166,8 @@ public class JpaInspectorTest
 		@Lob
 		@ManyToOne( optional = false )
 		public String	baz;
+
+		@Transient
+		public String	transient1;
 	}
 }

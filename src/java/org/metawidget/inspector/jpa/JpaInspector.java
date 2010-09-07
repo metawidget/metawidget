@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -44,6 +45,8 @@ public class JpaInspector
 
 	private final boolean	mHideIds;
 
+	private final boolean	mHideTransients;
+
 	//
 	// Constructor
 	//
@@ -58,6 +61,7 @@ public class JpaInspector
 		super( config );
 
 		mHideIds = config.isHideIds();
+		mHideTransients = config.isHideTransients();
 	}
 
 	//
@@ -103,6 +107,10 @@ public class JpaInspector
 		// Hidden
 
 		if ( mHideIds && property.isAnnotationPresent( Id.class ) ) {
+			attributes.put( HIDDEN, TRUE );
+		}
+
+		if ( mHideTransients && property.isAnnotationPresent( Transient.class ) ) {
 			attributes.put( HIDDEN, TRUE );
 		}
 
