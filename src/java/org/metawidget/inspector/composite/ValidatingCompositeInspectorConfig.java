@@ -17,7 +17,6 @@
 package org.metawidget.inspector.composite;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -28,14 +27,27 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class ValidatingCompositeInspectorConfig
-	extends CompositeInspectorConfig
-	implements NeedsResourceResolver {
+	extends CompositeInspectorConfig {
 
 	//
 	// Private members
 	//
 
 	private ResourceResolver	mResourceResolver;
+
+	//
+	// Constructor
+	//
+
+	/**
+	 * @param resourceResolver
+	 *            ResourceResolver to use to locate schemas. May be null.
+	 */
+
+	public ValidatingCompositeInspectorConfig( ResourceResolver resourceResolver ) {
+
+		mResourceResolver = resourceResolver;
+	}
 
 	//
 	// Public methods
@@ -48,12 +60,6 @@ public class ValidatingCompositeInspectorConfig
 		}
 
 		return mResourceResolver;
-	}
-
-	@Override
-	public void setResourceResolver( ResourceResolver resourceResolver ) {
-
-		mResourceResolver = resourceResolver;
 	}
 
 	@Override

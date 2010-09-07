@@ -33,8 +33,8 @@ public class ValidatingCompositeInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class, new ValidatingCompositeInspectorConfig() {
+		TestUtils.testEqualsAndHashcode( new ValidatingCompositeInspectorConfig( null ), new ValidatingCompositeInspectorConfig( null ), new ValidatingCompositeInspectorConfig( null ) {
 			// Subclass
-		} );
+		}, "resourceResolver" );
 	}
 }

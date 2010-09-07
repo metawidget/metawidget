@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.xml;
 
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -31,7 +32,9 @@ public class XmlInspectorConfig
 	// Constructor
 	//
 
-	public XmlInspectorConfig() {
+	public XmlInspectorConfig( ResourceResolver resourceResolver ) {
+
+		super( resourceResolver );
 
 		setDefaultFile( "metawidget-metadata.xml" );
 	}

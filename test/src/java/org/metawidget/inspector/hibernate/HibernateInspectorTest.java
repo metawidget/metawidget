@@ -50,7 +50,7 @@ public class HibernateInspectorTest
 	@Override
 	public void setUp() {
 
-		HibernateInspectorConfig config = new HibernateInspectorConfig();
+		HibernateInspectorConfig config = new HibernateInspectorConfig( null );
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) );
 		mInspector = new HibernateInspector( config );
 	}
@@ -58,14 +58,14 @@ public class HibernateInspectorTest
 	public void testMissingFile() {
 
 		try {
-			new HibernateInspector( new HibernateInspectorConfig() );
+			new HibernateInspector( new HibernateInspectorConfig( null ) );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate hibernate.cfg.xml on CLASSPATH", e.getMessage() );
 		}
 
 		try {
-			HibernateInspectorConfig config = new HibernateInspectorConfig();
+			HibernateInspectorConfig config = new HibernateInspectorConfig( null );
 			config.setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
 			new HibernateInspector( config );
 			assertTrue( false );
@@ -129,7 +129,7 @@ public class HibernateInspectorTest
 
 	public void testHideIds() {
 
-		HibernateInspectorConfig config = new HibernateInspectorConfig().setHideIds( false );
+		HibernateInspectorConfig config = new HibernateInspectorConfig( null ).setHideIds( false );
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) );
 		mInspector = new HibernateInspector( config );
 
@@ -179,8 +179,8 @@ public class HibernateInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class, new HibernateInspectorConfig() {
+		TestUtils.testEqualsAndHashcode( new HibernateInspectorConfig( null ), new HibernateInspectorConfig( null ), new HibernateInspectorConfig( null ) {
 			// Subclass
-		}, "inputStreams" );
+		}, "resourceResolver", "inputStreams" );
 	}
 }

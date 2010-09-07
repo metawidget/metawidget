@@ -76,7 +76,7 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "</inspection-result>";
 
-		XmlInspectorConfig config = new XmlInspectorConfig();
+		XmlInspectorConfig config = new XmlInspectorConfig( null );
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
 	}
@@ -194,7 +194,7 @@ public class XmlInspectorTest
 	public void testDefaultConfig() {
 
 		try {
-			new XmlInspector( new XmlInspectorConfig() );
+			new XmlInspector( new XmlInspectorConfig( null ) );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
@@ -232,7 +232,7 @@ public class XmlInspectorTest
 
 		// Without restrictAgainstObject
 
-		XmlInspectorConfig config = new XmlInspectorConfig();
+		XmlInspectorConfig config = new XmlInspectorConfig( null );
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		mInspector = new XmlInspector( config );
 

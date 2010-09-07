@@ -22,8 +22,6 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.commons.jexl.JexlXmlInspector;
-import org.metawidget.inspector.commons.jexl.JexlXmlInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +46,7 @@ public class JexlXmlInspectorTest
 		xml += "<action name=\"bar2\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";
 		xml += "</entity></inspection-result>";
 
-		JexlXmlInspectorConfig config = new JexlXmlInspectorConfig();
+		JexlXmlInspectorConfig config = new JexlXmlInspectorConfig( null );
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
 		JexlXmlInspector inspector = new JexlXmlInspector( config );
 

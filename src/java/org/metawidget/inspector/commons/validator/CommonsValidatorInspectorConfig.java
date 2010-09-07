@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.commons.validator;
 
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -31,7 +32,9 @@ public class CommonsValidatorInspectorConfig
 	// Constructor
 	//
 
-	public CommonsValidatorInspectorConfig() {
+	public CommonsValidatorInspectorConfig( ResourceResolver resourceResolver ) {
+
+		super( resourceResolver );
 
 		setDefaultFile( "validation.xml" );
 	}

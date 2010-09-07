@@ -20,8 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.inspector.commons.validator.CommonsValidatorInspector;
-import org.metawidget.inspector.commons.validator.CommonsValidatorInspectorConfig;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -40,7 +38,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testInspection() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
+		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig( null );
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
@@ -94,7 +92,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testBadInput() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
+		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig( null );
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
@@ -125,7 +123,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testTraversal() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
+		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig( null );
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 

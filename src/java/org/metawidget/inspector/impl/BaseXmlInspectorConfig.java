@@ -18,7 +18,7 @@ package org.metawidget.inspector.impl;
 
 import java.io.InputStream;
 
-import org.metawidget.config.NeedsResourceResolver;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
@@ -33,8 +33,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class BaseXmlInspectorConfig
-	implements NeedsResourceResolver {
+public class BaseXmlInspectorConfig {
 
 	//
 	// Private members
@@ -47,6 +46,20 @@ public class BaseXmlInspectorConfig
 	private InputStream[]		mInputStreams;
 
 	private PropertyStyle		mRestrictAgainstObject;
+
+	//
+	// Constructor
+	//
+
+	/**
+	 * @param resourceResolver
+	 *            ResourceResolver to use to locate XML files. May be null.
+	 */
+
+	public BaseXmlInspectorConfig( ResourceResolver resourceResolver ) {
+
+		mResourceResolver = resourceResolver;
+	}
 
 	//
 	// Public methods
@@ -108,27 +121,10 @@ public class BaseXmlInspectorConfig
 	public ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
-			return new ResourceResolver() {
-
-				@Override
-				public InputStream openResource( String resource ) {
-
-					try {
-						return ClassUtils.openResource( resource );
-					} catch ( Exception e ) {
-						throw InspectorException.newException( e );
-					}
-				}
-			};
+			mResourceResolver = new ConfigReader();
 		}
 
 		return mResourceResolver;
-	}
-
-	@Override
-	public void setResourceResolver( ResourceResolver resourceResolver ) {
-
-		mResourceResolver = resourceResolver;
 	}
 
 	/**

@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.commons.jexl;
 
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -35,7 +36,9 @@ public class JexlXmlInspectorConfig
 	// Constructor
 	//
 
-	public JexlXmlInspectorConfig() {
+	public JexlXmlInspectorConfig( ResourceResolver resourceResolver ) {
+
+		super( resourceResolver );
 
 		setDefaultFile( "metawidget-metadata.xml" );
 	}
