@@ -4,11 +4,15 @@
 
 	<bookinfo>
 		<productname>Metawidget</productname>
-		<releaseinfo>V 1.0</releaseinfo>
+		<releaseinfo>Version 1.0</releaseinfo>
+		<author>
+			<firstname>Richard</firstname>
+			<surname>Kennard</surname>
+		</author>
 
 		<mediaobject>
 			<imageobject>
-				<imagedata fileref="images/logo.gif" />
+				<imagedata fileref="images/front-cover.png" width="100mm"/>
 			</imageobject>
 		</mediaobject>
 	</bookinfo>
@@ -19,8 +23,9 @@
 		<title>Preface</title>
 
 		<para>
-			Metawidget is an object/user interface mapping tool for Java
-			environments. The term object/user interface mapping (OIM) refers to
+			Building user interfaces for business objects can be cumbersome and
+			time consuming in today's applications. Metawidget is an Object/User Interface Mapping tool.
+			The term Object/User Interface mapping (OIM) refers to
 			the technique of inspecting objects, at runtime, and creating
 			User Interface (UI) widgets.
 		</para>
@@ -54,8 +59,8 @@
 
 		<tip>
 			<title>Note</title>
-			This User Guide and Reference Documentation is included in the distribution as a PDF, a single HTML page or as multiple
-			HTML pages, depending on your reading preference.
+			This User Guide and Reference Documentation is included in the Metawidget distribution as a PDF, a single HTML page
+			or as multiple HTML pages, depending on your reading preference.
 		</tip>
 
 	</preface>
@@ -95,10 +100,10 @@
 		</tip>
 
 		<para>
-			The next chapter presents a tutorial covering using Metawidget with a variety of front-ends and
+			The next chapter presents a tutorial that covers using Metawidget with a variety of front-ends and
 			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3-8
 			explore each supported front-end and back-end technology in detail. Finally, chapters
-			9 and 10 offer general advice and performance tips.
+			9 and 10 offer general advice and troubleshooting.
 		</para>
 
 	</preface>
@@ -134,7 +139,7 @@
 				<title>The Object</title>
 
 				<para>
-					Metawidget is an object/user interface mapping tool (OIM), so first we need an object to map from - the
+					Metawidget is an Object/User Interface Mapping tool (OIM), so first we need an object to map from - the
 					<emphasis>O</emphasis> in OIM. Create a class in your project called <classname>Person</classname>
 					with the following code:
 				</para>
@@ -193,7 +198,7 @@ public class Main {
 					<title>Note</title>
 					Many IDEs include visual UI builders
 					for dragging and dropping widgets. Metawidget integrates
-					with these tools and Metawidget widgets can be dragged and
+					with these tools and Metawidgets can be dragged and
 					dropped like any other. As we shall see, however, Metawidget
 					widgets automatically fill themselves with child widgets at runtime,
 					saving significant development time.
@@ -279,7 +284,7 @@ public class Main {
 
 				<para>
 					To correct this, Metawidget needs to gather additional information. There are several ways to
-					do this (ie. you don't have to use annotations), but the simplest for now is to use the built-in
+					do this (i.e. you don't have to use annotations), but the simplest for now is to use the built-in
 					Metawidget annotation <classname>@UiComesAfter</classname>.
 				</para>
 
@@ -287,7 +292,8 @@ public class Main {
 					<title>Note</title>
 					The following code uses annotations, so you'll need Java SE 5 or higher. Metawidget itself can run
 					on J2SE 1.4, but you'll need to gather the ordering information from a different source
-					(see <xref linkend="section-introduction-part1-xmlinspector" />)
+					(see <xref linkend="section-introduction-part1-xmlinspector" /> and
+					<xref linkend="section-architecture-inspectionresultprocessors-implementing-your-own" />)
 				</tip>
 
 				<para>
@@ -535,7 +541,7 @@ public class Person {
 
 				<para>
 					This code produces the screen in <xref linkend="section-introduction-part1-screenshot6" />. Annotations
-					have been used to define section headings and 'large' fields (ie. a	<classname>JTextArea</classname>).
+					have been used to define section headings and 'large' fields (i.e. a	<classname>JTextArea</classname>).
 				</para>
 
 				<figure id="section-introduction-part1-screenshot6">
@@ -556,7 +562,7 @@ public class Person {
 					<classname>JComponents</classname> using <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
 					You can configure this layout, or swap it for a different layout, using
 					<function>SwingMetawidget.setMetawidgetLayout</function>. Modify the code to use a
-					<classname>GridBagLayout</classname> with 2 columns.
+					<classname>GridBagLayout</classname> with 2 columns:
 				</para>
 
 				<programlisting language="java">package com.myapp;
@@ -670,7 +676,8 @@ public class Main {
 
 				<para>
 					There are several ways to control widget creation. One way is to drop child controls inside the
-					<classname>SwingMetawidget</classname>. This approach works well both within code and within visual UI builders.
+					<classname>SwingMetawidget</classname>. This approach works well both programmatically
+					within code and within visual UI builders.
 				</para>
 
 				<para>
@@ -717,7 +724,7 @@ public class Main {
 
 				<para>
 					Run the code. The <classname>JComboBox</classname> appears in place of the
-					<parameter>retired</parameter> <classname>JCheckBox</classname>, because it has the same name (ie. 'retired') as Metawidget would have given the
+					<parameter>retired</parameter> <classname>JCheckBox</classname>, because it has the same name (i.e. 'retired') as Metawidget would have given the
 					<classname>JCheckbox</classname>:
 				</para>
 
@@ -839,7 +846,7 @@ public class Person {
 					So far we have been instantiating our <classname>Inspector</classname>s and
 					<classname>Layout</classname>s in Java code. Whilst this approach is possible for all
 					<classname>Inspector</classname>s and <classname>Layout</classname>s, many UI frameworks employ
-					visual UI builders or intermediate languages (such as JSP) that make getting to the Java code cumbersome (ie. you have to derive
+					visual UI builders or intermediate languages (such as JSP) that make getting to the Java code cumbersome (i.e. you have to derive
 					custom widgets).
 				</para>
 
@@ -915,7 +922,7 @@ public class Main {
 				
 				<para>
 					Visual UI builders can call <function>SwingMetawidget.setConfig</function> from the builder, with no coding required. Other
-					UI frameworks (eg. JSPs, Android) have similar 'code free' approaches (eg. setting an attribute on a JSP tag, setting an
+					UI frameworks (e.g. JSPs, Android) have similar 'code free' approaches (e.g. setting an attribute on a JSP tag, setting an
 					attribute in an Android layout file) to setting the XML file.
 				</para>
 				
@@ -1035,7 +1042,7 @@ public class Person {
 }</programlisting>
 	
 				<para>
-					...denotes <parameter>name</parameter> is a required field (could be rendered with a star after it in the UI). Equally,
+					...denotes <parameter>name</parameter> is a required field (could be rendered with a asterisk after it in the UI). Equally,
 					<classname>PropertyTypeInspector</classname> understands that...
 				</para>
 				
@@ -1054,7 +1061,7 @@ public class Person {
 				</para>
 				
 				<para>
-					Metawidget comes with a range of <classname>Inspector</classname>s, and it is straightforward
+					Metawidget comes with a range of <classname>Inspector</classname>s, and makes it straightforward
 					to write your own to inspect anything from XML configuration files to database schemas
 					to annotations. The inspection process is decoupled from the
 					widget creation process, so the same inspector can supply information to multiple
@@ -1090,7 +1097,7 @@ public class Person {
 				</para>
 				
 				<para>
-					The application is pre-built for you in <filename>examples\swing\addressbook-swing.jar</filename> or, if you've downloaded
+					The application is pre-built for you in <filename>examples/swing/addressbook-swing.jar</filename> or, if you've downloaded
 					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the
 					source distribution and typing:
 				</para>
@@ -1098,8 +1105,8 @@ public class Person {
 				<programlisting language="shell">ant example-swing-addressbook</programlisting>
 				
 				<para>
-					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to <filename>..\..\metawidget.jar</filename> and
-					<filename>lib\beansbinding.jar</filename> among others, so it's best not to move it to a different folder (if you do, you'll need to
+					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to <filename>../../metawidget.jar</filename> and
+					<filename>lib/beansbinding.jar</filename> among others, so it's best not to move it to a different folder (if you do, you'll need to
 					manually put <filename>metawidget.jar</filename> and <filename>beansbinding.jar</filename> on your classpath).
 				</para>
 				
@@ -1110,22 +1117,31 @@ public class Person {
 				</tip>				
 
 				<para> 
-					Run the code by navigating to the <filename>examples\swing</filename> folder and typing:
+					Run the code by navigating to the <filename>examples/swing</filename> folder and typing:
 				</para>				
 				
 				<programlisting language="shell">java -jar addressbook-swing.jar</programlisting>
 				
 				<para>
 					The opening screen displays a search filter (at the top) and lists
-					existing Address Book entries (at the bottom) as in <xref linkend="section-introduction-part2-desktop-opening-screenshot"/>.
+					existing Address Book entries (at the bottom) as in
+					<xref linkend="section-introduction-part2-swing-desktop-opening-screenshot"/> and
+					<xref linkend="section-introduction-part2-swt-desktop-opening-screenshot"/>.
 				</para>
 				
-				<figure id="section-introduction-part2-desktop-opening-screenshot">
-					<title>Desktop Address Book opening screen</title>
+				<figure id="section-introduction-part2-swing-desktop-opening-screenshot">
+					<title>Swing Desktop Address Book opening screen</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/desktop-addressbook1.jpg" width="100mm" />
 					</screenshot>
-				</figure>				
+				</figure>
+				
+				<figure id="section-introduction-part2-swt-desktop-opening-screenshot">
+					<title>SWT Desktop Address Book opening screen</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/desktop-swt-addressbook.jpg" width="100mm" />
+					</screenshot>
+				</figure>
 				
 				<para>
 					The three search filter fields (<parameter>Firstname</parameter>, <parameter>Surname</parameter> and <parameter>Type</parameter>)
@@ -1133,8 +1149,10 @@ public class Person {
 					based on the <classname>ContactSearch</classname> business class. This includes populating the <parameter>Type</parameter> dropdown based
 					on the <classname>ContactType</classname>
 					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons
-					are created by <classname>SwingMetawidget</classname> based on annotated methods in the <classname>ContactDialog</classname> class.
+					are created by <classname>SwingMetawidget</classname> based on annotated action methods in the <classname>ContactDialog</classname> class.
 				</para>
+				
+				???
 				
 				<tip>
 					<title>Note</title>
@@ -1175,7 +1193,7 @@ public class Person {
 				
 				<para>
 					The <parameter>Address</parameter> field is created as a nested <classname>SwingMetawidget</classname>. This is the default behaviour when Metawidget
-					encounters datatypes it does not know how to represent with any other UI widget. The <parameter>Communications</parameter> field
+					encounters datatypes it does not know how to represent using any other UI widget. The <parameter>Communications</parameter> field
 					has been overridden with a manually specified <classname>JTable</classname>.
 				</para>
 				
@@ -1237,7 +1255,11 @@ public class Person {
 						via <function>SwingMetawidget.addWidgetProcessor</function>. These
 						binding implementations automatically map <classname>JComponent</classname> values to <classname>Object</classname> values,
 						including performing the necessary conversions, further reducing the amount of boilerplate code required.
-					</para>					
+					</para>
+					
+					<para>
+						<classname>SwtMetawidget</classname> does something similar using <classname>org.eclipse.core.databinding.Binding</classname>.
+					</para>				
 				</section>
 				
 				<section id="section-introduction-part2-desktop-i18n">
@@ -1245,13 +1267,15 @@ public class Person {
 
 					<para>
 						All text within the application has been localized to the <classname>org.metawidget.example.shared.addressbook.resource.Resources</classname>
-						resource bundle. Text created manually (such as the buttons) uses typical Swing localization code (eg. <function>bundle.getString</function>). Text created by
-						<classname>SwingMetawidget</classname> uses <function>SwingMetawidget.setBundle</function>, which internally defers to <function>bundle.getString</function>.
+						resource bundle. Text created manually (such as the buttons) uses typical Swing localization code (e.g. <function>bundle.getString</function>). Text created by
+						<classname>SwingMetawidget</classname> uses <function>SwingMetawidget.setBundle</function>, which internally defers to Swing's
+						<function>bundle.getString</function>.
 					</para>
 					
 					<para>	
-						Localization is very easy with Metawidget. For field names, if no resource bundle is supplied, Metawidget uses an 'uncamel-cased' version of the name. If
-						a bundle <emphasis>is</emphasis> supplied, Metawidget uses the field name as the bundle key. For section labels, if a bundle is supplied,
+						Localization is very easy with Metawidget. For field names, if no resource bundle is supplied, Metawidget uses an 'uncamel-cased' version of the
+						name (e.g. <parameter>dateOfBirth</parameter> becomes <parameter>Date Of Birth</parameter>).
+						If a bundle <emphasis>is</emphasis> supplied, Metawidget uses the field name as the bundle key. For section labels, if a bundle is supplied,
 						Metawidget uses a 'camel-cased' version of the label as the key.
 					</para>
 					
@@ -1282,9 +1306,9 @@ public class Person {
 				
 				<para>
 					Take a fresh install of Tomcat. The Address Book WAR is pre-built for you in
-					either <filename>examples\faces\addressbook-faces.war</filename>, <filename>examples\gwt\addressbook-gwt.war</filename>,
-					<filename>examples\jsp\addressbook-jsp.war</filename>, <filename>examples\spring\addressbook-spring.war</filename> or
-					<filename>examples\struts\addressbook-struts.war</filename>. If you've downloaded the source code distribution, you can build it
+					either <filename>examples/faces/addressbook-faces.war</filename>, <filename>examples/gwt/addressbook-gwt.war</filename>,
+					<filename>examples/jsp/addressbook-jsp.war</filename>, <filename>examples/spring/addressbook-spring.war</filename> or
+					<filename>examples/struts/addressbook-struts.war</filename>. If you've downloaded the source code distribution, you can build it
 					yourself by changing to the <filename>examples</filename> folder of the source distribution and typing:
 				</para>
 				
@@ -1297,8 +1321,8 @@ public class Person {
 				<tip>
 					<title>Note</title>
 					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget.jar</filename> to
-					<filename>WEB-INF\lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
-					and <filename>examples\gwt\metawidget-gwt.jar</filename> in the <parameter>CLASSPATH</parameter>
+					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
+					and <filename>examples/gwt/metawidget-gwt.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
 
@@ -1333,7 +1357,9 @@ public class Person {
 					in the JSP page (for GWT, Spring and Struts) or created by <classname>UIMetawidget</classname> based on annotated methods
 					in the <classname>ContactBean</classname> (for JSF).
 				</para>
-								
+					
+				???
+				
 				<tip>
 					<title>Note</title>
 					As with the Desktop Address Book, all source code for the examples can be found in the
@@ -1382,7 +1408,7 @@ public class Person {
 				
 				<para>
 					The <parameter>Address</parameter> field is a nested Metawidget. The <parameter>Communications</parameter> field
-					has been overridden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
+					has been overridden in the page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
 					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
 					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidgetTag</classname> and <classname>StrutsMetawidgetTag</classname> do
 					something similar):
@@ -1446,7 +1472,8 @@ public class Person {
 
 				<para>
 					<classname>GwtMetawidget</classname> uses stubs around GWT widgets like <classname>FlexTable</classname>, but can use
-					the overriding widget directly if it supports the <classname>HasName</classname> interface (eg. TextBox, CheckBox, etc).
+					the overriding widget directly if it supports the <classname>HasName</classname> interface (e.g. TextBox, CheckBox, etc)
+					and has a name matching the name Metawidget would have generated.
 				</para>
 
 				<section id="section-introduction-part2-web-mixing">
@@ -1472,7 +1499,7 @@ public class Person {
 						</listitem>
 						<listitem>
 							<para>
-						 		output plain HTML tags (ie. independent of Spring and Struts) and handle them manually
+						 		output plain HTML tags (i.e. independent of Spring and Struts) and handle them manually
 						 	</para>
 						 </listitem>
 					</itemizedlist>
@@ -1505,7 +1532,7 @@ public class Person {
 						<classname>HtmlMetawidget</classname> is very similiar to <classname>StrutsMetawidgetTag</classname>, but has to use
 						<parameter>jsp:useBean</parameter> to manually instantiate the bean (rather than letting Struts do it). 
 						Within <filename>metawidget.xml</filename>, the default layout for <classname>HtmlMetawidget</classname> has been
-						set to <classname>org.metawidget.jsp.tagext.layout.SimpleLayout</classname> (ie. a plain layout, without a label column)
+						set to <classname>org.metawidget.jsp.tagext.layout.SimpleLayout</classname> (i.e. a plain layout, without a label column)
 					</para>
 					
 				</section>				
@@ -1553,7 +1580,7 @@ public class Person {
 					</para>
 					
 					<para>
-						Go into Tomcat's <filename>webapps\addressbook-faces</filename> folder (the exploded WAR) and
+						Go into Tomcat's <filename>webapps/addressbook-faces</filename> folder (the exploded WAR) and
 						edit <filename>WEB-INF/metawidget.xml</filename>:
 					</para>
 					
@@ -1679,7 +1706,7 @@ public class Person {
 
 					<para>
 						This demonstrates how easy it is to leverage widget libraries with Metawidget
-						(this example cheats a bit, as we've pre-added the RichFaces JARs into <filename>WEB-INF\lib</filename> and some
+						(this example cheats a bit, as we've pre-added the RichFaces JARs into <filename>WEB-INF/lib</filename> and some
 						lines into <filename>web.xml</filename>, but you get the idea).					
 					</para>
 					
@@ -1691,13 +1718,7 @@ public class Person {
 				<title>Mobile Address Book</title>
 				
 				<para>
-					For the Mobile Address Book we use the Android platform. Android has uniquely strong support for reflection
-					and annotations, and guarantees the availability of key packages such as <classname>org.w3c.dom</classname>. This affords
-					Metawidget excellent runtime access to inspect the <emphasis>O</emphasis> in OIM.
-				</para>
-				
-				<para>
-					Like Web-based applications, Mobile applications require a container to run. Download the Android SDK (Metawidget has been
+					For the Mobile Address Book we use the Android platform. Like Web-based applications, Mobile applications require a container to run. Download the Android SDK (Metawidget has been
 					tested against versions 1.1, 1.5, 1.6 and 2.0) from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>.
 					Then change to the installation directory (usually <filename>android-sdk-windows</filename>) and run the emulator by
 					opening a command prompt and typing:
@@ -1706,7 +1727,7 @@ public class Person {
 				<programlisting language="shell">tools\android create avd -n my_avd -t 1</programlisting>
 				
 				<para>
-					Replacing <parameter>-t 1</parameter> with the Android version you're using (eg. <parameter>-t 2</parameter> for
+					Replacing <parameter>-t 1</parameter> with the Android version you're using (e.g. <parameter>-t 2</parameter> for
 					1.5, <parameter>-t 3</parameter> for 1.6, <parameter>-t 4</parameter> for 2.0). Android 1.1 doesn't use AVDs, so you can skip
 					this step. Next type:
 				</para>
@@ -1715,7 +1736,7 @@ public class Person {
 				
 				<para>
 					The emulator may take a little while to start. Once finished, it will display the phone's desktop. The Address Book APK
-					is pre-built for you in <filename>examples\android\addressbook-android.apk</filename>. If you've downloaded the source code distribution, you
+					is pre-built for you in <filename>examples/android/addressbook-android.apk</filename>. If you've downloaded the source code distribution, you
 					can build it yourself by changing to the <filename>examples</filename> folder of the source distribution and typing:
 				</para>
 				
@@ -1777,7 +1798,7 @@ public class Person {
 				</figure>
 
 				<para>
-					UIs in Android are typically defined in XML layout files, though they can also be built programmatically.
+					UIs in Android are typically defined using XML layout files, though they can also be built programmatically.
 					<classname>AndroidMetawidget</classname> supports both approaches. For example, the Personal Contact screen is
 					defined in <filename>contact.xml</filename>, and contains a Metawidget defined in much the same way as in
 					JSP (including configuring section style and overriding widget creation): 
@@ -1824,13 +1845,13 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<title>Conclusion</title>
 				
 				<para>
-					That concludes the introductory tutorial. In summary, we now:
+					That concludes the introductory tutorial. In summary, we have now:
 				</para>
 	
 				<itemizedlist>
 					<listitem>
 						<para>
-							have seen how to build an application whose UI is largely dictated by its business classes, not by hand-written UI code
+							seen how to build an application whose UI is largely dictated by its business classes, not by hand-written UI code
 						</para>
 					</listitem>
 					<listitem>
@@ -1840,7 +1861,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							have seen how to build an application that targets multiple platforms. If we were to add a new field to one of the business classes
+							seen how to build an application that targets multiple platforms. If we were to add a new field to one of the business classes
 							(say, <parameter>numberOfChildren</parameter> to <classname>PersonalContact</classname>), it would automatically appear
 							and be functional on every platform.
 						</para>
@@ -1864,7 +1885,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 				<para>
 					The Swing Applet Address Book Example demonstrates using Metawidget in applets. The example is pre-built for you in
-					<filename>examples\swing\applet\addressbook</filename>. If you've downloaded the source code distribution, you can build it
+					<filename>examples/swing/applet/addressbook</filename>. If you've downloaded the source code distribution, you can build it
 					yourself by changing to the <filename>examples</filename> folder of the source distribution and typing:
 				</para>
 				
@@ -1897,8 +1918,8 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				</para>
 				
 				<para>
-					The example is located in <filename>examples\faces\seam\booking</filename>. It is
-					not pre-built. To build it, change to the <filename>examples\faces\seam\booking</filename> folder in
+					The example is located in <filename>examples/faces/seam/booking</filename>. It is
+					not pre-built. To build it, change to the <filename>examples/faces/seam/booking</filename> folder in
 					the Metawidget binary distribution and type:
 				</para>
 				
@@ -1925,12 +1946,14 @@ bin\run</programlisting>
 				</figure>
 								
 				<para>
-					The files modified for adding Metawidget support are in <filename>examples\faces\seam\booking</filename>. Most of the
-					UI code in <filename>view\book.xhtml</filename>, <filename>view\confirm.xhtml</filename> and
-					<filename>view\hotelview.xhtml</filename> has been replaced with a single Metawidget tag. Some annotations
+					The files modified for adding Metawidget support are in <filename>examples/faces/seam/booking</filename>. Most of the
+					UI code in <filename>view/book.xhtml</filename>, <filename>view/confirm.xhtml</filename> and
+					<filename>view/hotelview.xhtml</filename> has been replaced with a single Metawidget tag. Some annotations
 					have been added to <filename>Hotel.java</filename> and <filename>Booking.java</filename>, though
 					Metawidget also leverages the existing JPA and Hibernate Validator ones.
 				</para>
+				
+				???
 				
 				<para>
 					The example further demonstrates packaging Metawidget for multi-tier environments. The <filename>pack-as-frontend-backend</filename>
@@ -1951,8 +1974,8 @@ bin\run</programlisting>
 				</para>
 
 				<para>
-					The example is located in <filename>examples\faces\seam\groovybooking</filename>. It is
-					not pre-built. To build it, change to the <filename>examples\faces\seam\groovybooking</filename> folder in
+					The example is located in <filename>examples/faces/seam/groovybooking</filename>. It is
+					not pre-built. To build it, change to the <filename>examples/faces/seam/groovybooking</filename> folder in
 					the Metawidget binary distribution and type:
 				</para>
 				
@@ -1978,7 +2001,7 @@ bin\run</programlisting>
 					Metawidget supports pluggable 'property styles' for JavaBean, Groovy and other property styles.
 					Groovy properties differ from JavaBean properties in that their annotations are tied to
 					the private member variable, rather than the getters and setters. The use of Groovy is configured
-					per <classname>Inspector</classname>, as in <filename>examples\faces\seam\groovybooking\resources\WEB-INF\metawidget.xml</filename>:
+					per <classname>Inspector</classname>, as in <filename>examples/faces/seam/groovybooking/resources/WEB-INF/metawidget.xml</filename>:
 				</para>
 
 				<programlisting language="xml">&lt;propertyTypeInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
@@ -1999,8 +2022,8 @@ bin\run</programlisting>
 				</para>
 
 				<para>
-					The example is located in <filename>examples\faces\seam\dvdstore</filename>. It is
-					not pre-built. To build it, change to the <filename>examples\faces\seam\dvdstore</filename> folder in
+					The example is located in <filename>examples/faces/seam/dvdstore</filename>. It is
+					not pre-built. To build it, change to the <filename>examples/faces/seam/dvdstore</filename> folder in
 					the Metawidget binary distribution and type:
 				</para>
 				
@@ -2046,7 +2069,7 @@ bin\run</programlisting>
 				</para>
 
 				<para>
-					The example is pre-built for you in <filename>examples\faces\penguincolony-faces.war</filename>. Copy the WAR into
+					The example is pre-built for you in <filename>examples/faces/penguincolony-faces.war</filename>. Copy the WAR into
 					Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
 					to <ulink url="http://localhost:8080/penguincolony-faces">http://localhost:8080/penguincolony-faces</ulink>:
 				</para>
@@ -2105,7 +2128,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				</para>
 	
 				<para>
-					The application is pre-built for you in <filename>examples\swing\appframework-swing.jar</filename> or, if you've downloaded
+					The application is pre-built for you in <filename>examples/swing/appframework-swing.jar</filename> or, if you've downloaded
 					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the source
 					distribution and typing:
 				</para>
@@ -2119,12 +2142,12 @@ public PenguinCondition getCondition() { ...}</programlisting>
 
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to
-					<filename>..\..\metawidget.jar</filename> and <filename>lib\AppFramework.jar</filename> among others, so it's best not to move
+					<filename>../../metawidget.jar</filename> and <filename>lib/AppFramework.jar</filename> among others, so it's best not to move
 					it to a different folder (if you do, you'll need to manually put those JARs on your classpath).
 				</para>
 				
 				<para> 
-					Run the code by navigating to the <filename>examples\swing</filename> folder and typing:
+					Run the code by navigating to the <filename>examples/swing</filename> folder and typing:
 				</para>				
 				
 				<programlisting language="shell">java -jar appframework-swing.jar</programlisting>
@@ -2185,7 +2208,7 @@ public void addOwner() {
 				</para>
 	
 				<para>
-					The application is pre-built for you in <filename>examples\swing\animalraces-swing.jar</filename> or, if you've downloaded
+					The application is pre-built for you in <filename>examples/swing/animalraces-swing.jar</filename> or, if you've downloaded
 					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the source
 					distribution and typing:
 				</para>
@@ -2199,12 +2222,12 @@ public void addOwner() {
 
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to
-					<filename>..\..\metawidget.jar</filename> and <filename>lib\scala-library.jar</filename> among others, so it's best not to move
+					<filename>../../metawidget.jar</filename> and <filename>lib/scala-library.jar</filename> among others, so it's best not to move
 					it to a different folder (if you do, you'll need to manually put those JARs on your classpath).
 				</para>
 				
 				<para> 
-					Run the code by navigating to the <filename>examples\swing</filename> folder and typing:
+					Run the code by navigating to the <filename>examples/swing</filename> folder and typing:
 				</para>				
 				
 				<programlisting language="shell">java -jar animalraces-swing.jar</programlisting>
@@ -2265,14 +2288,14 @@ metawidget.setToInspect( animal )</programlisting>
 				<title>GWT Client Side Example</title>
 	
 				<para>
-					By default, <classname>GwtMetawidget</classname> inspects business objects server-side using <classname>GwtRemoteInspector</classname>. This
+					By default, <classname>GwtMetawidget</classname> uses server-side inspection of business objects. This
 					is because client-side JavaScript does not support reflections or annotations. However if you don't need reflections or annotations, and
 					have your own way of retrieving inspection results, you can plug in your own inspector and keep everything client-side. This
 					example implements a <classname>TextAreaInspector</classname> that retrieves inspection results from a textarea and generates the UI. 
 				</para>
 
 				<para>
-					The example is pre-built for you in <filename>examples\gwt\clientside-gwt</filename>. Because everything is purely
+					The GWT Client Side example is pre-built for you in <filename>examples/gwt/clientside-gwt</filename>. Because everything is purely
 					client side, there is no need for Tomcat or any other container: simply navigate to the example
 					folder and open <filename>index.html</filename> in your Web browser:
 				</para>
@@ -2285,7 +2308,7 @@ metawidget.setToInspect( animal )</programlisting>
 				</figure>
 
 				<para>
-					The example shows a textbox on the left containing inspection results in <filename>inspection-result-1.0.xsd</filename> format. The
+					The example shows a <classname>textarea</classname> on the left containing inspection results in <filename>inspection-result-1.0.xsd</filename> format. The
 					result of generating this XML is shown on the right. Click the <guibutton>Sample #2</guibutton> and <guibutton>Sample #3</guibutton>
 					buttons to preload different XML samples, and the <guibutton>Generate</guibutton> button to generate their UI. Alternatively, you can edit
 					the XML by hand to add new properties and actions and click <guibutton>Generate</guibutton>.
@@ -2310,8 +2333,8 @@ metawidget.setToInspect( animal )</programlisting>
 				<title>GWT Hosted Mode Examples</title>
 	
 				<para>
-					The <filename>examples\gwt\addressbook-gwt.war</filename> (discussed in Part 2 of this tutorial)
-					and the <filename>examples\gwt\clientside</filename> (discussed in Part 3 of this tutorial) demonstrates GWT
+					The <filename>examples/gwt/addressbook-gwt.war</filename> (discussed in Part 2 of this tutorial)
+					and the <filename>examples/gwt/clientside</filename> (discussed in Part 3 of this tutorial) demonstrates GWT
 					running in <emphasis>GWT Web mode</emphasis>. Developers may prefer instead to run the examples in <emphasis>GWT hosted mode</emphasis>
 					as in <xref linkend="section-introduction-part3-gwt-hosted-screenshot"/>.
 				</para>
@@ -2457,34 +2480,6 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 				
 			</section>
 			
-			<section id="section-introduction-part3-swt-addressbook">
-				<title>SWT Address Book Examples</title>
-	
-				<para>
-					There is an SWT version of the Address Book sample in <filename>examples/swt/addressbook-swt.jar</filename>. If you
-					prefer SWT to Swing, you may prefer this version as in <xref linkend="section-introduction-part3-swt-addressbook-screenshot"/>.
-				</para>
-
-				<figure id="section-introduction-part3-swt-addressbook-screenshot">
-					<title>SWT Address Book Example</title>
-					<screenshot>
-						<graphic fileref="images/screenshots/desktop-swt-addressbook.jpg" width="100mm" />
-					</screenshot>
-				</figure>
-				
-				<para>
-					Key differences to the Swing version (see <xref linkend="section-introduction-part2-desktop"/>) include:
-				</para>
-				
-				<itemizedlist>
-					<listitem>
-						<para>
-							Data binding is implemented using <classname>org.eclipse.core.databinding.Binding</classname>.
-						</para>
-					</listitem>
-				</itemizedlist>
-			</section>
-			
 		</section>
 
 	</chapter>
@@ -2493,12 +2488,13 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 		<title>Architecture</title>
 		
 		<para>
+			???
 			There are a large variety of system architectures, and many different types of UI. Metawidget's approach
 			to managing this diversity is not to define lots of 'flags' to tweak lots of little variables, but to
 			establish a pipeline with plug-in points along the way for your own custom classes.
 			This five-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
 			is co-ordinated by a platform-specific Metawidget class
-			(eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidgetTag</classname> etc) as shown on the left. 
+			(e.g. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidgetTag</classname> etc) as shown on the left. 
 		</para>
 		
 		<!--
@@ -2539,29 +2535,29 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 			<listitem>
 				<para>
 					an <classname>Inspector</classname> that inspects specific back-end architectures. This can be a single <classname>Inspector</classname> or
-					a list of multiple <classname>Inspector</classname>s (eg. <classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname> etc)
+					a list of multiple <classname>Inspector</classname>s (e.g. <classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname> etc)
 					by using <classname>CompositeInspector</classname> (see <xref linkend="section-introduction-part1-compositeinspector"/>). In the latter case,
 					the multiple inspection results are all combined into a single result. 
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					a list of <classname>InspectionResultProcessor</classname>s that can modify the inspection result. These can be used to
-					sort the result, exclude certain fields, and so on.
+					a list of <classname>InspectionResultProcessor</classname>s that can process and modify the inspection result. These can be used to
+					sort the result (e.g. <classname>ComesAfterInspectionResultProcessor</classname>), exclude certain fields, and so on.
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					a <classname>WidgetBuilder</classname> that creates widgets for specific front-end frameworks. This can be a
+					a <classname>WidgetBuilder</classname> that builds widgets for specific front-end frameworks. This can be a
 					single <classname>WidgetBuilder</classname> or a list of multiple <classname>WidgetBuilder</classname>s
-					(eg. <classname>HtmlWidgetBuilder</classname>, <classname>RichFacesWidgetBuilder</classname> etc) by using
+					(e.g. <classname>HtmlWidgetBuilder</classname>, <classname>RichFacesWidgetBuilder</classname> etc) by using
 					<classname>CompositeWidgetBuilder</classname>.
 				</para>
 				<para>
 					In the latter case, the first <classname>WidgetBuilder</classname>
-					to return a match is used. In this way <classname>WidgetBuilder</classname>s for third party UI component libraries
-					(that provide specialized components) can be listed first, and <classname>WidgetBuilder</classname>s for the
-					platform's standard components can be listed last (as a 'fallback' choice).
+					to return a widget is used. In this way <classname>WidgetBuilder</classname>s for third party UI component libraries
+					(that provide specialized components) can be listed first, returning <parameter>null</parameter> for property types they do not
+					support. <classname>WidgetBuilder</classname>s for the platform's standard components can be listed last (as a 'fallback' choice).
 				</para>
 			</listitem>
 			<listitem>
@@ -2573,20 +2569,20 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 			<listitem>
 				<para>
 					a <classname>Layout</classname> that arranges each widget on the screen, possibly organising them into columns and
-					decorating them with labels (eg. <classname>HtmlTableLayout</classname>).
+					decorating them with labels (e.g. <classname>HtmlTableLayout</classname>) or other widgets (e.g. <classname>TabPanelLayoutDecorator</classname>).
 				</para>
 			</listitem>
 		</orderedlist>
 
 		<tip>
 			<title>Immutable</title>
-			All <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
-			and <classname>Layout</classname>s are required to be immutable. This means you only
+			All <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s, <classname>WidgetBuilder</classname>s,
+			<classname>WidgetProcessor</classname>s and <classname>Layout</classname>s are required to be immutable. This means you only
 			need a single instance of them for your entire application. If you are using
-			<filename>metawidget.xml</filename> (see later) then <classname>ConfigReader</classname> takes care
+			<filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>) then <classname>ConfigReader</classname> takes care
 			of this for you, but if you are instantiating them in Java code you should
-			reuse instances. Keeping everything immutable allows Metawidget to be very performant at the
-			same time as being very pluggable.
+			reuse instances. Keeping everything immutable allows Metawidget to be performant at the
+			same time as being pluggable.
 		</tip>
 
 		<para>
@@ -2628,34 +2624,35 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					<listitem>
 						<para>
 							<function>setToInspect</function> is called to set the Object for inspection. The user typically calls
-							this method, either directly or through some intermediate language (eg. using a JSP attribute).
+							this method, either directly or through some intermediate language (e.g. using a JSP attribute).
 						</para>
 					</listitem>
 					<listitem>
 						<para>
+							???
 							Internally, <function>buildWidgets</function> is called to begin the process.
 							It first calls <function>Inspector.inspect</function> to return
-							an XML string of inspection results, then <function>InspectionResultProcessor.processInspectionResult</function>
+							inspection results, then <function>InspectionResultProcessor.processInspectionResult</function>
 							to sort them.
 						</para>
 					</listitem>
 					<listitem>
 						<para>							
 							<function>buildWidgets</function> calls <function>WidgetBuilder.buildWidget</function> to choose a suitable widget for the
-							top-level element of the XML (based on its <parameter>@type</parameter> attribute). If <function>WidgetBuilder.buildWidget</function>
+							top-level element of the XML (based on its <parameter>@type</parameter> and other attributes). If <function>WidgetBuilder.buildWidget</function>
 							returns such a widget, skip to 6.
 						</para>
 					</listitem>
 					<listitem>
 						<para>							
-							if <function>WidgetBuilder.buildWidget</function> returns null for the top-level element, call <function>buildCompoundWidget</function> to
-							iterate over each child of the top-level element.
+							if <function>WidgetBuilder.buildWidget</function> returns <parameter>null</parameter> for the top-level element,
+							call <function>buildCompoundWidget</function> to iterate over each child of the top-level element.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
 							for each child, call <function>WidgetBuilder.buildWidget</function> and add the returned widget to the Metawidget. If
-							<function>WidgetBuilder.buildWidget</function> returns null for a child, create a nested Metawidget.
+							<function>WidgetBuilder.buildWidget</function> returns <parameter>null</parameter> for a child, create a nested Metawidget.
 						</para>
 					</listitem>
 					<listitem>
@@ -2698,14 +2695,15 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					Metawidgets come with different <classname>Layout</classname> classes that can arrange the widgets in different ways, and
 					these are set on the Metawidget in a framework-specific
 					way. For example, JSF uses <parameter>&lt;m:metawidget rendererType=""&gt;</parameter> whereas <classname>SwingMetawidget</classname>
-					uses <function>setMetawidgetLayout</function>. Where possible, the layout classes defer back to the capabilities
+					uses <function>setMetawidgetLayout</function>. As much as possible, the layout classes defer back to the capabilities
 					of the native framework. For example, Swing's <classname>GridBagLayout</classname> or Android's <classname>TableLayout</classname>.
 				</para>
 				
 				<para>
 					Some layouts will add localized labels and section headings to the widgets, whereas other layouts may leave them unadorned. Different
-					Layouts may support different parameters (for example, a <classname>TableLayout</classname> may support <parameter>numberOfColumns</parameter>).
-					These are initialized on the Layout at construction time using a <classname>xxxLayoutConfig</classname>.
+					<classname>Layout</classname>s may support different parameters (for example, a <classname>TableLayout</classname> may
+					support <parameter>numberOfColumns</parameter>).
+					These are initialized on the <classname>Layout</classname> at construction time using an <classname>xxxLayoutConfig</classname>.
 				</para>
 				
 			</section>
@@ -2728,6 +2726,12 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 						<para>
 							<emphasis role="bold">facet</emphasis> child widgets pass through to the chosen layout
 							as decorations (such as button bars).
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<emphasis role="bold">InspectionResultProcessors</emphasis> can be plugged in to the pipeline to
+							include, exclude or sort business object properties.
 						</para>
 					</listitem>
 					<listitem>
@@ -2757,8 +2761,9 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 	
 				<para>
 					Metawidget creates widgets native to a particular UI framework. Having to implement your own
-					Metawidget should be far less common than having to implement your own <classname>Inspector</classname>, 
-					<classname>WidgetBuilder</classname> or <classname>WidgetProcessor</classname>, but if your chosen UI
+					Metawidget should be far less common than having to implement your own <classname>Inspector</classname>,
+					<classname>InspectorResultProcessor</classname>, <classname>WidgetBuilder</classname>,
+					<classname>WidgetProcessor</classname> or <classname>Layout</classname>, but if your chosen UI
 					framework is not supported 'out of the box' you may	need to implement your own. 
 				</para>
 				
@@ -2832,6 +2837,8 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 						of existing Swing <classname>LayoutManagers</classname>.
 					</para>
 				</section>
+				
+				???
 	
 			</section>
 
@@ -2860,7 +2867,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					Each inspector must look to the <parameter>type</parameter> parameter and the <parameter>names</parameter> array. These
 					form a path into the business object domain model. For example the <parameter>type</parameter> may be <parameter>com.myapp.Person</parameter>
 					and the <parameter>names</parameter> may be <parameter>address</parameter> and <parameter>street</parameter>.
-					This would form a path into the domain model of	<parameter>com.myapp.Person/address/street</parameter> (ie. return information
+					This would form a path into the domain model of	<parameter>com.myapp.Person/address/street</parameter> (i.e. return information
 					on the <parameter>street</parameter> property within the <parameter>address</parameter> property of the <parameter>Person</parameter> type).
 				</para>
 				
@@ -2892,8 +2899,9 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 
 				<tip>
 					<title>Note</title>							
-					In general, a non-null <function>setToInspect</function> is a preferrable, as
-					many binding and validation technologies (see later) will be expecting a concrete object.
+					In general, a non-null <function>setToInspect</function> is preferrable, as
+					many binding and validation technologies (e.g. see
+					<xref linkend="section-widgetprocessors-desktop-swing-propertybinding"/>) will be expecting a concrete object.
 				</tip>
 				
 			</section>
@@ -2914,7 +2922,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<programlisting language="java">metawidget.setInspector( new MyInspector() );</programlisting>
 				
 				<para>
-					Or via <filename>metawidget.xml</filename>:
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
@@ -2971,7 +2979,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				</figure>				
 				
 				<para>
-					All inspectors are required to be immutable (see later). Therefore, although <classname>CompositeInspector</classname>
+					All inspectors are required to be immutable (see <xref linkend="section-architecture-inspectors-immutability"/>). Therefore,
+					although <classname>CompositeInspector</classname>
 					maintains a list of inspectors this must not be changeable. To enforce this, the list is set at instantation
 					time using <classname>CompositeInspectorConfig</classname>. This can either be set in code:
 				</para>
@@ -2984,14 +2993,12 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 	)));</programlisting>
 				
 				<para>
-					Or via <filename>metawidget.xml</filename>
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
 &lt;inspector&gt;
-	&lt;compositeInspector
-		xmlns="java:org.metawidget.inspector.composite"
-		config="CompositeInspectorConfig"&gt;
+	&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
@@ -3011,7 +3018,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<para>
 					All Metawidgets have default <classname>Inspector</classname>s. Overriding the default means the default is no
 					longer instantiated. Usually this is not what you want, so you should consider instantiating
-					the default along with your new <classname>Inspector</classname> (ie. use <classname>CompositeInspector</classname>).
+					the default along with your new <classname>Inspector</classname> (i.e. use <classname>CompositeInspector</classname>).
 					You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
@@ -3134,7 +3141,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<para>
 					All inspectors are required to be immutable. This means you only
 					need a single instance of an <classname>Inspector</classname> for your entire application. If you are using
-					<filename>metawidget.xml</filename> (see later) then <classname>ConfigReader</classname> takes care
+					<filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>) then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating <classname>Inspector</classname>s in Java code you should
 					reuse instances.
 				</para>
@@ -3154,7 +3161,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<programlisting language="xml">&lt;jpaInspector xmlns="java:org.metawidget.inspector.jpa" config="JpaInspectorConfig"&gt;
 	&lt;hideIds&gt;
-		&lt;boolean&gt;true&lt;/boolean&gt;
+		&lt;boolean&gt;false&lt;/boolean&gt;
 	&lt;/hideIds&gt;
 &lt;/jpaInspector&gt;</programlisting>
 				
@@ -3165,7 +3172,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 	
 				<para>
 					The <parameter>inspection-result</parameter> XML format is the 'glue' that holds everything together: the
-					<classname>Metawidget</classname>s request it, the <classname>Inspector</classname>s provide it, and
+					Metawidgets request it, the <classname>Inspector</classname>s provide it, and
 					the <classname>WidgetBuilder</classname>s base their choice of widgets on it.
 				</para>
 				
@@ -3337,7 +3344,7 @@ public class Person {
 						<para>
 							For inspecting XML files, <classname>BaseXmlInspector</classname> assists
 							in opening and traversing through the XML, as well as merging multiple XML files
-							into one (eg. merging multiple Hibernate mapping files). Here is an example of a
+							into one (e.g. merging multiple Hibernate mapping files). Here is an example of a
 							custom <classname>Inspector</classname> to inspect <ulink url="http://castor.org">Castor</ulink>
 							XML mapping files:
 						</para>
@@ -3381,27 +3388,28 @@ public class CastorInspector
 					</listitem>
 				</itemizedlist>
 	
+				???
+				
 				<para>
 					When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
 					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
 					it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
 					it is reasonable to name the XML attribute <parameter>faces-converter-class</parameter>. However, <classname>NumberConverter</classname>s also
-					use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (eg. we can
+					use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (i.e. we can
 					source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
-					(eg. <classname>maximum-integer-digits</classname>). 
+					(i.e. <classname>maximum-integer-digits</classname>). 
 				</para>
 				
 				<important>
 					<title>Config classes must override equals and hashCode</title>
-					If your <classname>Inspector</classname> has a <classname>xxxInspectorConfig</classname> class, and you want
-					it to be cacheable and reusable by
+					If you want your configurable <classname>Inspector</classname> to be cacheable and reusable by
 					<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxInspectorConfig</classname>
 					class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
 				</important>				
 				
 				<tip>
 					<title>Generate an XML Schema</title>
-					If your <classname>Inspector</classname> has an <classname>xxxInspectorConfig</classname> class, consider
+					If you intend your <classname>Inspector</classname> to be configurable via <filename>metawidget.xml</filename>, consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Inspector</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
@@ -3457,8 +3465,8 @@ public class CastorInspector
 				</figure>
 				
 				<para>
-					In most cases the <classname>InspectionResultProcessor</classname> will simply be modifying the given <parameter>inspectionResult</parameter>.
-					However it can decide to swap it out by returning a different String. This new String will then be passed down the list. Alternatively,
+					In most cases the <classname>InspectionResultProcessor</classname> will modify the given <parameter>inspectionResult</parameter>
+					and return a new String. This will then be passed down the list. Alternatively,
 					the <classname>InspectionResultProcessor</classname> can return <parameter>null</parameter> to cancel inspection result processing entirely. No further
 					<classname>InspectionResultProcessor</classname>s will be called, as shown in <xref linkend="section-architecture-inspectionresultprocessors-abort"/>.
 				</para>
@@ -3483,6 +3491,8 @@ public class CastorInspector
 				
 			</section>
 
+			???
+			
 			<section id="section-architecture-inspectionresultprocessors-defaults">
 				<title>Defaults</title>
 				
@@ -3641,7 +3651,8 @@ public class Main {
 
 				<tip>
 					<title>Note</title>
-					We don't necessarily recommend this approach, as it requires hard-coding business property names and won't refactor well.
+					We don't necessarily recommend this approach, as it requires hard-coding business property
+					names into your UI screens and won't refactor well. See <xref linkend="chapter-howto"/> for other approaches.
 				</tip>
 			</section>
 
@@ -3651,7 +3662,7 @@ public class Main {
 			<title>Widget Builders</title>
 			
 			<para>
-				WidgetBuilders decouple the process of choosing widgets based on inspection results. This section
+				WidgetBuilders build widgets based on inspection results. This section
 				covers WidgetBuilders in general. For in-depth documentation of individual WidgetBuilders
 				see <xref linkend="chapter-widgetbuilders"/>.
 			</para>
@@ -3672,13 +3683,14 @@ public class Main {
 				</para>
 				
 				<para>
-					Each WidgetBuilder must look to the <parameter>elementName</parameter>, which is typically just 'property' or 'action'
-					from the <filename>inspection-result</filename>, and
-					to the various <parameter>attributes</parameter> and instantiate an appropriate widget. WidgetBuilders can use
+					Each WidgetBuilder must look to the <parameter>elementName</parameter> (which is typically just 'property' or 'action'
+					from the <filename>inspection-result</filename>) and
+					to the various <parameter>attributes</parameter> (as parsed from the <filename>inspection-result</filename>)
+					and instantiate an appropriate widget. WidgetBuilders can use
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
 					to instantiate widgets). Typically the WidgetBuilders do not need to configure the widget beyond simply instantiating it: the job
 					of setting <parameter>id</parameter>s, attaching validators, configuring bindings and so forth is done by the
-					<classname>WidgetProcessor</classname>s (see <xref linkid="section-architecture-widgetprocessors"/>).
+					<classname>WidgetProcessor</classname>s (see <xref linkend="section-architecture-widgetprocessors"/>).
 				</para>
 				
 			</section>
@@ -3700,7 +3712,7 @@ public class Main {
 				<programlisting language="java">metawidget.setWidgetBuilder( new MyWidgetBuilder() );</programlisting>
 				
 				<para>
-					Or via <filename>metawidget.xml</filename>
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
@@ -3716,7 +3728,7 @@ public class Main {
 					and <classname>SwingWidgetBuilder</classname> are not. This is usually not what you want,
 					because <classname>MyWidgetBuilder</classname> will be focussed on a particular third party library and
 					will want to leave widget overriding to <classname>OverriddenWidgetBuilder</classname>, read-only
-					widgets (ie. labels) to <classname>ReadOnlyWidgetBuilder</classname> and
+					widgets (i.e. labels) to <classname>ReadOnlyWidgetBuilder</classname> and
 					standard widgets to <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
@@ -3771,11 +3783,12 @@ public class Main {
 							
 				<programlisting language="java">metawidget.setWidgetBuilder( new CompositeWidetBuilder( new CompositeWidgetBuilderConfig()
 	.setWidgetBuilders(
+		new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(),
 		new MyWidgetBuilder(), new SwingWidgetBuilder()
 	)));</programlisting>
 				
 				<para>
-					Or via <filename>metawidget.xml</filename>
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
@@ -3803,17 +3816,19 @@ public class Main {
 				<para>
 					The first <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
 					chain should generally be an <classname>OverriddenWidgetBuilder</classname>. This looks for existing
-					child widgets that override default generation. What consitutes an 'overriden widget' varies from
+					child widgets that override default generation. What consitutes an 'overridden widget' varies from
 					platform to platform. For example, for Swing any child widget with the same <parameter>name</parameter>
 					will be taken as the override (see <xref linkend="section-introduction-part1-creation"/>). Android
 					uses the <parameter>tag</parameter> attribute, JSF uses the value binding, and so on. For details
 					on the <classname>OverriddenWidgetBuilder</classname> for your platform see <xref linkend="chapter-widgetbuilders"/>.
 				</para>
 				
+				???
+				
 				<para>
-					You can also choose to plug-in your own <classname>WidgetBuilder</classname> that detects 'overriden widgets' based
+					You can also choose to plug-in your own <classname>WidgetBuilder</classname> that detects 'overridden widgets' based
 					on your own criteria. Here is an example of a custom <classname>WidgetBuilder</classname> that excludes widgets
-					based on a client property. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+					based on a <classname>JComponent</classname> client property. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -3865,7 +3880,8 @@ public class Main {
 
 				<tip>
 					<title>Note</title>
-					We don't necessarily recommend this approach, as it requires hard-coding business property names and won't refactor well.
+					We don't necessarily recommend this approach, as it requires hard-coding business property names
+					into your UI screens and won't refactor well.
 				</tip>
 
 				<tip>
@@ -3882,7 +3898,7 @@ public class Main {
 				<para>
 					The second <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
 					chain should generally be a <classname>ReadOnlyWidgetBuilder</classname>. This builds standard
-					platform widgets (ie. labels) for fields with <parameter>read-only="true"</parameter>.
+					platform widgets (i.e. labels) for fields with <parameter>read-only="true"</parameter>.
 				</para>
 				
 				<para>
@@ -3957,7 +3973,7 @@ public class Main {
 				<para>
 					All Metawidgets have default <classname>WidgetBuilder</classname>s. Overriding the default means the default is no
 					longer instantiated. Usually this is not what you want, so you should consider instantiating
-					the default along with your new <classname>WidgetBuilder</classname> (ie. use <classname>CompositeWidgetBuilder</classname>).
+					the default along with your new <classname>WidgetBuilder</classname> (i.e. use <classname>CompositeWidgetBuilder</classname>).
 					You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
@@ -4092,13 +4108,13 @@ public class Main {
 			.setDataTableStyleClass( "data-table" )));</programlisting>
 				
 				<para>
-					Or in <filename>metawidget.xml</filename>:
+					Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"
 	config="HtmlWidgetBuilderConfig"&gt;
 	&lt;dataTableStyleClass&gt;
-		&lt;boolean&gt;data-table&lt;/boolean&gt;
+		&lt;string&gt;data-table&lt;/string&gt;
 	&lt;/dataTableStyleClass&gt;
 &lt;/htmlWidgetBuilder&gt;</programlisting>				
 				
@@ -4109,7 +4125,7 @@ public class Main {
 	
 				<para>
 					The pluggable nature of <classname>WidgetBuilder</classname>s makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
-					be used to chain <classname>WidgetBuilder</classname>s together, you only need worry about supporting your particular component library's widgets. You
+					be used to chain <classname>WidgetBuilder</classname>s together, you only need worry about supporting your particular widgets. You
 					can simply return <parameter>null</parameter> for all other types of fields and rely on another <classname>WidgetBuilder</classname>
 					further down the chain to instantiate one of the usual widgets.
 				</para>
@@ -4181,9 +4197,16 @@ public class Main {
 	}</symbol>
 }</programlisting>
 
+				<important>
+					<title>Config classes must override equals and hashCode</title>
+					If you want your configurable <classname>WidgetBuilder</classname> to be cacheable and reusable by
+					<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxWidgetBuilderConfig</classname>
+					class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
+				</important>				
+
 				<tip>
 					<title>Generate an XML Schema</title>
-					If your <classname>WidgetBuilder</classname> has an <classname>xxxWidgetBuilderConfig</classname> class, consider
+					If you intend your <classname>WidgetBuilder</classname> to be configurable via <filename>metawidget.xml</filename>, consider					
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetBuilder</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
@@ -4205,9 +4228,10 @@ public class Main {
 					
 					<para>
 						In most cases such recreation works well, but on occasion a component may not be expecting to be recreated, and may not function properly.
-						For example, the ICEfaces <classname>SelectInputDate</classname> component stores the state of its date popup internally. If
+						For example, the ICEfaces <classname>SelectInputDate</classname> component stores the state of its date popup inside the
+						<classname>UIComponent</classname>. If
 						it is recreated, this state is lost and the popup never appears. For such components, <classname>WidgetBuilder</classname>
-						authors can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> on the component
+						authors can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> on the <classname>UIComponent</classname>
 						to prevent its destruction and recreation. Of course, this somewhat impacts its flexibility. For example, a
 						<classname>SelectInputDate</classname> would not be able to change its date format in response to another component on the form.
 					</para>
@@ -4238,8 +4262,8 @@ public class Main {
 				<programlisting language="java">W processWidget( W widget, String elementName, Map&lt;String, String&gt; attributes, M metawidget );</programlisting>
 				
 				<para>
-					Where <parameter>W</parameter> is a widget class (ie. <classname>JComponent</classname>, <classname>UIComponent</classname> etc)
-					and M is a Metawidget class (ie. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
+					Where <parameter>W</parameter> is a widget class (i.e. <classname>JComponent</classname>, <classname>UIComponent</classname> etc)
+					and M is a Metawidget class (i.e. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
 				</para>
 				
 				<para>
@@ -4280,7 +4304,7 @@ public class Main {
 				<para>
 					In most cases the <classname>WidgetProcessor</classname> will simply be modifying the given <parameter>widget</parameter>
 					(adding validators, changing styles and so on). However it can decide to swap the widget out by returning a different
-					widget. This new widget will then be passed down the list as shown in
+					widget entirely. This new widget will then be passed down the list as shown in
 					<xref linkend="section-architecture-widgetprocessors-substitute"/>. For an example use of this capability, see
 					<classname>HiddenFieldProcessor</classname>.
 				</para>
@@ -4303,7 +4327,7 @@ public class Main {
 				
 				<para>
 					Alternatively, the <classname>WidgetProcessor</classname> can decide to exclude the widget entirely by
-					returning null. Subsequent <classname>WidgetProcessor</classname>s will not be called, as
+					returning <parameter>null</parameter>. Subsequent <classname>WidgetProcessor</classname>s will not be called, as
 					shown in <xref linkend="section-architecture-widgetprocessors-exclude"/>, and no
 					widget will be added to the <classname>Layout</classname>.
 				</para>
@@ -4338,6 +4362,7 @@ public class Main {
 metawidget.addWidgetProcessor( new WidgetProcessor&lt;JComponent, SwingMetawidget&gt;() {
 	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
 											SwingMetawidget metawidget ) {
+
 		...decide whether to attach event handler...
 		
 		widget.add( new AbstractAction() {
@@ -4357,12 +4382,14 @@ metawidget.addWidgetProcessor( new WidgetProcessor&lt;JComponent, SwingMetawidge
 					it to take advantage of Java 7 language features such as: 
 				</para>
 				
-				<programlisting language="java">metawidget.addWidgetProcessor(
+				<programlisting language="java">final Object someObject = ...;
+
+metawidget.addWidgetProcessor(
 	#(JComponent w, String name, Map&lt;String, String&gt; attr, SwingMetawidget m)
-	{ w( #(ActionEvent e) { someObject.doSomething } ) } );</programlisting>
+	{ w.add( #(ActionEvent e) { someObject.doSomething } ) } );</programlisting>
 	
 				<para>
-					However for those needing more control over the <code>WidgetProcessor</code> lifecycle there is
+					However for those needing more control over the <classname>WidgetProcessor</classname> lifecycle there is
 					an extended interface <classname>AdvancedWidgetProcessor</classname>. This interface defines
 					two additional methods:
 				</para>
@@ -4500,7 +4527,7 @@ void onEndBuild( M metawidget );</programlisting>
 			.setUpdateStrategy( UpdateStrategy.READ_WRITE )));</programlisting>
 				
 				<para>
-					Or in <filename>metawidget.xml</filename>:
+					Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"
@@ -4517,7 +4544,7 @@ void onEndBuild( M metawidget );</programlisting>
 			
 				<para>
 					Here is an example of a custom <classname>WidgetProcessor</classname> to add tooltips to
-					add <classname>JComponents</classname>. It extends the code from the tutorial
+					<classname>JComponents</classname>. It extends the code from the tutorial
 					(see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
@@ -4597,7 +4624,7 @@ public class Main {
 				<programlisting language="java">metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));</programlisting>
 					
 				<para>
-					Or through metawidget.xml:
+					Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 					
 				<programlisting language="xml">&lt;tooltipProcessor xmlns="java:com.foo" config="TooltipProcessorConfig"&gt;
@@ -4606,6 +4633,8 @@ public class Main {
 	&lt;/prefix&gt;
 &lt;/tooltipProcessor&gt;</programlisting>
 
+				???
+				
 				<important>
 					<title>Config classes must override equals and hashCode</title>
 					If you want your configurable <classname>WidgetProcessor</classname> to be cacheable and reusable by
@@ -4646,9 +4675,9 @@ public class Main {
 				<programlisting language="java">void layoutWidget(W widget, String elementName, Map&lt;String, String&gt; attributes, C container, M metawidget);</programlisting>
 
 				<para>
-					Where <parameter>W</parameter> is a widget class (ie. <classname>Control</classname>, <classname>JComponent</classname> etc),
-					C is widget container class (ie. <classname>Composite</classname>, <classname>JComponent</classname> etc)
-					and M is a Metawidget class (ie. <classname>SwtMetawidget</classname>, <classname>SwingMetawidget</classname> etc).					
+					Where <parameter>W</parameter> is a widget class (i.e. <classname>Control</classname>, <classname>JComponent</classname> etc),
+					C is widget container class (i.e. <classname>Composite</classname>, <classname>JComponent</classname> etc)
+					and M is a Metawidget class (i.e. <classname>SwtMetawidget</classname>, <classname>SwingMetawidget</classname> etc).					
 				</para>
 				
 				<para>
@@ -4657,7 +4686,7 @@ public class Main {
 					as a child of the given <parameter>container</parameter>, according to the given
 					<parameter>elementName</parameter> and <parameter>attributes</parameter>. They can use
 					the given <parameter>metawidget</parameter> to access additional services if needed (such as
-					state saving).
+					state saving beween invocations (see <xref linkend="section-architecture-layouts-implementing-your-own"/>).
 				</para>
 				
 			</section>
@@ -4667,7 +4696,7 @@ public class Main {
 
 				<para>
 					The <classname>Layout</classname> interface only has a single method. However for those
-					needing more control over the <code>Layout</code> lifecycle there is
+					needing more control over the <classname>Layout</classname> lifecycle there is
 					an extended interface <classname>AdvancedLayout</classname>. This interface defines
 					four additional methods:
 				</para>
@@ -4704,8 +4733,8 @@ void onEndBuild(M metawidget);</programlisting>
 				<para>
 					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
 					before the <classname>WidgetBuilder</classname> is called. <classname>Layout</classname>s may wish to act
-					on this event to initialize themselves ready for processing, or to perform 'outermost-container-only' processing, such as adding facets.
-					However it is acceptable to do nothing.				
+					on this event to initialize themselves ready for processing, or to perform 'outermost-container-only' processing, such as
+					adding toolbar facets. However it is acceptable to do nothing.				
 				</para>				
 				<para>
 					The second method, <function>startContainerLayout</function>, is called to initialize the
@@ -4718,8 +4747,8 @@ void onEndBuild(M metawidget);</programlisting>
 				<para>
 					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
 					after all widgets have been built and added to the <classname>Layout</classname>. <classname>Layout</classname>s may wish to act
-					on this event to clean themselves up following processing, or to perform 'outermost-container-only' processing, such as adding facets.
-					However it is acceptable to do nothing.
+					on this event to clean themselves up following processing, or to perform 'outermost-container-only' processing, such as
+					adding status bar facets. However it is acceptable to do nothing.
 				</para>				
 			</section>
 
@@ -4730,7 +4759,7 @@ void onEndBuild(M metawidget);</programlisting>
 					<classname>LayoutDecorator</classname> allows you to combine multiple <classname>Layout</classname>s
 					together in a heirarchy. Conceptually, this is similar to <classname>CompositeInspector</classname>
 					or <classname>CompositeWidgetBuilder</classname>, but <classname>Layout</classname>s are fundamentally
-					different in that most are 'end points' that cannot sensibly be composed into sequential lists (eg. what
+					different in that most are 'end points' that cannot sensibly be composed into sequential lists (i.e. what
 					should happen if you try to combine a <classname>GridBagLayout</classname> with a <classname>FlowLayout</classname>?).
 				</para>
 				
@@ -4957,7 +4986,7 @@ void onEndBuild(M metawidget);</programlisting>
 				<programlisting language="java">metawidget.setLayout( new HtmlTableLayout( new HtmlTableLayoutConfig().setNumberOfColumns( 2 ));</programlisting>
 				
 				<para>
-					Or in <filename>metawidget.xml</filename>:
+					Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 				</para>
 				
 				<programlisting language="xml">&lt;htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout"
@@ -5025,7 +5054,8 @@ public class HtmlListLayout
 }</programlisting>
 				
 				<para>
-					Like <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and
+					Like <classname>Inspector</classname>s,
+					<classname>InspectionResultProcessor</classname>s, <classname>WidgetBuilder</classname>s and
 					<classname>WidgetProcessor</classname>s, <classname>Layout</classname>s are required to be
 					immutable. However they will generally need to use some internal state, such as tracking
 					the current row in a table layout. This can be achieved in two ways:
@@ -5077,7 +5107,7 @@ public class HtmlListLayout
 						<programlisting language="java">metawidget.setLayout( new HtmlTableLayout( new HtmlTableLayoutConfig().setTableStyleClass("foo")));</programlisting>
 						
 						<para>
-							Or through metawidget.xml:
+							Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
 						</para>
 						
 						<programlisting language="xml">&lt;htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig"&gt;
@@ -5129,13 +5159,16 @@ private State getState( SwingMetawidget metawidget ) {
 
 static class State {
 	int currentRow;
+	...other state variables...
 }</programlisting>
 
 					</listitem>
 				</orderedlist>
 				
 			</section>
-			
+
+			???
+						
 		</section>
 
 		<section id="section-architecture-xml">
@@ -5177,8 +5210,15 @@ static class State {
 					a per-package basis. For example:
 				</para>
 
-				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"
-xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd"/&gt;</programlisting>
+				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						<symbol>java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd</symbol>"&gt;
+
+	&lt;swingMetawidget xmlns="java:org.metawidget.swing"/&gt;
+	
+&lt;/metawidget&gt;			
+</programlisting>
 
 			</section>
 
@@ -5220,6 +5260,8 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 	
 &lt;/metawidget&gt;</programlisting>
 
+???
+
 			</section>
 			
 			<section id="section-architecture-xml-construct-primitives">
@@ -5246,8 +5288,8 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						<tr>
 							<td><parameter>&lt;array&gt;</parameter></td>
 							<td>
-								constructs a Java array. The array's component type (ie. <classname>String[]</classname>, <classname>int[]</classname> etc)
-								is based on the signature of the method being invoked (ie. <function>setInspectors( Inspector... )</function>)
+								constructs a Java array. The array's component type (i.e. <classname>String[]</classname>, <classname>int[]</classname> etc)
+								is based on the signature of the method being invoked (i.e. <function>setInspectors( Inspector... )</function>)
 							</td>
 						</tr>					
 						<tr>
@@ -5267,7 +5309,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						<tr>
 							<td><parameter>&lt;constant&gt;</parameter></td>
 							<td>
-								Static field. This can either be fully qualified (eg. <parameter>javax.swing.SwingConstants.LEFT</parameter>) or
+								Static field. This can either be fully qualified (e.g. <parameter>javax.swing.SwingConstants.LEFT</parameter>) or
 								just the field name, in which case the field must be defined by the class of the parent XML node
 							</td>
 						</tr>
@@ -5298,7 +5340,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						</tr>
 						<tr>
 							<td><parameter>&lt;pattern&gt;</parameter></td>
-							<td>Java <classname>Pattern</classname></td>
+							<td>constructs a <classname>java.text.Pattern</classname></td>
 						</tr>
 						<tr>
 							<td><parameter>&lt;resource&gt;</parameter></td>
@@ -5325,7 +5367,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				
 				<para>
 					Some environments store their resources in specialized locations that are inaccessible
-					by normal means (ie. <classname>ClassLoader.getResource</classname>). For example, Web
+					by normal means (i.e. <classname>ClassLoader.getResource</classname>). For example, Web
 					environments use a <filename>WEB-INF</filename> folder that must be accessed through
 					<classname>ServletContext.getResource</classname>. Simiarly, Android environments must resolve
 					resources using <classname>Context.getResources</classname>. 
@@ -5337,7 +5379,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					understand this distinction and provide resource resolving capability to all the
 					objects they create. Specifically, <classname>ConfigReader</classname> implements
 					<classname>ResourceResolver</classname> and passes itself to any <classname>xxxConfig</classname>
-					classes that implement <classname>NeedsResourceResolver</classname>.					
+					classes that take a <classname>ResourceResolver</classname> parameter in their constructor.					
 				</para>
 				
 			</section>
@@ -5346,7 +5388,9 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				<title>Understanding Immutability</title>
 				
 				<para>
-					Metawidget dictates all <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
+					Metawidget dictates all <classname>Inspector</classname>s,
+					<classname>InspectionResultProcessor</classname>s,
+					<classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
 					and <classname>Layout</classname>s be immutable. This is an important design decision as
 					it means a single instance can be reused across an entire application. Immutabilty
 					is enforced by not having any <function>setXXX</function> methods on the objects themselves.
@@ -5372,7 +5416,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 
 				<para>
 					Having constructed an immutable object, <classname>ConfigReader</classname> will cache the instance and reuse it. The
-					<parameter>config</parameter> attribute defaults to using the same package as the <parameter>xmlns</parameter> (ie.
+					<parameter>config</parameter> attribute defaults to using the same package as the <parameter>xmlns</parameter> (i.e.
 					<classname>org.metawidget.inspector.composite</classname> in the example above). This can be overridden if a fully
 					qualified classname is provided.
 				</para>
@@ -5381,7 +5425,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<title>Config classes must override equals and hashCode</title>
 					In order to reliably cache and reuse an immutable object that uses a <parameter>config</parameter> attribute, the
 					<classname>xxxConfig</classname> class <emphasis>must</emphasis> override <function>equals</function>
-					and <function>hashCode</function>. This is important to bear in mind when implementing your own custom objects.
+					and <function>hashCode</function>. This is important to bear in mind when implementing your own custom classes.
 				</important>				
 								
 			</section>
@@ -5513,7 +5557,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						</listitem>
 						<listitem>
 							<para>
-								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt.jar</filename>
+								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt.jar</filename>
 								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. This provides the <classname>GwtMetawidget</classname> component.
 							</para>
 						</listitem>
@@ -5600,7 +5644,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<orderedlist>
 						<listitem>
 							<para>
-								instantiate the business object on the client-side as normal (ie. as JavaScript)
+								instantiate the business object on the client-side as normal (i.e. as JavaScript)
 							</para>
 						</listitem>
 						<listitem>
@@ -5761,7 +5805,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<para>
 						Another important JSF Look and Feel technology is Renderers. Whilst
 						often Renderers are discussed in the context of rendering the same widget to different
-						platforms (eg. HTML or WML), they can equally be used to render the same widget to the same
+						platforms (e.g. HTML or WML), they can equally be used to render the same widget to the same
 						platform but in different layouts.
 					</para>
 					
@@ -5950,7 +5994,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter> (ie. under
+								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter> (i.e. under
 								your project's <parameter>Libraries</parameter> tab in Eclipse)
 							</para>
 						</listitem>
@@ -6064,7 +6108,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				<programlisting language="java">protected Map&lt;String, String&gt; inspectTrait( Trait trait )</programlisting>
 				
 				<para>
-					...for inspecting things that apply to both properties and actions (eg. <classname>@UiLabel</classname>). Quite what
+					...for inspecting things that apply to both properties and actions (e.g. <classname>@UiLabel</classname>). Quite what
 					constitutes a 'property' or an 'action' is decoupled into pluggable <classname>PropertyStyle</classname>s
 					and <classname>ActionStyle</classname>s.
 				</para>
@@ -6168,7 +6212,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						
 						<para>
 							However, a danger of this approach is that if the business objects are ever recompiled <emphasis>without</emphasis> debug
-							line numbering information (eg. when moving from development to production) the UI fields will lose their
+							line numbering information (e.g. when moving from development to production) the UI fields will lose their
 							ordering. Such a subtle bug may not be picked up, so as a safeguard <classname>JavassistPropertyStyle</classname>
 							'fails hard' with an <classname>InspectorException</classname> if line numbers are not available.
 						</para>
@@ -6295,8 +6339,8 @@ public class Main {
 						
 						<tip>
 							<title>Note</title>
-							In this particular example, it may be useful to create a <classname>BundlePropertyStyleConfig</classname> class that implements
-							<classname>NeedsResourceResolver</classname> (see <xref linkend="section-architecture-xml-resolving-resources"/>).
+							In this particular example, it may be useful to create a <classname>BundlePropertyStyleConfig</classname> class that
+							takes a <classname>ResourceResolver</classname> parameter in its constructor (see <xref linkend="section-architecture-xml-resolving-resources"/>).
 							Then it could use <classname>ResourceResolver.openResource</classname> to locate the bundle in case it
 							was in a specialized location (such as <filename>WEB-INF/</filename>).
 						</tip>
@@ -6336,7 +6380,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 					<para>
 						Note these action styles only apply to <classname>BaseObjectInspector</classname> and its subclasses. This covers
-						most annotation-recognising inspectors (eg. <classname>JpaInspector</classname>, <classname>HibernateValidatorInspector</classname>)
+						most annotation-recognising inspectors (e.g. <classname>JpaInspector</classname>, <classname>HibernateValidatorInspector</classname>)
 						but <emphasis>not</emphasis> XML-based inspectors. For example, <classname>PageflowInspector</classname> recognizes actions in
 						JBoss jBPM pageflow files without any concept of an 'action style'.
 					</para>
@@ -6402,8 +6446,8 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td>
 								if the property has no <function>setXXX</function> method. Note <parameter>no-setter</parameter>
 								is distinct from <parameter>read-only</parameter>, because it is common to
-								have no setter for a complex type (eg. <function>Person.getAddress</function>) but
-								this shouldn't make all its contents (eg. <function>Address.getStreet</function>) read-only.
+								have no setter for a complex type (e.g. <function>Person.getAddress</function>) but
+								this shouldn't make all its contents (e.g. <function>Address.getStreet</function>) read-only.
 							</td>
 						</tr>
 						<tr>
@@ -6419,7 +6463,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 						<tr>
 							<td><parameter>actual-type</parameter></td>
 							<td>
-								if the actual type differs from the declared type (ie. it is a subclass)
+								if the actual type differs from the declared type (i.e. it is a subclass)
 							</td>
 						</tr>
 					</tbody>
@@ -6562,12 +6606,12 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 								<para>
 									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
 									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
-									the EL expression can refer to the originating object (ie. <function>#{this.name}</function>).
+									the EL expression can refer to the originating object (i.e. <function>#{this.name}</function>).
 								</para>
 								<para>
 									Unlike <classname>@UiFacesLookup</classname>, which fits into a well-defined place within the JSF
-									framework (ie. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is
-									evaluated by the <classname>Inspector</classname>, not by the <classname>Metawidget</classname>. This means the
+									framework (i.e. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is
+									evaluated by the <classname>Inspector</classname>, not by the Metawidget. This means the
 									<classname>Inspector</classname> must be able access to <classname>FacesContext</classname>. In practice this
 									usually happens automatically, but in some cases it may be necessary to 'combine remote
 									inspections' (see <xref linkend="section-howto-combine-remote"/>).
@@ -6655,7 +6699,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td><parameter>faces-suggest</parameter></td>
 							<td>
 								<classname>@UiFacesSuggest</classname> - annotates the value in the field should
-								be 'suggested' (ie. using a pop-up box) using the set returned by the given EL expression
+								be 'suggested' (i.e. using a pop-up box) using the set returned by the given EL expression
 							</td>
 						</tr>
 					</tbody>
@@ -6723,7 +6767,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					<classname>JexlInspector</classname> inspects <classname>@UiJexlAttribute</classname> annotations and
 					sets arbitrary attributes based on the result of evaluating an Apache Commons JEXL expression. It can
 					be used to introduce declarative UI scripting into environments that lack their	own expression language
-					(ie. JSP has an EL, Swing does not). For example:
+					(i.e. JSP has an EL, Swing does not). For example:
 				</para>
 				
 				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
@@ -6845,7 +6889,7 @@ public class PersonController {
 						<tr>
 							<td><parameter>hidden</parameter></td>
 							<td><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
-								still be rendered on the client, depending on the Metawidget (ie. for Web clients,
+								still be rendered on the client, depending on the Metawidget (i.e. for Web clients,
 								may use a HTML hidden field)
 							</td>
 						</tr>
@@ -6853,12 +6897,12 @@ public class PersonController {
 							<td><parameter>label</parameter></td>
 							<td><classname>@UiLabel</classname> - denotes the label to used in the UI. Can be a resource
 								key if the UI is using resource bundles, or
-								an EL expression if the UI has an expression language (ie. JSF)
+								an EL expression if the UI has an expression language (i.e. JSF)
 							</td>
 						</tr>
 						<tr>
 							<td><parameter>large</parameter></td>
-							<td><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (ie. a multi-line textbox)</td>
+							<td><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (i.e. a multi-line textbox)</td>
 						</tr>
 						<tr>
 							<td><parameter>lookup</parameter></td>
@@ -6866,7 +6910,7 @@ public class PersonController {
 						</tr>
 						<tr>
 							<td><parameter>masked</parameter></td>
-							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</td>
+							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (e.g. a password field)</td>
 						</tr>
 						<tr>
 							<td><parameter>read-only</parameter></td>
@@ -6890,7 +6934,7 @@ public class PersonController {
 							<td><parameter>wide</parameter></td>
 							<td>
 								<classname>@UiWide</classname> - denotes the field should be 'wide' in the UI, spanning all columns in a multi-column layout.
- 								'Wide' is different to 'large', because 'large' implies a data size (ie. BLOB or CLOB) whereas 'wide' refers purely to spanning
+ 								'Wide' is different to 'large', because 'large' implies a data size (i.e. BLOB or CLOB) whereas 'wide' refers purely to spanning
  								columns. Generally all 'large' fields are implicitly 'wide', but not all 'wide' fields are 'large'. For example, you may want
  								a normal text field (not a text area) to span all columns.
  							</td>
@@ -6953,7 +6997,7 @@ public class PersonController {
 			<para>
 				Whilst we don't necessarily encourage the use of XML-based metadata, if you <emphasis>already</emphasis> have XML configuration
 				files in your architecture Metawidget will take advantage of them. Equally, XML can be useful for declaring 'ad hoc' UI entities
-				that do not map to any Java class, as well as for declaring UI-specific attributes for existing Java classes (ie. if you prefer
+				that do not map to any Java class, as well as for declaring UI-specific attributes for existing Java classes (i.e. if you prefer
 				not to use annotations, or if you want to introduce additional 'virtual' properties).
 			</para>
 
@@ -6965,7 +7009,7 @@ public class PersonController {
 			
 			<para>
 				Once nice feature of XML is that ordering of child elements (such as <parameter>&lt;property name=""&gt;</parameter>) is
-				explicit, so XML-based inspectors make great 'first inspectors' for use within <classname>CompositeInspector</classname> (eg. you
+				explicit, so XML-based inspectors make great 'first inspectors' for use within <classname>CompositeInspector</classname> (e.g. you
 				don't need to also use <classname>@UiComesAfter</classname>).
 			</para>
 			
@@ -7016,20 +7060,20 @@ public class PersonController {
 				
 				<para>
 					Another useful piece of functionality
-					applies when mixing XML-based <classname>Inspector</classname>s (eg. <classname>XmlInspector</classname>) and Object-based
+					applies when mixing XML-based <classname>Inspector</classname>s (e.g. <classname>XmlInspector</classname>) and Object-based
 					<classname>Inspector</classname>s
-					(eg. <classname>PropertyTypeInspector</classname>) in the same application (ie. via <classname>CompositeInspector</classname>).
+					(e.g. <classname>PropertyTypeInspector</classname>) in the same application (i.e. via <classname>CompositeInspector</classname>).
 					If your XML-based <classname>Inspector</classname>s and your Object-based <classname>Inspector</classname>s are inspecting
 					the same classes, you may encounter a problem in particular scenarios. Specifically, the Object-based
-					<classname>Inspector</classname>s will always stop at <code>null</code> or recursive
+					<classname>Inspector</classname>s will always stop at <parameter>null</parameter> or recursive
 					Object references, whereas the XML <classname>Inspector</classname>s (which have no knowledge of Object values) will continue. This can lead to
-					the <classname>WidgetBuilder</classname>s constructing	a UI for a null Object, which may upset some
-					<classname>WidgetProcessor</classname>s (eg. <classname>BeansBindingProcessor</classname>).
+					the <classname>WidgetBuilder</classname>s constructing	a UI for a <parameter>null</parameter> Object, which may upset some
+					<classname>WidgetProcessor</classname>s (e.g. <classname>BeansBindingProcessor</classname>).
 				</para>
 				
 				<para>
 					If you are encountering this particular scenario, you can set <function>BaseXmlInspector.restrictAgainstObject</function>,
-					whereby the XML-based <classname>Inspector</classname> will do a check for <code>null</code> or recursive Object
+					whereby the XML-based <classname>Inspector</classname> will do a check for <parameter>null</parameter> or recursive Object
 					references, and not return any XML.				
 				</para>
 				
@@ -7357,7 +7401,7 @@ public class PersonController {
 								<td><classname>JTextField</classname></td>
 								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
 								<classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter></td>
 							</tr>
@@ -7493,7 +7537,7 @@ public class PersonController {
 								<td><classname>Text</classname></td>
 								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
 								<classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter></td>
 							</tr>
@@ -7566,7 +7610,7 @@ public class PersonController {
 					
 					<para>
 						<classname>HtmlWidgetBuilder</classname> is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
-						only a light component model (ie. HTML tags such as <parameter>&lt;input&gt;</parameter> and
+						only a light component model (i.e. HTML tags such as <parameter>&lt;input&gt;</parameter> and
 						<parameter>&lt;select&gt;</parameter> are just
 						strings, not modelled as JSP tags), <classname>HtmlWidgetBuilder</classname> uses
 						<classname>org.metawidget.jsp.tagext.LiteralTag</classname>
@@ -7614,7 +7658,7 @@ public class PersonController {
 								<td><classname>&lt;input type="text"&gt;</classname></td>
 								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
 								<classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>maximum-length</parameter>, adds <parameter>maxlength="..."</parameter></td>							
@@ -7657,7 +7701,7 @@ public class PersonController {
 						SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag, albeit
 						used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
 						returns fragments of HTML. The JSP component model is too light to support returning
-						tags containing child tags (ie. a <classname>SelectTag</classname> containing
+						tags containing child tags (i.e. a <classname>SelectTag</classname> containing
 						<classname>OptionTag</classname>s).	SpringWidgetBuilder
 						returns the following widgets for the following Metawidget attributes: 
 					</para>
@@ -7696,7 +7740,7 @@ public class PersonController {
 								<td><classname>InputTag</classname></td>
 								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
 								<classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
@@ -7742,7 +7786,7 @@ public class PersonController {
 						StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag, albeit
 						used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
 						returns fragments of HTML. The JSP component model is too light to support returning
-						tags containing child tags (ie. a <classname>SelectTag</classname> containing
+						tags containing child tags (i.e. a <classname>SelectTag</classname> containing
 						<classname>OptionTag</classname>s).	StrutsWidgetBuilder
 						returns the following widgets for the following Metawidget attributes: 
 					</para>
@@ -7797,7 +7841,7 @@ public class PersonController {
 								<td></td>
 								<td><classname>TextTag</classname></td>
 								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
@@ -7865,8 +7909,8 @@ public class PersonController {
 					
 					<para>
 						To build applications that use <classname>ExtGwtWidgetBuilder</classname>, include <filename>metawidget.jar</filename>
-						<emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt.jar</filename>
-						<emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt-extgwt-client.jar</filename>
+						<emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt.jar</filename>
+						<emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt-extgwt-client.jar</filename>
 						in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase.
 					</para>
 					
@@ -7938,7 +7982,7 @@ public class PersonController {
 								<td></td>
 								<td><classname>TextBox</classname></td>
 								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
@@ -8018,7 +8062,7 @@ public class PersonController {
 								<td></td>
 								<td><classname>HtmlInputText</classname></td>
 								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
@@ -8111,7 +8155,7 @@ public class PersonController {
 								<td></td>
 								<td><classname>HtmlInputText</classname></td>
 								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
-								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
@@ -8311,7 +8355,7 @@ public class PersonController {
 								<td></td>
 								<td><classname>EditText</classname></td>
 								<td><parameter>type</parameter> of primitive wrapper
-								(eg. <classname>Integer</classname> or <classname>Float</classname>)
+								(e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
 								If <parameter>large</parameter>, calls <function>setMinLines</function>.
@@ -9292,11 +9336,11 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							</tr>
 							<tr>
 								<td><parameter>labelSuffix</parameter></td>
-								<td>suffix to put after the label name. Defaults to a colon (ie. 'Name:')</td>
+								<td>suffix to put after the label name. Defaults to a colon (i.e. 'Name:')</td>
 							</tr>
 							<tr>
 								<td><parameter>requiredStyle</parameter></td>
-								<td>CSS styles to apply to required column (ie. the star)</td>
+								<td>CSS styles to apply to required column (i.e. the star)</td>
 							</tr>
 							<tr>
 								<td><parameter>rowClasses</parameter></td>
@@ -9415,7 +9459,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						<tbody>
 							<tr>
 								<td><parameter>layout</parameter></td>
-								<td>Layout to apply to the panel, as defined by <classname>javax.faces.component.html.HtmlPanelGroup.setLayout</classname></td>
+								<td><classname>Layout</classname> to apply to the panel, as defined by <classname>javax.faces.component.html.HtmlPanelGroup.setLayout</classname></td>
 							</tr>
 							<tr>
 								<td><parameter>style</parameter></td>
@@ -9516,7 +9560,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				<title>JSP Layouts</title>
 				
 				<para>
-					All of the supported JSP-based technologies (ie. 'pure' JSP, Spring and Struts) share the same
+					All of the supported JSP-based technologies (i.e. 'pure' JSP, Spring and Struts) share the same
 					<classname>Layout</classname>s.
 				</para>
 				
@@ -9525,7 +9569,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 
 					<para>
 						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
-						an HTML heading tag (ie. <parameter>H1</parameter>, <parameter>H2</parameter> etc).
+						an HTML heading tag (i.e. <parameter>H1</parameter>, <parameter>H2</parameter> etc).
 						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>HeadingTagLayoutDecoratorConfig</classname>:				
 					</para>
@@ -9647,7 +9691,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>labelStyle</parameter></td>
 								<td>
-									Android style (ie. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
+									Android style (i.e. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
 									style should be defined within <filename>res/values/styles.xml</filename>. For example:
 									<programlisting language="xml">&lt;style name="section"&gt;
 	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
@@ -9686,7 +9730,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>labelStyle</parameter></td>
 								<td>
-									Android style (ie. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
+									Android style (i.e. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
 									style should be defined within <filename>res/values/styles.xml</filename>. For example:
 									<programlisting language="xml">&lt;style name="label"&gt;
 	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
@@ -9773,7 +9817,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							</tr>
 							<tr>
 								<td><parameter>style</parameter></td>
-								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
+								<td>Android style (i.e. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
 							</tr>
 						</tbody>						
 					</informaltable>
@@ -9992,8 +10036,8 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				<title>Combine Remote Inspections</title>
 				
 				<para>
-					If your architecture is strongly separated, some metadata may only be available in one tier (eg. JPA annotations
-					in the back-end) and some only available in another tier (eg. <filename>struts-config.xml</filename> in the
+					If your architecture is strongly separated, some metadata may only be available in one tier (e.g. JPA annotations
+					in the back-end) and some only available in another tier (e.g. <filename>struts-config.xml</filename> in the
 					front-end).
 				</para>
 				
@@ -10047,7 +10091,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				
 				<para>		
 					For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
-					<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only those
+					<filename>examples/swing/applet/addressbook/metawidget-applet.jar</filename>. This JAR includes only those
 					classes (<classname>Inspectors</classname>, <classname>WidgetBuilders</classname> and so on) necessary for the
 					Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
 					Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
@@ -10088,7 +10132,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 					<classname>Inspector</classname>s and <classname>InspectionResultProcessor</classname>s that
 					maintain their results internally in a DOM object, because the <classname>Inspector</classname>
 					or <classname>InspectionResultProcessor</classname> must serialize its DOM to a string, whereupon
-					the <classname>Metawidget</classname> typically deserializes it back again to a DOM.
+					the Metawidget typically deserializes it back again to a DOM.
 				</para>
 				
 				<para>
@@ -10206,11 +10250,11 @@ public @interface MyAnnotation {
 					
 					<para>
 						If <parameter>m:metawidget</parameter> does <emphasis>not</emphasis> appear in the final Web page, the tag is
-						successfully being procesed. Check whether a 'blank' Metawidget is being produced (ie. an empty table if you are
+						successfully being procesed. Check whether a 'blank' Metawidget is being produced (i.e. an empty table if you are
 						using the <classname>HtmlTableLayoutRenderer</classname>, some empty <parameter>div</parameter>s if you are
 						using <classname>HtmlDivLayoutRenderer</classname>). In so, check the value expression is returning a
 						non-null value. For example, if your tag is <parameter>&lt;m:metawidget value="#{foo.bar}"/&gt;</parameter>,
-						check that <parameter>#{foo.bar}</parameter> does not return null.
+						check that <parameter>#{foo.bar}</parameter> does not return <parameter>null</parameter>.
 					</para>
 				</section>
 				
@@ -10260,7 +10304,7 @@ public @interface MyAnnotation {
 					</itemizedlist>
 					
 					<para>
-						Note that if <parameter>#{foo.bar}</parameter> evaluates to null then Metawidget will unpack
+						Note that if <parameter>#{foo.bar}</parameter> evaluates to <parameter>null</parameter> then Metawidget will unpack
 						and check the parent automatically, but this is simply a niceity.
 					</para>
 
