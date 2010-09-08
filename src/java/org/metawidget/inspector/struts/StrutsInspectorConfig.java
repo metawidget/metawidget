@@ -16,7 +16,6 @@
 
 package org.metawidget.inspector.struts;
 
-import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -36,9 +35,7 @@ public class StrutsInspectorConfig
 	 * Creates a StrutsInspectorConfig. Defaults the XML file name to <code>struts-config.xml</code>
 	 */
 
-	public StrutsInspectorConfig( ResourceResolver resourceResolver ) {
-
-		super( resourceResolver );
+	public StrutsInspectorConfig() {
 
 		setDefaultFile( "struts-config.xml" );
 	}

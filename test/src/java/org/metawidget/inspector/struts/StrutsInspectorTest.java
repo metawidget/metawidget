@@ -37,7 +37,7 @@ public class StrutsInspectorTest
 
 	public void testInspection() {
 
-		StrutsInspectorConfig config = new StrutsInspectorConfig( null );
+		StrutsInspectorConfig config = new StrutsInspectorConfig();
 		ConfigReader configReader = new ConfigReader();
 		config.setInputStreams( configReader.openResource( "org/metawidget/inspector/struts/test-struts-config1.xml" ), configReader.openResource( "org/metawidget/inspector/struts/test-struts-config2.xml" ) );
 		StrutsInspector inspector = new StrutsInspector( config );

@@ -55,7 +55,7 @@ public class RemoteInspectorTest
 		toInspect += "<property name=\"type\" lookup=\"Phone, Fax\"/>";
 		toInspect += "</entity></inspection-result>";
 
-		XmlInspectorConfig configXml = new XmlInspectorConfig( null );
+		XmlInspectorConfig configXml = new XmlInspectorConfig();
 		configXml.setInputStream( new ByteArrayInputStream( toInspect.getBytes() ) );
 
 		XmlInspector inspectorXml = new XmlInspector( configXml );

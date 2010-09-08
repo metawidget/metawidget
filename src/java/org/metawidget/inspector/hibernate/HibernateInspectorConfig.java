@@ -16,7 +16,6 @@
 
 package org.metawidget.inspector.hibernate;
 
-import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -39,9 +38,7 @@ public class HibernateInspectorConfig
 	// Constructor
 	//
 
-	public HibernateInspectorConfig( ResourceResolver resourceResolver ) {
-
-		super( resourceResolver );
+	public HibernateInspectorConfig() {
 
 		setDefaultFile( "hibernate.cfg.xml" );
 	}

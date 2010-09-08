@@ -38,7 +38,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testInspection() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig( null );
+		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
@@ -92,7 +92,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testBadInput() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig( null );
+		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
@@ -123,7 +123,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testTraversal() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig( null );
+		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
 		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 

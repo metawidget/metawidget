@@ -22,6 +22,8 @@ import java.lang.reflect.Method;
 import java.security.AccessControlException;
 import java.util.regex.Pattern;
 
+import org.metawidget.config.ResourceResolver;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -36,11 +38,11 @@ public final class ClassUtils {
 	// Public statics
 	//
 
-	public static final String		JAVABEAN_SET_PREFIX	= "set";
+	public static final String	JAVABEAN_SET_PREFIX	= "set";
 
-	public static final String		JAVABEAN_GET_PREFIX	= "get";
+	public static final String	JAVABEAN_GET_PREFIX	= "get";
 
-	public static final String		JAVABEAN_IS_PREFIX	= "is";
+	public static final String	JAVABEAN_IS_PREFIX	= "is";
 
 	/**
 	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package is
@@ -352,6 +354,30 @@ public final class ClassUtils {
 		}
 
 		return className;
+	}
+
+	/**
+	 * Returns a simple <code>ResourceResolver</code> implementation that uses
+	 * <code>ClassUtils.openResource</code>.
+	 * <p>
+	 * This can be useful for <code>xxxConfig</code> classes that want to create just-in-time
+	 * <code>ResourceResolver</code>s to save clients having to supply them.
+	 */
+
+	public static ResourceResolver newResourceResolver() {
+
+		return new ResourceResolver() {
+
+			@Override
+			public InputStream openResource( String resource ) {
+
+				try {
+					return ClassUtils.openResource( resource );
+				} catch ( Exception e ) {
+					throw InspectorException.newException( e );
+				}
+			}
+		};
 	}
 
 	/**

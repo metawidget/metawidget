@@ -1256,19 +1256,10 @@ public class ConfigReader
 						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
 					}
 
-					Object config;
+					Object config = configClass.newInstance();
 
-					try
-					{
-						// Support constructor with a ResourceResolver
-
-						config = configClass.getConstructor( ResourceResolver.class ).newInstance( ConfigReader.this );
-					}
-					catch( NoSuchMethodException e )
-					{
-						// Support parameterless constructor
-
-						config = configClass.newInstance();
+					if ( config instanceof NeedsResourceResolver ) {
+						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
 					}
 
 					mConstructing.push( config );

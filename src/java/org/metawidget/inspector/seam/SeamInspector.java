@@ -68,7 +68,7 @@ public class SeamInspector
 
 	public SeamInspector() {
 
-		this( new SeamInspectorConfig( null ) );
+		this( new SeamInspectorConfig() );
 	}
 
 	public SeamInspector( SeamInspectorConfig config ) {
@@ -99,7 +99,7 @@ public class SeamInspector
 		if ( pageflowDefinitionStreams.isEmpty() ) {
 			mPageflowInspector = null;
 		} else {
-			BaseXmlInspectorConfig jpdlConfig = new BaseXmlInspectorConfig( null );
+			BaseXmlInspectorConfig jpdlConfig = new BaseXmlInspectorConfig();
 			jpdlConfig.setInputStreams( pageflowDefinitionStreams.toArray( new InputStream[pageflowDefinitionStreams.size()] ) );
 			mPageflowInspector = new PageflowInspector( jpdlConfig );
 		}

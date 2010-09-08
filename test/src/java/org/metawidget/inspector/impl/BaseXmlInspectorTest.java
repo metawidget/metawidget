@@ -33,8 +33,8 @@ public class BaseXmlInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( new BaseXmlInspectorConfig( null ), new BaseXmlInspectorConfig( null ), new BaseXmlInspectorConfig( null ) {
+		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class, new BaseXmlInspectorConfig() {
 			// Subclass
-		}, "resourceResolver" );
+		} );
 	}
 }

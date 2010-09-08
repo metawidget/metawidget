@@ -44,7 +44,8 @@ public class SeamInspectorTest
 
 	public void testSeamInspector() {
 
-		SeamInspectorConfig config = new SeamInspectorConfig( new ResourceResolver() {
+		SeamInspectorConfig config = new SeamInspectorConfig();
+		config.setResourceResolver( new ResourceResolver() {
 
 			@Override
 			public InputStream openResource( String resource ) {
@@ -91,7 +92,7 @@ public class SeamInspectorTest
 
 	public void testNoPageflow() {
 
-		SeamInspectorConfig config = new SeamInspectorConfig( null );
+		SeamInspectorConfig config = new SeamInspectorConfig();
 		config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
 
 		SeamInspector inspector = new SeamInspector( config );
@@ -104,14 +105,14 @@ public class SeamInspectorTest
 			new SeamInspector();
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertEquals( "org.metawidget.iface.MetawidgetException: java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH", e.getMessage() );
+			assertEquals( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH", e.getMessage() );
 		}
 	}
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( new SeamInspectorConfig( null ), new SeamInspectorConfig( null ), new SeamInspectorConfig( null ) {
+		TestUtils.testEqualsAndHashcode( SeamInspectorConfig.class, new SeamInspectorConfig() {
 			// Subclass
-		}, "resourceResolver", "componentsInputStream" );
+		}, "componentsInputStream" );
 	}
 }

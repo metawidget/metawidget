@@ -58,7 +58,7 @@ public class CastorInspectorExampleTest
 		// Run processor
 
 		InputStream stream = new ByteArrayInputStream( inputXml.getBytes() );
-		Inspector inspector = new CastorInspector( new BaseXmlInspectorConfig( null ).setInputStream( stream ) );
+		Inspector inspector = new CastorInspector( new BaseXmlInspectorConfig().setInputStream( stream ) );
 		String outputXml = inspector.inspect( null, "com.myapp.Foo" );
 
 		// Test result

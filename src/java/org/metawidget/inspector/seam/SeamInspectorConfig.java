@@ -18,8 +18,9 @@ package org.metawidget.inspector.seam;
 
 import java.io.InputStream;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -30,7 +31,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class SeamInspectorConfig {
+public class SeamInspectorConfig
+	implements NeedsResourceResolver {
 
 	//
 	// Private members
@@ -39,20 +41,6 @@ public class SeamInspectorConfig {
 	private ResourceResolver	mResourceResolver;
 
 	private InputStream			mComponentsInputStream;
-
-	//
-	// Constructor
-	//
-
-	/**
-	 * @param resourceResolver
-	 *            ResourceResolver to use to locate <code>components.xml</code>
-	 */
-
-	public SeamInspectorConfig( ResourceResolver resourceResolver ) {
-
-		mResourceResolver = resourceResolver;
-	}
 
 	//
 	// Public methods
@@ -85,10 +73,16 @@ public class SeamInspectorConfig {
 	public ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
-			mResourceResolver = new ConfigReader();
+			mResourceResolver = ClassUtils.newResourceResolver();
 		}
 
 		return mResourceResolver;
+	}
+
+	@Override
+	public void setResourceResolver( ResourceResolver resourceResolver ) {
+
+		mResourceResolver = resourceResolver;
 	}
 
 	@Override
