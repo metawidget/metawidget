@@ -1150,9 +1150,9 @@ public class Person {
 					on the <classname>ContactType</classname>
 					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons
 					are created by <classname>SwingMetawidget</classname> based on annotated action methods in the <classname>ContactDialog</classname> class.
+					The rest of the screen - including the images, background and layout - are managed by regular Swing code and are not controlled
+					by Metawidget: Metawidget does try to 'own' the entire UI.					
 				</para>
-				
-				???
 				
 				<tip>
 					<title>Note</title>
@@ -1358,8 +1358,6 @@ public class Person {
 					in the <classname>ContactBean</classname> (for JSF).
 				</para>
 					
-				???
-				
 				<tip>
 					<title>Note</title>
 					As with the Desktop Address Book, all source code for the examples can be found in the
@@ -1953,8 +1951,6 @@ bin\run</programlisting>
 					Metawidget also leverages the existing JPA and Hibernate Validator ones.
 				</para>
 				
-				???
-				
 				<para>
 					The example further demonstrates packaging Metawidget for multi-tier environments. The <filename>pack-as-frontend-backend</filename>
 					Ant task in Metawidget's <filename>build.xml</filename> creates two JAR files: <filename>metawidget-frontend.jar</filename> for
@@ -2010,6 +2006,21 @@ bin\run</programlisting>
 	&lt;/propertyStyle&gt;
 &lt;/propertyTypeInspector&gt;</programlisting>
 
+				<para>
+					The example demonstrates how Metawidget can significantly reduce the amount of boilerplate code
+					in your UI layer - in some cases up to 70%.
+					<xref linkend="section-introduction-part3-seam-screenshot"/> shows the <filename>book.xhtml</filename> page before and
+					after being fitted with Metawidget. The red boxes and lines highlight the chunks of boilerplate
+					that have been removed:
+				</para>
+
+				<figure id="section-introduction-part3-seam-groovy-screenshot">
+					<title>book.xhtml before and after being fitted with Metawidget</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/web-seam-groovy.png" width="175mm" />
+					</screenshot>
+				</figure>
+				
 			</section>
 			
 			<section id="section-introduction-part3-jbpm">
@@ -5253,14 +5264,12 @@ static class State {
 
 	&lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
 		&lt;parameter&gt;
-			&lt;string&gt;numberOfColumns&lt;/string&gt;
-			&lt;int&gt;2&lt;/int&gt;
+			&lt;string&gt;tableStyleClass&lt;/string&gt;
+			&lt;string&gt;table-form&lt;/string&gt;
 		&lt;/parameter&gt;		
 	&lt;/htmlMetawidget&gt;
 	
 &lt;/metawidget&gt;</programlisting>
-
-???
 
 			</section>
 			
