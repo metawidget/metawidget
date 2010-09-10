@@ -226,6 +226,7 @@ public class ComesAfterInspectionResultProcessorTest
 			inputXml += "<entity type=\"InfiniteFoo\">";
 			inputXml += "<property name=\"foo\" comes-after=\"bar\"/>";
 			inputXml += "<property name=\"bar\" comes-after=\"foo,baz\"/>";
+			inputXml += "<property name=\"baz\" comes-after=\"\"/>";
 			inputXml += "</entity></inspection-result>";
 
 			// Run processor
@@ -233,7 +234,7 @@ public class ComesAfterInspectionResultProcessorTest
 			new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inputXml, null );
 			assertTrue( false );
 		} catch ( InspectionResultProcessorException e ) {
-			assertEquals( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but foo comes after bar", e.getMessage() );
+			assertEquals( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but baz comes at the end, but foo comes after bar", e.getMessage() );
 		}
 	}
 

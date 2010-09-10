@@ -118,7 +118,16 @@ public class ComesAfterInspectionResultProcessor<M>
 					List<String> names = CollectionUtils.newArrayList();
 
 					for ( Map.Entry<Element, String[]> entry : traitsWithComesAfter.entrySet() ) {
-						names.add( entry.getKey().getAttribute( NAME ) + " comes after " + ArrayUtils.toString( entry.getValue(), " and " ) );
+
+						String value;
+
+						if ( entry.getValue().length == 0 ) {
+							value = "at the end";
+						} else {
+							value = "after " + ArrayUtils.toString( entry.getValue(), " and " );
+						}
+
+						names.add( entry.getKey().getAttribute( NAME ) + " comes " + value );
 					}
 
 					// (sort for unit tests)
