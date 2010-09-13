@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.SimpleResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ClassUtils;
@@ -108,7 +109,7 @@ public class BaseXmlInspectorConfig
 	public ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
-			mResourceResolver = ClassUtils.newResourceResolver();
+			mResourceResolver = new SimpleResourceResolver();
 		}
 
 		return mResourceResolver;

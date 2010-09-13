@@ -1195,24 +1195,23 @@ public class XmlUtils {
 
 	private static String nodeToString( Node node, int indent ) {
 
-		// Ignore non-Elements
+		// Text nodes
+
+		if ( node == null ) {
+			return null;
+		}
 
 		if ( !( node instanceof Element ) ) {
-			return "";
+			return escapeForXml( node.getNodeValue().trim() );
 		}
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
 
-		// Indent
-
-		for ( int loop = 0; loop < indent; loop++ ) {
-			buffer.append( "   " );
-		}
-
 		// Open tag
 
+		indent( buffer, indent );
 		String nodeName = escapeForXml( node.getNodeName() );
 		buffer.append( "<" );
 		buffer.append( nodeName );
@@ -1278,18 +1277,22 @@ public class XmlUtils {
 			int nextIndent = indent;
 
 			if ( indent != -1 ) {
-				buffer.append( "\n" );
 				nextIndent++;
 			}
 
 			for ( int loop = 0; loop < length; loop++ ) {
-				buffer.append( nodeToString( children.item( loop ), nextIndent ) );
+				Node childNode = children.item( loop );
+
+				if ( indent != -1 && childNode instanceof Element ) {
+					buffer.append( "\n" );
+				}
+
+				buffer.append( nodeToString( childNode, nextIndent ) );
 			}
 
-			// Indent
-
-			for ( int loop = 0; loop < indent; loop++ ) {
-				buffer.append( "   " );
+			if ( indent != -1 && buffer.charAt( buffer.length() - 1 ) == '>' ) {
+				buffer.append( "\n" );
+				indent( buffer, indent );
 			}
 
 			// Close tag
@@ -1299,11 +1302,14 @@ public class XmlUtils {
 			buffer.append( ">" );
 		}
 
-		if ( indent > 0 ) {
-			buffer.append( "\n" );
-		}
-
 		return buffer.toString();
+	}
+
+	private static void indent( StringBuffer buffer, int indent ) {
+
+		for ( int loop = 0; loop < indent; loop++ ) {
+			buffer.append( "   " );
+		}
 	}
 
 	private static String escapeForXml( String in ) {
@@ -1318,6 +1324,7 @@ public class XmlUtils {
 		out = PATTERN_LT.matcher( out ).replaceAll( "&lt;" );
 		out = PATTERN_GT.matcher( out ).replaceAll( "&gt;" );
 		out = PATTERN_QUOT.matcher( out ).replaceAll( "&quot;" );
+		out = PATTERN_APOS.matcher( out ).replaceAll( "&apos;" );
 
 		return out;
 	}
@@ -1376,6 +1383,8 @@ public class XmlUtils {
 	private static final Pattern			PATTERN_GT		= Pattern.compile( ">", Pattern.LITERAL );
 
 	private static final Pattern			PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
+
+	private static final Pattern			PATTERN_APOS	= Pattern.compile( "\'", Pattern.LITERAL );
 
 	//
 	// Private constructor

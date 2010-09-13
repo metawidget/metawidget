@@ -20,7 +20,7 @@ import java.io.InputStream;
 
 import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.config.SimpleResourceResolver;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -73,7 +73,7 @@ public class SeamInspectorConfig
 	public ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
-			mResourceResolver = ClassUtils.newResourceResolver();
+			mResourceResolver = new SimpleResourceResolver();
 		}
 
 		return mResourceResolver;

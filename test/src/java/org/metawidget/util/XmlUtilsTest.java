@@ -22,6 +22,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.metawidget.util.XmlUtils.CachingContentHandler;
+import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -136,6 +137,25 @@ public class XmlUtilsTest
 		assertEquals( "ee-uri", simpleContentHandler.mEvents.get( 1 )[1] );
 		assertEquals( "ee-localName", simpleContentHandler.mEvents.get( 1 )[2] );
 		assertEquals( "ee-name", simpleContentHandler.mEvents.get( 1 )[3] );
+	}
+
+	public void testToFromString() {
+
+		Document document = XmlUtils.documentFromString( "<foo id=\"1\"><bar id=\"2\">Baz</bar></foo>" );
+		assertEquals( "<foo id=\"1\"><bar id=\"2\">Baz</bar></foo>", XmlUtils.documentToString( document, false ) );
+		assertEquals( "<foo id=\"1\">\n   <bar id=\"2\">Baz</bar>\n</foo>", XmlUtils.documentToString( document, true ) );
+
+		document = XmlUtils.documentFromString( "<foo id1=\"1\" id2=\"2\">\n\t<bar>Baz</bar>\n</foo>" );
+		assertEquals( "<foo id1=\"1\" id2=\"2\"><bar>Baz</bar></foo>", XmlUtils.documentToString( document, false ) );
+		assertEquals( "<foo id1=\"1\" id2=\"2\">\n   <bar>Baz</bar>\n</foo>", XmlUtils.documentToString( document, true ) );
+
+		document = XmlUtils.documentFromString( "<foo>\n\t<bar>Baz<abc>Abc</abc><def>Def</def></bar>\n</foo>" );
+		assertEquals( "<foo><bar>Baz<abc>Abc</abc><def>Def</def></bar></foo>", XmlUtils.documentToString( document, false ) );
+		assertEquals( "<foo>\n   <bar>Baz\n      <abc>Abc</abc>\n      <def>Def</def>\n   </bar>\n</foo>", XmlUtils.documentToString( document, true ) );
+
+		document = XmlUtils.documentFromString( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>" );
+		assertEquals( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>", XmlUtils.documentToString( document, false ) );
+		assertEquals( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>", XmlUtils.documentToString( document, true ) );
 	}
 
 	//

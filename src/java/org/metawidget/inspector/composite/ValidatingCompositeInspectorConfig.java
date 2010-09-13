@@ -18,7 +18,7 @@ package org.metawidget.inspector.composite;
 
 import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.config.SimpleResourceResolver;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -44,7 +44,7 @@ public class ValidatingCompositeInspectorConfig
 	public ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
-			mResourceResolver = ClassUtils.newResourceResolver();
+			mResourceResolver = new SimpleResourceResolver();
 		}
 
 		return mResourceResolver;
