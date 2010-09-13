@@ -52,6 +52,7 @@ public class CastorInspectorExampleTest
 		inputXml += "<field name=\"foo\" type=\"java.lang.String\"/>";
 		inputXml += "<field name=\"bar\" type=\"int\"/>";
 		inputXml += "<field name=\"baz\" type=\"boolean\"/>";
+		inputXml += "<ignore name=\"ignore\" type=\"ignore\"/>";
 		inputXml += "</class>";
 		inputXml += "</mapping>";
 
@@ -94,15 +95,8 @@ public class CastorInspectorExampleTest
 			}
 
 			Map<String, String> attributes = CollectionUtils.newHashMap();
-
-			if ( toInspect.hasAttribute( getNameAttribute() ) ) {
-				attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
-			}
-
-			if ( toInspect.hasAttribute( getTypeAttribute() ) ) {
-				attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
-			}
-
+			attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
+			attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
 			return attributes;
 		}
 

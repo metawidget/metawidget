@@ -115,7 +115,7 @@
 			This chapter is an introductory tutorial for new users of
 			Metawidget. Before you begin, you need to download at least the binary distribution, and
 			preferrably the source code distribution as well, from
-			<ulink url="http://www.metawidget.org/download.html">http://www.metawidget.org/download.html</ulink>.
+			<ulink url="http://metawidget.org/download.html">http://metawidget.org/download.html</ulink>.
 		</para>
 
 		<section id="section-introduction-part1">
@@ -2499,9 +2499,10 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 		<title>Architecture</title>
 		
 		<para>
-			???
-			There are a large variety of system architectures, and many different types of UI. Metawidget's approach
-			to managing this diversity is not to define lots of 'flags' to tweak lots of little variables, but to
+			The first goal of Metawidget is to inspect <emphasis>existing</emphasis> back-end architectures and
+			generate UIs for <emphasis>existing</emphasis> front-end frameworks. However there are a large variety
+			of back-end architectures and many different types of front-end frameworks. Metawidget's approach
+			to managing this diversity is not to define lots of little 'flags' to tweak lots of variables, but to
 			establish a pipeline with plug-in points along the way for your own custom classes.
 			This five-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
 			is co-ordinated by a platform-specific Metawidget class
@@ -2640,8 +2641,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					</listitem>
 					<listitem>
 						<para>
-							???
-							Internally, <function>buildWidgets</function> is called to begin the process.
+							internally, <function>buildWidgets</function> is called to begin the process.
 							It first calls <function>Inspector.inspect</function> to return
 							inspection results, then <function>InspectionResultProcessor.processInspectionResult</function>
 							to sort them.
@@ -2650,20 +2650,20 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					<listitem>
 						<para>							
 							<function>buildWidgets</function> calls <function>WidgetBuilder.buildWidget</function> to choose a suitable widget for the
-							top-level element of the XML (based on its <parameter>@type</parameter> and other attributes). If <function>WidgetBuilder.buildWidget</function>
-							returns such a widget, skip to 6.
+							top-level element of the inspection result (based on its <parameter>@type</parameter> and other attributes).
+							If <function>WidgetBuilder.buildWidget</function> returns such a widget, skips to 6.
 						</para>
 					</listitem>
 					<listitem>
 						<para>							
 							if <function>WidgetBuilder.buildWidget</function> returns <parameter>null</parameter> for the top-level element,
-							call <function>buildCompoundWidget</function> to iterate over each child of the top-level element.
+							calls <function>buildCompoundWidget</function> to iterate over each child of the top-level element.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							for each child, call <function>WidgetBuilder.buildWidget</function> and add the returned widget to the Metawidget. If
-							<function>WidgetBuilder.buildWidget</function> returns <parameter>null</parameter> for a child, create a nested Metawidget.
+							for each child, calls <function>WidgetBuilder.buildWidget</function> and adds the returned widget to the Metawidget. If
+							<function>WidgetBuilder.buildWidget</function> returns <parameter>null</parameter> for a child, creates a nested Metawidget.
 						</para>
 					</listitem>
 					<listitem>
@@ -2674,7 +2674,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					</listitem>
 					<listitem>
 						<para>
-							as a final step, the created widgets are passed to a <classname>Layout</classname>. They can further be adorned with facet widgets.
+							as a final step, the created widgets are passed to a <classname>Layout</classname>.
 						</para>
 					</listitem>
 				</orderedlist>
@@ -2682,7 +2682,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 				<para>
 					For those looking to write their own Metawidget (say, for a currently unsupported platform) there is a
 					<classname>BasePipeline</classname> class that implements the above steps 2-7 for you, see
-					<xref linkend="section-architecture-metawidgets-implementing-your-own-pipeline"/>.
+					<xref linkend="section-architecture-metawidgets-implementing-your-own"/>.
 					All of the supplied Metawidgets are implemented using this class.
 				</para>
 				
@@ -2782,75 +2782,11 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					Metawidgets are not required to extend any base class or implement any interface. However,
 					it is recommended developers familiarize themselves with existing
 					Metawidgets (such as <classname>UIMetawidget</classname>) to make their API similar.
-					Whilst there is no one Metawidget base class, a number of convenience classes are provided:
+					Whilst there is no Metawidget base class, all the built-in Metawidgets use
+					<classname>BasePipeline</classname> to ease their implementation. It
+					provides pre-built functionality including: configuring and executing all stages of the pipeline;
+					deciding when to use single versus compound widgets; read-only mode; and tracking maximum inspection depth.
 				</para>
-					
-				<section id="section-architecture-metawidgets-implementing-your-own-pipeline">
-					<title>BasePipeline</title>
-					
-					<para>
-						All the built-in Metawidgets use <classname>BasePipeline</classname> to ease their implementation. It
-						provides pre-built functionality such as co-ordinating the 5 stages of the pipeline,
-						deciding when to use single versus compound widgets, support
-						for overriding widgets, incorporating stubs, and changing between read-only and active modes.
-					</para>
-					
-				</section>
-	
-				<section id="section-architecture-metawidgets-implementing-your-own-android">
-					<title>Android</title>
-					
-					<para>
-						Android already defines a separation between <classname>Views</classname> and <classname>ViewGroups</classname>.
-						<classname>org.metawidget.android.widget.layout.Layout</classname> and its subclasses automate the use
-						of existing Android <classname>ViewGroups</classname>.					
-					</para>
-					
-				</section>
-	
-				<section id="section-architecture-metawidgets-implementing-your-own-faces">
-					<title>Java Server Faces</title>
-					
-					<para>
-						For frameworks based on JSF, <classname>org.metawidget.faces.component.UIMetawidget</classname>
-						provides base widget functionality. See <classname>org.metawidget.faces.component.html.HtmlMetawidget</classname> for example usage.
-					</para>
-					
-					<para>
-						JSF already defines a clean separation between widgets and their renderers.
-						<classname>org.metawidget.faces.renderkit.LayoutRenderer</classname> and its subclasses leverage this to
-						support different layouts.
-					</para>
-				</section>
-				
-				<section id="section-architecture-metawidgets-implementing-your-own-jsp">
-					<title>Java Server Pages</title>
-					
-					<para>
-						For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
-						commonly used <classname>org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag</classname> provide base
-						taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
-					</para>
-					
-					<para>
-						<classname>MetawidgetTag</classname> also defines a clean separation between choosing widgets and laying them out.
-						<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
-						<emphasis>all</emphasis> JSP-based frameworks.
-					</para>
-				</section>
-	
-				<section id="section-architecture-metawidgets-implementing-your-own-swing">
-					<title>Swing</title>
-					
-					<para>
-						Swing already defines a clean separation between widgets and layout managers.
-						<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
-						of existing Swing <classname>LayoutManagers</classname>.
-					</para>
-				</section>
-				
-				???
-	
 			</section>
 
 		</section>
@@ -3382,13 +3318,8 @@ public class CastorInspector
 			return null;
 
 		Map&lt;String, String&gt; attributes = CollectionUtils.newHashMap();
-
-		if ( toInspect.hasAttribute( getNameAttribute() ) )
-			attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
-
-		if ( toInspect.hasAttribute( getTypeAttribute() ) )
-			attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
-
+		attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
+		attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
 		return attributes;
 	}
 
@@ -3399,8 +3330,6 @@ public class CastorInspector
 					</listitem>
 				</itemizedlist>
 	
-				???
-				
 				<para>
 					When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
 					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
@@ -3502,7 +3431,37 @@ public class CastorInspector
 				
 			</section>
 
-			???
+			<section id="section-architecture-inspectionresultprocessors-usage">
+				<title>Usage</title>
+				
+				<para>
+					Unless explicitly specified, each Metawidget will instantiate a default <classname>InspectionResultProcessor</classname>. Typically this
+					will be a <classname>ComesAfterInspectionResultProcessor</classname>, which sorts business properties and actions
+					according to their <parameter>comes-after</parameter> attribute.
+				</para>
+				
+				<para>
+					This default behaviour can be overridden either in code:
+				</para>
+				
+				<programlisting language="java">metawidget.addInspectionResultProcessor( new MyInspectionResultProcessor() );</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;inspectionResultProcessor&gt;
+		&lt;array&gt;
+			&lt;myInspectionResultProcessor xmlns="java:com.myapp"/&gt;
+		&lt;/array&gt;
+	&lt;/inspector&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+	
+				<para>
+					This allows easy plugging in of alternate <classname>InspectionResultProcessor</classname>s.
+				</para>				
+			</section>
 			
 			<section id="section-architecture-inspectionresultprocessors-defaults">
 				<title>Defaults</title>
@@ -3833,8 +3792,6 @@ public class Main {
 					uses the <parameter>tag</parameter> attribute, JSF uses the value binding, and so on. For details
 					on the <classname>OverriddenWidgetBuilder</classname> for your platform see <xref linkend="chapter-widgetbuilders"/>.
 				</para>
-				
-				???
 				
 				<para>
 					You can also choose to plug-in your own <classname>WidgetBuilder</classname> that detects 'overridden widgets' based
@@ -4285,6 +4242,7 @@ public class Main {
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
 					to create validators).
 				</para>
+				
 				<para>
 					The <function>processWidget</function> method must return the processed widget. This is typically the same as the given
 					<parameter>widget</parameter>. The parent Metawidget then passes this to the next <classname>WidgetProcessor</classname>
@@ -4360,7 +4318,36 @@ public class Main {
 						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-exclude.png" width="100mm"/>
 					</screenshot>							
 				</figure>
-
+				
+			</section>
+			
+			<section id="section-architecture-widgetprocessors-usage">
+				<title>Usage</title>
+			
+				<para>
+					Some Metawidgets will instantiate default inspectors. This default behaviour can be overridden either in code:
+				</para>
+				
+				<programlisting language="java">metawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;widgetProcessors&gt;
+		&lt;array&gt;
+			&lt;myWidgetProcessor xmlns="java:com.myapp"/&gt;
+		&lt;/array&gt;
+	&lt;/widgetProcessors&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+	
+				<para>
+					This allows easy plugging in of alternate <classname>WidgetProcessor</classname>s. Note that overriding the default
+					means the default is no longer instantiated. In the example above, this would mean <classname>MyWidgetProcessor</classname>
+					is used but the default <classname>WidgetProcessor</classname>s are not.
+				</para>
+			
 				<para>
 					The list of <classname>WidgetProcessors</classname> is maintained by the parent Metawidget, and is changeable (this
 					is different to say, <classname>CompositeInspector</classname> or <classname>CompositeWidgetBuilder</classname> whose
@@ -4596,72 +4583,118 @@ public class Main {
 
 				<para>
 					Like <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s, <classname>WidgetBuilder</classname>s and
-					<classname>Layout</classname>s, <classname>WidgetProcessor</classname>s are required to be immutable.
-					However you can still make them configurable by using
-					<classname>xxxWidgetProcessorConfig</classname> classes. For example: 
+					<classname>Layout</classname>s, <classname>WidgetProcessor</classname>s are required to be immutable. However they will generally need
+					to use some internal state, such as tracking the prefix for the tooltip. This can be achieved in two ways:
 				</para>
+				
+				<orderedlist>
+					<listitem>
+						<para>
+							For state that will remain constant throughout the life of the <classname>WidgetProcessor</classname>, such as the prefix
+							for the tooltip, use <classname>xxxWidgetProcessorConfig</classname> classes. For example: 
+						</para>
+								
+						<programlisting language="java">public class TooltipProcessorConfig {
+			private String mPrefix;
+			
+			public TooltipProcessorConfig setPrefix( String prefix ) {
+				mPrefix = prefix;
+				return this;
+			}
+		
+			public String getPrefix() {
+				return mPrefix;
+			}
+			
+			// ...must override equals and hashCode too...
+		}</programlisting>
+		
+						<para>
+							These <classname>xxxWidgetProcessorConfig</classname> classes are then passed to the <classname>WidgetProcessor</classname>
+							at construction time, and stored internally:
+						</para>
 						
-				<programlisting language="java">public class TooltipProcessorConfig {
-	private String mPrefix;
+						<programlisting language="java">public class TooltipProcessor {
+			private String mPrefix;
+			
+			public TooltipProcessor( TooltipProcessorConfig config ) {
+				mPrefix = config.getPrefix();
+			}
+		}</programlisting>
+		
+						<para>
+							This mechanism can then be controlled either programmatically:
+						</para>
+						
+						<programlisting language="java">metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));</programlisting>
+							
+						<para>
+							Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
+						</para>
+							
+						<programlisting language="xml">&lt;tooltipProcessor xmlns="java:com.foo" config="TooltipProcessorConfig"&gt;
+			&lt;prefix&gt;
+				&lt;string&gt;Tip:&lt;/string&gt;
+			&lt;/prefix&gt;
+		&lt;/tooltipProcessor&gt;</programlisting>
+		
+						<important>
+							<title>Config classes must override equals and hashCode</title>
+							If you want your configurable <classname>WidgetProcessor</classname> to be cacheable and reusable by
+							<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxWidgetProcessorConfig</classname>
+							class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
+						</important>
+		
+						<tip>
+							<title>Generate an XML Schema</title>
+							If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, consider
+							defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetProcessor</classname> in their
+							<filename>metawidget.xml</filename> at development time. There is an Ant task,
+							<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
+							by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
+						</tip>
+						
+					</listitem>
+					<listitem>				
 	
-	public TooltipProcessorConfig setPrefix( String prefix ) {
-		mPrefix = prefix;
-		return this;
-	}
-
-	public String getPrefix() {
-		return mPrefix;
-	}
-	
-	// ...must override equals and hashCode too...
-}</programlisting>
-				<para>
-					These <classname>xxxWidgetProcessorConfig</classname> classes are then passed to the <classname>WidgetProcessor</classname>
-					at construction time, and stored internally:
-				</para>
-				
-				<programlisting language="java">public class TooltipProcessor {
-	private String mPrefix;
-	
-	public TooltipProcessor( TooltipProcessorConfig config ) {
-		mPrefix = config.getPrefix();
-	}
-}</programlisting>
-
-				<para>
-					This mechanism can then be controlled either programmatically:
-				</para>
-				
-				<programlisting language="java">metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));</programlisting>
+						<para>
+							For state that will change across multiple widgets, such as <classname>BeansBindingProcessor</classname>
+							tracking all bindings so that it can implement a <function>rebind</function> method, store it in the Metawidget that
+							is passed in to <function>onStartBuild</function>, <function>processWidget</function> and <function>onEndBuild</function>. You
+							may want to further wrap the state in a small helper class. For example:
+						</para>
+						
+						<programlisting language="java">public JComponent processWidget( JComponent widget, String elementName,
+										Map&lt;String, String&gt; attributes, SwingMetawidget metawidget ) {
+		
+			getState( container ).bindings.add( attributes.get( NAME ));
+		}
+		
+		private State getState( SwingMetawidget metawidget ) {
+			State state = (State) container.getClientProperty( getClass() );
+		
+			if ( state == null ) {
+				state = new State();
+				metawidget.putClientProperty( getClass(), state );
+			}
+		
+			return state;
+		}
+		
+		static class State {
+			List&lt;String&gt;	bindings;
+			...other state variables...
+		}</programlisting>
+		
+						<para>
+							You could also consider storing the state in a <classname>ThreadLocal</classname>. If you do this, be aware that
+							because Metawidgets can be nested, <classname>WidgetProcessor</classname>s can be called in a re-entrant fashion inside
+							the same <classname>Thread</classname>.
+						</para>
+		
+					</listitem>
+				</orderedlist>
 					
-				<para>
-					Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
-				</para>
-					
-				<programlisting language="xml">&lt;tooltipProcessor xmlns="java:com.foo" config="TooltipProcessorConfig"&gt;
-	&lt;prefix&gt;
-		&lt;string&gt;Tip:&lt;/string&gt;
-	&lt;/prefix&gt;
-&lt;/tooltipProcessor&gt;</programlisting>
-
-				???
-				
-				<important>
-					<title>Config classes must override equals and hashCode</title>
-					If you want your configurable <classname>WidgetProcessor</classname> to be cacheable and reusable by
-					<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxWidgetProcessorConfig</classname>
-					class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
-				</important>
-
-				<tip>
-					<title>Generate an XML Schema</title>
-					If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, consider
-					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetProcessor</classname> in their
-					<filename>metawidget.xml</filename> at development time. There is an Ant task,
-					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
-					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</tip>				
-
 			</section>
 		</section>
 		
@@ -4891,6 +4924,34 @@ void onEndBuild(M metawidget);</programlisting>
 						<graphic fileref="images/screenshots/layout-tabs-separator.jpg" width="100mm"/>
 					</screenshot>
 				</figure>
+			</section>
+
+			<section id="section-architecture-layouts-usage">
+				<title>Usage</title>
+				
+				<para>
+					Unless explicitly specified, each Metawidget will instantiate a default <classname>Layout</classname>. This default
+					behaviour can be overridden either in code:
+				</para>
+				
+				<programlisting language="java">metawidget.setLayout( new MyLayout() );</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;layout&gt;
+		&lt;myLayout xmlns="java:com.myapp"/&gt;
+	&lt;/layout&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+	
+				<para>
+					This allows easy plugging in of alternate <classname>Layout</classname>s.
+				</para>
+				
+			</section>
+			
 			</section>
 
 			<section id="section-architecture-layouts-defaults">
@@ -5173,13 +5234,17 @@ static class State {
 	...other state variables...
 }</programlisting>
 
+						<para>
+							You could also consider storing the state in a <classname>ThreadLocal</classname>. If you do this, be aware that
+							because Metawidgets can be nested, <classname>Layout</classname>s can be called in a re-entrant fashion inside
+							the same <classname>Thread</classname>.
+						</para>
+
 					</listitem>
 				</orderedlist>
 				
 			</section>
 
-			???
-						
 		</section>
 
 		<section id="section-architecture-xml">
@@ -7349,6 +7414,18 @@ public class PersonController {
 			<section id="section-widgetbuilders-swing">
 				<title>Swing Widget Builders</title>
 				
+				<section id="section-widgetbuilders-swing-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					???
+				</section>
+
+				<section id="section-widgetbuilders-swing-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					???
+				</section>
+
 				<section id="section-widgetbuilders-swing-default">
 					<title>SwingWidgetBuilder</title>
 					
@@ -8916,11 +8993,11 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								</td>
 							</tr>
 							<tr>
-								<td><parameter>tabAlignment</parameter></td>
+								<td><parameter>tabPlacement</parameter></td>
 								<td>
 									One of <classname>SwingConstants.TOP</classname>, <classname>SwingConstants.BOTTOM</classname>,
 									<classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname>
-									as defined by <classname>JTabbedPane.setTabAlignment</classname>.
+									as defined by <classname>JTabbedPane.setTabPlacement</classname>.
 								</td>
 							</tr>
 						</tbody>						
@@ -9472,6 +9549,11 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
+								<td><parameter>panelLayout</parameter></td>
+								<td>The type of layout markup to use when rendering this group. As per
+								<classname>javax.faces.component.html.HtmlPanelGroup.setLayout</classname></td>
+							</tr>
+							<tr>
 								<td><parameter>style</parameter></td>
 								<td>CSS styles to apply to the panel</td>
 							</tr>
@@ -9756,34 +9838,9 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<para>
 						<classname>Layout</classname> to arrange widgets in a table, with one column for labels and another for the widget,
 						using <classname>android.widget.TableLayout</classname>.
-						This <classname>Layout</classname> recognizes the following parameters, configured
-						using <classname>TableLayoutConfig</classname>:						
+						This <classname>Layout</classname> can be configured using <classname>LinearLayoutConfig</classname>, as
+						described in the previous section.						
 					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="30%"/>
-							<col width="70%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left">Property</th>
-								<th align="left">Description</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><parameter>labelStyle</parameter></td>
-								<td>
-									Android style (i.e. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
-									style should be defined within <filename>res/values/styles.xml</filename>. For example:
-									<programlisting language="xml">&lt;style name="label"&gt;
-	&lt;item name="android:textSize"&gt;10sp&lt;/item&gt;
-&lt;/style&gt;</programlisting>
-								</td>
-							</tr>
-						</tbody>						
-					</informaltable>
 					
 				</section>
 				
@@ -10415,7 +10472,7 @@ public @interface MyAnnotation {
 		
 		<para>
 			For further documentation - including forums, bug reports, a Wiki community area
-			and information on how to contribute - please visit <ulink url="http://www.metawidget.org">http://www.metawidget.org</ulink>.			
+			and information on how to contribute - please visit <ulink url="http://metawidget.org">http://metawidget.org</ulink>.			
 		</para>
 		
 		<para>
