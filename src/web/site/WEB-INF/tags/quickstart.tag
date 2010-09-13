@@ -22,5 +22,8 @@
 			<tr>
 				<td><a href="${context}/doc/faq/licensing.html">Licensing FAQ</a></td>
 			</tr>
+			<tr>
+				<td><a href="${context}/wallchart.html">Wallchart</a></td>
+			</tr>
 		</tbody>
 	</table>
