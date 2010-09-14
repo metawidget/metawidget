@@ -9152,36 +9152,118 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 			<section id="section-widgetprocessors-web-faces">
 				<title>JSF Widget Processors</title>
 			
+				<section id="section-widgetprocessors-web-faces-css">
+					<title>CssStyleProcessor</title>
+					
+					<para>
+						<classname>CssStyleProcessor</classname> sets <parameter>style</parameter> and <parameter>styleClass</parameter>
+						properties on all generated widgets, based on the <parameter>style</parameter> and <parameter>styleClass</parameter>
+						values of the Metawidget. It does not 'drill into' <classname>Stub</classname>s.
+					</para>
+					
+				</section>
+
 				<section id="section-widgetprocessors-web-faces-hidden">
 					<title>HiddenFieldProcessor</title>
 					
-					???
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						for those that need this approach <classname>HiddenFieldProcessor</classname> wraps a <classname>Stub</classname> containing
+						an <classname>HtmlInputHidden</classname> around read-only values, so that they POST back.
+					</para>
 				</section>
 
-				<section id="section-widgetprocessors-web-faces-validation">
-					<title>StandardValidationProcessor</title>
+				<section id="section-widgetprocessors-web-faces-immediate">
+					<title>ImmediateAttributeProcessor</title>
 					
 					<para>
-						By default, <classname>UIMetawidget</classname> uses <classname>StandardValidator</classname>, which adds <parameter>required</parameter>,
-						<classname>RangeValidator</classname> and <classname>LengthValidator</classname> to all widgets.
+						<classname>RequiredAttributeProcessor</classname> sets <classname>UIInput.setImmediate</classname> for any widgets
+						with a <parameter>faces-immediate</parameter> attribute.
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-label">
+					<title>LabelProcessor</title>
+					
+					<para>
+						<classname>LabelProcessor</classname> sets JSF 1.2's <function>setLabel</function> for those
+						<classname>UIComponent</classname>s that support it. This label is used during validation errors
+						and conversion errors (even if the <classname>UIComponent</classname> does not explicitly have a converter).					
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-readable-id">
+					<title>ReadableIdProcessor</title>
+					
+					<para>
+						<classname>ReadableIdProcessor</classname> sets 'human readable' ids for each widget.
+						Unlike <classname>UIViewRoot.createUniqueId</classname>, it tries to make the id readable both for
+ 						debugging purposes and for when running unit tests (using, say, WebTest). Because the ids are
+						based off the value binding (or method binding) of the <classname>UIComponent</classname>, this
+						<classname>WidgetProcessor</classname> must come after <classname>StandardBindingProcessor</classname>
+						(or equivalent).
 					</para>
 					
 					<para>
-						You can implement your own validators by extending <classname>org.metawidget.faces.component.validator.Validator</classname>, or
-						disable validation by setting <parameter>validatorClass=""</parameter>.
+						Clients can plug in a different <classname>WidgetProcessor</classname> to use
+						<classname>UIViewRoot.createUniqueId</classname> if
+						preferred. They can even plug in assigning a changing, random id to a component each time it is
+						generated. This is a great way to fox hackers who are trying to POST back pre-generated payloads
+						of HTTP fields (i.e. CSRF attacks).					
 					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-required">
+					<title>RequiredAttributeProcessor</title>
 					
-					???
+					<para>
+						<classname>RequiredAttributeProcessor</classname> sets <classname>UIInput.setRequired</classname> for any widgets
+						with a <parameter>required</parameter> attribute.
+					</para>
 					
 				</section>
-				
+
 				<section id="section-widgetprocessors-web-faces-richfaces">
 					<title>RichFacesProcessor</title>
 					
-					???
+					<para>
+						<classname>RichFacesProcessor</classname> adds a RichFaces AJAX <classname>Support</classname> widget to any
+						widgets with a <parameter>faces-ajax-action</parameter> attribute. Such AJAX functionality is standard in JSF 2.0.
+					</para>
 					
 				</section>
 
+				<section id="section-widgetprocessors-web-faces-binding">
+					<title>StandardBindingProcessor</title>
+					
+					<para>
+						<classname>StandardBindingProcessor</classname> attaches standard JSF value and action bindings to each widget.
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-converter">
+					<title>StandardConverterProcessor</title>
+
+					<para>
+						<classname>StandardConverterProcessor</classname> attaches standard JSF converters to each widget as needed. This
+						includes <classname>DateTimeConverter</classname> and <classname>NumberConverter</classname>, and support for
+						the <parameter>faces-converter-id</parameter> attribute.
+					</para>					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-validation">
+					<title>StandardValidatorProcessor</title>
+					
+					<para>
+						<classname>StandardValidatorProcessor</classname> attaches standard JSF validators to each widget as needed. This
+						includes <classname>DoubleRangeValidator</classname>, <classname>LongRangeValidator</classname> and
+						<classname>LengthValidator</classname>.
+					</para>
+										
+				</section>
+				
 			</section>
 			
 		</section>
@@ -10388,18 +10470,18 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</listitem>
 				<listitem>
 					<para>
-						Write your own <classname>Inspector</classname>. 
+						Write your own <classname>InspectionResultProcessor</classname>. This gives you a range of
+						options, including: sorting fields based on a page property (see
+						<xref linkend="section-architecture-inspectionresultprocessors-implementing-your-own"/>); sorting
+						fields based on a different notation (such as Dewey Decimal); defining field order at the class (rather
+						than the getter) level, and many more. For complete worked examples see
+						<ulink url="http://kennardconsulting.blogspot.com/2010/08/customizing-which-form-fields-are_04.html">this blog entry</ulink>.
 					</para>
-				</listitem>
+				</listitem>				
 				<listitem>
 					<para>
 						Write your own <classname>PropertyStyle</classname>. For example, <classname>JavassistPropertyStyle</classname> extends
 						<classname>JavaBeanPropertyStyle</classname> and reorders the fields using debug information.
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						Write your own <classname>InspectionResultProcessor</classname>.
 					</para>
 				</listitem>
 			</itemizedlist>
