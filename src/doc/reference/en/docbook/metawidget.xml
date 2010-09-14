@@ -4626,7 +4626,7 @@ public class Main {
 							This mechanism can then be controlled either programmatically:
 						</para>
 						
-						<programlisting language="java">metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));</programlisting>
+						<programlisting language="java">metawidget.addWidgetProcessor(new TooltipProcessor(new TooltipProcessorConfig().setPrefix("Tip:")));</programlisting>
 							
 						<para>
 							Or in <filename>metawidget.xml</filename> (see <xref linkend="section-architecture-xml"/>):
@@ -4667,24 +4667,24 @@ public class Main {
 						<programlisting language="java">public JComponent processWidget( JComponent widget, String elementName,
 										Map&lt;String, String&gt; attributes, SwingMetawidget metawidget ) {
 		
-			getState( container ).bindings.add( attributes.get( NAME ));
-		}
-		
-		private State getState( SwingMetawidget metawidget ) {
-			State state = (State) container.getClientProperty( getClass() );
-		
-			if ( state == null ) {
-				state = new State();
-				metawidget.putClientProperty( getClass(), state );
-			}
-		
-			return state;
-		}
-		
-		static class State {
-			List&lt;String&gt;	bindings;
-			...other state variables...
-		}</programlisting>
+	getState( container ).bindings.add( attributes.get( NAME ));
+}
+
+private State getState( SwingMetawidget metawidget ) {
+	State state = (State) container.getClientProperty( getClass() );
+
+	if ( state == null ) {
+		state = new State();
+		metawidget.putClientProperty( getClass(), state );
+	}
+
+	return state;
+}
+
+static class State {
+	List&lt;String&gt;	bindings;
+	...other state variables...
+}</programlisting>
 		
 						<para>
 							You could also consider storing the state in a <classname>ThreadLocal</classname>. If you do this, be aware that
@@ -4952,8 +4952,6 @@ void onEndBuild(M metawidget);</programlisting>
 				
 			</section>
 			
-			</section>
-
 			<section id="section-architecture-layouts-defaults">
 				<title>Defaults</title>
 				
@@ -5520,7 +5518,10 @@ static class State {
 		<section id="section-metawidgets-desktop">
 			<title>Desktop Metawidgets</title>
 
-			???
+			<para>
+				Metawidget supports multiple desktop frameworks, so that you can choose the one that matches your
+				preferred UI environment.
+			</para>
 			
 			<section id="section-metawidgets-desktop-swing">
 				<title>SwingMetawidget</title>
@@ -5606,7 +5607,10 @@ static class State {
 		<section id="section-metawidgets-web">
 			<title>Web Metawidgets</title>
 		
-			???
+			<para>
+				Metawidget supports multiple Web frameworks, so that you can choose the one that matches your
+				preferred UI environment.
+			</para>
 			
 			<section id="section-metawidgets-web-gwt">
 				<title>GwtMetawidget</title>
@@ -5803,16 +5807,84 @@ static class State {
 			<section id="section-metawidgets-web-jsp">
 				<title>HtmlMetawidgetTag (JSP)</title>
 				
-				???
+				<para>
+					<classname>HtmlMetawidgetTag</classname> is a JSP taglib. For an introduction
+					to <classname>HtmlMetawidgetTag</classname>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
 				
-				<section id="section-metawidgets-web-hidden">
+				<section id="section-metawidgets-web-jsp-installation">
+					<title>Installation</title>
+
+					<para>
+						There are three steps to installing <classname>HtmlMetawidgetTag</classname> within a JSP application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a tag library descriptor to the top of your JSP page:
+							</para>
+							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/html" prefix="m" %&gt;
+	...
+	&lt;m:metawidget value="foo"/&gt;
+	...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-jsp-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						JSP-based technologies do not distinguish between what a widget is versus how it is rendered.
+						Instead, <classname>HtmlMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Each layout can further be configured by using <classname>LayoutConfig</classname> classes.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-jsp-override">
+					<title>Overriding Widget Creation</title>				
+
+					<para>
+						With regard to overriding widget creation, JSP lacks some component-based features.
+						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
+						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
+						directly support arbitrary child tags within <classname>HtmlMetawidgetTag</classname>. As a next best thing, Metawidget includes
+						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="contact"&gt;
+
+	&lt;m:stub value="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+
+&lt;/m:metawidget&gt;</programlisting>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-jsp-hidden">
 					<title>Hidden Fields</title>
 					
 					<para>
 						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
 						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
-						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However, Web
-						Metawidgets support that approach for those that need it through <function>setCreateHiddenFields( true )</function>.
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						<classname>HtmlMetawidgetTag</classname> supports that approach for those that need it
+						through <function>setCreateHiddenFields( true )</function>.
 					</para>
 				</section>
 
@@ -5951,7 +6023,7 @@ static class State {
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/spring" prefix="m" %&gt;
 	...
-	&lt;m:metawidget value="#{foo}"/&gt;
+	&lt;m:metawidget path="fooCommand"/&gt;
 	...</programlisting>
 						</listitem>
 						<listitem>
@@ -5981,15 +6053,35 @@ static class State {
 						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
 						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
 						directly support arbitrary child tags within <classname>SpringMetawidgetTag</classname>. As a next best thing, Metawidget includes
-						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML.
+						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML. For example:
 					</para>
 					
+					<programlisting language="xml">&lt;m:metawidget path="contactCommand"&gt;
+
+	&lt;m:stub path="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+
+&lt;/m:metawidget&gt;</programlisting>
+					
+				</section>
+
+				<section id="section-metawidgets-web-spring-hidden">
+					<title>Hidden Fields</title>
+					
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						<classname>SpringMetawidgetTag</classname> supports that approach for those that need it
+						through <function>setCreateHiddenFields( true )</function>.
+					</para>
 				</section>
 
 			</section>
 
-			???
-			
 			<section id="section-metawidgets-web-struts">
 				<title>StrutsMetawidgetTag</title>
 	
@@ -6017,7 +6109,7 @@ static class State {
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/struts" prefix="m" %&gt;
 	...
-	&lt;m:metawidget value="#{foo}"/&gt;
+	&lt;m:metawidget property="fooForm"/&gt;
 	...</programlisting>
 						</listitem>
 						<listitem>
@@ -6048,9 +6140,31 @@ static class State {
 						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
 						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
 						directly support arbitrary child tags within <classname>StrutsMetawidgetTag</classname>. As a next best thing, Metawidget includes
-						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML.
+						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML. For example:
 					</para>
 					
+					<programlisting language="xml">&lt;m:metawidget property="contactForm"&gt;
+
+	&lt;m:stub property="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+
+&lt;/m:metawidget&gt;</programlisting>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-struts-hidden">
+					<title>Hidden Fields</title>
+					
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						<classname>StrutsMetawidgetTag</classname> supports that approach for those that need it
+						through <function>setCreateHiddenFields( true )</function>.
+					</para>
 				</section>
 				
 			</section>
@@ -6060,7 +6174,10 @@ static class State {
 		<section id="section-metawidgets-mobile">
 			<title>Mobile Metawidgets</title>
 
-			???
+			<para>
+				Metawidget supports multiple Mobile frameworks, so that you can choose the one that matches your
+				preferred UI environment.
+			</para>
 			
 			<section id="section-metawidgets-mobile-android">
 				<title>AndroidMetawidget</title>

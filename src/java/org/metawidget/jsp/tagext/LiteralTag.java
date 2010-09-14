@@ -37,6 +37,9 @@ import javax.servlet.jsp.tagext.TagSupport;
  * &lt;Tag, MetawidgetTag&gt;.
  * <p>
  * The output of a LiteralTag is the original String, without escaping.
+ * <p>
+ * <strong>LiteralTag is an internal tag for use by WidgetBuilders, WidgetProcessors and Layouts. It
+ * is not available in any TLD.</strong>
  *
  * @author Richard Kennard
  */
