@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,92 +74,6 @@ public class StrutsWidgetBuilder
 	//
 
 	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		// Read-only?
-
-		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
-			if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-				if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-					return initStrutsTag( new HiddenTag(), attributes, metawidget );
-				}
-
-				return null;
-			}
-
-			if ( ACTION.equals( elementName ) ) {
-				return null;
-			}
-
-			if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-				return null;
-			}
-
-			// Lookups
-
-			String lookup = attributes.get( LOOKUP );
-
-			if ( lookup != null && !"".equals( lookup ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
-			}
-
-			String strutsLookupName = attributes.get( STRUTS_LOOKUP_NAME );
-
-			if ( strutsLookupName != null && !"".equals( strutsLookupName ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
-			}
-
-			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-			// If no type, assume a String
-
-			if ( type == null ) {
-				type = String.class.getName();
-			}
-
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz != null ) {
-				// Primitives
-
-				if ( clazz.isPrimitive() ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Object primitives
-
-				if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Dates
-
-				if ( Date.class.isAssignableFrom( clazz ) ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Strings
-
-				if ( String.class.equals( clazz ) ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Collections
-
-				if ( Collection.class.isAssignableFrom( clazz ) ) {
-					return new HtmlStubTag();
-				}
-			}
-
-			// Not simple, but don't expand
-
-			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
-			}
-
-			// Nested Metawidget
-
-			return null;
-		}
 
 		// Hidden?
 
@@ -318,36 +231,6 @@ public class StrutsWidgetBuilder
 		}
 
 		return tag;
-	}
-
-	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		HiddenTag tag = new HiddenTag();
-		initStrutsTag( tag, attributes, metawidget );
-		tag.setWrite( true );
-
-		// Note: according to STR-1305 we'll get a proper html:label tag
-		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
-
-		if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-			tag.setDisabled( true );
-		}
-
-		// If the String is just a hidden field, output a SPAN tag to
-		// stop the whole thing vanishing under HtmlTableLayout. This is
-		// a bit hacky, unfortunately
-
-		try {
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
-
-			if ( JspUtils.isJustHiddenFields( literal ) ) {
-				return new LiteralTag( literal + "<span></span>" );
-			}
-
-			return new LiteralTag( literal );
-		} catch ( JspException e ) {
-			throw WidgetBuilderException.newException( e );
-		}
 	}
 
 	private Tag writeSelectTag( final String name, final String property, final Map<String, String> attributes, MetawidgetTag metawidget ) {

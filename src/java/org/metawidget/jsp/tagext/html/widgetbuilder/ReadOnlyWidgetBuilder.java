@@ -148,10 +148,10 @@ public class ReadOnlyWidgetBuilder
 	}
 
 	//
-	// Private methods
+	// Protected methods
 	//
 
-	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -196,5 +196,4 @@ public class ReadOnlyWidgetBuilder
 
 		return new LiteralTag( buffer.toString() );
 	}
-
 }

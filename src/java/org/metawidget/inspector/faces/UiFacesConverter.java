@@ -24,12 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should use the given Faces converter in the UI.
  * <p>
- * This annotation uses the converter <em>Id</em>, not the class. Whilst it is possible to specify
- * the class through the XML (see <code>FacesInspectionResultConstants.FACES_CONVERTER_CLASS</code>
- * ), this does not work well for the annotations because they are applied to domain objects,
- * whereas converters are UI-object. Using an annotation value of type <code>Class</code> would
- * introduce dependencies in the wrong direction. Using a value of type <code>String</code> that
- * contains a fully-qualified classname would work, but is brittle to refactoring.
+ * This annotation uses the converter <em>id</em>, not its class.
  *
  * @author Richard Kennard
  */

@@ -37,11 +37,8 @@ import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.springframework.web.servlet.support.RequestContext;
-import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import org.springframework.web.servlet.tags.form.AbstractDataBoundFormElementTag;
 import org.springframework.web.servlet.tags.form.AbstractHtmlElementTag;
 import org.springframework.web.servlet.tags.form.CheckboxTag;
@@ -76,86 +73,6 @@ public class SpringWidgetBuilder
 	//
 
 	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		// Read-only?
-
-		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
-			if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-				if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-					return initSpringTag( new HiddenInputTag(), attributes, metawidget );
-				}
-
-				return null;
-			}
-
-			if ( ACTION.equals( elementName ) ) {
-				return null;
-			}
-
-			if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-				return null;
-			}
-
-			// Lookups
-
-			String lookup = attributes.get( LOOKUP );
-
-			if ( lookup != null && !"".equals( lookup ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
-			}
-
-			String springLookup = attributes.get( SPRING_LOOKUP );
-
-			if ( springLookup != null && !"".equals( springLookup ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
-			}
-
-			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-			// If no type, assume a String
-
-			if ( type == null ) {
-				type = String.class.getName();
-			}
-
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz != null ) {
-				// Primitives
-
-				if ( clazz.isPrimitive() ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Object primitives
-
-				if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Dates
-
-				if ( Date.class.isAssignableFrom( clazz ) ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-
-				// Strings
-
-				if ( String.class.equals( clazz ) ) {
-					return writeReadOnlyTag( attributes, metawidget );
-				}
-			}
-
-			// Not simple, but don't expand
-
-			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
-			}
-
-			// Nested Metawidget
-
-			return null;
-		}
 
 		// Hidden?
 
@@ -309,52 +226,6 @@ public class SpringWidgetBuilder
 		}
 
 		return tag;
-	}
-
-	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		// Use the Spring binder to render the read-only value
-
-		RequestContext requestContext = (RequestContext) metawidget.getPageContext().getAttribute( RequestContextAwareTag.REQUEST_CONTEXT_PAGE_ATTRIBUTE );
-		String path = metawidget.getPath() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
-		String value = requestContext.getBindStatus( path ).getDisplayValue();
-
-		// Support lookup labels
-
-		String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-		if ( lookupLabels != null ) {
-			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ) );
-			int indexOf = lookupList.indexOf( value );
-
-			if ( indexOf != -1 ) {
-				List<String> lookupLabelsList = CollectionUtils.fromString( lookupLabels );
-
-				if ( indexOf < lookupLabelsList.size() ) {
-					value = lookupLabelsList.get( indexOf );
-				}
-			}
-		}
-
-		buffer.append( value );
-
-		// May need a hidden input tag too
-
-		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-			Tag hiddenTag = initSpringTag( new HiddenInputTag(), attributes, metawidget );
-
-			try {
-				buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
-			} catch ( JspException e ) {
-				throw WidgetBuilderException.newException( e );
-			}
-		}
-
-		return new LiteralTag( buffer.toString() );
 	}
 
 	private Tag writeSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget ) {

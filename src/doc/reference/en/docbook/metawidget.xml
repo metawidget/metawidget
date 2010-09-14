@@ -4017,9 +4017,8 @@ public class Main {
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
-			&lt;springWidgetBuilder /&gt;
 			&lt;readOnlyWidgetBuilder /&gt;
-			&lt;htmlWidgetBuilder /&gt;
+			&lt;springWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
 &lt;/compositeWidgetBuilder&gt;</programlisting></td>							
@@ -4030,9 +4029,8 @@ public class Main {
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
-			&lt;strutsWidgetBuilder /&gt;
 			&lt;readOnlyWidgetBuilder /&gt;
-			&lt;htmlWidgetBuilder /&gt;
+			&lt;strutsWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
 &lt;/compositeWidgetBuilder&gt;</programlisting></td>							
@@ -6264,7 +6262,20 @@ static class State {
 				<section id="section-metawidgets-mobile-android-look">
 					<title>Customizing Look and Feel</title>
 					
-					???
+					<para>
+						<parameter>AndroidMetawidget</parameter> uses Android's standard <filename>res/values/styles.xml</filename>
+						mechanism. Styles can be set either programmatically or passed inside <filename>metawidget.xml</filename>
+						using the @ notation. For example:
+					</para>
+
+					<programlisting language="xml">&lt;layout&gt;
+	&lt;textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout" config="TextViewLayoutDecoratorConfig"&gt;
+		&lt;style&gt;
+			&lt;int&gt;@org.metawidget.example.android.addressbook:style/section&lt;/int&gt;
+		&lt;/style&gt;
+	&lt;/textViewLayoutDecorator&gt;
+&lt;/layout&gt;</programlisting>
+					
 				</section>
 				
 			</section>
@@ -6294,7 +6305,10 @@ static class State {
 		<section id="section-inspectors-property">
 			<title>Property Inspectors</title>
 
-			???
+			<para>
+				Being an OIM, a core strength of Metawidget is inspecting Objects. Metawidget is very flexible in this regard, with
+				pluggable support for different languages and different implementation styles.
+			</para>
 			
 			<section id="section-inspectors-base-object">
 				<title>BaseObjectInspector</title>
@@ -6887,17 +6901,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td><parameter>faces-converter-id</parameter></td>
 							<td>
 								<classname>UiFacesConverter</classname> - annotates the field should use the given Faces converter
-								in the UI.
-								<para>
-									This annotation uses the converter <emphasis>Id</emphasis>, not the class. Whilst it is possible to
-									specify the class through the XML (see
-									<parameter>FacesInspectionResultConstants.FACES_CONVERTER_CLASS</parameter>), this does not work well
-									for the annotations because they are applied to domain objects, whereas converters are UI objects.
-									Using an annotation value of type <classname>Class</classname> would introduce dependencies in the wrong
-									direction. Using a value of type <classname>String</classname> that contains a fully-qualified classname
-									could work, but is brittle to refactoring
-									???
-								</para>
+								in the UI. This annotation uses the converter <emphasis>id</emphasis>, not its class.
 							</td>
 						</tr>
 						<tr>
@@ -7526,7 +7530,10 @@ public class PersonController {
 		<section id="section-widgetbuilders-desktop">
 			<title>Desktop Widget Builders</title>
 			
-			???
+			<para>
+				Metawidget supports multiple <classname>WidgetBuilder</classname>s for each desktop framework, targeting
+				specific widget libraries within each environment.
+			</para>
 			
 			<section id="section-widgetbuilders-swing">
 				<title>Swing Widget Builders</title>
@@ -7534,13 +7541,59 @@ public class PersonController {
 				<section id="section-widgetbuilders-swing-overridden">
 					<title>OverriddenWidgetBuilder</title>
 					
-					???
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						<classname>JComponent</classname>s whose <function>getName</function> equals the same name Metawidget
+						would have generated.  
+					</para>
 				</section>
 
 				<section id="section-widgetbuilders-swing-readonly">
 					<title>ReadOnlyWidgetBuilder</title>
 					
-					???
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. It instantiates the
+						following widgets for the following Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>javax.swing</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>JLabel</classname></td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>JPanel</classname></td>
+								<td><parameter>read-only</parameter> and <parameter>masked</parameter></td>
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.swing</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>Stub</classname></td>
+								<td><parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
 				</section>
 
 				<section id="section-widgetbuilders-swing-default">
@@ -7587,16 +7640,6 @@ public class PersonController {
 							</tr>
 							<tr>
 								<td></td>
-								<td><classname>JLabel</classname></td>
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>JPanel</classname></td>
-								<td><parameter>read-only</parameter> and <parameter>masked</parameter></td>
-							</tr>
-							<tr>
-								<td></td>
 								<td><classname>JPasswordField</classname></td>
 								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
@@ -7634,8 +7677,7 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
-								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+								<td><parameter>hidden</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7680,6 +7722,65 @@ public class PersonController {
 			<section id="section-widgetbuilders-swt">
 				<title>SWT Widget Builders</title>
 				
+				<section id="section-widgetbuilders-swt-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						<classname>Control</classname>s whose <function>getData( "name" )</function> equals the same name Metawidget
+						would have generated.  
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-swt-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. It instantiates the
+						following widgets for the following Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>org.eclipse.swt.widgets</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Label</classname></td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Composite</classname></td>
+								<td><parameter>read-only</parameter> and <parameter>masked</parameter></td>
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.swt</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>Stub</classname></td>
+								<td><parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+
+				</section>
+
 				<section id="section-widgetbuilders-swt-default">
 					<title>SwtWidgetBuilder</title>
 					
@@ -7724,16 +7825,6 @@ public class PersonController {
 							</tr>
 							<tr>
 								<td></td>
-								<td><classname>Label</classname></td>
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>Composite</classname></td>
-								<td><parameter>read-only</parameter> and <parameter>masked</parameter></td>
-							</tr>
-							<tr>
-								<td></td>
 								<td><classname>Text( SWT.MASKED )</classname></td>
 								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
@@ -7770,8 +7861,7 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
-								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+								<td><parameter>hidden</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7783,7 +7873,10 @@ public class PersonController {
 		<section id="section-widgetbuilders-web">
 			<title>Web Widget Builders</title>
 	
-			???
+			<para>
+				Metawidget supports multiple <classname>WidgetBuilder</classname>s for each Web framework, targeting
+				specific widget libraries within each environment.
+			</para>
 			
 			<section id="section-widgetbuilders-jsp">
 				<title>JSP Widget Builders</title>
@@ -7895,13 +7988,6 @@ public class PersonController {
 							</tr>					
 							<tr>
 								<td></td>
-								<td>raw text</td>
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
-								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-								true, further adds a <classname>&lt;input type="hidden"&gt;</classname> so that something gets POSTed back</td>
-							</tr>
-							<tr>
-								<td></td>
 								<td><classname>&lt;textarea&gt;</classname></td>
 								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
@@ -7911,25 +7997,64 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>StubTag</classname></td>
-								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
-								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+								<td><parameter>hidden</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
 					
 				</section>				
 	
+				<section id="section-widgetbuilders-jsp-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						<classname>StubTag</classname>s whose <parameter>value</parameter> (<parameter>path</parameter> for Spring
+						environments; <parameter>property</parameter> for Struts environments) equals the same path Metawidget
+						would have generated.  
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-jsp-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. There base class manages 'pure' JSP, with
+						subclasses for both Spring and Struts environments. It instantiates the following widgets for the following
+						Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td>raw text</td>								
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
+								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a hidden field so that something gets POSTed back</td>
+							</tr>
+						</tbody>
+					</informaltable>
+				</section>
+
 				<section id="section-widgetbuilders-jsp-spring">
 					<title>SpringWidgetBuilder</title>
 					
 					<para>
-						SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag, albeit
-						used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
-						returns fragments of HTML. The JSP component model is too light to support returning
-						tags containing child tags (i.e. a <classname>SelectTag</classname> containing
-						<classname>OptionTag</classname>s).	SpringWidgetBuilder
+						SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag. It
 						returns the following widgets for the following Metawidget attributes:
-						??? 
 					</para>
 					
 					<informaltable>
@@ -7978,13 +8103,6 @@ public class PersonController {
 							</tr>
 							<tr>
 								<td></td>
-								<td>raw text</td>								
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
-								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-								true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back</td>
-							</tr>
-							<tr>
-								<td></td>
 								<td><classname>SelectTag</classname></td>
 								<td><parameter>lookup</parameter></td>
 							</tr>					
@@ -8009,13 +8127,8 @@ public class PersonController {
 					<title>StrutsWidgetBuilder</title>
 					
 					<para>
-						StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag, albeit
-						used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
-						returns fragments of HTML. The JSP component model is too light to support returning
-						tags containing child tags (i.e. a <classname>SelectTag</classname> containing
-						<classname>OptionTag</classname>s).	StrutsWidgetBuilder
+						StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag. It
 						returns the following widgets for the following Metawidget attributes:
-						???
 					</para>
 					
 					<informaltable>
@@ -8056,13 +8169,6 @@ public class PersonController {
 								<td></td>
 								<td><classname>PasswordTag</classname></td>
 								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>raw text</td>
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
-								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-								true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -8182,11 +8288,6 @@ public class PersonController {
 							</tr>
 							<tr>
 								<td></td>
-								<td><classname>Label</classname></td>
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>								
-							</tr>
-							<tr>
-								<td></td>
 								<td><classname>ListBox</classname></td>
 								<td><parameter>lookup</parameter></td>
 							</tr>
@@ -8220,14 +8321,67 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
-								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+								<td><parameter>hidden</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
 					
 				</section>			
 			
+				<section id="section-widgetbuilders-gwt-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						widgets that implement <classname>HasName</classname> and whose <function>getName</function> equals the same name
+						Metawidget would have generated.  
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-gwt-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. It instantiates the
+						following widgets for the following Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>com.google.gwt.user.client.ui</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Label</classname></td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>								
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.gwt.client.ui</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>Stub</classname></td>
+								<td><parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+
+				</section>
+
 			</section>
 	
 			<section id="section-widgetbuilders-faces">
@@ -8301,11 +8455,6 @@ public class PersonController {
 							</tr>
 							<tr>
 								<td></td>
-								<td><classname>HtmlOutputText</classname></td>
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>								
-							</tr>
-							<tr>
-								<td></td>
 								<td><classname>HtmlSelectBooleanCheckbox</classname></td>
 								<td>
 									<parameter>type="boolean"</parameter> (and
@@ -8333,9 +8482,7 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>UIStub</classname></td>
-								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
-								<parameter>masked</parameter> when also <parameter>read-only</parameter>,
-								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>								
+								<td><parameter>hidden</parameter></td>								
 							</tr>
 						</tbody>
 					</informaltable>
@@ -8440,6 +8587,66 @@ public class PersonController {
 		
 				</section>			
 		
+				<section id="section-widgetbuilders-faces-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						<classname>UIComponent</classname>s whose <parameter>value</parameter> binding or <parameter>action</parameter> binding
+						equals the same binding Metawidget would have generated.  
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-faces-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. It instantiates the
+						following widgets for the following Metawidget attributes:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>javax.faces.component.html</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>HtmlOutputText</classname></td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>								
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.faces.component</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>HtmlLookupOutputText</classname></td>
+								<td><parameter>read-only</parameter> with <parameter>lookup-label</parameter></td>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>UIStub</classname></td>
+								<td><parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>masked</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>								
+							</tr>
+						</tbody>
+					</informaltable>
+					
+				</section>
+
 				<section id="section-widgetbuilders-richfaces">
 					<title>RichFacesWidgetBuilder</title>
 					
@@ -8538,7 +8745,10 @@ public class PersonController {
 		<section id="section-widgetbuilders-mobile">
 			<title>Mobile Widget Builders</title>
 
-			???
+			<para>
+				Metawidget supports multiple <classname>WidgetBuilder</classname>s for each mobile framework, targeting
+				specific widget libraries within each environment.
+			</para>
 			
 			<section id="section-widgetbuilders-android">
 				<title>Android Widget Builders</title>
@@ -8604,6 +8814,53 @@ public class PersonController {
 								<td><parameter>lookup</parameter></td>
 							</tr>
 							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.gwt.client.ui</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>Stub</classname></td>
+								<td><parameter>hidden</parameter></td>								
+							</tr>
+						</tbody>
+					</informaltable>
+					
+				</section>
+
+				<section id="section-widgetbuilders-android-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						<classname>View</classname>s whose <parameter>tag</parameter> equals the same tag Metawidget would have generated.  
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-android-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. It instantiates the
+						following widgets for the following Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>android.widget</classname></th>
+							</tr>
+							<tr>
 								<td></td>
 								<td><classname>TextView</classname></td>
 								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter>).
@@ -8615,14 +8872,14 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<td><parameter>action</parameter> when also <parameter>read-only</parameter>,
 								<parameter>masked</parameter> when also <parameter>read-only</parameter>,
 								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>								
 							</tr>
 						</tbody>
 					</informaltable>
-					
 				</section>
+
 			</section>
 		</section>
 					
@@ -8640,7 +8897,10 @@ public class PersonController {
 		<section id="section-widgetprocessors-desktop">
 			<title>Desktop Widget Processors</title>
 		
-			???
+			<para>
+				Metawidget supports multiple <classname>WidgetProcessor</classname>s for each desktop framework, targeting
+				specific features within each environment.
+			</para>
 			
 			<section id="section-widgetprocessors-desktop-swing">
 				<title>Swing Widget Processors</title>
@@ -8734,12 +8994,45 @@ public class PersonController {
 					<para>
 						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
 						<emphasis>is</emphasis> no backing class, and instead the <classname>JButton</classname> should invoke, say, an RPC
-						call. Implement your own pluggable binding by implementing <classname>WidgetProcessor</classname> and use it by calling:
-						???
+						call. Implement your own pluggable binding by implementing <classname>WidgetProcessor</classname>:
+					</para>
+
+					<programlisting language="java">public class RpcWidgetProcessor
+	implements WidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
+										
+	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
+									SwingMetawidget metawidget ) {
+
+		...decide whether to attach event handler...
+		
+		widget.add( new AbstractAction() {
+			public void actionPerformed( ActionEvent e ) {
+			
+				String actionName = attributes.get( NAME );
+				...make RPC using actionName...
+			}
+		}
+	}
+}</programlisting>
+					
+					<para>
+						This can be set either in code:
 					</para>
 					
-					<programlisting language="java">myMetawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
-										
+					<programlisting language="java">myMetawidget.addWidgetProcessor( new RpcWidgetProcessor() );</programlisting>
+
+					<para>
+						Or via <filename>metawidget.xml</filename>:
+					</para>
+					
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;widgetProcessors&gt;
+		&lt;array&gt;
+			&lt;rpcWidgetProcessor xmlns="java:com.myapp"/&gt;
+		&lt;/array&gt;
+	&lt;/widgetProcessors&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+
 				</section>
 			</section>
 
@@ -8756,7 +9049,6 @@ public class PersonController {
 
 					<programlisting language="java">myMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( myMetawidget )</programlisting>
 					
-					???
 				</section>
 				
 				<section id="section-widgetprocessors-desktop-swt-actionbinding">
@@ -8776,8 +9068,6 @@ public class PersonController {
 			<section id="section-widgetprocessors-web-gwt">
 				<title>GWT Widget Processors</title>
 
-				???
-				
 				<section id="section-widgetprocessors-web-gwt-propertybinding">
 					<title>Property Binding</title>
 						
@@ -8849,15 +9139,14 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<para>
 						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
 						<emphasis>is</emphasis> no backing class, and instead the <classname>Button</classname> should invoke, say, an RPC
-						call. Implement your own pluggable binding by implementing <classname>WidgetProcessor</classname> and use it by calling...
+						call (for an example, see <xref linkend="section-introduction-part3-gwt-clientside"/>). Implement your own
+						pluggable binding by implementing <classname>WidgetProcessor</classname> and use it by calling...
 					</para>
 						
 					<programlisting language="java">myMetawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
 						
 				</section>
 				
-				???				
-			
 			</section>
 			
 			<section id="section-widgetprocessors-web-faces">
@@ -8866,6 +9155,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				<section id="section-widgetprocessors-web-faces-hidden">
 					<title>HiddenFieldProcessor</title>
 					
+					???
 				</section>
 
 				<section id="section-widgetprocessors-web-faces-validation">
@@ -8910,7 +9200,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 		<section id="section-layouts-desktop">
 			<title>Desktop Layouts</title>
 
-			???
+			<para>
+				Metawidget supports multiple <classname>Layout</classname>s for each desktop framework, targeting
+				different arrangements within each environment.
+			</para>
 			
 			<section id="section-layouts-desktop-swing">
 				<title>Swing Layouts</title>
@@ -9346,7 +9639,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 		<section id="section-layouts-web">
 			<title>Web Layouts</title>
 			
-			???
+			<para>
+				Metawidget supports multiple <classname>Layout</classname>s for each Web framework, targeting
+				different arrangements within each environment.
+			</para>
 			
 			<section id="section-layouts-web-gwt">
 				<title>GWT Layouts</title>
