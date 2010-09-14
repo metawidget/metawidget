@@ -16,11 +16,11 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<simpleTogglePanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="SimpleTogglePanelLayoutDecoratorConfig">
+			<panelGroupLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout" config="PanelGroupLayoutDecoratorConfig">
 				<layout>
 					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
 				</layout>
-			</simpleTogglePanelLayoutDecorator>
+			</panelGroupLayoutDecorator>
 		</layout>
 		
 	</htmlMetawidget>

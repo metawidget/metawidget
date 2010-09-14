@@ -9,7 +9,7 @@
 
 		<f:view>
 		
-			<h1>RichFaces Remove Duplicates Support</h1>
+			<h1>Remove Duplicates Support</h1>
 
 			<h:messages/>
 			
