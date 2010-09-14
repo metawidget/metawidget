@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,7 @@ public class StrutsWidgetBuilder
 				return initStrutsTag( new HiddenTag(), attributes, metawidget );
 			}
 
-			return null;
+			return new HtmlStubTag();
 		}
 
 		// Actions (ignored)
@@ -167,6 +168,12 @@ public class StrutsWidgetBuilder
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return initStrutsTag( new TextTag(), attributes, metawidget );
+			}
+
+			// Collections
+
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
+				return new HtmlStubTag();
 			}
 		}
 

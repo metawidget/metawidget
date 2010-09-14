@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +82,7 @@ public class SpringWidgetBuilder
 				return initSpringTag( new HiddenInputTag(), attributes, metawidget );
 			}
 
-			return null;
+			return new HtmlStubTag();
 		}
 
 		// Actions (ignored)
@@ -166,6 +167,12 @@ public class SpringWidgetBuilder
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
 				return initSpringTag( new InputTag(), attributes, metawidget );
+			}
+
+			// Collections
+
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
+				return new HtmlStubTag();
 			}
 		}
 

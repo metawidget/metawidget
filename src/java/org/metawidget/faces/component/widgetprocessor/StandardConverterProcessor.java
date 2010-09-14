@@ -41,7 +41,9 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
- * WidgetProcessor to add standard JSF Converters to a UIComponent.
+ * WidgetProcessor to add standard JSF Converters to a UIComponent. This
+ * includes <code>DateTimeConverter</code> and <code>NumberConverter</code>, and
+ * support for the <code>faces-converter-id</code> attribute.
  *
  * @author Richard Kennard
  */

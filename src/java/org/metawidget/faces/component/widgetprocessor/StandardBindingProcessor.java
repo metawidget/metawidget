@@ -36,7 +36,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * WidgetProcessor to add standard JSF value bindings to a UIComponent.
+ * WidgetProcessor to add standard JSF value and action bindings to a UIComponent.
  *
  * @author Richard Kennard
  */
