@@ -1,6 +1,6 @@
 <project name="faces-quirks-test" default="test-all-richfaces">
 
-	<import file="quirks-test.xml" />
+	<import file="quirks-facelets2-test.xml" />
 
 	<target name="test-all-richfaces" depends="test-all">
 
