@@ -33,7 +33,6 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.struts.taglib.html.BaseHandlerTag;
 import org.apache.struts.taglib.html.BaseInputTag;
 import org.apache.struts.taglib.html.CheckboxTag;
-import org.apache.struts.taglib.html.HiddenTag;
 import org.apache.struts.taglib.html.OptionTag;
 import org.apache.struts.taglib.html.OptionsTag;
 import org.apache.struts.taglib.html.PasswordTag;
@@ -79,10 +78,7 @@ public class StrutsWidgetBuilder
 		// Hidden?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-				return initStrutsTag( new HiddenTag(), attributes, metawidget );
-			}
-
+			attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
 			return new HtmlStubTag();
 		}
 
@@ -116,7 +112,7 @@ public class StrutsWidgetBuilder
 		String strutsLookup = attributes.get( STRUTS_LOOKUP_NAME );
 
 		if ( strutsLookup != null ) {
-			return writeSelectTag( strutsLookup, attributes.get( STRUTS_LOOKUP_PROPERTY ), attributes, metawidget );
+			return createSelectTag( strutsLookup, attributes.get( STRUTS_LOOKUP_PROPERTY ), attributes, metawidget );
 		}
 
 		// String Lookups
@@ -124,7 +120,7 @@ public class StrutsWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
+			return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 		}
 
 		if ( clazz != null ) {
@@ -161,7 +157,7 @@ public class StrutsWidgetBuilder
 			// Booleans (are tri-state)
 
 			if ( Boolean.class.equals( clazz ) ) {
-				return writeSelectTag( LIST_BOOLEAN_VALUES, null, attributes, metawidget );
+				return createSelectTag( LIST_BOOLEAN_VALUES, null, attributes, metawidget );
 			}
 
 			// Numbers
@@ -240,7 +236,7 @@ public class StrutsWidgetBuilder
 		return tag;
 	}
 
-	private Tag writeSelectTag( final String name, final String property, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSelectTag( final String name, final String property, final Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Write the SELECT tag
 
@@ -295,7 +291,7 @@ public class StrutsWidgetBuilder
 		}
 	}
 
-	private Tag writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Write the SELECT tag
 

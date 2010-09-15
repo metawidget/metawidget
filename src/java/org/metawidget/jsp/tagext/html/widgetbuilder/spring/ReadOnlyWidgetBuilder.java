@@ -21,19 +21,14 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
-import org.springframework.web.servlet.tags.form.HiddenInputTag;
 
 /**
  * ReadOnlyWidgetBuilder for Spring environments.
@@ -49,11 +44,7 @@ public class ReadOnlyWidgetBuilder
 	//
 
 	@Override
-	protected Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
+	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Use the Spring binder to render the read-only value
 
@@ -78,27 +69,6 @@ public class ReadOnlyWidgetBuilder
 			}
 		}
 
-		buffer.append( value );
-
-		// May need a hidden input tag too
-
-		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-			HiddenInputTag hiddenTag = new HiddenInputTag();
-			path = attributes.get( NAME );
-
-			if ( metawidget.getPathPrefix() != null ) {
-				path = metawidget.getPathPrefix() + path;
-			}
-
-			hiddenTag.setPath( path );
-
-			try {
-				buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
-			} catch ( JspException e ) {
-				throw WidgetBuilderException.newException( e );
-			}
-		}
-
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( value );
 	}
 }

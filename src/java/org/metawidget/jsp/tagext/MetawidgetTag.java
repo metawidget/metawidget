@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for JSP environments.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -59,19 +59,36 @@ public abstract class MetawidgetTag
 	extends BodyTagSupport {
 
 	//
+	// Public statics
+	//
+
+	/**
+	 * Marks a tag as potentially needing a hidden field, if <code>HiddenFieldProcessor</code> is
+	 * used.
+	 * <p>
+	 * In order to align tightly with the <code>StubTag</code>s created by the
+	 * <code>WidgetBuilder</code>s, and to avoid confusion with manually created
+	 * <code>StubTag</code>s, we take a flag-based approach to hidden field processing. This would
+	 * be cleaner if JSP had a richer component model (ie. in JSF we do
+	 * <code>instanceof UIInput</code>).
+	 */
+
+	public static final String							ATTRIBUTE_NEEDS_HIDDEN_FIELD	= "metawidget-needs-hidden-field";
+
+	//
 	// Private statics
 	//
 
-	private static final long							serialVersionUID		= 1l;
+	private static final long							serialVersionUID				= 1l;
 
 	/**
 	 * Cache the ConfigReader at the ServletContext level. Although, interestingly, this can also be
 	 * used to inject a different ConfigReader if needed (ie. for Grails).
 	 */
-	
-	private static final String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
-	private static final String							DEFAULT_USER_CONFIG		= "metawidget.xml";
+	private static final String							CONFIG_READER_ATTRIBUTE			= "metawidget-config-reader";
+
+	private static final String							DEFAULT_USER_CONFIG				= "metawidget.xml";
 
 	private static boolean								LOGGED_MISSING_CONFIG;
 
@@ -94,9 +111,9 @@ public abstract class MetawidgetTag
 
 	private String										mPathPrefix;
 
-	private String										mConfig					= DEFAULT_USER_CONFIG;
+	private String										mConfig							= DEFAULT_USER_CONFIG;
 
-	private boolean										mNeedsConfiguring		= true;
+	private boolean										mNeedsConfiguring				= true;
 
 	private ResourceBundle								mBundle;
 

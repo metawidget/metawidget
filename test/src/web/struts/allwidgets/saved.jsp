@@ -7,7 +7,7 @@
 
 		<html:form action="/save">
 
-			<m:metawidget property="allWidgetsForm.allWidgets" createHiddenFields="true" readOnly="true" config="config/metawidget.xml">
+			<m:metawidget property="allWidgetsForm.allWidgets" readOnly="true" config="config/metawidget.xml">
 				<m:stub property="mystery"/>
 			</m:metawidget>
 			

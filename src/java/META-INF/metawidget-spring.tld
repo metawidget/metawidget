@@ -31,10 +31,6 @@
 			<name>readOnly</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<attribute>
-			<name>createHiddenFields</name>			
-			<rtexprvalue>true</rtexprvalue>			
-		</attribute>
 	</tag>
 	
 	<tag>

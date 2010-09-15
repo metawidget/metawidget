@@ -43,7 +43,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.springframework.web.servlet.tags.form.AbstractDataBoundFormElementTag;
 import org.springframework.web.servlet.tags.form.AbstractHtmlElementTag;
 import org.springframework.web.servlet.tags.form.CheckboxTag;
-import org.springframework.web.servlet.tags.form.HiddenInputTag;
 import org.springframework.web.servlet.tags.form.InputTag;
 import org.springframework.web.servlet.tags.form.OptionTag;
 import org.springframework.web.servlet.tags.form.OptionsTag;
@@ -78,10 +77,7 @@ public class SpringWidgetBuilder
 		// Hidden?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-				return initSpringTag( new HiddenInputTag(), attributes, metawidget );
-			}
-
+			attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
 			return new HtmlStubTag();
 		}
 
@@ -115,7 +111,7 @@ public class SpringWidgetBuilder
 		String springLookup = attributes.get( SPRING_LOOKUP );
 
 		if ( springLookup != null && !"".equals( springLookup ) ) {
-			return writeSelectTag( springLookup, attributes, metawidget );
+			return createSelectTag( springLookup, attributes, metawidget );
 		}
 
 		// String Lookups
@@ -123,7 +119,7 @@ public class SpringWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
+			return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 		}
 
 		if ( clazz != null ) {
@@ -160,7 +156,7 @@ public class SpringWidgetBuilder
 			// Booleans (are tri-state)
 
 			if ( Boolean.class.equals( clazz ) ) {
-				return writeSelectTag( LIST_BOOLEAN_VALUES, null, attributes, metawidget );
+				return createSelectTag( LIST_BOOLEAN_VALUES, null, attributes, metawidget );
 			}
 
 			// Numbers
@@ -235,7 +231,7 @@ public class SpringWidgetBuilder
 		return tag;
 	}
 
-	private Tag writeSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Write the SELECT tag
 
@@ -287,7 +283,7 @@ public class SpringWidgetBuilder
 		}
 	}
 
-	private Tag writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Write the SELECT tag
 

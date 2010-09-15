@@ -233,7 +233,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/th" text="Password:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]" text=""/>
 				<not>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/input"/>
 				</not>

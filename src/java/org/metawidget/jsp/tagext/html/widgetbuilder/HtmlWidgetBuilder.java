@@ -28,7 +28,6 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -61,21 +60,14 @@ public class HtmlWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() ) {
-				return new HtmlStubTag();
-			}
-
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-				return new HtmlStubTag();
-			}
-
-			return HtmlWidgetBuilderUtils.writeHiddenTag( attributes, metawidget );
+			attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+			return new HtmlStubTag();
 		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return writeSubmitTag( attributes, metawidget );
+			return createSubmitTag( attributes, metawidget );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -83,7 +75,7 @@ public class HtmlWidgetBuilder
 		// If no type, fail gracefully with a text box
 
 		if ( type == null ) {
-			return writeTextTag( attributes, metawidget );
+			return createTextTag( attributes, metawidget );
 		}
 
 		// Lookup the Class
@@ -94,7 +86,7 @@ public class HtmlWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			return writeCheckboxTag( attributes, metawidget );
+			return createCheckboxTag( attributes, metawidget );
 		}
 
 		// Lookups
@@ -102,26 +94,26 @@ public class HtmlWidgetBuilder
 		String jspLookup = attributes.get( JSP_LOOKUP );
 
 		if ( jspLookup != null && !"".equals( jspLookup ) ) {
-			return writeSelectTag( jspLookup, attributes, metawidget );
+			return createSelectTag( jspLookup, attributes, metawidget );
 		}
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
+			return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 		}
 
 		if ( clazz != null ) {
 			// booleans
 
 			if ( boolean.class.equals( clazz ) ) {
-				return writeCheckboxTag( attributes, metawidget );
+				return createCheckboxTag( attributes, metawidget );
 			}
 
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return writeTextTag( attributes, metawidget );
+				return createTextTag( attributes, metawidget );
 			}
 
 			// String
@@ -141,22 +133,22 @@ public class HtmlWidgetBuilder
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-					return writeTextTag( "password", attributes, metawidget );
+					return createTextTag( "password", attributes, metawidget );
 				}
 
-				return writeTextTag( attributes, metawidget );
+				return createTextTag( attributes, metawidget );
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
-				return writeTextTag( attributes, metawidget );
+				return createTextTag( attributes, metawidget );
 			}
 
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-				return writeTextTag( attributes, metawidget );
+				return createTextTag( attributes, metawidget );
 			}
 
 			// Collections
@@ -169,7 +161,7 @@ public class HtmlWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return writeTextTag( attributes, metawidget );
+			return createTextTag( attributes, metawidget );
 		}
 
 		// Not simple
@@ -181,7 +173,7 @@ public class HtmlWidgetBuilder
 	// Private methods
 	//
 
-	private Tag writeCheckboxTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createCheckboxTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -194,12 +186,12 @@ public class HtmlWidgetBuilder
 		return new LiteralTag( buffer.toString() );
 	}
 
-	private Tag writeTextTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createTextTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		return writeTextTag( "text", attributes, metawidget );
+		return createTextTag( "text", attributes, metawidget );
 	}
 
-	private Tag writeTextTag( String textTag, Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createTextTag( String textTag, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -230,7 +222,7 @@ public class HtmlWidgetBuilder
 		return new LiteralTag( buffer.toString() );
 	}
 
-	private Tag writeSubmitTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSubmitTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -257,7 +249,7 @@ public class HtmlWidgetBuilder
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private Tag writeSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		Object collection = HtmlWidgetBuilderUtils.evaluate( expression, metawidget );
 
@@ -271,10 +263,10 @@ public class HtmlWidgetBuilder
 			collection = CollectionUtils.newArrayList( (Object[]) collection );
 		}
 
-		return writeSelectTag( (List<?>) collection, null, attributes, metawidget );
+		return createSelectTag( (List<?>) collection, null, attributes, metawidget );
 	}
 
-	private Tag writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes, MetawidgetTag metawidget ) {
+	private Tag createSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// See if we're using labels
 

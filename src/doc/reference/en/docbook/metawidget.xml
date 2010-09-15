@@ -5874,18 +5874,6 @@ static class State {
 					
 				</section>
 				
-				<section id="section-metawidgets-web-jsp-hidden">
-					<title>Hidden Fields</title>
-					
-					<para>
-						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
-						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
-						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
-						<classname>HtmlMetawidgetTag</classname> supports that approach for those that need it
-						through <function>setCreateHiddenFields( true )</function>.
-					</para>
-				</section>
-
 			</section>
 			
 			<section id="section-metawidgets-web-faces">
@@ -6066,18 +6054,6 @@ static class State {
 					
 				</section>
 
-				<section id="section-metawidgets-web-spring-hidden">
-					<title>Hidden Fields</title>
-					
-					<para>
-						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
-						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
-						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
-						<classname>SpringMetawidgetTag</classname> supports that approach for those that need it
-						through <function>setCreateHiddenFields( true )</function>.
-					</para>
-				</section>
-
 			</section>
 
 			<section id="section-metawidgets-web-struts">
@@ -6151,18 +6127,6 @@ static class State {
 
 &lt;/m:metawidget&gt;</programlisting>
 					
-				</section>
-				
-				<section id="section-metawidgets-web-struts-hidden">
-					<title>Hidden Fields</title>
-					
-					<para>
-						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
-						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
-						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
-						<classname>StrutsMetawidgetTag</classname> supports that approach for those that need it
-						through <function>setCreateHiddenFields( true )</function>.
-					</para>
 				</section>
 				
 			</section>
@@ -7878,326 +7842,6 @@ public class PersonController {
 				specific widget libraries within each environment.
 			</para>
 			
-			<section id="section-widgetbuilders-jsp">
-				<title>JSP Widget Builders</title>
-
-				<section id="section-widgetbuilders-jsp-displaytag">
-					<title>DisplayTagWidgetBuilder</title>
-					
-					<para>
-						DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
-						to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
-						or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following Metawidget attributes: 
-					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th align="left" colspan="3"><classname>org.displaytag.tags</classname></th>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>TableTag</classname></td>
-								<td>
-									<parameter>type="java.util.Collection"</parameter> or
-									an array, except when also <parameter>hidden</parameter> or
-									<parameter>lookup</parameter>. The
-									columns in the table are based on inspecting
-									<parameter>parameterized-type</parameter> or the
-									component type of the array. If neither can be determined,
-									the table will only have a single column
-								</td>
-							</tr>
-						</tbody>
-					</informaltable>
-				</section>
-				
-				<section id="section-widgetbuilders-jsp-default">
-					<title>HtmlWidgetBuilder</title>
-					
-					<para>
-						<classname>HtmlWidgetBuilder</classname> is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
-						only a light component model (i.e. HTML tags such as <parameter>&lt;input&gt;</parameter> and
-						<parameter>&lt;select&gt;</parameter> are just
-						strings, not modelled as JSP tags), <classname>HtmlWidgetBuilder</classname> uses
-						<classname>org.metawidget.jsp.tagext.LiteralTag</classname>
-						to wrap string-based fragments. It returns the following literals for the following Metawidget attributes: 
-					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left" colspan="2">Widget</th>
-								<th align="left">Metawidget Attribute</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td></td>
-								<td><classname>&lt;input type="checkbox"&gt;</classname></td>
-								<td>
-									<parameter>type="boolean"</parameter> (and
-									<parameter>type="java.lang.Boolean"</parameter>
-									when also <parameter>required</parameter>)</td>
-							</tr>				
-							<tr>
-								<td></td>
-								<td><classname>&lt;input type="hidden"&gt;</classname></td>
-								<td><parameter>hidden</parameter> when also <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>&lt;input type="password"&gt;</classname></td>
-								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>&lt;input type="submit"&gt;</classname></td>
-								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>&lt;input type="text"&gt;</classname></td>
-								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
-								<classname>java.util.Date</classname>,								 
-								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
-								except <classname>java.lang.Boolean</classname>.
-								Also if property is of unknown type but <parameter>dont-expand</parameter>.
-								If <parameter>maximum-length</parameter>, adds <parameter>maxlength="..."</parameter></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>&lt;select&gt;</classname></td>
-								<td><parameter>lookup</parameter></td>
-							</tr>					
-							<tr>
-								<td></td>
-								<td><classname>&lt;textarea&gt;</classname></td>
-								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
-							</tr>
-							<tr>
-								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
-							</tr>
-							<tr>
-								<td></td>					
-								<td><classname>StubTag</classname></td>
-								<td><parameter>hidden</parameter></td>
-							</tr>
-						</tbody>
-					</informaltable>
-					
-				</section>				
-	
-				<section id="section-widgetbuilders-jsp-overridden">
-					<title>OverriddenWidgetBuilder</title>
-					
-					<para>
-						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
-						<classname>StubTag</classname>s whose <parameter>value</parameter> (<parameter>path</parameter> for Spring
-						environments; <parameter>property</parameter> for Struts environments) equals the same path Metawidget
-						would have generated.  
-					</para>
-				</section>
-
-				<section id="section-widgetbuilders-jsp-readonly">
-					<title>ReadOnlyWidgetBuilder</title>
-					
-					<para>
-						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
-						read-only or the Metawidget has <function>setReadOnly</function>. There base class manages 'pure' JSP, with
-						subclasses for both Spring and Struts environments. It instantiates the following widgets for the following
-						Metawidget attributes:
-					</para>
-
-					<informaltable>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left" colspan="2">Widget</th>
-								<th align="left">Metawidget Attribute</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td></td>
-								<td>raw text</td>								
-								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
-								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-								true, further adds a hidden field so that something gets POSTed back</td>
-							</tr>
-						</tbody>
-					</informaltable>
-				</section>
-
-				<section id="section-widgetbuilders-jsp-spring">
-					<title>SpringWidgetBuilder</title>
-					
-					<para>
-						SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag. It
-						returns the following widgets for the following Metawidget attributes:
-					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left" colspan="2">Widget</th>
-								<th align="left">Metawidget Attribute</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th align="left" colspan="3"><classname>org.springframework.web.servlet.tags.form</classname></th>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>CheckboxTag</classname></td>
-								<td>
-									<parameter>type="boolean"</parameter> (and
-									<parameter>type="java.lang.Boolean"</parameter>
-									when also <parameter>required</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>HiddenInputTag</classname></td>
-								<td><parameter>hidden</parameter> when also <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>InputTag</classname></td>
-								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
-								<classname>java.util.Date</classname>,								 
-								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
-								except <classname>java.lang.Boolean</classname>.
-								Also if property is of unknown type but <parameter>dont-expand</parameter>.
-								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>PasswordInputTag</classname></td>
-								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>SelectTag</classname></td>
-								<td><parameter>lookup</parameter></td>
-							</tr>					
-							<tr>
-								<td></td>
-								<td><classname>TextareaTag</classname></td>
-								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
-							</tr>
-							<tr>
-								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
-							</tr>
-							<tr>
-								<td></td>					
-								<td><classname>StubTag</classname></td>
-								<td><parameter>action</parameter> when not <parameter>read-only</parameter></td>
-							</tr>
-						</tbody>
-					</informaltable>
-				</section>	
-		
-				<section id="section-widgetbuilders-jsp-struts">
-					<title>StrutsWidgetBuilder</title>
-					
-					<para>
-						StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag. It
-						returns the following widgets for the following Metawidget attributes:
-					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left" colspan="2">Widget</th>
-								<th align="left">Metawidget Attribute</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th align="left" colspan="3"><classname>org.apache.struts.taglib.html</classname></th>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>CheckboxTag</classname></td>
-								<td>
-									<parameter>type="boolean"</parameter> (and
-									<parameter>type="java.lang.Boolean"</parameter>
-									when also <parameter>required</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>SelectTag</classname></td>
-								<td><parameter>lookup</parameter></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>HiddenTag</classname></td>
-								<td><parameter>hidden</parameter> when also <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>PasswordTag</classname></td>
-								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>TextTag</classname></td>
-								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
-								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
-								except <classname>java.lang.Boolean</classname>.
-								Also if property is of unknown type but <parameter>dont-expand</parameter>.
-								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>TextareaTag</classname></td>
-								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
-							</tr>
-							<tr>
-								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
-							</tr>
-							<tr>
-								<td></td>					
-								<td><classname>StubTag</classname></td>
-								<td><parameter>action</parameter> when not <parameter>read-only</parameter></td>
-							</tr>
-						</tbody>
-					</informaltable>
-				</section>	
-
-			</section>
-			
 			<section id="section-widgetbuilders-gwt">
 				<title>GWT Widget Builders</title>
 			
@@ -8384,6 +8028,310 @@ public class PersonController {
 
 			</section>
 	
+			<section id="section-widgetbuilders-jsp">
+				<title>JSP Widget Builders</title>
+
+				<section id="section-widgetbuilders-jsp-displaytag">
+					<title>DisplayTagWidgetBuilder</title>
+					
+					<para>
+						DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
+						to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
+						or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following Metawidget attributes: 
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Type of field</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>org.displaytag.tags</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>TableTag</classname></td>
+								<td>
+									<parameter>type="java.util.Collection"</parameter> or
+									an array, except when also <parameter>hidden</parameter> or
+									<parameter>lookup</parameter>. The
+									columns in the table are based on inspecting
+									<parameter>parameterized-type</parameter> or the
+									component type of the array. If neither can be determined,
+									the table will only have a single column
+								</td>
+							</tr>
+						</tbody>
+					</informaltable>
+				</section>
+				
+				<section id="section-widgetbuilders-jsp-default">
+					<title>HtmlWidgetBuilder</title>
+					
+					<para>
+						<classname>HtmlWidgetBuilder</classname> is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
+						only a light component model (i.e. HTML tags such as <parameter>&lt;input&gt;</parameter> and
+						<parameter>&lt;select&gt;</parameter> are just
+						strings, not modelled as JSP tags), <classname>HtmlWidgetBuilder</classname> uses
+						<classname>org.metawidget.jsp.tagext.LiteralTag</classname>
+						to wrap string-based fragments. It returns the following literals for the following Metawidget attributes: 
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td><classname>&lt;input type="checkbox"&gt;</classname></td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
+							</tr>				
+							<tr>
+								<td></td>
+								<td><classname>&lt;input type="password"&gt;</classname></td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>&lt;input type="submit"&gt;</classname></td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>&lt;input type="text"&gt;</classname></td>
+								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
+								<classname>java.util.Date</classname>,								 
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, adds <parameter>maxlength="..."</parameter></td>							
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>&lt;select&gt;</classname></td>
+								<td><parameter>lookup</parameter></td>
+							</tr>					
+							<tr>
+								<td></td>
+								<td><classname>&lt;textarea&gt;</classname></td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>StubTag</classname></td>
+								<td><parameter>hidden</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+					
+				</section>				
+	
+				<section id="section-widgetbuilders-jsp-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						<classname>StubTag</classname>s whose <parameter>value</parameter> (<parameter>path</parameter> for Spring
+						environments; <parameter>property</parameter> for Struts environments) equals the same path Metawidget
+						would have generated.  
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-jsp-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. There base class manages 'pure' JSP, with
+						subclasses for both Spring and Struts environments. It instantiates the following widgets for the following
+						Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td>raw text</td>								
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
+								<parameter>masked</parameter>)</td>
+							</tr>
+						</tbody>
+					</informaltable>
+				</section>
+
+				<section id="section-widgetbuilders-jsp-spring">
+					<title>SpringWidgetBuilder</title>
+					
+					<para>
+						SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag. It
+						returns the following widgets for the following Metawidget attributes:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>org.springframework.web.servlet.tags.form</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>CheckboxTag</classname></td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>InputTag</classname></td>
+								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
+								<classname>java.util.Date</classname>,								 
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>PasswordInputTag</classname></td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>SelectTag</classname></td>
+								<td><parameter>lookup</parameter></td>
+							</tr>					
+							<tr>
+								<td></td>
+								<td><classname>TextareaTag</classname></td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>StubTag</classname></td>
+								<td><parameter>action</parameter> when not <parameter>read-only</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+				</section>	
+		
+				<section id="section-widgetbuilders-jsp-struts">
+					<title>StrutsWidgetBuilder</title>
+					
+					<para>
+						StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag. It
+						returns the following widgets for the following Metawidget attributes:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>org.apache.struts.taglib.html</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>CheckboxTag</classname></td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>SelectTag</classname></td>
+								<td><parameter>lookup</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>PasswordTag</classname></td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>TextTag</classname></td>
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>TextareaTag</classname></td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
+							</tr>
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>StubTag</classname></td>
+								<td><parameter>action</parameter> when not <parameter>read-only</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+				</section>	
+
+			</section>
+			
 			<section id="section-widgetbuilders-faces">
 				<title>JSF Widget Builders</title>
 				
@@ -8428,11 +8376,6 @@ public class PersonController {
 									component type of the array. If neither can be determined,
 									the table will only have a single column
 								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>HtmlInputHidden</classname></td>
-								<td><parameter>hidden</parameter> when <parameter>HtmlMetawidget.setCreateHiddenFields</parameter> is set to true</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -9148,7 +9091,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>
 				
 			</section>
-			
+
 			<section id="section-widgetprocessors-web-faces">
 				<title>JSF Widget Processors</title>
 			
@@ -9266,6 +9209,26 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				
 			</section>
 			
+			<section id="section-widgetprocessors-web-jsp">
+				<title>JSP Widget Processors</title>
+			
+				<section id="section-widgetprocessors-web-jsp-hidden">
+					<title>HiddenFieldProcessor</title>
+					
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						for those that need this approach <classname>HiddenFieldProcessor</classname> adds HTML hidden fields to read-only values,
+						so that they POST back.
+					</para>
+					
+					<para>
+						There are subclasses of <classname>HiddenFieldProcessor</classname> for JSP, Spring and Struts.
+					</para>
+				</section>
+			</section>
+
 		</section>
 		
 	</chapter>

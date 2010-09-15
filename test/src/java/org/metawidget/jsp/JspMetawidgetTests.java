@@ -46,6 +46,7 @@ import org.metawidget.jsp.tagext.html.layout.HeadingTagLayoutDecoratorTest;
 import org.metawidget.jsp.tagext.html.layout.HtmlTableLayoutTest;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTagTest;
+import org.metawidget.jsp.tagext.html.widgetbuilder.ReadOnlyWidgetBuilderTest;
 import org.metawidget.jsp.tagext.html.widgetbuilder.displaytag.DisplayTagWidgetBuilderTest;
 import org.metawidget.jsp.tagext.layout.JspFlatSectionLayoutDecoratorTest;
 import org.metawidget.jsp.tagext.layout.SimpleLayoutTest;
@@ -71,6 +72,7 @@ public class JspMetawidgetTests
 		suite.addTestSuite( HtmlMetawidgetTagTest.class );
 		suite.addTestSuite( JspFlatSectionLayoutDecoratorTest.class );
 		suite.addTestSuite( MetawidgetTagTest.class );
+		suite.addTestSuite( ReadOnlyWidgetBuilderTest.class );
 		suite.addTestSuite( SimpleLayoutTest.class );
 		suite.addTestSuite( SpringMetawidgetTagTest.class );
 		suite.addTestSuite( StrutsMetawidgetTagTest.class );

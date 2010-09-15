@@ -237,6 +237,9 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th[1]" text="Password (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[1]"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[1]" text=""/>
+				<not>
+					<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[1]/input"/>
+				</not>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th[2]" text="Byte (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[3]" text="126"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th[1]" text="Byte object (i18n):"/>

@@ -10,7 +10,7 @@
 			<jsp:useBean id="allWidgets" class="org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234"/>
 			<fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>
 			
-			<m:metawidget value="allWidgets" bundle="${bundle}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml">
+			<m:metawidget value="allWidgets" bundle="${bundle}" style="aStyle" styleClass="aStyleClass" config="config/metawidget.xml">
 				
 				<m:stub value="longObject" attributes="dummy-attribute: dummy-value"/>
 				

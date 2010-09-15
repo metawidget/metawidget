@@ -67,6 +67,7 @@ public class AndroidMetawidgetTest
 		assertTrue( null == androidMetawidget.getLabelString( attributes ) );
 
 		assertTrue( null == androidMetawidget.getLocalizedKey( null ) );
+		assertTrue( null == androidMetawidget.getLocalizedKey( "" ) );
 
 		// clientProperties
 

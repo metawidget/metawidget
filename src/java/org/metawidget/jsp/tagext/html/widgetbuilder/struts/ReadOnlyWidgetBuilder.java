@@ -20,15 +20,10 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.HiddenTag;
-import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * ReadOnlyWidgetBuilder for Struts environments.
@@ -44,7 +39,7 @@ public class ReadOnlyWidgetBuilder
 	//
 
 	@Override
-	protected Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		HiddenTag tag = new HiddenTag();
 		String name = attributes.get( NAME );
@@ -59,24 +54,8 @@ public class ReadOnlyWidgetBuilder
 		// Note: according to STR-1305 we'll get a proper html:label tag
 		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
 
-		if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-			tag.setDisabled( true );
-		}
+		tag.setDisabled( true );
 
-		// If the String is just a hidden field, output a SPAN tag to
-		// stop the whole thing vanishing under HtmlTableLayout. This is
-		// a bit hacky, unfortunately
-
-		try {
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
-
-			if ( JspUtils.isJustHiddenFields( literal ) ) {
-				return new LiteralTag( literal + "<span></span>" );
-			}
-
-			return new LiteralTag( literal );
-		} catch ( JspException e ) {
-			throw WidgetBuilderException.newException( e );
-		}
+		return tag;
 	}
 }

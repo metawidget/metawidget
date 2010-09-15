@@ -24,19 +24,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * ReadOnlyWidgetBuilder for 'plain' JSP environment (eg. just a servlet-based backend, no
@@ -85,13 +81,13 @@ public class ReadOnlyWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			return writeReadOnlyTag( attributes, metawidget );
+			return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 		}
 
 		String jspLookup = attributes.get( JSP_LOOKUP );
 
 		if ( jspLookup != null && !"".equals( jspLookup ) ) {
-			return writeReadOnlyTag( attributes, metawidget );
+			return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -108,25 +104,25 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return writeReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 			}
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 			}
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-				return writeReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 			}
 
 			// Collections
@@ -139,7 +135,7 @@ public class ReadOnlyWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return writeReadOnlyTag( attributes, metawidget );
+			return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
 		}
 
 		// Nested Metawidget
@@ -151,11 +147,8 @@ public class ReadOnlyWidgetBuilder
 	// Protected methods
 	//
 
-	protected Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
 		String value = HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget );
 
 		// Support lookup labels
@@ -175,25 +168,16 @@ public class ReadOnlyWidgetBuilder
 			}
 		}
 
-		buffer.append( value );
+		return new LiteralTag( value );
+	}
 
-		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) ) {
-			Tag hiddenTag = HtmlWidgetBuilderUtils.writeHiddenTag( attributes, metawidget );
+	//
+	// Private methods
+	//
 
-			try {
-				buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
-			} catch ( JspException e ) {
-				throw WidgetBuilderException.newException( e );
-			}
+	protected Tag setAttributeAndCreateReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-			// If value is empty, output an &nbsp; to stop this field being treated
-			// as 'just a hidden field'
-
-			if ( "".equals( value ) ) {
-				buffer.append( "&nbsp;" );
-			}
-		}
-
-		return new LiteralTag( buffer.toString() );
+		attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+		return createReadOnlyTag( attributes, metawidget );
 	}
 }

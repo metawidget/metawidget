@@ -9,7 +9,7 @@
 
 			<html:errors />
 			
-			<m:metawidget property="allWidgetsForm.allWidgets" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml">
+			<m:metawidget property="allWidgetsForm.allWidgets" style="aStyle" styleClass="aStyleClass" config="config/metawidget.xml">
 				
 				<m:stub property="mystery" attributes="dummy-attribute: dummy-value"/>
 				<m:stub property="collection"/>

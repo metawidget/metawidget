@@ -23,9 +23,7 @@ import java.beans.PropertyEditorManager;
 import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.simple.StringUtils;
@@ -41,19 +39,6 @@ public class HtmlWidgetBuilderUtils {
 	//
 	// Public statics
 	//
-
-	public static Tag writeHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( "<input type=\"hidden\"" );
-		buffer.append( writeValueAttribute( attributes, metawidget ) );
-		buffer.append( writeAttributes( attributes, metawidget ) );
-		buffer.append( "/>" );
-
-		return new LiteralTag( buffer.toString() );
-	}
 
 	public static String writeValueAttribute( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
