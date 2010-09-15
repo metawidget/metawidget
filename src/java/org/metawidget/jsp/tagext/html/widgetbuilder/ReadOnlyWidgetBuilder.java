@@ -65,7 +65,7 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return new HtmlStubTag();
+			return null;
 		}
 
 		// Action (read-only actions ignored)

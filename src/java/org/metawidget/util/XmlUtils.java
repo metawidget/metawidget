@@ -1202,7 +1202,14 @@ public class XmlUtils {
 		}
 
 		if ( !( node instanceof Element ) ) {
-			return escapeForXml( node.getNodeValue().trim() );
+
+			String value = node.getNodeValue();
+
+			if ( value == null ) {
+				return null;
+			}
+
+			return escapeForXml( value.trim() );
 		}
 
 		// (use StringBuffer for J2SE 1.4 compatibility)

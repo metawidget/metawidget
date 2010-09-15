@@ -42,8 +42,7 @@
 				<clickButton label="Next" />
 
 				<!-- E-mail validation only works the second time you press 'Next', because of JBSEAM-3251 -->
-				
-								
+
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerState-cell'])" text="length must be between 2 and 2"/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerZip-cell'])" text="length must be between 5 and 10"/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerEmail-cell'])" text="not a well-formed email address"/>
