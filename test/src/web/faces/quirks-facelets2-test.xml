@@ -333,8 +333,6 @@
 			</steps>
 		</webtest>
 
-		<!-- Cannot test RichFaces 3 with JSF2 Facelets. Need RichFaces 4 -->
-		
 	</target>
 
 </project>
