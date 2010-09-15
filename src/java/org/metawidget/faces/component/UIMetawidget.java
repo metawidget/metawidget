@@ -34,7 +34,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AbortProcessingException;
-import javax.faces.event.PreRenderViewEvent;
+import javax.faces.event.PostAddToViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
@@ -1091,7 +1091,9 @@ public abstract class UIMetawidget
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 			}
 
-			root.subscribeToViewEvent( PreRenderViewEvent.class, this );
+			// TODO: consider PreRenderViewEvent, not PostAddToViewEvent
+
+			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 		}
 
 		//
