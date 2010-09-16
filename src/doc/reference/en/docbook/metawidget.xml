@@ -1042,7 +1042,7 @@ public class Person {
 }</programlisting>
 	
 				<para>
-					...denotes <parameter>name</parameter> is a required field (could be rendered with a asterisk after it in the UI). Equally,
+					...denotes <parameter>name</parameter> is a required field (could be rendered with an asterisk after it in the UI). Equally,
 					<classname>PropertyTypeInspector</classname> understands that...
 				</para>
 				
@@ -1125,8 +1125,8 @@ public class Person {
 				<para>
 					The opening screen displays a search filter (at the top) and lists
 					existing Address Book entries (at the bottom) as in
-					<xref linkend="section-introduction-part2-swing-desktop-opening-screenshot"/> and
-					<xref linkend="section-introduction-part2-swt-desktop-opening-screenshot"/>.
+					<xref linkend="section-introduction-part2-swing-desktop-opening-screenshot"/> (Swing version) and
+					<xref linkend="section-introduction-part2-swt-desktop-opening-screenshot"/> (SWT version).
 				</para>
 				
 				<figure id="section-introduction-part2-swing-desktop-opening-screenshot">
@@ -9555,7 +9555,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							</tr>
 							<tr>
 								<td><parameter>requiredText</parameter></td>
-								<td>Text to display for required fields. Defaults to a asterisk</td>
+								<td>Text to display for required fields. Defaults to an asterisk</td>
 							</tr>
 						</tbody>						
 					</informaltable>					

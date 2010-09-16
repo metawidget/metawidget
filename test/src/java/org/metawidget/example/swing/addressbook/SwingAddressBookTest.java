@@ -108,6 +108,8 @@ public class SwingAddressBookTest
 		assertTrue( ( (Container) buttonsPanel.getComponent( 0 ) ).getLayout() instanceof FlowLayout );
 		JButton buttonSearch = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Search", buttonSearch.getText() );
+		assertEquals( "Add Personal Contact", ((JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 1 )).getText() );
+		assertEquals( "Add Business Contact", ((JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 2 )).getText() );
 
 		buttonSearch.getAction().actionPerformed( null );
 		assertTrue( ContactType.PERSONAL == ( (JComboBox) metawidgetSearch.getComponent( "type" ) ).getSelectedItem() );

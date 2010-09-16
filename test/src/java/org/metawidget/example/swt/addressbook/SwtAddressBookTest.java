@@ -99,6 +99,8 @@ public class SwtAddressBookTest
 
 		Button searchButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Search", searchButton.getText() );
+		assertEquals( "Add Personal Contact", ((Button) buttonsMetawidget.getChildren()[3]).getText() );
+		assertEquals( "Add Business Contact", ((Button) buttonsMetawidget.getChildren()[4]).getText() );
 		searchButton.notifyListeners( SWT.Selection, null );
 		assertEquals( "PERSONAL", ( (Combo) metawidgetSearch.getControl( "type" ) ).getText() );
 
