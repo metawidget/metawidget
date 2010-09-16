@@ -4318,7 +4318,6 @@ public class Main {
 }</programlisting>
 
 				<para>
-				<para>
 					Like <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s, <classname>WidgetProcessor</classname>s and
 					<classname>Layout</classname>s, <classname>WidgetBuilder</classname>s are required to be immutable. However they will occasionally need
 					to store some internal state, such as which CSS styles to use. This can be achieved in two ways:
