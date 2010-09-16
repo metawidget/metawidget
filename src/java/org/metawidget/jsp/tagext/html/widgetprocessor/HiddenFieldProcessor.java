@@ -73,11 +73,11 @@ public class HiddenFieldProcessor
 			buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 			buffer.append( "/>" );
 
-			// If value is empty, output an &nbsp; to stop this field being treated as 'just a
-			// hidden field'
+			// If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
+			// a hidden field' and putting it outside the table
 
 			if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
-				buffer.append( "&nbsp;" );
+				buffer.append( "<span></span>" );
 			}
 
 		} catch ( JspException e ) {

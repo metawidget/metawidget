@@ -16,14 +16,7 @@
 
 package org.metawidget.jsp.tagext.html.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.Map;
-
 import junit.framework.TestCase;
-
-import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
-import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -41,35 +34,5 @@ public class ReadOnlyWidgetBuilderTest
 
 		// TODO: tests!
 
-		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
-		ReadOnlyWidgetBuilder widgetBuilder = new ReadOnlyWidgetBuilder();
-
-		// No type
-
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( READ_ONLY, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
-
-		// Hidden
-
-		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
-		attributes.remove( HIDDEN );
-
-		// Lookup
-
-		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
-		attributes.remove( LOOKUP );
-
-		// Bad type
-
-		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
-
-		// Non-collection
-
-		attributes.put( TYPE, String.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 	}
 }

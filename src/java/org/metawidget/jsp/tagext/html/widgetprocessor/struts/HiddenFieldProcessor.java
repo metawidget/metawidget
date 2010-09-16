@@ -20,14 +20,10 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.HiddenTag;
-import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -60,23 +56,7 @@ public class HiddenFieldProcessor
 		if ( tag instanceof HiddenTag ) {
 
 			( (HiddenTag) tag ).setDisabled( false );
-
-			// If the read-only output is now just a hidden field, output an empty SPAN to stop the
-			// whole thing vanishing under HtmlTableLayout. This is a bit hacky, unfortunately, but
-			// it's because we don't want HtmlTableLayout checking whether this tag is a HiddenTag
-			// (and introducing a Struts dependency)
-
-			try {
-				String literal = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
-
-				if ( JspUtils.isJustHiddenFields( literal ) ) {
-					return new LiteralTag( literal + "<span></span>" );
-				}
-
-				return new LiteralTag( literal );
-			} catch ( JspException e ) {
-				throw WidgetBuilderException.newException( e );
-			}
+			return tag;
 		}
 
 		// Hidden field?
