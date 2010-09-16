@@ -25,7 +25,8 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * WidgetProcessor that adds CSS styles to a UIComponent.
+ * WidgetProcessor that adds CSS styles to a UIComponent, based on the styles of the parent
+ * Metawidget.
  *
  * @author Richard Kennard
  */

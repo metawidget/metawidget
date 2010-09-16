@@ -60,7 +60,7 @@ public class ReadOnlyWidgetBuilder
 
 		tag.setDisabled( true );
 
-		// org.apache.struts.taglib.html.HiddenTag will output a <hidden> tag regardless. If
+		// org.apache.struts.taglib.html.HiddenTag will output a disabled <hidden> tag. If
 		// tag.setWrite( true ) doesn't output anything additional (i.e. the field has no value)
 		// then it'll look to HtmlTableLayout like this should be placed outside the table along
 		// with all the other <hidden> fields. Output a SPAN tag to stop this.

@@ -20,10 +20,14 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.HiddenTag;
+import org.metawidget.jsp.JspUtils;
+import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -51,14 +55,6 @@ public class HiddenFieldProcessor
 			return tag;
 		}
 
-		// Read-only field with POST-back?
-
-		if ( tag instanceof HiddenTag ) {
-
-			( (HiddenTag) tag ).setDisabled( false );
-			return tag;
-		}
-
 		// Hidden field?
 
 		HiddenTag hiddenTag = new HiddenTag();
@@ -69,6 +65,29 @@ public class HiddenFieldProcessor
 		}
 
 		hiddenTag.setProperty( name );
-		return hiddenTag;
+
+		// Read-only field?
+
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
+			return hiddenTag;
+		}
+
+		// org.apache.struts.taglib.html.HiddenTag will output a <hidden> tag. If tag.setWrite( true
+		// ) doesn't output anything additional (i.e. the field has no value) then it'll look to
+		// HtmlTableLayout like this should be placed outside the table along with all the other
+		// <hidden> fields. Output a SPAN tag to stop this.
+
+		try {
+			hiddenTag.setWrite( true );
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null );
+
+			if ( JspUtils.isJustHiddenFields( literal ) ) {
+				return new LiteralTag( literal + "<span></span>" );
+			}
+
+			return new LiteralTag( literal );
+		} catch ( JspException e ) {
+			throw WidgetBuilderException.newException( e );
+		}
 	}
 }
