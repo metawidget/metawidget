@@ -24,8 +24,6 @@ import org.metawidget.jsp.tagext.StubTag;
  * @author Richard Kennard
  */
 
-// TODO: FAQ about private member variables
-
 public class HtmlStubTag
 	extends StubTag {
 
