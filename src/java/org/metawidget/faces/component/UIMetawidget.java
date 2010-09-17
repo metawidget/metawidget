@@ -845,7 +845,8 @@ public abstract class UIMetawidget
 
 		// Recurse into children. We may have an auto-generated 'not recreatable' (e.g.
 		// SelectInputDate) or a manually added 'not recreatable', and we don't want to remove the
-		// top-level for it
+		// top-level for it. This includes children that are nested Metawidgets, and children that
+		// are LayoutDecorators
 
 		List<UIComponent> children = component.getChildren();
 		for ( Iterator<UIComponent> i = children.iterator(); i.hasNext(); ) {
@@ -1200,12 +1201,11 @@ public abstract class UIMetawidget
 			//
 			// Remove the top-level version of each duplicate, not the nested-level version,
 			// because the top-level is the 'original' whereas the nested-level is the
-			// 'moved'. We will not be rebuilding the component tree, so we want the
-			// 'moved' one (ie. at its final destination)
+			// 'moved' (i.e. at its final destination).
 			//
 			// This is needed when partial state saving is inactive (ie. in JSF 1.x; in
 			// JSF 2 if using JSP; in JSF 2 Facelets if turned off explicitly). It is *not* needed
-			// in JSF 2 Facelets with partial state saving turned on
+			// in JSF 2 Facelets with partial state saving turned on, but how can we detect this?
 
 			for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); ) {
 				UIComponent component = i.next();

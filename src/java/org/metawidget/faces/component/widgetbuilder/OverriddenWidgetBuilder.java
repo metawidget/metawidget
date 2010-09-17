@@ -115,14 +115,16 @@ public class OverriddenWidgetBuilder
 				}
 			}
 
-			// Recurse into section decorators
+			// Recurse into section decorators. This is only needed if we have components marked
+			// COMPONENT_ATTRIBUTE_NOT_RECREATABLE (such as a SelectInputDate) inside a section,
+			// because these will survive POSTback
 			//
 			// Note: we must be careful not to recurse into arbitrary tags, such as
 			// UISelectOneListbox which may have child UISelectItems that coincidentally match
 			// our value binding
 
-			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) )
-			{
+			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) {
+
 				// Make sure we inspect the decorator's children's children (i.e. the
 				// PanelGroup -> layout Metawidget -> actual children)
 
@@ -170,14 +172,24 @@ public class OverriddenWidgetBuilder
 				}
 			}
 
-			// Recurse into section decorators
+			// Recurse into section decorators. This is only needed if we have components marked
+			// COMPONENT_ATTRIBUTE_NOT_RECREATABLE (such as a SelectInputDate) inside a section,
+			// because these will survive POSTback
+			//
+			// Note: we must be careful not to recurse into arbitrary tags which may coincidentally
+			// match our method binding
 
 			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) {
 
-				UIComponent found = findRenderedComponentWithMethodBinding( child, expressionString );
+				// Make sure we inspect the decorator's children's children (i.e. the
+				// PanelGroup -> layout Metawidget -> actual children)
 
-				if ( found != null ) {
-					return found;
+				for ( UIComponent decoratorChild : child.getChildren() ) {
+					UIComponent found = findRenderedComponentWithValueBinding( decoratorChild, expressionString );
+
+					if ( found != null ) {
+						return found;
+					}
 				}
 			}
 		}
