@@ -4465,7 +4465,8 @@ static class State {
 						For example, the ICEfaces <classname>SelectInputDate</classname> component stores the state of its date popup inside the
 						<classname>UIComponent</classname>. If
 						it is recreated, this state is lost and the popup never appears. For such components, <classname>WidgetBuilder</classname>
-						authors can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> on the <classname>UIComponent</classname>
+						authors can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> (must be used in conjunction
+						with <classname>OverriddenWidgetBuilder</classname>) on the <classname>UIComponent</classname>
 						to prevent its destruction and recreation. Of course, this somewhat impacts its flexibility. For example, a
 						<classname>SelectInputDate</classname> would not be able to change its date format in response to another component on the form.
 					</para>
@@ -8834,10 +8835,7 @@ public class PersonController {
 									<parameter>type="java.util.Date"</parameter>
 									<para>
 										<emphasis>
-											Note: the ICEfaces SelectInputDate widget uses internal state to control
-											its popup. Therefore Metawidget will not destroy and recreate it upon
-											POSTback, as it does with most other widgets (in order to update them to
-											reflect changes in business model state).
+											Important: see <xref linkend="section-architecture-widgetbuilders-implementing-your-own-faces"/>
 										</emphasis>
 									</para>
 								</td>
@@ -11092,7 +11090,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 					<title>I get "java.lang.TypeNotPresentException"</title>
 					
 					<para>
-						If you are using Sun's implementation of Java, Metawidget's annotation support requires
+						If you are using Oracle's implementation of Java, Metawidget's annotation support requires
 						Java 5.0u6 or later, which includes a fix for this bug (Bug Parade ID: 6322301).
 					</para>
 				</section>
