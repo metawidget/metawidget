@@ -53,6 +53,10 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  * components, and we want to reuse a lot of <code>HtmlWidgetBuilder</code>'s secondary methods.
  * Note that whilst we extend <code>HtmlWidgetBuilder</code> we only create ICEfaces components, not
  * any regular JSF components.
+ * <p>
+ * Note: because some ICEfaces components use
+ * <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code> this WidgetBuilder should be used
+ * in conjunction with <code>OverriddenWidgetBuilder</code>.
  *
  * @author Richard Kennard
  */
