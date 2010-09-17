@@ -5,7 +5,7 @@
 	<import file="${webtest.dir}/webtest.xml" />
 
 	<target name="test-all" depends="wt.defineTasks">
-		<webtest name="test-search">
+		<webtest name="test-penguincolony">
 			<config resultpath="../../../../../${build.dir}/run/logs">
 				<option name="ThrowExceptionOnScriptError" value="false"/>			
 			</config>

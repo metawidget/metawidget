@@ -1,4 +1,4 @@
-<project name="faces-quirks-test" default="test-all-richfaces">
+<project name="quirks-facelets2-richfaces-test" default="test-all-richfaces">
 
 	<import file="quirks-facelets2-test.xml" />
 
