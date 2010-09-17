@@ -38,6 +38,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * ReadOnlyWidgetBuilder for 'plain' JSP environment (eg. just a servlet-based backend, no
  * Struts/Spring etc) that outputs HTML.
  * <p>
+ * Outputs raw text for fields that are marked <code>read-only</code>.
+ * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
  *
  * @author Richard Kennard
