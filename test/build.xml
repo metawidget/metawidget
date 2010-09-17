@@ -1487,6 +1487,54 @@
 		
 		<antcall target="test-web-stop-tomcat"/>
 
+		<!-- ICEfaces -->
+		
+		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
+
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-icefaces.war" webxml="${relative.dir}/test/src/web/faces/quirks-icefaces/WEB-INF/web.xml">
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks-icefaces">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/test-classes">
+				<include name="org/metawidget/faces/quirks/model/IceFacesQuirks*.class"/>
+			</classes>			
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="backport-util-concurrent.jar"/>
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-el.jar"/>
+				<include name="commons-fileupload.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="FastInfoset.jar"/>
+				<include name="icefaces*.jar"/>
+				<include name="jsf-api-1.2.jar"/>
+				<include name="jsf-impl-1.2.jar"/>
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-icefaces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-icefaces"/>
+
+		<antcall target="test-web-start-tomcat"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-icefaces-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+
 	</target>
 
 	<target name="test-jsp-allwidgets" depends="test-shared-allwidgets">

@@ -16,6 +16,8 @@
 
 package org.metawidget.faces.component.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -81,5 +83,54 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	protected boolean isEmptyStub( UIComponent component ) {
 
 		return ( component instanceof UIStub && component.getChildren().isEmpty() );
+	}
+
+	/**
+	 * Overridden to support components that use
+	 * <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code>.
+	 */
+
+	@Override
+	protected UIComponent findSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+
+		// If there is an existing section widget...
+
+		String currentSection = getState( container, metawidget ).currentSection;
+
+		for ( UIComponent child : container.getChildren() ) {
+			if ( currentSection.equals( child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) ) {
+
+				// ...re-lay it out (so that it appears properly positioned)...
+
+				@SuppressWarnings( "unchecked" )
+				Map<String, String> childAttributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+				getDelegate().layoutWidget( child, PROPERTY, childAttributes, container, metawidget );
+
+				// ...and return its nested Metawidget
+
+				while ( currentSection.equals( child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) ) {
+					child = child.getChildren().get( 0 );
+				}
+
+				return child;
+			}
+		}
+
+		// Otherwise, create a new section widget...
+
+		UIComponent sectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+
+		// ...and tag it (for UITab and UITabPanel, may need tagging at a couple levels)
+
+		// TODO: TabPanel support
+
+		UIComponent sectionWidgetParent = sectionWidget.getParent();
+
+		while ( !sectionWidgetParent.equals( container ) ) {
+			sectionWidgetParent.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR, currentSection );
+			sectionWidgetParent = sectionWidgetParent.getParent();
+		}
+
+		return sectionWidget;
 	}
 }

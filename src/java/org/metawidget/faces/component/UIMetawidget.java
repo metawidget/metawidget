@@ -83,7 +83,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public static final String				COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
+	public static final String				COMPONENT_ATTRIBUTE_METADATA			= "metawidget-metadata";
 
 	/**
 	 * Component-level attribute used to prevent recreation.
@@ -107,9 +107,17 @@ public abstract class UIMetawidget
 	 * <code>COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code> is also used to mark components that
 	 * override default component generation, such as a <code>UIStub</code> used to suppress a
 	 * field.
+	 * <p>
+	 * This attribute must be used in conjunction with <code>OverriddenWidgetBuilder</code>.
 	 */
 
-	public static final String				COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
+	public static final String				COMPONENT_ATTRIBUTE_NOT_RECREATABLE		= "metawidget-not-recreatable";
+
+	/**
+	 * Component-level attribute used to store metadata.
+	 */
+
+	public static final String				COMPONENT_ATTRIBUTE_SECTION_DECORATOR	= "metawidget-section-decorator";
 
 	//
 	// Private statics
@@ -119,11 +127,11 @@ public abstract class UIMetawidget
 	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private static final String				APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
+	private static final String				APPLICATION_ATTRIBUTE_CONFIG_READER		= "metawidget-config-reader";
 
-	private static final String				DEFAULT_USER_CONFIG					= "metawidget.xml";
+	private static final String				DEFAULT_USER_CONFIG						= "metawidget.xml";
 
-	/* package private */static final Log	LOG									= LogUtils.getLog( UIMetawidget.class );
+	/* package private */static final Log	LOG										= LogUtils.getLog( UIMetawidget.class );
 
 	private static boolean					LOGGED_MISSING_CONFIG;
 
@@ -133,9 +141,9 @@ public abstract class UIMetawidget
 
 	private Object							mValue;
 
-	private String							mConfig								= DEFAULT_USER_CONFIG;
+	private String							mConfig									= DEFAULT_USER_CONFIG;
 
-	private boolean							mNeedsConfiguring					= true;
+	private boolean							mNeedsConfiguring						= true;
 
 	private boolean							mInspectFromParent;
 
@@ -244,8 +252,8 @@ public abstract class UIMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -716,17 +724,11 @@ public abstract class UIMetawidget
 				continue;
 			}
 
-			// Do not remove locked or overridden components...
+			// Remove recreatable components
 
-			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) ) {
-				// ...but always remove their metadata, otherwise
-				// they will not be removed/re-added (and therefore re-ordered) upon POSTback
-
-				attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
-				continue;
+			if ( removeRecreatableChildren( componentChild ) ) {
+				i.remove();
 			}
-
-			i.remove();
 		}
 	}
 
@@ -816,6 +818,47 @@ public abstract class UIMetawidget
 	//
 	// Private methods
 	//
+
+	/**
+	 * Removes all recreatable children (i.e. not marked COMPONENT_ATTRIBUTE_NOT_RECREATABLE). Does
+	 * not remove top-level <code>UIComponent</code>s if any of their
+	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
+	 * children as it can. This allows their siblings to still behave dynamically even if some
+	 * components are locked (e.g. <code>SelectInputDate</code>).
+	 *
+	 * @return true if all children were removed (i.e. none were marked not-recreatable).
+	 */
+
+	private boolean removeRecreatableChildren( UIComponent component ) {
+
+		// Do not remove locked or overridden components...
+
+		Map<String, Object> attributes = component.getAttributes();
+		if ( attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) ) {
+
+			// ...but always remove their metadata, otherwise
+			// they will not be removed/re-added (and therefore re-ordered) upon POSTback
+
+			attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
+			return false;
+		}
+
+		// Recurse into children. We may have an auto-generated 'not recreatable' (e.g.
+		// SelectInputDate) or a manually added 'not recreatable', and we don't want to remove the
+		// top-level for it
+
+		List<UIComponent> children = component.getChildren();
+		for ( Iterator<UIComponent> i = children.iterator(); i.hasNext(); ) {
+
+			UIComponent componentChild = i.next();
+
+			if ( removeRecreatableChildren( componentChild ) ) {
+				i.remove();
+			}
+		}
+
+		return children.isEmpty();
+	}
 
 	/**
 	 * Inspect the value binding.
@@ -1153,27 +1196,29 @@ public abstract class UIMetawidget
 		protected void buildWidgets()
 			throws Exception {
 
-			// Validation error? Do not rebuild, as we will lose the invalid values in the
-			// components. This is needed when partial state saving is inactive (ie. in JSF 1.x; in
+			// Remove duplicates
+			//
+			// Remove the top-level version of each duplicate, not the nested-level version,
+			// because the top-level is the 'original' whereas the nested-level is the
+			// 'moved'. We will not be rebuilding the component tree, so we want the
+			// 'moved' one (ie. at its final destination)
+			//
+			// This is needed when partial state saving is inactive (ie. in JSF 1.x; in
 			// JSF 2 if using JSP; in JSF 2 Facelets if turned off explicitly). It is *not* needed
 			// in JSF 2 Facelets with partial state saving turned on
 
-			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null ) {
-				// Remove duplicates
-				//
-				// Remove the top-level version of each duplicate, not the nested-level version,
-				// because the top-level is the 'original' whereas the nested-level is the
-				// 'moved'. We will not be rebuilding the component tree, so we want the
-				// 'moved' one (ie. at its final destination)
+			for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); ) {
+				UIComponent component = i.next();
 
-				for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); ) {
-					UIComponent component = i.next();
-
-					if ( findComponentWithId( mMetawidget, component.getId(), component ) != null ) {
-						i.remove();
-					}
+				if ( findComponentWithId( mMetawidget, component.getId(), component ) != null ) {
+					i.remove();
 				}
+			}
 
+			// Validation error? Do not rebuild, as we will lose the invalid values in the
+			// components
+
+			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null ) {
 				return;
 			}
 

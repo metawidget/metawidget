@@ -21,14 +21,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.application.Application;
-import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 
 /**
  * Utilities for working with Java Server Faces.
@@ -36,7 +33,6 @@ import javax.faces.el.ValueBinding;
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "deprecation" )
 public final class FacesUtils {
 
 	//
@@ -89,74 +85,6 @@ public final class FacesUtils {
 		}
 
 		return EXPRESSION_START + unwrapExpression( value ) + EXPRESSION_END;
-	}
-
-	/**
-	 * Finds the child component of the given component that is both rendered and has the given
-	 * value expression.
-	 * <p>
-	 * Note: this method does <em>not</em> recurse into sub-children.
-	 */
-
-	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, String expressionString ) {
-
-		// Try to find a child...
-
-		for ( UIComponent child : component.getChildren() ) {
-			// ...with the binding we're interested in
-
-			ValueBinding childValueBinding = child.getValueBinding( "value" );
-
-			if ( childValueBinding == null ) {
-				continue;
-			}
-
-			// (note: ValueBinding.equals() does not compare expression strings)
-
-			if ( expressionString.equals( childValueBinding.getExpressionString() ) ) {
-				if ( child.isRendered() ) {
-					return child;
-				}
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Finds the child component of the given component that is both rendered and has the given
-	 * method expression.
-	 * <p>
-	 * Note: this method does <em>not</em> recurse into sub-children.
-	 */
-
-	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, String expressionString ) {
-
-		// Try to find a child...
-
-		for ( UIComponent child : component.getChildren() ) {
-			if ( !( child instanceof ActionSource ) ) {
-				continue;
-			}
-
-			// ...with the binding we're interested in
-
-			MethodBinding childMethodBinding = ( (ActionSource) child ).getAction();
-
-			if ( childMethodBinding == null ) {
-				continue;
-			}
-
-			// (note: MethodBinding.equals() does not compare expression strings)
-
-			if ( expressionString.equals( childMethodBinding.getExpressionString() ) ) {
-				if ( child.isRendered() ) {
-					return child;
-				}
-			}
-		}
-
-		return null;
 	}
 
 	public static UIParameter findParameterWithName( UIComponent component, String name ) {

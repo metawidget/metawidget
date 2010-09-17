@@ -21,7 +21,9 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.FacesUtils;
@@ -32,7 +34,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 /**
  * WidgetBuilder for overridden widgets in Java Server Faces environments.
  * <p>
- * Locates overridden widgets based on matchin value binding.
+ * Locates overridden widgets based on matching value binding.
  *
  * @author Richard Kennard
  */
@@ -66,7 +68,7 @@ public class OverriddenWidgetBuilder
 				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 			}
 
-			return FacesUtils.findRenderedComponentWithMethodBinding( metawidget, binding );
+			return findRenderedComponentWithMethodBinding( metawidget, binding );
 		}
 
 		// Properties
@@ -80,6 +82,106 @@ public class OverriddenWidgetBuilder
 			}
 		}
 
-		return FacesUtils.findRenderedComponentWithValueBinding( metawidget, binding );
+		return findRenderedComponentWithValueBinding( metawidget, binding );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Finds the child component of the given component that is both rendered and has the given
+	 * value expression.
+	 */
+
+	public UIComponent findRenderedComponentWithValueBinding( UIComponent component, String expressionString ) {
+
+		// Try to find a child...
+
+		for ( UIComponent child : component.getChildren() ) {
+
+			// ...with the binding we're interested in
+
+			ValueBinding childValueBinding = child.getValueBinding( "value" );
+
+			if ( childValueBinding != null ) {
+
+				// (note: ValueBinding.equals() does not compare expression strings)
+
+				if ( expressionString.equals( childValueBinding.getExpressionString() ) ) {
+					if ( child.isRendered() ) {
+						return child;
+					}
+				}
+			}
+
+			// Recurse into section decorators
+			//
+			// Note: we must be careful not to recurse into arbitrary tags, such as
+			// UISelectOneListbox which may have child UISelectItems that coincidentally match
+			// our value binding
+
+			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) )
+			{
+				// Make sure we inspect the decorator's children's children (i.e. the
+				// PanelGroup -> layout Metawidget -> actual children)
+
+				for ( UIComponent decoratorChild : child.getChildren() ) {
+					UIComponent found = findRenderedComponentWithValueBinding( decoratorChild, expressionString );
+
+					if ( found != null ) {
+						return found;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Finds the child component of the given component that is both rendered and has the given
+	 * method expression.
+	 */
+
+	public UIComponent findRenderedComponentWithMethodBinding( UIComponent component, String expressionString ) {
+
+		// Try to find a child...
+
+		for ( UIComponent child : component.getChildren() ) {
+
+			if ( !( child instanceof ActionSource ) ) {
+				continue;
+			}
+
+			// ...with the binding we're interested in
+
+			MethodBinding childMethodBinding = ( (ActionSource) child ).getAction();
+
+			if ( childMethodBinding == null ) {
+				continue;
+			}
+
+			// (note: MethodBinding.equals() does not compare expression strings)
+
+			if ( expressionString.equals( childMethodBinding.getExpressionString() ) ) {
+				if ( child.isRendered() ) {
+					return child;
+				}
+			}
+
+			// Recurse into section decorators
+
+			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) {
+
+				UIComponent found = findRenderedComponentWithMethodBinding( child, expressionString );
+
+				if ( found != null ) {
+					return found;
+				}
+			}
+		}
+
+		return null;
 	}
 }

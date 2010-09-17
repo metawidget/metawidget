@@ -1,0 +1,79 @@
+<project name="quirks-icefaces-test" default="test-all">
+
+	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
+
+	<target name="test-all" depends="wt.defineTasks">
+		<webtest name="test-embedded-date">
+			<config resultpath="../../../../../${build.dir}/run/logs">
+				<option name="ThrowExceptionOnScriptError" value="false"/>			
+			</config>
+			<steps>
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>
+				<invoke url="${webtest.url}/quirks-icefaces/index.iface" />
+				<verifyTitle text="Quirks (ICEfaces Test)" />
+				
+				<!-- First date popup -->
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Date:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/div/@class" text="iceSelInpDatePopup"/>
+				
+				<not>
+					<verifyXPath xpath="//td[@id='table-iceFacesQuirksDate-cell']/span"/>
+					<verifyXPath xpath="//a[@id='form:iceFacesQuirksDate_c_50']"/>
+				</not>
+				<clickButton htmlId="form:iceFacesQuirksDate_cb"/>
+				<verifyXPath xpath="//a[@id='form:iceFacesQuirksDate_c_50']"/>
+				
+				<!-- Second date popup (embedded in section) -->
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/th" text="Embedded quirks in section:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[1]/th" text="Date:"/>
+				
+				<not>
+					<verifyXPath xpath="//td[@id='table-iceFacesQuirksEmbeddedQuirksInSectionDate-cell']/span"/>
+					<verifyXPath xpath="//a[@id='form:iceFacesQuirksEmbeddedQuirksInSectionDate_c_50']"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[2]/th" text="Date is empty:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[2]/td[1]" text="Date is empty"/>
+				
+				<clickButton htmlId="form:iceFacesQuirksEmbeddedQuirksInSectionDate_cb"/>
+				<verifyXPath xpath="//a[@id='form:iceFacesQuirksEmbeddedQuirksInSectionDate_c_50']"/>
+				<clickLink xpath="//a[@id='form:iceFacesQuirksEmbeddedQuirksInSectionDate_c_50']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[2]/th" text="Date is populated:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[2]/td[1]" text="Date is populated"/>
+				
+				<setInputField name="form:iceFacesQuirksEmbeddedQuirksInSectionDate" value=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[2]/th" text="Date is empty:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[2]/td[1]" text="Date is empty"/>
+
+				<!-- Third date popup (embedded outside section) -->
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Embedded quirks:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[1]/th" text="Date:"/>
+				
+				<not>
+					<verifyXPath xpath="//td[@id='table-iceFacesQuirksEmbeddedQuirksDate-cell']/span"/>
+					<verifyXPath xpath="//a[@id='form:iceFacesQuirksEmbeddedQuirksDate_c_50']"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/th" text="Date is empty:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td[1]" text="Date is empty"/>
+				
+				<clickButton htmlId="form:iceFacesQuirksEmbeddedQuirksDate_cb"/>
+				<verifyXPath xpath="//a[@id='form:iceFacesQuirksEmbeddedQuirksDate_c_50']"/>
+				<clickLink xpath="//a[@id='form:iceFacesQuirksEmbeddedQuirksDate_c_50']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/th" text="Date is populated:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td[1]" text="Date is populated"/>
+				
+				<setInputField name="form:iceFacesQuirksEmbeddedQuirksDate" value=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/th" text="Date is empty:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td[1]" text="Date is empty"/>
+
+			</steps>
+		</webtest>
+	</target>
+</project>

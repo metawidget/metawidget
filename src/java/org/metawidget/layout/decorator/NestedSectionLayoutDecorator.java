@@ -94,7 +94,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 			return;
 		}
 
-		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+		state.currentSectionWidget = findSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
 
 		// Add component to new section
@@ -129,6 +129,27 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	protected abstract boolean isEmptyStub( W widget );
 
 	/**
+	 * Finds a widget that will hold this section (<code>getState().currentSection</code>).
+	 * <p>
+	 * If the UI framework may need to reuse components (e.g.
+	 * UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE), can be used to
+	 * find an existing section widget to reuse (if any).
+	 * <p>
+	 * The default implementation simply delegates to <code>createSectionWidget</code>.
+	 *
+	 * @param previousSectionWidget
+	 *            the previous section widget (if any). This can be useful for tracing back to, say,
+	 *            a TabHost
+	 */
+
+	protected C findSectionWidget( C previousSectionWidget, Map<String, String> attributes, C container, M metawidget ) {
+
+		return createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+	}
+
+	/**
+	 * Creates a new widget to hold this section (<code>getState().currentSection</code>).
+	 *
 	 * @param previousSectionWidget
 	 *            the previous section widget (if any). This can be useful for tracing back to, say,
 	 *            a TabHost
