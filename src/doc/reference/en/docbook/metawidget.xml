@@ -2499,6 +2499,10 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 		<title>Architecture</title>
 		
 		<para>
+			This chapter describes the overall architecture of Metawidget.
+		</para>
+		
+		<para>
 			The first goal of Metawidget is to inspect <emphasis>existing</emphasis> back-end architectures and
 			generate UIs for <emphasis>existing</emphasis> front-end frameworks. However there are a large variety
 			of back-end architectures and many different types of front-end frameworks. Metawidget's approach
@@ -5782,10 +5786,11 @@ static class State {
 		
 		<para>
 			Metawidget ships with native widgets for different UI frameworks. Whilst all Metawidgets are
-			broadly similar, they are tailored to take advantage of their native environment. This chapter examines
+			broadly similar, they are tailored to take advantage of their native environment. This chapter covers
 			each Metawidget in detail.
+			For an explanation of the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>.
 		</para>
-
+		
 		<section id="section-metawidgets-desktop">
 			<title>Desktop Metawidgets</title>
 
@@ -10732,7 +10737,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 		<title>How To's</title>
 		
 		<para>
-			This section contains 'How To's' (or 'Recipes') for various scenarios you may encounter when using Metawidget.
+			This chapter contains 'recipes' for various scenarios you may encounter when using Metawidget.
 		</para>
 		
 		<section id="section-howto-order">
@@ -11081,6 +11086,10 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 	<chapter id="chapter-troubleshooting">
 		<title>Troubleshooting</title>
 
+		<para>
+			This chapter contains solutions for various common problems you may encounter when using Metawidget.
+		</para>
+		
 		<section id="section-troubleshooting-inspectors">
 			<title>Inspectors</title>
 		
@@ -11253,7 +11262,7 @@ public @interface MyAnnotation {
 		
 	</chapter>
 	
-	<chapter id="chapter-epilogue">
+	<colophon id="chapter-epilogue">
 		<title>Epilogue</title>
 		
 		<para>
@@ -11269,6 +11278,6 @@ public @interface MyAnnotation {
 			Thank you for using Metawidget!
 		</para>
 
-	</chapter>
+	</colophon>
 
 </book>
