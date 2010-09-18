@@ -148,9 +148,7 @@ public final class JspUtils {
 		extends PageContext {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private PageContext	mContext;
@@ -158,9 +156,7 @@ public final class JspUtils {
 		private JspWriter	mWriter;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public PageContextDelegate( PageContext context ) {
@@ -170,9 +166,7 @@ public final class JspUtils {
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override
@@ -182,9 +176,7 @@ public final class JspUtils {
 		}
 
 		//
-		//
 		// Delegate methods
-		//
 		//
 
 		@Override
@@ -356,9 +348,7 @@ public final class JspUtils {
 		extends BodyContent {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private StringWriter	mStringWriter;
@@ -366,9 +356,7 @@ public final class JspUtils {
 		private PrintWriter		mPrintWriter;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public BufferedContent() {
@@ -378,9 +366,7 @@ public final class JspUtils {
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override

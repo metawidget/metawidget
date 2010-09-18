@@ -18,6 +18,7 @@ package org.metawidget.faces.component.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -37,6 +38,12 @@ import org.metawidget.util.LayoutUtils;
 
 public abstract class UIComponentNestedSectionLayoutDecorator
 	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget> {
+
+	//
+	// Private static
+	//
+
+	private final static String	COMPONENT_ATTRIBUTE_SECTION_WIDGET_TO_RETURN	= "section-widget-to-return";
 
 	//
 	// Constructor
@@ -86,51 +93,107 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	}
 
 	/**
-	 * Overridden to support components that use
-	 * <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code>.
+	 * Overridden, and made final, to support searching for existing section widgets before creating
+	 * new ones.
+	 * <p>
+	 * This avoids creating duplicate section widgets for components that use
+	 * <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code>. Such components, and their
+	 * enclosing section widgets, will survive POST-back so we must reconnect with them.
 	 */
 
 	@Override
-	protected UIComponent findSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+	protected final UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
 
 		// If there is an existing section widget...
 
 		String currentSection = getState( container, metawidget ).currentSection;
 
 		for ( UIComponent child : container.getChildren() ) {
-			if ( currentSection.equals( child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) ) {
 
-				// ...re-lay it out (so that it appears properly positioned)...
+			Map<String, Object> childAttributes = child.getAttributes();
+			@SuppressWarnings( "unchecked" )
+			List<String> sectionDecorator = (List<String>) childAttributes.get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
 
-				@SuppressWarnings( "unchecked" )
-				Map<String, String> childAttributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-				getDelegate().layoutWidget( child, PROPERTY, childAttributes, container, metawidget );
-
-				// ...and return its nested Metawidget
-
-				while ( currentSection.equals( child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) ) {
-					child = child.getChildren().get( 0 );
-				}
-
-				return child;
+			if ( sectionDecorator == null ) {
+				continue;
 			}
+
+			if ( !sectionDecorator.contains( currentSection ) ) {
+				continue;
+			}
+
+			// ...re-lay it out (so that it appears properly positioned)...
+
+			@SuppressWarnings( "unchecked" )
+			Map<String, String> childMetadataAttributes = (Map<String, String>) childAttributes.get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+			getDelegate().layoutWidget( child, PROPERTY, childMetadataAttributes, container, metawidget );
+
+			// ...and return its nested section widget (i.e. a layout Metawidget)
+
+			UIComponent childToReturn = child;
+
+			outer: while ( childToReturn != null ) {
+
+				List<UIComponent> nestedChildren = childToReturn.getChildren();
+				childToReturn = null;
+
+				for ( UIComponent nestedChild : nestedChildren ) {
+
+					if ( nestedChild.getAttributes().containsKey( COMPONENT_ATTRIBUTE_SECTION_WIDGET_TO_RETURN ) ) {
+						return nestedChild;
+					}
+
+					@SuppressWarnings( "unchecked" )
+					List<String> nestedChildSectionDecorator = (List<String>) nestedChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
+
+					if ( nestedChildSectionDecorator.contains( currentSection ) ) {
+						childToReturn = nestedChild;
+						continue outer;
+					}
+				}
+			}
+
+			// Fall through
 		}
 
 		// Otherwise, create a new section widget...
 
-		UIComponent sectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+		UIComponent sectionWidget = createNewSectionWidget( previousSectionWidget, attributes, container, metawidget );
 
-		// ...and tag it (for UITab and UITabPanel, may need tagging at a couple levels)
+		// ...and tag it (for layout Metawidget -> UITab -> UITabPanel, may need tagging at 3
+		// levels)
 
-		// TODO: TabPanel support
+		UIComponent taggedSectionWidget = sectionWidget;
+		taggedSectionWidget.getAttributes().put( COMPONENT_ATTRIBUTE_SECTION_WIDGET_TO_RETURN, TRUE );
 
-		UIComponent sectionWidgetParent = sectionWidget.getParent();
+		while ( !taggedSectionWidget.equals( container ) ) {
 
-		while ( !sectionWidgetParent.equals( container ) ) {
-			sectionWidgetParent.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR, currentSection );
-			sectionWidgetParent = sectionWidgetParent.getParent();
+			Map<String, Object> sectionWidgetParentAttributes = taggedSectionWidget.getAttributes();
+			@SuppressWarnings( "unchecked" )
+			List<String> sectionDecorator = (List<String>) sectionWidgetParentAttributes.get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
+
+			if ( sectionDecorator == null ) {
+				sectionDecorator = CollectionUtils.newArrayList();
+				sectionWidgetParentAttributes.put( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR, sectionDecorator );
+			}
+
+			sectionDecorator.add( currentSection );
+			taggedSectionWidget = taggedSectionWidget.getParent();
 		}
 
 		return sectionWidget;
 	}
+
+	/**
+	 * Creates a new widget to hold this section (<code>getState().currentSection</code>).
+	 * <p>
+	 * Clients should use this version of the method instead of <code>createSectionWidget</code>, in
+	 * order to support <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code>.
+	 *
+	 * @param previousSectionWidget
+	 *            the previous section widget (if any). This can be useful for tracing back to, say,
+	 *            a TabHost
+	 */
+
+	protected abstract UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget );
 }

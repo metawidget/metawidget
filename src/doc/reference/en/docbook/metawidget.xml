@@ -8844,7 +8844,8 @@ public class PersonController {
 					</informaltable>
 					
 					<para>
-						All components are instantiated with <parameter>partialSubmit</parameter> set to true.
+						By default, all components are instantiated with <parameter>partialSubmit</parameter> set to true. This can
+						be configured through <classname>IceFacesWidgetBuilderConfig</classname>.
 					</para>
 		
 				</section>			

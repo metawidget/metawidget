@@ -64,6 +64,34 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
 public class IceFacesWidgetBuilder
 	extends HtmlWidgetBuilder {
 
+	//
+	// Constructor
+	//
+
+	//
+	// Private members
+	//
+
+	private final boolean		mPartialSubmit;
+
+	//
+	// Constructor
+	//
+
+	public IceFacesWidgetBuilder() {
+
+		this( new IceFacesWidgetBuilderConfig() );
+	}
+
+	public IceFacesWidgetBuilder( IceFacesWidgetBuilderConfig config ) {
+
+		mPartialSubmit = config.isPartialSubmit();
+	}
+
+	//
+	// Public methods
+	//
+
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
@@ -94,7 +122,7 @@ public class IceFacesWidgetBuilder
 		if ( ACTION.equals( elementName ) ) {
 			HtmlCommandButton button = (HtmlCommandButton) application.createComponent( "com.icesoft.faces.HtmlCommandButton" );
 			button.setValue( metawidget.getLabelString( attributes ) );
-			button.setPartialSubmit( true );
+			button.setPartialSubmit( mPartialSubmit );
 
 			return button;
 		}
@@ -120,7 +148,7 @@ public class IceFacesWidgetBuilder
 
 			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
 				component = application.createComponent( "com.icesoft.faces.HtmlSelectManyCheckbox" );
-				( (HtmlSelectManyCheckbox) component ).setPartialSubmit( true );
+				( (HtmlSelectManyCheckbox) component ).setPartialSubmit( mPartialSubmit );
 			}
 
 			// ...otherwise just a UISelectOne
@@ -128,7 +156,7 @@ public class IceFacesWidgetBuilder
 			else {
 				component = application.createComponent( "com.icesoft.faces.HtmlSelectOneListbox" );
 				( (HtmlSelectOneListbox) component ).setSize( 1 );
-				( (HtmlSelectOneListbox) component ).setPartialSubmit( true );
+				( (HtmlSelectOneListbox) component ).setPartialSubmit( mPartialSubmit );
 			}
 
 			initFacesSelect( component, facesLookup, attributes, metawidget );
@@ -143,7 +171,7 @@ public class IceFacesWidgetBuilder
 
 			if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 				HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) application.createComponent( "com.icesoft.faces.HtmlSelectBooleanCheckbox" );
-				htmlSelectBooleanCheckbox.setPartialSubmit( true );
+				htmlSelectBooleanCheckbox.setPartialSubmit( mPartialSubmit );
 
 				return htmlSelectBooleanCheckbox;
 			}
@@ -159,7 +187,7 @@ public class IceFacesWidgetBuilder
 
 				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 					component = application.createComponent( "com.icesoft.faces.HtmlSelectManyCheckbox" );
-					( (HtmlSelectManyCheckbox) component ).setPartialSubmit( true );
+					( (HtmlSelectManyCheckbox) component ).setPartialSubmit( mPartialSubmit );
 				}
 
 				// ...otherwise just a UISelectOne
@@ -167,7 +195,7 @@ public class IceFacesWidgetBuilder
 				else {
 					component = application.createComponent( "com.icesoft.faces.HtmlSelectOneListbox" );
 					( (HtmlSelectOneListbox) component ).setSize( 1 );
-					( (HtmlSelectOneListbox) component ).setPartialSubmit( true );
+					( (HtmlSelectOneListbox) component ).setPartialSubmit( mPartialSubmit );
 				}
 
 				initStaticSelect( component, lookup, clazz, attributes, metawidget );
@@ -178,7 +206,7 @@ public class IceFacesWidgetBuilder
 
 			if ( boolean.class.equals( clazz ) ) {
 				HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) application.createComponent( "com.icesoft.faces.HtmlSelectBooleanCheckbox" );
-				htmlSelectBooleanCheckbox.setPartialSubmit( true );
+				htmlSelectBooleanCheckbox.setPartialSubmit( mPartialSubmit );
 
 				return htmlSelectBooleanCheckbox;
 			}
@@ -186,14 +214,14 @@ public class IceFacesWidgetBuilder
 			if ( char.class.equals( clazz ) ) {
 				HtmlInputText htmlInputText = (HtmlInputText) application.createComponent( "com.icesoft.faces.HtmlInputText" );
 				htmlInputText.setMaxlength( 1 );
-				htmlInputText.setPartialSubmit( true );
+				htmlInputText.setPartialSubmit( mPartialSubmit );
 
 				return htmlInputText;
 			}
 
 			if ( clazz.isPrimitive() || Number.class.isAssignableFrom( clazz ) ) {
 				HtmlInputText htmlInputText = (HtmlInputText) application.createComponent( "com.icesoft.faces.HtmlInputText" );
-				htmlInputText.setPartialSubmit( true );
+				htmlInputText.setPartialSubmit( mPartialSubmit );
 
 				return htmlInputText;
 			}
@@ -201,7 +229,7 @@ public class IceFacesWidgetBuilder
 			if ( Date.class.isAssignableFrom( clazz ) ) {
 				SelectInputDate selectInputDate = (SelectInputDate) application.createComponent( "com.icesoft.faces.SelectInputDate" );
 				selectInputDate.setRenderAsPopup( true );
-				selectInputDate.setPartialSubmit( true );
+				selectInputDate.setPartialSubmit( mPartialSubmit );
 
 				if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 					selectInputDate.setPopupDateFormat( attributes.get( DATETIME_PATTERN ) );
@@ -214,7 +242,7 @@ public class IceFacesWidgetBuilder
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 					HtmlInputSecret htmlInputSecret = (HtmlInputSecret) application.createComponent( "com.icesoft.faces.HtmlInputSecret" );
-					htmlInputSecret.setPartialSubmit( true );
+					htmlInputSecret.setPartialSubmit( mPartialSubmit );
 					setMaximumLength( htmlInputSecret, attributes );
 
 					return htmlInputSecret;
@@ -222,7 +250,7 @@ public class IceFacesWidgetBuilder
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 					HtmlInputTextarea htmlInputTextarea = (HtmlInputTextarea) application.createComponent( "com.icesoft.faces.HtmlInputTextarea" );
-					htmlInputTextarea.setPartialSubmit( true );
+					htmlInputTextarea.setPartialSubmit( mPartialSubmit );
 
 					// XHTML requires the 'cols' and 'rows' attributes be set, even though
 					// most people override them with CSS widths and heights. The default is
@@ -236,7 +264,7 @@ public class IceFacesWidgetBuilder
 				}
 
 				HtmlInputText htmlInputText = (HtmlInputText) application.createComponent( "com.icesoft.faces.HtmlInputText" );
-				htmlInputText.setPartialSubmit( true );
+				htmlInputText.setPartialSubmit( mPartialSubmit );
 				setMaximumLength( htmlInputText, attributes );
 
 				return htmlInputText;

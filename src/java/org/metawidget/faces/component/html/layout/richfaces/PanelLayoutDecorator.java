@@ -66,7 +66,7 @@ public class PanelLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+	protected UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();

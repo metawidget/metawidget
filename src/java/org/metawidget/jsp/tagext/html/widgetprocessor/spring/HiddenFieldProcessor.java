@@ -81,8 +81,6 @@ public class HiddenFieldProcessor
 			// If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
 			// a hidden field' and putting it outside the table
 
-			// TODO: unit test this
-
 			if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
 				buffer.append( "<span></span>" );
 			}

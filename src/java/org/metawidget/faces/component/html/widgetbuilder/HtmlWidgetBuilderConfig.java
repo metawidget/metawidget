@@ -19,7 +19,7 @@ package org.metawidget.faces.component.html.widgetbuilder;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a HtmlWidgetBuilder prior to use. Once instantiated, WidgetBuilders are immutable.
+ * Configures an HtmlWidgetBuilder prior to use. Once instantiated, WidgetBuilders are immutable.
  *
  * @author Richard Kennard
  */

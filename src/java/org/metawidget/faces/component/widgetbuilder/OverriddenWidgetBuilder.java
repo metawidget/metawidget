@@ -125,15 +125,10 @@ public class OverriddenWidgetBuilder
 
 			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) {
 
-				// Make sure we inspect the decorator's children's children (i.e. the
-				// PanelGroup -> layout Metawidget -> actual children)
+				UIComponent found = findRenderedComponentWithValueBinding( child, expressionString );
 
-				for ( UIComponent decoratorChild : child.getChildren() ) {
-					UIComponent found = findRenderedComponentWithValueBinding( decoratorChild, expressionString );
-
-					if ( found != null ) {
-						return found;
-					}
+				if ( found != null ) {
+					return found;
 				}
 			}
 		}
@@ -181,15 +176,10 @@ public class OverriddenWidgetBuilder
 
 			if ( child.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR ) ) {
 
-				// Make sure we inspect the decorator's children's children (i.e. the
-				// PanelGroup -> layout Metawidget -> actual children)
+				UIComponent found = findRenderedComponentWithValueBinding( child, expressionString );
 
-				for ( UIComponent decoratorChild : child.getChildren() ) {
-					UIComponent found = findRenderedComponentWithValueBinding( decoratorChild, expressionString );
-
-					if ( found != null ) {
-						return found;
-					}
+				if ( found != null ) {
+					return found;
 				}
 			}
 		}

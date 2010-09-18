@@ -29,8 +29,10 @@ import javax.faces.component.UIComponent;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilder;
+import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilderConfig;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.TestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.icesoft.faces.component.ext.HtmlCommandButton;
@@ -86,6 +88,20 @@ public class IceFacesWidgetBuilderTest
 		assertEquals( "dd-MM-yyyy", selectInputDate.getPopupDateFormat() );
 		assertTrue( true == (Boolean) selectInputDate.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) );
 		assertTrue( selectInputDate.getPartialSubmit() );
+
+		// Partial submit turned off
+
+		widgetBuilder = new IceFacesWidgetBuilder( new IceFacesWidgetBuilderConfig().setPartialSubmit( false ));
+		selectInputDate = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( !selectInputDate.getPartialSubmit() );
+	}
+
+	@Override
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( IceFacesWidgetBuilderConfig.class, new IceFacesWidgetBuilderConfig() {
+			// Subclass
+		} );
 	}
 
 	//

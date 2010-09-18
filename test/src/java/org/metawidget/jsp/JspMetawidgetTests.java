@@ -16,9 +16,12 @@
 
 package org.metawidget.jsp;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.Principal;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,8 +29,11 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -48,9 +54,12 @@ import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.widgetbuilder.ReadOnlyWidgetBuilderTest;
 import org.metawidget.jsp.tagext.html.widgetbuilder.displaytag.DisplayTagWidgetBuilderTest;
+import org.metawidget.jsp.tagext.html.widgetprocessor.spring.HiddenFieldProcessorTest;
 import org.metawidget.jsp.tagext.layout.JspFlatSectionLayoutDecoratorTest;
 import org.metawidget.jsp.tagext.layout.SimpleLayoutTest;
 import org.metawidget.util.CollectionUtils;
+import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 /**
  * @author Richard Kennard
@@ -68,6 +77,7 @@ public class JspMetawidgetTests
 		TestSuite suite = new TestSuite( "JSP Metawidget Tests" );
 		suite.addTestSuite( DisplayTagWidgetBuilderTest.class );
 		suite.addTestSuite( HeadingTagLayoutDecoratorTest.class );
+		suite.addTestSuite( HiddenFieldProcessorTest.class );
 		suite.addTestSuite( HtmlTableLayoutTest.class );
 		suite.addTestSuite( HtmlMetawidgetTagTest.class );
 		suite.addTestSuite( JspFlatSectionLayoutDecoratorTest.class );
@@ -142,7 +152,7 @@ public class JspMetawidgetTests
 		@Override
 		public ServletRequest getRequest() {
 
-			throw new UnsupportedOperationException();
+			return new MockHttpServletRequest();
 		}
 
 		@Override
@@ -160,7 +170,7 @@ public class JspMetawidgetTests
 		@Override
 		public HttpSession getSession() {
 
-			throw new UnsupportedOperationException();
+			return null;
 		}
 
 		@Override
@@ -207,9 +217,9 @@ public class JspMetawidgetTests
 		}
 
 		@Override
-		public Object getAttribute( String arg0, int arg1 ) {
+		public Object getAttribute( String name, int index ) {
 
-			throw new UnsupportedOperationException();
+			return null;
 		}
 
 		@Override
@@ -316,9 +326,9 @@ public class JspMetawidgetTests
 		}
 
 		@Override
-		public String getInitParameter( String arg0 ) {
+		public String getInitParameter( String name ) {
 
-			throw new UnsupportedOperationException();
+			return null;
 		}
 
 		@Override
@@ -425,6 +435,352 @@ public class JspMetawidgetTests
 
 		@Override
 		public void removeAttribute( String arg0 ) {
+
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	static class MockHttpServletRequest
+		implements HttpServletRequest {
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public Object getAttribute( String name ) {
+
+			if ( "org.springframework.web.servlet.DispatcherServlet.CONTEXT".equals( name ) ) {
+				return new GenericWebApplicationContext();
+			}
+
+			if ( "org.springframework.web.servlet.DispatcherServlet.LOCALE_RESOLVER".equals( name ) ) {
+				return new FixedLocaleResolver();
+			}
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Enumeration<?> getAttributeNames() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getCharacterEncoding() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int getContentLength() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getContentType() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ServletInputStream getInputStream() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getLocalAddr() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Locale getLocale() {
+
+			return null;
+		}
+
+		@Override
+		public Enumeration<?> getLocales() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getLocalName() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int getLocalPort() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getParameter( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Map<?, ?> getParameterMap() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Enumeration<?> getParameterNames() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String[] getParameterValues( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getProtocol() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public BufferedReader getReader() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@SuppressWarnings( "deprecation" )
+		@Override
+		public String getRealPath( String path ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getRemoteAddr() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getRemoteHost() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int getRemotePort() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public RequestDispatcher getRequestDispatcher( String path ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getScheme() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getServerName() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int getServerPort() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isSecure() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void removeAttribute( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setAttribute( String name, Object o ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setCharacterEncoding( String env ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		//
+		// HTTP methods
+		//
+
+		@Override
+		public String getAuthType() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getContextPath() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Cookie[] getCookies() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public long getDateHeader( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getHeader( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Enumeration<?> getHeaderNames() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Enumeration<?> getHeaders( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int getIntHeader( String name ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getMethod() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getPathInfo() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getPathTranslated() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getQueryString() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getRemoteUser() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getRequestURI() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public StringBuffer getRequestURL() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getRequestedSessionId() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getServletPath() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public HttpSession getSession() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public HttpSession getSession( boolean create ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Principal getUserPrincipal() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isRequestedSessionIdFromCookie() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isRequestedSessionIdFromURL() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@SuppressWarnings( "deprecation" )
+		@Override
+		public boolean isRequestedSessionIdFromUrl() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isRequestedSessionIdValid() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isUserInRole( String role ) {
 
 			throw new UnsupportedOperationException();
 		}

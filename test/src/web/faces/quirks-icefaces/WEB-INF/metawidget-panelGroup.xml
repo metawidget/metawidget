@@ -28,6 +28,16 @@
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
+		<layout>
+			<panelGroupLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout" config="PanelGroupLayoutDecoratorConfig">
+				<style>
+					<string>display: block; border: 1px solid red</string>
+				</style>
+				<layout>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+				</layout>
+			</panelGroupLayoutDecorator>
+		</layout>		
 	</htmlMetawidget>
 
 </metawidget>

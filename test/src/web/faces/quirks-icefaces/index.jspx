@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		<ice:form id="form">
-			<m:metawidget value="#{iceFacesQuirks}"/>
+			<h1>Nested Sections</h1>
+			<m:metawidget value="#{iceFacesQuirks}" config="metawidget-panelGroup.xml"/>
+			<h1>Non-Nested Sections</h1>
+			<m:metawidget value="#{iceFacesQuirks2}"/>
 		</ice:form>
 	</body>
 </html>
