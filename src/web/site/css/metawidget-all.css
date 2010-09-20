@@ -73,13 +73,14 @@ h4 {
  */
 
 #quick-start {
-	margin-left: 10px;
 	float: right;
+	margin-left: 10px;
+	margin-bottom: 15px;
+	width: 150px;
 }
 
 #quick-start table {
-	width: 150px;
-	margin-bottom: 15px;
+	width: 100%;
 }
 
 #quick-start h3 {
