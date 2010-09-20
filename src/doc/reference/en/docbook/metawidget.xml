@@ -3061,11 +3061,18 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;propertyTypeInspector /&gt;
+				&lt;propertyTypeInspector&gt;
+					&lt;propertyStyle&gt;
+						&lt;javaBeanPropertyStyle&gt;
+							&lt;excludeBaseType&gt;
+								&lt;pattern&gt;^(java|javax|org\.apache\.struts)\..*$&lt;/pattern&gt;
+							&lt;/excludeBaseType&gt;
+						&lt;/javaBeanPropertyStyle&gt;
+					&lt;/propertyStyle&gt;
+				&lt;/propertyTypeInspector&gt;				
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;strutsAnnotationInspector /&gt;
-				&lt;commonsValidatorInspector
-					config="CommonsValidatorInspectorConfig"/&gt;
+				&lt;commonsValidatorInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>

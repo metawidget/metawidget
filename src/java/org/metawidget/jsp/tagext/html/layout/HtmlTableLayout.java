@@ -19,8 +19,8 @@ package org.metawidget.jsp.tagext.html.layout;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTag;
@@ -209,7 +209,7 @@ public class HtmlTableLayout
 				State state = getState( metawidgetTag );
 
 				if ( state.hiddenFields == null ) {
-					state.hiddenFields = CollectionUtils.newHashSet();
+					state.hiddenFields = CollectionUtils.newArrayList();
 				}
 
 				state.hiddenFields.add( literal );
@@ -517,7 +517,7 @@ public class HtmlTableLayout
 
 		public int			currentColumn;
 
-		public Set<String>	hiddenFields;
+		public List<String>	hiddenFields;
 
 		public String		tableType;
 	}

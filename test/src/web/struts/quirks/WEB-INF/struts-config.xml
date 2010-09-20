@@ -5,6 +5,7 @@
 	<form-beans>
 	
 		<form-bean name="quirksForm" type="org.metawidget.struts.quirks.form.StrutsQuirksForm"/>
+		<form-bean name="hiddenFieldForm" type="org.metawidget.struts.quirks.form.HiddenFieldForm"/>
 		
 	</form-beans>
 	
@@ -14,6 +15,10 @@
         	<forward name="success" path="/index.jsp"/>
         </action>
     
+        <action path="/saveHidden" name="hiddenFieldForm" type="org.metawidget.struts.quirks.action.SaveAction" scope="request">
+        	<forward name="success" path="/hiddenField.jsp"/>
+        </action>
+
     </action-mappings>
 	
 </struts-config>

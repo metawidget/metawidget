@@ -15,7 +15,15 @@
 				<inspectors>
 					<array>
 						<strutsInspector xmlns="java:org.metawidget.inspector.struts" config="StrutsInspectorConfig"/>					
-						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig">
+									<excludeBaseType>
+										<pattern>^(java|javax|org\.apache\.struts)\..*$</pattern>
+									</excludeBaseType>
+								</javaBeanPropertyStyle>
+							</propertyStyle>
+						</propertyTypeInspector>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
 						<commonsValidatorInspector xmlns="java:org.metawidget.inspector.commons.validator" config="CommonsValidatorInspectorConfig"/>

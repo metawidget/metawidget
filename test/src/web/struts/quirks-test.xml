@@ -10,6 +10,7 @@
 			<steps>
 				<invoke url="${webtest.url}/quirks-struts" />
 				
+				<verifyXPath xpath="normalize-space(/html/body/h1)" text="Struts Quirks Test"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-quirksForm']"/>
 
 				<!-- Test Struts lookup -->
@@ -58,6 +59,33 @@
 				<verifyText text="According to TLD or attribute directive in tag file, attribute property does not accept any expressions"/>
 			</steps>
 		</webtest>		
+
+		<webtest name="test-hiddenfield">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-struts/hiddenField.jsp" />
+				
+				<verifyXPath xpath="normalize-space(/html/body/h1)" text="Struts Hidden Field Test"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-hiddenFieldForm']"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Read only no value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input/@name" text="readOnlyNoValue"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input/@value" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/span"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="Read only with value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@name" text="readOnlyWithValue"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@value" text="Foo"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td[1])" text="Foo"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/span"/>
+				</not>
+				
+				<verifyXPath xpath="/html/body/form/input[1]/@name" text="hiddenNoValue"/>
+				<verifyXPath xpath="/html/body/form/input[2]/@name" text="hiddenWithValue"/>
+				<verifyXPath xpath="/html/body/form/input[2]/@value" text="Bar"/>
+
+			</steps>
+		</webtest>
 	</target>
 
 </project>

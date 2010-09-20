@@ -6,21 +6,11 @@
 <html>
 	<body>
 
-		<h1>Spring Quirks Test</h1>
-		
-		<form:form commandName="quirksCommand">
+		<h1>Spring Hidden Field Test</h1>
 
-			<form:errors />
+		<form:form commandName="hiddenFieldCommand">
 
-			<m:metawidget path="quirksCommand">
-
-				<c:if test="${param.stubbed == 'true'}">
-					<m:stub path="lookup">
-						Stubbed!
-					</m:stub>
-				</c:if>
-				
-			</m:metawidget>
+			<m:metawidget path="hiddenFieldCommand" config="metawidget-hiddenfield.xml"/>
 
 		</form:form>
 		

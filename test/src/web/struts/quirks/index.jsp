@@ -5,6 +5,8 @@
 <html>
 	<body>
 
+		<h1>Struts Quirks Test</h1>
+
 		<jsp:useBean id="lookupValues" class="org.metawidget.struts.quirks.model.LookupValues"/>
 		<jsp:useBean id="lookupLabels" class="org.metawidget.struts.quirks.model.LookupLabels"/>
 

@@ -7,6 +7,7 @@
 		<property name="mappings">
 			<props>
 				<prop key="/index.html">quirksController</prop>
+				<prop key="/hiddenField.html">hiddenFieldController</prop>
 			</props>
 		</property>
 	</bean>
@@ -16,6 +17,13 @@
 		<property name="commandClass"><value>org.metawidget.spring.quirks.model.SpringQuirks</value></property>
 		<property name="formView"><value>index</value></property>
 		<property name="successView"><value>index</value></property>		
+	</bean>
+
+	<bean id="hiddenFieldController" class="org.springframework.web.servlet.mvc.SimpleFormController">
+		<property name="commandName"><value>hiddenFieldCommand</value></property>
+		<property name="commandClass"><value>org.metawidget.spring.quirks.model.HiddenFieldQuirks</value></property>
+		<property name="formView"><value>hiddenField</value></property>
+		<property name="successView"><value>hiddenField</value></property>		
 	</bean>
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
