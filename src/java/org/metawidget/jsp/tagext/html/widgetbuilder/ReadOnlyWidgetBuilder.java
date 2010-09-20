@@ -63,7 +63,8 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return null;
+			attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+			return new HtmlStubTag();
 		}
 
 		// Action (read-only actions ignored)
