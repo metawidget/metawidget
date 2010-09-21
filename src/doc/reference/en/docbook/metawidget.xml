@@ -2716,10 +2716,11 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 				</para>
 				
 				<para>
-					Some <classname>Layout</classname>s will add localized labels and section headings to the widgets, whereas other <classname>Layout</classname>s
-					may leave them unadorned. Different <classname>Layout</classname>s may support different parameters (e.g. a <classname>TableLayout</classname> may
-					support <parameter>numberOfColumns</parameter>).
-					These are initialized on the <classname>Layout</classname> at construction time using an <classname>xxxLayoutConfig</classname>.
+					Some <classname>Layout</classname>s may add localized labels to the widgets whereas other <classname>Layout</classname>s
+					will leave them unadorned. Different <classname>Layout</classname>s may support different parameters (e.g. a <classname>TableLayout</classname> may
+					support <parameter>numberOfColumns</parameter>). These are initialized on the <classname>Layout</classname> at construction time
+					using an <classname>xxxLayoutConfig</classname>. Finally, some <classname>Layout</classname>s can be wrapped around other
+					<classname>Layout</classname> to provide section headings (e.g. <classname>TabPanelLayoutDecorator</classname>).
 				</para>
 				
 			</section>
@@ -2740,7 +2741,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
 					</listitem>
 					<listitem>
 						<para>
-							<emphasis role="bold">Facet</emphasis> child widgets pass through to the chosen layout
+							<emphasis role="bold">Facet</emphasis> child widgets pass through to the chosen <classname>Layout</classname>
 							as decorations (such as button bars).
 						</para>
 					</listitem>
@@ -3089,6 +3090,18 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
+						<tr>
+							<td>SWT</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;array&gt;
+				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
+			&lt;/array&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
 					</tbody>
 				</informaltable>				
 				
@@ -3344,11 +3357,12 @@ public class CastorInspector
 				</itemizedlist>
 	
 				<para>
-					When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
-					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
-					it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
-					it is reasonable to name the XML attribute <parameter>faces-converter-class</parameter>. However, <classname>NumberConverter</classname>s also
-					use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (i.e. we can
+					When implementing your own <classname>Inspector</classname>, try to avoid technology-specific XML attribute names.
+					For example, <classname>FacesInspector</classname>
+					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has a
+					technology-specific part to it, as it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
+					it is reasonable to name that XML attribute <parameter>faces-converter-class</parameter>. However, it also
+					describes other parts of the field, such as the maximum number of integer digits. Such parts are not JSF-specific (i.e. we can
 					source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
 					(i.e. <classname>maximum-integer-digits</classname>). 
 				</para>
@@ -3616,6 +3630,12 @@ public class CastorInspector
 	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
+						<tr>
+							<td>SWT</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
 					</tbody>
 				</informaltable>
 			</section>
@@ -3746,7 +3766,7 @@ public class Main {
 			private boolean mSortAscending;
 			
 			public MyInspectionResultProcessor( MyInspectionResultProcessorConfig config ) {
-				mSortAscending = isSortAscending();
+				mSortAscending = config.isSortAscending();
 			}
 		}</programlisting>
 		
@@ -4027,7 +4047,7 @@ public class Main {
 				<tip>
 					<title>Note</title>
 					Although you could adapt this approach to only include (instead of exclude) certain fields, you could not adapt it
-					to include fields <emphasis>in the order given in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
+					to include fields <emphasis>in the order specified in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
 					only operate on single widgets at a time. Instead, see <xref linkend="section-architecture-inspectionresultprocessors"/> 
 				</tip>
 			</section>
@@ -4038,7 +4058,7 @@ public class Main {
 				<para>
 					The second <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
 					chain should generally be a <classname>ReadOnlyWidgetBuilder</classname>. This builds standard
-					platform widgets (i.e. labels) for fields with <parameter>read-only="true"</parameter>.
+					platform widgets for fields with <parameter>read-only="true"</parameter> (i.e. labels).
 				</para>
 				
 				<para>
@@ -4212,6 +4232,18 @@ public class Main {
 	&lt;/widgetBuilders&gt;
 &lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
+						<tr>
+							<td>SWT</td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
+			&lt;swtWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
+						</tr>
 					</tbody>
 				</informaltable>
 				
@@ -4258,12 +4290,8 @@ public class Main {
 					The pluggable nature of <classname>WidgetBuilder</classname>s makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
 					be used to chain <classname>WidgetBuilder</classname>s together, you only need worry about supporting your particular widgets. You
 					can simply return <parameter>null</parameter> for all other types of fields and rely on another <classname>WidgetBuilder</classname>
-					further down the chain to instantiate one of the usual widgets.
-				</para>
-				
-				<para>
-					For example, <classname>RichFacesWidgetBuilder</classname> only instantiates the RichFaces components, and returns <parameter>null</parameter>
-					for everything else.
+					further down the chain to instantiate one of the usual widgets. For example, <classname>RichFacesWidgetBuilder</classname> only instantiates
+					the RichFaces components, and returns <parameter>null</parameter> for everything else.
 				</para>
 				
 				<para>
@@ -4331,7 +4359,7 @@ public class Main {
 				<para>
 					Like <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s, <classname>WidgetProcessor</classname>s and
 					<classname>Layout</classname>s, <classname>WidgetBuilder</classname>s are required to be immutable. However they will occasionally need
-					to store some internal state, such as which CSS styles to use. This can be achieved in two ways:
+					to store some internal state, such as which CSS styls to use. This can be achieved in two ways:
 				</para>
 				
 				<orderedlist>
@@ -4342,19 +4370,19 @@ public class Main {
 						</para>
 								
 						<programlisting language="java">public class MyWidgetBuilderConfig {
-			private String mCssStyle;
-			
-			public MyWidgetBuilderConfig setCssStyle( String cssStyle ) {
-				mCssStyle = cssStyle;
-				return this;
-			}
-		
-			public String getCssStyle() {
-				return mCssStyle;
-			}
-			
-			// ...must override equals and hashCode too...
-		}</programlisting>
+	private String mCssStyle;
+	
+	public MyWidgetBuilderConfig setCssStyle( String cssStyle ) {
+		mCssStyle = cssStyle;
+		return this;
+	}
+
+	public String getCssStyle() {
+		return mCssStyle;
+	}
+	
+	// ...must override equals and hashCode too...
+}</programlisting>
 		
 						<para>
 							These <classname>xxxWidgetBuilderConfig</classname> classes are then passed to the <classname>WidgetBuilder</classname>
@@ -4362,12 +4390,12 @@ public class Main {
 						</para>
 						
 						<programlisting language="java">public class MyWidgetBuilder {
-			private String mCssStyle;
-			
-			public MyWidgetBuilder( MyWidgetBuilderConfig config ) {
-				mCssStyle = config.getCssStyle();
-			}
-		}</programlisting>
+	private String mCssStyle;
+	
+	public MyWidgetBuilder( MyWidgetBuilderConfig config ) {
+		mCssStyle = config.getCssStyle();
+	}
+}</programlisting>
 		
 						<para>
 							This mechanism can then be controlled either programmatically:
@@ -4472,7 +4500,8 @@ static class State {
 					</para>
 					
 					<para>
-						In most cases such recreation works well, but on occasion a component may not be expecting to be recreated, and may not function properly.
+						In most cases such recreation works well, but on occasion a component may not function properly because it 
+						is not expecting to be recreated. 
 						For example, the ICEfaces <classname>SelectInputDate</classname> component stores the state of its date popup inside the
 						<classname>UIComponent</classname>. If
 						it is recreated, this state is lost and the popup never appears. For such components, <classname>WidgetBuilder</classname>
@@ -4516,7 +4545,9 @@ static class State {
 					<function>processWidget</function> is called for each widget built by the <classname>WidgetBuilder</classname>s.
 					<classname>WidgetProcessor</classname>s can modify
 					the given <parameter>widget</parameter> according
-					to the given <parameter>elementName</parameter> and various <parameter>attributes</parameter>. They can use
+ 					to the given <parameter>elementName</parameter> (which is typically just 'property' or 'action'
+					from the <filename>inspection-result</filename>) and
+					the various <parameter>attributes</parameter> (as parsed from the <filename>inspection-result</filename>). They can use
 					the given <parameter>metawidget</parameter> to help them if needed (e.g. to access a UI context with which
 					to create validators).
 				</para>
@@ -4603,7 +4634,7 @@ static class State {
 				<title>Usage</title>
 			
 				<para>
-					Some Metawidgets will instantiate default inspectors. This default behaviour can be overridden either in code:
+					Some Metawidgets will instantiate default <classname>WidgetProcessor</classname>s. This default behaviour can be overridden either in code:
 				</para>
 				
 				<programlisting language="java">metawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
@@ -4765,6 +4796,12 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td>Swing</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;reflectionBindingProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>SWT</td>
 							<td><programlisting language="xml">&lt;array&gt;
 	&lt;reflectionBindingProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
@@ -5004,8 +5041,10 @@ static class State {
 				<para>
 					<function>layoutWidget</function> is called for	each widget. <classname>Layout</classname>s	should
 					add the given <parameter>widget</parameter>
-					as a child of the given <parameter>container</parameter>, according to the given
-					<parameter>elementName</parameter> and <parameter>attributes</parameter>. They can use
+					as a child of the given <parameter>container</parameter>, according to the given					
+ 					<parameter>elementName</parameter> (which is typically just 'property' or 'action'
+					from the <filename>inspection-result</filename>) and
+					the various <parameter>attributes</parameter> (as parsed from the <filename>inspection-result</filename>). They can use
 					the given <parameter>metawidget</parameter> to access additional services if needed (such as
 					state saving beween invocations, see <xref linkend="section-architecture-layouts-implementing-your-own"/>).
 				</para>
@@ -5307,6 +5346,14 @@ void onEndBuild(M metawidget);</programlisting>
 	&lt;/layout&gt;
 &lt;/separatorLayoutDecorator&gt;</programlisting></td>							
 						</tr>
+						<tr>
+							<td>SWT</td>
+							<td><programlisting language="xml">&lt;separatorLayoutDecorator config="SeparatorLayoutDecoratorConfig"&gt;
+	&lt;layout&gt;
+		&lt;gridLayout/&gt;
+	&lt;/layout&gt;
+&lt;/separatorLayoutDecorator&gt;</programlisting></td>							
+						</tr>
 					</tbody>
 				</informaltable>
 				
@@ -5483,8 +5530,9 @@ public class HtmlListLayout
 					<listitem>
 						<para>
 							For state that will change during laying out, such as tracking the current row, store it in the
-							Metawidget or container that is passed to <function>startContainerLayout</function>, <function>layoutChild</function>
-							and <function>endContainerLayout</function>. You may want to further wrap the state in a small helper
+							Metawidget or container that is passed to <function>onStartBuild</function>,
+							<function>startContainerLayout</function>, <function>layoutChild</function>,
+							<function>endContainerLayout</function> and <function>onEndBuild</function>. You may want to further wrap the state in a small helper
 							class, for example:
 						</para>
 						
@@ -5511,7 +5559,7 @@ static class State {
 
 						<para>
 							You could also consider storing the state in a <classname>ThreadLocal</classname>. If you do this, be aware that
-							because <classname>Layout</classname>s can be nested, they can be called in a re-entrant fashion inside
+							because <classname>Layout</classname>s can decorate each other, they can be called in a re-entrant fashion inside
 							the same <classname>Thread</classname>.
 						</para>
 
@@ -5530,7 +5578,7 @@ static class State {
 				It allows you to configure a Metawidget without writing any Java code. This
 				can be useful in environments with intermediate languages that shield the developer from the
 				raw Java, such as JSPs or Facelets. It can also be useful as a single place for configuring multiple Metawidgets,
-				such as across multiple dialogs of a desktop application.
+				such as across multiple dialogs of a Swing application.
 			</para>
 			
 			<para>
@@ -5573,7 +5621,7 @@ static class State {
 </programlisting>
 
 				<para>
-					This allows you to validate your XML in your IDE, at development time.
+					This allows you to validate the XML in your IDE, at development time.
 				</para>
 				
 			</section>
@@ -5622,9 +5670,8 @@ static class State {
 				<title>Constructing Primitive Types</title>
 				
 				<para>
-					As alluded to in the previous section, when calling <function>setXXX</function> methods the XML format can
-					specify simple types. The previous example used <classname>boolean</classname>, <classname>string</classname>
-					and <classname>int</classname>. Also supported are: 
+					When calling <function>setXXX</function> methods the XML format can
+					specify simple types. The previous example used <classname>boolean</classname> and <classname>string</classname>. Also supported are: 
 				</para>
 
 				<informaltable>
@@ -5643,7 +5690,7 @@ static class State {
 							<td><parameter>&lt;array&gt;</parameter></td>
 							<td>
 								constructs a Java array. The array's component type (i.e. <classname>String[]</classname>, <classname>int[]</classname> etc)
-								is based on the signature of the method being invoked (i.e. <function>setInspectors( Inspector... )</function>)
+								is based on the signature of the method being invoked (i.e. <function>setWidgetProcessors( WidgetProcessor... )</function>)
 							</td>
 						</tr>					
 						<tr>
@@ -5747,9 +5794,9 @@ static class State {
 					<classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
 					and <classname>Layout</classname>s be immutable. This is an important design decision as
 					it means a single instance can be reused across an entire application. Immutabilty
-					is enforced by not having any <function>setXXX</function> methods on the objects themselves.
+					is enforced by not having any <function>setXXX</function> methods on the classes themselves.
 					Rather, the <function>setXXX</function> methods are called on <classname>Config</classname> objects, which are then passed
-					to the object's constructor. Once constructed, the object cannot be changed.
+					to the class' constructor. Once constructed, the object cannot be changed.
 				</para>
 				
 				<para>
@@ -5843,7 +5890,7 @@ static class State {
 					
 					<para>
 	 					Since inception, Swing has had built-in, and extensive, Look and Feel support. Metawidget
-						does not overlap this. For layouts, Swing supports a multitude of <classname>LayoutManagers</classname>.
+						does not overlap this. For layouts, Swing supports a multitude of <classname>LayoutManager</classname>s.
 						Metawidget leverages these, and automates them to construct UIs automatically. The layout manager
 						can be configured through either <filename>metawidget.xml</filename> or programmatically using
 						<function>setMetawidgetLayout</function>.
@@ -5884,6 +5931,19 @@ static class State {
 					
 				</section>
 				
+				<section id="section-metawidgets-desktop-swing-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+	 					Since inception, SWT has had built-in, and extensive, Look and Feel support. Metawidget
+						does not overlap this. For layouts, SWT supports a multitude of <classname>LayoutManager</classname>s.
+						Metawidget leverages these, and automates them to construct UIs automatically. The layout manager
+						can be configured through either <filename>metawidget.xml</filename> or programmatically using
+						<function>setMetawidgetLayout</function>.
+					</para>
+					
+				</section>
+
 			</section>
 		</section>
 		
@@ -6015,7 +6075,7 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								give the business object to <classname>GwtMetawidget</classname> (a client-side, JavaScript GWT Widget)
+								give the business object to <classname>GwtMetawidget</classname> (a client-side, JavaScript GWT <classname>Widget</classname>)
 							</para>
 						</listitem>
 						<listitem>
@@ -6085,6 +6145,17 @@ static class State {
 					
 				</section>
 				
+				<section id="section-metawidgets-web-jsp-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						GWT <classname>Widget</classname>s do not distinguish between what a widget is versus how it is rendered.
+						Instead, <classname>GwtMetawidget</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes and standard CSS.
+					</para>
+					
+				</section>
+
 			</section>
 
 			<section id="section-metawidgets-web-jsp">
@@ -6131,7 +6202,7 @@ static class State {
 					<para>
 						JSP tag libraries do not distinguish between what a widget is versus how it is rendered.
 						Instead, <classname>HtmlMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
-						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes.
+						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes and standard CSS.
 					</para>
 					
 				</section>
