@@ -64,7 +64,7 @@ public class ReadOnlyWidgetBuilderTest
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ));
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof StubTag );
 		attributes.remove( HIDDEN );
 
 		// Masked
