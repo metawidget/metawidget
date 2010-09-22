@@ -5931,7 +5931,7 @@ static class State {
 					
 				</section>
 				
-				<section id="section-metawidgets-desktop-swing-look">
+				<section id="section-metawidgets-desktop-swt-look">
 					<title>Customizing Look and Feel</title>
 					
 					<para>
@@ -6145,7 +6145,7 @@ static class State {
 					
 				</section>
 				
-				<section id="section-metawidgets-web-jsp-look">
+				<section id="section-metawidgets-web-gwt-look">
 					<title>Customizing Look and Feel</title>
 					
 					<para>

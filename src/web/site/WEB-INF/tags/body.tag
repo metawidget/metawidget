@@ -62,9 +62,7 @@
 						<li <c:if test="${path == '/news.html'}">class="active"</c:if>><a href="${context}/news.html">News</a></li>
 						<li <c:if test="${path == '/download.html'}">class="active"</c:if>><a href="${context}/download.html">Download</a></li>
 						<li <c:if test="${path == '/documentation.html'}">class="active"</c:if>><a href="${context}/documentation.html">Documentation</a></li>
-						<li <c:if test="${path == '/forums.html'}">class="active"</c:if>><a href="${context}/forums.html">Forums</a></li>
-						<li <c:if test="${path == '/support.html'}">class="active"</c:if>><a href="${context}/support.html">Support &amp; Training</a></li>
-						<li <c:if test="${path == '/wiki.html'}">class="active"</c:if>><a href="${context}/wiki.html">Wiki Community Area</a></li>
+						<li <c:if test="${path == '/support.html'}">class="active"</c:if>><a href="${context}/support.html">Support</a></li>
 					</ul>
 				</div>
 				<div id="left-menu2" class="left-menu">
