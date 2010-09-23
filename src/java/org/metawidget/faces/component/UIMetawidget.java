@@ -277,6 +277,24 @@ public abstract class UIMetawidget
 		mPipeline.setWidgetBuilder( widgetBuilder );
 	}
 
+	/**
+	 * Exposed mainly for those using <code>UIComponent.setBinding</code>.
+	 */
+
+	public void addWidgetProcessor( WidgetProcessor<UIComponent, UIMetawidget> widgetProcessor ) {
+
+		mPipeline.addWidgetProcessor( widgetProcessor );
+	}
+
+	/**
+	 * Exposed mainly for those using <code>UIComponent.setBinding</code>.
+	 */
+
+	public void removeWidgetProcessor( WidgetProcessor<UIComponent, UIMetawidget> widgetProcessor ) {
+
+		mPipeline.removeWidgetProcessor( widgetProcessor );
+	}
+
 	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors ) {
 
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
@@ -575,9 +593,16 @@ public abstract class UIMetawidget
 
 		// ...or from a raw value (for jBPM)...
 
-		if ( mValue != null ) {
+		if ( mValue instanceof String ) {
 			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, (String) mValue ) );
 			return;
+		}
+
+		// ...we cannot support direct Objects, because all our child widgets need some kind of
+		// value expression prefix...
+
+		if ( mValue != null ) {
+			throw MetawidgetException.newException( "Value must be an EL expression, a String, or null - but not a " + mValue.getClass().getName() );
 		}
 
 		// ...or run without inspection (eg. using the Metawidget purely for layout)

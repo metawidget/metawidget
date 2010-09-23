@@ -142,6 +142,7 @@
 
 		<mkdir dir="${relative.dir}/${build.dir}/debug"/>		
 		<move file="${relative.dir}/${build.dir}/pack/metawidget-frontend.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-frontend-debug-version.jar" />
+		<move file="${relative.dir}/${build.dir}/pack/metawidget-frontend-nopropertystyle.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-frontend-nopropertystyle-debug-version.jar" />
 		<move file="${relative.dir}/${build.dir}/pack/metawidget-backend.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-backend-debug-version.jar" />
 		<move file="${relative.dir}/${build.dir}/pack/metawidget-propertystyle.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-propertystyle-debug-version.jar" />
 		
@@ -182,9 +183,11 @@
 		
 	</target>
 
+	<!-- Some alternate ways of packaging Metawidget -->
+	
 	<target name="pack-as-frontend-backend-internal" depends="compile-main">
 
-		<!-- Annotates/constants to use on backend classes -->
+		<!-- Annotations and constants to use on backend classes -->
 		
 		<mkdir dir="${relative.dir}/${build.dir}/pack"/>
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-backend.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
@@ -216,7 +219,7 @@
 			</fileset>
 		</jar>
 
-		<!-- Useful if you want to use PropertyStyles standalone -->
+		<!-- Useful if you want to further split PropertyStyles out -->
 		
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-propertystyle.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
@@ -227,6 +230,30 @@
 			</fileset>
 		</jar>
 
+		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-frontend-nopropertystyle.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${relative.dir}/${build.dir}/classes">
+				<include name="org/**"/>
+				<exclude name="org/metawidget/gwt/**"/>
+				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
+				<exclude name="org/metawidget/inspector/**/Ui*.class"/>
+				<exclude name="org/metawidget/inspector/**/*Constants.class"/>
+				<exclude name="org/metawidget/iface/**"/>
+				<exclude name="org/metawidget/inspector/impl/Trait.class"/>
+				<exclude name="org/metawidget/inspector/impl/propertystyle/**"/>
+				<exclude name="org/metawidget/inspector/iface/**"/>
+			</fileset>
+			<fileset dir="${relative.dir}/src/java">
+				<exclude name="META-INF/metawidget.bnd"/>
+				<exclude name="org/metawidget/example/**"/>
+				<include name="org/metawidget/swing/icon/**"/>
+				<include name="**/faces-config.xml"/>
+				<include name="**/metawidget-*-default.xml"/>
+				<include name="**/*.xsd"/>
+				<include name="**/*.taglib.xml"/>
+				<include name="**/*.tld"/>
+			</fileset>
+		</jar>
+		
 	</target>
 
 	<target name="pack-gwt-client" depends="compile-main">

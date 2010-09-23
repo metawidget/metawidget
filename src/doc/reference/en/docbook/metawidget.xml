@@ -6285,6 +6285,50 @@ static class State {
 					
 				</section>
 
+				<section id="section-metawidgets-web-faces-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>UIMetawidget</classname> is preconfigured with sensible defaults for JSF. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo}" config="alternate-metawidget.xml"/&gt;/programlisting>
+					
+					<para>
+						Or you can use JSF's standard <parameter>binding</parameter> attribute to configure Metawidget programmatically:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget binding="#{myBean.metawidget}"/&gt;</programlisting>
+					
+					<para>
+						Then in your managed bean:
+					</para>
+					
+					<programlisting language="xml">public class MyManagedBean {
+
+	private UIMetawidget mMetawidget;
+
+	public UIMetawidget getMetawidget() {
+
+		if ( mMetawidget == null ) {
+
+			mMetawidget = new HtmlMetawidget();
+			...configure Metawidget programmatically...
+		}
+
+		return mMetawidget;
+	}
+
+	public void setMetawidget( UIMetawidget metawidget ) {
+
+		mMetawidget = metawidget;
+	}
+}</programlisting>
+
+				</section>
+				
 				<section id="section-metawidgets-web-faces-look">
 					<title>Customizing Look and Feel</title>
 					

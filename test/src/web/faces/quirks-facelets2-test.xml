@@ -333,6 +333,31 @@
 			</steps>
 		</webtest>
 
+		<webtest name="test-binding-support">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/${context.path}/binding.jsf" />
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/th" text="Bar:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@value" text="Bar Value"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[2])" text="*"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/th" text="Baz:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea" text="Baz Value"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[2]/div)" text=""/>
+				<verifyText text="Baz is 'Baz Value'"/>
+				
+				<setInputField name="form:bindingFooBaz" value="Baz Value 2"/>
+				
+				<clickButton label="Save"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@value" text="Bar Value"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea" text="Baz Value 2"/>
+				<verifyText text="Baz is 'Baz Value 2'"/>
+			</steps>
+		</webtest>
+
 	</target>
 
 </project>

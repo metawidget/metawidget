@@ -41,6 +41,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<managed-bean-class>org.metawidget.faces.quirks.model.RemoveDuplicatesSupportTest</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>binding</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.controller.BindingController</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>	
 
 	<!-- Session-Level Managed Beans -->
 

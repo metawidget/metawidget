@@ -17,6 +17,10 @@
 			<name>id</name>
 		</attribute>
 		<attribute>
+			<name>binding</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
