@@ -5877,14 +5877,23 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
-								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+								Optionally configure the Metawidget, as described below.
 							</para>
 						</listitem>
 					</orderedlist>
 					
 				</section>
 				
+				<section id="section-metawidgets-desktop-swing-configuration">
+					<title>Configuration</title>
+					
+					<para>
+						<classname>SwingMetawidget</classname> is preconfigured with sensible defaults for Swing. You can change this configuration
+						either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
+						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+					</para>
+				</section>
+
 				<section id="section-metawidgets-desktop-swing-look">
 					<title>Customizing Look and Feel</title>
 					
@@ -5896,6 +5905,16 @@ static class State {
 						<function>setMetawidgetLayout</function>.
 					</para>
 					
+				</section>
+				
+				<section id="section-metawidgets-desktop-swing-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>SwingMetawidget</classname> supports localization through the <function>setBundle</function> method. This
+						method takes a <classname>ResourceBundle</classname> object. Keys are looked up based on the name of each business
+						property.
+					</para>
 				</section>
 				
 			</section>
@@ -5923,14 +5942,23 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
-								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+								Optionally configure the Metawidget, as described below.
 							</para>
 						</listitem>
 					</orderedlist>
 					
 				</section>
 				
+				<section id="section-metawidgets-desktop-swt-configuration">
+					<title>Configuration</title>
+					
+					<para>
+						<classname>SwtMetawidget</classname> is preconfigured with sensible defaults for SWT. You can change this configuration
+						either programmatically (as detailed for Swing in <xref linkend="section-introduction-part1-inspectors"/>, but the SWT API is the same)
+						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+					</para>					
+				</section>
+
 				<section id="section-metawidgets-desktop-swt-look">
 					<title>Customizing Look and Feel</title>
 					
@@ -5944,6 +5972,15 @@ static class State {
 					
 				</section>
 
+				<section id="section-metawidgets-desktop-swt-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>SwtMetawidget</classname> supports localization through the <function>setBundle</function> method. This
+						method takes a <classname>ResourceBundle</classname> object. Keys are looked up based on the name of each business
+						property.
+					</para>
+				</section>
 			</section>
 		</section>
 		
@@ -6011,16 +6048,8 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the default <classname>Inspector</classname>. To do this, add a
-								<filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>, and an
-								<parameter>init-param</parameter> to your <filename>web.xml</filename>:								
+								Optionally configure the Metawidget, as described below.
 							</para>
-							
-							<programlisting language="xml">&lt;init-param&gt;
-	&lt;param-name>config&lt;/param-name&gt;
-	&lt;param-value>metawidget.xml&lt;/param-value&gt;
-&lt;/init-param&gt;</programlisting>
-							
 						</listitem>
 					</orderedlist>
 					
@@ -6030,6 +6059,21 @@ static class State {
 						distribution's <filename>build.xml</filename> useful.
 					</para>
 					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>GwtMetawidget</classname> is preconfigured with sensible defaults for GWT. You can change this configuration
+						either programmatically or by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>
+						and adding an <parameter>init-param</parameter> to your <filename>web.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;init-param&gt;
+	&lt;param-name>config&lt;/param-name&gt;
+	&lt;param-value>metawidget.xml&lt;/param-value&gt;
+&lt;/init-param&gt;</programlisting>
 				</section>
 				
 				<section id="section-metawidgets-web-gwt-reflection">
@@ -6156,6 +6200,27 @@ static class State {
 					
 				</section>
 
+				<section id="section-metawidgets-web-gwt-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>GwtMetawidget</classname> supports localization through the <function>setDictionaryName</function> method. This
+						method takes a <classname>String</classname> containing the name of a JavaScript variable declared in the host HTML
+						page. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;script type="text/javascript"&gt;
+	var bundle = {
+	"add": "Add",
+	"addBusiness": "Add Business Contact",
+	"addPersonal": "Add Personal Contact"
+};&lt;/script&gt;</programlisting>
+					
+					<para>
+						Keys are looked up based on the name of each business property.
+					</para>
+				</section>
+
 			</section>
 
 			<section id="section-metawidgets-web-jsp">
@@ -6190,12 +6255,24 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+								Optionally configure the Metawidget, as described below.
 							</para>
 						</listitem>
 					</orderedlist>
 				</section>
 
+				<section id="section-metawidgets-web-jsp-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>HtmlMetawidgetTag</classname> is preconfigured with sensible defaults for JSP. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="foo" config="alternate-metawidget.xml"/&gt;</programlisting>
+				</section>
+					
 				<section id="section-metawidgets-web-jsp-look">
 					<title>Customizing Look and Feel</title>
 					
@@ -6205,6 +6282,22 @@ static class State {
 						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes and standard CSS.
 					</para>
 					
+				</section>
+				
+				<section id="section-metawidgets-web-jsp-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>HtmlMetawidgetTag</classname> supports localization through a <classname>ResourceBundle</classname> set
+						at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/&gt;
+&lt;m:metawidget bundle="${bundle}"/&gt;</programlisting>
+					
+					<para>
+						Keys are looked up based on the name of each business property.
+					</para>
 				</section>
 				
 				<section id="section-metawidgets-web-jsp-override">
@@ -6278,7 +6371,7 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+								Optionally configure the Metawidget, as described below.							
 							</para>
 						</listitem>
 					</orderedlist>
@@ -6294,10 +6387,10 @@ static class State {
 						explicit <parameter>config</parameter> file at the tag level:
 					</para>
 					
-					<programlisting language="xml">&lt;m:metawidget value="#{foo}" config="alternate-metawidget.xml"/&gt;/programlisting>
+					<programlisting language="xml">&lt;m:metawidget value="#{foo}" config="alternate-metawidget.xml"/&gt;</programlisting>
 					
 					<para>
-						Or you can use JSF's standard <parameter>binding</parameter> attribute to configure Metawidget programmatically:
+						Or you can use JSF's <parameter>binding</parameter> attribute to configure Metawidget programmatically:
 					</para>
 					
 					<programlisting language="xml">&lt;m:metawidget binding="#{myBean.metawidget}"/&gt;</programlisting>
@@ -6385,6 +6478,27 @@ static class State {
 					
 				</section>
 				
+				<section id="section-metawidgets-web-faces-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>UIMetawidget</classname> supports localization through a <classname>ResourceBundle</classname> set either
+						at the application level in <filename>faces-config.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;faces-config&gt;
+	&lt;application&gt;
+		&lt;message-bundle&gt;com.myapp.resource.Resources&lt;/message-bundle&gt;
+	&lt;/application&gt;					
+&lt;/faces-config&gt;</programlisting>
+
+					<para>
+						Or set at the tag level:
+					</para>
+
+					<programlisting language="xml">&lt;m:metawidget bundle="#{myBean.bundle}"/&gt;</programlisting>
+				</section>
+
 				<section id="section-metawidgets-web-faces-2">
 					<title>JSF 2.0</title>
 					
@@ -6445,10 +6559,22 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+								Optionally configure the Metawidget, as described below.
 							</para>
 						</listitem>
 					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-spring-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>SpringMetawidgetTag</classname> is preconfigured with sensible defaults for Spring. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget path="fooCommand" config="alternate-metawidget.xml"/&gt;</programlisting>
 				</section>
 
 				<section id="section-metawidgets-web-spring-look">
@@ -6462,6 +6588,30 @@ static class State {
 					
 				</section>
 				
+				<section id="section-metawidgets-web-spring-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>SpringMetawidgetTag</classname> supports localization through a <classname>ResourceBundle</classname> set either
+						at the application level in <filename>servlet.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;beans&gt;
+	&lt;bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"&gt;
+        &lt;property name="basename"&gt;
+        	&lt;value&gt;com.myapp.resource.Resources&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;</programlisting>
+
+					<para>
+						Or set at the tag level:
+					</para>
+
+					<programlisting language="xml">&lt;fmt:setBundle basename="com.myapp.resource.Resources" var="bundle"/&gt;
+&lt;m:metawidget bundle="${bundle}"/&gt;</programlisting>
+				</section>
+
 				<section id="section-metawidgets-web-spring-override">
 					<title>Overriding Widget Creation</title>				
 
@@ -6523,11 +6673,22 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file
-								into <filename>WEB-INF</filename>.
+								Optionally configure the Metawidget, as described below.
 							</para>
 						</listitem>
 					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-struts-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>StrutsMetawidgetTag</classname> is preconfigured with sensible defaults for Struts. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget property="fooForm" config="alternate-metawidget.xml"/&gt;</programlisting>
 				</section>
 
 				<section id="section-metawidgets-web-struts-look">
@@ -6541,6 +6702,26 @@ static class State {
 					
 				</section>
 				
+				<section id="section-metawidgets-web-struts-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>StrutsMetawidgetTag</classname> supports localization through a <classname>ResourceBundle</classname> set either
+						at the application level in <filename>struts-config.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;struts-config&gt;
+	&lt;message-resources parameter="com.myapp.resource.Resources" null="false"/&gt;
+&lt;/struts-config&gt;</programlisting>
+
+					<para>
+						Or set at the tag level:
+					</para>
+
+					<programlisting language="xml">&lt;fmt:setBundle basename="com.myapp.resource.Resources" var="bundle"/&gt;
+&lt;m:metawidget bundle="${bundle}"/&gt;</programlisting>
+				</section>
+
 				<section id="section-metawidgets-web-struts-override">
 					<title>Overriding Widget Creation</title>				
 
@@ -6604,9 +6785,7 @@ static class State {
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
-								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>)
-								in your <filename>res/raw</filename> folder.
+								Optionally configure the Metawidget, as described below.
 							</para>
 						</listitem>
 					</orderedlist>
@@ -6619,6 +6798,37 @@ static class State {
 					
 				</section>
 
+				<section id="section-metawidgets-web-android-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>AndroidMetawidget</classname> is preconfigured with sensible defaults for Android. You can change this configuration
+						programmatically or by creating a <filename>metawidget.xml</filename> file in <filename>res/raw</filename> and specifying it at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;view class="org.metawidget.android.widget.AndroidMetawidget" config="@raw/metawidget"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-mobile-android-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						<classname>AndroidMetawidget</classname> uses Android's standard <filename>res/values/styles.xml</filename>
+						mechanism. Styles can be set either programmatically or passed inside <filename>metawidget.xml</filename>
+						using the @ notation. For example:
+					</para>
+
+					<programlisting language="xml">&lt;layout&gt;
+	&lt;textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout"
+				config="TextViewLayoutDecoratorConfig"&gt;
+		&lt;style&gt;
+			&lt;int&gt;@org.metawidget.example.android.addressbook:style/section&lt;/int&gt;
+		&lt;/style&gt;
+	&lt;/textViewLayoutDecorator&gt;
+&lt;/layout&gt;</programlisting>
+					
+				</section>
+				
 				<section id="section-metawidgets-mobile-android-i18n">
 					<title>Internationalization</title>
 					
@@ -6660,26 +6870,6 @@ static class State {
 						the localized text in <filename>strings.xml</filename>. For different locales, put the <filename>strings.xml</filename>
 						file in adjacent <filename>res/values-xx</filename> folders - for example <filename>res/values-en</filename>.  
 					</para>					
-				</section>
-				
-				<section id="section-metawidgets-mobile-android-look">
-					<title>Customizing Look and Feel</title>
-					
-					<para>
-						<classname>AndroidMetawidget</classname> uses Android's standard <filename>res/values/styles.xml</filename>
-						mechanism. Styles can be set either programmatically or passed inside <filename>metawidget.xml</filename>
-						using the @ notation. For example:
-					</para>
-
-					<programlisting language="xml">&lt;layout&gt;
-	&lt;textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout"
-				config="TextViewLayoutDecoratorConfig"&gt;
-		&lt;style&gt;
-			&lt;int&gt;@org.metawidget.example.android.addressbook:style/section&lt;/int&gt;
-		&lt;/style&gt;
-	&lt;/textViewLayoutDecorator&gt;
-&lt;/layout&gt;</programlisting>
-					
 				</section>
 				
 			</section>

@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.quirks.controller;
+package org.metawidget.faces.quirks.managedbean;
 
 import javax.faces.context.FacesContext;
 
@@ -32,7 +32,7 @@ import org.metawidget.inspector.annotation.UiRequired;
  * @author Richard Kennard
  */
 
-public class BindingController {
+public class BindingBean {
 
 	//
 	// Private members

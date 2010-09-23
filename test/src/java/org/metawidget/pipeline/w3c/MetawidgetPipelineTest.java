@@ -246,6 +246,9 @@ public class MetawidgetPipelineTest
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "List of InspectionResultProcessors already contains org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor", e.getMessage() );
 		}
+
+		pipeline.removeInspectionResultProcessor( inspectionResultProcessor1 );
+		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
 	}
 
 	public void testDuplicateWidgetProcessors() {
@@ -265,6 +268,9 @@ public class MetawidgetPipelineTest
 		} catch ( WidgetProcessorException e ) {
 			assertEquals( "List of WidgetProcessors already contains org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor", e.getMessage() );
 		}
+
+		pipeline.removeWidgetProcessor( widgetProcessor1 );
+		pipeline.addWidgetProcessor( widgetProcessor1 );
 	}
 
 	//

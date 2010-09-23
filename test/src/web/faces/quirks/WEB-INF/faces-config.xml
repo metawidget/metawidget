@@ -43,7 +43,7 @@
 
 	<managed-bean>
 		<managed-bean-name>binding</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.controller.BindingController</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.quirks.managedbean.BindingBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
