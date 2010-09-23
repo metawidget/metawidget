@@ -234,11 +234,18 @@ public class MetawidgetPipelineTest
 
 	public void testDuplicateInspectionResultProcessors() {
 
-		Pipeline pipeline = new Pipeline();
 		@SuppressWarnings( "unchecked" )
 		InspectionResultProcessor<Object> inspectionResultProcessor1 = new ComesAfterInspectionResultProcessor();
 
+		Pipeline pipeline = new Pipeline();
+		assertTrue( null == pipeline.getInspectionResultProcessors() );
+		pipeline.removeInspectionResultProcessor( inspectionResultProcessor1 );
+		assertTrue( null == pipeline.getInspectionResultProcessors() );
+
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
+
+		assertTrue( inspectionResultProcessor1 == (InspectionResultProcessor<?>) pipeline.getWidgetProcessor( InspectionResultProcessor.class ) );
+		assertTrue( inspectionResultProcessor1 == (InspectionResultProcessor<?>) pipeline.getWidgetProcessor( ComesAfterInspectionResultProcessor.class ) );
 
 		try {
 			pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
@@ -249,18 +256,28 @@ public class MetawidgetPipelineTest
 
 		pipeline.removeInspectionResultProcessor( inspectionResultProcessor1 );
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
+
+		assertTrue( 1 == pipeline.getInspectionResultProcessors().size() );
 	}
 
 	public void testDuplicateWidgetProcessors() {
 
-		Pipeline pipeline = new Pipeline();
 		@SuppressWarnings( "unchecked" )
 		WidgetProcessor<Object, Object> widgetProcessor1 = (WidgetProcessor) new ReflectionBindingProcessor();
 		@SuppressWarnings( "unchecked" )
 		WidgetProcessor<Object, Object> widgetProcessor2 = (WidgetProcessor) new JGoodiesValidatorProcessor();
 
+		Pipeline pipeline = new Pipeline();
+		assertTrue( null == pipeline.getWidgetProcessors() );
+		pipeline.removeWidgetProcessor( widgetProcessor1 );
+		assertTrue( null == pipeline.getWidgetProcessors() );
+
 		pipeline.addWidgetProcessor( widgetProcessor1 );
 		pipeline.addWidgetProcessor( widgetProcessor2 );
+
+		assertTrue( widgetProcessor1 == (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( WidgetProcessor.class ) );
+		assertTrue( widgetProcessor1 == (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( ReflectionBindingProcessor.class ) );
+		assertTrue( widgetProcessor2 == (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( JGoodiesValidatorProcessor.class ) );
 
 		try {
 			pipeline.addWidgetProcessor( widgetProcessor1 );
@@ -271,6 +288,8 @@ public class MetawidgetPipelineTest
 
 		pipeline.removeWidgetProcessor( widgetProcessor1 );
 		pipeline.addWidgetProcessor( widgetProcessor1 );
+
+		assertTrue( 2 == pipeline.getWidgetProcessors().size() );
 	}
 
 	//

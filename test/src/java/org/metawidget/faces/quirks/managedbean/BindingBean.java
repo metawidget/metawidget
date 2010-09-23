@@ -50,6 +50,8 @@ public class BindingBean {
 	@UiHidden
 	public UIMetawidget getMetawidget() {
 
+		// TODO: not hit?
+
 		if ( mMetawidget == null ) {
 
 			mMetawidget = new HtmlMetawidget();

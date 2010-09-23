@@ -598,8 +598,8 @@ public abstract class UIMetawidget
 			return;
 		}
 
-		// ...we cannot support direct Objects, because all our child widgets need some kind of
-		// value expression prefix...
+		// ...we cannot support direct Objects, because all our child widgets need some kind of EL
+		// prefix...
 
 		if ( mValue != null ) {
 			throw MetawidgetException.newException( "Value must be an EL expression, a String, or null - but not a " + mValue.getClass().getName() );

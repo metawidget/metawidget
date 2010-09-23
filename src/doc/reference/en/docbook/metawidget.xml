@@ -245,16 +245,16 @@ public class Main {
 				</important>
 
 				<para>
-					By default, <classname>SwingMetawidget</classname> has laid out the	<classname>JComponents</classname>
+					By default, <classname>SwingMetawidget</classname> has laid out the	<classname>JComponent</classname>s
 					using <classname>java.awt.GridBagLayout</classname>. Try resizing the window, and the
-					<classname>JComponents</classname> will resize with it. If you've ever tried using
+					<classname>JComponent</classname>s will resize with it. If you've ever tried using
 					<classname>java.awt.GridBagLayout</classname> yourself, either
 					through code or a visual UI builder, you'll know how fiddly it can be. Having Metawidget do it for you is a real time-saver.
 				</para>
 
 				<para>
 					Clearly this is not a complete UI. There are no Save or Cancel buttons, for example,
-					and the	<classname>JComponents</classname> appear uncomfortably tight to the left, top and right edges of the
+					and the	<classname>JComponent</classname>s appear uncomfortably tight to the left, top and right edges of the
 					<classname>JFrame</classname>. This is explained by the Second Goal Of Metawidget:
 				</para>
 
@@ -559,7 +559,7 @@ public class Person {
 
 				<para>
 					By default,	<classname>SwingMetawidget</classname> lays out
-					<classname>JComponents</classname> using <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
+					<classname>JComponent</classname>s using <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
 					You can configure this layout, or swap it for a different layout, using
 					<function>SwingMetawidget.setMetawidgetLayout</function>. Modify the code to use a
 					<classname>GridBagLayout</classname> with 2 columns:
@@ -601,7 +601,7 @@ public class Main {
 }</programlisting>
 
 				<para>
-					Run the code. The <classname>JComponents</classname> are now arranged across two columns as in
+					Run the code. The <classname>JComponent</classname>s are now arranged across two columns as in
 					<xref linkend="section-introduction-part1-screenshot7" />.
 				</para>
 
@@ -832,7 +832,7 @@ public class Person {
 
 				<para>
 					In both cases, <classname>org.metawidget.swing.layout.GridBagLayout</classname>
-					is smart enough to always give large <classname>JComponents</classname>
+					is smart enough to always give large <classname>JComponent</classname>s
 					like <parameter>notes</parameter> the full width of the
 					<classname>JFrame</classname>.
 				</para>
@@ -1199,7 +1199,7 @@ public class Person {
 				
 				<para>
 					In addition, <function>JTable.setCellEditor</function> uses <classname>SwingMetawidget</classname> to render single
-					<classname>JComponents</classname> as <classname>CellEditors</classname>. This includes automatically populating dropdown values.
+					<classname>JComponent</classname>s as <classname>CellEditor</classname>s. This includes automatically populating dropdown values.
 				</para>
 				
 				<section id="section-introduction-part2-desktop-readonly">
@@ -1238,7 +1238,7 @@ public class Person {
 
 					<para>
 						The data from the <classname>PersonalContact</classname> object is automatically inserted into the
-						<classname>JComponents</classname>. It is also automatically saved back when clicking <guibutton>Save</guibutton>.
+						<classname>JComponent</classname>s. It is also automatically saved back when clicking <guibutton>Save</guibutton>.
 					</para>
 					
 					<para>					
@@ -1483,7 +1483,7 @@ public class Person {
 
 					<para>
 						Within the <parameter>Communications</parameter> table, implementing <guibutton>Add Communication</guibutton> calls for a design decision.
-						Struts does not support multiple <classname>ActionForms</classname> per <classname>Action</classname>, so we are unable to combine
+						Struts does not support multiple <classname>ActionForm</classname>s per <classname>Action</classname>, so we are unable to combine
 						<classname>PersonalContactForm</classname> with a <classname>CommunicationForm</classname> (as we did in the JSF). Spring has a similar
 						limitation of not supporting multiple <parameter>commandNames</parameter> per form. Instead, we need to either:
 					</para>
@@ -2062,7 +2062,7 @@ bin\run</programlisting>
 				</figure>
 				
 				<para>
- 					This time, as well as generating <classname>UIComponents</classname>
+ 					This time, as well as generating <classname>UIComponent</classname>s
 					for business objects such as <classname>com.jboss.dvd.seam.Customer</classname>, Metawidget inspects jBPM
 					pageflow files like
 					<filename>newuser.jpdl.xml</filename> and <filename>checkout.jpdl.xml</filename> to generate the
@@ -2134,7 +2134,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 					The Swing AppFramework Car Demo demonstrates using Metawidget with the
 					<ulink url="https://appframework.dev.java.net">Swing AppFramework</ulink>. Metawidget
 					can use Swing AppFramework's <classname>@Action</classname> annotation to identify actions, both amongst
-					a business object's properties and in external controllers, and automatically generate <classname>JButtons</classname>
+					a business object's properties and in external controllers, and automatically generate <classname>JButton</classname>s
 					for them.
 				</para>
 	
@@ -2284,7 +2284,7 @@ metawidget.setToInspect( animal );
 	&lt;/metawidgetAnnotationInspector&gt;</programlisting>
 
 				<para>
-					In addition, it uses <classname>BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA</classname> to bind <classname>JComponents</classname>
+					In addition, it uses <classname>BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA</classname> to bind <classname>JComponent</classname>s
 					to Scala-based business objects:
 				</para>
 					
@@ -3364,7 +3364,7 @@ public class CastorInspector
 					it is reasonable to name that XML attribute <parameter>faces-converter-class</parameter>. However, it also
 					describes other parts of the field, such as the maximum number of integer digits. Such parts are not JSF-specific (i.e. we can
 					source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
-					(i.e. <classname>maximum-integer-digits</classname>). 
+					(i.e. <parameter>maximum-integer-digits</parameter>). 
 				</para>
 				
 				<para>
@@ -4490,7 +4490,7 @@ static class State {
 					<title>Special considerations for Java Server Faces</title>
 					
 					<para>
-						When developing <classname>WidgetBuilders</classname> for JSF component libraries, be aware that Metawidget integrates
+						When developing <classname>WidgetBuilder</classname>s for JSF component libraries, be aware that Metawidget integrates
 						with the JSF lifecycle in a slightly unorthodox way. Upon POSTback, Metawidget first decodes, processes validators
 						and updates the business model as usual. Upon <function>encodeBegin</function>, however, Metawidget
 						<emphasis>destroys and recreates</emphasis>	all previously generated <classname>UIComponent</classname>s. This is so
@@ -4658,7 +4658,7 @@ static class State {
 				</para>
 			
 				<para>
-					The list of <classname>WidgetProcessors</classname> is maintained by the parent Metawidget, and is changeable (this
+					The list of <classname>WidgetProcessor</classname>s is maintained by the parent Metawidget, and is changeable (this
 					is different to say, <classname>CompositeInspector</classname> or <classname>CompositeWidgetBuilder</classname> whose
 					lists are immutable). This capability is designed to allow easy attaching of event handlers, and scenarios such
 					as inner classes that have connections to their parent class:					
@@ -4857,7 +4857,7 @@ void onEndBuild( M metawidget );</programlisting>
 			
 				<para>
 					Here is an example of a custom <classname>WidgetProcessor</classname> to add tooltips to
-					<classname>JComponents</classname>. It extends the code from the tutorial
+					<classname>JComponent</classname>s. It extends the code from the tutorial
 					(see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
@@ -9582,7 +9582,7 @@ public class PersonController {
 					<title>Action Binding</title>
 					
 					<para>
-						Swing supplies <classname>javax.swing.Action</classname> for binding <classname>JButtons</classname> to backing objects, and this is
+						Swing supplies <classname>javax.swing.Action</classname> for binding <classname>JButton</classname>s to backing objects, and this is
 						typically combined with Java-based reflection to support runtime binding. This is exactly what the default action binding,
 						<classname>ReflectionBinding</classname>, does.
 					</para>
@@ -9651,7 +9651,7 @@ public class PersonController {
 					<title>ReflectionBindingProcessor</title>
 
 					<para>
-						<classname>ReflectionBindingProcessor</classname> binds <classname>Buttons</classname> to backing objects using
+						<classname>ReflectionBindingProcessor</classname> binds <classname>Button</classname>s to backing objects using
 						Java-based reflection to support runtime binding.
 					</para>
 				</section>					
@@ -9674,7 +9674,7 @@ public class PersonController {
 						
 					<para>
 						Like most other Metawidgets, <classname>GwtMetawidget</classname> supports property binding. Property binding
-						generally requires reflection, and GWT recommends using <classname>Generators</classname> to achieve this. As of
+						generally requires reflection, and GWT recommends using <classname>Generator</classname>s to achieve this. As of
 						the time of writing, however, much of the burden of implementation rests on the developer.
 					</para>
 						
@@ -9732,7 +9732,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>Action Binding</title>
 						
 					<para>
-						GWT supplies <classname>com.google.gwt.user.client.ui.ClickListener</classname> for binding <classname>Buttons</classname> to backing
+						GWT supplies <classname>com.google.gwt.user.client.ui.ClickListener</classname> for binding <classname>Button</classname>s to backing
 						objects. It is futher possible to combine this with a generator to support runtime binding. This is exactly what
 						the default action binding, <classname>SimpleBindingProcessor</classname>, does.
 					</para>
@@ -11298,7 +11298,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 		</section>
 
 		<section id="section-howto-performance">
-			<title>Performance</title>
+			<title>Improve Performance</title>
 				
 			<para>
 				Performance is very important to Metawidget. Whilst generating a UI dynamically - as opposed to hard coding it
@@ -11317,7 +11317,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				<para>		
 					For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
 					<filename>examples/swing/applet/addressbook/metawidget-applet.jar</filename>. This JAR includes only those
-					classes (<classname>Inspectors</classname>, <classname>WidgetBuilders</classname> and so on) necessary for the
+					classes (<classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and so on) necessary for the
 					Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
 					Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
 					the Android Address Book.

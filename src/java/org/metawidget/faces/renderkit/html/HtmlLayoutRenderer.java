@@ -131,6 +131,9 @@ public abstract class HtmlLayoutRenderer
 		throws IOException {
 
 		// Generally speaking, UICommands are their own label (ie. the text on a button)
+		//
+		// In cases where a component is defined as a UICommand but you *do* still want a label
+		// (e.g. the RichFaces ProgressBar), consider wrapping the component in a Stub.
 
 		if ( componentNeedingLabel instanceof UICommand ) {
 			return false;
