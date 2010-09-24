@@ -41,7 +41,7 @@ public class BindingBean {
 	// Private members
 	//
 
-	private Foo				mFoo	= new Foo();
+	private Foo	mFoo	= new Foo();
 
 	//
 	// Public methods
@@ -54,7 +54,6 @@ public class BindingBean {
 
 		UIMetawidget metawidget = new HtmlMetawidget();
 		initMetawidget( metawidget );
-
 		return metawidget;
 	}
 
@@ -81,8 +80,8 @@ public class BindingBean {
 	// Private methods
 	//
 
-	private void initMetawidget( UIMetawidget metawidget )
-	{
+	private void initMetawidget( UIMetawidget metawidget ) {
+
 		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( ReadableIdProcessor.class ) );
 		metawidget.addWidgetProcessor( new WidgetProcessor<UIComponent, UIMetawidget>() {
 

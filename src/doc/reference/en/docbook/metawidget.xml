@@ -6393,7 +6393,7 @@ static class State {
 						Or you can use JSF's <parameter>binding</parameter> attribute to configure Metawidget programmatically:
 					</para>
 					
-					<programlisting language="xml">&lt;m:metawidget binding="#{myBean.metawidget}"/&gt;</programlisting>
+					<programlisting language="xml">&lt;m:metawidget value="#{myBean.current}" binding="#{myBean.metawidget}"/&gt;</programlisting>
 					
 					<para>
 						Then in your managed bean:
@@ -6401,23 +6401,26 @@ static class State {
 					
 					<programlisting language="xml">public class MyManagedBean {
 
-	private UIMetawidget mMetawidget;
-
 	public UIMetawidget getMetawidget() {
 
-		if ( mMetawidget == null ) {
+		// First-time init
 
-			mMetawidget = new HtmlMetawidget();
-			...configure Metawidget programmatically...
-		}
-
-		return mMetawidget;
+		UIMetawidget metawidget = new HtmlMetawidget();
+		initMetawidget( metawidget );
+		return metawidget;
 	}
 
 	public void setMetawidget( UIMetawidget metawidget ) {
 
-		mMetawidget = metawidget;
+		// POST-back init
+
+		initMetawidget( metawidget );
 	}
+	
+	private void initMetawidget( UIMetawidget metawidget ) {
+	
+		...configure Metawidget programmatically...
+	}	
 }</programlisting>
 
 				</section>
