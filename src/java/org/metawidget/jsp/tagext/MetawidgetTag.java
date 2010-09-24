@@ -113,8 +113,6 @@ public abstract class MetawidgetTag
 
 	private String										mConfig							= DEFAULT_USER_CONFIG;
 
-	private boolean										mNeedsConfiguring				= true;
-
 	private ResourceBundle								mBundle;
 
 	private Map<String, FacetTag>						mFacets;
@@ -151,7 +149,7 @@ public abstract class MetawidgetTag
 	public void setConfig( String config ) {
 
 		mConfig = config;
-		mNeedsConfiguring = true;
+		mPipeline.setNeedsConfiguring();
 	}
 
 	public String getLabelString( Map<String, String> attributes ) {
@@ -347,7 +345,7 @@ public abstract class MetawidgetTag
 
 		mFacets = null;
 		mStubs = null;
-		mNeedsConfiguring = true;
+		mPipeline.setNeedsConfiguring();
 
 		return super.doStartTag();
 	}
@@ -356,8 +354,8 @@ public abstract class MetawidgetTag
 	public int doEndTag()
 		throws JspException {
 
-		configure();
-
+		mPipeline.configureOnce();
+		
 		try {
 			mPipeline.buildWidgets( inspect() );
 		} catch ( Exception e ) {
@@ -500,12 +498,6 @@ public abstract class MetawidgetTag
 
 	protected void configure() {
 
-		if ( !mNeedsConfiguring ) {
-			return;
-		}
-
-		mNeedsConfiguring = false;
-
 		try {
 			ServletContext servletContext = pageContext.getServletContext();
 			ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
@@ -548,6 +540,12 @@ public abstract class MetawidgetTag
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected void configure() {
+
+			MetawidgetTag.this.configure();
+		}
 
 		@Override
 		protected Map<String, String> getAdditionalAttributes( Tag tag ) {

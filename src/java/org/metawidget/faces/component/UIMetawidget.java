@@ -143,8 +143,6 @@ public abstract class UIMetawidget
 
 	private String							mConfig									= DEFAULT_USER_CONFIG;
 
-	private boolean							mNeedsConfiguring						= true;
-
 	private boolean							mInspectFromParent;
 
 	private Boolean							mReadOnly;
@@ -240,7 +238,7 @@ public abstract class UIMetawidget
 	public void setConfig( String config ) {
 
 		mConfig = config;
-		mNeedsConfiguring = true;
+		mPipeline.setNeedsConfiguring();
 	}
 
 	public void setInspector( Inspector inspector ) {
@@ -283,7 +281,6 @@ public abstract class UIMetawidget
 
 	public void addWidgetProcessor( WidgetProcessor<UIComponent, UIMetawidget> widgetProcessor ) {
 
-		configure();
 		mPipeline.addWidgetProcessor( widgetProcessor );
 	}
 
@@ -301,9 +298,13 @@ public abstract class UIMetawidget
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 	}
 
+	public List<WidgetProcessor<UIComponent, UIMetawidget>> getWidgetProcessors() {
+
+		return mPipeline.getWidgetProcessors();
+	}
+
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
 
-		configure();
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
@@ -582,8 +583,6 @@ public abstract class UIMetawidget
 	protected void buildWidgets()
 		throws Exception {
 
-		configure();
-
 		// Inspect from the value binding...
 
 		ValueBinding valueBinding = getValueBinding( "value" );
@@ -600,11 +599,24 @@ public abstract class UIMetawidget
 			return;
 		}
 
-		// ...we cannot support direct Objects, because all our child widgets need some kind of EL
-		// prefix...
+		// ...or a Class...
+		//
+		// (you have to know what you're doing here - StandardBindingProcessor will fail because
+		// there is no EL prefix)
+
+		if ( mValue instanceof Class<?> ) {
+			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, ( (Class<?>) mValue ).getName() ) );
+			return;
+		}
+
+		// ...or a direct Object...
+		//
+		// (you have to know what you're doing here - StandardBindingProcessor will fail because
+		// there is no EL prefix)
 
 		if ( mValue != null ) {
-			throw MetawidgetException.newException( "Value must be an EL expression, a String, or null - but not a " + mValue.getClass().getName() );
+			mPipeline.buildWidgets( mPipeline.inspectAsDom( mValue, mValue.getClass().getName() ) );
+			return;
 		}
 
 		// ...or run without inspection (eg. using the Metawidget purely for layout)
@@ -667,14 +679,6 @@ public abstract class UIMetawidget
 
 	protected void configure() {
 
-		if ( !mNeedsConfiguring ) {
-			return;
-		}
-
-		LOG.trace( "configure (start)" );
-
-		mNeedsConfiguring = false;
-
 		FacesContext facesContext = getFacesContext();
 		Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
 		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
@@ -708,8 +712,6 @@ public abstract class UIMetawidget
 		}
 
 		mPipeline.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
-
-		LOG.trace( "configure (end)" );
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -976,6 +978,12 @@ public abstract class UIMetawidget
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected void configure()
+		{
+			UIMetawidget.this.configure();
+		}
 
 		@Override
 		protected void startBuild() {

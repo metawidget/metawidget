@@ -88,8 +88,6 @@ public class SwingMetawidget
 
 	private String						mConfig;
 
-	private boolean						mNeedsConfiguring	= true;
-
 	private ResourceBundle				mBundle;
 
 	private boolean						mNeedToBuildWidgets;
@@ -207,7 +205,7 @@ public class SwingMetawidget
 	public void setConfig( String config ) {
 
 		mConfig = config;
-		mNeedsConfiguring = true;
+		mPipeline.setNeedsConfiguring();
 		invalidateInspection();
 	}
 
@@ -754,17 +752,13 @@ public class SwingMetawidget
 
 	protected void configure() {
 
-		if ( !mNeedsConfiguring ) {
-			return;
-		}
-
 		// Special support for visual IDE builders
 
 		if ( mPath == null ) {
+
+			mPipeline.setNeedsConfiguring();
 			return;
 		}
-
-		mNeedsConfiguring = false;
 
 		try {
 			if ( mConfig != null ) {
@@ -791,7 +785,7 @@ public class SwingMetawidget
 			return;
 		}
 
-		configure();
+		mPipeline.configureOnce();
 
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
@@ -988,6 +982,12 @@ public class SwingMetawidget
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected void configure() {
+
+			SwingMetawidget.this.configure();
+		}
 
 		@Override
 		protected void startBuild() {

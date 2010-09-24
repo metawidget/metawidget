@@ -320,6 +320,12 @@ public class MetawidgetPipelineTest
 		//
 
 		@Override
+		protected void configure() {
+
+			// Do nothing
+		}
+
+		@Override
 		protected void startBuild() {
 
 			// Do nothing

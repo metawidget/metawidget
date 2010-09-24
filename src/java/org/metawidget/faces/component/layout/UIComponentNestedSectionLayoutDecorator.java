@@ -18,6 +18,7 @@ package org.metawidget.faces.component.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	// Private static
 	//
 
-	private final static String	COMPONENT_ATTRIBUTE_SECTION_WIDGET_TO_RETURN	= "section-widget-to-return";
+	private final static String	COMPONENT_ATTRIBUTE_BOTTOM_LEVEL_SECTION_WIDGET	= "section-widget-bottom-level";
 
 	//
 	// Constructor
@@ -68,18 +69,17 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	protected State<UIComponent> getState( UIComponent container, UIMetawidget metawidget ) {
 
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( getClass() );
+		Map<UIComponent, UIComponentState> stateMap = (Map<UIComponent, UIComponentState>) metawidget.getClientProperty( getClass() );
 
 		if ( stateMap == null ) {
 			stateMap = CollectionUtils.newHashMap();
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
-		@SuppressWarnings( "unchecked" )
-		State<UIComponent> state = stateMap.get( container );
+		UIComponentState state = stateMap.get( container );
 
 		if ( state == null ) {
-			state = new State<UIComponent>();
+			state = new UIComponentState();
 			stateMap.put( container, state );
 		}
 
@@ -106,19 +106,31 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 		// If there is an existing section widget...
 
-		String currentSection = getState( container, metawidget ).currentSection;
+		UIComponentState state = (UIComponentState) getState( container, metawidget );
+		String currentSection = state.currentSection;
 
 		for ( UIComponent child : container.getChildren() ) {
 
 			Map<String, Object> childAttributes = child.getAttributes();
 			@SuppressWarnings( "unchecked" )
-			List<String> sectionDecorator = (List<String>) childAttributes.get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
+			List<String> storedSectionDecorator = (List<String>) childAttributes.get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
 
-			if ( sectionDecorator == null ) {
+			if ( storedSectionDecorator == null ) {
 				continue;
 			}
 
-			if ( !sectionDecorator.contains( currentSection ) ) {
+			// ...that has a section we can use...
+
+			List<String> temporarySectionDecorator = state.existingSectionsUsed.get( child );
+
+			if ( temporarySectionDecorator == null ) {
+				temporarySectionDecorator = CollectionUtils.newArrayList( storedSectionDecorator );
+				state.existingSectionsUsed.put( child, temporarySectionDecorator );
+			}
+
+			// ...remove it so we don't use it twice...
+
+			if ( !temporarySectionDecorator.remove( currentSection ) ) {
 				continue;
 			}
 
@@ -139,14 +151,20 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 				for ( UIComponent nestedChild : nestedChildren ) {
 
-					if ( nestedChild.getAttributes().containsKey( COMPONENT_ATTRIBUTE_SECTION_WIDGET_TO_RETURN ) ) {
+					if ( nestedChild.getAttributes().containsKey( COMPONENT_ATTRIBUTE_BOTTOM_LEVEL_SECTION_WIDGET ) ) {
 						return nestedChild;
 					}
 
 					@SuppressWarnings( "unchecked" )
-					List<String> nestedChildSectionDecorator = (List<String>) nestedChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
+					List<String> nestedSavedChildSectionDecorator = (List<String>) nestedChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
+					List<String> nestedTemporarySectionDecorator = state.existingSectionsUsed.get( nestedChild );
 
-					if ( nestedChildSectionDecorator.contains( currentSection ) ) {
+					if ( nestedTemporarySectionDecorator == null ) {
+						nestedTemporarySectionDecorator = CollectionUtils.newArrayList( nestedSavedChildSectionDecorator );
+						state.existingSectionsUsed.put( nestedChild, nestedTemporarySectionDecorator );
+					}
+
+					if ( nestedTemporarySectionDecorator.remove( currentSection ) ) {
 						childToReturn = nestedChild;
 						continue outer;
 					}
@@ -164,7 +182,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 		// levels)
 
 		UIComponent taggedSectionWidget = sectionWidget;
-		taggedSectionWidget.getAttributes().put( COMPONENT_ATTRIBUTE_SECTION_WIDGET_TO_RETURN, TRUE );
+		taggedSectionWidget.getAttributes().put( COMPONENT_ATTRIBUTE_BOTTOM_LEVEL_SECTION_WIDGET, TRUE );
 
 		while ( !taggedSectionWidget.equals( container ) ) {
 
@@ -177,7 +195,14 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 				sectionWidgetParentAttributes.put( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR, sectionDecorator );
 			}
 
+			// Tag this section widget as 'used'
+
+			if ( state.existingSectionsUsed.get( taggedSectionWidget ) == null ) {
+				state.existingSectionsUsed.put( taggedSectionWidget, new ArrayList<String>() );
+			}
+
 			sectionDecorator.add( currentSection );
+
 			taggedSectionWidget = taggedSectionWidget.getParent();
 		}
 
@@ -196,4 +221,35 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	 */
 
 	protected abstract UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget );
+
+	/**
+	 * Clears out all <code>existingSectionsUsed</code>. Needed for ICEfaces support.
+	 */
+
+	@Override
+	public void onEndBuild( UIMetawidget metawidget ) {
+
+		super.onEndBuild( metawidget );
+
+		metawidget.putClientProperty( getClass(), null );
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	public static class UIComponentState
+		extends State<UIComponent> {
+
+		/**
+		 * Map to track which existing sections we have already reused. This is important when two
+		 * or more sections on the page have the same name.
+		 */
+
+		public Map<UIComponent, List<String>>	existingSectionsUsed	= CollectionUtils.newHashMap();
+	}
 }

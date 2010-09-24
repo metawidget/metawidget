@@ -59,6 +59,10 @@ public class BindingBean {
 
 	public void setMetawidget( UIMetawidget metawidget ) {
 
+		if ( metawidget.getWidgetProcessors().size() != 8 ) {
+			throw new RuntimeException( "Saw " + metawidget.getWidgetProcessors().size() + " WidgetProcessors by default" );
+		}
+
 		// POST-back init
 
 		initMetawidget( metawidget );

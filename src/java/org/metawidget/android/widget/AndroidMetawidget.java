@@ -93,8 +93,6 @@ public class AndroidMetawidget
 
 	private int													mConfig;
 
-	private boolean												mNeedsConfiguring	= true;
-
 	private Class<?>											mBundle;
 
 	private boolean												mNeedToBuildWidgets;
@@ -137,7 +135,7 @@ public class AndroidMetawidget
 		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
 
 		if ( mConfig != 0 ) {
-			mNeedsConfiguring = true;
+			mPipeline.setNeedsConfiguring();
 		}
 
 		// Support readOnly in the XML
@@ -207,7 +205,7 @@ public class AndroidMetawidget
 	public void setConfig( int config ) {
 
 		mConfig = config;
-		mNeedsConfiguring = true;
+		mPipeline.setNeedsConfiguring();
 		invalidateInspection();
 	}
 
@@ -221,8 +219,8 @@ public class AndroidMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -543,12 +541,6 @@ public class AndroidMetawidget
 
 	protected void configure() {
 
-		if ( !mNeedsConfiguring ) {
-			return;
-		}
-
-		mNeedsConfiguring = false;
-
 		try {
 			if ( mConfig != 0 ) {
 				if ( CONFIG_READER == null ) {
@@ -614,8 +606,8 @@ public class AndroidMetawidget
 			return;
 		}
 
-		configure();
-
+		mPipeline.configureOnce();
+		
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
 
@@ -873,6 +865,12 @@ public class AndroidMetawidget
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected void configure() {
+
+			AndroidMetawidget.this.configure();
+		}
 
 		@Override
 		protected void startBuild() {

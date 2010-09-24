@@ -36,6 +36,12 @@
 	</managed-bean>
 
 	<managed-bean>
+		<managed-bean-name>tabQuirks</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.TabQuirks</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
 		<managed-bean-name>removeDuplicatesSupport</managed-bean-name>
 		<managed-bean-class>org.metawidget.faces.quirks.model.RemoveDuplicatesSupportTest</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>

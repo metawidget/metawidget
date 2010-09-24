@@ -79,8 +79,6 @@ public class SwtMetawidget
 
 	private String						mConfig;
 
-	private boolean						mNeedsConfiguring		= true;
-
 	private ResourceBundle				mBundle;
 
 	private boolean						mNeedToBuildWidgets;
@@ -223,7 +221,7 @@ public class SwtMetawidget
 	public void setConfig( String config ) {
 
 		mConfig = config;
-		mNeedsConfiguring = true;
+		mPipeline.setNeedsConfiguring();
 		invalidateInspection();
 	}
 
@@ -237,8 +235,8 @@ public class SwtMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -572,17 +570,13 @@ public class SwtMetawidget
 
 	protected void configure() {
 
-		if ( !mNeedsConfiguring ) {
-			return;
-		}
-
 		// Special support for visual IDE builders
 
 		if ( mInspectionPath == null ) {
+
+			mPipeline.setNeedsConfiguring();
 			return;
 		}
-
-		mNeedsConfiguring = false;
 
 		try {
 			if ( mConfig != null ) {
@@ -608,8 +602,8 @@ public class SwtMetawidget
 		if ( !mNeedToBuildWidgets ) {
 			return;
 		}
-
-		configure();
+		
+		mPipeline.configureOnce();
 
 		mNeedToBuildWidgets = false;
 
@@ -825,6 +819,12 @@ public class SwtMetawidget
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected void configure() {
+
+			SwtMetawidget.this.configure();
+		}
 
 		@Override
 		protected Control buildWidget( String elementName, Map<String, String> attributes ) {

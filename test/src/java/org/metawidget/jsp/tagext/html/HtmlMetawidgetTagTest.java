@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
+import org.metawidget.pipeline.base.BasePipeline;
 
 /**
  * HtmlMetawidgetTag test cases.
@@ -84,19 +85,22 @@ public class HtmlMetawidgetTagTest
 		facets.setAccessible( true );
 		Field stubs = MetawidgetTag.class.getDeclaredField( "mStubs" );
 		stubs.setAccessible( true );
-		Field needsConfiguring = MetawidgetTag.class.getDeclaredField( "mNeedsConfiguring" );
-		needsConfiguring.setAccessible( true );
-		needsConfiguring.set( metawidget, false );
+		Field pipelineField = MetawidgetTag.class.getDeclaredField( "mPipeline" );
+		pipelineField.setAccessible( true );
+		BasePipeline<?,?,?,?> pipeline = (BasePipeline<?,?,?,?>) pipelineField.get( metawidget );
+		Field needsConfiguringField = BasePipeline.class.getDeclaredField( "mNeedsConfiguring" );
+		needsConfiguringField.setAccessible( true );
+		needsConfiguringField.set( pipeline, false );
 
 		assertTrue( null != facets.get( metawidget ) );
 		assertTrue( null != stubs.get( metawidget ) );
-		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ) );
+		assertTrue( false == (Boolean) needsConfiguringField.get( pipeline ) );
 
 		// Should reset facets and stubs
 
 		metawidget.doStartTag();
 		assertTrue( null == facets.get( metawidget ) );
 		assertTrue( null == stubs.get( metawidget ) );
-		assertTrue( true == (Boolean) needsConfiguring.get( metawidget ) );
+		assertTrue( true == (Boolean) needsConfiguringField.get( pipeline ) );
 	}
 }

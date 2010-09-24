@@ -97,6 +97,12 @@ public class GwtMetawidgetTest
 		//
 
 		@Override
+		protected void configure() {
+
+			// Do nothing
+		}
+
+		@Override
 		protected void startBuild() {
 
 			// Do nothing

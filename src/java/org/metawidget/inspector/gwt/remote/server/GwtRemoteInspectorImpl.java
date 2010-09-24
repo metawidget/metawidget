@@ -166,6 +166,12 @@ public class GwtRemoteInspectorImpl
 		//
 
 		@Override
+		protected void configure() {
+
+			// Do nothing
+		}
+
+		@Override
 		protected GwtRemoteInspectorImpl getPipelineOwner() {
 
 			// For passing to processInspectionResult

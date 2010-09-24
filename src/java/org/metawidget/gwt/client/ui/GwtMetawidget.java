@@ -812,8 +812,8 @@ public class GwtMetawidget
 
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
-		configure();
-
+		mPipeline.configureOnce();
+		
 		if ( mToInspect != null ) {
 			Inspector inspector = mPipeline.getInspector();
 
@@ -1032,6 +1032,12 @@ public class GwtMetawidget
 		//
 		// Protected methods
 		//
+
+		@Override
+		protected void configure() {
+
+			GwtMetawidget.this.configure();
+		}
 
 		@Override
 		protected void startBuild() {

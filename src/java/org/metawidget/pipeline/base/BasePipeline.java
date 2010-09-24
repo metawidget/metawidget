@@ -75,6 +75,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	private int									mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
+	private boolean								mNeedsConfiguring					= true;
+
 	private Inspector							mInspector;
 
 	private List<InspectionResultProcessor<M>>	mInspectionResultProcessors;
@@ -124,6 +126,29 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		mMaximumInspectionDepth = maximumInspectionDepth;
 	}
 
+	public void setNeedsConfiguring() {
+
+		mNeedsConfiguring = true;
+	}
+
+	/**
+	 * Configures the Metawidget, then sets a flag so that subsequent
+	 * calls to <code>configureOnce</code> do nothing.
+	 * <p>
+	 * The flag can be reset by calling <code>setNeedsConfiguring</code>.
+	 */
+
+	public void configureOnce() {
+
+		if ( !mNeedsConfiguring ) {
+			return;
+		}
+
+		mNeedsConfiguring = false;
+
+		configure();
+	}
+
 	public void setInspector( Inspector inspector ) {
 
 		mInspector = inspector;
@@ -131,6 +156,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public Inspector getInspector() {
 
+		configureOnce();
 		return mInspector;
 	}
 
@@ -147,6 +173,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public List<InspectionResultProcessor<M>> getInspectionResultProcessors() {
 
+		configureOnce();
 		return mInspectionResultProcessors;
 	}
 
@@ -156,6 +183,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessor ) {
+
+		configureOnce();
 
 		if ( mInspectionResultProcessors == null ) {
 			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>();
@@ -167,6 +196,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessors ) {
+
+		configureOnce();
 
 		if ( mInspectionResultProcessors == null ) {
 			return;
@@ -182,6 +213,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public WidgetBuilder<W, M> getWidgetBuilder() {
 
+		configureOnce();
 		return mWidgetBuilder;
 	}
 
@@ -210,6 +242,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public List<WidgetProcessor<W, M>> getWidgetProcessors() {
 
+		configureOnce();
 		return mWidgetProcessors;
 	}
 
@@ -219,6 +252,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
+
+		configureOnce();
 
 		if ( mWidgetProcessors == null ) {
 			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>();
@@ -231,6 +266,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public void removeWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
 
+		configureOnce();
+
 		if ( mWidgetProcessors == null ) {
 			return;
 		}
@@ -239,6 +276,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	}
 
 	public Layout<W, C, M> getLayout() {
+
+		configureOnce();
 
 		return mLayout;
 	}
@@ -282,6 +321,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public E inspectAsDom( Object toInspect, String type, String... names ) {
 
+		configureOnce();
+
 		if ( mInspector == null ) {
 			throw new NullPointerException( "No inspector configured" );
 		}
@@ -311,6 +352,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	public void buildWidgets( E inspectionResult )
 		throws Exception {
 
+		configureOnce();
 		startBuild();
 
 		if ( inspectionResult != null ) {
@@ -391,7 +433,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	/**
 	 * Build a compound widget by iterating through children of the given element, calling
-	 * <code>buildWidget</code> and <code>addWidget</code on each.
+	 * <code>buildWidget</code> and <code>addWidget</code> on each.
 	 */
 
 	protected void buildCompoundWidget( E element )
@@ -466,7 +508,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	/**
 	 * Serialize the given element to an XML String.
 	 *
-	 * @param element	the element to serialize. May be null.
+	 * @param element
+	 *            the element to serialize. May be null.
 	 */
 
 	protected abstract String elementToString( E element );
@@ -482,6 +525,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	protected abstract String getElementName( E element );
 
 	protected abstract Map<String, String> getAttributesAsMap( E element );
+
+	protected abstract void configure();
 
 	protected void startBuild() {
 
