@@ -244,8 +244,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
 
-		assertTrue( inspectionResultProcessor1 == (InspectionResultProcessor<?>) pipeline.getWidgetProcessor( InspectionResultProcessor.class ) );
-		assertTrue( inspectionResultProcessor1 == (InspectionResultProcessor<?>) pipeline.getWidgetProcessor( ComesAfterInspectionResultProcessor.class ) );
+		// Haven't found a need to implement pipeline.getInspectionResultProcessor()!
 
 		try {
 			pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );

@@ -308,7 +308,7 @@
 				<verifyCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="true"/>
 
 				<!-- Test panel disappears again -->
-								
+
 				<setCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input" checked="false"/>
 				<setCheckbox xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input" checked="false"/>
 				<clickButton label="Save"/>
@@ -332,6 +332,34 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>
 			</steps>
 		</webtest>
+		
+		<!-- TODO
+		<webtest name="test-remove-duplicates-support">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/${context.path}/removeDuplicatesSupport.jsf" />
+
+				<repeat count="5">
+					<not>
+						<verifyXPath xpath="/html/body/form/table"/>
+					</not>
+					
+					<clickLink label="New Embedded"/>
+
+					<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Bar 1:"/>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+					
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td/@colspan" text="2"/>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[2]/td/span/@class, 'more')"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/span/table/tbody/tr[1]/th[1])" text="Bar 2:"/>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/span/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
+					<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td/span/table/tbody/tr)" text="1"/>
+					
+					<clickLink label="Clear Embedded"/>
+				</repeat>
+			</steps>
+		</webtest>
+		-->
 
 		<webtest name="test-binding-support">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
@@ -340,21 +368,37 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Foo:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/th" text="Bar:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@name" text="form:child0"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@value" text="Bar Value"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[2])" text="*"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/th" text="Baz:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea" text="Baz Value"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea/@name" text="form:child1"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[2]/div)" text=""/>
 				<verifyText text="Baz is 'Baz Value'"/>
 				
-				<setInputField name="form:bindingFooBaz" value="Baz Value 2"/>
-				
+				<setInputField name="form:child1" value="Baz Value 2"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@name" text="form:bindingSave"/>
+				</not>
 				<clickButton label="Save"/>
 
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@name" text="form:child0"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@value" text="Bar Value"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea" text="Baz Value 2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea/@name" text="form:child1"/>
 				<verifyText text="Baz is 'Baz Value 2'"/>
+
+				<setInputField name="form:child0" value=""/>				
+				<clickButton label="Save"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@name" text="form:child0"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr/td[1])" text="Bar: Validation Error: Value is required."/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@name" text="form:bindingSave"/>
+				</not>
+				
 			</steps>
 		</webtest>
 

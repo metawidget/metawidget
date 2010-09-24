@@ -283,6 +283,7 @@ public abstract class UIMetawidget
 
 	public void addWidgetProcessor( WidgetProcessor<UIComponent, UIMetawidget> widgetProcessor ) {
 
+		configure();
 		mPipeline.addWidgetProcessor( widgetProcessor );
 	}
 
@@ -302,6 +303,7 @@ public abstract class UIMetawidget
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
 
+		configure();
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 

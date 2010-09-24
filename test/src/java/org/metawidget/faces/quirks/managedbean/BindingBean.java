@@ -16,17 +16,20 @@
 
 package org.metawidget.faces.quirks.managedbean;
 
-import javax.faces.context.FacesContext;
+import java.util.Map;
+
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ReadableIdProcessor;
-import org.metawidget.faces.component.widgetprocessor.StandardBindingProcessor;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -38,34 +41,28 @@ public class BindingBean {
 	// Private members
 	//
 
-	private UIMetawidget	mMetawidget;
-
 	private Foo				mFoo	= new Foo();
 
 	//
 	// Public methods
 	//
 
-	@SuppressWarnings( "deprecation" )
 	@UiHidden
 	public UIMetawidget getMetawidget() {
 
-		// TODO: not hit?
+		// First-time init
 
-		if ( mMetawidget == null ) {
+		UIMetawidget metawidget = new HtmlMetawidget();
+		initMetawidget( metawidget );
 
-			mMetawidget = new HtmlMetawidget();
-			mMetawidget.setValueBinding( "value", FacesContext.getCurrentInstance().getApplication().createValueBinding( "#{binding}" ) );
-			mMetawidget.addWidgetProcessor( new StandardBindingProcessor() );
-			mMetawidget.addWidgetProcessor( new ReadableIdProcessor() );
-		}
-
-		return mMetawidget;
+		return metawidget;
 	}
 
 	public void setMetawidget( UIMetawidget metawidget ) {
 
-		mMetawidget = metawidget;
+		// POST-back init
+
+		initMetawidget( metawidget );
 	}
 
 	public Foo getFoo() {
@@ -78,6 +75,41 @@ public class BindingBean {
 	public void save() {
 
 		// Do nothing
+	}
+
+	//
+	// Private methods
+	//
+
+	private void initMetawidget( UIMetawidget metawidget )
+	{
+		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( ReadableIdProcessor.class ) );
+		metawidget.addWidgetProcessor( new WidgetProcessor<UIComponent, UIMetawidget>() {
+
+			@Override
+			public UIComponent processWidget( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget parentMetawidget ) {
+
+				return setId( widget, parentMetawidget );
+			}
+		} );
+	}
+
+	/**
+	 * Example of using an anonymous inner class (the WidgetProcessor) tied to an outer class
+	 * method.
+	 */
+
+	/* package private */UIComponent setId( UIComponent widget, UIMetawidget metawidget ) {
+
+		if ( widget.getId() != null ) {
+			throw new RuntimeException( "Id is '" + widget.getId() + "'. ReadableIdProcessor still active?" );
+		}
+
+		if ( widget instanceof UIInput ) {
+			widget.setId( "child" + metawidget.getChildren().size() );
+		}
+
+		return widget;
 	}
 
 	//

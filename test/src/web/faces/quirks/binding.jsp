@@ -12,7 +12,7 @@
 				    
 	        <h:form id="form">
 	        
-	        	<m:metawidget binding="#{binding.metawidget}"/>
+	        	<m:metawidget value="#{binding}" binding="#{binding.metawidget}"/>
 	        	<h:outputText value="Baz is '#{binding.foo.baz}'"/>
 	        	
 	        </h:form>
