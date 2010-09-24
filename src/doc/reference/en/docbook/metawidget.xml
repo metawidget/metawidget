@@ -6393,13 +6393,13 @@ static class State {
 						Or you can use JSF's <parameter>binding</parameter> attribute to configure Metawidget programmatically:
 					</para>
 					
-					<programlisting language="xml">&lt;m:metawidget value="#{myBean.current}" binding="#{myBean.metawidget}"/&gt;</programlisting>
+					<programlisting language="xml">&lt;m:metawidget value="#{foo}" binding="#{myBean.metawidget}"/&gt;</programlisting>
 					
 					<para>
 						Then in your managed bean:
 					</para>
 					
-					<programlisting language="xml">public class MyManagedBean {
+					<programlisting language="java">public class MyManagedBean {
 
 	public UIMetawidget getMetawidget() {
 
