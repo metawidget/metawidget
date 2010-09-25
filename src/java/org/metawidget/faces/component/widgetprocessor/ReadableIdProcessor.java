@@ -85,6 +85,8 @@ public class ReadableIdProcessor
 
 			if ( methodBinding != null ) {
 				setUniqueId( component, methodBinding.getExpressionString(), metawidget );
+			} else {
+				component.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 			}
 		} else {
 			// Base property ids on the valueBinding
@@ -93,6 +95,8 @@ public class ReadableIdProcessor
 
 			if ( valueBinding != null ) {
 				setUniqueId( component, valueBinding.getExpressionString(), metawidget );
+			} else {
+				component.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 			}
 		}
 

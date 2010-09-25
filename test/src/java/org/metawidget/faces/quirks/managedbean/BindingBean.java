@@ -16,10 +16,12 @@
 
 package org.metawidget.faces.quirks.managedbean;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -48,16 +50,16 @@ public class BindingBean {
 	//
 
 	@UiHidden
-	public UIMetawidget getMetawidget() {
+	public UIMetawidget getMetawidget1() {
 
 		// First-time init
 
 		UIMetawidget metawidget = new HtmlMetawidget();
-		initMetawidget( metawidget );
+		initMetawidget1( metawidget );
 		return metawidget;
 	}
 
-	public void setMetawidget( UIMetawidget metawidget ) {
+	public void setMetawidget1( UIMetawidget metawidget ) {
 
 		if ( metawidget.getWidgetProcessors().size() != 8 ) {
 			throw new RuntimeException( "Saw " + metawidget.getWidgetProcessors().size() + " WidgetProcessors by default" );
@@ -65,7 +67,45 @@ public class BindingBean {
 
 		// POST-back init
 
-		initMetawidget( metawidget );
+		initMetawidget1( metawidget );
+	}
+
+	@UiHidden
+	public UIMetawidget getMetawidget2() {
+
+		// First-time init
+
+		UIMetawidget metawidget = new HtmlMetawidget();
+		initMetawidget2( metawidget );
+		return metawidget;
+	}
+
+	/**
+	 * @param metawidget	not used
+	 */
+
+	public void setMetawidget2( UIMetawidget metawidget ) {
+
+		// Do nothing
+	}
+
+	@UiHidden
+	public UIMetawidget getMetawidget3() {
+
+		// First-time init
+
+		UIMetawidget metawidget = new HtmlMetawidget();
+		initMetawidget3( metawidget );
+		return metawidget;
+	}
+
+	/**
+	 * @param metawidget	not used
+	 */
+
+	public void setMetawidget3( UIMetawidget metawidget ) {
+
+		// Do nothing
 	}
 
 	public Foo getFoo() {
@@ -84,7 +124,7 @@ public class BindingBean {
 	// Private methods
 	//
 
-	private void initMetawidget( UIMetawidget metawidget ) {
+	private void initMetawidget1( UIMetawidget metawidget ) {
 
 		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( ReadableIdProcessor.class ) );
 		metawidget.addWidgetProcessor( new WidgetProcessor<UIComponent, UIMetawidget>() {
@@ -95,6 +135,16 @@ public class BindingBean {
 				return setId( widget, parentMetawidget );
 			}
 		} );
+	}
+
+	private void initMetawidget2( UIMetawidget metawidget ) {
+
+		metawidget.setValue( new Foo() );
+	}
+
+	private void initMetawidget3( UIMetawidget metawidget ) {
+
+		metawidget.setValue( Foo.class );
 	}
 
 	/**
@@ -110,6 +160,8 @@ public class BindingBean {
 
 		if ( widget instanceof UIInput ) {
 			widget.setId( "child" + metawidget.getChildren().size() );
+		} else {
+			widget.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 		}
 
 		return widget;
@@ -119,7 +171,8 @@ public class BindingBean {
 	// Inner class
 	//
 
-	public static class Foo {
+	public static class Foo
+		implements Serializable {
 
 		//
 		// Private members

@@ -12,9 +12,19 @@
 				    
 	        <h:form id="form">
 	        
-	        	<m:metawidget value="#{binding}" binding="#{binding.metawidget}"/>
+	        	<h1>Normal Binding</h1>
+	        	
+	        	<m:metawidget value="#{binding}" binding="#{binding.metawidget1}"/>
 	        	<h:outputText value="Baz is '#{binding.foo.baz}'"/>
 	        	
+	        	<h1>Direct Object</h1>
+	        	
+	        	<m:metawidget binding="#{binding.metawidget2}"/>
+
+	        	<h1>Direct Class</h1>
+	        	
+	        	<m:metawidget binding="#{binding.metawidget3}"/>
+
 	        </h:form>
 
 		</f:view>

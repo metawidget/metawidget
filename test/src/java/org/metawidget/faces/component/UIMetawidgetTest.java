@@ -19,7 +19,6 @@ package org.metawidget.faces.component;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -237,20 +236,6 @@ public class UIMetawidgetTest
 		metawidget.configure();
 
 		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
-	}
-
-	public void testDirectObject()
-		throws Exception {
-
-		UIMetawidget metawidget = new HtmlMetawidget();
-
-		try {
-			metawidget.setValue( new Date() );
-			metawidget.buildWidgets();
-		} catch ( Exception e ) {
-
-			assertTrue( "Value must be an EL expression, a String, or null - but not a java.util.Date".equals( e.getMessage() ) );
-		}
 	}
 
 	//

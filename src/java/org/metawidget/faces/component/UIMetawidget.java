@@ -599,6 +599,8 @@ public abstract class UIMetawidget
 			return;
 		}
 
+		// HIGH: tests?
+
 		// ...or a Class...
 		//
 		// (you have to know what you're doing here - StandardBindingProcessor will fail because
@@ -730,8 +732,11 @@ public abstract class UIMetawidget
 		// use nested Metawidgets (without a value binding) purely for layout. They populate a new
 		// Metawidget with previously inspected components, and we don't want them destroyed
 		// here and/or unnecessarily re-inspected in endBuild
+		//
+		// Check getValue() is null too, in case the Metawidget is being used with direct objects
+		// or direct classes (through the 'binding' attribute)
 
-		if ( getValueBinding( "value" ) == null ) {
+		if ( getValueBinding( "value" ) == null && getValue() == null ) {
 			return;
 		}
 
@@ -980,8 +985,8 @@ public abstract class UIMetawidget
 		//
 
 		@Override
-		protected void configure()
-		{
+		protected void configure() {
+
 			UIMetawidget.this.configure();
 		}
 
