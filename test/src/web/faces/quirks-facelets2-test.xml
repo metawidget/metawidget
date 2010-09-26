@@ -376,7 +376,9 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr/td/table/tbody/tr[2]/th" text="Baz:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea" text="Baz Value"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr/td/table/tbody/tr[2]/td[1]/textarea/@name" text="form:child1"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr/td/table/tbody/tr[2]/td[2]/div" text=""/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr/td/table/tbody/tr[2]/td[2]/div"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr/td/table/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
 				<verifyText text="Baz is 'Baz Value'"/>
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/h1[2])" text="Direct Object"/>
@@ -385,8 +387,9 @@
 				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/input/@value" text=""/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[2])" text="*"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[2]/th)" text="Baz:"/>
-				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[2]/textarea" text=""/>
-				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[2]/td[2]/div" text=""/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[2]/td[1]/textarea"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[2]/td[2]/div"/>
+				<verifyXPath xpath="count(/html/body/form/table[2]/tbody/tr)" text="2"/>
 
 				<verifyXPath xpath="normalize-space(/html/body/form/h1[3])" text="Direct Class"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[1]/th)" text="Bar:"/>
@@ -394,8 +397,9 @@
 				<verifyXPath xpath="/html/body/form/table[3]/tbody/tr[1]/td[1]/input/@value" text=""/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[1]/td[2])" text="*"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[2]/th)" text="Baz:"/>
-				<verifyXPath xpath="/html/body/form/table[3]/tbody/tr[1]/td[2]/textarea" text=""/>
-				<verifyXPath xpath="/html/body/form/table[3]/tbody/tr[2]/td[2]/div" text=""/>
+				<verifyXPath xpath="/html/body/form/table[3]/tbody/tr[2]/td[1]/textarea"/>
+				<verifyXPath xpath="/html/body/form/table[3]/tbody/tr[2]/td[2]/div"/>
+				<verifyXPath xpath="count(/html/body/form/table[3]/tbody/tr)" text="2"/>
 				
 				<setInputField name="form:child1" value="Baz Value 2"/>
 				<not>
@@ -404,9 +408,15 @@
 				<clickButton label="Save"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr/td[1])" text="Bar: Validation Error: Value is required."/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr/td[1])" text="Bar: Validation Error: Value is required."/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr/td/table/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[2]/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[3]/tbody/tr)" text="2"/>
 				<setInputField xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/input" value="Bar 1"/>
 				<clickButton label="Save"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr/td[1])" text="Bar: Validation Error: Value is required."/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr/td/table/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[2]/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[3]/tbody/tr)" text="2"/>
 				<setInputField xpath="/html/body/form/table[3]/tbody/tr[1]/td[1]/input" value="Bar 2"/>
 				<clickButton label="Save"/>
 
@@ -424,6 +434,9 @@
 				<not>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@name" text="form:bindingSave"/>
 				</not>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr/td/table/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[2]/tbody/tr)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[3]/tbody/tr)" text="2"/>
 				
 			</steps>
 		</webtest>

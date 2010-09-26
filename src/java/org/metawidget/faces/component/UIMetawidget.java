@@ -599,29 +599,21 @@ public abstract class UIMetawidget
 			return;
 		}
 
-		// HIGH: tests?
-
-		// ...or a Class...
-		//
-		// (you have to know what you're doing here - StandardBindingProcessor will fail because
-		// there is no EL prefix)
+		// ...or a Class (for 'binding' attribute)...
 
 		if ( mValue instanceof Class<?> ) {
 			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, ( (Class<?>) mValue ).getName() ) );
 			return;
 		}
 
-		// ...or a direct Object...
-		//
-		// (you have to know what you're doing here - StandardBindingProcessor will fail because
-		// there is no EL prefix)
+		// ...or a direct Object (for 'binding' attribute)...
 
 		if ( mValue != null ) {
 			mPipeline.buildWidgets( mPipeline.inspectAsDom( mValue, mValue.getClass().getName() ) );
 			return;
 		}
 
-		// ...or run without inspection (eg. using the Metawidget purely for layout)
+		// ...or run without inspection (using the Metawidget purely for layout)
 
 		mPipeline.buildWidgets( null );
 	}
