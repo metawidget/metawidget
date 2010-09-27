@@ -50,8 +50,6 @@
 			</classpath>
 		</scalac>
 
-		<property name="skip-compile-examples" value="true"/>
-
 	</target>
 
 	<target name="flatten-libs" depends="pack,compile-examples">

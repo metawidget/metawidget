@@ -241,6 +241,7 @@
 				<exclude name="org/metawidget/inspector/impl/Trait.class"/>
 				<exclude name="org/metawidget/inspector/impl/propertystyle/**"/>
 				<exclude name="org/metawidget/inspector/iface/**"/>
+				<exclude name="org/metawidget/util/**"/>				
 			</fileset>
 			<fileset dir="${relative.dir}/src/java">
 				<exclude name="META-INF/metawidget.bnd"/>

@@ -137,8 +137,6 @@
 			</classpath>
 		</javac>
 		
-		<property name="skip-compile-test" value="true"/>
-
 	</target>
 
 	<!-- Unit Tests -->
@@ -367,6 +365,8 @@
 		<property name="build.debug" value="on"/>		
 		<antcall target="compile-test"/>
 		<property name="skip-compile-main" value="true"/>		
+		<property name="skip-compile-examples" value="true"/>
+		<property name="skip-compile-test" value="true"/>
 
 		<!-- Instrument -->
 
@@ -528,6 +528,7 @@
 		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
 
 		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
+		<delete dir="${tomcat.dir}/work"/>
 		
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${relative.dir}/${build.dir}/${run.dir}">
 			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>

@@ -599,6 +599,8 @@ public abstract class UIMetawidget
 			return;
 		}
 
+		// TODO: not hit?
+
 		// ...or a Class (for 'binding' attribute)...
 
 		if ( mValue instanceof Class<?> ) {
