@@ -527,8 +527,8 @@
 		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
 
-		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
 		<delete dir="${tomcat.dir}/work"/>
+		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
 		
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${relative.dir}/${build.dir}/${run.dir}">
 			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
