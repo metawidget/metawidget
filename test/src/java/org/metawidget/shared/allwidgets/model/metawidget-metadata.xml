@@ -26,6 +26,7 @@
 		<property name="double" minimum-value="-8"/>
 		<property name="doubleObject" label=""/>
 		<property name="char"/>
+		<property name="characterObject"/>
 		<property name="boolean"/>
 		<property name="booleanObject"/>
 		<property name="dropdown" lookup="foo1,dropdown1,bar1" lookup-labels=""/>

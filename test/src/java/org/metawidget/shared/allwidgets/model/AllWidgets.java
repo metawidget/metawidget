@@ -87,6 +87,8 @@ public class AllWidgets
 
 	private char				mChar								= 'A';
 
+	private Character			mCharacterObject					= 'Z';
+
 	/**
 	 * Test boolean widgets.
 	 * <p>
@@ -331,6 +333,16 @@ public class AllWidgets
 	public void setChar( char aChar ) {
 
 		mChar = aChar;
+	}
+
+	public Character getCharacterObject() {
+
+		return mCharacterObject;
+	}
+
+	public void setCharacterObject( Character aCharacterObject ) {
+
+		mCharacterObject = aCharacterObject;
 	}
 
 	public boolean isBoolean() {
