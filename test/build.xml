@@ -614,8 +614,9 @@
 
 		<!-- Test RichFaces -->
 		
-		<copy file="${relative.dir}/test/src/web/examples/faces/metawidget-addressbook-richfaces.xml" tofile="${tomcat.dir}/webapps/addressbook-faces/WEB-INF/metawidget.xml" overwrite="true"/>		
+		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
+		<copy file="${relative.dir}/test/src/web/examples/faces/metawidget-addressbook-richfaces.xml" tofile="${tomcat.dir}/webapps/addressbook-faces/WEB-INF/metawidget.xml" overwrite="true"/>		
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
 			<classpath>
