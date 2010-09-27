@@ -72,15 +72,16 @@
 
 		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
 			<classpath>
-				<fileset dir="${relative.dir}/lib"/>
+				<fileset dir="${relative.dir}/lib">
+					<include name="ejb3-persistence.jar"/>
+					<include name="groovy-*.jar"/>
+					<include name="hibernate-validator.jar"/>
+				</fileset>
 			</classpath>
 		</taskdef>
 
 		<groovyc srcdir="${relative.dir}/test/src/groovy" destdir="${relative.dir}/${build.dir}/groovy-test-classes">
 			<include name="**/*.groovy"/>
-			<classpath>
-				<fileset dir="${relative.dir}/lib"/>
-			</classpath>
 		</groovyc>
 
 		<!-- Build Scala files -->
@@ -526,8 +527,6 @@
 
 		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
-
-		<delete dir="${tomcat.dir}/work"/>
 		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
 		
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${relative.dir}/${build.dir}/${run.dir}">
@@ -550,6 +549,10 @@
 	    </java>
 		
 		<sleep seconds="30"/>
+
+		<delete dir="${tomcat.dir}/webapps"/>
+		<mkdir dir="${tomcat.dir}/webapps"/>
+		<delete dir="${tomcat.dir}/work"/>
 
 	</target>
 	

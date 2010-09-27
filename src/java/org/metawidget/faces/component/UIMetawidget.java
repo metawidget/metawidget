@@ -684,10 +684,6 @@ public abstract class UIMetawidget
 
 		if ( mConfig != null ) {
 			try {
-				if ( LOG.isTraceEnabled() ) {
-					LOG.trace( "configure from {0} (start)", mConfig );
-				}
-
 				configReader.configure( mConfig, this );
 			} catch ( MetawidgetException e ) {
 				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) ) {
@@ -697,10 +693,6 @@ public abstract class UIMetawidget
 				if ( !LOGGED_MISSING_CONFIG ) {
 					LOGGED_MISSING_CONFIG = true;
 					LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
-				}
-			} finally {
-				if ( LOG.isTraceEnabled() ) {
-					LOG.trace( "configure from {0} (end)", mConfig );
 				}
 			}
 		}
@@ -997,22 +989,6 @@ public abstract class UIMetawidget
 			}
 
 			return null;
-		}
-
-		@Override
-		protected UIComponent buildWidget( String elementName, Map<String, String> attributes ) {
-
-			if ( LOG.isTraceEnabled() ) {
-				LOG.trace( "buildWidget for {0} named {1} (start)", elementName, attributes.get( NAME ) );
-			}
-
-			UIComponent widget = super.buildWidget( elementName, attributes );
-
-			if ( LOG.isTraceEnabled() ) {
-				LOG.trace( "buildWidget returned {0} (end)", widget );
-			}
-
-			return widget;
 		}
 
 		@Override
