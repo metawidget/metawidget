@@ -121,6 +121,10 @@ public class ReadOnlyWidgetBuilder
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}
 
+			if ( Character.class.equals( clazz ) ) {
+				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
+			}
+
 			if ( Date.class.equals( clazz ) ) {
 				return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 			}

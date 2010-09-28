@@ -237,50 +237,55 @@ public class SwtAllWidgetsTest
 		assertEquals( "A", metawidget.getValue( "char" ) );
 		( (Text) metawidget.getChildren()[35] ).setText( "Z" );
 
-		assertEquals( "Boolean:", ( (Label) metawidget.getChildren()[36] ).getText() );
-		assertTrue( metawidget.getChildren()[37] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[37].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( "Character object:", ( (Label) metawidget.getChildren()[36] ).getText() );
+		assertTrue( metawidget.getChildren()[37] instanceof Text );
+		assertEquals( "Z", metawidget.getValue( "char" ) );
+		( (Text) metawidget.getChildren()[37] ).setText( "A" );
+
+		assertEquals( "Boolean:", ( (Label) metawidget.getChildren()[38] ).getText() );
+		assertTrue( metawidget.getChildren()[39] instanceof Button );
+		assertTrue( ( metawidget.getChildren()[39].getStyle() & SWT.CHECK ) == SWT.CHECK );
 		assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-		( (Button) metawidget.getChildren()[37] ).setSelection( true );
+		( (Button) metawidget.getChildren()[39] ).setSelection( true );
 
-		assertEquals( "Boolean object:", ( (Label) metawidget.getChildren()[38] ).getText() );
-		assertTrue( metawidget.getChildren()[39] instanceof Combo );
-		assertTrue( ( metawidget.getChildren()[39].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
-		assertTrue( 3 == ( (Combo) metawidget.getChildren()[39] ).getItemCount() );
-		assertEquals( "true", metawidget.getValue( "booleanObject" ) );
-		( (Combo) metawidget.getChildren()[39] ).setText( "false" );
-
-		assertEquals( "Dropdown:", ( (Label) metawidget.getChildren()[40] ).getText() );
+		assertEquals( "Boolean object:", ( (Label) metawidget.getChildren()[40] ).getText() );
 		assertTrue( metawidget.getChildren()[41] instanceof Combo );
 		assertTrue( ( metawidget.getChildren()[41].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
-		assertTrue( 4 == ( (Combo) metawidget.getChildren()[41] ).getItemCount() );
-		assertEquals( "dropdown1", metawidget.getValue( "dropdown" ) );
-		( (Combo) metawidget.getChildren()[41] ).setText( "foo1" );
+		assertTrue( 3 == ( (Combo) metawidget.getChildren()[41] ).getItemCount() );
+		assertEquals( "true", metawidget.getValue( "booleanObject" ) );
+		( (Combo) metawidget.getChildren()[41] ).setText( "false" );
 
-		assertEquals( "Dropdown with labels:", ( (Label) metawidget.getChildren()[42] ).getText() );
+		assertEquals( "Dropdown:", ( (Label) metawidget.getChildren()[42] ).getText() );
 		assertTrue( metawidget.getChildren()[43] instanceof Combo );
-		assertTrue( 5 == ( (Combo) metawidget.getChildren()[43] ).getItemCount() );
-		assertEquals( "dropdown2", metawidget.getValue( "dropdownWithLabels" ) );
-		( (Combo) metawidget.getChildren()[43] ).setText( "bar2" );
+		assertTrue( ( metawidget.getChildren()[43].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
+		assertTrue( 4 == ( (Combo) metawidget.getChildren()[43] ).getItemCount() );
+		assertEquals( "dropdown1", metawidget.getValue( "dropdown" ) );
+		( (Combo) metawidget.getChildren()[43] ).setText( "foo1" );
 
-		assertEquals( "Not null dropdown:", ( (Label) metawidget.getChildren()[44] ).getText() );
+		assertEquals( "Dropdown with labels:", ( (Label) metawidget.getChildren()[44] ).getText() );
 		assertTrue( metawidget.getChildren()[45] instanceof Combo );
-		assertTrue( 3 == ( (Combo) metawidget.getChildren()[45] ).getItemCount() );
-		assertEquals( "0", metawidget.getValue( "notNullDropdown" ) );
-		( (Combo) metawidget.getChildren()[45] ).setText( "1" );
+		assertTrue( 5 == ( (Combo) metawidget.getChildren()[45] ).getItemCount() );
+		assertEquals( "dropdown2", metawidget.getValue( "dropdownWithLabels" ) );
+		( (Combo) metawidget.getChildren()[45] ).setText( "bar2" );
 
-		assertEquals( "Not null object dropdown*:", ( (Label) metawidget.getChildren()[46] ).getText() );
+		assertEquals( "Not null dropdown:", ( (Label) metawidget.getChildren()[46] ).getText() );
 		assertTrue( metawidget.getChildren()[47] instanceof Combo );
-		assertTrue( 6 == ( (Combo) metawidget.getChildren()[47] ).getItemCount() );
+		assertTrue( 3 == ( (Combo) metawidget.getChildren()[47] ).getItemCount() );
+		assertEquals( "0", metawidget.getValue( "notNullDropdown" ) );
+		( (Combo) metawidget.getChildren()[47] ).setText( "1" );
+
+		assertEquals( "Not null object dropdown*:", ( (Label) metawidget.getChildren()[48] ).getText() );
+		assertTrue( metawidget.getChildren()[49] instanceof Combo );
+		assertTrue( 6 == ( (Combo) metawidget.getChildren()[49] ).getItemCount() );
 		assertEquals( "dropdown3", metawidget.getValue( "notNullObjectDropdown" ) );
-		( (Combo) metawidget.getChildren()[47] ).setText( "foo3" );
+		( (Combo) metawidget.getChildren()[49] ).setText( "foo3" );
 
-		assertEquals( "Nested widgets:", ( (Label) metawidget.getChildren()[48] ).getText() );
-		assertTrue( 1 == ( (GridData) metawidget.getChildren()[48].getLayoutData() ).horizontalSpan );
-		assertTrue( metawidget.getChildren()[49] instanceof SwtMetawidget );
-		assertTrue( 1 == ( (GridData) metawidget.getChildren()[49].getLayoutData() ).horizontalSpan );
+		assertEquals( "Nested widgets:", ( (Label) metawidget.getChildren()[50] ).getText() );
+		assertTrue( 1 == ( (GridData) metawidget.getChildren()[50].getLayoutData() ).horizontalSpan );
+		assertTrue( metawidget.getChildren()[51] instanceof SwtMetawidget );
+		assertTrue( 1 == ( (GridData) metawidget.getChildren()[51].getLayoutData() ).horizontalSpan );
 
-		SwtMetawidget metawidgetNested = (SwtMetawidget) metawidget.getChildren()[49];
+		SwtMetawidget metawidgetNested = (SwtMetawidget) metawidget.getChildren()[51];
 		assertEquals( "Further nested widgets:", ( (Label) metawidgetNested.getChildren()[0] ).getText() );
 
 		SwtMetawidget metawidgetFurtherNested = (SwtMetawidget) metawidgetNested.getChildren()[1];
@@ -308,10 +313,10 @@ public class SwtAllWidgetsTest
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 		( (Text) metawidgetNested.getChildren()[5] ).setText( "Nested Textbox 2.2" );
 
-		assertEquals( "Read only nested widgets:", ( (Label) metawidget.getChildren()[50] ).getText() );
-		assertTrue( metawidget.getChildren()[51] instanceof SwtMetawidget );
+		assertEquals( "Read only nested widgets:", ( (Label) metawidget.getChildren()[52] ).getText() );
+		assertTrue( metawidget.getChildren()[53] instanceof SwtMetawidget );
 
-		metawidgetNested = (SwtMetawidget) metawidget.getChildren()[51];
+		metawidgetNested = (SwtMetawidget) metawidget.getChildren()[53];
 		assertEquals( "Nested textbox 1:", ( (Label) metawidgetNested.getChildren()[2] ).getText() );
 		assertTrue( metawidgetNested.getChildren()[3] instanceof Label );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) );
@@ -320,25 +325,25 @@ public class SwtAllWidgetsTest
 		assertTrue( metawidgetNested.getChildren()[5] instanceof Label );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) );
 
-		assertEquals( "Nested widgets dont expand:", ( (Label) metawidget.getChildren()[52] ).getText() );
-		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Text) metawidget.getChildren()[53] ).getText() );
-		( (Text) metawidget.getChildren()[53] ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
+		assertEquals( "Nested widgets dont expand:", ( (Label) metawidget.getChildren()[54] ).getText() );
+		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Text) metawidget.getChildren()[55] ).getText() );
+		( (Text) metawidget.getChildren()[55] ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
 
-		assertEquals( "Read only nested widgets dont expand:", ( (Label) metawidget.getChildren()[54] ).getText() );
-		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Label) metawidget.getChildren()[55] ).getText() );
+		assertEquals( "Read only nested widgets dont expand:", ( (Label) metawidget.getChildren()[56] ).getText() );
+		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Label) metawidget.getChildren()[57] ).getText() );
 
-		assertEquals( "Date:", ( (Label) metawidget.getChildren()[56] ).getText() );
-		assertTrue( metawidget.getChildren()[57] instanceof Text );
+		assertEquals( "Date:", ( (Label) metawidget.getChildren()[58] ).getText() );
+		assertTrue( metawidget.getChildren()[59] instanceof Text );
 
 		DateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 		assertEquals( dateFormat.format( allWidgets.getDate() ), metawidget.getValue( "date" ) );
-		( (Text) metawidget.getChildren()[57] ).setText( "bad date" );
+		( (Text) metawidget.getChildren()[59] ).setText( "bad date" );
 
-		assertTrue( metawidget.getChildren()[58] instanceof Stub );
-		assertEquals( "hidden", metawidget.getChildren()[58].getData( "name" ) );
-		assertTrue( ( (GridData) metawidget.getChildren()[58].getLayoutData() ).exclude );
+		assertTrue( metawidget.getChildren()[60] instanceof Stub );
+		assertEquals( "hidden", metawidget.getChildren()[60].getData( "name" ) );
+		assertTrue( ( (GridData) metawidget.getChildren()[60].getLayoutData() ).exclude );
 
-		Composite separatorComposite = (Composite) metawidget.getChildren()[59];
+		Composite separatorComposite = (Composite) metawidget.getChildren()[61];
 		assertTrue( ( (org.eclipse.swt.layout.GridLayout) separatorComposite.getLayout() ).marginWidth == 0 );
 		assertEquals( "Section Break", ( (Label) separatorComposite.getChildren()[0] ).getText() );
 		assertTrue( separatorComposite.getChildren()[1] instanceof Label );
@@ -346,20 +351,20 @@ public class SwtAllWidgetsTest
 		assertTrue( SWT.FILL == ( (GridData) separatorComposite.getChildren()[1].getLayoutData() ).horizontalAlignment );
 		assertTrue( ( (GridData) separatorComposite.getChildren()[1].getLayoutData() ).grabExcessHorizontalSpace );
 
-		assertEquals( "Read only:", ( (Label) metawidget.getChildren()[60] ).getText() );
-		assertTrue( metawidget.getChildren()[61] instanceof Label );
+		assertEquals( "Read only:", ( (Label) metawidget.getChildren()[62] ).getText() );
+		assertTrue( metawidget.getChildren()[63] instanceof Label );
 		assertEquals( "Read Only", metawidget.getValue( "readOnly" ) );
 
-		assertTrue( metawidget.getChildren()[62] instanceof Stub );
-		assertEquals( "mystery", metawidget.getChildren()[62].getData( "name" ) );
-		assertTrue( ( (GridData) metawidget.getChildren()[62].getLayoutData() ).exclude );
+		assertTrue( metawidget.getChildren()[64] instanceof Stub );
+		assertEquals( "mystery", metawidget.getChildren()[64].getData( "name" ) );
+		assertTrue( ( (GridData) metawidget.getChildren()[64].getLayoutData() ).exclude );
 
-		assertTrue( metawidget.getChildren()[63] instanceof Stub );
-		assertEquals( "collection", metawidget.getChildren()[63].getData( "name" ) );
-		assertTrue( ( (GridData) metawidget.getChildren()[63].getLayoutData() ).exclude );
+		assertTrue( metawidget.getChildren()[65] instanceof Stub );
+		assertEquals( "collection", metawidget.getChildren()[65].getData( "name" ) );
+		assertTrue( ( (GridData) metawidget.getChildren()[65].getLayoutData() ).exclude );
 
-		assertTrue( metawidget.getChildren()[64] instanceof Button );
-		Button button = ( (Button) metawidget.getChildren()[64] );
+		assertTrue( metawidget.getChildren()[66] instanceof Button );
+		Button button = ( (Button) metawidget.getChildren()[66] );
 		assertEquals( "Do action", button.getText() );
 		try {
 			button.notifyListeners( SWT.Selection, null );
@@ -368,7 +373,7 @@ public class SwtAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
-		assertTrue( 65 == metawidget.getChildren().length );
+		assertTrue( 67 == metawidget.getChildren().length );
 
 		// Check MetawidgetException
 
@@ -382,7 +387,7 @@ public class SwtAllWidgetsTest
 		// Check saving
 
 		String now = dateFormat.format( new GregorianCalendar().getTime() );
-		( (Text) metawidget.getChildren()[57] ).setText( now );
+		( (Text) metawidget.getChildren()[59] ).setText( now );
 		metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
 
 		// Check read-only
@@ -430,46 +435,48 @@ public class SwtAllWidgetsTest
 		assertEquals( "54.4", ( (Label) metawidget.getChildren()[33] ).getText() );
 		assertEquals( "Char:", ( (Label) metawidget.getChildren()[34] ).getText() );
 		assertEquals( "Z", ( (Label) metawidget.getChildren()[35] ).getText() );
-		assertEquals( "Boolean:", ( (Label) metawidget.getChildren()[36] ).getText() );
-		assertEquals( "true", ( (Label) metawidget.getChildren()[37] ).getText() );
-		assertEquals( "Boolean object:", ( (Label) metawidget.getChildren()[38] ).getText() );
-		assertEquals( "false", ( (Label) metawidget.getChildren()[39] ).getText() );
-		assertEquals( "Dropdown:", ( (Label) metawidget.getChildren()[40] ).getText() );
-		assertEquals( "foo1", ( (Label) metawidget.getChildren()[41] ).getText() );
-		assertEquals( "Dropdown with labels:", ( (Label) metawidget.getChildren()[42] ).getText() );
-		assertEquals( "bar2", ( (Label) metawidget.getChildren()[43] ).getText() );
-		assertEquals( "Not null dropdown:", ( (Label) metawidget.getChildren()[44] ).getText() );
-		assertEquals( "1", ( (Label) metawidget.getChildren()[45] ).getText() );
-		assertEquals( "Not null object dropdown:", ( (Label) metawidget.getChildren()[46] ).getText() );
-		assertEquals( "foo3", ( (Label) metawidget.getChildren()[47] ).getText() );
-		assertEquals( "Nested widgets:", ( (Label) metawidget.getChildren()[48] ).getText() );
-		assertEquals( "Further nested widgets:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[0] ).getText() );
-		assertEquals( "Further nested widgets:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[1] ).getChildren()[0] ).getText() );
-		assertEquals( "Nested textbox 1:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[1] ).getChildren()[2] ).getText() );
-		assertEquals( "Nested Textbox 1.1 (further)", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[1] ).getChildren()[3] ).getText() );
-		assertEquals( "Nested textbox 2:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[1] ).getChildren()[4] ).getText() );
-		assertEquals( "Nested Textbox 2.2 (further)", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[1] ).getChildren()[5] ).getText() );
-		assertEquals( "Nested textbox 1:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[2] ).getText() );
-		assertEquals( "Nested Textbox 1.1", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[3] ).getText() );
-		assertEquals( "Nested textbox 2:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[4] ).getText() );
-		assertEquals( "Nested Textbox 2.2", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[49] ).getChildren()[5] ).getText() );
-		assertEquals( "Read only nested widgets:", ( (Label) metawidget.getChildren()[50] ).getText() );
+		assertEquals( "Character object:", ( (Label) metawidget.getChildren()[36] ).getText() );
+		assertEquals( "A", ( (Label) metawidget.getChildren()[37] ).getText() );
+		assertEquals( "Boolean:", ( (Label) metawidget.getChildren()[38] ).getText() );
+		assertEquals( "true", ( (Label) metawidget.getChildren()[39] ).getText() );
+		assertEquals( "Boolean object:", ( (Label) metawidget.getChildren()[40] ).getText() );
+		assertEquals( "false", ( (Label) metawidget.getChildren()[41] ).getText() );
+		assertEquals( "Dropdown:", ( (Label) metawidget.getChildren()[42] ).getText() );
+		assertEquals( "foo1", ( (Label) metawidget.getChildren()[43] ).getText() );
+		assertEquals( "Dropdown with labels:", ( (Label) metawidget.getChildren()[44] ).getText() );
+		assertEquals( "bar2", ( (Label) metawidget.getChildren()[45] ).getText() );
+		assertEquals( "Not null dropdown:", ( (Label) metawidget.getChildren()[46] ).getText() );
+		assertEquals( "1", ( (Label) metawidget.getChildren()[47] ).getText() );
+		assertEquals( "Not null object dropdown:", ( (Label) metawidget.getChildren()[48] ).getText() );
+		assertEquals( "foo3", ( (Label) metawidget.getChildren()[49] ).getText() );
+		assertEquals( "Nested widgets:", ( (Label) metawidget.getChildren()[50] ).getText() );
 		assertEquals( "Further nested widgets:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[0] ).getText() );
+		assertEquals( "Further nested widgets:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[0] ).getText() );
+		assertEquals( "Nested textbox 1:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[2] ).getText() );
+		assertEquals( "Nested Textbox 1.1 (further)", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[3] ).getText() );
+		assertEquals( "Nested textbox 2:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[4] ).getText() );
+		assertEquals( "Nested Textbox 2.2 (further)", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[5] ).getText() );
 		assertEquals( "Nested textbox 1:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[2] ).getText() );
-		assertEquals( "Nested Textbox 1", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[3] ).getText() );
+		assertEquals( "Nested Textbox 1.1", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[3] ).getText() );
 		assertEquals( "Nested textbox 2:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[4] ).getText() );
-		assertEquals( "Nested Textbox 2", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[5] ).getText() );
-		assertEquals( "Nested widgets dont expand:", ( (Label) metawidget.getChildren()[52] ).getText() );
-		assertEquals( "Nested Textbox 1.01, Nested Textbox 2.02", ( (Label) metawidget.getChildren()[53] ).getText() );
-		assertEquals( "Read only nested widgets dont expand:", ( (Label) metawidget.getChildren()[54] ).getText() );
-		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Label) metawidget.getChildren()[55] ).getText() );
-		assertEquals( "Date:", ( (Label) metawidget.getChildren()[56] ).getText() );
-		assertEquals( now, ( (Label) metawidget.getChildren()[57] ).getText() );
-		assertEquals( "Section Break", ( (Label) ( (Composite) metawidget.getChildren()[59] ).getChildren()[0] ).getText() );
-		assertEquals( "Read only:", ( (Label) metawidget.getChildren()[60] ).getText() );
-		assertEquals( "Read Only", ( (Label) metawidget.getChildren()[61] ).getText() );
+		assertEquals( "Nested Textbox 2.2", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[5] ).getText() );
+		assertEquals( "Read only nested widgets:", ( (Label) metawidget.getChildren()[52] ).getText() );
+		assertEquals( "Further nested widgets:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[53] ).getChildren()[0] ).getText() );
+		assertEquals( "Nested textbox 1:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[53] ).getChildren()[2] ).getText() );
+		assertEquals( "Nested Textbox 1", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[53] ).getChildren()[3] ).getText() );
+		assertEquals( "Nested textbox 2:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[53] ).getChildren()[4] ).getText() );
+		assertEquals( "Nested Textbox 2", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[53] ).getChildren()[5] ).getText() );
+		assertEquals( "Nested widgets dont expand:", ( (Label) metawidget.getChildren()[54] ).getText() );
+		assertEquals( "Nested Textbox 1.01, Nested Textbox 2.02", ( (Label) metawidget.getChildren()[55] ).getText() );
+		assertEquals( "Read only nested widgets dont expand:", ( (Label) metawidget.getChildren()[56] ).getText() );
+		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Label) metawidget.getChildren()[57] ).getText() );
+		assertEquals( "Date:", ( (Label) metawidget.getChildren()[58] ).getText() );
+		assertEquals( now, ( (Label) metawidget.getChildren()[59] ).getText() );
+		assertEquals( "Section Break", ( (Label) ( (Composite) metawidget.getChildren()[61] ).getChildren()[0] ).getText() );
+		assertEquals( "Read only:", ( (Label) metawidget.getChildren()[62] ).getText() );
+		assertEquals( "Read Only", ( (Label) metawidget.getChildren()[63] ).getText() );
 
-		assertTrue( metawidget.getChildren().length == 65 );
+		assertTrue( metawidget.getChildren().length == 67 );
 
 		// All done
 
