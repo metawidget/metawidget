@@ -211,7 +211,7 @@ public class IceFacesWidgetBuilder
 				return htmlSelectBooleanCheckbox;
 			}
 
-			if ( char.class.equals( clazz ) ) {
+			if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz )) {
 				HtmlInputText htmlInputText = (HtmlInputText) application.createComponent( "com.icesoft.faces.HtmlInputText" );
 				htmlInputText.setMaxlength( 1 );
 				htmlInputText.setPartialSubmit( mPartialSubmit );

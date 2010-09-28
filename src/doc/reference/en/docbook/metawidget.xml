@@ -4058,7 +4058,8 @@ public class Main {
 				<para>
 					The second <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
 					chain should generally be a <classname>ReadOnlyWidgetBuilder</classname>. This builds standard
-					platform widgets for fields with <parameter>read-only="true"</parameter> (i.e. labels).
+					platform widgets for fields with <parameter>read-only="true"</parameter> or
+					<parameter>no-setter="true"</parameter> (i.e. labels).
 				</para>
 				
 				<para>

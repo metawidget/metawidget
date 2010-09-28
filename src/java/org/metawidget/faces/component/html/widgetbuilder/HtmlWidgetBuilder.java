@@ -233,7 +233,7 @@ public class HtmlWidgetBuilder
 			if ( component == null ) {
 				if ( boolean.class.equals( clazz ) ) {
 					component = application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
-				} else if ( char.class.equals( clazz ) ) {
+				} else if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz )) {
 					component = application.createComponent( "javax.faces.HtmlInputText" );
 					( (HtmlInputText) component ).setMaxlength( 1 );
 				} else if ( clazz.isPrimitive() ) {

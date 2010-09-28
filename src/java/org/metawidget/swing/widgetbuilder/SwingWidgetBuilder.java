@@ -180,7 +180,7 @@ public class SwingWidgetBuilder
 
 				// chars
 
-				if ( char.class.equals( clazz ) ) {
+				if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz )) {
 					return new JTextField();
 				}
 

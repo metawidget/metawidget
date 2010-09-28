@@ -550,6 +550,10 @@
 		
 		<sleep seconds="30"/>
 
+		<!-- Clean up webapps. This is a little destructive if you have non-Metawidget -->
+		<!-- apps in there, but /webapps should be considered volatile anyway. It is   -->
+		<!-- needed so that the EMMA code coverage tracks correctly                    -->
+		
 		<delete dir="${tomcat.dir}/webapps"/>
 		<mkdir dir="${tomcat.dir}/webapps"/>
 		<delete dir="${tomcat.dir}/work"/>
@@ -561,7 +565,6 @@
 		<!-- Test on Tomcat -->
 
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
@@ -636,7 +639,6 @@
 		<!-- Test on Tomcat -->
 
 		<copy file="${relative.dir}/${build.dir}/examples/faces/penguincolony-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/penguincolony-faces"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
@@ -748,7 +750,6 @@
 		<!-- Test on Tomcat -->
 		
 		<copy file="${relative.dir}/${build.dir}/examples/gwt/addressbook-gwt.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-gwt"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/gwt">
@@ -819,7 +820,6 @@
 		<!-- Test on Tomcat -->
 		
 		<copy file="${relative.dir}/${build.dir}/examples/jsp/addressbook-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-jsp"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/jsp">
@@ -877,7 +877,6 @@
 		<!-- Test on Tomcat -->
 		
 		<copy file="${relative.dir}/${build.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/struts">
@@ -935,7 +934,6 @@
 		<!-- Test on Tomcat -->
 		
 		<copy file="${relative.dir}/${build.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/spring">
@@ -1065,6 +1063,14 @@
 	    </java>
 		
 		<sleep seconds="30"/>
+		
+		<!-- Clean up webapps. This is a little destructive if you have non-Metawidget -->
+		<!-- apps in there, but /webapps should be considered volatile anyway. It is   -->
+		<!-- needed so that the EMMA code coverage tracks correctly                    -->
+		
+		<delete dir="${tomcat4.dir}/webapps"/>
+		<mkdir dir="${tomcat4.dir}/webapps"/>
+		<delete dir="${tomcat4.dir}/work"/>
 
 	</target>
 
@@ -1238,7 +1244,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/allwidgets-faces.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat4.dir}/webapps/allwidgets-faces"/>
 		<antcall target="test-web-start-tomcat4"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1286,8 +1291,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces"/>
-
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1333,8 +1336,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-systemevents"/>
-		
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1379,8 +1380,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-systemevents"/>
-		
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1430,8 +1429,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-facelets"/>
-
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1477,8 +1474,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-facelets2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-facelets2"/>
-
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1529,8 +1524,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-facelets2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-facelets2"/>
-
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1574,8 +1567,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-faces-systemevents-facelets"/>
-
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1623,8 +1614,6 @@
 		</war>
 
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-icefaces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-icefaces"/>
-
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1665,9 +1654,6 @@
 		<!-- Use tomcat, not tomcat4, because we need JSP 2.0 to test EL -->
 
 		<copy file="${relative.dir}/${build.dir}/test/jsp/allwidgets-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/allwidgets-jsp"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-jsp"/>
-		<delete file="${tomcat.dir}/webapps/addressbook-jsp.war"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/jsp">
@@ -1705,7 +1691,6 @@
 		</war>
 		
 		<copy file="${relative.dir}/${build.dir}/test/jsp/quirks-jsp.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat4.dir}/webapps/quirks-jsp"/>
 		<antcall target="test-web-start-tomcat4"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/jsp">
@@ -1747,7 +1732,6 @@
 		</war>
 
 		<copy file="${relative.dir}/${build.dir}/test/spring/allwidgets-spring.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat4.dir}/webapps/allwidgets-spring"/>
 		<antcall target="test-web-start-tomcat4"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/spring">
@@ -1789,7 +1773,6 @@
 		</war>
 
 		<copy file="${relative.dir}/${build.dir}/test/spring/quirks-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-spring"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/spring">
@@ -1831,7 +1814,6 @@
 		</war>
 
 		<copy file="${relative.dir}/${build.dir}/test/struts/allwidgets-struts.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat4.dir}/webapps/allwidgets-struts"/>
 		<antcall target="test-web-start-tomcat4"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/struts">
@@ -1875,7 +1857,6 @@
 		</war>
 
 		<copy file="${relative.dir}/${build.dir}/test/struts/quirks-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/quirks-struts"/>
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/struts">
