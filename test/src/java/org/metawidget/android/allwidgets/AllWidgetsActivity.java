@@ -162,6 +162,7 @@ public class AllWidgetsActivity
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDouble() ), "double" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDoubleObject() ), "doubleObject" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getChar() ), "char" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getCharacterObject() ), "characterObject" );
 		metawidget.setValue( mAllWidgets.isBoolean(), "boolean" );
 		metawidget.setValue( mAllWidgets.getBooleanObject(), "booleanObject" );
 		metawidget.setValue( mAllWidgets.getDropdown(), "dropdown" );
@@ -264,6 +265,7 @@ public class AllWidgetsActivity
 		}
 
 		mAllWidgets.setChar( ( (String) metawidget.getValue( "char" ) ).charAt( 0 ) );
+		mAllWidgets.setCharacterObject( ( (String) metawidget.getValue( "characterObject" ) ).charAt( 0 ) );
 
 		mAllWidgets.setBoolean( (Boolean) metawidget.getValue( "boolean" ) );
 

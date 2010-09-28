@@ -11,6 +11,7 @@ For Android AllWidgets, test:
 * There is no label for longObject
 * There is a label 'nullInBundle'
 * There is no label for doubleObject
+* There is a 'Character object' field (limited to 1 char)
 * All dropdowns have a blank choice available, except notNullDropdown and notNullObjectDropdown
 * The mystery field is an empty text box
 * 'Futher nested widgets' appears 3 times (twice up top, once down bottom)
