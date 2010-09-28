@@ -152,7 +152,7 @@ public class SwtWidgetBuilder
 
 				// chars
 
-				if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz )) {
+				if ( char.class.equals( clazz )) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 				}
 
@@ -251,6 +251,12 @@ public class SwtWidgetBuilder
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.WRAP );
 				}
 
+				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+			}
+
+			// Characters
+
+			if ( Character.class.isAssignableFrom( clazz )) {
 				return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 			}
 

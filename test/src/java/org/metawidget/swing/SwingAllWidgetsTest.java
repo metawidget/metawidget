@@ -316,55 +316,63 @@ public class SwingAllWidgetsTest
 		assertEquals( "A", metawidget.getValue( "char" ) );
 		( (JTextField) metawidget.getComponent( 35 ) ).setText( "Z" );
 
-		assertEquals( "Boolean:", ( (JLabel) metawidget.getComponent( 36 ) ).getText() );
-		assertTrue( metawidget.getComponent( 37 ) instanceof JCheckBox );
+		assertEquals( "Character object:", ( (JLabel) metawidget.getComponent( 36 ) ).getText() );
+		assertTrue( metawidget.getComponent( 37 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 37 ) ).gridx );
+		assertEquals( "Z", metawidget.getValue( "characterObject" ) );
+		( (JTextField) metawidget.getComponent( 37 ) ).setText( "A" );
+
+		assertEquals( "Boolean:", ( (JLabel) metawidget.getComponent( 38 ) ).getText() );
+		assertTrue( metawidget.getComponent( 39 ) instanceof JCheckBox );
+		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 39 ) ).gridx );
 		assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-		( (JCheckBox) metawidget.getComponent( 37 ) ).setSelected( true );
+		( (JCheckBox) metawidget.getComponent( 39 ) ).setSelected( true );
 
-		assertEquals( "Boolean object:", ( (JLabel) metawidget.getComponent( 38 ) ).getText() );
-		assertTrue( metawidget.getComponent( 39 ) instanceof JComboBox );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 39 ) ).getItemCount() );
-		assertEquals( Boolean.TRUE, metawidget.getValue( "booleanObject" ) );
-		( (JComboBox) metawidget.getComponent( 39 ) ).setSelectedItem( Boolean.FALSE );
-
-		assertEquals( "Dropdown:", ( (JLabel) metawidget.getComponent( 40 ) ).getText() );
+		assertEquals( "Boolean object:", ( (JLabel) metawidget.getComponent( 40 ) ).getText() );
 		assertTrue( metawidget.getComponent( 41 ) instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 41 ) ).gridx );
-		assertTrue( 4 == ( (JComboBox) metawidget.getComponent( 41 ) ).getItemCount() );
-		assertEquals( "dropdown1", metawidget.getValue( "dropdown" ) );
-		( (JComboBox) metawidget.getComponent( 41 ) ).setSelectedItem( "foo1" );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 37 ) ).gridx );
+		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 41 ) ).getItemCount() );
+		assertEquals( Boolean.TRUE, metawidget.getValue( "booleanObject" ) );
+		( (JComboBox) metawidget.getComponent( 41 ) ).setSelectedItem( Boolean.FALSE );
 
-		assertEquals( "Dropdown with labels:", ( (JLabel) metawidget.getComponent( 42 ) ).getText() );
+		assertEquals( "Dropdown:", ( (JLabel) metawidget.getComponent( 42 ) ).getText() );
 		assertTrue( metawidget.getComponent( 43 ) instanceof JComboBox );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 43 ) ).gridx );
+		assertTrue( 4 == ( (JComboBox) metawidget.getComponent( 43 ) ).getItemCount() );
+		assertEquals( "dropdown1", metawidget.getValue( "dropdown" ) );
+		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "foo1" );
 
-		JComboBox combo = (JComboBox) metawidget.getComponent( 43 );
+		assertEquals( "Dropdown with labels:", ( (JLabel) metawidget.getComponent( 44 ) ).getText() );
+		assertTrue( metawidget.getComponent( 45 ) instanceof JComboBox );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 45 ) ).gridx );
+
+		JComboBox combo = (JComboBox) metawidget.getComponent( 45 );
 		assertTrue( 5 == combo.getItemCount() );
 		assertEquals( "Foo #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "foo2", 1, false, false ) ).getText() );
 		assertEquals( "Dropdown #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown2", 1, false, false ) ).getText() );
 		assertEquals( "Bar #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "bar2", 1, false, false ) ).getText() );
 		assertEquals( "Baz #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "baz2", 1, false, false ) ).getText() );
 		assertEquals( "dropdown2", metawidget.getValue( "dropdownWithLabels" ) );
-		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "bar2" );
+		( (JComboBox) metawidget.getComponent( 45 ) ).setSelectedItem( "bar2" );
 
-		assertEquals( "Not null dropdown:", ( (JLabel) metawidget.getComponent( 44 ) ).getText() );
-		assertTrue( metawidget.getComponent( 45 ) instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 45 ) ).gridx );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 45 ) ).getItemCount() );
-		assertTrue( 0 == (Byte) metawidget.getValue( "notNullDropdown" ) );
-		( (JComboBox) metawidget.getComponent( 45 ) ).setSelectedItem( (byte) 1 );
-
-		assertEquals( "Not null object dropdown*:", ( (JLabel) metawidget.getComponent( 46 ) ).getText() );
+		assertEquals( "Not null dropdown:", ( (JLabel) metawidget.getComponent( 46 ) ).getText() );
 		assertTrue( metawidget.getComponent( 47 ) instanceof JComboBox );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 47 ) ).gridx );
-		assertTrue( 6 == ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
+		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
+		assertTrue( 0 == (Byte) metawidget.getValue( "notNullDropdown" ) );
+		( (JComboBox) metawidget.getComponent( 47 ) ).setSelectedItem( (byte) 1 );
+
+		assertEquals( "Not null object dropdown*:", ( (JLabel) metawidget.getComponent( 48 ) ).getText() );
+		assertTrue( metawidget.getComponent( 49 ) instanceof JComboBox );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 49 ) ).gridx );
+		assertTrue( 6 == ( (JComboBox) metawidget.getComponent( 49 ) ).getItemCount() );
 		assertEquals( "dropdown3", metawidget.getValue( "notNullObjectDropdown" ) );
-		( (JComboBox) metawidget.getComponent( 47 ) ).setSelectedIndex( 0 );
+		( (JComboBox) metawidget.getComponent( 49 ) ).setSelectedIndex( 0 );
 
-		assertEquals( "Nested widgets:", ( (JLabel) metawidget.getComponent( 48 ) ).getText() );
-		assertTrue( metawidget.getComponent( 49 ) instanceof SwingMetawidget );
+		assertEquals( "Nested widgets:", ( (JLabel) metawidget.getComponent( 50 ) ).getText() );
+		assertTrue( metawidget.getComponent( 51 ) instanceof SwingMetawidget );
 
-		SwingMetawidget metawidgetNested = (SwingMetawidget) metawidget.getComponent( 49 );
+		SwingMetawidget metawidgetNested = (SwingMetawidget) metawidget.getComponent( 51 );
 
 		assertEquals( "Further nested widgets:", ( (JLabel) metawidgetNested.getComponent( 0 ) ).getText() );
 		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 1 ) ).gridx );
@@ -401,10 +409,10 @@ public class SwingAllWidgetsTest
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 		( (JTextField) metawidgetNested.getComponent( 5 ) ).setText( "Nested Textbox 2.2" );
 
-		assertEquals( "Read only nested widgets:", ( (JLabel) metawidget.getComponent( 50 ) ).getText() );
-		assertTrue( metawidget.getComponent( 51 ) instanceof SwingMetawidget );
+		assertEquals( "Read only nested widgets:", ( (JLabel) metawidget.getComponent( 52 ) ).getText() );
+		assertTrue( metawidget.getComponent( 53 ) instanceof SwingMetawidget );
 
-		metawidgetNested = (SwingMetawidget) metawidget.getComponent( 51 );
+		metawidgetNested = (SwingMetawidget) metawidget.getComponent( 53 );
 		assertEquals( "Nested textbox 1:", ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() );
 		assertTrue( metawidgetNested.getComponent( 3 ) instanceof JLabel );
 		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
@@ -415,34 +423,34 @@ public class SwingAllWidgetsTest
 		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) );
 
-		assertEquals( "Nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 52 ) ).getText() );
-		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (JTextField) metawidget.getComponent( 53 ) ).getText() );
-		( (JTextField) metawidget.getComponent( 53 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
+		assertEquals( "Nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 54 ) ).getText() );
+		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (JTextField) metawidget.getComponent( 55 ) ).getText() );
+		( (JTextField) metawidget.getComponent( 55 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
 
-		assertEquals( "Read only nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 54 ) ).getText() );
-		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (JLabel) metawidget.getComponent( 55 ) ).getText() );
+		assertEquals( "Read only nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 56 ) ).getText() );
+		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (JLabel) metawidget.getComponent( 57 ) ).getText() );
 
-		assertEquals( "Date:", ( (JLabel) metawidget.getComponent( 56 ) ).getText() );
-		assertTrue( metawidget.getComponent( 57 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 57 ) ).gridx );
+		assertEquals( "Date:", ( (JLabel) metawidget.getComponent( 58 ) ).getText() );
+		assertTrue( metawidget.getComponent( 59 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 59 ) ).gridx );
 
 		DateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 		assertEquals( dateFormat.format( allWidgets.getDate() ), metawidget.getValue( "date" ) );
-		( (JTextField) metawidget.getComponent( 57 ) ).setText( "bad date" );
+		( (JTextField) metawidget.getComponent( 59 ) ).setText( "bad date" );
 
-		JPanel separatorPanel = (JPanel) metawidget.getComponent( 58 );
+		JPanel separatorPanel = (JPanel) metawidget.getComponent( 60 );
 		assertEquals( "Section Break", ( (JLabel) separatorPanel.getComponent( 0 ) ).getText() );
-		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).gridwidth );
+		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).gridwidth );
 		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
-		assertEquals( "Read only:", ( (JLabel) metawidget.getComponent( 59 ) ).getText() );
-		assertTrue( metawidget.getComponent( 60 ) instanceof JLabel );
+		assertEquals( "Read only:", ( (JLabel) metawidget.getComponent( 61 ) ).getText() );
+		assertTrue( metawidget.getComponent( 62 ) instanceof JLabel );
 		assertEquals( "Read Only", metawidget.getValue( "readOnly" ) );
 
-		assertTrue( metawidget.getComponent( 61 ) instanceof JButton );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 61 ) ).gridx );
-		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 61 ) ).fill );
-		JButton button = ( (JButton) metawidget.getComponent( 61 ) );
+		assertTrue( metawidget.getComponent( 63 ) instanceof JButton );
+		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).gridx );
+		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).fill );
+		JButton button = ( (JButton) metawidget.getComponent( 63 ) );
 		assertEquals( "Do action", button.getText() );
 		try {
 			button.doClick();
@@ -451,7 +459,7 @@ public class SwingAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
-		assertTrue( 62 == metawidget.getComponentCount() );
+		assertTrue( 64 == metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -470,7 +478,7 @@ public class SwingAllWidgetsTest
 		// Check saving
 
 		String now = dateFormat.format( new GregorianCalendar().getTime() );
-		( (JTextField) metawidget.getComponent( 57 ) ).setText( now );
+		( (JTextField) metawidget.getComponent( 59 ) ).setText( now );
 		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 
 		// Check read-only
@@ -513,46 +521,48 @@ public class SwingAllWidgetsTest
 		assertEquals( "54.4", ( (JLabel) metawidget.getComponent( 33 ) ).getText() );
 		assertEquals( "Char:", ( (JLabel) metawidget.getComponent( 34 ) ).getText() );
 		assertEquals( "Z", ( (JLabel) metawidget.getComponent( 35 ) ).getText() );
-		assertEquals( "Boolean:", ( (JLabel) metawidget.getComponent( 36 ) ).getText() );
-		assertEquals( "true", ( (JLabel) metawidget.getComponent( 37 ) ).getText() );
-		assertEquals( "Boolean object:", ( (JLabel) metawidget.getComponent( 38 ) ).getText() );
-		assertEquals( "No", ( (JLabel) metawidget.getComponent( 39 ) ).getText() );
-		assertEquals( "Dropdown:", ( (JLabel) metawidget.getComponent( 40 ) ).getText() );
-		assertEquals( "foo1", ( (JLabel) metawidget.getComponent( 41 ) ).getText() );
-		assertEquals( "Dropdown with labels:", ( (JLabel) metawidget.getComponent( 42 ) ).getText() );
-		assertEquals( "Bar #2", ( (JLabel) metawidget.getComponent( 43 ) ).getText() );
-		assertEquals( "Not null dropdown:", ( (JLabel) metawidget.getComponent( 44 ) ).getText() );
-		assertEquals( "1", ( (JLabel) metawidget.getComponent( 45 ) ).getText() );
-		assertEquals( "Not null object dropdown:", ( (JLabel) metawidget.getComponent( 46 ) ).getText() );
-		assertEquals( "foo3", ( (JLabel) metawidget.getComponent( 47 ) ).getText() );
-		assertEquals( "Nested widgets:", ( (JLabel) metawidget.getComponent( 48 ) ).getText() );
-		assertEquals( "Further nested widgets:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 0 ) ).getText() );
-		assertEquals( "Further nested widgets:", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 1 ) ).getComponent( 0 ) ).getText() );
-		assertEquals( "Nested textbox 1:", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 1 ) ).getComponent( 2 ) ).getText() );
-		assertEquals( "Nested Textbox 1.1 (further)", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 1 ) ).getComponent( 3 ) ).getText() );
-		assertEquals( "Nested textbox 2:", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 1 ) ).getComponent( 4 ) ).getText() );
-		assertEquals( "Nested Textbox 2.2 (further)", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 1 ) ).getComponent( 5 ) ).getText() );
-		assertEquals( "Nested textbox 1:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 2 ) ).getText() );
-		assertEquals( "Nested Textbox 1.1", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 3 ) ).getText() );
-		assertEquals( "Nested textbox 2:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 4 ) ).getText() );
-		assertEquals( "Nested Textbox 2.2", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 49 ) ).getComponent( 5 ) ).getText() );
-		assertEquals( "Read only nested widgets:", ( (JLabel) metawidget.getComponent( 50 ) ).getText() );
+		assertEquals( "Character object:", ( (JLabel) metawidget.getComponent( 36 ) ).getText() );
+		assertEquals( "A", ( (JLabel) metawidget.getComponent( 37 ) ).getText() );
+		assertEquals( "Boolean:", ( (JLabel) metawidget.getComponent( 38 ) ).getText() );
+		assertEquals( "true", ( (JLabel) metawidget.getComponent( 39 ) ).getText() );
+		assertEquals( "Boolean object:", ( (JLabel) metawidget.getComponent( 40 ) ).getText() );
+		assertEquals( "No", ( (JLabel) metawidget.getComponent( 41 ) ).getText() );
+		assertEquals( "Dropdown:", ( (JLabel) metawidget.getComponent( 42 ) ).getText() );
+		assertEquals( "foo1", ( (JLabel) metawidget.getComponent( 43 ) ).getText() );
+		assertEquals( "Dropdown with labels:", ( (JLabel) metawidget.getComponent( 44 ) ).getText() );
+		assertEquals( "Bar #2", ( (JLabel) metawidget.getComponent( 45 ) ).getText() );
+		assertEquals( "Not null dropdown:", ( (JLabel) metawidget.getComponent( 46 ) ).getText() );
+		assertEquals( "1", ( (JLabel) metawidget.getComponent( 47 ) ).getText() );
+		assertEquals( "Not null object dropdown:", ( (JLabel) metawidget.getComponent( 48 ) ).getText() );
+		assertEquals( "foo3", ( (JLabel) metawidget.getComponent( 49 ) ).getText() );
+		assertEquals( "Nested widgets:", ( (JLabel) metawidget.getComponent( 50 ) ).getText() );
 		assertEquals( "Further nested widgets:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 0 ) ).getText() );
+		assertEquals( "Further nested widgets:", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 1 ) ).getComponent( 0 ) ).getText() );
+		assertEquals( "Nested textbox 1:", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 1 ) ).getComponent( 2 ) ).getText() );
+		assertEquals( "Nested Textbox 1.1 (further)", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 1 ) ).getComponent( 3 ) ).getText() );
+		assertEquals( "Nested textbox 2:", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 1 ) ).getComponent( 4 ) ).getText() );
+		assertEquals( "Nested Textbox 2.2 (further)", ( (JLabel) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 1 ) ).getComponent( 5 ) ).getText() );
 		assertEquals( "Nested textbox 1:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 2 ) ).getText() );
-		assertEquals( "Nested Textbox 1", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 3 ) ).getText() );
+		assertEquals( "Nested Textbox 1.1", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 3 ) ).getText() );
 		assertEquals( "Nested textbox 2:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 4 ) ).getText() );
-		assertEquals( "Nested Textbox 2", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 5 ) ).getText() );
-		assertEquals( "Nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 52 ) ).getText() );
-		assertEquals( "Nested Textbox 1.01, Nested Textbox 2.02", ( (JLabel) metawidget.getComponent( 53 ) ).getText() );
-		assertEquals( "Read only nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 54 ) ).getText() );
-		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (JLabel) metawidget.getComponent( 55 ) ).getText() );
-		assertEquals( "Date:", ( (JLabel) metawidget.getComponent( 56 ) ).getText() );
-		assertEquals( now, ( (JLabel) metawidget.getComponent( 57 ) ).getText() );
-		assertEquals( "Section Break", ( (JLabel) ( (JPanel) metawidget.getComponent( 58 ) ).getComponent( 0 ) ).getText() );
-		assertEquals( "Read only:", ( (JLabel) metawidget.getComponent( 59 ) ).getText() );
-		assertEquals( "Read Only", ( (JLabel) metawidget.getComponent( 60 ) ).getText() );
+		assertEquals( "Nested Textbox 2.2", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 51 ) ).getComponent( 5 ) ).getText() );
+		assertEquals( "Read only nested widgets:", ( (JLabel) metawidget.getComponent( 52 ) ).getText() );
+		assertEquals( "Further nested widgets:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 53 ) ).getComponent( 0 ) ).getText() );
+		assertEquals( "Nested textbox 1:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 53 ) ).getComponent( 2 ) ).getText() );
+		assertEquals( "Nested Textbox 1", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 53 ) ).getComponent( 3 ) ).getText() );
+		assertEquals( "Nested textbox 2:", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 53 ) ).getComponent( 4 ) ).getText() );
+		assertEquals( "Nested Textbox 2", ( (JLabel) ( (SwingMetawidget) metawidget.getComponent( 53 ) ).getComponent( 5 ) ).getText() );
+		assertEquals( "Nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 54 ) ).getText() );
+		assertEquals( "Nested Textbox 1.01, Nested Textbox 2.02", ( (JLabel) metawidget.getComponent( 55 ) ).getText() );
+		assertEquals( "Read only nested widgets dont expand:", ( (JLabel) metawidget.getComponent( 56 ) ).getText() );
+		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (JLabel) metawidget.getComponent( 57 ) ).getText() );
+		assertEquals( "Date:", ( (JLabel) metawidget.getComponent( 58 ) ).getText() );
+		assertEquals( now, ( (JLabel) metawidget.getComponent( 59 ) ).getText() );
+		assertEquals( "Section Break", ( (JLabel) ( (JPanel) metawidget.getComponent( 60 ) ).getComponent( 0 ) ).getText() );
+		assertEquals( "Read only:", ( (JLabel) metawidget.getComponent( 61 ) ).getText() );
+		assertEquals( "Read Only", ( (JLabel) metawidget.getComponent( 62 ) ).getText() );
 
-		assertTrue( metawidget.getComponentCount() == 61 );
+		assertTrue( metawidget.getComponentCount() == 63 );
 
 		// Test Binding.onStartBuild clears the state
 

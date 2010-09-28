@@ -152,6 +152,10 @@ public class ReadOnlyWidgetBuilder
 				return new JLabel();
 			}
 
+			if ( Character.class.equals( clazz ) ) {
+				return new JLabel();
+			}
+
 			if ( Date.class.equals( clazz ) ) {
 				return new JLabel();
 			}

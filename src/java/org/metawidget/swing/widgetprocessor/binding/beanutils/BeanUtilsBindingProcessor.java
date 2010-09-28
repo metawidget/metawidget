@@ -288,6 +288,9 @@ public class BeanUtilsBindingProcessor
 				Class<?> propertyType = parentClass.getMethod( lastName ).getReturnType();
 
 				// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
+				//
+				// Note: if this line fails, to build, check commons-beanutils comes first on the
+				// CLASSPATH
 
 				Object convertedValue = ConvertUtils.convert( componentValue, propertyType );
 

@@ -180,7 +180,7 @@ public class SwingWidgetBuilder
 
 				// chars
 
-				if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz )) {
+				if ( char.class.equals( clazz )) {
 					return new JTextField();
 				}
 
@@ -346,6 +346,12 @@ public class SwingWidgetBuilder
 					return new JScrollPane( textarea );
 				}
 
+				return new JTextField();
+			}
+
+			// Characters
+
+			if ( Character.class.isAssignableFrom( clazz )) {
 				return new JTextField();
 			}
 
