@@ -226,6 +226,13 @@ public class AndroidWidgetBuilder
 					return new CheckBox( metawidget.getContext() );
 				}
 
+				if ( char.class.equals( clazz ) ) {
+					EditText editText = new EditText( metawidget.getContext() );
+					editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( 1 ) } );
+
+					return editText;
+				}
+
 				EditText editText = new EditText( metawidget.getContext() );
 
 				// DigitsInputMethod is 0-9 and +
@@ -255,6 +262,15 @@ public class AndroidWidgetBuilder
 				if ( maximumLength != null && !"".equals( maximumLength ) ) {
 					editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( Integer.parseInt( maximumLength ) ) } );
 				}
+
+				return editText;
+			}
+
+			// Characters
+
+			if ( Character.class.equals( clazz ) ) {
+				EditText editText = new EditText( metawidget.getContext() );
+				editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( 1 ) } );
 
 				return editText;
 			}

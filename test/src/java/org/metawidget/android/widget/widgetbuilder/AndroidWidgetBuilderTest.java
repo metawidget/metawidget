@@ -96,6 +96,14 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, int.class.getName() );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 
+		attributes.put( TYPE, char.class.getName() );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
+
+		// Character
+
+		attributes.put( TYPE, Character.class.getName() );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
+
 		// Date
 
 		attributes.put( TYPE, Date.class.getName() );
@@ -215,6 +223,12 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, boolean.class.getName() );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
 
+		// char
+
+		attributes.put( TYPE, char.class.getName() );
+		EditText editText = (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, ((InputFilter.LengthFilter) editText.getFilters()[0]).getLength() );
+
 		// float
 
 		attributes.put( TYPE, float.class.getName() );
@@ -242,6 +256,12 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, Integer.class.getName() );
 		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DigitsKeyListener );
 
+		// Character
+
+		attributes.put( TYPE, Character.class.getName() );
+		editText = (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, ((InputFilter.LengthFilter) editText.getFilters()[0]).getLength() );
+
 		// Date
 
 		attributes.put( REQUIRED, TRUE );
@@ -259,7 +279,7 @@ public class AndroidWidgetBuilderTest
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( LARGE, TRUE );
-		EditText editText = (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		editText = (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertTrue( 3 == (Integer) editText.getClass().getMethod( "getMinLines", (Class[]) null ).invoke( editText, (Object[]) null ) );
 
 		// Limited length

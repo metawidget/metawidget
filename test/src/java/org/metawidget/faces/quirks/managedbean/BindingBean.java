@@ -49,6 +49,8 @@ public class BindingBean {
 	// Public methods
 	//
 
+	// TODO: test storing mMetawidget at session-level
+
 	@UiHidden
 	public UIMetawidget getMetawidget1() {
 

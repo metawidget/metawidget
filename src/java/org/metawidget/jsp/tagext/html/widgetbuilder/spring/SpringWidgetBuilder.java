@@ -147,6 +147,12 @@ public class SpringWidgetBuilder
 				return initSpringTag( new InputTag(), attributes, metawidget );
 			}
 
+			// Character
+
+			if ( Character.class.equals( clazz ) ) {
+				return initSpringTag( new InputTag(), attributes, metawidget );
+			}
+
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
@@ -208,7 +214,9 @@ public class SpringWidgetBuilder
 		// Maxlength
 
 		if ( tag instanceof InputTag ) {
-			if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) ) {
+			String actualType = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+			if ( "char".equals( actualType ) || Character.class.getName().equals( actualType )) {
 				( (InputTag) tag ).setMaxlength( "1" );
 			} else {
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );

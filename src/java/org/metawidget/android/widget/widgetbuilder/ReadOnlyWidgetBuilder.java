@@ -146,6 +146,10 @@ public class ReadOnlyWidgetBuilder
 				return new TextView( metawidget.getContext() );
 			}
 
+			if ( Character.class.equals( clazz ) ) {
+				return new TextView( metawidget.getContext() );
+			}
+
 			if ( Date.class.equals( clazz ) ) {
 				return new TextView( metawidget.getContext() );
 			}

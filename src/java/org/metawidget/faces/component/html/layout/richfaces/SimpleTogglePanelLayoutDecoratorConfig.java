@@ -47,9 +47,10 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 * <p>
 	 * The problem is the SimpleTogglePanel loses state if recreated and so never closes. This is
 	 * much like the ICEfaces SelectInputDate component. However, if we try setting
-	 * COMPONENT_ATTRIBUTE_NOT_RECREATABLE, as we do for SelectInputDate, we have real headaches
-	 * deciding which components to destroy/recreate. We either solve those headaches or (and this
-	 * might be easier) hook SimpleTogglePanel to save its open/close state somewhere else.
+	 * COMPONENT_ATTRIBUTE_NOT_RECREATABLE, as we do for SelectInputDate, then everything
+	 * <em>inside</em> the panel is also non-recreatable - which really kills our dynamism. We could
+	 * solve this by providing a hook for SimpleTogglePanel to save its open/close state somewhere
+	 * else.
 	 */
 
 	private String	mSwitchType	= "client";

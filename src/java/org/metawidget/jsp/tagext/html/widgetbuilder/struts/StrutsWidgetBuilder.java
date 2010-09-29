@@ -148,6 +148,12 @@ public class StrutsWidgetBuilder
 				return initStrutsTag( new TextTag(), attributes, metawidget );
 			}
 
+			// Character
+
+			if ( Character.class.equals( clazz ) ) {
+				return initStrutsTag( new TextTag(), attributes, metawidget );
+			}
+
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
@@ -213,7 +219,9 @@ public class StrutsWidgetBuilder
 		// Maxlength
 
 		if ( tag instanceof BaseInputTag ) {
-			if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) ) {
+			String actualType = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+			if ( "char".equals( actualType ) || Character.class.getName().equals( actualType )) {
 				( (BaseInputTag) tag ).setMaxlength( "1" );
 			} else {
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );

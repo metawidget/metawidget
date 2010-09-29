@@ -1145,7 +1145,6 @@ public abstract class UIMetawidget
 
 			// TODO: consider PreRenderViewEvent, not PostAddToViewEvent
 			// TODO: MyFaces 2.0 with SystemEvents
-			// TODO: Support 'character' on all platforms
 
 			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 		}

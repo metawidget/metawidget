@@ -139,6 +139,12 @@ public class HtmlWidgetBuilder
 				return createTextTag( attributes, metawidget );
 			}
 
+			// Character
+
+			if ( Character.class.equals( clazz ) ) {
+				return createTextTag( attributes, metawidget );
+			}
+
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
@@ -205,7 +211,9 @@ public class HtmlWidgetBuilder
 
 		// Maxlength
 
-		if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) ) {
+		String actualType = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+		if ( "char".equals( actualType ) || Character.class.getName().equals( actualType )) {
 			buffer.append( " maxlength=\"1\"" );
 		} else {
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
