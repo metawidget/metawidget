@@ -1219,7 +1219,7 @@ public abstract class UIMetawidget
 			for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); ) {
 				UIComponent component = i.next();
 
-				if ( findComponentWithId( mMetawidget, component.getId(), component ) != null ) {
+				if ( findDuplicateChild( mMetawidget, component ) != null ) {
 					i.remove();
 				}
 			}
@@ -1240,14 +1240,16 @@ public abstract class UIMetawidget
 		// Private methods
 		//
 
-		private UIComponent findComponentWithId( UIComponent component, String id, UIComponent ignore ) {
+		private UIComponent findDuplicateChild( UIComponent componentWithChildren, UIComponent originalComponent ) {
+
+			String id = originalComponent.getId();
 
 			if ( id == null ) {
 				return null;
 			}
 
-			for ( UIComponent child : component.getChildren() ) {
-				if ( child == ignore ) {
+			for ( UIComponent child : componentWithChildren.getChildren() ) {
+				if ( child == originalComponent ) {
 					continue;
 				}
 
@@ -1255,7 +1257,7 @@ public abstract class UIMetawidget
 					return child;
 				}
 
-				UIComponent found = findComponentWithId( child, id, ignore );
+				UIComponent found = findDuplicateChild( child, originalComponent );
 
 				if ( found != null ) {
 					return found;
