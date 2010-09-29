@@ -6438,7 +6438,7 @@ static class State {
 
 					<para>
 						This approach can also be used to inspect <classname>Object</classname>s and <classname>Class</classname>es
-						<emphasis>directly</emphasis>, without a <parameter>value</parameter> binding:
+						directly, without a <parameter>value</parameter> binding:
 					</para>
 					
 					<programlisting language="xml">&lt;m:metawidget binding="#{myBean.metawidget}"/&gt;</programlisting>
@@ -6449,7 +6449,7 @@ static class State {
 					
 					<programlisting language="java">public class MyManagedBean {
 
-	...as above...
+	...as previous example...
 		
 	private void initMetawidget( UIMetawidget metawidget ) {
 	
