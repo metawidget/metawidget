@@ -67,7 +67,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * Its default RendererType is <code>table</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -167,7 +167,7 @@ public abstract class UIMetawidget
 
 		// SystemEvent support
 		//
-		// Tthis is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402,
+		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402,
 		// which in turn depends on
 		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636, so it is not
 		// enabled by default
@@ -843,7 +843,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 *
+	 * 
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
@@ -1137,14 +1137,13 @@ public abstract class UIMetawidget
 			FacesContext context = FacesContext.getCurrentInstance();
 			UIViewRoot root = context.getViewRoot();
 
-			// Warning against using an old version of RichFaces
+			// Warning against an incompatible setup. Say, using an old version of RichFaces
 
 			if ( root == null ) {
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 			}
 
 			// TODO: consider PreRenderViewEvent, not PostAddToViewEvent
-			// TODO: MyFaces 2.0 with SystemEvents
 
 			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
 		}

@@ -333,7 +333,8 @@
 			</steps>
 		</webtest>
 		
-		<!-- TODO
+		<!-- TODO: PostAddToViewEvent is fired during RestoreView, we need something after invokeApplication
+		
 		<webtest name="test-remove-duplicates-support">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
