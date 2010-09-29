@@ -23,15 +23,16 @@ test-existing-personal:
 8. Change firstname to Homer Jay
 9. Choose Add Communication
 10. Add a Fax of (939) 555-0114. Check it appears
-11. Check value is localized to ???value???
-12. Add an E-mail of homer@simpsons.com. Check it appears
-13. Delete the Telephone number
-14. Change Date of Birth to 'May 12 1957' and save
-15. Check front page shows Homer Jay Simpson
-16. Click Mrs Marjorie Simpson
-17. Click Edit
-18. Check Notes is populated
-19. Click Back button
+11. Check the type (e.g. Telephone/Fax) does not have a blank choice
+12. Check value is localized to ???value???
+13. Add an E-mail of homer@simpsons.com. Check it appears
+14. Delete the Telephone number
+15. Change Date of Birth to 'May 12 1957' and save
+16. Check front page shows Homer Jay Simpson
+17. Click Mrs Marjorie Simpson
+18. Click Edit
+19. Check Notes is populated
+20. Click Back button
 
 test-new-business:
 

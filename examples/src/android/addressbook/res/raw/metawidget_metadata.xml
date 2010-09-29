@@ -18,7 +18,7 @@
 			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
 	
 	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
-		<property name="type" lookup="Telephone, Mobile, Fax, E-mail" type="java.lang.String"/>
+		<property name="type" lookup="Telephone, Mobile, Fax, E-mail" type="java.lang.String" required="true"/>
 	</entity>	
 
 </inspection-result>
