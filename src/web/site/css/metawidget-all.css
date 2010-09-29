@@ -50,6 +50,7 @@ p {
 .data-table {
 	border: 1px solid black;
 	width: 80%;
+	margin: auto;
 }
 
 .data-table thead tr th {
@@ -74,6 +75,21 @@ p {
 	text-align: center;
 	font-style: italic;
 	width: 75px;
+}
+
+.acknowledgements {
+	width: 80%;
+	margin: auto;
+}
+
+.acknowledgements td {
+	width: 33%;
+}
+
+.acknowledgements td span {
+	display: block;
+	font-style: italic;
+	color: #cccccc;
 }
 
 /*

@@ -39,7 +39,6 @@ import org.richfaces.component.html.HtmlSimpleTogglePanel;
  */
 
 // TODO: test switchType=server a bit
-// TODO: contributor thanks page
 
 public class SimpleTogglePanelLayoutDecorator
 	extends UIComponentNestedSectionLayoutDecorator {
