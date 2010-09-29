@@ -49,12 +49,17 @@ public class BindingBean {
 	// Public methods
 	//
 
-	// TODO: test storing mMetawidget at session-level
-
 	@UiHidden
 	public UIMetawidget getMetawidget1() {
 
 		// First-time init
+		//
+		// JSF spec: "When a component instance is first created (typically by virtue of being
+		// referenced by a UIComponentELTag in a JSP page), the JSF implementation will retrieve the
+		// ValueExpression for the name binding, and call getValue() on it. If this call returns a
+		// non-null UIComponent value (because the JavaBean programmatically instantiated and
+		// configured a component already), that instance will be added to the component tree that
+		// is being created"
 
 		UIMetawidget metawidget = new HtmlMetawidget();
 		initMetawidget1( metawidget );
@@ -68,6 +73,11 @@ public class BindingBean {
 		}
 
 		// POST-back init
+		//
+		// JSF spec: "When a component tree is recreated during the Restore View phase of
+		// the request processing lifecycle, for each component that has a ValueExpression
+		// associated with the name 'binding', setValue() will be called on it, passing the
+		// recreated component instance"
 
 		initMetawidget1( metawidget );
 	}
@@ -83,7 +93,8 @@ public class BindingBean {
 	}
 
 	/**
-	 * @param metawidget	not used
+	 * @param metawidget
+	 *            not used
 	 */
 
 	public void setMetawidget2( UIMetawidget metawidget ) {
@@ -102,7 +113,8 @@ public class BindingBean {
 	}
 
 	/**
-	 * @param metawidget	not used
+	 * @param metawidget
+	 *            not used
 	 */
 
 	public void setMetawidget3( UIMetawidget metawidget ) {

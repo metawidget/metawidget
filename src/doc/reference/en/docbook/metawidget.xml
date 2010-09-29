@@ -6405,6 +6405,13 @@ static class State {
 	public UIMetawidget getMetawidget() {
 
 		// First-time init
+		//
+		// JSF spec: "When a component instance is first created (typically by virtue of being
+		// referenced by a UIComponentELTag in a JSP page), the JSF implementation will retrieve the
+		// ValueExpression for the name binding, and call getValue() on it. If this call returns a
+		// non-null UIComponent value (because the JavaBean programmatically instantiated and
+		// configured a component already), that instance will be added to the component tree that
+		// is being created"
 
 		UIMetawidget metawidget = new HtmlMetawidget();
 		initMetawidget( metawidget );
@@ -6414,6 +6421,11 @@ static class State {
 	public void setMetawidget( UIMetawidget metawidget ) {
 
 		// POST-back init
+		//
+		// JSF spec: "When a component tree is recreated during the Restore View phase of
+		// the request processing lifecycle, for each component that has a ValueExpression
+		// associated with the name 'binding', setValue() will be called on it, passing the
+		// recreated component instance"
 
 		initMetawidget( metawidget );
 	}
@@ -6421,6 +6433,27 @@ static class State {
 	private void initMetawidget( UIMetawidget metawidget ) {
 	
 		...configure Metawidget programmatically...
+	}	
+}</programlisting>
+
+					<para>
+						This approach can also be used to inspect <classname>Object</classname>s and <classname>Class</classname>es
+						<emphasis>directly</emphasis>, without a <parameter>value</parameter> binding:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget binding="#{myBean.metawidget}"/&gt;</programlisting>
+					
+					<para>
+						Then in your managed bean:
+					</para>
+					
+					<programlisting language="java">public class MyManagedBean {
+
+	...as above...
+		
+	private void initMetawidget( UIMetawidget metawidget ) {
+	
+		metawidget.setValue( MyBusinessObject.class );
 	}	
 }</programlisting>
 
