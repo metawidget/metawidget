@@ -335,6 +335,53 @@
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div[2]/div)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div[2]/div[2]/input/@type" text="text"/>
 
+				<!-- Test switchType="ajax" -->
+									
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>
+				<invoke url="${webtest.url}/${context.path}/richFacesPanel3.jsf" />
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+								
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/@class, 'rich-stglpanel-header')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div[1]/div[1])" text="bar"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type)" text="text"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@type)" text="text"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@value)" text="0"/>
+
+				<clickElement xpath="/html/body/form/table/tbody/tr[3]/td/div/div"/>
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/@class, 'rich-stglpanel-header')"/>
+				<not>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table"/>
+				</not>
+				
+				<clickElement xpath="/html/body/form/table/tbody/tr[3]/td/div/div"/>
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/@class, 'rich-stglpanel-header')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div[1]/div[1])" text="bar"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type)" text="text"/>
 			</steps>
 		</webtest>
 
