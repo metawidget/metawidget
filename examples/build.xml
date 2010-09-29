@@ -128,8 +128,7 @@
 				<include name="org/metawidget/swing/widgetprocessor/binding/reflection/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
-				<include name="org/metawidget/widgetprocessor/**"/>
-				
+				<include name="org/metawidget/widgetprocessor/**"/>				
 			</fileset>
 			<fileset dir="${relative.dir}/src/java">			
 				<include name="**/*.xsd"/>
