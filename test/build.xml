@@ -1578,7 +1578,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-Dcontext.path=quirks-faces-systemevents-facelets"/>
-			<arg line="-file quirks-facelets2-test.xml"/>
+			<arg line="-file quirks-systemevents-facelets-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
