@@ -116,6 +116,8 @@
 			Metawidget. Before you begin, you need to download at least the binary distribution, and
 			preferrably the source code distribution as well, from
 			<ulink url="http://metawidget.org/download.html">http://metawidget.org/download.html</ulink>.
+			Alternatively, you can <ulink url="http://metawidget.org/videos.html">watch a video walkthrough
+			of this tutorial online</ulink>.
 		</para>
 
 		<section id="section-introduction-part1">
@@ -260,7 +262,7 @@ public class Main {
 
 				<important>
 					<title>Second Goal Of Metawidget</title>
-					Metawidget does not try to 'own' the entire UI - it focusses on
+					Metawidget does not try to 'own' the entire UI - it focuses on
 					creating native sub-widgets for slotting into existing UIs
 				</important>
 
@@ -1372,15 +1374,15 @@ public class Person {
 				</para>
 
 				<programlisting language="xml">&lt;htmlMetawidget&gt;
-	&lt;parameter&gt;
-		&lt;string&gt;tableStyleClass&lt;/string&gt;
-		&lt;string&gt;table-form&lt;/string&gt;
-	&lt;/parameter&gt;
-	&lt;parameter&gt;
-		&lt;string&gt;columnClasses&lt;/string&gt;
-		&lt;string&gt;table-label-column,table-component-column,table-required-column&lt;/string&gt;
-	&lt;/parameter&gt;
-	...</programlisting>
+&lt;parameter&gt;
+	&lt;string&gt;tableStyleClass&lt;/string&gt;
+	&lt;string&gt;table-form&lt;/string&gt;
+&lt;/parameter&gt;
+&lt;parameter&gt;
+	&lt;string&gt;columnClasses&lt;/string&gt;
+	&lt;string&gt;table-label-column,table-component-column,table-required-column&lt;/string&gt;
+&lt;/parameter&gt;
+...</programlisting>
 	
 				<para>
 					Only the layout	of 'one column for the label, one column for the widget' is dictated by Metawidget, and that is again
@@ -3381,19 +3383,19 @@ public class CastorInspector
 						</para>
 								
 						<programlisting language="java">public class MyInspectorConfig {
-			private PropertyStyle mPropertyStyle;
-			
-			public MyInspectorConfig setPropertyStyle( String propertyStyle ) {
-				mPropertyStyle = propertyStyle;
-				return this;
-			}
-		
-			public String getPropertyStyle() {
-				return mPropertyStyle;
-			}
-			
-			// ...must override equals and hashCode too...
-		}</programlisting>
+	private PropertyStyle mPropertyStyle;
+	
+	public MyInspectorConfig setPropertyStyle( String propertyStyle ) {
+		mPropertyStyle = propertyStyle;
+		return this;
+	}
+
+	public String getPropertyStyle() {
+		return mPropertyStyle;
+	}
+	
+	// ...must override equals and hashCode too...
+}</programlisting>
 		
 						<para>
 							These <classname>xxxInspectorConfig</classname> classes are then passed to the <classname>Inspector</classname>
@@ -3401,12 +3403,12 @@ public class CastorInspector
 						</para>
 						
 						<programlisting language="java">public class MyInspector {
-			private PropertyStyle mPropertyStyle;
-			
-			public MyInspector( MyInspectorConfig config ) {
-				mPropertyStyle = config.getPropertyStyle();
-			}
-		}</programlisting>
+	private PropertyStyle mPropertyStyle;
+	
+	public MyInspector( MyInspectorConfig config ) {
+		mPropertyStyle = config.getPropertyStyle();
+	}
+}</programlisting>
 		
 						<para>
 							This mechanism can then be controlled either programmatically:
@@ -3743,19 +3745,19 @@ public class Main {
 						</para>
 								
 						<programlisting language="java">public class MyInspectionResultProcessorConfig {
-			private boolean mSortAscending = true;
-			
-			public MyInspectionResultProcessorConfig setSortAscending( boolean sortAscending ) {
-				mSortAscending = sortAscending;
-				return this;
-			}
-		
-			public boolean isSortAscending() {
-				return mSortAscending;
-			}
-			
-			// ...must override equals and hashCode too...
-		}</programlisting>
+	private boolean mSortAscending = true;
+	
+	public MyInspectionResultProcessorConfig setSortAscending( boolean sortAscending ) {
+		mSortAscending = sortAscending;
+		return this;
+	}
+
+	public boolean isSortAscending() {
+		return mSortAscending;
+	}
+	
+	// ...must override equals and hashCode too...
+}</programlisting>
 		
 						<para>
 							These <classname>xxxInspectionResultProcessorConfig</classname> classes are then passed to the
@@ -3763,12 +3765,12 @@ public class Main {
 						</para>
 						
 						<programlisting language="java">public class MyInspectionResultProcessor {
-			private boolean mSortAscending;
-			
-			public MyInspectionResultProcessor( MyInspectionResultProcessorConfig config ) {
-				mSortAscending = config.isSortAscending();
-			}
-		}</programlisting>
+	private boolean mSortAscending;
+	
+	public MyInspectionResultProcessor( MyInspectionResultProcessorConfig config ) {
+		mSortAscending = config.isSortAscending();
+	}
+}</programlisting>
 		
 						<para>
 							This mechanism can then be controlled either programmatically:
@@ -4911,19 +4913,19 @@ public class Main {
 						</para>
 								
 						<programlisting language="java">public class TooltipProcessorConfig {
-			private String mPrefix;
-			
-			public TooltipProcessorConfig setPrefix( String prefix ) {
-				mPrefix = prefix;
-				return this;
-			}
-		
-			public String getPrefix() {
-				return mPrefix;
-			}
-			
-			// ...must override equals and hashCode too...
-		}</programlisting>
+	private String mPrefix;
+	
+	public TooltipProcessorConfig setPrefix( String prefix ) {
+		mPrefix = prefix;
+		return this;
+	}
+
+	public String getPrefix() {
+		return mPrefix;
+	}
+	
+	// ...must override equals and hashCode too...
+}</programlisting>
 		
 						<para>
 							These <classname>xxxWidgetProcessorConfig</classname> classes are then passed to the <classname>WidgetProcessor</classname>
@@ -4931,12 +4933,12 @@ public class Main {
 						</para>
 						
 						<programlisting language="java">public class TooltipProcessor {
-			private String mPrefix;
-			
-			public TooltipProcessor( TooltipProcessorConfig config ) {
-				mPrefix = config.getPrefix();
-			}
-		}</programlisting>
+	private String mPrefix;
+	
+	public TooltipProcessor( TooltipProcessorConfig config ) {
+		mPrefix = config.getPrefix();
+	}
+}</programlisting>
 		
 						<para>
 							This mechanism can then be controlled either programmatically:
@@ -6250,9 +6252,9 @@ static class State {
 								Add a tag library descriptor to the top of your JSP page:
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/html" prefix="m" %&gt;
-	...
-	&lt;m:metawidget value="foo"/&gt;
-	...</programlisting>
+...
+&lt;m:metawidget value="foo"/&gt;
+...</programlisting>
 						</listitem>
 						<listitem>
 							<para>
@@ -6357,18 +6359,17 @@ static class State {
 								Add a tag library descriptor to the top of your JSP page...
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/faces" prefix="m" %&gt;
-	...
-	&lt;m:metawidget value="#{foo}"/&gt;
-	...</programlisting>
+...
+&lt;m:metawidget value="#{foo}"/&gt;
+...</programlisting>
 							<para>
 								...or Facelets page...
 							</para>
 							<programlisting language="xml">&lt;ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	...
 	xmlns:m="http://metawidget.org/faces"&gt;
-	...
-	&lt;m:metawidget value="#{foo}"/&gt;
-	...</programlisting>
+...
+&lt;m:metawidget value="#{foo}"/&gt;
+...</programlisting>
 						</listitem>
 						<listitem>
 							<para>
@@ -6597,9 +6598,9 @@ static class State {
 								Add a tag library descriptor to the top of your JSP page:
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/spring" prefix="m" %&gt;
-	...
-	&lt;m:metawidget path="fooCommand"/&gt;
-	...</programlisting>
+...
+&lt;m:metawidget path="fooCommand"/&gt;
+...</programlisting>
 						</listitem>
 						<listitem>
 							<para>
@@ -6711,9 +6712,9 @@ static class State {
 								Add a tag library descriptor to the top of your JSP page:
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/struts" prefix="m" %&gt;
-	...
-	&lt;m:metawidget property="fooForm"/&gt;
-	...</programlisting>
+...
+&lt;m:metawidget property="fooForm"/&gt;
+...</programlisting>
 						</listitem>
 						<listitem>
 							<para>
