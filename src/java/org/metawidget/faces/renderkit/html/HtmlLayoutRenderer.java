@@ -238,7 +238,7 @@ public abstract class HtmlLayoutRenderer
 		// recursion of SystemEvent broadcasts on Mojarra 2.0.2. It is needed for non-SystemEvent
 		// implementations, though
 
-		if ( !FacesUtils.isUsingPostAddToViewEvent() ) {
+		if ( !FacesUtils.isUsingPostAddToViewEvent() && !FacesUtils.isUsingPreRenderViewEvent() ) {
 			message.setParent( metawidget );
 		}
 
