@@ -8371,7 +8371,7 @@ public class PersonController {
 					
 					<para>
 						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
-						<classname>Control</classname>s whose <function>getData( "name" )</function> equals the same name Metawidget
+						<classname>Control</classname>s whose <function>getData("name")</function> equals the same name Metawidget
 						would have generated.  
 					</para>
 				</section>
