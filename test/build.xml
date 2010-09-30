@@ -554,8 +554,9 @@
 		<!-- apps in there, but /webapps should be considered volatile anyway. It is   -->
 		<!-- needed so that the EMMA code coverage tracks correctly                    -->
 		
-		<delete dir="${tomcat.dir}/webapps"/>
-		<mkdir dir="${tomcat.dir}/webapps"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.dir}/webapps" includes="**/*" />
+		</delete>
 		<delete dir="${tomcat.dir}/work"/>
 
 	</target>
@@ -1068,8 +1069,9 @@
 		<!-- apps in there, but /webapps should be considered volatile anyway. It is   -->
 		<!-- needed so that the EMMA code coverage tracks correctly                    -->
 		
-		<delete dir="${tomcat4.dir}/webapps"/>
-		<mkdir dir="${tomcat4.dir}/webapps"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.dir}/webapps" includes="**/*" />
+		</delete>
 		<delete dir="${tomcat4.dir}/work"/>
 
 	</target>
@@ -1483,7 +1485,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-Dcontext.path=quirks-faces-facelets2"/>
-			<arg line="-file quirks-facelets2-richfaces-test.xml"/>
+			<arg line="-file quirks-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
@@ -1533,7 +1535,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-Dcontext.path=quirks-faces-facelets2"/>
-			<arg line="-file quirks-facelets2-richfaces-test.xml"/>
+			<arg line="-file quirks-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
@@ -1576,7 +1578,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-Dcontext.path=quirks-faces-systemevents-facelets"/>
-			<arg line="-file quirks-facelets2-richfaces-test.xml"/>
+			<arg line="-file quirks-facelets2-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>

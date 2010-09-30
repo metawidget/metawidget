@@ -154,16 +154,30 @@ public final class FacesUtils {
 
 	/**
 	 * Gets whether
-	 * <code>&lt;param-name&gt;org.metawidget.faces.component.USE_SYSTEM_EVENTS&lt;/param-name&gt;</code>
+	 * <code>&lt;param-name&gt;org.metawidget.faces.component.USE_POST_ADD_TO_VIEW_EVENT&lt;/param-name&gt;</code>
 	 * is set to <code>true</code>.
 	 */
 
-	public static boolean isUseSystemEvents() {
+	public static boolean isUsingPostAddToViewEvent() {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 
-		return "true".equals( externalContext.getInitParameter( "org.metawidget.faces.component.USE_SYSTEM_EVENTS" ) );
+		return "true".equals( externalContext.getInitParameter( "org.metawidget.faces.component.USE_POST_ADD_TO_VIEW_EVENT" ) );
+	}
+
+	/**
+	 * Gets whether
+	 * <code>&lt;param-name&gt;org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT&lt;/param-name&gt;</code>
+	 * is set to <code>true</code>.
+	 */
+
+	public static boolean isUsingPreRenderViewEvent() {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+
+		return "true".equals( externalContext.getInitParameter( "org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT" ) );
 	}
 
 	//

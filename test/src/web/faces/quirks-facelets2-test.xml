@@ -333,8 +333,6 @@
 			</steps>
 		</webtest>
 		
-		<!-- TODO: PostAddToViewEvent is fired during RestoreView, we need something after invokeApplication
-		
 		<webtest name="test-remove-duplicates-support">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
@@ -347,6 +345,8 @@
 					
 					<clickLink label="New Embedded"/>
 
+					<!-- TODO: PostAddToViewEvent is fired during RestoreView, we need something after invokeApplication
+		
 					<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Bar 1:"/>
 					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 					
@@ -355,12 +355,12 @@
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/span/table/tbody/tr[1]/th[1])" text="Bar 2:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/span/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 					<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td/span/table/tbody/tr)" text="1"/>
+					-->
 					
 					<clickLink label="Clear Embedded"/>
 				</repeat>
 			</steps>
 		</webtest>
-		-->
 
 		<webtest name="test-binding-support">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>

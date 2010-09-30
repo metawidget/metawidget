@@ -234,11 +234,11 @@ public abstract class HtmlLayoutRenderer
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 
-		// If using SystemEvent, avoid setParent because it seems to trigger an infinite recursion
-		// of SystemEvent broadcasts on Mojarra 2.0.2. It is needed for non-SystemEvent
+		// If using PostAddToViewEvent, avoid setParent because it seems to trigger an infinite
+		// recursion of SystemEvent broadcasts on Mojarra 2.0.2. It is needed for non-SystemEvent
 		// implementations, though
 
-		if ( !FacesUtils.isUseSystemEvents() ) {
+		if ( !FacesUtils.isUsingPostAddToViewEvent() ) {
 			message.setParent( metawidget );
 		}
 

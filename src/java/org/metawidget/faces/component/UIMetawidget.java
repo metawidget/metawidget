@@ -35,6 +35,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PostAddToViewEvent;
+import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
@@ -67,7 +68,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * Its default RendererType is <code>table</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -172,8 +173,10 @@ public abstract class UIMetawidget
 		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636, so it is not
 		// enabled by default
 
-		if ( FacesUtils.isUseSystemEvents() ) {
-			mBuildWidgetsTrigger = new SystemEventSupport( this );
+		if ( FacesUtils.isUsingPostAddToViewEvent() ) {
+			mBuildWidgetsTrigger = new PostAddToViewEventSupport( this );
+		} else if ( FacesUtils.isUsingPreRenderViewEvent() ) {
+			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
 		} else {
 			mBuildWidgetsTrigger = new RemoveDuplicatesSupport( this );
 		}
@@ -843,7 +846,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 * 
+	 *
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
@@ -1118,11 +1121,11 @@ public abstract class UIMetawidget
 	/**
 	 * Dynamically modify the component tree using the JSF2 API.
 	 * <p>
-	 * JSF2 introduced <code>SystemEvents</code>, which we can use to avoid
+	 * JSF2 introduced <code>PostAddToViewEvent</code>, which we can use to avoid
 	 * <code>RemoveDuplicatesSupport</code>.
 	 */
 
-	private static class SystemEventSupport
+	private static class PostAddToViewEventSupport
 		extends BuildWidgetsSupport
 		implements SystemEventListener {
 
@@ -1130,7 +1133,7 @@ public abstract class UIMetawidget
 		// Constructor
 		//
 
-		public SystemEventSupport( UIMetawidget metawidget ) {
+		public PostAddToViewEventSupport( UIMetawidget metawidget ) {
 
 			super( metawidget );
 
@@ -1143,9 +1146,7 @@ public abstract class UIMetawidget
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 			}
 
-			// TODO: consider PreRenderViewEvent, not PostAddToViewEvent
-
-			root.subscribeToViewEvent( PostAddToViewEvent.class, this );
+			root.subscribeToViewEvent( getSystemEvent(), this );
 		}
 
 		//
@@ -1168,6 +1169,48 @@ public abstract class UIMetawidget
 
 				throw new AbortProcessingException( e );
 			}
+		}
+
+		//
+		// Protected methods
+		//
+
+		protected Class<? extends SystemEvent> getSystemEvent() {
+
+			return PostAddToViewEvent.class;
+		}
+	}
+
+	/**
+	 * Dynamically modify the component tree using the JSF2 API.
+	 * <p>
+	 * JSF2 introduced <code>PreRenderViewEvent</code>, which we can use to avoid
+	 * <code>RemoveDuplicatesSupport</code>.
+	 * <p>
+	 * Note there are still some implementation issues around whether to use
+	 * <code>PostAddToViewEvent</code> or <code>PreRenderViewEvent</code>.
+	 */
+
+	private static class PreRenderViewEventSupport
+		extends PostAddToViewEventSupport {
+
+		//
+		// Constructor
+		//
+
+		public PreRenderViewEventSupport( UIMetawidget metawidget ) {
+
+			super( metawidget );
+		}
+
+		//
+		// Protected methods
+		//
+
+		@Override
+		protected Class<? extends SystemEvent> getSystemEvent() {
+
+			return PreRenderViewEvent.class;
 		}
 	}
 
