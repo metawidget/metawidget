@@ -16,8 +16,17 @@
 
 package org.metawidget.faces.component.html.layout;
 
+import java.lang.reflect.Method;
+
+import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlInputText;
+
 import junit.framework.TestCase;
 
+import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.component.layout.SimpleLayout;
+import org.metawidget.faces.component.layout.UIComponentFlatSectionLayoutDecorator;
 import org.metawidget.util.TestUtils;
 
 /**
@@ -36,5 +45,21 @@ public class OutputTextLayoutDecoratorTest
 		TestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class, new OutputTextLayoutDecoratorConfig() {
 			// Subclass
 		} );
+	}
+
+	public void testIsEmptyStub()
+		throws Exception {
+
+		OutputTextLayoutDecorator decorator = new OutputTextLayoutDecorator( new OutputTextLayoutDecoratorConfig().setLayout( new SimpleLayout() ) );
+		Method isEmptyStub = UIComponentFlatSectionLayoutDecorator.class.getDeclaredMethod( "isEmptyStub", UIComponent.class );
+		isEmptyStub.setAccessible( true );
+
+		assertEquals( false, isEmptyStub.invoke( decorator, (Object) null ));
+		assertEquals( false, isEmptyStub.invoke( decorator, new HtmlInputText() ));
+		UIStub stub = new UIStub();
+		assertEquals( true, isEmptyStub.invoke( decorator, stub ));
+		stub.getChildren().add( new HtmlInputText() );
+		assertEquals( false, isEmptyStub.invoke( decorator, stub ));
+		assertEquals( true, isEmptyStub.invoke( decorator, new HtmlInputHidden() ));
 	}
 }

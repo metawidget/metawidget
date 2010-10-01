@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputHidden;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
@@ -79,6 +80,16 @@ public abstract class UIComponentFlatSectionLayoutDecorator
 	@Override
 	protected boolean isEmptyStub( UIComponent component ) {
 
-		return ( component instanceof UIStub && component.getChildren().isEmpty() );
+		if ( component instanceof UIStub && component.getChildren().isEmpty() ) {
+			return true;
+		}
+
+		// Treat HtmlInputHidden as an empty UIStub, so that we don't create section headings for it
+
+		if ( component instanceof HtmlInputHidden ) {
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -142,6 +142,16 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 	protected abstract State getState( C container, M metawidget );
 
+	/**
+	 * Returns <code>true</code> if the given widget is an empty Stub widget, and should therefore
+	 * be ignored and no section heading created.
+	 * <p>
+	 * Subclasses should also return <code>true</code> if the widget is some other kind of invisible
+	 * component (eg. <code>HtmlInputHidden</code>).
+	 */
+
+	// REFACTOR: rename this to isInvisible
+
 	protected abstract boolean isEmptyStub( W widget );
 
 	/**

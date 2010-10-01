@@ -54,6 +54,13 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Constructor
 	//
 
+	/**
+	 * Constructor.
+	 * <p>
+	 * <code>LayoutDecoratorConfig</code> is mandatory because all <code>LayoutDecorator</code>s
+	 * need something to decorate.
+	 */
+
 	protected LayoutDecorator( LayoutDecoratorConfig<W, C, M> config ) {
 
 		mDelegate = config.getLayout();
