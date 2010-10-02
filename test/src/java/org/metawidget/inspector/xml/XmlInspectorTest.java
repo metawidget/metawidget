@@ -168,14 +168,14 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ) );
+			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ) );
 		}
 
 		try {
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ) );
+			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ) );
 		}
 	}
 

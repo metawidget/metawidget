@@ -211,7 +211,7 @@ public abstract class BaseXmlInspector
 				// attribute set, because we should never try to traverse the child
 
 				if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
-					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 				}
 
 				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
@@ -491,7 +491,7 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
-				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 			}
 
 			String propertyType = property.getAttribute( typeAttribute );
