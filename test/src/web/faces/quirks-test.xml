@@ -114,6 +114,14 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input[@type='submit']/@value" text="Refresh"/>
 				<clickButton label="Refresh"/>
 				<verifyText text="rror"/>
+
+				<!-- Test multiple Refreshes (components should not re-order) -->
+				
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input[@type='submit']/@value" text="Refresh"/>
+				<clickButton label="Refresh"/>
+				<verifyText text="rror"/>
+
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input[@type='submit']/@value" text="Refresh"/>
 				<setInputField name="form:quirksLarge" value="Some text"/>
 				<verifyXPath xpath="count(//input[@value='Refresh'])" text="1"/>
 

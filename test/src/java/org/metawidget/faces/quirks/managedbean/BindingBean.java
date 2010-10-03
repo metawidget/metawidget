@@ -168,7 +168,10 @@ public class BindingBean {
 
 	/* package private */UIComponent setId( UIComponent widget, UIMetawidget metawidget ) {
 
-		if ( widget.getId() != null ) {
+		// Id may have been set automatically, especially after POSTback, but should never be set by
+		// ReadableIdProcessor
+
+		if ( widget.getId() != null && widget.getId().startsWith( "binding" ) ) {
 			throw new RuntimeException( "Id is '" + widget.getId() + "'. ReadableIdProcessor still active?" );
 		}
 
