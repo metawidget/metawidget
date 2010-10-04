@@ -277,7 +277,7 @@ public class SimpleBindingProcessor
 			}
 		}
 
-		// Nested bindings
+		// Nested Metawidgets
 
 		if ( state.nestedMetawidgets != null ) {
 			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets ) {
@@ -333,7 +333,7 @@ public class SimpleBindingProcessor
 			}
 		}
 
-		// Nested bindings
+		// Nested Metawidgets
 
 		if ( state.nestedMetawidgets != null ) {
 			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets ) {

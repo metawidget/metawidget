@@ -280,7 +280,7 @@ public class GwtAddressBookTest
 																				// Check address was
 																				// changed (ie.
 																				// exercises the
-																				// nested bindings
+																				// nested Metawidgets
 																				// in
 																				// SimpleBindingProcessor.save)
 
@@ -315,7 +315,7 @@ public class GwtAddressBookTest
 																								// exercises
 																								// the
 																								// nested
-																								// bindings
+																								// Metawidgets
 																								// in
 																								// SimpleBindingProcessor.rebind)
 

@@ -120,12 +120,26 @@ public class BeansBindingProcessor
 	@Override
 	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
-		// Unwrap JScrollPanes (for JTextAreas etc)
-
 		JComponent componentToBind = component;
+
+		// Unwrap JScrollPanes (for JTextAreas etc)
 
 		if ( componentToBind instanceof JScrollPane ) {
 			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
+		}
+
+		// Nested Metawidgets are not bound, only remembered
+
+		if ( componentToBind instanceof SwingMetawidget ) {
+
+			State state = getState( metawidget );
+
+			if ( state.nestedMetawidgets == null ) {
+				state.nestedMetawidgets = CollectionUtils.newHashSet();
+			}
+
+			state.nestedMetawidgets.add( (SwingMetawidget) component );
+			return component;
 		}
 
 		typesafeAdd( componentToBind, elementName, attributes, metawidget );
@@ -163,11 +177,11 @@ public class BeansBindingProcessor
 			}
 		}
 
-		// Nested bindings
+		// Nested Metawidgets
 
-		for ( Component component : metawidget.getComponents() ) {
-			if ( component instanceof SwingMetawidget ) {
-				rebind( toRebind, (SwingMetawidget) component );
+		if ( state.nestedMetawidgets != null ) {
+			for ( SwingMetawidget nestedMetawidget : state.nestedMetawidgets ) {
+				rebind( toRebind, nestedMetawidget );
 			}
 		}
 	}
@@ -204,11 +218,11 @@ public class BeansBindingProcessor
 			}
 		}
 
-		// Nested bindings
+		// Nested Metawidgets
 
-		for ( Component component : metawidget.getComponents() ) {
-			if ( component instanceof SwingMetawidget ) {
-				save( (SwingMetawidget) component );
+		if ( state.nestedMetawidgets != null ) {
+			for ( SwingMetawidget nestedMetawidget : state.nestedMetawidgets ) {
+				save( nestedMetawidget );
 			}
 		}
 	}
@@ -389,6 +403,8 @@ public class BeansBindingProcessor
 	/* package private */static class State {
 
 		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
+
+		/* package private */Set<SwingMetawidget>														nestedMetawidgets;
 	}
 
 	/* package private */static final class ConvertFromTo<S, T> {

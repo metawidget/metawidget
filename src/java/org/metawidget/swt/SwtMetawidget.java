@@ -602,7 +602,7 @@ public class SwtMetawidget
 		if ( !mNeedToBuildWidgets ) {
 			return;
 		}
-		
+
 		mPipeline.configureOnce();
 
 		mNeedToBuildWidgets = false;
@@ -861,7 +861,7 @@ public class SwtMetawidget
 		public SwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception {
 
-			SwtMetawidget nestedMetawidget = SwtMetawidget.this.getClass().getConstructor( Composite.class, int.class ).newInstance( getPipelineOwner(), SWT.None );
+			SwtMetawidget nestedMetawidget = SwtMetawidget.this.getClass().getConstructor( Composite.class, int.class ).newInstance( getPipelineOwner().getCurrentLayoutComposite(), SWT.None );
 			SwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;

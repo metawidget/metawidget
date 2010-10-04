@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -95,14 +96,27 @@ public class DataBindingProcessor
 	@Override
 	public void onStartBuild( SwtMetawidget metawidget ) {
 
-		Realm realm = getRealm( metawidget.getDisplay() );
-		metawidget.setData( DataBindingProcessor.class.getName(), new DataBindingContext( realm ) );
+		metawidget.setData( DataBindingProcessor.class.getName(), null );
 	}
 
 	@Override
 	public Control processWidget( Control control, String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
 
 		if ( ACTION.equals( elementName ) ) {
+			return control;
+		}
+
+		// Nested Metawidgets are not bound, only remembered
+
+		if ( control instanceof SwtMetawidget ) {
+
+			State state = getState( metawidget );
+
+			if ( state.nestedMetawidgets == null ) {
+				state.nestedMetawidgets = CollectionUtils.newHashSet();
+			}
+
+			state.nestedMetawidgets.add( (SwtMetawidget) control );
 			return control;
 		}
 
@@ -114,8 +128,8 @@ public class DataBindingProcessor
 
 		// Observe the control
 
-		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
-		Realm realm = bindingContext.getValidationRealm();
+		State state = getState( metawidget );
+		Realm realm = state.bindingContext.getValidationRealm();
 		IObservableValue observeTarget = BeanProperties.value( controlProperty ).observe( realm, control );
 		UpdateValueStrategy targetToModel;
 
@@ -152,7 +166,7 @@ public class DataBindingProcessor
 
 		// Bind it
 
-		bindingContext.bindValue( observeTarget, observeModel, targetToModel, modelToTarget );
+		state.bindingContext.bindValue( observeTarget, observeModel, targetToModel, modelToTarget );
 
 		return control;
 	}
@@ -166,18 +180,18 @@ public class DataBindingProcessor
 	@Override
 	public void onEndBuild( SwtMetawidget metawidget ) {
 
-		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
-		bindingContext.updateTargets();
+		State state = getState( metawidget );
+		state.bindingContext.updateTargets();
 	}
 
 	public void save( final SwtMetawidget metawidget ) {
 
 		// Our bindings
 
-		DataBindingContext bindingContext = (DataBindingContext) metawidget.getData( DataBindingProcessor.class.getName() );
-		bindingContext.updateModels();
+		State state = getState( metawidget );
+		state.bindingContext.updateModels();
 
-		for ( Object validationStatusProvider : bindingContext.getValidationStatusProviders() ) {
+		for ( Object validationStatusProvider : state.bindingContext.getValidationStatusProviders() ) {
 			Binding binding = (Binding) validationStatusProvider;
 			BindingStatus bindingStatus = (BindingStatus) binding.getValidationStatus().getValue();
 
@@ -188,11 +202,11 @@ public class DataBindingProcessor
 			throw WidgetProcessorException.newException( bindingStatus.getException() );
 		}
 
-		// Nested bindings
+		// Nested Metawidgets
 
-		for ( Control control : metawidget.getChildren() ) {
-			if ( control instanceof SwtMetawidget ) {
-				save( (SwtMetawidget) control );
+		if ( state.nestedMetawidgets != null ) {
+			for ( SwtMetawidget nestedMetawidget : state.nestedMetawidgets ) {
+				save( nestedMetawidget );
 			}
 		}
 	}
@@ -200,6 +214,21 @@ public class DataBindingProcessor
 	//
 	// Private methods
 	//
+
+	private State getState( SwtMetawidget metawidget ) {
+
+		State state = (State) metawidget.getData( DataBindingProcessor.class.getName() );
+
+		if ( state == null ) {
+			state = new State();
+			state.bindingContext = new DataBindingContext( getRealm( metawidget.getDisplay() ));
+
+			metawidget.setData( DataBindingProcessor.class.getName(), state );
+
+		}
+
+		return state;
+	}
 
 	/**
 	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
@@ -248,6 +277,17 @@ public class DataBindingProcessor
 	//
 	// Inner class
 	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */static class State {
+
+		/* package private */DataBindingContext	bindingContext;
+
+		/* package private */Set<SwtMetawidget>	nestedMetawidgets;
+	}
 
 	/**
 	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)

@@ -23,14 +23,22 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.metawidget.example.shared.addressbook.model.Contact;
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.BoxLayout;
+import org.metawidget.swing.layout.GridBagLayout;
+import org.metawidget.swing.layout.TabbedPaneLayoutDecorator;
+import org.metawidget.swing.layout.TabbedPaneLayoutDecoratorConfig;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor.ConvertFromTo;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.TestUtils;
@@ -233,6 +241,45 @@ public class BeansBindingProcessorTest
 		assertTrue( null == numberConverter.convertReverse( "" ) );
 		assertTrue( null == numberConverter.convertReverse( "   " ) );
 		assertTrue( 3 == numberConverter.convertReverse( "3" ) );
+	}
+
+	public void testNestedMetawidget() {
+
+		Contact contact = new PersonalContact();
+	    SwingMetawidget metawidget = new SwingMetawidget();
+	    metawidget.addWidgetProcessor( new BeansBindingProcessor() );
+        metawidget.add( new Stub( "dateOfBirth" ));
+        metawidget.setToInspect( contact );
+
+        // Just GridBagLayout
+
+        assertEquals( null, contact.getFirstname() );
+        assertEquals( null, contact.getAddress().getStreet() );
+        ((JTextField) metawidget.getComponent( "firstname" )).setText( "Foo" );
+        ((JTextField) metawidget.getComponent( "address", "street" )).setText( "Bar" );
+        assertEquals( metawidget, metawidget.getComponent( "address", "street" ).getParent().getParent() );
+        metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+        assertEquals( "Foo", contact.getFirstname() );
+        assertEquals( "Bar", contact.getAddress().getStreet() );
+
+        // With TabbedPaneLayoutDecorator
+
+        metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GridBagLayout() ) ));
+        ((JTextField) metawidget.getComponent( "firstname" )).setText( "Foo1" );
+        ((JTextField) metawidget.getComponent( "address", "street" )).setText( "Bar1" );
+        assertTrue( metawidget.getComponent( "address", "street" ).getParent().getParent().getParent() instanceof JTabbedPane );
+        metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+        assertEquals( "Foo1", contact.getFirstname() );
+        assertEquals( "Bar1", contact.getAddress().getStreet() );
+
+        // Test rebind
+
+        contact = new PersonalContact();
+        contact.setFirstname( "Foo2" );
+        contact.getAddress().setStreet( "Bar2" );
+        metawidget.getWidgetProcessor( BeansBindingProcessor.class ).rebind( contact, metawidget );
+        assertEquals( "Foo2", ((JTextField) metawidget.getComponent( "firstname" )).getText() );
+        assertEquals( "Bar2", ((JTextField) metawidget.getComponent( "address", "street" )).getText() );
 	}
 
 	//
