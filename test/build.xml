@@ -635,6 +635,61 @@
 
 	</target>
 
+	<target name="test-faces-addressbook2" depends="example-shared-addressbook">
+
+		<mkdir dir="${relative.dir}/${build.dir}/examples/faces"/>
+
+		<war warfile="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" webxml="${relative.dir}/test/src/web/examples/faces/addressbook2/WEB-INF/web.xml">
+			<fileset dir="${relative.dir}/examples/src/web/faces/addressbook">
+				<include name="WEB-INF/metawidget*.xml"/>
+				<include name="index.jsf"/>
+			</fileset>		
+			<fileset dir="${relative.dir}/test/src/web/examples/faces/addressbook2">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<fileset dir="${relative.dir}/examples/src/web/shared/addressbook">
+				<include name="css/**"/>
+				<include name="media/**"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/example-classes">
+				<include name="org/metawidget/example/faces/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-2.0*.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+
+		<!-- Test on Tomcat -->
+
+		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-tomcat"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+
+	</target>
+
 	<target name="test-faces-penguincolony" depends="example-faces-penguincolony,compile-test">
 		
 		<!-- Test on Tomcat -->
@@ -1011,6 +1066,7 @@
 	<target name="test-web-ok" if="webtest-available">
 		
 		<antcall target="test-faces-addressbook"/>
+		<antcall target="test-faces-addressbook2"/>
 		<antcall target="test-faces-penguincolony"/>		
 		<antcall target="test-faces-quirks"/>
 		<antcall target="test-gwt-addressbook"/>
