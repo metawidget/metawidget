@@ -635,7 +635,7 @@
 
 	</target>
 
-	<target name="test-faces-addressbook2" depends="example-shared-addressbook">
+	<target name="test-faces-addressbook2" depends="example-shared-addressbook,flatten-test-libs">
 
 		<mkdir dir="${relative.dir}/${build.dir}/examples/faces"/>
 
@@ -1412,7 +1412,7 @@
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents.war" webxml="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets/WEB-INF/web.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents.war" webxml="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets/WEB-INF/web-prerender-view.xml">
 			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
@@ -1606,7 +1606,7 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets/WEB-INF/web.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-systemevents-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-systemevents-facelets/WEB-INF/web-post-add-to-view.xml">
 			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
