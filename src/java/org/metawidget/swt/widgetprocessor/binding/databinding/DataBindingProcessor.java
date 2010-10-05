@@ -48,6 +48,11 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * This implementation does <em>not</em> require JFace. JFace is separate from
  * <code>eclipse.core.databinding</code>, as discussed here
  * https://bugs.eclipse.org/bugs/show_bug.cgi?id=153630.
+ * <p>
+ * <p>
+ * Note: <code>eclipse.core.databinding</code> does not bind <em>actions</em>, such as invoking a
+ * method when a <code>Button</code> is pressed. For that, see
+ * <code>ReflectionBindingProcessor</code> and <code>MetawidgetActionStyle</code>.
  *
  * @author Richard Kennard
  */
@@ -221,7 +226,7 @@ public class DataBindingProcessor
 
 		if ( state == null ) {
 			state = new State();
-			state.bindingContext = new DataBindingContext( getRealm( metawidget.getDisplay() ));
+			state.bindingContext = new DataBindingContext( getRealm( metawidget.getDisplay() ) );
 
 			metawidget.setData( DataBindingProcessor.class.getName(), state );
 

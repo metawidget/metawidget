@@ -54,6 +54,10 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * no need to call <code>BeansBindingProcessor.rebind</code>. If set to <code>READ_WRITE</code>,
  * there is no need to call <code>BeansBindingProcessor.save</code>.
  * </ul>
+ * <p>
+ * Note: <code>BeansBinding</code> does not bind <em>actions</em>, such as invoking a method when a
+ * <code>JButton</code> is pressed. For that, see <code>ReflectionBindingProcessor</code> and
+ * <code>MetawidgetActionStyle</code> or <code>SwingAppFrameworkActionStyle</code>.
  *
  * @author Richard Kennard
  */

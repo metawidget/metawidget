@@ -47,6 +47,10 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * <li><code>propertyStyle</code> - either <code>PROPERTYSTYLE_JAVABEAN</code> (default) or
  * <code>PROPERTYSTYLE_SCALA</code> (for Scala-style getters and setters).
  * </ul>
+ * <p>
+ * Note: <code>BeansUtils</code> does not bind <em>actions</em>, such as invoking a method when a
+ * <code>JButton</code> is pressed. For that, see <code>ReflectionBindingProcessor</code> and
+ * <code>MetawidgetActionStyle</code> or <code>SwingAppFrameworkActionStyle</code>.
  *
  * @author Richard Kennard, Stefan Ackermann
  */
