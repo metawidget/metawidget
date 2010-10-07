@@ -34,6 +34,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -328,7 +329,7 @@ public class BeansBindingProcessor
 		//
 		// See https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3460563
 
-		if ( converter == null && ( TRUE.equals( attributes.get( READ_ONLY ) ) || TRUE.equals( attributes.get( NO_SETTER ) ) ) ) {
+		if ( converter == null && WidgetBuilderUtils.isReadOnly( attributes ) && target.equals( String.class )) {
 			converter = new ReadOnlyToStringConverter();
 		}
 
