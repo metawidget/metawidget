@@ -15,11 +15,6 @@
 	</context-param>
 
 	<context-param>
-		<param-name>org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT</param-name>
-		<param-value>true</param-value>
-	</context-param>
-
-	<context-param>
 	     <param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>   
 	     <param-value>true</param-value>   
 	</context-param> 

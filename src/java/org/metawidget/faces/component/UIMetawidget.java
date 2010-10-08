@@ -175,12 +175,24 @@ public abstract class UIMetawidget
 		ExternalContext externalContext = context.getExternalContext();
 
 		if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
+
+			// Forcibly disabled?
+
 			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
+
 		} else {
+
 			try {
+
+				// Supported!
+
 				Class.forName( "javax.faces.event.PreRenderViewEvent" );
 				mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
+
 			} catch ( ClassNotFoundException e ) {
+
+				// JSF 1.x?
+
 				mBuildWidgetsTrigger = new EncodeBeginSupport( this );
 			}
 		}
@@ -1143,12 +1155,6 @@ public abstract class UIMetawidget
 
 			FacesContext context = FacesContext.getCurrentInstance();
 			UIViewRoot root = context.getViewRoot();
-
-			// Warning against an incompatible setup. Say, using an old version of RichFaces
-
-			if ( root == null ) {
-				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
-			}
 
 			root.subscribeToViewEvent( PreRenderViewEvent.class, this );
 		}

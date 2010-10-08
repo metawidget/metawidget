@@ -25,13 +25,6 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
-	<!-- Hack. For full JSF2 support, use SystemEvents -->
-	
- 	<context-param>
- 		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
- 		<param-value>false</param-value>
- 	</context-param>
- 	
 	<!-- Welcome files (pointing directly to a JSF page only works on JSP 2+) -->
 	
 	<welcome-file-list>

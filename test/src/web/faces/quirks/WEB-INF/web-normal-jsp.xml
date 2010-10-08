@@ -25,10 +25,6 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
-	<listener>
-		<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-	</listener>
-
 	<!-- RichFaces -->
 	
 	<filter>

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javeee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
 
 	<display-name>
-		Quirks (Metawidget SystemEvents Facelets Test)
+		Quirks (Metawidget Facelets 2 Test)
 	</display-name>
 
 	<!-- Faces -->
@@ -15,10 +15,10 @@
 	</context-param>
 
 	<context-param>
-		<param-name>org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT</param-name>
+		<param-name>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</param-name>
 		<param-value>true</param-value>
 	</context-param>
-
+	
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -29,6 +29,22 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+
+	<!-- RichFaces -->
+	
+	<filter>
+		<display-name>RichFaces Filter</display-name>
+		<filter-name>richfaces</filter-name>
+		<filter-class>org.ajax4jsf.Filter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>richfaces</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
 
 	<!-- Welcome files (pointing directly to a JSF page only works on JSP 2+) -->
 	
