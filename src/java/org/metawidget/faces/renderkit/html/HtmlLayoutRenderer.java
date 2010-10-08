@@ -233,15 +233,7 @@ public abstract class HtmlLayoutRenderer
 	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
-
-		// If using PostAddToViewEvent, avoid setParent because it seems to trigger an infinite
-		// recursion of PostAddToViewEvent broadcasts on Mojarra 2.0.2. It is needed for
-		// non-PostAddToViewEvent implementations, though
-
-		if ( !FacesUtils.isUsingPostAddToViewEvent() ) {
-			message.setParent( metawidget );
-		}
-
+		message.setParent( metawidget );
 		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( messageFor );
 

@@ -24,7 +24,6 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 /**
@@ -150,34 +149,6 @@ public final class FacesUtils {
 
 			to.getChildren().add( parameterCopy );
 		}
-	}
-
-	/**
-	 * Gets whether
-	 * <code>&lt;param-name&gt;org.metawidget.faces.component.USE_POST_ADD_TO_VIEW_EVENT&lt;/param-name&gt;</code>
-	 * is set to <code>true</code>.
-	 */
-
-	public static boolean isUsingPostAddToViewEvent() {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = context.getExternalContext();
-
-		return "true".equals( externalContext.getInitParameter( "org.metawidget.faces.component.USE_POST_ADD_TO_VIEW_EVENT" ) );
-	}
-
-	/**
-	 * Gets whether
-	 * <code>&lt;param-name&gt;org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT&lt;/param-name&gt;</code>
-	 * is set to <code>true</code>.
-	 */
-
-	public static boolean isUsingPreRenderViewEvent() {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = context.getExternalContext();
-
-		return "true".equals( externalContext.getInitParameter( "org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT" ) );
 	}
 
 	//

@@ -31,10 +31,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AbortProcessingException;
-import javax.faces.event.PostAddToViewEvent;
 import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
@@ -166,19 +166,23 @@ public abstract class UIMetawidget
 
 		setRendererType( "table" );
 
-		// SystemEvent support
+		// PreRenderViewEvent support
 		//
-		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1402,
-		// which in turn depends on
-		// https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=636, so it is not
-		// enabled by default
+		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826
+		// and https://issues.apache.org/jira/browse/MYFACES-2935
 
-		if ( FacesUtils.isUsingPostAddToViewEvent() ) {
-			mBuildWidgetsTrigger = new PostAddToViewEventSupport( this );
-		} else if ( FacesUtils.isUsingPreRenderViewEvent() ) {
-			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+
+		if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
+			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
 		} else {
-			mBuildWidgetsTrigger = new RemoveDuplicatesSupport( this );
+			try {
+				Class.forName( "javax.faces.event.PreRenderViewEvent" );
+				mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
+			} catch ( ClassNotFoundException e ) {
+				mBuildWidgetsTrigger = new EncodeBeginSupport( this );
+			}
 		}
 	}
 
@@ -511,8 +515,8 @@ public abstract class UIMetawidget
 
 		boolean rendered = super.isRendered();
 
-		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport ) {
-			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).isRendered( rendered );
+		if ( mBuildWidgetsTrigger instanceof EncodeBeginSupport ) {
+			( (EncodeBeginSupport) mBuildWidgetsTrigger ).isRendered( rendered );
 		}
 
 		return rendered;
@@ -522,8 +526,8 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException {
 
-		if ( mBuildWidgetsTrigger instanceof RemoveDuplicatesSupport ) {
-			( (RemoveDuplicatesSupport) mBuildWidgetsTrigger ).encodeBegin();
+		if ( mBuildWidgetsTrigger instanceof EncodeBeginSupport ) {
+			( (EncodeBeginSupport) mBuildWidgetsTrigger ).encodeBegin();
 		}
 
 		super.encodeBegin( context );
@@ -1045,7 +1049,7 @@ public abstract class UIMetawidget
 	 * work because UIViewRoot has no children at that stage in the lifecycle</li>
 	 * </ol>
 	 * JSF2 introduced <code>SystemEvents</code> to address this exact problem. See
-	 * <code>SystemEventSupport</code> below.
+	 * <code>PreRenderViewEventSupport</code> below.
 	 * <p>
 	 * <h3>Why It's A Problem</h3>
 	 * <p>
@@ -1062,14 +1066,14 @@ public abstract class UIMetawidget
 	 * This hack removes that duplicate.
 	 */
 
-	private static class RemoveDuplicatesSupport
+	private static class EncodeBeginSupport
 		extends BuildWidgetsSupport {
 
 		//
 		// Constructor
 		//
 
-		public RemoveDuplicatesSupport( UIMetawidget metawidget ) {
+		public EncodeBeginSupport( UIMetawidget metawidget ) {
 
 			super( metawidget );
 		}
@@ -1121,11 +1125,11 @@ public abstract class UIMetawidget
 	/**
 	 * Dynamically modify the component tree using the JSF2 API.
 	 * <p>
-	 * JSF2 introduced <code>PostAddToViewEvent</code>, which we can use to avoid
+	 * JSF2 introduced <code>PreRenderViewEvent</code>, which we can use to avoid
 	 * <code>RemoveDuplicatesSupport</code>.
 	 */
 
-	private static class PostAddToViewEventSupport
+	private static class PreRenderViewEventSupport
 		extends BuildWidgetsSupport
 		implements SystemEventListener {
 
@@ -1133,7 +1137,7 @@ public abstract class UIMetawidget
 		// Constructor
 		//
 
-		public PostAddToViewEventSupport( UIMetawidget metawidget ) {
+		public PreRenderViewEventSupport( UIMetawidget metawidget ) {
 
 			super( metawidget );
 
@@ -1146,7 +1150,7 @@ public abstract class UIMetawidget
 				throw MetawidgetException.newException( "context.getViewRoot is null. Is the UIViewRoot being manipulated by a non-JSF2 component?" );
 			}
 
-			root.subscribeToViewEvent( getSystemEvent(), this );
+			root.subscribeToViewEvent( PreRenderViewEvent.class, this );
 		}
 
 		//
@@ -1170,53 +1174,11 @@ public abstract class UIMetawidget
 				throw new AbortProcessingException( e );
 			}
 		}
-
-		//
-		// Protected methods
-		//
-
-		protected Class<? extends SystemEvent> getSystemEvent() {
-
-			return PostAddToViewEvent.class;
-		}
 	}
 
 	/**
-	 * Dynamically modify the component tree using the JSF2 API.
-	 * <p>
-	 * JSF2 introduced <code>PreRenderViewEvent</code>, which we can use to avoid
-	 * <code>RemoveDuplicatesSupport</code>.
-	 * <p>
-	 * Note there are still some implementation issues around whether to use
-	 * <code>PostAddToViewEvent</code> or <code>PreRenderViewEvent</code>.
-	 */
-
-	private static class PreRenderViewEventSupport
-		extends PostAddToViewEventSupport {
-
-		//
-		// Constructor
-		//
-
-		public PreRenderViewEventSupport( UIMetawidget metawidget ) {
-
-			super( metawidget );
-		}
-
-		//
-		// Protected methods
-		//
-
-		@Override
-		protected Class<? extends SystemEvent> getSystemEvent() {
-
-			return PreRenderViewEvent.class;
-		}
-	}
-
-	/**
-	 * Base implementation shared by <code>RemoveDuplicatesSupport</code> and
-	 * <code>SystemEventsSupport</code>.
+	 * Base implementation shared by <code>EncodeBeginSupport</code> and
+	 * <code>PreRenderViewEventSupport</code>.
 	 */
 
 	private static class BuildWidgetsSupport {

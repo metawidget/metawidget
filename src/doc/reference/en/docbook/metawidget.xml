@@ -6541,24 +6541,18 @@ static class State {
 					<title>JSF 2.0</title>
 					
 					<para>
-						<classname>UIMetawidget</classname> is compatible with JSF 2.0. However JSF 2.0 introduces changes to the way
-						components are serialized and this impacts Metawidget's dynamic generation. If you experience problems using
-						<classname>UIMetawidget</classname> on a particular JSF 2.0 implementation, try:  
+						<classname>UIMetawidget</classname> is compatible with JSF 2.0. It automatically detects whether JSF 2.0
+						classes are available (specifically <classname>javax.faces.event.PreRenderViewEvent</classname>) and switches
+						to using them. However not all JSF 2.0 implementations fully support <classname>PreRenderViewEvent</classname>. You
+						need at least Mojarra 2.0.4 or MyFaces 2.0.3. If you need to work with older versions, try:
 					</para>
 					
 					<itemizedlist>
 						<listitem>
 							<para>
-								enabling <classname>PostAddToViewEvent</classname>-based dynamic generation by setting
-								<parameter>org.metawidget.faces.component.USE_POST_ADD_TO_VIEW_EVENT</parameter> to <parameter>true</parameter>
-								in <filename>web.xml</filename>; or
-							</para>
-						</listitem>
-						<listitem>
-							<para>
-								enabling <classname>PreRenderViewEvent</classname>-based dynamic generation by setting
-								<parameter>org.metawidget.faces.component.USE_PRE_RENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
-								in <filename>web.xml</filename>; or
+								disabling <classname>PreRenderViewEvent</classname> support by setting
+								<parameter>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
+								in <filename>web.xml</filename>. 
 							</para>
 						</listitem>
 						<listitem>
