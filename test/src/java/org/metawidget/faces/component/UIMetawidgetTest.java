@@ -58,11 +58,9 @@ public class UIMetawidgetTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public void testMetawidget()
 		throws Exception {
 
-		mContext.getExternalContext().getInitParameterMap().put( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT", "true" );
 		UIMetawidget metawidget = new HtmlMetawidget();
 
 		try {

@@ -36,7 +36,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.swing.tutorial.Person;
-import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest.GenericJRadioButtonWidgetBuilder.ButtonGroupPanel;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
@@ -190,7 +189,6 @@ public class WidgetBuilderExampleTest
 			return panel;
 		}
 
-		@Override
 		public String getValueProperty( Component component ) {
 
 			if ( component instanceof ButtonGroupPanel ) {
@@ -199,48 +197,48 @@ public class WidgetBuilderExampleTest
 
 			return null;
 		}
+	}
 
-		public static class ButtonGroupPanel
-			extends JPanel {
+	public static class ButtonGroupPanel
+		extends JPanel {
 
-			private ButtonGroup	mButtonGroup	= new ButtonGroup();
+		private ButtonGroup	mButtonGroup	= new ButtonGroup();
 
-			public String getSelected() {
+		public String getSelected() {
 
-				ButtonModel buttonModel = mButtonGroup.getSelection();
+			ButtonModel buttonModel = mButtonGroup.getSelection();
 
-				if ( buttonModel == null ) {
-					return null;
-				}
-
-				return buttonModel.getActionCommand();
+			if ( buttonModel == null ) {
+				return null;
 			}
 
-			public void setSelected( String selected ) {
+			return buttonModel.getActionCommand();
+		}
 
-				for ( Enumeration<AbstractButton> e = mButtonGroup.getElements(); e.hasMoreElements(); ) {
+		public void setSelected( String selected ) {
 
-					AbstractButton button = e.nextElement();
+			for ( Enumeration<AbstractButton> e = mButtonGroup.getElements(); e.hasMoreElements(); ) {
 
-					if ( !selected.equals( button.getActionCommand() ) ) {
-						continue;
-					}
+				AbstractButton button = e.nextElement();
 
-					String oldValue = getSelected();
-					mButtonGroup.setSelected( button.getModel(), true );
-					firePropertyChange( "selected", oldValue, selected );
-					break;
+				if ( !selected.equals( button.getActionCommand() ) ) {
+					continue;
 				}
+
+				String oldValue = getSelected();
+				mButtonGroup.setSelected( button.getModel(), true );
+				firePropertyChange( "selected", oldValue, selected );
+				break;
 			}
+		}
 
-			@Override
-			protected void addImpl( Component component, Object constraints, int index ) {
+		@Override
+		protected void addImpl( Component component, Object constraints, int index ) {
 
-				super.addImpl( component, constraints, index );
+			super.addImpl( component, constraints, index );
 
-				if ( component instanceof AbstractButton ) {
-					mButtonGroup.add( (AbstractButton) component );
-				}
+			if ( component instanceof AbstractButton ) {
+				mButtonGroup.add( (AbstractButton) component );
 			}
 		}
 	}

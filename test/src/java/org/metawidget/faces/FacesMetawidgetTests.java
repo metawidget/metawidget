@@ -170,6 +170,12 @@ public class FacesMetawidgetTests
 		public MockFacesContext() {
 
 			FacesContext.setCurrentInstance( this );
+
+			// We generally unit test JSF 1.x, and use webtest for JSF 2.x
+
+			@SuppressWarnings( "unchecked" )
+			Map<String,String> initParameterMap = getExternalContext().getInitParameterMap();
+			initParameterMap.put( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT", "true" );
 		}
 
 		//
