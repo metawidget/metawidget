@@ -76,7 +76,18 @@ public final class StringUtils {
 	 * For example, converts <code>fooBar1</code> into <code>Foo bar 1</code>.
 	 */
 
-	public static String uncamelCase( final String camelCase ) {
+	public static String uncamelCase( String camelCase ) {
+
+		return uncamelCase( camelCase, ' ' );
+	}
+
+	/**
+	 * Converts the given string from camel case.
+	 * <p>
+	 * For example, converts <code>fooBar1</code> into <code>Foo bar 1</code>.
+	 */
+
+	public static String uncamelCase( String camelCase, char separator ) {
 
 		// Nothing to do?
 
@@ -91,7 +102,7 @@ public final class StringUtils {
 		StringBuffer buffer = new StringBuffer( length );
 
 		boolean first = true;
-		char lastChar = ' ';
+		char lastChar = separator;
 		char[] chars = camelCase.toCharArray();
 
 		for ( int loop = 0; loop < length; loop++ ) {
@@ -100,9 +111,9 @@ public final class StringUtils {
 			if ( first ) {
 				buffer.append( Character.toUpperCase( c ) );
 				first = false;
-			} else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != ' ' && !Character.isUpperCase( chars[loop + 1] ) ) ) ) {
+			} else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != separator && !Character.isUpperCase( chars[loop + 1] ) ) ) ) {
 				if ( Character.isLetter( lastChar ) ) {
-					buffer.append( ' ' );
+					buffer.append( separator );
 				}
 
 				if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) ) {
@@ -110,8 +121,8 @@ public final class StringUtils {
 				} else {
 					buffer.append( c );
 				}
-			} else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != ' ' ) {
-				buffer.append( ' ' );
+			} else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != separator ) {
+				buffer.append( separator );
 				buffer.append( c );
 			} else {
 				buffer.append( c );

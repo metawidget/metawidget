@@ -18,8 +18,6 @@ package org.metawidget.util.simple;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.simple.StringUtils;
-
 /**
  * @author Richard Kennard
  */
@@ -41,6 +39,7 @@ public class StringUtilsTest
 		assertTrue( null == StringUtils.uncamelCase( null ) );
 		assertEquals( "Camel cased", StringUtils.uncamelCase( "camelCased" ) );
 		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ) );
+		assertEquals( "Camel-cased", StringUtils.uncamelCase( "camelCased", '-' ) );
 
 		// camelCase
 
