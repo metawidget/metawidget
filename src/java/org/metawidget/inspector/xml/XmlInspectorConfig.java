@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.xml;
 
+import java.io.InputStream;
+
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -34,5 +36,23 @@ public class XmlInspectorConfig
 	public XmlInspectorConfig() {
 
 		setDefaultFile( "metawidget-metadata.xml" );
+	}
+
+	//
+	// Public methods
+	//
+
+	/**
+	 * Sets the InputStream of the XML.
+	 * <p>
+	 * Overridden for co-variant return type.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	@Override
+	public XmlInspectorConfig setInputStream( InputStream stream ) {
+
+		return (XmlInspectorConfig) super.setInputStream( stream );
 	}
 }
