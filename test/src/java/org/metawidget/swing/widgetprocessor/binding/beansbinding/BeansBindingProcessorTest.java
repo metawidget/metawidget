@@ -285,20 +285,20 @@ public class BeansBindingProcessorTest
 
 	public void testMissingReadOnlyWidgetBuilder() {
 
-		Bar bar = new Bar();
-		bar.setBaz( 35 );
+		Foo foo = new Foo();
+		foo.setBar( 35 );
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setWidgetBuilder( new SwingWidgetBuilder() );
-		metawidget.setToInspect( bar );
+		metawidget.setToInspect( foo );
 
-		assertEquals( 35, ( (JSpinner) metawidget.getComponent( "baz" ) ).getValue() );
-		( (JSpinner) metawidget.getComponent( "baz" ) ).setValue( 36 );
+		assertEquals( 35l, ( (JSpinner) metawidget.getComponent( "bar" ) ).getValue() );
+		( (JSpinner) metawidget.getComponent( "bar" ) ).setValue( 36l );
 		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
-		assertEquals( 36, bar.getBaz() );
+		assertEquals( 36l, foo.getBar() );
 		metawidget.setReadOnly( true );
-		assertEquals( 36, ( (JSpinner) metawidget.getComponent( "baz" ) ).getValue() );
+		assertEquals( 36l, ( (JSpinner) metawidget.getComponent( "bar" ) ).getValue() );
 	}
 
 	//
@@ -387,28 +387,5 @@ public class BeansBindingProcessorTest
 		//
 
 		public float	bar;
-	}
-
-	protected static class Bar {
-
-		//
-		// Private members
-		//
-
-		private int	mBaz;
-
-		//
-		// Public methods
-		//
-
-		public int getBaz() {
-
-			return mBaz;
-		}
-
-		public void setBaz( int baz ) {
-
-			mBaz = baz;
-		}
 	}
 }
