@@ -1,4 +1,4 @@
-version = 1.0
+version = 1.05
 Bundle-Version: ${version}
 Bundle-SubversionURL: https://metawidget.svn.sourceforge.net/svnroot/metawidget
 Bundle-Name: metawidget
