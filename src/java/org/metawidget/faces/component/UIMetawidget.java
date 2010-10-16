@@ -1119,6 +1119,20 @@ public abstract class UIMetawidget
 			throws IOException {
 
 			try {
+				// Remove duplicates
+				//
+				// Remove the top-level version of each duplicate, not the nested-level version,
+				// because the top-level is the 'original' whereas the nested-level is the
+				// 'moved' (i.e. at its final destination).
+
+				for ( Iterator<UIComponent> i = getMetawidget().getChildren().iterator(); i.hasNext(); ) {
+					UIComponent component = i.next();
+
+					if ( findDuplicateChild( getMetawidget(), component ) != null ) {
+						i.remove();
+					}
+				}
+
 				buildWidgets();
 			} catch ( Exception e ) {
 				// IOException does not take a Throwable 'cause' argument until Java 6, so
@@ -1131,6 +1145,37 @@ public abstract class UIMetawidget
 
 				throw new IOException( e.getMessage() );
 			}
+		}
+
+		//
+		// Private methods
+		//
+
+		private UIComponent findDuplicateChild( UIComponent componentWithChildren, UIComponent originalComponent ) {
+
+			String id = originalComponent.getId();
+
+			if ( id == null ) {
+				return null;
+			}
+
+			for ( UIComponent child : componentWithChildren.getChildren() ) {
+				if ( child == originalComponent ) {
+					continue;
+				}
+
+				if ( id.equals( child.getId() ) ) {
+					return child;
+				}
+
+				UIComponent found = findDuplicateChild( child, originalComponent );
+
+				if ( found != null ) {
+					return found;
+				}
+			}
+
+			return null;
 		}
 	}
 
@@ -1216,24 +1261,6 @@ public abstract class UIMetawidget
 		protected void buildWidgets()
 			throws Exception {
 
-			// Remove duplicates
-			//
-			// Remove the top-level version of each duplicate, not the nested-level version,
-			// because the top-level is the 'original' whereas the nested-level is the
-			// 'moved' (i.e. at its final destination).
-			//
-			// This is needed when partial state saving is inactive (ie. in JSF 1.x; in
-			// JSF 2 if using JSP; in JSF 2 Facelets if turned off explicitly). It is *not* needed
-			// in JSF 2 Facelets with partial state saving turned on, but how can we detect this?
-
-			for ( Iterator<UIComponent> i = mMetawidget.getChildren().iterator(); i.hasNext(); ) {
-				UIComponent component = i.next();
-
-				if ( findDuplicateChild( mMetawidget, component ) != null ) {
-					i.remove();
-				}
-			}
-
 			// Validation error? Do not rebuild, as we will lose the invalid values in the
 			// components
 
@@ -1244,37 +1271,6 @@ public abstract class UIMetawidget
 			// Build the widgets
 
 			mMetawidget.buildWidgets();
-		}
-
-		//
-		// Private methods
-		//
-
-		private UIComponent findDuplicateChild( UIComponent componentWithChildren, UIComponent originalComponent ) {
-
-			String id = originalComponent.getId();
-
-			if ( id == null ) {
-				return null;
-			}
-
-			for ( UIComponent child : componentWithChildren.getChildren() ) {
-				if ( child == originalComponent ) {
-					continue;
-				}
-
-				if ( id.equals( child.getId() ) ) {
-					return child;
-				}
-
-				UIComponent found = findDuplicateChild( child, originalComponent );
-
-				if ( found != null ) {
-					return found;
-				}
-			}
-
-			return null;
 		}
 	}
 }

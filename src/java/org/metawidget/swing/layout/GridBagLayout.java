@@ -170,9 +170,7 @@ public class GridBagLayout
 
 		GridBagConstraints componentConstraints = new GridBagConstraints();
 
-		if ( !( component instanceof JButton ) ) {
-			componentConstraints.fill = GridBagConstraints.BOTH;
-		}
+		setFillConstraints( component, componentConstraints );
 
 		componentConstraints.anchor = GridBagConstraints.WEST;
 		componentConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
@@ -400,6 +398,25 @@ public class GridBagLayout
 		}
 
 		return false;
+	}
+
+	/**
+	 * Sets the fill constraints for this component. Defaults to
+	 * <code>GridBagConstraints.BOTH</code>, unless the <code>JComponent</code> is
+	 * a <code>JButton</code>.
+	 * <p>
+	 * Clients can override this method to change how the fill constraints are set. For example, you
+	 * may not want any fill constraints if the <code>JComponent</code> has
+	 * <code>getPreferredSize() != null</code>.
+	 */
+
+	protected void setFillConstraints( JComponent component, GridBagConstraints componentConstraints ) {
+
+		if ( component instanceof JButton ) {
+			return;
+		}
+
+		componentConstraints.fill = GridBagConstraints.BOTH;
 	}
 
 	//
