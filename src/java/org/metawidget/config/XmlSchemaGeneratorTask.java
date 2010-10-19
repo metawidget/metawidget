@@ -36,9 +36,9 @@ import java.util.regex.Pattern;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -368,7 +368,7 @@ public class XmlSchemaGeneratorTask
 
 		boolean foundProperty = false;
 
-		BasePropertyStyleConfig propertyStyleConfig = new BasePropertyStyleConfig();
+		JavaBeanPropertyStyleConfig propertyStyleConfig = new JavaBeanPropertyStyleConfig();
 		propertyStyleConfig.setExcludeBaseType( Pattern.compile( "^(java|javax|org\\.eclipse)\\..*$" ) );
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( propertyStyleConfig );
 		Map<String, Property> properties = propertyStyle.getProperties( clazz );

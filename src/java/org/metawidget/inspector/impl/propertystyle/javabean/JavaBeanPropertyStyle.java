@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
@@ -53,17 +54,35 @@ public class JavaBeanPropertyStyle
 	extends BasePropertyStyle {
 
 	//
+	// Private members
+	//
+
+	private MessageFormat	mPrivateFieldConvention;
+
+	//
 	// Constructor
 	//
 
 	public JavaBeanPropertyStyle() {
 
-		this( new BasePropertyStyleConfig() );
+		this( new JavaBeanPropertyStyleConfig() );
 	}
 
+	/**
+	 * @deprecated use the constructor version that takes a JavaBeanPropertyStyleConfig instead
+	 */
+
+	@Deprecated
 	public JavaBeanPropertyStyle( BasePropertyStyleConfig config ) {
 
 		super( config );
+	}
+
+	public JavaBeanPropertyStyle( JavaBeanPropertyStyleConfig config ) {
+
+		this( (BasePropertyStyleConfig) config );
+
+		mPrivateFieldConvention = config.getPrivateFieldConvention();
 	}
 
 	//
@@ -102,6 +121,7 @@ public class JavaBeanPropertyStyle
 		// to avoid Applet SecurityExceptions
 
 		for ( Field field : clazz.getFields() ) {
+
 			// Exclude static fields
 
 			int modifiers = field.getModifiers();
@@ -138,6 +158,7 @@ public class JavaBeanPropertyStyle
 		// to avoid Applet SecurityExceptions
 
 		for ( Method method : clazz.getMethods() ) {
+
 			// Get type
 
 			Class<?>[] parameters = method.getParameterTypes();
@@ -188,7 +209,7 @@ public class JavaBeanPropertyStyle
 				}
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, mPrivateFieldConvention ) );
 		}
 	}
 
@@ -269,11 +290,11 @@ public class JavaBeanPropertyStyle
 
 				// Beware covariant return types: always prefer the getter's type
 
-				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method ) );
+				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method, mPrivateFieldConvention ) );
 				continue;
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, mPrivateFieldConvention ) );
 		}
 	}
 
@@ -413,11 +434,13 @@ public class JavaBeanPropertyStyle
 
 		private Method	mWriteMethod;
 
+		private Field	mPrivateField;
+
 		//
 		// Constructor
 		//
 
-		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod ) {
+		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod, MessageFormat privateFieldConvention ) {
 
 			super( name, clazz );
 
@@ -428,6 +451,19 @@ public class JavaBeanPropertyStyle
 
 			if ( mReadMethod == null && mWriteMethod == null ) {
 				throw InspectorException.newException( "JavaBeanProperty '" + name + "' has no getter and no setter" );
+			}
+
+			// Look up private field based on naming convention (if any)
+
+			if ( privateFieldConvention != null ) {
+
+				String fieldName = privateFieldConvention.format( new String[] { name, StringUtils.uppercaseFirstLetter( name ) }, new StringBuffer(), null ).toString();
+
+				if ( mReadMethod != null ) {
+					mPrivateField = getDeclaredField( mReadMethod.getDeclaringClass(), fieldName );
+				} else if ( mWriteMethod != null ) {
+					mPrivateField = getDeclaredField( mReadMethod.getDeclaringClass(), fieldName );
+				}
 			}
 		}
 
@@ -476,6 +512,14 @@ public class JavaBeanPropertyStyle
 				if ( annotation != null ) {
 					return annotation;
 				}
+			}
+
+			if ( mPrivateField != null ) {
+				T annotation = mPrivateField.getAnnotation( annotationClass );
+
+				if ( annotation != null ) {
+					return annotation;
+				}
 
 				return null;
 			}
@@ -508,6 +552,26 @@ public class JavaBeanPropertyStyle
 		public Method getWriteMethod() {
 
 			return mWriteMethod;
+		}
+
+		//
+		// Private methods
+		//
+
+		private Field getDeclaredField( Class<?> topLevelClass, String name ) {
+
+			Class<?> currentClass = topLevelClass;
+
+			while ( currentClass != null ) {
+
+				try {
+					return currentClass.getDeclaredField( name );
+				} catch ( NoSuchFieldException e ) {
+					currentClass = currentClass.getSuperclass();
+				}
+			}
+
+			return null;
 		}
 	}
 }

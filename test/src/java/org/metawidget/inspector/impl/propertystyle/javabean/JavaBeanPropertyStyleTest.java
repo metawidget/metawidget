@@ -18,21 +18,27 @@ package org.metawidget.inspector.impl.propertystyle.javabean;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 
 import junit.framework.TestCase;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiMasked;
+import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.util.TestUtils;
 
 /**
  * @author Richard Kennard
@@ -115,7 +121,7 @@ public class JavaBeanPropertyStyleTest
 		assertFalse( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 	}
 
-	public void testFieldAndGetter() {
+	public void testPublicFieldAndGetter() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
@@ -139,13 +145,83 @@ public class JavaBeanPropertyStyleTest
 
 		Field propertiesCacheField = BasePropertyStyle.class.getDeclaredField( "mPropertiesCache" );
 		propertiesCacheField.setAccessible( true );
-		assertTrue( 0 == ((Map<?,?>) propertiesCacheField.get( propertyStyle )).size() );
+		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 
 		propertyStyle.getProperties( Foo.class );
-		assertTrue( 1 == ((Map<?,?>) propertiesCacheField.get( propertyStyle )).size() );
+		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 
 		propertyStyle.clearCache();
-		assertTrue( 0 == ((Map<?,?>) propertiesCacheField.get( propertyStyle )).size() );
+		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
+	}
+
+	public void testPrivateFieldAndGetter() {
+
+		// No convention
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( PrivateFieldFoo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertTrue( properties.size() == 4 );
+
+		assertEquals( "foo", properties.get( "foo" ).toString() );
+		assertEquals( "Foo Section", properties.get( "foo" ).getAnnotation( UiSection.class ).value()[0] );
+		assertEquals( "bar", properties.get( "bar" ).toString() );
+		assertEquals( "foo", properties.get( "bar" ).getAnnotation( UiComesAfter.class ).value()[0] );
+		assertFalse( properties.get( "bar" ).isAnnotationPresent( Column.class ) );
+		assertEquals( "baz", properties.get( "baz" ).toString() );
+		assertEquals( "bar", properties.get( "baz" ).getAnnotation( UiComesAfter.class ).value()[0] );
+		assertFalse( properties.get( "baz" ).isAnnotationPresent( Id.class ) );
+		assertEquals( "abc", properties.get( "abc" ).toString() );
+		assertEquals( "Abc Section", properties.get( "abc" ).getAnnotation( UiSection.class ).value()[0] );
+		assertFalse( properties.get( "abc" ).isAnnotationPresent( UiLarge.class ) );
+
+		// Convention with {0}
+
+		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setPrivateFieldConvention( new MessageFormat( "{0}" ) ) );
+		properties = propertyStyle.getProperties( PrivateFieldFoo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertTrue( properties.size() == 4 );
+
+		assertEquals( "foo", properties.get( "foo" ).toString() );
+		assertEquals( "Foo Section", properties.get( "foo" ).getAnnotation( UiSection.class ).value()[0] );
+		assertEquals( "bar", properties.get( "bar" ).toString() );
+		assertEquals( "foo", properties.get( "bar" ).getAnnotation( UiComesAfter.class ).value()[0] );
+		assertFalse( properties.get( "bar" ).isAnnotationPresent( Column.class ) );
+		assertEquals( "baz", properties.get( "baz" ).toString() );
+		assertEquals( "bar", properties.get( "baz" ).getAnnotation( UiComesAfter.class ).value()[0] );
+		assertFalse( properties.get( "baz" ).isAnnotationPresent( Id.class ) );
+		assertEquals( "abc", properties.get( "abc" ).toString() );
+		assertEquals( "Abc Section", properties.get( "abc" ).getAnnotation( UiSection.class ).value()[0] );
+		assertTrue( properties.get( "abc" ).isAnnotationPresent( UiLarge.class ) );
+
+		// Convention with {1}
+
+		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setPrivateFieldConvention( new MessageFormat( "'m'{1}" ) ) );
+		properties = propertyStyle.getProperties( PrivateFieldFoo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertTrue( properties.size() == 4 );
+
+		assertEquals( "foo", properties.get( "foo" ).toString() );
+		assertEquals( "Foo Section", properties.get( "foo" ).getAnnotation( UiSection.class ).value()[0] );
+		assertEquals( "bar", properties.get( "bar" ).toString() );
+		assertEquals( "foo", properties.get( "bar" ).getAnnotation( UiComesAfter.class ).value()[0] );
+		assertFalse( properties.get( "bar" ).getAnnotation( Column.class ).nullable() );
+		assertEquals( "baz", properties.get( "baz" ).toString() );
+		assertEquals( "bar", properties.get( "baz" ).getAnnotation( UiComesAfter.class ).value()[0] );
+		assertTrue( properties.get( "baz" ).isAnnotationPresent( Id.class ) );
+		assertEquals( "abc", properties.get( "abc" ).toString() );
+		assertEquals( "Abc Section", properties.get( "abc" ).getAnnotation( UiSection.class ).value()[0] );
+		assertFalse( properties.get( "abc" ).isAnnotationPresent( UiLarge.class ) );
+	}
+
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( JavaBeanPropertyStyleConfig.class, new JavaBeanPropertyStyleConfig() {
+			// Subclass
+		} );
 	}
 
 	//
@@ -305,5 +381,77 @@ public class JavaBeanPropertyStyleTest
 
 		@UiMasked
 		Object getInterfaceBar();
+	}
+
+	class SuperPrivateFieldFoo {
+
+		@Column( nullable = false )
+		private String	mBar;
+
+		@Id
+		String			mBaz;
+
+		@UiLarge
+		private String	abc;
+
+		@UiSection( "Foo Section" )
+		public String getFoo() {
+
+			return null;
+		}
+
+		/**
+		 * @param foo
+		 *            not stored (no private member for this property)
+		 */
+
+		public void setFoo( String foo ) {
+
+			// Do nothing
+		}
+
+		@UiComesAfter( "foo" )
+		public String getBar() {
+
+			return mBar;
+		}
+
+		public void setBar( String bar ) {
+
+			mBar = bar;
+		}
+
+		public String getAbc() {
+
+			return abc;
+		}
+
+		@UiSection( "Abc Section" )
+		public void setAbc( @SuppressWarnings( "hiding" ) String abc ) {
+
+			this.abc = abc;
+		}
+	}
+
+	class PrivateFieldFoo
+		extends SuperPrivateFieldFoo {
+
+		// Tests finding overidden getters/setters
+
+		@UiComesAfter( "bar" )
+		public String getBaz() {
+
+			return null;
+		}
+
+		/**
+		 * @param baz
+		 *            not stored (private member not accessible to subclass)
+		 */
+
+		public void setBaz( String baz ) {
+
+			// Do nothing
+		}
 	}
 }

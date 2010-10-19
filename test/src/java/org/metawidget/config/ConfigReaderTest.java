@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +121,11 @@ public class ConfigReaderTest
 		xml += "						<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
 		xml += "						<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
 		xml += "							<propertyStyle>";
-		xml += "								<javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\"/>";
+		xml += "								<javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\" config=\"JavaBeanPropertyStyleConfig\">";
+		xml += "									<privateFieldConvention>";
+		xml += "										<format>'m'{0}{1}</format>";
+		xml += "									</privateFieldConvention>";
+		xml += "								</javaBeanPropertyStyle>";
 		xml += "							</propertyStyle>";
 		xml += "							<actionStyle>";
 		xml += "								<metawidgetActionStyle xmlns=\"java:org.metawidget.inspector.impl.actionstyle.metawidget\"/>";
@@ -271,6 +276,16 @@ public class ConfigReaderTest
 		assertTrue( inspectors[8] instanceof StrutsAnnotationInspector );
 		assertTrue( inspectors[9] instanceof XmlInspector );
 		assertTrue( inspectors[10] instanceof XmlInspector );
+
+		// Test MessageFormat
+
+		Field propertyStyle = BaseObjectInspector.class.getDeclaredField( "mPropertyStyle" );
+		propertyStyle.setAccessible( true );
+		JavaBeanPropertyStyle javaBeanPropertyStyle = (JavaBeanPropertyStyle) propertyStyle.get( inspectors[3] );
+		Field privateFieldConvention = JavaBeanPropertyStyle.class.getDeclaredField( "mPrivateFieldConvention" );
+		privateFieldConvention.setAccessible( true );
+		MessageFormat format = (MessageFormat) privateFieldConvention.get( javaBeanPropertyStyle );
+		assertEquals( format, new MessageFormat( "'m'{0}{1}" ));
 	}
 
 	public void testNoDefaultConstructor()

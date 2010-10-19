@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.TestUtils;
 import org.w3c.dom.Element;
 
@@ -55,7 +56,7 @@ public class BasePropertyStyleTest
 
 		// Null excludeBaseType
 
-		BasePropertyStyleConfig config = new BasePropertyStyleConfig();
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		config.setExcludeBaseType( null );
 		propertyStyle = new JavaBeanPropertyStyle( config );
 

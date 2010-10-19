@@ -157,7 +157,7 @@ public class Person {
 				<calloutlist>
 					<callout arearefs="co-introduction-part1-members" id="ca-introduction-part1-members">
 						<para>
-							This tutorial uses public member variables for brevity. The
+							This tutorial uses public fields for brevity. The
 							recommended design is to use JavaBean property getter and setter methods.
 							Metawidget supports both approaches.
 						</para>
@@ -321,7 +321,7 @@ public class Person {
 					<callout arearefs="co-introduction-part1-annotations" id="ca-introduction-part1-annotations">
 						<para>
 							Such annotations can (and should) be applied to getter methods, but for brevity here they
-							are applied directly to the member variable.
+							are applied directly to the fields.
 						</para>
 					</callout>
 				</calloutlist>
@@ -1998,7 +1998,7 @@ bin\run</programlisting>
 				<para>
 					Metawidget supports pluggable 'property styles' for JavaBean, Groovy and other property styles.
 					Groovy properties differ from JavaBean properties in that their annotations are tied to
-					the private member variable, rather than the getters and setters. The use of Groovy is configured
+					the private field, rather than the getters and setters. The use of Groovy is configured
 					per <classname>Inspector</classname>, as in <filename>examples/faces/seam/groovybooking/resources/WEB-INF/metawidget.xml</filename>:
 				</para>
 
@@ -5731,6 +5731,10 @@ static class State {
 							</td>
 						</tr>
 						<tr>
+							<td><parameter>&lt;format&gt;</parameter></td>
+							<td>constructs a <classname>java.text.MessageFormat</classname></td>
+						</tr>
+						<tr>
 							<td><parameter>&lt;int&gt;</parameter></td>
 							<td>Java <classname>int</classname> primitive</td>
 						</tr>
@@ -7011,16 +7015,46 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						</para>
 						
 						<para>
-							This <classname>PropertyStyle</classname> recognizes JavaBean-convention <function>getXXX</function>, <function>setXXX</function> and <function>isXXX</function>
-							methods, as well as public member variables. In addition, it maintains a cache of reflected classes for performance. 
+							This <classname>PropertyStyle</classname> recognizes JavaBean-convention <function>getXXX</function>,
+							<function>setXXX</function> and <function>isXXX</function>
+							methods, as well as public fields. In addition, it maintains a cache of reflected classes for performance. 
+						</para>
+
+						<para>
+							When using getter methods with private members, make sure you annotate the getter/setter <emphasis>not the private
+							field</emphasis>. By default, <classname>JavaBeanPropertyStyle</classname> cannot find annotations on private fields, because
+							the JavaBean specification does not define a way to determine which private fields belong to which getter/setter methods.
+							You can specify your own naming convention using <function>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</function>. This
+							method takes a <classname>MessageFormat</classname> parameter which you can use to format the property name to your convention.
+							For example:
 						</para>
 						
-						<tip>
-							<title>Note</title>
-							When using getter methods with private members, make sure you annotate the getter <emphasis>not the private
-							member</emphasis>. <classname>JavaBeanPropertyStyle</classname> cannot find annotations on private members, because
-							the JavaBean specification does not define a way to determine which private members belong to which getters.
-						</tip>
+						<informaltable>
+							<colgroup>
+								<col width="40%"/>
+								<col width="60%"/>
+							</colgroup>
+							<thead>
+								<tr>
+									<th align="left">Format</th>
+									<th align="left">Private Field Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{0}</td>
+									<td>dateOfBirth, surname</td>
+								</tr>
+								<tr>
+									<td>'m'{1}</td>
+									<td>mDateOfBirth, mSurname</td>
+								</tr>
+								<tr>
+									<td>'m_'{0}</td>
+									<td>m_dateOfBirth, m_surname</td>
+								</tr>
+							</tbody>
+						</informaltable>						
 						
 					</section>
 					
@@ -11489,19 +11523,38 @@ public @interface MyAnnotation {
 						Next, remember that annotations are designed to 'silently fall away' in environments that do not
 						support them: they never throw <classname>ClassDefNotFoundError</classname>. For example,
 						if a JPA-annotated class is transferred to an application tier without <filename>ejb3-persistence.jar</filename>
-						(or equivalent) in its classpath, the JPA annotations will disappear. If this is the cause, either add the
+						(or equivalent) in its classpath, the JPA annotations will disappear. If this is the case, either add the
 						appropriate JAR to the tier, or consider implementing a remote inspector (see <xref linkend="section-howto-order"/>).
 					</para>
 					
 					<para>
-						Finally, note that Metawidget discovers annotations placed on public member variables and public getter methods, but
-						<emphasis>not on private member variables</emphasis>. Metawidget must work with public properties because the
+						Finally, note that by default Metawidget discovers annotations placed on public fields and public getter/setter
+						methods, but <emphasis>not on private fields</emphasis>. Metawidget must work with public properties because the
 						various widget libraries, binding frameworks and validation frameworks it wires together all need to access
-						public properties. And because there is no standardized way to infer which private member variable relates to which
-						public getter method, Metawidget cannot relate the two. Either add your annotations to public properties, or
-						implement your own <classname>PropertyStyle</classname> with your own way of relating public methods to private
-						members, for example by naming convention (see <xref linkend="section-inspectors-base-object-propertystyle-implementing-your-own"/>).
+						public properties. And because there is no standardized way to infer which private field relates to which
+						public getter/setter method, Metawidget cannot relate the two. Either:
 					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								add your annotations to public getter/setter methods
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								use <classname>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</classname> to specify a naming convention
+								to relate public getter/setter methods to private fields
+								(see <xref linkend="section-inspectors-base-object-propertystyle-javabean"/>)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								implement your own <classname>PropertyStyle</classname> with your own way of relating public getter/setter
+								methods to private fields (see <xref linkend="section-inspectors-base-object-propertystyle-implementing-your-own"/>)
+							</para>
+						</listitem>
+					</itemizedlist>
 					
 				</section>
 			</section>

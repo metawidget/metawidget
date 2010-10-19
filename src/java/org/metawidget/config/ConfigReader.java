@@ -23,6 +23,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -386,6 +387,10 @@ public class ConfigReader
 			return true;
 		}
 
+		if ( "format".equals( name ) ) {
+			return true;
+		}
+
 		if ( "int".equals( name ) ) {
 			return true;
 		}
@@ -470,6 +475,10 @@ public class ConfigReader
 			}
 
 			return pattern;
+		}
+
+		if ( "format".equals( name ) ) {
+			return new MessageFormat( recordedText );
 		}
 
 		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
