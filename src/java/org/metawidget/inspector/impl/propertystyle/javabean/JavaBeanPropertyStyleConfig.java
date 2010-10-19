@@ -60,8 +60,17 @@ public class JavaBeanPropertyStyleConfig
 	 * binding and validation frameworks, rely on public getters/setters.
 	 * <p>
 	 * To support the best of both worlds, <code>JavaBeanPropertyStyle</code> can attempt to map a
-	 * getter/setter to its private field if given the naming convention to use. This attempt will
-	 * fail silently in cases where there is no private field.
+	 * getter/setter to its private field if given the naming convention to use. The naming
+	 * convention is specified as a <code>MessageFormat</code>. Some examples:
+	 * <p>
+	 * <ul>
+	 * <li>{0} = dateOfBirth, surname</li>
+	 * <li>'m'{1} = mDateOfBirth, mSurname</li>
+	 * <li>'m_'{0} = m_dateOfBirth, m_surname</li>
+	 * </ul>
+	 * <p>
+	 * This mapping will fail silently in cases where there is no private field. It will also fail
+	 * silently if the private field name is misspelt, so be careful!
 	 *
 	 * @return this, as part of a fluent interface
 	 */
