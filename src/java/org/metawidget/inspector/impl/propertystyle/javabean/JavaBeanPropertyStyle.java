@@ -349,21 +349,35 @@ public class JavaBeanPropertyStyle
 	}
 
 	/**
-	 * Finds the private field representing the given <code>propertyName</code> within the given
+	 * Gets the private field representing the given <code>propertyName</code> within the given
 	 * class. Uses the configured <code>privateFieldConvention</code> (if any). Traverses up the
 	 * superclass heirarchy as necessary.
 	 * <p>
 	 * Clients may override this method to change how the public-method-to-private-field mapping
 	 * operates.
+	 *
+	 * @return the private Field for this propertyName, or null if no such field (should not throw
+	 *         NoSuchFieldException)
 	 */
 
 	protected Field getPrivateField( Class<?> clazz, String propertyName ) {
+
+		// No convention?
 
 		if ( mPrivateFieldConvention == null ) {
 			return null;
 		}
 
-		String fieldName = mPrivateFieldConvention.format( new String[] { propertyName, StringUtils.uppercaseFirstLetter( propertyName ) }, new StringBuffer(), null ).toString();
+		// Determine field name based on convention. MessageFormat arguments are:
+		//
+		// {0} = dateOfBirth, surname
+		// {1} = DateOfBirth, Surname
+
+		String[] arguments = new String[] { propertyName, StringUtils.uppercaseFirstLetter( propertyName ) };
+		String fieldName = mPrivateFieldConvention.format( arguments, new StringBuffer(), null ).toString();
+
+		// Go looking for such a field, traversing the superclass heirarchy as necessary
+
 		Class<?> currentClass = clazz;
 
 		while ( currentClass != null && !isExcludedBaseType( currentClass ) ) {

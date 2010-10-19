@@ -11551,7 +11551,8 @@ public @interface MyAnnotation {
 						<listitem>
 							<para>
 								implement your own <classname>PropertyStyle</classname> with your own way of relating public getter/setter
-								methods to private fields (see <xref linkend="section-inspectors-base-object-propertystyle-implementing-your-own"/>)
+								methods to private fields (see <xref linkend="section-inspectors-base-object-propertystyle-implementing-your-own"/>,
+								potentially overriding <function>JavaBeanPropertyStyleConfig.getPrivateField</function>)
 							</para>
 						</listitem>
 					</itemizedlist>
