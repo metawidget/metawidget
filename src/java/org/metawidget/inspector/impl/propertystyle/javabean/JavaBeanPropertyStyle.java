@@ -209,7 +209,7 @@ public class JavaBeanPropertyStyle
 				}
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, getPrivateFieldByConvention( clazz, propertyName ) ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, getPrivateField( clazz, propertyName ) ) );
 		}
 	}
 
@@ -290,11 +290,11 @@ public class JavaBeanPropertyStyle
 
 				// Beware covariant return types: always prefer the getter's type
 
-				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method, getPrivateFieldByConvention( clazz, propertyName ) ) );
+				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method, getPrivateField( clazz, propertyName ) ) );
 				continue;
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, getPrivateFieldByConvention( clazz, propertyName ) ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, getPrivateField( clazz, propertyName ) ) );
 		}
 	}
 
@@ -349,12 +349,15 @@ public class JavaBeanPropertyStyle
 	}
 
 	/**
-	 * Finds the private field within the given class, based on the given name and
-	 * configured <code>mPrivateFieldConvention</code> (if any). Traverses up the superclass
-	 * heirarchy as necessary.
+	 * Finds the private field representing the given <code>propertyName</code> within the given
+	 * class. Uses the configured <code>privateFieldConvention</code> (if any). Traverses up the
+	 * superclass heirarchy as necessary.
+	 * <p>
+	 * Clients may override this method to change how the public-method-to-private-field mapping
+	 * operates.
 	 */
 
-	protected Field getPrivateFieldByConvention( Class<?> clazz, String propertyName ) {
+	protected Field getPrivateField( Class<?> clazz, String propertyName ) {
 
 		if ( mPrivateFieldConvention == null ) {
 			return null;
