@@ -131,7 +131,15 @@ public class ConfigReaderTest
 		xml += "								<metawidgetActionStyle xmlns=\"java:org.metawidget.inspector.impl.actionstyle.metawidget\"/>";
 		xml += "							</actionStyle>";
 		xml += "						</propertyTypeInspector>";
-		xml += "						<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
+		xml += "						<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\" config=\"JpaInspectorConfig\">";
+		xml += "							<propertyStyle>";
+		xml += "								<javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\" config=\"JavaBeanPropertyStyleConfig\">";
+		xml += "									<privateFieldConvention>";
+		xml += "										<format>'m'{0}{1}</format>";
+		xml += "									</privateFieldConvention>";
+		xml += "								</javaBeanPropertyStyle>";
+		xml += "							</propertyStyle>";
+		xml += "						</jpaInspector>";
 		xml += "						<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";
 		xml += "						<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";
 		xml += "						<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
@@ -286,6 +294,11 @@ public class ConfigReaderTest
 		privateFieldConvention.setAccessible( true );
 		MessageFormat format = (MessageFormat) privateFieldConvention.get( javaBeanPropertyStyle );
 		assertEquals( format, new MessageFormat( "'m'{0}{1}" ));
+
+		// Test re-caching of JavaBeanPropertyStyle with an embedded MessageFormat
+		
+		assertTrue( propertyStyle.get( inspectors[2] ) != propertyStyle.get( inspectors[3] ));
+		assertTrue( propertyStyle.get( inspectors[3] ) == propertyStyle.get( inspectors[4] ));
 	}
 
 	public void testNoDefaultConstructor()

@@ -51,7 +51,7 @@ public class SwingAppFrameworkInspectorConfig
 				DEFAULT_APPFRAMEWORK_ACTION_STYLE = new SwingAppFrameworkActionStyle();
 			}
 
-			mActionStyle = DEFAULT_APPFRAMEWORK_ACTION_STYLE;
+			return DEFAULT_APPFRAMEWORK_ACTION_STYLE;
 		}
 
 		return mActionStyle;

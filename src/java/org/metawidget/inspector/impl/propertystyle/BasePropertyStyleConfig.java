@@ -29,12 +29,6 @@ import org.metawidget.util.simple.ObjectUtils;
 public class BasePropertyStyleConfig {
 
 	//
-	// Private statics
-	//
-
-	private static Pattern	DEFAULT_EXCLUDE_BASE_TYPE;
-
-	//
 	// Private members
 	//
 
@@ -73,11 +67,7 @@ public class BasePropertyStyleConfig {
 	public Pattern getExcludeBaseType() {
 
 		if ( mExcludeBaseType == null && !mNullExcludeBaseType ) {
-			if ( DEFAULT_EXCLUDE_BASE_TYPE == null ) {
-				DEFAULT_EXCLUDE_BASE_TYPE = Pattern.compile( "^(java|javax)\\..*$" );
-			}
-
-			mExcludeBaseType = DEFAULT_EXCLUDE_BASE_TYPE;
+			return Pattern.compile( "^(java|javax)\\..*$" );
 		}
 
 		return mExcludeBaseType;

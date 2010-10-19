@@ -38,7 +38,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for running unit tests.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -223,6 +223,18 @@ public class TestUtils {
 				}
 
 				int hashCodeBefore = object1.hashCode();
+
+				if ( property.isReadable() ) {
+
+					ClassUtils.getProperty( object1, propertyName );
+
+					// Calling the getter should not alter the equals/hashCode, even under lazy
+					// initialisation
+
+					Assert.assertTrue( propertyName, object1.equals( object2 ) );
+					Assert.assertTrue( propertyName, object1.hashCode() == hashCodeBefore );
+				}
+
 				writeMethod.invoke( object1, toSet );
 
 				// The hashCode before and after *could* be the same, but it's not a very good idea

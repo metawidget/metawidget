@@ -17,10 +17,14 @@
 package org.metawidget.inspector.swing;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.lang.reflect.Field;
+
 import junit.framework.TestCase;
 
 import org.jdesktop.application.Action;
-import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.util.TestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,6 +64,25 @@ public class SwingAppFrameworkInspectorTest
 		assertTrue( action.getAttributes().getLength() == 2 );
 
 		assertTrue( entity.getChildNodes().getLength() == 1 );
+	}
+
+	public void testConfig() {
+
+		TestUtils.testEqualsAndHashcode( SwingAppFrameworkInspectorConfig.class, new SwingAppFrameworkInspectorConfig() {
+			// Subclass
+		} );
+	}
+
+	public void testLazyInitialisation()
+		throws Exception {
+
+		SwingAppFrameworkInspectorConfig config = new SwingAppFrameworkInspectorConfig();
+
+		Field actionStyle = BaseObjectInspectorConfig.class.getDeclaredField( "mActionStyle" );
+		actionStyle.setAccessible( true );
+		assertEquals( null, actionStyle.get( config ) );
+		assertTrue( config.getActionStyle() != null );
+		assertEquals( null, actionStyle.get( config ) );
 	}
 
 	//
