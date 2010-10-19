@@ -209,7 +209,7 @@ public class JavaBeanPropertyStyle
 				}
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, mPrivateFieldConvention ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, getPrivateFieldByConvention( clazz, propertyName ) ) );
 		}
 	}
 
@@ -290,11 +290,11 @@ public class JavaBeanPropertyStyle
 
 				// Beware covariant return types: always prefer the getter's type
 
-				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method, mPrivateFieldConvention ) );
+				properties.put( propertyName, new JavaBeanProperty( propertyName, existingJavaBeanProperty.getType(), existingJavaBeanProperty.getReadMethod(), method, getPrivateFieldByConvention( clazz, propertyName ) ) );
 				continue;
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, mPrivateFieldConvention ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, getPrivateFieldByConvention( clazz, propertyName ) ) );
 		}
 	}
 
@@ -346,6 +346,33 @@ public class JavaBeanPropertyStyle
 		}
 
 		return super.isExcludedName( name );
+	}
+
+	/**
+	 * Finds the private field within the given class, based on the given name and
+	 * configured <code>mPrivateFieldConvention</code> (if any). Traverses up the superclass
+	 * heirarchy as necessary.
+	 */
+
+	protected Field getPrivateFieldByConvention( Class<?> clazz, String propertyName ) {
+
+		if ( mPrivateFieldConvention == null ) {
+			return null;
+		}
+
+		String fieldName = mPrivateFieldConvention.format( new String[] { propertyName, StringUtils.uppercaseFirstLetter( propertyName ) }, new StringBuffer(), null ).toString();
+		Class<?> currentClass = clazz;
+
+		while ( currentClass != null && !isExcludedBaseType( currentClass ) ) {
+
+			try {
+				return currentClass.getDeclaredField( fieldName );
+			} catch ( NoSuchFieldException e ) {
+				currentClass = currentClass.getSuperclass();
+			}
+		}
+
+		return null;
 	}
 
 	//
@@ -440,7 +467,7 @@ public class JavaBeanPropertyStyle
 		// Constructor
 		//
 
-		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod, MessageFormat privateFieldConvention ) {
+		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod, Field privateField ) {
 
 			super( name, clazz );
 
@@ -453,18 +480,7 @@ public class JavaBeanPropertyStyle
 				throw InspectorException.newException( "JavaBeanProperty '" + name + "' has no getter and no setter" );
 			}
 
-			// Look up private field based on naming convention (if any)
-
-			if ( privateFieldConvention != null ) {
-
-				String fieldName = privateFieldConvention.format( new String[] { name, StringUtils.uppercaseFirstLetter( name ) }, new StringBuffer(), null ).toString();
-
-				if ( mReadMethod != null ) {
-					mPrivateField = getDeclaredField( mReadMethod.getDeclaringClass(), fieldName );
-				} else if ( mWriteMethod != null ) {
-					mPrivateField = getDeclaredField( mReadMethod.getDeclaringClass(), fieldName );
-				}
-			}
+			mPrivateField = privateField;
 		}
 
 		//
@@ -552,26 +568,6 @@ public class JavaBeanPropertyStyle
 		public Method getWriteMethod() {
 
 			return mWriteMethod;
-		}
-
-		//
-		// Private methods
-		//
-
-		private Field getDeclaredField( Class<?> topLevelClass, String name ) {
-
-			Class<?> currentClass = topLevelClass;
-
-			while ( currentClass != null ) {
-
-				try {
-					return currentClass.getDeclaredField( name );
-				} catch ( NoSuchFieldException e ) {
-					currentClass = currentClass.getSuperclass();
-				}
-			}
-
-			return null;
 		}
 	}
 }
