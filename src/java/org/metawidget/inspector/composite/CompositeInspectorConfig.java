@@ -37,11 +37,6 @@ public class CompositeInspectorConfig {
 	// Public methods
 	//
 
-	public Inspector[] getInspectors() {
-
-		return mInspectors;
-	}
-
 	/**
 	 * Sets the sub-Inspectors the CompositeInspector will call.
 	 * <p>
@@ -84,5 +79,14 @@ public class CompositeInspectorConfig {
 	public int hashCode() {
 
 		return ObjectUtils.nullSafeHashCode( mInspectors );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Inspector[] getInspectors() {
+
+		return mInspectors;
 	}
 }

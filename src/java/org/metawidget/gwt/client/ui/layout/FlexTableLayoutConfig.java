@@ -43,11 +43,6 @@ public class FlexTableLayoutConfig {
 	// Public methods
 	//
 
-	public int getNumberOfColumns() {
-
-		return mNumberOfColumns;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -63,11 +58,6 @@ public class FlexTableLayoutConfig {
 		return this;
 	}
 
-	public String getTableStyleName() {
-
-		return mTableStyleName;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -77,11 +67,6 @@ public class FlexTableLayoutConfig {
 		mTableStyleName = tableStyleName;
 
 		return this;
-	}
-
-	public String[] getColumnStyleNames() {
-
-		return mColumnStyleNames;
 	}
 
 	/**
@@ -96,11 +81,6 @@ public class FlexTableLayoutConfig {
 		mColumnStyleNames = columnStyleNames;
 
 		return this;
-	}
-
-	public String getFooterStyleName() {
-
-		return mFooterStyleName;
 	}
 
 	/**
@@ -158,5 +138,29 @@ public class FlexTableLayoutConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyleName );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getNumberOfColumns() {
+
+		return mNumberOfColumns;
+	}
+
+	protected String getTableStyleName() {
+
+		return mTableStyleName;
+	}
+
+	protected String[] getColumnStyleNames() {
+
+		return mColumnStyleNames;
+	}
+
+	protected String getFooterStyleName() {
+
+		return mFooterStyleName;
 	}
 }

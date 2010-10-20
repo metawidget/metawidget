@@ -56,11 +56,6 @@ public class TabFolderLayoutDecoratorConfig
 		return this;
 	}
 
-	public int getTabLocation() {
-
-		return mTabLocation;
-	}
-
 	/**
 	 * One of SWT.TOP or SWT.BOTTOM.
 	 *
@@ -103,5 +98,14 @@ public class TabFolderLayoutDecoratorConfig
 		hashCode = 31 * hashCode + mTabLocation;
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getTabLocation() {
+
+		return mTabLocation;
 	}
 }

@@ -34,15 +34,27 @@ public class JavaBeanPropertyStyleConfig
 	// Private members
 	//
 
+	private boolean			mSupportPublicFields = true;
+
 	private MessageFormat	mPrivateFieldConvention;
 
 	//
 	// Public methods
 	//
 
-	public MessageFormat getPrivateFieldConvention() {
+	// TODO: getters should be protected?
 
-		return mPrivateFieldConvention;
+	/**
+	 * Sets whether to recognize public fields as properties. True by default.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JavaBeanPropertyStyleConfig setSupportPublicFields( boolean supportPublicFields ) {
+
+		mSupportPublicFields = supportPublicFields;
+
+		return this;
 	}
 
 	/**
@@ -101,6 +113,10 @@ public class JavaBeanPropertyStyleConfig
 			return false;
 		}
 
+		if ( mSupportPublicFields != ( (JavaBeanPropertyStyleConfig) that ).mSupportPublicFields ) {
+			return false;
+		}
+
 		return super.equals( that );
 	}
 
@@ -109,7 +125,22 @@ public class JavaBeanPropertyStyleConfig
 
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPrivateFieldConvention );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportPublicFields );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected boolean isSupportPublicFields() {
+
+		return mSupportPublicFields;
+	}
+
+	protected MessageFormat getPrivateFieldConvention() {
+
+		return mPrivateFieldConvention;
 	}
 }

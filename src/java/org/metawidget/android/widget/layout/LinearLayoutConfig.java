@@ -34,11 +34,6 @@ public class LinearLayoutConfig {
 	// Public methods
 	//
 
-	public int getLabelStyle() {
-
-		return mLabelStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -73,6 +68,15 @@ public class LinearLayoutConfig {
 
 	@Override
 	public int hashCode() {
+
+		return mLabelStyle;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getLabelStyle() {
 
 		return mLabelStyle;
 	}

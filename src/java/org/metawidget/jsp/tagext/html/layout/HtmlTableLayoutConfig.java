@@ -47,11 +47,6 @@ public class HtmlTableLayoutConfig {
 	// Public methods
 	//
 
-	public int getNumberOfColumns() {
-
-		return mNumberOfColumns;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -67,11 +62,6 @@ public class HtmlTableLayoutConfig {
 		return this;
 	}
 
-	public String getTableStyle() {
-
-		return mTableStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -83,11 +73,6 @@ public class HtmlTableLayoutConfig {
 		return this;
 	}
 
-	public String getTableStyleClass() {
-
-		return mTableStyleClass;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -97,11 +82,6 @@ public class HtmlTableLayoutConfig {
 		mTableStyleClass = tableStyleClass;
 
 		return this;
-	}
-
-	public String[] getColumnStyleClasses() {
-
-		return mColumnStyleClasses;
 	}
 
 	/**
@@ -118,19 +98,9 @@ public class HtmlTableLayoutConfig {
 		return this;
 	}
 
-	public String getFooterStyle() {
-
-		return mFooterStyle;
-	}
-
 	public void setFooterStyle( String footerStyle ) {
 
 		mFooterStyle = footerStyle;
-	}
-
-	public String getFooterStyleClass() {
-
-		return mFooterStyleClass;
 	}
 
 	/**
@@ -198,5 +168,39 @@ public class HtmlTableLayoutConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyleClass );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getNumberOfColumns() {
+
+		return mNumberOfColumns;
+	}
+
+	protected String getTableStyle() {
+
+		return mTableStyle;
+	}
+
+	protected String getTableStyleClass() {
+
+		return mTableStyleClass;
+	}
+
+	protected String[] getColumnStyleClasses() {
+
+		return mColumnStyleClasses;
+	}
+
+	protected String getFooterStyle() {
+
+		return mFooterStyle;
+	}
+
+	protected String getFooterStyleClass() {
+
+		return mFooterStyleClass;
 	}
 }

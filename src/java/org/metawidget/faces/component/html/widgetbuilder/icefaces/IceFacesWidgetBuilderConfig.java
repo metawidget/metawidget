@@ -37,11 +37,6 @@ public class IceFacesWidgetBuilderConfig {
 	// Public methods
 	//
 
-	public boolean isPartialSubmit() {
-
-		return mPartialSubmit;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -82,5 +77,14 @@ public class IceFacesWidgetBuilderConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPartialSubmit );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected boolean isPartialSubmit() {
+
+		return mPartialSubmit;
 	}
 }

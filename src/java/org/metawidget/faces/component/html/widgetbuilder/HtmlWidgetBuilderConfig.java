@@ -40,11 +40,6 @@ public class HtmlWidgetBuilderConfig {
 	// Public methods
 	//
 
-	public String getDataTableStyleClass() {
-
-		return mDataTableStyleClass;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -56,11 +51,6 @@ public class HtmlWidgetBuilderConfig {
 		return this;
 	}
 
-	public String[] getDataTableColumnClasses() {
-
-		return mDataTableColumnClasses;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -70,11 +60,6 @@ public class HtmlWidgetBuilderConfig {
 		mDataTableColumnClasses = dataTableColumnClasses;
 
 		return this;
-	}
-
-	public String[] getDataTableRowClasses() {
-
-		return mDataTableRowClasses;
 	}
 
 	/**
@@ -127,5 +112,24 @@ public class HtmlWidgetBuilderConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableRowClasses );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getDataTableStyleClass() {
+
+		return mDataTableStyleClass;
+	}
+
+	protected String[] getDataTableColumnClasses() {
+
+		return mDataTableColumnClasses;
+	}
+
+	protected String[] getDataTableRowClasses() {
+
+		return mDataTableRowClasses;
 	}
 }

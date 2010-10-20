@@ -42,11 +42,6 @@ public class SimpleBindingProcessorConfig {
 	// Public methods
 	//
 
-	public Map<Class<?>, SimpleBindingProcessorAdapter<?>> getAdapters() {
-
-		return mAdapters;
-	}
-
 	/**
 	 * Sets an Adapter for the given Class.
 	 * <p>
@@ -70,11 +65,6 @@ public class SimpleBindingProcessorConfig {
 		mAdapters.put( forClass, Adapter );
 
 		return this;
-	}
-
-	public Map<Class<?>, Converter<?>> getConverters() {
-
-		return mConverters;
 	}
 
 	/**
@@ -135,5 +125,19 @@ public class SimpleBindingProcessorConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Map<Class<?>, SimpleBindingProcessorAdapter<?>> getAdapters() {
+
+		return mAdapters;
+	}
+
+	protected Map<Class<?>, Converter<?>> getConverters() {
+
+		return mConverters;
 	}
 }

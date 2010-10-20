@@ -48,18 +48,11 @@ public class HibernateInspectorConfig
 	//
 
 	/**
-	 * Whether the Inspector returns &lt;id&gt; properties as <code>hidden="true"</code>. True by
+	 * Sets whether the Inspector returns &lt;id&gt; properties as <code>hidden="true"</code>. True by
 	 * default.
 	 * <p>
 	 * Hibernate recommends using synthetic ids, so generally they don't appear in the UI.
-	 */
-
-	public boolean isHideIds() {
-
-		return mHideIds;
-	}
-
-	/**
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -101,5 +94,14 @@ public class HibernateInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected boolean isHideIds() {
+
+		return mHideIds;
 	}
 }

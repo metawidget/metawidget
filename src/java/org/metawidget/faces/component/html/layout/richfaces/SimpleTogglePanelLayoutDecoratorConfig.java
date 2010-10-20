@@ -75,11 +75,6 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 		return this;
 	}
 
-	public String getStyle() {
-
-		return mStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -89,11 +84,6 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 		mStyle = style;
 
 		return this;
-	}
-
-	public String getStyleClass() {
-
-		return mStyleClass;
 	}
 
 	/**
@@ -107,11 +97,6 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 		return this;
 	}
 
-	public String getSwitchType() {
-
-		return mSwitchType;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -121,11 +106,6 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 		mSwitchType = switchType;
 
 		return this;
-	}
-
-	public boolean isOpened() {
-
-		return mOpened;
 	}
 
 	/**
@@ -183,5 +163,29 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mOpened );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getStyle() {
+
+		return mStyle;
+	}
+
+	protected String getStyleClass() {
+
+		return mStyleClass;
+	}
+
+	protected String getSwitchType() {
+
+		return mSwitchType;
+	}
+
+	protected boolean isOpened() {
+
+		return mOpened;
 	}
 }

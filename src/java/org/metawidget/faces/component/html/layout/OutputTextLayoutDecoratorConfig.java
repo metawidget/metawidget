@@ -58,11 +58,6 @@ public class OutputTextLayoutDecoratorConfig
 		return this;
 	}
 
-	public String getStyle() {
-
-		return mStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -72,11 +67,6 @@ public class OutputTextLayoutDecoratorConfig
 		mStyle = style;
 
 		return this;
-	}
-
-	public String getStyleClass() {
-
-		return mStyleClass;
 	}
 
 	/**
@@ -124,5 +114,19 @@ public class OutputTextLayoutDecoratorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getStyle() {
+
+		return mStyle;
+	}
+
+	protected String getStyleClass() {
+
+		return mStyleClass;
 	}
 }

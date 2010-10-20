@@ -56,11 +56,6 @@ public class SeparatorLayoutDecoratorConfig
 		return this;
 	}
 
-	public int getAlignment() {
-
-		return mAlignment;
-	}
-
 	/**
 	 * One of SWT.LEFT or SWT.RIGHT.
 	 *
@@ -103,5 +98,14 @@ public class SeparatorLayoutDecoratorConfig
 		hashCode = 31 * hashCode + mAlignment;
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getAlignment() {
+
+		return mAlignment;
 	}
 }

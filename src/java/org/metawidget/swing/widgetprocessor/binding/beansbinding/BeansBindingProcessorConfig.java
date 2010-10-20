@@ -45,11 +45,6 @@ public class BeansBindingProcessorConfig {
 	// Public methods
 	//
 
-	public UpdateStrategy getUpdateStrategy() {
-
-		return mUpdateStrategy;
-	}
-
 	/**
 	 * Sets the UpdateStrategy for this BeansBindingProcessor.
 	 *
@@ -61,11 +56,6 @@ public class BeansBindingProcessorConfig {
 		mUpdateStrategy = updateStrategy;
 
 		return this;
-	}
-
-	public Map<ConvertFromTo<?, ?>, Converter<?, ?>> getConverters() {
-
-		return mConverters;
 	}
 
 	/**
@@ -136,5 +126,19 @@ public class BeansBindingProcessorConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected UpdateStrategy getUpdateStrategy() {
+
+		return mUpdateStrategy;
+	}
+
+	protected Map<ConvertFromTo<?, ?>, Converter<?, ?>> getConverters() {
+
+		return mConverters;
 	}
 }

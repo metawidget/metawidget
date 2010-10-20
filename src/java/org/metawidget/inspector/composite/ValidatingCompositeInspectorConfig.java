@@ -41,15 +41,6 @@ public class ValidatingCompositeInspectorConfig
 	// Public methods
 	//
 
-	public ResourceResolver getResourceResolver() {
-
-		if ( mResourceResolver == null ) {
-			return new SimpleResourceResolver();
-		}
-
-		return mResourceResolver;
-	}
-
 	@Override
 	public void setResourceResolver( ResourceResolver resourceResolver ) {
 
@@ -85,5 +76,18 @@ public class ValidatingCompositeInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected ResourceResolver getResourceResolver() {
+
+		if ( mResourceResolver == null ) {
+			return new SimpleResourceResolver();
+		}
+
+		return mResourceResolver;
 	}
 }

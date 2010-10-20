@@ -59,11 +59,6 @@ public class HeadingTagLayoutDecoratorConfig
 		return this;
 	}
 
-	public String getStyle() {
-
-		return mStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -73,11 +68,6 @@ public class HeadingTagLayoutDecoratorConfig
 		mStyle = style;
 
 		return this;
-	}
-
-	public String getStyleClass() {
-
-		return mStyleClass;
 	}
 
 	/**
@@ -125,5 +115,19 @@ public class HeadingTagLayoutDecoratorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getStyle() {
+
+		return mStyle;
+	}
+
+	protected String getStyleClass() {
+
+		return mStyleClass;
 	}
 }

@@ -52,11 +52,6 @@ public class GridLayoutConfig {
 	// Public methods
 	//
 
-	public int getNumberOfColumns() {
-
-		return mNumberOfColumns;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -72,11 +67,6 @@ public class GridLayoutConfig {
 		return this;
 	}
 
-	public int getLabelAlignment() {
-
-		return mLabelAlignment;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -86,11 +76,6 @@ public class GridLayoutConfig {
 		mLabelAlignment = labelAlignment;
 
 		return this;
-	}
-
-	public Color getLabelForeground() {
-
-		return mLabelForeground;
 	}
 
 	/**
@@ -104,11 +89,6 @@ public class GridLayoutConfig {
 		return this;
 	}
 
-	public Font getLabelFont() {
-
-		return mLabelFont;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -118,11 +98,6 @@ public class GridLayoutConfig {
 		mLabelFont = labelFont;
 
 		return this;
-	}
-
-	public String getLabelSuffix() {
-
-		return mLabelSuffix;
 	}
 
 	/**
@@ -136,11 +111,6 @@ public class GridLayoutConfig {
 		return this;
 	}
 
-	public int getRequiredAlignment() {
-
-		return mRequiredAlignment;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -150,11 +120,6 @@ public class GridLayoutConfig {
 		mRequiredAlignment = requiredAlignment;
 
 		return this;
-	}
-
-	public String getRequiredText() {
-
-		return mRequiredText;
 	}
 
 	/**
@@ -227,5 +192,44 @@ public class GridLayoutConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredText );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getNumberOfColumns() {
+
+		return mNumberOfColumns;
+	}
+
+	protected int getLabelAlignment() {
+
+		return mLabelAlignment;
+	}
+
+	protected Color getLabelForeground() {
+
+		return mLabelForeground;
+	}
+
+	protected Font getLabelFont() {
+
+		return mLabelFont;
+	}
+
+	protected String getLabelSuffix() {
+
+		return mLabelSuffix;
+	}
+
+	protected int getRequiredAlignment() {
+
+		return mRequiredAlignment;
+	}
+
+	protected String getRequiredText() {
+
+		return mRequiredText;
 	}
 }

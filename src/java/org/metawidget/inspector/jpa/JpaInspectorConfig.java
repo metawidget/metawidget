@@ -41,17 +41,11 @@ public class JpaInspectorConfig
 	//
 
 	/**
-	 * Whether the Inspector returns Id properties as <code>hidden="true"</code>. True by default.
+	 * Sets whether the Inspector returns Id properties as <code>hidden="true"</code>. True by
+	 * default.
 	 * <p>
 	 * JPA recommends using synthetic ids, so generally they don't appear in the UI.
-	 */
-
-	public boolean isHideIds() {
-
-		return mHideIds;
-	}
-
-	/**
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -65,7 +59,8 @@ public class JpaInspectorConfig
 	}
 
 	/**
-	 * Whether the Inspector returns Transient properties as <code>hidden="true"</code>. False by
+	 * Sets whether the Inspector returns Transient properties as <code>hidden="true"</code>. False
+	 * by
 	 * default.
 	 * <p>
 	 * There is not a firm relationship between whether a field should be persisted by JPA, and
@@ -74,14 +69,7 @@ public class JpaInspectorConfig
 	 * 'synthetic' fields such as <code>getAge</code> that calculates based off a persisted
 	 * <code>getDateOfBirth</code>, and also to overridden JPA fields (which generally must be
 	 * marked <code>Transient</code> in the subclass).
-	 */
-
-	public boolean isHideTransients() {
-
-		return mHideTransients;
-	}
-
-	/**
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -128,5 +116,19 @@ public class JpaInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideTransients );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected boolean isHideIds() {
+
+		return mHideIds;
+	}
+
+	protected boolean isHideTransients() {
+
+		return mHideTransients;
 	}
 }

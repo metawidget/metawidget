@@ -36,11 +36,6 @@ public class MigLayoutConfig {
 	// Public methods
 	//
 
-	public int getNumberOfColumns() {
-
-		return mNumberOfColumns;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -80,6 +75,15 @@ public class MigLayoutConfig {
 
 	@Override
 	public int hashCode() {
+
+		return mNumberOfColumns;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getNumberOfColumns() {
 
 		return mNumberOfColumns;
 	}

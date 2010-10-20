@@ -43,11 +43,6 @@ public class BeanUtilsBindingProcessorConfig {
 	// Public methods
 	//
 
-	public int getPropertyStyle() {
-
-		return mPropertyStyle;
-	}
-
 	/**
 	 * Sets the PropertyStyle for this BeanUtilsBinding.
 	 *
@@ -85,6 +80,15 @@ public class BeanUtilsBindingProcessorConfig {
 
 	@Override
 	public int hashCode() {
+
+		return mPropertyStyle;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getPropertyStyle() {
 
 		return mPropertyStyle;
 	}

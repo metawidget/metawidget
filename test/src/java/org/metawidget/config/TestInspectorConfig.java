@@ -75,19 +75,9 @@ public class TestInspectorConfig {
 		mList = list;
 	}
 
-	public List<Object> getList() {
-
-		return mList;
-	}
-
 	public void setSet( Set<Object> set ) {
 
 		mSet = set;
-	}
-
-	public Set<Object> getSet() {
-
-		return mSet;
 	}
 
 	public void setInt( int anInt ) {
@@ -95,19 +85,9 @@ public class TestInspectorConfig {
 		mInt = anInt;
 	}
 
-	public int getConstant() {
-
-		return mConstant;
-	}
-
 	public void setConstant( int constant ) {
 
 		mConstant = constant;
-	}
-
-	public int getExternalConstant() {
-
-		return mExternalConstant;
 	}
 
 	public void setExternalConstant( int externalConstant ) {
@@ -115,24 +95,9 @@ public class TestInspectorConfig {
 		mExternalConstant = externalConstant;
 	}
 
-	public int getInt() {
-
-		return mInt;
-	}
-
-	public boolean isBoolean() {
-
-		return mBoolean;
-	}
-
 	public void setBoolean( boolean aBoolean ) {
 
 		mBoolean = aBoolean;
-	}
-
-	public Pattern getPattern() {
-
-		return mPattern;
 	}
 
 	public void setPattern( Pattern pattern ) {
@@ -140,19 +105,9 @@ public class TestInspectorConfig {
 		mPattern = pattern;
 	}
 
-	public InputStream getInputStream() {
-
-		return mInputStream;
-	}
-
 	public void setInputStream( InputStream inputStream ) {
 
 		mInputStream = inputStream;
-	}
-
-	public ResourceBundle getResourceBundle() {
-
-		return mResourceBundle;
 	}
 
 	public void setResourceBundle( ResourceBundle resourceBundle ) {
@@ -160,19 +115,9 @@ public class TestInspectorConfig {
 		mResourceBundle = resourceBundle;
 	}
 
-	public String[] getStringArray() {
-
-		return mStringArray;
-	}
-
 	public void setStringArray( String[] stringArray ) {
 
 		mStringArray = stringArray;
-	}
-
-	public Gender getGender() {
-
-		return mGender;
 	}
 
 	public void setGender( Gender gender ) {
@@ -187,11 +132,6 @@ public class TestInspectorConfig {
 	public void setFailDuringConstruction( boolean failDuringConstruction ) {
 
 		mFailDuringConstruction = true;
-	}
-
-	public boolean isFailDuringConstruction() {
-
-		return mFailDuringConstruction;
 	}
 
 	/**
@@ -277,5 +217,69 @@ public class TestInspectorConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFailDuringConstruction );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected List<Object> getList() {
+
+		return mList;
+	}
+
+	protected Set<Object> getSet() {
+
+		return mSet;
+	}
+
+	protected int getConstant() {
+
+		return mConstant;
+	}
+
+	protected int getExternalConstant() {
+
+		return mExternalConstant;
+	}
+
+	protected boolean isBoolean() {
+
+		return mBoolean;
+	}
+
+	protected int getInt() {
+
+		return mInt;
+	}
+
+	protected Pattern getPattern() {
+
+		return mPattern;
+	}
+
+	protected InputStream getInputStream() {
+
+		return mInputStream;
+	}
+
+	protected ResourceBundle getResourceBundle() {
+
+		return mResourceBundle;
+	}
+
+	protected String[] getStringArray() {
+
+		return mStringArray;
+	}
+
+	protected Gender getGender() {
+
+		return mGender;
+	}
+
+	protected boolean isFailDuringConstruction() {
+
+		return mFailDuringConstruction;
 	}
 }

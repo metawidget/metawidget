@@ -25,7 +25,7 @@ import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a PanelGroupLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -48,7 +48,7 @@ public class PanelGroupLayoutDecoratorConfig
 
 	/**
 	 * Overridden to use covariant return type.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -60,11 +60,6 @@ public class PanelGroupLayoutDecoratorConfig
 		return this;
 	}
 
-	public String getStyle() {
-
-		return mStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -74,11 +69,6 @@ public class PanelGroupLayoutDecoratorConfig
 		mStyle = style;
 
 		return this;
-	}
-
-	public String getStyleClass() {
-
-		return mStyleClass;
 	}
 
 	/**
@@ -93,15 +83,9 @@ public class PanelGroupLayoutDecoratorConfig
 	}
 
 	/**
-	 * Layout, as defined by <code>javax.faces.component.html.HtmlPanelGroup.setLayout</code>.
-	 */
-
-	public String getPanelLayout() {
-
-		return mPanelLayout;
-	}
-
-	/**
+	 * Sets the Layout, as defined by
+	 * <code>javax.faces.component.html.HtmlPanelGroup.setLayout</code>.
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -151,5 +135,24 @@ public class PanelGroupLayoutDecoratorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPanelLayout );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getStyle() {
+
+		return mStyle;
+	}
+
+	protected String getStyleClass() {
+
+		return mStyleClass;
+	}
+
+	protected String getPanelLayout() {
+
+		return mPanelLayout;
 	}
 }

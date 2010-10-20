@@ -39,11 +39,6 @@ public class MigLayoutConfig {
 	// Public methods
 	//
 
-	public int getNumberOfColumns() {
-
-		return mNumberOfColumns;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -57,11 +52,6 @@ public class MigLayoutConfig {
 		mNumberOfColumns = numberOfColumns;
 
 		return this;
-	}
-
-	public boolean isSupportMnemonics() {
-
-		return mSupportMnemonics;
 	}
 
 	/**
@@ -109,5 +99,19 @@ public class MigLayoutConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportMnemonics );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getNumberOfColumns() {
+
+		return mNumberOfColumns;
+	}
+
+	protected boolean isSupportMnemonics() {
+
+		return mSupportMnemonics;
 	}
 }

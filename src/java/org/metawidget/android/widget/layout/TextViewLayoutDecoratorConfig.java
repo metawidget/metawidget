@@ -56,11 +56,6 @@ public class TextViewLayoutDecoratorConfig
 		return this;
 	}
 
-	public int getStyle() {
-
-		return mStyle;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -100,5 +95,14 @@ public class TextViewLayoutDecoratorConfig
 		hashCode = 31 * hashCode + mStyle;
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getStyle() {
+
+		return mStyle;
 	}
 }

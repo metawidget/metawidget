@@ -38,11 +38,6 @@ public class DataBindingProcessorConfig {
 	// Public methods
 	//
 
-	public IConverter[] getConverters() {
-
-		return mConverters;
-	}
-
 	/**
 	 * Sets Converters for this DataBindingProcessor.
 	 *
@@ -85,5 +80,14 @@ public class DataBindingProcessorConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected IConverter[] getConverters() {
+
+		return mConverters;
 	}
 }

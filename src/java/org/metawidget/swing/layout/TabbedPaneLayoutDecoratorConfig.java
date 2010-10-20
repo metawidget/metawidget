@@ -56,11 +56,6 @@ public class TabbedPaneLayoutDecoratorConfig
 		return this;
 	}
 
-	public int getTabPlacement() {
-
-		return mTabPlacement;
-	}
-
 	/**
 	 * One of SwingConstants.TOP, SwingConstants.BOTTOM, SwingConstants.LEFT or SwingConstants.RIGHT
 	 * as defined by JTabbedPane.setTabAlignment.
@@ -104,5 +99,14 @@ public class TabbedPaneLayoutDecoratorConfig
 		hashCode = 31 * hashCode + mTabPlacement;
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getTabPlacement() {
+
+		return mTabPlacement;
 	}
 }

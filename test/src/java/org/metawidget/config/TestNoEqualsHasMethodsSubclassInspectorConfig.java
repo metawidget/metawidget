@@ -27,8 +27,12 @@ public class TestNoEqualsHasMethodsSubclassInspectorConfig
 	// Public methods
 	//
 
-	public String getSomeState() {
+	/**
+	 * @param someState
+	 */
 
-		return null;
+	public void setSomeState( String someState ) {
+
+		// Do nothing
 	}
 }

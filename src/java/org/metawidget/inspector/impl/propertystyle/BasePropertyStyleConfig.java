@@ -64,15 +64,6 @@ public class BasePropertyStyleConfig {
 		return this;
 	}
 
-	public Pattern getExcludeBaseType() {
-
-		if ( mExcludeBaseType == null && !mNullExcludeBaseType ) {
-			return Pattern.compile( "^(java|javax)\\..*$" );
-		}
-
-		return mExcludeBaseType;
-	}
-
 	@Override
 	public boolean equals( Object that ) {
 
@@ -107,5 +98,18 @@ public class BasePropertyStyleConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeBaseType );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Pattern getExcludeBaseType() {
+
+		if ( mExcludeBaseType == null && !mNullExcludeBaseType ) {
+			return Pattern.compile( "^(java|javax)\\..*$" );
+		}
+
+		return mExcludeBaseType;
 	}
 }

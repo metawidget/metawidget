@@ -39,7 +39,7 @@ public class FacesInspectorConfig
 	//
 
 	/**
-	 * Whether the Inspector injects a request-level 'this' attribute into
+	 * Sets whether the Inspector injects a request-level 'this' attribute into
 	 * <code>UiFacesAttribute</code> evaluations. False by default.
 	 * <p>
 	 * The problem with <code>UiFacesAttribute</code> annotations is that, although the annotation
@@ -50,14 +50,7 @@ public class FacesInspectorConfig
 	 * <p>
 	 * Note this feature does not apply to any other EL expressions, such as those found in
 	 * <code>UiFacesLookup</code> and <code>UiFacesAjax</code>.
-	 */
-
-	public boolean isInjectThis() {
-
-		return mInjectThis;
-	}
-
-	/**
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -99,5 +92,14 @@ public class FacesInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInjectThis );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected boolean isInjectThis() {
+
+		return mInjectThis;
 	}
 }

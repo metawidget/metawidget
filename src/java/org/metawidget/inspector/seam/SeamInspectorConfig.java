@@ -46,15 +46,6 @@ public class SeamInspectorConfig
 	// Public methods
 	//
 
-	public InputStream getComponentsInputStream() {
-
-		if ( mComponentsInputStream != null ) {
-			return mComponentsInputStream;
-		}
-
-		return getResourceResolver().openResource( "components.xml" );
-	}
-
 	/**
 	 * Sets the InputStream of <code>components.xml</code>.
 	 *
@@ -68,15 +59,6 @@ public class SeamInspectorConfig
 		// Fluent interface
 
 		return this;
-	}
-
-	public ResourceResolver getResourceResolver() {
-
-		if ( mResourceResolver == null ) {
-			return new SimpleResourceResolver();
-		}
-
-		return mResourceResolver;
 	}
 
 	@Override
@@ -120,4 +102,27 @@ public class SeamInspectorConfig
 
 		return hashCode;
 	}
+
+	//
+	// Protected methods
+	//
+
+	protected InputStream getComponentsInputStream() {
+
+		if ( mComponentsInputStream != null ) {
+			return mComponentsInputStream;
+		}
+
+		return getResourceResolver().openResource( "components.xml" );
+	}
+
+	protected ResourceResolver getResourceResolver() {
+
+		if ( mResourceResolver == null ) {
+			return new SimpleResourceResolver();
+		}
+
+		return mResourceResolver;
+	}
+
 }

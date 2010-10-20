@@ -56,11 +56,6 @@ public class GridBagLayoutConfig {
 	// Public methods
 	//
 
-	public int getNumberOfColumns() {
-
-		return mNumberOfColumns;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -76,11 +71,6 @@ public class GridBagLayoutConfig {
 		return this;
 	}
 
-	public int getLabelAlignment() {
-
-		return mLabelAlignment;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -90,11 +80,6 @@ public class GridBagLayoutConfig {
 		mLabelAlignment = labelAlignment;
 
 		return this;
-	}
-
-	public Color getLabelForeground() {
-
-		return mLabelForeground;
 	}
 
 	/**
@@ -108,11 +93,6 @@ public class GridBagLayoutConfig {
 		return this;
 	}
 
-	public Font getLabelFont() {
-
-		return mLabelFont;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -122,11 +102,6 @@ public class GridBagLayoutConfig {
 		mLabelFont = labelFont;
 
 		return this;
-	}
-
-	public boolean isSupportMnemonics() {
-
-		return mSupportMnemonics;
 	}
 
 	/**
@@ -140,11 +115,6 @@ public class GridBagLayoutConfig {
 		return this;
 	}
 
-	public String getLabelSuffix() {
-
-		return mLabelSuffix;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -156,11 +126,6 @@ public class GridBagLayoutConfig {
 		return this;
 	}
 
-	public int getRequiredAlignment() {
-
-		return mRequiredAlignment;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -170,11 +135,6 @@ public class GridBagLayoutConfig {
 		mRequiredAlignment = requiredAlignment;
 
 		return this;
-	}
-
-	public String getRequiredText() {
-
-		return mRequiredText;
 	}
 
 	/**
@@ -252,5 +212,49 @@ public class GridBagLayoutConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredText );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected int getNumberOfColumns() {
+
+		return mNumberOfColumns;
+	}
+
+	protected int getLabelAlignment() {
+
+		return mLabelAlignment;
+	}
+
+	protected Color getLabelForeground() {
+
+		return mLabelForeground;
+	}
+
+	protected Font getLabelFont() {
+
+		return mLabelFont;
+	}
+
+	protected boolean isSupportMnemonics() {
+
+		return mSupportMnemonics;
+	}
+
+	protected String getLabelSuffix() {
+
+		return mLabelSuffix;
+	}
+
+	protected int getRequiredAlignment() {
+
+		return mRequiredAlignment;
+	}
+
+	protected String getRequiredText() {
+
+		return mRequiredText;
 	}
 }

@@ -37,11 +37,6 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C> {
 	// Public methods
 	//
 
-	public Layout<W, C, M> getLayout() {
-
-		return mLayout;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -76,5 +71,14 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C> {
 	public int hashCode() {
 
 		return ObjectUtils.nullSafeHashCode( mLayout );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Layout<W, C, M> getLayout() {
+
+		return mLayout;
 	}
 }

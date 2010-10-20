@@ -38,11 +38,6 @@ public class CompositeWidgetBuilderConfig<W, M extends W> {
 	// Public methods
 	//
 
-	public WidgetBuilder<W, M>[] getWidgetBuilders() {
-
-		return mWidgetBuilders;
-	}
-
 	/**
 	 * Sets the sub-WidgetBuilders the CompositeWidgetBuilder will call.
 	 * <p>
@@ -86,5 +81,14 @@ public class CompositeWidgetBuilderConfig<W, M extends W> {
 	public int hashCode() {
 
 		return ObjectUtils.nullSafeHashCode( mWidgetBuilders );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected WidgetBuilder<W, M>[] getWidgetBuilders() {
+
+		return mWidgetBuilders;
 	}
 }

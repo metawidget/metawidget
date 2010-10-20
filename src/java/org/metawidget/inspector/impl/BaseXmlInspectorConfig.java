@@ -53,27 +53,6 @@ public class BaseXmlInspectorConfig
 	// Public methods
 	//
 
-	public InputStream[] getInputStreams() {
-
-		if ( mInputStreams == null && mDefaultFile != null ) {
-			if ( mResourceResolver != null ) {
-				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
-			}
-
-			// Support programmatic configuration (ie. mResourceResolver is specified automatically
-			// by ConfigReader when using metawidget.xml, but is generally not set manually when
-			// people are creating Inspectors by hand)
-
-			try {
-				return new InputStream[] { ClassUtils.openResource( mDefaultFile ) };
-			} catch ( Exception e ) {
-				throw InspectorException.newException( e );
-			}
-		}
-
-		return mInputStreams;
-	}
-
 	/**
 	 * Sets the InputStreams of multiple XML files.
 	 * <p>
@@ -106,29 +85,10 @@ public class BaseXmlInspectorConfig
 		return this;
 	}
 
-	public ResourceResolver getResourceResolver() {
-
-		if ( mResourceResolver == null ) {
-			return new SimpleResourceResolver();
-		}
-
-		return mResourceResolver;
-	}
-
 	@Override
 	public void setResourceResolver( ResourceResolver resourceResolver ) {
 
 		mResourceResolver = resourceResolver;
-	}
-
-	/**
-	 * Gets the style used to restrict against <code>null</code> or recursive Objects (see
-	 * BaseXmlInspector JavaDoc)
-	 */
-
-	public PropertyStyle getRestrictAgainstObject() {
-
-		return mRestrictAgainstObject;
 	}
 
 	/**
@@ -200,5 +160,40 @@ public class BaseXmlInspectorConfig
 	protected void setDefaultFile( String defaultFile ) {
 
 		mDefaultFile = defaultFile;
+	}
+
+	protected InputStream[] getInputStreams() {
+
+		if ( mInputStreams == null && mDefaultFile != null ) {
+			if ( mResourceResolver != null ) {
+				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
+			}
+
+			// Support programmatic configuration (ie. mResourceResolver is specified automatically
+			// by ConfigReader when using metawidget.xml, but is generally not set manually when
+			// people are creating Inspectors by hand)
+
+			try {
+				return new InputStream[] { ClassUtils.openResource( mDefaultFile ) };
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
+			}
+		}
+
+		return mInputStreams;
+	}
+
+	protected ResourceResolver getResourceResolver() {
+
+		if ( mResourceResolver == null ) {
+			return new SimpleResourceResolver();
+		}
+
+		return mResourceResolver;
+	}
+
+	protected PropertyStyle getRestrictAgainstObject() {
+
+		return mRestrictAgainstObject;
 	}
 }

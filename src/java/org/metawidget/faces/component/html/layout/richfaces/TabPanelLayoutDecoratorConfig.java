@@ -41,11 +41,6 @@ public class TabPanelLayoutDecoratorConfig
 	// Public methods
 	//
 
-	public String getHeaderAlignment() {
-
-		return mHeaderAlignment;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -86,5 +81,14 @@ public class TabPanelLayoutDecoratorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHeaderAlignment );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getHeaderAlignment() {
+
+		return mHeaderAlignment;
 	}
 }

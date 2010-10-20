@@ -41,10 +41,18 @@ import org.metawidget.util.simple.StringUtils;
  * Please note:
  * <p>
  * <ul>
- * <li>this implementation also recognizes public member fields. These are not strictly
- * JavaBean-convention, but is a useful default</li>
+ * <li>by default, this implementation also recognizes public member fields - even though these are
+ * not strictly JavaBean-convention. This can be disabled using
+ * <code>JavaBeanPropertyStyleConfig.setSupportPublicFields</code></li>
  * <li>this implementation does not use <code>java.beans.Introspector</code>, as some environments
- * that use JavaBean-convention do not support the <code>java.bean</code> package (eg. Android).</li>
+ * that use JavaBean-convention do not support the <code>java.bean</code> package (eg. Android)</li>
+ * <li>by default, this implementation does <em>not</em> recognize private fields. This is because
+ * the JavaBean convention does not specify any relationship between getters/setters and their
+ * private fields. However, it is a common requirement to want to <em>annotate</em> the private
+ * field rather than its getter/setter. Frameworks like JPA allow this because they can populate the
+ * private field directly. But this does not work well for most UI frameworks, such as binding and
+ * validation frameworks, which rely on public getters/setters. To support the best of both worlds
+ * see <code>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</code></li>
  * </ul>
  *
  * @author Richard Kennard
@@ -56,6 +64,8 @@ public class JavaBeanPropertyStyle
 	//
 	// Private members
 	//
+
+	private boolean			mSupportPublicFields;
 
 	private MessageFormat	mPrivateFieldConvention;
 
@@ -82,6 +92,7 @@ public class JavaBeanPropertyStyle
 
 		this( (BasePropertyStyleConfig) config );
 
+		mSupportPublicFields = config.isSupportPublicFields();
 		mPrivateFieldConvention = config.getPrivateFieldConvention();
 	}
 
@@ -116,6 +127,10 @@ public class JavaBeanPropertyStyle
 	 */
 
 	protected void lookupFields( Map<String, Property> properties, Class<?> clazz ) {
+
+		if ( !mSupportPublicFields ) {
+			return;
+		}
 
 		// Note: we must use clazz.getFields(), not clazz.getDeclaredFields(), in order
 		// to avoid Applet SecurityExceptions

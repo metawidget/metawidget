@@ -57,11 +57,6 @@ public class LabelLayoutDecoratorConfig
 		return this;
 	}
 
-	public String getStyleName() {
-
-		return mStyleName;
-	}
-
 	/**
 	 * @return this, as part of a fluent interface
 	 */
@@ -102,5 +97,14 @@ public class LabelLayoutDecoratorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleName );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getStyleName() {
+
+		return mStyleName;
 	}
 }

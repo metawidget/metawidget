@@ -100,6 +100,57 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
 	}
 
+	public void testSupportPublicFields() {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertTrue( properties.size() == 10 );
+
+		assertEquals( "foo", properties.get( "foo" ).toString() );
+		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
+		assertEquals( "bar", properties.get( "bar" ).getName() );
+		assertEquals( Date.class, ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
+		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertEquals( String.class, ( (ParameterizedType) properties.get( "methodBaz" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertTrue( properties.get( "methodBaz" ).isReadable() );
+		assertFalse( properties.get( "methodBaz" ).isWritable() );
+		assertEquals( Boolean.class, ( (ParameterizedType) properties.get( "methodAbc" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertFalse( properties.get( "methodAbc" ).isReadable() );
+		assertTrue( properties.get( "methodAbc" ).isWritable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
+		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
+		assertEquals( "baz", properties.get( "baz" ).getName() );
+
+		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ));
+		properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertTrue( properties.size() == 7 );
+
+		assertTrue( !properties.containsKey( "foo" ));
+		assertTrue( !properties.containsKey( "bar" ));
+		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
+		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertEquals( String.class, ( (ParameterizedType) properties.get( "methodBaz" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertTrue( properties.get( "methodBaz" ).isReadable() );
+		assertFalse( properties.get( "methodBaz" ).isWritable() );
+		assertEquals( Boolean.class, ( (ParameterizedType) properties.get( "methodAbc" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertFalse( properties.get( "methodAbc" ).isReadable() );
+		assertTrue( properties.get( "methodAbc" ).isWritable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
+		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
+		assertTrue( !properties.containsKey( "baz" ));
+	}
+
 	public void testInterfaceBasedPropertyStyle() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();

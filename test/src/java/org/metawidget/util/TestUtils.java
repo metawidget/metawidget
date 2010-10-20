@@ -38,14 +38,14 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for running unit tests.
- * 
+ *
  * @author Richard Kennard
  */
 
 public class TestUtils {
 
 	//
-	// Public methods
+	// Public statics
 	//
 
 	/**
@@ -119,25 +119,13 @@ public class TestUtils {
 				// null (tests BaseObjectInspectorConfig.mNullPropertyStyle etc)
 
 				Class<?> propertyType = property.getType();
+				Method readMethod = getProtectedReadMethod( object1.getClass(), propertyName );
 				Method writeMethod = ClassUtils.getWriteMethod( object1.getClass(), propertyName, propertyType );
 
 				if ( !propertyType.isPrimitive() ) {
 					// (this doesn't apply to ResourceResolver)
 
 					if ( !ResourceResolver.class.equals( propertyType ) ) {
-						Method readMethod = null;
-
-						try {
-							readMethod = ClassUtils.getReadMethod( object1.getClass(), propertyName );
-						} catch ( Exception e1 ) {
-							try {
-								readMethod = object1.getClass().getDeclaredMethod( "get" + StringUtils.uppercaseFirstLetter( propertyName ) );
-								readMethod.setAccessible( true );
-							} catch ( Exception e2 ) {
-								// Fair enough, no such method
-							}
-						}
-
 						if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
 							writeMethod.invoke( object1, new Object[] { null } );
 							Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
@@ -168,8 +156,8 @@ public class TestUtils {
 				} else if ( boolean.class.equals( propertyType ) ) {
 					// (toggle from the default)
 
-					if ( property.isReadable() ) {
-						toSet = !( (Boolean) ClassUtils.getProperty( object1, propertyName ) );
+					if ( readMethod != null  ) {
+						toSet = !( (Boolean) readMethod.invoke( object1 ) );
 					} else {
 						toSet = true;
 					}
@@ -207,7 +195,7 @@ public class TestUtils {
 
 					// (toggle from the default)
 
-					if ( property.isReadable() && toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) ) {
+					if ( readMethod != null && toSet.equals( readMethod.invoke( object1 ) ) ) {
 						toSet = propertyType.getEnumConstants()[1];
 					}
 				}
@@ -224,9 +212,9 @@ public class TestUtils {
 
 				int hashCodeBefore = object1.hashCode();
 
-				if ( property.isReadable() ) {
+				if ( readMethod != null ) {
 
-					ClassUtils.getProperty( object1, propertyName );
+					readMethod.invoke( object1 );
 
 					// Calling the getter should not alter the equals/hashCode, even under lazy
 					// initialisation
@@ -243,8 +231,9 @@ public class TestUtils {
 
 				// Getter
 
-				if ( property.isReadable() ) {
-					Assert.assertTrue( toSet.equals( ClassUtils.getProperty( object1, propertyName ) ) );
+				if ( readMethod != null ) {
+
+					Assert.assertTrue( toSet.equals( readMethod.invoke( object1 ) ) );
 				}
 
 				// equals/hashCode
@@ -261,8 +250,44 @@ public class TestUtils {
 	}
 
 	//
-	// Private methods
+	// Private statics
 	//
+
+	/**
+	 * Gets the public/protected getter for the given <code>propertyName</code> within the given
+	 * class. Traverses up the superclass heirarchy as necessary.
+	 */
+
+	private static Method getProtectedReadMethod( Class<?> clazz, String propertyName ) {
+
+		String propertyUppercased = StringUtils.uppercaseFirstLetter( propertyName );
+
+		// Go looking for such a field, traversing the superclass heirarchy as necessary
+
+		Class<?> currentClass = clazz;
+
+		while ( currentClass != null ) {
+
+			try {
+				Method method = clazz.getDeclaredMethod( ClassUtils.JAVABEAN_GET_PREFIX + propertyUppercased );
+				method.setAccessible( true );
+
+				return method;
+
+			} catch ( Exception e1 ) {
+				try {
+					Method method = clazz.getDeclaredMethod( ClassUtils.JAVABEAN_IS_PREFIX + propertyUppercased );
+					method.setAccessible( true );
+
+					return method;
+				} catch ( Exception e2 ) {
+					currentClass = currentClass.getSuperclass();
+				}
+			}
+		}
+
+		return null;
+	}
 
 	private static Object newProxyInstance( Class<?> clazz ) {
 
