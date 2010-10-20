@@ -3,7 +3,6 @@
 	<property file="../../../../build.properties" />
 	<property file="../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
-	<property name="context.path" value="quirks-myfaces-facelets2"/>
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-faces">
