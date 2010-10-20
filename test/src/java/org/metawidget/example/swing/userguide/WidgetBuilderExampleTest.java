@@ -91,7 +91,9 @@ public class WidgetBuilderExampleTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.add( new Stub( "dateOfBirth" ) );
-		XmlInspector xmlInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( ClassUtils.openResource( "org/metawidget/example/swing/addressbook/metawidget-metadata.xml" ) ) );
+		XmlInspectorConfig config = new XmlInspectorConfig();
+		config.setInputStream( ClassUtils.openResource( "org/metawidget/example/swing/addressbook/metawidget-metadata.xml" ));
+		XmlInspector xmlInspector = new XmlInspector( config );
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector(), xmlInspector ) ) );
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new GenericJRadioButtonWidgetBuilder(), new SwingWidgetBuilder() ) ) );
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );

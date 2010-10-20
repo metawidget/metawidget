@@ -16,8 +16,6 @@
 
 package org.metawidget.inspector.xml;
 
-import java.io.InputStream;
-
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -38,21 +36,7 @@ public class XmlInspectorConfig
 		setDefaultFile( "metawidget-metadata.xml" );
 	}
 
-	//
-	// Public methods
-	//
-
-	/**
-	 * Sets the InputStream of the XML.
-	 * <p>
-	 * Overridden for co-variant return type.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	@Override
-	public XmlInspectorConfig setInputStream( InputStream stream ) {
-
-		return (XmlInspectorConfig) super.setInputStream( stream );
-	}
+	// Note: don't override setInputStream in order to have a co-variant return type of
+	// XmlInspectorConfig, because that will trip up our 'may not be cached reliably' check in
+	// ConfigReader
 }
