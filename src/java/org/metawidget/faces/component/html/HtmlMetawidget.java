@@ -101,7 +101,7 @@ public class HtmlMetawidget
 	}
 
 	/**
-	 * Overriden to carry style attributes into the nested Metawidget.
+	 * Overriden to carry CSS style attributes into the nested Metawidget.
 	 */
 
 	@Override
