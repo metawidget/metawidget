@@ -44,7 +44,7 @@ public class ValidatingCompositeInspectorConfig
 	public ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
-			mResourceResolver = new SimpleResourceResolver();
+			return new SimpleResourceResolver();
 		}
 
 		return mResourceResolver;
