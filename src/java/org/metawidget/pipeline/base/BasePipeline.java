@@ -612,6 +612,10 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	protected W buildWidget( String elementName, Map<String, String> attributes ) {
 
+		if ( mWidgetBuilder == null ) {
+			return null;
+		}
+
 		return mWidgetBuilder.buildWidget( elementName, attributes, getPipelineOwner() );
 	}
 

@@ -18,9 +18,11 @@ package org.metawidget.swing;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,8 @@ import javax.swing.SwingConstants;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
+import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiRequired;
@@ -48,6 +52,7 @@ import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
+import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -344,6 +349,75 @@ public class SwingMetawidgetTest
 		metawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		metawidget.setToInspect( new PersonalContact() );
 		assertTrue( null != metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public void testBuildWidgets()
+		throws Exception {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+
+		Field needToBuildWidgets = SwingMetawidget.class.getDeclaredField( "mNeedToBuildWidgets" );
+		needToBuildWidgets.setAccessible( true );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setToInspect( new String() );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getPreferredSize();
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.addInspectionResultProcessor( new ComesAfterInspectionResultProcessor<SwingMetawidget>() );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getPreferredSize();
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.removeInspectionResultProcessor( new ComesAfterInspectionResultProcessor<SwingMetawidget>() );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.setBounds( new Rectangle() );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setInspectionResultProcessors( (InspectionResultProcessor[]) null );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getBounds( new Rectangle() );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setWidgetBuilder( null );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getComponent( 0 );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getWidgetProcessor( ReflectionBindingProcessor.class );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.removeWidgetProcessor( new ReflectionBindingProcessor() );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getComponentCount();
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setWidgetProcessors( (WidgetProcessor[]) null );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getLayout();
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setMetawidgetLayout( null );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.addNotify();
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setBundle( null );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.getFacet( "foo" );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setReadOnly( true );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		metawidget.paintComponent( metawidget.getGraphics() );
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+
+		metawidget.setMaximumInspectionDepth( 0 );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
 	}
 
 	//
