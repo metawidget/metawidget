@@ -7017,7 +7017,9 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						<para>
 							This <classname>PropertyStyle</classname> recognizes JavaBean-convention <function>getXXX</function>,
 							<function>setXXX</function> and <function>isXXX</function>
-							methods, as well as public fields. In addition, it maintains a cache of reflected classes for performance. 
+							methods. By default, it also recognizes public fields (this can be disabled using
+							<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>). In addition, it
+							maintains a cache of reflected classes for performance. 
 						</para>
 
 						<para>
@@ -7117,7 +7119,8 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						<itemizedlist>
 							<listitem>
 								<para>
-									superclass public fields come first, sorted by name.
+									superclass public fields come first, sorted by name (this can be disabled using
+									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>).
 								</para>
 							</listitem>
 							<listitem>
@@ -7127,7 +7130,8 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 							</listitem>
 							<listitem>
 								<para>
-									public fields come next, sorted by name.
+									public fields come next, sorted by name (this can be disabled using
+									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>).
 								</para>
 							</listitem>
 							<listitem>

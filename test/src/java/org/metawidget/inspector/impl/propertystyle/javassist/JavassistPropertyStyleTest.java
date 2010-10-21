@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 
 /**
  * @author Richard Kennard
@@ -52,6 +53,39 @@ public class JavassistPropertyStyleTest
 		assertEquals( "methodSuperBar", i.next().getName() );
 		assertEquals( "bar", i.next().getName() );
 		assertEquals( "foo", i.next().getName() );
+		assertEquals( "methodFoo", i.next().getName() );
+		assertEquals( "methodBar", i.next().getName() );
+		assertEquals( "methodBaz", i.next().getName() );
+		assertFalse( i.hasNext() );
+	}
+
+	public void testSupportPublicFields() {
+
+		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig() );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof LinkedHashMap<?, ?> );
+
+		Iterator<Property> i = properties.values().iterator();
+		assertEquals( "superBar", i.next().getName() );
+		assertEquals( "superFoo", i.next().getName() );
+		assertEquals( "methodSuperFoo", i.next().getName() );
+		assertEquals( "methodSuperBar", i.next().getName() );
+		assertEquals( "bar", i.next().getName() );
+		assertEquals( "foo", i.next().getName() );
+		assertEquals( "methodFoo", i.next().getName() );
+		assertEquals( "methodBar", i.next().getName() );
+		assertEquals( "methodBaz", i.next().getName() );
+		assertFalse( i.hasNext() );
+
+		propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ));
+		properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof LinkedHashMap<?, ?> );
+
+		i = properties.values().iterator();
+		assertEquals( "methodSuperFoo", i.next().getName() );
+		assertEquals( "methodSuperBar", i.next().getName() );
 		assertEquals( "methodFoo", i.next().getName() );
 		assertEquals( "methodBar", i.next().getName() );
 		assertEquals( "methodBaz", i.next().getName() );

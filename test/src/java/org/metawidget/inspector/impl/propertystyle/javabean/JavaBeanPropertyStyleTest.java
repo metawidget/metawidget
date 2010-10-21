@@ -102,7 +102,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testSupportPublicFields() {
 
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig() );
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );

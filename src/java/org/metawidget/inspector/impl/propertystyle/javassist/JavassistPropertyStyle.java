@@ -28,6 +28,7 @@ import javassist.bytecode.MethodInfo;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -75,6 +76,20 @@ import org.metawidget.util.CollectionUtils;
 
 public class JavassistPropertyStyle
 	extends JavaBeanPropertyStyle {
+
+	//
+	// Constructor
+	//
+
+	public JavassistPropertyStyle() {
+
+		super();
+	}
+
+	public JavassistPropertyStyle( JavaBeanPropertyStyleConfig config ) {
+
+		super( config );
+	}
 
 	//
 	// Protected methods
