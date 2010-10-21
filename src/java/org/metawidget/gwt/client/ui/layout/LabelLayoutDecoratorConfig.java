@@ -107,4 +107,14 @@ public class LabelLayoutDecoratorConfig
 
 		return mStyleName;
 	}
+
+	/**
+	 * Exposed for unit tests.
+	 */
+
+	@Override
+	protected Layout<Widget, Panel, GwtMetawidget> getLayout() {
+
+		return super.getLayout();
+	}
 }

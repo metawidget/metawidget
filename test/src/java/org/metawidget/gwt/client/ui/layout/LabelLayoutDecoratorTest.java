@@ -16,10 +16,6 @@
 
 package org.metawidget.gwt.client.ui.layout;
 
-import java.lang.reflect.Method;
-
-import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 /**
@@ -39,8 +35,7 @@ public class LabelLayoutDecoratorTest
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testConfig()
-		throws Exception {
+	public void testConfig() {
 
 		LabelLayoutDecoratorConfig config1 = new LabelLayoutDecoratorConfig();
 		LabelLayoutDecoratorConfig config2 = new LabelLayoutDecoratorConfig();
@@ -70,10 +65,7 @@ public class LabelLayoutDecoratorTest
 		FlexTableLayout delegate = new FlexTableLayout();
 
 		config1.setLayout( delegate );
-
-		Method getLayout = LayoutDecoratorConfig.class.getDeclaredMethod( "getLayout" );
-		getLayout.setAccessible( true );
-		assertTrue( delegate == getLayout.invoke( config1 ));
+		assertTrue( delegate == config1.getLayout() );
 		assertFalse( config1.equals( config2 ) );
 
 		config2.setLayout( delegate );
