@@ -66,6 +66,7 @@ public class SwingMetawidgetTests
 		suite.addTestSuite( SeparatorLayoutDecoratorTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
+		suite.addTestSuite( SwingCollectionsTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
 		suite.addTestSuite( SwingXWidgetBuilderTest.class );
 		suite.addTestSuite( SwingWidgetBuilderTest.class );

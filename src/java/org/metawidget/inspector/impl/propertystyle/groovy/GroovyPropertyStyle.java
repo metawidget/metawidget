@@ -197,9 +197,7 @@ public class GroovyPropertyStyle
 		extends BaseProperty {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private MetaBeanProperty	mProperty;
@@ -211,9 +209,7 @@ public class GroovyPropertyStyle
 		private Method				mSetterMethod;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public GroovyProperty( MetaBeanProperty property, Class<?> javaClass ) {
@@ -246,9 +242,7 @@ public class GroovyPropertyStyle
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public boolean isReadable() {

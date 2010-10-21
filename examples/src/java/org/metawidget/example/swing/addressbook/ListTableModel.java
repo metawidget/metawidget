@@ -16,12 +16,12 @@
 
 package org.metawidget.example.swing.addressbook;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -144,19 +144,7 @@ public class ListTableModel<T extends Comparable<T>>
 			return null;
 		}
 
-		try {
-			Method methodRead;
-
-			try {
-				methodRead = mClass.getMethod( "get" + column );
-			} catch ( NoSuchMethodException e ) {
-				methodRead = mClass.getMethod( "is" + column );
-			}
-
-			return methodRead.getReturnType();
-		} catch ( Exception e ) {
-			throw new RuntimeException( e );
-		}
+		return ClassUtils.getReadMethod( mClass, column ).getReturnType();
 	}
 
 	public T getValueAt( int rowIndex ) {
@@ -174,7 +162,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 		// Sanity check
 
-		if ( columnIndex >= mColumns.length ) {
+		if ( columnIndex >= getColumnCount() ) {
 			return null;
 		}
 
@@ -188,22 +176,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 		// Inspect it
 
-		String column = getColumnName( columnIndex );
-		Class<?> clazz = t.getClass();
-
-		try {
-			Method methodRead;
-
-			try {
-				methodRead = clazz.getMethod( "get" + column );
-			} catch ( NoSuchMethodException e ) {
-				methodRead = clazz.getMethod( "is" + column );
-			}
-
-			return methodRead.invoke( t );
-		} catch ( Exception e ) {
-			throw new RuntimeException( e );
-		}
+		return ClassUtils.getProperty( t, getColumnName( columnIndex ) );
 	}
 
 	@Override
@@ -211,7 +184,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 		// Sanity check
 
-		if ( columnIndex >= mColumns.length ) {
+		if ( columnIndex >= getColumnCount() ) {
 			return;
 		}
 
@@ -240,22 +213,6 @@ public class ListTableModel<T extends Comparable<T>>
 
 		// Update it
 
-		String column = getColumnName( columnIndex );
-		Class<?> clazz = t.getClass();
-
-		try {
-			Method methodRead;
-
-			try {
-				methodRead = clazz.getMethod( "get" + column );
-			} catch ( NoSuchMethodException e ) {
-				methodRead = clazz.getMethod( "is" + column );
-			}
-
-			Method methodWrite = clazz.getMethod( "set" + column, methodRead.getReturnType() );
-			methodWrite.invoke( t, value );
-		} catch ( Exception e ) {
-			throw new RuntimeException( e );
-		}
+		ClassUtils.setProperty( t, getColumnName( columnIndex ), value );
 	}
 }
