@@ -177,7 +177,9 @@ public class AllWidgetsActivity
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgets().getNestedTextbox2() ), "readOnlyNestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgetsDontExpand() ), "nestedWidgetsDontExpand" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgetsDontExpand() ), "readOnlyNestedWidgetsDontExpand" );
-		metawidget.setValue( mFormat.format( mAllWidgets.getDate() ), "date" );
+		synchronized( mFormat ) {
+			metawidget.setValue( mFormat.format( mAllWidgets.getDate() ), "date" );
+		}
 		metawidget.setValue( mAllWidgets.getReadOnly(), "readOnly" );
 	}
 

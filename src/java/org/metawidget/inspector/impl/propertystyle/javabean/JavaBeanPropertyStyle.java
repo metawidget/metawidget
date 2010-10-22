@@ -389,7 +389,11 @@ public class JavaBeanPropertyStyle
 		// {1} = DateOfBirth, Surname
 
 		String[] arguments = new String[] { propertyName, StringUtils.uppercaseFirstLetter( propertyName ) };
-		String fieldName = mPrivateFieldConvention.format( arguments, new StringBuffer(), null ).toString();
+		String fieldName;
+
+		synchronized( mPrivateFieldConvention ) {
+			fieldName = mPrivateFieldConvention.format( arguments, new StringBuffer(), null ).toString();
+		}
 
 		// Go looking for such a field, traversing the superclass heirarchy as necessary
 
