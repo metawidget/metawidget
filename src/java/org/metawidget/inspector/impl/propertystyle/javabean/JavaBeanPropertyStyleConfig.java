@@ -42,8 +42,6 @@ public class JavaBeanPropertyStyleConfig
 	// Public methods
 	//
 
-	// TODO: getters should be protected?
-
 	/**
 	 * Sets whether to recognize public fields as properties. True by default.
 	 *
