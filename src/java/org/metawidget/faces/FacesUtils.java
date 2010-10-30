@@ -151,6 +151,23 @@ public final class FacesUtils {
 		}
 	}
 
+	/**
+	 * @return	true if the JSF version is 2 or above, false otherwise
+	 */
+
+	public static boolean isJsf2() {
+
+		try {
+
+			Class.forName( "javax.faces.event.PreRenderViewEvent" );
+			return true;
+
+		} catch ( ClassNotFoundException e ) {
+
+			return false;
+		}
+	}
+
 	//
 	// Private statics
 	//

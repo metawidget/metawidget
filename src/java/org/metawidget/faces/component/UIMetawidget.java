@@ -176,25 +176,21 @@ public abstract class UIMetawidget
 
 		if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
 
-			// Forcibly disabled?
+			// Forcibly disabled
 
 			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
 
+		} else if ( FacesUtils.isJsf2() ) {
+
+			// Supported
+
+			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
+
 		} else {
 
-			try {
+			// JSF 1.x
 
-				// Supported!
-
-				Class.forName( "javax.faces.event.PreRenderViewEvent" );
-				mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
-
-			} catch ( ClassNotFoundException e ) {
-
-				// JSF 1.x?
-
-				mBuildWidgetsTrigger = new EncodeBeginSupport( this );
-			}
+			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
 		}
 	}
 
