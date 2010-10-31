@@ -38,7 +38,7 @@ public @interface UiFacesAjax {
 	String event();
 
 	/**
-	 * An EL expression for the action (if any), of the form <code>#{...}</code>.
+	 * An EL expression for the action (also called listener) of the format <code>#{...}</code>.
 	 */
 
 	String action() default "";

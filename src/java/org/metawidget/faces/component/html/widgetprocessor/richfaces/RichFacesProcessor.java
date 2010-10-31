@@ -74,6 +74,8 @@ public class RichFacesProcessor
 
 			ajaxSupport.setReRender( metawidget.getId() );
 
+			// Action
+
 			String ajaxAction = attributes.get( FACES_AJAX_ACTION );
 
 			if ( ajaxAction != null ) {
