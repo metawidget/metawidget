@@ -27,7 +27,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ELContext;
+import javax.el.ELException;
+import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
+import javax.el.FunctionMapper;
+import javax.el.MethodExpression;
+import javax.el.MethodInfo;
+import javax.el.ValueExpression;
+import javax.el.VariableMapper;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -84,6 +92,7 @@ import org.metawidget.faces.component.html.layout.PanelGroupLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.PanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.SimpleTogglePanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.TabPanelLayoutDecoratorTest;
+import org.metawidget.faces.component.html.widgetprocessor.AjaxProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.richfaces.RichFacesProcessorTest;
@@ -117,6 +126,7 @@ public class FacesMetawidgetTests
 	public static Test suite() {
 
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
+		suite.addTestSuite( AjaxProcessorTest.class );
 		suite.addTestSuite( CssStyleProcessorTest.class );
 		suite.addTestSuite( FacesUtilsTest.class );
 		suite.addTestSuite( HiddenFieldProcessorTest.class );
@@ -174,7 +184,7 @@ public class FacesMetawidgetTests
 			// We generally unit test JSF 1.x, and use webtest for JSF 2.x
 
 			@SuppressWarnings( "unchecked" )
-			Map<String,String> initParameterMap = getExternalContext().getInitParameterMap();
+			Map<String, String> initParameterMap = getExternalContext().getInitParameterMap();
 			initParameterMap.put( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT", "true" );
 		}
 
@@ -246,7 +256,74 @@ public class FacesMetawidgetTests
 				@Override
 				public ExpressionFactory getExpressionFactory() {
 
-					throw new NoSuchMethodError( "MockFacesContext mimics JSF 1.1" );
+					return new ExpressionFactory() {
+
+						@Override
+						public Object coerceToType( Object arg0, Class<?> arg1 )
+							throws ELException {
+
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public MethodExpression createMethodExpression( ELContext elContext, final String expression, Class<?> returnType, Class<?>[] parameters )
+							throws ELException, NullPointerException {
+
+							return new MethodExpression() {
+
+								@Override
+								public MethodInfo getMethodInfo( ELContext arg0 )
+									throws NullPointerException, javax.el.PropertyNotFoundException, javax.el.MethodNotFoundException, ELException {
+
+									throw new UnsupportedOperationException();
+								}
+
+								@Override
+								public Object invoke( ELContext arg0, Object[] arg1 )
+									throws NullPointerException, javax.el.PropertyNotFoundException, javax.el.MethodNotFoundException, ELException {
+
+									throw new UnsupportedOperationException();
+								}
+
+								@Override
+								public boolean equals( Object arg0 ) {
+
+									throw new UnsupportedOperationException();
+								}
+
+								@Override
+								public String getExpressionString() {
+
+									return expression;
+								}
+
+								@Override
+								public int hashCode() {
+
+									throw new UnsupportedOperationException();
+								}
+
+								@Override
+								public boolean isLiteralText() {
+
+									throw new UnsupportedOperationException();
+								}
+							};
+						}
+
+						@Override
+						public ValueExpression createValueExpression( Object arg0, Class<?> arg1 ) {
+
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public ValueExpression createValueExpression( ELContext elContext, String arg1, Class<?> arg2 )
+							throws NullPointerException, ELException {
+
+							throw new UnsupportedOperationException();
+						}
+					};
 				}
 
 				@Override
@@ -457,6 +534,31 @@ public class FacesMetawidgetTests
 		//
 
 		@Override
+		public ELContext getELContext() {
+
+			return new ELContext() {
+
+				@Override
+				public ELResolver getELResolver() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public FunctionMapper getFunctionMapper() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public VariableMapper getVariableMapper() {
+
+					throw new UnsupportedOperationException();
+				}
+			};
+		}
+
+		@Override
 		public void addMessage( String s, FacesMessage facesmessage ) {
 
 			throw new UnsupportedOperationException();
@@ -471,8 +573,7 @@ public class FacesMetawidgetTests
 		@Override
 		public ExternalContext getExternalContext() {
 
-			if ( mExternalContext == null )
-			{
+			if ( mExternalContext == null ) {
 				mExternalContext = new ExternalContext() {
 
 					//
