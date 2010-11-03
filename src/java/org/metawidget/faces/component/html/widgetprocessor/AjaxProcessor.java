@@ -98,7 +98,7 @@ public class AjaxProcessor
 			// generated (may even be randomly generated)
 
 			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getId() ) );
-			//ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );
+			ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );
 
 			// Listener
 
