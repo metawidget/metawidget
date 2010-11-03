@@ -18,11 +18,11 @@ package org.metawidget.faces.component.html.widgetprocessor;
 
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 
-import javax.el.ELContext;
 import javax.el.MethodExpression;
-import javax.el.MethodNotFoundException;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.AjaxBehavior;
@@ -36,11 +36,15 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * WidgetProcessor for JSF2 environments.
  * <p>
  * Adds <code>AjaxBehavior</code> (equivalent to <code>f:ajax</code>) to suit the inspected fields.
+ * Note that <code>f:ajax</code> is only supported under Facelets, as per section 10.4.1 of the JSF
+ * 2 specification: "The following additional tags [f:ajax] apply to the Facelet Core Tag Library
+ * <em>only</em>".
  *
  * @author Richard Kennard
  */
@@ -71,8 +75,21 @@ public class AjaxProcessor
 		String ajaxEvent = attributes.get( FACES_AJAX_EVENT );
 
 		if ( ajaxEvent != null ) {
+
+			ClientBehaviorHolder clientBehaviorHolder = (ClientBehaviorHolder) component;
+
+			// Sanity check
+
+			Collection<String> eventNames = clientBehaviorHolder.getEventNames();
+
+			if ( eventNames == null || !eventNames.contains( ajaxEvent ) ) {
+				throw WidgetProcessorException.newException( "'" + ajaxEvent + "' not a valid event for " + component.getClass() + ". Must be one of " + CollectionUtils.toString( eventNames ) );
+			}
+
+			// Add behaviour
+
 			AjaxBehavior ajaxBehaviour = new AjaxBehavior();
-			( (ClientBehaviorHolder) component ).addClientBehavior( ajaxEvent, ajaxBehaviour );
+			clientBehaviorHolder.addClientBehavior( ajaxEvent, ajaxBehaviour );
 
 			// Set reRender to the parent Metawidget level. This is not perfect, as there may be
 			// cases where we want the AJAX event to, say, update a different Metawidget - but it
@@ -80,7 +97,8 @@ public class AjaxProcessor
 			// specify the 'reRender' id, because in most cases that id will be dynamically
 			// generated (may even be randomly generated)
 
-			ajaxBehaviour.setRender( CollectionUtils.newArrayList( metawidget.getId() ) );
+			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getId() ) );
+			//ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );
 
 			// Listener
 
@@ -98,39 +116,48 @@ public class AjaxProcessor
 	// Inner class
 	//
 
+	/**
+	 * As per section 3.7.10.2 of the JSF 2 specification : "The method signature defined by the
+	 * listener interface must take a single parameter, an instance of the event class for which
+	 * this listener is being created"
+	 * <p>
+	 * Must be marked <code>Serializable</code> for StateSaving.
+	 */
+
 	static class AjaxBehaviorListenerImpl
-		implements AjaxBehaviorListener {
+		implements AjaxBehaviorListener, Serializable {
 
 		//
 		// Private members
 		//
 
-		MethodExpression	mZeroArgument;
+		MethodExpression	mListenerMethod;
 
-		MethodExpression	mSingleArgument;
+		//
+		// Constructor
+		//
+
+		public AjaxBehaviorListenerImpl() {
+
+			// Needed for StateSaving
+		}
+
+		public AjaxBehaviorListenerImpl( String listenerExpression ) {
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			Application application = context.getApplication();
+
+			mListenerMethod = application.getExpressionFactory().createMethodExpression( context.getELContext(), listenerExpression, Object.class, new Class[] { AjaxBehaviorEvent.class } );
+		}
 
 		//
 		// Public methods
 		//
 
-		public AjaxBehaviorListenerImpl( String listener ) {
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			Application application = context.getApplication();
-
-			mZeroArgument = application.getExpressionFactory().createMethodExpression( context.getELContext(), listener, Object.class, null );
-			mSingleArgument = application.getExpressionFactory().createMethodExpression( context.getELContext(), listener, Object.class, new Class[] { Object.class } );
-		}
-
 		public void processAjaxBehavior( AjaxBehaviorEvent event )
 			throws AbortProcessingException {
 
-			ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-			try {
-				mZeroArgument.invoke( elContext, new Object[] {} );
-			} catch ( MethodNotFoundException e ) {
-				mSingleArgument.invoke( elContext, new Object[] { event } );
-			}
+			mListenerMethod.invoke( FacesContext.getCurrentInstance().getELContext(), new Object[] { event } );
 		}
 	}
 }

@@ -1,0 +1,36 @@
+<project name="quirks-jsf2-test" default="test-all-jsf2">
+
+	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
+
+	<target name="test-all-jsf2" depends="wt.defineTasks">
+
+		<webtest name="test-ajax">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs" easyajax="true"/>
+			<steps>
+				<invoke url="${webtest.url}/${context.path}/ajax.jsf" />
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifySelectField name="form:ajaxQuirksSelect" value=""/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'jsf.ajax.request(')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>				
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
+
+				<setSelectField name="form:ajaxQuirksSelect" value="Hide"/>
+				
+				<!-- We couldn't seem to WebTest this properly looking at /html/body/form/table[1] and -->
+				<!-- beyond, and don't know why, so we just look at /html/body/form for now            -->
+				
+				<verifyXPath xpath="normalize-space(/html/body/form)" text="Select:HideShowLabel:"/>
+
+				<setSelectField name="form:ajaxQuirksSelect" value="Show"/>
+				<verifyXPath xpath="normalize-space(/html/body/form)" text="Select:HideShowCheckbox:Label:"/>
+
+				<setCheckbox name="form:ajaxQuirksCheckbox" checked="true"/>
+				<verifyXPath xpath="normalize-space(/html/body/form)" text="Select:HideShowCheckbox:Label:clicked"/>
+			</steps>
+		</webtest>		
+	</target>
+
+</project>

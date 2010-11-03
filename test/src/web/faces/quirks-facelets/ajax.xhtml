@@ -7,17 +7,13 @@
 
     <body>
 
-		<h1>Quirks Facelets ('this' test)</h1>
-				
-		<m:metawidget value="#{thisTest}"/>
-		
-		<hr/>
-		
-		<m:metawidget value="#{thisTest.me}"/>
-		
-		<hr/>
+		<h1>JSF2 AJAX Quirks</h1>
 
-		<m:metawidget value="#{thisTest.child.me}"/>
+		<h:messages/>
+		
+		<h:form id="form">
+			<m:metawidget value="#{ajaxQuirks}" config="metawidget-jsf2.xml"/>
+		</h:form>
 		
 	</body>	    
 </html>

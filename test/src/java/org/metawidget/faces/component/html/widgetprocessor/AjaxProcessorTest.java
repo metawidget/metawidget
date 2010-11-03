@@ -19,6 +19,7 @@ package org.metawidget.faces.component.html.widgetprocessor;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorListener;
 
 import junit.framework.TestCase;
 
@@ -39,6 +41,7 @@ import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetprocessor.AjaxProcessor.AjaxBehaviorListenerImpl;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * @author Richard Kennard
@@ -72,6 +75,20 @@ public class AjaxProcessorTest
 		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertTrue( ( (ClientBehaviorHolder) component ).getClientBehaviors().isEmpty() );
 
+		// Bad event?
+
+		attributes.put( FACES_AJAX_EVENT, "onclick" );
+
+		try {
+			processor.processWidget( component, PROPERTY, attributes, metawidget );
+			assertTrue( false );
+		} catch( WidgetProcessorException e ) {
+
+			// Should fail
+
+			assertEquals( "'onclick' not a valid event for class javax.faces.component.html.HtmlInputText. Must be one of blur,change,valueChange,click,dblclick,focus,keydown,keypress,keyup,mousedown,mousemove,mouseout,mouseover,mouseup,select", e.getMessage() );
+		}
+
 		// Ajax
 
 		attributes.put( FACES_AJAX_EVENT, "click" );
@@ -101,12 +118,12 @@ public class AjaxProcessorTest
 		assertEquals( CollectionUtils.newArrayList( "metawidget-id" ), ajaxBehaviour.getRender() );
 
 		@SuppressWarnings( "unchecked" )
-		List<AjaxBehaviorListenerImpl> listeners = (List<AjaxBehaviorListenerImpl>) listenersField.get( ajaxBehaviour );
+		List<AjaxBehaviorListener> listeners = (List<AjaxBehaviorListener>) listenersField.get( ajaxBehaviour );
 		assertTrue( listeners.size() == 1 );
 
-		AjaxBehaviorListenerImpl ajaxBehaviorListenerImpl = listeners.get( 0 );
-		assertEquals( "#{bar}", ajaxBehaviorListenerImpl.mZeroArgument.getExpressionString() );
-		assertEquals( "#{bar}", ajaxBehaviorListenerImpl.mSingleArgument.getExpressionString() );
+		AjaxBehaviorListener ajaxBehaviorListener = listeners.get( 0 );
+		assertTrue( ajaxBehaviorListener instanceof Serializable );
+		assertEquals( "#{bar}", ((AjaxBehaviorListenerImpl) ajaxBehaviorListener).mListenerMethod.getExpressionString() );
 	}
 
 	//

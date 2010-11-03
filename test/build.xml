@@ -1544,6 +1544,16 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-Dcontext.path=quirks-myfaces-facelets2"/>
+			<arg line="-file quirks-jsf2-test.xml"/>
+		</java>
+		
 		<antcall target="test-web-stop-tomcat"/> -->
 
 		<!-- MyFaces 2.0 with Facelets -->
@@ -1594,6 +1604,16 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-Dcontext.path=quirks-myfaces-facelets2"/>
+			<arg line="-file quirks-jsf2-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-tomcat"/>
 
 		<!-- ICEfaces -->

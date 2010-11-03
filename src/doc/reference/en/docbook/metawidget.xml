@@ -9837,6 +9837,16 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 			<section id="section-widgetprocessors-web-faces">
 				<title>JSF WidgetProcessors</title>
 			
+				<section id="section-widgetprocessors-web-faces-ajax">
+					<title>AjaxProcessor</title>
+					
+					<para>
+						<classname>AjaxProcessor</classname> adds a JSF 2.0 <classname>AjaxBehavior</classname> to any
+						widgets with a <parameter>faces-ajax-action</parameter> attribute.
+					</para>
+					
+				</section>
+
 				<section id="section-widgetprocessors-web-faces-css">
 					<title>CssStyleProcessor</title>
 					
@@ -9915,7 +9925,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 					<para>
 						<classname>RichFacesProcessor</classname> adds a RichFaces AJAX <classname>Support</classname> widget to any
-						widgets with a <parameter>faces-ajax-action</parameter> attribute. Such AJAX functionality is standard in JSF 2.0.
+						widgets with a <parameter>faces-ajax-action</parameter> attribute (for JSF 2.0, see also <classname>AjaxProcessor</classname>).
 					</para>
 					
 				</section>

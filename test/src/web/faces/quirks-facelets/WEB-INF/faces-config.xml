@@ -18,6 +18,12 @@
 	</managed-bean>
 	
 	<managed-bean>
+		<managed-bean-name>ajaxQuirks</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.AjaxQuirks</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
 		<managed-bean-name>thisTest</managed-bean-name>
 		<managed-bean-class>org.metawidget.faces.quirks.model.FacesThisTest</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>

@@ -1,8 +1,10 @@
 <project name="quirks-richfaces-test" default="test-all-richfaces">
 
-	<import file="quirks-test.xml" />
+	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all-richfaces" depends="test-all">
+	<target name="test-all-richfaces" depends="wt.defineTasks">
 		<webtest name="test-richfaces">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
