@@ -167,6 +167,7 @@
 			<classpath>
 				<fileset dir="${relative.dir}/examples/lib">
 					<exclude name="myfaces-*.jar"/>
+					<exclude name="jsf-*.jar"/>
 				</fileset>				
 				<fileset dir="${relative.dir}/lib">
 					<exclude name="android.jar"/>

@@ -314,14 +314,14 @@ public class FacesMetawidgetTests
 						@Override
 						public ValueExpression createValueExpression( Object arg0, Class<?> arg1 ) {
 
-							throw new UnsupportedOperationException();
+							throw new NoSuchMethodError( "MockFacesContext mimics JSF 1.1" );
 						}
 
 						@Override
 						public ValueExpression createValueExpression( ELContext elContext, String arg1, Class<?> arg2 )
 							throws NullPointerException, ELException {
 
-							throw new UnsupportedOperationException();
+							throw new NoSuchMethodError( "MockFacesContext mimics JSF 1.1" );
 						}
 					};
 				}
