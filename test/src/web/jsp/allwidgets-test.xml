@@ -219,6 +219,9 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input/@type" text="submit"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input/@name" text="allWidgets.doAction"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input/@value" text="Action (i18n)"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input/@disabled"/>
+				</not>
 
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="34"/>
 
@@ -321,7 +324,11 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[19]/td[1]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[19]/th[2]" text="???mystery???:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[19]/td[3]/input[@type='hidden']"/>
-				<verifyXPath xpath="count(/html/body/table/tbody/tr)" text="19"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[20]/th[1]" text=""/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[20]/td[1]/input/@type" text="submit"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[20]/td[1]/input/@value" text="Action (i18n)"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[20]/td[1]/input/@disabled" text="disabled"/>
+				<verifyXPath xpath="count(/html/body/table/tbody/tr)" text="20"/>
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
 				

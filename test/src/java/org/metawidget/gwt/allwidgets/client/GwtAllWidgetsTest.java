@@ -363,6 +363,7 @@ public class GwtAllWidgetsTest
 														assertEquals( "", flexTable.getText( 19, 3 ) );
 														Button doActionButton = (Button) flexTable.getWidget( 19, 4 );
 														assertEquals( "Do action", doActionButton.getText() );
+														assertTrue( doActionButton.isEnabled() );
 														try {
 															fireClickEvent( doActionButton );
 															assertTrue( false );
@@ -508,8 +509,13 @@ public class GwtAllWidgetsTest
 																						assertEquals( "Read only (i18n):", readOnlyFlexTable.getText( 62, 0 ) );
 																						assertEquals( "Read Only", ( (Label) readOnlyFlexTable.getWidget( 63, 0 ) ).getText() );
 
-																						assertEquals( "Save", readOnlyFlexTable.getText( 64, 0 ) );
-																						assertTrue( 65 == readOnlyFlexTable.getRowCount() );
+																						assertTrue( 0 == readOnlyFlexTable.getCellCount( 64 ) );
+																						Button readOnlyDoActionButton = (Button) readOnlyFlexTable.getWidget( 65, 0 );
+																						assertEquals( "Action (i18n)", readOnlyDoActionButton.getText() );
+																						assertTrue( !readOnlyDoActionButton.isEnabled() );
+
+																						assertEquals( "Save", readOnlyFlexTable.getText( 66, 0 ) );
+																						assertTrue( 67 == readOnlyFlexTable.getRowCount() );
 
 																						// Test
 																						// maximum
@@ -623,7 +629,8 @@ public class GwtAllWidgetsTest
 			"date": "Date (i18n)",
 			"sectionBreak": "Section Break (i18n)",
 			"readOnly": "Read only (i18n)",
-			"collection": "Collection (i18n)"
+			"collection": "Collection (i18n)",
+			"doAction": "Action (i18n)"
 		};
 	}-*/;
 }
