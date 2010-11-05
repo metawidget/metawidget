@@ -366,6 +366,7 @@ public class SwtAllWidgetsTest
 		assertTrue( metawidget.getChildren()[66] instanceof Button );
 		Button button = ( (Button) metawidget.getChildren()[66] );
 		assertEquals( "Do action", button.getText() );
+		assertTrue( button.isEnabled() );
 		try {
 			button.notifyListeners( SWT.Selection, null );
 			assertTrue( false );
@@ -475,8 +476,10 @@ public class SwtAllWidgetsTest
 		assertEquals( "Section Break", ( (Label) ( (Composite) metawidget.getChildren()[61] ).getChildren()[0] ).getText() );
 		assertEquals( "Read only:", ( (Label) metawidget.getChildren()[62] ).getText() );
 		assertEquals( "Read Only", ( (Label) metawidget.getChildren()[63] ).getText() );
+		assertEquals( "Do action", ( (Button) metawidget.getChildren()[66] ).getText() );
+		assertTrue( !( (Button) metawidget.getChildren()[66] ).isEnabled() );
 
-		assertTrue( metawidget.getChildren().length == 67 );
+		assertEquals( 67, metawidget.getChildren().length );
 
 		// All done
 

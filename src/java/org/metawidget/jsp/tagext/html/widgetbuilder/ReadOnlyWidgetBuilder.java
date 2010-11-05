@@ -67,10 +67,10 @@ public class ReadOnlyWidgetBuilder
 			return new HtmlStubTag();
 		}
 
-		// Action (read-only actions ignored)
+		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new HtmlStubTag();
+			return createReadOnlyButton( attributes, metawidget );
 		}
 
 		// Masked (return an empty String, so that we DO still render a label)
@@ -150,6 +150,8 @@ public class ReadOnlyWidgetBuilder
 	// Protected methods
 	//
 
+	// REFACTOR: rename this to createReadOnlyLabelTag
+
 	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		String value = HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget );
@@ -172,6 +174,21 @@ public class ReadOnlyWidgetBuilder
 		}
 
 		return new LiteralTag( value );
+	}
+
+	protected Tag createReadOnlyButton( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
+		// (use StringBuffer for J2SE 1.4 compatibility)
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<input type=\"submit\" value=\"" );
+		buffer.append( metawidget.getLabelString( attributes ) );
+		buffer.append( "\"" );
+		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		buffer.append( " disabled=\"disabled\"/>" );
+
+		return new LiteralTag( buffer.toString() );
 	}
 
 	//

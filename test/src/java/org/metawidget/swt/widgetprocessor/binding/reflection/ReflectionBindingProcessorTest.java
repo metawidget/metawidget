@@ -17,6 +17,9 @@
 package org.metawidget.swt.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
@@ -30,6 +33,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
@@ -78,7 +82,8 @@ public class ReflectionBindingProcessorTest
 		// Null object
 
 		Button button = new Button( metawidget, SWT.NONE );
-		binding.processWidget( button, ACTION, null, null );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		binding.processWidget( button, ACTION, attributes, null );
 
 		// Null nested object
 
@@ -87,7 +92,7 @@ public class ReflectionBindingProcessorTest
 
 		metawidget.setToInspect( foo );
 		metawidget.setInspectionPath( "foo/nestedFoo/doAction" );
-		binding.processWidget( button, ACTION, null, metawidget );
+		binding.processWidget( button, ACTION, attributes, metawidget );
 	}
 
 	public void testBadBinding() {

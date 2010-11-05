@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 
@@ -79,7 +80,18 @@ public class ReadOnlyWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return application.createComponent( "org.metawidget.Stub" );
+
+			// (no guarantee we can disable a custom FACES_COMPONENT)
+
+			if ( attributes.get( FACES_COMPONENT ) != null ) {
+				return null;
+			}
+
+			HtmlCommandButton button = (HtmlCommandButton) application.createComponent( "javax.faces.HtmlCommandButton" );
+			button.setDisabled( true );
+			button.setValue( metawidget.getLabelString( attributes ) );
+
+			return button;
 		}
 
 		// Lookups

@@ -27,6 +27,7 @@ import org.apache.struts.taglib.html.HiddenTag;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
@@ -76,5 +77,11 @@ public class ReadOnlyWidgetBuilder
 		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
+	}
+
+	@Override
+	protected Tag createReadOnlyButton( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
+		return new HtmlStubTag();
 	}
 }

@@ -28,6 +28,7 @@ import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -94,7 +95,10 @@ public class ReadOnlyWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new Stub();
+			Button button = new Button( metawidget.getLabelString( attributes ) );
+			button.setEnabled( false );
+
+			return button;
 		}
 
 		// Masked (return a Panel, so that we DO still render a label)

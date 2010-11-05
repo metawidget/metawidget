@@ -452,6 +452,7 @@ public class SwingAllWidgetsTest
 		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).fill );
 		JButton button = ( (JButton) metawidget.getComponent( 63 ) );
 		assertEquals( "Do action", button.getText() );
+		assertTrue( button.isEnabled() );
 		try {
 			button.doClick();
 			assertTrue( false );
@@ -561,8 +562,10 @@ public class SwingAllWidgetsTest
 		assertEquals( "Section Break", ( (JLabel) ( (JPanel) metawidget.getComponent( 60 ) ).getComponent( 0 ) ).getText() );
 		assertEquals( "Read only:", ( (JLabel) metawidget.getComponent( 61 ) ).getText() );
 		assertEquals( "Read Only", ( (JLabel) metawidget.getComponent( 62 ) ).getText() );
+		assertEquals( "Do action", ( (JButton) metawidget.getComponent( 63 ) ).getText() );
+		assertTrue( !( (JButton) metawidget.getComponent( 63 ) ).isEnabled() );
 
-		assertTrue( metawidget.getComponentCount() == 63 );
+		assertTrue( metawidget.getComponentCount() == 64 );
 
 		// Test Binding.onStartBuild clears the state
 

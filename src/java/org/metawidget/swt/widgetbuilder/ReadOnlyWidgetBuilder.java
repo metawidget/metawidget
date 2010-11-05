@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -77,7 +78,11 @@ public class ReadOnlyWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new Stub( metawidget.getCurrentLayoutComposite(), SWT.NONE );
+			Button button = new Button( metawidget.getCurrentLayoutComposite(), SWT.NONE );
+			button.setText( metawidget.getLabelString( attributes ) );
+			button.setEnabled( false );
+
+			return button;
 		}
 
 		// Masked (return a Composite, so that we DO still render a label)

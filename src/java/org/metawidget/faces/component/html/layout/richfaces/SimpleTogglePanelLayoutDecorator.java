@@ -85,6 +85,14 @@ public class SimpleTogglePanelLayoutDecorator
 		panel.setSwitchType( mSwitchType );
 		panel.setOpened( isOpened( attributes ) );
 
+		// If the panel is set to 'ajax' switchType, safest to re-render the whole Metawidget, from
+		// the top-level, in case some manually created components
+		// (COMPONENT_ATTRIBUTE_NOT_RECREATABLE) have been moved from the top-level Metawidget
+		// inside our panel. This stops 'duplicate id' problems. If not set to 'ajax', setReRender
+		// has no effect
+
+		panel.setReRender( metawidget.getId() );
+
 		// Section name (possibly localized)
 
 		String section = getState( container, metawidget ).currentSection;

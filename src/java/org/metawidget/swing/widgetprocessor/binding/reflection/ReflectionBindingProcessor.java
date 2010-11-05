@@ -29,6 +29,7 @@ import javax.swing.JComponent;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -53,7 +54,7 @@ public class ReflectionBindingProcessor
 	@SuppressWarnings( "serial" )
 	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
-		// Only bind to Actions
+		// Only bind to non-read-only Actions
 
 		if ( !ACTION.equals( elementName ) ) {
 			return component;
@@ -65,6 +66,10 @@ public class ReflectionBindingProcessor
 
 		if ( !( component instanceof AbstractButton ) ) {
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
+		}
+
+		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+			return component;
 		}
 
 		if ( metawidget == null ) {

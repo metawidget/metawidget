@@ -18,6 +18,8 @@ package org.metawidget.swing.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -29,6 +31,7 @@ import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
@@ -77,7 +80,8 @@ public class ReflectionBindingProcessorTest
 		// Null object
 
 		JButton button = new JButton();
-		binding.processWidget( button, ACTION, null, null );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		binding.processWidget( button, ACTION, attributes, null );
 
 		assertEquals( button.getAction(), null );
 
@@ -88,7 +92,7 @@ public class ReflectionBindingProcessorTest
 
 		metawidget.setToInspect( foo );
 		metawidget.setPath( "foo/nestedFoo/doAction" );
-		binding.processWidget( button, ACTION, null, metawidget );
+		binding.processWidget( button, ACTION, attributes, metawidget );
 
 		assertEquals( button.getAction(), null );
 	}

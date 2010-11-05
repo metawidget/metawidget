@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Control;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -51,7 +52,7 @@ public class ReflectionBindingProcessor
 	@Override
 	public Control processWidget( Control component, String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
 
-		// Only bind to Actions
+		// Only bind to non-read-only Actions
 
 		if ( !ACTION.equals( elementName ) ) {
 			return component;
@@ -63,6 +64,10 @@ public class ReflectionBindingProcessor
 
 		if ( !( component instanceof Button ) ) {
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to Buttons" );
+		}
+
+		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+			return component;
 		}
 
 		if ( metawidget == null ) {

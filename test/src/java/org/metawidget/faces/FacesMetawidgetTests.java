@@ -87,6 +87,7 @@ import junit.framework.TestSuite;
 
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.layout.OutputTextLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.PanelGroupLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.PanelLayoutDecoratorTest;
@@ -946,6 +947,10 @@ public class FacesMetawidgetTests
 
 			if ( "javax.faces.SelectItem".equals( componentName ) ) {
 				return new UISelectItem();
+			}
+
+			if ( "org.metawidget.HtmlMetawidget".equals( componentName ) ) {
+				return new HtmlMetawidget();
 			}
 
 			if ( "org.metawidget.Stub".equals( componentName ) ) {

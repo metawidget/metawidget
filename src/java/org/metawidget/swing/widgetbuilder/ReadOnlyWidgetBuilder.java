@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -80,7 +81,10 @@ public class ReadOnlyWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new Stub();
+			JButton button = new JButton( metawidget.getLabelString( attributes ) );
+			button.setEnabled( false );
+
+			return button;
 		}
 
 		// Masked (return a JPanel, so that we DO still render a label)

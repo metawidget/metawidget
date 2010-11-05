@@ -144,33 +144,36 @@ public class SimpleBindingProcessor
 				throw new RuntimeException( "SimpleBindingProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 			}
 
-			// Bind the action
+			if ( ((FocusWidget) widget).isEnabled() ) {
 
-			FocusWidget focusWidget = (FocusWidget) widget;
-			focusWidget.addClickHandler( new ClickHandler() {
+				// Bind the action
 
-				public void onClick( ClickEvent event ) {
+				FocusWidget focusWidget = (FocusWidget) widget;
+				focusWidget.addClickHandler( new ClickHandler() {
 
-					// Use the adapter...
+					public void onClick( ClickEvent event ) {
 
-					Object toInvokeOn = metawidget.getToInspect();
+						// Use the adapter...
 
-					if ( toInvokeOn == null ) {
-						return;
+						Object toInvokeOn = metawidget.getToInspect();
+
+						if ( toInvokeOn == null ) {
+							return;
+						}
+
+						Class<?> classToBindTo = toInvokeOn.getClass();
+						SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
+
+						if ( adapter == null ) {
+							throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
+						}
+
+						// ...to invoke the action
+
+						adapter.invokeAction( toInvokeOn, names );
 					}
-
-					Class<?> classToBindTo = toInvokeOn.getClass();
-					SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
-
-					if ( adapter == null ) {
-						throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
-					}
-
-					// ...to invoke the action
-
-					adapter.invokeAction( toInvokeOn, names );
-				}
-			} );
+				} );
+			}
 
 			return widget;
 		}
