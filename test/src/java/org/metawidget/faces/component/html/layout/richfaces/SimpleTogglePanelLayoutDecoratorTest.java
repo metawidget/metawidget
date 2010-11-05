@@ -58,18 +58,17 @@ public class SimpleTogglePanelLayoutDecoratorTest
 		} );
 	}
 
-	public void testSetReRender()
+	public void testSectionTitle()
 		throws Exception {
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.setId( "fooId" );
 
 		SimpleTogglePanelLayoutDecorator decorator = new SimpleTogglePanelLayoutDecorator( new SimpleTogglePanelLayoutDecoratorConfig().setLayout( new SimpleLayout() ) );
 		createState( metawidget, metawidget ).currentSection = "Foo";
 		HtmlMetawidget nestedMetawidget = (HtmlMetawidget) decorator.createNewSectionWidget( null, null, metawidget, metawidget );
 
 		HtmlSimpleTogglePanel panel = (HtmlSimpleTogglePanel) nestedMetawidget.getParent();
-		assertEquals( "fooId", panel.getReRender() );
+		assertEquals( "Foo", panel.getLabel() );
 	}
 
 	//

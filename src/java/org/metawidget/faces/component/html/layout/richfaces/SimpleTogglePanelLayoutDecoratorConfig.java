@@ -43,10 +43,17 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 
 	/**
 	 * Default to 'client' switch type (even though the RichFaces default is 'server') because
-	 * although 'client' and 'ajax' work fine, 'server' can be problematic.
+	 * 'ajax' and 'server' can be problematic.
 	 * <p>
-	 * The problem is the SimpleTogglePanel loses state if recreated and so never closes. This is
-	 * much like the ICEfaces SelectInputDate component. However, if we try setting
+	 * For 'ajax' the fact that only the SimpleTogglePanel, not the whole page, gets re-rendered can
+	 * lead to 'duplicate id' problems if a manually created component
+	 * (COMPONENT_ATTRIBUTE_NOT_RECREATABLE) has been moved into the panel. Because only the panel
+	 * is being re-rendered, there is no chance to remove duplicates. This could be solved by
+	 * <code>HtmlSimpleTogglePanel.setReRender( metawidget.getId() )</code>. It may also be solved
+	 * using JSF 2 SystemEvents.
+	 * <p>
+	 * For 'server' the problem is the SimpleTogglePanel loses state if recreated and so never
+	 * closes. This is much like the ICEfaces SelectInputDate component. However, if we try setting
 	 * COMPONENT_ATTRIBUTE_NOT_RECREATABLE, as we do for SelectInputDate, then everything
 	 * <em>inside</em> the panel is also non-recreatable - which really kills our dynamism. This
 	 * could be solved by providing a hook for SimpleTogglePanel to save its open/close state
@@ -100,6 +107,8 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	}
 
 	/**
+	 * Sets <code>HtmlSimpleTogglePanel.setSwitchType</code>.
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
