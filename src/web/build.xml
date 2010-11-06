@@ -3,8 +3,8 @@
 	<!-- Properties -->
 	
 	<property file="build.properties"/>
-	<property file="${relative.dir}/test/build.properties"/>
-	<import file="${relative.dir}/test/build.xml" />
+	<property file="${relative.test.dir}/test/build.properties"/>
+	<import file="${relative.test.dir}/test/build.xml" />
 	<property file="${relative.dir}/src/doc/build.properties"/>
 	<import file="${relative.dir}/src/doc/build.xml" />
 
@@ -94,7 +94,7 @@
 			</fileset>
 		</jar>
 		
-		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="${relative.dir}/examples/lib/Pack200Task.jar"/>
+		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="${relative.examples.dir}/examples/lib/Pack200Task.jar"/>
 		<pack200 repack="true" src="${relative.dir}/${build.dir}/website/console-applet.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar"/>		
 		<pack200 repack="true" src="${relative.dir}/${build.dir}/metawidget.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar"/>		
 		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
@@ -105,7 +105,7 @@
 			</fileset>
 		</copy>		
 
-		<signjar alias="Metawidget" keystore="${relative.dir}/examples/src/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
+		<signjar alias="Metawidget" keystore="${relative.examples.dir}/examples/src/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
 			<path>
 				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
 					<include name="console-applet.jar*"/>
@@ -157,7 +157,7 @@
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>
 				<fileset dir="${relative.dir}/lib"/>
-				<fileset dir="${relative.dir}/test/lib">
+				<fileset dir="${relative.test.dir}/test/lib">
 					<include name="emma.jar"/>
 				</fileset>
 			</classpath>
@@ -179,7 +179,7 @@
 
 		<copy todir="${relative.dir}/${build.dir}/lib" flatten="true" includeemptydirs="false">
 			<fileset dir="${relative.dir}/lib"/>
-			<fileset dir="${relative.dir}/examples/src/web">
+			<fileset dir="${relative.examples.dir}/examples/src/web">
 				<include name="**/lib/**"/>
 			</fileset>
 		</copy>
@@ -293,14 +293,14 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file '${relative.dir}/test/src/web/examples/swing/console-test.xml'"/>
+			<arg line="-file '${relative.test.dir}/test/src/web/examples/swing/console-test.xml'"/>
 		</java>
 
 		<!-- Test HTML links
 
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/site">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/site">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>

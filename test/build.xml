@@ -3,7 +3,7 @@
 	<!-- Properties -->
 	
 	<property file="build.properties"/>
-	<property file="${relative.dir}/examples/build.properties"/>
+	<property file="${relative.examples.dir}/examples/build.properties"/>
 	<import file="../examples/build.xml" />
 
 	<!-- Init -->
@@ -22,7 +22,7 @@
 		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
 		<!-- end up as examples in the finished distribution                      -->
 		
-		<javac sourcepath="" srcdir="${relative.dir}/examples/src/java" destdir="${relative.dir}/${build.dir}/tutorial-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+		<javac sourcepath="" srcdir="${relative.examples.dir}/examples/src/java" destdir="${relative.dir}/${build.dir}/tutorial-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
@@ -32,7 +32,7 @@
 
 		<!-- JDK 1.4 test files -->
 		
-		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+		<javac sourcepath="" srcdir="${relative.test.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/android/allwidgets/**"/>
 			<include name="org/metawidget/faces/allwidgets/**"/>
 			<include name="org/metawidget/jsp/quirks/**"/>
@@ -51,7 +51,7 @@
 		</javac>
 		
 		<copy todir="${relative.dir}/${build.dir}/test-classes">
-			<fileset dir="${relative.dir}/test/src/java">
+			<fileset dir="${relative.test.dir}/test/src/java">
 				<include name="**/*.properties"/>
 			</fileset>
 		</copy>
@@ -61,7 +61,7 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test-android-mock-classes"/>
 		
-		<javac sourcepath="" srcdir="${relative.dir}/test/src/android/mock/src" destdir="${relative.dir}/${build.dir}/test-android-mock-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+		<javac sourcepath="" srcdir="${relative.test.dir}/test/src/android/mock/src" destdir="${relative.dir}/${build.dir}/test-android-mock-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>
@@ -80,7 +80,7 @@
 			</classpath>
 		</taskdef>
 
-		<groovyc srcdir="${relative.dir}/test/src/groovy" destdir="${relative.dir}/${build.dir}/groovy-test-classes">
+		<groovyc srcdir="${relative.test.dir}/test/src/groovy" destdir="${relative.dir}/${build.dir}/groovy-test-classes">
 			<include name="**/*.groovy"/>
 		</groovyc>
 
@@ -91,23 +91,23 @@
 				<fileset dir="${relative.dir}/lib">
 					<include name="scala-*.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/examples/lib">
+				<fileset dir="${relative.examples.dir}/examples/lib">
 					<include name="scala-*.jar"/>
 				</fileset>
 			</classpath>
 		</taskdef>
 
-		<scalac srcdir="${relative.dir}/test/src/scala" destdir="${relative.dir}/${build.dir}/scala-test-classes">
+		<scalac srcdir="${relative.test.dir}/test/src/scala" destdir="${relative.dir}/${build.dir}/scala-test-classes">
 			<include name="**/*.scala"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
-				<fileset dir="${relative.dir}/examples/lib"/>
+				<fileset dir="${relative.examples.dir}/examples/lib"/>
 			</classpath>
 		</scalac>
 
 		<!-- Build test files -->
 
-		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="off" target="1.5">
+		<javac sourcepath="" srcdir="${relative.test.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="off" target="1.5">
 			<include name="org/metawidget/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
@@ -115,7 +115,7 @@
 			</classpath>
 		</javac>
 		
-		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" target="1.5" fork="yes">
+		<javac sourcepath="" srcdir="${relative.test.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" target="1.5" fork="yes">
 			<exclude name="org/metawidget/android/allwidgets/**"/>
 			<exclude name="org/metawidget/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
@@ -157,7 +157,7 @@
 		</copy>
 		
 		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
-			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.test.dir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<jvmarg value="-Djava.library.path=${basedir}/${relative.dir}/lib"/>
 			<jvmarg value="-Dtest.org.metawidget.config.JAR=../metawidget.jar"/>
@@ -165,14 +165,14 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.AllTests"/>
 			<classpath>
-				<fileset dir="${relative.dir}/examples/lib">
+				<fileset dir="${relative.examples.dir}/examples/lib">
 					<exclude name="myfaces-*.jar"/>
 					<exclude name="jsf-*.jar"/>
 				</fileset>				
 				<fileset dir="${relative.dir}/lib">
 					<exclude name="android.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib">
+				<fileset dir="${relative.test.dir}/test/lib">
 					<exclude name="myfaces-*.jar"/>
 				</fileset>
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
@@ -186,8 +186,8 @@
 				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>
-				<pathelement path="${relative.dir}/examples/src/java"/>
-				<pathelement path="${relative.dir}/test/src/java"/>
+				<pathelement path="${relative.examples.dir}/examples/src/java"/>
+				<pathelement path="${relative.test.dir}/test/src/java"/>
 				
 				<!-- Put Android last, so its JUnit implementation doesn't clash -->
 				
@@ -198,7 +198,7 @@
 		</junit>
 		
 		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
-			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.test.dir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.util.LogUtilsTest"/>
@@ -206,7 +206,7 @@
 				<fileset dir="${relative.dir}/lib">
 					<include name="emma.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>
+				<fileset dir="${relative.test.dir}/test/lib"/>
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 			</classpath>
@@ -221,7 +221,7 @@
 		<delete dir="${relative.dir}/${build.dir}/gwt-sanitized-test-src"/>
 		
 		<copy todir="${relative.dir}/${build.dir}/gwt-sanitized-test-src">
-			<fileset dir="${relative.dir}/test/src/java">
+			<fileset dir="${relative.test.dir}/test/src/java">
 				<include name="org/metawidget/gwt/**"/>
 				<exclude name="org/metawidget/gwt/client/**"/>
 				<include name="org/metawidget/example/gwt/**"/>
@@ -237,8 +237,8 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>				
-				<pathelement path="${relative.dir}/examples/src/java"/>
-				<pathelement path="${relative.dir}/examples/src/web/gwt/addressbook/WEB-INF"/>
+				<pathelement path="${relative.examples.dir}/examples/src/java"/>
+				<pathelement path="${relative.examples.dir}/examples/src/web/gwt/addressbook/WEB-INF"/>
 				<pathelement path="${relative.dir}/${build.dir}/gwt-sanitized-test-src"/>
 				<pathelement path="${relative.dir}/${build.dir}/example-classes"/>					
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
@@ -246,7 +246,7 @@
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>
+				<fileset dir="${relative.test.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 			</classpath>
@@ -257,7 +257,7 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.example.gwt.clientside.client.GwtClientSideTest"/>
 			<classpath>				
-				<pathelement path="${relative.dir}/examples/src/java"/>
+				<pathelement path="${relative.examples.dir}/examples/src/java"/>
 				<pathelement path="${relative.dir}/${build.dir}/gwt-sanitized-test-src"/>
 				<pathelement path="${relative.dir}/${build.dir}/example-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
@@ -266,7 +266,7 @@
 					<include name="gwt-dev-*.jar"/>
 					<include name="gxt.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>
+				<fileset dir="${relative.test.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-extgwt-client.jar"/>
@@ -279,13 +279,13 @@
 			<test name="org.metawidget.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/gwt-sanitized-test-src"/>
-				<pathelement path="${relative.dir}/test/src/java/org/metawidget/gwt/allwidgets"/>
+				<pathelement path="${relative.test.dir}/test/src/java/org/metawidget/gwt/allwidgets"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<fileset dir="${relative.dir}/lib">
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>				
+				<fileset dir="${relative.test.dir}/test/lib"/>				
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 			</classpath>
@@ -297,20 +297,20 @@
 			<test name="org.metawidget.gwt.quirks.client.GwtQuirksTest"/>
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/gwt-sanitized-test-src"/>
-				<pathelement path="${relative.dir}/test/src/java/org/metawidget/gwt/quirks"/>
+				<pathelement path="${relative.test.dir}/test/src/java/org/metawidget/gwt/quirks"/>
 				<dirset dir="${relative.dir}/${build.dir}/test-classes"/>
 				<fileset dir="${relative.dir}/lib">
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>
+				<fileset dir="${relative.test.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 			</classpath>
 		</junit>
 
 		<copy todir="${relative.dir}/${build.dir}/gwt-sanitized-test-src">
-			<fileset dir="${relative.dir}/test/src/java">
+			<fileset dir="${relative.test.dir}/test/src/java">
 				<include name="org/metawidget/gwt/client/**"/>
 			</fileset>			
 		</copy>
@@ -327,7 +327,7 @@
 					<include name="gwt-dev-*.jar"/>
 					<include name="gxt.jar"/>
 				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>
+				<fileset dir="${relative.test.dir}/test/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/metawidget-gwt-extgwt-client.jar"/>
@@ -342,17 +342,17 @@
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
 
 		<java classname="junit.textui.TestRunner" failonerror="true" fork="true" jvm="${java4.dir}/bin/java" dir="${relative.dir}/${build.dir}/${run.dir}">
-			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.test.dir}/test/src/java/logging.properties"/>
 			<arg line="org.metawidget.swing.SwingAllWidgetsTest org.metawidget.swing.SwingJdk14Test org.metawidget.util.LogUtilsTest"/>
 			<classpath>
-				<fileset dir="${relative.dir}/test/lib">
+				<fileset dir="${relative.test.dir}/test/lib">
 					<include name="emma.jar"/>
 				</fileset>
-				<pathelement location="${relative.dir}/test/lib-1.4/junit.jar"/>
+				<pathelement location="${relative.test.dir}/test/lib-1.4/junit.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>
-				<pathelement path="${relative.dir}/test/src/java"/>
+				<pathelement path="${relative.test.dir}/test/src/java"/>
 			</classpath>
 		</java>
 
@@ -398,23 +398,23 @@
 		
 		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
-		<copy todir="${tomcat.dir}/lib" file="${relative.dir}/test/lib/emma.jar"/>
+		<copy todir="${tomcat.dir}/lib" file="${relative.test.dir}/test/lib/emma.jar"/>
 
 		<available property="tomcat4-exists" file="${tomcat4.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat 4 not installed at 'tomcat4.dir' (as indicated in build.properties)" unless="tomcat4-exists"/>
-		<copy todir="${tomcat4.dir}/shared/lib" file="${relative.dir}/test/lib/emma.jar"/>
+		<copy todir="${tomcat4.dir}/shared/lib" file="${relative.test.dir}/test/lib/emma.jar"/>
 
 		<available property="jboss-exists" file="${jboss.dir}/bin/run.bat"/>
 		<fail message="JBoss not installed at 'jboss.dir' (as indicated in build.properties)" unless="jboss-exists"/>
-		<copy todir="${jboss.dir}/server/default/lib" file="${relative.dir}/test/lib/emma.jar"/>
+		<copy todir="${jboss.dir}/server/default/lib" file="${relative.test.dir}/test/lib/emma.jar"/>
 
 		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
-		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="${relative.dir}/test/lib/emma.jar"/>
+		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="${relative.test.dir}/test/lib/emma.jar"/>
 
 		<available property="jetty-exists" file="${jetty.dir}/start.jar"/>
 		<fail message="Jetty not installed at 'jetty.dir' (as indicated in build.properties)" unless="jetty-exists"/>
-		<copy todir="${jetty.dir}/lib" file="${relative.dir}/test/lib/emma.jar"/>
+		<copy todir="${jetty.dir}/lib" file="${relative.test.dir}/test/lib/emma.jar"/>
 
 		<!-- Run tests as normal -->
 
@@ -425,9 +425,9 @@
 		<emma>
 			<report>
 				<sourcepath>
-					<dirset dir="${relative.dir}/examples/src/java"/>
+					<dirset dir="${relative.examples.dir}/examples/src/java"/>
 					<dirset dir="${relative.dir}/src/java"/>
-					<dirset dir="${relative.dir}/test/src/java"/>
+					<dirset dir="${relative.test.dir}/test/src/java"/>
 		        </sourcepath>				
 				<fileset dir="${relative.dir}/${build.dir}/${run.dir}">
 					<include name="*.ec"/>
@@ -489,7 +489,7 @@
 
 		<!-- Put the project's resources into the output package file -->
 				
-		<exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="${relative.dir}/test/src/android/allwidgets">
+		<exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="${relative.test.dir}/test/src/android/allwidgets">
             <arg value="package" />
             <arg value="-f" />
             <arg value="-M" />
@@ -519,7 +519,7 @@
 	<target name="flatten-test-libs" depends="flatten-libs">
 		
 		<copy todir="${relative.dir}/${build.dir}/lib" flatten="true" includeemptydirs="false">
-			<fileset dir="${relative.dir}/test/lib"/>
+			<fileset dir="${relative.test.dir}/test/lib"/>
 		</copy>
 		
 	</target>
@@ -569,7 +569,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -590,7 +590,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -606,7 +606,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -621,9 +621,9 @@
 		
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
-		<copy file="${relative.dir}/test/src/web/examples/faces/metawidget-addressbook-richfaces.xml" tofile="${tomcat.dir}/webapps/addressbook-faces/WEB-INF/metawidget.xml" overwrite="true"/>		
+		<copy file="${relative.test.dir}/test/src/web/examples/faces/metawidget-addressbook-richfaces.xml" tofile="${tomcat.dir}/webapps/addressbook-faces/WEB-INF/metawidget.xml" overwrite="true"/>		
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -640,18 +640,18 @@
 
 		<mkdir dir="${relative.dir}/${build.dir}/examples/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" webxml="${relative.dir}/test/src/web/examples/faces/addressbook2/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/examples/src/web/faces/addressbook">
+		<war warfile="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" webxml="${relative.test.dir}/test/src/web/examples/faces/addressbook2/WEB-INF/web.xml">
+			<fileset dir="${relative.examples.dir}/examples/src/web/faces/addressbook">
 				<include name="WEB-INF/metawidget*.xml"/>
 				<include name="index.jsf"/>
 			</fileset>		
-			<fileset dir="${relative.dir}/test/src/web/examples/faces/addressbook2">
+			<fileset dir="${relative.test.dir}/test/src/web/examples/faces/addressbook2">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${relative.dir}/examples/src/web/shared/addressbook">
+			<fileset dir="${relative.examples.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="media/**"/>
 			</fileset>
@@ -678,7 +678,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -698,7 +698,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/penguincolony-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -719,7 +719,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/penguincolony-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -735,7 +735,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/faces/penguincolony-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -753,7 +753,7 @@
 		<ant dir="${relative.dir}/${build.dir}/examples/faces/seam/booking"/>
 		<antcall target="test-web-start-jboss"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -771,7 +771,7 @@
 		<ant dir="${relative.dir}/${build.dir}/examples/faces/seam/dvdstore"/>
 		<antcall target="test-web-start-jboss"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -789,7 +789,7 @@
 		<ant dir="${relative.dir}/${build.dir}/examples/faces/seam/groovybooking"/>
 		<antcall target="test-web-start-jboss"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -809,7 +809,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/gwt/addressbook-gwt.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -830,7 +830,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/gwt/addressbook-gwt.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -846,7 +846,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/gwt/addressbook-gwt.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -861,7 +861,7 @@
 
 	<target name="test-gwt-clientside" depends="example-gwt-clientside,compile-test">
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -879,7 +879,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/jsp/addressbook-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -900,7 +900,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/jsp/addressbook-jsp.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -916,7 +916,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/jsp/addressbook-jsp.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -936,7 +936,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -957,7 +957,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/struts/addressbook-struts.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -973,7 +973,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/struts/addressbook-struts.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -993,7 +993,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1014,7 +1014,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/spring/addressbook-spring.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1030,7 +1030,7 @@
 		<copy file="${relative.dir}/${build.dir}/examples/spring/addressbook-spring.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1051,7 +1051,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file '${basedir}/${relative.dir}/test/src/web/examples/swing/applet/addressbook-test.xml'"/>
+			<arg line="-file '${basedir}/${relative.test.dir}/test/src/web/examples/swing/applet/addressbook-test.xml'"/>
 		</java>
 		
 	</target>
@@ -1265,7 +1265,7 @@
 	<target name="test-shared-allwidgets" depends="flatten-test-libs,compile-test">
 
 		<copy todir="${relative.dir}/${build.dir}/test-classes">
-			<fileset dir="${relative.dir}/test/src/java">
+			<fileset dir="${relative.test.dir}/test/src/java">
 				<include name="org/metawidget/shared/allwidgets/**/*.properties"/>
 				<include name="org/metawidget/shared/allwidgets/**/metawidget-metadata.xml"/>
 			</fileset>
@@ -1277,8 +1277,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/allwidgets-faces.war" webxml="${relative.dir}/test/src/web/faces/allwidgets/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/allwidgets">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/allwidgets-faces.war" webxml="${relative.test.dir}/test/src/web/faces/allwidgets/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1305,7 +1305,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/allwidgets-faces.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat4"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1324,8 +1324,8 @@
 
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces.war" webxml="${relative.dir}/test/src/web/faces/quirks/WEB-INF/web-normal-jsp.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-normal-jsp.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1352,7 +1352,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-myfaces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1368,8 +1368,8 @@
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-jsp.war" webxml="${relative.dir}/test/src/web/faces/quirks/WEB-INF/web-dont-use-prerender-view-event.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-jsp.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-dont-use-prerender-view-event.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1397,7 +1397,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1413,8 +1413,8 @@
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-jsp.war" webxml="${relative.dir}/test/src/web/faces/quirks/WEB-INF/web-dont-use-prerender-view-event.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-jsp.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-dont-use-prerender-view-event.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1441,7 +1441,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1457,11 +1457,11 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets.war" webxml="${relative.dir}/test/src/web/faces/quirks-facelets/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1490,7 +1490,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1506,18 +1506,18 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets2.war" webxml="${relative.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets2.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
 				<exclude name="WEB-INF/faces-config.xml"/>				
 			</fileset>
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets2">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets2">
 				<include name="WEB-INF/faces-config.xml"/>				
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
@@ -1535,7 +1535,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1545,7 +1545,7 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1561,18 +1561,18 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-facelets2.war" webxml="${relative.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-facelets2.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
 				<exclude name="WEB-INF/faces-config.xml"/>				
 			</fileset>
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-facelets2">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets2">
 				<include name="WEB-INF/faces-config.xml"/>				
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
@@ -1595,7 +1595,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-facelets2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1605,7 +1605,7 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1621,8 +1621,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-icefaces.war" webxml="${relative.dir}/test/src/web/faces/quirks-icefaces/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/faces/quirks-icefaces">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-icefaces.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-icefaces/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-icefaces">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1652,7 +1652,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-icefaces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1669,8 +1669,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/jsp"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/jsp/allwidgets-jsp.war" webxml="${relative.dir}/test/src/web/jsp/allwidgets/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/jsp/allwidgets">
+		<war warfile="${relative.dir}/${build.dir}/test/jsp/allwidgets-jsp.war" webxml="${relative.test.dir}/test/src/web/jsp/allwidgets/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/jsp/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1692,7 +1692,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/jsp/allwidgets-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1709,8 +1709,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/jsp"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/jsp/quirks-jsp.war" webxml="${relative.dir}/test/src/web/jsp/quirks/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/jsp/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/jsp/quirks-jsp.war" webxml="${relative.test.dir}/test/src/web/jsp/quirks/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/jsp/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1729,7 +1729,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/jsp/quirks-jsp.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat4"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1746,8 +1746,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/spring"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/spring/allwidgets-spring.war" webxml="${relative.dir}/test/src/web/spring/allwidgets/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/spring/allwidgets">
+		<war warfile="${relative.dir}/${build.dir}/test/spring/allwidgets-spring.war" webxml="${relative.test.dir}/test/src/web/spring/allwidgets/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/spring/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1770,7 +1770,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/spring/allwidgets-spring.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat4"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1787,8 +1787,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/spring"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/spring/quirks-spring.war" webxml="${relative.dir}/test/src/web/spring/quirks/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/spring/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/spring/quirks-spring.war" webxml="${relative.test.dir}/test/src/web/spring/quirks/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/spring/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1811,7 +1811,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/spring/quirks-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1828,8 +1828,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/struts"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/struts/allwidgets-struts.war" webxml="${relative.dir}/test/src/web/struts/allwidgets/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/struts/allwidgets">
+		<war warfile="${relative.dir}/${build.dir}/test/struts/allwidgets-struts.war" webxml="${relative.test.dir}/test/src/web/struts/allwidgets/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/struts/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1852,7 +1852,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/struts/allwidgets-struts.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat4"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1869,8 +1869,8 @@
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/struts"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/struts/quirks-struts.war" webxml="${relative.dir}/test/src/web/struts/quirks/WEB-INF/web.xml">
-			<fileset dir="${relative.dir}/test/src/web/struts/quirks">
+		<war warfile="${relative.dir}/${build.dir}/test/struts/quirks-struts.war" webxml="${relative.test.dir}/test/src/web/struts/quirks/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/struts/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1895,7 +1895,7 @@
 		<copy file="${relative.dir}/${build.dir}/test/struts/quirks-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
