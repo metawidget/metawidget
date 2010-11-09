@@ -43,6 +43,19 @@ public final class IOUtils {
 
 	public static void streamBetween( InputStream in, OutputStream out ) {
 
+		streamBetween( in, out, true, true );
+	}
+
+	/**
+	 * Streams all data between the given two streams. Optionally closes both streams (it is
+	 * sometimes important <em>not</em> to close the streams, such as when reading and writing
+	 * multiple entries in a ZIP).
+	 * <p>
+	 * Note: this implementation uses NIO.
+	 */
+
+	public static void streamBetween( InputStream in, OutputStream out, boolean closeIn, boolean closeOut ) {
+
 		try {
 			try {
 				try {
@@ -60,14 +73,20 @@ public final class IOUtils {
 				} catch ( Exception e ) {
 					throw new RuntimeException( e );
 				} finally {
-					// Separate blocks for out.close() and in.close(), as noted
-					// by Bloch:
-					// http://mail.openjdk.java.net/pipermail/coin-dev/2009-February/000011.html
 
-					out.close();
+					if ( closeOut ) {
+						// Separate blocks for out.close() and in.close(), as noted
+						// by Bloch:
+						// http://mail.openjdk.java.net/pipermail/coin-dev/2009-February/000011.html
+
+						out.close();
+					}
 				}
 			} finally {
-				in.close();
+
+				if ( closeIn ) {
+					in.close();
+				}
 			}
 		} catch ( Exception e ) {
 			// Convert to unchecked Exception
