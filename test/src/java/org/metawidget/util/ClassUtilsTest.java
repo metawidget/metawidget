@@ -61,6 +61,21 @@ public class ClassUtilsTest
 		}
 	}
 
+	public void testStrictJavaBeanConvention()
+		throws Exception {
+
+		assertTrue( ClassUtils.getReadMethod( Foo.class, "bar" ) != null );
+		assertTrue( ClassUtils.getReadMethod( Foo.class, "littleBoolean" ) != null );
+		assertTrue( ClassUtils.getReadMethod( Foo.class, "bigBoolean2" ) != null );
+
+		try {
+			ClassUtils.getReadMethod( Foo.class, "bigBoolean" );
+			assertTrue( false );
+		} catch ( Exception e ) {
+			assertEquals( "No such method getBigBoolean (or boolean isBigBoolean) on class org.metawidget.util.ClassUtilsTest$Foo", e.getMessage() );
+		}
+	}
+
 	public void testUnproxy() {
 
 		assertEquals( Foo.class, ClassUtils.getUnproxiedClass( ProxiedFoo_$$_javassist_1.class ) );
@@ -108,6 +123,21 @@ public class ClassUtilsTest
 		public void setBar( Bar bar ) {
 
 			mBar = bar;
+		}
+
+		public Boolean isBigBoolean1() {
+
+			return null;
+		}
+
+		public boolean isLittleBoolean() {
+
+			return false;
+		}
+
+		public Boolean getBigBoolean2() {
+
+			return null;
 		}
 	}
 

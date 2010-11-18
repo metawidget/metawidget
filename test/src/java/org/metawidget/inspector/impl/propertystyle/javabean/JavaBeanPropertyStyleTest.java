@@ -127,14 +127,14 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
 		assertEquals( "baz", properties.get( "baz" ).getName() );
 
-		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ));
+		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ) );
 		properties = propertyStyle.getProperties( Foo.class );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 7 );
 
-		assertTrue( !properties.containsKey( "foo" ));
-		assertTrue( !properties.containsKey( "bar" ));
+		assertTrue( !properties.containsKey( "foo" ) );
+		assertTrue( !properties.containsKey( "bar" ) );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
 		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
 		assertEquals( String.class, ( (ParameterizedType) properties.get( "methodBaz" ).getGenericType() ).getActualTypeArguments()[0] );
@@ -148,7 +148,7 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
 		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
-		assertTrue( !properties.containsKey( "baz" ));
+		assertTrue( !properties.containsKey( "baz" ) );
 	}
 
 	public void testInterfaceBasedPropertyStyle() {
@@ -266,6 +266,15 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( "abc", properties.get( "abc" ).toString() );
 		assertEquals( "Abc Section", properties.get( "abc" ).getAnnotation( UiSection.class ).value()[0] );
 		assertFalse( properties.get( "abc" ).isAnnotationPresent( UiLarge.class ) );
+	}
+
+	public void testStrictJavaBeanConvention()
+		throws Exception {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		assertEquals( null, propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isBigBoolean1" ) ));
+		assertEquals( "littleBoolean", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isLittleBoolean" ) ));
+		assertEquals( "bigBoolean2", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "getBigBoolean2" ) ));
 	}
 
 	public void testConfig() {
@@ -503,6 +512,24 @@ public class JavaBeanPropertyStyleTest
 		public void setBaz( String baz ) {
 
 			// Do nothing
+		}
+	}
+
+	static class StrictJavaBeanConventionFoo {
+
+		public Boolean isBigBoolean1() {
+
+			return null;
+		}
+
+		public boolean isLittleBoolean() {
+
+			return false;
+		}
+
+		public Boolean getBigBoolean2() {
+
+			return null;
 		}
 	}
 }

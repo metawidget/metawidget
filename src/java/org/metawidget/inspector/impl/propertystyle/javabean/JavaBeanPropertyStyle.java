@@ -244,8 +244,6 @@ public class JavaBeanPropertyStyle
 		if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) ) {
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
 
-			// TODO: test stricter JavaBean convention
-
 		} else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) && boolean.class.equals( method.getReturnType() ) ) {
 
 			// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
