@@ -243,7 +243,14 @@ public class JavaBeanPropertyStyle
 
 		if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) ) {
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-		} else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) ) {
+
+			// TODO: test stricter JavaBean convention
+
+		} else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) && boolean.class.equals( method.getReturnType() ) ) {
+
+			// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
+			// only applies to boolean (little 'b')
+
 			propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
 		} else {
 			return null;
@@ -391,7 +398,7 @@ public class JavaBeanPropertyStyle
 		String[] arguments = new String[] { propertyName, StringUtils.uppercaseFirstLetter( propertyName ) };
 		String fieldName;
 
-		synchronized( mPrivateFieldConvention ) {
+		synchronized ( mPrivateFieldConvention ) {
 			fieldName = mPrivateFieldConvention.format( arguments, new StringBuffer(), null ).toString();
 		}
 

@@ -277,13 +277,20 @@ public class TestUtils {
 			} catch ( Exception e1 ) {
 				try {
 					Method method = clazz.getDeclaredMethod( ClassUtils.JAVABEAN_IS_PREFIX + propertyUppercased );
-					method.setAccessible( true );
 
-					return method;
+					// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
+					// only applies to boolean (little 'b')
+
+					if ( boolean.class.equals( method.getReturnType() )) {
+
+						method.setAccessible( true );
+						return method;
+					}
 				} catch ( Exception e2 ) {
-					currentClass = currentClass.getSuperclass();
+					// Fall through
 				}
 			}
+			currentClass = currentClass.getSuperclass();
 		}
 
 		return null;

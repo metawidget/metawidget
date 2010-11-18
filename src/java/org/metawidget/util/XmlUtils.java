@@ -616,7 +616,7 @@ public class XmlUtils {
 		/**
 		 * Replay the cached events.
 		 * <p>
-		 * Note: <code>replay</code> does necessarily trigger <code>startDocument</code> and
+		 * Note: <code>replay</code> does not necessarily trigger <code>startDocument</code> and
 		 * <code>endDocument</code> (ie. it does not assume the original recording contained them).
 		 * Because of this, <code>CachingContentHandler</code> can be used to cache
 		 * <em>fragments</em> of SAX events.

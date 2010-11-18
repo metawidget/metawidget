@@ -56,11 +56,21 @@ public final class ClassUtils {
 			return clazz.getMethod( JAVABEAN_GET_PREFIX + propertyUppercased );
 		} catch ( Exception e1 ) {
 			try {
-				return clazz.getMethod( JAVABEAN_IS_PREFIX + propertyUppercased );
+				Method method = clazz.getMethod( JAVABEAN_IS_PREFIX + propertyUppercased );
+
+				// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
+				// only applies to boolean (little 'b')
+
+				if ( boolean.class.equals( method.getReturnType() )) {
+					return method;
+				}
+
 			} catch ( Exception e2 ) {
-				throw new RuntimeException( "No such method " + JAVABEAN_GET_PREFIX + propertyUppercased + "() or " + JAVABEAN_IS_PREFIX + propertyUppercased + "() on " + clazz, e1 );
+				// Fall through
 			}
 		}
+
+		throw new NoSuchMethodError( "No such method " + JAVABEAN_GET_PREFIX + propertyUppercased + " (or boolean " + JAVABEAN_IS_PREFIX + propertyUppercased + ") on " + clazz );
 	}
 
 	/**
