@@ -465,8 +465,7 @@ public class SwingAddressBookTest
 			model.getColumnClass( 0 );
 			assertTrue( false );
 		} catch ( Exception e ) {
-			assertTrue( e.getCause() instanceof NoSuchMethodException );
-			assertTrue( e.getCause().getMessage().contains( "Baz()" ) );
+			assertEquals( "No such method getBaz (or boolean isBaz) on class org.metawidget.example.swing.addressbook.SwingAddressBookTest$Foo", e.getMessage() );
 		}
 	}
 

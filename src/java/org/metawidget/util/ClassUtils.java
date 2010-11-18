@@ -70,7 +70,7 @@ public final class ClassUtils {
 			}
 		}
 
-		throw new NoSuchMethodError( "No such method " + JAVABEAN_GET_PREFIX + propertyUppercased + " (or boolean " + JAVABEAN_IS_PREFIX + propertyUppercased + ") on " + clazz );
+		throw new RuntimeException( "No such method " + JAVABEAN_GET_PREFIX + propertyUppercased + " (or boolean " + JAVABEAN_IS_PREFIX + propertyUppercased + ") on " + clazz );
 	}
 
 	/**

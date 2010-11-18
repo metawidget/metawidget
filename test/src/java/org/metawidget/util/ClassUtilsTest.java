@@ -18,8 +18,6 @@ package org.metawidget.util;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.ClassUtils;
-
 /**
  * @author Richard Kennard
  */
@@ -52,14 +50,14 @@ public class ClassUtilsTest
 			ClassUtils.setProperty( foo, "bar1", baz );
 			assertTrue( false );
 		} catch ( Exception e ) {
-			assertEquals( "No such method getBar1() or isBar1() on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
+			assertEquals( "No such method getBar1 (or boolean isBar1) on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
 		}
 
 		try {
 			ClassUtils.getProperty( foo, "bar1" );
 			assertTrue( false );
 		} catch ( Exception e ) {
-			assertEquals( "No such method getBar1() or isBar1() on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
+			assertEquals( "No such method getBar1 (or boolean isBar1) on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
 		}
 	}
 
@@ -93,17 +91,13 @@ public class ClassUtilsTest
 	protected static class Foo {
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private Bar	mBar;
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public Bar getBar() {
