@@ -1041,6 +1041,10 @@ public class FacesMetawidgetTests
 				return CollectionUtils.newArrayList( mExpressionString, mExpressionString );
 			}
 
+			if ( "#{error}".equals( mExpressionString )) {
+				throw new EvaluationException( "Forced error" );
+			}
+
 			return "result of " + mExpressionString;
 		}
 

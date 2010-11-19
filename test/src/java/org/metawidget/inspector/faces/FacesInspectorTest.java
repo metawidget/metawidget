@@ -40,16 +40,19 @@ public class FacesInspectorTest
 	extends TestCase {
 
 	//
+	// Private members
+	//
+
+	private FacesContext	mContext;
+
+	//
 	// Public methods
 	//
 
 	public void testInspection() {
 
 		FacesInspector inspector = new FacesInspector();
-
-		FacesContext context = new MockFacesContext();
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
-		context.release();
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -121,7 +124,20 @@ public class FacesInspectorTest
 		}
 	}
 
+	public void testBadExpression() {
+
+		try {
+			new FacesInspector().inspect( null, BadExpression.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Unable to getValue of #{error}", e.getMessage() );
+			assertEquals( "Forced error", e.getCause().getMessage() );
+		}
+	}
+
 	public void testNoFacesContext() {
+
+		mContext.release();
 
 		try {
 			new FacesInspector().inspect( new NoFacesContextOnPropertyFoo(), NoFacesContextOnPropertyFoo.class.getName() );
@@ -156,6 +172,28 @@ public class FacesInspectorTest
 		TestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig() {
 			// Subclass
 		} );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected final void setUp()
+		throws Exception {
+
+		super.setUp();
+
+		mContext = new MockFacesContext();
+	}
+
+	@Override
+	protected final void tearDown()
+		throws Exception {
+
+		super.tearDown();
+
+		mContext.release();
 	}
 
 	//
@@ -208,6 +246,15 @@ public class FacesInspectorTest
 		@UiAction
 		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
 		public Object action() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression {
+
+		@UiFacesAttribute( name = "foo1", expression = "#{error}" )
+		public Object getFoo() {
 
 			return null;
 		}

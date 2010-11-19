@@ -287,14 +287,21 @@ public class FacesInspector
 			context.getExternalContext().getRequestMap().put( "this", LOCAL_TOINSPECT.get() );
 		}
 
-		Object value = application.createValueBinding( expression ).getValue( context );
+		try {
+			Object value = application.createValueBinding( expression ).getValue( context );
 
-		if ( value == null ) {
-			return;
-		}
+			if ( value == null ) {
+				return;
+			}
 
-		for ( String attributeName : facesAttribute.name() ) {
-			InspectorUtils.putAttributeValue( attributes, attributeName, value );
+			for ( String attributeName : facesAttribute.name() ) {
+				InspectorUtils.putAttributeValue( attributes, attributeName, value );
+			}
+		} catch ( Exception e ) {
+
+			// We have found to helpful to include the actual expression we were trying to evaluate
+
+			throw InspectorException.newException( "Unable to getValue of " + expression, e );
 		}
 	}
 }

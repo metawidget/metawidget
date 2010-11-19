@@ -62,6 +62,17 @@ public class InspectorException
 		return new InspectorException( message );
 	}
 
+	/**
+	 * Static constructor.
+	 * <p>
+	 * For consistency with <code>InspectorException.newException( Throwable )</code>.
+	 */
+
+	public static InspectorException newException( String message, Throwable cause ) {
+
+		return new InspectorException( message, cause );
+	}
+
 	//
 	// Constructor
 	//
@@ -74,5 +85,10 @@ public class InspectorException
 	private InspectorException( Throwable cause ) {
 
 		super( cause );
+	}
+
+	private InspectorException( String message, Throwable cause ) {
+
+		super( message, cause );
 	}
 }
