@@ -34,6 +34,13 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
+// Note: we considered the approach from this blog post...
+//
+// http://passion.forco.de/content/emulating-self-types-using-java-generics-simplify-fluent-api-implementation
+//
+// ...but ultimately it becomes too cumbersome for the end-user to instantiate configs (see comments
+// at the bottom of that blog post)
+
 public class BaseXmlInspectorConfig
 	implements NeedsResourceResolver {
 
