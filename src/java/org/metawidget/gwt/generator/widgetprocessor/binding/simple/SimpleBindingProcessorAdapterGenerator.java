@@ -281,7 +281,7 @@ public class SimpleBindingProcessorAdapterGenerator
 
 			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) ) {
 				propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-			} else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) && boolean.class.equals( method.getReturnType() )) {
+			} else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) && "boolean".equals( method.getReturnType().getQualifiedSourceName() )) {
 
 				// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
 				// only applies to boolean (little 'b')

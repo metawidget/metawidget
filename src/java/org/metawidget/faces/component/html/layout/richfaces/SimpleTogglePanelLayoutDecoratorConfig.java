@@ -55,11 +55,20 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 * For 'server' the problem is the SimpleTogglePanel loses state if recreated and so never
 	 * closes. This is much like the ICEfaces SelectInputDate component. However, if we try setting
 	 * COMPONENT_ATTRIBUTE_NOT_RECREATABLE, as we do for SelectInputDate, then everything
-	 * <em>inside</em> the panel is also non-recreatable - which really kills our dynamism. This
-	 * could be solved by providing a hook for SimpleTogglePanel to save its open/close state
-	 * somewhere else. It also 'just works' if there happens to be a
-	 * COMPONENT_ATTRIBUTE_NOT_RECREATABLE inside the SimpleTogglePanel already (say, a manually
-	 * added component).
+	 * <em>inside</em> the panel is also non-recreatable - which really kills our dynamism. Things
+	 * 'just work' if there happens to be a COMPONENT_ATTRIBUTE_NOT_RECREATABLE inside the
+	 * SimpleTogglePanel already (say, a manually added component).
+	 * <p>
+	 * It could also be solved by providing a hook for SimpleTogglePanel to save its open/close
+	 * state <em>outside</em> the component. You can get quite far by setting the ValueExpression
+	 * 'opened' to, say:
+	 * <p>
+	 * <code>
+	 * togglePanel.setValueExpression( "opened", expressionFactory.createValueExpression( elContext, "#{param['panel-" + attributes.get( NAME ) + "']}", Object.class ) );
+	 * </code>
+	 * <p>
+	 * But we wouldn't want to do this by default, because some people are going to want to set the
+	 * panel opened/closed by default.
 	 */
 
 	private String	mSwitchType	= "client";
