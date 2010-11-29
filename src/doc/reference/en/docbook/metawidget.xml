@@ -7705,7 +7705,7 @@ public class PersonController {
 				<title>JpaInspector</title>
 				
 				<para>
-					<classname>JpaInspector</classname> inspects Java Persistence Architecture annotations. It returns the following
+					<classname>JpaInspector</classname> inspects Java Persistence API annotations. It returns the following
 					attributes for the following business properties:
 				</para>
 				

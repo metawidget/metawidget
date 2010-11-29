@@ -31,7 +31,7 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * Inspects annotations defined by Java Persistence Architecture (JPA).
+ * Inspects annotations defined by Java Persistence API (JPA).
  *
  * @author Richard Kennard
  */
