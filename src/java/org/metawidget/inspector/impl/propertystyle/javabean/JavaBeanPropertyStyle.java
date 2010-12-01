@@ -401,6 +401,8 @@ public class JavaBeanPropertyStyle
 		}
 
 		// Go looking for such a field, traversing the superclass heirarchy as necessary
+		//
+		// Note: the use of clazz.getDeclaredFields() may lead to Applet SecurityExceptions
 
 		Class<?> currentClass = clazz;
 
