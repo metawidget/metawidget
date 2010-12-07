@@ -571,7 +571,7 @@ public abstract class UIMetawidget
 	public void restoreState( FacesContext context, Object state ) {
 
 		if ( !( state instanceof Object[] ) ) {
-			throw MetawidgetException.newException( "State not Object[]. See http://java.net/jira/browse/JAVASERVERFACES-1826" );
+			throw MetawidgetException.newException( "State not Object[]. See http://java.net/jira/browse/JAVASERVERFACES-1826 for analysis of this issue" );
 		}
 
 		Object values[] = (Object[]) state;
