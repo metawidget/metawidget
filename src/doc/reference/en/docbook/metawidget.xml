@@ -6917,6 +6917,23 @@ static class State {
 					</para>					
 				</section>
 				
+				<section id="section-metawidgets-mobile-android-get-set">
+					<title>Getting and Setting Values</title>
+					
+					<para>
+						By default, Android does not come with a binding mechanism to map <classname>View</classname> values to business
+						object values. To map these manually, do:
+					</para>
+					
+					<programlisting language="java">metawidget.setValue( mPerson.getFirstname(), "firstname" );
+mPerson.setFirstname( (String) metawidget.getValue( "firstname" ) );</programlisting>
+
+					<para>
+						For a complete working example, see <xref linkend="section-introduction-part2-mobile"/>.
+					</para>
+					
+				</section>
+				
 			</section>
 			
 		</section>
