@@ -19,6 +19,7 @@ package org.metawidget.faces.renderkit.html;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.component.UICommand;
@@ -222,8 +223,20 @@ public abstract class HtmlLayoutRenderer
 		}
 
 		// Render inline message
+		//
+		// Temporarily create an HtmlMessage and render it. It needs a parent, so add it/remove it
+		// again from the Metawidget. Do not call setParent directly, as cautioned here:
+		// http://javaserverfaces.java.net/nonav/docs/2.0/javadocs/javax/faces/component/UIComponent.html#setParent(javax.faces.component.UIComponent)
 
-		FacesUtils.render( context, createInlineMessage( context, metawidget, messageFor ) );
+		List<UIComponent> children = metawidget.getChildren();
+		HtmlMessage inlineMessage = createInlineMessage( context, metawidget, messageFor );
+
+		try {
+			children.add( inlineMessage );
+			FacesUtils.render( context, inlineMessage );
+		} finally {
+			children.remove( inlineMessage );
+		}
 	}
 
 	/**
@@ -233,7 +246,6 @@ public abstract class HtmlLayoutRenderer
 	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
-		message.setParent( metawidget );
 		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( messageFor );
 
