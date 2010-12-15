@@ -224,8 +224,10 @@ public abstract class HtmlLayoutRenderer
 
 		// Render inline message
 		//
-		// Temporarily create an HtmlMessage and render it. It needs a parent, so add it/remove it
-		// again from the Metawidget. Do not call setParent directly, as cautioned here:
+		// Temporarily create an HtmlMessage and render it. It needs a parent to be able to render,
+		// so add it/remove it again from the Metawidget. Do not call setParent directly, as
+		// cautioned here:
+		//
 		// http://javaserverfaces.java.net/nonav/docs/2.0/javadocs/javax/faces/component/UIComponent.html#setParent(javax.faces.component.UIComponent)
 
 		List<UIComponent> children = metawidget.getChildren();
