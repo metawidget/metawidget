@@ -446,6 +446,21 @@
 			</steps>
 		</webtest>
 
+		<webtest name="test-readonly-support">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/${context.path}/readOnly.jsf" />
+
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[1]" text=""/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[1]/td)" text="2"/>
+				
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[1]/th" text="42 boolean:"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[1]/td[1]" text=""/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[1]/td)" text="2"/>
+			</steps>
+		</webtest>
+
 	</target>
 
 </project>

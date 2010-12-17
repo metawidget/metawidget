@@ -146,7 +146,7 @@ public abstract class UIMetawidget
 
 	private boolean							mInspectFromParent;
 
-	private Boolean							mReadOnly;
+	private boolean							mReadOnly;
 
 	private Map<Object, Object>				mClientProperties;
 
@@ -234,18 +234,12 @@ public abstract class UIMetawidget
 			return (Boolean) bindingReadOnly.getValue( getFacesContext() );
 		}
 
-		// Static read only
-
-		if ( mReadOnly != null ) {
-			return mReadOnly.booleanValue();
-		}
-
 		// Default to read-write
 
-		return false;
+		return mReadOnly;
 	}
 
-	public void setReadOnly( Boolean readOnly ) {
+	public void setReadOnly( boolean readOnly ) {
 
 		mReadOnly = readOnly;
 	}
