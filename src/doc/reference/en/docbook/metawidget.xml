@@ -4,7 +4,7 @@
 
 	<bookinfo>
 		<productname>Metawidget</productname>
-		<releaseinfo>Version 1.05</releaseinfo>
+		<releaseinfo>Version 1.10</releaseinfo>
 		<author>
 			<firstname>Richard</firstname>
 			<surname>Kennard</surname>
@@ -6539,6 +6539,28 @@ static class State {
 					</para>
 
 					<programlisting language="xml">&lt;m:metawidget bundle="#{myBean.bundle}"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-web-faces-collections">
+					<title>Collections</title>
+					
+					<para>
+						By default, JSF's <classname>UIData</classname> component supports rendering data of type <classname>java.util.List</classname>,
+						<classname>javax.faces.model.DataModel</classname> or Java arrays. <classname>UIMetawidget</classname>'s <classname>HtmlWidgetBuilder</classname>
+						respects this and will generate an <classname>HtmlDataTable</classname> for each type. It will decide
+						<classname>UIColumn</classname>s based on inspecting the <classname>List</classname> or array's component type for
+						fields marked <parameter>required</parameter> (if any).
+					</para>
+					
+					<para>
+						This will give a basic out-of-the-box representation of a <classname>Collection</classname>, but it is expected
+						developers will ultimately define their own <classname>WidgetBuilder</classname> to represent a
+						<classname>Collection</classname> to their preference. This may include: supporting
+						<classname>java.util.Set</classname>; allowing inline editing; supporting pagination and so on.
+						For more information, see
+						<ulink url="http://kennardconsulting.blogspot.com/2010/10/metawidget-collections-support.html">this blog entry</ulink>.
+					</para>
+					
 				</section>
 
 				<section id="section-metawidgets-web-faces-2">
