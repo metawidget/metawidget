@@ -44,7 +44,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	// Private static
 	//
 
-	private final static String	COMPONENT_ATTRIBUTE_BOTTOM_LEVEL_SECTION_WIDGET	= "section-widget-bottom-level";
+	private static final String	COMPONENT_ATTRIBUTE_BOTTOM_LEVEL_SECTION_WIDGET	= "section-widget-bottom-level";
 
 	//
 	// Constructor
