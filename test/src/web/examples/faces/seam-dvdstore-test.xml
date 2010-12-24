@@ -24,13 +24,20 @@
 				<setInputField name="NewAccountForm:customerPassword" value="New Password" />
 				<setInputField name="NewAccountForm:editCustomerPasswordVerify" value="New Password" />
 				<clickButton label="Next" />
+				
+				<!-- Check required values (note: e-mail check requires Seam 2.2.1) -->
+				
+				<setInputField name="NewAccountForm:customerEmail" value="user" />
 				<clickButton label="Next" />
-
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerAddress1-cell'])" text="Address 1: Validation Error: Value is required."/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerAddress2-cell'])" text="Address 2: Validation Error: Value is required."/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerCity-cell'])" text="City: Validation Error: Value is required."/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerState-cell'])" text="State: Validation Error: Value is required."/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerZip-cell'])" text="Zip: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerEmail-cell'])" text="not a well-formed email address"/>
+				
+				<!-- Check malformed values -->
+				
 				<setInputField name="NewAccountForm:customerFirstName" value="New" />
 				<setInputField name="NewAccountForm:customerLastName" value="User" />
 				<setInputField name="NewAccountForm:customerAddress1" value="Apt 2" />
@@ -38,15 +45,12 @@
 				<setInputField name="NewAccountForm:customerCity" value="Userton" />
 				<setInputField name="NewAccountForm:customerState" value="U" />
 				<setInputField name="NewAccountForm:customerZip" value="1" />
-				<setInputField name="NewAccountForm:customerEmail" value="user" />
 				<clickButton label="Next" />
-
-				<!-- E-mail validation only works the second time you press 'Next', because of JBSEAM-3251 -->
-
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerState-cell'])" text="length must be between 2 and 2"/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerZip-cell'])" text="length must be between 5 and 10"/>
 				<verifyXPath xpath="normalize-space(//*[@id='table-customerEmail-cell'])" text="not a well-formed email address"/>
-				<clickButton label="Next" />
+				
+				<!-- Check valid values -->
 				
 				<setInputField name="NewAccountForm:customerState" value="UR" />
 				<setInputField name="NewAccountForm:customerZip" value="12345" />
