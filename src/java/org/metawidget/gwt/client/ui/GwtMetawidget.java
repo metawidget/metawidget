@@ -31,6 +31,7 @@ import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.OverriddenWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.ReadOnlyWidgetBuilder;
+import org.metawidget.gwt.client.widgetprocessor.StyleNameProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
@@ -75,11 +76,11 @@ public class GwtMetawidget
 	// Private statics
 	//
 
-	private static final int							BUILDING_COMPLETE		= 0;
+	private static final int								BUILDING_COMPLETE		= 0;
 
-	private static final int							BUILDING_IN_PROGRESS	= 1;
+	private static final int								BUILDING_IN_PROGRESS	= 1;
 
-	private static final int							BUILDING_NEEDED			= 2;
+	private static final int								BUILDING_NEEDED			= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -91,7 +92,7 @@ public class GwtMetawidget
 	 * into one.
 	 */
 
-	private static final int							BUILD_DELAY				= 50;
+	private static final int								BUILD_DELAY				= 50;
 
 	/**
 	 * Static cache of the default Inspector.
@@ -103,27 +104,29 @@ public class GwtMetawidget
 	 * <code>GwtRemoteInspectorProxy</code> <em>does</em> use <code>ConfigReader</code>.
 	 */
 
-	private static Inspector							DEFAULT_INSPECTOR;
+	private static Inspector								DEFAULT_INSPECTOR;
 
-	private static WidgetBuilder<Widget, GwtMetawidget>	DEFAULT_WIDGETBUILDER;
+	private static WidgetBuilder<Widget, GwtMetawidget>		DEFAULT_WIDGETBUILDER;
 
-	private static Layout<Widget, Panel, GwtMetawidget>	DEFAULT_LAYOUT;
+	private static WidgetProcessor<Widget, GwtMetawidget>	DEFAULT_WIDGETPROCESSOR;
+
+	private static Layout<Widget, Panel, GwtMetawidget>		DEFAULT_LAYOUT;
 
 	//
 	// Private members
 	//
 
-	private Object										mToInspect;
+	private Object											mToInspect;
 
-	private String										mDictionaryName;
+	private String											mDictionaryName;
 
-	private Dictionary									mDictionary;
+	private Dictionary										mDictionary;
 
-	private Map<String, Facet>							mFacets					= new HashMap<String, Facet>();
+	private Map<String, Facet>								mFacets					= new HashMap<String, Facet>();
 
-	private Set<Widget>									mExistingWidgets		= new HashSet<Widget>();
+	private Set<Widget>										mExistingWidgets		= new HashSet<Widget>();
 
-	private Set<Widget>									mExistingUnusedWidgets	= new HashSet<Widget>();
+	private Set<Widget>										mExistingUnusedWidgets	= new HashSet<Widget>();
 
 	/**
 	 * Map of widgets added to this Metawidget.
@@ -134,38 +137,38 @@ public class GwtMetawidget
 	 * separate Map of the widgets we have encountered.
 	 */
 
-	private Map<String, Widget>							mAddedWidgets			= new HashMap<String, Widget>();
+	private Map<String, Widget>								mAddedWidgets			= new HashMap<String, Widget>();
 
-	private Timer										mBuildWidgets;
+	private Timer											mBuildWidgets;
 
-	private Map<Object, Object>							mClientProperties;
+	private Map<Object, Object>								mClientProperties;
 
 	//
 	// Package-private members
 	//
 
-	/* package private */String							mPath;
+	/* package private */String								mPath;
 
 	/**
 	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code> and
 	 * <code>mNamesPrefix</code>.
 	 */
 
-	/* package private */String							mName;
+	/* package private */String								mName;
 
-	/* package private */int							mNeedToBuildWidgets;
+	/* package private */int								mNeedToBuildWidgets;
 
-	/* package private */Element						mLastInspection;
+	/* package private */Element							mLastInspection;
 
-	/* package private */boolean						mIgnoreAddRemove;
+	/* package private */boolean							mIgnoreAddRemove;
 
 	/**
 	 * For unit tests.
 	 */
 
-	/* package private */Timer							mExecuteAfterBuildWidgets;
+	/* package private */Timer								mExecuteAfterBuildWidgets;
 
-	/* package private */Pipeline						mPipeline;
+	/* package private */Pipeline							mPipeline;
 
 	//
 	// Constructor
@@ -773,6 +776,14 @@ public class GwtMetawidget
 			mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 		}
 
+		if ( mPipeline.getWidgetProcessors() == null ) {
+			if ( DEFAULT_WIDGETPROCESSOR == null ) {
+				DEFAULT_WIDGETPROCESSOR = new StyleNameProcessor();
+			}
+
+			mPipeline.addWidgetProcessor( DEFAULT_WIDGETPROCESSOR );
+		}
+
 		if ( mPipeline.getLayout() == null ) {
 			if ( DEFAULT_LAYOUT == null ) {
 				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) );
@@ -813,7 +824,7 @@ public class GwtMetawidget
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
 		mPipeline.configureOnce();
-		
+
 		if ( mToInspect != null ) {
 			Inspector inspector = mPipeline.getInspector();
 
@@ -892,28 +903,6 @@ public class GwtMetawidget
 	protected void startBuild() {
 
 		mExistingUnusedWidgets = new HashSet<Widget>( mExistingWidgets );
-	}
-
-	/**
-	 * @param attributes
-	 *            attributes of the widget to layout. Never null
-	 */
-
-	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes ) {
-
-		if ( widget == null ) {
-			return null;
-		}
-
-		// CSS
-
-		String styleName = getStyleName();
-
-		if ( styleName != null ) {
-			widget.setStyleName( styleName );
-		}
-
-		return widget;
 	}
 
 	/**
@@ -1044,13 +1033,6 @@ public class GwtMetawidget
 
 			GwtMetawidget.this.startBuild();
 			super.startBuild();
-		}
-
-		@Override
-		protected Widget buildWidget( String elementName, Map<String, String> attributes ) {
-
-			Widget widget = super.buildWidget( elementName, attributes );
-			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
 		}
 
 		@Override

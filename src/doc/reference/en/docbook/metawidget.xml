@@ -4770,7 +4770,7 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td>(none)</td>
+							<td><classname>StyleNameProcessor</classname></td>
 						</tr>
 						<tr>
 							<td>JSF</td>
@@ -9872,6 +9872,17 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						
 				</section>
 				
+				<section id="section-widgetprocessors-web-gwt-stylename">
+					<title>StyleNameProcessor</title>
+					
+					<para>
+						<classname>StyleNameProcessor</classname> sets <parameter>styleName</parameter>
+						on all generated widgets, based on the <parameter>styleName</parameter>
+						of the parent Metawidget. It does not 'drill into' <classname>Stub</classname>s.
+					</para>
+					
+				</section>				
+				
 			</section>
 
 			<section id="section-widgetprocessors-web-faces">
@@ -9893,7 +9904,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<para>
 						<classname>CssStyleProcessor</classname> sets <parameter>style</parameter> and <parameter>styleClass</parameter>
 						properties on all generated widgets, based on the <parameter>style</parameter> and <parameter>styleClass</parameter>
-						of the Metawidget. It does not 'drill into' <classname>Stub</classname>s.
+						of the parent Metawidget. It does not 'drill into' <classname>UIStub</classname>s.
 					</para>
 					
 				</section>

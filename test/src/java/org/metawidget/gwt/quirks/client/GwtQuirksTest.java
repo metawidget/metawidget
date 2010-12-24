@@ -92,7 +92,7 @@ public class GwtQuirksTest
 				assertTrue( false == checkbox.getValue() );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
 				checkbox.setValue( true );
-				assertEquals( "componentStyleName", checkbox.getStyleName() );
+				assertEquals( "gwt-CheckBox componentStyleName", checkbox.getStyleName() );
 
 				assertEquals( "Foo:", flexTable.getText( 2, 0 ) );
 				Stub stub = (Stub) flexTable.getWidget( 2, 1 );
