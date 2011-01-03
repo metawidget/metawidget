@@ -34,6 +34,8 @@ public class JpaInspectorConfig
 
 	private boolean	mHideIds		= true;
 
+	private boolean	mHideVersions	= true;
+
 	private boolean	mHideTransients	= false;
 
 	//
@@ -59,9 +61,26 @@ public class JpaInspectorConfig
 	}
 
 	/**
-	 * Sets whether the Inspector returns Transient properties as <code>hidden="true"</code>. False
-	 * by
+	 * Sets whether the Inspector returns Version properties as <code>hidden="true"</code>. True by
 	 * default.
+	 * <p>
+	 * JPA uses these as an optimisic locking mechanism, so generally they don't appear in the UI.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JpaInspectorConfig setHideVersions( boolean hideVersions ) {
+
+		mHideVersions = hideVersions;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Sets whether the Inspector returns Transient properties as <code>hidden="true"</code>. False
+	 * by default.
 	 * <p>
 	 * There is not a firm relationship between whether a field should be persisted by JPA, and
 	 * whether it should appear in the UI. Some architectures prefer Transient fields to be hidden
@@ -101,6 +120,10 @@ public class JpaInspectorConfig
 			return false;
 		}
 
+		if ( mHideVersions != ( (JpaInspectorConfig) that ).mHideVersions ) {
+			return false;
+		}
+
 		if ( mHideTransients != ( (JpaInspectorConfig) that ).mHideTransients ) {
 			return false;
 		}
@@ -113,6 +136,7 @@ public class JpaInspectorConfig
 
 		int hashCode = super.hashCode();
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideVersions );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideTransients );
 
 		return hashCode;
@@ -125,6 +149,11 @@ public class JpaInspectorConfig
 	protected boolean isHideIds() {
 
 		return mHideIds;
+	}
+
+	protected boolean isHideVersions() {
+
+		return mHideVersions;
 	}
 
 	protected boolean isHideTransients() {

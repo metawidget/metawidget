@@ -18,6 +18,9 @@ package org.metawidget.util.simple;
 
 /**
  * Simple implementation of a tuple pair.
+ * <p>
+ * Note: if you encounter <code>MalformedParameterizedTypeException</code> when using this class on
+ * JBoss 6 Final, see https://issues.jboss.org/browse/JBMDR-74
  *
  * @author Richard Kennard
  */

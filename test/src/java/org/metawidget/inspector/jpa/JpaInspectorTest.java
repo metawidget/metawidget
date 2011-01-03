@@ -23,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import junit.framework.TestCase;
 
@@ -111,6 +112,35 @@ public class JpaInspectorTest
 		assertTrue( property.getAttributes().getLength() == 2 );
 	}
 
+	public void testHideVersions() {
+
+		// Show versions
+
+		JpaInspectorConfig config = new JpaInspectorConfig();
+		config.setHideVersions( false );
+		JpaInspector inspector = new JpaInspector( config );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+
+		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "version" ), null );
+
+		// Hidden by default
+
+		config = new JpaInspectorConfig();
+		inspector = new JpaInspector( config );
+		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getFirstChild().getFirstChild();
+
+		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "version" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+	}
+
 	public void testHideTransients() {
 
 		// Hide transient
@@ -156,6 +186,9 @@ public class JpaInspectorTest
 		@Id
 		@Column
 		public String	id;
+
+		@Version
+		public String	version;
 
 		@Column( nullable = false, length = 10 )
 		public String	bar;

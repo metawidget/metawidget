@@ -7765,6 +7765,7 @@ public class PersonController {
 							<td><parameter>hidden</parameter></td>
 							<td>
 								<classname>@Id</classname>, unless <classname>JpaInspectorConfig.setHideIds</classname> is false.
+								<classname>@Version</classname>, unless <classname>JpaInspectorConfig.setHideVersions</classname> is false.
 								<classname>@Transient</classname>, unless <classname>JpaInspectorConfig.setHideTransients</classname> is false.
 							</td>
 						</tr>
