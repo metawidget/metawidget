@@ -3,11 +3,11 @@
 
 <tags:page>
 
-	<script type="text/javascript" src="org.metawidget.example.GwtAddressBook/org.metawidget.example.GwtAddressBook.nocache.js"></script>
+	<script type="application/javascript" src="org.metawidget.example.GwtAddressBook/org.metawidget.example.GwtAddressBook.nocache.js"></script>
 	
 	<!-- Don't complicate GWT Hosted mode with JSTL tags -->
 	
-	<script type="text/javascript">
+	<script type="application/javascript">
 	var bundle = {
 	"add": "Add",
 	"addBusiness": "Add Business Contact",

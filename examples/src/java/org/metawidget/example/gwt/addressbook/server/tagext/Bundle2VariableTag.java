@@ -86,7 +86,7 @@ public class Bundle2VariableTag
 		try {
 			JspWriter writer = pageContext.getOut();
 
-			writer.write( "<script type=\"text/javascript\">\n\tvar " );
+			writer.write( "<script type=\"application/javascript\">\n\tvar " );
 			writer.write( mVariableName );
 			writer.write( " = {\n" );
 
