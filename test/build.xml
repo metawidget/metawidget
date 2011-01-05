@@ -575,6 +575,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
+			<arg line="-Dcontext.path=addressbook-faces"/>			
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 		
@@ -596,6 +597,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
+			<arg line="-Dcontext.path=addressbook-faces"/>			
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 
@@ -612,6 +614,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
+			<arg line="-Dcontext.path=addressbook-faces"/>			
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 
@@ -636,46 +639,11 @@
 
 	</target>
 
-	<target name="test-faces-addressbook2" depends="example-shared-addressbook,flatten-test-libs">
-
-		<mkdir dir="${relative.dir}/${build.dir}/examples/faces"/>
-
-		<war warfile="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" webxml="${relative.test.dir}/test/src/web/examples/faces/addressbook2/WEB-INF/web.xml">
-			<fileset dir="${relative.examples.dir}/examples/src/web/faces/addressbook">
-				<include name="WEB-INF/metawidget*.xml"/>
-				<include name="index.jsf"/>
-			</fileset>		
-			<fileset dir="${relative.test.dir}/test/src/web/examples/faces/addressbook2">
-				<exclude name="**/classes/**"/>
-				<exclude name="**/lib/**"/>
-				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
-			</fileset>
-			<fileset dir="${relative.examples.dir}/examples/src/web/shared/addressbook">
-				<include name="css/**"/>
-				<include name="media/**"/>
-			</fileset>
-			<classes dir="${relative.dir}/${build.dir}/example-classes">
-				<include name="org/metawidget/example/faces/addressbook/**"/>
-				<include name="org/metawidget/example/shared/addressbook/**"/>
-			</classes>
-			<lib dir="${relative.dir}/${build.dir}/lib">
-				<include name="commons-beanutils-*.jar"/>
-				<include name="commons-codec-*.jar"/>
-				<include name="commons-collections-*.jar"/>
-				<include name="commons-digester-*.jar"/>
-				<include name="commons-discovery-*.jar"/>
-				<include name="commons-logging-*.jar"/>
-				<include name="jstl.jar"/>
-				<include name="metawidget.jar"/>
-				<include name="myfaces-*-2.0*.jar"/>
-				<include name="standard.jar"/>
-			</lib>
-		</war>
+	<target name="test-faces-addressbook2" depends="example-faces2-addressbook,flatten-test-libs">
 
 		<!-- Test on Tomcat -->
 
-		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
@@ -684,10 +652,50 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
+			<arg line="-Dcontext.path=addressbook-faces2"/>			
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
+
+		<!-- Test on GlassFish -->
+
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="addressbook-*"/>
+			</fileset>
+		</delete>
+		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces2.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-Dcontext.path=addressbook-faces2"/>			
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
+		<!-- Test on Jetty -->
+
+		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces2.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-Dcontext.path=addressbook-faces2"/>			
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
 
 	</target>
 

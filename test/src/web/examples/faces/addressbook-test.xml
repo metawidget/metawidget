@@ -10,7 +10,7 @@
 		<webtest name="test-search">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/addressbook-faces" />
+				<invoke url="${webtest.url}/${context.path}" />
 				<verifyTitle text="Address Book (Metawidget Java Server Faces Example)" />
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchCurrentFirstname-row']"/>
@@ -45,7 +45,7 @@
 		<webtest name="test-existing-personal">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/addressbook-faces" />
+				<invoke url="${webtest.url}/${context.path}" />
 				<clickLink label="Mr Homer Simpson"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactCurrentTitle-row']"/>
@@ -152,7 +152,7 @@
 		<webtest name="test-new-business">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
-				<invoke url="${webtest.url}/addressbook-faces" />
+				<invoke url="${webtest.url}/${context.path}" />
 				<clickButton label="Add Personal Contact"/>
 				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']/select/option)" text="5"/>
 				<verifyInputField name="form:contactCurrentDateOfBirth" value=""/>

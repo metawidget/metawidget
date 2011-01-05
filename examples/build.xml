@@ -318,6 +318,47 @@
 
 	</target>
 	
+	<target name="example-faces2-addressbook" depends="example-shared-addressbook">
+
+		<mkdir dir="${relative.dir}/${build.dir}/examples/faces"/>
+
+		<war warfile="${relative.dir}/${build.dir}/examples/faces/addressbook-faces2.war" webxml="${relative.examples.dir}/examples/src/web/faces/addressbook2/WEB-INF/web.xml">
+			<fileset dir="${relative.examples.dir}/examples/src/web/faces/addressbook">
+				<include name="WEB-INF/metawidget*.xml"/>
+				<include name="index.jsf"/>
+			</fileset>
+			<fileset dir="${relative.examples.dir}/examples/src/web/faces/addressbook2">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<fileset dir="${relative.examples.dir}/examples/src/web/shared/addressbook">
+				<include name="css/**"/>
+				<include name="media/**"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/example-classes">
+				<include name="org/metawidget/example/faces/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-2.0*.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+
+		<copy todir="${relative.dir}/${build.dir}/examples/faces" file="${relative.examples.dir}/examples/src/web/faces/readme.txt"/>
+
+	</target>
+
 	<target name="example-faces-penguincolony" depends="flatten-libs">
 
 		<mkdir dir="${relative.dir}/${build.dir}/examples/faces"/>
@@ -625,7 +666,7 @@
 
 	</target>
 
-	<target name="examples-web" depends="example-faces-addressbook, example-faces-penguincolony, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-gwt-addressbook, example-gwt-clientside, example-jsp-addressbook, example-spring-addressbook, example-struts-addressbook"/>
+	<target name="examples-web" depends="example-faces-addressbook, example-faces2-addressbook, example-faces-penguincolony, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-gwt-addressbook, example-gwt-clientside, example-jsp-addressbook, example-spring-addressbook, example-struts-addressbook"/>
 
 	<!-- Build using the 1.1r1 SDK because it's a minimum supported platform -->
 	
