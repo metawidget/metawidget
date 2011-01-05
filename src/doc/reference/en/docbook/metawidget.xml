@@ -2129,6 +2129,21 @@ public PenguinCondition getCondition() { ...}</programlisting>
 								
 			</section>
 
+			<section id="section-introduction-part3-ee6">
+				<title>Java EE 6 Example</title>
+				
+				<para>
+					There is a retrofitted version of the <filename>GatewayWarDeployment</filename> example from Adam Bien's
+					<ulink url="http://press.adam-bien.com">Real World Java EE Patterns</ulink> book downloadable from his
+					<ulink url="http://kenai.com/projects/javaee-patterns">Java EE Patterns and Best Practices Kenai Repository</ulink>.
+				</para>
+				
+				<para>
+					For more information, see
+					<ulink url="http://kennardconsulting.blogspot.com/2010/12/retrofitting-ui-gatewaywardeployment.html">this blog entry</ulink>.				
+				</para>
+			</section>
+			
 			<section id="section-introduction-part3-swingappframework">
 				<title>Swing AppFramework Example</title>
 	
