@@ -16,17 +16,17 @@
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-all.css" media="all" />		
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-screen.css" media="screen" />		
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-print.css" media="print" />
-		<script src="http://www.google-analytics.com/ga.js" type="application/javascript"></script>
-		<script src="${context}/js/prototype.js" type="application/javascript"></script>
-		<script src="${context}/js/effects.js" type="application/javascript"></script>
-		<script src="${context}/js/bounce.js" type="application/javascript"></script>
+		<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+		<script src="${context}/js/prototype.js" type="text/javascript"></script>
+		<script src="${context}/js/effects.js" type="text/javascript"></script>
+		<script src="${context}/js/bounce.js" type="text/javascript"></script>
 		<c:if test="${useTooltips}">
-			<script src="${context}/js/newsticker.js" type="application/javascript"></script>
-			<script src="${context}/js/tooltip-v0.2.js" type="application/javascript"></script>
+			<script src="${context}/js/newsticker.js" type="text/javascript"></script>
+			<script src="${context}/js/tooltip-v0.2.js" type="text/javascript"></script>
 		</c:if>
 		<c:if test="${useThumbailViewer}">
 			<link rel="stylesheet" type="text/css" href="${context}/css/lightbox.css" />
-			<script type="application/javascript" src="${context}/js/lightbox.js"></script>
+			<script type="text/javascript" src="${context}/js/lightbox.js"></script>
 		</c:if>
 	</head>	
 		
@@ -35,7 +35,7 @@
 		
 		<%-- Google Analytics --%>
 		
-		<script type="application/javascript">
+		<script type="text/javascript">
 			try {
 				var pageTracker = _gat._getTracker("UA-6471965-1");
 				pageTracker._setDomainName( "none" );

@@ -6231,7 +6231,7 @@ static class State {
 						page. For example:
 					</para>
 					
-					<programlisting language="xml">&lt;script type="application/javascript"&gt;
+					<programlisting language="xml">&lt;script type="text/javascript"&gt;
 	var bundle = {
 	"add": "Add",
 	"addBusiness": "Add Business Contact",
