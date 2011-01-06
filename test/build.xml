@@ -658,7 +658,7 @@
 		
 		<antcall target="test-web-stop-tomcat"/>
 
-		<!-- Test on GlassFish -->
+		<!-- TODO: Test on GlassFish
 
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
@@ -678,7 +678,7 @@
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-glassfish"/>
+		<antcall target="test-web-stop-glassfish"/> -->
 
 		<!-- Test on Jetty -->
 
