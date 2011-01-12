@@ -17,9 +17,7 @@
 package org.metawidget.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -46,10 +44,6 @@ public class CollectionUtilsTest
 		assertEquals( "|foo|bar|", CollectionUtils.toString( list, "|", true, true ) );
 
 		assertTrue( CollectionUtils.newLinkedHashMap() != null );
-
-		@SuppressWarnings( "unchecked" )
-		Set<Comparable> emptySet = Collections.emptySet();
-		assertTrue( CollectionUtils.sort( emptySet ).isEmpty() );
 
 		assertEquals( CollectionUtils.newArrayList( "foo", "bar" ), CollectionUtils.fromString( "foo, bar" ) );
 		assertEquals( CollectionUtils.newArrayList( "foo", "bar", "" ), CollectionUtils.fromString( "foo, bar," ) );

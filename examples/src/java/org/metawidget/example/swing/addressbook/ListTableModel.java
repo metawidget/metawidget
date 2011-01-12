@@ -17,6 +17,7 @@
 package org.metawidget.example.swing.addressbook;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -78,7 +79,7 @@ public class ListTableModel<T extends Comparable<T>>
 			mList = CollectionUtils.newArrayList();
 		} else {
 			mList = CollectionUtils.newArrayList( collection );
-			CollectionUtils.sort( mList );
+			Collections.sort( mList );
 		}
 
 		fireTableDataChanged();
