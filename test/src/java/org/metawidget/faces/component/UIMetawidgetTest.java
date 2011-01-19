@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.render.RenderKit;
@@ -32,10 +33,12 @@ import junit.framework.TestCase;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
+import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * UIMetawidget test cases.
@@ -236,6 +239,16 @@ public class UIMetawidgetTest
 		metawidget.configure();
 
 		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
+	}
+
+	public void testSetWidgetBuilder() {
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = new HtmlWidgetBuilder();
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setWidgetBuilder( widgetBuilder );
+
+		assertTrue( metawidget.getWidgetBuilder() == widgetBuilder );
 	}
 
 	//

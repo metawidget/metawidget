@@ -174,6 +174,8 @@ public abstract class UIMetawidget
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 
+		// TODO: warn about Mojarra
+
 		if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
 
 			// Forcibly disabled
@@ -282,6 +284,15 @@ public abstract class UIMetawidget
 	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
+	}
+
+	/**
+	 * Exposed mainly for those using <code>UIComponent.setBinding</code>.
+	 */
+
+	public WidgetBuilder<UIComponent, UIMetawidget> getWidgetBuilder() {
+
+		return mPipeline.getWidgetBuilder();
 	}
 
 	/**
