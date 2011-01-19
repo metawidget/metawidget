@@ -46,7 +46,7 @@ public class CompositeWidgetBuilderConfig<W, M extends W> {
 	 * @return this, as part of a fluent interface
 	 */
 
-	// Note: in Java 7 we can probably put @SuppressWarnings( "unchecked" ) here
+	// Note: in Java 7 we can probably put @SafeVarargs here
 	//
 	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( WidgetBuilder<W, M>... widgetBuilders ) {
 
