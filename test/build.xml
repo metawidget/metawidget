@@ -1332,12 +1332,12 @@
 
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-normal-jsp.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-normal.xml">
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/**"/>
@@ -1376,12 +1376,12 @@
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-jsp.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-dont-use-prerender-view-event.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-jsp.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-mojarra2.xml">
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/**"/>
@@ -1397,7 +1397,6 @@
 				<include name="jsf-api.jar"/>
 				<include name="jsf-impl.jar"/>
 				<include name="metawidget.jar"/>
-				<include name="richfaces-*-3.3.3.Final.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>
@@ -1412,7 +1411,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-Dcontext.path=quirks-mojarra-jsp"/>
-			<arg line="-file quirks-richfaces-test.xml"/>
+			<arg line="-file quirks-test.xml"/>
 		</java>
 		
 		<antcall target="test-web-stop-tomcat"/>
@@ -1421,12 +1420,12 @@
 				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-jsp.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-dont-use-prerender-view-event.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-jsp.war" webxml="${relative.test.dir}/test/src/web/faces/quirks/WEB-INF/web-myfaces2.xml">
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/**"/>
@@ -1473,7 +1472,7 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/**"/>
@@ -1510,11 +1509,11 @@
 		
 		<antcall target="test-web-stop-tomcat"/>
 
-		<!-- TODO: Mojarra 2.0 with Facelets
+		<!-- Mojarra 2.0 with Facelets -->
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets2.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-mojarra-facelets2.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web-mojarra2.xml">
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
@@ -1522,7 +1521,7 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 				<exclude name="WEB-INF/faces-config.xml"/>				
 			</fileset>
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets2">
@@ -1553,23 +1552,13 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
-			<classpath>
-				<fileset dir="${ant.home}">
-					<include name="lib/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg line="-Dcontext.path=quirks-myfaces-facelets2"/>
-			<arg line="-file quirks-jsf2-test.xml"/>
-		</java>
-		
-		<antcall target="test-web-stop-tomcat"/> -->
+		<antcall target="test-web-stop-tomcat"/>
 
 		<!-- MyFaces 2.0 with Facelets -->
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
-		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-facelets2.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web.xml">
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-myfaces-facelets2.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-facelets2/WEB-INF/web-normal.xml">
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks">
 				<include name="WEB-INF/metawidget*.xml"/>
 			</fileset>
@@ -1577,7 +1566,7 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 				<exclude name="WEB-INF/faces-config.xml"/>				
 			</fileset>
 			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-facelets2">
@@ -1634,7 +1623,7 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/web*.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/faces/quirks/model/IceFacesQuirks*.class"/>
