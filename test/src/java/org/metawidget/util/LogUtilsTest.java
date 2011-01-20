@@ -77,6 +77,11 @@ public class LogUtilsTest
 		return LogUtils.LAST_WARN_MESSAGE;
 	}
 
+	public static String getLastErrorMessage() {
+
+		return LogUtils.LAST_ERROR_MESSAGE;
+	}
+
 	//
 	// Public methods
 	//
@@ -85,8 +90,6 @@ public class LogUtilsTest
 		throws Exception {
 
 		Log log = LogUtils.getLog( LogUtilsTest.class );
-
-		// Note: this test will fail if trace is not enabled (eg. when running inside Eclipse)
 
 		if ( log.isTraceEnabled() ) {
 
@@ -97,12 +100,16 @@ public class LogUtilsTest
 			assertTrue( "trace 1".equals( getLastTraceMessage() ));
 			log.trace( "trace {0}", "1t", new Throwable() );
 			assertTrue( "trace 1t".equals( getLastTraceMessage() ));
+			log.trace( "trace", new Throwable() );
+			assertTrue( "trace".equals( getLastTraceMessage() ));
 
 			assertTrue( log.isDebugEnabled() );
 			log.debug( "debug {0}", 2 );
 			assertTrue( "debug 2".equals( getLastDebugMessage() ));
 			log.debug( "debug {0}", "2t", new Throwable() );
 			assertTrue( "debug 2t".equals( getLastDebugMessage() ));
+			log.debug( "debug", new Throwable() );
+			assertTrue( "debug".equals( getLastDebugMessage() ));
 		}
 
 		assertTrue( log.isInfoEnabled() );
@@ -110,16 +117,24 @@ public class LogUtilsTest
 		assertTrue( "info 3".equals( getLastInfoMessage() ));
 		log.info( "info {0}", "3t", new Throwable() );
 		assertTrue( "info 3t".equals( getLastInfoMessage() ));
+		log.info( "info", new Throwable() );
+		assertTrue( "info".equals( getLastInfoMessage() ));
 
 		assertTrue( log.isWarnEnabled() );
 		log.warn( "warn {0}", 4 );
 		assertTrue( "warn 4".equals( getLastWarnMessage() ));
 		log.warn( "warn {0}", "4t", new Throwable() );
 		assertTrue( "warn 4t".equals( getLastWarnMessage() ));
+		log.warn( "warn", new Throwable() );
+		assertTrue( "warn".equals( getLastWarnMessage() ));
 
 		assertTrue( log.isErrorEnabled() );
 		log.error( "error {0}", 5 );
+		assertTrue( "error 5".equals( getLastErrorMessage() ));
 		log.error( "error {0}", "5t", new Throwable() );
+		assertTrue( "error 5t".equals( getLastErrorMessage() ));
+		log.error( "error", new Throwable() );
+		assertTrue( "error".equals( getLastErrorMessage() ));
 
 		// Test bad messages
 

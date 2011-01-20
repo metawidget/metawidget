@@ -194,6 +194,13 @@ public final class LogUtils {
 	/* package private */static String		LAST_WARN_MESSAGE;
 
 	/**
+	 * Lightweight field that stores the last message sent to <code>Log.error</code>. Intended for
+	 * unit tests.
+	 */
+
+	/* package private */static String		LAST_ERROR_MESSAGE;
+
+	/**
 	 * Logging implementation that uses <code>java.util.Logger</code>.
 	 */
 
@@ -266,7 +273,7 @@ public final class LogUtils {
 
 		public void error( String error, Object... arguments ) {
 
-			log( Level.SEVERE, error, arguments );
+			LAST_ERROR_MESSAGE = log( Level.SEVERE, error, arguments );
 		}
 
 		//
@@ -509,6 +516,8 @@ public final class LogUtils {
 					throw new RuntimeException( "Given " + ( lastArgument + 1 ) + " arguments to log, but no {" + lastArgument + "} in message '" + error + "'" );
 				}
 			}
+
+			LAST_ERROR_MESSAGE = logged;
 		}
 	}
 
