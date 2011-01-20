@@ -136,6 +136,8 @@ public abstract class UIMetawidget
 
 	private static boolean					LOGGED_MISSING_CONFIG;
 
+	private static Boolean					USE_PRERENDER_VIEW_EVENT;
+
 	//
 	// Private members
 	//
@@ -169,29 +171,71 @@ public abstract class UIMetawidget
 		// PreRenderViewEvent support
 		//
 		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826
-		// and https://issues.apache.org/jira/browse/MYFACES-2935
+		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
+		// for the duration.
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = context.getExternalContext();
+		if ( USE_PRERENDER_VIEW_EVENT == null ) {
 
-		// TODO: warn about Mojarra
+			FacesContext context = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = context.getExternalContext();
 
-		if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
+			Package applicationPackage = context.getApplication().getClass().getPackage();
+			String applicationImplementationTitle = applicationPackage.getImplementationTitle();
+			String applicationImplementationVersion = applicationPackage.getImplementationVersion();
 
-			// Forcibly disabled
+			if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
 
-			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
+				if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
 
-		} else if ( FacesUtils.isJsf2() ) {
+					if ( isBadMojarra( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
-			// Supported
+						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+					}
 
+				} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
+
+					if ( isBadMyFaces( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+
+						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+					}
+				}
+
+				// Forcibly disabled
+
+				USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
+
+			} else if ( FacesUtils.isJsf2() ) {
+
+				if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
+
+					if ( isBadMojarra( applicationImplementationVersion ) ) {
+
+						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+					}
+
+				} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
+
+					if ( isBadMyFaces( applicationImplementationVersion ) ) {
+
+						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+					}
+				}
+
+				// Supported
+
+				USE_PRERENDER_VIEW_EVENT = Boolean.TRUE;
+
+			} else {
+
+				// JSF 1.x
+
+				USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
+			}
+		}
+
+		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
 			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
-
 		} else {
-
-			// JSF 1.x
-
 			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
 		}
 	}
@@ -959,6 +1003,16 @@ public abstract class UIMetawidget
 		}
 
 		return null;
+	}
+
+	private boolean isBadMojarra( String applicationImplementationVersion ) {
+
+		return applicationImplementationVersion.contains( "2.0." ) || applicationImplementationVersion.contains( "2.1.0" );
+	}
+
+	private boolean isBadMyFaces( String applicationImplementationVersion ) {
+
+		return ( applicationImplementationVersion.contains( "2.0.0" ) || applicationImplementationVersion.contains( "2.0.1" ) || applicationImplementationVersion.contains( "2.0.2" ) );
 	}
 
 	//

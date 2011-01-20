@@ -168,6 +168,12 @@ public final class FacesUtils {
 		}
 	}
 
+	public static boolean isPartialStateSavingDisabled() {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		return ( "false".equals( context.getExternalContext().getInitParameter( "javax.faces.PARTIAL_STATE_SAVING" )));
+	}
+
 	//
 	// Private statics
 	//
