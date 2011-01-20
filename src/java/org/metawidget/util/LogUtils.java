@@ -289,7 +289,7 @@ public final class LogUtils {
 					// Support cases with an unused Throwable on the end
 
 					if ( arguments[lastArgument] instanceof Throwable && message.indexOf( "{" + lastArgument + "}" ) == -1 ) {
-						if ( lastArgument > 1 ) {
+						if ( lastArgument > 0 ) {
 							logged = MessageFormat.format( logged, arguments );
 						}
 						mLogger.log( level, logged, (Throwable) arguments[lastArgument] );
@@ -351,7 +351,7 @@ public final class LogUtils {
 					mLog.trace( logged );
 				} else {
 					if ( arguments[lastArgument] instanceof Throwable && trace.indexOf( "{" + lastArgument + "}" ) == -1 ) {
-						if ( lastArgument > 1 ) {
+						if ( lastArgument > 0 ) {
 							logged = MessageFormat.format( logged, arguments );
 						}
 						mLog.trace( logged, (Throwable) arguments[lastArgument] );
@@ -387,8 +387,8 @@ public final class LogUtils {
 					mLog.debug( logged );
 				} else {
 					if ( arguments[lastArgument] instanceof Throwable && debug.indexOf( "{" + lastArgument + "}" ) == -1 ) {
-						if ( lastArgument > 1 ) {
-							logged = MessageFormat.format( logged, (Throwable) arguments[lastArgument] );
+						if ( lastArgument > 0 ) {
+							logged = MessageFormat.format( logged, arguments );
 						}
 						mLog.debug( logged, (Throwable) arguments[lastArgument] );
 						lastArgument--;
@@ -423,7 +423,7 @@ public final class LogUtils {
 					mLog.info( logged );
 				} else {
 					if ( arguments[lastArgument] instanceof Throwable && info.indexOf( "{" + lastArgument + "}" ) == -1 ) {
-						if ( lastArgument > 1 ) {
+						if ( lastArgument > 0 ) {
 							logged = MessageFormat.format( logged, arguments );
 						}
 						mLog.info( logged, (Throwable) arguments[lastArgument] );
@@ -458,7 +458,7 @@ public final class LogUtils {
 					mLog.warn( logged );
 				} else {
 					if ( arguments[lastArgument] instanceof Throwable && warning.indexOf( "{" + lastArgument + "}" ) == -1 ) {
-						if ( lastArgument > 1 ) {
+						if ( lastArgument > 0 ) {
 							logged = MessageFormat.format( logged, arguments );
 						}
 						mLog.warn( logged, (Throwable) arguments[lastArgument] );
@@ -495,7 +495,7 @@ public final class LogUtils {
 				mLog.error( logged );
 			} else {
 				if ( arguments[lastArgument] instanceof Throwable && error.indexOf( "{" + lastArgument + "}" ) == -1 ) {
-					if ( lastArgument > 1 ) {
+					if ( lastArgument > 0 ) {
 						logged = MessageFormat.format( logged, arguments );
 					}
 					mLog.error( logged, (Throwable) arguments[lastArgument] );

@@ -88,50 +88,61 @@ public class LogUtilsTest
 
 		// Note: this test will fail if trace is not enabled (eg. when running inside Eclipse)
 
-		assertTrue( log.isTraceEnabled() );
-		log.trace( "trace {0}", 1 );
-		assertTrue( "trace 1".equals( getLastTraceMessage() ));
-		log.trace( "trace", new Throwable() );
+		if ( log.isTraceEnabled() ) {
 
-		assertTrue( log.isDebugEnabled() );
-		log.debug( "debug {0}", 2 );
-		assertTrue( "debug 2".equals( getLastDebugMessage() ));
-		log.debug( "debug", new Throwable() );
+			log.trace( "trace {0}", 1 );
+
+			// Note: cannot use assertEquals because must stay JDK 1.4 compatible
+
+			assertTrue( "trace 1".equals( getLastTraceMessage() ));
+			log.trace( "trace {0}", "1t", new Throwable() );
+			assertTrue( "trace 1t".equals( getLastTraceMessage() ));
+
+			assertTrue( log.isDebugEnabled() );
+			log.debug( "debug {0}", 2 );
+			assertTrue( "debug 2".equals( getLastDebugMessage() ));
+			log.debug( "debug {0}", "2t", new Throwable() );
+			assertTrue( "debug 2t".equals( getLastDebugMessage() ));
+		}
 
 		assertTrue( log.isInfoEnabled() );
 		log.info( "info {0}", 3 );
 		assertTrue( "info 3".equals( getLastInfoMessage() ));
-		log.info( "info", new Throwable() );
+		log.info( "info {0}", "3t", new Throwable() );
+		assertTrue( "info 3t".equals( getLastInfoMessage() ));
 
 		assertTrue( log.isWarnEnabled() );
 		log.warn( "warn {0}", 4 );
 		assertTrue( "warn 4".equals( getLastWarnMessage() ));
-		log.warn( "warn", new Throwable() );
+		log.warn( "warn {0}", "4t", new Throwable() );
+		assertTrue( "warn 4t".equals( getLastWarnMessage() ));
 
 		assertTrue( log.isErrorEnabled() );
 		log.error( "error {0}", 5 );
-		log.error( "error", new Throwable() );
+		log.error( "error {0}", "5t", new Throwable() );
 
 		// Test bad messages
 
-		try
-		{
-			log.trace( "trace {0}", 1, 2 );
-			assertTrue( false );
-		}
-		catch( RuntimeException e )
-		{
-			assertTrue( "Given 2 arguments to log, but no {1} in message 'trace {0}'".equals( e.getMessage() ));
-		}
+		if ( log.isTraceEnabled() ) {
+			try
+			{
+				log.trace( "trace {0}", 1, 2 );
+				assertTrue( false );
+			}
+			catch( RuntimeException e )
+			{
+				assertTrue( "Given 2 arguments to log, but no {1} in message 'trace {0}'".equals( e.getMessage() ));
+			}
 
-		try
-		{
-			log.debug( "debug {0}", "foo", "bar" );
-			assertTrue( false );
-		}
-		catch( RuntimeException e )
-		{
-			assertTrue( "Given 2 arguments to log, but no {1} in message 'debug {0}'".equals( e.getMessage() ));
+			try
+			{
+				log.debug( "debug {0}", "foo", "bar" );
+				assertTrue( false );
+			}
+			catch( RuntimeException e )
+			{
+				assertTrue( "Given 2 arguments to log, but no {1} in message 'debug {0}'".equals( e.getMessage() ));
+			}
 		}
 
 		try
