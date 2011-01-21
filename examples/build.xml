@@ -19,6 +19,7 @@
 			<include name="org/metawidget/example/swing/applet/**"/>
 			<include name="org/metawidget/example/swing/console/**"/>
 			<include name="org/metawidget/example/**/addressbook/**"/>
+			<include name="org/metawidget/example/shared/util/**"/>
 			<include name="org/metawidget/example/**/penguincolony/**"/>
 			<include name="org/metawidget/example/gwt/clientside/**"/>
 			<classpath>
@@ -467,6 +468,7 @@
 			<classes dir="${relative.dir}/${build.dir}/example-classes">
 				<include name="org/metawidget/example/jsp/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**"/>
+				<include name="org/metawidget/example/shared/util/**"/>
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="jstl.jar"/>
@@ -498,6 +500,7 @@
 			<classes dir="${relative.dir}/${build.dir}/example-classes">
 				<include name="org/metawidget/example/struts/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**"/>
+				<include name="org/metawidget/example/shared/util/**"/>				
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="commons-beanutils-*.jar"/>
@@ -534,6 +537,7 @@
 			<classes dir="${relative.dir}/${build.dir}/example-classes">
 				<include name="org/metawidget/example/spring/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**"/>
+				<include name="org/metawidget/example/shared/util/**"/>				
 			</classes>
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="commons-digester-*.jar"/>

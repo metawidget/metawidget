@@ -185,18 +185,21 @@ public abstract class UIMetawidget
 
 			if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
 
-				if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
+				if ( applicationImplementationTitle != null ) {
 
-					if ( isBadMojarra( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+					if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
 
-						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
-					}
+						if ( isBadMojarra( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
-				} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
+							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+						}
 
-					if ( isBadMyFaces( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+					} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
 
-						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+						if ( isBadMyFaces( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+
+							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+						}
 					}
 				}
 
@@ -206,18 +209,21 @@ public abstract class UIMetawidget
 
 			} else if ( FacesUtils.isJsf2() ) {
 
-				if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
+				if ( applicationImplementationTitle != null ) {
 
-					if ( isBadMojarra( applicationImplementationVersion ) ) {
+					if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
 
-						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
-					}
+						if ( isBadMojarra( applicationImplementationVersion ) ) {
 
-				} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
+							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+						}
 
-					if ( isBadMyFaces( applicationImplementationVersion ) ) {
+					} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
 
-						throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+						if ( isBadMyFaces( applicationImplementationVersion ) ) {
+
+							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+						}
 					}
 				}
 

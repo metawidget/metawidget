@@ -60,7 +60,7 @@
 							</tfoot>
 						</c:if>
 						<tbody>
-							<c:forEach items="${a:sort(contactForm.communications)}" var="_communication">
+							<c:forEach items="${a:sortSet(contactForm.communications)}" var="_communication">
 								<tr>
 									<td class="column-half">${_communication.type}</td>
 									<td class="column-half">${_communication.value}</td>

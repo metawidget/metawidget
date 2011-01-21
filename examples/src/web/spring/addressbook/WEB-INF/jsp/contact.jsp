@@ -45,7 +45,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${a:sort(contactCommand.communications)}" var="_communication">
+							<c:forEach items="${a:sortSet(contactCommand.communications)}" var="_communication">
 								<tr>
 									<td class="column-half">${_communication.type}</td>
 									<td class="column-half">${_communication.value}</td>

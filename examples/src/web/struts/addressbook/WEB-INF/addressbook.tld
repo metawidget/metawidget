@@ -15,10 +15,10 @@
 	</function>
 
 	<function>
-		<name>sort</name>
-		<function-class>org.metawidget.util.CollectionUtils</function-class>
+		<name>sortSet</name>
+		<function-class>org.metawidget.example.shared.util.ExampleUtils</function-class>
 		<function-signature>
-			java.util.List sort( java.util.Collection )
+			java.util.List sortSet( java.util.Set )
 		</function-signature>>
 	</function>
 
