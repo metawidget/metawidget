@@ -189,14 +189,14 @@ public abstract class UIMetawidget
 
 					if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
 
-						if ( isBadMojarra( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+						if ( isBadMojarra2( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
 							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
 						}
 
 					} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
 
-						if ( isBadMyFaces( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+						if ( isBadMyFaces2( applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
 							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
 						}
@@ -213,14 +213,14 @@ public abstract class UIMetawidget
 
 					if ( applicationImplementationTitle.contains( "Mojarra" ) ) {
 
-						if ( isBadMojarra( applicationImplementationVersion ) ) {
+						if ( isBadMojarra2( applicationImplementationVersion ) ) {
 
 							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
 						}
 
 					} else if ( applicationImplementationTitle.contains( "MyFaces" ) ) {
 
-						if ( isBadMyFaces( applicationImplementationVersion ) ) {
+						if ( isBadMyFaces2( applicationImplementationVersion ) ) {
 
 							throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
 						}
@@ -1011,12 +1011,12 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	private boolean isBadMojarra( String applicationImplementationVersion ) {
+	private boolean isBadMojarra2( String applicationImplementationVersion ) {
 
 		return applicationImplementationVersion.contains( "2.0." ) || applicationImplementationVersion.contains( "2.1.0" );
 	}
 
-	private boolean isBadMyFaces( String applicationImplementationVersion ) {
+	private boolean isBadMyFaces2( String applicationImplementationVersion ) {
 
 		return ( applicationImplementationVersion.contains( "2.0.0" ) || applicationImplementationVersion.contains( "2.0.1" ) || applicationImplementationVersion.contains( "2.0.2" ) );
 	}

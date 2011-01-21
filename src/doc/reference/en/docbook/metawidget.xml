@@ -6582,26 +6582,28 @@ static class State {
 					<title>JSF 2.0</title>
 					
 					<para>
-						<classname>UIMetawidget</classname> is compatible with JSF 2.0. It automatically detects whether JSF 2.0
+						<classname>UIMetawidget</classname> supports JSF 2.0. It automatically detects whether JSF 2.0
 						classes are available (specifically <classname>javax.faces.event.PreRenderViewEvent</classname>) and switches
 						to using them. However not all JSF 2.0 implementations properly support <classname>PreRenderViewEvent</classname>. You
-						need at least Mojarra 2.1 or MyFaces 2.0.3 (specifically, an implementation that
-						passes <ulink url="https://issues.apache.org/jira/browse/MYFACES-2935">this acid test</ulink>). If you need
-						to work with older versions, try:
+						need at least Mojarra 2.2
+						(specifically a version that <ulink url="https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826">includes this fix</ulink>)
+						or MyFaces 2.0.3
+						(specifically a version that <ulink url="https://issues.apache.org/jira/browse/MYFACES-2935">includes this fix</ulink>). If you need
+						to work with older versions, you must:
 					</para>
 					
 					<itemizedlist>
 						<listitem>
 							<para>
-								disabling <classname>PreRenderViewEvent</classname> support by setting
-								<parameter>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
-								in <filename>web.xml</filename>. 
+								disable partial state saving by setting <parameter>javax.faces.PARTIAL_STATE_SAVING</parameter> to
+								<parameter>false</parameter> in <filename>web.xml</filename>; and
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-								disabling partial state saving by setting <parameter>javax.faces.PARTIAL_STATE_SAVING</parameter> to
-								<parameter>false</parameter> in <filename>web.xml</filename>.
+								disable <classname>PreRenderViewEvent</classname> support by setting
+								<parameter>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
+								in <filename>web.xml</filename>.
 							</para>
 						</listitem>
 					</itemizedlist>
