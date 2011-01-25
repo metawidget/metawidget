@@ -7082,10 +7082,10 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 
 						<para>
 							When using getter methods with private members, make sure you annotate the getter/setter <emphasis>not the private
-							field</emphasis>. By default, <classname>JavaBeanPropertyStyle</classname> cannot find annotations on private fields, because
+							field</emphasis>. By default, <classname>JavaBeanPropertyStyle</classname> does not find annotations on private fields, because
 							the JavaBean specification does not define a way to determine which private fields belong to which getter/setter methods.
 							However, many developers adopt a naming convention (e.g. getter <function>isFoo</function> maps to field <function>mFoo</function>) and
-							you can specify your naming convention using <function>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</function>. This
+							you can specify your preferred convention using <function>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</function>. This
 							method takes a <classname>MessageFormat</classname> parameter which you can use to format the property name accordingly.
 							For example:
 						</para>
