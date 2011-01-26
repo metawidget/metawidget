@@ -24,6 +24,7 @@
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/Thumbs.db"/>
 				<exclude name="**/junit*.properties"/>
+				<exclude name="src/doc/target/**"/>
 			</fileset>
 		</copy>
 	
