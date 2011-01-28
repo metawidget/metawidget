@@ -140,7 +140,8 @@ public class AndroidWidgetBuilder
 
 		if ( view instanceof Spinner ) {
 			AdapterView<?> adapterView = (AdapterView<?>) view;
-			ArrayAdapter<?> adapter = (ArrayAdapter<?>) adapterView.getAdapter();
+			@SuppressWarnings( "unchecked" )
+			ArrayAdapter<Object> adapter = (ArrayAdapter<Object>) adapterView.getAdapter();
 			adapterView.setSelection( adapter.getPosition( value ) );
 
 			return true;
