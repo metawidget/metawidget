@@ -174,9 +174,10 @@ public abstract class UIMetawidget
 		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
 		// for the duration.
 
+		FacesContext context = FacesContext.getCurrentInstance();
+
 		if ( USE_PRERENDER_VIEW_EVENT == null ) {
 
-			FacesContext context = FacesContext.getCurrentInstance();
 			ExternalContext externalContext = context.getExternalContext();
 
 			Package applicationPackage = context.getApplication().getClass().getPackage();
@@ -239,7 +240,11 @@ public abstract class UIMetawidget
 			}
 		}
 
-		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
+		// context.getViewRoot may sometimes be null if disabled javax.faces.PARTIAL_STATE_SAVING
+		// under MyFaces. This will immediately NullPointer if we try and use
+		// PreRenderViewEventSupport
+
+		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) && context.getViewRoot() != null ) {
 			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
 		} else {
 			mBuildWidgetsTrigger = new EncodeBeginSupport( this );

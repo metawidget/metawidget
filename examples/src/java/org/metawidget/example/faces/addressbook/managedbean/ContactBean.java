@@ -42,7 +42,7 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-// Note: we SuppressWarnings( "unchecked" ) in a few places so that we can compile against JSF 2.0
+// Note: we SuppressWarnings( "deprecation" ) in a few places so that we can compile against JSF 2.0
 // but still run against JSF 1.2
 //
 @SuppressWarnings( "deprecation" )

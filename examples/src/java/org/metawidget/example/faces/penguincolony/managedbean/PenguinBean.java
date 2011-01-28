@@ -34,9 +34,6 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard
  */
 
-// Note: we SuppressWarnings( "unchecked" ) in a few places so that we can compile against JSF 2.0
-// but still run against JSF 1.2
-//
 public class PenguinBean {
 
 	//
