@@ -47,6 +47,7 @@ public class ReadOnlyWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Object getValue( View view ) {
 
 		// TextView
@@ -71,6 +72,7 @@ public class ReadOnlyWidgetBuilder
 		return null;
 	}
 
+	@Override
 	public boolean setValue( Object value, View view ) {
 
 		// TextView
@@ -87,6 +89,7 @@ public class ReadOnlyWidgetBuilder
 		return false;
 	}
 
+	@Override
 	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget ) {
 
 		// Not read-only?

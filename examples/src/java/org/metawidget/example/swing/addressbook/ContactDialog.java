@@ -167,6 +167,7 @@ public class ContactDialog
 		final JPopupMenu menuPopup = new JPopupMenu();
 		menuPopup.add( new AbstractAction( bundle.getString( "delete" ) ) {
 
+			@Override
 			public void actionPerformed( ActionEvent event ) {
 
 				menuPopup.setVisible( false );
@@ -332,11 +333,13 @@ public class ContactDialog
 		// Public methods
 		//
 
+		@Override
 		public Object getCellEditorValue() {
 
 			return mEditor.getValue( mColumnName );
 		}
 
+		@Override
 		@SuppressWarnings( "unchecked" )
 		public Component getTableCellEditorComponent( JTable table, Object value, boolean selected, int row, int column ) {
 

@@ -47,8 +47,7 @@ public final class ClassUtils {
 	 * not available on all target platforms.
 	 */
 
-	@SuppressWarnings( "unchecked" )
-	public static Method getReadMethod( Class clazz, String property ) {
+	public static Method getReadMethod( Class<?> clazz, String property ) {
 
 		String propertyUppercased = StringUtils.uppercaseFirstLetter( property );
 
@@ -78,14 +77,13 @@ public final class ClassUtils {
 	 * not available on all target platforms.
 	 */
 
-	@SuppressWarnings( "unchecked" )
-	public static Method getWriteMethod( Class clazz, String property, Class type ) {
+	public static Method getWriteMethod( Class<?> clazz, String property, Class<?> type ) {
 
 		String propertyUppercased = StringUtils.uppercaseFirstLetter( property );
 
 		// First, try and match based on subtypes of the property type
 
-		Class typeSuper = type;
+		Class<?> typeSuper = type;
 
 		while ( typeSuper != null ) {
 			try {
@@ -97,7 +95,7 @@ public final class ClassUtils {
 
 		// Next, try and match based on interfaces of the property type
 
-		for ( Class anInterface : type.getInterfaces() ) {
+		for ( Class<?> anInterface : type.getInterfaces() ) {
 			try {
 				return clazz.getMethod( JAVABEAN_SET_PREFIX + propertyUppercased, anInterface );
 			} catch ( Throwable t ) {

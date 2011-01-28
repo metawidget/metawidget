@@ -39,6 +39,7 @@ public abstract class BaseConverter<T>
 	 * By default, uses <code>StringUtils.quietValueOf</code>.
 	 */
 
+	@Override
 	public Object convertForWidget( Widget widget, T value ) {
 
 		return StringUtils.quietValueOf( value );

@@ -450,11 +450,13 @@ public class JavaBeanPropertyStyle
 		// Public methods
 		//
 
+		@Override
 		public boolean isReadable() {
 
 			return true;
 		}
 
+		@Override
 		public Object read( Object obj ) {
 
 			try {
@@ -464,16 +466,19 @@ public class JavaBeanPropertyStyle
 			}
 		}
 
+		@Override
 		public boolean isWritable() {
 
 			return true;
 		}
 
+		@Override
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
 			return mField.getAnnotation( annotation );
 		}
 
+		@Override
 		public Type getGenericType() {
 
 			return mField.getGenericType();
@@ -530,6 +535,7 @@ public class JavaBeanPropertyStyle
 		// Public methods
 		//
 
+		@Override
 		public boolean isReadable() {
 
 			return ( mReadMethod != null );
@@ -541,6 +547,7 @@ public class JavaBeanPropertyStyle
 		 * properties of Enums (eg. Gender.isMale)
 		 */
 
+		@Override
 		public Object read( Object obj ) {
 
 			try {
@@ -550,11 +557,13 @@ public class JavaBeanPropertyStyle
 			}
 		}
 
+		@Override
 		public boolean isWritable() {
 
 			return ( mWriteMethod != null );
 		}
 
+		@Override
 		public <T extends Annotation> T getAnnotation( Class<T> annotationClass ) {
 
 			if ( mReadMethod != null ) {
@@ -586,6 +595,7 @@ public class JavaBeanPropertyStyle
 			return null;
 		}
 
+		@Override
 		public Type getGenericType() {
 
 			if ( mReadMethod != null ) {

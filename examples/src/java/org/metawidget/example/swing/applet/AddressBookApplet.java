@@ -38,6 +38,7 @@ public class AddressBookApplet
 	// Constructor
 	//
 
+	@SuppressWarnings( "unused" )
 	public AddressBookApplet() {
 
 		// Background

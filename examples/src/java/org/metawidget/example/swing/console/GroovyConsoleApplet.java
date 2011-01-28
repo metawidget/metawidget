@@ -90,6 +90,7 @@ public class GroovyConsoleApplet
 
 			SwingUtilities.invokeLater( new Runnable() {
 
+				@Override
 				public void run() {
 
 					JTextPane inputArea = mConsole.getInputArea();

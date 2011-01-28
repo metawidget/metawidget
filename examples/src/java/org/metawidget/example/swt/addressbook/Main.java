@@ -55,6 +55,7 @@ public class Main {
 	// Public statics
 	//
 
+	@SuppressWarnings( "unused" )
 	public static void main( String[] args ) {
 
 		Display display = new Display();
@@ -111,7 +112,7 @@ public class Main {
 
 		mShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
 		mShell.setBackground( new Color( mShell.getDisplay(), 255, 255, 255 ) );
-		mBackgroundImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ));
+		mBackgroundImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/background.jpg" ) );
 		mShell.setBackgroundImage( mBackgroundImage );
 
 		// Model
@@ -122,8 +123,8 @@ public class Main {
 		// Left-hand image
 
 		Label label = new Label( mShell, SWT.NONE );
-		mLeftImage =  new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/addressbook.gif" ));
-		label.setImage(mLeftImage );
+		mLeftImage = new Image( mShell.getDisplay(), ClassLoader.getSystemResourceAsStream( "org/metawidget/example/shared/addressbook/media/addressbook.gif" ) );
+		label.setImage( mLeftImage );
 		GridData data = new GridData();
 		data.verticalAlignment = SWT.TOP;
 		data.verticalSpan = 2;
@@ -224,8 +225,8 @@ public class Main {
 		mContactDialog.waitForDispose();
 	}
 
-	public void dispose()
-	{
+	public void dispose() {
+
 		mBackgroundImage.dispose();
 		mLeftImage.dispose();
 	}

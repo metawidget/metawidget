@@ -42,6 +42,7 @@ public class RowLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwtMetawidget metawidget ) {
 
 		// Do nothing
@@ -53,6 +54,7 @@ public class RowLayout
 		container.setLayout( new org.eclipse.swt.layout.RowLayout() );
 	}
 
+	@Override
 	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		// Do not layout space for empty stubs
@@ -73,6 +75,7 @@ public class RowLayout
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( SwtMetawidget metawidget ) {
 
 		// Do nothing

@@ -85,16 +85,19 @@ public class AndroidMetawidgetTests
 			mAttributes.put( key, value );
 		}
 
+		@Override
 		public String getAttributeValue( String object, String key ) {
 
 			return mAttributes.get( key );
 		}
 
+		@Override
 		public int getAttributeCount() {
 
 			return mAttributes.size();
 		}
 
+		@Override
 		public String getAttributeValue( int index ) {
 
 			Iterator<String> iterator = mAttributes.values().iterator();
@@ -106,6 +109,7 @@ public class AndroidMetawidgetTests
 			return iterator.next();
 		}
 
+		@Override
 		public String getAttributeName( int index ) {
 
 			Iterator<String> iterator = mAttributes.keySet().iterator();
@@ -117,6 +121,7 @@ public class AndroidMetawidgetTests
 			return iterator.next();
 		}
 
+		@Override
 		public int getAttributeResourceValue( String object, String string, int i ) {
 
 			return 0;

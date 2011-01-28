@@ -67,6 +67,7 @@ public class AllWidgetsModule
 	// Public methods
 	//
 
+	@Override
 	public void onModuleLoad() {
 
 		// Metawidget
@@ -101,6 +102,7 @@ public class AllWidgetsModule
 		final Button saveButton = new Button( "Save" );
 		saveButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );

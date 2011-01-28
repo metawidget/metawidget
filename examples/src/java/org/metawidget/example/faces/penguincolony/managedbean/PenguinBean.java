@@ -43,25 +43,23 @@ public class PenguinBean {
 	// Private statics
 	//
 
-	@SuppressWarnings( "unchecked" )
-	private ListDataModel	mAll;
+	private ListDataModel<Penguin>	mAll;
 
-	private Penguin			mPenguinCurrent;
+	private Penguin					mPenguinCurrent;
 
-	private boolean			mPopupVisible;
+	private boolean					mPopupVisible;
 
 	//
 	// Constructor
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public PenguinBean() {
 
 		List<Penguin> all = CollectionUtils.newArrayList();
 		all.add( new Penguin( "Mumble", "Great penguin" ) );
 		all.add( new Penguin( "Tux", "Little penguin" ) );
 
-		mAll = new ListDataModel( all );
+		mAll = new ListDataModel<Penguin>( all );
 	}
 
 	//
@@ -75,9 +73,8 @@ public class PenguinBean {
 	 * ListDataModel itself can be parameterized instead (ie. ListDataModel<Penguin>)
 	 */
 
-	@SuppressWarnings( "unchecked" )
 	@UiAttribute( name = PARAMETERIZED_TYPE, value = "org.metawidget.example.faces.penguincolony.model.Penguin" )
-	public ListDataModel getAll() {
+	public ListDataModel<Penguin> getAll() {
 
 		return mAll;
 	}
@@ -94,7 +91,7 @@ public class PenguinBean {
 
 	public void edit() {
 
-		mPenguinCurrent = (Penguin) mAll.getRowData();
+		mPenguinCurrent = mAll.getRowData();
 		mPopupVisible = true;
 	}
 

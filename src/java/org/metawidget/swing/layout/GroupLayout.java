@@ -22,12 +22,12 @@ import java.awt.Component;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
@@ -62,11 +62,13 @@ public class GroupLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( container );
@@ -87,6 +89,7 @@ public class GroupLayout
 		groupLayout.setVerticalGroup( state.groupVertical );
 	}
 
+	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -150,6 +153,7 @@ public class GroupLayout
 		parallelGroup.addComponent( component );
 	}
 
+	@Override
 	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		// Make all labels the same width
@@ -162,6 +166,7 @@ public class GroupLayout
 		}
 	}
 
+	@Override
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Buttons

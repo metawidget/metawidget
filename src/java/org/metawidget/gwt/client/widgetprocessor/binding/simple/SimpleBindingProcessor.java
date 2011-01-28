@@ -151,6 +151,7 @@ public class SimpleBindingProcessor
 				FocusWidget focusWidget = (FocusWidget) widget;
 				focusWidget.addClickHandler( new ClickHandler() {
 
+					@Override
 					public void onClick( ClickEvent event ) {
 
 						// Use the adapter...

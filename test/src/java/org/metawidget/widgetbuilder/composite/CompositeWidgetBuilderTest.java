@@ -38,6 +38,7 @@ public class CompositeWidgetBuilderTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unused" )
 	public void testDefensiveCopy()
 		throws Exception {
 
@@ -68,7 +69,7 @@ public class CompositeWidgetBuilderTest
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings( { "unchecked", "unused" } )
 	public void testMinimumWidgetBuilders() {
 
 		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();

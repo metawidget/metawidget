@@ -63,6 +63,7 @@ public class RichFacesWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		// Not for RichFaces?

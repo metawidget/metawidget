@@ -38,12 +38,14 @@ public class CollectionConverter
 	// Public methods
 	//
 
+	@Override
 	public Object getAsObject( FacesContext context, UIComponent component, String value )
 		throws ConverterException {
 
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value )
 		throws ConverterException {
 

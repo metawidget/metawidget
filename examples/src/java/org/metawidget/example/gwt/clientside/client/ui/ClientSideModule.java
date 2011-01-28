@@ -121,6 +121,7 @@ public class ClientSideModule
 	// Public methods
 	//
 
+	@Override
 	public void onModuleLoad() {
 
 		// TextArea

@@ -234,8 +234,7 @@ public class MetawidgetPipelineTest
 
 	public void testDuplicateInspectionResultProcessors() {
 
-		@SuppressWarnings( "unchecked" )
-		InspectionResultProcessor<Object> inspectionResultProcessor1 = new ComesAfterInspectionResultProcessor();
+		InspectionResultProcessor<Object> inspectionResultProcessor1 = new ComesAfterInspectionResultProcessor<Object>();
 
 		Pipeline pipeline = new Pipeline();
 		assertTrue( null == pipeline.getInspectionResultProcessors() );
@@ -259,11 +258,10 @@ public class MetawidgetPipelineTest
 		assertTrue( 1 == pipeline.getInspectionResultProcessors().size() );
 	}
 
+	@SuppressWarnings( { "rawtypes", "unchecked" } )
 	public void testDuplicateWidgetProcessors() {
 
-		@SuppressWarnings( "unchecked" )
 		WidgetProcessor<Object, Object> widgetProcessor1 = (WidgetProcessor) new ReflectionBindingProcessor();
-		@SuppressWarnings( "unchecked" )
 		WidgetProcessor<Object, Object> widgetProcessor2 = (WidgetProcessor) new JGoodiesValidatorProcessor();
 
 		Pipeline pipeline = new Pipeline();

@@ -94,6 +94,7 @@ public class GridLayoutTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unused" )
 	public void testLayout()
 		throws Exception {
 

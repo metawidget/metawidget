@@ -69,11 +69,13 @@ public class MigLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwtMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
 
 		container.setData( MigLayout.class.getName(), null );
@@ -107,6 +109,7 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = new GC( container ).getFontMetrics().getLeading();
 	}
 
+	@Override
 	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -179,11 +182,13 @@ public class MigLayout
 		}
 	}
 
+	@Override
 	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( SwtMetawidget metawidget ) {
 
 		// Buttons

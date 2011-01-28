@@ -237,6 +237,7 @@ public class BeanUtilsBindingProcessor
 		}
 	}
 
+	@Override
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
 		return ConvertUtils.convert( value, expectedType );

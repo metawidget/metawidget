@@ -47,6 +47,7 @@ public class ReadOnlyWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Object getValue( Widget widget ) {
 
 		// Label (not HasText, because CheckBox is a HasText)
@@ -58,6 +59,7 @@ public class ReadOnlyWidgetBuilder
 		return null;
 	}
 
+	@Override
 	public boolean setValue( Widget widget, Object value ) {
 
 		// Label (not HasText, because CheckBox is a HasText)
@@ -78,6 +80,7 @@ public class ReadOnlyWidgetBuilder
 		return false;
 	}
 
+	@Override
 	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget ) {
 
 		// Not read-only?

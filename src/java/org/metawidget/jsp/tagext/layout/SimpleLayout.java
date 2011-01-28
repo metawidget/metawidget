@@ -43,6 +43,7 @@ public class SimpleLayout
 	// Public methods
 	//
 
+	@Override
 	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag ) {
 
 		try {

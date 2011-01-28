@@ -45,6 +45,7 @@ public class ExtGwtWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Object getValue( Widget widget ) {
 
 		if ( widget instanceof DateField ) {
@@ -58,6 +59,7 @@ public class ExtGwtWidgetBuilder
 		return null;
 	}
 
+	@Override
 	public boolean setValue( Widget widget, Object value ) {
 
 		if ( widget instanceof DateField ) {

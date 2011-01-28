@@ -145,6 +145,7 @@ public class AddressBook
 	//
 
 	@UiHidden
+	@Override
 	public ContactsController getContactsController() {
 
 		return mContactsController;

@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
-import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -45,12 +44,13 @@ import org.w3c.dom.NodeList;
  */
 
 public class ComesAfterInspectionResultProcessor<M>
-	implements InspectionResultProcessor<M>, DomInspectionResultProcessor<Element, M> {
+	implements DomInspectionResultProcessor<Element, M> {
 
 	//
 	// Public methods
 	//
 
+	@Override
 	public String processInspectionResult( String inspectionResult, M metawidget ) {
 
 		Document document = XmlUtils.documentFromString( inspectionResult );
@@ -60,6 +60,7 @@ public class ComesAfterInspectionResultProcessor<M>
 		return XmlUtils.documentToString( newInspectionResultRoot.getOwnerDocument(), false );
 	}
 
+	@Override
 	public Element processInspectionResultAsDom( Element inspectionResultRoot, M metawidget ) {
 
 		try {

@@ -106,6 +106,7 @@ public class Communication
 		mValue = value;
 	}
 
+	@Override
 	public int compareTo( Communication that ) {
 
 		if ( that == null ) {

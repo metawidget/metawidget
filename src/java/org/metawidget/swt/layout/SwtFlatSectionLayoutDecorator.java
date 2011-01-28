@@ -61,7 +61,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 		container.setData( getClass().getName(), null );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@Override
 	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		// If our delegate is itself a NestedSectionLayoutDecorator, strip the section

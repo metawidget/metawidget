@@ -68,6 +68,7 @@ public class AndroidWidgetBuilder
 	//
 
 	@SuppressWarnings( "deprecation" )
+	@Override
 	public Object getValue( View view ) {
 
 		// CheckBox
@@ -110,6 +111,7 @@ public class AndroidWidgetBuilder
 	}
 
 	@SuppressWarnings( "deprecation" )
+	@Override
 	public boolean setValue( Object value, View view ) {
 
 		// CheckBox
@@ -137,10 +139,8 @@ public class AndroidWidgetBuilder
 		// Spinner
 
 		if ( view instanceof Spinner ) {
-			@SuppressWarnings( "unchecked" )
-			AdapterView adapterView = (AdapterView) view;
-			@SuppressWarnings( "unchecked" )
-			ArrayAdapter<Object> adapter = (ArrayAdapter<Object>) adapterView.getAdapter();
+			AdapterView<?> adapterView = (AdapterView<?>) view;
+			ArrayAdapter<?> adapter = (ArrayAdapter<?>) adapterView.getAdapter();
 			adapterView.setSelection( adapter.getPosition( value ) );
 
 			return true;
@@ -151,6 +151,7 @@ public class AndroidWidgetBuilder
 		return false;
 	}
 
+	@Override
 	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget ) {
 
 		// Hidden

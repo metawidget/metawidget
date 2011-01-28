@@ -191,6 +191,7 @@ public class XmlInspectorTest
 		assertEquals( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ), null );
 	}
 
+	@SuppressWarnings( "unused" )
 	public void testDefaultConfig() {
 
 		try {

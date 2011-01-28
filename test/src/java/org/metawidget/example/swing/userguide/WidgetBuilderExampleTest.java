@@ -132,6 +132,7 @@ public class WidgetBuilderExampleTest
 	static class JRadioButtonWidgetBuilder
 		implements WidgetBuilder<JComponent, SwingMetawidget> {
 
+		@Override
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			if ( !"boolean".equals( attributes.get( TYPE ) ) ) {
@@ -160,6 +161,7 @@ public class WidgetBuilderExampleTest
 	static class GenericJRadioButtonWidgetBuilder
 		implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
 
+		@Override
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			String lookupAttribute = attributes.get( LOOKUP );
@@ -191,6 +193,7 @@ public class WidgetBuilderExampleTest
 			return panel;
 		}
 
+		@Override
 		public String getValueProperty( Component component ) {
 
 			if ( component instanceof ButtonGroupPanel ) {

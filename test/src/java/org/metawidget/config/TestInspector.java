@@ -139,6 +139,7 @@ public class TestInspector
 	// Public methods
 	//
 
+	@Override
 	public String inspect( Object toInspect, String type, String... names ) {
 
 		return null;

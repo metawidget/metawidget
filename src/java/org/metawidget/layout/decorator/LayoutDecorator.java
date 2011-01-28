@@ -74,6 +74,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( M metawidget ) {
 
 		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> ) {
@@ -89,6 +90,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 		}
 	}
 
+	@Override
 	public void layoutWidget( W component, String elementName, Map<String, String> attributes, C container, M metawidget ) {
 
 		getDelegate().layoutWidget( component, elementName, attributes, container, metawidget );
@@ -102,6 +104,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 		}
 	}
 
+	@Override
 	public void onEndBuild( M metawidget ) {
 
 		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> ) {

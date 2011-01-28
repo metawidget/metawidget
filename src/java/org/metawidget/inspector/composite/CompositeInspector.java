@@ -23,8 +23,8 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.LogUtils;
-import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
  */
 
 public class CompositeInspector
-	implements Inspector, DomInspector<Element> {
+	implements DomInspector<Element> {
 
 	//
 	// Private statics
@@ -101,6 +101,7 @@ public class CompositeInspector
 	// Public methods
 	//
 
+	@Override
 	public String inspect( Object toInspect, String type, String... names ) {
 
 		return inspect( null, toInspect, type, names );
@@ -127,6 +128,7 @@ public class CompositeInspector
 		return XmlUtils.nodeToString( element, false );
 	}
 
+	@Override
 	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 		return inspectAsDom( null, toInspect, type, names );

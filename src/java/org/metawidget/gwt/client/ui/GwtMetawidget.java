@@ -37,8 +37,8 @@ import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.PathUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -266,6 +266,7 @@ public class GwtMetawidget
 	 * effect on inspection.
 	 */
 
+	@Override
 	public void setName( String name ) {
 
 		mName = name;
@@ -279,6 +280,7 @@ public class GwtMetawidget
 	 * effect on inspection.
 	 */
 
+	@Override
 	public String getName() {
 
 		return mName;
@@ -835,6 +837,7 @@ public class GwtMetawidget
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>() {
 
+						@Override
 						public void onFailure( Throwable caught ) {
 
 							GwtUtils.alert( caught );
@@ -842,6 +845,7 @@ public class GwtMetawidget
 							mNeedToBuildWidgets = BUILDING_COMPLETE;
 						}
 
+						@Override
 						public void onSuccess( String inspectionResult ) {
 
 							mLastInspection = mPipeline.stringToElement( inspectionResult );

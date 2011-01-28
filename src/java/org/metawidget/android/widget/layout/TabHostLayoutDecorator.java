@@ -30,8 +30,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TabHost.TabContentFactory;
+import android.widget.TabWidget;
 
 /**
  * Layout to decorate widgets from different sections using a TabHost.
@@ -111,6 +111,7 @@ public class TabHostLayoutDecorator
 
 		TabContentFactory tabContentFactory = new TabHost.TabContentFactory() {
 
+			@Override
 			public View createTabContent( String tag ) {
 
 				return newLayout;

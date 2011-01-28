@@ -40,6 +40,7 @@ public class NestedWidgetsToStringConverter
 	// Public methods
 	//
 
+	@Override
 	public Object convert( Object toConvert ) {
 
 		return StringUtils.quietValueOf( toConvert );

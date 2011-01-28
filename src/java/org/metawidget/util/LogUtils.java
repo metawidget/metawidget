@@ -226,51 +226,61 @@ public final class LogUtils {
 		// Public methods
 		//
 
+		@Override
 		public boolean isTraceEnabled() {
 
 			return mLogger.isLoggable( Level.FINER );
 		}
 
+		@Override
 		public void trace( String trace, Object... arguments ) {
 
 			LAST_TRACE_MESSAGE = log( Level.FINER, trace, arguments );
 		}
 
+		@Override
 		public boolean isDebugEnabled() {
 
 			return mLogger.isLoggable( Level.FINE );
 		}
 
+		@Override
 		public void debug( String debug, Object... arguments ) {
 
 			LAST_DEBUG_MESSAGE = log( Level.FINE, debug, arguments );
 		}
 
+		@Override
 		public boolean isInfoEnabled() {
 
 			return mLogger.isLoggable( Level.INFO );
 		}
 
+		@Override
 		public void info( String info, Object... arguments ) {
 
 			LAST_INFO_MESSAGE = log( Level.INFO, info, arguments );
 		}
 
+		@Override
 		public boolean isWarnEnabled() {
 
 			return mLogger.isLoggable( Level.WARNING );
 		}
 
+		@Override
 		public void warn( String warning, Object... arguments ) {
 
 			LAST_WARN_MESSAGE = log( Level.WARNING, warning, arguments );
 		}
 
+		@Override
 		public boolean isErrorEnabled() {
 
 			return mLogger.isLoggable( Level.SEVERE );
 		}
 
+		@Override
 		public void error( String error, Object... arguments ) {
 
 			LAST_ERROR_MESSAGE = log( Level.SEVERE, error, arguments );
@@ -342,11 +352,13 @@ public final class LogUtils {
 		// Methods
 		//
 
+		@Override
 		public boolean isTraceEnabled() {
 
 			return mLog.isTraceEnabled();
 		}
 
+		@Override
 		public void trace( String trace, Object... arguments ) {
 
 			String logged = trace;
@@ -378,11 +390,13 @@ public final class LogUtils {
 			LAST_TRACE_ARGUMENTS = arguments;
 		}
 
+		@Override
 		public boolean isDebugEnabled() {
 
 			return mLog.isDebugEnabled();
 		}
 
+		@Override
 		public void debug( String debug, Object... arguments ) {
 
 			String logged = debug;
@@ -414,11 +428,13 @@ public final class LogUtils {
 			LAST_DEBUG_ARGUMENTS = arguments;
 		}
 
+		@Override
 		public boolean isInfoEnabled() {
 
 			return mLog.isInfoEnabled();
 		}
 
+		@Override
 		public void info( String info, Object... arguments ) {
 
 			String logged = info;
@@ -449,11 +465,13 @@ public final class LogUtils {
 			LAST_INFO_MESSAGE = logged;
 		}
 
+		@Override
 		public boolean isWarnEnabled() {
 
 			return mLog.isWarnEnabled();
 		}
 
+		@Override
 		public void warn( String warning, Object... arguments ) {
 
 			String logged = warning;
@@ -484,11 +502,13 @@ public final class LogUtils {
 			LAST_WARN_MESSAGE = logged;
 		}
 
+		@Override
 		public boolean isErrorEnabled() {
 
 			return mLog.isErrorEnabled();
 		}
 
+		@Override
 		public void error( String error, Object... arguments ) {
 
 			if ( !isErrorEnabled() ) {

@@ -54,6 +54,7 @@ public class GwtWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Object getValue( Widget widget ) {
 
 		// CheckBox (must come before HasText, because CheckBox extends
@@ -79,6 +80,7 @@ public class GwtWidgetBuilder
 		return null;
 	}
 
+	@Override
 	public boolean setValue( Widget widget, Object value ) {
 
 		// CheckBox (must come before HasText, because CheckBox extends

@@ -56,6 +56,7 @@ public class AjaxProcessor
 	// Public methods
 	//
 
+	@Override
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		// Ignore empty stubs
@@ -154,6 +155,7 @@ public class AjaxProcessor
 		// Public methods
 		//
 
+		@Override
 		public void processAjaxBehavior( AjaxBehaviorEvent event )
 			throws AbortProcessingException {
 

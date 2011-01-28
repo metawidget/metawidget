@@ -53,6 +53,7 @@ public abstract class EnumConverter<T extends Enum<T>>
 	// Public methods
 	//
 
+	@Override
 	public final Object getAsObject( FacesContext context, UIComponent component, String value )
 		throws ConverterException {
 
@@ -63,7 +64,7 @@ public abstract class EnumConverter<T extends Enum<T>>
 		return Enum.valueOf( mClass, value );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@Override
 	public final String getAsString( FacesContext context, UIComponent component, Object object )
 		throws ConverterException {
 
@@ -78,6 +79,6 @@ public abstract class EnumConverter<T extends Enum<T>>
 		// Convert enums to their .name() form, not their .toString() form, so that we can
 		// use .valueOf() in getAsObject.
 
-		return ( (Enum) object ).name();
+		return ( (Enum<?>) object ).name();
 	}
 }

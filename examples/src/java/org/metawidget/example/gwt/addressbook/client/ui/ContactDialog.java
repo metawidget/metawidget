@@ -49,9 +49,9 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 /**
  * Dialog box for Address Book Contacts.
@@ -232,6 +232,7 @@ public class ContactDialog
 		Button addButton = new Button( dictionary.get( "add" ) );
 		addButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				Communication communicationToAdd = new Communication();
@@ -267,6 +268,7 @@ public class ContactDialog
 		mSaveButton = new Button( dictionary.get( "save" ) );
 		mSaveButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				try {
@@ -277,11 +279,13 @@ public class ContactDialog
 
 				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>() {
 
+					@Override
 					public void onFailure( Throwable caught ) {
 
 						Window.alert( caught.getMessage() );
 					}
 
+					@Override
 					public void onSuccess( Object result ) {
 
 						ContactDialog.this.hide();
@@ -295,6 +299,7 @@ public class ContactDialog
 		mDeleteButton = new Button( dictionary.get( "delete" ) );
 		mDeleteButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				if ( mAddressBookModule.getPanel() instanceof RootPanel ) {
@@ -305,11 +310,13 @@ public class ContactDialog
 
 				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>() {
 
+					@Override
 					public void onFailure( Throwable caught ) {
 
 						Window.alert( caught.getMessage() );
 					}
 
+					@Override
 					public void onSuccess( Boolean result ) {
 
 						ContactDialog.this.hide();
@@ -323,6 +330,7 @@ public class ContactDialog
 		mEditButton = new Button( dictionary.get( "edit" ) );
 		mEditButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				mMetawidget.setReadOnly( false );
@@ -334,6 +342,7 @@ public class ContactDialog
 		mCancelButton = new Button();
 		mCancelButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				ContactDialog.this.hide();
@@ -424,6 +433,7 @@ public class ContactDialog
 					final Button deleteButton = new Button( "Delete" );
 					deleteButton.addClickHandler( new ClickHandler() {
 
+						@Override
 						public void onClick( ClickEvent event ) {
 
 							if ( confirm ) {

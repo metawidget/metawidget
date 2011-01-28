@@ -106,6 +106,7 @@ public class TooltipInspectorExampleTest
 	static class TooltipProcessor
 		implements WidgetProcessor<JComponent, SwingMetawidget> {
 
+		@Override
 		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			widget.setToolTipText( attributes.get( "tooltip" ) );

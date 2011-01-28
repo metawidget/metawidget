@@ -54,6 +54,7 @@ public class ReadOnlyWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public String getValueProperty( Component component ) {
 
 		if ( component instanceof JLabel ) {

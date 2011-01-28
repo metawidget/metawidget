@@ -25,11 +25,11 @@ import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.Converter;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
@@ -271,7 +271,7 @@ public class BeansBindingProcessor
 		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		String componentProperty = metawidget.getValueProperty( component );

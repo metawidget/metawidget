@@ -52,12 +52,11 @@ public class ContactBean {
 	// Private members
 	//
 
-	private boolean			mReadOnly;
+	private boolean							mReadOnly;
 
-	private Contact			mCurrent;
+	private Contact							mCurrent;
 
-	@SuppressWarnings( "unchecked" )
-	private ListDataModel	mModelCommunications;
+	private ListDataModel<Communication>	mModelCommunications;
 
 	//
 	// Public methods
@@ -89,26 +88,25 @@ public class ContactBean {
 	}
 
 	@UiHidden
-	@SuppressWarnings( "unchecked" )
-	public ListDataModel getCurrentCommunications() {
+	public ListDataModel<Communication> getCurrentCommunications() {
 
 		if ( mModelCommunications == null ) {
 			Contact contact = getCurrent();
 
 			if ( contact == null ) {
-				mModelCommunications = new ListDataModel();
+				mModelCommunications = new ListDataModel<Communication>();
 			} else {
 				Set<Communication> communications = contact.getCommunications();
 
 				if ( communications == null ) {
-					mModelCommunications = new ListDataModel();
+					mModelCommunications = new ListDataModel<Communication>();
 				} else {
 					// (sort for consistency in unit tests)
 
 					List<Communication> sortedCommunications = CollectionUtils.newArrayList( communications );
 					Collections.sort( sortedCommunications );
 
-					mModelCommunications = new ListDataModel( sortedCommunications );
+					mModelCommunications = new ListDataModel<Communication>( sortedCommunications );
 				}
 			}
 		}
@@ -176,7 +174,7 @@ public class ContactBean {
 
 	public void deleteCommunication() {
 
-		Communication communication = (Communication) mModelCommunications.getRowData();
+		Communication communication = mModelCommunications.getRowData();
 		getCurrent().removeCommunication( communication );
 
 		mModelCommunications = null;

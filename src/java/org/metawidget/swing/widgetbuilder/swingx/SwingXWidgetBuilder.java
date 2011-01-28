@@ -48,6 +48,7 @@ public class SwingXWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public String getValueProperty( Component component ) {
 
 		if ( component instanceof JXDatePicker ) {
@@ -61,6 +62,7 @@ public class SwingXWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		// Not for us?

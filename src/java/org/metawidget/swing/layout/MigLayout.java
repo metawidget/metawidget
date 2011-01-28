@@ -80,11 +80,13 @@ public class MigLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		container.putClientProperty( MigLayout.class, null );
@@ -126,6 +128,7 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
+	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -194,11 +197,13 @@ public class MigLayout
 		}
 	}
 
+	@Override
 	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Buttons

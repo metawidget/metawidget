@@ -32,6 +32,7 @@ public class SimpleConverter
 	// Public methods
 	//
 
+	@Override
 	public Object convertFromWidget( Widget widget, Object value, Class<?> type ) {
 
 		if ( value instanceof String ) {

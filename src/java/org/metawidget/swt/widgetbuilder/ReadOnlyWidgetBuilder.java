@@ -51,6 +51,7 @@ public class ReadOnlyWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public String getValueProperty( Control control ) {
 
 		if ( control instanceof Label ) {

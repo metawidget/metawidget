@@ -47,6 +47,7 @@ public class TomahawkWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		// Not for Tomahawk?

@@ -95,11 +95,13 @@ public class GridLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwtMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
 
 		// Calculate default label inset
@@ -113,6 +115,7 @@ public class GridLayout
 		container.setLayout( layoutManager );
 	}
 
+	@Override
 	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		// Do not layout space for empty stubs
@@ -177,11 +180,13 @@ public class GridLayout
 		control.setLayoutData( controlLayoutData );
 	}
 
+	@Override
 	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( SwtMetawidget metawidget ) {
 
 		// Buttons

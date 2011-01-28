@@ -132,6 +132,7 @@ public abstract class MethodActionStyle
 		//
 		//
 
+		@Override
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
 			return mMethod.getAnnotation( annotation );

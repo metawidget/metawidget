@@ -40,6 +40,7 @@ public class SimpleResourceResolver
 	// Public methods
 	//
 
+	@Override
 	public InputStream openResource( String resource ) {
 
 		try {

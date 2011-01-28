@@ -437,7 +437,7 @@ public class JspMetawidgetTests
 		// Public methods
 		//
 
-		@SuppressWarnings( "unchecked" )
+		@SuppressWarnings( "rawtypes" )
 		@Override
 		public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 ) {
 
@@ -453,7 +453,7 @@ public class JspMetawidgetTests
 		}
 
 		@Override
-		@SuppressWarnings( "unchecked" )
+		@SuppressWarnings( "rawtypes" )
 		public Expression parseExpression( String arg0, Class arg1, FunctionMapper arg2 ) {
 
 			throw new UnsupportedOperationException();

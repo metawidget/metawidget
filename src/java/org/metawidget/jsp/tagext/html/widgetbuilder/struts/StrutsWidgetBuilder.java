@@ -73,6 +73,7 @@ public class StrutsWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Hidden?
@@ -256,6 +257,7 @@ public class StrutsWidgetBuilder
 
 				// Within the SELECT tag, write the OPTION tags
 
+				@Override
 				public void prepareBody( PageContext delgateContext )
 					throws JspException, IOException {
 
@@ -311,6 +313,7 @@ public class StrutsWidgetBuilder
 
 				// Within the SELECT tag, write the OPTION tags
 
+				@Override
 				public void prepareBody( PageContext delgateContext )
 					throws JspException, IOException {
 
@@ -345,6 +348,7 @@ public class StrutsWidgetBuilder
 
 						bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, new BodyPreparer() {
 
+							@Override
 							public void prepareBody( PageContext optionDelgateContext )
 								throws IOException {
 

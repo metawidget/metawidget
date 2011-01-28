@@ -40,6 +40,7 @@ public class RowLayoutTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unused" )
 	public void testLayout()
 		throws Exception {
 

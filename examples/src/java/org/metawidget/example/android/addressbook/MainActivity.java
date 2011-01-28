@@ -76,8 +76,8 @@ public class MainActivity
 		final ListView contactsView = (ListView) findViewById( R.id.contacts );
 		contactsView.setOnItemClickListener( new ListView.OnItemClickListener() {
 
-			@SuppressWarnings( "unchecked" )
-			public void onItemClick( AdapterView viewAdapter, View view, int position, long id ) {
+			@Override
+			public void onItemClick( AdapterView<?> viewAdapter, View view, int position, long id ) {
 
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );

@@ -99,6 +99,7 @@ public class SeamInspectorTest
 		assertTrue( null == inspector.inspect( null, "newuser.contact" ) );
 	}
 
+	@SuppressWarnings( "unused" )
 	public void testMissingFile() {
 
 		try {

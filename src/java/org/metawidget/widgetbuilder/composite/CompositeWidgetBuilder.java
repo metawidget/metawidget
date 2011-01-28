@@ -62,7 +62,7 @@ public class CompositeWidgetBuilder<W, M extends W>
 		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
 
 		for ( int loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
-			WidgetBuilder widgetBuilder = widgetBuilders[loop];
+			WidgetBuilder<W,M> widgetBuilder = widgetBuilders[loop];
 
 			for ( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ ) {
 				if ( mWidgetBuilders[checkDuplicates].equals( widgetBuilder ) ) {
@@ -78,6 +78,7 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Public methods
 	//
 
+	@Override
 	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget ) {
 
 		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders ) {

@@ -70,6 +70,7 @@ public abstract class BasePropertyStyle
 	// Public methods
 	//
 
+	@Override
 	public Map<String, Property> getProperties( Class<?> clazz ) {
 
 		synchronized ( mPropertiesCache ) {

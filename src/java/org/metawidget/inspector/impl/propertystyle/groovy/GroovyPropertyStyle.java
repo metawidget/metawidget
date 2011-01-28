@@ -245,11 +245,13 @@ public class GroovyPropertyStyle
 		// Public methods
 		//
 
+		@Override
 		public boolean isReadable() {
 
 			return ( mProperty.getGetter() != null );
 		}
 
+		@Override
 		public Object read( Object obj ) {
 
 			try {
@@ -259,11 +261,13 @@ public class GroovyPropertyStyle
 			}
 		}
 
+		@Override
 		public boolean isWritable() {
 
 			return ( mProperty.getSetter() != null );
 		}
 
+		@Override
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
 			if ( mField != null ) {
@@ -281,6 +285,7 @@ public class GroovyPropertyStyle
 			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
 		}
 
+		@Override
 		public Type getGenericType() {
 
 			if ( mField != null ) {

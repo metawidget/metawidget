@@ -42,6 +42,7 @@ public class LayoutDecoratorTest
 		} );
 	}
 
+	@SuppressWarnings( "unused" )
 	public void testLayoutDecorator()
 		throws Exception {
 

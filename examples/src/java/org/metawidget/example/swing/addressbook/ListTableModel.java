@@ -106,6 +106,7 @@ public class ListTableModel<T extends Comparable<T>>
 		return mEditable;
 	}
 
+	@Override
 	public int getColumnCount() {
 
 		// (mColumns can never be null)
@@ -123,6 +124,7 @@ public class ListTableModel<T extends Comparable<T>>
 		return mColumns[columnIndex];
 	}
 
+	@Override
 	public int getRowCount() {
 
 		// (mList can never be null)
@@ -159,6 +161,7 @@ public class ListTableModel<T extends Comparable<T>>
 		return mList.get( rowIndex );
 	}
 
+	@Override
 	public Object getValueAt( int rowIndex, int columnIndex ) {
 
 		// Sanity check

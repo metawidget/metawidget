@@ -52,6 +52,7 @@ public class ReadOnlyWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Not read-only?

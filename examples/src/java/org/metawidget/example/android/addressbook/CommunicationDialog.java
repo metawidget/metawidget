@@ -95,6 +95,7 @@ public class CommunicationDialog
 		setCancelable( true );
 	}
 
+	@Override
 	public void onClick( DialogInterface dialog, int button ) {
 
 		if ( button == DialogInterface.BUTTON1 ) {
@@ -119,6 +120,7 @@ public class CommunicationDialog
 			Context context = getContext();
 			ConfirmDialog.show( mActivity, context.getString( R.string.deleteCommunication ), context.getString( R.string.confirmDeleteCommunication ), new DialogInterface.OnClickListener() {
 
+				@Override
 				public void onClick( DialogInterface confirmDialog, int confirmButton ) {
 
 					if ( confirmButton == DialogInterface.BUTTON1 ) {

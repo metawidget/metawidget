@@ -55,6 +55,7 @@ public class HtmlWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Hidden
@@ -256,7 +257,6 @@ public class HtmlWidgetBuilder
 		return "";
 	}
 
-	@SuppressWarnings( "unchecked" )
 	private Tag createSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		Object collection = HtmlWidgetBuilderUtils.evaluate( expression, metawidget );
@@ -266,7 +266,7 @@ public class HtmlWidgetBuilder
 		}
 
 		if ( collection instanceof Collection && !( collection instanceof List ) ) {
-			collection = CollectionUtils.newArrayList( (Collection) collection );
+			collection = CollectionUtils.newArrayList( (Collection<?>) collection );
 		} else if ( collection.getClass().isArray() ) {
 			collection = CollectionUtils.newArrayList( (Object[]) collection );
 		}

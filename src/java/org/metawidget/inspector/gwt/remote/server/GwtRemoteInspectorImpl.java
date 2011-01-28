@@ -105,6 +105,7 @@ public class GwtRemoteInspectorImpl
 	 *         <code>XmlParser.parse</code>, not JavaScript.
 	 */
 
+	@Override
 	public String inspect( Serializable toInspect, String type, String[] names ) {
 
 		return mPipeline.inspect( toInspect, type, names );

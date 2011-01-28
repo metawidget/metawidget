@@ -49,8 +49,8 @@ import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
-import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -1273,11 +1273,13 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
+		@Override
 		public boolean isListenerForSource( Object source ) {
 
 			return ( source instanceof UIViewRoot );
 		}
 
+		@Override
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException {
 

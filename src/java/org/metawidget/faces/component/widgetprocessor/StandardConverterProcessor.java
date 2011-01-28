@@ -113,6 +113,7 @@ public class StandardConverterProcessor
 		return component;
 	}
 
+	@Override
 	public Converter getConverter( ValueHolder valueHolder, Map<String, String> attributes ) {
 
 		// Use existing Converter (if any)

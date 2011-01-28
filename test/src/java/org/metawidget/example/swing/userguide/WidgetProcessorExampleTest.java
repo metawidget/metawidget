@@ -67,6 +67,7 @@ public class WidgetProcessorExampleTest
 			mPrefix = config.getPrefix();
 		}
 
+		@Override
 		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			widget.setToolTipText( mPrefix + attributes.get( NAME ) );

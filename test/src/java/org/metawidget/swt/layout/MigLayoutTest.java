@@ -105,6 +105,7 @@ public class MigLayoutTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unused" )
 	public void testTabLayout()
 		throws Exception {
 
@@ -261,6 +262,7 @@ public class MigLayoutTest
 		assertEquals( "Def:", ( (Label) metawidget.getChildren()[2] ).getText() );
 	}
 
+	@SuppressWarnings( "unused" )
 	public void testOddColumns()
 		throws Exception {
 

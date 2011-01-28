@@ -348,6 +348,7 @@ public class ConfigReader
 	 * </ul>
 	 */
 
+	@Override
 	public InputStream openResource( String resource ) {
 
 		try {
@@ -565,6 +566,7 @@ public class ConfigReader
 	 * @return the resolved native, or null if no resolution was possible
 	 */
 
+	@SuppressWarnings( { "rawtypes", "unchecked" } )
 	protected Object createLazyResolvingNative( Object nativeValue, Class<?> toResolveTo ) {
 
 		// Arrays (ie. convert Object[] into String[])
@@ -587,7 +589,6 @@ public class ConfigReader
 
 		else if ( toResolveTo.isEnum() && nativeValue instanceof String ) {
 			try {
-				@SuppressWarnings( "unchecked" )
 				Object enumValue = Enum.valueOf( (Class<? extends Enum>) toResolveTo, (String) nativeValue );
 				return enumValue;
 			} catch ( IllegalArgumentException e ) {

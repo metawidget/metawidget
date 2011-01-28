@@ -57,6 +57,7 @@ public abstract class BaseActionStyle
 	// Public methods
 	//
 
+	@Override
 	public Map<String, Action> getActions( Class<?> clazz ) {
 
 		synchronized ( mActionCache ) {

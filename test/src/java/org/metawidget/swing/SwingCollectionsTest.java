@@ -96,11 +96,11 @@ public class SwingCollectionsTest
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
 		assertEquals( "Notes:", ( (JLabel) metawidget.getComponent( 8 ) ).getText() );
 		assertTrue( metawidget.getComponent( 9 ) instanceof JScrollPane );
-		assertTrue( ((JScrollPane) metawidget.getComponent( 9 )).getViewport().getView() instanceof JTextArea );
+		assertTrue( ( (JScrollPane) metawidget.getComponent( 9 ) ).getViewport().getView() instanceof JTextArea );
 
 		assertEquals( "Addresses:", ( (JLabel) metawidget.getComponent( 6 ) ).getText() );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
-		JTable table = (JTable) ((JScrollPane) metawidget.getComponent( 7 )).getViewport().getView();
+		JTable table = (JTable) ( (JScrollPane) metawidget.getComponent( 7 ) ).getViewport().getView();
 		assertEquals( "Street", table.getColumnName( 0 ) );
 		assertEquals( "City", table.getColumnName( 1 ) );
 		assertEquals( "State", table.getColumnName( 2 ) );
@@ -231,6 +231,7 @@ public class SwingCollectionsTest
 	static class CollectionWidgetBuilder
 		implements WidgetBuilder<JComponent, SwingMetawidget> {
 
+		@Override
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			// Not for us?
@@ -278,7 +279,7 @@ public class SwingCollectionsTest
 
 			// Return the JTable
 
-			@SuppressWarnings( "unchecked" )
+			@SuppressWarnings( { "unchecked", "rawtypes" } )
 			ListTableModel<?> tableModel = new ListTableModel( list, columns );
 
 			return new JScrollPane( new JTable( tableModel ) );
@@ -298,6 +299,7 @@ public class SwingCollectionsTest
 			mColumns = columns;
 		}
 
+		@Override
 		public int getColumnCount() {
 
 			return mColumns.size();
@@ -313,6 +315,7 @@ public class SwingCollectionsTest
 			return mColumns.get( columnIndex );
 		}
 
+		@Override
 		public int getRowCount() {
 
 			return mList.size();
@@ -327,6 +330,7 @@ public class SwingCollectionsTest
 			return mList.get( rowIndex );
 		}
 
+		@Override
 		public Object getValueAt( int rowIndex, int columnIndex ) {
 
 			if ( columnIndex >= getColumnCount() ) {

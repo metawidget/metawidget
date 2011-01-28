@@ -85,6 +85,7 @@ public class GwtRemoteInspectorProxy
 	// Public methods
 	//
 
+	@Override
 	public String inspect( Object toInspect, String type, String... names ) {
 
 		throw new UnsupportedOperationException( "Use async inspection instead" );
@@ -98,11 +99,13 @@ public class GwtRemoteInspectorProxy
 
 		mInspector.inspect( (Serializable) toInspect, type, names, new AsyncCallback<String>() {
 
+			@Override
 			public void onFailure( Throwable caught ) {
 
 				callback.onFailure( caught );
 			}
 
+			@Override
 			public void onSuccess( String xml ) {
 
 				callback.onSuccess( xml );

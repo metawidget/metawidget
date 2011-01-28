@@ -37,6 +37,7 @@ public class AllWidgetsPlugIn
 	// Public methods
 	//
 
+	@Override
 	public void init( ActionServlet servlet, ModuleConfig config ) {
 
 		DateConverter converterDate = new DateConverter();
@@ -46,6 +47,7 @@ public class AllWidgetsPlugIn
 		ConvertUtils.register( new NestedWidgetsConverter(), NestedWidgets.class );
 	}
 
+	@Override
 	public void destroy() {
 
 		// Do nothing

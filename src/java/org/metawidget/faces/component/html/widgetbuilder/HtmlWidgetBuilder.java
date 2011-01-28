@@ -129,6 +129,7 @@ public class HtmlWidgetBuilder
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
+	@Override
 	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();

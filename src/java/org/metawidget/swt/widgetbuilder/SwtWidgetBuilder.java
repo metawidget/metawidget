@@ -56,6 +56,7 @@ public class SwtWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public String getValueProperty( Control control ) {
 
 		if ( control instanceof Text || control instanceof Combo ) {
@@ -69,6 +70,7 @@ public class SwtWidgetBuilder
 		return null;
 	}
 
+	@Override
 	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget ) {
 
 		// Hidden

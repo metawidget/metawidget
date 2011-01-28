@@ -41,11 +41,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
 /**
  * @author Richard Kennard
@@ -97,6 +97,7 @@ public class AddressBookModule
 	// Public methods
 	//
 
+	@Override
 	public void onModuleLoad() {
 
 		// Model
@@ -133,11 +134,13 @@ public class AddressBookModule
 
 				mContactsService.load( contactId, new AsyncCallback<Contact>() {
 
+					@Override
 					public void onFailure( Throwable caught ) {
 
 						Window.alert( caught.getMessage() );
 					}
 
+					@Override
 					public void onSuccess( Contact contact ) {
 
 						showContactDialog( contact );
@@ -173,6 +176,7 @@ public class AddressBookModule
 		Button searchButton = new Button( dictionary.get( "search" ) );
 		searchButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				// Example of manual mapping. See ContactDialog for an example of using automatic
@@ -197,6 +201,7 @@ public class AddressBookModule
 		Button addPersonalButton = new Button( dictionary.get( "addPersonal" ) );
 		addPersonalButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				showContactDialog( new PersonalContact() );
@@ -207,6 +212,7 @@ public class AddressBookModule
 		Button addBusinessButton = new Button( dictionary.get( "addBusiness" ) );
 		addBusinessButton.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				showContactDialog( new BusinessContact() );
@@ -251,11 +257,13 @@ public class AddressBookModule
 
 		mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>() {
 
+			@Override
 			public void onFailure( Throwable caught ) {
 
 				Window.alert( caught.getMessage() );
 			}
 
+			@Override
 			public void onSuccess( List<Contact> contacts ) {
 
 				mContactsList = contacts;

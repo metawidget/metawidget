@@ -36,6 +36,7 @@ public class NestedWidgetsConverter
 	// Public methods
 	//
 
+	@Override
 	public NestedWidgets convertFromWidget( Widget widget, Object value, Class<?> type ) {
 
 		List<String> values = GwtUtils.fromString( (String) value, StringUtils.SEPARATOR_COMMA_CHAR );

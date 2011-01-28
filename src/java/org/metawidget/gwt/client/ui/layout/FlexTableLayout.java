@@ -29,10 +29,10 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * Layout to arrange widgets in a <code>FlexTable</code>, with one column for labels and another for
@@ -83,6 +83,7 @@ public class FlexTableLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( GwtMetawidget metawidget ) {
 
 		// Do nothing
@@ -99,6 +100,7 @@ public class FlexTableLayout
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
 
+	@Override
 	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -243,6 +245,7 @@ public class FlexTableLayout
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( GwtMetawidget metawidget ) {
 
 		Facet facet = metawidget.getFacet( "buttons" );

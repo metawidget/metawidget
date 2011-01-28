@@ -43,8 +43,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.PathUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
@@ -278,7 +278,7 @@ public abstract class MetawidgetTag
 		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
@@ -355,7 +355,7 @@ public abstract class MetawidgetTag
 		throws JspException {
 
 		mPipeline.configureOnce();
-		
+
 		try {
 			mPipeline.buildWidgets( inspect() );
 		} catch ( Exception e ) {

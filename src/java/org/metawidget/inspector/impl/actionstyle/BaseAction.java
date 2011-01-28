@@ -48,11 +48,13 @@ public abstract class BaseAction
 	// Public methods
 	//
 
+	@Override
 	public String getName() {
 
 		return mName;
 	}
 
+	@Override
 	public boolean isAnnotationPresent( Class<? extends Annotation> annotation ) {
 
 		return ( getAnnotation( annotation ) != null );

@@ -67,6 +67,7 @@ public class AlertActionProcessor
 		FocusWidget focusWidget = (FocusWidget) widget;
 		focusWidget.addClickHandler( new ClickHandler() {
 
+			@Override
 			public void onClick( ClickEvent event ) {
 
 				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();

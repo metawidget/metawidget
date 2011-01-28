@@ -55,6 +55,7 @@ public class HibernateInspectorTest
 		mInspector = new HibernateInspector( config );
 	}
 
+	@SuppressWarnings( "unused" )
 	public void testMissingFile() {
 
 		try {

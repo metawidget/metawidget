@@ -134,13 +134,14 @@ public class ContactActivity
 
 		communicationsView.setOnItemClickListener( new ListView.OnItemClickListener() {
 
-			@SuppressWarnings( "unchecked" )
-			public void onItemClick( AdapterView viewAdapter, View view, int position, long itemId ) {
+			@Override
+			public void onItemClick( AdapterView<?> viewAdapter, View view, int position, long itemId ) {
 
 				Communication communication = (Communication) viewAdapter.getAdapter().getItem( position );
 
 				new CommunicationDialog( ContactActivity.this, mContact, communication, new DialogInterface.OnClickListener() {
 
+					@Override
 					public void onClick( DialogInterface dialog, int button ) {
 
 						communicationsView.setAdapter( new ArrayAdapter<Communication>( ContactActivity.this, android.R.layout.simple_list_item_1, CollectionUtils.newArrayList( mContact.getCommunications() ) ) );
@@ -224,6 +225,7 @@ public class ContactActivity
 			case R.string.delete:
 				ConfirmDialog.show( ContactActivity.this, getString( R.string.deleteContact ), getString( R.string.confirmDeleteContact ), new DialogInterface.OnClickListener() {
 
+					@Override
 					public void onClick( DialogInterface dialog, int button ) {
 
 						if ( button == DialogInterface.BUTTON1 ) {
@@ -237,6 +239,7 @@ public class ContactActivity
 			case R.string.addCommunication:
 				new CommunicationDialog( ContactActivity.this, mContact, null, new DialogInterface.OnClickListener() {
 
+					@Override
 					public void onClick( DialogInterface dialog, int button ) {
 
 						ListView communicationsView = (ListView) findViewById( R.id.communications );

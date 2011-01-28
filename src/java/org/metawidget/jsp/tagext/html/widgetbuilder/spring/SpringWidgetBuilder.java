@@ -72,6 +72,7 @@ public class SpringWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Hidden?
@@ -251,6 +252,7 @@ public class SpringWidgetBuilder
 
 				// Within the SELECT tag, write the OPTION tags
 
+				@Override
 				public void prepareBody( PageContext delgateContext )
 					throws JspException, IOException {
 
@@ -303,6 +305,7 @@ public class SpringWidgetBuilder
 
 				// Within the SELECT tag, write the OPTION tags
 
+				@Override
 				public void prepareBody( PageContext delgateContext )
 					throws JspException, IOException {
 

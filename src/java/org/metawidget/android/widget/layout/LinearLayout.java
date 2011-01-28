@@ -74,6 +74,7 @@ public class LinearLayout
 		// Do nothing
 	}
 
+	@Override
 	public void layoutWidget( View view, String elementName, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget ) {
 
 		// Ignore empty Stubs

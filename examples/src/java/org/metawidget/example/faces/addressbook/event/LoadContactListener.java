@@ -48,11 +48,13 @@ public class LoadContactListener
 	// Public methods
 	//
 
+	@Override
 	public PhaseId getPhaseId() {
 
 		return PhaseId.RESTORE_VIEW;
 	}
 
+	@Override
 	public void beforePhase( PhaseEvent event ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -73,6 +75,7 @@ public class LoadContactListener
 		}
 	}
 
+	@Override
 	public void afterPhase( PhaseEvent event ) {
 
 		// nop

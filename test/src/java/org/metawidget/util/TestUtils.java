@@ -56,10 +56,9 @@ public class TestUtils {
 	 * <em>lot</em> of boilerplate testing code.
 	 */
 
-	@SuppressWarnings( "unchecked" )
 	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, String... exclude ) {
 
-		testEqualsAndHashcode( clazz, subclass, (Map) null, exclude );
+		testEqualsAndHashcode( clazz, subclass, (Map<?,?>) null, exclude );
 	}
 
 	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, Map<?, ?> dummyTypes, String... exclude ) {
@@ -71,10 +70,9 @@ public class TestUtils {
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public static <T, S extends T> void testEqualsAndHashcode( T object1, T object2, S subclass, String... exclude ) {
 
-		testEqualsAndHashcode( object1, object2, subclass, (Map) null, exclude );
+		testEqualsAndHashcode( object1, object2, subclass, (Map<?,?>) null, exclude );
 	}
 
 	/**
@@ -300,6 +298,7 @@ public class TestUtils {
 
 		return Proxy.newProxyInstance( TestUtils.class.getClassLoader(), new Class[] { clazz }, new InvocationHandler() {
 
+			@Override
 			public Object invoke( Object proxy, Method method, Object[] args )
 				throws Throwable {
 

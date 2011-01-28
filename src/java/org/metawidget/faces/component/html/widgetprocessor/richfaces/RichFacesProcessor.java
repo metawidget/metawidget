@@ -45,6 +45,7 @@ public class RichFacesProcessor
 	// Public methods
 	//
 
+	@Override
 	@SuppressWarnings( "deprecation" )
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 

@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.inspector.iface.DomInspector;
-import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
@@ -34,8 +33,8 @@ import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
-import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
@@ -65,7 +64,7 @@ import org.w3c.dom.Element;
  */
 
 public abstract class BaseObjectInspector
-	implements Inspector, DomInspector<Element> {
+	implements DomInspector<Element> {
 
 	//
 	// Private members
@@ -107,6 +106,7 @@ public abstract class BaseObjectInspector
 	// Public methods
 	//
 
+	@Override
 	public String inspect( Object toInspect, String type, String... names ) {
 
 		Element element = inspectAsDom( toInspect, type, names );
@@ -118,6 +118,7 @@ public abstract class BaseObjectInspector
 		return XmlUtils.nodeToString( element, false );
 	}
 
+	@Override
 	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 		// If no type, return nothing

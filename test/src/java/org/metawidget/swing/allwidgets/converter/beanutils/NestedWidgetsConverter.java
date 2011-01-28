@@ -32,7 +32,8 @@ public class NestedWidgetsConverter
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
+	@Override
+	@SuppressWarnings( "rawtypes" )
 	public Object convert( Class clazz, Object value ) {
 
 		// To String

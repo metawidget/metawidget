@@ -169,7 +169,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP, "foo, bar,baz" );
 		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ArrayAdapter<String> adapter1 = (ArrayAdapter<String>) ( (AdapterView) spinner ).getAdapter();
+		ArrayAdapter<String> adapter1 = (ArrayAdapter<String>) ( (AdapterView<?>) spinner ).getAdapter();
 		assertEquals( "foo", adapter1.getItem( 0 ) );
 		assertEquals( "foo", ( (TextView) adapter1.getView( 0, null, null ) ).getText() );
 		assertEquals( "bar", adapter1.getItem( 1 ) );
@@ -193,7 +193,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ArrayAdapter<String> adapter2 = (ArrayAdapter<String>) ( (AdapterView) spinner ).getAdapter();
+		ArrayAdapter<String> adapter2 = (ArrayAdapter<String>) ( (AdapterView<?>) spinner ).getAdapter();
 		assertEquals( "foo", adapter2.getItem( 0 ) );
 		assertEquals( "Foo #1", ( (TextView) adapter2.getView( 0, null, null ) ).getText() );
 		assertEquals( "bar", adapter2.getItem( 1 ) );
@@ -207,7 +207,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, String.class.getName() );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ArrayAdapter<String> adapter3 = (ArrayAdapter<String>) ( (AdapterView) spinner ).getAdapter();
+		ArrayAdapter<String> adapter3 = (ArrayAdapter<String>) ( (AdapterView<?>) spinner ).getAdapter();
 		assertTrue( null == adapter3.getItem( 0 ) );
 		assertEquals( "", ( (TextView) adapter3.getView( 0, null, null ) ).getText() );
 		assertEquals( "foo", adapter3.getItem( 1 ) );

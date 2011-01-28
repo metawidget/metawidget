@@ -56,6 +56,7 @@ public abstract class SwtNestedSectionLayoutDecorator
 		container.setData( getClass().getName(), null );
 	}
 
+	@Override
 	public Composite startBuildWidget( String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		String section = stripSection( attributes );

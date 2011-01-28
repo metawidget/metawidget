@@ -91,6 +91,7 @@ public class CompositeInspectorTest
 
 		config.setInspectors( new Inspector()
 		{
+
 			@Override
 			public String inspect( Object inspect, String type, String... names ) {
 
@@ -106,6 +107,7 @@ public class CompositeInspectorTest
 
 		config.setInspectors( new Inspector()
 		{
+
 			@Override
 			public String inspect( Object inspect, String type, String... names ) {
 
@@ -114,9 +116,10 @@ public class CompositeInspectorTest
 		} );
 
 		inspector = new ValidatingCompositeInspector( config );
-		assertTrue( null == inspector.inspect( null, null ));
+		assertTrue( null == inspector.inspect( null, null ) );
 	}
 
+	@SuppressWarnings( "unused" )
 	public void testDefensiveCopy()
 		throws Exception {
 

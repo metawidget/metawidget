@@ -40,6 +40,7 @@ public class StringToNestedWidgetsConverter
 	// Public methods
 	//
 
+	@Override
 	public Object convert( Object toConvert ) {
 
 		String[] values = ArrayUtils.fromString( (String) toConvert );

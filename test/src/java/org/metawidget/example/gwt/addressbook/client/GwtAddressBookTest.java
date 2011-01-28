@@ -37,13 +37,13 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * @author Richard Kennard
@@ -134,11 +134,13 @@ public class GwtAddressBookTest
 
 								contactsService.load( 1, new AsyncCallback<Contact>() {
 
+									@Override
 									public void onFailure( Throwable caught ) {
 
 										throw new RuntimeException( caught );
 									}
 
+									@Override
 									public void onSuccess( final Contact personalContact ) {
 
 										final ContactDialog dialog = new ContactDialog( addressBookModule, personalContact );
@@ -382,11 +384,13 @@ public class GwtAddressBookTest
 
 		contactsService.load( 5, new AsyncCallback<Contact>() {
 
+			@Override
 			public void onFailure( Throwable caught ) {
 
 				throw new RuntimeException( caught );
 			}
 
+			@Override
 			public void onSuccess( final Contact businessContact ) {
 
 				final ContactDialog dialog = new ContactDialog( addressBookModule, businessContact );
@@ -603,11 +607,13 @@ public class GwtAddressBookTest
 
 												contactsService.load( 7, new AsyncCallback<Contact>() {
 
+													@Override
 													public void onFailure( Throwable caught ) {
 
 														throw new RuntimeException( caught );
 													}
 
+													@Override
 													public void onSuccess( final Contact savedContact ) {
 
 														final ContactDialog dialogDelete = new ContactDialog( addressBookModule, savedContact );

@@ -303,6 +303,7 @@ public class ContactDialog
 		} );
 		deleteMenu.addListener( SWT.Show, new Listener() {
 
+			@Override
 			public void handleEvent( Event event ) {
 
 				deleteItem.setEnabled( !mContactMetawidget.isReadOnly() );

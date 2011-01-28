@@ -59,6 +59,7 @@ public class QuirksModule
 	// Public methods
 	//
 
+	@Override
 	public void onModuleLoad() {
 
 		// Metawidget

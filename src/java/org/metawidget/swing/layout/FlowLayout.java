@@ -41,6 +41,7 @@ public class FlowLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
@@ -52,6 +53,7 @@ public class FlowLayout
 		container.setLayout( new java.awt.FlowLayout() );
 	}
 
+	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -71,6 +73,7 @@ public class FlowLayout
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing

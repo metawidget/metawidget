@@ -42,11 +42,13 @@ public class Facet
 	// Public methods
 	//
 
+	@Override
 	public String getName() {
 
 		return mName;
 	}
 
+	@Override
 	public void setName( String name ) {
 
 		mName = name;
