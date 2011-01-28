@@ -73,7 +73,7 @@ public class ComesAfterInspectionResultProcessor<M>
 			XmlUtils.setMapAsAttributes( newInspectionResultRoot, XmlUtils.getAttributesAsMap( inspectionResultRoot ) );
 			newDocument.appendChild( newInspectionResultRoot );
 
-			Element entity = (Element) inspectionResultRoot.getChildNodes().item( 0 );
+			Element entity = XmlUtils.getElementAt( inspectionResultRoot, 0 );
 			Element newEntity = newDocument.createElementNS( NAMESPACE, ENTITY );
 			XmlUtils.setMapAsAttributes( newEntity, XmlUtils.getAttributesAsMap( entity ) );
 			newInspectionResultRoot.appendChild( newEntity );

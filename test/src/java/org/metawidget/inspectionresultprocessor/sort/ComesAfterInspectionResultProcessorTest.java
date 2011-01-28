@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.XmlUtils;
 
 /**
  * @author Richard Kennard
@@ -254,5 +255,37 @@ public class ComesAfterInspectionResultProcessorTest
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "'bar' comes-after itself", e.getMessage() );
 		}
+	}
+
+	public void testPrettyXml()
+		throws Exception {
+
+		// Set up
+
+		String inputXml = "<?xml version=\"1.0\"?>";
+		inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		inputXml += "<entity type=\"Foo\">";
+		inputXml += "<property name=\"foo\"/>";
+		inputXml += "<property name=\"bar\"/>";
+		inputXml += "<property name=\"baz\"/>";
+		inputXml += "</entity></inspection-result>";
+
+		String prettyXml = XmlUtils.documentToString( XmlUtils.documentFromString( inputXml ), true );
+
+		// Run processor
+
+		String outputXml = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( prettyXml, null );
+
+		// Test result
+
+		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
+		validateXml += "<entity type=\"Foo\">";
+		validateXml += "<property name=\"foo\"/>";
+		validateXml += "<property name=\"bar\"/>";
+		validateXml += "<property name=\"baz\"/>";
+		validateXml += "</entity>";
+		validateXml += "</inspection-result>";
+
+		assertEquals( validateXml, outputXml );
 	}
 }
