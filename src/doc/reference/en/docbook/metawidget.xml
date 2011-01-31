@@ -11636,6 +11636,24 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 		<section id="section-troubleshooting-inspectors">
 			<title>Inspectors</title>
 		
+			<section id="section-inspectors-inspectors-general">
+				<title>General Inspectors</title>
+				
+				<section id="section-inspectors-general-troubleshooting-1">
+					<title>My Inspector does not return anything</title>
+					
+					<para>
+						If your custom <classname>Inspector</classname> returns no &lt;entity&gt; blocks, or returns
+						&lt;entity&gt; blocks with the wrong <parameter>type</parameter> attribute, Metawidget will
+						ignore their result. Try wrapping your <classname>Inspector</classname> inside <classname>CompositeInspector</classname>
+						and enabling <parameter>TRACE</parameter> logging, to see what your <classname>Inspector</classname>
+						is returning.
+					</para>
+					
+				</section>
+
+			</section>		
+
 			<section id="section-inspectors-inspectors-annotation">
 				<title>Annotation-Based Inspectors</title>				
 

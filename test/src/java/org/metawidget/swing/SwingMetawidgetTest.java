@@ -276,7 +276,7 @@ public class SwingMetawidgetTest
 
 		// With a path, GridBagLayout spacer panel should appear (but not facet)
 
-		metawidget.setPath( "Foo" );
+		metawidget.setPath( Object.class.getName() );
 		assertTrue( metawidget.getComponentCount() == 1 );
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JPanel );

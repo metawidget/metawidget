@@ -57,6 +57,8 @@ public class ValidatingCompositeInspector
 
 		super( config );
 
+		// TODO: make configurable
+
 		InputStream in = config.getResourceResolver().openResource( "org/metawidget/inspector/inspection-result-1.0.xsd" );
 
 		try {

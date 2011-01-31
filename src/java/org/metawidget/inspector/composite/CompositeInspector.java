@@ -150,8 +150,8 @@ public class CompositeInspector
 			Document masterDocumentToUse = runInspectors( masterDocument, toInspect, type, names );
 
 			if ( masterDocumentToUse == null || !masterDocumentToUse.hasChildNodes() ) {
-				if ( LOG.isDebugEnabled() ) {
-					LOG.debug( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+				if ( type != null && LOG.isWarnEnabled() ) {
+					LOG.warn( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				}
 
 				return null;
@@ -164,7 +164,16 @@ public class CompositeInspector
 				LOG.debug( "Inspected {0}{1}\r\n{2}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), formattedXml );
 			}
 
-			return masterDocumentToUse.getDocumentElement();
+			// (warn)
+
+			Element root = masterDocumentToUse.getDocumentElement();
+
+			if ( LOG.isWarnEnabled() && !root.hasChildNodes() ) {
+				LOG.warn( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+				return root;
+			}
+
+			return root;
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}

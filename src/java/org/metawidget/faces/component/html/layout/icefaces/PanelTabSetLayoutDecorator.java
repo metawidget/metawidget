@@ -41,6 +41,8 @@ import com.icesoft.faces.component.paneltabset.PanelTabSet;
  * @author Richard Kennard
  */
 
+// TODO: unit test
+
 public class PanelTabSetLayoutDecorator
 	extends UIComponentNestedSectionLayoutDecorator {
 

@@ -296,7 +296,7 @@ public class ConfigReaderTest
 		assertEquals( format, new MessageFormat( "'m'{0}{1}" ));
 
 		// Test re-caching of JavaBeanPropertyStyle with an embedded MessageFormat
-		
+
 		assertTrue( propertyStyle.get( inspectors[2] ) != propertyStyle.get( inspectors[3] ));
 		assertTrue( propertyStyle.get( inspectors[3] ) == propertyStyle.get( inspectors[4] ));
 	}
@@ -691,7 +691,7 @@ public class ConfigReaderTest
 		assertTrue( "startPrefixMapping  http://metawidget.org".equals( cache.get( 1 ).toString() ) );
 		assertTrue( "startPrefixMapping xsi http://www.w3.org/2001/XMLSchema-instance".equals( cache.get( 2 ).toString() ) );
 		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd\" version=\"1.0\"".equals( cache.get( 3 ).toString() ) );
-		assertTrue( "characters \n\n\t".equals( cache.get( 4 ).toString() ) );
+		assertTrue( "ignorableWhitespace \n\n\t".equals( cache.get( 4 ).toString() ));
 		assertTrue( "startPrefixMapping  java:org.metawidget.swing".equals( cache.get( 5 ).toString() ) );
 		assertTrue( "startElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 6 ).toString() ) );
 		assertTrue( "characters \n\t\t".equals( cache.get( 7 ).toString() ) );
@@ -706,7 +706,7 @@ public class ConfigReaderTest
 		assertTrue( "characters \n\t".equals( cache.get( 16 ).toString() ) );
 		assertTrue( "endElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 17 ).toString() ) );
 		assertTrue( "endPrefixMapping ".equals( cache.get( 18 ).toString() ) );
-		assertTrue( "characters \n\n".equals( cache.get( 19 ).toString() ) );
+		assertTrue( "ignorableWhitespace \n\n".equals( cache.get( 19 ).toString() ) );
 		assertTrue( "endElement http://metawidget.org metawidget metawidget".equals( cache.get( 20 ).toString() ) );
 		assertTrue( "endPrefixMapping ".equals( cache.get( 21 ).toString() ) );
 		assertTrue( "endPrefixMapping xsi".equals( cache.get( 22 ).toString() ) );

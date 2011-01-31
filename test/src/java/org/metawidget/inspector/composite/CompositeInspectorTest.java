@@ -30,6 +30,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.TestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -185,6 +186,139 @@ public class CompositeInspectorTest
 		assertEquals( "title", property.getAttribute( NAME ) );
 		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
 		assertEquals( "Mr, Mrs, Miss, Dr, Cpt", property.getAttribute( LOOKUP ) );
+	}
+
+	public void testCombineInspectionResult() {
+
+		// Set up
+
+		Inspector inspectorNull = new Inspector() {
+
+			@Override
+			public String inspect( Object toInspect, String type, String... names ) {
+
+				return null;
+			}
+		};
+
+		Inspector inspectorEmpty = new Inspector() {
+
+			@Override
+			public String inspect( Object toInspect, String type, String... names ) {
+
+				return "<inspection-result/>";
+			}
+		};
+
+		StringBuilder sampleXml = new StringBuilder( "<?xml version=\"1.0\"?>" );
+		sampleXml.append( "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">" );
+		sampleXml.append( "<entity type=\"foo\"/>" );
+		sampleXml.append( "</inspection-result>" );
+		final String sampleXml1 = sampleXml.toString();
+
+		Inspector inspector1 = new Inspector() {
+
+			@Override
+			public String inspect( Object toInspect, String type, String... names ) {
+
+				return sampleXml1;
+			}
+		};
+
+		sampleXml = new StringBuilder( "<?xml version=\"1.0\"?>" );
+		sampleXml.append( "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">" );
+		sampleXml.append( "<entity type=\"bar\">" );
+		sampleXml.append( "<property name=\"abc\"/>" );
+		sampleXml.append( "</entity>" );
+		sampleXml.append( "</inspection-result>" );
+		final String sampleXml2 = sampleXml.toString();
+
+		Inspector inspector2 = new Inspector() {
+
+			@Override
+			public String inspect( Object toInspect, String type, String... names ) {
+
+				return sampleXml2;
+			}
+		};
+
+		sampleXml = new StringBuilder( "<?xml version=\"1.0\"?>" );
+		sampleXml.append( "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">" );
+		sampleXml.append( "<entity type=\"bar\">" );
+		sampleXml.append( "<property name=\"def\"/>" );
+		sampleXml.append( "</entity>" );
+		sampleXml.append( "</inspection-result>" );
+		final String sampleXml3 = sampleXml.toString();
+
+		Inspector inspector3 = new Inspector() {
+
+			@Override
+			public String inspect( Object toInspect, String type, String... names ) {
+
+				return sampleXml3;
+			}
+		};
+
+		// Test
+
+		CompositeInspector compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspectorNull ) );
+		assertEquals( null, compositeInspector.inspect( null, "bar" ) );
+		assertEquals( "No inspectors matched path == bar", LogUtilsTest.getLastWarnMessage() );
+		LogUtilsTest.clearLastWarnMessage();
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspectorEmpty ) );
+		Document document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );
+		assertEquals( null, document.getFirstChild().getFirstChild() );
+		assertEquals( "No inspectors matched path == bar", LogUtilsTest.getLastWarnMessage() );
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector1 ) );
+		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "foo", entity.getAttribute( TYPE ) );
+		assertEquals( null, XmlUtils.getElementAt( entity, 0 ) );
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector1, inspector2 ) );
+		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "foo", entity.getAttribute( TYPE ) );
+		assertEquals( null, XmlUtils.getElementAt( entity, 0 ) );
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector2, inspector1 ) );
+		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "baz" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "bar", entity.getAttribute( TYPE ) );
+		Element property = XmlUtils.getElementAt( entity, 0 );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "abc", property.getAttribute( NAME ) );
+		assertEquals( null, property.getNextSibling() );
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector1, inspector2, inspector3 ) );
+		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "baz" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "foo", entity.getAttribute( TYPE ) );
+		assertEquals( null, XmlUtils.getElementAt( entity, 0 ) );
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector2, inspector1, inspector3 ) );
+		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "baz" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "bar", entity.getAttribute( TYPE ) );
+		property = XmlUtils.getElementAt( entity, 0 );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "abc", property.getAttribute( NAME ) );
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "def", property.getAttribute( NAME ) );
+		assertEquals( null, property.getNextSibling() );
 	}
 
 	//

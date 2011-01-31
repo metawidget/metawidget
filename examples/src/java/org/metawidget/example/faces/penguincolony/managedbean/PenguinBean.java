@@ -67,11 +67,12 @@ public class PenguinBean {
 	 * Returns all penguins in the colony.
 	 * <p>
 	 * Note: this getter is annotated with PARAMETERIZED_TYPE for JSF 1.2. As of JSF 2.0,
-	 * ListDataModel itself can be parameterized instead (ie. ListDataModel<Penguin>)
+	 * ListDataModel itself can be parameterized instead (ie. ListDataModel&lt;Penguin&gt;).
 	 */
 
 	@UiAttribute( name = PARAMETERIZED_TYPE, value = "org.metawidget.example.faces.penguincolony.model.Penguin" )
-	public ListDataModel<Penguin> getAll() {
+	@SuppressWarnings( "rawtypes" )
+	public ListDataModel getAll() {
 
 		return mAll;
 	}
