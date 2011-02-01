@@ -21,9 +21,7 @@ import java.io.InputStream;
 import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.config.SimpleResourceResolver;
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -172,19 +170,7 @@ public class BaseXmlInspectorConfig
 	protected InputStream[] getInputStreams() {
 
 		if ( mInputStreams == null && mDefaultFile != null ) {
-			if ( mResourceResolver != null ) {
-				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
-			}
-
-			// Support programmatic configuration (ie. mResourceResolver is specified automatically
-			// by ConfigReader when using metawidget.xml, but is generally not set manually when
-			// people are creating Inspectors by hand)
-
-			try {
-				return new InputStream[] { ClassUtils.openResource( mDefaultFile ) };
-			} catch ( Exception e ) {
-				throw InspectorException.newException( e );
-			}
+			return new InputStream[] { getResourceResolver().openResource( mDefaultFile ) };
 		}
 
 		return mInputStreams;
@@ -193,6 +179,11 @@ public class BaseXmlInspectorConfig
 	protected ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
+
+			// Support programmatic configuration (ie. mResourceResolver is specified automatically
+			// by ConfigReader when using metawidget.xml, but is generally not set manually when
+			// people are creating Inspectors by hand)
+
 			return new SimpleResourceResolver();
 		}
 

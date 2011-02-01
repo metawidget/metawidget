@@ -351,11 +351,7 @@ public class ConfigReader
 	@Override
 	public InputStream openResource( String resource ) {
 
-		try {
-			return ClassUtils.openResource( resource );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
+		return new SimpleResourceResolver().openResource( resource );
 	}
 
 	//

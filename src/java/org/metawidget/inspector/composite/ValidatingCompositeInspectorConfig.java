@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.composite;
 
+import java.io.InputStream;
+
 import org.metawidget.config.NeedsResourceResolver;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.config.SimpleResourceResolver;
@@ -35,11 +37,18 @@ public class ValidatingCompositeInspectorConfig
 	// Private members
 	//
 
+	private String				mSchemaFile	= "org/metawidget/inspector/inspection-result-1.0.xsd";
+
 	private ResourceResolver	mResourceResolver;
 
 	//
 	// Public methods
 	//
+
+	public void setSchemaFile( String schemaFile ) {
+
+		mSchemaFile = schemaFile;
+	}
 
 	@Override
 	public void setResourceResolver( ResourceResolver resourceResolver ) {
@@ -62,6 +71,10 @@ public class ValidatingCompositeInspectorConfig
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mSchemaFile, ( (ValidatingCompositeInspectorConfig) that ).mSchemaFile ) ) {
+			return false;
+		}
+
 		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ( (ValidatingCompositeInspectorConfig) that ).mResourceResolver ) ) {
 			return false;
 		}
@@ -73,6 +86,7 @@ public class ValidatingCompositeInspectorConfig
 	public int hashCode() {
 
 		int hashCode = super.hashCode();
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSchemaFile );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 
 		return hashCode;
@@ -82,9 +96,19 @@ public class ValidatingCompositeInspectorConfig
 	// Protected methods
 	//
 
+	protected InputStream getSchema() {
+
+		return getResourceResolver().openResource( mSchemaFile );
+	}
+
 	protected ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
+
+			// Support programmatic configuration (ie. mResourceResolver is specified automatically
+			// by ConfigReader when using metawidget.xml, but is generally not set manually when
+			// people are creating Inspectors by hand)
+
 			return new SimpleResourceResolver();
 		}
 

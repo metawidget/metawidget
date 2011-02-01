@@ -7,13 +7,19 @@
 
 	<managed-bean>
 		<managed-bean-name>iceFacesQuirks</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.model.IceFacesQuirks</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.quirks.model.icefaces.IceFacesQuirks</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>iceFacesQuirks2</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.model.IceFacesQuirks</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.quirks.model.icefaces.IceFacesQuirks</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>iceFacesPanelTabSetQuirks</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.icefaces.IceFacesPanelTabSetQuirks</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

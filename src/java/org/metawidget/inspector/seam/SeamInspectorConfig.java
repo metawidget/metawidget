@@ -119,6 +119,11 @@ public class SeamInspectorConfig
 	protected ResourceResolver getResourceResolver() {
 
 		if ( mResourceResolver == null ) {
+
+			// Support programmatic configuration (ie. mResourceResolver is specified automatically
+			// by ConfigReader when using metawidget.xml, but is generally not set manually when
+			// people are creating Inspectors by hand)
+
 			return new SimpleResourceResolver();
 		}
 

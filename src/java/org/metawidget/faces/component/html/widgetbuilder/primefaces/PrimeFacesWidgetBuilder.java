@@ -48,6 +48,8 @@ import org.primefaces.component.spinner.Spinner;
  * @author Richard Kennard
  */
 
+// TODO: unit test
+
 public class PrimeFacesWidgetBuilder
 	implements WidgetBuilder<UIComponent, UIMetawidget> {
 

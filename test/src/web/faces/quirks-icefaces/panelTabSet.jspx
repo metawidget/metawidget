@@ -1,0 +1,22 @@
+<f:view xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:m="http://metawidget.org/faces"
+        xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+<ice:outputDeclaration doctypeRoot="html"
+                       doctypePublic="-//W3C//DTD XHTML 1.0 Transitional//EN"
+                       doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<html>
+	<head>
+		<title>Quirks (ICEfaces Test)</title>
+		<ice:outputStyle href="xmlhttp/css/xp/xp.css"/>
+	</head>
+	<body>
+		<ice:form id="form">
+			<h1>PanelTabSet</h1>
+			<m:metawidget value="#{iceFacesPanelTabSetQuirks}" config="metawidget-panelTabSet.xml"/>
+		</ice:form>
+	</body>
+</html>
+
+</f:view>

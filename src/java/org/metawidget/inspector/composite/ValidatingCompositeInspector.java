@@ -57,9 +57,7 @@ public class ValidatingCompositeInspector
 
 		super( config );
 
-		// TODO: make configurable
-
-		InputStream in = config.getResourceResolver().openResource( "org/metawidget/inspector/inspection-result-1.0.xsd" );
+		InputStream in = config.getSchema();
 
 		try {
 			mSchema = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI ).newSchema( new StreamSource( in ) );

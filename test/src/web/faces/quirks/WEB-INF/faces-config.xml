@@ -37,7 +37,7 @@
 
 	<managed-bean>
 		<managed-bean-name>richQuirksAjax</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesAjaxQuirks</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.quirks.model.richfaces.RichFacesAjaxQuirks</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
@@ -63,7 +63,7 @@
 
 	<managed-bean>
 		<managed-bean-name>richQuirks</managed-bean-name>
-		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesQuirks</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.quirks.model.richfaces.RichFacesQuirks</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 

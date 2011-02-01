@@ -1327,7 +1327,7 @@
 	</target>
 
 	<target name="test-faces-quirks" depends="flatten-test-libs,compile-test">
-
+	
 		<!-- MyFaces 1.2 with JSP -->
 
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
@@ -1626,7 +1626,7 @@
 				<exclude name="WEB-INF/web*.xml"/>
 			</fileset>
 			<classes dir="${relative.dir}/${build.dir}/test-classes">
-				<include name="org/metawidget/faces/quirks/model/IceFacesQuirks*.class"/>
+				<include name="org/metawidget/faces/quirks/model/icefaces/*.class"/>
 			</classes>			
 			<lib dir="${relative.dir}/${build.dir}/lib">
 				<include name="backport-util-concurrent.jar"/>
