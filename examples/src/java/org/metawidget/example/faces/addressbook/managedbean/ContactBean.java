@@ -87,8 +87,13 @@ public class ContactBean {
 		setReadOnly( mCurrent == null || mCurrent.getId() != 0 );
 	}
 
+	/**
+	 * Note: this getter is JSF 1.2 compatible. As of JSF 2.0, ListDataModel itself can be
+	 * parameterized instead (ie. ListDataModel&lt;Communication&gt;).
+	 */
+
 	@UiHidden
-	public ListDataModel<Communication> getCurrentCommunications() {
+	public ListDataModel getCurrentCommunications() {
 
 		if ( mModelCommunications == null ) {
 			Contact contact = getCurrent();

@@ -43,7 +43,6 @@ import com.icesoft.faces.component.paneltabset.PanelTabSet;
  * @author Richard Kennard
  */
 
-// TODO: unit test
 // TODO: composite components?
 
 public class PanelTabSetLayoutDecorator
