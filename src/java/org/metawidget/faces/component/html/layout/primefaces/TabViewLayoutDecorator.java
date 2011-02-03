@@ -14,14 +14,12 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.html.layout.icefaces;
+package org.metawidget.faces.component.html.layout.primefaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.el.ELContext;
-import javax.el.ExpressionFactory;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -33,24 +31,23 @@ import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecor
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
-
-import com.icesoft.faces.component.paneltabset.PanelTab;
-import com.icesoft.faces.component.paneltabset.PanelTabSet;
+import org.primefaces.component.tabview.Tab;
+import org.primefaces.component.tabview.TabView;
 
 /**
- * Layout to decorate widgets from different sections using an ICEfaces PanelTabSet.
+ * Layout to decorate widgets from different sections using a PrimeFaces TabView.
  *
  * @author Richard Kennard
  */
 
-public class PanelTabSetLayoutDecorator
+public class TabViewLayoutDecorator
 	extends UIComponentNestedSectionLayoutDecorator {
 
 	//
 	// Constructor
 	//
 
-	public PanelTabSetLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config ) {
+	public TabViewLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config ) {
 
 		super( config );
 	}
@@ -66,39 +63,30 @@ public class PanelTabSetLayoutDecorator
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		PanelTabSet panelTabSet;
+		TabView tabView;
 
 		// Whole new PanelTabSet?
 
 		if ( previousSectionWidget == null ) {
-			panelTabSet = (PanelTabSet) application.createComponent( "com.icesoft.faces.PanelTabSet" );
-			panelTabSet.setId( viewRoot.createUniqueId() );
-
-			// Because Metawidget will destroy/recreate the PanelTabSet each time, we must store the
-			// 'selectedIndex' external to the PanelTabSet or we will never be able to switch tabs.
-			// This is similar to, but less restrictive than, using
-			// COMPONENT_ATTRIBUTE_NOT_RECREATABLE to stop the PanelTabSet being recreated
-
-			ExpressionFactory expressionFactory = application.getExpressionFactory();
-			ELContext elContext = context.getELContext();
-			panelTabSet.setValueExpression( "selectedIndex", expressionFactory.createValueExpression( elContext, "#{requestScope['" + getClass().getName() + "." + attributes.get( NAME ) + "']}", Object.class ) );
+			tabView = (TabView) application.createComponent( "org.primefaces.component.TabView" );
+			tabView.setId( viewRoot.createUniqueId() );
 
 			// Add to parent container
 
 			Map<String, String> tabPanelAttributes = CollectionUtils.newHashMap();
 			tabPanelAttributes.put( LABEL, "" );
-			panelTabSet.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, tabPanelAttributes );
+			tabView.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, tabPanelAttributes );
 
-			getDelegate().layoutWidget( panelTabSet, PROPERTY, tabPanelAttributes, container, metawidget );
+			getDelegate().layoutWidget( tabView, PROPERTY, tabPanelAttributes, container, metawidget );
 		} else {
-			panelTabSet = (PanelTabSet) previousSectionWidget.getParent().getParent();
+			tabView = (TabView) previousSectionWidget.getParent().getParent();
 		}
 
 		// New tab
 
-		PanelTab tab = (PanelTab) application.createComponent( "com.icesoft.faces.PanelTab" );
+		Tab tab = (Tab) application.createComponent( "org.primefaces.component.Tab" );
 		tab.setId( viewRoot.createUniqueId() );
-		panelTabSet.getChildren().add( tab );
+		tabView.getChildren().add( tab );
 
 		// Tab name (possibly localized)
 
@@ -109,7 +97,7 @@ public class PanelTabSetLayoutDecorator
 			localizedSection = section;
 		}
 
-		tab.setLabel( localizedSection );
+		tab.setTitle( localizedSection );
 
 		// Create nested Metawidget (for layout)
 

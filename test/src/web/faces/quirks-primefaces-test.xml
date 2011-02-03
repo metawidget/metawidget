@@ -1,0 +1,33 @@
+<project name="quirks-primefaces-test" default="test-all">
+
+	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
+
+	<target name="test-all" depends="wt.defineTasks">
+		<webtest name="test-quirks">
+			<config resultpath="../../../../../${build.dir}/run/logs">
+				<option name="ThrowExceptionOnScriptError" value="false"/>
+			</config>
+			<steps>
+				<invoke url="${webtest.url}/quirks-primefaces" />
+				<verifyTitle text="Quirks (PrimeFaces Test)" />
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/ul/li/a/em" text="Section #1"/>		
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li/@class, 'ui-state-active')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[1]/th" text="Name:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[1]/td[1]/input/@name" text="form:primeFacesQuirksName"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[2]/th" text="Spinner:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[2]/td[1]/input/@name" text="form:primeFacesQuirksSpinner"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[3]/th" text="Slider:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr[3]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/ul/li[2]/a/em" text="Section #2"/>
+				<not>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li[2]/@class, 'ui-state-active')"/>
+				</not>				
+			</steps>
+		</webtest>
+	</target>
+</project>

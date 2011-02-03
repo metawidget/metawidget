@@ -10934,6 +10934,16 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					</informaltable>
 				</section>
 
+				<section id="section-layouts-web-faces-icefaces-paneltabset">
+					<title>PanelTabSetLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using an ICEfaces
+						PanelTabSet.
+					</para>
+					
+				</section>				
+
 				<section id="section-layouts-web-faces-richfaces-simpletogglepanel">
 					<title>SimpleTogglePanelLayoutDecorator</title>
 
@@ -11013,6 +11023,16 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							</tr>
 						</tbody>						
 					</informaltable>
+				</section>				
+
+				<section id="section-layouts-web-faces-primefaces-tabpanel">
+					<title>TabViewLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a PrimeFaces
+						TabView.
+					</para>
+					
 				</section>				
 
 			</section>

@@ -92,6 +92,7 @@ public class ContactBean {
 	 * parameterized instead (ie. ListDataModel&lt;Communication&gt;).
 	 */
 
+	@SuppressWarnings( "rawtypes" )
 	@UiHidden
 	public ListDataModel getCurrentCommunications() {
 

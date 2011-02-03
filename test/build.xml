@@ -1660,6 +1660,47 @@
 		
 		<antcall target="test-web-stop-tomcat"/>
 
+		<!-- PrimeFaces -->
+		
+		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
+
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-primefaces.war" webxml="${relative.test.dir}/test/src/web/faces/quirks-primefaces/WEB-INF/web.xml">
+			<fileset dir="${relative.test.dir}/test/src/web/faces/quirks-primefaces">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web*.xml"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/test-classes">
+				<include name="org/metawidget/faces/quirks/model/primefaces/*.class"/>
+			</classes>			
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-2.0*.jar"/>
+				<include name="primefaces-2.1.jar"/>
+			</lib>
+		</war>
+
+		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-primefaces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-tomcat"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-primefaces-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+
 	</target>
 
 	<target name="test-jsp-allwidgets" depends="test-shared-allwidgets">

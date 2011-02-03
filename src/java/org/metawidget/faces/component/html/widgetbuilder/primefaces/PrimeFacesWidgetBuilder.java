@@ -49,6 +49,7 @@ import org.primefaces.component.spinner.Spinner;
  */
 
 // TODO: unit test
+// TODO: 2 UISections in PeguinColony
 
 public class PrimeFacesWidgetBuilder
 	implements WidgetBuilder<UIComponent, UIMetawidget> {

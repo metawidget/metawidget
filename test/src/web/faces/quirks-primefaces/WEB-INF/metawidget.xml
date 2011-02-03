@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+						<primeFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.primefaces"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>		
+		<layout>
+			<tabViewLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.primefaces" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+				<layout>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+				</layout>
+			</tabViewLayoutDecorator>
+		</layout>		
+	</htmlMetawidget>
+
+</metawidget>
