@@ -79,6 +79,7 @@ public class NestedSectionLayoutDecoratorTest
 
 		attributes.put( SECTION, "" );
 		nestedSectionLayoutDecorator.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "" );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, null );
 	}
 }

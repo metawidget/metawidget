@@ -83,6 +83,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
 		}
 
+		state.currentSection = section;
 		state.currentSectionWidget = null;
 
 		// No new section?
@@ -94,7 +95,6 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		// Start new section
 
-		state.currentSection = section;
 		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
 
