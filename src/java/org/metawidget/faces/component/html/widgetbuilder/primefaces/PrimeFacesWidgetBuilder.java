@@ -48,8 +48,6 @@ import org.primefaces.component.spinner.Spinner;
  * @author Richard Kennard
  */
 
-// TODO: 2 UISections in PeguinColony
-
 public class PrimeFacesWidgetBuilder
 	implements WidgetBuilder<UIComponent, UIMetawidget> {
 

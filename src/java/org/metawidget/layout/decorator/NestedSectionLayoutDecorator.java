@@ -54,10 +54,16 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget ) {
 
-		String section = stripSection( attributes );
-		State<C> state = getState( container, metawidget );
+		// Ignore empty stubs. Do not create a new section in case it ends up being empty
+
+		if ( isEmptyStub( widget ) ) {
+			return;
+		}
 
 		// Stay where we are?
+
+		String section = stripSection( attributes );
+		State<C> state = getState( container, metawidget );
 
 		if ( section == null || section.equals( state.currentSection ) ) {
 			if ( state.currentSectionWidget == null ) {
@@ -69,11 +75,9 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 			return;
 		}
 
-		state.currentSection = section;
+		// End current section
 
 		C previousSectionWidget = state.currentSectionWidget;
-
-		// End current section
 
 		if ( state.currentSectionWidget != null ) {
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
@@ -88,12 +92,9 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 			return;
 		}
 
-		// Ignore empty stubs. Do not create a new tab in case it ends up being empty
+		// Start new section
 
-		if ( isEmptyStub( widget ) ) {
-			return;
-		}
-
+		state.currentSection = section;
 		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
 

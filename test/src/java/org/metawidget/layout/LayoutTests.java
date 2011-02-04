@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.layout.decorator.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.NestedSectionLayoutDecoratorTest;
 import org.metawidget.layout.iface.LayoutExceptionTest;
 import org.metawidget.layout.impl.LayoutUtilsTest;
 
@@ -41,6 +42,7 @@ public class LayoutTests
 		suite.addTestSuite( LayoutDecoratorTest.class );
 		suite.addTestSuite( LayoutExceptionTest.class );
 		suite.addTestSuite( LayoutUtilsTest.class );
+		suite.addTestSuite( NestedSectionLayoutDecoratorTest.class );
 
 		return suite;
 	}
