@@ -93,6 +93,9 @@
 					<a href="http://oval.sourceforge.net" target="_blank" style="top: 215px; left: 5px">
 						<img src="/media/logos/logo-oval.gif" alt="OVal" style="border: 0px" />
 					</a>
+					<a href="http://primefaces.org" target="_blank" style="top: 208px; left: 70px">
+						<img src="/media/logos/logo-primefaces.gif" alt="PrimeFaces" style="border: 0px" />
+					</a>
 					<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 208px; left: 70px">
 						<img src="/media/logos/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 					</a>

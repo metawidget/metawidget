@@ -1135,7 +1135,7 @@
 		<!-- needed so that the EMMA code coverage tracks correctly                    -->
 		
 		<delete includeemptydirs="true">
-			<fileset dir="${tomcat.dir}/webapps" includes="**/*" />
+			<fileset dir="${tomcat4.dir}/webapps" includes="**/*" />
 		</delete>
 		<delete dir="${tomcat4.dir}/work"/>
 
