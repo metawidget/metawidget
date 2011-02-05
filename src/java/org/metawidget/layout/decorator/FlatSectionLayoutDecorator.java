@@ -62,11 +62,14 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 		State state = getState( container, metawidget );
 
 		if ( getDelegate() instanceof NestedSectionLayoutDecorator<?, ?, ?> ) {
+
 			String section = stripSection( attributes );
 
 			// Stay where we are?
+			//
+			// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
-			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
+			if ( isEmptyStub( widget ) || section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
@@ -77,12 +80,6 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				super.endContainerLayout( container, metawidget );
 			}
 
-			// Ignore empty stubs. Do not create a new heading in case it ends up being empty
-
-			if ( isEmptyStub( widget ) ) {
-				return;
-			}
-
 			state.currentSections = new String[] { section };
 
 			// Add a heading
@@ -91,11 +88,14 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				addSectionWidget( section, 0, container, metawidget );
 			}
 		} else {
+
 			String[] sections = getSections( attributes );
 
 			// Stay where we are?
+			//
+			// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
-			if ( sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
+			if ( isEmptyStub( widget ) || sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
@@ -112,10 +112,6 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				}
 
 				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) ) {
-					continue;
-				}
-
-				if ( isEmptyStub( widget ) ) {
 					continue;
 				}
 

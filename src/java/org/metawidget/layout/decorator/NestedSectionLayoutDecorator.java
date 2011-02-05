@@ -54,18 +54,14 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget ) {
 
-		// Ignore empty stubs. Do not create a new section in case it ends up being empty
-
-		if ( isEmptyStub( widget ) ) {
-			return;
-		}
-
 		// Stay where we are?
+		//
+		// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
 		String section = stripSection( attributes );
 		State<C> state = getState( container, metawidget );
 
-		if ( section == null || section.equals( state.currentSection ) ) {
+		if ( isEmptyStub( widget ) || section == null || section.equals( state.currentSection ) ) {
 			if ( state.currentSectionWidget == null ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 			} else {

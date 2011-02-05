@@ -19,6 +19,7 @@ package org.metawidget.layout.decorator;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ import javax.swing.JTextArea;
 
 import junit.framework.TestCase;
 
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayout;
@@ -47,7 +49,18 @@ public class NestedSectionLayoutDecoratorTest
 	public void testEmptyStub()
 		throws Exception {
 
-		NestedSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget> nestedSectionLayoutDecorator = new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GridBagLayout() ) );
+		final Set<String> triggered = CollectionUtils.newHashSet();
+
+		Layout<JComponent, JComponent, SwingMetawidget> layout = new GridBagLayout() {
+
+			@Override
+			public void layoutWidget( JComponent widget, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
+				triggered.add( "Triggered" );
+			}
+		};
+
+		NestedSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget> nestedSectionLayoutDecorator = new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( layout ) );
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		JComponent container = new JPanel();
@@ -56,13 +69,17 @@ public class NestedSectionLayoutDecoratorTest
 
 		// If empty stub, should ignore
 
+		assertTrue( triggered.isEmpty() );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, null );
 		nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection = "Foo";
 		nestedSectionLayoutDecorator.layoutWidget( new Stub(), PROPERTY, attributes, container, metawidget );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Foo" );
+		assertTrue( triggered.size() == 1 );
+		assertTrue( !attributes.containsKey( SECTION ));
 
 		// Otherwise, should process
 
+		attributes.put( SECTION, "Bar" );
 		nestedSectionLayoutDecorator.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Bar" );
 		JComponent currentSectionWidget = nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget;

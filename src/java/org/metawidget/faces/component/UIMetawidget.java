@@ -240,11 +240,14 @@ public abstract class UIMetawidget
 			}
 		}
 
-		// context.getViewRoot may sometimes be null if disabled javax.faces.PARTIAL_STATE_SAVING
+		// HIGH: what about context.getViewRoot may sometimes be null if disabled
+		// javax.faces.PARTIAL_STATE_SAVING
 		// under MyFaces. This will immediately NullPointer if we try and use
 		// PreRenderViewEventSupport
 
-		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) && context.getViewRoot() != null ) {
+		// HIGH: Apache 4 cleanup webapps?
+
+		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
 			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
 		} else {
 			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
