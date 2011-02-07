@@ -18,6 +18,7 @@ package org.metawidget.layout.decorator;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -26,6 +27,7 @@ import javax.swing.JTextArea;
 
 import junit.framework.TestCase;
 
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayout;
@@ -47,7 +49,18 @@ public class FlatSectionLayoutDecoratorTest
 	public void testEmptyStub()
 		throws Exception {
 
-		FlatSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget> flatSectionLayoutDecoratorTest = new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new GridBagLayout() ) );
+		final List<String> triggered = CollectionUtils.newArrayList();
+
+		Layout<JComponent, JComponent, SwingMetawidget> layout = new GridBagLayout() {
+
+			@Override
+			public void layoutWidget( JComponent widget, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+
+				triggered.add( "layoutWidget" );
+			}
+		};
+
+		FlatSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget> flatSectionLayoutDecoratorTest = new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( layout ) );
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		JComponent container = new JPanel();
@@ -56,17 +69,20 @@ public class FlatSectionLayoutDecoratorTest
 
 		// If empty stub, should ignore
 
+		assertTrue( triggered.isEmpty() );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections, null );
 		flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections = new String[] { "Foo" };
 		flatSectionLayoutDecoratorTest.layoutWidget( new Stub(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Foo" );
+		assertEquals( triggered.size(), 1 );
 
 		// Otherwise, should process
 
 		flatSectionLayoutDecoratorTest.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Bar" );
+		assertEquals( triggered.size(), 3 );
 
 		// Should stay
 
@@ -74,6 +90,7 @@ public class FlatSectionLayoutDecoratorTest
 		flatSectionLayoutDecoratorTest.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Bar" );
+		assertEquals( triggered.size(), 4 );
 
 		// Should still stay (cannot 'terminate' a flat section)
 
@@ -81,5 +98,6 @@ public class FlatSectionLayoutDecoratorTest
 		flatSectionLayoutDecoratorTest.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Bar" );
+		assertEquals( triggered.size(), 5 );
 	}
 }

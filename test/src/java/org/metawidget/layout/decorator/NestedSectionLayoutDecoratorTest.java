@@ -18,8 +18,8 @@ package org.metawidget.layout.decorator;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -49,14 +49,14 @@ public class NestedSectionLayoutDecoratorTest
 	public void testEmptyStub()
 		throws Exception {
 
-		final Set<String> triggered = CollectionUtils.newHashSet();
+		final List<String> triggered = CollectionUtils.newArrayList();
 
 		Layout<JComponent, JComponent, SwingMetawidget> layout = new GridBagLayout() {
 
 			@Override
 			public void layoutWidget( JComponent widget, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
-				triggered.add( "Triggered" );
+				triggered.add( "layoutWidget" );
 			}
 		};
 
@@ -74,7 +74,7 @@ public class NestedSectionLayoutDecoratorTest
 		nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection = "Foo";
 		nestedSectionLayoutDecorator.layoutWidget( new Stub(), PROPERTY, attributes, container, metawidget );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Foo" );
-		assertTrue( triggered.size() == 1 );
+		assertEquals( triggered.size(), 1 );
 		assertTrue( !attributes.containsKey( SECTION ));
 
 		// Otherwise, should process
@@ -84,6 +84,7 @@ public class NestedSectionLayoutDecoratorTest
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Bar" );
 		JComponent currentSectionWidget = nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget;
 		assertNotSame( currentSectionWidget, null );
+		assertEquals( triggered.size(), 3 );
 
 		// Should stay
 
@@ -91,6 +92,7 @@ public class NestedSectionLayoutDecoratorTest
 		nestedSectionLayoutDecorator.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Bar" );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, currentSectionWidget );
+		assertEquals( triggered.size(), 4 );
 
 		// Should terminate section
 
@@ -98,5 +100,6 @@ public class NestedSectionLayoutDecoratorTest
 		nestedSectionLayoutDecorator.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "" );
 		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, null );
+		assertEquals( triggered.size(), 5 );
 	}
 }
