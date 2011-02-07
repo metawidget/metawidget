@@ -123,35 +123,6 @@
 
 	</target>
 	
-	<target name="m2repo" depends="pack">
-		
-		<copy todir="${tomcat.dir}/webapps/ROOT">
-			<fileset dir="${relative.dir}/src/web/site">
-				<include name="m2repo/**"/>
-			</fileset>
-		</copy>
-
-		<!-- JARs -->
-			
-		<copy file="${relative.dir}/${build.dir}/metawidget.jar" tofile="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.jar"/>
-		
-		<jar destfile="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}-sources.jar">
-			<fileset dir="${relative.dir}/src/java"/>
-		</jar>
-		
-		<!-- Checksums -->
-	
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/maven-metadata.xml"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/maven-metadata.xml" algorithm="SHA1"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.jar"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.jar" algorithm="SHA1"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.pom"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.pom" algorithm="SHA1"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}-sources.jar"/>
-		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}-sources.jar" algorithm="SHA1"/>
-		
-	</target>
-
 	<target name="xsd" depends="pack">
 				
 		<taskdef name="xmlSchemaGenerator" classname="org.metawidget.config.XmlSchemaGeneratorTask">
@@ -281,10 +252,6 @@
 		<!-- Live demo -->
 
 		<antcall target="live-demo"/>
-		
-		<!-- m2repo -->
-		
-		<antcall target="m2repo"/>
 		
 		<!-- Test console applet -->
 
