@@ -90,10 +90,10 @@
 					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 153px; left: 110px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 					</a>
-					<a href="http://oval.sourceforge.net" target="_blank" style="top: 227px; left: 5px">
+					<a href="http://oval.sourceforge.net" target="_blank" style="top: 230px; left: 3px">
 						<img src="/media/logos/logo-oval.gif" alt="OVal" style="border: 0px" />
 					</a>
-					<a href="http://primefaces.org" target="_blank" style="top: 208px; left: 50px">
+					<a href="http://primefaces.org" target="_blank" style="top: 208px; left: 46px">
 						<img src="/media/logos/logo-primefaces.gif" alt="PrimeFaces" style="border: 0px" />
 					</a>
 					<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 245px; left: 70px">
