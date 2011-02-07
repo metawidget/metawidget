@@ -331,4 +331,31 @@
 		
 	</target>
 
+	<target name="pack-maven">
+
+		<delete failonerror="false">
+			<fileset dir="${relative.dir}/${build.dir}">
+				<include name="classes/**"/>
+				<include name="java4-classes/**"/>
+				<include name="java5-classes/**"/>
+			</fileset>
+		</delete>
+
+		<property name="build.debug" value="on"/>
+
+		<antcall target="pack-internal"/>
+		<antcall target="pack-as-frontend-backend-internal"/>
+		<antcall target="pack-util-internal"/>
+
+		<mkdir dir="${relative.dir}/${build.dir}/maven/${metawidget.version}"/>		
+		<move file="${relative.dir}/${build.dir}/pack/metawidget.jar" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}.jar" />
+		<move file="${relative.dir}/${build.dir}/pack/metawidget-frontend.jar" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}-frontend.jar" />
+		<move file="${relative.dir}/${build.dir}/pack/metawidget-frontend-nopropertystyle.jar" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}-frontend-nopropertystyle.jar" />
+		<move file="${relative.dir}/${build.dir}/pack/metawidget-backend.jar" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}-backend.jar" />
+		<move file="${relative.dir}/${build.dir}/pack/metawidget-propertystyle.jar" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}-propertystyle.jar" />
+		<move file="${relative.dir}/${build.dir}/debug/metawidget-util-debug-version.jar" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}-util.jar" />
+		<copy file="${relative.dir}/pom.xml" tofile="${relative.dir}/${build.dir}/maven/${metawidget.version}/metawidget-${metawidget.version}.pom" />
+		
+	</target>
+
 </project>
