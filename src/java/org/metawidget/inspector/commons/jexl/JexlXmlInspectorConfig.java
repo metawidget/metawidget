@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.commons.jexl;
 
+import java.io.InputStream;
+
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -38,5 +40,19 @@ public class JexlXmlInspectorConfig
 	public JexlXmlInspectorConfig() {
 
 		setDefaultFile( "metawidget-metadata.xml" );
+	}
+
+	//
+	// Public methods
+	//
+
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public JexlXmlInspectorConfig setInputStream( InputStream stream ) {
+
+		return (JexlXmlInspectorConfig) super.setInputStream( stream );
 	}
 }

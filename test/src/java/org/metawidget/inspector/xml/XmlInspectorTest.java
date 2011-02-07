@@ -76,9 +76,7 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "</inspection-result>";
 
-		XmlInspectorConfig config = new XmlInspectorConfig();
-		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		mInspector = new XmlInspector( config );
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 	}
 
 	public void testInspection() {
@@ -233,9 +231,7 @@ public class XmlInspectorTest
 
 		// Without restrictAgainstObject
 
-		XmlInspectorConfig config = new XmlInspectorConfig();
-		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		mInspector = new XmlInspector( config );
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 
 		assertEquals( null, mInspector.inspect( null, "MissingObject" ) );
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
@@ -247,9 +243,7 @@ public class XmlInspectorTest
 
 		// With restrictAgainstObject
 
-		config.setRestrictAgainstObject( new JavaBeanPropertyStyle() );
-		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		mInspector = new XmlInspector( config );
+		mInspector = new XmlInspector( new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );

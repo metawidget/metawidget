@@ -35,7 +35,7 @@
 						id="download"
 						onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"
 					</c:if>>
-					Download v1.10
+					Download v${metawidgetVersion}
 				</a>
 			</li>
 		</ul>

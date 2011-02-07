@@ -50,9 +50,7 @@ public class HibernateInspectorTest
 	@Override
 	public void setUp() {
 
-		HibernateInspectorConfig config = new HibernateInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) );
-		mInspector = new HibernateInspector( config );
+		mInspector = new HibernateInspector( new HibernateInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) ) );
 	}
 
 	@SuppressWarnings( "unused" )
@@ -66,9 +64,7 @@ public class HibernateInspectorTest
 		}
 
 		try {
-			HibernateInspectorConfig config = new HibernateInspectorConfig();
-			config.setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
-			new HibernateInspector( config );
+			new HibernateInspector( new HibernateInspectorConfig().setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) ) );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "Expected an XML document starting with 'hibernate-configuration' or 'hibernate-mapping', but got 'foo'", e.getMessage() );
@@ -130,9 +126,7 @@ public class HibernateInspectorTest
 
 	public void testHideIds() {
 
-		HibernateInspectorConfig config = new HibernateInspectorConfig().setHideIds( false );
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) );
-		mInspector = new HibernateInspector( config );
+		mInspector = new HibernateInspector( new HibernateInspectorConfig().setHideIds( false ).setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) ) );
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ) );
 

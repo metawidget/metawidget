@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.hibernate;
 
+import java.io.InputStream;
+
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -48,7 +50,18 @@ public class HibernateInspectorConfig
 	//
 
 	/**
-	 * Sets whether the Inspector returns &lt;id&gt; properties as <code>hidden="true"</code>. True by
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public HibernateInspectorConfig setInputStream( InputStream stream ) {
+
+		return (HibernateInspectorConfig) super.setInputStream( stream );
+	}
+
+	/**
+	 * Sets whether the Inspector returns &lt;id&gt; properties as <code>hidden="true"</code>. True
+	 * by
 	 * default.
 	 * <p>
 	 * Hibernate recommends using synthetic ids, so generally they don't appear in the UI.

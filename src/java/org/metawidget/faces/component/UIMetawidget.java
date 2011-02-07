@@ -245,8 +245,6 @@ public abstract class UIMetawidget
 		// under MyFaces. This will immediately NullPointer if we try and use
 		// PreRenderViewEventSupport
 
-		// HIGH: Apache 4 cleanup webapps?
-
 		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
 			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
 		} else {

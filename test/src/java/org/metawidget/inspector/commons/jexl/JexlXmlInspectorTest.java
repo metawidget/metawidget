@@ -46,9 +46,7 @@ public class JexlXmlInspectorTest
 		xml += "<action name=\"bar2\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";
 		xml += "</entity></inspection-result>";
 
-		JexlXmlInspectorConfig config = new JexlXmlInspectorConfig();
-		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		JexlXmlInspector inspector = new JexlXmlInspector( config );
+		JexlXmlInspector inspector = new JexlXmlInspector( new JexlXmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 
 		String result = inspector.inspect( new Foo(), Foo.class.getName() );
 		Document document = XmlUtils.documentFromString( result );

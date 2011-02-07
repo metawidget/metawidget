@@ -66,10 +66,7 @@ public class CompositeInspectorTest
 		xml += "<property name=\"notes\" large=\"true\" section=\"other\"/>";
 		xml += "</entity></inspection-result>";
 
-		XmlInspectorConfig configXml = new XmlInspectorConfig();
-		configXml.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-
-		XmlInspector inspectorXml = new XmlInspector( configXml );
+		XmlInspector inspectorXml = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 
 		ValidatingCompositeInspectorConfig config = new ValidatingCompositeInspectorConfig();
 		config.setInspectors( inspectorXml, new PropertyTypeInspector() );

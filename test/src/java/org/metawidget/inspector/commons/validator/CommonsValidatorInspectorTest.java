@@ -38,9 +38,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testInspection() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
-		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
+		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ) );
 
@@ -92,9 +90,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testBadInput() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
-		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
+		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		try {
 			inspector.inspect( null, "testForm2" );
@@ -123,9 +119,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testTraversal() {
 
-		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) );
-		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
+		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		assertTrue( null != inspector.inspect( null, "testForm1" ) );
 		assertTrue( null == inspector.inspect( null, "testForm1/foo" ) );

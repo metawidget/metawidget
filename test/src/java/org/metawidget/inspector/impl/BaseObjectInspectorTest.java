@@ -86,10 +86,7 @@ public class BaseObjectInspectorTest
 
 		// Should fail gracefully
 
-		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
-		config.setPropertyStyle( null );
-
-		inspector = new MetawidgetAnnotationInspector( config );
+		inspector = new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( null ) );
 		assertTrue( inspector.getProperties( null ).isEmpty() );
 	}
 

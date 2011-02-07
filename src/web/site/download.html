@@ -30,23 +30,33 @@
 				<tr>
 					<th>Metawidget</th>
 					<td>Binaries, Documentation and Examples</td>
-					<td style="text-align: center">1.10</td>
+					<td style="text-align: center">${metawidgetVersion}</td>
 					<td style="text-align: center"></td>
-					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-1.10.zip">Download</a></td>
+					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${metawidgetVersion}.zip">Download</a></td>
 				</tr>
 				<tr>
 					<th></th>
 					<td>Source Code and Tests</td>
-					<td style="text-align: center">1.10</td>
+					<td style="text-align: center">${metawidgetVersion}</td>
 					<td style="text-align: center"></td>
-					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-1.10-src.zip">Download</a></td>
+					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${metawidgetVersion}-src.zip">Download</a></td>
 				</tr>
 			</tbody>
 		</table>
 
 		<p>
 			A Maven repository is also available at <a href="http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/metawidget">http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/metawidget</a>
-			(thanks to JBoss for hosting).
+			(thanks to JBoss for hosting). Add it to your <tt>pom.xml</tt>:
+		</p>
+		
+		<div class="code"><tt>&lt;dependency&gt;
+		&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.metawidget&lt;/groupId&gt;
+		&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;metawidget&lt;/artifactId&gt;
+		&nbsp;&nbsp;&nbsp;&lt;version&gt;${metawidgetVersion}&lt;/version&gt;
+		&lt;/dependency&gt;</tt></div>
+		
+		<p>
+			If you need Metawidget re-packaged in different forms, such as separate frontend and backend JARs, different Maven classifiers are also provided.
 		</p>
 			
 		<!-- Google Code for Download Conversion Page -->

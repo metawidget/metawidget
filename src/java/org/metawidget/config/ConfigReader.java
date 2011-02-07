@@ -1454,8 +1454,18 @@ public class ConfigReader
 						// extend their xxxConfigs from BaseObjectInspectorConfig and
 						// BaseXmlInspectorConfig, it is actually the most likely scenario
 
-						for ( Method declaredMethod : configClass.getMethods() ) {
+						outer: for ( Method declaredMethod : configClass.getMethods() ) {
 							if ( configClass.equals( declaredMethod.getDeclaringClass() ) ) {
+
+								// (permit overloaded methods and co-variant return types)
+
+								for ( Method equalsDeclaredMethod : equalsDeclaringClass.getMethods() ) {
+
+									if ( equalsDeclaredMethod.getName().equals( declaredMethod.getName() )) {
+										break outer;
+									}
+								}
+
 								LOG.warn( "{0} does not override .equals() (only its super{1} does), so may not be cached reliably", configClass, equalsDeclaringClass );
 								break;
 							}

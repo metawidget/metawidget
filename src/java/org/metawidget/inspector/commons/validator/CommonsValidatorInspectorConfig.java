@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.commons.validator;
 
+import java.io.InputStream;
+
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
@@ -34,5 +36,19 @@ public class CommonsValidatorInspectorConfig
 	public CommonsValidatorInspectorConfig() {
 
 		setDefaultFile( "validation.xml" );
+	}
+
+	//
+	// Public methods
+	//
+
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public CommonsValidatorInspectorConfig setInputStream( InputStream stream ) {
+
+		return (CommonsValidatorInspectorConfig) super.setInputStream( stream );
 	}
 }

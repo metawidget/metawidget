@@ -16,7 +16,10 @@
 
 package org.metawidget.inspector.xml;
 
+import java.io.InputStream;
+
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 
 /**
  * Configures an XmlInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -36,7 +39,28 @@ public class XmlInspectorConfig
 		setDefaultFile( "metawidget-metadata.xml" );
 	}
 
-	// Note: don't override setInputStream in order to have a co-variant return type of
-	// XmlInspectorConfig, because that will trip up our 'may not be cached reliably' check in
-	// ConfigReader
+	//
+	// Public methods
+	//
+
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public XmlInspectorConfig setInputStream( InputStream stream ) {
+
+		return (XmlInspectorConfig) super.setInputStream( stream );
+	}
+
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public XmlInspectorConfig setRestrictAgainstObject( PropertyStyle restrictAgainstObject ) {
+
+		return (XmlInspectorConfig) super.setRestrictAgainstObject( restrictAgainstObject );
+	}
+
 }
