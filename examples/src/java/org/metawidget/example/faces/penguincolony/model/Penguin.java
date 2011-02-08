@@ -21,11 +21,13 @@ import java.util.Date;
 import org.metawidget.inspector.InspectionResultConstants;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesAttribute;
+import org.metawidget.util.ArrayUtils;
 
 /**
  * @author Richard Kennard
@@ -152,7 +154,7 @@ public class Penguin {
 	}
 
 	@UiLarge
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.hobbies}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!this.otherHobby}" )
 	@UiComesAfter( "hobbies" )
 	public String getDescribeHobby() {
 
@@ -162,5 +164,11 @@ public class Penguin {
 	public void setDescribeHobby( String DescribeHobby ) {
 
 		mDescribeHobby = DescribeHobby;
+	}
+
+	@UiHidden
+	public boolean isOtherHobby() {
+
+		return ArrayUtils.contains( mHobbies, "Other" );
 	}
 }
