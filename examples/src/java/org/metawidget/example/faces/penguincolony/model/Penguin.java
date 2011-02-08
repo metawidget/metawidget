@@ -24,6 +24,7 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiRequired;
+import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesAttribute;
 
 /**
@@ -37,6 +38,8 @@ public class Penguin {
 	//
 
 	private String				mName;
+
+	private String				mLocation;
 
 	private String				mSpecies;
 
@@ -81,6 +84,7 @@ public class Penguin {
 	@UiRequired
 	@UiLookup( { "Banded penguin", "Brush-tailed penguin", "Crested penguin", "Great penguin", "Little penguin" } )
 	@UiComesAfter( "name" )
+	@UiSection( "Summary" )
 	public String getSpecies() {
 
 		return mSpecies;
@@ -92,6 +96,17 @@ public class Penguin {
 	}
 
 	@UiComesAfter( "species" )
+	public String getLocation() {
+
+		return mLocation;
+	}
+
+	public void setLocation( String location ) {
+
+		mLocation = location;
+	}
+
+	@UiComesAfter( "location" )
 	public Date getDateOfBirth() {
 
 		return mDateOfBirth;
@@ -105,6 +120,7 @@ public class Penguin {
 	@UiAction
 	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
+	@UiSection( "Detail" )
 	public void addCondition() {
 
 		mCondition = new PenguinCondition();
@@ -112,6 +128,7 @@ public class Penguin {
 
 	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
+	@UiSection( "Detail" )
 	public PenguinCondition getCondition() {
 
 		return mCondition;

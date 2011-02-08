@@ -33,7 +33,7 @@
 				<div class="buttons">
 	        		<ice:commandButton value="Create New Penguin" action="#{penguin.createNew}" styleClass="button"/>
 				</div>	        		
-	            <ice:panelPopup draggable="true" visible="#{penguin.popupVisible}" style="z-index: 1000; top: 30%; left: 10%; position: absolute; width: 400px;">
+	            <ice:panelPopup draggable="true" rendered="#{penguin.popupVisible}" style="z-index: 1000; top: 30%; left: 10%; position: absolute; width: 450px;">
 	                <f:facet name="header">
 						<ice:outputText style="color: #FFFFFF;" value="Penguin"/>
 	                </f:facet>

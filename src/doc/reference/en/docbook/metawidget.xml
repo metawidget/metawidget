@@ -2103,7 +2103,8 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
-					The example also makes use of the <classname>@UiFacesAttribute</classname> annotation. For example, the Java code is
+					The remaining fields are wrapped in an ICEfaces <classname>PanelTabSet</classname>. Click on the <guibutton>Details</guibutton> tab.
+					Here, the example makes use of the <classname>@UiFacesAttribute</classname> annotation. The Java code is
 					annotated:
 				</para>
 				
@@ -2124,7 +2125,8 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				</para>
 				
 				<para>
-					For more details on ICEfaces support, see <xref linkend="section-widgetbuilders-icefaces"/>.
+					For more details on ICEfaces support, see <xref linkend="section-widgetbuilders-icefaces"/>
+					and <xref linkend="section-layouts-web-faces-icefaces-paneltabset"/>.
 				</para>
 								
 			</section>

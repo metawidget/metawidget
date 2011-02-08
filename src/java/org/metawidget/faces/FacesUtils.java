@@ -20,10 +20,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 /**
@@ -86,27 +83,6 @@ public final class FacesUtils {
 		return EXPRESSION_START + unwrapExpression( value ) + EXPRESSION_END;
 	}
 
-	public static UIParameter findParameterWithName( UIComponent component, String name ) {
-
-		// Try to find a child parameter...
-
-		for ( UIComponent child : component.getChildren() ) {
-			if ( !( child instanceof UIParameter ) ) {
-				continue;
-			}
-
-			// ...with the name we're interested in
-
-			UIParameter parameter = (UIParameter) child;
-
-			if ( name.equals( parameter.getName() ) ) {
-				return parameter;
-			}
-		}
-
-		return null;
-	}
-
 	public static void render( FacesContext context, UIComponent component )
 		throws IOException {
 
@@ -123,32 +99,6 @@ public final class FacesUtils {
 		}
 
 		component.encodeEnd( context );
-	}
-
-	public static void copyParameters( UIComponent from, UIComponent to ) {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
-
-		// For each child parameter...
-
-		for ( UIComponent component : from.getChildren() ) {
-			if ( !( component instanceof UIParameter ) ) {
-				continue;
-			}
-
-			// ...create a copy
-
-			UIParameter parameterCopy = (UIParameter) application.createComponent( "javax.faces.Parameter" );
-			parameterCopy.setId( viewRoot.createUniqueId() );
-
-			UIParameter parameter = (UIParameter) component;
-			parameterCopy.setName( parameter.getName() );
-			parameterCopy.setValue( parameter.getValue() );
-
-			to.getChildren().add( parameterCopy );
-		}
 	}
 
 	/**

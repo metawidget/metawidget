@@ -60,42 +60,31 @@ public abstract class HtmlLayoutRenderer
 	//
 
 	@Override
-	public void encodeBegin( FacesContext context, UIComponent metawidget )
+	public void encodeBegin( FacesContext context, UIComponent metawidgetComponent )
 		throws IOException {
 
-		( (UIMetawidget) metawidget ).putClientProperty( HtmlLayoutRenderer.class, null );
+		UIMetawidget metawidget = (UIMetawidget) metawidgetComponent;
+
+		metawidget.putClientProperty( HtmlLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
 		// Determine label suffix
 
 		State state = getState( metawidget );
-		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( metawidget, "labelSuffix" );
-
-		if ( parameterLabelSuffix != null ) {
-			state.labelSuffix = (String) parameterLabelSuffix.getValue();
-		}
+		state.labelSuffix = metawidget.getParameter( "labelSuffix" );
 
 		// Using inline messages?
 
-		UIParameter inlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "inlineMessages" );
+		String inlineMessagesParameter = metawidget.getParameter( "inlineMessages" );
 
 		if ( inlineMessagesParameter != null ) {
-			state.inlineMessages = Boolean.valueOf( (String) inlineMessagesParameter.getValue() );
+			state.inlineMessages = Boolean.valueOf( inlineMessagesParameter );
 		}
 
 		// Message styles
 
-		UIParameter messageStyleParameter = FacesUtils.findParameterWithName( metawidget, "messageStyle" );
-
-		if ( messageStyleParameter != null ) {
-			state.messageStyle = (String) messageStyleParameter.getValue();
-		}
-
-		UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( metawidget, "messageStyleClass" );
-
-		if ( messageStyleClassParameter != null ) {
-			state.messageStyleClass = (String) messageStyleClassParameter.getValue();
-		}
+		state.messageStyle = metawidget.getParameter( "messageStyle" );
+		state.messageStyleClass = metawidget.getParameter( "messageStyleClass" );
 	}
 
 	/**
@@ -266,19 +255,19 @@ public abstract class HtmlLayoutRenderer
 		return message;
 	}
 
-	protected void writeStyleAndClass( UIComponent metawidget, ResponseWriter writer, String style )
+	protected void writeStyleAndClass( UIMetawidget metawidget, ResponseWriter writer, String style )
 		throws IOException {
 
-		UIParameter parameterStyle = FacesUtils.findParameterWithName( metawidget, style + "Style" );
+		String styleParameter = metawidget.getParameter( style + "Style" );
 
-		if ( parameterStyle != null ) {
-			writer.writeAttribute( "style", parameterStyle.getValue(), "style" );
+		if ( styleParameter != null ) {
+			writer.writeAttribute( "style", styleParameter, "style" );
 		}
 
-		UIParameter parameterStyleClass = FacesUtils.findParameterWithName( metawidget, style + "StyleClass" );
+		String styleClassParameter = metawidget.getParameter( style + "StyleClass" );
 
-		if ( parameterStyleClass != null ) {
-			writer.writeAttribute( "class", parameterStyleClass.getValue(), "class" );
+		if ( styleClassParameter != null ) {
+			writer.writeAttribute( "class", styleClassParameter, "class" );
 		}
 	}
 

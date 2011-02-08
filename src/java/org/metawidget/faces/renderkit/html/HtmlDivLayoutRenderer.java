@@ -67,51 +67,30 @@ public class HtmlDivLayoutRenderer
 	//
 
 	@Override
-	public void encodeBegin( FacesContext context, UIComponent metawidget )
+	public void encodeBegin( FacesContext context, UIComponent metawidgetComponent )
 		throws IOException {
 
-		( (UIMetawidget) metawidget ).putClientProperty( HtmlDivLayoutRenderer.class, null );
+		UIMetawidget metawidget = (UIMetawidget) metawidgetComponent;
+		metawidget.putClientProperty( HtmlDivLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
 		// Determine outer styles
 
 		State state = getState( metawidget );
-		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( metawidget, "outerStyle" );
+		state.outerStyle = metawidget.getParameter( "outerStyle" );
 
-		if ( parameterOuterStyle != null ) {
-			state.outerStyle = (String) parameterOuterStyle.getValue();
-		}
+		// Determine label, component, required styles
 
-		// Determine label styles
-
-		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
-
-		if ( parameterLabelStyle != null ) {
-			state.labelStyle = (String) parameterLabelStyle.getValue();
-		}
-
-		// Determine label styles
-
-		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
-
-		if ( parameterRequiredStyle != null ) {
-			state.requiredStyle = (String) parameterRequiredStyle.getValue();
-		}
-
-		// Determine component styles
-
-		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
-
-		if ( parameterComponentStyle != null ) {
-			state.componentStyle = (String) parameterComponentStyle.getValue();
-		}
+		state.labelStyle = metawidget.getParameter( "labelStyle" );
+		state.componentStyle = metawidget.getParameter( "componentStyle" );
+		state.requiredStyle = metawidget.getParameter( "requiredStyle" );
 
 		// Determine style classes
 
-		UIParameter parameterStyleClasses = FacesUtils.findParameterWithName( metawidget, "divStyleClasses" );
+		String styleClassesParameter = metawidget.getParameter( "divStyleClasses" );
 
-		if ( parameterStyleClasses != null ) {
-			state.divStyleClasses = ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
+		if ( styleClassesParameter != null ) {
+			state.divStyleClasses = styleClassesParameter.split( StringUtils.SEPARATOR_COMMA );
 		}
 
 		// Start component
@@ -176,7 +155,7 @@ public class HtmlDivLayoutRenderer
 
 		if ( componentFooter != null ) {
 			writer.startElement( "div", metawidget );
-			writeStyleAndClass( metawidget, writer, "footer" );
+			writeStyleAndClass( (UIMetawidget) metawidget, writer, "footer" );
 
 			// Render facet
 

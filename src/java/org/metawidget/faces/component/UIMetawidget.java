@@ -132,6 +132,8 @@ public abstract class UIMetawidget
 
 	private static final String				DEFAULT_USER_CONFIG						= "metawidget.xml";
 
+	private static final String				COMPONENT_ATTRIBUTE_PARAMETER_PREFIX	= "metawidget-parameter-";
+
 	/* package private */static final Log	LOG										= LogUtils.getLog( UIMetawidget.class );
 
 	private static boolean					LOGGED_MISSING_CONFIG;
@@ -525,25 +527,88 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Convenience method for <code>metawidget.xml</code>.
+	 * Sets the parameter with the given name to the given value.
 	 * <p>
-	 * This method will not override existing, manually specified <code>&lt;f:param /&gt;</code>
+	 * This method will not override existing, manually specified <code>&lt;f:param /&gt;</code>.
+	 * Rather it will store the given parameter in <code>UIComponent.getAttributes</code>. This has
+	 * several advantages:
+	 * <p>
+	 * <ul>
+	 * <li>Creating child UIParameter components for every parameter seems very heavy</li>
+	 * <li>Copying parameters to nested Metawidgets can be done using the <code>getAttributes</code>
+	 * Map, without needing to create nested UIParameter components</li>
+	 * <li>Nested UIParameter components complicate <code>removeRecreatableChildren</code> because
+	 * although they are not manually specified, they will not be automatically recreated either</li>
+	 * </ul>
+	 * <p>
+	 * A <em>disadvantage</em> of this approach is that clients should always use
+	 * <code>UIMetawidget.getParameter</code> to retrieve parameters, rather than searching for
+	 * UIParameter components directly.
 	 */
 
 	public void setParameter( String name, Object value ) {
 
-		UIParameter parameter = FacesUtils.findParameterWithName( this, name );
+		getAttributes().put( COMPONENT_ATTRIBUTE_PARAMETER_PREFIX + name, value );
+	}
 
-		if ( parameter != null ) {
-			return;
+	/**
+	 * Gets the parameter with the given name.
+	 * <p>
+	 * As discussed in the <code>setParameter</code> JavaDoc, clients should use this method to
+	 * retrieve parameters, rather than searching for UIParameter components directly.
+	 */
+
+	public String getParameter( String name ) {
+
+		// Try UIParameters first...
+
+		for ( UIComponent child : getChildren() ) {
+			if ( !( child instanceof UIParameter ) ) {
+				continue;
+			}
+
+			// ...with the name we're interested in
+
+			UIParameter parameter = (UIParameter) child;
+
+			if ( name.equals( parameter.getName() ) ) {
+				return (String) parameter.getValue();
+			}
 		}
 
-		FacesContext context = getFacesContext();
-		parameter = (UIParameter) context.getApplication().createComponent( "javax.faces.Parameter" );
-		parameter.setId( context.getViewRoot().createUniqueId() );
-		parameter.setName( name );
-		parameter.setValue( value );
-		getChildren().add( parameter );
+		// ...then our internal parameters
+
+		return (String) getAttributes().get( COMPONENT_ATTRIBUTE_PARAMETER_PREFIX + name );
+	}
+
+	/**
+	 * As discussed in the <code>setParameter</code> JavaDoc, clients should use this method to
+	 * copy parameters, rather than creating UIParameter components directly.
+	 */
+
+	public void copyParameters( UIMetawidget copyFrom ) {
+
+		// Copy each child UIParameter
+
+		for ( UIComponent component : copyFrom.getChildren() ) {
+			if ( !( component instanceof UIParameter ) ) {
+				continue;
+			}
+
+			UIParameter parameter = (UIParameter) component;
+			setParameter( parameter.getName(), parameter.getValue() );
+		}
+
+		// Copy each internal parameter too
+
+		for ( Map.Entry<String, Object> entry : copyFrom.getAttributes().entrySet() ) {
+
+			if ( !entry.getKey().startsWith( COMPONENT_ATTRIBUTE_PARAMETER_PREFIX ) ) {
+				continue;
+			}
+
+			getAttributes().put( entry.getKey(), entry.getValue() );
+		}
 	}
 
 	/**
@@ -737,7 +802,7 @@ public abstract class UIMetawidget
 
 		// Parameters
 
-		FacesUtils.copyParameters( this, nestedMetawidget );
+		nestedMetawidget.copyParameters( this );
 
 		// Note: it is very dangerous to do, say...
 		//

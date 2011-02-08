@@ -50,15 +50,20 @@ h1
 	width: 100%;
 }
 
-.table-label-column
+.icePnlTbSet .table-label-column
 {
-	width: 110px;
+	width: 50px;
 	text-align: left;
 	vertical-align: top;
 	white-space: nowrap;
 	font-weight: bold;
 	padding-top: 5px;
 	font-size: 10pt;
+}
+
+.icePnlTbSet .table-label-column
+{
+	width: 110px;
 }
 
 .table-component-column
@@ -75,6 +80,11 @@ h1
 }
 
 .table-component-column input[type='text']
+{
+	width: 360px;
+}
+
+.icePnlTbSet .table-component-column input[type='text']
 {
 	width: 195px;
 }

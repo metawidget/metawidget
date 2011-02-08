@@ -52,6 +52,13 @@
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
+		<layout>
+			<panelTabSetLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.icefaces" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+				<layout>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+				</layout>
+			</panelTabSetLayoutDecorator>
+		</layout>
 	</htmlMetawidget>
 
 </metawidget>

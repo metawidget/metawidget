@@ -28,7 +28,6 @@ import javax.faces.application.Application;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
@@ -576,9 +575,9 @@ public class HtmlWidgetBuilder
 
 		// Add an 'edit action' column (if requested)
 
-		UIParameter parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_ROW_ACTION );
+		String rowActionParameter = metawidget.getParameter( DATATABLE_ROW_ACTION );
 
-		if ( parameter != null ) {
+		if ( rowActionParameter != null ) {
 			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
 			rowAction.setId( viewRoot.createUniqueId() );
 			String localizedKey = metawidget.getLocalizedKey( "edit" );
@@ -589,7 +588,7 @@ public class HtmlWidgetBuilder
 				rowAction.setValue( localizedKey );
 			}
 
-			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( (String) parameter.getValue() ), null );
+			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( rowActionParameter ), null );
 			rowAction.setAction( binding );
 
 			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );

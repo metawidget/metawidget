@@ -27,7 +27,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
@@ -117,7 +116,7 @@ public class PanelTabSetLayoutDecorator
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
 		nestedMetawidget.setId( viewRoot.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
-		FacesUtils.copyParameters( metawidget, nestedMetawidget );
+		nestedMetawidget.copyParameters( metawidget );
 		tab.getChildren().add( nestedMetawidget );
 
 		return nestedMetawidget;

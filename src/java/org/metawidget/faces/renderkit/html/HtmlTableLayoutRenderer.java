@@ -102,10 +102,11 @@ public class HtmlTableLayoutRenderer
 	//
 
 	@Override
-	public void encodeBegin( FacesContext context, UIComponent metawidget )
+	public void encodeBegin( FacesContext context, UIComponent metawidgetComponent )
 		throws IOException {
 
-		( (UIMetawidget) metawidget ).putClientProperty( HtmlTableLayoutRenderer.class, null );
+		UIMetawidget metawidget = (UIMetawidget) metawidgetComponent;
+		metawidget.putClientProperty( HtmlTableLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
 		ResponseWriter writer = context.getResponseWriter();
@@ -124,44 +125,30 @@ public class HtmlTableLayoutRenderer
 		// Determine label, component, required styles
 
 		State state = getState( metawidget );
-		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
-
-		if ( parameterLabelStyle != null ) {
-			state.labelStyle = (String) parameterLabelStyle.getValue();
-		}
-
-		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
-
-		if ( parameterComponentStyle != null ) {
-			state.componentStyle = (String) parameterComponentStyle.getValue();
-		}
-
-		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
-
-		if ( parameterRequiredStyle != null ) {
-			state.requiredStyle = (String) parameterRequiredStyle.getValue();
-		}
+		state.labelStyle = metawidget.getParameter( "labelStyle" );
+		state.componentStyle = metawidget.getParameter( "componentStyle" );
+		state.requiredStyle = metawidget.getParameter( "requiredStyle" );
 
 		// Determine inner styles
 
-		UIParameter parameterColumnClasses = FacesUtils.findParameterWithName( metawidget, "columnClasses" );
+		String columnClassesParameter = metawidget.getParameter( "columnClasses" );
 
-		if ( parameterColumnClasses != null ) {
-			state.columnClasses = ( (String) parameterColumnClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
+		if ( columnClassesParameter != null ) {
+			state.columnClasses = columnClassesParameter.split( StringUtils.SEPARATOR_COMMA );
 		}
 
-		UIParameter parameterRowClasses = FacesUtils.findParameterWithName( metawidget, "rowClasses" );
+		String rowClassesParameter = metawidget.getParameter( "rowClasses" );
 
-		if ( parameterRowClasses != null ) {
-			state.rowClasses = ( (String) parameterRowClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
+		if ( rowClassesParameter != null ) {
+			state.rowClasses = rowClassesParameter.split( StringUtils.SEPARATOR_COMMA );
 		}
 
 		// Determine number of columns
 
-		UIParameter parameterColumns = FacesUtils.findParameterWithName( metawidget, "columns" );
+		String columnsParameter = metawidget.getParameter( "columns" );
 
-		if ( parameterColumns != null ) {
-			state.columns = Integer.parseInt( (String) parameterColumns.getValue() );
+		if ( columnsParameter != null ) {
+			state.columns = Integer.parseInt( columnsParameter );
 
 			if ( state.columns < 0 ) {
 				throw LayoutException.newException( "columns must be >= 0" );
