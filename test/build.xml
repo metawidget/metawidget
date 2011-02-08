@@ -697,6 +697,23 @@
 
 		<antcall target="test-web-stop-jetty"/>
 
+		<!-- Test PrimeFaces -->
+		
+		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-tomcat"/>
+		<copy file="${relative.test.dir}/test/src/web/examples/faces/metawidget-addressbook-primefaces.xml" tofile="${tomcat.dir}/webapps/addressbook-faces2/WEB-INF/metawidget.xml" overwrite="true"/>		
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.test.dir}/test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-primefaces-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>		
+
 	</target>
 
 	<target name="test-faces-penguincolony" depends="example-faces-penguincolony,compile-test">
@@ -1683,7 +1700,7 @@
 				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-2.0*.jar"/>
-				<include name="primefaces-2.1.jar"/>
+				<include name="primefaces-2*.jar"/>
 			</lib>
 		</war>
 

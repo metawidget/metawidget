@@ -352,6 +352,7 @@
 				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-2.0*.jar"/>
+				<include name="primefaces-2*.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>

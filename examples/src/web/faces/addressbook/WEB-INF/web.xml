@@ -34,7 +34,7 @@
 		<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
 	</listener>
 
-	<!-- RichFaces -->
+	<!-- RichFaces (configured, but inactive) -->
 	
 	<filter>
 		<display-name>RichFaces Filter</display-name>

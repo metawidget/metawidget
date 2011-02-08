@@ -1566,7 +1566,7 @@ public class Person {
 				</section>
 
 				<section id="section-introduction-part2-web-richfaces">
-					<title>Alternate Widget Libraries</title>
+					<title>Alternate Widget Libraries (JSF 1.x)</title>
 					
 					<para>
 						This section is specific to JSF 1.x.
@@ -1707,6 +1707,91 @@ public class Person {
 					<para>
 						This demonstrates how easy it is to leverage widget libraries with Metawidget
 						(this example cheats a bit, as we've pre-added the RichFaces JARs into <filename>WEB-INF/lib</filename> and some
+						lines into <filename>web.xml</filename>, but you get the idea).					
+					</para>
+					
+				</section>
+
+				<section id="section-introduction-part2-web-primefaces">
+					<title>Alternate Widget Libraries (JSF 2.x)</title>
+					
+					<para>
+						This section is specific to JSF 2.x.
+					</para>
+					
+					<para>
+						As in the previous section, we can override Metawidget's default and introduce an alternate <classname>WidgetBuilder</classname>
+						alongside the standard JSF <classname>HtmlWidgetBuilder</classname>. This time we will demonstrate using PrimeFaces. 
+					</para>
+					
+					<para>
+						Go into Tomcat's <filename>webapps/addressbook-faces2</filename> folder (the exploded WAR) and
+						edit <filename>WEB-INF/metawidget.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="1.0"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
+
+&lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
+	...
+	&lt;inspector&gt;		
+		&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+								config="CompositeInspectorConfig"&gt;
+			&lt;inspectors&gt;
+			&lt;array&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
+				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
+				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
+				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
+			&lt;/array&gt;
+			&lt;/inspectors&gt;
+		&lt;/compositeInspector&gt;
+	&lt;/inspector&gt;
+	<symbol>&lt;widgetBuilder&gt;
+		&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+			config="CompositeWidgetBuilderConfig"&gt;
+			&lt;widgetBuilders&gt;
+				&lt;array&gt;
+					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/&gt;
+					&lt;readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+					&lt;primeFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.primefaces"/&gt;
+					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+				&lt;/array&gt;
+			&lt;/widgetBuilders&gt;
+		&lt;/compositeWidgetBuilder&gt;
+	&lt;/widgetBuilder&gt;</symbol>
+	&lt;layout&gt;
+		<symbol>&lt;tabViewLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.primefaces"
+			config="org.metawidget.layout.decorator.LayoutDecoratorConfig"&gt;</symbol>
+			&lt;layout&gt;
+				&lt;simpleLayout xmlns="java:org.metawidget.faces.component.layout"/&gt;
+			&lt;/layout&gt;
+		<symbol>&lt;/tabViewLayoutDecorator&gt;</symbol>
+	&lt;/layout&gt;	
+&lt;/htmlMetawidget&gt;
+
+&lt;/metawidget&gt;</programlisting>
+
+					<para>
+						Restart Tomcat, refresh your Web browser and click on Charles Montgomery Burns. Notice how the
+						<parameter>Contact Details</parameter> and <parameter>Other</parameter> sections are
+						laid out as tabs within a PrimeFaces <classname>TabView</classname> and the <parameter>Number of Staff</parameter>
+						field is a PrimeFaces <classname>Slider</classname>. See <xref linkend="section-introduction-part2-web-primefaces-screenshot"/>.
+					</para>
+
+					<figure id="section-introduction-part2-web-primefaces-screenshot">
+						<title>Web Address Book using PrimeFaces</title>
+						<screenshot>
+							<graphic fileref="images/screenshots/web-addressbook-primefaces.jpg" width="100mm" />
+						</screenshot>
+					</figure>
+
+					<para>
+						This demonstrates how easy it is to leverage widget libraries with Metawidget
+						(this example cheats a bit, as we've pre-added the PrimeFaces JARs into <filename>WEB-INF/lib</filename> and some
 						lines into <filename>web.xml</filename>, but you get the idea).					
 					</para>
 					
