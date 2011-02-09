@@ -63,6 +63,7 @@
 				<exclude name="${metawidget.name}/**/build.xml"/>
 				<exclude name="${metawidget.name}/**/build.properties"/>
 				<exclude name="${metawidget.name}/**/lib/**"/>
+				<exclude name="${metawidget.name}/**/pom.xml"/>
 				<exclude name="${metawidget.name}/examples/src/**"/>
 				<exclude name="${metawidget.name}/src/**"/>
 				<exclude name="${metawidget.name}/test/**"/>
