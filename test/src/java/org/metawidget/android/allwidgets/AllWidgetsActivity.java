@@ -88,44 +88,43 @@ public class AllWidgetsActivity
 	@Override
 	public boolean onOptionsItemSelected( MenuItem item ) {
 
-		switch ( item.getItemId() ) {
-			case 0:
-				AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
+		if ( item.getItemId() == 0 ) {
+			AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-				try {
-					// Already saved?
+			try {
+				// Already saved?
 
-					if ( metawidget.isReadOnly() ) {
-						return false;
-					}
-
-					// Save
-
-					mapFromMetawidget();
-
-					// Show result
-
-					metawidget.setReadOnly( true );
-					mapToMetawidget();
-
-					// New, read-only View will be a lot shorter
-
-					( (ScrollView) metawidget.getParent() ).fullScroll( View.FOCUS_UP );
-				} catch ( Exception e ) {
-					LogUtils.getLog( AllWidgetsActivity.class ).error( "Save error", e );
-
-					String message = e.getMessage();
-
-					if ( message == null || "".equals( message ) ) {
-						message = e.getClass().getSimpleName();
-					}
-
-					AlertDialog.Builder builder = new AlertDialog.Builder( metawidget.getContext() );
-					builder.setTitle( "Save error" );
-					builder.setMessage( "Unable to save:\n" + message );
-					builder.setPositiveButton( "OK", null );
-					builder.show();
+				if ( metawidget.isReadOnly() ) {
+					return false;
 				}
+
+				// Save
+
+				mapFromMetawidget();
+
+				// Show result
+
+				metawidget.setReadOnly( true );
+				mapToMetawidget();
+
+				// New, read-only View will be a lot shorter
+
+				( (ScrollView) metawidget.getParent() ).fullScroll( View.FOCUS_UP );
+			} catch ( Exception e ) {
+				LogUtils.getLog( AllWidgetsActivity.class ).error( "Save error", e );
+
+				String message = e.getMessage();
+
+				if ( message == null || "".equals( message ) ) {
+					message = e.getClass().getSimpleName();
+				}
+
+				AlertDialog.Builder builder = new AlertDialog.Builder( metawidget.getContext() );
+				builder.setTitle( "Save error" );
+				builder.setMessage( "Unable to save:\n" + message );
+				builder.setPositiveButton( "OK", null );
+				builder.show();
+			}
 		}
 
 		return false;
@@ -177,7 +176,7 @@ public class AllWidgetsActivity
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgets().getNestedTextbox2() ), "readOnlyNestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgetsDontExpand() ), "nestedWidgetsDontExpand" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgetsDontExpand() ), "readOnlyNestedWidgetsDontExpand" );
-		synchronized( mFormat ) {
+		synchronized ( mFormat ) {
 			metawidget.setValue( mFormat.format( mAllWidgets.getDate() ), "date" );
 		}
 		metawidget.setValue( mAllWidgets.getReadOnly(), "readOnly" );

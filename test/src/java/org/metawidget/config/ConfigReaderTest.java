@@ -293,12 +293,12 @@ public class ConfigReaderTest
 		Field privateFieldConvention = JavaBeanPropertyStyle.class.getDeclaredField( "mPrivateFieldConvention" );
 		privateFieldConvention.setAccessible( true );
 		MessageFormat format = (MessageFormat) privateFieldConvention.get( javaBeanPropertyStyle );
-		assertEquals( format, new MessageFormat( "'m'{0}{1}" ));
+		assertEquals( format, new MessageFormat( "'m'{0}{1}" ) );
 
 		// Test re-caching of JavaBeanPropertyStyle with an embedded MessageFormat
 
-		assertTrue( propertyStyle.get( inspectors[2] ) != propertyStyle.get( inspectors[3] ));
-		assertTrue( propertyStyle.get( inspectors[3] ) == propertyStyle.get( inspectors[4] ));
+		assertTrue( propertyStyle.get( inspectors[2] ) != propertyStyle.get( inspectors[3] ) );
+		assertTrue( propertyStyle.get( inspectors[3] ) == propertyStyle.get( inspectors[4] ) );
 	}
 
 	public void testNoDefaultConstructor()
@@ -691,7 +691,7 @@ public class ConfigReaderTest
 		assertTrue( "startPrefixMapping  http://metawidget.org".equals( cache.get( 1 ).toString() ) );
 		assertTrue( "startPrefixMapping xsi http://www.w3.org/2001/XMLSchema-instance".equals( cache.get( 2 ).toString() ) );
 		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd\" version=\"1.0\"".equals( cache.get( 3 ).toString() ) );
-		assertTrue( "ignorableWhitespace \n\n\t".equals( cache.get( 4 ).toString() ));
+		assertTrue( "ignorableWhitespace \n\n\t".equals( cache.get( 4 ).toString() ) );
 		assertTrue( "startPrefixMapping  java:org.metawidget.swing".equals( cache.get( 5 ).toString() ) );
 		assertTrue( "startElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 6 ).toString() ) );
 		assertTrue( "characters \n\t\t".equals( cache.get( 7 ).toString() ) );
@@ -1103,27 +1103,24 @@ public class ConfigReaderTest
 				xml += "	</inspector>";
 				xml += "	<widgetBuilder>";
 
-				switch ( mOpenResource ) {
-					case 0:
-						xml += "		<compositeWidgetBuilderFoo xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
-						xml += "			<widgetBuilders>";
-						xml += "				<array>";
-						xml += "					<overriddenWidgetBuilder xmlns=\"java:org.metawidget.faces.component.widgetbuilder\"/>";
-						xml += "					<readOnlyWidgetBuilder xmlns=\"java:org.metawidget.faces.component.html.widgetbuilder\"/>";
-						xml += "				</array>";
-						xml += "			</widgetBuilders>";
-						xml += "		</compositeWidgetBuilderFoo>";
-						break;
-
-					default:
-						xml += "		<compositeWidgetBuilder xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
-						xml += "			<widgetBuilders>";
-						xml += "				<array>";
-						xml += "					<overriddenWidgetBuilder xmlns=\"java:org.metawidget.faces.component.widgetbuilder\"/>";
-						xml += "					<readOnlyWidgetBuilder xmlns=\"java:org.metawidget.faces.component.html.widgetbuilder\"/>";
-						xml += "				</array>";
-						xml += "			</widgetBuilders>";
-						xml += "		</compositeWidgetBuilder>";
+				if ( mOpenResource == 0 ) {
+					xml += "		<compositeWidgetBuilderFoo xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+					xml += "			<widgetBuilders>";
+					xml += "				<array>";
+					xml += "					<overriddenWidgetBuilder xmlns=\"java:org.metawidget.faces.component.widgetbuilder\"/>";
+					xml += "					<readOnlyWidgetBuilder xmlns=\"java:org.metawidget.faces.component.html.widgetbuilder\"/>";
+					xml += "				</array>";
+					xml += "			</widgetBuilders>";
+					xml += "		</compositeWidgetBuilderFoo>";
+				} else {
+					xml += "		<compositeWidgetBuilder xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+					xml += "			<widgetBuilders>";
+					xml += "				<array>";
+					xml += "					<overriddenWidgetBuilder xmlns=\"java:org.metawidget.faces.component.widgetbuilder\"/>";
+					xml += "					<readOnlyWidgetBuilder xmlns=\"java:org.metawidget.faces.component.html.widgetbuilder\"/>";
+					xml += "				</array>";
+					xml += "			</widgetBuilders>";
+					xml += "		</compositeWidgetBuilder>";
 				}
 
 				mOpenResource++;

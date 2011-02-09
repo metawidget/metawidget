@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class TestUtils {
+public final class TestUtils {
 
 	//
 	// Public statics
@@ -86,7 +86,14 @@ public class TestUtils {
 		try {
 			// Test top-level object
 
-			Assert.assertFalse( object1.equals( null ) );
+			Assert.assertTrue( object1 != null );
+
+			// (keep PMD happy)
+
+			if ( object1 == null ) {
+				throw new NullPointerException( "object1" );
+			}
+
 			Assert.assertFalse( object1.equals( "foo" ) );
 			Assert.assertTrue( "subclass", !object1.equals( subclass ) );
 			Assert.assertEquals( object1, object1 );

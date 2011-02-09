@@ -265,13 +265,11 @@ public class BeanUtilsBindingProcessor
 	protected Object retrieveValueFromObject( SwingMetawidget metawidget, Object source, String names )
 		throws Exception {
 
-		switch ( mPropertyStyle ) {
-			case BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA:
-				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
-
-			default:
-				return PropertyUtils.getProperty( source, names );
+		if ( mPropertyStyle == BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ) {
+			return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
 		}
+
+		return PropertyUtils.getProperty( source, names );
 	}
 
 	/**
@@ -288,39 +286,36 @@ public class BeanUtilsBindingProcessor
 
 		Object source = metawidget.getToInspect();
 
-		switch ( mPropertyStyle ) {
-			case BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA:
+		if ( mPropertyStyle == BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ) {
 
-				// Traverse to the setter...
+			// Traverse to the setter...
 
-				String[] namesAsArray = names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
-				Object parent = scalaTraverse( source, true, namesAsArray );
+			String[] namesAsArray = names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
+			Object parent = scalaTraverse( source, true, namesAsArray );
 
-				if ( parent == null ) {
-					return;
-				}
+			if ( parent == null ) {
+				return;
+			}
 
-				// ...determine its type...
+			// ...determine its type...
 
-				Class<?> parentClass = parent.getClass();
-				String lastName = namesAsArray[namesAsArray.length - 1];
-				Class<?> propertyType = parentClass.getMethod( lastName ).getReturnType();
+			Class<?> parentClass = parent.getClass();
+			String lastName = namesAsArray[namesAsArray.length - 1];
+			Class<?> propertyType = parentClass.getMethod( lastName ).getReturnType();
 
-				// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
-				//
-				// Note: if this line fails, to build, check commons-beanutils comes first on the
-				// CLASSPATH
+			// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
+			//
+			// Note: if this line fails, to build, check commons-beanutils comes first on the
+			// CLASSPATH
 
-				Object convertedValue = ConvertUtils.convert( componentValue, propertyType );
+			Object convertedValue = ConvertUtils.convert( componentValue, propertyType );
 
-				// ...and set it
+			// ...and set it
 
-				Method writeMethod = parentClass.getMethod( lastName + SCALA_SET_SUFFIX, propertyType );
-				writeMethod.invoke( parent, convertedValue );
-				break;
-
-			default:
-				BeanUtils.setProperty( source, names, componentValue );
+			Method writeMethod = parentClass.getMethod( lastName + SCALA_SET_SUFFIX, propertyType );
+			writeMethod.invoke( parent, convertedValue );
+		} else {
+			BeanUtils.setProperty( source, names, componentValue );
 		}
 	}
 

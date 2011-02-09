@@ -361,7 +361,7 @@ public class SwingMetawidgetTest
 		needToBuildWidgets.setAccessible( true );
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
 
-		metawidget.setToInspect( new String() );
+		metawidget.setToInspect( "" );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
 		metawidget.getPreferredSize();
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));

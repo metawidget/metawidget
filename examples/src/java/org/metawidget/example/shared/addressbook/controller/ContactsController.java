@@ -29,6 +29,7 @@ import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
+import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.util.CollectionUtils;
@@ -134,20 +135,11 @@ public class ContactsController {
 					continue;
 				}
 
-				if ( search.getType() != null ) {
-					switch ( search.getType() ) {
-						case PERSONAL:
-							if ( !( contact instanceof PersonalContact ) ) {
-								continue;
-							}
+				if ( search.getType() == ContactType.PERSONAL && !( contact instanceof PersonalContact ) ) {
+					continue;
 
-							break;
-
-						case BUSINESS:
-							if ( !( contact instanceof BusinessContact ) ) {
-								continue;
-							}
-					}
+				} else if ( search.getType() == ContactType.BUSINESS && !( contact instanceof BusinessContact ) ) {
+					continue;
 				}
 			}
 

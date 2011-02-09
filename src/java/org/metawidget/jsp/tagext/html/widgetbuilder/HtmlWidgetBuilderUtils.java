@@ -34,7 +34,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class HtmlWidgetBuilderUtils {
+public final class HtmlWidgetBuilderUtils {
 
 	//
 	// Public statics

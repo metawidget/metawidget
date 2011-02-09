@@ -28,7 +28,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * @author Richard Kennard
  */
 
-public class SwingWidgetBuilderUtils {
+public final class SwingWidgetBuilderUtils {
 
 	//
 	// Public statics
