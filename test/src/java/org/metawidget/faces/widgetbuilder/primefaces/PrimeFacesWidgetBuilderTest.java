@@ -111,8 +111,13 @@ public class PrimeFacesWidgetBuilderTest
 
 		// Spinners
 
-		attributes.put( MINIMUM_VALUE, "" );
+		attributes.put( MAXIMUM_VALUE, "" );
 		Spinner spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( 1d, spinner.getMin() );
+		attributes.put( MAXIMUM_VALUE, "1024" );
+
+		attributes.put( MINIMUM_VALUE, "" );
+		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 1024d, spinner.getMax() );
 
 		// (lower bound)

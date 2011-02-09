@@ -34,10 +34,10 @@ import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
-import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.FacesMetawidgetTests.MockComponent;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.FacesMetawidgetTests.MockMethodBinding;
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.richfaces.RichFacesWidgetBuilder;
@@ -118,8 +118,13 @@ public class RichFacesWidgetBuilderTest
 
 		// Spinners
 
-		attributes.put( MINIMUM_VALUE, "" );
+		attributes.put( MAXIMUM_VALUE, "" );
 		UIInputNumberSpinner spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "1", spinner.getMinValue() );
+		attributes.put( MAXIMUM_VALUE, "1024" );
+
+		attributes.put( MINIMUM_VALUE, "" );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "1024", spinner.getMaxValue() );
 
 		// (lower bound)
