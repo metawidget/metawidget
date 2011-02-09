@@ -26,7 +26,7 @@ import org.metawidget.inspector.iface.InspectorException;
  * <p>
  * <ul>
  * <li>the current Thread's context classloader, if any
- * <li>the classloader that loaded SimpleResourceResolver
+ * <li>the classloader that loaded <code>SimpleResourceResolver</code>
  * </ul>
  * <p>
  * This can be useful for <code>xxxConfig</code> classes that want to create just-in-time

@@ -61,8 +61,7 @@ public class HibernateInspectorConfig
 
 	/**
 	 * Sets whether the Inspector returns &lt;id&gt; properties as <code>hidden="true"</code>. True
-	 * by
-	 * default.
+	 * by default.
 	 * <p>
 	 * Hibernate recommends using synthetic ids, so generally they don't appear in the UI.
 	 *
