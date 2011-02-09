@@ -44,19 +44,33 @@
 			</tbody>
 		</table>
 
+		<h2 class="h2-underneath">Maven</h2>
+
 		<p>
-			A Maven repository is also available at <a href="http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/metawidget">http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/metawidget</a>
-			(thanks to JBoss for hosting). Add it to your <tt>pom.xml</tt>:
+			Metawidget distributions are also deployed at <a href="https://repository.jboss.org/nexus" target="_blank">https://repository.jboss.org/nexus</a>.
+			Add the following repository definition to your <tt>pom.xml</tt>...
 		</p>
 		
-		<div class="code"><tt>&lt;dependency&gt;
-		&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.metawidget&lt;/groupId&gt;
-		&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;metawidget&lt;/artifactId&gt;
-		&nbsp;&nbsp;&nbsp;&lt;version&gt;${metawidgetVersion}&lt;/version&gt;
+		<div class="code"><tt>&lt;repository&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;id&gt;<strong>jboss-public-repository-group</strong>&lt;/id&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;name&gt;<strong>JBoss Public Maven Repository Group</strong>&lt;/name&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;url&gt;<strong>https://repository.jboss.org/nexus/content/groups/public-jboss/</strong>&lt;/url&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;layout&gt;default&lt;/layout&gt;<br/>
+		&lt;/repository&gt;</tt></div>
+
+		<p>
+			...and the dependency configuration as:
+		</p>
+		
+		<div class="code"><tt>&lt;dependency&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;groupId&gt;<strong>org.metawidget</strong>&lt;/groupId&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;<strong>metawidget</strong>&lt;/artifactId&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;version&gt;<strong>${metawidgetVersion}</strong>&lt;/version&gt;<br/>
 		&lt;/dependency&gt;</tt></div>
 		
 		<p>
-			If you need Metawidget re-packaged in different forms, such as separate frontend and backend JARs, different Maven classifiers are also provided.
+			If you need Metawidget re-packaged in different forms, such as separate frontend and backend JARs, different Maven <tt>classifiers</tt> are provided.
+			Thanks to <a href="http://jboss.org" target="_blank">JBoss</a> for hosting.
 		</p>
 			
 		<!-- Google Code for Download Conversion Page -->

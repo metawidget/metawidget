@@ -92,6 +92,15 @@ p {
 	color: #cccccc;
 }
 
+.code {
+	background-color: #eeeeee;
+   	border: 1px dashed #cccccc;
+	font-size: 8pt;
+	padding: 5px;
+	width: 80%;
+	margin: auto;
+}
+
 /*
  * Front page
  */

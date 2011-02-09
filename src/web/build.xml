@@ -177,7 +177,7 @@
 		<sleep seconds="30"/>
 		<delete dir="${relative.dir}/${build.dir}/website"/>
 		
-		<exec executable="${httrack.dir}/httrack.exe" failonerror="false" failifexecutionfails="false" >
+		<exec executable="${httrack.dir}/httrack.exe" failonerror="false" failifexecutionfails="false">
 			<arg value="${webtest.url}"/>
 			<arg value="--path"/>
 			<arg value="${relative.dir}/${build.dir}/website"/>
@@ -187,7 +187,6 @@
 		</exec>
 
 		<antcall target="test-web-stop-tomcat"/>
-		<delete dir="${tomcat.dir}/webapps"/>		
 
 		<move todir="${tomcat.dir}/webapps/ROOT">
 			<fileset dir="${relative.dir}/${build.dir}/website/localhost_8080"/>
