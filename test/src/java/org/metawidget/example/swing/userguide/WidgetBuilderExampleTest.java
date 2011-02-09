@@ -34,6 +34,7 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.SimpleResourceResolver;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
@@ -49,7 +50,6 @@ import org.metawidget.swing.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -91,7 +91,7 @@ public class WidgetBuilderExampleTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.add( new Stub( "dateOfBirth" ) );
-		XmlInspector xmlInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( ClassUtils.openResource( "org/metawidget/example/swing/addressbook/metawidget-metadata.xml" )));
+		XmlInspector xmlInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/example/swing/addressbook/metawidget-metadata.xml" )));
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector(), xmlInspector ) ) );
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new GenericJRadioButtonWidgetBuilder(), new SwingWidgetBuilder() ) ) );
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );

@@ -16,8 +16,6 @@
 
 package org.metawidget.util;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
 import java.util.regex.Pattern;
@@ -360,45 +358,6 @@ public final class ClassUtils {
 		}
 
 		return className;
-	}
-
-	/**
-	 * Locate the given resource by trying, in order:
-	 * <p>
-	 * <ul>
-	 * <li>the current thread's context classloader, if any
-	 * <li>the classloader that loaded ClassUtils
-	 * </ul>
-	 */
-
-	public static InputStream openResource( String resource )
-		throws FileNotFoundException {
-
-		if ( resource == null || "".equals( resource.trim() ) ) {
-			throw new FileNotFoundException( "No resource specified" );
-		}
-
-		// Thread's ClassLoader
-
-		ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
-
-		if ( loaderContext != null ) {
-			InputStream stream = loaderContext.getResourceAsStream( resource );
-
-			if ( stream != null ) {
-				return stream;
-			}
-		}
-
-		// ClassUtil's ClassLoader
-
-		InputStream stream = ClassUtils.class.getResourceAsStream( resource );
-
-		if ( stream != null ) {
-			return stream;
-		}
-
-		throw new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" );
 	}
 
 	//

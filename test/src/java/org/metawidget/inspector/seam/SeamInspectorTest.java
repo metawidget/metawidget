@@ -24,8 +24,8 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.SimpleResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.TestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -52,10 +52,10 @@ public class SeamInspectorTest
 
 				try {
 					if ( "components.xml".equals( resource ) ) {
-						return ClassUtils.openResource( "org/metawidget/inspector/seam/test-components.xml" );
+						return new SimpleResourceResolver().openResource( "org/metawidget/inspector/seam/test-components.xml" );
 					}
 
-					return ClassUtils.openResource( resource );
+					return new SimpleResourceResolver().openResource( resource );
 				} catch ( Exception e ) {
 					throw InspectorException.newException( e );
 				}

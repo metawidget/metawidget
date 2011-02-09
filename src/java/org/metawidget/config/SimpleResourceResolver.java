@@ -19,11 +19,15 @@ package org.metawidget.config;
 import java.io.InputStream;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.ClassUtils;
 
 /**
- * A simple <code>ResourceResolver</code> implementation that uses
- * <code>ClassUtils.openResource</code>.
+ * A simple <code>ResourceResolver</code> implementation that locates the given resource by trying,
+ * in order:
+ * <p>
+ * <ul>
+ * <li>the current Thread's context classloader, if any
+ * <li>the classloader that loaded SimpleResourceResolver
+ * </ul>
  * <p>
  * This can be useful for <code>xxxConfig</code> classes that want to create just-in-time
  * <code>ResourceResolver</code>s. This saves clients having to supply their own
@@ -43,10 +47,30 @@ public class SimpleResourceResolver
 	@Override
 	public InputStream openResource( String resource ) {
 
-		try {
-			return ClassUtils.openResource( resource );
-		} catch ( Exception e ) {
-			throw InspectorException.newException( e );
+		if ( resource == null || "".equals( resource.trim() ) ) {
+			throw InspectorException.newException( "No resource specified" );
 		}
+
+		// Thread's ClassLoader
+
+		ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
+
+		if ( loaderContext != null ) {
+			InputStream stream = loaderContext.getResourceAsStream( resource );
+
+			if ( stream != null ) {
+				return stream;
+			}
+		}
+
+		// Our ClassLoader
+
+		InputStream stream = getClass().getResourceAsStream( resource );
+
+		if ( stream != null ) {
+			return stream;
+		}
+
+		throw InspectorException.newException( "Unable to locate " + resource + " on CLASSPATH" );
 	}
 }
