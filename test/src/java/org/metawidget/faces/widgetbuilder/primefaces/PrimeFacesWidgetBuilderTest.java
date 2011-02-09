@@ -109,11 +109,21 @@ public class PrimeFacesWidgetBuilderTest
 		assertEquals( 1, slider.getMinValue() );
 		assertEquals( 1024, slider.getMaxValue() );
 
+		attributes.put( TYPE, Long.class.getName() );
+		attributes.put( MINIMUM_VALUE, "2" );
+		attributes.put( MAXIMUM_VALUE, "1023" );
+		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputText );
+		slider = (Slider) stub.getChildren().get( 1 );
+		assertEquals( 2, slider.getMinValue() );
+		assertEquals( 1023, slider.getMaxValue() );
+
 		// Spinners
 
+		attributes.put( TYPE, int.class.getName() );
 		attributes.put( MAXIMUM_VALUE, "" );
 		Spinner spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( 1d, spinner.getMin() );
+		assertEquals( 2d, spinner.getMin() );
 		attributes.put( MAXIMUM_VALUE, "1024" );
 
 		attributes.put( MINIMUM_VALUE, "" );

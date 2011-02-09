@@ -116,11 +116,19 @@ public class RichFacesWidgetBuilderTest
 		assertEquals( "1", slider.getMinValue() );
 		assertEquals( "1024", slider.getMaxValue() );
 
+		attributes.put( TYPE, Long.class.getName() );
+		attributes.put( MINIMUM_VALUE, "2" );
+		attributes.put( MAXIMUM_VALUE, "1023" );
+		slider = (UIInputNumberSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "2", slider.getMinValue() );
+		assertEquals( "1023", slider.getMaxValue() );
+
 		// Spinners
 
+		attributes.put( TYPE, int.class.getName() );
 		attributes.put( MAXIMUM_VALUE, "" );
 		UIInputNumberSpinner spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "1", spinner.getMinValue() );
+		assertEquals( "2", spinner.getMinValue() );
 		attributes.put( MAXIMUM_VALUE, "1024" );
 
 		attributes.put( MINIMUM_VALUE, "" );
