@@ -16,6 +16,7 @@
 
 package org.metawidget.config;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.metawidget.inspector.iface.InspectorException;
@@ -48,7 +49,7 @@ public class SimpleResourceResolver
 	public InputStream openResource( String resource ) {
 
 		if ( resource == null || "".equals( resource.trim() ) ) {
-			throw InspectorException.newException( "No resource specified" );
+			throw InspectorException.newException( new FileNotFoundException( "No resource specified" ));
 		}
 
 		// Thread's ClassLoader
@@ -71,6 +72,6 @@ public class SimpleResourceResolver
 			return stream;
 		}
 
-		throw InspectorException.newException( "Unable to locate " + resource + " on CLASSPATH" );
+		throw InspectorException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ));
 	}
 }
