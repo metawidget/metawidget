@@ -259,14 +259,24 @@ public class CompositeInspectorTest
 		// Test
 
 		CompositeInspector compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspectorNull ) );
+		assertEquals( null, compositeInspector.inspect( "Foo", "bar" ) );
+		assertEquals( "No inspectors matched path == bar", LogUtilsTest.getLastWarnMessage() );
+		LogUtilsTest.clearLastWarnMessage();
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspectorNull ) );
 		assertEquals( null, compositeInspector.inspect( null, "bar" ) );
+		assertEquals( null, LogUtilsTest.getLastWarnMessage() );
+
+		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspectorEmpty ) );
+		Document document = XmlUtils.documentFromString( compositeInspector.inspect( "Foo", "bar" ) );
+		assertEquals( null, document.getFirstChild().getFirstChild() );
 		assertEquals( "No inspectors matched path == bar", LogUtilsTest.getLastWarnMessage() );
 		LogUtilsTest.clearLastWarnMessage();
 
 		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspectorEmpty ) );
-		Document document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );
+		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );
 		assertEquals( null, document.getFirstChild().getFirstChild() );
-		assertEquals( "No inspectors matched path == bar", LogUtilsTest.getLastWarnMessage() );
+		assertEquals( null, LogUtilsTest.getLastWarnMessage() );
 
 		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector1 ) );
 		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );

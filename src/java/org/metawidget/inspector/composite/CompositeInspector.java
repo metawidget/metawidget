@@ -150,7 +150,7 @@ public class CompositeInspector
 			Document masterDocumentToUse = runInspectors( masterDocument, toInspect, type, names );
 
 			if ( masterDocumentToUse == null || !masterDocumentToUse.hasChildNodes() ) {
-				if ( type != null && LOG.isWarnEnabled() ) {
+				if ( toInspect != null && type != null && LOG.isWarnEnabled() ) {
 					LOG.warn( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				}
 
@@ -168,7 +168,7 @@ public class CompositeInspector
 
 			Element root = masterDocumentToUse.getDocumentElement();
 
-			if ( LOG.isWarnEnabled() && !root.hasChildNodes() ) {
+			if ( toInspect != null && type != null && LOG.isWarnEnabled() && !root.hasChildNodes() ) {
 				LOG.warn( "No inspectors matched path == {0}{1}", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				return root;
 			}
