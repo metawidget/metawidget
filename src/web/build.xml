@@ -142,7 +142,9 @@
 
 	<target name="website" depends="test-init">
 
-		<delete dir="${tomcat.dir}/webapps"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.dir}/webapps" includes="**/*" />
+		</delete>
 
 		<!-- XSDs (do these first, because otherwise we seemed to crash on the SWT ones) -->
 		
