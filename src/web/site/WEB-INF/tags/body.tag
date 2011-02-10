@@ -99,7 +99,7 @@
 					<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 245px; left: 70px">
 						<img src="/media/logos/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 					</a>
-					<a href="http://www.scala-lang.org" target="_blank" style="top: 290px; left: 10px">
+					<a href="http://www.scala-lang.org" target="_blank" style="top: 292px; left: 10px">
 						<img src="/media/logos/logo-scala.gif" alt="Scala" style="border: 0px" />
 					</a>
 					<a href="http://springframework.org" target="_blank" style="top: 285px; left: 110px">
