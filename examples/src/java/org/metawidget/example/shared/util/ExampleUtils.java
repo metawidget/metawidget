@@ -34,14 +34,14 @@ public final class ExampleUtils {
 	// Public statics
 	//
 
-	public static <T> List<T> sortSet( Set<T> set ) {
+	public static <T extends Comparable<T>> List<T> sortSet( Set<T> set ) {
 
 		if ( set == null ) {
 			return null;
 		}
 
 		List<T> sorted = CollectionUtils.newArrayList( set );
-		Collections.sort( sorted, null );
+		Collections.sort( sorted );
 
 		return sorted;
 	}
