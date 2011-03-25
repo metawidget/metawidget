@@ -1,3 +1,0 @@
-Implementation-Title: Metawidget
-Implementation-Version: 1.10
-Implementation-Vendor: metawidget.org

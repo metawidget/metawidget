@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: org.metawidget.example.swing.animalraces.AnimalRaces
-Class-Path: ../../metawidget.jar lib/beansbinding-1.2.1.jar lib/scala-library.jar lib/commons-beanutils-1.8.3.jar lib/commons-logging-1.1.1.jar lib/miglayout-3.7.2-swing-java14.jar
