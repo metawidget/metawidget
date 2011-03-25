@@ -76,10 +76,9 @@
 			<id>java.net-maven2-repository</id>
 			<url>https://svn.java.net/svn/maven2-repository~svn/trunk/repository</url>
 		</repository>
-		<!-- TODO: point this to SourceForge SVN -->
 		<repository>
 			<id>local-repository</id>
-			<url>file://N:/MyDocuments/KennardConsulting/SVN/metawidget.svn.sourceforge.net/svnroot/metawidget/trunk/repository</url>
+			<url>https://metawidget.svn.sourceforge.net/svnroot/metawidget/trunk/repository</url>
 		</repository>
 	</repositories>
 
