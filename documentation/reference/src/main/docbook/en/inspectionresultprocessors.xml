@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter id="chapter-inspectionresultprocessors">
+		<title>InspectionResultProcessors</title>
+		
+		<para>
+			This chapter covers each <classname>InspectionResultProcessor</classname> in detail. For an explanation of how
+			<classname>InspectionResultProcessor</classname>s
+			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
+		</para>
+		
+		<section id="section-inspectionresultprocessors-sort-comesafter">
+			<title>ComesAfterInspectionResultProcessor</title>
+			
+			<para>
+				<classname>ComesAfterInspectionResultProcessor</classname> sorts inspection results according
+				to the <parameter>comes-after</parameter> attribute. This attribute can be created using the
+				<classname>@UiComesAfter</classname> annotation (among other ways). For example, the following inspection result...
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="Address Screen"&gt;
+	&lt;property name="city" comes-after="street"&gt;
+	&lt;action name="save" comes-after="state"&gt;
+	&lt;property name="state" comes-after="city"&gt;
+	&lt;property name="street"&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				...would be sorted into...
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="Address Screen"&gt;
+	&lt;property name="street"&gt;
+	&lt;property name="city" comes-after="street"&gt;
+	&lt;property name="state" comes-after="city"&gt;
+	&lt;action name="save" comes-after="state"&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				The <parameter>comes-after</parameter> attribute can contain multiple names (comma separated) in which
+				case the field will be sorted to come after all the named fields. Alternatively the attribute can be empty, in
+				which case the field will come after every other field in the <parameter>entity</parameter>.
+			</para>
+			
+		</section>
+		
+	</chapter>

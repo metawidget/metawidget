@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN" "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+
+	<application>
+		<message-bundle>org.metawidget.example.shared.addressbook.resource.Resources</message-bundle>
+	</application>
+	
+	<!-- Navigation Rules -->
+	
+	<navigation-rule>
+	
+		<navigation-case>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/index.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>addPersonal</from-outcome>
+			<to-view-id>/contact.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>addBusiness</from-outcome>
+			<to-view-id>/contact.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+
+	</navigation-rule>
+	
+	<!-- Lifecycle -->
+	
+	<lifecycle>
+		<phase-listener>org.metawidget.example.faces.addressbook.event.LoadContactListener</phase-listener>
+	</lifecycle>
+
+	<!-- Converters -->
+	
+	<converter>
+		<converter-for-class>java.util.Collection</converter-for-class>
+		<converter-class>org.metawidget.example.faces.addressbook.converter.CollectionConverter</converter-class>
+	</converter>
+	
+	<converter>
+		<converter-for-class>java.util.Date</converter-for-class>
+		<converter-class>org.metawidget.example.faces.addressbook.converter.DateConverter</converter-class>
+	</converter>
+
+	<converter>
+		<converter-for-class>org.metawidget.example.shared.addressbook.model.Gender</converter-for-class>
+		<converter-class>org.metawidget.example.faces.addressbook.converter.GenderConverter</converter-class>		
+	</converter>
+	
+	<converter>
+		<converter-for-class>org.metawidget.example.shared.addressbook.model.ContactType</converter-for-class>
+		<converter-class>org.metawidget.example.faces.addressbook.converter.ContactTypeConverter</converter-class>		
+	</converter>
+
+	<!-- Request-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>communication</managed-bean-name>
+		<managed-bean-class>org.metawidget.example.faces.addressbook.managedbean.CommunicationBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Session-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>contact</managed-bean-name>
+		<managed-bean-class>org.metawidget.example.faces.addressbook.managedbean.ContactBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>contactSearch</managed-bean-name>
+		<managed-bean-class>org.metawidget.example.faces.addressbook.managedbean.ContactSearchBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Application-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>contacts</managed-bean-name>
+		<managed-bean-class>org.metawidget.example.faces.addressbook.managedbean.ContactsBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>communications</managed-bean-name>
+		<managed-bean-class>org.metawidget.example.faces.addressbook.managedbean.CommunicationsBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+
+</faces-config>

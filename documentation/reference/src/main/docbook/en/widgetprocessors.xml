@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter id="chapter-widgetprocessors">
+		<title>WidgetProcessors</title>
+		
+		<para>
+			This chapter covers each <classname>WidgetProcessor</classname> in detail. For an explanation of
+			how <classname>WidgetProcessor</classname>s fit into the overall architecture of Metawidget, see
+			<xref linkend="chapter-architecture"/>.
+		</para>
+		
+		<section id="section-widgetprocessors-desktop">
+			<title>Desktop WidgetProcessors</title>
+		
+			<para>
+				Metawidget supports multiple <classname>WidgetProcessor</classname>s for each desktop framework, targeting
+				specific features within each environment.
+			</para>
+			
+			<section id="section-widgetprocessors-desktop-swing">
+				<title>Swing WidgetProcessors</title>
+				
+				<section id="section-widgetprocessors-desktop-swing-propertybinding">
+					<title>Property Binding</title>
+					
+					<para>
+						Swing does not include an automatic <classname>JComponent</classname> to <classname>Object</classname> binding mechanism, but Metawidget
+						supports third-party alternatives via <function>addWidgetProcessor</function>.
+					</para>
+					
+					<section id="section-widgetprocessors-desktop-swing-binding-beansbinding">
+						<title>BeansBindingProcessor</title>
+						
+						<para>
+							<classname>BeansBindingProcessor</classname> binds properties using Beans Binding (JSR 295). It supports the various
+							Beans Binding update strategies:
+						</para>
+						
+						<programlisting language="java">myMetawidget.addWidgetProcessor( new BeansBindingProcessor(
+	new BeansBindingProcessorConfig()
+		.setUpdateStrategy( UpdateStrategy.READ )) );</programlisting>
+		
+						<para>
+							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter> (the default is
+							<parameter>READ_ONCE</parameter>), the object being inspected must
+							provide <classname>PropertyChangeSupport</classname>. If set to <parameter>READ_WRITE</parameter>, updates
+							to the UI are automatically sync'ed back to the <function>setToInspect</function>, otherwise the
+							client must manually call <function>save</function>:
+						</para>
+
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( myMetawidget )</programlisting>
+						
+						<para>
+							After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
+							can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+						</para>
+						
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+						
+						<para>
+							For more details, see <xref linkend="section-howto-performance-rebind"/>.
+						</para>
+
+					</section>
+				
+					<section id="section-widgetprocessors-desktop-swing-binding-beanutilsbinding">
+						<title>BeanUtilsProcessor</title>
+						
+						<para>
+							<classname>BeanUtilsProcessor</classname> binds properties using
+							<ulink url="http://commons.apache.org/beanutils">Apache BeanUtils</ulink>. It supports JavaBean
+							and Scala property styles:
+						</para>
+						
+						<programlisting language="java">myMetawidget.addWidgetProcessor( new BeanUtilsBindingProcessor(
+	new BeanUtilsBindingProcessorConfig()
+		.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )) );</programlisting>
+		
+						<para>
+							Updates to the UI can be saved back to the <function>setToInspect</function> by calling <function>save</function>:
+						</para>
+
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).save( myMetawidget )</programlisting>
+						
+						<para>
+							After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
+							can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+						</para>
+						
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+						
+						<para>
+							For more details, see <xref linkend="section-howto-performance-rebind"/>.
+						</para>
+
+					</section>
+
+				</section>
+	
+				<section id="section-widgetprocessors-desktop-swing-actionbinding">
+					<title>Action Binding</title>
+					
+					<para>
+						Swing supplies <classname>javax.swing.Action</classname> for binding <classname>JButton</classname>s to backing objects, and this is
+						typically combined with Java-based reflection to support runtime binding. This is exactly what the default action binding,
+						<classname>ReflectionBinding</classname>, does.
+					</para>
+					
+					<para>
+						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
+						<emphasis>is</emphasis> no backing object, and instead the <classname>JButton</classname> should invoke, say, an RPC
+						call. Implement your own pluggable binding by implementing <classname>WidgetProcessor</classname>:
+					</para>
+
+					<programlisting language="java">public class RpcWidgetProcessor
+	implements WidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
+										
+	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
+									SwingMetawidget metawidget ) {
+
+		...decide whether to attach event handler...
+		
+		widget.add( new AbstractAction() {
+			public void actionPerformed( ActionEvent e ) {
+			
+				String actionName = attributes.get( NAME );
+				...make RPC using actionName...
+			}
+		}
+	}
+}</programlisting>
+					
+					<para>
+						This can be set either in code:
+					</para>
+					
+					<programlisting language="java">myMetawidget.addWidgetProcessor( new RpcWidgetProcessor() );</programlisting>
+
+					<para>
+						Or via <filename>metawidget.xml</filename>:
+					</para>
+					
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;widgetProcessors&gt;
+		&lt;array&gt;
+			&lt;rpcWidgetProcessor xmlns="java:com.myapp"/&gt;
+		&lt;/array&gt;
+	&lt;/widgetProcessors&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+
+				</section>
+			</section>
+
+			<section id="section-widgetprocessors-desktop-swt">
+				<title>SWT WidgetProcessors</title>
+				
+				<section id="section-widgetprocessors-desktop-swt-databinding">
+					<title>DataBindingProcessor</title>
+					
+					<para>
+						<classname>DataBindingProcessor</classname> binds properties using <classname>org.eclipse.core.databinding</classname>.
+						Once bound, values can be saved back from the UI by calling <function>save</function>:
+					</para>
+
+					<programlisting language="java">myMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( myMetawidget )</programlisting>
+					
+				</section>
+				
+				<section id="section-widgetprocessors-desktop-swt-actionbinding">
+					<title>ReflectionBindingProcessor</title>
+
+					<para>
+						<classname>ReflectionBindingProcessor</classname> binds <classname>Button</classname>s to backing objects using
+						Java-based reflection to support runtime binding.
+					</para>
+				</section>					
+			</section>
+		</section>
+		
+		<section id="section-widgetprocessors-web">
+			<title>Web WidgetProcessors</title>
+
+			<para>
+				Metawidget supports multiple <classname>WidgetProcessor</classname>s for each Web framework, targeting
+				specific features within each environment.
+			</para>
+
+			<section id="section-widgetprocessors-web-gwt">
+				<title>GWT WidgetProcessors</title>
+
+				<section id="section-widgetprocessors-web-gwt-propertybinding">
+					<title>Property Binding</title>
+						
+					<para>
+						Like most other Metawidgets, <classname>GwtMetawidget</classname> supports property binding. Property binding
+						generally requires reflection, and GWT recommends using <classname>Generator</classname>s to achieve this. As of
+						the time of writing, however, much of the burden of implementation rests on the developer.
+					</para>
+						
+					<para>
+						<classname>GwtMetawidget</classname> automates this burden by supplying a <classname>SimpleBindingProcessor</classname>
+						implementation. This implementation is pluggable, so may be swapped out as and when later releases of GWT
+						more fully support data binding.
+					</para>
+						
+					<para>
+						<classname>SimpleBindingProcessor</classname> expects every domain object to be wrapped with a <classname>SimpleBindingProcessorAdapter</classname>.
+						The supplied <classname>SimpleBindingProcessorAdapterGenerator</classname> automates this process. To configure it, add the following
+						to the <filename>application-name.gwt.xml</filename> file...
+					</para>
+						
+					<programlisting language="xml">&lt;generate-with
+	class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
+	&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
+&lt;/generate-with&gt;</programlisting>
+	
+					<para>
+						...and in the application code...
+					</para>
+						
+					<programlisting language="java">metawidget.addWidgetProcessor( new SimpleBindingProcessor(
+new SimpleBindingProcessorConfig().setAdapter( Contact.class,
+	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class)));</programlisting>
+	
+					<important>
+						<title>ClassCastException</title>
+						If this line throws a <classname>ClassCastException</classname> casting to <classname>SimpleBindingProcessorAdapter</classname>,
+						it means GWT is not applying the <classname>SimpleBindingProcessorAdapterGenerator</classname>. Check you've
+						specified the correct class in your <parameter>generate-with</parameter> block.
+					</important>						
+						
+					<para>
+						Updates to the UI can be saved back to the <function>setToInspect</function> by calling <function>save</function>:
+					</para>
+
+					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( myMetawidget )</programlisting>
+					
+					<para>
+						After <classname>Widget</classname>s have been generated for the initial <function>setToInspect</function>, clients
+						can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+					</para>
+					
+					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+					
+					<para>
+						For more details, see <xref linkend="section-howto-performance-rebind"/>.
+					</para>
+				</section>
+					
+				<section id="section-widgetprocessors-web-gwt-actionbinding">
+					<title>Action Binding</title>
+						
+					<para>
+						GWT supplies <classname>com.google.gwt.user.client.ui.ClickListener</classname> for binding <classname>Button</classname>s to backing
+						objects. It is futher possible to combine this with a generator to support runtime binding. This is exactly what
+						the default action binding, <classname>SimpleBindingProcessor</classname>, does.
+					</para>
+						
+					<para>
+						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
+						<emphasis>is</emphasis> no backing object, and instead the <classname>Button</classname> should invoke, say, an RPC
+						call (for an example, see <xref linkend="section-introduction-part3-gwt-clientside"/>). Implement your own
+						pluggable binding by implementing <classname>WidgetProcessor</classname> and use it by calling...
+					</para>
+						
+					<programlisting language="java">myMetawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
+						
+				</section>
+				
+				<section id="section-widgetprocessors-web-gwt-stylename">
+					<title>StyleNameProcessor</title>
+					
+					<para>
+						<classname>StyleNameProcessor</classname> sets <parameter>styleName</parameter>
+						on all generated widgets, based on the <parameter>styleName</parameter>
+						of the parent Metawidget. It does not 'drill into' <classname>Stub</classname>s.
+					</para>
+					
+				</section>				
+				
+			</section>
+
+			<section id="section-widgetprocessors-web-faces">
+				<title>JSF WidgetProcessors</title>
+			
+				<section id="section-widgetprocessors-web-faces-ajax">
+					<title>AjaxProcessor</title>
+					
+					<para>
+						<classname>AjaxProcessor</classname> adds a JSF 2.0 <classname>AjaxBehavior</classname> to any
+						widgets with a <parameter>faces-ajax-action</parameter> attribute.
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-css">
+					<title>CssStyleProcessor</title>
+					
+					<para>
+						<classname>CssStyleProcessor</classname> sets <parameter>style</parameter> and <parameter>styleClass</parameter>
+						properties on all generated widgets, based on the <parameter>style</parameter> and <parameter>styleClass</parameter>
+						of the parent Metawidget. It does not 'drill into' <classname>UIStub</classname>s.
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-hidden">
+					<title>HiddenFieldProcessor</title>
+					
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						for those that need this approach <classname>HiddenFieldProcessor</classname> wraps a <classname>Stub</classname> containing
+						an <classname>HtmlInputHidden</classname> around read-only values, so that they POST back.
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-immediate">
+					<title>ImmediateAttributeProcessor</title>
+					
+					<para>
+						<classname>RequiredAttributeProcessor</classname> sets <classname>UIInput.setImmediate</classname> for any widgets
+						with a <parameter>faces-immediate</parameter> attribute.
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-label">
+					<title>LabelProcessor</title>
+					
+					<para>
+						<classname>LabelProcessor</classname> sets JSF 1.2's <function>setLabel</function> for those
+						<classname>UIComponent</classname>s that support it. This label is used during validation errors
+						and conversion errors (even if the <classname>UIComponent</classname> does not explicitly have a converter).					
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-readable-id">
+					<title>ReadableIdProcessor</title>
+					
+					<para>
+						<classname>ReadableIdProcessor</classname> sets 'human readable' ids for each widget.
+						Unlike <classname>UIViewRoot.createUniqueId</classname>, it tries to make the id readable both for
+ 						debugging purposes and for when running unit tests (using, say, WebTest). Because the ids are
+						based off the value binding (or method binding) of the <classname>UIComponent</classname>, this
+						<classname>WidgetProcessor</classname> must come after <classname>StandardBindingProcessor</classname>
+						(or equivalent).
+					</para>
+					
+					<para>
+						Clients can plug in a different <classname>WidgetProcessor</classname> to use
+						<classname>UIViewRoot.createUniqueId</classname> if
+						preferred. They can even plug in assigning a changing, random id to a component each time it is
+						generated. This is a great way to fox hackers who are trying to POST back pre-generated payloads
+						of HTTP fields (i.e. CSRF attacks).					
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-required">
+					<title>RequiredAttributeProcessor</title>
+					
+					<para>
+						<classname>RequiredAttributeProcessor</classname> sets <classname>UIInput.setRequired</classname> for any widgets
+						with a <parameter>required</parameter> attribute.
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-richfaces">
+					<title>RichFacesProcessor</title>
+					
+					<para>
+						<classname>RichFacesProcessor</classname> adds a RichFaces AJAX <classname>Support</classname> widget to any
+						widgets with a <parameter>faces-ajax-action</parameter> attribute (for JSF 2.0, see also <classname>AjaxProcessor</classname>).
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-binding">
+					<title>StandardBindingProcessor</title>
+					
+					<para>
+						<classname>StandardBindingProcessor</classname> attaches standard JSF value and action bindings to each widget.
+					</para>
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-converter">
+					<title>StandardConverterProcessor</title>
+
+					<para>
+						<classname>StandardConverterProcessor</classname> attaches standard JSF converters to each widget as needed. This
+						includes <classname>DateTimeConverter</classname> and <classname>NumberConverter</classname>, and support for
+						the <parameter>faces-converter-id</parameter> attribute.
+					</para>					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-validation">
+					<title>StandardValidatorProcessor</title>
+					
+					<para>
+						<classname>StandardValidatorProcessor</classname> attaches standard JSF validators to each widget as needed. This
+						includes <classname>DoubleRangeValidator</classname>, <classname>LongRangeValidator</classname> and
+						<classname>LengthValidator</classname>.
+					</para>
+										
+				</section>
+				
+			</section>
+			
+			<section id="section-widgetprocessors-web-jsp">
+				<title>JSP WidgetProcessors</title>
+			
+				<section id="section-widgetprocessors-web-jsp-hidden">
+					<title>HiddenFieldProcessor</title>
+					
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However,
+						for those that need this approach <classname>HiddenFieldProcessor</classname> adds HTML hidden fields to read-only values,
+						so that they POST back.
+					</para>
+					
+					<para>
+						There are subclasses of <classname>HiddenFieldProcessor</classname> for JSP, Spring and Struts.
+					</para>
+				</section>
+			</section>
+
+		</section>
+		
+	</chapter>

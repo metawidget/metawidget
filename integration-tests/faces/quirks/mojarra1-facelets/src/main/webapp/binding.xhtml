@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:m="http://metawidget.org/faces">
+
+    <body>
+
+		<h1>Quirks (binding test)</h1>
+			    
+        <h:form id="form">
+        
+        	<h1>Normal Binding</h1>
+        	
+        	<m:metawidget value="#{binding}" binding="#{binding.metawidget1}"/>
+        	<h:outputText value="Baz is '#{binding.foo.baz}'"/>
+        	
+        	<h1>Direct Object</h1>
+        	
+        	<m:metawidget binding="#{binding.metawidget2}"/>
+
+        	<h1>Direct Class</h1>
+        	
+        	<m:metawidget binding="#{binding.metawidget3}"/>
+
+        </h:form>
+		
+	</body>	    
+</html>

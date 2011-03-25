@@ -1,0 +1,2 @@
+Implementation-Title: Metawidget
+Implementation-Vendor: metawidget.org

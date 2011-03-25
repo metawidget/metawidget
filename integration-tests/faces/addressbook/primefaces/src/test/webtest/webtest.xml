@@ -1,0 +1,80 @@
+<project name="addressbook-primefaces-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<target name="all">
+		<webtest name="test-primefaces">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<option name="ThrowExceptionOnScriptError" value="false"/>
+			</config>
+			<steps>
+				<invoke url="/contact.jsf?contact.load=1" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']/div"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a/em)" text="Contact Details"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/th)" text="Address:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/td)" text="742 Evergreen Terrace"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li[2]/a/em)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/th)" text="Notes:"/>				
+				
+				<clickButton label="Edit"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="*"/>				
+				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
+				<verifyInputField name="form:contactCurrentFirstname" value="Homer"/>
+				<verifyInputField name="form:contactCurrentSurname" value="Simpson"/>
+				<verifySelectField name="form:contactCurrentGender" value="MALE"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[4]/td/span/input/@class, 'hasDatepicker')"/>
+				<verifyInputField name="form:contactCurrentDateOfBirth_input" value="(05/12|12/05)/1956" regex="true"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a/em)" text="Contact Details"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/th)" text="Address:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/input/@type" text="text"/>				
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/input/@value" text="742 Evergreen Terrace"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li[2]/a/em)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/th)" text="Notes:"/>				
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/td/textarea"/>
+
+				<invoke url="/contact.jsf?contact.load=5" />
+
+				<clickButton label="Edit"/>
+				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
+				<verifyInputField name="form:contactCurrentFirstname" value="Charles Montgomery"/>
+				<verifyInputField name="form:contactCurrentSurname" value="Burns"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/td/div/@class, 'ui-slider ')"/>	
+				<setInputField xpath="//*[@id='table-contactCurrentNumberOfStaff-cell']/input" value="2"/>
+				<clickButton label="Save"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a)" text="Mr Charles Montgomery Burns"/>
+	
+				<invoke url="/contact.jsf?contact.load=5" />
+	
+				<clickButton label="Edit"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/td/div/@class, 'ui-slider ')"/>	
+				<verifyInputField xpath="//*[@id='table-contactCurrentNumberOfStaff-cell']/input" value="2"/>
+
+				<clickButton label="Cancel"/>
+				
+				<!-- Test validation error with a Stub doesn't break the page -->
+				
+				<clickButton label="Add Business Contact"/>
+				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
+				<verifyInputField name="form:contactCurrentFirstname" value=""/>
+				<verifyInputField name="form:contactCurrentSurname" value=""/>
+				<clickButton label="Save"/>
+				
+				<setInputField name="form:contactCurrentFirstname" value="RichFaces"/>
+				<setInputField name="form:contactCurrentSurname" value="Business Contact"/>
+				<clickButton label="Save"/>
+				
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a)" text="Mr RichFaces Business Contact"/>
+				<clickLink label="Mr RichFaces Business Contact"/>
+				<clickButton label="Edit"/>
+				<clickButton label="Delete"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a)" text="Mr Waylon Smithers"/>
+
+			</steps>
+		</webtest>
+	</target>
+
+</project>

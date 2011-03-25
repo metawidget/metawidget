@@ -1,0 +1,1123 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+	<chapter id="chapter-metawidgets">
+		<title>Metawidgets</title>
+		
+		<para>
+			Metawidget ships with native widgets for different UI frameworks. Whilst all Metawidgets are
+			broadly similar, they are tailored to take advantage of their native environment. This chapter covers
+			each Metawidget in detail.
+			For an explanation of the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>.
+		</para>
+		
+		<section id="section-metawidgets-desktop">
+			<title>Desktop Metawidgets</title>
+
+			<para>
+				Metawidget supports multiple desktop frameworks, so that you can choose the one that matches your
+				preferred UI environment.
+			</para>
+			
+			<section id="section-metawidgets-desktop-swing">
+				<title>SwingMetawidget</title>
+	
+				<para>
+					<classname>SwingMetawidget</classname> is a Swing <classname>JComponent</classname>. For an introduction
+					to <classname>SwingMetawidget</classname>, see <xref linkend="section-introduction-part1"/>
+					and <xref linkend="section-introduction-part2-desktop"/>.
+				</para>
+	
+				<section id="section-metawidgets-desktop-swing-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <classname>SwingMetawidget</classname> within a Swing application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+					
+				</section>
+				
+				<section id="section-metawidgets-desktop-swing-configuration">
+					<title>Configuration</title>
+					
+					<para>
+						<classname>SwingMetawidget</classname> is preconfigured with sensible defaults for Swing. You can change this configuration
+						either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
+						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+					</para>
+				</section>
+
+				<section id="section-metawidgets-desktop-swing-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+	 					Since inception, Swing has had built-in, and extensive, Look and Feel support. Metawidget
+						does not overlap this. For layouts, Swing supports a multitude of <classname>LayoutManager</classname>s.
+						Metawidget leverages these, and automates them to construct UIs automatically. The layout manager
+						can be configured through either <filename>metawidget.xml</filename> or programmatically using
+						<function>setMetawidgetLayout</function>.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-desktop-swing-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>SwingMetawidget</classname> supports localization through the <function>setBundle</function> method. This
+						method takes a <classname>ResourceBundle</classname> object. Keys are looked up based on the name of each business
+						property.
+					</para>
+				</section>
+				
+			</section>
+
+			<section id="section-metawidgets-desktop-swt">
+				<title>SwtMetawidget</title>
+	
+				<para>
+					<classname>SwtMetawidget</classname> is an SWT <classname>Composite</classname>. For an introduction
+					to <classname>SwtMetawidget</classname>, see <xref linkend="section-introduction-part2-desktop"/>.
+				</para>
+	
+				<section id="section-metawidgets-desktop-swt-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <classname>SwtMetawidget</classname> within an SWT application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+					
+				</section>
+				
+				<section id="section-metawidgets-desktop-swt-configuration">
+					<title>Configuration</title>
+					
+					<para>
+						<classname>SwtMetawidget</classname> is preconfigured with sensible defaults for SWT. You can change this configuration
+						either programmatically (as detailed for Swing in <xref linkend="section-introduction-part1-inspectors"/>, but the SWT API is the same)
+						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+					</para>					
+				</section>
+
+				<section id="section-metawidgets-desktop-swt-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+	 					Since inception, SWT has had built-in, and extensive, Look and Feel support. Metawidget
+						does not overlap this. For layouts, SWT supports a multitude of <classname>LayoutManager</classname>s.
+						Metawidget leverages these, and automates them to construct UIs automatically. The layout manager
+						can be configured through either <filename>metawidget.xml</filename> or programmatically using
+						<function>setMetawidgetLayout</function>.
+					</para>
+					
+				</section>
+
+				<section id="section-metawidgets-desktop-swt-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>SwtMetawidget</classname> supports localization through the <function>setBundle</function> method. This
+						method takes a <classname>ResourceBundle</classname> object. Keys are looked up based on the name of each business
+						property.
+					</para>
+				</section>
+			</section>
+		</section>
+		
+		<section id="section-metawidgets-web">
+			<title>Web Metawidgets</title>
+		
+			<para>
+				Metawidget supports multiple Web frameworks, so that you can choose the one that matches your
+				preferred UI environment.
+			</para>
+			
+			<section id="section-metawidgets-web-gwt">
+				<title>GwtMetawidget</title>
+	
+				<para>
+					<classname>GwtMetawidget</classname> is a client-side, JavaScript widget for GWT. For an introduction
+					to <classname>GwtMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> and 
+					<xref linkend="section-introduction-part3-gwt-hosted"/>.
+				</para>
+				
+				<section id="section-metawidgets-web-gwt-installation">
+					<title>Installation</title>
+					
+					<para>
+						There are five steps to installing Metawidget within a GWT application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Update the application's <filename>.gwt.xml</filename> module to include Metawidet:
+							</para>
+							<programlisting language="xml">&lt;module&gt;								
+	&lt;inherits name="org.metawidget.GwtMetawidget" /&gt;
+	...
+&lt;/module&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt.jar</filename>
+								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. This provides the <classname>GwtMetawidget</classname> component.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>. This provides the <classname>GwtRemoteInspectorImpl</classname> servlet.
+							</para>
+						</listitem>
+						<listitem>						
+							<para>
+								Update the application's <filename>web.xml</filename> to include <classname>GwtRemoteInspectorImpl</classname>:
+							</para>							
+							<programlisting language="xml">&lt;web-app&gt;
+	...
+	&lt;servlet&gt;
+		&lt;servlet-name&gt;metawidget-inspector&lt;/servlet-name&gt;
+		&lt;servlet-class&gt;org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl&lt;/servlet-class&gt;
+	&lt;/servlet&gt;
+
+	&lt;servlet-mapping&gt;
+		&lt;servlet-name&gt;metawidget-inspector&lt;/servlet-name&gt;
+		&lt;url-pattern&gt;/metawidget-inspector&lt;/url-pattern&gt;
+	&lt;/servlet-mapping&gt;
+&lt;/web-app&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+					
+					<para>
+						A working example of all five steps can be found in <filename>addressbook-gwt.war</filename> included in the binary
+						distribution. You may also find the <filename>example-gwt-addressbook</filename> Ant task in the source
+						distribution's <filename>build.xml</filename> useful.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>GwtMetawidget</classname> is preconfigured with sensible defaults for GWT. You can change this configuration
+						either programmatically or by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>
+						and adding an <parameter>init-param</parameter> to your <filename>web.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;init-param&gt;
+	&lt;param-name>config&lt;/param-name&gt;
+	&lt;param-value>metawidget.xml&lt;/param-value&gt;
+&lt;/init-param&gt;</programlisting>
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-reflection">
+					<title>Reflection and Annotations</title>
+					
+					<para>
+						<classname>GwtMetawidget</classname> leverages Metawidget's separate <classname>Inspector</classname>/renderer
+						architecture and AJAX to perform server-side inspection as in <xref linkend="section-metawidgets-web-gwt-inspection"/>. This
+						allows <classname>GwtMetawidget</classname> to reflect properties and inspect annotations of business
+						objects, even though JavaScript	supports neither.
+					</para>
+					
+					<!--
+						http://www.websequencediagrams.com:
+						
+						User->Browser: hits page
+						Browser->Browser: creates\nbusiness\nobject
+						Browser->GwtMetawidget: creates metawidget
+						Browser->GwtMetawidget: sets business object
+						GwtMetawidget->Server: sends business object
+						Server->Server: runs inspector
+						Server->GwtMetawidget: returns inspection results
+						GwtMetawidget->Browser: renders HTML widgets
+						Browser->User: sees page 
+					 -->
+					 
+					<figure id="section-metawidgets-web-gwt-inspection">
+						<title>GwtMetawidget uses AJAX to perform server-side inspection</title>
+						<screenshot>
+							<graphic fileref="images/activitydiagrams/gwt-inspection.png" width="120mm"/>
+						</screenshot>							
+					</figure>
+					
+					<para>
+						The process is:
+					</para>
+
+					<orderedlist>
+						<listitem>
+							<para>
+								instantiate the business object on the client-side as normal (i.e. as JavaScript)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								give the business object to <classname>GwtMetawidget</classname> (a client-side, JavaScript GWT <classname>Widget</classname>)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<classname>GwtMetawidget</classname> uses AJAX to pass the business object to the server
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								the server, using Java, runs all the <classname>Inspector</classname>s (including reflection and annotations)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								the server returns the inspection results as an XML document
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<classname>GwtMetawidget</classname> uses JavaScript to render the HTML widgets
+							</para>
+						</listitem>
+					</orderedlist>
+					
+					<para>
+						Note that steps 3 and 5 (the AJAX call to and from the server) are the most costly in terms of performance. Techniques
+						to improve GWT performance are discussed in <xref linkend="section-howto-performance-rebind"/>. 
+					</para>
+
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-client-side-inspection">
+					<title>Client-Side Inspection</title>
+					
+					<para>
+						As noted in <xref linkend="section-metawidgets-web-gwt-reflection"/> by default <classname>GwtMetawidget</classname> uses
+						server-side inspectors. This allows the full power of Java-based reflection but carries the performance cost of an AJAX call.
+						This cost can be mitigated by using rebinding (see <xref linkend="section-howto-performance-rebind"/>), but there is
+						another way: inspection can be performed <emphasis>client-side</emphasis>, with no AJAX calls.
+					</para>
+					
+					<para>
+						Setting up a client-side <classname>Inspector</classname> is very easy. The default <classname>GwtMetawidget</classname>
+						<classname>Inspector</classname> is <classname>GwtRemoteInspectorProxy</classname>, which is itself a client-side
+						<classname>Inspector</classname> (one that makes a remote call to <classname>GwtRemoteInspectorImpl</classname>). To
+						replace this default, simply implement your own <classname>Inspector</classname>:
+					</para>
+					
+					<programlisting language="java">public class MyClientSideInspector
+	implements Inspector {
+	public String inspect( Object toInspect, String type, String... names ) {
+		return ...some XML string...
+	}
+}</programlisting>					
+
+					<para>
+						Make sure this <classname>Inspector</classname> is located under the <filename>client</filename> folder of your GWT application
+						so that it is compiled by the GWTCompiler into JavaScript. Use this <classname>Inspector</classname> by doing...
+					</para>
+
+					<programlisting language="java">myGWTMetawidget.setInspector( new MyClientSideInspector() )</programlisting>
+					
+					<para>
+						...which overrides the default <classname>GwtRemoteInspectorProxy</classname>. For an example of this technique
+						see <xref linkend="section-introduction-part3-gwt-clientside"/>.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						GWT <classname>Widget</classname>s do not distinguish between what a widget is versus how it is rendered.
+						Instead, <classname>GwtMetawidget</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes and standard CSS.
+					</para>
+					
+				</section>
+
+				<section id="section-metawidgets-web-gwt-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>GwtMetawidget</classname> supports localization through the <function>setDictionaryName</function> method. This
+						method takes a <classname>String</classname> containing the name of a JavaScript variable declared in the host HTML
+						page. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;script type="text/javascript"&gt;
+	var bundle = {
+	"add": "Add",
+	"addBusiness": "Add Business Contact",
+	"addPersonal": "Add Personal Contact"
+};&lt;/script&gt;</programlisting>
+					
+					<para>
+						Keys are looked up based on the name of each business property.
+					</para>
+				</section>
+
+			</section>
+
+			<section id="section-metawidgets-web-jsp">
+				<title>HtmlMetawidgetTag (JSP)</title>
+				
+				<para>
+					<classname>HtmlMetawidgetTag</classname> is a JSP taglib. For an introduction
+					to <classname>HtmlMetawidgetTag</classname>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
+				
+				<section id="section-metawidgets-web-jsp-installation">
+					<title>Installation</title>
+
+					<para>
+						There are three steps to installing <classname>HtmlMetawidgetTag</classname> within a JSP application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a tag library descriptor to the top of your JSP page:
+							</para>
+							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/html" prefix="m" %&gt;
+...
+&lt;m:metawidget value="foo"/&gt;
+...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-jsp-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>HtmlMetawidgetTag</classname> is preconfigured with sensible defaults for JSP. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="foo" config="alternate-metawidget.xml"/&gt;</programlisting>
+				</section>
+					
+				<section id="section-metawidgets-web-jsp-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						JSP tag libraries do not distinguish between what a widget is versus how it is rendered.
+						Instead, <classname>HtmlMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes and standard CSS.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-jsp-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>HtmlMetawidgetTag</classname> supports localization through a <classname>ResourceBundle</classname> set
+						at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/&gt;
+&lt;m:metawidget bundle="${bundle}"/&gt;</programlisting>
+					
+					<para>
+						Keys are looked up based on the name of each business property.
+					</para>
+				</section>
+				
+				<section id="section-metawidgets-web-jsp-override">
+					<title>Overriding Widget Creation</title>				
+
+					<para>
+						With regard to overriding widget creation, JSP lacks some component-based features.
+						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
+						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
+						directly support arbitrary child tags within <classname>HtmlMetawidgetTag</classname>. As a next best thing, Metawidget includes
+						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="contact"&gt;
+
+	&lt;m:stub value="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+
+&lt;/m:metawidget&gt;</programlisting>
+
+					<para>
+						For an example, see <xref linkend="section-introduction-part2-web"/>.
+					</para>
+					
+				</section>
+				
+			</section>
+			
+			<section id="section-metawidgets-web-faces">
+				<title>UIMetawidget (JSF)</title>
+	
+				<para>
+					<classname>UIMetawidget</classname> is a Java Server Faces component. For an introduction
+					to <classname>UIMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> 
+					and <xref linkend="section-introduction-part3-seam"/>. 
+				</para>
+	
+				<section id="section-metawidgets-web-faces-installation">
+					<title>Installation</title>
+
+					<para>
+						There are three steps to installing <classname>UIMetawidget</classname> within a JSF application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a tag library descriptor to the top of your JSP page...
+							</para>
+							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/faces" prefix="m" %&gt;
+...
+&lt;m:metawidget value="#{foo}"/&gt;
+...</programlisting>
+							<para>
+								...or Facelets page...
+							</para>
+							<programlisting language="xml">&lt;ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:m="http://metawidget.org/faces"&gt;
+...
+&lt;m:metawidget value="#{foo}"/&gt;
+...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.							
+							</para>
+						</listitem>
+					</orderedlist>
+					
+				</section>
+
+				<section id="section-metawidgets-web-faces-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>UIMetawidget</classname> is preconfigured with sensible defaults for JSF. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo}" config="alternate-metawidget.xml"/&gt;</programlisting>
+					
+					<para>
+						Or you can use JSF's <parameter>binding</parameter> attribute to configure Metawidget programmatically:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo}" binding="#{myBean.metawidget}"/&gt;</programlisting>
+					
+					<para>
+						Then in your managed bean:
+					</para>
+					
+					<programlisting language="java">public class MyManagedBean {
+
+	public UIMetawidget getMetawidget() {
+
+		// First-time init
+		//
+		// JSF spec: "When a component instance is first created (typically by virtue of being
+		// referenced by a UIComponentELTag in a JSP page), the JSF implementation will retrieve the
+		// ValueExpression for the name binding, and call getValue() on it. If this call returns a
+		// non-null UIComponent value (because the JavaBean programmatically instantiated and
+		// configured a component already), that instance will be added to the component tree that
+		// is being created"
+
+		UIMetawidget metawidget = new HtmlMetawidget();
+		initMetawidget( metawidget );
+		return metawidget;
+	}
+
+	public void setMetawidget( UIMetawidget metawidget ) {
+
+		// POST-back init
+		//
+		// JSF spec: "When a component tree is recreated during the Restore View phase of
+		// the request processing lifecycle, for each component that has a ValueExpression
+		// associated with the name 'binding', setValue() will be called on it, passing the
+		// recreated component instance"
+
+		initMetawidget( metawidget );
+	}
+	
+	private void initMetawidget( UIMetawidget metawidget ) {
+	
+		...configure Metawidget programmatically...
+	}	
+}</programlisting>
+
+					<para>
+						This approach can also be used to inspect <classname>Object</classname>s and <classname>Class</classname>es
+						directly, without a <parameter>value</parameter> binding:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget binding="#{myBean.metawidget}"/&gt;</programlisting>
+					
+					<para>
+						Then in your managed bean:
+					</para>
+					
+					<programlisting language="java">public class MyManagedBean {
+
+	...as previous example...
+		
+	private void initMetawidget( UIMetawidget metawidget ) {
+	
+		metawidget.setValue( MyBusinessObject.class );
+	}	
+}</programlisting>
+
+				</section>
+				
+				<section id="section-metawidgets-web-faces-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						One of JSF's most important Look and Feel technologies is CSS.
+						Metawidget supports several approaches to suit different needs.
+					</para>
+					
+					<para>
+						By convention, JSF's HTML widgets (<classname>HtmlInputText</classname>, <classname>HtmlSelectBooleanCheckbox</classname>, etc) define
+						<parameter>style</parameter> and <parameter>styleClass</parameter> attributes for applying CSS styles and classes to their output.
+						<classname>CssStyleProcessor</classname> follows this convention. When expanding to a single widget (such as an
+						<classname>HtmlInputText</classname>) the <parameter>style</parameter> and <parameter>styleClass</parameter> attributes
+						are applied to it. When expanding to multiple widgets,
+						<emphasis>all</emphasis> widgets have the same <parameter>style</parameter> and <parameter>styleClass</parameter> attributes
+						applied to them. This can be useful as a way to 'tag' every widget.
+					</para>
+					
+					<para>
+						Another important JSF Look and Feel technology is Renderers. Whilst
+						often Renderers are discussed in the context of rendering the same widget to different
+						platforms (e.g. HTML or WML), they can equally be used to render the same widget to the same
+						platform but in different ways.
+					</para>
+					
+					<para>
+						<classname>HtmlTableLayoutRenderer</classname> is the default <classname>LayoutRenderer</classname>. It further
+						defines parameters such as <parameter>tableStyle</parameter>,
+						<parameter>labelStyle</parameter> and <parameter>columnClasses</parameter> (see the
+						<xref linkend="section-layouts-web-faces-table"/> for a complete list). The latter is a comma separated list
+						of CSS style classes to be applied to table columns. The first style
+						class is the label column, the second the widget column, and the third the 'required' column.
+						Further style classes may be used for multi-column layouts. You can	get quite far using, for example:
+					</para>
+	
+					<programlisting language="css">.table-component-column input { width: 100%; }</programlisting>
+					
+					<para>
+						..this approach has the advantage of automatically applying to every widget,
+						so overridden widgets do not have to explicitly set styleClass information.
+						However, not all Web browsers support fine-grained CSS selectors such as...
+					</para>
+					
+					<programlisting language="css">.table-component-column input[type="button"] { width: auto; }</programlisting>
+					
+					<para>
+						...in which case it may be better to switch to using <parameter>styleClass</parameter> on <classname>HtmlMetawidget</classname> itself.
+					</para>
+					
+					<para>
+						Other supplied <classname>LayoutRenderer</classname>s include <parameter>div</parameter> and <parameter>simple</parameter> (see
+						<xref linkend="section-layouts-web-faces"/> for a complete list).
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-faces-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>UIMetawidget</classname> supports localization through a <classname>ResourceBundle</classname> set either
+						at the application level in <filename>faces-config.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;faces-config&gt;
+	&lt;application&gt;
+		&lt;message-bundle&gt;com.myapp.resource.Resources&lt;/message-bundle&gt;
+	&lt;/application&gt;					
+&lt;/faces-config&gt;</programlisting>
+
+					<para>
+						Or set at the tag level:
+					</para>
+
+					<programlisting language="xml">&lt;m:metawidget bundle="#{myBean.bundle}"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-web-faces-collections">
+					<title>Collections</title>
+					
+					<para>
+						By default, JSF's <classname>UIData</classname> component supports rendering data of type <classname>java.util.List</classname>,
+						<classname>javax.faces.model.DataModel</classname> or Java arrays. <classname>UIMetawidget</classname>'s <classname>HtmlWidgetBuilder</classname>
+						respects this and will generate an <classname>HtmlDataTable</classname> for each type. It will decide
+						<classname>UIColumn</classname>s based on inspecting the <classname>List</classname> or array's component type for
+						fields marked <parameter>required</parameter> (if any).
+					</para>
+					
+					<para>
+						This will give a basic out-of-the-box representation of a <classname>Collection</classname>, but it is expected
+						developers will ultimately define their own <classname>WidgetBuilder</classname> to represent a
+						<classname>Collection</classname> to their preference. This may include: supporting
+						<classname>java.util.Set</classname>; allowing inline editing; supporting pagination and so on.
+						For more information, see
+						<ulink url="http://kennardconsulting.blogspot.com/2010/10/metawidget-collections-support.html">this blog entry</ulink>.
+					</para>
+					
+				</section>
+
+				<section id="section-metawidgets-web-faces-2">
+					<title>JSF 2.0</title>
+					
+					<para>
+						<classname>UIMetawidget</classname> supports JSF 2.0. It automatically detects whether JSF 2.0
+						classes are available (specifically <classname>javax.faces.event.PreRenderViewEvent</classname>) and switches
+						to using them. However not all JSF 2.0 implementations properly support <classname>PreRenderViewEvent</classname>. You
+						need at least Mojarra 2.2
+						(specifically a version that <ulink url="https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826">includes this fix</ulink>)
+						or MyFaces 2.0.3
+						(specifically a version that <ulink url="https://issues.apache.org/jira/browse/MYFACES-2935">includes this fix</ulink>). If you need
+						to work with older versions, you must:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								disable partial state saving by setting <parameter>javax.faces.PARTIAL_STATE_SAVING</parameter> to
+								<parameter>false</parameter> in <filename>web.xml</filename>; and
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								disable <classname>PreRenderViewEvent</classname> support by setting
+								<parameter>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
+								in <filename>web.xml</filename>.
+							</para>
+						</listitem>
+					</itemizedlist>
+				</section>
+				
+			</section>
+			
+			<section id="section-metawidgets-web-spring">
+				<title>SpringMetawidgetTag</title>
+	
+				<para>
+					<classname>SpringMetawidgetTag</classname> is a Spring taglib. For an introduction
+					to <classname>SpringMetawidgetTag</classname>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
+
+				<section id="section-metawidgets-web-spring-installation">
+					<title>Installation</title>
+
+					<para>
+						There are three steps to installing <classname>SpringMetawidgetTag</classname> within a Spring application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a tag library descriptor to the top of your JSP page:
+							</para>
+							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/spring" prefix="m" %&gt;
+...
+&lt;m:metawidget path="fooCommand"/&gt;
+...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-spring-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>SpringMetawidgetTag</classname> is preconfigured with sensible defaults for Spring. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget path="fooCommand" config="alternate-metawidget.xml"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-web-spring-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						JSP tag libraries do not distinguish between what a widget is versus how it is rendered.
+						Instead, <classname>SpringMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Each <classname>Layout</classname> can further be configured by using <classname>LayoutConfig</classname> classes.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-spring-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>SpringMetawidgetTag</classname> supports localization through a <classname>ResourceBundle</classname> set either
+						at the application level in <filename>servlet.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;beans&gt;
+	&lt;bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"&gt;
+        &lt;property name="basename"&gt;
+        	&lt;value&gt;com.myapp.resource.Resources&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;</programlisting>
+
+					<para>
+						Or set at the tag level:
+					</para>
+
+					<programlisting language="xml">&lt;fmt:setBundle basename="com.myapp.resource.Resources" var="bundle"/&gt;
+&lt;m:metawidget bundle="${bundle}"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-web-spring-override">
+					<title>Overriding Widget Creation</title>				
+
+					<para>
+						With regard to overriding widget creation, JSP-based technologies such as Spring lack some component-based features.
+						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
+						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
+						directly support arbitrary child tags within <classname>SpringMetawidgetTag</classname>. As a next best thing, Metawidget includes
+						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget path="contactCommand"&gt;
+
+	&lt;m:stub path="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+
+&lt;/m:metawidget&gt;</programlisting>
+
+					<para>
+						For an example, see <xref linkend="section-introduction-part2-web"/>.
+					</para>
+					
+				</section>
+
+			</section>
+
+			<section id="section-metawidgets-web-struts">
+				<title>StrutsMetawidgetTag</title>
+	
+				<para>
+					<classname>StrutsMetawidgetTag</classname> is a Struts taglib. For an introduction
+					to <classname>StrutsMetawidgetTag</classname>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
+
+				<section id="section-metawidgets-web-struts-installation">
+					<title>Installation</title>
+
+					<para>
+						There are three steps to installing <classname>StrutsMetawidgetTag</classname> within a Struts application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a tag library descriptor to the top of your JSP page:
+							</para>
+							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/struts" prefix="m" %&gt;
+...
+&lt;m:metawidget property="fooForm"/&gt;
+...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-struts-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>StrutsMetawidgetTag</classname> is preconfigured with sensible defaults for Struts. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
+						explicit <parameter>config</parameter> file at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget property="fooForm" config="alternate-metawidget.xml"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-web-struts-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						JSP tag libraries do not distinguish between what a widget is versus how it is rendered.
+						Instead, <classname>StrutsMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Each <classname>Layout</classname> can further be configured by using specific <parameter>param</parameter> tags.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-struts-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>StrutsMetawidgetTag</classname> supports localization through a <classname>ResourceBundle</classname> set either
+						at the application level in <filename>struts-config.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;struts-config&gt;
+	&lt;message-resources parameter="com.myapp.resource.Resources" null="false"/&gt;
+&lt;/struts-config&gt;</programlisting>
+
+					<para>
+						Or set at the tag level:
+					</para>
+
+					<programlisting language="xml">&lt;fmt:setBundle basename="com.myapp.resource.Resources" var="bundle"/&gt;
+&lt;m:metawidget bundle="${bundle}"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-web-struts-override">
+					<title>Overriding Widget Creation</title>				
+
+					<para>
+						With regard to overriding widget creation, JSP-based technologies such as Struts lack some component-based features.
+						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
+						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
+						directly support arbitrary child tags within <classname>StrutsMetawidgetTag</classname>. As a next best thing, Metawidget includes
+						<classname>StubTag</classname> for wrapping arbitrary tags. It also supports wrapping arbitrary HTML. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget property="contactForm"&gt;
+
+	&lt;m:stub property="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+
+&lt;/m:metawidget&gt;</programlisting>
+					
+					<para>
+						For an example, see <xref linkend="section-introduction-part2-web"/>.
+					</para>
+					
+				</section>
+				
+			</section>
+			
+		</section>
+
+		<section id="section-metawidgets-mobile">
+			<title>Mobile Metawidgets</title>
+
+			<para>
+				Metawidget supports multiple mobile frameworks, so that you can choose the one that matches your
+				preferred UI environment.
+			</para>
+			
+			<section id="section-metawidgets-mobile-android">
+				<title>AndroidMetawidget</title>
+	
+				<para>
+					<classname>AndroidMetawidget</classname> is an Android <classname>View</classname>. For an introduction
+					to <classname>AndroidMetawidget</classname>, see <xref linkend="section-introduction-part2-mobile"/>.
+				</para>
+
+				<section id="section-metawidgets-mobile-android-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <classname>AndroidMetawidget</classname> within an Android application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter> (i.e. under
+								your project's <parameter>Libraries</parameter> tab in Eclipse)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+					
+					<tip>
+						<title>Note</title>
+						Given the resource constraints of a mobile device, consider creating a custom <filename>metawidget.jar</filename> that
+						only includes the classes you need (as detailed in <xref linkend="section-howto-performance-jar"/>).
+					</tip>
+					
+				</section>
+
+				<section id="section-metawidgets-web-android-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>AndroidMetawidget</classname> is preconfigured with sensible defaults for Android. You can change this configuration
+						programmatically or by creating a <filename>metawidget.xml</filename> file in <filename>res/raw</filename> and specifying it at the tag level:
+					</para>
+					
+					<programlisting language="xml">&lt;view class="org.metawidget.android.widget.AndroidMetawidget" config="@raw/metawidget"/&gt;</programlisting>
+				</section>
+
+				<section id="section-metawidgets-mobile-android-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						<classname>AndroidMetawidget</classname> uses Android's standard <filename>res/values/styles.xml</filename>
+						mechanism. Styles can be set either programmatically or passed inside <filename>metawidget.xml</filename>
+						using the @ notation. For example:
+					</para>
+
+					<programlisting language="xml">&lt;layout&gt;
+	&lt;textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout"
+				config="TextViewLayoutDecoratorConfig"&gt;
+		&lt;style&gt;
+			&lt;int&gt;@org.metawidget.example.android.addressbook:style/section&lt;/int&gt;
+		&lt;/style&gt;
+	&lt;/textViewLayoutDecorator&gt;
+&lt;/layout&gt;</programlisting>
+					
+				</section>
+				
+				<section id="section-metawidgets-mobile-android-i18n">
+					<title>Internationalization</title>
+					
+					<para>
+						<classname>AndroidMetawidget</classname> supports localization through the <function>setBundle</function> method. This
+						method takes your <classname>R.string</classname> class, which is generated by Android from your
+						<filename>res/values/strings.xml</filename> file. For example, if your <filename>strings.xml</filename> file was:
+					</para>
+					
+					<programlisting language="xml">&lt;resources&gt;
+	&lt;string name="dob"&gt;Date of Birth&lt;string&gt;
+&lt;/resources&gt;</programlisting>
+
+					<para>
+						And your business object had a property:
+					</para>
+					
+					<programlisting language="java">class Person {
+	...
+	public Date getDob() {
+		return mDob;
+	}
+}</programlisting>
+
+					<para>
+						Then you can set Metawidget to use your <classname>R.string</classname> class either programmatically or using
+						<filename>metawidget.xml</filename>:
+					</para>
+	
+					<programlisting language="xml">&lt;androidMetawidget&gt;
+	&lt;bundle&gt;
+		&lt;class&gt;org.metawidget.example.android.addressbook.R$string&lt;/class&gt;
+	&lt;/bundle&gt;
+&lt;/androidMetawidget&gt;</programlisting>
+				
+					<para>
+						And at runtime Metawidget will translate the <function>Person.getDob</function> method into a property called
+						<parameter>dob</parameter>, resolve the integer <classname>R.string.dob</classname> and use that to look up
+						the localized text in <filename>strings.xml</filename>. For different locales, put the <filename>strings.xml</filename>
+						file in adjacent <filename>res/values-xx</filename> folders - for example <filename>res/values-en</filename>.  
+					</para>					
+				</section>
+				
+				<section id="section-metawidgets-mobile-android-get-set">
+					<title>Getting and Setting Values</title>
+					
+					<para>
+						By default, Android does not come with a binding mechanism to map <classname>View</classname> values to business
+						object values. To map these manually, do:
+					</para>
+					
+					<programlisting language="java">metawidget.setValue( mPerson.getFirstname(), "firstname" );
+mPerson.setFirstname( (String) metawidget.getValue( "firstname" ) );</programlisting>
+
+					<para>
+						For a complete working example, see <xref linkend="section-introduction-part2-mobile"/>.
+					</para>
+					
+				</section>
+				
+			</section>
+			
+		</section>
+
+	</chapter>
+	

@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter id="chapter-inspectors">
+		<title>Inspectors</title>
+		
+		<para>
+			This chapter covers each <classname>Inspector</classname> in detail. For an explanation of how
+			<classname>Inspector</classname>s
+			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
+		</para>
+
+		<para>
+			Throughout this chapter when we say 'returns the following attributes' this is a shorthand way
+			of saying 'returns the following Metawidget attributes (via a piece of XML conforming to <filename>inspection-result.xsd</filename>).
+			These are passed to the <classname>WidgetBuilder</classname> to assist with choosing appropriate widgets'. Quite
+			which widget will be chosen is covered in <xref linkend="chapter-widgetbuilders"/>: it could be
+			a JSF <classname>HtmlInputTextarea</classname>, or a Swing <classname>JTextArea</classname>, or some
+			other widget from some other framework.
+		</para>
+
+		<section id="section-inspectors-property">
+			<title>Property Inspectors</title>
+
+			<para>
+				Being an OIM, a core strength of Metawidget is inspecting Objects. Metawidget is very flexible in this regard, with
+				pluggable support for different languages and different implementation styles.
+			</para>
+			
+			<section id="section-inspectors-base-object">
+				<title>BaseObjectInspector</title>
+				
+				<para>
+					<classname>BaseObjectInspector</classname> underlies many of the <classname>Inspector</classname>s that inspect objects (as opposed to, say,
+					XML files). It provides easy-to-override methods such as...
+				</para>
+				
+				<programlisting language="java">protected Map&lt;String, String&gt; inspectProperty( Property property )</programlisting>
+				
+				<para>
+					...for inspecting properties, and...
+				</para>
+
+				<programlisting language="java">protected Map&lt;String, String&gt; inspectAction( Action action )</programlisting>
+				
+				<para>
+					...for inspecting actions, and finally...
+				</para>
+
+				<programlisting language="java">protected Map&lt;String, String&gt; inspectTrait( Trait trait )</programlisting>
+				
+				<para>
+					...for inspecting things that apply to both properties and actions (e.g. <classname>@UiLabel</classname>). Quite what
+					constitutes a 'property' or an 'action' is decoupled into pluggable <classname>PropertyStyle</classname>s
+					and <classname>ActionStyle</classname>s.
+				</para>
+				
+				<section id="section-inspectors-base-object-propertystyle">
+					<title>PropertyStyle</title>
+					
+					<para>
+						The <classname>PropertyStyle</classname> interface allows pluggable, fine-grained control over what is considered a 'property'.					
+						Different environments may have different approaches to defining what constitutes a property. For
+						example, JavaBean-properties are convention-based, whereas Groovy has explicit property support.
+ 						Equally, some environments may have framework-specific, base class properties that should be filtered out
+ 						and excluded from the list of 'real' business model properties.					
+					</para>
+					
+					<para>
+						The default <classname>PropertyStyle</classname> is <classname>JavaBeanPropertyStyle</classname>. To change it
+						within <filename>metawidget.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;propertyStyle&gt;
+		&lt;groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/&gt;
+	&lt;/propertyStyle&gt;
+&lt;/propertyTypeInspector&gt;</programlisting>
+					
+					<para>
+						To change it programmatically:
+					</para>
+					
+					<programlisting language="java">BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
+config.setPropertyStyle( new GroovyPropertyStyle() );
+metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
+
+					<section id="section-inspectors-base-object-propertystyle-javabean">
+						<title>JavaBeanPropertyStyle</title>
+					
+						<para>
+							The <classname>JavaBeanPropertyStyle</classname> is the default <classname>PropertyStyle</classname> used
+							by all <classname>BaseObjectInspector</classname> subclasses (which includes all annotation inspectors).
+						</para>
+						
+						<para>
+							This <classname>PropertyStyle</classname> recognizes JavaBean-convention <function>getXXX</function>,
+							<function>setXXX</function> and <function>isXXX</function>
+							methods. By default, it also recognizes public fields (this can be disabled using
+							<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>). In addition, it
+							maintains a cache of reflected classes for performance. 
+						</para>
+
+						<para>
+							When using getter methods with private members, make sure you annotate the getter/setter <emphasis>not the private
+							field</emphasis>. By default, <classname>JavaBeanPropertyStyle</classname> does not find annotations on private fields, because
+							the JavaBean specification does not define a way to determine which private fields belong to which getter/setter methods.
+							However, many developers adopt a naming convention (e.g. getter <function>isFoo</function> maps to field <function>mFoo</function>) and
+							you can specify your preferred convention using <function>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</function>. This
+							method takes a <classname>MessageFormat</classname> parameter which you can use to format the property name accordingly.
+							For example:
+						</para>
+						
+						<informaltable>
+							<colgroup>
+								<col width="40%"/>
+								<col width="60%"/>
+							</colgroup>
+							<thead>
+								<tr>
+									<th align="left">Format</th>
+									<th align="left">Private Field Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{0}</td>
+									<td>dateOfBirth, surname</td>
+								</tr>
+								<tr>
+									<td>'m'{1}</td>
+									<td>mDateOfBirth, mSurname</td>
+								</tr>
+								<tr>
+									<td>'m_'{0}</td>
+									<td>m_dateOfBirth, m_surname</td>
+								</tr>
+							</tbody>
+						</informaltable>
+						
+						<para>
+							If you need more control over the mapping, consider extending <classname>JavaBeanPropertyStyle</classname> and
+							overriding <function>getPrivateField</function>. 
+						</para>						
+						
+					</section>
+					
+					<section id="section-inspectors-base-object-propertystyle-groovy">
+						<title>GroovyPropertyStyle</title>
+					
+						<para>
+							The <classname>GroovyPropertyStyle</classname> recognizes GroovyBean properties.
+						</para>
+						
+						<para>
+							Groovy tries hard to make its GroovyBean properties compatible with JavaBean getters/setters, and indeed
+							one can almost use the default <classname>JavaBeanPropertyStyle</classname> to read them. Unfortunately, GroovyBeans
+							differ in that:
+						</para>
+						
+						<itemizedlist>
+							<listitem>
+								<para>
+									annotations defined on properties are only attached to the (generated) private member
+									variable, not the (generated) getter/setter methods.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									GroovyBeans define an implicit <function>getMetaClass</function> method which, although matching
+									the JavaBean signature, should not be treated as a business model property.
+								</para>
+							</listitem>
+						</itemizedlist>
+	
+					</section>
+					
+					<section id="section-inspectors-base-object-propertystyle-javassist">
+						<title>JavassistPropertyStyle</title>
+							
+						<para>
+							The <classname>JavassistPropertyStyle</classname> extends
+							<classname>JavaBeanPropertyStyle</classname> and makes use of Javassist for those environments
+							that have it available.
+						</para>
+						
+						<para>
+							Javassist is used to inspect the debug line numbering information embedded in JVM bytecode
+							to sort getters/setters according to their original declaration order in the source code. This saves business objects
+							having to use <classname>@UiComesAfter</classname> (or an XML file, or some other method) to impose an ordering.
+						</para>
+						
+						<para>
+							However, a danger of this approach is that if the business objects are ever recompiled <emphasis>without</emphasis> debug
+							line numbering information (e.g. when moving from development to production) the UI fields will lose their
+							ordering. Such a subtle bug may not be picked up, so as a safeguard <classname>JavassistPropertyStyle</classname>
+							'fails hard' with an <classname>InspectorException</classname> if line numbers are not available.
+						</para>
+						
+						<para>
+							<classname>JavassistPropertyStyle</classname> uses the following sorting algorithm:
+						</para>
+						
+						<itemizedlist>
+							<listitem>
+								<para>
+									superclass public fields come first, sorted by name (this can be disabled using
+									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>).
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									superclass methods come next, sorted by getter line number (or, if no getter, setter line number).
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									public fields come next, sorted by name (this can be disabled using
+									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>).
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									methods come last, sorted by getter line number (or, if no getter, setter line number).
+								</para>
+							</listitem>
+						</itemizedlist>
+						
+						<para>
+							Note this algorithm is less flexible than <classname>@UiComesAfter</classname>, which can
+							interleave superclass and subclass properties. However, it is possible to use both
+							<classname>@UiComesAfter</classname> and <classname>JavassistPropertyStyle</classname> together to get the best of
+							both worlds.						
+						</para>
+							
+					</section>
+	
+					<section id="section-inspectors-base-object-propertystyle-scala">
+						<title>ScalaPropertyStyle</title>
+					
+						<para>
+							The <classname>ScalaPropertyStyle</classname> recognizes Scala properties.
+						</para>
+						
+						<para>
+							Scala <emphasis>can</emphasis> make its properties compatible with JavaBean getters/setters, but only if you
+							put special <classname>@BeanProperty</classname> annotations on them. This can be quite onerous.
+							Instead, <classname>ScalaPropertyStyle</classname> is designed to access Scala properties natively.
+						</para>
+						
+					</section>
+	
+					<section id="section-inspectors-base-object-propertystyle-implementing-your-own">
+						<title>Implementing Your Own PropertyStyle</title>
+						<para>
+							All <classname>PropertyStyle</classname>s must implement the <classname>PropertyStyle</classname> interface. <classname>BasePropertyStyle</classname>
+							assists in caching properties per class (looking them up is often expensive, involving reflection or similar
+							techniques) and in excluding properties based on name, type or base class. Here
+							is an example of a custom <classname>PropertyStyle</classname> that identifies fields based
+							on <classname>ResourceBundle</classname> i18n entries. It extends the code from the tutorial
+							(see <xref linkend="section-introduction-part1"/>).
+						</para>
+					
+						<programlisting language="java">package com.myapp;
+				
+<symbol>import java.util.*;</symbol>
+import javax.swing.*;
+<symbol>import org.metawidget.inspector.iface.*;
+import org.metawidget.inspector.impl.*;
+import org.metawidget.inspector.impl.propertystyle.*;
+import org.metawidget.inspector.impl.propertystyle.javabean.*;
+import org.metawidget.inspector.propertytype.*;</symbol>
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.util.*;</symbol>
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig()
+			.setPropertyStyle( new BundlePropertyStyle() ) ) );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 250 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>static class BundlePropertyStyle
+		extends JavaBeanPropertyStyle {
+
+		protected Map&lt;String, Property&gt; inspectProperties( Class&lt;?&gt; clazz ) {
+			try {
+				Map&lt;String, Property&gt; properties = CollectionUtils.newHashMap();
+				ResourceBundle bundle = ResourceBundle.getBundle( "MyBundle" );
+
+				for ( Enumeration&lt;String&gt; e = bundle.getKeys(); e.hasMoreElements(); ) {
+					String key = e.nextElement();
+					properties.put( key, new FieldProperty( key, clazz.getField( key ) ) );
+				}
+
+				return properties;
+			}
+			catch ( Exception ex ) {
+				throw InspectorException.newException( ex );
+			}
+		}
+	}</symbol>
+}</programlisting>
+					
+						<para>
+							For brevity, this example extends <classname>JavaBeanPropertyStyle</classname>. Normally, you would
+							want to extend <classname>BasePropertyStyle</classname> and, as well as overriding <function>inspectProperties</function>
+							to locate the properties, implement the <classname>Property</classname> interface with mechanisms
+							for interrogating the property.
+						</para>
+						
+						<tip>
+							<title>Note</title>
+							In this particular example, it may be useful to create a <classname>BundlePropertyStyleConfig</classname> class that
+							implements <classname>NeedsResourceResolver</classname> (see <xref linkend="section-architecture-xml-resolving-resources"/>).
+							Then it could use <classname>ResourceResolver.openResource</classname> to locate the bundle in case it
+							was in a specialized location (such as <filename>WEB-INF/</filename>).
+						</tip>
+						
+					</section>
+				</section>
+				
+				<section id="section-inspectors-base-object-actionstyle">
+					<title>ActionStyle</title>
+					
+					<para>
+						The <classname>ActionStyle</classname> interface allows pluggable, fine-grained control over what is considered an 'action'.					
+					</para>
+					
+					<para>
+						Different environments may have different approaches to defining what constitutes an action. For
+						example, the Swing AppFramework uses an <classname>@org.jdesktop.application.Action</classname> annotation.
+					</para>
+					
+					<para>
+						The default <classname>ActionStyle</classname> is <classname>MetawidgetActionStyle</classname>. To change it within <filename>metawidget.xml</filename>:
+					</para>
+					
+				<programlisting language="xml">&lt;metawidgetAnnotationInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;actionStyle&gt;
+		&lt;swingAppFrameworkActionStyle xmlns="java:org.metawidget.inspector.impl.actionstyle.swing"&gt;
+	&lt;/actionStyle&gt;
+&lt;/metawidgetAnnotationInspector&gt;</programlisting>
+					
+					<para>
+						To change it programmatically:
+					</para>
+					
+					<programlisting language="java">BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
+config.setActionStyle( SwingAppFrameworkActionStyle.class );
+metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</programlisting>
+
+					<para>
+						Note these <classname>ActionStyle</classname>s only apply to <classname>BaseObjectInspector</classname> and its subclasses. This covers
+						most annotation-recognising <classname>Inspector</classname>s (e.g. <classname>JpaInspector</classname>, <classname>HibernateValidatorInspector</classname>)
+						but <emphasis>not</emphasis> XML-based inspectors. For example, <classname>PageflowInspector</classname> recognizes actions in
+						JBoss jBPM pageflow XML files without using any <classname>ActionStyle</classname>.
+					</para>
+					
+					<section id="section-inspectors-base-object-metawidget">
+						<title>MetawidgetActionStyle</title>
+					
+						<para>
+							The default Metawidget <classname>ActionStyle</classname> recognizes any method annotated with <classname>@UiAction</classname>. Action methods
+							must not accept any parameters in their signature. 
+						</para>
+						
+					</section>
+					
+					<section id="section-inspectors-base-object-appframework">
+						<title>SwingAppFrameworkActionStyle</title>
+					
+						<para>
+							The <classname>SwingAppFrameworkActionStyle</classname> recognises Swing AppFramework's <classname>@Action</classname>
+							annotation as denoting an action.
+						</para>
+	
+					</section>
+				</section>
+
+			</section>
+			
+			<section id="section-inspectors-propertytype">
+				<title>PropertyTypeInspector</title>
+				
+				<para>
+					<classname>PropertyTypeInspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features.
+					In addition, it returns the following attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Property Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>lookup</parameter></td>
+							<td>
+								lookup of 'true, false' if the type is Boolean
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>lookup-labels</parameter></td>
+							<td>
+								lookup of 'Yes, No' if the type is Boolean. This will generally
+								be localized by the Metawidget
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>no-setter</parameter></td>
+							<td>
+								if the property has no <function>setXXX</function> method. Note <parameter>no-setter</parameter>
+								is distinct from <parameter>read-only</parameter>, because it is common to
+								have no setter for a complex type (e.g. <function>Person.getAddress</function>) but
+								this shouldn't make all its contents (e.g. <function>Address.getStreet</function>) read-only.
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>no-getter</parameter></td>
+							<td>
+								if the property has no <function>getXXX</function> method
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>type</parameter></td>
+							<td>declared type of the property</td>
+						</tr>
+						<tr>
+							<td><parameter>actual-type</parameter></td>
+							<td>
+								if the actual type differs from the declared type (i.e. it is a subclass)
+							</td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+			
+			<section id="section-inspectors-java5">
+				<title>Java5Inspector</title>
+				
+				<para>
+					<classname>Java5Inspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features.
+					In addition, it returns the following attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Java5 feature</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>lookup</parameter></td>
+							<td>
+								values of enums, as returned by .name()
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>lookup-labels</parameter></td>
+							<td>
+								labels of enums, as returned by .toString()
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>parameterized-type</parameter></td>
+							<td>
+								if the property is using generics
+							</td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+		</section>
+
+		<section id="section-inspectors-annotation">
+			<title>Annotation Inspectors</title>
+
+			<para>
+				Beyond the base issue of inspecting an object and its properties, a number of <classname>Inspector</classname>s are focused on
+				third-party annotations. These annotation <classname>Inspector</classname>s all extend <classname>BaseObjectInspector</classname>,
+				and so inherit its features, but in addition they inspect the following frameworks.
+			</para>
+
+			<section id="section-inspectors-beanvalidation">
+				<title>BeanValidationInspector</title>
+				
+				<para>
+					<classname>BeanValidationInspector</classname> inspects Bean Validation (JSR 303) annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Bean Validation Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-fractional-digits</parameter></td>
+							<td><classname>@Digits(fraction=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-integer-digits</parameter></td>
+							<td><classname>@Digits(integer=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Size(max=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><classname>@Max</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><classname>@Size(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><classname>@Min</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@NotNull</classname></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+			<section id="section-inspectors-faces">
+				<title>FacesInspector</title>
+				
+				<para>
+					<classname>FacesInspector</classname> inspects Java Server Faces-specific annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>(any)</td>
+							<td>
+								<classname>@UiFacesAttributes</classname> and <classname>@UiFacesAttribute</classname> - annotates
+								an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
+								<para>
+									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
+									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
+									the EL expression can refer to the originating object (i.e. <function>#{this.name}</function>).
+								</para>
+								<para>
+									Unlike <classname>@UiFacesLookup</classname>, which fits into a well-defined place within the JSF
+									framework (i.e. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is
+									evaluated by the <classname>Inspector</classname>, not by the Metawidget. This means the
+									<classname>Inspector</classname> must be able access to <classname>FacesContext</classname>. In practice this
+									usually happens automatically, but in some cases it may be necessary to 'combine remote
+									inspections' (see <xref linkend="section-howto-combine-remote"/>).
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<parameter>currency-code</parameter>,
+								<parameter>currency-symbol</parameter>, 
+								<parameter>number-uses-grouping-separators</parameter>, 
+								<parameter>minimum-integer-digits</parameter>, 
+								<parameter>maximum-integer-digits</parameter>, 
+								<parameter>minimum-fractional-digits</parameter>, 
+								<parameter>maximum-fractional-digits</parameter>, 
+								<parameter>locale</parameter>,
+								<parameter>number-pattern</parameter> and
+								<parameter>number-type</parameter>
+							</td>
+							<td>
+								<classname>@UiFacesNumberConverter</classname> - annotates the field should use the standard JSF
+								<classname>NumberConverter</classname>.
+								<para>
+									Note: the <classname>NumberConverter</classname> property <parameter>integerOnly</parameter> is not specified
+									using this annotation, as it can be inferred from the property's type
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<parameter>date-style</parameter>,
+								<parameter>locale</parameter>, 
+								<parameter>datetime-pattern</parameter>, 
+								<parameter>time-style</parameter>, 
+								<parameter>time-zone</parameter> and
+								<parameter>datetime-type</parameter> 
+							</td>
+							<td><classname>@UiFacesDateTimeConverter</classname> - annotates the field should use the standard JSF
+							<classname>DateTimeConverter</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>faces-ajax-event</parameter></td>
+							<td>
+								<classname>@UiFacesAjax</classname> - annotates the widget for this field should use AJAX in
+								response to the given event
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-component</parameter></td>
+							<td>
+								<classname>@UiFacesComponent</classname> - annotates the field should be rendered using the
+								given <classname>UIComponent</classname> in the UI.
+								<para>
+									Use of this annotation does not bind the business class to the UI quite as tightly
+									as it may appear, because JSF has a loosely coupled relationship between
+									<parameter>&lt;component-name&gt;</parameter> and <parameter>&lt;component-class&gt;</parameter>, and
+									a further loose coupling between <parameter>&lt;component&gt;</parameter> and <parameter>&lt;render-kit&gt;</parameter>,
+									as defined in <filename>faces-config.xml</filename>
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-converter-id</parameter></td>
+							<td>
+								<classname>UiFacesConverter</classname> - annotates the field should use the given JSF converter
+								in the UI. This annotation uses the converter <emphasis>id</emphasis>, not its class.
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-lookup</parameter></td>
+							<td>
+								<classname>@UiFacesLookup</classname> - annotates the value in the field should
+								belong to the <classname>Collection</classname> returned by the given EL expression
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-suggest</parameter></td>
+							<td>
+								<classname>@UiFacesSuggest</classname> - annotates the value in the field should
+								be 'suggested' (i.e. using a pop-up box) using the <classname>Collection</classname>
+								returned by the given EL expression
+							</td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+			<section id="section-inspectors-hibernatevalidator">
+				<title>HibernateValidatorInspector</title>
+				
+				<para>
+					<classname>HibernateValidatorInspector</classname> inspects Hibernate Validator annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Hibernate Validator Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-fractional-digits</parameter></td>
+							<td><classname>@Digits(fractionalDigits=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-integer-digits</parameter></td>
+							<td><classname>@Digits(integerDigits=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Length(max=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><classname>@Max</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><classname>@Length(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><classname>@Min</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+			<section id="section-inspectors-jexl">
+				<title>JexlInspector</title>
+				
+				<para>
+					<classname>JexlInspector</classname> inspects <classname>@UiJexlAttribute</classname> annotations and
+					sets arbitrary attributes based on the result of evaluating an Apache Commons JEXL expression. It can
+					be used to introduce declarative UI scripting into environments that lack their	own expression language
+					(i.e. JSP has an EL, Swing does not). For example:
+				</para>
+				
+				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
+
+public class Person {
+	public boolean retired;
+	@UiJexlAttribute( name = "hidden", value = "!this.retired" )
+	public BigDecimal pension;
+}</programlisting>
+
+				<para>
+					This code returns a <parameter>hidden</parameter> attribute based on evaluating the JEXL expression
+					<parameter>!this.retired</parameter> (where <parameter>this</parameter> refers to the runtime instance of
+					the <classname>Person</classname> being inspected). It could be used to show/hide the <parameter>pension</parameter>
+					field in response to the <parameter>retired</parameter> checkbox being checked.
+				</para>
+				
+				<para>
+					The JEXL expression language also supports branching statements. For example:
+				</para>
+				
+				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
+
+public class PersonController {
+
+	@UiJexlAttribute( name = "label", value = "if ( this.readOnly ) 'Back'" )
+	public void cancel() { ... }
+}</programlisting>
+
+				<para>
+					This code overrides the <parameter>label</parameter> of an action to be either 'Back' or 'Cancel', depending
+					on whether the <classname>Person</classname> was being edited. It is taken from the Swing Address Book
+					sample (see <xref linkend="section-introduction-part2-desktop"/>).
+				</para>
+			</section>
+
+			<section id="section-inspectors-jpa">
+				<title>JpaInspector</title>
+				
+				<para>
+					<classname>JpaInspector</classname> inspects Java Persistence API annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">JPA Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td>
+								<classname>@Id</classname>, unless <classname>JpaInspectorConfig.setHideIds</classname> is false.
+								<classname>@Version</classname>, unless <classname>JpaInspectorConfig.setHideVersions</classname> is false.
+								<classname>@Transient</classname>, unless <classname>JpaInspectorConfig.setHideTransients</classname> is false.
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>large</parameter></td>
+							<td><classname>@Lob</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Column(length=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@Column(nullable=false)</classname> or <classname>@ManyToOne(optional=false)</classname></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+			<section id="section-inspectors-metawidgetannotation">
+				<title>MetawidgetAnnotationInspector</title>
+				
+				<para>
+					As much as possible, Metawidget tries to inspect metadata from existing sources, without
+					introducing new concepts. Where that is not sufficient, <classname>MetawidgetAnnotationInspector</classname> adds
+					a handful of annotations:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Metawidget Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>(any)</td>
+							<td><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname> - a 'catch all' for denoting arbitrary UI metadata</td>
+						</tr>
+						<tr>
+							<td><parameter>action</parameter></td>
+							<td><classname>@UiAction</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>comes-after</parameter></td>
+							<td><classname>@UiComesAfter</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>dont-expand</parameter></td>
+							<td>
+								<classname>@UiDontExpand</classname> - denotes a value should not be inspected and expanded into sub-widgets. This
+								can be useful if, say, you have a read-only field and just want to display its top-level <function>toString()</function>
+								rather than all its child properties
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
+								still be rendered on the client, depending on the Metawidget (i.e. for Web clients,
+								may use a HTML hidden field)
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>label</parameter></td>
+							<td><classname>@UiLabel</classname> - denotes the label to use in the UI. Can be a resource
+								key if the UI is using resource bundles, or
+								an EL expression if the UI has an expression language (i.e. JSF)
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>large</parameter></td>
+							<td><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (i.e. a multi-line textbox)</td>
+						</tr>
+						<tr>
+							<td><parameter>lookup</parameter></td>
+							<td><classname>@UiLookup</classname> - denotes the value in the field should belong to the given set of Strings</td>
+						</tr>
+						<tr>
+							<td><parameter>masked</parameter></td>
+							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (e.g. a password field)</td>
+						</tr>
+						<tr>
+							<td><parameter>read-only</parameter></td>
+							<td><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI</td>
+						</tr>
+						<tr>
+							<td><parameter>section</parameter></td>
+							<td>
+								<classname>@UiSection</classname> - denotes the start of a logical grouping in the UI.
+								Subsequent fields are assumed
+								to belong to the same section until a different section heading is encountered. Sections
+								can be cancelled using a section heading with an empty String. Sections can be nested
+								by specifying an array of section names.								
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>wide</parameter></td>
+							<td>
+								<classname>@UiWide</classname> - denotes the field should be 'wide' in the UI, spanning all columns in a multi-column layout.
+ 								'Wide' is different to 'large', because 'large' implies a data size (i.e. BLOB or CLOB) whereas 'wide' refers purely to spanning
+ 								columns. Generally all 'large' fields are implicitly 'wide', but not all 'wide' fields are 'large'. For example, you may want
+ 								a normal text field (not a text area) to span all columns.
+ 							</td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+			
+			<section id="section-inspectors-oval">
+				<title>OvalInspector</title>
+				
+				<para>
+					<classname>OvalInspector</classname> inspects OVal annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">OVal Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Length(max=...)</classname> or <classname>@MaxLength</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><classname>@Max</classname> or <classname>@Range(max=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><classname>@Length(min=...)</classname> or <classname>@MinLength</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><classname>@Min</classname> or <classname>@Range(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname> or <classname>@NotBlank</classname></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+		</section>
+
+		<section id="section-inspectors-xml">
+			<title>XML Inspectors</title>
+			
+			<para>
+				Whilst we don't necessarily encourage the use of XML-based metadata, if you <emphasis>already</emphasis> have XML configuration
+				files in your architecture Metawidget will take advantage of them. Equally, XML can be useful for declaring 'ad hoc' UI entities
+				that do not map to any Java class, as well as for declaring UI-specific attributes for existing Java classes (i.e. if you prefer
+				not to use annotations, or if you want to introduce additional 'virtual' properties).
+			</para>
+
+			<para>			
+				Note when using XML-based metadata you should still try to avoid duplicating metadata that already exists in other parts of
+				your application. For example, if you are also using <classname>PropertyTypeInspector</classname> in your
+				<classname>CompositeInspector</classname> there is no need to duplicate the names and types of all properties.
+			</para>
+			
+			<para>
+				Once nice feature of XML is that ordering of child elements (such as <parameter>&lt;property&gt;</parameter>) is
+				explicit, so XML-based <classname>Inspector</classname>s make great 'first inspectors' for use within <classname>CompositeInspector</classname> (e.g. you
+				don't need to also use <classname>@UiComesAfter</classname>).
+			</para>
+			
+			<section id="section-inspectors-basexml">
+				<title>BaseXmlInspector</title>
+				
+				<para>
+					<classname>BaseXmlInspector</classname>'s config class, <classname>BaseXmlInspectorConfig</classname>, uses a
+					<function>setInputStream</function> method to specify the location of the XML. This allows a variety of options
+					for sourcing the XML. For example:
+				</para>
+
+				<programlisting language="xml">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+	config="XmlInspectorConfig"&gt;
+	&lt;inputStream&gt;
+		&lt;resource&gt;com/myapp/metawidget-metadata.xml&lt;/resource&gt;
+	&lt;/inputStream&gt;
+&lt;/xmlInspector&gt;</programlisting>					
+				
+				<para>
+					And:
+				</para>
+
+				<programlisting language="xml">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+	config="XmlInspectorConfig"&gt;
+	&lt;inputStream&gt;
+		&lt;url&gt;http://myserver.com/my-xml.xml&lt;/url&gt;
+	&lt;/inputStream&gt;
+&lt;/xmlInspector&gt;</programlisting>					
+
+				<para>
+					As well as specifying multiple files (which will all be merged and inspected as one):
+				</para>
+
+				<programlisting language="xml">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+	config="XmlInspectorConfig"&gt;
+	&lt;inputStreams&gt;
+		&lt;array&gt;
+			&lt;url&gt;http://myserver.com/my-xml-1.xml&lt;/url&gt;
+			&lt;url&gt;http://myserver.com/my-xml-2.xml&lt;/url&gt;
+		&lt;/array&gt;			
+	&lt;/inputStreams&gt;
+&lt;/xmlInspector&gt;</programlisting>					
+
+				<para>
+					This functionality is extended to all XML-based <classname>Inspector</classname>s.
+				</para>
+				
+				<para>
+					Another useful piece of functionality
+					applies when mixing XML-based <classname>Inspector</classname>s (e.g. <classname>XmlInspector</classname>) and Object-based
+					<classname>Inspector</classname>s
+					(e.g. <classname>PropertyTypeInspector</classname>) in the same application (i.e. via <classname>CompositeInspector</classname>).
+					If your XML-based <classname>Inspector</classname>s and your Object-based <classname>Inspector</classname>s are inspecting
+					the same classes, you may encounter a problem in particular scenarios. Specifically, the Object-based
+					<classname>Inspector</classname>s will always stop at <parameter>null</parameter> or recursive
+					Object references, whereas the XML <classname>Inspector</classname>s (which have no knowledge of Object values) will continue. This can lead to
+					the <classname>WidgetBuilder</classname>s constructing	a UI for a <parameter>null</parameter> Object, which may upset some
+					<classname>WidgetProcessor</classname>s (e.g. <classname>BeansBindingProcessor</classname>).
+				</para>
+				
+				<para>
+					If you are encountering this particular scenario, you can set <function>BaseXmlInspectorConfig.setRestrictAgainstObject</function>,
+					whereby the XML-based <classname>Inspector</classname> will do a check for <parameter>null</parameter> or recursive Object
+					references, and not return any XML.				
+				</para>
+				
+ 			</section>
+
+			<section id="section-inspectors-commonsvalidator">
+				<title>CommonsValidatorInspector</title>
+				
+				<para>
+					<classname>CommonsValidatorInspector</classname> inspects Apache Commons Validator <filename>validation.xml</filename>
+					files. It returns the following attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Validator XML</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><parameter>&lt;field depends="maxlength" /&gt;&lt;var&gt;&lt;var-name&gt;maxlength&lt;/var-name&gt;...</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><parameter>&lt;field depends="intRange" /&gt;&lt;var&gt;&lt;var-name&gt;max&lt;/var-name&gt;...</parameter> (or <parameter>floatRange</parameter> or <parameter>doubleRange</parameter>)</td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><parameter>&lt;field depends="minlength" /&gt;&lt;var&gt;&lt;var-name&gt;minlength&lt;/var-name&gt;...</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><parameter>&lt;field depends="intRange" /&gt;&lt;var&gt;&lt;var-name&gt;min&lt;/var-name&gt;...</parameter> (or <parameter>floatRange</parameter> or <parameter>doubleRange</parameter>)</td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><parameter>&lt;field depends="required" /&gt;</parameter></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+			<section id="section-inspectors-hibernate">
+				<title>HibernateInspector</title>
+				
+				<para>
+					<classname>HibernateInspector</classname> inspects Hibernate <filename>hibernate.cfg.xml</filename> and
+					<filename>mapping.hbm.xml</filename> files. For the former, it iterates over <parameter>&lt;session-factory&gt;</parameter>'s
+					<parameter>&lt;mapping&gt;</parameter> elements and inspects all mapping files.
+					It returns the following attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Hibernate XML</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td><parameter>&lt;id /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>large</parameter></td>
+							<td><parameter>&lt;property type="clob" /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><parameter>&lt;property length="..." /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>parameterized-type</parameter></td>
+							<td><parameter>&lt;bag type="..." /&gt;</parameter> or <parameter>&lt;list type="..." /&gt;</parameter> or <parameter>&lt;set type="..." /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><parameter>&lt;property not-null="true" /&gt;</parameter></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
+			<section id="section-inspectors-jexlxml">
+				<title>JexlXmlInspector</title>
+				
+				<para>
+					<classname>JexlXmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format
+					looking for XML attributes wrapped in <parameter>${...}</parameter> notation. It processes these attributes as
+					JEXL expressions before returning them. For example:
+				</para>
+				
+				<programlisting language="xml">&lt;inspection-result&gt;
+
+	&lt;entity type="com.myapp.Person"&gt;
+		&lt;property name="pension" hidden="${!this.retired}"/&gt;
+	&lt;/entity&gt;
+
+&lt;/inspection-result&gt;</programlisting>
+				
+				<para>
+					<classname>JexlXmlInspector</classname> is effectively equivalent to <classname>JexlInspector</classname>
+					but uses XML files instead of annotations.
+				</para>
+			</section>
+
+			<section id="section-inspectors-pageflow">
+				<title>PageflowInspector</title>
+				
+				<para>
+					<classname>PageflowInspector</classname> inspects JBoss jBPM pageflow files 
+					looking for <parameter>page</parameter> nodes and their associated <parameter>transition</parameter>s to
+					be used as actions. For example, this <filename>pageflow.jpdl.xml</filename> file...
+				</para>
+				
+				<programlisting language="xml">&lt;page name="confirm"&gt;
+	&lt;transition name="purchase" to="complete" /&gt;
+	&lt;transition name="cancel" to="cancel" /&gt;
+&lt;/page&gt;</programlisting>
+				
+				<para>
+					...would return <parameter>purchase</parameter> and <parameter>cancel</parameter> as available
+					actions for the <parameter>confirm</parameter> page. For an example of <classname>PageflowInspector</classname>
+					in use, see <xref linkend="section-introduction-part3-jbpm"/>.
+				</para>
+			</section>
+			
+			<section id="section-inspectors-seam">
+				<title>SeamInspector</title>
+				
+				<para>
+					<classname>SeamInspector</classname> inspects Seam XML files for useful metadata. Specifically:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							Delegates <parameter>jbpm:pageflow-definitions</parameter> elements from <filename>components.xml</filename> to <classname>PageflowInspector</classname>.
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+
+			<section id="section-inspectors-xml-xmlinspector">
+				<title>XmlInspector</title>
+				
+				<para>
+					<classname>XmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format. It can
+					be used when no other <classname>Inspector</classname> is available for the given attribute.
+				</para>
+				
+				<para>
+					Some attributes accept multiple values, such as <parameter>lookup</parameter>. These can be supplied as a comma-separated
+					string. The values will be trimmed for whitespace. If the values themselves contain commas, they can be escaped with the
+					<parameter>\</parameter> character.
+				</para>
+				
+			</section>
+
+		</section>
+
+	</chapter>

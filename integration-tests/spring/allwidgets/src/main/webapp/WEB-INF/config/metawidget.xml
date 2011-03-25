@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.jsp.tagext.html.spring http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.spring-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.inspector.propertytype http://metawidget.org/xsd/org.metawidget.inspector.propertytype-1.0.xsd
+						java:org.metawidget.jsp.tagext.html.layout http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.layout-1.0.xsd"
+	version="1.0">
+
+	<springMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.spring">
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+							<inputStream>
+								<resource>org/metawidget/integrationtest/shared/allwidgets/model/metawidget-metadata.xml</resource>
+							</inputStream>
+						</xmlInspector>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		<widgetProcessors>
+			<array>
+				<hiddenFieldProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.spring"/>
+			</array>
+		</widgetProcessors>		
+		<layout>
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
+				<layout>
+					<htmlTableLayout config="HtmlTableLayoutConfig">
+						<tableStyle>
+							<string>aTableStyle</string>
+						</tableStyle>					
+						<tableStyleClass>
+							<string>aTableStyleClass</string>
+						</tableStyleClass>
+						<columnStyleClasses>
+							<array>
+								<string>aLabelClass</string>
+								<string>aComponentClass</string>
+								<string>aRequiredClass</string>
+							</array>
+						</columnStyleClasses>
+						<footerStyle>
+							<string>aFooterStyle</string>
+						</footerStyle>
+						<footerStyleClass>
+							<string>aFooterStyleClass</string>
+						</footerStyleClass>				
+					</htmlTableLayout>
+				</layout>
+				<styleClass>
+					<string>section-heading</string>
+				</styleClass>				
+			</headingTagLayoutDecorator>
+		</layout>		
+	</springMetawidgetTag>
+
+</metawidget>

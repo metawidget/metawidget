@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<colophon id="chapter-epilogue">
+		<title>Epilogue</title>
+		
+		<para>
+			That concludes the Metawidget User Guide and Reference Documentation.
+		</para>
+		
+		<para>
+			For further documentation - including forums, bug reports, a Wiki community area
+			and information on how to contribute - please visit <ulink url="http://metawidget.org">http://metawidget.org</ulink>.			
+		</para>
+		
+		<para>
+			Thank you for using Metawidget!
+		</para>
+
+	</colophon>

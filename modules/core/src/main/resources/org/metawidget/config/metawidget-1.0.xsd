@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<xs:schema targetNamespace="http://metawidget.org" xmlns="http://metawidget.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+	
+	<xs:simpleType name="versionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="1.0" /> 
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:element name="metawidget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="1" maxOccurs="unbounded" processContents="lax"/>
+			</xs:sequence>
+			<xs:attribute name="version" type="versionType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

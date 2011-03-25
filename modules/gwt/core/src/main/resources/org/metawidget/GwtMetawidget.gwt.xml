@@ -1,0 +1,23 @@
+<module>
+
+	<!-- Core GWT -->
+	
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="com.google.gwt.xml.XML" />
+
+	<!-- Source paths -->
+	
+	<source path="gwt/client"/>
+	<source path="iface"/>
+	<source path="inspector/gwt/remote/iface"/>
+	<source path="inspector/gwt/remote/client"/>
+	<source path="inspector/iface"/>
+	<source path="inspectionresultprocessor/iface"/>
+	<source path="layout"/>
+	<source path="pipeline/base"/>
+	<source path="pipeline/gwt"/>
+	<source path="util/simple"/>
+	<source path="widgetprocessor"/>
+	<source path="widgetbuilder"/>
+	
+</module>

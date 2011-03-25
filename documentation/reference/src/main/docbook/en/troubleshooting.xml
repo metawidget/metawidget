@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter id="chapter-troubleshooting">
+		<title>Troubleshooting</title>
+
+		<para>
+			This chapter contains solutions for various common problems you may encounter when using Metawidget.
+		</para>
+		
+		<section id="section-troubleshooting-inspectors">
+			<title>Inspectors</title>
+		
+			<section id="section-inspectors-inspectors-general">
+				<title>General Inspectors</title>
+				
+				<section id="section-inspectors-general-troubleshooting-1">
+					<title>My Inspector does not return anything</title>
+					
+					<para>
+						If your custom <classname>Inspector</classname> returns no &lt;entity&gt; blocks, or returns
+						&lt;entity&gt; blocks with the wrong <parameter>type</parameter> attribute, Metawidget will
+						ignore their result. Try wrapping your <classname>Inspector</classname> inside <classname>CompositeInspector</classname>
+						and enabling <parameter>TRACE</parameter> logging, to see what your <classname>Inspector</classname>
+						is returning.
+					</para>
+					
+				</section>
+
+			</section>		
+
+			<section id="section-inspectors-inspectors-annotation">
+				<title>Annotation-Based Inspectors</title>				
+
+				<section id="section-inspectors-annotation-troubleshooting-1">
+					<title>I get "java.lang.TypeNotPresentException"</title>
+					
+					<para>
+						If you are using Oracle's implementation of Java, Metawidget's annotation support requires
+						Java 5.0u6 or later, which includes a fix for this bug (Bug Parade ID: 6322301).
+					</para>
+				</section>
+
+				<section id="section-inspectors-annotation-troubleshooting-2">
+					<title>My inspector is not finding my annotations</title>
+
+					<para>
+						First, if you are using custom annotations check they are marked to 'retain at runtime':
+					</para>
+					
+					<programlisting language="java">@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.FIELD, ElementType.METHOD } )	
+public @interface MyAnnotation {
+
+	String value();
+}</programlisting>
+										
+					<para>
+						Next, remember that annotations are designed to 'silently fall away' in environments that do not
+						support them: they never throw <classname>ClassDefNotFoundError</classname>. For example,
+						if a JPA-annotated class is transferred to an application tier without <filename>ejb3-persistence.jar</filename>
+						(or equivalent) in its classpath, the JPA annotations will disappear. If this is the case, either add the
+						appropriate JAR to the tier, or consider implementing a remote inspector (see <xref linkend="section-howto-order"/>).
+					</para>
+					
+					<para>
+						Finally, note that by default Metawidget discovers annotations placed on public fields and public getter/setter
+						methods, but <emphasis>not on private fields</emphasis>. Metawidget must work with public properties because the
+						various widget libraries, binding frameworks and validation frameworks it wires together all need to access
+						public properties. And because there is no standardized way to infer which private field relates to which
+						public getter/setter method, Metawidget cannot relate the two. Either:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								add your annotations to public getter/setter methods
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								use <classname>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</classname> to specify a naming convention
+								to relate public getter/setter methods to private fields
+								(see <xref linkend="section-inspectors-base-object-propertystyle-javabean"/>)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								implement your own <classname>PropertyStyle</classname> with your own way of relating public getter/setter
+								methods to private fields (see <xref linkend="section-inspectors-base-object-propertystyle-implementing-your-own"/>,
+								potentially overriding <function>JavaBeanPropertyStyleConfig.getPrivateField</function>)
+							</para>
+						</listitem>
+					</itemizedlist>
+					
+				</section>
+			</section>
+		</section>			
+		
+		<section id="section-troubleshooting-web">
+			<title>Web Metawidgets</title>
+			
+			<section id="section-troubleshooting-web-faces">
+				<title>Java Server Faces</title>				
+			
+				<section id="section-metawidgets-web-faces-blank">
+					<title>I put &lt;m:metawidget &gt; in my page but nothing appears</title>
+					
+					<para>
+						View the source of the final Web page that is produced. If <parameter>m:metawidget</parameter> appears in it, the
+						tag is not being processed. Check you have correctly declared the <parameter>m:</parameter> namespace at the
+						top of your JSP/Facelets page. Also check you have correctly deployed <filename>metawidget.jar</filename> into
+						<filename>WEB-INF/lib</filename>. 
+					</para>
+					
+					<para>
+						If <parameter>m:metawidget</parameter> does <emphasis>not</emphasis> appear in the final Web page, the tag is
+						successfully being procesed. Check whether a 'blank' Metawidget is being produced (i.e. an empty table if you are
+						using the <classname>HtmlTableLayoutRenderer</classname>, some empty <parameter>div</parameter>s if you are
+						using <classname>HtmlDivLayoutRenderer</classname>). In so, check the value expression is returning a
+						non-null value. For example, if your tag is <parameter>&lt;m:metawidget value="#{foo.bar}"/&gt;</parameter>,
+						check that <parameter>#{foo.bar}</parameter> does not return <parameter>null</parameter>.
+					</para>
+				</section>
+				
+				<section id="section-metawidgets-web-faces-missing-annotations">
+					<title>I have annotated my getter, but Metawidget is ignoring my annotations</title>
+					
+					<para>
+						If your getter code is...
+					</para>
+					
+					<programlisting language="java">public class Foo {
+
+	private String mBar = "Hello";
+	
+	@UiLabel( "My Bar" )
+	public String getBar() {
+	
+		return mBar;
+	}
+}</programlisting>
+
+					<para>
+						...and your code JSP/Facelets code is...
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo.bar}"/&gt;</programlisting>
+					
+					<para>
+						Then by default the <parameter>@UiLabel</parameter> annotation will be ignored. This is because the EL expression
+						<parameter>#{foo.bar}</parameter> evaluates directly to an object (in this case a <classname>String</classname>) so
+						Metawidget will not consider any parent objects or their getter methods. There are two options:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								Change the EL expression to <parameter>&lt;m:metawidget value="#{foo}"/&gt;</parameter> and let Metawidget
+								traverse the child property
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Use <parameter>&lt;m:metawidget value="#{foo.bar}" inspectFromParent="true"/&gt;</parameter> to force Metawidget
+								to unpack the EL expression and evaluate the 'parent' <parameter>#{foo}</parameter>
+							</para>
+						</listitem>
+					</itemizedlist>
+					
+					<para>
+						Note that if <parameter>#{foo.bar}</parameter> evaluates to <parameter>null</parameter> then Metawidget will unpack
+						and check the parent automatically, but this is simply a niceity.
+					</para>
+
+				</section>
+				
+			</section>
+			
+			<section id="section-troubleshooting-web-struts">
+				<title>Struts</title>				
+
+				<section id="section-metawidgets-web-struts-form">
+					<title>I get "Cannot find bean org.apache.struts.taglib.html.BEAN in any scope"</title>
+					
+					<para>
+						<classname>StrutsMetawidgetTag</classname> creates native Struts widgets, such as <parameter>&lt;html:text&gt;</parameter>, but does
+						not create the surrounding Struts form. Make sure your Metawidget tag is enclosed in
+						a <parameter>&lt;html:form&gt;</parameter> tag and the Struts HTML taglib is included at the top of the page.
+					</para>
+				</section>
+
+				<section id="section-metawidgets-web-struts-names">
+					<title>I see "MultipartRequestHandler", "ServletWrapper" and other weird names</title>
+					
+					<para>
+						If you use <classname>PropertyTypeInspector</classname> to inspect your <classname>ActionForm</classname>-based
+						classes, by default it will discover properties from the
+						<classname>org.apache.struts.action.ActionForm</classname> base class, such as <function>getMultipartRequestHandler</function>.
+						To prevent this, configure <filename>metawidget.xml</filename>: 
+					</para>
+					
+					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;propertyStyle&gt;
+		&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+			config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig"&gt;
+			&lt;excludeBaseType&gt;
+				&lt;pattern&gt;^(java|javax|org\.apache\.struts)\..*$&lt;/pattern&gt;
+			&lt;/excludeBaseType&gt;
+		&lt;/javaBeanPropertyStyle&gt;
+	&lt;/propertyStyle&gt;
+&lt;/propertyTypeInspector&gt;</programlisting>
+
+				</section>
+			</section>
+		</section>
+		
+	</chapter>

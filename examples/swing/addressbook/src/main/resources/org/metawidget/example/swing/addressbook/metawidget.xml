@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<swingMetawidget xmlns="java:org.metawidget.swing">
+		<bundle>
+			<bundle>org.metawidget.example.shared.addressbook.resource.Resources</bundle>
+		</bundle>
+		<opaque>
+			<boolean>false</boolean>
+		</opaque>
+		<inspector>			
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl"/>
+						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+							<inputStream>
+								<resource>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</resource>
+							</inputStream>
+						</xmlInspector>
+						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		<widgetProcessors>
+			<array>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>			
+				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding" config="BeansBindingProcessorConfig">
+					<converter>
+						<class>org.metawidget.example.shared.addressbook.model.ContactType</class>
+						<class>java.lang.String</class>
+						<contactTypeConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
+					</converter>
+					<converter>
+						<class>java.util.Date</class>
+						<class>java.lang.String</class>
+						<dateConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
+					</converter>
+					<converter>
+						<class>org.metawidget.example.shared.addressbook.model.Gender</class>
+						<class>java.lang.String</class>
+						<genderConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
+					</converter>
+				</beansBindingProcessor>
+			</array>
+		</widgetProcessors>		
+	</swingMetawidget>
+
+</metawidget>

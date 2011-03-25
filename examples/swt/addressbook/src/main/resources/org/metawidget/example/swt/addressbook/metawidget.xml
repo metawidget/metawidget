@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<swtMetawidget xmlns="java:org.metawidget.swt">
+		<bundle>
+			<bundle>org.metawidget.example.shared.addressbook.resource.Resources</bundle>
+		</bundle>
+		<inspector>			
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig">
+									<excludeBaseType>
+										<pattern>^(java|javax|org\.eclipse\.swt)\..*$</pattern>
+									</excludeBaseType>
+								</javaBeanPropertyStyle>
+							</propertyStyle>
+						</propertyTypeInspector>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl"/>
+						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+							<inputStream>
+								<resource>org/metawidget/example/swt/addressbook/metawidget-metadata.xml</resource>
+							</inputStream>
+						</xmlInspector>
+						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		<widgetProcessors>
+			<array>
+				<dataBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.databinding" config="DataBindingProcessorConfig">
+					<converters>
+						<array xmlns="java:org.metawidget.example.swt.addressbook.converter">
+							<dateToStringConverter/>
+							<stringToDateConverter/>
+							<genderToStringConverter/>
+							<stringToGenderConverter/>
+						</array>
+					</converters>
+				</dataBindingProcessor>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.reflection"/>			
+			</array>
+		</widgetProcessors>		
+	</swtMetawidget>
+
+</metawidget>

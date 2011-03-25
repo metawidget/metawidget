@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.jsp.tagext.html http://metawidget.org/xsd/org.metawidget.jsp.tagext.html-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd
+						java:org.metawidget.jsp.tagext.html.layout http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.layout-1.0.xsd"
+	version="1.0">
+
+	<htmlMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html">
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+	</htmlMetawidgetTag>
+
+</metawidget>

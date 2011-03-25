@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter id="chapter-howto">
+		<title>How To's</title>
+		
+		<para>
+			This chapter contains 'recipes' for various scenarios you may encounter when using Metawidget.
+		</para>
+		
+		<section id="section-howto-order">
+			<title>Order Fields</title>
+			
+			<para>
+				Metawidget supports several ways to control the order of fields in the UI, depending on your architecture and your
+				preference:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						Annotate the fields with <classname>@UiComesAfter</classname>, use <classname>MetawidgetAnnotationInspector</classname>
+						in your <classname>CompositeInspector</classname> chain, and use <classname>ComesAfterInspectionResultProcessor</classname>.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Use one of the XML-based <classname>Inspector</classname>s (such as <classname>XmlInspector</classname> or <classname>HibernateInspector</classname>)
+						as the first <classname>Inspector</classname> in your <classname>CompositeInspector</classname> chain. XML nodes are inherently ordered.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Compile your business model with debug information turned on, and use <classname>JavassistPropertyStyle</classname>. This
+						approach uses Javassist to extract line numbering information, and order the fields in source file order.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Write your own <classname>InspectionResultProcessor</classname>. This gives you a range of
+						options, including: sorting fields based on a page property (see
+						<xref linkend="section-architecture-inspectionresultprocessors-implementing-your-own"/>); sorting
+						fields based on a different notation (such as Dewey Decimal); defining field order at the class (rather
+						than the getter) level, and many more. For complete worked examples see
+						<ulink url="http://kennardconsulting.blogspot.com/2010/08/customizing-which-form-fields-are_04.html">this blog entry</ulink>.
+					</para>
+				</listitem>				
+			</itemizedlist>
+			
+		</section>
+
+		<section id="section-howto-inspect-differently">
+			<title>View The Same Object In Different Ways</title>
+			
+			<para>
+				Say you have an object <classname>Employee</classname>:
+			</para>
+			
+			<programlisting language="java">public class Employee {
+			
+	...
+	
+	@Column( nullable = false )
+	public String getName() {
+		return mName;
+	}
+
+	public boolean isManager() {
+		return mManager;
+	}
+}</programlisting>
+
+			<para>
+				You have a requirement to construct both a screen to view an individual employee, and a screen to search
+				for employees. For the latter you would like to reuse the <classname>Employee</classname> class but display
+				its fields a little differently. For example, your individual employee screen may use
+				<classname>JpaInspector</classname>/<classname>HibernateInspector</classname> to pick up on the
+				<classname>@Column</classname> annotation and mark the <parameter>name</parameter> field as 'required'. For
+				your search screen you may not want this.
+			</para>
+			
+			<para>				
+				You have some options:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						You could create a second <filename>metawidget.xml</filename> (perhaps
+						<filename>metawidget-search.xml</filename>) that does not include <classname>JpaInspector</classname>/<classname>HibernateInspector</classname>
+						and use it for your search screen:					
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{employee}" config="metawidget-search.xml"/&gt;</programlisting>
+					
+					<para>
+						You can see an example of this in <xref linkend="section-introduction-part3-swingappframework"/>.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could add an <classname>Inspector</classname> like <classname>XmlInspector</classname> to the end of your
+						<classname>CompositeInspector</classname> chain and explictly set
+						<parameter>required="false"</parameter>. This would override the inspection result from
+						<classname>JpaInspector</classname>/<classname>HibernateInspector</classname>. Then you
+						could use this in a <filename>metawidget-search.xml</filename> as described above.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could add an <classname>Inspector</classname> like <classname>FacesInspector</classname> or
+						<classname>JexlInspector</classname> to the end of your
+						<classname>CompositeInspector</classname> chain to override the <parameter>required</parameter>
+						attribute conditionally based on some Expression Language expression.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could create a custom annotation and custom <classname>Inspector</classname> (see
+						<xref linkend="section-architecture-inspectors-implementing-your-own"/> and a custom <classname>WidgetBuilder</classname>
+						that excluded annotated fields (see <xref linkend="section-architecture-widgetbuilders-implementing-your-own"/>). Then you
+						could use this in a <filename>metawidget-search.xml</filename> as described above.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						You could create another class <classname>EmployeeSearch</classname> that mirrors <classname>Employee</classname>. This would
+						introduce some duplication, but may work better if the search fields are substantially different to the employee fields. For
+						example now <parameter>isManager</parameter> could be a <classname>Boolean</classname> (big 'B') so that you could search
+						for 'is a manager', 'is not a manager' and 'don't care'.  
+					</para>
+				</listitem>
+			</itemizedlist>
+			
+		</section>
+	
+		<section id="section-howto-remote">
+			<title>Inspect Remotely</title>
+			
+			<para>
+				Metawidget inspects back-end metadata and creates front-end UI widgets. If your application is split over multiple
+				tiers, however, sometimes the back-end metadata is not accessible from the front-end. For example, annotations
+				(such as JPA ones) are designed to 'fall away' if the class is transferred to a tier without their JAR (such as
+				<filename>ejb3-persistence.jar</filename>) in its classpath. Equally, configuration files may not be accessible across tiers.
+			</para>
+			
+			<para>
+				Metawidget supports these situations. Because each remoting environment is different, however, you will
+				need to add a little code yourself. Every <classname>Inspector</classname> returns an XML string, which is inherently serializable and safe
+				to pass across tiers. Therefore, to run inspection remotely:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						create a back-end class suited to your environment, such as an EJB Session Bean. Have the back-end class instantiate
+						an <classname>Inspector</classname> - either programmatically:
+					</para>
+					
+					<programlisting language="java">XmlInspectorConfig config = new XmlInspectorConfig();
+config.setInputStream( getClass().getResourceAsStream( "metawidget-backend-metadata.xml" ));
+Inspector inspector = new XmlInspector( config );</programlisting>
+
+					<para>
+						Or by using a <filename>metawidget.xml</filename> file and the <classname>ConfigReader</classname> helper class:
+					</para>
+					
+					<programlisting language="java">inspector = ConfigReader.configure( "backend-metawidget.xml", Inspector.class );</programlisting>
+				</listitem>
+				<listitem>
+					<para>
+						have the back-end class declare the <classname>Inspector</classname> interface. Implement the interface by
+						delegating to the <classname>Inspector</classname> you just instantiated.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						depending on your environment, it may futher be necessary to create a front-end class (a proxy). Have it declare
+						the <classname>Inspector</classname> interface. Implement the interface by remoting to the back-end class and
+						returning the XML string.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						set the <classname>Inspector</classname> on the Metawidget by using the <function>setInspector</function> method.
+					</para>
+				</listitem>
+			</itemizedlist>
+			
+			<para>
+				An example of this technique can be seen in <classname>GwtRemoteInspectorProxy</classname> and <classname>GwtRemoteInspectorImpl</classname>.
+			</para>
+			
+			<tip>
+				<title>Note</title>
+				All <classname>Inspector</classname>s are both thread-safe and immutable. Therefore you only need one <classname>Inspector</classname> for your
+				<emphasis>entire</emphasis> application. Some remoting architectures support 'singletons' or 'service beans' well suited
+				to this.
+			</tip>
+						
+			<section id="section-howto-combine-remote">
+				<title>Combine Remote Inspections</title>
+				
+				<para>
+					If your architecture is strongly separated, some metadata may only be available in one tier (e.g. JPA annotations
+					in the back-end) and some only available in another tier (e.g. <filename>struts-config.xml</filename> in the
+					front-end).
+				</para>
+				
+				<para>
+					For this, <classname>CompositeInspector</classname> supplies an overloaded method outside the normal <classname>Inspector</classname>
+					interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional XML string of inspection results,
+					and merges forthcoming inspection results with it.
+				</para>
+				
+				<para>
+					Therefore, to combine metadata from different tiers:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							create a front-end class that implements the <classname>Inspector</classname> interface
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							implement the interface by first remoting to the back-end class and returning the XML string, as before
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							next, delegate to a <classname>CompositeInspector</classname> to inspect the front-end, passing it the XML
+							string from the back-end as a starting point
+						</para>
+					</listitem>
+				</itemizedlist>			
+			</section>
+		</section>
+
+		<section id="section-howto-performance">
+			<title>Improve Performance</title>
+				
+			<para>
+				Performance is very important to Metawidget. Whilst generating a UI dynamically - as opposed to hard coding it
+				statically - is always likely to involve a performance tradeoff, Metawidget supports a number of techniques
+				to help minimize this.
+			</para>
+			
+			<section id="section-howto-performance-jar">
+				<title>JAR Size</title>
+	
+				<para>
+					Metawidget has no mandatory third-party JAR dependencies and is highly modular. This
+					allows the standard <filename>metawidget.jar</filename> to be repackaged for different environments to save JAR size.
+				</para>
+				
+				<para>		
+					For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
+					<filename>examples/swing/applet/addressbook/metawidget-applet.jar</filename>. This JAR includes only those
+					classes (<classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and so on) necessary for the
+					Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
+					Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
+					the Android Address Book.
+				</para>
+				
+			</section>
+	
+			<section id="section-howto-performance-memory">
+				<title>Memory Usage</title>
+				
+				<para>
+					All <classname>Inspector</classname>s, <classname>PropertyStyle</classname>s,
+					<classname>ActionStyle</classname>s,
+					<classname>InspectionResultProcessor</classname>s,
+					<classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
+					and <classname>Layout</classname>s are immutable. This means you only
+					need a single instance of them for your entire application.
+					If you are using <filename>metawidget.xml</filename> then <classname>ConfigReader</classname>
+					takes care of this for you, but if you are instantiating them yourself in Java
+					code you should reuse instances to save memory.
+				</para>
+				
+			</section>
+		
+			<section id="section-howto-performance-dominspector">
+				<title>DomInspector and DomInspectionResultProcessor</title>
+				
+				<para>
+					By default the <classname>Inspector</classname> and <classname>InspectionResultProcessor</classname>
+					interfaces operate on XML strings. These are a great lowest-common-denominator, perfect for passing
+					between disparate technologies and tiers in order to allow maximum flexibility in what can be
+					inspected.
+				</para>
+				
+				<para>
+					However, serializing to and from XML strings can be expensive. This is especially true for those
+					<classname>Inspector</classname>s and <classname>InspectionResultProcessor</classname>s that
+					maintain their results internally in a DOM object, because the <classname>Inspector</classname>
+					or <classname>InspectionResultProcessor</classname> must serialize its DOM to a string, whereupon
+					the Metawidget typically deserializes it back again to a DOM.
+				</para>
+				
+				<para>
+					To optimize this scenario, <classname>Inspector</classname>s and <classname>InspectionResultProcessor</classname>s
+					can optionally implement <classname>DomInspector</classname> and <classname>DomInspectionResultProcessor</classname>
+					respectively. These interfaces allow them to expose their DOM directly, skipping the serialization/deserialization step.
+				</para>
+				
+				<para>
+					If your <classname>Inspector</classname> extends <classname>BaseObjectInspector</classname> or
+					<classname>BaseXmlInspector</classname>, this optimization is implemented for you.
+				</para>
+				
+ 			</section>
+
+			<section id="section-howto-performance-rebind">
+				<title>Rebinding</title>
+				
+				<para>
+					For Metawidgets that do not use automatic binding, the general approach is to call <function>setToInspect</function>
+					and then call <function>setValue</function> on each generated widget to populate values. This technique has an implicit side
+					effect: the values can also be <emphasis>re</emphasis>populated as many times as required from different objects, without re-calling
+					<function>setToInspect</function>. This allows the Metawidget to be generated once and reused many times, mitigating the
+					performance cost of generation.
+				</para>
+				
+				<para>
+					For Metawidgets that <emphasis>do</emphasis> use automatic binding, however, <function>setValue</function> is never used. Setting
+					new values requires re-calling <parameter>setToInspect</parameter> (and re-running generation) for every different object. 
+				</para>
+				
+				<para>
+					To avoid this some <classname>WidgetProcessor</classname>s support a second, lightweight version of <function>setToInspect</function>
+					called <function>rebind</function>. Using <function>rebind</function>, a <classname>WidgetProcessor</classname> can update the values in
+					the generated widgets <emphasis>without</emphasis> re-running generation. This allows the Metawidget to be generated once and reused
+					many times.
+				</para>
+				
+				<para>
+					The downside of <function>rebind</function> is that the rebound object must have exactly the same set of field names
+					as the original object. It becomes the responsibility of the caller to ensure this consistency.
+				</para>
+				
+				<para>
+					For an example of using rebinding, see the GWT Address Book sample application.
+				</para>
+				
+			</section>
+		</section>
+		
+	</chapter>

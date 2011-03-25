@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+
+	<form-beans>
+
+		<form-bean name="testForm1" type="org.apache.struts.action.DynaActionForm">
+	         <form-property name="foo" type="java.lang.String"/>
+	         <form-property name="abc" type="java.lang.String"/>
+		</form-bean>
+		
+	</form-beans>
+	
+	<action-mappings/>
+	
+</struts-config>

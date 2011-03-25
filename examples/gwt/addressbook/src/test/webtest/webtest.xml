@@ -1,0 +1,22 @@
+<project name="gwt-addressbook-test">
+
+	<taskdef resource="webtestTaskdefs.properties" />
+
+	<target name="all">
+		<webtest name="test-all">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/" />
+				<verifyTitle text="Address Book (Metawidget GWT Example)" />
+				
+				<!-- Brief test: most testing is done by GwtTestAddressBook.java -->
+				
+				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='metawidget']"/> 
+				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='contacts']"/>
+				
+				<!-- WebTest 3.0 doesn't seem up to doing more yet. Ideally, we want to click 'Add Personal Contact' -->
+			</steps>
+		</webtest>
+	</target>
+
+</project>

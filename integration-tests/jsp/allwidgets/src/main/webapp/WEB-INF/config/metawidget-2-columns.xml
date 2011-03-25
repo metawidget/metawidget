@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<htmlMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html">
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+							<inputStream>
+								<resource>org/metawidget/integrationtest/shared/allwidgets/model/metawidget-metadata.xml</resource>
+							</inputStream>
+						</xmlInspector>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		<widgetProcessors>
+			<array>
+				<hiddenFieldProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor"/>
+			</array>
+		</widgetProcessors>		
+		<layout>
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
+				<layout>		
+					<htmlTableLayout config="HtmlTableLayoutConfig">
+						<numberOfColumns>
+							<int>2</int>
+						</numberOfColumns>
+					</htmlTableLayout>
+				</layout>
+			</headingTagLayoutDecorator>
+		</layout>
+	</htmlMetawidgetTag>
+
+</metawidget>

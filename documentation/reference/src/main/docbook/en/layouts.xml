@@ -1,0 +1,1189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<chapter id="chapter-layouts">
+		<title>Layouts</title>
+		
+		<para>
+			This chapter covers each <classname>Layout</classname> in detail. For an explanation of
+			how <classname>Layout</classname>s fit into the overall architecture of Metawidget, see
+			<xref linkend="chapter-architecture"/>.
+		</para>
+		
+		<section id="section-layouts-desktop">
+			<title>Desktop Layouts</title>
+
+			<para>
+				Metawidget supports multiple <classname>Layout</classname>s for each desktop framework, targeting
+				different arrangements within each environment.
+			</para>
+			
+			<section id="section-layouts-desktop-swing">
+				<title>Swing Layouts</title>
+
+				<section id="section-layouts-desktop-swing-box">
+					<title>BoxLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure, using
+ 						<classname>javax.swing.BoxLayout</classname>. This is like <classname>FlowLayout</classname> (below), except it fills width.
+ 						It can be useful for <classname>JTable</classname> <classname>CellEditor</classname>s
+ 						(see <xref linkend="section-introduction-part2-desktop"/>).										
+					</para>
+
+				</section>				
+
+				<section id="section-layouts-desktop-swing-flow">
+					<title>FlowLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
+ 						using <classname>javax.awt.FlowLayout</classname>. This is like <classname>BoxLayout</classname>, except it does not fill width.
+ 						It can be useful for button bars (see <xref linkend="section-introduction-part2-desktop"/>).
+					</para>
+
+				</section>				
+
+				<section id="section-layouts-desktop-swing-gridbag">
+					<title>GridBagLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>javax.awt.GridBagLayout</classname>. Widgets are arranged in a table,
+						with one column for the label and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>GridBagLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelAlignment</parameter></td>
+								<td>Such as <classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>labelFont</parameter></td>
+								<td>Label font</td>
+							</tr>
+							<tr>
+								<td><parameter>labelForeground</parameter></td>
+								<td>Label foreground color</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>Text to display after label text. Defaults to a colon (:)</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredAlignment</parameter></td>
+								<td>Alignment of the asterisk relative to the component. Can be
+								<classname>SwingConstants.LEFT</classname>, <classname>SwingConstants.CENTER</classname>
+								or <classname>SwingConstants.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>requiredText</parameter></td>
+								<td>Text to display for required fields. Defaults to an asterisk</td>
+							</tr>
+							<tr>
+								<td><parameter>supportMnemonics</parameter></td>
+								<td>Whether to convert &amp;'s in labels into keyboard mnemonics</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>
+				
+				<section id="section-layouts-desktop-swing-group">
+					<title>GroupLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>javax.swing.GroupLayout</classname>.
+						Widgets are arranged in a table, with one column for the label and another for the widget.										
+					</para>
+					
+				</section>
+
+				<section id="section-layouts-desktop-swing-mig">
+					<title>MigLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>net.miginfocom.swing.MigLayout</classname>. Widgets are arranged in a table,
+						with one column for the label and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>MigLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>supportMnemonics</parameter></td>
+								<td>Whether to convert &amp;'s in labels into keyboard mnemonics</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>				
+
+				<section id="section-layouts-desktop-swing-separator">
+					<title>SeparatorLayoutDecorator</title>
+					
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>JSeparator</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>SeparatorLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>alignment</parameter></td>
+								<td>
+									One of <classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+					
+				</section>
+
+				<section id="section-layouts-desktop-swing-tabbedpane">
+					<title>TabbedPaneLayoutDecorator</title>
+					
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>JTabbedPane</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>TabbedPaneLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>tabPlacement</parameter></td>
+								<td>
+									One of <classname>SwingConstants.TOP</classname>, <classname>SwingConstants.BOTTOM</classname>,
+									<classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname>
+									as defined by <classname>JTabbedPane.setTabPlacement</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>
+
+				<section id="section-layouts-desktop-swing-titledpanel">
+					<title>TitledPanelLayoutDecorator</title>
+					
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>JPanel</classname> with
+						a <classname>TitledBorder</classname>. This	<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>LayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>
+
+			</section>
+			
+			<section id="section-layouts-desktop-swt">
+				<title>SWT Layouts</title>
+
+				<section id="section-layouts-desktop-swt-fill">
+					<title>FillLayout</title>					
+
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
+ 						using <classname>org.eclipse.swt.layout.FillLayout</classname>. This is like <classname>RowLayout</classname>, except it
+ 						fills width. It can be useful for Table Editors (see <xref linkend="section-introduction-part2-desktop"/>).
+					</para>
+				</section>				
+
+				<section id="section-layouts-desktop-swt-grid">
+					<title>GridLayout</title>
+										
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>org.eclipse.swt.layout.GridLayout</classname>. Widgets are arranged in a table,
+						with one column for the label and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>GridLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelAlignment</parameter></td>
+								<td>Such as <classname>SWT.LEFT</classname> or <classname>SWT.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>labelFont</parameter></td>
+								<td>Label font</td>
+							</tr>
+							<tr>
+								<td><parameter>labelForeground</parameter></td>
+								<td>Label foreground color</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>Text to display after label text. Defaults to a colon (:)</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredAlignment</parameter></td>
+								<td>Alignment of the asterisk relative to the control. Can be
+								<classname>SWT.LEFT</classname>	or <classname>SWT.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>requiredText</parameter></td>
+								<td>Text to display for required fields. Defaults to an asterisk</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-mig">
+					<title>MigLayout</title>
+										
+					<para>
+						<classname>Layout</classname> to arrange widgets using <classname>net.miginfocom.swt.MigLayout</classname>. Widgets are arranged in a table,
+						with one column for the label and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>MigLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-row">
+					<title>RowLayout</title>					
+
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
+ 						using <classname>org.eclipse.swt.layout.RowLayout</classname>. This is like <classname>FillLayout</classname>, except it does not fill width.
+ 						It can be useful for button bars (see <xref linkend="section-introduction-part2-desktop"/>).
+					</para>
+				</section>				
+
+				<section id="section-layouts-desktop-swt-separator">
+					<title>SeparatorLayoutDecorator</title>					
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>Label( SWT.SEPARATOR )</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>SeparatorLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>alignment</parameter></td>
+								<td>
+									One of <classname>SWT.LEFT</classname> or <classname>SWT.RIGHT</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swt.layout.GridLayout</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>				
+
+				<section id="section-layouts-desktop-swt-tabfolder">
+					<title>TabFolderLayoutDecorator</title>					
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>TabFolder</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>TabFolderLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.swt.layout.GridLayout</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>tabLocation</parameter></td>
+								<td>
+									One of <classname>SWT.TOP</classname> or <classname>SWT.BOTTOM</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>				
+
+			</section>
+			
+		</section>
+
+		<section id="section-layouts-web">
+			<title>Web Layouts</title>
+			
+			<para>
+				Metawidget supports multiple <classname>Layout</classname>s for each Web framework, targeting
+				different arrangements within each environment.
+			</para>
+			
+			<section id="section-layouts-web-gwt">
+				<title>GWT Layouts</title>
+				
+				<section id="section-layouts-web-gwt-flextable">
+					<title>FlexTableLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets in a table, with one column for the label and another for the widget.					
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>FlexTableLayoutConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>columnStyleNames</parameter></td>
+								<td>Comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleName</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleName</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-gwt-flow">
+					<title>FlowLayout</title>
+				
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure. This
+						<classname>Layout</classname> is suited to rendering single components, or for rendering components whose
+ 						layout relies entirely on CSS.
+					</para>
+				</section>
+				
+				<section id="section-layouts-web-gwt-labeldecorator">
+					<title>LabelLayoutDecorator</title>
+					
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>Label</classname>.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>LabelLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>styleName</parameter></td>
+								<td>CSS style class to apply to section heading</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-gwt-tabpaneldecorator">
+					<title>TabPanelLayoutDecorator</title>
+					
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a
+						<classname>TabPanel</classname>.
+					</para>
+				</section>
+
+			</section>
+
+			<section id="section-layouts-web-faces">
+				<title>JSF Layouts</title>
+				
+				<para>
+					<classname>Layout</classname>s in JSF behave a little differently to those for other Metawidgets. By and
+					large, JSF already provides a pluggable mechanism (<classname>javax.faces.render.Renderer</classname>s)
+					that can be used for displaying a component in different ways. Metawidget leverages this mechanism
+					via its <classname>xxxLayoutRenderer</classname> classes (see below).
+				</para>
+				
+				<para>
+					However, JSF <classname>Renderer</classname>s are not supposed to <emphasis>modify</emphasis>
+					the component tree (say, to wrap a group of components into a tabbed panel). For those cases,
+					Metawidget employs its usual <classname>Layout</classname> mechanism. <classname>Layout</classname>s
+					are executed at component-building-time, which is before <classname>Renderer</classname>-time
+					so can safely modify the component tree.
+				</para>
+				
+				<section id="section-layouts-web-faces-div">
+					<title>HtmlDivLayoutRenderer</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets in HTML <parameter>DIV</parameter> tags, with one <parameter>DIV</parameter> per label and
+						per widget, and an outer <parameter>DIV</parameter> around both.
+						This <classname>Layout</classname> recognizes the following parameters (passed either as
+						<parameter>&lt;f:param&gt;</parameter> tags or set via &lt;parameter&gt; in
+						<filename>metawidget.xml</filename>):
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Parameter</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>componentStyle</parameter></td>
+								<td>
+									CSS styles to apply to the component DIV. This is the style applied to the DIV <emphasis>around</emphasis> the
+ 									component, not to the component itself. The widget component can be styled using the <parameter>style</parameter>
+ 									attribute on the Metawidget tag
+ 								</td>
+							</tr>
+							<tr>
+								<td><parameter>divStyleClasses</parameter></td>
+								<td>Comma separated list of style classes to apply to the DIVs, in order of outer, label, required, component, errors</td>
+							</tr>
+							<tr>
+								<td><parameter>inlineMessages</parameter></td>
+								<td>Whether to wrap input components with inline <classname>h:message</classname> tags. True by default</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>CSS styles to apply to the label DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>outerStyle</parameter></td>
+								<td>CSS styles to apply to the outer DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredStyle</parameter></td>
+								<td>CSS styles to apply to the required DIV</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+
+				</section>
+
+				<section id="section-layouts-web-faces-table">
+					<title>HtmlTableLayoutRenderer</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange components in a table, with one column for the
+						label and another for the component.					
+						This <classname>Layout</classname> recognizes the following parameters (passed either as
+						<parameter>&lt;f:param&gt;</parameter> tags or set via &lt;parameter&gt; in
+						<filename>metawidget.xml</filename>):
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Parameter</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>columns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>columnClasses</parameter></td>
+								<td>Comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>componentStyle</parameter></td>
+								<td>CSS styles to apply to required column</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyle</parameter></td>
+								<td>CSS styles to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleClass</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>headerStyle</parameter></td>
+								<td>CSS styles to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>headerStyleClass</parameter></td>
+								<td>CSS style class to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>inlineMessages</parameter></td>
+								<td>Whether to wrap input components with inline <classname>h:message</classname> tags. True by default</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>CSS styles to apply to label column</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>Suffix to put after the label name. Defaults to a colon (i.e. 'Name:')</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredStyle</parameter></td>
+								<td>CSS styles to apply to required column (i.e. the asterisk)</td>
+							</tr>
+							<tr>
+								<td><parameter>rowClasses</parameter></td>
+								<td>Comma delimited string of CSS style classes to apply to alternating table rows</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyle</parameter></td>
+								<td>CSS styles to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+					
+				</section>
+
+				<section id="section-layouts-web-faces-outputtext">
+					<title>OutputTextLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using an <classname>HtmlOutputText</classname>.
+						As dictated by the JSF spec, CSS styles and style classes applied to an <classname>HtmlOutputText</classname> are
+						wrapped in an HTML <parameter>span</parameter> tag. Therefore you must use CSS...
+					</para>
+					
+					<programlisting language="css">display: block</programlisting>
+					
+					<para>
+						...if you want to use margins or padding around the <classname>HtmlOutputText</classname>.						
+					</para>
+					
+					<para>
+						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>OutputTextLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to <classname>HtmlOutputText</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to <classname>HtmlOutputText</classname></td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-faces-panelgroup">
+					<title>PanelGroupLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a JSF PanelGroup. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>PanelGroupLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>panelLayout</parameter></td>
+								<td>The type of layout markup to use when rendering this group. As per
+								<classname>javax.faces.component.html.HtmlPanelGroup.setLayout</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to the panel</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-faces-richfaces-panel">
+					<title>PanelLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a RichFaces Panel. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>PanelLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td><classname>Layout</classname> to apply to the panel, as defined by <classname>javax.faces.component.html.HtmlPanelGroup.setLayout</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to the panel</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-faces-icefaces-paneltabset">
+					<title>PanelTabSetLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using an ICEfaces
+						PanelTabSet.
+					</para>
+					
+				</section>				
+
+				<section id="section-layouts-web-faces-richfaces-simpletogglepanel">
+					<title>SimpleTogglePanelLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a RichFaces SimpleTogglePanel.
+						This <classname>LayoutDecorator</classname>
+						recognizes the following parameters, configured
+						using <classname>SimpleTogglePanelLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>switchType</parameter></td>
+								<td>Mechanism to use to open/close panels. Either 'client' or 'ajax'. Default is 'client'</td>
+							</tr>
+							<tr>
+								<td><parameter>opened</parameter></td>
+								<td>Whether the panel is initially opened. Defaults to true</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-faces-simple">
+					<title>SimpleLayout</title>
+					
+					<para>
+						<classname>SimpleLayout</classname> is the default JSF <classname>Layout</classname>. It simply adds
+						the widget as a child of the Metawidget, leaving everything up to the <classname>Renderer</classname>.
+					</para>
+				</section>
+				
+				<section id="section-layouts-web-faces-richfaces-tabpanel">
+					<title>TabPanelLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a RichFaces
+						TabPanel. This <classname>LayoutDecorator</classname>
+						recognizes the following parameters, configured
+						using <classname>TabPanelLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>headerAlignment</parameter></td>
+								<td>Defaults to 'left'</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>				
+
+				<section id="section-layouts-web-faces-primefaces-tabpanel">
+					<title>TabViewLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a PrimeFaces
+						TabView.
+					</para>
+					
+				</section>				
+
+			</section>
+
+			<section id="section-layouts-web-jsp">
+				<title>JSP Layouts</title>
+				
+				<para>
+					All of the supported JSP-based technologies (i.e. 'pure' JSP, Spring and Struts) share the same
+					<classname>Layout</classname>s.
+				</para>
+				
+				<section id="section-layouts-web-jsp-headingtaglayoutdecorator">
+					<title>HeadingTagLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
+						an HTML heading tag (i.e. <parameter>H1</parameter>, <parameter>H2</parameter> etc).
+						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>HeadingTagLayoutDecoratorConfig</classname>:				
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to heading tag</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to heading tag</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-jsp-htmltable">
+					<title>HtmlTableLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets in a table, with one column for the label
+						and another for the widget.					
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>HtmlTableLayoutConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>columnStyleClasses</parameter></td>
+								<td>Comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyle</parameter></td>
+								<td>CSS styles to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleClass</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyle</parameter></td>
+								<td>CSS styles to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-jsp-simple">
+					<title>SimpleLayout</title>
+				
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure. This
+						<classname>Layout</classname> is suited to rendering single components, or for rendering components whose
+ 						layout relies entirely on CSS.
+					</para>
+				</section>
+
+			</section>
+			
+		</section>
+		
+		<section id="section-layouts-mobile">
+			<title>Mobile Layouts</title>
+
+			<para>
+				Metawidget supports multiple <classname>Layout</classname>s for each mobile framework, targeting
+				different arrangements within each environment.
+			</para>
+
+			<section id="section-layouts-mobile-android">
+				<title>Android Layouts</title>
+				
+				<section id="section-layouts-web-android-linear">
+					<title>LinearLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets vertically, using <classname>android.widget.LinearLayout</classname>.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>LinearLayoutConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>
+									Android style (i.e. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
+									style should be defined within <filename>res/values/styles.xml</filename>. For example:
+									<programlisting language="xml">&lt;style name="label"&gt;
+	&lt;item name="android:textSize"&gt;10sp&lt;/item&gt;
+&lt;/style&gt;</programlisting>
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+					
+				</section>				
+				
+				<section id="section-layouts-web-android-table">
+					<title>TableLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets in a table, with one column for the
+						label and another for the widget,
+						using <classname>android.widget.TableLayout</classname>.
+						This <classname>Layout</classname> can be configured using <classname>LinearLayoutConfig</classname>, as
+						described in the previous section.						
+					</para>
+					
+				</section>
+				
+				<section id="section-layouts-web-android-tab">
+					<title>TabHostLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to wrap widgets in different sections inside a <classname>TabHost</classname>,
+						as in <xref linkend="section-layouts-web-android-tab-screenshot"/>.
+					</para>
+					
+					<figure id="section-layouts-web-android-tab-screenshot">
+						<title>TabHostLayoutDecorator</title>
+						<screenshot>
+							<graphic fileref="images/screenshots/mobile-tabsection.jpg" width="60mm" />
+						</screenshot>
+					</figure>
+				
+					<para>
+						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>LayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the inside of the tabs,
+									for example <classname>org.metawidget.android.widget.layout.TableLayout</classname>.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-android-heading">
+					<title>TextViewLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>TextView</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
+						using <classname>TextViewLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.android.widget.layout.TableLayout</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>
+									Android style (i.e. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks. The
+									style should be defined within <filename>res/values/styles.xml</filename>. For example:
+									<programlisting language="xml">&lt;style name="section"&gt;
+	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
+	&lt;item name="android:paddingTop"&gt;10px&lt;/item&gt;
+	&lt;item name="android:paddingBottom"&gt;5px&lt;/item&gt;
+&lt;/style&gt;</programlisting>
+								</td>
+								
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+			</section>
+		</section>
+		
+	</chapter>

@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.integration-tests</groupId>
+		<artifactId>integration-tests-parent</artifactId>
+		<version>1.15</version>
+		<relativePath>../../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.metawidget.integration-tests.faces</groupId>
+	<artifactId>quirks-faces-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>mojarra1-jsp</module>
+		<module>mojarra2-jsp</module>
+		<module>myfaces1-jsp</module>
+		<module>myfaces2-jsp</module>
+		<module>mojarra1-facelets</module>
+		<module>mojarra2-facelets</module>
+		<module>myfaces2-facelets</module>
+		<module>icefaces</module>
+		<module>primefaces</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.metawidget.integration-tests.faces</groupId>
+				<artifactId>quirks-model</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

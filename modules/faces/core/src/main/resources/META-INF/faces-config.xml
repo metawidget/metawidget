@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN" "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+	
+	<!-- Components -->
+
+	<component>
+		<component-type>org.metawidget.HtmlMetawidget</component-type>
+		<component-class>org.metawidget.faces.component.html.HtmlMetawidget</component-class>
+	</component>
+	
+	<component>
+		<component-type>org.metawidget.Stub</component-type>
+		<component-class>org.metawidget.faces.component.UIStub</component-class>
+	</component>
+
+	<component>
+		<component-type>org.metawidget.HtmlLookupOutputText</component-type>
+		<component-class>org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText</component-class>
+	</component>
+
+	<!-- Render kit -->
+	
+	<render-kit>
+	
+		<renderer>
+			<component-family>org.metawidget</component-family>
+			<renderer-type>org.metawidget.Stub</renderer-type>
+			<renderer-class>org.metawidget.faces.renderkit.StubRenderer</renderer-class>
+		</renderer>
+
+		<!-- Layouts -->
+		
+		<renderer>
+			<component-family>org.metawidget</component-family>
+			<renderer-type>simple</renderer-type>
+			<renderer-class>org.metawidget.faces.renderkit.SimpleLayoutRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>org.metawidget</component-family>
+			<renderer-type>table</renderer-type>
+			<renderer-class>org.metawidget.faces.renderkit.html.HtmlTableLayoutRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>org.metawidget</component-family>
+			<renderer-type>div</renderer-type>
+			<renderer-class>org.metawidget.faces.renderkit.html.HtmlDivLayoutRenderer</renderer-class>
+		</renderer>
+
+	</render-kit>
+
+</faces-config>
+

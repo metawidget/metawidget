@@ -1,0 +1,38 @@
+<project name="quirks-jsf2-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<import file="../../../../mojarra1-jsp/src/test/webtest/webtest.xml" />
+
+	<target name="all" depends="all-no-richfaces">
+		<webtest name="test-ajax">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>			
+				<invoke url="/ajax.jsf" />
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifySelectField name="form:ajaxQuirksSelect" value=""/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'jsf.ajax.request(')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>				
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
+
+				<setSelectField name="form:ajaxQuirksSelect" value="Hide"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>
+
+				<setSelectField name="form:ajaxQuirksSelect" value="Show"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Checkbox:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text=""/>
+
+				<setCheckbox name="form:ajaxQuirksCheckbox" checked="true"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text="clicked"/>
+			</steps>
+		</webtest>		
+	</target>
+
+</project>

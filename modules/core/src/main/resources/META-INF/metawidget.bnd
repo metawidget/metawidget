@@ -1,0 +1,5 @@
+Bundle-Version: 1.10
+Bundle-SubversionURL: https://metawidget.svn.sourceforge.net/svnroot/metawidget
+Bundle-Name: metawidget
+Bundle-SymbolicName: org.metawidget
+Bundle-ContactAddress: http://www.metawidget.org

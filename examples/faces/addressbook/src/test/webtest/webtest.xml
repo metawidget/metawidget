@@ -1,0 +1,228 @@
+<project name="faces-addressbook-test">
+
+	<taskdef resource="webtestTaskdefs.properties" />
+
+	<!-- Test Search Screen -->
+
+	<target name="all">
+		<webtest name="test-search">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/" />
+				<verifyTitle text="Address Book (Metawidget Java Server Faces Example)" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchCurrentFirstname-row']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchCurrentFirstname-cell']" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@class='table-form']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Firstname:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td[@class='buttons']" />
+
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a)" text="Mr Charles Montgomery Burns" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a)" text="Mr Homer Simpson" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[3]/td[1]/a)" text="Mrs Marjorie Simpson" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a)" text="Mrs Maude Flanders" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a)" text="Mr Nedward Flanders" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a)" text="Mr Waylon Smithers" />
+				<setInputField name="form:contactSearchCurrentSurname" value="Simpson" />
+				<clickButton label="Search" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a)" text="Mr Homer Simpson" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a)" text="Mrs Marjorie Simpson" />
+				<setInputField name="form:contactSearchCurrentSurname" value="" />
+				<setSelectField name="form:contactSearchCurrentType" value="BUSINESS" />
+				<clickButton label="Search" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a)" text="Mr Charles Montgomery Burns" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a)" text="Mr Waylon Smithers" />
+			</steps>
+		</webtest>
+
+		<webtest name="test-existing-personal">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/" />
+				<clickLink label="Mr Homer Simpson" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactCurrentTitle-row']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactCurrentTitle-cell']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']" text="Mr" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/th[@class='table-label-column']" text="Firstname:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-component-column']" text="Homer" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/th[@class='table-label-column']" text="Surname:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']" text="Simpson" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/th[@class='table-label-column']" text="Date of Birth:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']" text="(5/11|5/12|11/05|12/05)/56" regex="true" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[5]/th[@class='table-label-column']" text="Gender:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[5]/td[@class='table-component-column']" text="Male" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[6]/td/@colspan" text="2" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[6]/td/span[@class='section-heading']" text="Contact Details" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/th[@class='table-label-column']" text="Address:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/th" text="Street:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/td[1]" text="742 Evergreen Terrace" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/th" text="City:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/td[1]" text="Springfield" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/th" text="State:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Anytown" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/th" text="Postcode:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/td[1]" text="90701" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]" text="" />
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td)" text="3" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[9]/td/span[@class='section-heading']" text="Other" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/th[@class='table-label-column']" text="Notes:" />
+				<not>
+					<verifyText text="owner" />
+				</not>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr[1]/td[@class='buttons']/@colspan" text="3" />
+				<not>
+					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr[1]/td[@class='buttons']/table" />
+				</not>
+
+				<clickButton label="Edit" />
+				<verifySelectField name="form:contactCurrentTitle" value="Mr" />
+				<verifyInputField name="form:contactCurrentFirstname" value="Homer" />
+				<verifyInputField name="form:contactCurrentSurname" value="Simpson" />
+				<verifySelectField name="form:contactCurrentGender" value="MALE" />
+				<verifyInputField name="form:contactCurrentDateOfBirth" value="(5/11|5/12|11/05|12/05)/56" regex="true" />
+				<verifyInputField name="form:contactCurrentAddressStreet" value="742 Evergreen Terrace" />
+				<verifyInputField name="form:contactCurrentAddressCity" value="Springfield" />
+				<verifySelectField name="form:contactCurrentAddressState" value="Anytown" />
+				<verifyInputField name="form:contactCurrentAddressPostcode" value="90701" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]/input/@value" text="Delete" />
+				<setInputField name="form:contactCurrentFirstname" value="Homer Jay" />
+
+				<clickButton label="Add" />
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/form/ul/li)" text="Communication type is required" />
+				<setSelectField name="form:communications:communicationCurrentType" value="Fax" />
+				<setInputField name="form:communications:communicationCurrentValue" value="(939) 555-0114" />
+				<clickButton label="Add" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0114" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[2]/td[2]" text="(939) 555-0113" />
+				<verifyInputField name="form:communications:communicationCurrentValue" value="" />
+				<setSelectField name="form:communications:communicationCurrentType" value="E-mail" />
+				<setInputField name="form:communications:communicationCurrentValue" value="homer@simpsons.com" />
+				<clickButton label="Add" />
+
+				<clickButton name="form:communications:2:deleteCommunication" />
+
+				<setInputField name="form:contactCurrentDateOfBirth" value="bad date" />
+				<clickButton label="Save" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']/span[@class='inline-error']" text="Date of Birth: 'bad date' could not be understood as a date. Example: .*" regex="true" />
+				<setInputField name="form:contactCurrentDateOfBirth" value="5/12/57" />
+				<setInputField name="form:contactCurrentAddressStreet" value="742 Evergreen Terrace #2" />
+				<setInputField name="form:contactCurrentAddressCity" value="Springfield #2" />
+				<setSelectField name="form:contactCurrentAddressState" value="Cyberton" />
+				<setInputField name="form:contactCurrentAddressPostcode" value="90701 #2" />
+				<clickButton label="Save" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Homer Jay Simpson" />
+				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[2]" text="E-mail: homer@simpsons.com, Fax: (939) 555-0114" />
+
+				<clickLink label="Mr Homer Jay Simpson" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/td[1]" text="742 Evergreen Terrace #2" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/td[1]" text="Springfield #2" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Cyberton" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/td[1]" text="90701 #2" />
+				<clickButton label="Back" />
+
+				<clickLink label="Mrs Marjorie Simpson" />
+
+				<clickButton label="Edit" />
+				<verifyTextarea name="form:contactCurrentNotes" text="Known as 'Marge'" />
+				<clickButton label="Cancel" />
+
+				<clickLink label="Mr Charles Montgomery Burns" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/th" text="Street:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[11]/th[@class='table-label-column']" text="Notes:" />
+			</steps>
+		</webtest>
+
+		<webtest name="test-new-business">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/" />
+				<clickButton label="Add Personal Contact" />
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']/select/option)" text="5" />
+				<verifyInputField name="form:contactCurrentDateOfBirth" value="" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/input[1]/@value" text="Save" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/input[2]/@value" text="Cancel" />
+				<clickButton label="Cancel" />
+
+				<clickButton label="Add Business Contact" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="*" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-required-column']" text="*" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" text="*" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-required-column']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-required-column']" text="" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/thead/tr/th[1]" text="Type" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/thead/tr/th[@class='column-tiny']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[@class='column-tiny, table-buttons']" />
+
+				<clickButton label="Add" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-component-column']/span[@class='inline-error']" text="Firstname is required" />
+
+				<verifySelectField name="form:contactCurrentTitle" value="Mr" />
+				<setSelectField name="form:contactCurrentTitle" value="Miss" />
+				<setInputField name="form:contactCurrentFirstname" value="Business" />
+				<setSelectField name="form:contactCurrentGender" value="FEMALE" />
+				<setInputField name="form:contactCurrentCompany" value="Some Company" />
+				<clickButton label="Save" />
+				<verifyInputField name="form:contactCurrentCompany" value="Some Company" />
+
+				<clickButton label="Save" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']/span[@class='inline-error']" text="Surname is required" />
+
+				<setInputField name="form:contactCurrentSurname" value="A Very Long Surname Exceeding 50 Characters In Length" />
+				<clickButton label="Save" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']/span[@class='inline-error']" text="Surname must not be longer than 50 characters" />
+
+				<setInputField name="form:contactCurrentSurname" value="Contact" />
+				<setInputField name="form:contactCurrentNumberOfStaff" value="-1" />
+				<clickButton label="Save" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/td[@class='table-component-column']/span[@class='inline-error']" text="Number of Staff must be between 0 and 100" />
+
+				<setInputField name="form:contactCurrentNumberOfStaff" value="2" />
+				<setSelectField name="form:communications:communicationCurrentType" value="Mobile" />
+				<setInputField name="form:communications:communicationCurrentValue" value="(0402) 456 123" />
+				<clickButton label="Add" />
+
+				<clickButton label="Save" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Miss Business Contact" />
+				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[2]" text="Mobile: (0402) 456 123" />
+				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Charles Montgomery Burns" />
+				<clickLink label="Miss Business Contact" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-required-column']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-required-column']" text="" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" text="" />
+
+				<clickButton label="Back" />
+				<clickLink label="Miss Business Contact" />
+				<clickButton label="Edit" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="*" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-required-column']" text="*" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" text="*" />
+				<verifySelectField name="form:contactCurrentGender" value="FEMALE" />
+				<verifyInputField name="form:contactCurrentCompany" value="Some Company" />
+				<verifyInputField name="form:contactCurrentNumberOfStaff" value="2" />
+
+				<clickButton label="Delete" fieldIndex="0" />
+
+				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns" />
+			</steps>
+		</webtest>
+	</target>
+
+</project>

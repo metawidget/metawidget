@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd" version="1.0">
+
+	<!-- Example of using XML. We could have used a @FacesLookup annotation instead -->
+	
+	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
+		<property name="title" faces-lookup="#{contacts.allTitlesAsSelectItems}"/>
+	</entity>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.BusinessContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
+		<property name="type" type="java.lang.String" faces-lookup="#{communications.allAsSelectItems}"/>
+	</entity>
+
+</inspection-result>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns:xi="http://www.w3.org/2001/XInclude" lang="en">
+	<title>Metawidget User Guide and Reference Documentation</title>
+
+	<bookinfo>
+		<productname>Metawidget</productname>
+		<releaseinfo>Version <?eval ${project.version}?></releaseinfo>
+		<author>
+			<firstname>Richard</firstname>
+			<surname>Kennard</surname>
+		</author>
+	</bookinfo>
+
+	<toc />
+
+	<preface id="preface">
+		<title>Preface</title>
+
+		<para>
+			Building user interfaces for business objects can be cumbersome and
+			time consuming in today's applications. Metawidget is an Object/User Interface Mapping tool.
+			The term Object/User Interface mapping (OIM) refers to
+			the technique of inspecting objects, at runtime, and creating
+			User Interface (UI) widgets.
+		</para>
+
+		<para>
+			As much as possible, Metawidget does this without introducing new technologies. As shown in
+			<xref linkend="preface-diagram" />, Metawidget inspects an application's
+			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, XML configuration files,
+			annotations) and creates widgets native to its <emphasis>existing</emphasis>
+			front-end framework (such as Swing, Java Server Faces, Struts or Android).
+		</para>
+
+		<figure id="preface-diagram">
+			<title>Metawidget inspects existing back-ends and creates widgets native to existing front-ends</title>
+			<screenshot>
+				<graphic fileref="images/overview.png" width="175mm" />
+			</screenshot>
+		</figure>
+
+		<para>
+			Building great UIs is both art and science. Metawidget does not attempt to address the
+			<emphasis>art</emphasis>, it only automates the	<emphasis>science</emphasis>. That is to
+			say, it does not overlap with those areas of
+			UI design involving creativity and subjectivity - its goal is
+			only to ease the creation of areas that are already rigidly
+			defined. Typically, this means those areas that display data and
+			those that collect data - these tend to be both commonplace and
+			consistent (indeed, consistency is a desirable trait) so there
+			is good opportunity for automation.
+		</para>
+
+		<tip>
+			<title>Note</title>
+			This User Guide and Reference Documentation is included in the Metawidget distribution as a PDF, a single HTML page
+			or as multiple HTML pages, depending on your reading preference.
+		</tip>
+
+	</preface>
+
+	<preface id="preface-supported-technologies">
+		<title>Supported Technologies</title>
+
+		<para>
+			A primary goal of Metawidget is to work with your
+			<emphasis>existing</emphasis>
+			front-end and back-end architecture. Out of the box, Metawidget supports a broad range of both
+			front-end and back-end technologies, and makes it easy to add your own.
+		</para>
+
+		<para>
+			Metawidget comes with a native UI component for each supported front-end.
+			This support includes: Android, Google Web Toolkit (including
+			extensions such as ExtGWT), Java Server
+			Faces (including extensions such as Facelets, ICEfaces, PrimeFaces, RichFaces and Tomahawk),
+			'plain' Java Server Pages (including extensions such as DisplayTag),
+			Spring Web MVC, Struts, Swing (including extensions such as Beans Binding,
+			JGoodies, MigLayout and SwingX) and SWT.
+		</para>
+
+		<para>
+			Metawidget can read business object information from any combination of supported
+			back-end technologies. This support includes: annotations, Bean Validation (JSR 303), Commons
+			JEXL, Commons Validator, Groovy, Hibernate, Hibernate Validator, JavaBeans, Java Persistence
+			Architecture (JPA), Javassist, JBoss jBPM, OVal, Scala, Seam and the Swing AppFramework. 
+		</para>
+
+		<tip>
+			<title>Note</title>
+			It is <emphasis>not</emphasis> a goal of Metawidget that all widgets look the same on
+			every front-end framework, or that all back-end technologies conform to some 'lowest common
+			denominator': every technology has different features, and Metawidget takes full advantage of this.
+		</tip>
+
+		<para>
+			The next chapter presents a tutorial that covers using Metawidget with a variety of front-ends and
+			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3-8
+			explore each supported front-end and back-end technology in detail. Finally, chapters
+			9 and 10 offer general advice and troubleshooting.
+		</para>
+
+	</preface>
+
+	<xi:include href="introduction.xml"/>
+	<xi:include href="architecture.xml"/>
+	<xi:include href="metawidgets.xml"/>
+	<xi:include href="inspectors.xml"/>
+	<xi:include href="inspectionresultprocessors.xml"/>
+	<xi:include href="widgetbuilders.xml"/>
+	<xi:include href="widgetprocessors.xml"/>
+	<xi:include href="layouts.xml"/>
+	<xi:include href="howto.xml"/>
+	<xi:include href="troubleshooting.xml"/>
+	<xi:include href="epilogue.xml"/>
+
+</book>

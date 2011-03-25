@@ -1,0 +1,82 @@
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.2</tlibversion>
+	
+	<!-- (must be defined as JSP 2.0 for rtexprvalue to work properly) -->
+	
+	<jspversion>2.0</jspversion>
+	<shortname>mf</shortname>
+	<uri>http://metawidget.org/faces</uri>
+	<info>Java Server Faces Support</info>
+
+	<tag>
+		<name>metawidget</name>
+		<tagclass>org.metawidget.faces.taglib.html.HtmlMetawidgetTag</tagclass>
+		<info>JSP tag for HtmlMetawidget JSF component</info>
+		<attribute>
+			<name>id</name>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>bundle</name>
+		</attribute>
+		<attribute>
+			<name>rendererType</name>
+		</attribute>
+		<attribute>
+			<name>config</name>
+		</attribute>
+		<attribute>
+			<name>inspectFromParent</name>
+		</attribute>
+		<attribute>
+			<name>readOnly</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>stub</name>
+		<tagclass>org.metawidget.faces.taglib.StubTag</tagclass>
+		<info>JSP tag for UIStub component</info>
+		<attribute>
+			<name>id</name>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>action</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>attributes</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+</taglib>

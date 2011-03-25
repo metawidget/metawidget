@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.modules</groupId>
+		<artifactId>modules-parent</artifactId>
+		<version>1.15</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>metawidget-all</artifactId>
+	<packaging>jar</packaging>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- Copy and flatten all sibling module classes. Easier than using maven-assembly-plugin because: -->
+			<!-- 	1) we want a JAR that is deloyed into the Maven repository -->
+			<!-- 	2) we need to exclude *.java from the metawidget-gwt.jar   -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<target>
+						<copy todir="${project.build.directory}/classes">
+							<fileset dir="${basedir}/../">
+								<include name="**/target/classes/**/*.*" />
+								<exclude name="/all/**" />
+							</fileset>
+							<regexpmapper from="^.*/classes/(.*)$" to="\1" handledirsep="true" />
+						</copy>
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- JAR flattened classes -->
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+					<includes>
+						<include>**/*.class</include>
+						<include>**/*.xsd</include>
+						<include>**/metawidget-*-default.xml</include>
+						<include>META-INF/faces-config.xml</include>
+						<include>META-INF/*.taglib.xml</include>
+						<include>META-INF/*.tld</include>
+						<include>org/metawidget/swing/icon/*.gif</include>
+					</includes>
+					<excludes>
+						<exclude>**/gwt/client/**</exclude>
+						<exclude>**/gwt/generator/**</exclude>
+						<exclude>**/gwt/remote/client/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

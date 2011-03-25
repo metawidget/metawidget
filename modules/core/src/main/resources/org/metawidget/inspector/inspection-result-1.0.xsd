@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<xs:schema targetNamespace="http://metawidget.org/inspection-result" xmlns="http://metawidget.org/inspection-result"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+	
+	<xs:simpleType name="versionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="1.0" /> 
+		</xs:restriction>
+	</xs:simpleType>
+			
+	<xs:element name="inspection-result">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="entity" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="property">
+								<xs:complexType>
+									<xs:attribute name="name" use="required"/>
+									<xs:anyAttribute processContents="lax"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="action">
+								<xs:complexType>
+									<xs:attribute name="name" use="required"/>
+									<xs:anyAttribute processContents="lax"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="type" use="required"/>
+						<xs:anyAttribute processContents="lax"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="versionType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

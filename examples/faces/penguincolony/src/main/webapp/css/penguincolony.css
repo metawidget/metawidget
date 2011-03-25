@@ -1,0 +1,160 @@
+/*
+ * General
+ */
+ 
+body
+{
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	background: url( ../media/background.jpg ) no-repeat;
+}
+
+h1
+{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 20pt;
+	text-align: left;
+}
+
+#page-image
+{
+	position: absolute;
+	top: 15px;
+	left: 20px;
+}
+
+#content
+{
+	position: absolute;
+	top: 10px;
+	left: 300px;
+	width: 640px;
+}
+
+.inline-error
+{
+	display: block;
+	color: red;
+	font-size: 8pt;
+	font-weight: bold;
+}
+	
+/*
+ * Input forms
+ */
+
+.icePnlPopHdr
+{
+	width: 100%;
+}
+
+.icePnlTbSet .table-label-column
+{
+	width: 50px;
+	text-align: left;
+	vertical-align: top;
+	white-space: nowrap;
+	font-weight: bold;
+	padding-top: 5px;
+	font-size: 10pt;
+}
+
+.icePnlTbSet .table-label-column
+{
+	width: 110px;
+}
+
+.table-component-column
+{
+	text-align: left;
+	vertical-align: top;
+}
+
+.table-required-column
+{
+	width: 1%;
+	color: red;
+	font-size: 16pt;
+}
+
+.table-component-column input[type='text']
+{
+	width: 360px;
+}
+
+.icePnlTbSet .table-component-column input[type='text']
+{
+	width: 195px;
+}
+
+.table-component-column select
+{
+	width: 200px;
+}
+
+textarea
+{
+	width: 260px;
+	height: 100px;
+}
+
+/*
+ * Data tables
+ */
+ 
+.data-table
+{
+	width: 100%;
+	border: 1px solid #B3B3FF;
+	margin-top: 10px;
+}
+
+.data-table th
+{
+	background: white url( ../media/background-button.gif ) repeat-x center left;
+	height: 20px;
+	border-bottom: 1px solid #B3B3FF;
+	text-align: left;
+}
+
+.row-even
+{
+	background-color: #EDEDED;
+}
+
+.column-half
+{
+	width: 50%;
+}
+
+.column-tiny
+{
+	width: 1%;
+	text-align: center;
+}
+
+.buttons
+{
+	padding-top: 10px;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.buttons input, .buttons button, .table-component-column input[type='submit']
+{
+	border: 1px solid #B3B3FF;
+	height: 32px;	
+	background: white url( ../media/background-button.gif ) repeat-x center left;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.table-component-column input[type='submit']
+{
+	position: relative;
+	left: 2px;
+}

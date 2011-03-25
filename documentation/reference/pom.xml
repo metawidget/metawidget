@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>metawidget-parent</artifactId>
+		<groupId>org.metawidget</groupId>
+		<version>1.15</version>
+		<relativePath>../../</relativePath>		
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>org.metawidget</groupId>
+	<artifactId>reference-guide</artifactId>
+	<version>1.15</version>		
+	<packaging>pom</packaging>
+	
+	<properties>
+		<docbook.source>${basedir}/src/main/docbook/en</docbook.source>
+		<docbook.target>${project.build.directory}/docbook/en</docbook.target>
+	</properties>
+	<build>
+		<defaultGoal>generate-resources</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>com.agilejava.docbkx</groupId>
+				<artifactId>docbkx-maven-plugin</artifactId>
+				<version>2.0.11</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.docbook</groupId>
+						<artifactId>docbook-xml</artifactId>
+						<version>4.4</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<sourceDirectory>${docbook.source}</sourceDirectory>
+					<imgSrcPath>${basedir}/src/main/resources/</imgSrcPath>
+					<admonGraphicsPath>${basedir}/src/main/resources/images/admons/</admonGraphicsPath>
+					<includes>metawidget.xml</includes>
+					<xincludeSupported>true</xincludeSupported>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate-pdf</goal>
+						</goals>
+						<configuration>
+							<foCustomization>${basedir}/src/main/resources/xsl/pdf/custom.xsl</foCustomization>
+							<targetDirectory>${docbook.target}/pdf</targetDirectory>
+						</configuration>
+						<phase>generate-sources</phase>
+					</execution>
+					<!-- <execution>
+						<id>produce single page html</id>
+						<goals>
+							<goal>generate-html</goal>
+						</goals>
+						<configuration>
+							<chunkedOutput>false</chunkedOutput>
+							<htmlCustomization>${docbook.source}/resources/xsl/html.xsl</htmlCustomization>
+							<targetDirectory>${docbook.target}/html-single</targetDirectory>
+							<postProcess>
+								<copy todir="${docbook.target}/html-single">
+									<fileset dir="${docbook.source}/resources">
+										<include name="**/*.css" />
+										<include name="**/*.png" />
+										<include name="**/*.gif" />
+										<include name="**/*.jpg" />
+									</fileset>
+								</copy>
+								<copy todir="${docbook.target}/html-single/images">
+									<fileset dir="${docbook.source}/reference/images">
+										<include name="**/*.*" />
+									</fileset>
+								</copy>
+							</postProcess>
+						</configuration>
+						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>produce single page html for blogspot</id>
+						<goals>
+							<goal>generate-html</goal>
+						</goals>
+						<configuration>
+							<chunkedOutput>false</chunkedOutput>
+							<htmlStylesheet>http://www.springfuse.com/blog/docbook/html.css</htmlStylesheet>
+							<imgSrcPath>http://www.springfuse.com/blog/docbook/</imgSrcPath>
+							<htmlCustomization>${docbook.source}/resources/xsl/html-embeded.xsl</htmlCustomization>
+							<targetDirectory>${docbook.target}/html-embeded</targetDirectory>
+						</configuration>
+						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>produce muti-pages html</id>
+						<goals>
+							<goal>generate-html</goal>
+						</goals>
+						<configuration>
+							<chunkedOutput>true</chunkedOutput>
+							<htmlCustomization>src/docbkx/resources/xsl/html-chunk.xsl</htmlCustomization>
+							<targetDirectory>${docbook.target}/html</targetDirectory>
+							<postProcess>
+								<copy todir="${docbook.target}/html">
+									<fileset dir="${docbook.source}/resources">
+										<include name="**/*.css" />
+										<include name="**/*.png" />
+										<include name="**/*.gif" />
+										<include name="**/*.jpg" />
+									</fileset>
+								</copy>
+								<copy todir="${docbook.target}/html/images">
+									<fileset dir="${docbook.source}/reference/images">
+										<include name="**/*.*" />
+									</fileset>
+								</copy>
+							</postProcess>
+						</configuration>
+						<phase>generate-resources</phase>
+					</execution> -->
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

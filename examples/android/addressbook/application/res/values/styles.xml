@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="section">
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingTop">10px</item>
+        <item name="android:paddingBottom">5px</item>
+    </style>
+
+</resources>

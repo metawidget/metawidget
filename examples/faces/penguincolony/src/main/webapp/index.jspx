@@ -1,0 +1,55 @@
+<f:view xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:m="http://metawidget.org/faces"
+        xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+<ice:outputDeclaration doctypeRoot="html"
+                       doctypePublic="-//W3C//DTD XHTML 1.0 Transitional//EN"
+                       doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+		<title>Penguin Colony (Metawidget ICEfaces demo)</title>
+		<ice:outputStyle href="xmlhttp/css/xp/xp.css"/>
+		<ice:outputStyle href="css/penguincolony.css"/>
+	</head>
+	<body>
+		<img src="media/tux.png" id="page-image" alt=""/>
+		<div id="content">
+			<h1>Penguin Colony</h1>
+			<h4>
+				Demonstrates using Metawidget with <a href="http://icefaces.org" target="_blank">ICEfaces</a> - a JSF AJAX component library. 
+			</h4>
+			<p>
+				<em>
+					Note: in order to emphasise the AJAX functionality, viewing and editing are more 'live' than
+					they would usually be. After clicking Edit, changes in the popup box are immediately reflected in the data grid.
+				</em>
+			</p>	
+			<ice:form id="form">
+				<m:metawidget value="#{penguin.all}" inspectFromParent="true" rendererType="simple">
+					<f:param name="dataTableRowEditAction" value="penguin.edit"/>
+				</m:metawidget>
+				<div class="buttons">
+	        		<ice:commandButton value="Create New Penguin" action="#{penguin.createNew}" styleClass="button"/>
+				</div>	        		
+	            <ice:panelPopup draggable="true" rendered="#{penguin.popupVisible}" style="z-index: 1000; top: 30%; left: 10%; position: absolute; width: 450px;">
+	                <f:facet name="header">
+						<ice:outputText style="color: #FFFFFF;" value="Penguin"/>
+	                </f:facet>
+	                
+	                <f:facet name="body">
+	                   	<m:metawidget value="#{penguin.current}">
+	                   		<f:facet name="footer">
+	                   			<m:metawidget value="#{penguin}" config="metawidget-action.xml"/>
+	                       	</f:facet>
+						</m:metawidget>
+	                </f:facet>                
+	            </ice:panelPopup>
+			</ice:form>
+		</div>
+		
+	</body>
+</html>
+
+</f:view>

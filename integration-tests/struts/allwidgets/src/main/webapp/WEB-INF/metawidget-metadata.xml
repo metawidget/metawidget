@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd" version="1.0">
+
+	<entity type="org.metawidget.integrationtest.struts.allwidgets.form.AllWidgetsForm">
+		<property name="allWidgets" type="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets" struts-lookup=""/>
+	</entity>
+	
+</inspection-result>

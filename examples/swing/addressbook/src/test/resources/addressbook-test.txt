@@ -1,0 +1,8 @@
+Testing The Old Fashioned Way :)
+--------------------------------
+
+Most testing is automated by SwingAddressBookTest. In addition, make sure:
+
+1. Open an existing Contact and click 'Edit'. Does the screen repaint to show active components?
+2. Right click in the Communications table. Is there a 'Delete' menu?
+3. Does the 'Delete' menu disappear when chosen, and then confirm the delete?

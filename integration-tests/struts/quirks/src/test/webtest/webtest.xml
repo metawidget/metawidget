@@ -1,0 +1,89 @@
+<project name="spring-quirks-test">
+
+	<taskdef resource="webtestTaskdefs.properties" />
+
+	<target name="all">
+		<webtest name="all">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/" />
+				
+				<verifyXPath xpath="normalize-space(/html/body/h1)" text="Struts Quirks Test"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-quirksForm']"/>
+
+				<!-- Test Struts lookup -->
+					
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Lookup:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select[@name='lookup']"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[1]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]/@value"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]/@value" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[2]/@value" text="value1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[2]" text="label1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[3]/@value" text="value2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[3]" text="label2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[4]/@value" text="value3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[4]" text="label3"/>
+
+				<!-- Test DisplayTag -->
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="List:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/thead/tr/th[1]" text="Name label"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/thead/tr/th[2]" text="Description"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[1]/td[1]" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[1]/td[2]" text="A Foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[2]/td[1]" text="Bar"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[2]/td[2]" text="A Bar"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[3]/td[1]" text="Baz"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[3]/td[2]" text="A Baz"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[1]/td)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr)" text="3"/>
+
+				<!-- Should be nothing else! -->
+
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="2"/>
+				
+			</steps>
+		</webtest>
+
+		<webtest name="test-rtexpr">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<option name="ThrowExceptionOnFailingStatusCode" value="false"/>			
+			</config>			
+			<steps>
+				<invoke url="/rtexpr.jsp" />
+				<verifyText text="According to TLD or attribute directive in tag file, attribute property does not accept any expressions"/>
+			</steps>
+		</webtest>		
+
+		<webtest name="test-hiddenfield">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/hiddenField.jsp" />
+				
+				<verifyXPath xpath="normalize-space(/html/body/h1)" text="Struts Hidden Field Test"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-hiddenFieldForm']"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Read only no value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input/@name" text="readOnlyNoValue"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input/@value" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/span"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="Read only with value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@name" text="readOnlyWithValue"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@value" text="Foo"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td[1])" text="Foo"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/span"/>
+				</not>
+				
+				<verifyXPath xpath="/html/body/form/input[1]/@name" text="hiddenNoValue"/>
+				<verifyXPath xpath="/html/body/form/input[2]/@name" text="hiddenWithValue"/>
+				<verifyXPath xpath="/html/body/form/input[2]/@value" text="Bar"/>
+
+			</steps>
+		</webtest>
+	</target>
+
+</project>
