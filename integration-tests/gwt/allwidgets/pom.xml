@@ -7,19 +7,15 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.integration-tests.jsp</groupId>
-	<artifactId>allwidgets-jsp</artifactId>
-	<packaging>war</packaging>
+	<groupId>org.metawidget.integration-tests.gwt</groupId>
+	<artifactId>allwidgets-gwt</artifactId>
+	<packaging>jar</packaging>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>webtest-maven-plugin</artifactId>
+				<artifactId>gwt-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
@@ -29,26 +25,28 @@
 			<groupId>org.metawidget.integration-tests.shared</groupId>
 			<artifactId>allwidgets-shared-model</artifactId>
 			<scope>compile</scope>
-		</dependency>
+		</dependency>	
 		<dependency>
-			<groupId>org.metawidget.modules.jsp</groupId>
-			<artifactId>metawidget-jsp</artifactId>
+			<groupId>org.metawidget.modules.gwt</groupId>
+			<artifactId>metawidget-gwt</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jsp-api</artifactId>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<scope>compile</scope>
+			<groupId>org.metawidget.modules.gwt</groupId>
+			<artifactId>metawidget-gwt</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>			
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<scope>compile</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

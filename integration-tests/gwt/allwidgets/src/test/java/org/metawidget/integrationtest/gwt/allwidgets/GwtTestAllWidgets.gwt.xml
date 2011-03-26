@@ -1,0 +1,8 @@
+<module>
+
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="org.metawidget.integrationtest.GwtAllWidgets" />
+
+	<servlet path="/metawidget-inspector-allwidgets" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorTestImpl"/>
+
+</module>

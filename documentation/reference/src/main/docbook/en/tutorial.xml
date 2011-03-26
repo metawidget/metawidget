@@ -4,8 +4,7 @@
 
 		<para>
 			This chapter is an introductory tutorial for new users of
-			Metawidget. Before you begin, you need to download at least the binary distribution, and
-			preferrably the source code distribution as well, from
+			Metawidget. Before you begin, you need to download the binary distribution from
 			<ulink url="http://metawidget.org/download.html">http://metawidget.org/download.html</ulink>.
 			Alternatively, you can <ulink url="http://metawidget.org/videos.html">watch a video walkthrough
 			of this tutorial online</ulink>.
@@ -24,8 +23,7 @@
 				This tutorial should take around 20 minutes. We recommend you use your preferred Java
 				development environment. If you use an Integrated Development Environment (IDE), you will
 				need to start a new Java project and add <filename>metawidget.jar</filename> to it. Otherwise,
-				you just need to ensure <filename>metawidget.jar</filename> is on your <parameter>CLASSPATH</parameter>
-				.
+				you just need to ensure <filename>metawidget.jar</filename> is on your <parameter>CLASSPATH</parameter>.
 			</para>
 
 			<section id="section-introduction-part1-object">
@@ -975,8 +973,10 @@ public class Person {
 			</para>
 			
 			<para>
-				This tutorial should take around 45 minutes. To save time, we use the pre-built example
-				applications located in the <filename>examples</filename> folder. Also to save time, we will not
+				This tutorial should take around 45 minutes. Before you begin, you will need to download
+				the examples distribution from
+				<ulink url="http://metawidget.org/download.html">http://metawidget.org/download.html</ulink>. This includes
+				pre-built example applications with full source code. To save time, we will not
 				focus on any one front-end framework in detail. For detailed framework-specific instructions, please see 
 				<xref linkend="chapter-metawidgets"/>.
 			</para>
@@ -990,17 +990,10 @@ public class Person {
 				</para>
 				
 				<para>
-					The application is pre-built for you in <filename>examples/swing/addressbook-swing.jar</filename> or, if you've downloaded
-					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the
-					source distribution and typing:
-				</para>
-				
-				<programlisting language="shell">ant example-swing-addressbook</programlisting>
-				
-				<para>
-					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to <filename>../../metawidget.jar</filename> and
-					<filename>lib/beansbinding.jar</filename> among others, so it's best not to move it to a different folder (if you do, you'll need to
-					manually put <filename>metawidget.jar</filename> and <filename>beansbinding.jar</filename> on your classpath).
+					The application is pre-built for you in <filename>examples/swing/addressbook-swing.jar</filename>.
+					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-coded into it, so
+					it's best not to move it to a different folder (if you do, you'll need to
+					manually fix up your <parameter>CLASSPATH</parameter>).
 				</para>
 				
 				<tip>
@@ -2149,7 +2142,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to
 					<filename>../../metawidget.jar</filename> and <filename>lib/AppFramework.jar</filename> among others, so it's best not to move
-					it to a different folder (if you do, you'll need to manually put those JARs on your classpath).
+					it to a different folder (if you do, you'll need to manually put those JARs on your <parameter>CLASSPATH</parameter>).
 				</para>
 				
 				<para> 
@@ -2229,7 +2222,7 @@ public void addOwner() {
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to
 					<filename>../../metawidget.jar</filename> and <filename>lib/scala-library.jar</filename> among others, so it's best not to move
-					it to a different folder (if you do, you'll need to manually put those JARs on your classpath).
+					it to a different folder (if you do, you'll need to manually put those JARs on your <parameter>CLASSPATH</parameter>).
 				</para>
 				
 				<para> 
@@ -2353,121 +2346,36 @@ metawidget.setToInspect( animal )</programlisting>
 				</figure>
 
 				<para>
-					There are two ways to set up the hosted mode projects. For Windows developers, there is an automated Ant build
-					included in the source distribution (not the binary distribution). To run it, type: 
+					Source code for all examples can be found under the <filename>examples/src</filename> folder of the
+					examples distribution. The code is organized into standalone Maven projects so that it can be easily imported
+					into your favourite IDE. For example, to run the GWT Address Book example in Eclipse:
 				</para>
 				
-				<programlisting language="shell">cd examples\src\web\gwt
-ant</programlisting>
-								
-				<tip>
-					<title>Note</title>
-					You will need to either configure <parameter>GWT_HOME</parameter>, <parameter>METAWIDGET_HOME</parameter>
-					and <parameter>METAWIDGET_SRC_HOME</parameter> environment variables or pass <parameter>-Dgwt.home</parameter>,
-					<parameter>-Dmetawidget.home</parameter> and <parameter>-Dmetawidget.src.home</parameter>
-					arguments to Ant. GWT_HOME should point to a GWT 1.7 (or above) installation. METAWIDGET_HOME should point to the binary
-					Metawidget distribution. METAWIDGET_SRC_HOME should point to the source Metawidget distribution.
-				</tip>
-				
-				<para>
-					The build will create Eclipse projects which can be imported by using Eclipse's
-					<parameter>File->Import</parameter> menu and choosing
-					<parameter>Existing Projects into Workspace</parameter>
-					(as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
-					You should now be able to run the sample applications in hosted mode, including running their unit tests.
-				</para>
-				
-				<para>
-					Alternatively, you can set up the hosted mode projects manually. Here are the steps for the Address Book example
-					(for other examples, replace the phrase <classname>AddressBook</classname> as appropriate): 
-				</para>
-
 				<itemizedlist>
 					<listitem>
 						<para>
-							Run the GWT <filename>webAppCreator</filename> (as described in the
-							<ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>). Here
-							we assume GWT is installed at <filename>\gwt-windows-1.7.0</filename> and you want to create a hosted
-							mode project at <filename>\gwt-addressbook</filename>:
-						</para>
-						
-						<programlisting language="shell">\gwt-windows-1.7.0\webAppCreator -out
-						\gwt-addressbook org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Delete the default generated Java source files:
-						</para>
-						
-						<programlisting language="shell">del \gwt-addressbook\src\org\metawidget\example</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Copy over the Address Book example's Java source files. Here we assume the Metawidget source distribution is installed
-							at <filename>\metawidget-src</filename> and you are using the Windows <filename>xcopy</filename> command:
-						</para>
-						
-						<programlisting language="shell">xcopy /s /i \metawidget-src\examples\src\java\org\metawidget\example\gwt\addressbook
-						\gwt-addressbook\src\org\metawidget\example\gwt\addressbook
-xcopy /s /i \metawidget-src\examples\src\java\org\metawidget\example\shared\addressbook
-						\gwt-addressbook\src\org\metawidget\example\shared\addressbook
-copy \metawidget-src\examples\src\java\org\metawidget\example\GwtAddressBook.gwt.xml
-						\gwt-addressbook\src\org\metawidget\example</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Delete the default generated Web source files:
-						</para>
-						
-						<programlisting language="shell">del \gwt-addressbook\war</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Copy over the Address Book example's Web source files:
-						</para>
-						
-						<programlisting language="shell">xcopy /s /i \metawidget-src\examples\src\web\gwt\addressbook \gwt-addressbook\war
-xcopy /s /i \metawidget-src\examples\src\web\shared\addressbook \gwt-addressbook\war
-copy \metawidget-src\examples\src\java\org\metawidget\example\GwtAddressBook.gwt.xml
-						\gwt-addressbook\src\org\metawidget\example</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Copy over Metawidget itself. Here we assume the Metawidget binary distribution is installed
-							at <filename>\metawidget-bin</filename>:
-						</para>
-						
-						<programlisting language="shell">copy \metawidget-bin\metawidget.jar \gwt-addressbook\war\WEB-INF\lib
-mkdir \gwt-addressbook\lib
-copy \metawidget-bin\examples\gwt\metawidget-gwt.jar
-			\gwt-addressbook\lib\metawidget-gwt.jar</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Import <filename>\gwt-addressbook</filename> into Eclipse by using <parameter>File->Import</parameter> and choosing
-							<parameter>Existing Projects into Workspace</parameter>
-							(as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
+							Install <ulink url="http://m2eclipse.sonatype.org">m2eclipse</ulink>, then
+							choose <parameter>File &gt; Import &gt; Maven &gt; Existing Maven Projects</parameter>
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Use Eclipse's <parameter>Project->Properties->Java Build Path</parameter> dialog and its
-							<parameter>Libraries</parameter> tab to add the JARs <filename>lib/metawidget-gwt.jar</filename> and
-							<filename>WEB-INF/lib/metawidget.jar</filename> into the project.
+							Navigate to <filename>examples/src/gwt/addressbook</filename> and choose to import <filename>pom.xml</filename> 
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Finally, edit the <filename>AddressBook.launch</filename> file to replace...
+							Install the <ulink url="http://code.google.com/eclipse">Google Plugin for Eclipse</ulink>, then
+							choose <parameter>Project &gt; Properties &gt; Google &gt; Web Toolkit</parameter> and click
+							<parameter>Use Google Web Toolkit</parameter>
 						</para>
-						<programlisting language="xml">-startupUrl AddressBook.html org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
-						<para>
-							...with...
-						</para>
-						<programlisting language="xml">-startupUrl index-hosted.jsp org.metawidget.example.GwtAddressBook</programlisting>
-						You should now be able to run the sample applications in hosted mode.
 					</listitem>
-				</itemizedlist>					
+					<listitem>
+						<para>
+							Choose <parameter>Run As &gt; Web Application</parameter>
+						</para>
+					</listitem>
+				</itemizedlist>
 				
 				<para>
 					Once you have the samples running, you can quickly make changes and play around. For example,

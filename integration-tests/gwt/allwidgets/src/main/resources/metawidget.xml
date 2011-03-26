@@ -2,19 +2,19 @@
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
-						java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd
 						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
 						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd"
 	version="1.0">
 
-	<swtMetawidget xmlns="java:org.metawidget.swt">
+	<gwtRemoteInspectorImpl xmlns="java:org.metawidget.inspector.gwt.remote.server">
+	
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<array>	
+					<array>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 							<inputStream>
-								<resource>org/metawidget/shared/allwidgets/model/metawidget-metadata.xml</resource>
+								<resource>org/metawidget/integrationtest/shared/allwidgets/model/metawidget-metadata.xml</resource>
 							</inputStream>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
@@ -22,6 +22,7 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-	</swtMetawidget>
+	
+	</gwtRemoteInspectorImpl>
 
 </metawidget>

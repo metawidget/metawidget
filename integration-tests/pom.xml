@@ -17,6 +17,8 @@
 		<module>faces/addressbook/primefaces</module>
 		<module>faces/allwidgets</module>
 		<module>faces/quirks</module>
+		<module>gwt/allwidgets</module>
+		<module>gwt/quirks</module>
 		<module>jsp/allwidgets</module>
 		<module>jsp/quirks</module>
 		<module>shared/allwidgets/model</module>

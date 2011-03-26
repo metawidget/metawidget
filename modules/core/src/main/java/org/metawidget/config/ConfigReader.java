@@ -48,7 +48,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-//TODO: proper version in MANIFEST.MF?
+// TODO: proper version in MANIFEST.MF?
 
 /**
  * Helper class for reading <code>metadata.xml</code> files and configuring Metawidgets.
@@ -111,22 +111,33 @@ public class ConfigReader
 
 	/**
 	 * Cache of objects that are immutable, indexed by a unique location (ie. the resource name) and
-	 * element number. This is a fast, broadbrush cache that can prune off large portions of the
-	 * tree. For example, it can cache a <code>CompositeInspector</code> at the top-level, including
-	 * all child <code>Inspector</code>s and their various <code>xxxConfig</code>s.
+	 * element number. This is a broad-grained cache that can prune off large portions of the tree.
+	 * For example, it can cache a <code>CompositeInspector</code> at the top-level, including all
+	 * child <code>Inspector</code>s and their various <code>xxxConfig</code>s.
 	 */
 
 	/* package private */final Map<String, Map<Integer, Object>>	mImmutableByLocationCache	= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by their Class (and within that their Config).
-	 * This is a slower cache than mImmutableByLocationCache, but is more widely applicable. For
-	 * example, it can cache the same <code>Inspector</code> between different XMLs from different
-	 * <code>InputStream</code>s, and the same <code>PropertyStyle</code> across multiple different
-	 * <code>Inspector</code>s.
+	 * This is a more fine-grained cache than mImmutableByLocationCache, but is more widely
+	 * applicable. For example, it can cache the same <code>Inspector</code> between different XMLs
+	 * from different <code>InputStream</code>s, and the same <code>PropertyStyle</code> across
+	 * multiple different <code>Inspector</code>s.
 	 */
 
 	/* package private */final Map<Class<?>, Map<Object, Object>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
+
+	/**
+	 * Cache of objects that are immutable, indexed by their id. This is a less automatic cache than
+	 * either mImmutableByLocationCache or mImmutableByClassCache because the developer has to
+	 * specify an id explicitly. But it leads to cleaner metawidget.xml files because developers
+	 * need only specify, say, a PropertyStyle with nested Config options once.
+	 */
+
+	// TODO: mImmutableByIdCache
+
+	/* package private */final Map<Class<?>, Map<Object, Object>>	mImmutableByIdCache			= CollectionUtils.newHashMap();
 
 	/**
 	 * Patterns do not cache well, because <code>java.util.regex.Pattern</code> does not override
@@ -1477,7 +1488,7 @@ public class ConfigReader
 
 								for ( Method equalsDeclaredMethod : equalsDeclaringClass.getMethods() ) {
 
-									if ( equalsDeclaredMethod.getName().equals( declaredMethod.getName() )) {
+									if ( equalsDeclaredMethod.getName().equals( declaredMethod.getName() ) ) {
 										break outer;
 									}
 								}

@@ -14,35 +14,35 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swt.allwidgets.converter;
+package org.metawidget.integrationtest.gwt.quirks.client.model;
 
-import org.eclipse.core.databinding.conversion.Converter;
-import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.util.simple.StringUtils;
+import java.io.Serializable;
 
-/**
- * @author Richard Kennard
- */
+import org.metawidget.inspector.annotation.UiLarge;
+import org.metawidget.inspector.annotation.UiSection;
 
-public class NestedWidgetsToStringConverter
-	extends Converter {
+public class GwtTabQuirks
+	implements Serializable {
 
-	//
-	// Constructor
-	//
+	private static final long	serialVersionUID	= 1l;
 
-	public NestedWidgetsToStringConverter() {
+	public String				abc;
 
-		super( NestedWidgets.class, String.class );
-	}
+	@UiSection( { "Foo", "Bar" } )
+	public boolean				def;
 
-	//
-	// Public methods
-	//
+	@UiLarge
+	public String				ghi;
 
-	@Override
-	public Object convert( Object toConvert ) {
+	@UiSection( { "Foo", "Baz" } )
+	public String				jkl;
 
-		return StringUtils.quietValueOf( toConvert );
-	}
+	@UiSection( { "Foo", "" } )
+	public boolean				mno;
+
+	@UiSection( { "Foo", "Moo" } )
+	public String				pqr;
+
+	@UiSection( "" )
+	public String				stu;
 }

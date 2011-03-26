@@ -102,7 +102,7 @@
 
 	</preface>
 
-	<xi:include href="introduction.xml"/>
+	<xi:include href="tutorial.xml"/>
 	<xi:include href="architecture.xml"/>
 	<xi:include href="metawidgets.xml"/>
 	<xi:include href="inspectors.xml"/>

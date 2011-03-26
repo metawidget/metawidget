@@ -14,6 +14,10 @@
 			<outputDirectory>/examples/gwt/clientside</outputDirectory>
 		</fileSet>
 		<fileSet>
+			<directory>/target/src</directory>
+			<outputDirectory>/examples/src</outputDirectory>
+		</fileSet>
+		<fileSet>
 			<directory>/swing/addressbook/target/lib</directory>
 			<outputDirectory>/examples/swing/lib</outputDirectory>
 		</fileSet>

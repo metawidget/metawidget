@@ -14,52 +14,58 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swt.allwidgets.converter;
+package org.metawidget.integrationtest.gwt.allwidgets.client.converter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.eclipse.core.databinding.conversion.Converter;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.BaseConverter;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
  */
 
-public class DateToStringConverter
-	extends Converter {
+public class DateConverter
+	extends BaseConverter<Date> {
 
 	//
 	// Private members
 	//
 
-	private DateFormat	mFormat;
+	private DateTimeFormat	mFormat;
 
 	//
 	// Constructor
 	//
 
-	public DateToStringConverter( String pattern ) {
+	public DateConverter() {
 
-		super( Date.class, String.class );
-
-		mFormat = new SimpleDateFormat( pattern );
-		mFormat.setLenient( false );
+		mFormat = DateTimeFormat.getFormat( PredefinedFormat.DATE_SHORT );
 	}
 
 	//
 	// Public methods
 	//
 
+	public Date convertFromWidget( Widget widget, Object value, Class<?> type ) {
+
+		if ( value == null || "".equals( value ) ) {
+			return null;
+		}
+
+		return mFormat.parse( (String) value );
+	}
+
 	@Override
-	public Object convert( Object toConvert ) {
+	public Object convertForWidget( Widget widget, Date value ) {
 
-		if ( toConvert == null ) {
-			return "";
+		if ( value == null ) {
+			return null;
 		}
 
-		synchronized ( mFormat ) {
-			return mFormat.format( toConvert );
-		}
+		return mFormat.format( value );
 	}
 }

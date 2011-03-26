@@ -12,7 +12,6 @@
 	<packaging>war</packaging>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

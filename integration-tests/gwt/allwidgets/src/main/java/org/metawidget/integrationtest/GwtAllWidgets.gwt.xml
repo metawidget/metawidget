@@ -1,0 +1,19 @@
+<module>
+
+	<!-- Core GWT -->
+	
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="org.metawidget.GwtMetawidget" />
+
+	<!-- Client -->
+	
+	<source path="gwt/allwidgets/client"/>
+	<source path="shared/allwidgets/model"/>	
+
+	<!-- Binding -->
+	
+  	<generate-with class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator">
+		<when-type-assignable class="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets"/>
+	</generate-with>
+
+</module>

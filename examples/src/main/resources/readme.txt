@@ -19,6 +19,8 @@ Quick Start
 1. run 'cd examples\swing'
 2. run 'java -jar addressbook-swing.jar'
 
+Full source code is available under examples\src.
+
 Other Stuff
 -----------
 

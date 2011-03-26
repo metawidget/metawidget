@@ -14,46 +14,41 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swt.allwidgets.converter;
+package org.metawidget.integrationtest.gwt.allwidgets.client.converter;
 
-import org.eclipse.core.databinding.conversion.Converter;
-import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.util.ArrayUtils;
+import java.util.List;
+
+import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.BaseConverter;
+import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
+import org.metawidget.util.simple.StringUtils;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
  */
 
-public class StringToNestedWidgetsConverter
-	extends Converter {
-
-	//
-	// Constructor
-	//
-
-	public StringToNestedWidgetsConverter() {
-
-		super( String.class, NestedWidgets.class );
-	}
+public class NestedWidgetsConverter
+	extends BaseConverter<NestedWidgets> {
 
 	//
 	// Public methods
 	//
 
-	@Override
-	public Object convert( Object toConvert ) {
+	public NestedWidgets convertFromWidget( Widget widget, Object value, Class<?> type ) {
 
-		String[] values = ArrayUtils.fromString( (String) toConvert );
+		List<String> values = GwtUtils.fromString( (String) value, StringUtils.SEPARATOR_COMMA_CHAR );
 
-		if ( values.length == 0 ) {
+		if ( values.isEmpty() ) {
 			return null;
 		}
 
 		NestedWidgets nestedWidgets = new NestedWidgets();
-		nestedWidgets.setNestedTextbox1( values[0] );
+		nestedWidgets.setNestedTextbox1( values.get( 0 ) );
 
-		if ( values.length > 1 ) {
-			nestedWidgets.setNestedTextbox2( values[1] );
+		if ( values.size() > 1 ) {
+			nestedWidgets.setNestedTextbox2( values.get( 1 ) );
 		}
 
 		return nestedWidgets;
