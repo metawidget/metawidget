@@ -475,7 +475,6 @@
 					<configuration>
 						<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 						<dependentWarExcludes>WEB-INF/lib/**</dependentWarExcludes>
-						<archiveClasses>true</archiveClasses>
 						<!-- So that we get metawidget-all.jar in example WARs -->
 						<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
 						<archive>
