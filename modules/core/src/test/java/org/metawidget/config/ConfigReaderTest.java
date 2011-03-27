@@ -225,7 +225,7 @@ public class ConfigReaderTest
 		xml += "<enum><enum>BAR</enum></enum>";
 		xml += "</testInspector>";
 		xml += "</metawidget>";
-		
+
 		TestInspector inspector = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 		assertTrue( 3 == inspector.getInt() );
 		assertTrue( TestInspectorConfig.CONSTANT_VALUE == inspector.getConstant() );

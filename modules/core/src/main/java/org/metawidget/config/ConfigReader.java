@@ -72,7 +72,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * that use config objects (eg. <code>JpaInspectorConfig</code>) is dependant on the config object
  * overriding <code>equals</code> and <code>hashCode</code>. <strong>Failure to override these
  * methods may result in your object not being reused, or being reused inappropriately</strong>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -87,7 +87,7 @@ public class ConfigReader
 	 * Dummy config to cache by if immutable has no Config.
 	 */
 
-	private static final String										IMMUTABLE_NO_CONFIG			= "no-config";
+	/* package private */static final String						IMMUTABLE_NO_CONFIG			= "no-config";
 
 	/* package private */static final Log							LOG							= LogUtils.getLog( ConfigReader.class );
 
@@ -107,7 +107,7 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	private final Map<String, CachingContentHandler>				mResourceCache				= CollectionUtils.newHashMap();
+	/* package private */final Map<String, CachingContentHandler>	mResourceCache				= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by a unique location (ie. the resource name) and
@@ -166,7 +166,7 @@ public class ConfigReader
 	 * <p>
 	 * This is a convenience method for <code>configure( String, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
-	 *
+	 * 
 	 * @param resource
 	 *            resource name that will be looked up using openResource
 	 * @param toConfigure
@@ -193,7 +193,7 @@ public class ConfigReader
 	 * <p>
 	 * This version further caches any immutable objects, in the same way as
 	 * <code>configure( InputStream, Object )</code> (see the JavaDoc for that method).
-	 *
+	 * 
 	 * @param resource
 	 *            resource name that will be looked up using openResource
 	 * @param toConfigure
@@ -262,7 +262,7 @@ public class ConfigReader
 	 * <p>
 	 * This is a convenience method for <code>configure( InputStream, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
-	 *
+	 * 
 	 * @param stream
 	 *            XML input as a stream
 	 * @param toConfigure
@@ -325,7 +325,7 @@ public class ConfigReader
 	 * </code>
 	 * <p>
 	 * ...will call <code>setOpaque</code> on the given <code>JPanel</code>.
-	 *
+	 * 
 	 * @param stream
 	 *            XML input as a stream
 	 * @param toConfigure
@@ -451,7 +451,7 @@ public class ConfigReader
 	/**
 	 * Create the given native type based on the recorded text (as returned by
 	 * <code>SAX.endRecording</code>)
-	 *
+	 * 
 	 * @param namespace
 	 *            the Class of the object under construction
 	 */
@@ -567,7 +567,7 @@ public class ConfigReader
 	 * Create a native that is 'lazily resolved' based on the method it is being applied to. Most
 	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that for
 	 * everything (ie. we support array instead of string-array, int-array etc.)
-	 *
+	 * 
 	 * @param nativeValue
 	 *            never null
 	 * @param toResolveTo
@@ -613,7 +613,7 @@ public class ConfigReader
 
 	/**
 	 * Lookup a class based on the URI namespace and the local name of the XML tag.
-	 *
+	 * 
 	 * @param uri
 	 *            the URI namespace, to be used as the package name
 	 * @param localName
