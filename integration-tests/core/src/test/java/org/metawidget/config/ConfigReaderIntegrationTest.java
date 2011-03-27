@@ -349,12 +349,12 @@ public class ConfigReaderIntegrationTest
 
 		@SuppressWarnings( "unchecked" )
 		List<Object> cacheWithNames = (List<Object>) cacheField.get( cachingContentHandler );
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 11 ).toString() ) );
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator config=\"HeadingTagLayoutDecoratorConfig\"".equals( cacheWithNames.get( 14 ).toString() ) );
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator".equals( cacheWithNames.get( 15 ).toString() ) );
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 18 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 10 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator config=\"HeadingTagLayoutDecoratorConfig\"".equals( cacheWithNames.get( 13 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator".equals( cacheWithNames.get( 14 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 17 ).toString() ) );
 
-		assertTrue( 30 == cacheWithNames.size() );
+		assertTrue( 29 == cacheWithNames.size() );
 
 		// Test scenarios that we've seen fail hard
 

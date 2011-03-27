@@ -12,7 +12,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>all</module>
 		<module>android</module>
 		<module>annotation</module>
 		<module>beanvalidation</module>
@@ -35,6 +34,11 @@
 		<module>struts</module>
 		<module>swing</module>
 		<module>swt</module>
+
+		<!-- 'all' must run last -->
+		
+		<module>all</module>
+
 	</modules>
 
 	<dependencyManagement>
@@ -62,13 +66,14 @@
 					<windowtitle>Metawidget ${project.version} API Documentation</windowtitle>
 					<overview>all/src/main/resources/overview.html</overview>
 				</configuration>
-				<!-- TODO: <executions>
+				<executions>
 					<execution>
+						<phase>assembly</phase>
 						<goals>
 							<goal>aggregate</goal>
 						</goals>
 					</execution>
-				</executions> -->
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
