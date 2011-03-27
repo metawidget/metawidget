@@ -31,10 +31,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
@@ -47,7 +45,6 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
-import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.util.CollectionUtils;
@@ -176,13 +173,6 @@ public class SwingMetawidgetTest
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
 		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
-	}
-
-	public void testRebind()
-		throws Exception {
-
-		// TODO: _testRebind( new BeansBindingProcessor(), org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
-		// TODO: _testRebind( new BeanUtilsBindingProcessor(), "Property 'name' has no getter" );
 	}
 
 	public void testGroovy()
@@ -401,75 +391,6 @@ public class SwingMetawidgetTest
 
 		metawidget.setMaximumInspectionDepth( 0 );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
-	}
-
-	//
-	// Private methods
-	//
-
-	private void _testRebind( WidgetProcessor<JComponent, SwingMetawidget> processor, String errorMessage )
-		throws Exception {
-
-		// Bind
-
-		Foo foo1 = new Foo();
-		foo1.setName( "Charlotte" );
-		Foo nestedFoo1 = new Foo();
-		foo1.setFoo( nestedFoo1 );
-		nestedFoo1.setName( "Philippa" );
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.addWidgetProcessor( processor );
-		metawidget.setToInspect( foo1 );
-
-		JTextField textField = metawidget.getComponent( "name" );
-		JTextField nestedTextField = metawidget.getComponent( "foo", "name" );
-		assertEquals( "Charlotte", textField.getText() );
-		assertEquals( "Philippa", nestedTextField.getText() );
-
-		// Rebind
-
-		Foo foo2 = new Foo();
-		foo2.setName( "Julianne" );
-		Foo nestedFoo2 = new Foo();
-		foo2.setFoo( nestedFoo2 );
-		nestedFoo2.setName( "Richard" );
-
-		processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, foo2, metawidget );
-		assertEquals( "Julianne", textField.getText() );
-		assertEquals( "Richard", nestedTextField.getText() );
-
-		// Check same component
-
-		assertTrue( textField == metawidget.getComponent( "name" ) );
-		assertTrue( nestedTextField == metawidget.getComponent( "foo", "name" ) );
-
-		// Check saves back to the correct place
-
-		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
-		assertEquals( "Charlotte", foo1.getName() );
-		assertTrue( foo2 == metawidget.getToInspect() );
-		assertEquals( "Julianne", foo2.getName() );
-
-		// Check different component
-
-		metawidget.setToInspect( foo2 );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelAlignment( SwingConstants.RIGHT ) ) );
-		assertTrue( textField != metawidget.getComponent( "name" ) );
-		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
-		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );
-		assertEquals( "Julianne", ( (JTextField) metawidget.getComponent( "name" ) ).getText() );
-		assertEquals( "Richard", ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() );
-
-		// Check error
-
-		try {
-			processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, new Object(), metawidget );
-			assertTrue( false );
-		} catch ( Exception e ) {
-			assertEquals( errorMessage, e.getCause().getMessage() );
-		}
 	}
 
 	//

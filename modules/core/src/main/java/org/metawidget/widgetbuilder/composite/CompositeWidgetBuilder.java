@@ -29,7 +29,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * returned (the parent Metawidget will generally instantiate a nested Metawidget in this case).
  * <p>
  * Note: the name <em>Composite</em>WidgetBuilder refers to the Composite design pattern.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -40,7 +40,7 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Private members
 	//
 
-	/* package private */final WidgetBuilder<W, M>[]	mWidgetBuilders;
+	private final WidgetBuilder<W, M>[]	mWidgetBuilders;
 
 	//
 	// Constructor
@@ -62,7 +62,7 @@ public class CompositeWidgetBuilder<W, M extends W>
 		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
 
 		for ( int loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
-			WidgetBuilder<W,M> widgetBuilder = widgetBuilders[loop];
+			WidgetBuilder<W, M> widgetBuilder = widgetBuilders[loop];
 
 			for ( int checkDuplicates = 0; checkDuplicates < loop; checkDuplicates++ ) {
 				if ( mWidgetBuilders[checkDuplicates].equals( widgetBuilder ) ) {
