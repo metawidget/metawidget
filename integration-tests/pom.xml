@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>android/allwidgets</module>
+		<module>core</module>
 		<module>faces/addressbook/richfaces</module>
 		<module>faces/addressbook/primefaces</module>
 		<module>faces/allwidgets</module>

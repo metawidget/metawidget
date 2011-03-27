@@ -87,7 +87,7 @@ public class ConfigReader
 	 * Dummy config to cache by if immutable has no Config.
 	 */
 
-	/* package private */static final String						IMMUTABLE_NO_CONFIG			= "no-config";
+	private static final String										IMMUTABLE_NO_CONFIG			= "no-config";
 
 	/* package private */static final Log							LOG							= LogUtils.getLog( ConfigReader.class );
 
@@ -100,14 +100,14 @@ public class ConfigReader
 	protected final SAXParserFactory								mFactory;
 
 	//
-	// Package private members
+	// Private members
 	//
 
 	/**
 	 * Cache of resource content based on resource name
 	 */
 
-	/* package private */final Map<String, CachingContentHandler>	mResourceCache				= CollectionUtils.newHashMap();
+	private final Map<String, CachingContentHandler>				mResourceCache				= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by a unique location (ie. the resource name) and
