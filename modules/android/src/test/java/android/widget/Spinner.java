@@ -14,10 +14,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package android.text.method;
+package android.widget;
 
-import android.graphics.Rect;
-import android.view.View;
+import android.content.Context;
 
 /**
  * Dummy implementation for unit testing.
@@ -25,16 +24,16 @@ import android.view.View;
  * @author Richard Kennard
  */
 
-public class PasswordTransformationMethod
-	implements TransformationMethod {
+public class Spinner
+	extends AdapterView<SpinnerAdapter> {
 
 	//
-	// Public statics
+	// Constructor
 	//
 
-	public static PasswordTransformationMethod getInstance() {
+	public Spinner( Context context ) {
 
-		return new PasswordTransformationMethod();
+		super( context );
 	}
 
 	//
@@ -42,14 +41,8 @@ public class PasswordTransformationMethod
 	//
 
 	@Override
-	public CharSequence getTransformation( CharSequence arg0, View arg1 ) {
+	public void setAdapter( SpinnerAdapter adapter ) {
 
-		return null;
-	}
-
-	@Override
-	public void onFocusChanged( View arg0, CharSequence arg1, boolean arg2, int arg3, Rect arg4 ) {
-
-		// Do nothing
+		super.setAdapter( adapter );
 	}
 }

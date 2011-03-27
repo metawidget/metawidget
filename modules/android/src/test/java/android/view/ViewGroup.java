@@ -175,103 +175,86 @@ public class ViewGroup
 		}
 	}
 
-	@Override
 	public void bringChildToFront( View arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void childDrawableStateChanged( View arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void clearChildFocus( View arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void createContextMenu( ContextMenu arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public View focusSearch( View arg0, int arg1 ) {
 
 		return null;
 	}
 
-	@Override
 	public void focusableViewAvailable( View arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public boolean getChildVisibleRect( View arg0, Rect arg1, Point arg2 ) {
 
 		return false;
 	}
 
-	@Override
 	public void invalidateChild( View arg0, Rect arg1 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public ViewParent invalidateChildInParent( int[] arg0, Rect arg1 ) {
 
 		return null;
 	}
 
-	@Override
 	public boolean isLayoutRequested() {
 
 		return false;
 	}
 
-	@Override
 	public void recomputeViewAttributes( View arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void requestChildFocus( View arg0, View arg1 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void requestDisallowInterceptTouchEvent( boolean arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void requestLayout() {
 
 		// Do nothing
 	}
 
-	@Override
 	public void requestTransparentRegion( View arg0 ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public boolean requestChildRectangleOnScreen( View arg0, Rect arg1, boolean arg2 ) {
 
 		return false;
 	}
 
-	@Override
 	public boolean showContextMenuForChild( View arg0 ) {
 
 		return false;

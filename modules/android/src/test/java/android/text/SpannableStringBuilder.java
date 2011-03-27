@@ -14,9 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package android.widget;
-
-import android.content.Context;
+package android.text;
 
 /**
  * Dummy implementation for unit testing.
@@ -24,24 +22,50 @@ import android.content.Context;
  * @author Richard Kennard
  */
 
-public class Spinner
-	extends AdapterView<SpinnerAdapter> {
+public class SpannableStringBuilder
+	implements CharSequence {
+
+	//
+	// Private members
+	//
+
+	private CharSequence	mString;
 
 	//
 	// Constructor
 	//
 
-	public Spinner( Context context ) {
+	public SpannableStringBuilder( CharSequence string ) {
 
-		super( context );
+		mString = string;
 	}
 
 	//
-	// Public methods
+	// Supported public methods
 	//
 
-	public void setAdapter( SpinnerAdapter adapter ) {
+	@Override
+	public String toString() {
 
-		super.setAdapter( adapter );
+		return mString.toString();
+	}
+
+	//
+	// Unsupported public methods
+	//
+
+	public char charAt( int index ) {
+
+		throw new UnsupportedOperationException();
+	}
+
+	public int length() {
+
+		throw new UnsupportedOperationException();
+	}
+
+	public CharSequence subSequence( int start, int end ) {
+
+		throw new UnsupportedOperationException();
 	}
 }

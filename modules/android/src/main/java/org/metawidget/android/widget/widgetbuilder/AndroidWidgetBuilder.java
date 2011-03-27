@@ -40,7 +40,6 @@ import android.text.SpannableStringBuilder;
 import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,23 +112,17 @@ public class AndroidWidgetBuilder
 	@SuppressWarnings( "deprecation" )
 	public boolean setValue( Object value, View view ) {
 
-		Log.d( AndroidWidgetBuilder.class.getName(), "View is a " + view.getClass() + ":" + System.identityHashCode( view.getClass() ) + " loaded by " + view.getClass().getClassLoader() + ". Checking against an EditText of " + EditText.class + ":" + System.identityHashCode( view.getClass() ) + " loaded by " + TextView.class.getClassLoader() );
-
 		// CheckBox
 
 		if ( view instanceof CheckBox ) {
 			( (CheckBox) view ).setChecked( (Boolean) value );
-			Log.d( AndroidWidgetBuilder.class.getName(), "\t...is a CheckBox of type " + CheckBox.class );
 			return true;
 		}
-
-		Log.d( AndroidWidgetBuilder.class.getName(), "\t...not a CheckBox of type " + CheckBox.class );
 
 		// TextView/EditText
 
 		if ( view instanceof TextView ) {
 			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
-			Log.d( AndroidWidgetBuilder.class.getName(), "\t...is a TextView of type " + TextView.class );
 			return true;
 		}
 
@@ -148,14 +141,10 @@ public class AndroidWidgetBuilder
 			@SuppressWarnings( "unchecked" )
 			ArrayAdapter<Object> adapter = (ArrayAdapter<Object>) adapterView.getAdapter();
 			adapterView.setSelection( adapter.getPosition( value ) );
-
-			Log.d( AndroidWidgetBuilder.class.getName(), "\t...is a Spinner of type " + Spinner.class );
 			return true;
 		}
 
 		// Unknown
-
-		Log.d( AndroidWidgetBuilder.class.getName(), "\t...not a Spinner of type " + Spinner.class );
 
 		return false;
 	}

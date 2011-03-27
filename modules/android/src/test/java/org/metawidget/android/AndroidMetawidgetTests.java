@@ -49,19 +49,16 @@ public class AndroidMetawidgetTests {
 			mAttributes.put( key, value );
 		}
 
-		@Override
 		public String getAttributeValue( String object, String key ) {
 
 			return mAttributes.get( key );
 		}
 
-		@Override
 		public int getAttributeCount() {
 
 			return mAttributes.size();
 		}
 
-		@Override
 		public String getAttributeValue( int index ) {
 
 			Iterator<String> iterator = mAttributes.values().iterator();
@@ -73,7 +70,6 @@ public class AndroidMetawidgetTests {
 			return iterator.next();
 		}
 
-		@Override
 		public String getAttributeName( int index ) {
 
 			Iterator<String> iterator = mAttributes.keySet().iterator();
@@ -85,7 +81,6 @@ public class AndroidMetawidgetTests {
 			return iterator.next();
 		}
 
-		@Override
 		public int getAttributeResourceValue( String object, String string, int i ) {
 
 			return 0;
@@ -95,103 +90,86 @@ public class AndroidMetawidgetTests {
 		// Unsupported public methods
 		//
 
-		@Override
 		public boolean getAttributeBooleanValue( int arg0, boolean arg1 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public boolean getAttributeBooleanValue( String arg0, String arg1, boolean arg2 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public float getAttributeFloatValue( int arg0, float arg1 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public float getAttributeFloatValue( String arg0, String arg1, float arg2 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeIntValue( int arg0, int arg1 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeIntValue( String arg0, String arg1, int arg2 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeListValue( int arg0, String[] arg1, int arg2 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeListValue( String arg0, String arg1, String[] arg2, int arg3 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeNameResource( int arg0 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeResourceValue( int arg0, int arg1 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeUnsignedIntValue( int arg0, int arg1 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getAttributeUnsignedIntValue( String arg0, String arg1, int arg2 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public String getClassAttribute() {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public String getIdAttribute() {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getIdAttributeResourceValue( int arg0 ) {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public String getPositionDescription() {
 
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
 		public int getStyleAttribute() {
 
 			throw new UnsupportedOperationException();

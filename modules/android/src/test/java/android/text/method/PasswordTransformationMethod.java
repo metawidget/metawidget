@@ -14,7 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package android.text;
+package android.text.method;
+
+import android.graphics.Rect;
+import android.view.View;
 
 /**
  * Dummy implementation for unit testing.
@@ -22,53 +25,29 @@ package android.text;
  * @author Richard Kennard
  */
 
-public class SpannableStringBuilder
-	implements CharSequence {
+public class PasswordTransformationMethod
+	implements TransformationMethod {
 
 	//
-	// Private members
+	// Public statics
 	//
 
-	private CharSequence	mString;
+	public static PasswordTransformationMethod getInstance() {
 
-	//
-	// Constructor
-	//
-
-	public SpannableStringBuilder( CharSequence string ) {
-
-		mString = string;
+		return new PasswordTransformationMethod();
 	}
 
 	//
-	// Supported public methods
+	// Public methods
 	//
 
-	@Override
-	public String toString() {
+	public CharSequence getTransformation( CharSequence arg0, View arg1 ) {
 
-		return mString.toString();
+		return null;
 	}
 
-	//
-	// Unsupported public methods
-	//
+	public void onFocusChanged( View arg0, CharSequence arg1, boolean arg2, int arg3, Rect arg4 ) {
 
-	@Override
-	public char charAt( int index ) {
-
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public int length() {
-
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public CharSequence subSequence( int start, int end ) {
-
-		throw new UnsupportedOperationException();
+		// Do nothing
 	}
 }
