@@ -40,12 +40,43 @@ public class SwingMetawidgetIntegrationTest
 	//
 	// Public methods
 	//
-
+	
 	public void testRebind()
 		throws Exception {
 
 		_testRebind( new BeansBindingProcessor(), org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
 		_testRebind( new BeanUtilsBindingProcessor(), "Property 'name' has no getter" );
+	}
+
+	public void testRequiredBoolean() {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new FooRequiredBoolean() );
+
+		assertTrue( metawidget.getComponent( 1 ) instanceof JCheckBox );
+	}
+
+	public void testNestedActionBinding() {
+
+		Foo foo1 = new Foo();
+		Foo foo2 = new Foo();
+		Foo foo3 = new Foo();
+		foo1.setFoo( foo2 );
+		foo2.setFoo( foo3 );
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.addWidgetProcessor( new FooActionBindingProcessor() );
+		metawidget.setToInspect( foo1 );
+
+		( (JButton) metawidget.getComponent( 0 ) ).doClick();
+		( (JButton) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 0 ) ).doClick();
+
+		assertEquals( "FooActionBindingProcessor fired", ( (JTextField) metawidget.getComponent( 4 ) ).getText() );
+		assertEquals( "", ( (JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 ) ).getText() );
+		assertEquals( "FooActionBindingProcessor fired", ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() );
 	}
 
 	//
@@ -157,6 +188,28 @@ public class SwingMetawidgetIntegrationTest
 
 		@UiAction
 		public void doAction() {
+
+			// Do nothing
+		}
+	}
+
+	public static class FooRequiredBoolean {
+
+		//
+		// Public methods
+		//
+
+		@UiRequired
+		public Boolean getBoolean() {
+
+			return Boolean.FALSE;
+		}
+
+		/**
+		 * @param aBoolean
+		 */
+
+		public void setBoolean( Boolean aBoolean ) {
 
 			// Do nothing
 		}

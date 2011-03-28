@@ -24,23 +24,9 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<target>jsr14</target>
-						</configuration>
-					</execution>
-					<execution>
-						<id>testCompile</id>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
-					</execution>
-				</executions>
+				<configuration>
+					<target>jsr14</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
