@@ -18,6 +18,7 @@ package org.metawidget.swing;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
@@ -132,6 +133,12 @@ public class SwingMetawidgetTest
 		assertTrue( null == ( (SwingMetawidget) metawidget.getComponent( "foo" ) ).getComponent( "foo" ) );
 	}
 
+	/**
+	 * Suppress 'cast' warning because using workaround from:
+	 * http://www.mail-archive.com/users@maven.apache.org/msg106906.html
+	 */
+
+	@SuppressWarnings( "cast" )
 	public void testMaximumInspectionDepth() {
 
 		Foo foo1 = new Foo();
@@ -150,17 +157,17 @@ public class SwingMetawidgetTest
 
 		metawidget.setMaximumInspectionDepth( 1 );
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
-		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
-		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
-		assertEquals( "name", metawidget.getComponent( "foo", "name" ).getName() );
+		assertTrue( ( (Component) metawidget.getComponent( "foo" ) ) instanceof SwingMetawidget );
+		assertTrue( ( (Component) metawidget.getComponent( "foo", "name" ) ) instanceof JTextField );
+		assertEquals( "name", ( (Component) metawidget.getComponent( "foo", "name" ) ).getName() );
 		assertEquals( metawidget.getComponent( "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
-		assertTrue( metawidget.getComponent( "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo" ) ) instanceof SwingMetawidget );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 3 );
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 4 );
@@ -170,7 +177,7 @@ public class SwingMetawidgetTest
 		// ...but because we know the type of the child property, we end up putting an empty
 		// Metawidget
 
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
 		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
@@ -332,65 +339,65 @@ public class SwingMetawidgetTest
 
 		Field needToBuildWidgets = SwingMetawidget.class.getDeclaredField( "mNeedToBuildWidgets" );
 		needToBuildWidgets.setAccessible( true );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setToInspect( "" );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getPreferredSize();
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.addInspectionResultProcessor( new ComesAfterInspectionResultProcessor<SwingMetawidget>() );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getPreferredSize();
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.removeInspectionResultProcessor( new ComesAfterInspectionResultProcessor<SwingMetawidget>() );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.setBounds( new Rectangle() );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setInspectionResultProcessors( (InspectionResultProcessor[]) null );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getBounds( new Rectangle() );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setWidgetBuilder( null );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getComponent( 0 );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getWidgetProcessor( ReflectionBindingProcessor.class );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.removeWidgetProcessor( new ReflectionBindingProcessor() );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getComponentCount();
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setWidgetProcessors( (WidgetProcessor[]) null );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getLayout();
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setMetawidgetLayout( null );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.addNotify();
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setBundle( null );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getFacet( "foo" );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setReadOnly( true );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.paintComponent( metawidget.getGraphics() );
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setMaximumInspectionDepth( 0 );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 	}
 
 	//
@@ -437,7 +444,6 @@ public class SwingMetawidgetTest
 			// Do nothing
 		}
 	}
-
 
 	public static class FooRequiredBoolean {
 
