@@ -209,6 +209,7 @@ public class SwingMetawidgetTest
 	public void testFacet() {
 
 		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.add( new Facet() );
 
 		// Without a path, should be no layout
@@ -279,6 +280,7 @@ public class SwingMetawidgetTest
 	public void testGetWidgetProcessor() {
 
 		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setConfig( "org/metawidget/swing/metawidget-get-widget-processor.xml" );
 		metawidget.setToInspect( new String() );
 		assertTrue( null != metawidget.getWidgetProcessor( FooProcessor.class ) );
@@ -294,6 +296,7 @@ public class SwingMetawidgetTest
 		needToBuildWidgets.setAccessible( true );
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ));
 
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( "" );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ));
 		metawidget.getPreferredSize();

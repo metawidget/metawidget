@@ -26,6 +26,7 @@ import javax.swing.JComponent;
 import junit.framework.TestCase;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
@@ -69,6 +70,7 @@ public class SwingXWidgetBuilderTest
 
 		DateHolder dateHolder = new DateHolder();
 		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new SwingXWidgetBuilder(), new SwingWidgetBuilder() ) ) );
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setToInspect( dateHolder );

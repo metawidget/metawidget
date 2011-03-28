@@ -30,19 +30,6 @@
 			<artifactId>metawidget-core</artifactId>
 			<type>test-jar</type>
 		</dependency>		
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-annotation</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>		
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-annotation</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>		
 	</dependencies>
 
 </project>
