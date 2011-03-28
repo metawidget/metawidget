@@ -52,7 +52,7 @@ import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -90,6 +90,15 @@ public class GridLayoutTest
 		display.dispose();
 	}
 
+	//
+	// Constructor
+	//
+	
+	public GridLayoutTest( String name ) {
+		
+		super( name );
+	}
+	
 	//
 	// Public methods
 	//
@@ -271,7 +280,7 @@ public class GridLayoutTest
 		dummyTypes.put( Font.class, new Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE ) );
 		dummyTypes.put( Color.class, new Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 ) );
 
-		TestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( GridLayoutConfig.class, new GridLayoutConfig() {
 			// Subclass
 		}, dummyTypes );
 	}

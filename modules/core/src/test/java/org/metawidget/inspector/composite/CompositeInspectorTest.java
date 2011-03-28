@@ -29,7 +29,7 @@ import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtilsTest;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -138,7 +138,7 @@ public class CompositeInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class, new CompositeInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( CompositeInspectorConfig.class, new CompositeInspectorConfig() {
 			// Subclass
 		} );
 	}

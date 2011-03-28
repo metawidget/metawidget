@@ -28,6 +28,15 @@ public class InspectorUtilsTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+
+	public InspectorUtilsTest( String name ) {
+
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

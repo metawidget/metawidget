@@ -19,7 +19,7 @@ package org.metawidget.jsp.tagext.html.layout;
 import junit.framework.TestCase;
 
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -34,7 +34,7 @@ public class HtmlTableLayoutTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class, new HtmlTableLayoutConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( HtmlTableLayoutConfig.class, new HtmlTableLayoutConfig() {
 			// Subclass
 		} );
 	}

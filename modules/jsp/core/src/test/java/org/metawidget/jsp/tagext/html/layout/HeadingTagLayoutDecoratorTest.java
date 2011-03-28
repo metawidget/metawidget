@@ -18,7 +18,7 @@ package org.metawidget.jsp.tagext.html.layout;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -33,7 +33,7 @@ public class HeadingTagLayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( HeadingTagLayoutDecoratorConfig.class, new HeadingTagLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( HeadingTagLayoutDecoratorConfig.class, new HeadingTagLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

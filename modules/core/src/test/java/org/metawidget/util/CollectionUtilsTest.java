@@ -29,6 +29,15 @@ public class CollectionUtilsTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+
+	public CollectionUtilsTest( String name ) {
+
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

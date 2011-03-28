@@ -41,7 +41,7 @@ import org.metawidget.swing.layout.TabbedPaneLayoutDecoratorConfig;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.test.model.annotatedaddressbook.Contact;
 import org.metawidget.test.model.annotatedaddressbook.PersonalContact;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -129,7 +129,7 @@ public class BeanUtilsBindingProcessorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class, new BeanUtilsBindingProcessorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( BeanUtilsBindingProcessorConfig.class, new BeanUtilsBindingProcessorConfig() {
 			// Subclass
 		} );
 	}

@@ -31,7 +31,7 @@ import org.metawidget.swt.layout.TabFolderLayoutDecorator;
 import org.metawidget.swt.layout.TabFolderLayoutDecoratorConfig;
 import org.metawidget.swt.widgetbuilder.SwtWidgetBuilder;
 import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor.ConvertFromTo;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -41,15 +41,24 @@ public class DataBindingProcessorTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+	
+	public DataBindingProcessorTest( String name ) {
+		
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( DataBindingProcessorConfig.class, new DataBindingProcessorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( DataBindingProcessorConfig.class, new DataBindingProcessorConfig() {
 			// subclass
 		} );
-		TestUtils.testEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
+		MetawidgetTestUtils.testEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
 	}
 
 	public void testNestedMetawidget() {

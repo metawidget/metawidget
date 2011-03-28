@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.config.SimpleResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -111,7 +111,7 @@ public class SeamInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( SeamInspectorConfig.class, new SeamInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( SeamInspectorConfig.class, new SeamInspectorConfig() {
 			// Subclass
 		}, "componentsInputStream" );
 	}

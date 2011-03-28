@@ -18,7 +18,7 @@ package org.metawidget.inspector.impl;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -33,7 +33,7 @@ public class BaseXmlInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class, new BaseXmlInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( BaseXmlInspectorConfig.class, new BaseXmlInspectorConfig() {
 			// Subclass
 		} );
 	}

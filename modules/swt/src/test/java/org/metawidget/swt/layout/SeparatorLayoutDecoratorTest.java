@@ -31,7 +31,7 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -40,6 +40,15 @@ import org.metawidget.util.TestUtils;
 public class SeparatorLayoutDecoratorTest
 	extends TestCase {
 
+	//
+	// Constructor
+	//
+	
+	public SeparatorLayoutDecoratorTest( String name ) {
+		
+		super( name );
+	}
+	
 	//
 	// Public statics
 	//
@@ -72,7 +81,7 @@ public class SeparatorLayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

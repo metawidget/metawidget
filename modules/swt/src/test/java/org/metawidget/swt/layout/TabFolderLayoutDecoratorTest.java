@@ -31,7 +31,7 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -67,12 +67,21 @@ public class TabFolderLayoutDecoratorTest
 	}
 
 	//
+	// Constructor
+	//
+	
+	public TabFolderLayoutDecoratorTest( String name ) {
+		
+		super( name );
+	}
+	
+	//
 	// Public methods
 	//
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( TabFolderLayoutDecoratorConfig.class, new TabFolderLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( TabFolderLayoutDecoratorConfig.class, new TabFolderLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

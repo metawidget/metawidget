@@ -30,7 +30,7 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -45,7 +45,7 @@ public class TabbedPaneLayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class, new TabbedPaneLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( TabbedPaneLayoutDecoratorConfig.class, new TabbedPaneLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
@@ -119,7 +119,7 @@ public class CompositeWidgetBuilderTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class, new CompositeWidgetBuilderConfig<Object, Object>() {
+		MetawidgetTestUtils.testEqualsAndHashcode( CompositeWidgetBuilderConfig.class, new CompositeWidgetBuilderConfig<Object, Object>() {
 			// Subclass
 		} );
 	}

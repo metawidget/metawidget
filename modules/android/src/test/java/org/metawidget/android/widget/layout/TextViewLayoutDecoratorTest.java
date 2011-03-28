@@ -23,7 +23,7 @@ import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -44,7 +44,7 @@ public class TextViewLayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class, new TextViewLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( TextViewLayoutDecoratorConfig.class, new TextViewLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

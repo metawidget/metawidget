@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -174,7 +174,7 @@ public class HibernateInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class, new HibernateInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( HibernateInspectorConfig.class, new HibernateInspectorConfig() {
 			// Subclass
 		}, "inputStreams" );
 	}

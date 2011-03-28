@@ -38,7 +38,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -278,7 +278,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( JavaBeanPropertyStyleConfig.class, new JavaBeanPropertyStyleConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( JavaBeanPropertyStyleConfig.class, new JavaBeanPropertyStyleConfig() {
 			// Subclass
 		} );
 	}

@@ -51,7 +51,7 @@ import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -284,7 +284,7 @@ public class MigLayoutTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig() {
 			// Subclass
 		} );
 	}

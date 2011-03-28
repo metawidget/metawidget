@@ -23,15 +23,21 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.WidgetBuilderUtils;
-
 /**
  * @author Richard Kennard
  */
 
 public class WidgetBuilderUtilsTest
 	extends TestCase {
+
+	//
+	// Constructor
+	//
+
+	public WidgetBuilderUtilsTest( String name ) {
+
+		super( name );
+	}
 
 	//
 	// Public methods

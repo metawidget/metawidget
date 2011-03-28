@@ -26,6 +26,15 @@ public class ClassUtilsTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+
+	public ClassUtilsTest( String name ) {
+
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

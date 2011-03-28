@@ -34,7 +34,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -44,12 +44,21 @@ public class SeparatorLayoutDecoratorTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+	
+	public SeparatorLayoutDecoratorTest( String name ) {
+		
+		super( name );
+	}
+	
+	//
 	// Public methods
 	//
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( SeparatorLayoutDecoratorConfig.class, new SeparatorLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

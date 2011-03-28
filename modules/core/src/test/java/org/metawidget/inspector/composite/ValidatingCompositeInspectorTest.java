@@ -18,7 +18,7 @@ package org.metawidget.inspector.composite;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -33,7 +33,7 @@ public class ValidatingCompositeInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class, new ValidatingCompositeInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( ValidatingCompositeInspectorConfig.class, new ValidatingCompositeInspectorConfig() {
 			// Subclass
 		} );
 	}

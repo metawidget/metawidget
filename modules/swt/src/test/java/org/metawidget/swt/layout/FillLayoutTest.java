@@ -32,6 +32,15 @@ public class FillLayoutTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+	
+	public FillLayoutTest( String name ) {
+		
+		super( name );
+	}
+	
+	//
 	// Public methods
 	//
 

@@ -18,7 +18,7 @@ package org.metawidget.faces.component.html.layout;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -33,7 +33,7 @@ public class PanelGroupLayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( PanelGroupLayoutDecoratorConfig.class, new PanelGroupLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( PanelGroupLayoutDecoratorConfig.class, new PanelGroupLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

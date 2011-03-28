@@ -50,6 +50,15 @@ public class ReflectionBindingProcessorTest
 	int	mActionFired;
 
 	//
+	// Constructor
+	//
+	
+	public ReflectionBindingProcessorTest( String name ) {
+		
+		super( name );
+	}
+	
+	//
 	// Public methods
 	//
 

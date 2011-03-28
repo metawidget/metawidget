@@ -53,7 +53,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -388,7 +388,7 @@ public class GridBagLayoutTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class, new GridBagLayoutConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( GridBagLayoutConfig.class, new GridBagLayoutConfig() {
 			// Subclass
 		} );
 	}

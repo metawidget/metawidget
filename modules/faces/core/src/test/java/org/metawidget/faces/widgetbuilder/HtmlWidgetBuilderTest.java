@@ -52,7 +52,7 @@ import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig
 import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -326,7 +326,7 @@ public class HtmlWidgetBuilderTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig() {
 			// Subclass
 		} );
 	}

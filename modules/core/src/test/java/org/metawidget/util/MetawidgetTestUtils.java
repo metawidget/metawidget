@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public final class TestUtils {
+public final class MetawidgetTestUtils {
 
 	//
 	// Public statics
@@ -303,7 +303,7 @@ public final class TestUtils {
 
 	private static Object newProxyInstance( Class<?> clazz ) {
 
-		return Proxy.newProxyInstance( TestUtils.class.getClassLoader(), new Class[] { clazz }, new InvocationHandler() {
+		return Proxy.newProxyInstance( MetawidgetTestUtils.class.getClassLoader(), new Class[] { clazz }, new InvocationHandler() {
 
 			public Object invoke( Object proxy, Method method, Object[] args )
 				throws Throwable {
@@ -325,7 +325,7 @@ public final class TestUtils {
 	// Private constructor
 	//
 
-	private TestUtils() {
+	private MetawidgetTestUtils() {
 
 		// Can never be called
 	}

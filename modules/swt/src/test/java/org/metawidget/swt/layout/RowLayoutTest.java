@@ -37,10 +37,18 @@ public class RowLayoutTest
 	extends TestCase {
 
 	//
+	// Constructor
+	//
+	
+	public RowLayoutTest( String name ) {
+		
+		super( name );
+	}
+	
+	//
 	// Public methods
 	//
 
-	@SuppressWarnings( "unused" )
 	public void testLayout()
 		throws Exception {
 

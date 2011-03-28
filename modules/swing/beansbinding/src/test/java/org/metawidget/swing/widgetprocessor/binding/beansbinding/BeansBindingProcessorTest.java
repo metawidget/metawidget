@@ -42,7 +42,7 @@ import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingPro
 import org.metawidget.test.model.annotatedaddressbook.Contact;
 import org.metawidget.test.model.annotatedaddressbook.PersonalContact;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
@@ -228,10 +228,10 @@ public class BeansBindingProcessorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig() {
 			// Subclass
 		}, "converters" );
-		TestUtils.testEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
+		MetawidgetTestUtils.testEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
 	}
 
 	public void testNumberConverter() {

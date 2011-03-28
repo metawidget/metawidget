@@ -32,7 +32,7 @@ import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidget
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilderConfig;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.icesoft.faces.component.ext.HtmlCommandButton;
@@ -99,7 +99,7 @@ public class IceFacesWidgetBuilderTest
 	@Override
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( IceFacesWidgetBuilderConfig.class, new IceFacesWidgetBuilderConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( IceFacesWidgetBuilderConfig.class, new IceFacesWidgetBuilderConfig() {
 			// Subclass
 		} );
 	}

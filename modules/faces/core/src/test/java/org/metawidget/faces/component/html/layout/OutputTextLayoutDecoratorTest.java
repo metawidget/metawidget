@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.layout.SimpleLayout;
 import org.metawidget.faces.component.layout.UIComponentFlatSectionLayoutDecorator;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -42,7 +42,7 @@ public class OutputTextLayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class, new OutputTextLayoutDecoratorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( OutputTextLayoutDecoratorConfig.class, new OutputTextLayoutDecoratorConfig() {
 			// Subclass
 		} );
 	}

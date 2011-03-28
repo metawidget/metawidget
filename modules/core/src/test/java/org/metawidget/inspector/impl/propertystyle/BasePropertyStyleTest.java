@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -40,7 +40,7 @@ public class BasePropertyStyleTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class, new BasePropertyStyleConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class, new BasePropertyStyleConfig() {
 			// Subclass
 		} );
 	}

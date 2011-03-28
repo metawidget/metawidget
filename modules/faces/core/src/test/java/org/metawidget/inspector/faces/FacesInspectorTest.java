@@ -27,7 +27,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -169,7 +169,7 @@ public class FacesInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig() {
 			// Subclass
 		} );
 	}

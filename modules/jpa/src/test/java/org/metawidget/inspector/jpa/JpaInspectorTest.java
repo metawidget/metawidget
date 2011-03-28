@@ -27,7 +27,7 @@ import javax.persistence.Version;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -172,7 +172,7 @@ public class JpaInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( JpaInspectorConfig.class, new JpaInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( JpaInspectorConfig.class, new JpaInspectorConfig() {
 			// Subclass
 		} );
 	}

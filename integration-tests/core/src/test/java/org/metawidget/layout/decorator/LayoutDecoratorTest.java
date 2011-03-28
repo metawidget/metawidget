@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
@@ -37,7 +37,7 @@ public class LayoutDecoratorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( LayoutDecoratorConfig.class, new LayoutDecoratorConfig<Object, Object, Object>() {
+		MetawidgetTestUtils.testEqualsAndHashcode( LayoutDecoratorConfig.class, new LayoutDecoratorConfig<Object, Object, Object>() {
 			// Subclass
 		} );
 	}

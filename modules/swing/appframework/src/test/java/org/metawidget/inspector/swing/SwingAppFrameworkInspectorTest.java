@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.application.Action;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.util.TestUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,7 +68,7 @@ public class SwingAppFrameworkInspectorTest
 
 	public void testConfig() {
 
-		TestUtils.testEqualsAndHashcode( SwingAppFrameworkInspectorConfig.class, new SwingAppFrameworkInspectorConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( SwingAppFrameworkInspectorConfig.class, new SwingAppFrameworkInspectorConfig() {
 			// Subclass
 		} );
 	}

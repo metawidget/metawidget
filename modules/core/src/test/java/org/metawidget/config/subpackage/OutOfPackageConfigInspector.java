@@ -14,31 +14,38 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util.simple;
+package org.metawidget.config.subpackage;
 
-import junit.framework.TestCase;
-
-import org.metawidget.util.MetawidgetTestUtils;
+import org.metawidget.config.AllTypesInspectorConfig;
+import org.metawidget.inspector.iface.Inspector;
 
 /**
  * @author Richard Kennard
  */
 
-public class PairTest
-	extends TestCase {
+public class OutOfPackageConfigInspector
+	implements Inspector {
+
+	//
+	// Constructor
+	//
+
+	/**
+	 * @param config
+	 *            used to test 'out-of-package' config
+	 */
+
+	public OutOfPackageConfigInspector( AllTypesInspectorConfig config ) {
+
+		// Do nothing
+	}
 
 	//
 	// Public methods
 	//
 
-	public void testPair()
-		throws Exception {
+	public String inspect( Object toInspect, String type, String... names ) {
 
-		assertEquals( "1:2", new Pair<Integer, Integer>( 1, 2 ).toString() );
-		assertEquals( "null:null", new Pair<Integer, Integer>( null, null ).toString() );
-
-		MetawidgetTestUtils.testEqualsAndHashcode( new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ) {
-			// Subclass
-		}, "left", "right" );
+		return null;
 	}
 }
