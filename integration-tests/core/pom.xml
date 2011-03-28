@@ -76,6 +76,11 @@
 			<artifactId>commons-beanutils</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>validation</artifactId>
+			<scope>test</scope>
+		</dependency>		
 	</dependencies>
 
 </project>

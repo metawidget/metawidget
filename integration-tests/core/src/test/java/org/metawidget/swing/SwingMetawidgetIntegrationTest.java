@@ -16,6 +16,14 @@
 
 package org.metawidget.swing;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.awt.event.ActionEvent;
+import java.util.Map;
+
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -23,7 +31,11 @@ import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiRequired;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
@@ -40,7 +52,7 @@ public class SwingMetawidgetIntegrationTest
 	//
 	// Public methods
 	//
-	
+
 	public void testRebind()
 		throws Exception {
 
@@ -190,6 +202,34 @@ public class SwingMetawidgetIntegrationTest
 		public void doAction() {
 
 			// Do nothing
+		}
+	}
+
+	public static class FooActionBindingProcessor
+		implements WidgetProcessor<JComponent, SwingMetawidget> {
+
+		//
+		// Public methods
+		//
+
+		@SuppressWarnings( "serial" )
+		public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget ) {
+
+			if ( !ACTION.equals( elementName ) ) {
+				return component;
+			}
+
+			JButton button = (JButton) component;
+
+			button.setAction( new AbstractAction( button.getText() ) {
+
+				public void actionPerformed( ActionEvent e ) {
+
+					metawidget.setValue( "FooActionBindingProcessor fired", "name" );
+				}
+			} );
+
+			return component;
 		}
 	}
 

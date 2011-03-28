@@ -6,7 +6,7 @@
 	<swingMetawidget xmlns="java:org.metawidget.swing">
 		<widgetProcessors>
 			<array>
-				<fooActionBindingProcessor xmlns="java:org.metawidget.swing.SwingMetawidgetTest"/>
+				<fooProcessor xmlns="java:org.metawidget.swing.SwingMetawidgetTest"/>
 			</array>
 		</widgetProcessors>		
 	</swingMetawidget>
