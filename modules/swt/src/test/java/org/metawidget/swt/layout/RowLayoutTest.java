@@ -39,16 +39,17 @@ public class RowLayoutTest
 	//
 	// Constructor
 	//
-	
+
 	public RowLayoutTest( String name ) {
-		
+
 		super( name );
 	}
-	
+
 	//
 	// Public methods
 	//
 
+	@SuppressWarnings( "unused" )
 	public void testLayout()
 		throws Exception {
 
@@ -74,7 +75,7 @@ public class RowLayoutTest
 		assertTrue( ( (RowData) stub.getLayoutData() ).exclude );
 		assertTrue( 1 == metawidget.getChildren().length );
 
-		new Spinner( stub, SWT.NONE );
+		Spinner spinner = new Spinner( stub, SWT.NONE );
 		metawidget.setToInspect( null );
 		metawidget.getChildren();
 		assertTrue( null == stub.getLayoutData() );

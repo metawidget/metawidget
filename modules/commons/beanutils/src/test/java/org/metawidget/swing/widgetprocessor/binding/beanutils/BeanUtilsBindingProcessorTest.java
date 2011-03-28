@@ -16,6 +16,7 @@
 
 package org.metawidget.swing.widgetprocessor.binding.beanutils;
 
+import java.awt.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -134,6 +135,7 @@ public class BeanUtilsBindingProcessorTest
 		} );
 	}
 
+	@SuppressWarnings( "cast" )
 	public void testNestedMetawidget() {
 
 		Contact contact = new PersonalContact();
@@ -148,7 +150,7 @@ public class BeanUtilsBindingProcessorTest
 		assertEquals( null, contact.getAddress().getStreet() );
 		( (JTextField) metawidget.getComponent( "firstname" ) ).setText( "Foo" );
 		( (JTextField) metawidget.getComponent( "address", "street" ) ).setText( "Bar" );
-		assertEquals( metawidget, metawidget.getComponent( "address", "street" ).getParent().getParent() );
+		assertEquals( metawidget, ( (Component) metawidget.getComponent( "address", "street" ) ).getParent().getParent() );
 		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).save( metawidget );
 		assertEquals( "Foo", contact.getFirstname() );
 		assertEquals( "Bar", contact.getAddress().getStreet() );
@@ -158,7 +160,7 @@ public class BeanUtilsBindingProcessorTest
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GridBagLayout() ) ) );
 		( (JTextField) metawidget.getComponent( "firstname" ) ).setText( "Foo1" );
 		( (JTextField) metawidget.getComponent( "address", "street" ) ).setText( "Bar1" );
-		assertTrue( metawidget.getComponent( "address", "street" ).getParent().getParent().getParent() instanceof JTabbedPane );
+		assertTrue( ( (Component) metawidget.getComponent( "address", "street" ) ).getParent().getParent().getParent() instanceof JTabbedPane );
 		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).save( metawidget );
 		assertEquals( "Foo1", contact.getFirstname() );
 		assertEquals( "Bar1", contact.getAddress().getStreet() );

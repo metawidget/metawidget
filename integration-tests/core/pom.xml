@@ -24,13 +24,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-annotation</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>		
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
 			<version>${project.version}</version>
 			<type>test-jar</type>
@@ -83,11 +76,6 @@
 			<artifactId>commons-beanutils</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.jgoodies</groupId>
-			<artifactId>validation</artifactId>
-			<scope>test</scope>
-		</dependency>		
 	</dependencies>
 
 </project>

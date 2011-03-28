@@ -19,6 +19,7 @@ package org.metawidget.swt.widgetprocessor.binding.databinding;
 import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
@@ -43,9 +44,9 @@ public class DataBindingProcessorTest
 	//
 	// Constructor
 	//
-	
+
 	public DataBindingProcessorTest( String name ) {
-		
+
 		super( name );
 	}
 
@@ -61,6 +62,7 @@ public class DataBindingProcessorTest
 		MetawidgetTestUtils.testEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
 	}
 
+	@SuppressWarnings( "cast" )
 	public void testNestedMetawidget() {
 
 		PersonalContact contact = new PersonalContact();
@@ -75,7 +77,7 @@ public class DataBindingProcessorTest
 		assertEquals( null, contact.getAddress().getStreet() );
 		( (Text) metawidget.getControl( "firstname" ) ).setText( "Foo" );
 		( (Text) metawidget.getControl( "address", "street" ) ).setText( "Bar" );
-		assertEquals( metawidget, metawidget.getControl( "address", "street" ).getParent().getParent() );
+		assertEquals( metawidget, ((Control) metawidget.getControl( "address", "street" )).getParent().getParent() );
 		metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
 		assertEquals( "Foo", contact.getFirstname() );
 		assertEquals( "Bar", contact.getAddress().getStreet() );
@@ -84,8 +86,8 @@ public class DataBindingProcessorTest
 
 		metawidget.setMetawidgetLayout( new TabFolderLayoutDecorator( new TabFolderLayoutDecoratorConfig().setLayout( new GridLayout() ) ) );
 		( (Text) metawidget.getControl( "firstname" ) ).setText( "Foo1" );
-		( (Text) metawidget.getControl( "address", "street" ) ).setText( "Bar1" );
-		assertTrue( metawidget.getControl( "address", "street" ).getParent().getParent().getParent() instanceof TabFolder );
+		( (Text) ((Control) metawidget.getControl( "address", "street" ) )).setText( "Bar1" );
+		assertTrue( ((Control) metawidget.getControl( "address", "street" )).getParent().getParent().getParent() instanceof TabFolder );
 		metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
 		assertEquals( "Foo1", contact.getFirstname() );
 		assertEquals( "Bar1", contact.getAddress().getStreet() );

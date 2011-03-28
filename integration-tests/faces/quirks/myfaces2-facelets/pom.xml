@@ -37,6 +37,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-annotation</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>	
+		<dependency>
 			<groupId>org.metawidget.integration-tests.faces</groupId>
 			<artifactId>quirks-faces-mojarra2-facelets</artifactId>
 			<version>${project.version}</version>
