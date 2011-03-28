@@ -141,17 +141,18 @@ public class SwingMetawidgetTest
 
 		metawidget.setMaximumInspectionDepth( 1 );
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
-		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
-		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
-		assertEquals( "name", metawidget.getComponent( "foo", "name" ).getName() );
+		// Workaround as explained at: http://www.mail-archive.com/users@maven.apache.org/msg106906.html
+		assertTrue( ((Object) metawidget.getComponent( "foo" )) instanceof SwingMetawidget );
+		assertTrue( ((Object) metawidget.getComponent( "foo", "name" )) instanceof JTextField );
+		assertEquals( "name", ((Object) metawidget.getComponent( "foo", "name" )).getName() );
 		assertEquals( metawidget.getComponent( "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
-		assertTrue( metawidget.getComponent( "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( ((Object) metawidget.getComponent( "foo", "foo" )) instanceof SwingMetawidget );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 3 );
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( ((Object) metawidget.getComponent( "foo", "foo", "foo" )) instanceof SwingMetawidget );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 4 );
@@ -161,7 +162,7 @@ public class SwingMetawidgetTest
 		// ...but because we know the type of the child property, we end up putting an empty
 		// Metawidget
 
-		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( ((Object) metawidget.getComponent( "foo", "foo", "foo", "foo" )) instanceof SwingMetawidget );
 		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
