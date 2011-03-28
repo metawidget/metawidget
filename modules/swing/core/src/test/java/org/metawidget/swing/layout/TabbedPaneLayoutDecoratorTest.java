@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.Component;
+
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,6 +78,7 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( 3 == panel.getComponentCount() );
 	}
 
+	@SuppressWarnings( "cast" )
 	public void testNestedTabs() {
 
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -123,13 +126,13 @@ public class TabbedPaneLayoutDecoratorTest
 
 		// Test components within nested tabs still accessible by name
 
-		assertTrue( metawidget.getComponent( 1 ) == metawidget.getComponent( "abc" ) );
-		assertTrue( barPanel.getComponent( 1 ) == metawidget.getComponent( "def" ) );
-		assertTrue( barPanel.getComponent( 3 ) == metawidget.getComponent( "ghi" ) );
-		assertTrue( bazPanel.getComponent( 1 ) == metawidget.getComponent( "jkl" ) );
-		assertTrue( outerPanel.getComponent( 2 ) == metawidget.getComponent( "mno" ) );
-		assertTrue( mooPanel.getComponent( 1 ) == metawidget.getComponent( "pqr" ) );
-		assertTrue( metawidget.getComponent( 4 ) == metawidget.getComponent( "stu" ) );
+		assertTrue( (Component) metawidget.getComponent( 1 ) == (Component) metawidget.getComponent( "abc" ) );
+		assertTrue( (Component) barPanel.getComponent( 1 ) == (Component) metawidget.getComponent( "def" ) );
+		assertTrue( (Component) barPanel.getComponent( 3 ) == (Component) metawidget.getComponent( "ghi" ) );
+		assertTrue( (Component) bazPanel.getComponent( 1 ) == (Component) metawidget.getComponent( "jkl" ) );
+		assertTrue( (Component) outerPanel.getComponent( 2 ) == (Component) metawidget.getComponent( "mno" ) );
+		assertTrue( (Component) mooPanel.getComponent( 1 ) == (Component) metawidget.getComponent( "pqr" ) );
+		assertTrue( (Component) metawidget.getComponent( 4 ) == (Component) metawidget.getComponent( "stu" ) );
 	}
 
 	public static void main( String[] args ) {
