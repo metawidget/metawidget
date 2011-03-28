@@ -80,11 +80,6 @@
 			<artifactId>richfaces-ui</artifactId>
 			<scope>compile</scope>
 		</dependency>		
-		<dependency>
-			<groupId>org.richfaces.ui</groupId>
-			<artifactId>richfaces-ui</artifactId>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 	
 </project>
