@@ -108,6 +108,14 @@
 				<configuration>
 					<taglib.src.dir>target/tld-sources</taglib.src.dir>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>assembly</phase>
+						<goals>
+							<goal>taglibdoc</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
