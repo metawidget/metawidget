@@ -30,7 +30,7 @@ public interface AndroidValueAccessor {
 	// Methods
 	//
 
-	public Object getValue( View view );
+	Object getValue( View view );
 
 	/**
 	 * Sets the given View to the specified value.
@@ -38,5 +38,5 @@ public interface AndroidValueAccessor {
 	 * @return true if the View was recognised and its value set
 	 */
 
-	public boolean setValue( Object value, View view );
+	boolean setValue( Object value, View view );
 }

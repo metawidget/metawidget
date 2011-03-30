@@ -30,7 +30,7 @@ public interface GwtValueAccessor {
 	// Methods
 	//
 
-	public Object getValue( Widget widget );
+	Object getValue( Widget widget );
 
 	/**
 	 * Sets the given Widget to the specified value.
@@ -38,5 +38,5 @@ public interface GwtValueAccessor {
 	 * @return true if the Widget was recognised and its value set
 	 */
 
-	public boolean setValue( Widget widget, Object value );
+	boolean setValue( Widget widget, Object value );
 }

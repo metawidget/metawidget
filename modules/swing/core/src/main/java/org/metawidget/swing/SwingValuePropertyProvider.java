@@ -36,5 +36,5 @@ public interface SwingValuePropertyProvider {
 	 * If the component is not known, returns <code>null</code>.
 	 */
 
-	public String getValueProperty( Component component );
+	String getValueProperty( Component component );
 }

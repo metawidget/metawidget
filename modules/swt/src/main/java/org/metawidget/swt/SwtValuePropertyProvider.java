@@ -36,5 +36,5 @@ public interface SwtValuePropertyProvider {
 	 * If the control is not known, returns <code>null</code>.
 	 */
 
-	public String getValueProperty( Control control );
+	String getValueProperty( Control control );
 }
