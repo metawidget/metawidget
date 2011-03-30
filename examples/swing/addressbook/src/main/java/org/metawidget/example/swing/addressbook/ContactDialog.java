@@ -197,8 +197,14 @@ public class ContactDialog
 
 				if ( event.isPopupTrigger() && !mContactMetawidget.isReadOnly() ) {
 
-					Point screenLocation = ((Component) event.getSource()).getLocationOnScreen();
-					menuPopup.setLocation( screenLocation.x + event.getX(), screenLocation.y + event.getY() );
+					Component source = (Component) event.getSource();
+
+					// (source will not be 'showing on screen' during unit tests)
+
+					if ( source.isShowing() ) {
+						Point screenLocation = source.getLocationOnScreen();
+						menuPopup.setLocation( screenLocation.x + event.getX(), screenLocation.y + event.getY() );
+					}
 
 					if ( communicationsTable.getCellEditor() != null ) {
 						communicationsTable.getCellEditor().stopCellEditing();
