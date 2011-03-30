@@ -142,7 +142,7 @@ public class FacesQuirks {
 
 	public void setStringArray( String[] stringArray ) {
 
-		mStringArray = new char[stringArray.length];
+		mStringArray = new String[stringArray.length];
 		System.arraycopy( stringArray, 0, mStringArray, 0, stringArray.length );
 	}
 

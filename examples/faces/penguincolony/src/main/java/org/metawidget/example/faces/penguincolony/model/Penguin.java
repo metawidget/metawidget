@@ -150,7 +150,8 @@ public class Penguin {
 
 	public void setHobbies( String[] hobbies ) {
 
-		mHobbies = hobbies;
+		mHobbies = new String[hobbies.length];
+		System.arraycopy( hobbies, 0, mHobbies, 0, hobbies.length );
 	}
 
 	@UiLarge
