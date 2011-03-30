@@ -794,7 +794,7 @@ public class XmlUtils {
 		 * The term <code>Command</code> refers to the Command Design Pattern.
 		 */
 
-		static interface CachedCommand {
+		private/* static */interface CachedCommand {
 
 			//
 			// Methods
