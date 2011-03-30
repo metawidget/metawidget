@@ -277,7 +277,7 @@ public class RichFacesWidgetBuilder
 
 					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { Object.class } ) };
 					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
-				} catch ( Throwable t ) {
+				} catch ( Exception e ) {
 					// RichFaces 3.1/JSF 1.1 mode
 
 					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[] { Object.class } );

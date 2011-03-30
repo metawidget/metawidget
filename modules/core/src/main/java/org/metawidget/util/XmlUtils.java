@@ -727,6 +727,7 @@ public class XmlUtils {
 		}
 
 		@Override
+		@SuppressWarnings( "PMD.ArrayIsStoredDirectly" )
 		public void characters( char[] characters, int start, int length )
 			throws SAXException {
 
@@ -740,6 +741,7 @@ public class XmlUtils {
 		}
 
 		@Override
+		@SuppressWarnings( "PMD.ArrayIsStoredDirectly" )
 		public void ignorableWhitespace( char[] characters, int start, int length )
 			throws SAXException {
 

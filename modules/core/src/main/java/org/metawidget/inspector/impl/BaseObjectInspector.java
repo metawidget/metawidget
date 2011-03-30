@@ -505,7 +505,7 @@ public abstract class BaseObjectInspector
 
 			try {
 				propertyValue = property.read( toInspect );
-			} catch ( Throwable t ) {
+			} catch ( Exception e ) {
 				// By definition, a 'getter' method should not affect the state
 				// of the object, so it should not fail. However, sometimes a getter's
 				// implementation may rely on another object being in a certain state (eg.

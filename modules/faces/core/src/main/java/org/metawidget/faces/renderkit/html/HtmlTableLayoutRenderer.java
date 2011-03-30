@@ -16,12 +16,6 @@
 
 package org.metawidget.faces.renderkit.html;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIInput;
@@ -472,9 +466,10 @@ public class HtmlTableLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || !childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) ) {
-			// (except embedded table Metawidgets, which have their own required column)
-		} else {
+		// (except embedded table Metawidgets, which have their own required column)
+
+		if ( !( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) && childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) ) {
+
 			writer.startElement( "td", metawidget );
 
 			// CSS

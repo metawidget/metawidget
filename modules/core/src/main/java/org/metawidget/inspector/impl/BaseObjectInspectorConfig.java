@@ -185,7 +185,7 @@ public class BaseObjectInspectorConfig {
 			if ( DEFAULT_ACTION_STYLE == null ) {
 				try {
 					DEFAULT_ACTION_STYLE = (ActionStyle) Class.forName( ActionStyle.class.getPackage().getName() + ".metawidget.MetawidgetActionStyle" ).newInstance();
-				} catch ( Throwable t ) {
+				} catch ( Exception e ) {
 					// MetawidgetActionStyle is unsupported on JDK 1.4, as well as
 					// some environments might choose to ship without it
 				}

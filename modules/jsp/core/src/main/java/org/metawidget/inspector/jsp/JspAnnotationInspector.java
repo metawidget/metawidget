@@ -112,7 +112,7 @@ public class JspAnnotationInspector
 
 		try {
 			expressionEvaluator = pageContext.getExpressionEvaluator();
-		} catch ( Throwable t ) {
+		} catch ( Exception e ) {
 			throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
 		}
 

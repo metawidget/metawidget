@@ -86,7 +86,7 @@ public final class ClassUtils {
 		while ( typeSuper != null ) {
 			try {
 				return clazz.getMethod( JAVABEAN_SET_PREFIX + propertyUppercased, typeSuper );
-			} catch ( Throwable t ) {
+			} catch ( Exception e ) {
 				typeSuper = typeSuper.getSuperclass();
 			}
 		}
@@ -96,7 +96,7 @@ public final class ClassUtils {
 		for ( Class<?> anInterface : type.getInterfaces() ) {
 			try {
 				return clazz.getMethod( JAVABEAN_SET_PREFIX + propertyUppercased, anInterface );
-			} catch ( Throwable t ) {
+			} catch ( Exception e ) {
 				// Keep trying
 			}
 		}
