@@ -16,6 +16,12 @@
 
 package org.metawidget.faces.renderkit.html;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIInput;
