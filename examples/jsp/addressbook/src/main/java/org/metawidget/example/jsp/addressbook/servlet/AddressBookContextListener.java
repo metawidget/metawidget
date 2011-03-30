@@ -42,7 +42,6 @@ public class AddressBookContextListener
 	// Public methods
 	//
 
-	@Override
 	public void contextInitialized( ServletContextEvent contextEvent ) {
 
 		ServletContext context = contextEvent.getServletContext();
@@ -59,7 +58,6 @@ public class AddressBookContextListener
 		PropertyEditorManager.registerEditor( ContactType.class, ContactTypeEditor.class );
 	}
 
-	@Override
 	public void contextDestroyed( ServletContextEvent arg0 ) {
 
 		// Unregister PropertyEditors

@@ -137,7 +137,6 @@ public class CarApplication
 
 		mCar.addActionListener( new ActionListener() {
 
-			@Override
 			public void actionPerformed( ActionEvent event ) {
 
 				// Save in case changed make/type

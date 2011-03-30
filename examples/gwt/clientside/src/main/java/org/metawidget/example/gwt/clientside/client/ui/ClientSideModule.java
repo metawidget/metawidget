@@ -25,8 +25,8 @@ import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.ui.layout.LabelLayoutDecorator;
 import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
-import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.GwtWidgetBuilder;
+import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 
@@ -121,7 +121,6 @@ public class ClientSideModule
 	// Public methods
 	//
 
-	@Override
 	public void onModuleLoad() {
 
 		// TextArea
@@ -137,7 +136,6 @@ public class ClientSideModule
 		Button sampleButton1 = new Button( "Sample #1" );
 		sampleButton1.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				textarea.setText( SAMPLE1 );
@@ -147,7 +145,6 @@ public class ClientSideModule
 		Button sampleButton2 = new Button( "Sample #2" );
 		sampleButton2.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				textarea.setText( SAMPLE2 );
@@ -157,7 +154,6 @@ public class ClientSideModule
 		Button sampleButton3 = new Button( "Sample #3" );
 		sampleButton3.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				textarea.setText( SAMPLE3 );
@@ -191,7 +187,6 @@ public class ClientSideModule
 		Button saveButton = new Button( "Save" );
 		saveButton.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				metawidget.getWidgetProcessor( MapBindingProcessor.class ).save( metawidget );
@@ -218,7 +213,6 @@ public class ClientSideModule
 		Button generateButton = new Button( "Generate" );
 		generateButton.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				model.clear();

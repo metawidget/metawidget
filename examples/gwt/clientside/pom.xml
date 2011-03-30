@@ -27,6 +27,9 @@
 						</fileset>
 						<fileset>
 							<directory>war/WEB-INF</directory>
+							<excludes>
+								<exclude>web.xml</exclude>
+							</excludes>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -38,7 +41,6 @@
 
 					<warSourceDirectory>${basedir}/war</warSourceDirectory>
 					<inline>true</inline>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 			<plugin>

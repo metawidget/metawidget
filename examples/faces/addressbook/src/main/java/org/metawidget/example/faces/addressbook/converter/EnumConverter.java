@@ -53,7 +53,6 @@ public abstract class EnumConverter<T extends Enum<T>>
 	// Public methods
 	//
 
-	@Override
 	public final Object getAsObject( FacesContext context, UIComponent component, String value )
 		throws ConverterException {
 
@@ -64,7 +63,6 @@ public abstract class EnumConverter<T extends Enum<T>>
 		return Enum.valueOf( mClass, value );
 	}
 
-	@Override
 	public final String getAsString( FacesContext context, UIComponent component, Object object )
 		throws ConverterException {
 

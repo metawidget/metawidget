@@ -108,7 +108,6 @@ public class ReadOnlyWidgetBuilderExampleTest
 	static class ReadOnlyTextFieldWidgetBuilder
 		implements WidgetBuilder<JComponent, SwingMetawidget> {
 
-		@Override
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {

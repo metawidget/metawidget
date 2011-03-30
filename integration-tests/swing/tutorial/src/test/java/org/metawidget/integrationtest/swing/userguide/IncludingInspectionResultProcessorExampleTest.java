@@ -70,7 +70,6 @@ public class IncludingInspectionResultProcessorExampleTest
 	static class IncludingInspectionResultProcessor
 		implements InspectionResultProcessor<SwingMetawidget> {
 
-		@Override
 		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget ) {
 
 			String[] includes = (String[]) metawidget.getClientProperty( "include" );

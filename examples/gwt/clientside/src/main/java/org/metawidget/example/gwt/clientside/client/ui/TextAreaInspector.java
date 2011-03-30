@@ -53,7 +53,6 @@ public class TextAreaInspector
 	// Public method
 	//
 
-	@Override
 	public String inspect( Object toInspect, String type, String... names ) {
 
 		// Parse the XML (do this each time as it may have been updated by the user)

@@ -51,7 +51,6 @@ public class DateConverter
 	// Public methods
 	//
 
-	@Override
 	@SuppressWarnings( "rawtypes" )
 	public Object convert( Class clazz, Object value ) {
 

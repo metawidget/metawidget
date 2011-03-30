@@ -37,13 +37,11 @@ public class CollectionConverter
 	// Public methods
 	//
 
-	@Override
 	public Object getAsObject( FacesContext context, UIComponent component, String value ) {
 
 		return CollectionUtils.fromString( value );
 	}
 
-	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
 
 		return CollectionUtils.toString( (Collection<?>) value );

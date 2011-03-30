@@ -32,7 +32,6 @@ public class EnumConverter
 	//
 
 	@SuppressWarnings( { "rawtypes", "unchecked" } )
-	@Override
 	public Object convert( Class clazz, Object value ) {
 
 		if ( value == null || "".equals( value ) ) {

@@ -44,7 +44,6 @@ public class AddressBookPlugIn
 	// Public methods
 	//
 
-	@Override
 	public void init( ActionServlet servlet, ModuleConfig config ) {
 
 		ServletContext context = servlet.getServletContext();
@@ -65,7 +64,6 @@ public class AddressBookPlugIn
 		ConvertUtils.register( converterDate, Date.class );
 	}
 
-	@Override
 	public void destroy() {
 
 		// Do nothing

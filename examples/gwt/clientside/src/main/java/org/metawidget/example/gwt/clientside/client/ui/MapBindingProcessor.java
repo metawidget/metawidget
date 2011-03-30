@@ -44,7 +44,6 @@ public class MapBindingProcessor
 	// Public methods
 	//
 
-	@Override
 	public void onStartBuild( GwtMetawidget metawidget ) {
 
 		// Clear our state
@@ -52,7 +51,6 @@ public class MapBindingProcessor
 		metawidget.putClientProperty( MapBindingProcessor.class, null );
 	}
 
-	@Override
 	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget ) {
 
 		// Don't bind to Actions
@@ -137,7 +135,6 @@ public class MapBindingProcessor
 		}
 	}
 
-	@Override
 	public void onEndBuild( GwtMetawidget metawidget ) {
 
 		// Do nothing

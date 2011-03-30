@@ -7,6 +7,8 @@
 
 	<script type="text/javascript" src="org.metawidget.example.GwtAddressBook/org.metawidget.example.GwtAddressBook.nocache.js"></script>
 	
+	<%-- a:bundle2Variable won't work in hosted mode. Use hosted.jsp instead --%>
+	
 	<fmt:setBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="localizationContext"/>	
 	<a:bundle2Variable bundle="${localizationContext.resourceBundle}" variableName="bundle"/>
 	

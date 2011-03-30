@@ -2375,6 +2375,16 @@ metawidget.setToInspect( animal )</programlisting>
 							Choose <parameter>Run As &gt; Web Application</parameter>
 						</para>
 					</listitem>
+					<listitem>
+						<para>
+							Choose <filename>hosted.jsp</filename>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Open the Google Development Mode view tab and double-click to open the URL in your browser
+						</para>
+					</listitem>
 				</itemizedlist>
 				
 				<para>

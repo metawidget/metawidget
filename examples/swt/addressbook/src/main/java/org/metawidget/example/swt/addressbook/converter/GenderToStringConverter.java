@@ -39,7 +39,6 @@ public class GenderToStringConverter
 	// Public methods
 	//
 
-	@Override
 	public Object convert( Object toConvert ) {
 
 		return ( (Gender) toConvert ).name();

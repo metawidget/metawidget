@@ -49,26 +49,22 @@ public class ContactsServiceImpl
 	// Public methods
 	//
 
-	@Override
 	public List<Contact> getAllByExample( ContactSearch search ) {
 
 		return mContactsController.getAllByExample( search );
 	}
 
-	@Override
 	public Contact load( long id ) {
 
 		return mContactsController.load( id );
 	}
 
-	@Override
 	public void save( Contact contact )
 		throws Exception {
 
 		mContactsController.save( contact );
 	}
 
-	@Override
 	public boolean delete( Contact contact ) {
 
 		return mContactsController.delete( contact );

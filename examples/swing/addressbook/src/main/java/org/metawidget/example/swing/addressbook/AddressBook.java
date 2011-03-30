@@ -81,7 +81,7 @@ public class AddressBook
 
 	public AddressBook( Container container ) {
 
-		// Nimbus look and feel (if available)
+		// Nimbus look and feel (only available on JDK 6.0)
 		//
 		// Note: applies to both application and applet version of AddressBook
 
@@ -145,13 +145,11 @@ public class AddressBook
 	//
 
 	@UiHidden
-	@Override
 	public ContactsController getContactsController() {
 
 		return mContactsController;
 	}
 
-	@Override
 	public void fireRefresh() {
 
 		mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );

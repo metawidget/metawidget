@@ -310,7 +310,6 @@ public abstract class Contact
 		mNotes = notes;
 	}
 
-	@Override
 	public int compareTo( Contact that ) {
 
 		if ( that == null ) {

@@ -18,6 +18,7 @@ package org.metawidget.example.gwt.addressbook.server.tagext;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -90,7 +91,13 @@ public class Bundle2VariableTag
 			writer.write( mVariableName );
 			writer.write( " = {\n" );
 
-			List<String> keys = CollectionUtils.newArrayList( mBundle.keySet() );
+			List<String> keys = CollectionUtils.newArrayList();
+
+			for ( Enumeration<String> e = mBundle.getKeys(); e.hasMoreElements(); ) {
+
+				keys.add( e.nextElement() );
+			}
+
 			Collections.sort( keys );
 
 			for ( int loop = 0, length = keys.size(); loop < length; loop++ ) {

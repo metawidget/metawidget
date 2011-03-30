@@ -35,7 +35,6 @@ public class NestedWidgetsConverter
 	// Public methods
 	//
 
-	@Override
 	public Object getAsObject( FacesContext context, UIComponent component, String value ) {
 
 		String[] values = ArrayUtils.fromString( value );
@@ -54,7 +53,6 @@ public class NestedWidgetsConverter
 		return nestedWidgets;
 	}
 
-	@Override
 	public String getAsString( FacesContext context, UIComponent component, Object value ) {
 
 		return StringUtils.quietValueOf( value );

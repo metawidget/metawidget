@@ -71,7 +71,6 @@ public class ExcludingWidgetBuilderExampleTest
 	static class ExcludingWidgetBuilder
 		implements WidgetBuilder<JComponent, SwingMetawidget> {
 
-		@Override
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			String[] exclude = (String[]) metawidget.getClientProperty( "exclude" );

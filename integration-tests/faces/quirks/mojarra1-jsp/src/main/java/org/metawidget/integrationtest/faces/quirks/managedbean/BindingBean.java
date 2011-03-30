@@ -143,7 +143,6 @@ public class BindingBean {
 		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( ReadableIdProcessor.class ) );
 		metawidget.addWidgetProcessor( new WidgetProcessor<UIComponent, UIMetawidget>() {
 
-			@Override
 			public UIComponent processWidget( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget parentMetawidget ) {
 
 				return setId( widget, parentMetawidget );

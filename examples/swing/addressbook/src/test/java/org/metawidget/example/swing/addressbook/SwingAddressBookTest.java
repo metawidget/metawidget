@@ -234,13 +234,11 @@ public class SwingAddressBookTest
 
 		editor.addCellEditorListener( new CellEditorListener() {
 
-			@Override
 			public void editingStopped( ChangeEvent e ) {
 
 				stopCellEditing.add( "editingStopped" );
 			}
 
-			@Override
 			public void editingCanceled( ChangeEvent e ) {
 
 				// Do nothing
@@ -508,7 +506,6 @@ public class SwingAddressBookTest
 			mBar = bar;
 		}
 
-		@Override
 		public int compareTo( Foo that ) {
 
 			return hashCode() - that.hashCode();

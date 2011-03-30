@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -167,7 +168,6 @@ public class ContactDialog
 		final JPopupMenu menuPopup = new JPopupMenu();
 		menuPopup.add( new AbstractAction( bundle.getString( "delete" ) ) {
 
-			@Override
 			public void actionPerformed( ActionEvent event ) {
 
 				menuPopup.setVisible( false );
@@ -196,7 +196,9 @@ public class ContactDialog
 			public void mouseReleased( MouseEvent event ) {
 
 				if ( event.isPopupTrigger() && !mContactMetawidget.isReadOnly() ) {
-					menuPopup.setLocation( event.getLocationOnScreen() );
+
+					Point screenLocation = ((Component) event.getSource()).getLocationOnScreen();
+					menuPopup.setLocation( screenLocation.x + event.getX(), screenLocation.y + event.getY() );
 
 					if ( communicationsTable.getCellEditor() != null ) {
 						communicationsTable.getCellEditor().stopCellEditing();
@@ -333,13 +335,11 @@ public class ContactDialog
 		// Public methods
 		//
 
-		@Override
 		public Object getCellEditorValue() {
 
 			return mEditor.getValue( mColumnName );
 		}
 
-		@Override
 		@SuppressWarnings( "unchecked" )
 		public Component getTableCellEditorComponent( JTable table, Object value, boolean selected, int row, int column ) {
 

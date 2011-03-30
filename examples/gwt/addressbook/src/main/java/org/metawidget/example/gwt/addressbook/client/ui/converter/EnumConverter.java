@@ -47,7 +47,6 @@ public class EnumConverter<T extends Enum<T>>
 	// Public methods
 	//
 
-	@Override
 	public T convertFromWidget( Widget widget, Object value, Class<?> type ) {
 
 		if ( value == null || "".equals( value ) ) {

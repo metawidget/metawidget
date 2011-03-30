@@ -134,13 +134,11 @@ public class GwtTestAddressBook
 
 								contactsService.load( 1, new AsyncCallback<Contact>() {
 
-									@Override
 									public void onFailure( Throwable caught ) {
 
 										throw new RuntimeException( caught );
 									}
 
-									@Override
 									public void onSuccess( final Contact personalContact ) {
 
 										final ContactDialog dialog = new ContactDialog( addressBookModule, personalContact );
@@ -384,13 +382,11 @@ public class GwtTestAddressBook
 
 		contactsService.load( 5, new AsyncCallback<Contact>() {
 
-			@Override
 			public void onFailure( Throwable caught ) {
 
 				throw new RuntimeException( caught );
 			}
 
-			@Override
 			public void onSuccess( final Contact businessContact ) {
 
 				final ContactDialog dialog = new ContactDialog( addressBookModule, businessContact );
@@ -607,13 +603,11 @@ public class GwtTestAddressBook
 
 												contactsService.load( 7, new AsyncCallback<Contact>() {
 
-													@Override
 													public void onFailure( Throwable caught ) {
 
 														throw new RuntimeException( caught );
 													}
 
-													@Override
 													public void onSuccess( final Contact savedContact ) {
 
 														final ContactDialog dialogDelete = new ContactDialog( addressBookModule, savedContact );

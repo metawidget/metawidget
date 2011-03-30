@@ -52,7 +52,6 @@ public class StringToDateConverter
 	// Public methods
 	//
 
-	@Override
 	public Object convert( Object toConvert ) {
 
 		if ( toConvert == null || "".equals( toConvert ) ) {

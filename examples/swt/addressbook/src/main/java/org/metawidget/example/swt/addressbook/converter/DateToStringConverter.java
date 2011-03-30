@@ -51,7 +51,6 @@ public class DateToStringConverter
 	// Public methods
 	//
 
-	@Override
 	public Object convert( Object toConvert ) {
 
 		if ( toConvert == null ) {

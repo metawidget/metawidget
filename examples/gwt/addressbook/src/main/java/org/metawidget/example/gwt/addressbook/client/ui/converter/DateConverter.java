@@ -50,7 +50,6 @@ public class DateConverter
 	// Public methods
 	//
 
-	@Override
 	public Date convertFromWidget( Widget widget, Object value, Class<?> type ) {
 
 		if ( value == null || "".equals( value ) ) {

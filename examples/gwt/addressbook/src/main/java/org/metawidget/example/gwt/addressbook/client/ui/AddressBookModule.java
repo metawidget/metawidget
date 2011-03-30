@@ -97,7 +97,6 @@ public class AddressBookModule
 	// Public methods
 	//
 
-	@Override
 	public void onModuleLoad() {
 
 		// Model
@@ -117,7 +116,6 @@ public class AddressBookModule
 		reloadContacts();
 		mContacts.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				int rowIndex = mContacts.getCellForEvent( event ).getRowIndex();
@@ -134,13 +132,11 @@ public class AddressBookModule
 
 				mContactsService.load( contactId, new AsyncCallback<Contact>() {
 
-					@Override
 					public void onFailure( Throwable caught ) {
 
 						Window.alert( caught.getMessage() );
 					}
 
-					@Override
 					public void onSuccess( Contact contact ) {
 
 						showContactDialog( contact );
@@ -176,7 +172,6 @@ public class AddressBookModule
 		Button searchButton = new Button( dictionary.get( "search" ) );
 		searchButton.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				// Example of manual mapping. See ContactDialog for an example of using automatic
@@ -201,7 +196,6 @@ public class AddressBookModule
 		Button addPersonalButton = new Button( dictionary.get( "addPersonal" ) );
 		addPersonalButton.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				showContactDialog( new PersonalContact() );
@@ -212,7 +206,6 @@ public class AddressBookModule
 		Button addBusinessButton = new Button( dictionary.get( "addBusiness" ) );
 		addBusinessButton.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				showContactDialog( new BusinessContact() );
@@ -257,13 +250,11 @@ public class AddressBookModule
 
 		mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>() {
 
-			@Override
 			public void onFailure( Throwable caught ) {
 
 				Window.alert( caught.getMessage() );
 			}
 
-			@Override
 			public void onSuccess( List<Contact> contacts ) {
 
 				mContactsList = contacts;

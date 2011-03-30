@@ -297,7 +297,6 @@ public class Main {
 
 		mResultsTable.addSelectionListener( new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected( SelectionEvent event ) {
 
 				// ...fetch the Contact...
@@ -310,7 +309,6 @@ public class Main {
 				mContactDialog.waitForDispose();
 			}
 
-			@Override
 			public void widgetSelected( SelectionEvent arg0 ) {
 
 				// Do nothing

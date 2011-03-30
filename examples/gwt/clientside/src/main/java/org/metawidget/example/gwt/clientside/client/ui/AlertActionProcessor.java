@@ -43,7 +43,6 @@ public class AlertActionProcessor
 	// Public methods
 	//
 
-	@Override
 	public Widget processWidget( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget ) {
 
 		// Only bind to Actions
@@ -67,12 +66,11 @@ public class AlertActionProcessor
 		FocusWidget focusWidget = (FocusWidget) widget;
 		focusWidget.addClickHandler( new ClickHandler() {
 
-			@Override
 			public void onClick( ClickEvent event ) {
 
 				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();
 
-				if ( !names.isEmpty() ) {
+				if ( names.length() != 0 ) {
 					names += StringUtils.SEPARATOR_DOT_CHAR;
 				}
 

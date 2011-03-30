@@ -35,7 +35,6 @@ public class ToStringConverter
 	//
 
 	@SuppressWarnings( "rawtypes" )
-	@Override
 	public Object convert( Class clazz, Object value ) {
 
 		if ( value == null || "".equals( value ) ) {
