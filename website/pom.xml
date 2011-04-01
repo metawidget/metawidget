@@ -10,11 +10,73 @@
 	<artifactId>metawidget-website</artifactId>
 	<packaging>war</packaging>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-swing</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-annotation</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-groovy</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-java5</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-jpa</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.hibernate</groupId>
+			<artifactId>metawidget-hibernatevalidator</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>hibernate-core</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
+		<finalName>ROOT</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
+					<archiveClasses>true</archiveClasses>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<packagingExcludes>WEB-INF/**</packagingExcludes>
 					<webResources>
@@ -27,6 +89,58 @@
 						</resource>
 					</webResources>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<target>
+						<copy todir="target/ROOT/live-demo">
+							<fileset dir="target/ROOT/WEB-INF/lib">
+								<exclude name="ROOT.jar" />
+							</fileset>
+						</copy>
+						<copy file="target/ROOT/WEB-INF/lib/metawidget-website.jar" tofile="target/ROOT/live-demo/console-applet.jar" />
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jarsigner-plugin</artifactId>
+				<configuration>
+					<alias>Metawidget</alias>
+					<keystore>${basedir}/src/main/resources/org/metawidget/website/swing/console/metawidget.keystore</keystore>
+					<storepass>m3t4w1dg3t</storepass>
+					<processMainArtifact>false</processMainArtifact>
+					<archiveDirectory>target/ROOT/live-demo</archiveDirectory>
+					<includes>
+						<include>console-applet.jar</include>
+						<include>metawidget-*.jar</include>
+						<include>groovy-all.jar</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>webtest-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

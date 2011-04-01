@@ -43,9 +43,6 @@
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-					<archive>
-						<addMavenDescriptor>false</addMavenDescriptor>
-					</archive>
 					<includes>
 						<include>**/*.class</include>
 						<include>**/*.xsd</include>

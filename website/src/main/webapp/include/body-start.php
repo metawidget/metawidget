@@ -36,21 +36,21 @@
 				<div id="left-menu1" class="left-menu">
 					<h2>Get Started</h2>
 					<ul>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/index.php' ) echo ' class="active"'; ?>><a href="index.php">Overview</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/news.php' ) echo ' class="active"'; ?>><a href="news.php">News</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/download.php' ) echo ' class="active"'; ?>><a href="download.php">Download</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/documentation.php' ) echo ' class="active"'; ?>><a href="documentation.php">Documentation</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/support.php' ) echo ' class="active"'; ?>><a href="support.php">Support</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/index.php' ) echo ' class="active"'; ?>><a href="/index.php">Overview</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/news.php' ) echo ' class="active"'; ?>><a href="/news.php">News</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/download.php' ) echo ' class="active"'; ?>><a href="/download.php">Download</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/documentation.php' ) echo ' class="active"'; ?>><a href="/documentation.php">Documentation</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/support.php' ) echo ' class="active"'; ?>><a href="/support.php">Support</a></li>
 					</ul>
 				</div>
 				<div id="left-menu2" class="left-menu">
 					<h2>Get Involved</h2>
 					<ul>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/blogs.php' ) echo ' class="active"'; ?>><a href="blogs.php">Blogs and Articles</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/survey.php' ) echo ' class="active"'; ?>><a href="survey.php">Complete our Survey</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/contributing.php' ) echo ' class="active"'; ?>><a href="contributing.php">Contributing</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/issues.php' ) echo ' class="active"'; ?>><a href="issues.php">Issue Tracker</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/coverage.php' ) echo ' class="active"'; ?>><a href="coverage.php">Code Coverage</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/blogs.php' ) echo ' class="active"'; ?>><a href="/blogs.php">Blogs and Articles</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/survey.php' ) echo ' class="active"'; ?>><a href="/survey.php">Complete our Survey</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/contributing.php' ) echo ' class="active"'; ?>><a href="/contributing.php">Contributing</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/issues.php' ) echo ' class="active"'; ?>><a href="/issues.php">Issue Tracker</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/coverage.php' ) echo ' class="active"'; ?>><a href="/coverage.php">Code Coverage</a></li>
 					</ul>
 				</div>
 				<div class="badges" style="height: 422px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">

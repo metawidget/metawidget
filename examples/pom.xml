@@ -57,12 +57,12 @@
 				<configuration>
 					<target>
 						<copy todir="${project.build.directory}/src">
-							<fileset dir="${basedir}">
-								<include name="**/src/**/*.*"/>
-								<include name="**/pom.xml"/>
-								<include name="gwt/clientside/war/**"/>
-								<exclude name="/src/**"/>
-								<exclude name="pom.xml"/>
+							<fileset dir="${basedir}/../">
+								<include name="examples/**/src/**/*.*"/>
+								<include name="examples/**/pom.xml"/>
+								<include name="examples/gwt/clientside/war/**"/>
+								<include name="pom.xml"/>
+								<exclude name="examples/src/**"/>
 							</fileset>
 						</copy>
 					</target>
