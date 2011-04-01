@@ -48,8 +48,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-// TODO: proper version in MANIFEST.MF?
-
 /**
  * Helper class for reading <code>metadata.xml</code> files and configuring Metawidgets.
  * <p>
@@ -654,8 +652,8 @@ public class ConfigReader
 	}
 
 	/**
-	 * Certain classes are both immutable. We only ever need one instance of such classes for an
-	 * entire application.
+	 * Certain classes are immutable. We only ever need one instance of such classes for an entire
+	 * application.
 	 */
 
 	protected boolean isImmutable( Class<?> clazz ) {

@@ -50,7 +50,7 @@
 						</configuration>
 						<phase>generate-sources</phase>
 					</execution>
-					<!-- <execution>
+					<!-- TODO: <execution>
 						<id>produce single page html</id>
 						<goals>
 							<goal>generate-html</goal>
