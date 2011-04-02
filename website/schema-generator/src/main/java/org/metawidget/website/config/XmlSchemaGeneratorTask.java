@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -139,7 +140,19 @@ public class XmlSchemaGeneratorTask
 
 			// For each entry in the JAR file...
 
-			JarFile jarFile = new JarFile( new File( getProject().getBaseDir(), mJar ) );
+			File file;
+
+			if ( getProject() != null ) {
+				file = new File( getProject().getBaseDir(), mJar );
+			} else {
+				file = new File( mJar );
+			}
+
+			if ( !file.exists() ) {
+				throw new FileNotFoundException( file.getAbsolutePath() );
+			}
+
+			JarFile jarFile = new JarFile( file );
 			String lastXsdFilename = null;
 
 			for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
