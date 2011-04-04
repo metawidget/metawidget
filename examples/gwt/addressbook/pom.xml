@@ -99,9 +99,10 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget.modules.gwt</groupId>
-			<artifactId>metawidget-gwt</artifactId>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
+			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

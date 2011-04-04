@@ -36,7 +36,7 @@
 		<module>swt</module>
 
 		<!-- 'all' must run last -->
-		
+
 		<module>all</module>
 
 	</modules>
@@ -52,9 +52,19 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<inherited>false</inherited>

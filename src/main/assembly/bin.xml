@@ -27,11 +27,11 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>/modules/gwt/core/target/metawidget-gwt.jar</source>
+			<source>/modules/gwt/core/target/metawidget-gwt-sources.jar</source>
 			<outputDirectory>/additional/gwt</outputDirectory>
 		</file>
 		<file>
-			<source>/modules/gwt/extgwt/target/metawidget-extgwt.jar</source>
+			<source>/modules/gwt/extgwt/target/metawidget-extgwt-sources.jar</source>
 			<outputDirectory>/additional/gwt</outputDirectory>
 		</file>
 		<file>

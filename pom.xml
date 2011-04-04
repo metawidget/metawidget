@@ -728,6 +728,10 @@
 				<!-- Distribution -->
 
 				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.1</version>
+				</plugin>
+				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
 					<version>1.6</version>
 				</plugin>
@@ -757,6 +761,7 @@
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assembly/bin.xml</descriptor>
+						<descriptor>src/main/assembly/src.xml</descriptor>
 					</descriptors>
 					<finalName>metawidget-${project.version}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>

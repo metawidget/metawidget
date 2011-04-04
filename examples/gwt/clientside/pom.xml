@@ -60,9 +60,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.metawidget.modules.gwt</groupId>
-			<artifactId>metawidget-extgwt</artifactId>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
+			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

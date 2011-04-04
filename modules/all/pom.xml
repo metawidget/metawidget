@@ -12,10 +12,12 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<!-- Artificial sourceDirectory -->
+		<sourceDirectory>target/src</sourceDirectory>
 		<plugins>
 			<!-- Copy and flatten all sibling module classes. Easier than using maven-assembly-plugin because: -->
-			<!-- 	1) we want a JAR that is deloyed into the Maven repository -->
-			<!-- 	2) we need to exclude *.java from the metawidget-gwt.jar   -->
+			<!-- 1) we want a JAR that is deloyed into the Maven repository -->
+			<!-- 2) we want a sources JAR built by maven-source-plugin -->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<inherited>false</inherited>
@@ -28,16 +30,33 @@
 							</fileset>
 							<regexpmapper from="^.*/classes/(.*)$" to="\1" handledirsep="true" />
 						</copy>
+						<copy todir="${project.build.directory}/src">
+							<fileset dir="${basedir}/../">
+								<include name="**/src/main/**/*.*" />
+								<exclude name="/all/**" />
+							</fileset>
+							<regexpmapper from="^.*/src/main/[a-z]+/(.*)$" to="\1" handledirsep="true" />
+						</copy>
 					</target>
 				</configuration>
 				<executions>
+					<!-- Use 'process-sources' phase to improve compilation on m2eclipse -->
 					<execution>
-						<phase>package</phase>
+						<phase>process-sources</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- Don't compile anything -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*.*</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 			<!-- JAR flattened classes -->
 			<plugin>
@@ -52,11 +71,6 @@
 						<include>META-INF/*.tld</include>
 						<include>org/metawidget/swing/icon/*.gif</include>
 					</includes>
-					<excludes>
-						<exclude>**/gwt/client/**</exclude>
-						<exclude>**/gwt/generator/**</exclude>
-						<exclude>**/gwt/remote/client/**</exclude>
-					</excludes>
 				</configuration>
 				<executions>
 					<execution>
