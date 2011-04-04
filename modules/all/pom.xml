@@ -12,12 +12,20 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<!-- Artificial sourceDirectory -->
-		<sourceDirectory>target/src</sourceDirectory>
+		<!-- Aggregated sourceDirectory -->
+		<sourceDirectory>target/src-aggregate</sourceDirectory>
 		<plugins>
-			<!-- Copy and flatten all sibling module classes. Easier than using maven-assembly-plugin because: -->
-			<!-- 1) we want a JAR that is deloyed into the Maven repository -->
-			<!-- 2) we want a sources JAR built by maven-source-plugin -->
+			<!-- Copy and flatten all sibling module classes. Better than using maven-assembly-plugin because: -->
+
+			<!-- 1) we want metawidget-all to have a JAR packaging type, not a POM packaging type -->
+			<!-- 2) JAR can be built by the default maven-jar-plugin -->
+			<!-- 3) sources can be built by the default maven-source-plugin -->
+			<!-- 4) install can be done by the default maven-install-plugin -->
+			<!-- 5) has 'real' classes for m2eclipse to resolve (so no errors under Problems tab) -->
+
+			<!-- We still can't have 'real' sources, unfortunately, without respecifying all dependencies. So that's still -->
+			<!-- broken. A workaround is not to have metawidget-all and one of the example projects open at the same time -->
+
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<inherited>false</inherited>
@@ -25,22 +33,22 @@
 					<target>
 						<copy todir="${project.build.directory}/classes">
 							<fileset dir="${basedir}/../">
-								<include name="**/target/classes/**/*.*" />
 								<exclude name="/all/**" />
+								<include name="**/target/classes/**/*.*" />
 							</fileset>
 							<regexpmapper from="^.*/classes/(.*)$" to="\1" handledirsep="true" />
 						</copy>
-						<copy todir="${project.build.directory}/src">
+						<copy todir="${project.build.directory}/src-aggregate">
 							<fileset dir="${basedir}/../">
-								<include name="**/src/main/**/*.*" />
 								<exclude name="/all/**" />
+								<include name="**/src/main/**/*.*" />
 							</fileset>
 							<regexpmapper from="^.*/src/main/[a-z]+/(.*)$" to="\1" handledirsep="true" />
 						</copy>
 					</target>
 				</configuration>
 				<executions>
-					<!-- Use 'process-sources' phase to improve compilation on m2eclipse -->
+					<!-- Use 'process-sources' phase to pre-empt compilation under m2eclipse -->
 					<execution>
 						<phase>process-sources</phase>
 						<goals>
@@ -49,38 +57,16 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Don't compile anything -->
+			<!-- Cannot compile src-aggregate without respecifying all dependencies -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>**/*.*</exclude>
+						<exclude>**/*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
-			<!-- JAR flattened classes -->
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*.class</include>
-						<include>**/*.xsd</include>
-						<include>**/metawidget-*-default.xml</include>
-						<include>META-INF/faces-config.xml</include>
-						<include>META-INF/*.taglib.xml</include>
-						<include>META-INF/*.tld</include>
-						<include>org/metawidget/swing/icon/*.gif</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- maven-jar-plugin and maven-source-plugin run as normal -->
 		</plugins>
 	</build>
 

@@ -1,6 +1,10 @@
 <project name="swing-applet-addressbook-test">
 
-	<taskdef resource="webtestTaskdefs.properties" />
+	<path id="webtest.path.id">
+		<fileset dir="../../../target/addressbook-swing-applet" includes="*.jar"/>
+	</path>
+	
+	<taskdef resource="webtestTaskdefs.properties" classpathref="webtest.path.id"/>
 
 	<!-- Test Applet Loads (more thorough testing is done by SwingAddressBookTest) -->
 

@@ -63,6 +63,12 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-all</artifactId>
+			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
