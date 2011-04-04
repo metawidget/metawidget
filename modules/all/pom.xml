@@ -21,11 +21,7 @@
 			<artifactId>metawidget-annotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- metawidget-core should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-beanvalidation</artifactId>
@@ -96,11 +92,7 @@
 			<artifactId>metawidget-commonsvalidator</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.faces</groupId>
-			<artifactId>metawidget-faces</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- metawidget-faces should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-icefaces</artifactId>
@@ -121,11 +113,7 @@
 			<artifactId>metawidget-tomahawk</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.gwt</groupId>
-			<artifactId>metawidget-gwt</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- metawidget-gwt should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.gwt</groupId>
 			<artifactId>metawidget-extgwt</artifactId>
@@ -146,11 +134,7 @@
 			<artifactId>metawidget-displaytag</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.jsp</groupId>
-			<artifactId>metawidget-jsp</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- metawidget-jsp should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.spring</groupId>
 			<artifactId>metawidget-spring</artifactId>
@@ -176,11 +160,7 @@
 			<artifactId>metawidget-grouplayout</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.swing</groupId>
-			<artifactId>metawidget-swing</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- metawidget-swing should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-swingx</artifactId>

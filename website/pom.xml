@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>schema-generator-dependencies</module>
 		<module>schema-generator</module>
 		<module>core</module>
 	</modules>
