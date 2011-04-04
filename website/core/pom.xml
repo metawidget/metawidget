@@ -132,86 +132,9 @@
 						<version>${project.version}</version>
 					</dependency>
 					<dependency>
-						<groupId>org.metawidget.modules</groupId>
-						<artifactId>metawidget-all</artifactId>
+						<groupId>org.metawidget.website</groupId>
+						<artifactId>website-xml-schema-generator-dependencies</artifactId>
 						<version>${project.version}</version>
-					</dependency>
-					<!-- TODO: avoid respecifying these -->
-					<dependency>
-						<groupId>com.google.android</groupId>
-						<artifactId>android</artifactId>
-						<version>1.5_r4</version>
-					</dependency>
-					<dependency>
-						<groupId>org.richfaces.ui</groupId>
-						<artifactId>richfaces-ui</artifactId>
-						<version>3.1.6.GA</version>
-					</dependency>
-					<dependency>
-						<groupId>org.icefaces</groupId>
-						<artifactId>icefaces-comps</artifactId>
-						<version>1.8.2</version>
-					</dependency>
-					<dependency>
-						<groupId>org.primefaces</groupId>
-						<artifactId>primefaces</artifactId>
-						<version>2.2</version>
-					</dependency>
-					<dependency>
-						<groupId>javassist</groupId>
-						<artifactId>javassist</artifactId>
-						<version>3.1</version>
-					</dependency>
-					<dependency>
-						<groupId>org.jboss.spec</groupId>
-						<artifactId>jboss-javaee-6.0</artifactId>
-						<version>1.0.0.Final</version>
-						<type>pom</type>
-					</dependency>
-					<dependency>
-						<groupId>com.google.gwt</groupId>
-						<artifactId>gwt-servlet</artifactId>
-						<version>2.2.0</version>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-webmvc</artifactId>
-						<version>2.5.6</version>
-					</dependency>
-					<dependency>
-						<groupId>struts</groupId>
-						<artifactId>struts</artifactId>
-						<version>1.2.9</version>
-					</dependency>
-					<dependency>
-						<groupId>org.swinglabs</groupId>
-						<artifactId>swingx</artifactId>
-						<version>1.0</version>
-					</dependency>
-					<dependency>
-						<groupId>com.miglayout</groupId>
-						<artifactId>miglayout</artifactId>
-						<version>3.7.3</version>
-					</dependency>
-					<dependency>
-						<groupId>org.jdesktop</groupId>
-						<artifactId>beansbinding</artifactId>
-						<version>1.2.1</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.swt.win32.win32</groupId>
-						<artifactId>x86</artifactId>
-						<version>3.6.0-v3659</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.core</groupId>
-						<artifactId>databinding</artifactId>
-						<version>1.2.0</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.core.databinding</groupId>
-						<artifactId>observable</artifactId>
-						<version>1.2.0</version>
 					</dependency>
 				</dependencies>
 				<executions>

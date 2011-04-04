@@ -59,8 +59,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: unit test
-
 public class XmlSchemaGeneratorTask
 	extends Task {
 
