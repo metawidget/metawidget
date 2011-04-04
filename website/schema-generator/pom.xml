@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>website-xml-schema-generator</artifactId>
+	<artifactId>website-schema-generator</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -23,8 +23,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.website</groupId>
-			<artifactId>website-xml-schema-generator-dependencies</artifactId>
+			<artifactId>website-schema-generator-dependencies</artifactId>
 			<version>${project.version}</version>
+			<type>pom</type>
 		</dependency>
 	</dependencies>
 

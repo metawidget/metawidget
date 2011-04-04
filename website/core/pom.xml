@@ -128,13 +128,14 @@
 				<dependencies>
 					<dependency>
 						<groupId>org.metawidget.website</groupId>
-						<artifactId>website-xml-schema-generator</artifactId>
+						<artifactId>website-schema-generator</artifactId>
 						<version>${project.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.metawidget.website</groupId>
-						<artifactId>website-xml-schema-generator-dependencies</artifactId>
+						<artifactId>website-schema-generator-dependencies</artifactId>
 						<version>${project.version}</version>
+						<type>pom</type>
 					</dependency>
 				</dependencies>
 				<executions>
