@@ -34,11 +34,6 @@
 		<module>struts</module>
 		<module>swing</module>
 		<module>swt</module>
-
-		<!-- 'all' must run last -->
-
-		<module>all</module>
-
 	</modules>
 
 	<dependencyManagement>

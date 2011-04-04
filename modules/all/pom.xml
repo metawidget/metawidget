@@ -1,72 +1,213 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<groupId>org.metawidget.modules</groupId>
-		<artifactId>modules-parent</artifactId>
+		<groupId>org.metawidget</groupId>
+		<!-- Not modules-parent until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
+		<artifactId>metawidget-parent</artifactId>
 		<version>1.15</version>
-		<relativePath>../</relativePath>
+		<relativePath>../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>org.metawidget.modules</groupId>
 	<artifactId>metawidget-all</artifactId>
 	<packaging>jar</packaging>
 
+	<!-- Have to respecify all dependencies so that tools like m2eclipse -->
+	<!-- can build against metawidget-all -->
+
+	<dependencies>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-annotation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-beanvalidation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-groovy</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-java5</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-javassist</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-jbpm</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-jpa</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-miglayout</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-oval</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-scala</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-seam</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.android</groupId>
+			<artifactId>metawidget-android</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.commons</groupId>
+			<artifactId>metawidget-beanutils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.commons</groupId>
+			<artifactId>metawidget-jexl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.commons</groupId>
+			<artifactId>metawidget-commonsvalidator</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-faces</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-icefaces</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-primefaces</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-richfaces</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-tomahawk</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.gwt</groupId>
+			<artifactId>metawidget-gwt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.gwt</groupId>
+			<artifactId>metawidget-extgwt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.hibernate</groupId>
+			<artifactId>metawidget-hibernate</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.hibernate</groupId>
+			<artifactId>metawidget-hibernatevalidator</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.jsp</groupId>
+			<artifactId>metawidget-displaytag</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.jsp</groupId>
+			<artifactId>metawidget-jsp</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.spring</groupId>
+			<artifactId>metawidget-spring</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.struts</groupId>
+			<artifactId>metawidget-struts</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-appframework</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-beansbinding</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-grouplayout</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-swing</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-swingx</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing.jgoodies</groupId>
+			<artifactId>metawidget-jgoodiesvalidator</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swt</groupId>
+			<artifactId>metawidget-swt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<!-- Aggregated sourceDirectory -->
-		<sourceDirectory>target/src-aggregate</sourceDirectory>
 		<plugins>
-			<!-- Copy and flatten all sibling module classes. Better than using maven-assembly-plugin because: -->
-
-			<!-- 1) we want metawidget-all to have a JAR packaging type, not a POM packaging type -->
-			<!-- 2) JAR can be built by the default maven-jar-plugin -->
-			<!-- 3) sources can be built by the default maven-source-plugin -->
-			<!-- 4) install can be done by the default maven-install-plugin -->
-			<!-- 5) has 'real' classes for m2eclipse to resolve (so no errors under Problems tab) -->
-
-			<!-- We still can't have 'real' sources, unfortunately, without respecifying all dependencies. So that's still -->
-			<!-- broken. A workaround is not to have metawidget-all and one of the example projects open at the same time -->
-
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<inherited>false</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
 				<configuration>
-					<target>
-						<copy todir="${project.build.directory}/classes">
-							<fileset dir="${basedir}/../">
-								<exclude name="/all/**" />
-								<include name="**/target/classes/**/*.*" />
-							</fileset>
-							<regexpmapper from="^.*/classes/(.*)$" to="\1" handledirsep="true" />
-						</copy>
-						<copy todir="${project.build.directory}/src-aggregate">
-							<fileset dir="${basedir}/../">
-								<exclude name="/all/**" />
-								<include name="**/src/main/**/*.*" />
-							</fileset>
-							<regexpmapper from="^.*/src/main/[a-z]+/(.*)$" to="\1" handledirsep="true" />
-						</copy>
-					</target>
-				</configuration>
-				<executions>
-					<!-- Use 'process-sources' phase to pre-empt compilation under m2eclipse -->
-					<execution>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Cannot compile src-aggregate without respecifying all dependencies -->
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/*</exclude>
-					</excludes>
+					<createSourcesJar>true</createSourcesJar>
 				</configuration>
 			</plugin>
-			<!-- maven-jar-plugin and maven-source-plugin run as normal -->
 		</plugins>
 	</build>
 

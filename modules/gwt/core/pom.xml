@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>		
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -65,6 +65,11 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/GwtMetawidget.gwt.xml</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>

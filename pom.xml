@@ -56,6 +56,7 @@
 	<modules>
 		<module>documentation/reference</module>
 		<module>modules</module>
+		<module>modules/all</module>
 		<module>examples</module>
 		<module>integration-tests</module>
 		<module>website</module>
@@ -514,6 +515,17 @@
 							<exclude>**/package-info.class</exclude>
 						</excludes>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.gmaven</groupId>
