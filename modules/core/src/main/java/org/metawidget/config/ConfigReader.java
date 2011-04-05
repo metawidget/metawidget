@@ -70,7 +70,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * that use config objects (eg. <code>JpaInspectorConfig</code>) is dependant on the config object
  * overriding <code>equals</code> and <code>hashCode</code>. <strong>Failure to override these
  * methods may result in your object not being reused, or being reused inappropriately</strong>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -164,7 +164,7 @@ public class ConfigReader
 	 * <p>
 	 * This is a convenience method for <code>configure( String, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
-	 * 
+	 *
 	 * @param resource
 	 *            resource name that will be looked up using openResource
 	 * @param toConfigure
@@ -191,7 +191,7 @@ public class ConfigReader
 	 * <p>
 	 * This version further caches any immutable objects, in the same way as
 	 * <code>configure( InputStream, Object )</code> (see the JavaDoc for that method).
-	 * 
+	 *
 	 * @param resource
 	 *            resource name that will be looked up using openResource
 	 * @param toConfigure
@@ -260,7 +260,7 @@ public class ConfigReader
 	 * <p>
 	 * This is a convenience method for <code>configure( InputStream, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
-	 * 
+	 *
 	 * @param stream
 	 *            XML input as a stream
 	 * @param toConfigure
@@ -323,7 +323,7 @@ public class ConfigReader
 	 * </code>
 	 * <p>
 	 * ...will call <code>setOpaque</code> on the given <code>JPanel</code>.
-	 * 
+	 *
 	 * @param stream
 	 *            XML input as a stream
 	 * @param toConfigure
@@ -449,7 +449,7 @@ public class ConfigReader
 	/**
 	 * Create the given native type based on the recorded text (as returned by
 	 * <code>SAX.endRecording</code>)
-	 * 
+	 *
 	 * @param namespace
 	 *            the Class of the object under construction
 	 */
@@ -565,7 +565,7 @@ public class ConfigReader
 	 * Create a native that is 'lazily resolved' based on the method it is being applied to. Most
 	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that for
 	 * everything (ie. we support array instead of string-array, int-array etc.)
-	 * 
+	 *
 	 * @param nativeValue
 	 *            never null
 	 * @param toResolveTo
@@ -611,7 +611,7 @@ public class ConfigReader
 
 	/**
 	 * Lookup a class based on the URI namespace and the local name of the XML tag.
-	 * 
+	 *
 	 * @param uri
 	 *            the URI namespace, to be used as the package name
 	 * @param localName
@@ -631,15 +631,14 @@ public class ConfigReader
 
 		String uppercasedLocalName = StringUtils.uppercaseFirstLetter( localName );
 		String classToConstruct = packagePrefix + StringUtils.SEPARATOR_DOT_CHAR + uppercasedLocalName;
-		ClassLoader classLoader = getClass().getClassLoader();
-		Class<?> clazz = ClassUtils.niceForName( classToConstruct, classLoader );
+		Class<?> clazz = ClassUtils.niceForName( classToConstruct );
 
 		if ( clazz == null ) {
 
 			// Try inner class
 
 			String innerClassToConstruct = packagePrefix + '$' + uppercasedLocalName;
-			clazz = ClassUtils.niceForName( innerClassToConstruct, classLoader );
+			clazz = ClassUtils.niceForName( innerClassToConstruct );
 
 			if ( clazz == null ) {
 				throw MetawidgetException.newException( "No such class " + classToConstruct + " or supported tag <" + localName + ">" );
@@ -1282,7 +1281,7 @@ public class ConfigReader
 						configToConstruct = configClassName;
 					}
 
-					Class<?> configClass = ClassUtils.niceForName( configToConstruct, getClass().getClassLoader() );
+					Class<?> configClass = ClassUtils.niceForName( configToConstruct );
 					if ( configClass == null ) {
 						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
 					}
@@ -1544,7 +1543,7 @@ public class ConfigReader
 			}
 
 			try {
-				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector", getClass().getClassLoader() );
+				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" );
 				return false;
 			} catch ( UnsupportedClassVersionError e ) {
 				LOG.debug( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version" );
