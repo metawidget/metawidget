@@ -59,10 +59,6 @@ public class HtmlDivLayoutRenderer
 	extends HtmlLayoutRenderer {
 
 	//
-	// Private statics
-	//
-
-	//
 	// Public methods
 	//
 

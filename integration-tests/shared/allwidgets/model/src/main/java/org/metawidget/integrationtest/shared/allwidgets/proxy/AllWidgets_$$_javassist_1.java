@@ -20,8 +20,6 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 
 /**
  * Models a proxied entity.
- * <p>
- * As used by Struts' AllWidgetsForm.
  *
  * @author Richard Kennard
  */

@@ -55,10 +55,10 @@ public final class ClassUtils {
 			try {
 				Method method = clazz.getMethod( JAVABEAN_IS_PREFIX + propertyUppercased );
 
-				// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
-				// only applies to boolean (little 'b')
+				// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification,
+				// 'is' only applies to boolean (little 'b')
 
-				if ( boolean.class.equals( method.getReturnType() )) {
+				if ( boolean.class.equals( method.getReturnType() ) ) {
 					return method;
 				}
 
@@ -273,6 +273,19 @@ public final class ClassUtils {
 		return superclass;
 	}
 
+	/**
+	 * Replacement for <code>Class.forName()</code> that:
+	 * <ul>
+	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
+	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
+	 * such as 'Login Screen')</li>
+	 * </ul>
+	 * <p>
+	 * This method tries to load the class using the Thread's current ClassLoader. This works best
+	 * for EJB/WAR splits where, say, metawidget-core and metawidget-annotations are located in the
+	 * EJB/lib and the other modules are located in the WAR/lib.
+	 */
+
 	public static Class<?> niceForName( String className ) {
 
 		// Try Thread.currentThread().getContextClassLoader(), in case metawidget.jar
@@ -289,6 +302,10 @@ public final class ClassUtils {
 	 * such as 'Login Screen')</li>
 	 * </ul>
 	 *
+	 * @param classLoader
+	 *            the specific ClassLoader to use to try and load this class. In general clients
+	 *            should use the other form of this method, which will default to trying the current
+	 *            Thread's ClassLoader
 	 * @throws NullPointerException
 	 *             if className is null
 	 */
@@ -299,8 +316,13 @@ public final class ClassUtils {
 			if ( classLoader != null ) {
 				return Class.forName( className, false, classLoader );
 			}
+		} catch ( ClassNotFoundException e ) {
 
-			// Use Class.forName() if there is no contextClassLoader (eg. Android)
+			// Fall through and try other ClassLoader
+		}
+
+		try {
+			// There may be no contextClassLoader (eg. Android)
 
 			return Class.forName( className, false, ClassUtils.class.getClassLoader() );
 		} catch ( ClassNotFoundException e ) {
