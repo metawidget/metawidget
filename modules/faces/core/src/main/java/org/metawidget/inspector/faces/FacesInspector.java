@@ -154,18 +154,20 @@ public class FacesInspector
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// ExpressionLookup
+		// FacesLookup
 
-		UiFacesLookup expressionLookup = property.getAnnotation( UiFacesLookup.class );
+		// TODO: error if trying to use 'this' in such an expression (will not be available on POSTback)
 
-		if ( expressionLookup != null ) {
-			attributes.put( FACES_LOOKUP, expressionLookup.value() );
+		UiFacesLookup facesLookup = property.getAnnotation( UiFacesLookup.class );
+
+		if ( facesLookup != null ) {
+			attributes.put( FACES_LOOKUP, facesLookup.value() );
 		}
 
-		UiFacesSuggest expressionSuggest = property.getAnnotation( UiFacesSuggest.class );
+		UiFacesSuggest facesSuggest = property.getAnnotation( UiFacesSuggest.class );
 
-		if ( expressionSuggest != null ) {
-			attributes.put( FACES_SUGGEST, expressionSuggest.value() );
+		if ( facesSuggest != null ) {
+			attributes.put( FACES_SUGGEST, facesSuggest.value() );
 		}
 
 		// Component

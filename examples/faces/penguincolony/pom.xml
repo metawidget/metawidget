@@ -2,14 +2,13 @@
 	<parent>
 		<groupId>org.metawidget.examples</groupId>
 		<artifactId>examples-parent</artifactId>
-		<version>1.15</version>
+		<version>1.15-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.metawidget.examples.faces</groupId>
 	<artifactId>penguincolony-faces</artifactId>
-	<version>1.15</version>
 	<packaging>war</packaging>
 
 	<build>
