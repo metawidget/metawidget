@@ -50,16 +50,6 @@
 
 	<build>
 		<finalName>metawidget-${project.version}</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>

@@ -31,6 +31,7 @@ import org.metawidget.config.AllTypesInspectorConfig.FooEnum;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.LogUtils;
@@ -582,6 +583,74 @@ public class ConfigReaderTest
 
 		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getPackage().getName(), ConfigReaderTest.class.getSimpleName() ), ConfigReaderTest.class );
 		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getName(), Foo.class.getSimpleName() ), Foo.class );
+	}
+
+	public void testIdAttribute()
+		throws Exception {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
+		xml += "<propertyStyle><javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\" id=\"fooPropertyStyle\"/></propertyStyle>";
+		xml += "<propertyStyle><javaBeanPropertyStyle refId=\"fooPropertyStyle\"/></propertyStyle>";
+		xml += "</propertyTypeInspector></metawidget>";
+
+		ConfigReader configReader = new ConfigReader();
+		Inspector inspector = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		assertTrue( inspector instanceof PropertyTypeInspector );
+
+		// Non-existent id
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
+		xml += "<propertyStyle><javaBeanPropertyStyle refId=\"fooPropertyStyle\"/></propertyStyle>";
+		xml += "</propertyTypeInspector></metawidget>";
+
+		try {
+			configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		} catch ( MetawidgetException e ) {
+			assertEquals( "Attribute refId=\"fooPropertyStyle\" refers to non-existent id", e.getMessage() );
+		}
+
+		// Duplicate id
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\" id=\"fooPropertyStyle\">";
+		xml += "<propertyStyle><javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\" id=\"fooPropertyStyle\"/></propertyStyle>";
+		xml += "</propertyTypeInspector></metawidget>";
+
+		try {
+			configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		} catch ( MetawidgetException e ) {
+			assertEquals( "Attribute id=\"fooPropertyStyle\" appears more than once", e.getMessage() );
+		}
+
+		// Bad id
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "<inspectors><array>";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\" id=\"fooPropertyStyle\"/>";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
+		xml += "<propertyStyle><javaBeanPropertyStyle refId=\"fooPropertyStyle\"/></propertyStyle>";
+		xml += "</propertyTypeInspector>";
+		xml += "</array></inspectors>";
+		xml += "</compositeInspector></metawidget>";
+
+		try {
+			configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		} catch ( MetawidgetException e ) {
+			assertEquals( "refId=\"fooPropertyStyle\" points to an object of class org.metawidget.inspector.propertytype.PropertyTypeInspector, not a <javaBeanPropertyStyle>", e.getMessage() );
+		}
 	}
 
 	//

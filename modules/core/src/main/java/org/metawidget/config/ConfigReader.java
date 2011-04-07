@@ -36,6 +36,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -85,17 +86,17 @@ public class ConfigReader
 	 * Dummy config to cache by if immutable has no Config.
 	 */
 
-	/* package private */static final String						IMMUTABLE_NO_CONFIG			= "no-config";
+	/* package private */static final String							IMMUTABLE_NO_CONFIG			= "no-config";
 
-	/* package private */static final Log							LOG							= LogUtils.getLog( ConfigReader.class );
+	/* package private */static final Log								LOG							= LogUtils.getLog( ConfigReader.class );
 
-	/* package private */static final String						JAVA_NAMESPACE_PREFIX		= "java:";
+	/* package private */static final String							JAVA_NAMESPACE_PREFIX		= "java:";
 
 	//
 	// Protected members
 	//
 
-	protected final SAXParserFactory								mFactory;
+	protected final SAXParserFactory									mFactory;
 
 	//
 	// Private members
@@ -105,7 +106,7 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	/* package private */final Map<String, CachingContentHandler>	mResourceCache				= CollectionUtils.newHashMap();
+	/* package private */final Map<String, CachingContentHandler>		mResourceCache				= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by a unique location (ie. the resource name) and
@@ -114,7 +115,7 @@ public class ConfigReader
 	 * child <code>Inspector</code>s and their various <code>xxxConfig</code>s.
 	 */
 
-	/* package private */final Map<String, Map<Integer, Object>>	mImmutableByLocationCache	= CollectionUtils.newHashMap();
+	/* package private */final Map<String, Map<Integer, Immutable>>		mImmutableByLocationCache	= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by their Class (and within that their Config).
@@ -124,7 +125,7 @@ public class ConfigReader
 	 * multiple different <code>Inspector</code>s.
 	 */
 
-	/* package private */final Map<Class<?>, Map<Object, Object>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
+	/* package private */final Map<Class<?>, Map<Object, Immutable>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by their id. This is a less automatic cache than
@@ -133,9 +134,7 @@ public class ConfigReader
 	 * need only specify, say, a PropertyStyle with nested Config options once.
 	 */
 
-	// TODO: mImmutableByIdCache
-
-	/* package private */final Map<Class<?>, Map<Object, Object>>	mImmutableByIdCache			= CollectionUtils.newHashMap();
+	/* package private */final Map<String, Immutable>					mImmutableByIdCache			= CollectionUtils.newHashMap();
 
 	/**
 	 * Patterns do not cache well, because <code>java.util.regex.Pattern</code> does not override
@@ -143,7 +142,7 @@ public class ConfigReader
 	 * same instance.
 	 */
 
-	/* package private */final Map<String, Pattern>					mPatternCache				= CollectionUtils.newHashMap();
+	/* package private */final Map<String, Pattern>						mPatternCache				= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -218,7 +217,7 @@ public class ConfigReader
 
 		locationKey += ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
 
-		Map<Integer, Object> immutableByLocationCache = mImmutableByLocationCache.get( locationKey );
+		Map<Integer, Immutable> immutableByLocationCache = mImmutableByLocationCache.get( locationKey );
 
 		if ( immutableByLocationCache == null ) {
 			immutableByLocationCache = CollectionUtils.newHashMap();
@@ -734,7 +733,7 @@ public class ConfigReader
 		 * Map of objects that are immutable for this XML document. Keyed by location index.
 		 */
 
-		private Map<Integer, Object>	mImmutableForThisLocationCache;
+		private Map<Integer, Immutable>	mImmutableForThisLocationCache;
 
 		/**
 		 * Track our depth in the XML tree.
@@ -798,7 +797,7 @@ public class ConfigReader
 		// Public methods
 		//
 
-		public void setImmutableForThisLocationCache( Map<Integer, Object> immutableForThisLocationCache ) {
+		public void setImmutableForThisLocationCache( Map<Integer, Immutable> immutableForThisLocationCache ) {
 
 			mImmutableForThisLocationCache = immutableForThisLocationCache;
 		}
@@ -1078,6 +1077,11 @@ public class ConfigReader
 
 						Object methodParameters = mConstructing.pop();
 						Object constructing = mConstructing.peek();
+
+						if ( constructing instanceof ConfigAndId ) {
+							constructing = ((ConfigAndId) mConstructing.peek()).getConfig();
+						}
+
 						mConstructing.push( methodParameters );
 
 						// Create native
@@ -1106,6 +1110,8 @@ public class ConfigReader
 
 						if ( encountered == ENCOUNTERED_CONFIGURED_TYPE ) {
 							Class<?> classToConstruct = lookupClass( uri, localName );
+							String id = ((ConfigAndId) object).getId();
+							object = ((ConfigAndId) object).getConfig();
 							Object configuredObject = null;
 
 							// Immutable by class (and config)? Don't re-instantiate
@@ -1134,7 +1140,12 @@ public class ConfigReader
 
 								if ( isImmutable( classToConstruct ) ) {
 									LOG.debug( "\tInstantiated immutable {0} (config hashCode {1})", classToConstruct, object.hashCode() );
-									putImmutableByClass( configuredObject, object );
+									Immutable immutable = (Immutable) configuredObject;
+									putImmutableByClass( immutable, object );
+
+									if ( id != null ) {
+										putImmutableById( id, immutable );
+									}
 								}
 							} else if ( isImmutable( classToConstruct ) ) {
 								// Unpause caching (if any)
@@ -1148,7 +1159,7 @@ public class ConfigReader
 									// a different mLocationIndex within this same resource) so we
 									// still need to cache it at this new location
 
-									putImmutableByLocation( configuredObject );
+									putImmutableByLocation( (Immutable) configuredObject );
 								}
 							}
 
@@ -1176,6 +1187,10 @@ public class ConfigReader
 						@SuppressWarnings( "unchecked" )
 						List<Object> parameters = (List<Object>) mConstructing.pop();
 						Object constructing = mConstructing.peek();
+
+						if ( constructing instanceof ConfigAndId ) {
+							constructing = ((ConfigAndId) constructing).getConfig();
+						}
 
 						Class<?> constructingClass = constructing.getClass();
 						String methodName = "set" + StringUtils.uppercaseFirstLetter( localName );
@@ -1253,87 +1268,111 @@ public class ConfigReader
 		private void handleNonNativeObject( String uri, String localName, Attributes attributes )
 			throws Exception {
 
-			Class<?> classToConstruct = lookupClass( uri, localName );
-
-			// Already cached (by location)?
-			//
-			// Note: if it is already cached by location, any child nodes will have been 'paused
-			// away' by CachingContentHandler, so we don't have to worry about checking the config
-			// attribute
-
 			Object object = null;
+			String refId = attributes.getValue( "refId" );
 
-			if ( isImmutable( classToConstruct ) ) {
-				object = getImmutableByLocation();
-			}
+			// Type with refId
 
-			// Configured types
+			if ( refId != null ) {
 
-			if ( object == null ) {
-				String configClassName = attributes.getValue( "config" );
+				object = getImmutableByRefId( refId );
+				Class<?> actualClass = object.getClass();
 
-				if ( configClassName != null ) {
-					String configToConstruct;
+				if ( !StringUtils.lowercaseFirstLetter( actualClass.getSimpleName() ).equals( localName )) {
 
-					if ( configClassName.indexOf( '.' ) == -1 ) {
-						configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
-					} else {
-						configToConstruct = configClassName;
-					}
-
-					Class<?> configClass = ClassUtils.niceForName( configToConstruct );
-					if ( configClass == null ) {
-						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
-					}
-
-					Object config = configClass.newInstance();
-
-					if ( config instanceof NeedsResourceResolver ) {
-						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
-					}
-
-					mConstructing.push( config );
-					mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
-
-					// Pause caching (if any)
-
-					if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) ) {
-						mCachingContentHandler.pause( true );
-						mIgnoreImmutableAfterDepth = mDepth;
-					}
-
-					mExpecting = EXPECTING_METHOD;
-					return;
+					throw InspectorException.newException( "refId=\"" + refId + "\" points to an object of " + actualClass + ", not a <" + localName + ">" );
 				}
 			}
 
-			// Already cached (without config)?
-
-			if ( object == null && isImmutable( classToConstruct ) ) {
-				object = getImmutableByClass( classToConstruct, IMMUTABLE_NO_CONFIG );
-			}
-
-			// Java objects
-
 			if ( object == null ) {
-				try {
-					Constructor<?> defaultConstructor = classToConstruct.getConstructor();
-					object = defaultConstructor.newInstance();
-				} catch ( NoSuchMethodException e ) {
-					String likelyConfig = getLikelyConfig( classToConstruct );
 
-					if ( likelyConfig != null ) {
-						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
-					}
+				Class<?> classToConstruct = lookupClass( uri, localName );
 
-					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
-				}
-
-				// Immutable by class (with no config)? Cache for next time
+				// Already cached (by location)?
+				//
+				// Note: if it is already cached by location, any child nodes will have been 'paused
+				// away' by CachingContentHandler, so we don't have to worry about checking the config
+				// attribute
 
 				if ( isImmutable( classToConstruct ) ) {
-					LOG.debug( "\tInstantiated immutable {0} (no config)", classToConstruct );
-					putImmutableByClass( object, null );
+					object = getImmutableByLocation();
+				}
+
+				// Configured types
+
+				if ( object == null ) {
+					String configClassName = attributes.getValue( "config" );
+
+					if ( configClassName != null ) {
+						String configToConstruct;
+
+						if ( configClassName.indexOf( '.' ) == -1 ) {
+							configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+						} else {
+							configToConstruct = configClassName;
+						}
+
+						Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+						if ( configClass == null ) {
+							throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
+						}
+
+						Object config = configClass.newInstance();
+
+						if ( config instanceof NeedsResourceResolver ) {
+							( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
+						}
+
+						mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ));
+						mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
+
+						// Pause caching (if any)
+
+						if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) ) {
+							mCachingContentHandler.pause( true );
+							mIgnoreImmutableAfterDepth = mDepth;
+						}
+
+						mExpecting = EXPECTING_METHOD;
+						return;
+					}
+				}
+
+				// Already cached (without config)?
+
+				if ( object == null && isImmutable( classToConstruct ) ) {
+					object = getImmutableByClass( classToConstruct, IMMUTABLE_NO_CONFIG );
+				}
+
+				// Java objects (without config)?
+
+				if ( object == null ) {
+					try {
+						Constructor<?> defaultConstructor = classToConstruct.getConstructor();
+						object = defaultConstructor.newInstance();
+					} catch ( NoSuchMethodException e ) {
+						String likelyConfig = getLikelyConfig( classToConstruct );
+
+						if ( likelyConfig != null ) {
+							throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
+						}
+
+						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
+					}
+
+					// Immutable by class (with no config)? Cache for next time
+
+					if ( isImmutable( classToConstruct ) ) {
+						LOG.debug( "\tInstantiated immutable {0} (no config)", classToConstruct );
+						Immutable immutable = (Immutable) object;
+						putImmutableByClass( immutable, null );
+
+						String id = attributes.getValue( "id" );
+
+						if ( id != null ) {
+							putImmutableById( id, immutable );
+						}
+					}
 				}
 			}
 
@@ -1382,7 +1421,7 @@ public class ConfigReader
 			return mImmutableForThisLocationCache.get( mLocationIndex );
 		}
 
-		private void putImmutableByLocation( Object immutable ) {
+		private void putImmutableByLocation( Immutable immutable ) {
 
 			// No cache by (ie. XML coming from a nameless InputStream)?
 
@@ -1393,9 +1432,27 @@ public class ConfigReader
 			mImmutableForThisLocationCache.put( mLocationIndex, immutable );
 		}
 
+		private Object getImmutableByRefId( String refId ) {
+
+			if ( !mImmutableByIdCache.containsKey( refId ) ) {
+				throw InspectorException.newException( "Attribute refId=\"" + refId + "\" refers to non-existent id" );
+			}
+
+			return mImmutableByIdCache.get( refId );
+		}
+
+		private void putImmutableById( String id, Immutable immutable ) {
+
+			if ( mImmutableByIdCache.containsKey( id ) ) {
+				throw InspectorException.newException( "Attribute id=\"" + id + "\" appears more than once" );
+			}
+
+			mImmutableByIdCache.put( id, immutable );
+		}
+
 		private Object getImmutableByClass( Class<?> clazz, Object config ) {
 
-			Map<Object, Object> configs = mImmutableByClassCache.get( clazz );
+			Map<Object, Immutable> configs = mImmutableByClassCache.get( clazz );
 
 			if ( configs == null ) {
 				return null;
@@ -1412,10 +1469,10 @@ public class ConfigReader
 			return configs.get( configToLookup );
 		}
 
-		private void putImmutableByClass( Object immutable, Object config ) {
+		private void putImmutableByClass( Immutable immutable, Object config ) {
 
 			Class<?> clazz = immutable.getClass();
-			Map<Object, Object> configs = mImmutableByClassCache.get( clazz );
+			Map<Object, Immutable> configs = mImmutableByClassCache.get( clazz );
 
 			if ( configs == null ) {
 				configs = CollectionUtils.newHashMap();
@@ -1711,6 +1768,41 @@ public class ConfigReader
 			buffer.append( ")" );
 
 			return buffer.toString();
+		}
+	}
+
+	private static class ConfigAndId {
+
+		//
+		// Private methods
+		//
+
+		private Object	mConfig;
+
+		private String	mId;
+
+		//
+		// Constructor
+		//
+
+		public ConfigAndId( Object config, String id ) {
+
+			mConfig = config;
+			mId = id;
+		}
+
+		//
+		// Public methods
+		//
+
+		public Object getConfig() {
+
+			return mConfig;
+		}
+
+		public String getId() {
+
+			return mId;
 		}
 	}
 }
