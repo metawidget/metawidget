@@ -50,6 +50,16 @@
 
 	<build>
 		<finalName>metawidget-${project.version}</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -58,11 +68,11 @@
 					<target>
 						<copy todir="${project.build.directory}/src">
 							<fileset dir="${basedir}/../">
-								<include name="examples/**/src/**/*.*"/>
-								<include name="examples/**/pom.xml"/>
-								<include name="examples/gwt/clientside/war/**"/>
-								<include name="pom.xml"/>
-								<exclude name="examples/src/**"/>
+								<include name="examples/**/src/**/*.*" />
+								<include name="examples/**/pom.xml" />
+								<include name="examples/gwt/clientside/war/**" />
+								<include name="pom.xml" />
+								<exclude name="examples/src/**" />
 							</fileset>
 						</copy>
 					</target>
