@@ -47,7 +47,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
+import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgetsProxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;

@@ -22,7 +22,7 @@ import java.text.ParseException;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
+import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgetsProxy.AllWidgets_$$_javassist_1;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.simple.StringUtils;

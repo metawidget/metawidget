@@ -18,7 +18,7 @@ package org.metawidget.integrationtest.struts.allwidgets.form;
 
 import org.apache.struts.action.ActionForm;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
-import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
+import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgetsProxy.AllWidgets_$$_javassist_1;
 
 /**
  * @author Richard Kennard

@@ -500,17 +500,13 @@ public class AllWidgets
 		implements Serializable {
 
 		//
-		//
 		// Private statics
-		//
 		//
 
 		private static final long	serialVersionUID	= 1l;
 
 		//
-		//
 		// Private members
-		//
 		//
 
 		private String				mNestedTextbox1		= "Nested Textbox 1";
@@ -520,9 +516,7 @@ public class AllWidgets
 		private NestedWidgets		mFurtherNestedWidgets;
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public String getNestedTextbox1() {

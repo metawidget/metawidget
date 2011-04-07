@@ -19,17 +19,42 @@ package org.metawidget.integrationtest.shared.allwidgets.proxy;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 
 /**
- * Models a proxied entity.
+ * Models an entity that tests all available widgets.
+ * <p>
+ * The fields all have default values to test data binding.
  *
  * @author Richard Kennard
  */
 
-public class AllWidgets_$$_javassist_1
-	extends AllWidgets {
+public class AllWidgetsProxy {
 
-	//
-	// Private statics
-	//
+	/**
+	 * Models a proxied entity.
+	 * <p>
+	 * Implemented as an inner class so that it gets ignored by tools that like to ignore inner
+	 * classes (and don't like '$' in top-level class names).
+	 *
+	 * @author Richard Kennard
+	 */
 
-	private static final long	serialVersionUID	= 1l;
+	public static class AllWidgets_$$_javassist_1
+		extends AllWidgets {
+
+		// Just a proxy
+	}
+
+	/**
+	 * Models a proxied entity.
+	 * <p>
+	 * Implemented as an inner class so that it gets ignored by tools that like to ignore inner
+	 * classes (and don't like '$' in top-level class names).
+	 *
+	 * @author Richard Kennard
+	 */
+
+	public static class AllWidgets$$EnhancerByCGLIB$$1234
+		extends AllWidgets {
+
+		// Just a proxy
+	}
 }

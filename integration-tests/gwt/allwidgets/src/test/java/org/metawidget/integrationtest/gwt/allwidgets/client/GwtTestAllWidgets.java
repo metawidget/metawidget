@@ -43,6 +43,7 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
@@ -551,7 +552,7 @@ public class GwtTestAllWidgets
 
 																								assertTrue( null == metawidget.getWidget( "nestedWidgets" ) );
 																								assertTrue( null == metawidget.getWidget( "readOnlyNestedWidgets" ) );
-																								assertTrue( metawidget.getWidget( "readOnlyNestedWidgetsDontExpand" ) instanceof Label );
+																								assertTrue( ((Widget) metawidget.getWidget( "readOnlyNestedWidgetsDontExpand" )) instanceof Label );
 
 																								finish();
 																							}
