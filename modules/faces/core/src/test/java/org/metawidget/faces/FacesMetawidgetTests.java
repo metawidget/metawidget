@@ -117,7 +117,7 @@ public class FacesMetawidgetTests {
 		// Private members
 		//
 
-		Map<String, Object>		mAttributes		= CollectionUtils.newHashMap();
+		Map<String, Object>	mAttributes	= CollectionUtils.newHashMap();
 
 		//
 		// Supported public methods
@@ -715,6 +715,8 @@ public class FacesMetawidgetTests {
 
 					private Map<String, String>	mInitParameters	= CollectionUtils.newHashMap();
 
+					private Map<String, Object>	mRequestMap		= CollectionUtils.newHashMap();
+
 					//
 					// Supported public methods
 					//
@@ -836,7 +838,7 @@ public class FacesMetawidgetTests {
 					@Override
 					public Map<String, Object> getRequestMap() {
 
-						throw new UnsupportedOperationException();
+						return mRequestMap;
 					}
 
 					@Override

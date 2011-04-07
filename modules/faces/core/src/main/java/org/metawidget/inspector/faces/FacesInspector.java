@@ -21,7 +21,6 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -31,7 +30,6 @@ import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.InspectorUtils;
-import org.metawidget.util.ThreadUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -49,13 +47,7 @@ public class FacesInspector
 	// Private members
 	//
 
-	private static final ThreadLocal<Object>	LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
-
-	//
-	// Private members
-	//
-
-	private boolean								mInjectThis;
+	private boolean	mInjectThis;
 
 	//
 	// Constructor
@@ -83,12 +75,17 @@ public class FacesInspector
 
 		try {
 			if ( mInjectThis ) {
-				LOCAL_TOINSPECT.set( parentToInspect );
+				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put( "this", parentToInspect );
 			}
 
 			return super.inspectParent( parentToInspect, propertyInParent );
 		} finally {
-			LOCAL_TOINSPECT.remove();
+
+			// 'this' should not be available outside of this particular evaluation
+
+			if ( mInjectThis ) {
+				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove( "this" );
+			}
 		}
 	}
 
@@ -98,13 +95,16 @@ public class FacesInspector
 
 		try {
 			if ( mInjectThis ) {
-				LOCAL_TOINSPECT.set( toInspect );
+				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put( "this", toInspect );
 			}
 
 			super.inspect( toInspect, classToInspect, toAddTo );
 		} finally {
+
+			// 'this' should not be available outside of this particular evaluation
+
 			if ( mInjectThis ) {
-				LOCAL_TOINSPECT.remove();
+				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove( "this" );
 			}
 		}
 	}
@@ -112,6 +112,8 @@ public class FacesInspector
 	@Override
 	protected Map<String, String> inspectTrait( Trait trait )
 		throws Exception {
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiFacesAttributes/UiFacesAttribute
 
@@ -122,26 +124,17 @@ public class FacesInspector
 			return null;
 		}
 
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if ( context == null ) {
-			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
-		}
-
-		Application application = context.getApplication();
-
 		// UiFacesAttribute
 
 		if ( facesAttribute != null ) {
-			putFacesAttribute( context, application, attributes, facesAttribute );
+			evaluateAndPutExpression( attributes, facesAttribute );
 		}
 
 		// UiFacesAttributes
 
 		if ( facesAttributes != null ) {
 			for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() ) {
-				putFacesAttribute( context, application, attributes, nestedFacesAttribute );
+				evaluateAndPutExpression( attributes, nestedFacesAttribute );
 			}
 		}
 
@@ -156,18 +149,16 @@ public class FacesInspector
 
 		// FacesLookup
 
-		// TODO: error if trying to use 'this' in such an expression (will not be available on POSTback)
-
 		UiFacesLookup facesLookup = property.getAnnotation( UiFacesLookup.class );
 
 		if ( facesLookup != null ) {
-			attributes.put( FACES_LOOKUP, facesLookup.value() );
+			putExpression( attributes, FACES_LOOKUP, facesLookup.value() );
 		}
 
 		UiFacesSuggest facesSuggest = property.getAnnotation( UiFacesSuggest.class );
 
 		if ( facesSuggest != null ) {
-			attributes.put( FACES_SUGGEST, facesSuggest.value() );
+			putExpression( attributes, FACES_SUGGEST, facesSuggest.value() );
 		}
 
 		// Component
@@ -184,14 +175,7 @@ public class FacesInspector
 
 		if ( ajax != null ) {
 			attributes.put( FACES_AJAX_EVENT, ajax.event() );
-
-			if ( !"".equals( ajax.action() ) ) {
-				if ( !FacesUtils.isExpression( ajax.action() ) ) {
-					throw InspectorException.newException( "Expression '" + ajax.action() + "' is not of the form #{...}" );
-				}
-
-				attributes.put( FACES_AJAX_ACTION, ajax.action() );
-			}
+			putExpression( attributes, FACES_AJAX_ACTION, ajax.action() );
 		}
 
 		// Converters
@@ -277,33 +261,85 @@ public class FacesInspector
 		return attributes;
 	}
 
-	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute ) {
+	//
+	// Private methods
+	//
+
+	/**
+	 * Put a 'Faces-side' expression into an attribute.
+	 */
+
+	private void putExpression( Map<String, String> attributes, String attributeName, String expression ) {
+
+		if ( "".equals( expression ) ) {
+			return;
+		}
+
+		// Sanity checks
+
+		if ( !FacesUtils.isExpression( expression ) ) {
+			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') is not of the form #{...}" );
+		}
+
+		if ( mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
+			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') must not contain 'this' (see Metawidget Reference Guide)" );
+		}
+
+		// Put the expression
+
+		attributes.put( attributeName, expression );
+	}
+
+	/**
+	 * Evaluate an 'Inspector-side' expression and put the result into an attribute.
+	 */
+
+	private void evaluateAndPutExpression( Map<String, String> attributes, UiFacesAttribute facesAttribute ) {
+
+		// Sanity checks
+
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( context == null ) {
+			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+		}
 
 		String expression = facesAttribute.expression();
+
+		if ( "".equals( expression ) ) {
+			return;
+		}
 
 		if ( !FacesUtils.isExpression( expression ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
 		}
 
-		if ( mInjectThis ) {
-			context.getExternalContext().getRequestMap().put( "this", LOCAL_TOINSPECT.get() );
+		if ( !mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
+			throw InspectorException.newException( "Expression for '" + expression + "' contains 'this', but " + FacesInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
 		}
 
+		// Evaluate the expression
+
+		Object value;
+
 		try {
-			Object value = application.createValueBinding( expression ).getValue( context );
+			value = context.getApplication().createValueBinding( expression ).getValue( context );
 
-			if ( value == null ) {
-				return;
-			}
-
-			for ( String attributeName : facesAttribute.name() ) {
-				InspectorUtils.putAttributeValue( attributes, attributeName, value );
-			}
 		} catch ( Exception e ) {
 
-			// We have found to helpful to include the actual expression we were trying to evaluate
+			// We have found it helpful to include the actual expression we were trying to evaluate
 
 			throw InspectorException.newException( "Unable to getValue of " + expression, e );
+		}
+
+		if ( value == null ) {
+			return;
+		}
+
+		// Put the result
+
+		for ( String attributeName : facesAttribute.name() ) {
+			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}
 }

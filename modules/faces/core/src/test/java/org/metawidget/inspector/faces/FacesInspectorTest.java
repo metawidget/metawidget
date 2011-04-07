@@ -23,8 +23,8 @@ import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
-import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.MetawidgetTestUtils;
@@ -114,24 +114,68 @@ public class FacesInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
-	public void testBadAjax() {
+	public void testBadExpression() {
+
+		FacesInspector inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true ));
 
 		try {
-			new FacesInspector().inspect( null, BadAjax.class.getName() );
+			inspector.inspect( null, BadExpression1a.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertEquals( "Expression 'bar' is not of the form #{...}", e.getMessage() );
+			assertEquals( "Expression 'foo' (for 'faces-lookup') is not of the form #{...}", e.getMessage() );
+		}
+
+		try {
+			inspector.inspect( null, BadExpression1b.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{this.foo}' (for 'faces-lookup') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
+		}
+
+		try {
+			inspector.inspect( null, BadExpression2a.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression 'bar' (for 'faces-suggest') is not of the form #{...}", e.getMessage() );
+		}
+
+		try {
+			inspector.inspect( null, BadExpression2b.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{this.bar}' (for 'faces-suggest') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
+		}
+
+		try {
+			inspector.inspect( null, BadExpression3a.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression 'baz' (for 'faces-ajax-action') is not of the form #{...}", e.getMessage() );
+		}
+
+		try {
+			inspector.inspect( null, BadExpression3b.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{this.baz}' (for 'faces-ajax-action') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
 		}
 	}
 
-	public void testBadExpression() {
+	public void testBadEvaluation() {
 
 		try {
-			new FacesInspector().inspect( null, BadExpression.class.getName() );
+			new FacesInspector().inspect( null, BadEvaluation1.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "Unable to getValue of #{error}", e.getMessage() );
 			assertEquals( "Forced error", e.getCause().getMessage() );
+		}
+
+		try {
+			new FacesInspector().inspect( null, BadEvaluation2.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression for '#{this.error}' contains 'this', but FacesInspectorConfig.setInjectThis is 'false'", e.getMessage() );
 		}
 	}
 
@@ -251,7 +295,7 @@ public class FacesInspectorTest
 		}
 	}
 
-	public static class BadExpression {
+	public static class BadEvaluation1 {
 
 		@UiFacesAttribute( name = "foo1", expression = "#{error}" )
 		public Object getFoo() {
@@ -260,9 +304,63 @@ public class FacesInspectorTest
 		}
 	}
 
-	public static class BadAjax {
+	public static class BadEvaluation2 {
 
-		@UiFacesAjax( event = "foo", action = "bar" )
+		@UiFacesAttribute( name = "foo2", expression = "#{this.error}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression1a {
+
+		@UiFacesLookup( "foo" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression1b {
+
+		@UiFacesLookup( "#{this.foo}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression2a {
+
+		@UiFacesSuggest( "bar" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression2b {
+
+		@UiFacesSuggest( "#{this.bar}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression3a {
+
+		@UiFacesAjax( event = "anEvent", action = "baz" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression3b {
+
+		@UiFacesAjax( event = "anEvent", action = "#{this.baz}" )
 		public Object getFoo() {
 
 			return null;
