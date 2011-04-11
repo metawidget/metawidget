@@ -19,9 +19,12 @@ package org.metawidget.inspector.commons.jexl;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,6 +96,19 @@ public class JexlXmlInspectorTest
 		assertTrue( 3 == action.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
+	}
+
+	public void testConfig()
+		throws Exception {
+
+		MetawidgetTestUtils.testEqualsAndHashcode( JexlXmlInspectorConfig.class, new JexlXmlInspectorConfig() {
+			// Subclass
+		} );
+
+		Field defaultFileField = BaseXmlInspectorConfig.class.getDeclaredField( "mDefaultFile" );
+		defaultFileField.setAccessible( true );
+
+		assertEquals( "metawidget-metadata.xml", defaultFileField.get( new JexlXmlInspectorConfig() ));
 	}
 
 	//
