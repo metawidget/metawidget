@@ -783,5 +783,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<distributionManagement>
+		<repository>
+			<id>miaka</id>
+			<url>scp://miaka:30002/usr/local/sonatype-work/nexus/storage/snapshots</url>
+		</repository>
+	</distributionManagement>
 
 </project>
