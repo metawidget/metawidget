@@ -16,17 +16,19 @@
 
 package org.metawidget.inspector.faces;
 
-import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import java.io.InputStream;
+
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a FacesInspector prior to use. Once instantiated, Inspectors are immutable.
+ * Configures a FacesXmlInspector prior to use. Once instantiated, Inspectors are immutable.
  *
  * @author Richard Kennard
  */
 
-public class FacesInspectorConfig
-	extends BaseObjectInspectorConfig {
+public class FacesXmlInspectorConfig
+	extends BaseXmlInspectorConfig {
 
 	//
 	// Private members
@@ -37,20 +39,29 @@ public class FacesInspectorConfig
 	//
 	// Public methods
 	//
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public FacesXmlInspectorConfig setInputStream( InputStream stream ) {
+
+		return (FacesXmlInspectorConfig) super.setInputStream( stream );
+	}
 
 	/**
 	 * Sets whether the Inspector injects a request-level 'this' attribute into
-	 * <code>UiFacesAttribute</code> evaluations. False by default.
+	 * JSF evaluations. False by default.
 	 * <p>
-	 * The problem with <code>UiFacesAttribute</code> annotations is that, although the annotation
-	 * is placed on the business object, the EL expression relies on the UI. If the JSF context is
-	 * not properly initialized with certain managed bean names, the annotation will not work. This
-	 * is rather brittle. Injecting 'this' instead allows the EL to function regardless of how the
-	 * JSF context is configured.
+	 * The problem with XML JSF expressions is that, although the annotation is placed on the
+	 * business object, the EL expression relies on the UI. If the JSF context is not properly
+	 * initialized with certain managed bean names, the annotation will not work. This is rather
+	 * brittle. Injecting 'this' instead allows the EL to function regardless of how the JSF context
+	 * is configured.
 	 * <p>
-	 * Note <code>injectThis</code> cannot be used in other EL expressions such as
-	 * <code>UiFacesLookup</code>. Those expressions are evaluated at a different phase of the JSF
-	 * lifecycle, possibly without <code>FacesInspector</code> being invoked. For example if a
+	 * Note <code>injectThis</code> cannot be used in EL expressions such as
+	 * <code>faces-lookup</code>. Those expressions are evaluated at a different phase of the JSF
+	 * lifecycle, possibly without <code>FacesXmlInspector</code> being invoked. For example if a
 	 * <code>h:selectOneMenu</code> fails to validate during POSTback, its
 	 * <code>f:selectItems</code> will be redisplayed without a new inspection and with no chance to
 	 * <code>injectThis</code>.
@@ -58,7 +69,7 @@ public class FacesInspectorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FacesInspectorConfig setInjectThis( boolean injectThis ) {
+	public FacesXmlInspectorConfig setInjectThis( boolean injectThis ) {
 
 		mInjectThis = injectThis;
 
@@ -82,7 +93,7 @@ public class FacesInspectorConfig
 			return false;
 		}
 
-		if ( mInjectThis != ( (FacesInspectorConfig) that ).mInjectThis ) {
+		if ( mInjectThis != ( (FacesXmlInspectorConfig) that ).mInjectThis ) {
 			return false;
 		}
 

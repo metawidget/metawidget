@@ -150,7 +150,15 @@ public abstract class BaseXmlInspector
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names ) {
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method is marked <code>final</code> because most Metawidget implementations will call
+	 * <code>inspectAsDom</code> directly instead.
+	 */
+
+	public final String inspect( Object toInspect, String type, String... names ) {
 
 		Element element = inspectAsDom( toInspect, type, names );
 

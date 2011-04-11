@@ -1273,6 +1273,9 @@ public class ConfigReader
 
 			// Type with refId
 
+			// TODO: mustn't have children!
+			// TODO: mustn't have 'config'
+
 			if ( refId != null ) {
 
 				object = getImmutableByRefId( refId );
@@ -1429,6 +1432,10 @@ public class ConfigReader
 				return;
 			}
 
+			if ( mImmutableForThisLocationCache.containsKey( mLocationIndex ) ) {
+				throw InspectorException.newException( "Location " + mLocationIndex + " already cached" );
+			}
+
 			mImmutableForThisLocationCache.put( mLocationIndex, immutable );
 		}
 
@@ -1559,6 +1566,10 @@ public class ConfigReader
 				} catch ( Exception e ) {
 					throw MetawidgetException.newException( e );
 				}
+			}
+
+			if ( configs.containsKey( configToStoreUnder ) ) {
+				throw InspectorException.newException( "Config '" + configToStoreUnder + "' already cached" );
 			}
 
 			configs.put( configToStoreUnder, immutable );

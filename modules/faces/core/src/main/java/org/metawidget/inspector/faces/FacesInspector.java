@@ -39,7 +39,6 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "deprecation" )
 public class FacesInspector
 	extends BaseObjectInspector {
 
@@ -281,6 +280,8 @@ public class FacesInspector
 			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') is not of the form #{...}" );
 		}
 
+		// TODO: JSF XML inspector
+
 		if ( mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
 			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') must not contain 'this' (see Metawidget Reference Guide)" );
 		}
@@ -294,6 +295,7 @@ public class FacesInspector
 	 * Evaluate an 'Inspector-side' expression and put the result into an attribute.
 	 */
 
+	@SuppressWarnings( "deprecation" )
 	private void evaluateAndPutExpression( Map<String, String> attributes, UiFacesAttribute facesAttribute ) {
 
 		// Sanity checks

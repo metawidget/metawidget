@@ -585,17 +585,22 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 								<classname>@UiFacesAttributes</classname> and <classname>@UiFacesAttribute</classname> - annotates
 								an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
 								<para>
-									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
-									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
-									the EL expression can refer to the originating object (i.e. <function>#{this.name}</function>).
-								</para>
-								<para>
 									Unlike <classname>@UiFacesLookup</classname>, which fits into a well-defined place within the JSF
 									framework (i.e. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is
 									evaluated by the <classname>Inspector</classname>, not by the Metawidget. This means the
 									<classname>Inspector</classname> must be able access to <classname>FacesContext</classname>. In practice this
 									usually happens automatically, but in some cases it may be necessary to 'combine remote
 									inspections' (see <xref linkend="section-howto-combine-remote"/>).
+								</para>
+								<para>
+									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
+									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
+									the EL expression can refer to the originating object (i.e. <function>#{this.name}</function>).
+									Note <function>injectThis</function> cannot be used in other EL expressions such
+									as <code>@UiFacesLookup</code>. Those expressions are evaluated at a different phase of the
+									JSF lifecycle, possibly without <classname>FacesInspector</classname> being invoked. For example
+									if a <parameter>h:selectOneMenu</parameter> fails to validate during POSTback, its <code>f:selectItems</code>
+									will be redisplayed without a new inspection and with no chance to <function>injectThis</function>.    								
 								</para>
 							</td>
 						</tr>
