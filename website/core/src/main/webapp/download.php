@@ -101,6 +101,13 @@
 			<a href="https://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules">https://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules</a>. 
 		</p>
 		
+		<h2 class="h2-underneath">Nightly Builds</h2>
+		
+		<p>
+			Snapshot releases are deployed regularly to <a href="https://repository.jboss.org/nexus/content/repositories/snapshots/org/metawidget" target="_blank">https://repository.jboss.org/nexus/content/repositories/snapshots/org/metawidget</a>.
+			These releases are not stable, and should not be used in a production environment.
+		</p>
+
 		<!-- Google Code for Download Conversion Page -->
 		<script type="text/javascript">
 		<!--

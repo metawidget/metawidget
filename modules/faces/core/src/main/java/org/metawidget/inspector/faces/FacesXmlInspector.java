@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
  * Note because <code>FacesXmlInspector</code> overrides attribute values, its position in the
  * <code>CompositeInspector</code> list is important (ie. it should come after
  * <code>XmlInspector</code>).
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -56,6 +56,14 @@ public class FacesXmlInspector
 	//
 	// Constructors
 	//
+
+	/**
+	 * Constructs a FacesXmlInspector.
+	 * <p>
+	 * Note FacesXmlInspector requires a config. It does not have a default constructor, because the
+	 * FacesXmlInspectorConfig must be externally configured using <code>setResourceResolver</code>
+	 * to support resolving resources from non-standard locations (such as <code>WEB-INF</code).
+	 */
 
 	public FacesXmlInspector( FacesXmlInspectorConfig config ) {
 
@@ -123,15 +131,15 @@ public class FacesXmlInspector
 		// For each attribute value...
 
 		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) ) {
-			
+
 			String key = entry.getKey();
-			
+
 			// ...except ones that are *expected* to be EL expressions...
-			
-			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key )) {
+
+			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key ) ) {
 				continue;
 			}
-			
+
 			String value = entry.getValue();
 
 			// ...that looks like an EL expression...
@@ -148,18 +156,19 @@ public class FacesXmlInspector
 				throw InspectorException.newException( "FacesContext not available to FacesXmlInspector" );
 			}
 
-			if ( !mInjectThis && FacesUtils.unwrapExpression( value ).startsWith( "this.") ) {
+			if ( !mInjectThis && FacesUtils.unwrapExpression( value ).startsWith( "this." ) ) {
 				throw InspectorException.newException( "Expression for '" + value + "' contains 'this', but " + FacesXmlInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
 			}
 
 			// ...evaluate it...
 
 			try {
-				value = StringUtils.quietValueOf( context.getApplication().createValueBinding( value ).getValue( context ));
+				value = StringUtils.quietValueOf( context.getApplication().createValueBinding( value ).getValue( context ) );
 
 			} catch ( Exception e ) {
 
-				// We have found it helpful to include the actual expression we were trying to evaluate
+				// We have found it helpful to include the actual expression we were trying to
+				// evaluate
 
 				throw InspectorException.newException( "Unable to getValue of " + value, e );
 			}
