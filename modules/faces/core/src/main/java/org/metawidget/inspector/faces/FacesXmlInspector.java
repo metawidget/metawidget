@@ -17,6 +17,7 @@
 package org.metawidget.inspector.faces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
 
@@ -122,6 +123,15 @@ public class FacesXmlInspector
 		// For each attribute value...
 
 		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) ) {
+			
+			String key = entry.getKey();
+			
+			// ...except ones that are *expected* to be EL expressions...
+			
+			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key )) {
+				continue;
+			}
+			
 			String value = entry.getValue();
 
 			// ...that looks like an EL expression...
@@ -156,7 +166,7 @@ public class FacesXmlInspector
 
 			// ...and replace it
 
-			attributes.put( entry.getKey(), value );
+			attributes.put( key, value );
 		}
 
 		return attributes;
