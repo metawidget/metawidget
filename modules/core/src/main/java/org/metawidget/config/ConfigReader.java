@@ -706,6 +706,8 @@ public class ConfigReader
 
 		private static final int		EXPECTING_METHOD						= 3;
 
+		private static final int		EXPECTING_CLOSE_OBJECT_WITH_REFID					= 4;
+
 		//
 		// Private members
 		//
@@ -947,9 +949,7 @@ public class ConfigReader
 							return;
 						}
 
-						handleNonNativeObject( uri, localName, attributes );
-
-						mExpecting = EXPECTING_METHOD;
+						mExpecting = handleNonNativeObject( uri, localName, attributes );
 						break;
 					}
 
@@ -988,6 +988,11 @@ public class ConfigReader
 
 						mExpecting = EXPECTING_OBJECT;
 						break;
+					}
+
+					case EXPECTING_CLOSE_OBJECT_WITH_REFID: {
+
+						throw InspectorException.newException( "<" + name + "> not expected here. Elements with a 'refId' must have an empty body" );
 					}
 				}
 			} catch ( RuntimeException e ) {
@@ -1265,122 +1270,131 @@ public class ConfigReader
 		// Private methods
 		//
 
-		private void handleNonNativeObject( String uri, String localName, Attributes attributes )
+		/**
+		 * @return	what should be expected next
+		 */
+
+		private int handleNonNativeObject( String uri, String localName, Attributes attributes )
 			throws Exception {
 
-			Object object = null;
 			String refId = attributes.getValue( "refId" );
 
 			// Type with refId
 
-			// TODO: mustn't have children!
-			// TODO: mustn't have 'config'
+			String configClassName = attributes.getValue( "config" );
 
 			if ( refId != null ) {
 
-				object = getImmutableByRefId( refId );
-				Class<?> actualClass = object.getClass();
+				if ( configClassName != null ) {
+
+					throw InspectorException.newException( "Elements with 'refId' attributes (refId=\"" + refId + "\") cannot also have 'config' attributes (config=\"" + configClassName + "\")" );
+				}
+
+				Object immutable = getImmutableByRefId( refId );
+				Class<?> actualClass = immutable.getClass();
 
 				if ( !StringUtils.lowercaseFirstLetter( actualClass.getSimpleName() ).equals( localName )) {
 
 					throw InspectorException.newException( "refId=\"" + refId + "\" points to an object of " + actualClass + ", not a <" + localName + ">" );
 				}
+
+				mConstructing.push( immutable );
+				mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
+				return EXPECTING_CLOSE_OBJECT_WITH_REFID;
 			}
+
+			Object object = null;
+			Class<?> classToConstruct = lookupClass( uri, localName );
+
+			// Already cached (by location)?
+			//
+			// Note: if it is already cached by location, any child nodes will have been 'paused
+			// away' by CachingContentHandler, so we don't have to worry about checking the config
+			// attribute
+
+			if ( isImmutable( classToConstruct ) ) {
+				object = getImmutableByLocation();
+			}
+
+			// Configured types
 
 			if ( object == null ) {
 
-				Class<?> classToConstruct = lookupClass( uri, localName );
+				if ( configClassName != null ) {
+					String configToConstruct;
 
-				// Already cached (by location)?
-				//
-				// Note: if it is already cached by location, any child nodes will have been 'paused
-				// away' by CachingContentHandler, so we don't have to worry about checking the config
-				// attribute
+					if ( configClassName.indexOf( '.' ) == -1 ) {
+						configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+					} else {
+						configToConstruct = configClassName;
+					}
+
+					Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+					if ( configClass == null ) {
+						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
+					}
+
+					Object config = configClass.newInstance();
+
+					if ( config instanceof NeedsResourceResolver ) {
+						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
+					}
+
+					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ));
+					mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
+
+					// Pause caching (if any)
+
+					if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) ) {
+						mCachingContentHandler.pause( true );
+						mIgnoreImmutableAfterDepth = mDepth;
+					}
+
+					return EXPECTING_METHOD;
+				}
+			}
+
+			// Already cached (without config)?
+
+			if ( object == null && isImmutable( classToConstruct ) ) {
+				object = getImmutableByClass( classToConstruct, IMMUTABLE_NO_CONFIG );
+			}
+
+			// Java objects (without config)?
+
+			if ( object == null ) {
+				try {
+					Constructor<?> defaultConstructor = classToConstruct.getConstructor();
+					object = defaultConstructor.newInstance();
+				} catch ( NoSuchMethodException e ) {
+					String likelyConfig = getLikelyConfig( classToConstruct );
+
+					if ( likelyConfig != null ) {
+						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
+					}
+
+					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
+				}
+
+				// Immutable by class (with no config)? Cache for next time
 
 				if ( isImmutable( classToConstruct ) ) {
-					object = getImmutableByLocation();
-				}
+					LOG.debug( "\tInstantiated immutable {0} (no config)", classToConstruct );
+					Immutable immutable = (Immutable) object;
+					putImmutableByClass( immutable, null );
 
-				// Configured types
+					String id = attributes.getValue( "id" );
 
-				if ( object == null ) {
-					String configClassName = attributes.getValue( "config" );
-
-					if ( configClassName != null ) {
-						String configToConstruct;
-
-						if ( configClassName.indexOf( '.' ) == -1 ) {
-							configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
-						} else {
-							configToConstruct = configClassName;
-						}
-
-						Class<?> configClass = ClassUtils.niceForName( configToConstruct );
-						if ( configClass == null ) {
-							throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
-						}
-
-						Object config = configClass.newInstance();
-
-						if ( config instanceof NeedsResourceResolver ) {
-							( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
-						}
-
-						mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ));
-						mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
-
-						// Pause caching (if any)
-
-						if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) ) {
-							mCachingContentHandler.pause( true );
-							mIgnoreImmutableAfterDepth = mDepth;
-						}
-
-						mExpecting = EXPECTING_METHOD;
-						return;
-					}
-				}
-
-				// Already cached (without config)?
-
-				if ( object == null && isImmutable( classToConstruct ) ) {
-					object = getImmutableByClass( classToConstruct, IMMUTABLE_NO_CONFIG );
-				}
-
-				// Java objects (without config)?
-
-				if ( object == null ) {
-					try {
-						Constructor<?> defaultConstructor = classToConstruct.getConstructor();
-						object = defaultConstructor.newInstance();
-					} catch ( NoSuchMethodException e ) {
-						String likelyConfig = getLikelyConfig( classToConstruct );
-
-						if ( likelyConfig != null ) {
-							throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
-						}
-
-						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
-					}
-
-					// Immutable by class (with no config)? Cache for next time
-
-					if ( isImmutable( classToConstruct ) ) {
-						LOG.debug( "\tInstantiated immutable {0} (no config)", classToConstruct );
-						Immutable immutable = (Immutable) object;
-						putImmutableByClass( immutable, null );
-
-						String id = attributes.getValue( "id" );
-
-						if ( id != null ) {
-							putImmutableById( id, immutable );
-						}
+					if ( id != null ) {
+						putImmutableById( id, immutable );
 					}
 				}
 			}
 
 			mConstructing.push( object );
 			mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
+
+			return EXPECTING_METHOD;
 		}
 
 		private void addToConstructing( Object toAdd ) {

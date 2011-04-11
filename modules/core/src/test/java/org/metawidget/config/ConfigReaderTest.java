@@ -651,6 +651,40 @@ public class ConfigReaderTest
 		} catch ( MetawidgetException e ) {
 			assertEquals( "refId=\"fooPropertyStyle\" points to an object of class org.metawidget.inspector.propertytype.PropertyTypeInspector, not a <javaBeanPropertyStyle>", e.getMessage() );
 		}
+
+		// Mutual exclusion
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<compositeInspector refId=\"foo\" xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\"/>";
+		xml += "</metawidget>";
+
+		try {
+			configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		} catch ( MetawidgetException e ) {
+			assertEquals( "Elements with 'refId' attributes (refId=\"foo\") cannot also have 'config' attributes (config=\"CompositeInspectorConfig\")", e.getMessage() );
+		}
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "<inspectors><array>";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\" id=\"fooPropertyStyle\"/>";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" refId=\"fooPropertyStyle\">";
+		xml += "<propertyStyle/>";
+		xml += "</propertyTypeInspector>";
+		xml += "</array></inspectors>";
+		xml += "</compositeInspector></metawidget>";
+
+		try {
+			configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		} catch ( MetawidgetException e ) {
+			assertEquals( "<propertyStyle> not expected here. Elements with a 'refId' must have an empty body", e.getMessage() );
+		}
 	}
 
 	//

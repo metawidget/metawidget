@@ -795,8 +795,8 @@
 
 	<distributionManagement>
 		<repository>
-			<id>miaka</id>
-			<url>scp://miaka:30002/usr/local/sonatype-work/nexus/storage/snapshots</url>
+			<id>jboss-snapshots</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
 		</repository>
 	</distributionManagement>
 
