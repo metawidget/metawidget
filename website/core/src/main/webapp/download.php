@@ -57,9 +57,7 @@
 		
 		<div class="code"><tt>&lt;repository&gt;<br/>
 		&nbsp;&nbsp;&nbsp;&lt;id&gt;<strong>jboss-public-repository-group</strong>&lt;/id&gt;<br/>
-		&nbsp;&nbsp;&nbsp;&lt;name&gt;<strong>JBoss Public Maven Repository Group</strong>&lt;/name&gt;<br/>
 		&nbsp;&nbsp;&nbsp;&lt;url&gt;<strong>https://repository.jboss.org/nexus/content/groups/public-jboss/</strong>&lt;/url&gt;<br/>
-		&nbsp;&nbsp;&nbsp;&lt;layout&gt;default&lt;/layout&gt;<br/>
 		&lt;/repository&gt;</tt></div>
 
 		<p>
@@ -105,7 +103,7 @@
 		
 		<p>
 			Snapshot releases are deployed regularly to <a href="https://repository.jboss.org/nexus/content/repositories/snapshots/org/metawidget" target="_blank">https://repository.jboss.org/nexus/content/repositories/snapshots/org/metawidget</a>.
-			These releases are not stable, and should not be used in a production environment.
+			These releases are not stable, and should not be used in production environments.
 		</p>
 
 		<!-- Google Code for Download Conversion Page -->
