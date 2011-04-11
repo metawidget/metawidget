@@ -83,16 +83,18 @@ public class JexlXmlInspector
 	//
 
 	@Override
-	public String inspect( Object toInspect, String type, String... names ) {
+	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 		LOCAL_TOINSPECT.set( toInspect );
 
-		String inspect = super.inspect( toInspect, type, names );
+		try {
 
-		LOCAL_CONTEXT.remove();
-		LOCAL_TOINSPECT.remove();
+			return super.inspectAsDom( toInspect, type, names );
 
-		return inspect;
+		} finally {
+			LOCAL_CONTEXT.remove();
+			LOCAL_TOINSPECT.remove();
+		}
 	}
 
 	//
