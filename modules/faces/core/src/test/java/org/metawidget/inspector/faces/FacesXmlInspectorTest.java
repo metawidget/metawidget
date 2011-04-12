@@ -19,6 +19,7 @@ package org.metawidget.inspector.faces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Field;
 
 import javax.faces.context.FacesContext;
 
@@ -26,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -103,11 +105,17 @@ public class FacesXmlInspectorTest
 		}
 	}
 
-	public void testConfig() {
+	public void testConfig()
+		throws Exception {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( FacesXmlInspectorConfig.class, new FacesXmlInspectorConfig() {
 			// Subclass
 		} );
+
+		Field defaultFileField = BaseXmlInspectorConfig.class.getDeclaredField( "mDefaultFile" );
+		defaultFileField.setAccessible( true );
+
+		assertEquals( "metawidget-metadata.xml", defaultFileField.get( new FacesXmlInspectorConfig() ));
 	}
 
 	//

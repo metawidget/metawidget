@@ -37,8 +37,18 @@ public class FacesXmlInspectorConfig
 	private boolean	mInjectThis;
 
 	//
+	// Constructor
+	//
+
+	public FacesXmlInspectorConfig() {
+
+		setDefaultFile( "metawidget-metadata.xml" );
+	}
+
+	//
 	// Public methods
 	//
+
 	/**
 	 * Overridden to provide a covariant return type for our fluent interface.
 	 */
