@@ -34,7 +34,7 @@
 					<sourceDirectory>${docbook.source}</sourceDirectory>
 					<imgSrcPath>${basedir}/src/main/resources/</imgSrcPath>
 					<admonGraphicsPath>${basedir}/src/main/resources/images/admons/</admonGraphicsPath>
-					<includes>metawidget.xml</includes>
+					<includes>index.xml</includes>
 					<xincludeSupported>true</xincludeSupported>
 				</configuration>
 				<executions>
@@ -42,80 +42,47 @@
 						<goals>
 							<goal>generate-pdf</goal>
 						</goals>
+						<phase>generate-sources</phase>
 						<configuration>
 							<foCustomization>${basedir}/src/main/resources/xsl/pdf/custom.xsl</foCustomization>
 							<targetDirectory>${docbook.target}/pdf</targetDirectory>
 						</configuration>
-						<phase>generate-sources</phase>
 					</execution>
-					<!-- TODO: <execution>
-						<id>produce single page html</id>
+					<!-- TODO: docbook HTML formatting -->
+					<execution>
+						<id>html-single</id>
 						<goals>
 							<goal>generate-html</goal>
 						</goals>
+						<phase>generate-resources</phase>
 						<configuration>
 							<chunkedOutput>false</chunkedOutput>
-							<htmlCustomization>${docbook.source}/resources/xsl/html.xsl</htmlCustomization>
+							<htmlCustomization>${basedir}/src/main/resources/xsl/html/html-single.xsl</htmlCustomization>
 							<targetDirectory>${docbook.target}/html-single</targetDirectory>
 							<postProcess>
-								<copy todir="${docbook.target}/html-single">
-									<fileset dir="${docbook.source}/resources">
+								<copy todir="${docbook.target}/shared">
+									<fileset dir="${basedir}/src/main/resources">
 										<include name="**/*.css" />
 										<include name="**/*.png" />
 										<include name="**/*.gif" />
 										<include name="**/*.jpg" />
 									</fileset>
 								</copy>
-								<copy todir="${docbook.target}/html-single/images">
-									<fileset dir="${docbook.source}/reference/images">
-										<include name="**/*.*" />
-									</fileset>
-								</copy>
 							</postProcess>
 						</configuration>
-						<phase>generate-resources</phase>
 					</execution>
 					<execution>
-						<id>produce single page html for blogspot</id>
+						<id>html-multiple</id>
 						<goals>
 							<goal>generate-html</goal>
 						</goals>
-						<configuration>
-							<chunkedOutput>false</chunkedOutput>
-							<htmlStylesheet>http://www.springfuse.com/blog/docbook/html.css</htmlStylesheet>
-							<imgSrcPath>http://www.springfuse.com/blog/docbook/</imgSrcPath>
-							<htmlCustomization>${docbook.source}/resources/xsl/html-embeded.xsl</htmlCustomization>
-							<targetDirectory>${docbook.target}/html-embeded</targetDirectory>
-						</configuration>
 						<phase>generate-resources</phase>
-					</execution>
-					<execution>
-						<id>produce muti-pages html</id>
-						<goals>
-							<goal>generate-html</goal>
-						</goals>
 						<configuration>
 							<chunkedOutput>true</chunkedOutput>
-							<htmlCustomization>src/docbkx/resources/xsl/html-chunk.xsl</htmlCustomization>
+							<htmlCustomization>${basedir}/src/main/resources/xsl/html/html-multiple.xsl</htmlCustomization>
 							<targetDirectory>${docbook.target}/html</targetDirectory>
-							<postProcess>
-								<copy todir="${docbook.target}/html">
-									<fileset dir="${docbook.source}/resources">
-										<include name="**/*.css" />
-										<include name="**/*.png" />
-										<include name="**/*.gif" />
-										<include name="**/*.jpg" />
-									</fileset>
-								</copy>
-								<copy todir="${docbook.target}/html/images">
-									<fileset dir="${docbook.source}/reference/images">
-										<include name="**/*.*" />
-									</fileset>
-								</copy>
-							</postProcess>
 						</configuration>
-						<phase>generate-resources</phase>
-					</execution> -->
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

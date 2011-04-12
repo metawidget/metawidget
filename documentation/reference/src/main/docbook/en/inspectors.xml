@@ -1103,6 +1103,38 @@ public class PersonController {
 
 			</section>
 
+			<section id="section-inspectors-facesxml">
+				<title>FacesXmlInspector</title>
+				
+				<para>
+					<classname>FacesXmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format
+					looking for XML attributes wrapped in <parameter>#{...}</parameter> notation. It processes these attributes as
+					JSF EL expressions before returning them. For example:
+				</para>
+				
+				<programlisting language="xml">&lt;inspection-result&gt;
+
+	&lt;entity type="com.myapp.Person"&gt;
+		&lt;property name="pension" hidden="#{!this.retired}"/&gt;
+	&lt;/entity&gt;
+
+&lt;/inspection-result&gt;</programlisting>
+				
+				<para>
+					<classname>FacesXmlInspector</classname> is effectively equivalent to <classname>FacesInspector</classname>
+					but uses XML files instead of <classname>@UiFacesAttribute</classname> annotations. This includes the
+					use of <classname>FacesXmlInspectorConfig.setInjectThis</classname> (see
+					<xref linkend="section-inspectors-faces"/>).
+				</para>
+				
+				<tip>
+					<title>Note</title>
+					Because <classname>FacesXmlInspector</classname> overrides attribute values, its position in a
+ 					<classname>CompositeInspector</classname> list is important (ie. it should come after <classname>XmlInspector</classname>).
+				</tip>
+
+			</section>
+
 			<section id="section-inspectors-hibernate">
 				<title>HibernateInspector</title>
 				
@@ -1171,6 +1203,13 @@ public class PersonController {
 					<classname>JexlXmlInspector</classname> is effectively equivalent to <classname>JexlInspector</classname>
 					but uses XML files instead of annotations.
 				</para>
+				
+				<tip>
+					<title>Note</title>
+					Because <classname>JexlXmlInspector</classname> overrides attribute values, its position in a
+ 					<classname>CompositeInspector</classname> list is important (ie. it should come after <classname>XmlInspector</classname>).
+				</tip>
+				
 			</section>
 
 			<section id="section-inspectors-pageflow">

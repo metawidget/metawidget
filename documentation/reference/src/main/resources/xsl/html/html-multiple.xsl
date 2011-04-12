@@ -66,7 +66,7 @@
 
     <!-- Use nice graphics for admonitions -->
     <xsl:param name="admon.graphics">1</xsl:param>
-  <xsl:param name="admon.graphics.path">images/admons/</xsl:param>    
+  <xsl:param name="admon.graphics.path">../shared/images/admons/</xsl:param>    
     <!--###################################################
                           Misc
     ################################################### -->

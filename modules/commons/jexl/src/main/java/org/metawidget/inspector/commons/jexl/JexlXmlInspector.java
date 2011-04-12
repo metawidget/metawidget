@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
  * <p>
  * <code>${if ( foo.bar ) 'baz'}</code>
  * <p>
- * Note because <code>JexlXmlInspector</code> overrides attribute values, its position in the
+ * Note because <code>JexlXmlInspector</code> overrides attribute values, its position in a
  * <code>CompositeInspector</code> list is important (ie. it should come after
  * <code>XmlInspector</code>).
  *

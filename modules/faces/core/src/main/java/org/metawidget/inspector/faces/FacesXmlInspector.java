@@ -37,10 +37,10 @@ import org.w3c.dom.Element;
  * Server Faces expressions. Any attributes conforming to the <code>#{...}</code> convention are
  * passed to JSF.
  * <p>
- * Note because <code>FacesXmlInspector</code> overrides attribute values, its position in the
+ * Note because <code>FacesXmlInspector</code> overrides attribute values, its position in a
  * <code>CompositeInspector</code> list is important (ie. it should come after
  * <code>XmlInspector</code>).
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -137,6 +137,9 @@ public class FacesXmlInspector
 			// ...except ones that are *expected* to be EL expressions...
 
 			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key ) ) {
+
+				// TODO: test for #{this}
+
 				continue;
 			}
 

@@ -37,8 +37,6 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// TODO: doco
-
 public class FacesXmlInspectorTest
 	extends TestCase {
 
