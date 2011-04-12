@@ -280,8 +280,6 @@ public class FacesInspector
 			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') is not of the form #{...}" );
 		}
 
-		// TODO: JSF XML inspector
-
 		if ( mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
 			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') must not contain 'this' (see Metawidget Reference Guide)" );
 		}

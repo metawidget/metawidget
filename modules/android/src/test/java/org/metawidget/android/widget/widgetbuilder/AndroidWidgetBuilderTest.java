@@ -227,7 +227,7 @@ public class AndroidWidgetBuilderTest
 
 		attributes.put( TYPE, char.class.getName() );
 		EditText editText = (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		// TODO:assertEquals( 1, ((InputFilter.LengthFilter) editText.getFilters()[0]).getLength() );
+		assertEquals( 1, ((InputFilter.LengthFilter) editText.getFilters()[0]).getLength() );
 
 		// float
 
