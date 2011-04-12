@@ -101,6 +101,22 @@ public class FacesXmlInspectorTest
 		} catch ( InspectorException e ) {
 			assertEquals( "Expression for '#{this.baz}' contains 'this', but FacesXmlInspectorConfig.setInjectThis is 'false'", e.getMessage() );
 		}
+
+		// Test the other 'this' check
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Foo\">";
+		xml += "<property name=\"bar1\" faces-lookup=\"#{this.baz}\"/>";
+		xml += "</entity></inspection-result>";
+		inspector = new FacesXmlInspector( new FacesXmlInspectorConfig().setInjectThis( true ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+
+		try {
+			inspector.inspect( null, "Foo" );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{this.baz}' (for 'faces-lookup') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
+		}
 	}
 
 	public void testConfig()

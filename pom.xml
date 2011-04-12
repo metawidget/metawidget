@@ -699,14 +699,39 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- TODO: <plugin> <groupId>org.mortbay.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> <configuration> <daemon>true</daemon> <webApp>target/${finalName}.war</webApp> <stopPort>8801</stopPort> <stopKey>foo</stopKey> </configuration> <executions> <execution> <id>start-jetty</id> <phase>pre-integration-test</phase> <goals> <goal>run-war</goal> </goals> </execution> <execution> <id>stop-jetty</id> <phase>post-integration-test</phase> <goals> <goal>stop</goal> </goals> </execution> </executions> 
-					</plugin> -->
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>7.4.0.RC0</version>
+					<configuration>
+						<daemon>true</daemon>
+						<webApp>target/${finalName}.war</webApp>
+						<stopPort>8801</stopPort>
+						<stopKey>stop</stopKey>
+					</configuration>
+					<executions>
+						<execution>
+							<id>start-jetty</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>run-war</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>stop-jetty</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>stop</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>webtest-maven-plugin</artifactId>
 					<version>0.6.9-SNAPSHOT</version>
 					<executions>
-						<!-- <execution> <id>jetty-integration-test</id> <phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration> <host>localhost</host> <port>8080</port> <resultpath>target/webtest-results</resultpath> </configuration> </execution> -->
+						<!-- TODO: <execution> <id>jetty-integration-test</id> <phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration> <host>localhost</host> <port>8080</port> <resultpath>target/webtest-results</resultpath> </configuration> </execution> -->
 						<execution>
 							<id>tomcat-integration-test</id>
 							<phase>integration-test</phase>

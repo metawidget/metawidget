@@ -133,17 +133,18 @@ public class FacesXmlInspector
 		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) ) {
 
 			String key = entry.getKey();
+			String value = entry.getValue();
 
 			// ...except ones that are *expected* to be EL expressions...
 
 			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key ) ) {
 
-				// TODO: test for #{this}
+				if ( mInjectThis && FacesUtils.unwrapExpression( value ).startsWith( "this.") ) {
+					throw InspectorException.newException( "Expression '" + value + "' (for '" + key + "') must not contain 'this' (see Metawidget Reference Guide)" );
+				}
 
 				continue;
 			}
-
-			String value = entry.getValue();
 
 			// ...that looks like an EL expression...
 

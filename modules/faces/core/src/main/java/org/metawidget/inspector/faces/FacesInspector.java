@@ -277,11 +277,11 @@ public class FacesInspector
 		// Sanity checks
 
 		if ( !FacesUtils.isExpression( expression ) ) {
-			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') is not of the form #{...}" );
+			throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') is not of the form #{...}" );
 		}
 
 		if ( mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
-			throw InspectorException.newException( "Expression '" + expression + "' (for '" +attributeName + "') must not contain 'this' (see Metawidget Reference Guide)" );
+			throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') must not contain 'this' (see Metawidget Reference Guide)" );
 		}
 
 		// Put the expression
