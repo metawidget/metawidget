@@ -59,10 +59,4 @@
 		<xsl:apply-templates mode="xslthl" />
 	</xsl:template>
 
-	<xsl:template match='xslthl:html' mode="xslthl">
-		<fo:inline color="green">
-			<xsl:apply-templates mode="xslthl" />
-		</fo:inline>
-	</xsl:template>
-
 </xsl:stylesheet>

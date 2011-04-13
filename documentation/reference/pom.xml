@@ -32,8 +32,6 @@
 				</dependencies>
 				<configuration>
 					<sourceDirectory>${docbook.source}</sourceDirectory>
-					<imgSrcPath>${basedir}/src/main/resources/</imgSrcPath>
-					<admonGraphicsPath>${basedir}/src/main/resources/images/admons/</admonGraphicsPath>
 					<includes>index.xml</includes>
 					<xincludeSupported>true</xincludeSupported>
 				</configuration>
@@ -44,6 +42,8 @@
 						</goals>
 						<phase>generate-sources</phase>
 						<configuration>
+							<imgSrcPath>${basedir}/src/main/resources/</imgSrcPath>
+							<admonGraphicsPath>${basedir}/src/main/resources/images/admons/</admonGraphicsPath>
 							<foCustomization>${basedir}/src/main/resources/xsl/pdf/custom.xsl</foCustomization>
 							<targetDirectory>${docbook.target}/pdf</targetDirectory>
 						</configuration>
@@ -54,10 +54,10 @@
 						<goals>
 							<goal>generate-html</goal>
 						</goals>
-						<phase>generate-resources</phase>
+						<phase>generate-sources</phase>
 						<configuration>
+							<htmlCustomization>${basedir}/src/main/resources/xsl/html/custom.xsl</htmlCustomization>
 							<chunkedOutput>false</chunkedOutput>
-							<htmlCustomization>${basedir}/src/main/resources/xsl/html/html-single.xsl</htmlCustomization>
 							<targetDirectory>${docbook.target}/html-single</targetDirectory>
 							<postProcess>
 								<copy todir="${docbook.target}/shared">
@@ -76,10 +76,10 @@
 						<goals>
 							<goal>generate-html</goal>
 						</goals>
-						<phase>generate-resources</phase>
+						<phase>generate-sources</phase>
 						<configuration>
+							<htmlCustomization>${basedir}/src/main/resources/xsl/html/custom.xsl</htmlCustomization>
 							<chunkedOutput>true</chunkedOutput>
-							<htmlCustomization>${basedir}/src/main/resources/xsl/html/html-multiple.xsl</htmlCustomization>
 							<targetDirectory>${docbook.target}/html</targetDirectory>
 						</configuration>
 					</execution>

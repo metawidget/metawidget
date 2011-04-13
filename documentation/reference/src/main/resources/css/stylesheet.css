@@ -78,7 +78,12 @@ h3.author, p.othercredit {
     color:          #525D76;
 }
 
-div.titlepage {
+div.cover {
+		text-align: center;
+}
+
+div.cover h2, div.titlepage h3 {
+		border-bottom: 0px;
 }
 
 div.section {
@@ -315,6 +320,7 @@ div.section table thead {
 
 div.section table tbody th {
 	background-color:#888888;
+	color: white;
 }
 
 div.important table tbody th, div.note table tbody th, div.tip table tbody th {

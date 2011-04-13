@@ -16,7 +16,9 @@
 		<fileSet>
 			<directory>/documentation/reference/target/docbook</directory>
 			<includes>
-				<include>**/*.pdf</include>
+				<include>**/pdf/*.pdf</include>
+				<include>**/html*/*.html</include>
+				<include>**/shared/**</include>
 			</includes>
 			<outputDirectory>/doc/reference</outputDirectory>
 		</fileSet>
