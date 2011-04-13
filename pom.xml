@@ -795,31 +795,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<inherited>false</inherited>
-				<configuration>
-					<target>
-						<copy todir="${project.build.directory}/examples/src">
-							<fileset dir=".">
-								<include name="examples/**/src/**/*.*" />
-								<include name="examples/**/pom.xml" />
-								<include name="examples/gwt/clientside/war/**" />
-								<include name="pom.xml" />
-								<exclude name="examples/src/**" />
-							</fileset>
-						</copy>
-					</target>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>assembly</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>			
-			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<inherited>false</inherited>
 				<configuration>
@@ -841,7 +816,7 @@
 		</plugins>
 
 		<extensions>
-			<!-- Enabling the use of SSH -->
+			<!-- Enable the use of SSH -->
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh</artifactId>

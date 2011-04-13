@@ -7,7 +7,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>.</directory>
-			<outputDirectory>.</outputDirectory>
+			<outputDirectory>src</outputDirectory>
 			<includes>
 				<include>**/android/addressbook/application*/gen/**</include>
 				<include>**/android/addressbook/application*/res/**</include>

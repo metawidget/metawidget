@@ -14,10 +14,6 @@
 			<outputDirectory>/examples/gwt/clientside</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/target/examples/src</directory>
-			<outputDirectory>/examples/src</outputDirectory>
-		</fileSet>
-		<fileSet>
 			<directory>/examples/swing/addressbook/target/lib</directory>
 			<outputDirectory>/examples/swing/lib</outputDirectory>
 		</fileSet>
@@ -44,6 +40,20 @@
 		<fileSet>
 			<directory>/examples/src/main/resources/for-examples</directory>
 			<outputDirectory>/examples</outputDirectory>
+		</fileSet>
+		<!-- Source code -->
+		<fileSet>
+			<directory>/examples</directory>
+			<outputDirectory>/src/examples</outputDirectory>
+			<includes>
+				<include>/**/src/**/*.*</include>
+				<include>/**/pom.xml</include>
+				<include>/gwt/clientside/war/**</include>
+			</includes>
+			<excludes>
+				<exclude>.*</exclude>
+				<exclude>**/target/**</exclude>
+			</excludes>
 		</fileSet>
 	</fileSets>
 	<files>
@@ -98,6 +108,15 @@
 		<file>
 			<source>/examples/swt/addressbook/target/addressbook-swt.jar</source>
 			<outputDirectory>/examples/swt</outputDirectory>
+		</file>
+		<!-- Source code -->
+		<file>
+			<source>examples/pom.xml</source>
+			<outputDirectory>/src/examples</outputDirectory>
+		</file>
+		<file>
+			<source>pom.xml</source>
+			<outputDirectory>/src</outputDirectory>
 		</file>
 	</files>
 </assembly>
