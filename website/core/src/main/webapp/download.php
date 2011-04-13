@@ -28,21 +28,21 @@
 					<th>Metawidget</th>
 					<td>Binaries and Documentation</td>
 					<td style="text-align: center">${project.version}</td>
-					<td style="text-align: center">10 Feb 2011</td>
-					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}.zip">Download</a></td>
+					<td style="text-align: center">May 2011</td>
+					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-bin.zip">Download</a></td>
 				</tr>
 				<tr>
 					<th></th>
 					<td>Examples</td>
 					<td style="text-align: center">${project.version}</td>
-					<td style="text-align: center">10 Feb 2011</td>
+					<td style="text-align: center">May 2011</td>
 					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-examples.zip">Download</a></td>
 				</tr>
 				<tr>
 					<th></th>
 					<td>Source Code and Tests</td>
 					<td style="text-align: center">${project.version}</td>
-					<td style="text-align: center">10 Feb 2011</td>
+					<td style="text-align: center">May 2011</td>
 					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-src.zip">Download</a></td>
 				</tr>
 			</tbody>

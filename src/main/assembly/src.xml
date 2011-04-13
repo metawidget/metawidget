@@ -9,12 +9,19 @@
 			<directory>.</directory>
 			<outputDirectory>.</outputDirectory>
 			<includes>
-				<include name="**/src/*" />
-				<include name="**/pom.xml" />
+				<include>**/android/addressbook/application*/gen/**</include>
+				<include>**/android/addressbook/application*/res/**</include>
+				<include>**/android/addressbook/application*/*.*</include>
+				<include>**/android/allwidgets/application*/gen/**</include>
+				<include>**/android/allwidgets/application*/res/**</include>
+				<include>**/android/allwidgets/application*/*.*</include>
+				<include>**/gwt/clientside/war/**</include>
+				<include>**/src/**</include>
+				<include>**/pom.xml</include>
 			</includes>
 			<excludes>
-				<exclude name=".*" />
-				<exclude name="**/target/*" />
+				<exclude>.*</exclude>
+				<exclude>**/target/**</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>

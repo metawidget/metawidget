@@ -795,16 +795,48 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<target>
+						<copy todir="${project.build.directory}/examples/src">
+							<fileset dir=".">
+								<include name="examples/**/src/**/*.*" />
+								<include name="examples/**/pom.xml" />
+								<include name="examples/gwt/clientside/war/**" />
+								<include name="pom.xml" />
+								<exclude name="examples/src/**" />
+							</fileset>
+						</copy>
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>assembly</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<inherited>false</inherited>
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assembly/bin.xml</descriptor>
+						<descriptor>src/main/assembly/examples.xml</descriptor>
 						<descriptor>src/main/assembly/src.xml</descriptor>
 					</descriptors>
 					<finalName>metawidget-${project.version}</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 

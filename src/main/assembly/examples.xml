@@ -6,7 +6,7 @@
 	<baseDirectory>metawidget-${project.version}</baseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>/gwt/clientside/war</directory>
+			<directory>/examples/gwt/clientside/war</directory>
 			<excludes>
 				<exclude>META-INF/**</exclude>
 				<exclude>WEB-INF/**</exclude>
@@ -14,15 +14,15 @@
 			<outputDirectory>/examples/gwt/clientside</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/target/src</directory>
+			<directory>/target/examples/src</directory>
 			<outputDirectory>/examples/src</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/swing/addressbook/target/lib</directory>
+			<directory>/examples/swing/addressbook/target/lib</directory>
 			<outputDirectory>/examples/swing/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/swing/addressbook-applet/target/addressbook-swing-applet</directory>
+			<directory>/examples/swing/addressbook-applet/target/addressbook-swing-applet</directory>
 			<outputDirectory>/examples/swing/applet</outputDirectory>
 			<excludes>
 				<exclude>META-INF/**</exclude>
@@ -30,73 +30,73 @@
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>/swing/appframework/target/lib</directory>
+			<directory>/examples/swing/appframework/target/lib</directory>
 			<outputDirectory>/examples/swing/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/swing/animalraces/target/lib</directory>
+			<directory>/examples/swing/animalraces/target/lib</directory>
 			<outputDirectory>/examples/swing/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/swt/addressbook/target/lib</directory>
+			<directory>/examples/swt/addressbook/target/lib</directory>
 			<outputDirectory>/examples/swt/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/resources</directory>
+			<directory>/examples/src/main/resources/examples</directory>
 			<outputDirectory>/examples</outputDirectory>
 		</fileSet>
 	</fileSets>
 	<files>
 		<file>
-			<source>/android/addressbook/application/target/addressbook-android.apk</source>
+			<source>/examples/android/addressbook/application/target/addressbook-android.apk</source>
 			<outputDirectory>/examples/android</outputDirectory>
 		</file>
 		<file>
-			<source>/faces/addressbook/target/addressbook-faces.war</source>
+			<source>/examples/faces/addressbook/target/addressbook-faces.war</source>
 			<outputDirectory>/examples/faces</outputDirectory>
 		</file>
 		<file>
-			<source>/faces/addressbook2/target/addressbook-faces2.war</source>
+			<source>/examples/faces/addressbook2/target/addressbook-faces2.war</source>
 			<outputDirectory>/examples/faces</outputDirectory>
 		</file>
 		<file>
-			<source>/faces/penguincolony/target/penguincolony-faces.war</source>
+			<source>/examples/faces/penguincolony/target/penguincolony-faces.war</source>
 			<outputDirectory>/examples/faces</outputDirectory>
 		</file>
 		<file>
-			<source>/faces/penguincolony/target/penguincolony-faces.war</source>
+			<source>/examples/faces/penguincolony/target/penguincolony-faces.war</source>
 			<outputDirectory>/examples/faces</outputDirectory>
 		</file>
 		<file>
-			<source>/gwt/addressbook/target/addressbook-gwt.war</source>
+			<source>/examples/gwt/addressbook/target/addressbook-gwt.war</source>
 			<outputDirectory>/examples/gwt</outputDirectory>
 		</file>
 		<file>
-			<source>/jsp/addressbook/target/addressbook-jsp.war</source>
+			<source>/examples/jsp/addressbook/target/addressbook-jsp.war</source>
 			<outputDirectory>/examples/jsp</outputDirectory>
 		</file>
 		<file>
-			<source>/spring/addressbook/target/addressbook-spring.war</source>
+			<source>/examples/spring/addressbook/target/addressbook-spring.war</source>
 			<outputDirectory>/examples/spring</outputDirectory>
 		</file>
 		<file>
-			<source>/struts/addressbook/target/addressbook-struts.war</source>
+			<source>/examples/struts/addressbook/target/addressbook-struts.war</source>
 			<outputDirectory>/examples/struts</outputDirectory>
 		</file>
 		<file>
-			<source>/swing/addressbook/target/addressbook-swing.jar</source>
+			<source>/examples/swing/addressbook/target/addressbook-swing.jar</source>
 			<outputDirectory>/examples/swing</outputDirectory>
 		</file>
 		<file>
-			<source>/swing/appframework/target/appframework-swing.jar</source>
+			<source>/examples/swing/appframework/target/appframework-swing.jar</source>
 			<outputDirectory>/examples/swing</outputDirectory>
 		</file>
 		<file>
-			<source>/swing/animalraces/target/animalraces-swing.jar</source>
+			<source>/examples/swing/animalraces/target/animalraces-swing.jar</source>
 			<outputDirectory>/examples/swing</outputDirectory>
 		</file>
 		<file>
-			<source>/swt/addressbook/target/addressbook-swt.jar</source>
+			<source>/examples/swt/addressbook/target/addressbook-swt.jar</source>
 			<outputDirectory>/examples/swt</outputDirectory>
 		</file>
 	</files>
