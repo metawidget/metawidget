@@ -78,12 +78,12 @@ h3.author, p.othercredit {
     color:          #525D76;
 }
 
-div.cover {
-		text-align: center;
+.coverpage {
+	text-align: center;
 }
 
-div.cover h2, div.titlepage h3 {
-		border-bottom: 0px;
+.coverpage h2, .coverpage h3 {
+	border-bottom: 0px;
 }
 
 div.section {
@@ -324,11 +324,16 @@ div.section table tbody th {
 }
 
 div.important table tbody th, div.note table tbody th, div.tip table tbody th {
+	color: black;
 	background-color:transparent;
 }
 
 div.section table tbody td {
 	border-bottom: 1px solid #dddddd;
+}
+
+div.important table tbody td, div.note table tbody td, div.tip table tbody td {
+	border-bottom: 0px;
 }
 
 div.section table tbody tr:nth-child(even) {

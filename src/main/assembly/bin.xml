@@ -18,8 +18,11 @@
 			<includes>
 				<include>**/pdf/*.pdf</include>
 				<include>**/html*/*.html</include>
-				<include>**/shared/**</include>
+				<include>**/shared/**</include>				
 			</includes>
+			<excludes>
+				<exclude>**/shared/images/admons/pdf/**</exclude>
+			</excludes>
 			<outputDirectory>/doc/reference</outputDirectory>
 		</fileSet>
 		<fileSet>

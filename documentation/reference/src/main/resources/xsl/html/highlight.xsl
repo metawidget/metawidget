@@ -50,7 +50,7 @@
 	</xsl:template>
 
 	<xsl:template match='xslthl:annotation' mode="xslthl">
-		<span class="atn">
+		<span class="pun">
 			<xsl:apply-templates mode="xslthl" />
 		</span>
 	</xsl:template>

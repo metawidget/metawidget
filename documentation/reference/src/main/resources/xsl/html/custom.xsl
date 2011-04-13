@@ -151,7 +151,7 @@
 	<!-- Admonitions -->
 
 	<xsl:param name="admon.graphics" select="1" />
-	<xsl:param name="admon.graphics.path">../shared/images/admons/</xsl:param>
+	<xsl:param name="admon.graphics.path">../shared/images/admons/html/</xsl:param>
 	<xsl:param name="admon.graphics.extension">.png</xsl:param>
 
 	<!-- Callouts -->
@@ -197,7 +197,7 @@
 	<!-- Cover -->
 
 	<xsl:template name="book.titlepage.recto">
-		<div style="cover">
+		<div class="coverpage">
 			<h1><xsl:value-of select="d:title"/></h1>
 			<h2><xsl:value-of select="d:bookinfo/d:releaseinfo"/></h2>
 			<h3>
@@ -235,6 +235,22 @@
 	<xsl:attribute-set name="figure.properties">
 		<xsl:attribute name="text-align">center</xsl:attribute>
 	</xsl:attribute-set>
+	
+	<!-- Override title heading to print <em> instead of <b> -->
+	<xsl:template name="formal.object.heading">
+		<xsl:param name="object" select="." />
+		<xsl:param name="title">
+			<xsl:apply-templates select="$object" mode="object.title.markup">
+				<xsl:with-param name="allow-anchors" select="1" />
+			</xsl:apply-templates>
+		</xsl:param>
+
+		<p class="title">
+			<em>
+				<xsl:copy-of select="$title" />
+			</em>
+		</p>
+	</xsl:template>	
 
 	<!-- Tables -->
 
