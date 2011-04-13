@@ -21,7 +21,7 @@
 			<outputDirectory>/doc/reference</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/resources/bin</directory>
+			<directory>src/main/resources/for-bin</directory>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 	</fileSets>
