@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>		
-		<module>all</module>
+		<!-- Not 'all' until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
 		<module>android</module>
 		<module>annotation</module>
 		<module>beanvalidation</module>

@@ -57,6 +57,7 @@
 	<modules>
 		<module>documentation/reference</module>
 		<module>modules</module>
+		<!-- Not under 'modules' until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
 		<module>modules/all</module>
 		<module>examples</module>
 		<module>integration-tests</module>
