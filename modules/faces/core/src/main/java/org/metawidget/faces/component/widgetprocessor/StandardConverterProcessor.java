@@ -151,9 +151,11 @@ public class StandardConverterProcessor
 
 			// Create implicit converters
 			//
-			// JSF does not appear to implicitly hook up a DateTimeConverter without either an
-			// explicit f:convertDateTime tag or a registered java.util.Date converter. It *does*
-			// appear to implicitly hook up a NumberConverter
+			// JSF does not appear to implicitly hook up DateTimeConverters without either an
+			// explicit f:convertDateTime tag or a registered java.util.Date converter. Adding one
+			// fixes both POSTback and display of read-only dates (otherwise JSF uses Date.toString)
+			//
+			// JSF *does* appear to implicitly hook up NumberConverters.
 
 			String type = attributes.get( TYPE );
 
