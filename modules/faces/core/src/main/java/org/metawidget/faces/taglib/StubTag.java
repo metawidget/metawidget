@@ -63,6 +63,8 @@ public class StubTag
 		mValue = value;
 	}
 
+	// TODO: setStubAttributes?
+	
 	public void setAttributes( String attributes ) {
 
 		mAttributes = attributes;

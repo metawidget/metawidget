@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:m="http://metawidget.org/faces">
+      
+      <body>
+
+		<h:form id="form">
+
+			<m:metawidget id="allWidgetsMetawidget" value="#{allWidgets}" rendererType="div" readOnly="true" config="config/metawidget.xml">
+				<f:param name="divStyleClasses" value="anOuterClass,aLabelClass,aRequiredClass,aComponentClass"/>					
+				<f:param name="outerStyle" value="anOuterStyle"/>					
+				<f:param name="labelStyle" value="aLabelStyle"/>
+				<f:param name="requiredStyle" value="aRequiredStyle"/>
+				<f:param name="componentStyle" value="aComponentStyle"/>
+				<f:param name="footerStyle" value="aFooterStyle"/>
+				<f:param name="footerStyleClass" value="aFooterStyleClass"/>
+				<f:facet name="footer"><h:outputText value="Footer"/></f:facet>
+				<m:stub value="#{allWidgets.mystery}"/>
+			</m:metawidget>
+			
+		</h:form>
+	
+	</body>	    
+</html>

@@ -680,7 +680,7 @@
 					<configuration>
 						<fork>true</fork>
 						<port>8081</port>
-						<warFile>target/${finalName}.war</warFile>
+						<warFile>target/${project.build.finalName}.war</warFile>
 					</configuration>
 					<executions>
 						<execution>
@@ -705,7 +705,7 @@
 					<version>7.4.0.RC0</version>
 					<configuration>
 						<daemon>true</daemon>
-						<webApp>target/${finalName}.war</webApp>
+						<webApp>target/${project.build.finalName}.war</webApp>
 						<stopPort>8801</stopPort>
 						<stopKey>stop</stopKey>
 					</configuration>

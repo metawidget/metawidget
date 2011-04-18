@@ -18,6 +18,7 @@ package org.metawidget.faces.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.faces.FacesException;
@@ -71,6 +72,13 @@ public class StandardConverterProcessorTest
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 		assertTrue( null == htmlInputText.getConverter() );
 		assertTrue( null == htmlInputText.getLabel() );
+
+		// Implicit DateTimeConverter
+
+		attributes.put( TYPE, Date.class.getName() );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( htmlInputText.getConverter() instanceof DateTimeConverter );
+		htmlInputText = new HtmlInputText();
 
 		// DateTimeConverter
 

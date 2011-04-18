@@ -129,11 +129,11 @@ public class StandardConverterProcessor
 
 		if ( converterId != null ) {
 			converter = context.getApplication().createConverter( converterId );
-		}
 
-		// Create from parameterized type (eg. a Date converter for List<Date>)
+		} else if ( valueHolder instanceof UISelectOne || valueHolder instanceof UISelectMany ) {
 
-		else if ( valueHolder instanceof UISelectOne || valueHolder instanceof UISelectMany ) {
+			// Create from parameterized type (eg. a Date converter for List<Date>)
+
 			String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
 
 			if ( parameterizedType != null ) {
@@ -144,6 +144,28 @@ public class StandardConverterProcessor
 
 				if ( parameterizedClass != null ) {
 					converter = context.getApplication().createConverter( parameterizedClass );
+				}
+			}
+
+		} else {
+
+			// Create implicit converters
+			//
+			// JSF does not appear to implicitly hook up a DateTimeConverter without either an
+			// explicit f:convertDateTime tag or a registered java.util.Date converter. It *does*
+			// appear to implicitly hook up a NumberConverter
+
+			String type = attributes.get( TYPE );
+
+			if ( type != null ) {
+
+				Class<?> clazz = ClassUtils.niceForName( type );
+
+				if ( clazz != null ) {
+
+					if ( clazz.isAssignableFrom( Date.class ) ) {
+						converter = getDateTimeConverter( converter );
+					}
 				}
 			}
 		}

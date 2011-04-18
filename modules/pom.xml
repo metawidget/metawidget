@@ -11,7 +11,8 @@
 	<artifactId>modules-parent</artifactId>
 	<packaging>pom</packaging>
 
-	<modules>
+	<modules>		
+		<module>all</module>
 		<module>android</module>
 		<module>annotation</module>
 		<module>beanvalidation</module>

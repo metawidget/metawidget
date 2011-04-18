@@ -1,0 +1,26 @@
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+			http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+			version="2.0">
+			
+	<!-- Navigation Rules -->
+	
+	<navigation-rule>
+	
+		<navigation-case>
+			<from-outcome>saved</from-outcome>
+			<to-view-id>/saved.xhtml</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+	
+	<!-- Request-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>allWidgets</managed-bean-name>
+		<managed-bean-class>org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgetsProxy$AllWidgets_$$_javassist_1</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+</faces-config>

@@ -1062,6 +1062,8 @@ public abstract class UIMetawidget
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
 					return mPipeline.inspectAsDom( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
+
+				// TODO: warn if null?
 			}
 		}
 
