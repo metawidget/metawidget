@@ -182,6 +182,8 @@ public abstract class UIMetawidget
 
 			ExternalContext externalContext = context.getExternalContext();
 
+			// TODO: Use context.class. Using context.application.class returns 'JBoss' under JBoss
+
 			Package applicationPackage = context.getApplication().getClass().getPackage();
 			String applicationImplementationTitle = applicationPackage.getImplementationTitle();
 			String applicationImplementationVersion = applicationPackage.getImplementationVersion();

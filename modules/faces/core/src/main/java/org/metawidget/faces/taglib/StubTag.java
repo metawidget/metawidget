@@ -25,7 +25,7 @@ import org.metawidget.iface.MetawidgetException;
 
 /**
  * JSP tag for UIStub widget.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -41,7 +41,7 @@ public class StubTag
 
 	private String	mValue;
 
-	private String	mAttributes;
+	private String	mStubAttributes;
 
 	//
 	// Public methods
@@ -63,11 +63,16 @@ public class StubTag
 		mValue = value;
 	}
 
-	// TODO: setStubAttributes?
-	
-	public void setAttributes( String attributes ) {
+	/**
+	 * Sets Metawidget metadata attributes for this stub.
+	 * <p>
+	 * Named <code>setStubAttributes</code> (not <code>setAttributes</code>) for consistency with
+	 * <code>UIStub.setStubAttributes</code>.
+	 */
 
-		mAttributes = attributes;
+	public void setStubAttributes( String stubAttributes ) {
+
+		mStubAttributes = stubAttributes;
 	}
 
 	@Override
@@ -110,11 +115,11 @@ public class StubTag
 
 		// Attributes
 
-		if ( mAttributes != null ) {
-			if ( isValueReference( mAttributes ) ) {
-				componentStub.setValueBinding( "attributes", application.createValueBinding( mAttributes ) );
+		if ( mStubAttributes != null ) {
+			if ( isValueReference( mStubAttributes ) ) {
+				componentStub.setValueBinding( "stubAttributes", application.createValueBinding( mStubAttributes ) );
 			} else {
-				componentStub.setStubAttributes( mAttributes );
+				componentStub.setStubAttributes( mStubAttributes );
 			}
 		}
 	}

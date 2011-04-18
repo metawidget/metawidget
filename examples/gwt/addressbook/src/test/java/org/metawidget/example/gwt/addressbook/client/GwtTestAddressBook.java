@@ -154,6 +154,7 @@ public class GwtTestAddressBook
 
 												FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
 												assertEquals( "Date of Birth:", contactFlexTable.getText( 3, 0 ) );
+												// (dateOfBirth is locked to GMT, but VM may be running in Australia)
 												assertTrue( "1956-05-12".equals( contactMetawidget.getValue( "dateOfBirth" ) ) || "1956-05-13".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 												assertEquals( "Contact Details", contactFlexTable.getText( 5, 0 ) );
 												assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );

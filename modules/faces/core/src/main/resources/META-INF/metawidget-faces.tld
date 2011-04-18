@@ -70,7 +70,7 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>attributes</name>
+			<name>stubAttributes</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
