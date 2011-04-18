@@ -27,7 +27,7 @@
 					<f:param name="requiredStyle" value="aRequiredStyle"/>
 					<f:param name="labelSuffix" value="->"/>					
 					
-					<m:stub value="#{allWidgets.mystery}" attributes="#{'dummy-attribute: dummy-value'}"/>
+					<m:stub value="#{allWidgets.mystery}" stubAttributes="#{'dummy-attribute: dummy-value'}"/>
 
 					<f:facet name="footer">
 						<h:commandButton value="Save" action="#{allWidgetsBean.save}"/>
