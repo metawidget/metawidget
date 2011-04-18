@@ -60,8 +60,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th" text="Color:"/>				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]" text="java.awt.Color[r=255,g=0,b=0]"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th" text="Date:"/>
-				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1], '00:00:00 ')"/>
-				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1], ' 1975')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]" text="(09/04|04/09)/1975" regex="true"/>				
 
 				<clickButton label="Edit"/>
 				

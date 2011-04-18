@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
@@ -77,7 +78,10 @@ public class ContactsController {
 		contact.getAddress().setState( "Anytown" );
 		contact.getAddress().setPostcode( "90701" );
 		contact.addCommunication( new Communication( "Telephone", "(939) 555-0113" ) );
-		( (PersonalContact) contact ).setDateOfBirth( new GregorianCalendar( 1956, Calendar.MAY, 12 ).getTime() );
+		// (lock TimeZone for consistent unit tests)
+		Calendar dateOfBirth = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ));
+		dateOfBirth.set( 1956, Calendar.MAY, 12 );
+		( (PersonalContact) contact ).setDateOfBirth( dateOfBirth.getTime() );
 		save( contact );
 
 		contact = new PersonalContact( "Mrs", "Marjorie", "Simpson" );

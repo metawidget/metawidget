@@ -26,7 +26,7 @@
 				<verifyInputField name="form:contactCurrentSurname" value="Simpson"/>
 				<verifySelectField name="form:contactCurrentGender" value="MALE"/>
 				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[4]/td/span/input/@class, 'hasDatepicker')"/>
-				<verifyInputField name="form:contactCurrentDateOfBirth_input" value="(05/12|12/05)/1956" regex="true"/>
+				<verifyInputField name="form:contactCurrentDateOfBirth_input" value="(05/12|12/05)/56" regex="true"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a/em)" text="Contact Details"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/th)" text="Address:"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
