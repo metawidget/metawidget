@@ -1060,12 +1060,15 @@ public abstract class UIMetawidget
 				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapExpression( binding.substring( 0, lastIndexOf ) ) );
 				Object toInspect = bindingParent.getValue( context );
 
-				if ( toInspect != null ) {
+				if ( toInspect == null ) {
+
+					// TODO: test this (if not too noisy)
+
+					LOG.debug( "{0} returned null", valueBindingString );
+				} else {
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
 					return mPipeline.inspectAsDom( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
-
-				// TODO: warn if null?
 			}
 		}
 
