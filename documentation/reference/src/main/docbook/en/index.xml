@@ -13,9 +13,8 @@
 
 	<toc />
 
-	<!-- TODO: Maven how-to, talk about *.tld -->
+	<!-- TODO: Maven how-to -->
 	<!-- TODO: JBoss examples inside Seam 2.2 -->
-	<!-- TODO: Logging on JBoss AS -->
 	
 	<preface id="preface">
 		<title>Preface</title>

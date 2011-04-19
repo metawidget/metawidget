@@ -132,6 +132,23 @@
 			
 		</section>
 	
+		<section id="section-howto-deploy-ear">
+			<title>Deploy As An Enterprise ARchive (EAR)</title>
+			
+			<para>
+				If your application is deployed as a Enterprise ARchive (EAR), typically your business objects will be in an EJB tier and your
+				UI screens in a WAR tier. To use Metawidget-specific annotations on your business objects (such as <classname>@UiComesAfter</classname>)
+				you must therefore deploy <filename>metawidget-all.jar</filename> (or some of the fine-grained dependencies, such
+				as <filename>metawidget-all.jar</filename>) under <filename>ear/lib</filename>. 
+			</para>
+			
+			<para>
+				Unfortunately many application servers have bugs whereby TLD files cannot be detected under <filename>ear/lib</filename> (only under
+				<filename>WEB-INF/lib</filename>). If you encounter this, the easiest way to resolve it is to copy the TLD file you need
+				(eg. <filename>metawidget-faces.tld</filename>) into your <filename>WEB-INF</filename> folder.
+			</para>
+		</section>
+
 		<section id="section-howto-remote">
 			<title>Inspect Remotely</title>
 			
@@ -250,7 +267,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 	
 				<para>
 					Metawidget has no mandatory third-party JAR dependencies and is highly modular. This
-					allows the standard <filename>metawidget.jar</filename> to be repackaged for different environments to save JAR size.
+					allows the standard <filename>metawidget-all.jar</filename> to be repackaged for different environments to save JAR size.
 				</para>
 				
 				<para>		

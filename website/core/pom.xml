@@ -114,6 +114,9 @@
 				<inherited>false</inherited>
 				<configuration>
 					<target>
+					
+						<!-- Live demo -->
+						
 						<copy todir="target/ROOT/live-demo">
 							<fileset dir="target/ROOT/WEB-INF/lib">
 								<exclude name="ROOT.jar" />
@@ -121,8 +124,23 @@
 							</fileset>
 						</copy>
 						<copy file="target/ROOT/WEB-INF/lib/metawidget-website.jar" tofile="target/ROOT/live-demo/console-applet.jar" />
+						
+						<!-- XML schemas -->
+						
 						<taskdef name="xmlSchemaGenerator" classname="org.metawidget.website.config.XmlSchemaGeneratorTask" />
 						<xmlSchemaGenerator jar="target/ROOT/WEB-INF/lib/metawidget-all.jar" destdir="target/ROOT/xsd" />
+						
+						<!-- Try to have something at TLD URIs -->
+
+						<copy file="../../modules/faces/core/src/main/resources/metawidget-faces.tld" tofile="target/ROOT/faces/index.html"/>
+						<copy file="../../modules/faces/core/src/main/resources/metawidget-faces.tld" todir="target/ROOT/faces"/>
+						<copy file="../../modules/jsp/core/src/main/resources/metawidget-html.tld" tofile="target/ROOT/html/index.html"/>
+						<copy file="../../modules/jsp/core/src/main/resources/metawidget-html.tld" todir="target/ROOT/html"/>
+						<copy file="../../modules/spring/src/main/resources/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
+						<copy file="../../modules/spring/src/main/resources/metawidget-spring.tld" todir="target/ROOT/spring"/>
+						<copy file="../../modules/struts/src/main/resources/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
+						<copy file="../../modules/struts/src/main/resources/metawidget-struts.tld" todir="target/ROOT/struts"/>
+						
 					</target>
 				</configuration>
 				<dependencies>

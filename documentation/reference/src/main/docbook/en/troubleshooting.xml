@@ -6,6 +6,43 @@
 			This chapter contains solutions for various common problems you may encounter when using Metawidget.
 		</para>
 		
+		<section id="section-troubleshooting-general">
+			<title>General</title>
+			
+			<section id="section-inspectors-inspectors-general-doesnt-work">
+				<title>Metawidget Doesn't Work!</title>
+				
+				<para>
+					The first step to troubleshooting is to enable <parameter>DEBUG</parameter> or <parameter>TRACE</parameter> logging. The
+					exact procedure for doing this varies depending on your environment, but here are some suggestions:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							If your application does not use Apache Commons Logging, Metawidget will default to <classname>java.util.Logging</classname>.
+							Locate the <filename>logging.properties</filename> file (eg. <filename>&lt;JAVA_HOME&gt;/jre/lib/logging.properties</filename>)
+							and edit it. Set
+							<parameter>.level=DEBUG</parameter> and <parameter>java.util.logging.ConsoleHandler.level=DEBUG</parameter>.
+						</para>
+						<para>
+							If your application uses Apache Log4J (possibly underneath Apache Commons Logging) locate the <filename>log4j.xml</filename>
+							file (eg. <filename>/jboss-5.1.0.GA/server/default/conf/jboss-log4j.xml</filename>) and edit it. Remove any reference to
+							<parameter>&lt;param name="Threshold" ...&gt;</parameter>.
+						</para>
+						<para>
+							If your application uses JBoss Logging (ie. under JBoss AS 6) locate the <filename>jboss-logging.xml</filename>
+							file (eg. <filename>/jboss-6.0.0.Final/server/default/deploy/jboss-logging.xml</filename>) and edit it. Under the
+							<parameter>&lt;console-handler&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>. Under
+							the <parameter>&lt;root-logger&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
+						</para>
+					</listitem>
+				</itemizedlist>
+				
+			</section>
+			
+		</section>
+
 		<section id="section-troubleshooting-inspectors">
 			<title>Inspectors</title>
 		
@@ -107,7 +144,7 @@ public @interface MyAnnotation {
 					<para>
 						View the source of the final Web page that is produced. If <parameter>m:metawidget</parameter> appears in it, the
 						tag is not being processed. Check you have correctly declared the <parameter>m:</parameter> namespace at the
-						top of your JSP/Facelets page. Also check you have correctly deployed <filename>metawidget.jar</filename> into
+						top of your JSP/Facelets page. Also check you have correctly deployed <filename>metawidget-all.jar</filename> into
 						<filename>WEB-INF/lib</filename>. 
 					</para>
 					

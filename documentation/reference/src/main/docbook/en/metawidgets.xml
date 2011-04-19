@@ -36,7 +36,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter>.
+								Add <filename>metawidget-all.jar</filename> to your <parameter>CLASSPATH</parameter>.
 							</para>
 						</listitem>
 						<listitem>
@@ -101,7 +101,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter>.
+								Add <filename>metawidget-all.jar</filename> to your <parameter>CLASSPATH</parameter>.
 							</para>
 						</listitem>
 						<listitem>
@@ -184,13 +184,13 @@
 						</listitem>
 						<listitem>
 							<para>
-								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt.jar</filename>
+								Include both <filename>metawidget-all.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt.jar</filename>
 								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. This provides the <classname>GwtMetawidget</classname> component.
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>. This provides the <classname>GwtRemoteInspectorImpl</classname> servlet.
+								Add <filename>metawidget-all.jar</filename> into <filename>WEB-INF/lib</filename>. This provides the <classname>GwtRemoteInspectorImpl</classname> servlet.
 							</para>
 						</listitem>
 						<listitem>						
@@ -405,7 +405,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+								Add <filename>metawidget-all.jar</filename> into <filename>WEB-INF/lib</filename>.
 							</para>
 						</listitem>
 						<listitem>
@@ -512,7 +512,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+								Add <filename>metawidget-all.jar</filename> into <filename>WEB-INF/lib</filename>.
 							</para>
 						</listitem>
 						<listitem>
@@ -771,7 +771,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+								Add <filename>metawidget-all.jar</filename> into <filename>WEB-INF/lib</filename>.
 							</para>
 						</listitem>
 						<listitem>
@@ -885,7 +885,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+								Add <filename>metawidget-all.jar</filename> into <filename>WEB-INF/lib</filename>.
 							</para>
 						</listitem>
 						<listitem>
@@ -1005,7 +1005,7 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter> (i.e. under
+								Add <filename>metawidget-all.jar</filename> to your <parameter>CLASSPATH</parameter> (i.e. under
 								your project's <parameter>Libraries</parameter> tab in Eclipse)
 							</para>
 						</listitem>
@@ -1018,7 +1018,7 @@
 					
 					<tip>
 						<title>Note</title>
-						Given the resource constraints of a mobile device, consider creating a custom <filename>metawidget.jar</filename> that
+						Given the resource constraints of a mobile device, consider creating a custom <filename>metawidget-all.jar</filename> that
 						only includes the classes you need (as detailed in <xref linkend="section-howto-performance-jar"/>).
 					</tip>
 					

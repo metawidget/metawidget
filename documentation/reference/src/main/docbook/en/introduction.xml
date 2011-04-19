@@ -23,8 +23,8 @@
 			<para>
 				This tutorial should take around 20 minutes. We recommend you use your preferred Java
 				development environment. If you use an Integrated Development Environment (IDE), you will
-				need to start a new Java project and add <filename>metawidget.jar</filename> to it. Otherwise,
-				you just need to ensure <filename>metawidget.jar</filename> is on your <parameter>CLASSPATH</parameter>
+				need to start a new Java project and add <filename>metawidget-all.jar</filename> to it. Otherwise,
+				you just need to ensure <filename>metawidget-all.jar</filename> is on your <parameter>CLASSPATH</parameter>
 				.
 			</para>
 
@@ -1000,7 +1000,7 @@ public class Person {
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to <filename>../../metawidget.jar</filename> and
 					<filename>lib/beansbinding.jar</filename> among others, so it's best not to move it to a different folder (if you do, you'll need to
-					manually put <filename>metawidget.jar</filename> and <filename>beansbinding.jar</filename> on your classpath).
+					manually put <filename>metawidget-all.jar</filename> and <filename>beansbinding.jar</filename> on your classpath).
 				</para>
 				
 				<tip>
@@ -1213,8 +1213,8 @@ public class Person {
 
 				<tip>
 					<title>Note</title>
-					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget.jar</filename> to
-					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
+					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget-all.jar</filename> to
+					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget-all.jar</filename>
 					and <filename>examples/gwt/metawidget-gwt.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
