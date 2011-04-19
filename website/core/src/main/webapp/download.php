@@ -76,7 +76,7 @@
 			
 		<h2 class="h2-underneath">Fine-grained Dependencies</h2>
 
-		<p>			
+		<p>
 			If you need more control over how Metawidget is included in your application, fine-grained dependencies are also available. For example you can:
 		</p>
 		<ul>

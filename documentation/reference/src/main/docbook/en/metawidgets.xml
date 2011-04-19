@@ -159,6 +159,8 @@
 			<section id="section-metawidgets-web-gwt">
 				<title>GwtMetawidget</title>
 	
+				<!-- TODO: update for Maven -->
+				
 				<para>
 					<classname>GwtMetawidget</classname> is a client-side, JavaScript widget for GWT. For an introduction
 					to <classname>GwtMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> and 

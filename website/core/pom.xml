@@ -137,7 +137,10 @@
 				<configuration>
 					<target>
 					
-						<!-- Documentation (need failonerror because of MJAVADOC-311 -->
+						<!-- Documentation -->
+						
+						<!-- (need failonerror because of MJAVADOC-311. For apidocs to  -->
+						<!--  work, must call 'mvn install' on modules folder directly) -->
 						
 						<copy todir="target/ROOT/doc/api" failonerror="false">
 							<fileset dir="../../modules/target/site/apidocs"/>

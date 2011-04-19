@@ -267,16 +267,45 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 	
 				<para>
 					Metawidget has no mandatory third-party JAR dependencies and is highly modular. This
-					allows the standard <filename>metawidget-all.jar</filename> to be repackaged for different environments to save JAR size.
+					allows the standard <filename>metawidget-all.jar</filename> to be repackaged for different environments to
+					save JAR size.
 				</para>
 				
-				<para>		
-					For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
-					<filename>examples/swing/applet/addressbook/metawidget-applet.jar</filename>. This JAR includes only those
-					classes (<classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and so on) necessary for the
-					Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
-					Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
-					the Android Address Book.
+				<para>
+					For example, the <filename>addressbook-swing-applet</filename> Maven POM
+					uses fine-grained Metawidget dependencies (as an alternative to <filename>metawidge-all.jar</filename>)
+					to include only those modules necessary for the applet. Similarly, the <filename>addressbook-android</filename>
+					Maven POM includes only those Android modules necessary for the Android Address Book.
+				</para>
+				
+				<para>
+					Fine-grained dependencies are only available through Maven. They take advantage of Maven's dependency resolution
+					to drag in related dependencies for you, such as <filename>org.metawidget.modules:metawidget-core</filename>.
+					To use them, specify dependencies on a per-technology basis instead of using <filename>metawidget-all</filename>.
+					For example:
+				</para>
+
+				<itemizedlist>
+					<listitem>
+						<para>
+							<filename>org.metawidget.modules.faces:metawidget-richfaces</filename>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<filename>org.metawidget.modules.swing:metawidget-beansbinding</filename>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<filename>org.metawidet.modules:metawidget-jpa</filename>
+						</para>
+					</listitem>
+				</itemizedlist>
+				
+				<para>
+					To browse all available fine-grained dependencies visit
+					<ulink url="http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules">http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules</ulink>. 
 				</para>
 				
 			</section>
