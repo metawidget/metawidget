@@ -115,6 +115,20 @@
 				<configuration>
 					<target>
 					
+						<!-- Documentation -->
+						
+						<copy todir="target/ROOT/doc/api">
+							<fileset dir="../../modules/target/site/apidocs"/>
+						</copy>						
+
+						<copy todir="target/ROOT/doc/reference">
+							<fileset dir="../../documentation/reference/target/docbook"/>
+						</copy>						
+						
+						<copy todir="target/ROOT/doc/taglib">
+							<fileset dir="../../modules/target/site/tlddoc"/>
+						</copy>						
+
 						<!-- Live demo -->
 						
 						<copy todir="target/ROOT/live-demo">
@@ -132,14 +146,14 @@
 						
 						<!-- Try to have something at TLD URIs -->
 
-						<copy file="../../modules/faces/core/src/main/resources/metawidget-faces.tld" tofile="target/ROOT/faces/index.html"/>
-						<copy file="../../modules/faces/core/src/main/resources/metawidget-faces.tld" todir="target/ROOT/faces"/>
-						<copy file="../../modules/jsp/core/src/main/resources/metawidget-html.tld" tofile="target/ROOT/html/index.html"/>
-						<copy file="../../modules/jsp/core/src/main/resources/metawidget-html.tld" todir="target/ROOT/html"/>
-						<copy file="../../modules/spring/src/main/resources/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
-						<copy file="../../modules/spring/src/main/resources/metawidget-spring.tld" todir="target/ROOT/spring"/>
-						<copy file="../../modules/struts/src/main/resources/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
-						<copy file="../../modules/struts/src/main/resources/metawidget-struts.tld" todir="target/ROOT/struts"/>
+						<copy file="../../modules/faces/core/src/main/resources/META-INF/metawidget-faces.tld" tofile="target/ROOT/faces/index.html"/>
+						<copy file="../../modules/faces/core/src/main/resources/META-INF/metawidget-faces.tld" todir="target/ROOT/faces"/>
+						<copy file="../../modules/jsp/core/src/main/resources/META-INF/metawidget-html.tld" tofile="target/ROOT/html/index.html"/>
+						<copy file="../../modules/jsp/core/src/main/resources/META-INF/metawidget-html.tld" todir="target/ROOT/html"/>
+						<copy file="../../modules/spring/src/main/resources/META-INF/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
+						<copy file="../../modules/spring/src/main/resources/META-INF/metawidget-spring.tld" todir="target/ROOT/spring"/>
+						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
+						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
 						
 					</target>
 				</configuration>
