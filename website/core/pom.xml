@@ -115,9 +115,9 @@
 				<configuration>
 					<target>
 					
-						<!-- Documentation -->
+						<!-- Documentation (need failonerror because of MJAVADOC-311 -->
 						
-						<copy todir="target/ROOT/doc/api">
+						<copy todir="target/ROOT/doc/api" failonerror="false">
 							<fileset dir="../../modules/target/site/apidocs"/>
 						</copy>						
 

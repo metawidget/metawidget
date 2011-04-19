@@ -11,7 +11,7 @@
 	<artifactId>modules-parent</artifactId>
 	<packaging>pom</packaging>
 
-	<modules>		
+	<modules>
 		<!-- Not 'all' until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
 		<module>android</module>
 		<module>annotation</module>
@@ -63,8 +63,10 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<!-- mvn must be run at *this* level (not parent POM) for JavaDoc generation to work. See MJAVADOC-311 -->
 				<inherited>false</inherited>
 				<configuration>
+					<aggregate>true</aggregate>
 					<author>true</author>
 					<version>true</version>
 					<use>true</use>
@@ -74,7 +76,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>aggregate</goal>
 						</goals>
@@ -86,7 +88,7 @@
 				<inherited>false</inherited>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
@@ -116,7 +118,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>taglibdoc</goal>
 						</goals>
