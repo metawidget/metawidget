@@ -54,7 +54,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/th[@class='table-label-column']" text="Surname:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']" text="Simpson"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/th[@class='table-label-column']" text="Date of Birth:"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']" text="(5/12|5/13|12/05|13/05)/56" regex="true"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']" text="(5/11|5/12|11/05|12/05)/56" regex="true"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[5]/th[@class='table-label-column']" text="Gender:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[5]/td[@class='table-component-column']" text="Male"/>	
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[6]/td/@colspan" text="2"/>
@@ -83,7 +83,7 @@
 				<verifyInputField name="firstname" value="Homer"/>
 				<verifyInputField name="surname" value="Simpson"/>
 				<verifySelectField name="gender" value="MALE"/>
-				<verifyInputField name="dateOfBirth" value="(5/12|5/13|12/05|13/05)/56" regex="true"/>
+				<verifyInputField name="dateOfBirth" value="(5/11|5/12|11/05|12/05)/56" regex="true"/>
 				<verifyInputField name="address.street" value="742 Evergreen Terrace"/>
 				<verifyInputField name="address.city" value="Springfield"/>
 				<verifySelectField name="address.state" value="Anytown"/>

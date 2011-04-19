@@ -78,10 +78,7 @@ public class ContactsController {
 		contact.getAddress().setState( "Anytown" );
 		contact.getAddress().setPostcode( "90701" );
 		contact.addCommunication( new Communication( "Telephone", "(939) 555-0113" ) );
-		// (lock TimeZone for consistent unit tests)
-		Calendar dateOfBirth = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ));
-		dateOfBirth.set( 1956, Calendar.MAY, 12 );
-		( (PersonalContact) contact ).setDateOfBirth( dateOfBirth.getTime() );
+		( (PersonalContact) contact ).setDateOfBirth( new GregorianCalendar( 1956, Calendar.MAY, 12 ).getTime() );
 		save( contact );
 
 		contact = new PersonalContact( "Mrs", "Marjorie", "Simpson" );
