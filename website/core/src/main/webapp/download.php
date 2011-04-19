@@ -51,13 +51,13 @@
 		<h2 class="h2-underneath">Maven</h2>
 
 		<p>
-			Alternatively, Metawidget binaries are deployed at <a href="https://repository.jboss.org/nexus" target="_blank">https://repository.jboss.org/nexus</a>.
+			Alternatively, Metawidget binaries are deployed at <a href="http://repository.jboss.org/nexus/content/groups/public-jboss" target="_blank">http://repository.jboss.org/nexus/content/groups/public-jboss</a>.
 			Add the following repository definition to your <tt>pom.xml</tt>...
 		</p>
 		
 		<div class="code"><tt>&lt;repository&gt;<br/>
 		&nbsp;&nbsp;&nbsp;&lt;id&gt;<strong>jboss-public-repository-group</strong>&lt;/id&gt;<br/>
-		&nbsp;&nbsp;&nbsp;&lt;url&gt;<strong>https://repository.jboss.org/nexus/content/groups/public-jboss/</strong>&lt;/url&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&lt;url&gt;<strong>http://repository.jboss.org/nexus/content/groups/public-jboss</strong>&lt;/url&gt;<br/>
 		&lt;/repository&gt;</tt></div>
 
 		<p>
@@ -96,13 +96,13 @@
 		</p>
 		<p>
 			To browse all available fine-grained dependencies visit
-			<a href="https://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules">https://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules</a>. 
+			<a href="http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules">http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules</a>. 
 		</p>
 		
 		<h2 class="h2-underneath">Nightly Builds</h2>
 		
 		<p>
-			Snapshot releases are deployed regularly to <a href="https://repository.jboss.org/nexus/content/repositories/snapshots/org/metawidget" target="_blank">https://repository.jboss.org/nexus/content/repositories/snapshots/org/metawidget</a>.
+			Snapshot releases are deployed regularly to <a href="http://repository.jboss.org/nexus/content/repositories/snapshots" target="_blank">http://repository.jboss.org/nexus/content/repositories/snapshots</a>.
 			These releases are not stable, and should not be used in production environments.
 		</p>
 

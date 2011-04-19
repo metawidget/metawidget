@@ -182,21 +182,21 @@ public abstract class UIMetawidget
 
 			ExternalContext externalContext = context.getExternalContext();
 
-			// TODO: Use context.class. Using context.application.class returns 'JBoss' under JBoss
+			// Use context.class. Using context.application.class returns 'JBoss Application Server Weld Integration EE Webtier services' under JBoss AS 6
 
-			Package applicationPackage = context.getApplication().getClass().getPackage();
-			String applicationImplementationTitle = applicationPackage.getImplementationTitle();
-			String applicationImplementationVersion = applicationPackage.getImplementationVersion();
+			Package contextPackage = context.getClass().getPackage();
+			String contextImplementationTitle = contextPackage.getImplementationTitle();
+			String contextImplementationVersion = contextPackage.getImplementationVersion();
 
 			if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
 
-				if ( isBadMojarra2( applicationImplementationTitle, applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
-					throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
 
-				} else if ( isBadMyFaces2( applicationImplementationTitle, applicationImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
-					throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
 				}
 
 				// Forcibly disabled
@@ -205,13 +205,13 @@ public abstract class UIMetawidget
 
 			} else if ( FacesUtils.isJsf2() ) {
 
-				if ( isBadMojarra2( applicationImplementationTitle, applicationImplementationVersion ) ) {
+				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) ) {
 
-					throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
 
-				} else if ( isBadMyFaces2( applicationImplementationTitle, applicationImplementationVersion ) ) {
+				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) ) {
 
-					throw MetawidgetException.newException( applicationImplementationTitle + " " + applicationImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
 				}
 
 				if ( context.getViewRoot() == null ) {
@@ -1061,10 +1061,7 @@ public abstract class UIMetawidget
 				Object toInspect = bindingParent.getValue( context );
 
 				if ( toInspect == null ) {
-
-					// TODO: test this (if not too noisy)
-
-					LOG.debug( "{0} returned null", valueBindingString );
+					LOG.debug( "No inspectors matched {0} (evaluated to null)", valueBindingString );
 				} else {
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
 					return mPipeline.inspectAsDom( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
@@ -1075,30 +1072,30 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	private boolean isBadMojarra2( String applicationImplementationTitle, String applicationImplementationVersion ) {
+	private boolean isBadMojarra2( String contextImplementationTitle, String contextImplementationVersion ) {
 
-		if ( applicationImplementationTitle == null ) {
+		if ( contextImplementationTitle == null ) {
 			return false;
 		}
 
-		if ( !applicationImplementationTitle.contains( "Mojarra" ) ) {
+		if ( !contextImplementationTitle.contains( "Mojarra" ) ) {
 			return false;
 		}
 
-		return applicationImplementationVersion.contains( "2.0." ) || applicationImplementationVersion.contains( "2.1.0" );
+		return contextImplementationVersion.contains( "2.0." ) || contextImplementationVersion.contains( "2.1.0" );
 	}
 
-	private boolean isBadMyFaces2( String applicationImplementationTitle, String applicationImplementationVersion ) {
+	private boolean isBadMyFaces2( String contextImplementationTitle, String contextImplementationVersion ) {
 
-		if ( applicationImplementationTitle == null ) {
+		if ( contextImplementationTitle == null ) {
 			return false;
 		}
 
-		if ( !applicationImplementationTitle.contains( "MyFaces" ) ) {
+		if ( !contextImplementationTitle.contains( "MyFaces" ) ) {
 			return false;
 		}
 
-		return ( applicationImplementationVersion.contains( "2.0.0" ) || applicationImplementationVersion.contains( "2.0.1" ) || applicationImplementationVersion.contains( "2.0.2" ) );
+		return ( contextImplementationVersion.contains( "2.0.0" ) || contextImplementationVersion.contains( "2.0.1" ) || contextImplementationVersion.contains( "2.0.2" ) );
 	}
 
 	//
