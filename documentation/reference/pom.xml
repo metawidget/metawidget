@@ -43,7 +43,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<imgSrcPath>${basedir}/src/main/resources/</imgSrcPath>
-							<admonGraphicsPath>${basedir}/src/main/resources/images/admons/pdf</admonGraphicsPath>
+							<admonGraphicsPath>${basedir}/src/main/resources/images/admons/pdf/</admonGraphicsPath>
 							<foCustomization>${basedir}/src/main/resources/xsl/pdf/custom.xsl</foCustomization>
 							<targetDirectory>${docbook.target}/pdf</targetDirectory>
 						</configuration>
