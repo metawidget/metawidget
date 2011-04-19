@@ -827,9 +827,11 @@
 	</build>
 
 	<distributionManagement>
-		<repository>
+		<snapshotRepository>
 			<id>jboss-snapshots</id>
-		</repository>
+			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
+			<!-- username/password defined in MAVEN_HOME/conf/settings.xml -->
+		</snapshotRepository>
 	</distributionManagement>
 
 </project>
