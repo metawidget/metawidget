@@ -110,6 +110,28 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<artifactId>maven-jarsigner-plugin</artifactId>
+				<configuration>
+					<alias>Metawidget</alias>
+					<keystore>${basedir}/src/main/resources/org/metawidget/website/swing/console/metawidget.keystore</keystore>
+					<storepass>m3t4w1dg3t</storepass>
+					<processMainArtifact>false</processMainArtifact>
+					<archiveDirectory>target/ROOT/live-demo</archiveDirectory>
+					<includes>
+						<include>console-applet.jar</include>
+						<include>metawidget-*.jar</include>
+						<include>groovy-all.jar</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<inherited>false</inherited>
 				<configuration>
@@ -155,6 +177,11 @@
 						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
 						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
 						
+						<!-- Rezip -->
+						
+						<delete file="target/ROOT.war"/>
+						<zip destfile="target/ROOT.war" basedir="target/ROOT"/>
+						
 					</target>
 				</configuration>
 				<dependencies>
@@ -175,28 +202,6 @@
 						<phase>package</phase>
 						<goals>
 							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-jarsigner-plugin</artifactId>
-				<configuration>
-					<alias>Metawidget</alias>
-					<keystore>${basedir}/src/main/resources/org/metawidget/website/swing/console/metawidget.keystore</keystore>
-					<storepass>m3t4w1dg3t</storepass>
-					<processMainArtifact>false</processMainArtifact>
-					<archiveDirectory>target/ROOT/live-demo</archiveDirectory>
-					<includes>
-						<include>console-applet.jar</include>
-						<include>metawidget-*.jar</include>
-						<include>groovy-all.jar</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
