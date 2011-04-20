@@ -25,11 +25,15 @@
 							and edit it. Set
 							<parameter>.level=DEBUG</parameter> and <parameter>java.util.logging.ConsoleHandler.level=DEBUG</parameter>.
 						</para>
+					</listitem>
+					<listitem>
 						<para>
 							If your application uses Apache Log4J (possibly underneath Apache Commons Logging) locate the <filename>log4j.xml</filename>
 							file (eg. <filename>/jboss-5.1.0.GA/server/default/conf/jboss-log4j.xml</filename>) and edit it. Remove any reference to
 							<parameter>&lt;param name="Threshold" ...&gt;</parameter>.
 						</para>
+					</listitem>
+					<listitem>
 						<para>
 							If your application uses JBoss Logging (ie. under JBoss AS 6) locate the <filename>jboss-logging.xml</filename>
 							file (eg. <filename>/jboss-6.0.0.Final/server/default/deploy/jboss-logging.xml</filename>) and edit it. Under the

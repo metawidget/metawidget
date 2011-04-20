@@ -139,7 +139,7 @@
 				If your application is deployed as a Enterprise ARchive (EAR), typically your business objects will be in an EJB tier and your
 				UI screens in a WAR tier. To use Metawidget-specific annotations on your business objects (such as <classname>@UiComesAfter</classname>)
 				you must therefore deploy <filename>metawidget-all.jar</filename> (or some of the fine-grained dependencies, such
-				as <filename>metawidget-all.jar</filename>) under <filename>ear/lib</filename>. 
+				as <filename>metawidget-annotation.jar</filename>) under <filename>ear/lib</filename>. 
 			</para>
 			
 			<para>
@@ -273,13 +273,13 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				
 				<para>
 					For example, the <filename>addressbook-swing-applet</filename> Maven POM
-					uses fine-grained Metawidget dependencies (as an alternative to <filename>metawidge-all.jar</filename>)
+					uses fine-grained Metawidget dependencies (as an alternative to <filename>metawidget-all.jar</filename>)
 					to include only those modules necessary for the applet. Similarly, the <filename>addressbook-android</filename>
 					Maven POM includes only those Android modules necessary for the Android Address Book.
 				</para>
 				
 				<para>
-					Fine-grained dependencies are only available through Maven. They take advantage of Maven's dependency resolution
+					Fine-grained dependencies are available through Maven. They take advantage of Maven's dependency resolution
 					to drag in related dependencies for you, such as <filename>org.metawidget.modules:metawidget-core</filename>.
 					To use them, specify dependencies on a per-technology basis instead of using <filename>metawidget-all</filename>.
 					For example:

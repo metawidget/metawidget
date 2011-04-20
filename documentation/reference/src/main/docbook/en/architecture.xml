@@ -3336,8 +3336,80 @@ static class State {
 					In order to reliably cache and reuse an immutable object that uses a <parameter>config</parameter> attribute, the
 					<classname>xxxConfig</classname> class <emphasis>must</emphasis> override <function>equals</function>
 					and <function>hashCode</function>. This is important to bear in mind when implementing your own custom classes.
-				</important>				
+				</important>
+				
+				<para>
+					Caching and reusing instances works both when configuring multiple Metawidgets, and configuring multiple settings for a single Metawidget.
+					For example:
+				</para>				
 								
+				<programlisting language="xml">&lt;inspectors&gt;
+	&lt;array&gt;
+		&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"
+			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+			&lt;propertyStyle&gt;
+				<symbol>&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+					config="JavaBeanPropertyStyleConfig"&gt;
+					&lt;supportPublicFields&gt;
+						&lt;boolean&gt;false&lt;/boolean&gt;
+					&lt;/supportPublicFields&gt;
+					&lt;privateFieldConvention&gt;
+						&lt;format&gt;'m'{1}&lt;/format&gt;
+					&lt;/privateFieldConvention&gt;
+				&lt;/javaBeanPropertyStyle&gt;</symbol>
+			&lt;/propertyStyle&gt;						
+		&lt;/java5Inspector&gt;
+		&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
+			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+			&lt;propertyStyle&gt;
+				<symbol>&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+					config="JavaBeanPropertyStyleConfig"&gt;
+					&lt;supportPublicFields&gt;
+						&lt;boolean&gt;false&lt;/boolean&gt;
+					&lt;/supportPublicFields&gt;
+					&lt;privateFieldConvention&gt;
+						&lt;format&gt;'m'{1}&lt;/format&gt;
+					&lt;/privateFieldConvention&gt;
+				&lt;/javaBeanPropertyStyle&gt;</symbol>
+			&lt;/propertyStyle&gt;						
+		&lt;/metawidgetAnnotationInspector&gt;
+	&lt;/array&gt;
+&lt;/inspectors&gt;</programlisting>
+
+				<para>
+					Here the same <parameter>javaBeanPropertyStyle</parameter> instance will be reused twice. However you still have to duplicate
+					all <parameter>javaBeanPropertyStyle</parameter>'s settings in two places. Instead <filename>metawidget.xml</filename> understands a shorthand: 
+				</para>
+				
+				<programlisting language="xml">&lt;inspectors&gt;
+	&lt;array&gt;
+		&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"
+			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+			&lt;propertyStyle&gt;
+				&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+					config="JavaBeanPropertyStyleConfig" <symbol>id="myPropertyStyle"</symbol>&gt;
+					&lt;supportPublicFields&gt;
+						&lt;boolean&gt;false&lt;/boolean&gt;
+					&lt;/supportPublicFields&gt;
+					&lt;privateFieldConvention&gt;
+						&lt;format&gt;'m'{1}&lt;/format&gt;
+					&lt;/privateFieldConvention&gt;
+				&lt;/javaBeanPropertyStyle&gt;
+			&lt;/propertyStyle&gt;						
+		&lt;/java5Inspector&gt;
+		&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
+			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+			&lt;propertyStyle&gt;
+				<symbol>&lt;javaBeanPropertyStyle refId="myPropertyStyle" /&gt;</symbol>
+			&lt;/propertyStyle&gt;						
+		&lt;/metawidgetAnnotationInspector&gt;
+	&lt;/array&gt;
+&lt;/inspectors&gt;</programlisting>
+
+				<para>
+					This shorthand can help remove duplication from your <filename>metawidget.xml</filename>.
+				</para>
+				
 			</section>
 			
 		</section>
