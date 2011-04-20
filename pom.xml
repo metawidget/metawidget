@@ -68,10 +68,7 @@
 		<profile>
 			<id>debug</id>
 			<activation>
-				<property>
-					<name>optimized</name>
-					<value>false</value>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties/>
 		</profile>
@@ -85,7 +82,7 @@
 				</property>
 			</activation>
 			<properties>
-				<!-- Setting debug=false under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
+				<!-- Putting these under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
 				<maven.compile.debug>false</maven.compile.debug>
 				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
 				<maven.compiler.optimize>true</maven.compiler.optimize>
