@@ -64,6 +64,23 @@
 		<module>website</module>
 	</modules>
 
+	<profiles>
+		<profile>
+			<id>debug</id>
+			<properties/>
+		</profile>
+
+		<profile>
+			<id>optimized</id>
+			<properties>
+				<!-- Setting debug=false under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
+				<maven.compile.debug>false</maven.compile.debug>
+				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
+				<maven.compiler.optimize>true</maven.compiler.optimize>
+			</properties>
+		</profile>
+	</profiles>
+		
 	<!-- Dependencies (all scopes are 'provided' because metawidget.jar has no mandatory dependencies) -->
 
 	<repositories>

@@ -1207,7 +1207,7 @@ public class Person {
 					<title>Note</title>
 					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget-all.jar</filename> to
 					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget-all.jar</filename>
-					and <filename>examples/gwt/metawidget-gwt.jar</filename> in the <parameter>CLASSPATH</parameter>
+					and <filename>additional/gwt/metawidget-all-sources.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
 

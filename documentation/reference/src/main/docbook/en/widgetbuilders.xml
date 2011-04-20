@@ -411,14 +411,6 @@
 						</tbody>
 					</informaltable>
 					
-					<para>
-						To build applications that use <classname>ExtGwtWidgetBuilder</classname>, include <filename>metawidget-all.jar</filename>,
-						<filename>examples/gwt/metawidget-gwt.jar</filename>
-						<emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt-extgwt-client.jar</filename>
-						in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. For an example, see
-						<xref linkend="section-introduction-part3-gwt-clientside"/>.
-					</para>
-					
 				</section>
 
 				<section id="section-widgetbuilders-gwt-default">

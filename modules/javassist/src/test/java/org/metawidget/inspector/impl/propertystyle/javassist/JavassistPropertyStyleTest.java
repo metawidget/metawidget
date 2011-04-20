@@ -25,6 +25,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiMasked;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 
@@ -42,7 +43,14 @@ public class JavassistPropertyStyleTest
 	public void testJavassist() {
 
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+		Map<String, Property> properties;
+
+		try {
+			properties = propertyStyle.getProperties( Foo.class );
+		} catch( InspectorException e ) {
+			assertEquals( "Line number information for class org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$Foo not available. Did you compile without debug info?", e.getMessage() );
+			return;
+		}
 
 		assertTrue( properties instanceof LinkedHashMap<?, ?> );
 
@@ -62,7 +70,14 @@ public class JavassistPropertyStyleTest
 	public void testSupportPublicFields() {
 
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig() );
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+		Map<String, Property> properties;
+
+		try {
+			properties = propertyStyle.getProperties( Foo.class );
+		} catch( InspectorException e ) {
+			assertEquals( "Line number information for class org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$Foo not available. Did you compile without debug info?", e.getMessage() );
+			return;
+		}
 
 		assertTrue( properties instanceof LinkedHashMap<?, ?> );
 
@@ -95,7 +110,14 @@ public class JavassistPropertyStyleTest
 	public void testInterfaceBasedPropertyStyle() {
 
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class );
+		Map<String, Property> properties;
+
+		try {
+			properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class );
+		} catch( InspectorException e ) {
+			assertEquals( "Line number information for class org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$ProxiedByCGLIB$$ not available. Did you compile without debug info?", e.getMessage() );
+			return;
+		}
 
 		assertTrue( properties instanceof LinkedHashMap<?, ?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );

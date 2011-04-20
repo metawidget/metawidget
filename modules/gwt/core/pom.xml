@@ -16,7 +16,6 @@
 			<artifactId>metawidget-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- metawidget-gwt includes sources for metawidget-core and metawidget-annotation -->
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-annotation</artifactId>
