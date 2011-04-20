@@ -70,7 +70,9 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties/>
+			<properties>
+				<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
+			</properties>
 		</profile>
 
 		<profile>
@@ -86,6 +88,7 @@
 				<maven.compile.debug>false</maven.compile.debug>
 				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
 				<maven.compiler.optimize>true</maven.compiler.optimize>
+				<compile.addMavenDescriptor>false</compile.addMavenDescriptor>
 			</properties>
 		</profile>
 	</profiles>
@@ -533,6 +536,7 @@
 					<version>2.3.1</version>
 					<configuration>
 						<archive>
+							<addMavenDescriptor>${compile.addMavenDescriptor}</addMavenDescriptor>
 							<manifestEntries>
 								<Specification-Title>Metawidget</Specification-Title>
 								<Specification-Version>${project.version}</Specification-Version>

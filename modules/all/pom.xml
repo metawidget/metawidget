@@ -186,6 +186,7 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<configuration>
 					<createSourcesJar>true</createSourcesJar>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
 				</configuration>
 			</plugin>
 		</plugins>
