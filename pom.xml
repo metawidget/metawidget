@@ -732,7 +732,7 @@
 					<artifactId>webtest-maven-plugin</artifactId>
 					<version>0.6.9-SNAPSHOT</version>
 					<executions>
-						<!-- TODO: <execution> <id>jetty-integration-test</id> <phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration> <host>localhost</host> <port>8080</port> <resultpath>target/webtest-results</resultpath> </configuration> </execution> -->
+						<!-- TODO: test with Jetty <execution> <id>jetty-integration-test</id> <phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration> <host>localhost</host> <port>8080</port> <resultpath>target/webtest-results</resultpath> </configuration> </execution> -->
 						<execution>
 							<id>tomcat-integration-test</id>
 							<phase>integration-test</phase>
@@ -783,6 +783,8 @@
 					<artifactId>maven-jarsigner-plugin</artifactId>
 					<version>1.2</version>
 				</plugin>
+				
+				<!-- TODO: debug build -->
 			</plugins>
 		</pluginManagement>
 

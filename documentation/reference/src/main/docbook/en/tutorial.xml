@@ -1042,10 +1042,9 @@ public class Person {
 				
 				<tip>
 					<title>Note</title>
-					To view the source code for the examples, such as the code for the <classname>ContactSearch</classname>,
-					<classname>ContactType</classname> and <classname>ContactDialog</classname> classes, download the Metawidget
-					source code distribution or browse it online at
-					<ulink url="http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/src">http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/src</ulink>. 
+					Full source code for all the examples, such as the code for the <classname>ContactSearch</classname>,
+					<classname>ContactType</classname> and <classname>ContactDialog</classname> classes, is
+					included under the <filename>src/examples</filename> folder of the examples distribution.
 				</tip>				
 
 				<para>
@@ -1246,11 +1245,8 @@ public class Person {
 					
 				<tip>
 					<title>Note</title>
-					As with the Desktop Address Book, all source code for the examples can be found in the
-					source code distribution under
-					<filename>examples/src/java/org/metawidget/example</filename>.
-					All Web-specific resources (such as JSP files) can be found under
-					<filename>examples/src/web</filename>.
+					As with the Desktop Address Book, full source code for the examples can be found
+					under <filename>src/examples</filename>.
 				</tip>				
 
 				<para>
@@ -1712,7 +1708,7 @@ public class Person {
 				<programlisting language="shell">mvn integration-test</programlisting>
 
 				<para>
-					(ensuring your <filename>build.properties</filename> is set correctly to point to the Android SDK).
+					(assuming you have the Android SDK installed at <filename>/android-sdk-windows</filename>).
 				</para>
 
 				<para>				
@@ -1742,11 +1738,8 @@ public class Person {
 
 				<tip>
 					<title>Note</title>
-					As with the Desktop Address Book, all source code for the examples can be found in the
-					source code distribution under
-					<filename>examples/src/java/org/metawidget/example</filename>.
-					All Android-specific resources (such as XML files) can be found under
-					<filename>examples/src/android</filename>.
+					As with the Desktop Address Book, full source code for the examples can be found
+					under <filename>src/examples</filename>.
 				</tip>				
 
 				<para>
@@ -2160,7 +2153,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				
 				<para>
 					Metawidget supports pluggable 'action styles'. The use of Swing AppFramework is configured
-					per <classname>Inspector</classname>, as in <filename>examples/src/java/org/metawidget/example/swing/appframework/metawidget.xml</filename>
+					per <classname>Inspector</classname>, as in <filename>src/examples/swing/appframework/src/main/resources/org/metawidget/example/swing/appframework/metawidget.xml</filename>
 					from the source distribution:
 				</para>
 
@@ -2253,7 +2246,7 @@ metawidget.setToInspect( animal );
 
 				<para>
 					The Animal Races code is written purely in Scala, located at
-					<filename>examples/src/scala/org/metawidget/example/swing/animalraces/AnimalRaces.scala</filename>. It uses
+					<filename>src/examples/swing/animalraces/src/main/scala/org/metawidget/example/swing/animalraces/AnimalRaces.scala</filename>. It uses
 					<classname>ScalaPropertyStyle</classname> to allow Metawidget to inspect Scala-based business objects: 
 				</para>
 				
@@ -2339,7 +2332,7 @@ metawidget.setToInspect( animal )</programlisting>
 				</figure>
 
 				<para>
-					Source code for all examples can be found under the <filename>examples/src</filename> folder of the
+					Source code for all examples can be found under the <filename>src/examples</filename> folder of the
 					examples distribution. The code is organized into standalone Maven projects so that it can be easily imported
 					into your favourite IDE. For example, to run the GWT Address Book example in Eclipse:
 				</para>
@@ -2353,7 +2346,7 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							Navigate to <filename>examples/src/gwt/addressbook</filename> and choose to import <filename>pom.xml</filename> 
+							Navigate to <filename>src/examples/gwt/addressbook</filename> and choose to import <filename>pom.xml</filename> 
 						</para>
 					</listitem>
 					<listitem>

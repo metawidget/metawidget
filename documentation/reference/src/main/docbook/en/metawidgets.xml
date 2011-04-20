@@ -159,8 +159,6 @@
 			<section id="section-metawidgets-web-gwt">
 				<title>GwtMetawidget</title>
 	
-				<!-- TODO: update for Maven -->
-				
 				<para>
 					<classname>GwtMetawidget</classname> is a client-side, JavaScript widget for GWT. For an introduction
 					to <classname>GwtMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> and 
@@ -186,8 +184,8 @@
 						</listitem>
 						<listitem>
 							<para>
-								Include both <filename>metawidget-all.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt.jar</filename>
-								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. This provides the <classname>GwtMetawidget</classname> component.
+								Include both <filename>metawidget-all.jar</filename> <emphasis>and</emphasis> <filename>additional/gwt/metawidget-all-sources.jar</filename>
+								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase. This provides the <classname>GwtMetawidget</classname> component source.
 							</para>
 						</listitem>
 						<listitem>
@@ -220,9 +218,9 @@
 					</orderedlist>
 					
 					<para>
-						A working example of all five steps can be found in <filename>addressbook-gwt.war</filename> included in the binary
-						distribution. You may also find the <filename>example-gwt-addressbook</filename> Ant task in the source
-						distribution's <filename>build.xml</filename> useful.
+						A working example of all these steps can be found in <filename>addressbook-gwt.war</filename> included in the examples
+						distribution. You may also find the <filename>src/examples/gwt/addressbook</filename> Maven POM and the
+						<filename>src/examples/gwt/clientside</filename> Maven POM useful.
 					</para>
 					
 				</section>
