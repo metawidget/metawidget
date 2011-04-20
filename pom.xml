@@ -67,11 +67,23 @@
 	<profiles>
 		<profile>
 			<id>debug</id>
+			<activation>
+				<property>
+					<name>optimized</name>
+					<value>false</value>
+				</property>
+			</activation>
 			<properties/>
 		</profile>
 
 		<profile>
 			<id>optimized</id>
+			<activation>
+				<property>
+					<name>optimized</name>
+					<value>true</value>
+				</property>
+			</activation>
 			<properties>
 				<!-- Setting debug=false under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
 				<maven.compile.debug>false</maven.compile.debug>
