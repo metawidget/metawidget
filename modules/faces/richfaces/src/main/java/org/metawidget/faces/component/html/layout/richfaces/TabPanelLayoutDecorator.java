@@ -111,7 +111,7 @@ public class TabPanelLayoutDecorator
 
 		// New tab
 
-		UITab tab = FacesUtils.createComponent( "org.richfaces.Tab", null );
+		UITab tab = FacesUtils.createComponent( "org.richfaces.Tab", "org.richfaces.TabRenderer" );
 		tab.setId( viewRoot.createUniqueId() );
 		tabPanel.getChildren().add( tab );
 

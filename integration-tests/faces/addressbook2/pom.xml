@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>mojarra2-richfaces</module>
 		<module>myfaces2-primefaces</module>
 		<module>myfaces2-richfaces</module>
 	</modules>

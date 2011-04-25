@@ -45,7 +45,7 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		
-		<!-- TODO: Use RichFaces TabPanel
+		<!-- Use RichFaces TabPanel -->
 		
 		<layout>
 			<tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelLayoutDecoratorConfig">
@@ -53,7 +53,7 @@
 					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
 				</layout>
 			</tabPanelLayoutDecorator>
-		</layout> -->
+		</layout>
 		
 	</htmlMetawidget>
 
