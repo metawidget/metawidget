@@ -92,8 +92,8 @@
 			</properties>
 		</profile>
 	</profiles>
-		
-	<!-- Dependencies (all scopes are 'provided' because metawidget.jar has no mandatory dependencies) -->
+
+	<!-- Dependencies (all scopes are 'provided' so that metawidget-all.jar has no mandatory dependencies) -->
 
 	<repositories>
 		<repository>
@@ -155,6 +155,25 @@
 						<groupId>javax.faces</groupId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces-bom</artifactId>
+				<version>4.0.0.Final</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.richfaces.ui</groupId>
+				<artifactId>richfaces-components-ui</artifactId>
+				<version>4.0.0.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.richfaces.core</groupId>
+				<artifactId>richfaces-core-impl</artifactId>
+				<version>4.0.0.Final</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.icefaces</groupId>

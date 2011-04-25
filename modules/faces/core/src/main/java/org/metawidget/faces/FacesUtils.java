@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -102,7 +103,7 @@ public final class FacesUtils {
 	}
 
 	/**
-	 * @return	true if the JSF version is 2 or above, false otherwise
+	 * @return true if the JSF version is 2 or above, false otherwise
 	 */
 
 	public static boolean isJsf2() {
@@ -121,7 +122,33 @@ public final class FacesUtils {
 	public static boolean isPartialStateSavingDisabled() {
 
 		FacesContext context = FacesContext.getCurrentInstance();
-		return ( "false".equals( context.getExternalContext().getInitParameter( "javax.faces.PARTIAL_STATE_SAVING" )));
+		return ( "false".equals( context.getExternalContext().getInitParameter( "javax.faces.PARTIAL_STATE_SAVING" ) ) );
+	}
+
+	/**
+	 * Create a component using either the JSF 2.x
+	 * <code>createComponent( context, componentType, rendererType )</code> method, or the JSF 1.x
+	 * <code>createComponent( componentType )</code> method. The former can be important for JSF 2.x
+	 * controls that need to dynamically include additional resources (such as JavaScript/CSS
+	 * files).
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public static <T extends UIComponent> T createComponent( String componentType, String rendererType ) {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
+		// JSF 2.x
+
+		if ( isJsf2() ) {
+
+			return (T) application.createComponent( context, componentType, rendererType );
+		}
+
+		// JSF 1.x
+
+		return (T) application.createComponent( componentType );
 	}
 
 	//

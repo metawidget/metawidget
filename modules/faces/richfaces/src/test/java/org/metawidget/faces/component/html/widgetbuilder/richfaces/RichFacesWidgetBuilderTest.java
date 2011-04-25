@@ -42,10 +42,7 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.richfaces.component.UICalendar;
-import org.richfaces.component.UIInputNumberSlider;
-import org.richfaces.component.UIInputNumberSpinner;
 import org.richfaces.component.UISuggestionBox;
-import org.richfaces.component.html.HtmlCalendar;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 import org.richfaces.component.html.HtmlSuggestionBox;
@@ -111,14 +108,14 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( TYPE, int.class.getName() );
 		attributes.put( MINIMUM_VALUE, "1" );
 		attributes.put( MAXIMUM_VALUE, "1024" );
-		UIInputNumberSlider slider = (UIInputNumberSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		HtmlInputNumberSlider slider = (HtmlInputNumberSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "1", slider.getMinValue() );
 		assertEquals( "1024", slider.getMaxValue() );
 
 		attributes.put( TYPE, Long.class.getName() );
 		attributes.put( MINIMUM_VALUE, "2" );
 		attributes.put( MAXIMUM_VALUE, "1023" );
-		slider = (UIInputNumberSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		slider = (HtmlInputNumberSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "2", slider.getMinValue() );
 		assertEquals( "1023", slider.getMaxValue() );
 
@@ -126,38 +123,38 @@ public class RichFacesWidgetBuilderTest
 
 		attributes.put( TYPE, int.class.getName() );
 		attributes.put( MAXIMUM_VALUE, "" );
-		UIInputNumberSpinner spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "2", spinner.getMinValue() );
 		attributes.put( MAXIMUM_VALUE, "1024" );
 
 		attributes.put( MINIMUM_VALUE, "" );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "1024", spinner.getMaxValue() );
 
 		// (lower bound)
 
 		attributes.put( TYPE, byte.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Byte.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, short.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Short.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, int.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Integer.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, long.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Long.MIN_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, float.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( -Float.MAX_VALUE ), spinner.getMinValue() );
 
 		attributes.put( TYPE, double.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( -Double.MAX_VALUE ), spinner.getMinValue() );
 
 		// (upper bound)
@@ -165,27 +162,27 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( MAXIMUM_VALUE, "" );
 
 		attributes.put( TYPE, byte.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Byte.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, short.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Short.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, int.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Integer.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, long.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Long.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, float.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Float.MAX_VALUE ), spinner.getMaxValue() );
 
 		attributes.put( TYPE, double.class.getName() );
-		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (HtmlInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( String.valueOf( Double.MAX_VALUE ), spinner.getMaxValue() );
 
 		// Calendars
@@ -286,7 +283,7 @@ public class RichFacesWidgetBuilderTest
 			}
 
 			if ( "org.richfaces.Calendar".equals( componentName ) ) {
-				return new HtmlCalendar();
+				return new UICalendar();
 			}
 
 			if ( "org.richfaces.SuggestionBox".equals( componentName ) ) {

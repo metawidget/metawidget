@@ -186,7 +186,7 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<configuration>
 					<createSourcesJar>true</createSourcesJar>
-					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<!-- Don't <createDependencyReducedPom>false</createDependencyReducedPom>, drags in everything! -->
 				</configuration>
 			</plugin>
 		</plugins>

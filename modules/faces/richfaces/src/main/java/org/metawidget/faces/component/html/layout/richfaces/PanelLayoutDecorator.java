@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
@@ -71,7 +72,7 @@ public class PanelLayoutDecorator
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlPanel panel = (HtmlPanel) application.createComponent( "org.richfaces.panel" );
+		HtmlPanel panel = FacesUtils.createComponent( "org.richfaces.panel", "org.richfaces.PanelRenderer" );
 		panel.setId( viewRoot.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );

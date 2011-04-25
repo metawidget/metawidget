@@ -30,6 +30,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.ClassUtils;
@@ -38,6 +39,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
+import org.primefaces.component.tabview.Tab;
 
 /**
  * WidgetBuilder for PrimeFaces environments.
@@ -67,8 +69,6 @@ public class PrimeFacesWidgetBuilder
 			return null;
 		}
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null ) {
@@ -101,7 +101,7 @@ public class PrimeFacesWidgetBuilder
 
 			// Not-ranged
 
-			Spinner spinner = (Spinner) application.createComponent( "org.primefaces.component.Spinner" );
+			Spinner spinner = FacesUtils.createComponent( "org.primefaces.component.Spinner", "org.primefaces.component.SpinnerRenderer" );
 
 			// May be ranged in one dimension only
 
@@ -151,7 +151,7 @@ public class PrimeFacesWidgetBuilder
 		// Dates
 
 		if ( Date.class.isAssignableFrom( clazz ) ) {
-			Calendar calendar = (Calendar) application.createComponent( "org.primefaces.component.Calendar" );
+			Calendar calendar = FacesUtils.createComponent( "org.primefaces.component.Calendar", "org.primefaces.component.CalendarRenderer" );
 
 			if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 				calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
@@ -191,7 +191,7 @@ public class PrimeFacesWidgetBuilder
 				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
 			}
 
-			return application.createComponent( "org.primefaces.component.ColorPicker" );
+			return FacesUtils.createComponent( "org.primefaces.component.ColorPicker", "org.primefaces.component.ColorPickerRenderer" );
 		}
 
 		// Not for PrimeFaces
@@ -220,7 +220,7 @@ public class PrimeFacesWidgetBuilder
 			inputText.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 			stub.getChildren().add( inputText );
 
-			Slider slider = (Slider) application.createComponent( "org.primefaces.component.Slider" );
+			Slider slider = FacesUtils.createComponent( "org.primefaces.component.Slider", "org.primefaces.component.SliderRenderer" );
 			slider.setMinValue( Integer.parseInt( minimumValue ) );
 			slider.setMaxValue( Integer.parseInt( maximumValue ) );
 			slider.setFor( inputText.getId() );

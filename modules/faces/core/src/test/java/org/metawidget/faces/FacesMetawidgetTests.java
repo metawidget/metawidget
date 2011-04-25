@@ -344,10 +344,15 @@ public class FacesMetawidgetTests {
 				//
 
 				@Override
-				public UIComponent createComponent( String componentName )
+				public UIComponent createComponent( String componentType )
 					throws FacesException {
 
-					return MockFacesContext.this.createComponent( componentName );
+					return MockFacesContext.this.createComponent( componentType );
+				}
+
+				public UIComponent createComponent( FacesContext context, String componentType, String rendererType ) {
+
+					return MockFacesContext.this.createComponent( componentType );
 				}
 
 				@Override

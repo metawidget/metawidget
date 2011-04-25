@@ -35,15 +35,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.richfaces.component.UICalendar;
-import org.richfaces.component.UIInputNumberSlider;
-import org.richfaces.component.UIInputNumberSpinner;
 import org.richfaces.component.UISuggestionBox;
+import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 
 /**
@@ -55,9 +55,26 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
  * @author Richard Kennard
  */
 
+// TODO: RF4 by May 3rd
+
 @SuppressWarnings( "deprecation" )
 public class RichFacesWidgetBuilder
 	implements WidgetBuilder<UIComponent, UIMetawidget> {
+
+	//
+	// Private statics
+	//
+
+	private final static RichFacesVersionSpecificSupport	VERSION_SPECIFIC_WIDGET_BUILDER;
+
+	static {
+
+		if ( ClassUtils.niceForName( "org.richfaces.component.UISuggestionBox" ) != null ) {
+			VERSION_SPECIFIC_WIDGET_BUILDER = new RichFaces3Support();
+		} else {
+			VERSION_SPECIFIC_WIDGET_BUILDER = new RichFaces4Support();
+		}
+	}
 
 	//
 	// Public methods
@@ -79,8 +96,6 @@ public class RichFacesWidgetBuilder
 			return null;
 		}
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null ) {
@@ -104,7 +119,7 @@ public class RichFacesWidgetBuilder
 
 			// Ranged
 
-			UIComponent ranged = createRanged( attributes );
+			UIComponent ranged = VERSION_SPECIFIC_WIDGET_BUILDER.createRanged( attributes );
 
 			if ( ranged != null ) {
 				return ranged;
@@ -112,7 +127,7 @@ public class RichFacesWidgetBuilder
 
 			// Not-ranged
 
-			UIInputNumberSpinner spinner = (UIInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
+			HtmlInputNumberSpinner spinner = FacesUtils.createComponent( "org.richfaces.inputNumberSpinner", "org.richfaces.InputNumberSpinnerRenderer" );
 
 			// May be ranged in one dimension only
 
@@ -152,20 +167,14 @@ public class RichFacesWidgetBuilder
 				spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ) );
 			}
 
-			// HtmlInputNumberSpinner-specific properties
+			// Wraps around?
 
-			if ( spinner instanceof HtmlInputNumberSpinner ) {
-				HtmlInputNumberSpinner htmlSpinner = (HtmlInputNumberSpinner) spinner;
+			spinner.setCycled( false );
 
-				// Wraps around?
+			// Stepped
 
-				htmlSpinner.setCycled( false );
-
-				// Stepped
-
-				if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
-					htmlSpinner.setStep( "0.1" );
-				}
+			if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
+				spinner.setStep( "0.1" );
 			}
 
 			return spinner;
@@ -177,7 +186,7 @@ public class RichFacesWidgetBuilder
 		// would allow external, app-level configuration of this Calendar
 
 		if ( Date.class.isAssignableFrom( clazz ) ) {
-			UICalendar calendar = (UICalendar) application.createComponent( "org.richfaces.Calendar" );
+			UICalendar calendar = FacesUtils.createComponent( "org.richfaces.Calendar", "org.richfaces.CalendarRenderer" );
 
 			if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 				calendar.setDatePattern( attributes.get( DATETIME_PATTERN ) );
@@ -199,7 +208,7 @@ public class RichFacesWidgetBuilder
 		if ( Number.class.isAssignableFrom( clazz ) ) {
 			// Ranged
 
-			UIComponent ranged = createRanged( attributes );
+			UIComponent ranged = VERSION_SPECIFIC_WIDGET_BUILDER.createRanged( attributes );
 
 			if ( ranged != null ) {
 				return ranged;
@@ -211,124 +220,198 @@ public class RichFacesWidgetBuilder
 			// UIInputNumberSpinner for nullable numbers
 		}
 
-		// Colors (as of RichFaces 3.3.1)
+		// RichFaces version-specific
 
-		if ( Color.class.isAssignableFrom( clazz ) ) {
-			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
-				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
-			}
-
-			return application.createComponent( "org.richfaces.ColorPicker" );
-		}
-
-		// Suggestion box
-		//
-		// Note: for suggestion box to work in table column footer facets, you need
-		// https://jira.jboss.org/jira/browse/RF-7700
-
-		if ( String.class.equals( clazz ) ) {
-			String facesSuggest = attributes.get( FACES_SUGGEST );
-
-			if ( facesSuggest != null ) {
-				UIComponent stubComponent = application.createComponent( "org.metawidget.Stub" );
-				List<UIComponent> children = stubComponent.getChildren();
-
-				UIViewRoot viewRoot = context.getViewRoot();
-
-				// Standard text box
-
-				HtmlInputText inputText = (HtmlInputText) application.createComponent( "javax.faces.HtmlInputText" );
-				inputText.setStyle( ( (HtmlMetawidget) metawidget ).getStyle() );
-				inputText.setStyleClass( ( (HtmlMetawidget) metawidget ).getStyleClass() );
-				children.add( inputText );
-
-				UISuggestionBox suggestionBox = (UISuggestionBox) application.createComponent( "org.richfaces.SuggestionBox" );
-
-				// Lock the 'id's so they don't get changed. This is important for the JavaScript
-				// getElementById that RichFaces generates. Also, do not just use
-				// 'viewRoot.createUniqueId' because, as per the RenderKit specification:
-				//
-				// "If the value returned from component.getId() is non-null and does not start
-				// with UIViewRoot.UNIQUE_ID_PREFIX, call component.getClientId() and render
-				// the result as the value of the id attribute in the markup for the component."
-				//
-				// Therefore the 'id' attribute is never rendered, therefore the JavaScript
-				// getElementById doesn't work. Add our own prefix instead
-
-				inputText.setId( "suggestionText_" + viewRoot.createUniqueId() );
-				suggestionBox.setId( "suggestionBox_" + viewRoot.createUniqueId() );
-
-				// Suggestion box
-
-				suggestionBox.setFor( inputText.getId() );
-				suggestionBox.setVar( "_internal" );
-				children.add( suggestionBox );
-
-				try {
-					// RichFaces 3.2/JSF 1.2 mode
-					//
-					// Note: we wrap the MethodExpression as an Object[] to stop link-time
-					// dependencies on javax.el.MethodExpression, so that we still work with
-					// JSF 1.1
-					//
-					// Note: according to JavaDocs returnType is only important when literal (i.e.
-					// without #{...}) expression is used, otherwise Object.class is fine
-					// (http://community.jboss.org/message/516830#516830)
-
-					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { Object.class } ) };
-					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
-				} catch ( Exception e ) {
-					// RichFaces 3.1/JSF 1.1 mode
-
-					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[] { Object.class } );
-					suggestionBox.setSuggestionAction( methodBinding );
-				}
-
-				// Column
-
-				UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
-				column.setId( viewRoot.createUniqueId() );
-				suggestionBox.getChildren().add( column );
-
-				// Output text box
-
-				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-				columnText.setId( viewRoot.createUniqueId() );
-				ValueBinding valueBinding = application.createValueBinding( "#{_internal}" );
-				columnText.setValueBinding( "value", valueBinding );
-				column.getChildren().add( columnText );
-
-				return stubComponent;
-			}
-		}
-
-		// Not for RichFaces
-
-		return null;
+		return VERSION_SPECIFIC_WIDGET_BUILDER.buildWidget( elementName, attributes, metawidget );
 	}
 
 	//
-	// Private methods
+	// Inner class
 	//
 
-	private UIComponent createRanged( Map<String, String> attributes ) {
+	/* package private */static interface RichFacesVersionSpecificSupport
+		extends WidgetBuilder<UIComponent, UIMetawidget> {
 
-		// Ranged
+		UIComponent createRanged( Map<String, String> attributes );
+	}
 
-		String minimumValue = attributes.get( MINIMUM_VALUE );
-		String maximumValue = attributes.get( MAXIMUM_VALUE );
+	/**
+	 * RichFaces 3.x-specific components.
+	 * <p>
+	 * Defined as a separate class to avoid class-loading issues.
+	 */
 
-		if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+	/* package private */static class RichFaces3Support
+		implements RichFacesVersionSpecificSupport {
+
+		//
+		// Public methods
+		//
+
+		public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
+			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-			UIInputNumberSlider slider = (UIInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
-			slider.setMinValue( minimumValue );
-			slider.setMaxValue( maximumValue );
+			if ( type == null ) {
+				return null;
+			}
 
-			return slider;
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			// Colors (as of RichFaces 3.3.1)
+
+			if ( Color.class.isAssignableFrom( clazz ) ) {
+				if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+					return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
+				}
+
+				return application.createComponent( "org.richfaces.ColorPicker" );
+			}
+
+			// Suggestion box
+			//
+			// Note: for suggestion box to work in table column footer facets, you need
+			// https://jira.jboss.org/jira/browse/RF-7700
+
+			if ( String.class.equals( clazz ) ) {
+				String facesSuggest = attributes.get( FACES_SUGGEST );
+
+				if ( facesSuggest != null ) {
+					UIComponent stubComponent = application.createComponent( "org.metawidget.Stub" );
+					List<UIComponent> children = stubComponent.getChildren();
+
+					UIViewRoot viewRoot = context.getViewRoot();
+
+					// Standard text box
+
+					HtmlInputText inputText = (HtmlInputText) application.createComponent( "javax.faces.HtmlInputText" );
+					inputText.setStyle( ( (HtmlMetawidget) metawidget ).getStyle() );
+					inputText.setStyleClass( ( (HtmlMetawidget) metawidget ).getStyleClass() );
+					children.add( inputText );
+
+					UISuggestionBox suggestionBox = (UISuggestionBox)
+							application.createComponent( "org.richfaces.SuggestionBox" );
+
+					// Lock the 'id's so they don't get changed. This is important for the
+					// JavaScript
+					// getElementById that RichFaces generates. Also, do not just use
+					// 'viewRoot.createUniqueId' because, as per the RenderKit specification:
+					//
+					// "If the value returned from component.getId() is non-null and does not start
+					// with UIViewRoot.UNIQUE_ID_PREFIX, call component.getClientId() and render
+					// the result as the value of the id attribute in the markup for the component."
+					//
+					// Therefore the 'id' attribute is never rendered, therefore the JavaScript
+					// getElementById doesn't work. Add our own prefix instead
+
+					inputText.setId( "suggestionText_" + viewRoot.createUniqueId() );
+					suggestionBox.setId( "suggestionBox_" + viewRoot.createUniqueId() );
+
+					// Suggestion box
+
+					suggestionBox.setFor( inputText.getId() );
+					suggestionBox.setVar( "_internal" );
+					children.add( suggestionBox );
+
+					try {
+						// RichFaces 3.2/JSF 1.2 mode
+						//
+						// Note: we wrap the MethodExpression as an Object[] to stop link-time
+						// dependencies on javax.el.MethodExpression, so that we still work with
+						// JSF 1.1
+						//
+						// Note: according to JavaDocs returnType is only important when literal
+						// (i.e.
+						// without #{...}) expression is used, otherwise Object.class is fine
+						// (http://community.jboss.org/message/516830#516830)
+
+						Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { Object.class } ) };
+						ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
+					} catch ( Exception e ) {
+						// RichFaces 3.1/JSF 1.1 mode
+
+						MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[] { Object.class } );
+						suggestionBox.setSuggestionAction( methodBinding );
+					}
+
+					// Column
+
+					UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+					column.setId( viewRoot.createUniqueId() );
+					suggestionBox.getChildren().add( column );
+
+					// Output text box
+
+					UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+					columnText.setId( viewRoot.createUniqueId() );
+					ValueBinding valueBinding = application.createValueBinding( "#{_internal}" );
+					columnText.setValueBinding( "value", valueBinding );
+					column.getChildren().add( columnText );
+
+					return stubComponent;
+				}
+			}
+
+			return null;
 		}
 
-		return null;
+		public UIComponent createRanged( Map<String, String> attributes ) {
+
+			// Ranged
+
+			String minimumValue = attributes.get( MINIMUM_VALUE );
+			String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+
+				HtmlInputNumberSlider slider = FacesUtils.createComponent( "org.richfaces.inputNumberSlider", "org.richfaces.inputNumberSliderRenderer" );
+				slider.setMinValue( minimumValue );
+				slider.setMaxValue( maximumValue );
+
+				return slider;
+			}
+
+			return null;
+		}
+	}
+
+	/**
+	 * RichFaces 4.x-specific components.
+	 * <p>
+	 * Defined as a separate class to avoid class-loading issues.
+	 */
+
+	/* package private */static class RichFaces4Support
+		implements RichFacesVersionSpecificSupport {
+
+		//
+		// Public methods
+		//
+
+		public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
+			return null;
+		}
+
+		public UIComponent createRanged( Map<String, String> attributes ) {
+
+			// Ranged
+
+			String minimumValue = attributes.get( MINIMUM_VALUE );
+			String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+
+				HtmlInputNumberSlider slider = FacesUtils.createComponent( "org.richfaces.InputNumberSlider", "org.richfaces.InputNumberSliderRenderer" );
+				slider.setMinValue( minimumValue );
+				slider.setMaxValue( maximumValue );
+
+				return slider;
+			}
+
+			return null;
+		}
 	}
 }

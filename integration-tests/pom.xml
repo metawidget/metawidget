@@ -15,7 +15,7 @@
 		<module>android/allwidgets</module>
 		<module>core</module>
 		<module>faces/addressbook/richfaces</module>
-		<module>faces/addressbook/primefaces</module>
+		<module>faces/addressbook2</module>
 		<module>faces/allwidgets</module>
 		<module>faces/quirks</module>
 		<module>gwt/allwidgets</module>

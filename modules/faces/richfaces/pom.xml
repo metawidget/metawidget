@@ -16,6 +16,16 @@
 			<artifactId>metawidget-faces</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- 4.x -->
+		<dependency>
+			<groupId>org.richfaces.ui</groupId>
+			<artifactId>richfaces-components-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.richfaces.core</groupId>
+			<artifactId>richfaces-core-impl</artifactId>
+		</dependency>
+		<!-- 3.x -->
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>

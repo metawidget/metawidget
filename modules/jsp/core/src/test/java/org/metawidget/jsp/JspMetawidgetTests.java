@@ -365,6 +365,11 @@ public class JspMetawidgetTests
 
 			throw new UnsupportedOperationException();
 		}
+
+		public String getContextPath() {
+
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	static class MockExpressionEvaluator

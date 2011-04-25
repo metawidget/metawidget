@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
@@ -67,7 +68,7 @@ public class TabViewLayoutDecorator
 		// Whole new PanelTabSet?
 
 		if ( previousSectionWidget == null ) {
-			tabView = (TabView) application.createComponent( "org.primefaces.component.TabView" );
+			tabView = FacesUtils.createComponent( "org.primefaces.component.TabView", "org.primefaces.component.TabViewRenderer" );
 			tabView.setId( viewRoot.createUniqueId() );
 
 			// Add to parent container
@@ -83,7 +84,7 @@ public class TabViewLayoutDecorator
 
 		// New tab
 
-		Tab tab = (Tab) application.createComponent( "org.primefaces.component.Tab" );
+		Tab tab = FacesUtils.createComponent( "org.primefaces.component.Tab", "org.primefaces.component.TabRenderer" );
 		tab.setId( viewRoot.createUniqueId() );
 		tabView.getChildren().add( tab );
 

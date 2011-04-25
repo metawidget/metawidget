@@ -18,17 +18,21 @@ package org.metawidget.faces.component.html.layout.richfaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.richfaces.HeaderAlignment;
+import org.richfaces.component.SwitchType;
 import org.richfaces.component.UITab;
 import org.richfaces.component.UITabPanel;
 
@@ -66,7 +70,6 @@ public class TabPanelLayoutDecorator
 	protected UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
 		UITabPanel tabPanel;
@@ -74,10 +77,26 @@ public class TabPanelLayoutDecorator
 		// Whole new UITabPanel?
 
 		if ( previousSectionWidget == null ) {
-			tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
+			tabPanel = FacesUtils.createComponent( "org.richfaces.TabPanel", "org.richfaces.TabPanelRenderer" );
 			tabPanel.setId( viewRoot.createUniqueId() );
-			tabPanel.setSwitchType( "client" );
-			tabPanel.setHeaderAlignment( mHeaderAlignment );
+
+			try {
+				tabPanel.setSwitchType( SwitchType.client );
+				tabPanel.setHeaderAlignment( HeaderAlignment.valueOf( mHeaderAlignment ) );
+			} catch ( NoClassDefFoundError e1 ) {
+
+				try {
+					// RichFaces 3
+
+					Method method = UITabPanel.class.getMethod( "setSwitchType", String.class );
+					method.invoke( tabPanel, "client" );
+
+					method = UITabPanel.class.getMethod( "setHeaderAlignment", String.class );
+					method.invoke( tabPanel, mHeaderAlignment );
+				} catch ( Exception e2 ) {
+					throw LayoutException.newException( e2 );
+				}
+			}
 
 			// Add to parent container
 
@@ -92,7 +111,7 @@ public class TabPanelLayoutDecorator
 
 		// New tab
 
-		UITab tab = (UITab) application.createComponent( "org.richfaces.Tab" );
+		UITab tab = FacesUtils.createComponent( "org.richfaces.Tab", null );
 		tab.setId( viewRoot.createUniqueId() );
 		tabPanel.getChildren().add( tab );
 
@@ -105,11 +124,23 @@ public class TabPanelLayoutDecorator
 			localizedSection = section;
 		}
 
-		tab.setLabel( localizedSection );
+		try {
+			tab.setHeader( localizedSection );
+		} catch ( NoSuchMethodError e1 ) {
+
+			try {
+				// RichFaces 3
+
+				Method method = UITab.class.getMethod( "setLabel", String.class );
+				method.invoke( tab, localizedSection );
+			} catch ( Exception e ) {
+				throw LayoutException.newException( e );
+			}
+		}
 
 		// Create nested Metawidget (for layout)
 
-		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( metawidget.getComponentType() );
+		UIMetawidget nestedMetawidget = (UIMetawidget) context.getApplication().createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
 		nestedMetawidget.setId( viewRoot.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
