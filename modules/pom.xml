@@ -76,7 +76,8 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<!-- TODO: having this as 'compile' or 'package' stops the build? -->
+						<phase>assembly</phase>
 						<goals>
 							<goal>aggregate</goal>
 						</goals>
@@ -118,7 +119,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>taglibdoc</goal>
 						</goals>
