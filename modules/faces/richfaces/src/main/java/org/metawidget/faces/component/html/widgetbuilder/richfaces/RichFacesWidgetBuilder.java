@@ -119,7 +119,7 @@ public class RichFacesWidgetBuilder
 
 			// Ranged
 
-			UIComponent ranged = VERSION_SPECIFIC_WIDGET_BUILDER.createRanged( attributes );
+			UIComponent ranged = createRanged( attributes );
 
 			if ( ranged != null ) {
 				return ranged;
@@ -127,7 +127,7 @@ public class RichFacesWidgetBuilder
 
 			// Not-ranged
 
-			HtmlInputNumberSpinner spinner = FacesUtils.createComponent( "org.richfaces.inputNumberSpinner", "org.richfaces.InputNumberSpinnerRenderer" );
+			HtmlInputNumberSpinner spinner = VERSION_SPECIFIC_WIDGET_BUILDER.createInputNumberSpinner();
 
 			// May be ranged in one dimension only
 
@@ -208,7 +208,7 @@ public class RichFacesWidgetBuilder
 		if ( Number.class.isAssignableFrom( clazz ) ) {
 			// Ranged
 
-			UIComponent ranged = VERSION_SPECIFIC_WIDGET_BUILDER.createRanged( attributes );
+			UIComponent ranged = createRanged( attributes );
 
 			if ( ranged != null ) {
 				return ranged;
@@ -225,6 +225,25 @@ public class RichFacesWidgetBuilder
 		return VERSION_SPECIFIC_WIDGET_BUILDER.buildWidget( elementName, attributes, metawidget );
 	}
 
+	public UIComponent createRanged( Map<String, String> attributes ) {
+
+		// Ranged
+
+		String minimumValue = attributes.get( MINIMUM_VALUE );
+		String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+		if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+
+			HtmlInputNumberSlider slider = VERSION_SPECIFIC_WIDGET_BUILDER.createInputNumberSlider();
+			slider.setMinValue( minimumValue );
+			slider.setMaxValue( maximumValue );
+
+			return slider;
+		}
+
+		return null;
+	}
+
 	//
 	// Inner class
 	//
@@ -232,7 +251,9 @@ public class RichFacesWidgetBuilder
 	/* package private */static interface RichFacesVersionSpecificSupport
 		extends WidgetBuilder<UIComponent, UIMetawidget> {
 
-		UIComponent createRanged( Map<String, String> attributes );
+		HtmlInputNumberSlider createInputNumberSlider();
+
+		HtmlInputNumberSpinner createInputNumberSpinner();
 	}
 
 	/**
@@ -357,23 +378,18 @@ public class RichFacesWidgetBuilder
 			return null;
 		}
 
-		public UIComponent createRanged( Map<String, String> attributes ) {
+		public HtmlInputNumberSlider createInputNumberSlider() {
 
-			// Ranged
+			// RichFaces 3 uses lowercase 'i' for component, uppercase 'I' for renderer
 
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
+			return FacesUtils.createComponent( "org.richfaces.inputNumberSlider", "org.richfaces.InputNumberSliderRenderer" );
+		}
 
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+		public HtmlInputNumberSpinner createInputNumberSpinner() {
 
-				HtmlInputNumberSlider slider = FacesUtils.createComponent( "org.richfaces.inputNumberSlider", "org.richfaces.inputNumberSliderRenderer" );
-				slider.setMinValue( minimumValue );
-				slider.setMaxValue( maximumValue );
+			// RichFaces 3 uses lowercase 'i' for component, uppercase 'I' for renderer
 
-				return slider;
-			}
-
-			return null;
+			return FacesUtils.createComponent( "org.richfaces.inputNumberSpinner", "org.richfaces.InputNumberSpinnerRenderer" );
 		}
 	}
 
@@ -395,23 +411,18 @@ public class RichFacesWidgetBuilder
 			return null;
 		}
 
-		public UIComponent createRanged( Map<String, String> attributes ) {
+		public HtmlInputNumberSlider createInputNumberSlider() {
 
-			// Ranged
+			// RichFaces 4 uses uppercase 'I', lowercase 'i' for renderer (a bug?)
 
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
+			return FacesUtils.createComponent( "org.richfaces.InputNumberSlider", "org.richfaces.inputNumberSliderRenderer" );
+		}
 
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+		public HtmlInputNumberSpinner createInputNumberSpinner() {
 
-				HtmlInputNumberSlider slider = FacesUtils.createComponent( "org.richfaces.InputNumberSlider", "org.richfaces.InputNumberSliderRenderer" );
-				slider.setMinValue( minimumValue );
-				slider.setMaxValue( maximumValue );
+			// RichFaces 4 uses uppercase 'I' for component, uppercase 'I' for renderer
 
-				return slider;
-			}
-
-			return null;
+			return FacesUtils.createComponent( "org.richfaces.InputNumberSpinner", "org.richfaces.InputNumberSpinnerRenderer" );
 		}
 	}
 }

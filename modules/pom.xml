@@ -63,7 +63,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<!-- mvn must be run at *this* level (not parent POM) for JavaDoc generation to work. See MJAVADOC-311 -->
 				<inherited>false</inherited>
 				<configuration>
 					<aggregate>true</aggregate>
@@ -74,15 +73,7 @@
 					<windowtitle>Metawidget ${project.version} API Documentation</windowtitle>
 					<overview>src/main/resources/overview.html</overview>
 				</configuration>
-				<executions>
-					<execution>
-						<!-- TODO: having this as 'compile' or 'package' stops the build? -->
-						<phase>assembly</phase>
-						<goals>
-							<goal>aggregate</goal>
-						</goals>
-					</execution>
-				</executions>
+				<!-- mvn javadoc:aggregate must be manually run at *this* level (not parent POM) for JavaDoc generation to work. See MJAVADOC-311 -->
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>

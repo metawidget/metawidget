@@ -139,10 +139,9 @@
 					
 						<!-- Documentation -->
 						
-						<!-- (need failonerror because of MJAVADOC-311. For apidocs to  -->
-						<!--  work, must call 'mvn install' on modules folder directly) -->
+						<!-- (will fail if 'javadoc:aggregate' has not been run manually) -->
 						
-						<copy todir="target/ROOT/doc/api" failonerror="false">
+						<copy todir="target/ROOT/doc/api">
 							<fileset dir="../../modules/target/site/apidocs"/>
 						</copy>						
 
