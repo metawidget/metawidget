@@ -12,7 +12,7 @@
 		<!-- Tomcat 6.0.26+ has EL conflict issues with Mojarra -->
 		<tomcat.version>6.0.24</tomcat.version>
 		<mojarra1.version>1.2_15</mojarra1.version>
-		<myfaces2.version>2.0.4</myfaces2.version>
+		<myfaces2.version>2.0.5</myfaces2.version>
 		<richfaces333.version>3.3.3.Final</richfaces333.version>
 	</properties>
 
@@ -61,7 +61,7 @@
 		<module>modules/all</module>
 		<module>examples</module>
 		<module>integration-tests</module>
-		<module>website</module>
+		<!-- Run separately until MJAVADOC-311 <module>website</module> -->
 	</modules>
 
 	<profiles>
@@ -423,13 +423,13 @@
 			<dependency>
 				<groupId>org.apache.myfaces.core</groupId>
 				<artifactId>myfaces-api</artifactId>
-				<version>1.2.7</version>
+				<version>1.2.10</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.myfaces.core</groupId>
 				<artifactId>myfaces-impl</artifactId>
-				<version>1.2.7</version>
+				<version>1.2.10</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
