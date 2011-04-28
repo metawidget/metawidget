@@ -24,15 +24,4 @@
 		<module>primefaces</module>
 	</modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.metawidget.integration-tests.faces</groupId>
-				<artifactId>quirks-model</artifactId>
-				<version>${project.version}</version>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 </project>
