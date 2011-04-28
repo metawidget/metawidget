@@ -832,8 +832,6 @@
 					<artifactId>maven-jarsigner-plugin</artifactId>
 					<version>1.2</version>
 				</plugin>
-				
-				<!-- TODO: debug build -->
 			</plugins>
 		</pluginManagement>
 

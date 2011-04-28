@@ -1684,7 +1684,7 @@ public class Person {
 				
 				<para>
 					For the Mobile Address Book we use the Android platform. Like Web-based applications, mobile applications require a container to run. Download the Android SDK (Metawidget has been
-					tested against versions 1.1, 1.5, 1.6 and 2.0) from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>.
+					tested against versions 1.1 and above) from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>.
 					Then change to the installation directory (usually <filename>android-sdk-windows</filename>) and run the emulator by
 					opening a command prompt and typing:
 				</para>
@@ -1739,7 +1739,8 @@ public class Person {
 				<tip>
 					<title>Note</title>
 					As with the Desktop Address Book, full source code for the examples can be found
-					under <filename>src/examples</filename>.
+					under <filename>src/examples</filename>. To open it in Eclipse we recommend installing
+					<ulink url="http://marketplace.eclipse.org/content/maven-integration-android-development-tools">Maven Integration for Android Development Tools</ulink>.
 				</tip>				
 
 				<para>
