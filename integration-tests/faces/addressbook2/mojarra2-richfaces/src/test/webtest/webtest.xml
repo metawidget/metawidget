@@ -35,7 +35,6 @@
 				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a)" text="Mr Waylon Smithers" />
 			</steps>
 		</webtest>
-		<!-- TODO: test-richfaces -->
 	</target>
 
 </project>

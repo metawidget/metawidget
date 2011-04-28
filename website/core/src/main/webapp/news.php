@@ -16,8 +16,9 @@
 		
 		<ul>
 			<li><a href="http://kennardconsulting.blogspot.com/2011/03/metawidget-full-speed-to-maven.html">Maven support</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2011/04/metawidget-streamlined-configuration.html">Streamlined Configuration</li>
-			<li>RichFaces 4 support</li>
+			<li><a href="http://kennardconsulting.blogspot.com/2011/04/metawidget-streamlined-configuration.html">Streamlined Configuration</a></li>
+			<li><a href="http://kennardconsulting.blogspot.com/2011/04/metawidget-richfaces-4-support.html">RichFaces 4 support</a></li>
+			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 				
 		<p>
