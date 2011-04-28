@@ -55,8 +55,6 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
  * @author Richard Kennard
  */
 
-// TODO: RF4 by May 3rd
-
 @SuppressWarnings( "deprecation" )
 public class RichFacesWidgetBuilder
 	implements WidgetBuilder<UIComponent, UIMetawidget> {
@@ -413,9 +411,9 @@ public class RichFacesWidgetBuilder
 
 		public HtmlInputNumberSlider createInputNumberSlider() {
 
-			// RichFaces 4 uses uppercase 'I', lowercase 'i' for renderer (a bug?)
+			// RichFaces 4 uses uppercase 'I', uppercase 'I' for renderer
 
-			return FacesUtils.createComponent( "org.richfaces.InputNumberSlider", "org.richfaces.inputNumberSliderRenderer" );
+			return FacesUtils.createComponent( "org.richfaces.InputNumberSlider", "org.richfaces.InputNumberSliderRenderer" );
 		}
 
 		public HtmlInputNumberSpinner createInputNumberSpinner() {

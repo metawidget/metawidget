@@ -30,11 +30,14 @@
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
 				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/input/@type" text="text"/>				
 				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/input/@value" text="742 Evergreen Terrace"/>				
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Other"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/th)" text="Notes:"/>				
 				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/td/textarea"/>				
 
 				<invoke url="/contact.jsf?contact.load=5" />
+				<!-- Test selecting a dynamic tab -->
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Other"/>
+				<clickElement xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td"/>					
 
 				<clickButton label="Edit"/>
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>

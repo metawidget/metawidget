@@ -274,9 +274,13 @@ public class RichFacesWidgetBuilderTest
 		public UIComponent createComponent( String componentName )
 			throws FacesException {
 
+			// RichFaces 3.x uses lowercase 'i'
+			
 			if ( "org.richfaces.inputNumberSlider".equals( componentName ) ) {
 				return new HtmlInputNumberSlider();
 			}
+
+			// RichFaces 3.x uses lowercase 'i'
 
 			if ( "org.richfaces.inputNumberSpinner".equals( componentName ) ) {
 				return new HtmlInputNumberSpinner();
