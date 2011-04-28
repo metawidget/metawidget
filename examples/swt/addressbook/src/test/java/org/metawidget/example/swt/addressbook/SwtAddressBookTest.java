@@ -60,6 +60,7 @@ public class SwtAddressBookTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "cast" )
 	public void testAddressBook()
 		throws Exception {
 

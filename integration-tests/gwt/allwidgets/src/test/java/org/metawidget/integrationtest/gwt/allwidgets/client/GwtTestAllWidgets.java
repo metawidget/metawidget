@@ -547,6 +547,7 @@ public class GwtTestAllWidgets
 
 																						executeAfterBuildWidgets( metawidget, new Timer() {
 
+																							@SuppressWarnings( "cast" )
 																							@Override
 																							public void run() {
 

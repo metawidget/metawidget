@@ -39,7 +39,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
-import org.primefaces.component.tabview.Tab;
 
 /**
  * WidgetBuilder for PrimeFaces environments.

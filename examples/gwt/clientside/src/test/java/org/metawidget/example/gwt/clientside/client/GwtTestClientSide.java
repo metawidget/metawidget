@@ -76,7 +76,7 @@ public class GwtTestClientSide
 
 		executeAfterBuildWidgets( metawidget, new Timer() {
 
-			@SuppressWarnings( { "deprecation", "unchecked" } )
+			@SuppressWarnings( { "deprecation", "unchecked", "cast" } )
 			@Override
 			public void run() {
 

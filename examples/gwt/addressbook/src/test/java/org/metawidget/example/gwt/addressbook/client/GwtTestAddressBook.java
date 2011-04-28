@@ -150,7 +150,7 @@ public class GwtTestAddressBook
 											@Override
 											public void run() {
 
-												assertTrue( ((Widget) contactMetawidget.getWidget( "firstname" )) instanceof Label );
+												assertTrue( (contactMetawidget.getWidget( "firstname" )) instanceof Label );
 												assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
 
 												FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
@@ -194,6 +194,7 @@ public class GwtTestAddressBook
 
 												executeAfterBuildWidgets( contactMetawidget, new Timer() {
 
+													@SuppressWarnings( "cast" )
 													@Override
 													public void run() {
 
@@ -441,7 +442,7 @@ public class GwtTestAddressBook
 									@Override
 									public void run() {
 
-										assertTrue( ((Widget) typeMetawidget.getWidget( "type" )) instanceof ListBox );
+										assertTrue( (typeMetawidget.getWidget( "type" )) instanceof ListBox );
 										typeMetawidget.setValue( "Mobile", "type" );
 										final GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
 
@@ -556,7 +557,7 @@ public class GwtTestAddressBook
 					@Override
 					public void run() {
 
-						assertTrue( ((Widget) typeMetawidget.getWidget( "type" )) instanceof ListBox );
+						assertTrue( (typeMetawidget.getWidget( "type" )) instanceof ListBox );
 						typeMetawidget.setValue( "Mobile", "type" );
 						final GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
 

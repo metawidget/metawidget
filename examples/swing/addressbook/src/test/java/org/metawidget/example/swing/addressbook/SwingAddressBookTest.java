@@ -75,6 +75,7 @@ public class SwingAddressBookTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "cast" )
 	public void testAddressBook()
 		throws Exception {
 
