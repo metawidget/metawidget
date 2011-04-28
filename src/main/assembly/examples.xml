@@ -47,6 +47,8 @@
 			<outputDirectory>/src/examples</outputDirectory>
 			<includes>
 				<include>/**/src/**/*.*</include>
+				<include>/**/res/**/*.*</include>
+				<include>/**/AndroidManifest.xml</include>
 				<include>/**/pom.xml</include>
 				<include>/gwt/clientside/war/**</include>
 			</includes>

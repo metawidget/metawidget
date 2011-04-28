@@ -52,6 +52,11 @@
 					<td class="link"><a href="http://ganagnostaros.blogspot.com/2010/10/metawidget-useful-framework-for-easy-ui.html" target="_blank">View</a></td>
 				</tr>
 				<tr>
+					<td>habrahabr.ru</td>
+					<td>Metawidget - инструмент, генерирующий Java формы</td>
+					<td class="link"><a href="http://habrahabr.ru/blogs/java/114146" target="_blank">View</a></td>
+				</tr>				
+				<tr>
 					<td>ETF_DEVLAB</td>
 					<td>Metawidget is an easy way to do a complex UI</td>
 					<td class="link"><a href="http://etfdevlab.blogspot.com/2009/09/metawidget-is-easy-way-to-do-complex-ui.html" target="_blank">View</a></td>

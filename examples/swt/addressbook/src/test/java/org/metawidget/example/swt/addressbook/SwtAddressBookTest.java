@@ -28,6 +28,7 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -127,13 +128,13 @@ public class SwtAddressBookTest
 		// Check loading
 
 		SwtMetawidget metawidgetContact = dialog.mContactMetawidget;
-		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
-		assertTrue( metawidgetContact.getControl( "firstname" ) instanceof Label );
+		assertEquals( "Homer",  metawidgetContact.getValue( "firstname" ) );
+		assertTrue( ((Control) metawidgetContact.getControl( "firstname" )) instanceof Label );
 		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
 		assertTrue( 2 == ( (GridData) metawidgetContact.getChildren()[12].getLayoutData() ).horizontalSpan );
 		assertEquals( "Address:", ( (Label) metawidgetContact.getControl( "address_label" ) ).getText() );
-		assertTrue( 1 == ( (GridData) metawidgetContact.getControl( "address_label" ).getLayoutData() ).horizontalSpan );
-		assertTrue( 1 == ( (GridData) metawidgetContact.getControl( "address" ).getLayoutData() ).horizontalSpan );
+		assertTrue( 1 == ( (GridData) ((Control) metawidgetContact.getControl( "address_label" )).getLayoutData() ).horizontalSpan );
+		assertTrue( 1 == ( (GridData) ((Control) metawidgetContact.getControl( "address" )).getLayoutData() ).horizontalSpan );
 
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 

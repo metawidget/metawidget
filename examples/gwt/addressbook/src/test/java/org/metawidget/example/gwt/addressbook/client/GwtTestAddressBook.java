@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
@@ -149,7 +150,7 @@ public class GwtTestAddressBook
 											@Override
 											public void run() {
 
-												assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof Label );
+												assertTrue( ((Widget) contactMetawidget.getWidget( "firstname" )) instanceof Label );
 												assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
 
 												FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
@@ -197,10 +198,10 @@ public class GwtTestAddressBook
 													public void run() {
 
 														assertFalse( editButton.isVisible() );
-														assertTrue( contactMetawidget.getWidget( "title" ) instanceof ListBox );
+														assertTrue( ((Widget) contactMetawidget.getWidget( "title" )) instanceof ListBox );
 														assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
 
-														assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof TextBox );
+														assertTrue( ((Widget) contactMetawidget.getWidget( "firstname" )) instanceof TextBox );
 														assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
 														assertTrue( "1956-05-12".equals( contactMetawidget.getValue( "dateOfBirth" ) ) || "1956-05-13".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 														final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
@@ -440,7 +441,7 @@ public class GwtTestAddressBook
 									@Override
 									public void run() {
 
-										assertTrue( typeMetawidget.getWidget( "type" ) instanceof ListBox );
+										assertTrue( ((Widget) typeMetawidget.getWidget( "type" )) instanceof ListBox );
 										typeMetawidget.setValue( "Mobile", "type" );
 										final GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
 
@@ -555,7 +556,7 @@ public class GwtTestAddressBook
 					@Override
 					public void run() {
 
-						assertTrue( typeMetawidget.getWidget( "type" ) instanceof ListBox );
+						assertTrue( ((Widget) typeMetawidget.getWidget( "type" )) instanceof ListBox );
 						typeMetawidget.setValue( "Mobile", "type" );
 						final GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
 

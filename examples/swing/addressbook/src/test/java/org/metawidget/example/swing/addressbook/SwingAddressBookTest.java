@@ -16,6 +16,7 @@
 
 package org.metawidget.example.swing.addressbook;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -137,7 +138,7 @@ public class SwingAddressBookTest
 
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
-		assertTrue( metawidgetContact.getComponent( "firstname" ) instanceof JLabel );
+		assertTrue( ((Component) metawidgetContact.getComponent( "firstname" )) instanceof JLabel );
 		assertEquals( "Male", ( (JLabel) metawidgetContact.getComponent( "gender" ) ).getText() );
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
@@ -331,7 +332,7 @@ public class SwingAddressBookTest
 		assertEquals( "Edit", editButton.getText() );
 		editButton.getAction().actionPerformed( null );
 		assertEquals( "Charles Montgomery", metawidgetContact.getValue( "firstname" ) );
-		assertTrue( Gender.MALE == metawidgetContact.getValue( "gender" ) );
+		assertTrue( Gender.MALE.equals( metawidgetContact.getValue( "gender" ) ));
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
 		// Check saving

@@ -48,4 +48,12 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<repositories>
+		<!-- For building examples 'standalone' against snapshot releases -->
+		<repository>
+			<id>jboss-snapshots</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>		
+		</repository>
+	</repositories>
+
 </project>

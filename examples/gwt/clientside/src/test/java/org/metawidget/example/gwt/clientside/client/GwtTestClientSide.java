@@ -85,7 +85,7 @@ public class GwtTestClientSide
 				FlexTable flexTable1 = (FlexTable) metawidget.getWidget( 0 );
 				final Button saveButton = (Button) ( (Facet) flexTable1.getWidget( 7, 0 ) ).getWidget();
 				fireClickEvent( saveButton );
-				assertEquals( "{album=, artist=, genre=, notes=, rating=1, releaseDate=null}", metawidget.getToInspect().toString() );
+				assertEquals( "{album=, artist=, genre=, notes=, rating=1, releaseDate=null}", ((Object) metawidget.getToInspect()).toString() );
 
 				// Populate
 
@@ -116,7 +116,7 @@ public class GwtTestClientSide
 				// Save after populating
 
 				fireClickEvent( saveButton );
-				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, rating=4, releaseDate=" ) );
+				assertTrue( ((Object) metawidget.getToInspect()).toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, rating=4, releaseDate=" ) );
 				assertEquals( releaseDate, ( (Map<String, Object>) metawidget.getToInspect() ).get( "releaseDate" ) );
 
 				fireClickEvent( sampleButton2 );
@@ -178,7 +178,7 @@ public class GwtTestClientSide
 										( (TextBox) nestedFlexTable2.getWidget( 3, 1 ) ).setText( "Work Postcode" );
 
 										fireClickEvent( saveButton );
-										assertEquals( "{firstname=Richard, homeAddress.city=Home City, homeAddress.postcode=Home Postcode, homeAddress.state=Home State, homeAddress.street=Home Street, password=sssh!, surname=Kennard, title=Mrs, workAddress.city=Work City, workAddress.postcode=Work Postcode, workAddress.state=Work State, workAddress.street=Work Street}", metawidget.getToInspect().toString() );
+										assertEquals( "{firstname=Richard, homeAddress.city=Home City, homeAddress.postcode=Home Postcode, homeAddress.state=Home State, homeAddress.street=Home Street, password=sssh!, surname=Kennard, title=Mrs, workAddress.city=Work City, workAddress.postcode=Work Postcode, workAddress.state=Work State, workAddress.street=Work Street}", ((Object) metawidget.getToInspect()).toString() );
 
 										// Edit XML
 
@@ -215,7 +215,7 @@ public class GwtTestClientSide
 																fireClickEvent( nestedFlexTableRegenerated2.getWidget( 5, 1 ) );
 
 																fireClickEvent( saveButton );
-																assertEquals( "{firstname=, homeAddress.city=, homeAddress.lookupPostcode=clicked, homeAddress.postcode=, homeAddress.state=, homeAddress.street=, password=, surname=, title=Mr, workAddress.city=, workAddress.lookupPostcode=clicked, workAddress.postcode=, workAddress.state=, workAddress.street=}", metawidget.getToInspect().toString() );
+																assertEquals( "{firstname=, homeAddress.city=, homeAddress.lookupPostcode=clicked, homeAddress.postcode=, homeAddress.state=, homeAddress.street=, password=, surname=, title=Mr, workAddress.city=, workAddress.lookupPostcode=clicked, workAddress.postcode=, workAddress.state=, workAddress.street=}", ((Object) metawidget.getToInspect()).toString() );
 
 																// Regenerate
 
@@ -241,7 +241,7 @@ public class GwtTestClientSide
 																		( (CheckBox) flexTable3.getWidget( 3, 1 ) ).setValue( true );
 
 																		fireClickEvent( saveButton );
-																		assertEquals( "{deceased=true, gender=Male, petName=Millie, species=Dog}", metawidget.getToInspect().toString() );
+																		assertEquals( "{deceased=true, gender=Male, petName=Millie, species=Dog}", ((Object) metawidget.getToInspect()).toString() );
 
 																		fireClickEvent( sampleButton1 );
 																		fireClickEvent( generateButton );

@@ -1194,10 +1194,10 @@ public class Person {
 					either <filename>examples/faces/addressbook-faces.war</filename>, <filename>examples/gwt/addressbook-gwt.war</filename>,
 					<filename>examples/jsp/addressbook-jsp.war</filename>, <filename>examples/spring/addressbook-spring.war</filename> or
 					<filename>examples/struts/addressbook-struts.war</filename>. Alternatively you can build it yourself
-					by changing to the <filename>src/examples/faces/addressbook</filename> folder and typing:
+					by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
 				
-				<programlisting language="shell">mvn integration-test</programlisting>
+				<programlisting language="shell">mvn -am -pl org.metawidget.examples.faces:addressbook-faces integration-test</programlisting>
 
 				<para>
 					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>jsp</parameter>, <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
@@ -1702,10 +1702,10 @@ public class Person {
 				<para>
 					The emulator may take a little while to start. Once finished, it will display the phone's desktop. The Address Book APK
 					is pre-built for you in <filename>examples/android/addressbook-android.apk</filename>. Alternatively you
-					can build it yourself by changing to the <filename>src/examples/android/addressbook</filename> folder and typing:
+					can build it yourself by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
 				
-				<programlisting language="shell">mvn integration-test</programlisting>
+				<programlisting language="shell">mvn -am -pl org.metawidget.examples.android:addressbook-android integration-test</programlisting>
 
 				<para>
 					(assuming you have the Android SDK installed at <filename>/android-sdk-windows</filename>).
@@ -1849,11 +1849,11 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<para>
 					The Swing Applet Address Book Example demonstrates using Metawidget in applets. The example is pre-built for you in
 					<filename>examples/swing/applet/addressbook</filename>. Alternatively you can build it
-					yourself by changing to the <filename>src/examples/swing/addressbook-applet</filename> folder and typing:
+					yourself by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
-				
-				<programlisting language="shell">mvn integration-test</programlisting>
 
+				<programlisting language="shell">mvn -am -pl org.metawidget.examples.swing:addressbook-swing-applet integration-test</programlisting>
+				
 				<para>
 					To run the applet, open the <filename>index.html</filename> file in a Web browser. The code
 					is identical to the Swing Address Book covered in Part 2 of this tutorial, except
@@ -2353,6 +2353,11 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
+							When the project is imported, right click the <filename>pom.xml</filename> and choose <parameter>Maven &gt; Install</parameter>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
 							Install the <ulink url="http://code.google.com/eclipse">Google Plugin for Eclipse</ulink>, then
 							choose <parameter>Project &gt; Properties &gt; Google &gt; Web Toolkit</parameter> and click
 							<parameter>Use Google Web Toolkit</parameter>
@@ -2360,7 +2365,7 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							Choose <parameter>Run As &gt; Web Application</parameter>
+							Right click the project and choose <parameter>Run As &gt; Web Application</parameter>
 						</para>
 					</listitem>
 					<listitem>
