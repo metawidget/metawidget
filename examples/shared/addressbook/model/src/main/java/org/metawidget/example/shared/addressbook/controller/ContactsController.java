@@ -152,6 +152,8 @@ public class ContactsController {
 
 	public Contact load( long id ) {
 
+		// TODO: needs some defensive copying
+		
 		return mAll.get( id );
 	}
 

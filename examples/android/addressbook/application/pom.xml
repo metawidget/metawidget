@@ -23,6 +23,18 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-annotation</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-java5</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 		</dependency>

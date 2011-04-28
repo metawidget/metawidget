@@ -1197,7 +1197,7 @@ public class Person {
 					by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
 				
-				<programlisting language="shell">mvn -am -pl org.metawidget.examples.faces:addressbook-faces integration-test</programlisting>
+				<programlisting language="shell">mvn -pl org.metawidget.examples.faces:addressbook-faces -am integration-test</programlisting>
 
 				<para>
 					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>jsp</parameter>, <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
@@ -1705,7 +1705,7 @@ public class Person {
 					can build it yourself by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
 				
-				<programlisting language="shell">mvn -am -pl org.metawidget.examples.android:addressbook-android integration-test</programlisting>
+				<programlisting language="shell">mvn -pl org.metawidget.examples.android:addressbook-android -am integration-test</programlisting>
 
 				<para>
 					(assuming you have the Android SDK installed at <filename>/android-sdk-windows</filename>).
@@ -1715,7 +1715,7 @@ public class Person {
 					Next, open a <emphasis>second</emphasis> command prompt, change to the Android installation directory and type:
 				</para>
 				
-				<programlisting language="shell">tools\adb install &lt;metawidget folder&gt;\examples\android\addressbook-android.apk</programlisting>
+				<programlisting language="shell">platform-tools\adb install &lt;metawidget folder&gt;\examples\android\addressbook-android.apk</programlisting>
 				
 				<para>
 					This deploys the APK into the emulator. To run it, click the emulator's <parameter>Menu</parameter> button and
@@ -1852,7 +1852,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					yourself by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
 
-				<programlisting language="shell">mvn -am -pl org.metawidget.examples.swing:addressbook-swing-applet integration-test</programlisting>
+				<programlisting language="shell">mvn -pl org.metawidget.examples.swing:addressbook-swing-applet -am integration-test</programlisting>
 				
 				<para>
 					To run the applet, open the <filename>index.html</filename> file in a Web browser. The code
