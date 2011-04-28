@@ -1,0 +1,82 @@
+<project name="quirks-richfaces-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<target name="all">
+		<webtest name="test-quirks">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}" saveresponse="true"/>
+			<steps>
+				<invoke url="/" />
+				
+				<verifyTitle text="Quirks (RichFaces 4 Test)" />				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[3]/span" text="Section #1"/>		
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[3]/@class, 'rf-tab-hdr-act')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/th" text="Name:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[1]/input/@name" text="form:richFacesQuirksName"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/th" text="Spinner:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[1]/span/input/@name" text="form:richFacesQuirksSpinner"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td/span/input/@class, 'rf-insp-inp')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/th" text="Slider:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[1]/span/span[2]/input/@type" text="text"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td/span/@class, 'rf-insl')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/span" text="Section #2"/>
+				<not>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/@class, 'rf-tab-hdr-act')"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/th" text="Date:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/@id" text="form:richFacesQuirksDate"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@name" text="form:richFacesQuirksDateInputDate"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@type" text="text"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr/td/span/table/@class, 'rf-cal-popup')"/>
+
+				<setInputField name="form:richFacesQuirksName" value="Foo"/>
+				<setInputField name="form:richFacesQuirksSpinner" value="1"/>
+				<setInputField name="form:richFacesQuirksSlider" value="2"/>
+				<setInputField name="form:richFacesQuirksDateInputDate" value="Apr 9, 1975"/>
+				
+				<clickButton label="Save"/>
+				
+				<verifyText text="Quirks (RichFaces 4 Test) Saved" />
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[3]/span" text="Section #1"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[3]/@class, 'rf-tab-hdr-act')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/th" text="Name:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[1]/span" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/th" text="Spinner:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[1]/span" text="1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/th" text="Slider:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[1]/span" text="2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/span" text="Section #2"/>
+				<not>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/@class, 'rf-tab-hdr-act')"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/th" text="Date:"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]" text="(08/04|09/04|04/08|04/09)/1975" regex="true"/>				
+
+				<clickButton label="Edit"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[3]/span" text="Section #1"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[3]/@class, 'rf-tab-hdr-act')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/th" text="Name:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[1]/input/@name" text="form:richFacesQuirksName"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[1]/input/@value" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/th" text="Spinner:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[1]/span/input/@name" text="form:richFacesQuirksSpinner"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[1]/span/input/@value" text="1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/th" text="Slider:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[1]/span/span[2]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[1]/span/span[2]/input/@value" text="2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/span" text="Section #2"/>
+				<not>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/@class, 'rf-tab-hdr-act')"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/th" text="Date:"/>				
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@value, 'Apr ')"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@value, ', 1975')"/>
+			</steps>
+		</webtest>
+	</target>
+</project>

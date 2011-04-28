@@ -1866,7 +1866,8 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					mandatory third-party JAR dependencies. The <filename>addressbook-swing-applet</filename> Maven POM
 					uses fine-grained Metawidget dependencies (as an alternative to <filename>metawidge-all.jar</filename>)
 					to include only those modules necessary for the applet. The resulting small download size
-					makes Metawidget very viable for Applet-based environments.
+					makes Metawidget very viable for applet-based environments. See
+					<xref linkend="section-howto-performance-jar"/>.
 				</para>
 	
 			</section>

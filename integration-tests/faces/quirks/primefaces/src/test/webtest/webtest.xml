@@ -1,4 +1,4 @@
-<project name="quirks-icefaces-test">
+<project name="quirks-primefaces-test">
 
 	<taskdef resource="webtestTaskdefs.properties"/>
 

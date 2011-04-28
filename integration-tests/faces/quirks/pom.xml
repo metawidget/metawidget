@@ -20,6 +20,7 @@
 		<module>mojarra2-facelets</module>
 		<module>myfaces2-facelets</module>
 		<module>icefaces</module>
+		<module>richfaces4</module>
 		<module>primefaces</module>
 	</modules>
 

@@ -279,7 +279,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				</para>
 				
 				<para>
-					Fine-grained dependencies are available through Maven. They take advantage of Maven's dependency resolution
+					Fine-grained dependencies are only available through Maven. They take advantage of Maven's dependency resolution
 					to drag in related dependencies for you, such as <filename>org.metawidget.modules:metawidget-core</filename>.
 					To use them, specify dependencies on a per-technology basis instead of using <filename>metawidget-all</filename>.
 					For example:
