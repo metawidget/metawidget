@@ -38,11 +38,11 @@
 			<outputDirectory>/examples/swt/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/src/main/resources/for-examples</directory>
+			<directory>/src/main/resources/for-examples</directory>
 			<outputDirectory>/examples</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/src/main/resources/for-src</directory>
+			<directory>/src/main/resources/for-src</directory>
 			<outputDirectory>/src</outputDirectory>
 		</fileSet>
 		<!-- Source code -->
