@@ -9,13 +9,13 @@
 			<directory>.</directory>
 			<outputDirectory>src</outputDirectory>
 			<includes>
-				<include>**/android/addressbook/application*/gen/**</include>
-				<include>**/android/addressbook/application*/res/**</include>
-				<include>**/android/addressbook/application*/*.*</include>
-				<include>**/android/allwidgets/application*/gen/**</include>
-				<include>**/android/allwidgets/application*/res/**</include>
-				<include>**/android/allwidgets/application*/*.*</include>
-				<include>**/gwt/clientside/war/**</include>
+				<include>**/application*/res/**/*.*</include>
+				<include>**/application*/AndroidManifest.xml</include>
+				<include>**/gwt/clientside/war/css/**</include>
+				<include>**/gwt/clientside/war/gxt/**</include>
+				<include>**/gwt/clientside/war/media/**</include>
+				<include>**/gwt/clientside/war/WEB-INF/web.xml</include>
+				<include>**/gwt/clientside/war/index.html</include>
 				<include>**/src/**</include>
 				<include>**/pom.xml</include>
 			</includes>
