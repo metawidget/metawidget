@@ -3328,8 +3328,13 @@ static class State {
 					Having constructed an immutable object, <classname>ConfigReader</classname> will cache the instance and reuse it. The
 					<parameter>config</parameter> attribute defaults to using the same package as the <parameter>xmlns</parameter> (i.e.
 					<classname>org.metawidget.inspector.composite</classname> in the example above). This can be overridden if a fully
-					qualified classname is provided.
+					qualified classname is provided. For example:
 				</para>
+
+				<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	...
+&lt;/propertyTypeInspector&gt;</programlisting>
 
 				<important>
 					<title>Config classes must override equals and hashCode</title>

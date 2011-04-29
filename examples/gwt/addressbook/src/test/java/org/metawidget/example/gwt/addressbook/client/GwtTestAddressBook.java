@@ -151,12 +151,13 @@ public class GwtTestAddressBook
 											@Override
 											public void run() {
 
-												assertTrue( ((Widget) contactMetawidget.getWidget( "firstname" )) instanceof Label );
+												assertTrue( ( (Widget) contactMetawidget.getWidget( "firstname" ) ) instanceof Label );
 												assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
 
 												FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
 												assertEquals( "Date of Birth:", contactFlexTable.getText( 3, 0 ) );
-												// (dateOfBirth is locked to GMT, but VM may be running in Australia)
+												// (dateOfBirth is locked to GMT, but VM may be
+												// running in Australia)
 												assertTrue( "1956-05-12".equals( contactMetawidget.getValue( "dateOfBirth" ) ) || "1956-05-13".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 												assertEquals( "Contact Details", contactFlexTable.getText( 5, 0 ) );
 												assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
@@ -199,10 +200,10 @@ public class GwtTestAddressBook
 													public void run() {
 
 														assertFalse( editButton.isVisible() );
-														assertTrue( ((Widget) contactMetawidget.getWidget( "title" )) instanceof ListBox );
+														assertTrue( ( (Widget) contactMetawidget.getWidget( "title" ) ) instanceof ListBox );
 														assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
 
-														assertTrue( ((Widget) contactMetawidget.getWidget( "firstname" )) instanceof TextBox );
+														assertTrue( ( (Widget) contactMetawidget.getWidget( "firstname" ) ) instanceof TextBox );
 														assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
 														assertTrue( "1956-05-12".equals( contactMetawidget.getValue( "dateOfBirth" ) ) || "1956-05-13".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 														final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
@@ -439,10 +440,11 @@ public class GwtTestAddressBook
 
 								executeAfterBuildWidgets( typeMetawidget, new Timer() {
 
+									@SuppressWarnings( "cast" )
 									@Override
 									public void run() {
 
-										assertTrue( (typeMetawidget.getWidget( "type" )) instanceof ListBox );
+										assertTrue( ( (Widget) typeMetawidget.getWidget( "type" ) ) instanceof ListBox );
 										typeMetawidget.setValue( "Mobile", "type" );
 										final GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
 
@@ -554,10 +556,11 @@ public class GwtTestAddressBook
 
 				executeAfterBuildWidgets( typeMetawidget, new Timer() {
 
+					@SuppressWarnings( "cast" )
 					@Override
 					public void run() {
 
-						assertTrue( (typeMetawidget.getWidget( "type" )) instanceof ListBox );
+						assertTrue( ( (Widget) typeMetawidget.getWidget( "type" ) ) instanceof ListBox );
 						typeMetawidget.setValue( "Mobile", "type" );
 						final GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
 
