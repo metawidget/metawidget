@@ -68,7 +68,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * Its default RendererType is <code>table</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -182,7 +182,8 @@ public abstract class UIMetawidget
 
 			ExternalContext externalContext = context.getExternalContext();
 
-			// Use context.class. Using context.application.class returns 'JBoss Application Server Weld Integration EE Webtier services' under JBoss AS 6
+			// Use context.class. Using context.application.class returns 'JBoss Application Server
+			// Weld Integration EE Webtier services' under JBoss AS 6
 
 			Package contextPackage = context.getClass().getPackage();
 			String contextImplementationTitle = contextPackage.getImplementationTitle();
@@ -976,7 +977,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 *
+	 * 
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
@@ -1072,6 +1073,10 @@ public abstract class UIMetawidget
 		return null;
 	}
 
+	/**
+	 * Mojarra 2.x requires a fix for http://java.net/jira/browse/JAVASERVERFACES-1826.
+	 */
+
 	private boolean isBadMojarra2( String contextImplementationTitle, String contextImplementationVersion ) {
 
 		if ( contextImplementationTitle == null ) {
@@ -1082,8 +1087,13 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		return contextImplementationVersion.contains( "2.0." ) || contextImplementationVersion.contains( "2.1.0" );
+		return contextImplementationVersion.contains( "2.0." ) || contextImplementationVersion.contains( "2.1.0" ) || contextImplementationVersion.contains( "2.1.1" );
 	}
+
+	/**
+	 * MyFaces 2.x requires a fix for https://issues.apache.org/jira/browse/MYFACES-2935 (and
+	 * ideally https://issues.apache.org/jira/browse/MYFACES-3010 too).
+	 */
 
 	private boolean isBadMyFaces2( String contextImplementationTitle, String contextImplementationVersion ) {
 
