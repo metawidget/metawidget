@@ -37,12 +37,10 @@ public class JavassistPropertyStyleDebugOffTest
 
 		try {
 			propertyStyle.getProperties( Foo.class );
-
-			// Note: this test will fail unless the code has been compiled with debug off
-			// (eg. when running inside Eclipse)
-
-			// TODO: assertTrue( false );
 		} catch ( InspectorException e ) {
+
+			// Note: this test will not trigger unless the code has been compiled with debug off
+
 			String message = "Line number information for " + Foo.class + " not available. Did you compile without debug info?";
 			assertEquals( message, e.getMessage() );
 		}
