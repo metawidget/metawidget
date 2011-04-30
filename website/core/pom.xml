@@ -175,6 +175,14 @@
 						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
 						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
 						
+						<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
+				
+						<fixcrlf srcdir="target/ROOT" eol="unix">
+							<include name="**/*.css"/>
+							<include name="**/*.html"/>
+							<include name="**/*.js"/>
+						</fixcrlf>
+						
 						<!-- Rezip -->
 						
 						<delete file="target/ROOT.war"/>
