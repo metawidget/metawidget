@@ -12,6 +12,7 @@
 		<!-- Tomcat 6.0.26+ has EL conflict issues with Mojarra -->
 		<tomcat.version>6.0.24</tomcat.version>
 		<mojarra1.version>1.2_15</mojarra1.version>
+		<myfaces11.version>1.1.6</myfaces11.version>
 		<myfaces2.version>2.0.5</myfaces2.version>
 		<richfaces333.version>3.3.3.Final</richfaces333.version>
 	</properties>
@@ -249,6 +250,12 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.5</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>
@@ -340,6 +347,12 @@
 				<artifactId>jsp-api</artifactId>
 				<version>2.0</version>
 				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>struts</groupId>

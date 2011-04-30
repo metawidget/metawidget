@@ -14,6 +14,12 @@
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>jsr14</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
 			</plugin>
@@ -57,11 +63,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<scope>compile</scope>
@@ -71,6 +72,8 @@
 			<artifactId>richfaces-ui</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<!-- To test JDK 1.4 compatibility: <dependency> <groupId>org.apache.myfaces.core</groupId> <artifactId>myfaces-api</artifactId> <version>${myfaces11.version}</version> <scope>compile</scope> </dependency> <dependency> <groupId>org.apache.myfaces.core</groupId> <artifactId>myfaces-impl</artifactId> <version>${myfaces11.version}</version> <scope>compile</scope> </dependency> <dependency> <groupId>javax.servlet</groupId> <artifactId>jsp-api</artifactId> <scope>compile</scope> </dependency> <dependency> 
+			<groupId>commons-codec</groupId> <artifactId>commons-codec</artifactId> <scope>compile</scope> </dependency> -->
 	</dependencies>
 
 </project>
