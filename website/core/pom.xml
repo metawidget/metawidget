@@ -181,6 +181,7 @@
 							<include name="**/*.css"/>
 							<include name="**/*.html"/>
 							<include name="**/*.js"/>
+							<include name="**/*.php"/>
 						</fixcrlf>
 						
 						<!-- Rezip -->
