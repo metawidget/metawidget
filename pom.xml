@@ -570,6 +570,7 @@
 						<archive>
 							<addMavenDescriptor>${compile.addMavenDescriptor}</addMavenDescriptor>
 							<manifestEntries>
+								<Built-By/>
 								<Specification-Title>Metawidget</Specification-Title>
 								<Specification-Version>${project.version}</Specification-Version>
 								<Implementation-Title>${project.artifactId}</Implementation-Title>
