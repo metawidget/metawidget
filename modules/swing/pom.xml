@@ -15,7 +15,6 @@
 		<module>appframework</module>
 		<module>beansbinding</module>
 		<module>core</module>
-		<module>grouplayout</module>
 		<module>jgoodies</module>
 		<module>swingx</module>
 	</modules>
