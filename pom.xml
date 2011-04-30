@@ -2,7 +2,7 @@
 
 	<groupId>org.metawidget</groupId>
 	<artifactId>metawidget-parent</artifactId>
-	<version>1.15</version>
+	<version>1.20-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -887,7 +887,7 @@
 	<distributionManagement>
 		<repository>
 			<id>jboss-releases-repository</id>
-			<url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url>
+			<url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2</url>
 			<!-- username/password defined in MAVEN_HOME/conf/settings.xml -->
 		</repository>
 		<snapshotRepository>
