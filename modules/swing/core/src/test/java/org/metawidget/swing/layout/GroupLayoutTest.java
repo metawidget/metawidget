@@ -87,9 +87,7 @@ public class GroupLayoutTest
 
 		// Check end of tutorial
 
-		// TODO: ???
-		
-		metawidget.setConfig( "org/metawidget/swing/layout/metawidget-tutorial.xml" );
+		metawidget.setConfig( "org/metawidget/swing/layout/metawidget-tutorial-grouplayout.xml" );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 		metawidget.remove( stub );
 

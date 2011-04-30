@@ -48,14 +48,6 @@
 					<target>jsr14</target>
 				</configuration>
 				<executions>
-					<execution>
-						<id>default-compile</id>
-						<configuration>
-							<excludes>
-								<exclude>org/metawidget/swing/layout/GroupLayout.java</exclude>
-							</excludes>
-						</configuration>
-					</execution>
 					<!-- Use Java 6 for GroupLayout classes -->
 					<execution>
 						<phase>process-classes</phase>

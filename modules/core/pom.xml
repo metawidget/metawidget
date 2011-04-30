@@ -17,7 +17,7 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jsp-api</artifactId>
+			<artifactId>servlet-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

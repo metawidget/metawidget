@@ -62,13 +62,11 @@ public class GroupLayout
 	// Public methods
 	//
 
-	@Override
 	public void onStartBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( container );
@@ -89,7 +87,6 @@ public class GroupLayout
 		groupLayout.setVerticalGroup( state.groupVertical );
 	}
 
-	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -153,7 +150,6 @@ public class GroupLayout
 		parallelGroup.addComponent( component );
 	}
 
-	@Override
 	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		// Make all labels the same width
@@ -166,7 +162,6 @@ public class GroupLayout
 		}
 	}
 
-	@Override
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Buttons
