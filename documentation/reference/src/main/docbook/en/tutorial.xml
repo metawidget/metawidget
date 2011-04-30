@@ -2129,7 +2129,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to
-					<filename>../../metawidget.jar</filename> and <filename>lib/AppFramework.jar</filename> among others, so it's best not to move
+					<filename>lib/AppFramework.jar</filename> among others, so it's best not to move
 					it to a different folder (if you do, you'll need to manually put those JARs on your <parameter>CLASSPATH</parameter>).
 				</para>
 				
@@ -2209,7 +2209,7 @@ public void addOwner() {
 
 				<para>
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-wired into it to
-					<filename>../../metawidget.jar</filename> and <filename>lib/scala-library.jar</filename> among others, so it's best not to move
+					<filename>lib/scala-library.jar</filename> among others, so it's best not to move
 					it to a different folder (if you do, you'll need to manually put those JARs on your <parameter>CLASSPATH</parameter>).
 				</para>
 				
