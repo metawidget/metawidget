@@ -38,23 +38,51 @@
 
 	<build>
 		<plugins>
+			<!-- Upgrade annotation-based classes to Java 5 -->
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>compile</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete>
+									<fileset dir="target/classes/org/metawidget/inspector">
+										<include name="**/StrutsAnnotationInspector.class" />
+										<include name="**/UiStruts*.class" />
+									</fileset>
+								</delete>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>jsr14</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
 						<goals>
 							<goal>compile</goal>
 						</goals>
 						<configuration>
-							<target>jsr14</target>
+							<target>1.5</target>
+							<includes>
+								<include>org/metawidget/inspector/**</include>
+							</includes>
 						</configuration>
 					</execution>
 					<execution>
-						<id>testCompile</id>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
+						<id>default-testCompile</id>
+						<configuration>
+							<target>1.5</target>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

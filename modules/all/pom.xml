@@ -155,11 +155,6 @@
 			<artifactId>metawidget-beansbinding</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.swing</groupId>
-			<artifactId>metawidget-grouplayout</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- metawidget-swing should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>

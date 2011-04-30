@@ -11,6 +11,17 @@
 	<artifactId>allwidgets-swing</artifactId>
 	<packaging>jar</packaging>
 
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>jsr14</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>
@@ -48,16 +59,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<target>jsr14</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

@@ -29,23 +29,17 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- Core builds under JDK 1.4... -->
+				<configuration>
+					<target>jsr14</target>
+				</configuration>
 				<executions>
-					<!-- Core builds under JDK 1.4... -->
-					<execution>
-						<id>compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<target>jsr14</target>
-						</configuration>
-					</execution>
 					<!-- ...but tests under 5.0 (ConfigReader supports enums) -->
 					<execution>
-						<id>testCompile</id>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
+						<id>default-testCompile</id>
+						<configuration>
+							<target>1.5</target>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

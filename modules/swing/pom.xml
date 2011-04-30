@@ -24,23 +24,15 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>jsr14</target>
+				</configuration>
 				<executions>
-					<!-- Swing builds under JDK 1.4... -->
 					<execution>
-						<id>compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
+						<id>default-testCompile</id>
 						<configuration>
-							<target>jsr14</target>
+							<target>1.5</target>
 						</configuration>
-					</execution>
-					<!-- ...but tests under 5.0 (tests use annotations) -->
-					<execution>
-						<id>testCompile</id>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>

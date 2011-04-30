@@ -501,7 +501,13 @@ public abstract class MetawidgetTag
 
 			// Important to clean up to support webapp undeployment
 
-			JspAnnotationInspector.setThreadLocalPageContext( null );
+			try {
+				JspAnnotationInspector.setThreadLocalPageContext( null );
+			} catch ( NoClassDefFoundError e ) {
+				// Fail gracefully (if running without JspAnnotationInspector installed)
+			} catch ( UnsupportedClassVersionError e ) {
+				// Fail gracefully (if running without annotations)
+			}
 		}
 	}
 
