@@ -117,7 +117,7 @@
 					<keystore>${basedir}/src/main/resources/org/metawidget/website/swing/console/metawidget.keystore</keystore>
 					<storepass>m3t4w1dg3t</storepass>
 					<processMainArtifact>false</processMainArtifact>
-					<archiveDirectory>target/ROOT/live-demo</archiveDirectory>
+					<archiveDirectory>target/ROOT/WEB-INF/lib</archiveDirectory>
 					<includes>
 						<include>console-applet.jar</include>
 						<include>metawidget-*.jar</include>
@@ -134,7 +134,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<inherited>false</inherited>
 				<configuration>
 					<target>
 					
@@ -162,7 +161,10 @@
 						<copy todir="target/ROOT/live-demo">
 							<fileset dir="target/ROOT/WEB-INF/lib">
 								<exclude name="ROOT.jar" />
-								<exclude name="metawidget-all.jar" />
+								<exclude name="metawidget-all.jar"/>
+								<exclude name="metawidget-website.jar"/>
+								<exclude name="hibernate-commons*.jar"/>
+								<exclude name="slf4j-api.jar"/>
 							</fileset>
 						</copy>
 						<copy file="target/ROOT/WEB-INF/lib/metawidget-website.jar" tofile="target/ROOT/live-demo/console-applet.jar" />

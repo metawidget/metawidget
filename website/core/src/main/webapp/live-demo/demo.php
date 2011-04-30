@@ -1,6 +1,6 @@
-<?php $title = 'Live Demo'; require_once 'include/page-start.php'; ?>
+<?php $title = 'Live Demo'; require_once '../include/page-start.php'; ?>
 
-	<?php require_once 'include/body-start.php'; ?>
+	<?php require_once '../include/body-start.php'; ?>
 
 		<h2>Groovy Console with a Swing-based Metawidget</h2>
 		

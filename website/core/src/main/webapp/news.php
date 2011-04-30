@@ -56,10 +56,10 @@
 		</p>
 		
 		<ul>
-			<li><a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-introduction-part2-web-primefaces">PrimeFaces support</a></li>
+			<li><a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-introduction-part2-web-primefaces">PrimeFaces support</a></li>
 			<li><a href="http://kennardconsulting.blogspot.com/2011/02/metawidget-icefaces-paneltabset-support.php">Improved ICEfaces support</a></li>
-			<li><a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-inspectors-jpa">JpaInspector.setHideVersions</a></li>
-			<li><a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-widgetprocessors-web-gwt-stylename">Refactored GWT StyleNameProcessor</a></li>
+			<li><a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-inspectors-jpa">JpaInspector.setHideVersions</a></li>
+			<li><a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-widgetprocessors-web-gwt-stylename">Refactored GWT StyleNameProcessor</a></li>
 			<li>JSF2 version of AddressBook</li>
 			<li>Upgrade to Seam 2.2.1.GA</li>
 			<li>Bug fixes, documentation and unit tests</li>
@@ -210,7 +210,7 @@
 		</p>
 		
 		<ul>
-			<li><a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-metawidgets-desktop-swt">SWT support</a></li>
+			<li><a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-metawidgets-desktop-swt">SWT support</a></li>
 			<li><a href="http://kennardconsulting.blogspot.com/2010/03/form-generation-now-with-improved.html">Improved conditional attributes</a></li>
 			<li>More bug fixes, unit tests and documentation</li>
 		</ul>
@@ -233,11 +233,11 @@
 		</p>
 
 		<ul>
-			<li>Nestable sections and pluggable <a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-architecture-layouts-layoutdecorator">LayoutDecorators</a></li>
-			<li>Pluggable mechanisms for widget overriding (<a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-architecture-overriddenwidgetbuilder">OverriddenWidgetBuilder</a>) and read-only widgets (<a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-architecture-readonlywidgetbuilder">ReadOnlyWidgetBuilder</a>)</li>
-			<li>Pluggable <a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-architecture-inspectionresultprocessors">InspectionResultProcessors</a></li>
-			<li>Upgraded Android support (now includes 2.0, i18n, <a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-layouts-web-android-tab">TabHosts</a>)</li>
-			<li><a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-architecture-xml-construct-primitives">&lt;enum&gt; and &lt;constant&gt;</a> support in metawidget.xml</li>
+			<li>Nestable sections and pluggable <a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-architecture-layouts-layoutdecorator">LayoutDecorators</a></li>
+			<li>Pluggable mechanisms for widget overriding (<a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-architecture-overriddenwidgetbuilder">OverriddenWidgetBuilder</a>) and read-only widgets (<a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-architecture-readonlywidgetbuilder">ReadOnlyWidgetBuilder</a>)</li>
+			<li>Pluggable <a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-architecture-inspectionresultprocessors">InspectionResultProcessors</a></li>
+			<li>Upgraded Android support (now includes 2.0, i18n, <a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-layouts-web-android-tab">TabHosts</a>)</li>
+			<li><a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-architecture-xml-construct-primitives">&lt;enum&gt; and &lt;constant&gt;</a> support in metawidget.xml</li>
 			<li>More bug fixes, unit tests and documentation</li>
 		</ul>
 		
@@ -255,11 +255,11 @@
 		</p>
 		
 		<ul>
-			<li><a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-architecture-widgetprocessors">WidgetProcessors</a> and
-			<a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#chapter-architecture">refactored internal pipeline</a>
+			<li><a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-architecture-widgetprocessors">WidgetProcessors</a> and
+			<a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#chapter-architecture">refactored internal pipeline</a>
 			(see <a href="http://kennardconsulting.blogspot.com/2009/09/metawidget-08-to-085-migration-guide.html">Migration Guide</a>)</li>
-			<li>Upgraded RichFaces support (<a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-widgetbuilders-richfaces">SuggestionBox</a>,
-			<a href="http://metawidget.org/doc/reference/en/htmlsingle/metawidget.html#section-layouts-web-faces-richfaces">TabPanel and RichPanel</a>)</li>
+			<li>Upgraded RichFaces support (<a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-widgetbuilders-richfaces">SuggestionBox</a>,
+			<a href="http://metawidget.org/doc/reference/en/html-single/metawidget.html#section-layouts-web-faces-richfaces">TabPanel and RichPanel</a>)</li>
 			<li>Upgraded ExtGWT support to 2.0.1 (includes new Slider widget)</li>
 			<li><a href="http://metawidget.org/doc/reference/en/pdf/metawidget.pdf">Much more documentation</a></li>
 			<li><a href="http://metawidget.org/xsd">XML Schemas for all components</a></li>

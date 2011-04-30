@@ -28,7 +28,7 @@
 		
 		<ul>
 			<li><a href="doc/reference/en/html/index.html" target="_blank">HTML</a></li>
-			<li><a href="doc/reference/en/htmlsingle/metawidget.html" target="_blank">Single page HTML</a></li>
+			<li><a href="doc/reference/en/html-single/metawidget.html" target="_blank">Single page HTML</a></li>
 			<li><a href="doc/reference/en/pdf/metawidget.pdf" target="_blank">PDF print version</a></li>
 		</ul>
 		

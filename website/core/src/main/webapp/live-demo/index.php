@@ -1,6 +1,6 @@
-<?php $title = 'Contributing'; require_once 'include/page-start.php'; ?>
+<?php $title = 'Contributing'; require_once '../include/page-start.php'; ?>
 
-	<?php $floater='browser.png'; require_once 'include/body-start.php'; ?>
+	<?php $floater='browser.png'; require_once '../include/body-start.php'; ?>
 
 		<h2>Play with Metawidget right now, in your browser!</h2>
 		
@@ -35,7 +35,7 @@
 		</ul>
 		
 		<center>
-			<a href="demo.html"><img src="/media/start-live-demo.jpg" alt="" style="border: 0; margin-top: 20px"/></a>
+			<a href="demo.php"><img src="/media/start-live-demo.jpg" alt="" style="border: 0; margin-top: 20px"/></a>
 		</center>
 		
 	<?php require_once 'include/body-end.php'; ?>		
