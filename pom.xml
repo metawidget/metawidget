@@ -17,6 +17,7 @@
 		<richfaces333.version>3.3.3.Final</richfaces333.version>
 	</properties>
 
+	<name>Metawidget</name>
 	<description>
 		Metawidget is a smart User Interface widget that populates itself, at runtime,
 		with UI components to match the properties of your business objects.
