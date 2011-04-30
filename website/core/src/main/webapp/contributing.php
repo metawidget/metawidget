@@ -42,24 +42,24 @@
 		
 		<ul>
 			<li>promoting Metawidget to your colleagues (use our <a href="http://metawidget.org/media/presentation/MetawidgetPresentation.pdf">presentation material</a> to help)</li>
-			<li><a href="${context}/support.html">providing feedback on the forums</a></li>
-			<li><a href="${context}/issues.html">reporting issues</a></li>
-			<li><a href="${context}/support.html">adding to the Wiki</a></li>
+			<li><a href="/support.html">providing feedback on the forums</a></li>
+			<li><a href="/issues.html">reporting issues</a></li>
+			<li><a href="/support.html">adding to the Wiki</a></li>
 			<li>contributing enhancements to the code and documentation</li>
 		</ul>
 		
 		<h2 class="h2-underneath">How To Contribute</h2>
 		
 		<p>
-			Submit a patch either via the <a href="${context}/issues.html">issue tracker</a> or by sending it to
+			Submit a patch either via the <a href="/issues.html">issue tracker</a> or by sending it to
 			<a href="mailto:support@metawidget.org">support@metawidget.org</a>. Full source code and documentation is included
-			in the <a href="${context}/download.html">download</a>. Some starting points in the documentation include: 
+			in the <a href="/download.html">download</a>. Some starting points in the documentation include: 
 		</p>
 		
 		<ul>
-			<li><a href="${context}/doc/reference/en/html/ch02.html" target="_blank">Architecture overview</a></li>
-			<li><a href="${context}/doc/reference/en/html/ch02s02.html#section-architecture-inspectors-implementing-your-own" target="_blank">Implementing your own Inspector</a></li>
-			<li><a href="${context}/doc/reference/en/html/ch02s04.html#section-architecture-widgetbuilders-implementing-your-own" target="_blank">Implementing your own WidgetBuilder</a></li>
+			<li><a href="/doc/reference/en/html/ch02.html" target="_blank">Architecture overview</a></li>
+			<li><a href="/doc/reference/en/html/ch02s02.html#section-architecture-inspectors-implementing-your-own" target="_blank">Implementing your own Inspector</a></li>
+			<li><a href="/doc/reference/en/html/ch02s04.html#section-architecture-widgetbuilders-implementing-your-own" target="_blank">Implementing your own WidgetBuilder</a></li>
 		</ul>
 		
 		<p>

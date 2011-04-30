@@ -28,7 +28,7 @@
 		</p>
 		
 		<p>
-			If you modify Metawidget and redistribute your modifications, the LGPL applies. Please submit any modifications to our <a href="${context}/issues.html">issue tracker</a>.
+			If you modify Metawidget and redistribute your modifications, the LGPL applies. Please submit any modifications to our <a href="/issues.html">issue tracker</a>.
 		</p>
 	
 	<?php require_once '../../include/body-end.php'; ?>		

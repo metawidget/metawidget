@@ -1,9 +1,6 @@
-<%@ page language="java" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
+<?php $title = 'Live Demo'; require_once 'include/page-start.php'; ?>
 
-<tags:page title="Live Demo">
-
-	<tags:body>
+	<?php require_once 'include/body-start.php'; ?>
 
 		<h2>Groovy Console with a Swing-based Metawidget</h2>
 		
@@ -42,7 +39,7 @@
 			<li>
 				the Groovy Console applet is
 				<a href="http://jira.codehaus.org/browse/GROOVY-3604" target="_blank">only known to work with the Oracle Java plug-in on Windows</a>
-				(IE/Firefox/Chrome). If you use a different environment, try <a href="${context}/download.html">downloading the full distribution</a> instead
+				(IE/Firefox/Chrome). If you use a different environment, try <a href="/download.html">downloading the full distribution</a> instead
 			</li> 
 		</ul>
 		
@@ -53,7 +50,7 @@
 		<h2>Like what you see?</h2>
 		
 		<p>
-			Then <a href="${context}/download.html">download the full distribution</a> which includes:
+			Then <a href="/download.html">download the full distribution</a> which includes:
 		</p>
 		
 		<ul>
@@ -66,6 +63,6 @@
 			<li>...and much more!</li>
 		</ul>
 		
-	</tags:body>
+	<?php require_once 'include/body-end.php'; ?>		
 
-</tags:page>
+<?php require_once 'include/page-end.php'; ?>

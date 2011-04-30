@@ -7,9 +7,9 @@
 		<h3>Day 1: Work with the tutorials</h3>
 		
 		<ul>
-			<li><a href="${context}/download.html">Download Metawidget</a> and extract the archive.</li>
+			<li><a href="/download.html">Download Metawidget</a> and extract the archive.</li>
 			<li>
-				Read the <a href="${context}/doc/reference/en/html/ch01s02.html" target="_blank">tutorial</a> in the User Guide and Reference Documentation.
+				Read the <a href="/doc/reference/en/html/ch01s02.html" target="_blank">tutorial</a> in the User Guide and Reference Documentation.
 				This tutorial covers a simple Metawidget desktop, web and mobile application.
 				Work with the source code in the <tt>src/examples</tt> directory of the examples download.				
 			</li>
@@ -19,13 +19,13 @@
 
     	<ul>
     		<li>Read the rest of the Reference Documentation.</li>
-			<li>Read the <a href="${context}/doc/faq/core.html">FAQ</a>.</li>
+			<li>Read the <a href="/doc/faq/core.html">FAQ</a>.</li>
 		</ul>
 		
 		<h3>Day 3: Start Coding!</h3>
 
 		<ul>
-			<li>Lots of good advice can be found on the <a href="${context}/support.html">forums and in the Wiki</a>.</li>
+			<li>Lots of good advice can be found on the <a href="/support.html">forums and in the Wiki</a>.</li>
 			<li>Additional commercial support and training is available through
 			<a href="http://www.kennardconsulting.com/contact/index.jsf" target="_blank">Kennard Consulting</a>.</li>
 		</ul>

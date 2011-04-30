@@ -41,8 +41,8 @@
 				<tr>
 					<th><a href="http://www.beanview.com" target="_blank">BeanView</a></th>
 					<td>No, uses its own annotations</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://www.clickframes.org" target="_blank">Clickframes</a></th>
@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 					<th><a href="http://www.codesmithtools.com" target="_blank">CodeSmith</a></th>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 					<td>Could do, if used carefully</td>
 					<td>No</td>
 				</tr>
@@ -79,32 +79,32 @@
 					<th><a href="http://www.jmatter.org" target="_blank">JMatter</a></th>
 					<td>No, requires everything to be defined on domain objects</td>
 					<td>No</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://3layer.no-ip.info:6666/confluence/display/MERLIN/Home" target="_blank">Merlin</a></th>
 					<td>No, expects a fixed set of technologies (eg. they deprecated their <tt>@Alias</tt> annotation in favour of
 					<tt>@org.jboss.seam.annotations.Name</tt>)</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://metawidget.org">Metawidget</a></th>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://www.nakedobjects.org" target="_blank">Naked Objects</a></th>
 					<td>No, requires everything to be defined on domain objects</td>
 					<td>No</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://www.openxava.org" target="_blank">OpenXava</a></th>
 					<td>No, expects a fixed set of technologies (eg. JPA, Hibernate Validator)</td>
 					<td>No</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://docs.jboss.com/seam/2.0.1.GA/reference/en/html/gettingstarted.html" target="_blank">Seam-Gen</a></th>
@@ -121,8 +121,8 @@
 				<tr>
 					<th><a href="http://tapestry.apache.org/tapestry5/tapestry-core/guide/beaneditform.html" target="_blank">Tapestry BeanEditForm</a></th>
 					<td>No, expects a fixed set of technologies (eg. Tapestry, Javassist)</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 				<tr>
 					<th><a href="http://www.c1-setcon.de/widgetserver/ugat/introduction.html" target="_blank">UGAT</a></th>
@@ -133,8 +133,8 @@
 				<tr>
 					<th><a href="http://wicketwebbeans.sourceforge.net" target="_blank">Wicket Web Beans</a></th>
 					<td>No, expects a fixed set of technologies (eg. Wicket, JavaBeans)</td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
-					<td><img src="${context}/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
+					<td><img src="/media/tick.gif" alt=""/></td>
 				</tr>
 			</tbody>
 		</table>

@@ -16,7 +16,7 @@
 		</p>
 
 		<p>
-			<a href="${context}/doc/coverage/index.html" target="_blank">Click here</a> to see how we're doing.
+			<a href="/doc/coverage/index.html" target="_blank">Click here</a> to see how we're doing.
 		</p> 		
 		
 	<?php require_once 'include/body-end.php'; ?>

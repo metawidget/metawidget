@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v1.15 Released!</h3>
-		<h4>May 2011</h4>
+		<h4>30th April 2011</h4>
 		
 		<p>
 			Metawidget v1.15 is now available!
@@ -36,7 +36,7 @@
 		
 		<p>
 			JBoss have just released <a href="http://relation.to/18640.lace">Alpha 3 of Seam Forge</a>, their framework for rapid-application development.
-			Seam Forge is part of <a href="http://relation.to/18640.lace"/>Seam 3.0.0.CR2</a> and utilizes Metawidget for its UI scaffolding support.
+			Seam Forge is part of <a href="http://relation.to/18640.lace">Seam 3.0.0.CR2</a> and utilizes Metawidget for its UI scaffolding support.
 		</p>
 		
 		<p>

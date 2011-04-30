@@ -141,7 +141,7 @@
 		</div>
 
 		<p style="margin: auto">
-			Want to be like John and give Metawidget a try? Download the <a href="${context}/download.html">distribution</a>!
+			Want to be like John and give Metawidget a try? Download the <a href="/download.html">distribution</a>!
 		</p>		
 
 	<?php require_once 'include/body-end.php'; ?>		

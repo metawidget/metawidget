@@ -9,8 +9,8 @@
 		</p>		
 		
 		<p>
-			Before reporting a new issue, please make sure you've searched the <a href="${context}/documentation.html">documentation</a>, the
-			<a href="${context}/support.html">forums</a> and the <a href="${context}/support.html">Wiki</a>, as your query may have already been
+			Before reporting a new issue, please make sure you've searched the <a href="/documentation.html">documentation</a>, the
+			<a href="/support.html">forums</a> and the <a href="/support.html">Wiki</a>, as your query may have already been
 			answered.
 		</p>
 	

@@ -28,21 +28,21 @@
 					<th>Metawidget</th>
 					<td>Binaries and Documentation</td>
 					<td style="text-align: center">${project.version}</td>
-					<td style="text-align: center">May 2011</td>
+					<td style="text-align: center">30 April 2011</td>
 					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-bin.zip">Download</a></td>
 				</tr>
 				<tr>
 					<th></th>
 					<td>Examples</td>
 					<td style="text-align: center">${project.version}</td>
-					<td style="text-align: center">May 2011</td>
+					<td style="text-align: center">30 April 2011</td>
 					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-examples.zip">Download</a></td>
 				</tr>
 				<tr>
 					<th></th>
 					<td>Source Code and Tests</td>
 					<td style="text-align: center">${project.version}</td>
-					<td style="text-align: center">May 2011</td>
+					<td style="text-align: center">30 April 2011</td>
 					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-src.zip">Download</a></td>
 				</tr>
 			</tbody>
@@ -103,7 +103,7 @@
 		
 		<p>
 			Snapshot releases are deployed regularly to <a href="http://repository.jboss.org/nexus/content/repositories/snapshots" target="_blank">http://repository.jboss.org/nexus/content/repositories/snapshots</a>.
-			These releases are not stable, and should not be used in production environments.
+			These nightly releases are not stable, and should not be used in production environments.
 		</p>
 
 		<!-- Google Code for Download Conversion Page -->

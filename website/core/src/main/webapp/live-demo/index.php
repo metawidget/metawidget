@@ -1,9 +1,6 @@
-<%@ page language="java" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
+<?php $title = 'Contributing'; require_once 'include/page-start.php'; ?>
 
-<tags:page title="Live Demo">
-
-	<tags:body floater="browser.png">
+	<?php $floater='browser.png'; require_once 'include/body-start.php'; ?>
 
 		<h2>Play with Metawidget right now, in your browser!</h2>
 		
@@ -38,9 +35,9 @@
 		</ul>
 		
 		<center>
-			<a href="demo.html"><img src="${context}/media/start-live-demo.jpg" alt="" style="border: 0; margin-top: 20px"/></a>
+			<a href="demo.html"><img src="/media/start-live-demo.jpg" alt="" style="border: 0; margin-top: 20px"/></a>
 		</center>
 		
-	</tags:body>
+	<?php require_once 'include/body-end.php'; ?>		
 
-</tags:page>
+<?php require_once 'include/page-end.php'; ?>

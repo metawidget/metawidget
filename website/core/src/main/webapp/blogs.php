@@ -53,7 +53,7 @@
 				</tr>
 				<tr>
 					<td>habrahabr.ru</td>
-					<td>Metawidget - инструмент, генерирующий Java формы</td>
+					<td>Metawidget - a tool that generates Java forms</td>
 					<td class="link"><a href="http://habrahabr.ru/blogs/java/114146" target="_blank">View</a></td>
 				</tr>				
 				<tr>
