@@ -564,7 +564,7 @@
 						<archive>
 							<addMavenDescriptor>${compile.addMavenDescriptor}</addMavenDescriptor>
 							<manifestEntries>
-								<Built-By/>
+								<Built-By />
 								<Specification-Title>Metawidget</Specification-Title>
 								<Specification-Version>${project.version}</Specification-Version>
 								<Implementation-Title>${project.artifactId}</Implementation-Title>
@@ -885,12 +885,12 @@
 
 	<distributionManagement>
 		<repository>
-			<id>jboss-public-repository</id>
-			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
+			<id>jboss-releases-repository</id>
+			<url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url>
 			<!-- username/password defined in MAVEN_HOME/conf/settings.xml -->
 		</repository>
 		<snapshotRepository>
-			<id>jboss-snapshots</id>
+			<id>jboss-snapshots-repository</id>
 			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
 			<!-- username/password defined in MAVEN_HOME/conf/settings.xml -->
 		</snapshotRepository>
