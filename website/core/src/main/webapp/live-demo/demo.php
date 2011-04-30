@@ -63,6 +63,6 @@
 			<li>...and much more!</li>
 		</ul>
 		
-	<?php require_once 'include/body-end.php'; ?>		
+	<?php require_once '../include/body-end.php'; ?>		
 
-<?php require_once 'include/page-end.php'; ?>
+<?php require_once '../include/page-end.php'; ?>

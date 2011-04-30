@@ -5,21 +5,21 @@
 	<div id="top-tabs">
 		<ul>
 			<li<?php if ( $_SERVER['PHP_SELF'] == '/videos.php' ) echo ' class="active"'; ?>>
-				<a href="videos.php"
+				<a href="/videos.php"
 					<?php if ( $_SERVER['PHP_SELF'] != '/videos.php' ) echo 'onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"'; ?>
 					id="videos">
 					Videos
 				</a>
 			</li>
 			<li class="wide<?php if ( $_SERVER['PHP_SELF'] == '/screenshots.php' ) echo ' wide-active'; ?>">
-				<a href="screenshots.php"
+				<a href="/screenshots.php"
 					<?php if ( $_SERVER['PHP_SELF'] != '/screenshots.php' ) echo 'onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"'; ?>
 					id="screenshots">
 					Screenshots
 				</a>
 			</li>
 			<li class="wide<?php if ( $_SERVER['PHP_SELF'] == '/download.php' ) echo ' wide-active'; ?>">				
-				<a href="download.php"
+				<a href="/download.php"
 					<?php if ( $_SERVER['PHP_SELF'] != '/download.php' ) echo 'onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"'; ?>						
 					id="download">
 					Download v${project.version}
@@ -118,5 +118,5 @@
 				</div>
 			</td>
 			<td id="content-text">
-				<?php if ( $floater ) echo '<img id="floater" src="media/'.$floater.'" alt=""/>'; ?>				
+				<?php if ( $floater ) echo '<img id="floater" src="/media/'.$floater.'" alt=""/>'; ?>				
 				<?php if ( $useQuickStart ) { echo '<div id="quick-start">'; require_once 'quickstart.php'; echo '</div>'; } ?>

@@ -38,6 +38,6 @@
 			<a href="demo.php"><img src="/media/start-live-demo.jpg" alt="" style="border: 0; margin-top: 20px"/></a>
 		</center>
 		
-	<?php require_once 'include/body-end.php'; ?>		
+	<?php require_once '../include/body-end.php'; ?>		
 
-<?php require_once 'include/page-end.php'; ?>
+<?php require_once '../include/page-end.php'; ?>

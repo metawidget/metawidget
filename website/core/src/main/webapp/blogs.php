@@ -52,7 +52,7 @@
 					<td class="link"><a href="http://ganagnostaros.blogspot.com/2010/10/metawidget-useful-framework-for-easy-ui.html" target="_blank">View</a></td>
 				</tr>
 				<tr>
-					<td>habrahabr.ru</td>
+					<td>Habrahabr.ru</td>
 					<td>Metawidget - a tool that generates Java forms</td>
 					<td class="link"><a href="http://habrahabr.ru/blogs/java/114146" target="_blank">View</a></td>
 				</tr>				
