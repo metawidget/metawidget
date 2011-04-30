@@ -5,7 +5,7 @@
 		<h2>Support</h2>
 		
 		<p>
-			Beyond the <a href="/documentation.html">documentation</a>, the Metawidget community provides a number
+			Beyond the <a href="/documentation.php">documentation</a>, the Metawidget community provides a number
 			of support options.
 		</p>
 	

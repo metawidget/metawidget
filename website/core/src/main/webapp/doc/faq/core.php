@@ -32,13 +32,13 @@
 		</p>
 
 		<p>
-			See also the <a href="/elevator.html">Elevator Pitch Cartoon</a>.
+			See also the <a href="/elevator.php">Elevator Pitch Cartoon</a>.
 		</p>
 		
 		<h3><a name="who">Who makes Metawidget?</a></h3>
 
 		<p>
-			Metawidget is an Open Source project licensed under the <a href="/doc/faq/licensing.html">LGPL</a>. It is developed by the
+			Metawidget is an Open Source project licensed under the <a href="/doc/faq/licensing.php">LGPL</a>. It is developed by the
 			community. It was started by Richard Kennard of <a href="http://www.kennardconsulting.com" target="_blank">Kennard Consulting</a>.
 		</p>
 
@@ -86,7 +86,7 @@
 		<h3><a name="impl">Why is (some feature) of Metawidget implemented the way it is?</a></h3>
 
 		<p>
-			See the <a href="/blogs.html">developer blogs</a> for insights into, and to provide feedback on, Metawidget's development.
+			See the <a href="/blogs.php">developer blogs</a> for insights into, and to provide feedback on, Metawidget's development.
 		</p>
 
 		<h3><a name="usage">Who uses Metawidget?</a></h3>

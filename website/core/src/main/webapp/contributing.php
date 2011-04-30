@@ -42,18 +42,18 @@
 		
 		<ul>
 			<li>promoting Metawidget to your colleagues (use our <a href="http://metawidget.org/media/presentation/MetawidgetPresentation.pdf">presentation material</a> to help)</li>
-			<li><a href="/support.html">providing feedback on the forums</a></li>
-			<li><a href="/issues.html">reporting issues</a></li>
-			<li><a href="/support.html">adding to the Wiki</a></li>
+			<li><a href="/support.php">providing feedback on the forums</a></li>
+			<li><a href="/issues.php">reporting issues</a></li>
+			<li><a href="/support.php">adding to the Wiki</a></li>
 			<li>contributing enhancements to the code and documentation</li>
 		</ul>
 		
 		<h2 class="h2-underneath">How To Contribute</h2>
 		
 		<p>
-			Submit a patch either via the <a href="/issues.html">issue tracker</a> or by sending it to
+			Submit a patch either via the <a href="/issues.php">issue tracker</a> or by sending it to
 			<a href="mailto:support@metawidget.org">support@metawidget.org</a>. Full source code and documentation is included
-			in the <a href="/download.html">download</a>. Some starting points in the documentation include: 
+			in the <a href="/download.php">download</a>. Some starting points in the documentation include: 
 		</p>
 		
 		<ul>

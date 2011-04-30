@@ -39,7 +39,7 @@
 			<li>
 				the Groovy Console applet is
 				<a href="http://jira.codehaus.org/browse/GROOVY-3604" target="_blank">only known to work with the Oracle Java plug-in on Windows</a>
-				(IE/Firefox/Chrome). If you use a different environment, try <a href="/download.html">downloading the full distribution</a> instead
+				(IE/Firefox/Chrome). If you use a different environment, try <a href="/download.php">downloading the full distribution</a> instead
 			</li> 
 		</ul>
 		
@@ -50,7 +50,7 @@
 		<h2>Like what you see?</h2>
 		
 		<p>
-			Then <a href="/download.html">download the full distribution</a> which includes:
+			Then <a href="/download.php">download the full distribution</a> which includes:
 		</p>
 		
 		<ul>
