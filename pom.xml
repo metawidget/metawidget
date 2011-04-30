@@ -886,7 +886,7 @@
 	<distributionManagement>
 		<repository>
 			<id>jboss-public-repository</id>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
 			<!-- username/password defined in MAVEN_HOME/conf/settings.xml -->
 		</repository>
 		<snapshotRepository>

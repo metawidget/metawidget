@@ -86,6 +86,14 @@
 		<finalName>ROOT</finalName>
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- So that XmlSchemaGeneratorTask can process GroupLayout -->
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>				
+			</plugin>
+			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<archiveClasses>true</archiveClasses>
@@ -177,6 +185,7 @@
 						
 						<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
 				
+						<echo message="fixcrlf"/>
 						<fixcrlf srcdir="target/ROOT" eol="unix">
 							<include name="**/*.css"/>
 							<include name="**/*.html"/>
