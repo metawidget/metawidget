@@ -43,6 +43,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils.CachingContentHandler;
+import org.metawidget.util.simple.SimpleClassUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -1213,7 +1214,7 @@ public class ConfigReader
 									continue;
 								}
 
-								String parameterClassName = ClassUtils.getSimpleName( parameterTypes[0].getClass() );
+								String parameterClassName = SimpleClassUtils.getSimpleName( parameterTypes[0].getClass() );
 
 								if ( parameterClassName.endsWith( "Config" ) ) {
 									throw MetawidgetException.newException( "No such method " + methodName + " on " + constructingClass + ". Did you forget config=\"" + parameterClassName + "\"?" );
@@ -1740,7 +1741,7 @@ public class ConfigReader
 			Class<?> likelyConfigClass = constructors[0].getParameterTypes()[0];
 
 			if ( likelyConfigClass.getPackage().equals( clazz.getPackage() ) ) {
-				return ClassUtils.getSimpleName( likelyConfigClass );
+				return SimpleClassUtils.getSimpleName( likelyConfigClass );
 			}
 
 			return likelyConfigClass.getName();
@@ -1756,10 +1757,10 @@ public class ConfigReader
 				}
 
 				if ( parameterType.isArray() ) {
-					buffer.append( ClassUtils.getSimpleName( parameterType.getComponentType() ) );
+					buffer.append( SimpleClassUtils.getSimpleName( parameterType.getComponentType() ) );
 					buffer.append( "[]" );
 				} else {
-					buffer.append( ClassUtils.getSimpleName( parameterType ) );
+					buffer.append( SimpleClassUtils.getSimpleName( parameterType ) );
 				}
 			}
 
@@ -1782,7 +1783,7 @@ public class ConfigReader
 				if ( obj == null ) {
 					buffer.append( "null" );
 				} else {
-					buffer.append( ClassUtils.getSimpleName( obj.getClass() ) );
+					buffer.append( SimpleClassUtils.getSimpleName( obj.getClass() ) );
 				}
 			}
 

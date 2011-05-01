@@ -29,8 +29,8 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.util.simple.SimpleClassUtils;
 
 /**
  * Models a Contact in the Address Book
@@ -373,9 +373,12 @@ public abstract class Contact
 	 * 'class' is a reserved word.
 	 */
 
+	// TODO: SWT needs UiComesAfter here?
+
 	@UiHidden
+	@UiComesAfter
 	public String getClassSimpleName() {
 
-		return ClassUtils.getSimpleName( getClass() );
+		return SimpleClassUtils.getSimpleName( getClass() );
 	}
 }

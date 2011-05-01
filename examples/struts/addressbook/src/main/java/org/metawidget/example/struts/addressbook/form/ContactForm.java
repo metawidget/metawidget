@@ -27,6 +27,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.struts.UiStrutsLookup;
+import org.metawidget.util.simple.SimpleClassUtils;
 
 /**
  * @author Richard Kennard
@@ -189,5 +190,17 @@ public abstract class ContactForm
 	public void setReadOnly( boolean readOnly ) {
 
 		mReadOnly = readOnly;
+	}
+
+	/**
+	 * Equivalent to calling <code>getClass().getSimpleName()</code>, but exposed here for EL
+	 * purposes. EL 2.2 doesn't allow <code>#{contactForm.class.simpleName}</code> because
+	 * 'class' is a reserved word.
+	 */
+
+	@UiHidden
+	public String getClassSimpleName() {
+
+		return SimpleClassUtils.getSimpleName( getClass() );
 	}
 }

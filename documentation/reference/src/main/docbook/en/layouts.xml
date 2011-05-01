@@ -36,7 +36,7 @@
 					
 					<para>
 						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
- 						using <classname>javax.awt.FlowLayout</classname>. This is like <classname>BoxLayout</classname>, except it does not fill width.
+ 						using <classname>java.awt.FlowLayout</classname>. This is like <classname>BoxLayout</classname>, except it does not fill width.
  						It can be useful for button bars (see <xref linkend="section-introduction-part2-desktop"/>).
 					</para>
 
@@ -46,7 +46,7 @@
 					<title>GridBagLayout</title>
 					
 					<para>
-						<classname>Layout</classname> to arrange widgets using <classname>javax.awt.GridBagLayout</classname>. Widgets are arranged in a table,
+						<classname>Layout</classname> to arrange widgets using <classname>java.awt.GridBagLayout</classname>. Widgets are arranged in a table,
 						with one column for the label and another for the widget.
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>GridBagLayoutConfig</classname>:											

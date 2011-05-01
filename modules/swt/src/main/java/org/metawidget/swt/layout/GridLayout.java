@@ -35,7 +35,7 @@ import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
- * Layout to arrange widgets using <code>javax.awt.GridLayout</code>.
+ * Layout to arrange widgets using <code>org.eclipse.swt.layout.GridLayout</code>.
  * <p>
  * Widgets are arranged in a table, with one column for labels and another for the widget.
  *

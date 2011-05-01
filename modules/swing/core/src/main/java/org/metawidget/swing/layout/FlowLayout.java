@@ -26,7 +26,7 @@ import org.metawidget.swing.SwingMetawidget;
 
 /**
  * Layout to simply output components one after another, with no labels and no structure, using
- * <code>javax.awt.FlowLayout</code>.
+ * <code>java.awt.FlowLayout</code>.
  * <p>
  * This is like <code>BoxLayout</code>, except it does not fill width. It can be useful for button
  * bars.

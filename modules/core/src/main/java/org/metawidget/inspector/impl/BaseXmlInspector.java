@@ -33,6 +33,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.simple.SimpleClassUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -625,7 +626,7 @@ public abstract class BaseXmlInspector
 					// Trace, rather than do a debug log, because it makes for a nicer 'out
 					// of the box' experience
 
-					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", ClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
+					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", SimpleClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
 					return true;
 				}
 

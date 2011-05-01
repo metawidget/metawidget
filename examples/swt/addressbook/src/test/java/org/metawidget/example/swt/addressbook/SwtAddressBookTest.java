@@ -148,7 +148,7 @@ public class SwtAddressBookTest
 
 		Table communicationsTable = metawidgetContact.getControl( "communications" );
 		assertTrue( communicationsTable.getItemCount() == 1 );
-		assertTrue( metawidgetContact.getChildren().length == 21 );
+		assertTrue( metawidgetContact.getChildren().length == 22 );
 
 		// Check read-only editing does nothing
 
@@ -184,7 +184,7 @@ public class SwtAddressBookTest
 
 		assertEquals( "MALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		metawidgetContact.setValue( "Sapien", "surname" );
-		assertTrue( metawidgetContact.getChildren().length == 21 );
+		assertTrue( metawidgetContact.getChildren().length == 22 );
 
 		// Check editing a communication
 
@@ -298,7 +298,7 @@ public class SwtAddressBookTest
 
 		communicationsTable = metawidgetContact.getControl( "communications" );
 		assertTrue( communicationsTable.getItemCount() == 1 );
-		assertTrue( metawidgetContact.getChildren().length == 21 );
+		assertTrue( metawidgetContact.getChildren().length == 22 );
 
 		// Search everything
 
@@ -332,7 +332,7 @@ public class SwtAddressBookTest
 		metawidgetContact.setValue( 2, "numberOfStaff" );
 		metawidgetContact.setValue( "A Company", "company" );
 
-		assertTrue( metawidgetContact.getChildren().length == 23 );
+		assertTrue( metawidgetContact.getChildren().length == 24 );
 		saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );

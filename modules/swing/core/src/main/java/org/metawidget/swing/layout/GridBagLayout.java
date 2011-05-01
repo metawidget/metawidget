@@ -40,7 +40,7 @@ import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
- * Layout to arrange widgets using <code>javax.awt.GridBagLayout</code>.
+ * Layout to arrange widgets using <code>java.awt.GridBagLayout</code>.
  * <p>
  * Widgets are arranged in a table, with one column for labels and another for the widget.
  *
