@@ -230,7 +230,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'getter' method.
-	 *
+	 * 
 	 * @param method
 	 *            a parameterless method that returns a non-void
 	 * @return the property name
@@ -320,7 +320,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'setter' method.
-	 *
+	 * 
 	 * @param method
 	 *            a single-parametered method. May return non-void (ie. for Fluent interfaces)
 	 * @return the property name
@@ -350,7 +350,7 @@ public class JavaBeanPropertyStyle
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, excludes 'propertyChangeListeners' and 'vetoableChangeListeners'.
-	 *
+	 * 
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
@@ -373,9 +373,14 @@ public class JavaBeanPropertyStyle
 	 * class. Uses the configured <code>privateFieldConvention</code> (if any). Traverses up the
 	 * superclass heirarchy as necessary.
 	 * <p>
+	 * Note it is <em>not</em> considered an error if a property has no corresponding private field:
+	 * not all properties do. For example a property <code>getAge</code> may be calculated
+	 * internally based off a <code>mDateOfBirth</code> field, with no corresponding
+	 * <code>mAge</code> field per se.
+	 * <p>
 	 * Clients may override this method to change how the public-method-to-private-field mapping
 	 * operates.
-	 *
+	 * 
 	 * @return the private Field for this propertyName, or null if no such field (should not throw
 	 *         NoSuchFieldException)
 	 */

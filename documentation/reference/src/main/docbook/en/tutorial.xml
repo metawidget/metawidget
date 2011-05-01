@@ -5,8 +5,8 @@
 		<para>
 			This chapter is an introductory tutorial for new users of
 			Metawidget. Before you begin, you need to download the binary distribution from
-			<ulink url="http://metawidget.org/download.html">http://metawidget.org/download.html</ulink>.
-			Alternatively, you can <ulink url="http://metawidget.org/videos.html">watch a video walkthrough
+			<ulink url="http://metawidget.org/download.php">http://metawidget.org/download.php</ulink>.
+			Alternatively, you can <ulink url="http://metawidget.org/videos.php">watch a video walkthrough
 			of this tutorial online</ulink>.
 		</para>
 
@@ -975,7 +975,7 @@ public class Person {
 			<para>
 				This tutorial should take around 45 minutes. Before you begin, you will need to download
 				the examples distribution from
-				<ulink url="http://metawidget.org/download.html">http://metawidget.org/download.html</ulink>. This includes
+				<ulink url="http://metawidget.org/download.php">http://metawidget.org/download.php</ulink>. This includes
 				pre-built example applications with full source code. To save time, we will not
 				focus on any one front-end framework in detail. For detailed framework-specific instructions, please see 
 				<xref linkend="chapter-metawidgets"/>.
