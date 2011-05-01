@@ -12,7 +12,7 @@
 <tags:page>
 
 	<c:choose>
-		<c:when test="${contactCommand.class.simpleName == 'PersonalContact'}">
+		<c:when test="${contactCommand.classSimpleName == 'PersonalContact'}">
 			<div id="page-image">
 				<img src="media/personal.gif">
 			</div>

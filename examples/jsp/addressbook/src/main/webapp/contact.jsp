@@ -132,7 +132,7 @@
 	<fmt:setBundle var="bundle" basename="org.metawidget.example.shared.addressbook.resource.Resources"/>
 
 	<c:choose>
-		<c:when test="${contact.class.simpleName == 'PersonalContact'}">
+		<c:when test="${contact.classSimpleName == 'PersonalContact'}">
 			<div id="page-image">
 				<img src="media/personal.gif">
 			</div>

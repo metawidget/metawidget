@@ -29,6 +29,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -364,5 +365,16 @@ public abstract class Contact
 	public String toString() {
 
 		return getFullname();
+	}
+
+	/**
+	 * Equivalent to calling <code>getClass().getSimpleName()</code>, but exposed here for EL
+	 * purposes. EL 2.2 doesn't allow <code>#{contact.class.simpleName}</code> because
+	 * 'class' is a reserved word.
+	 */
+
+	public String getClassSimpleName() {
+
+		return ClassUtils.getSimpleName( getClass() );
 	}
 }

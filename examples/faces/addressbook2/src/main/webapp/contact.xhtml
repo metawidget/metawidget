@@ -10,10 +10,10 @@
 		<f:loadBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="bundle"/>
 
 		<div id="page-image">
-			<img src="media/#{contact.current.class.simpleName == 'PersonalContact' ? 'personal.gif' : 'business.gif'}" alt=" "/>
+			<img src="media/#{contact.current.classSimpleName == 'PersonalContact' ? 'personal.gif' : 'business.gif'}" alt=" "/>
 		</div>
 		<div id="content">
-			<h1>#{contact.current.class.simpleName == 'PersonalContact' ? 'Personal' : 'Business'} Contact</h1>
+			<h1>#{contact.current.classSimpleName == 'PersonalContact' ? 'Personal' : 'Business'} Contact</h1>
 	
 			<h:form id="form">
 

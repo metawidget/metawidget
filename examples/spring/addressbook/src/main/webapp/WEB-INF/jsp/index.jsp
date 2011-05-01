@@ -49,7 +49,7 @@
 					<tr>
 						<td class="column-half">
 							<c:choose>
-								<c:when test="${_contact.class.simpleName == 'PersonalContact'}">
+								<c:when test="${_contact.classSimpleName == 'PersonalContact'}">
 									<c:set var="urlContact" value="loadPersonal"/>
 								</c:when>
 								<c:otherwise>
@@ -63,7 +63,7 @@
 						<td class="column-half">${a:collectionToString(_contact.communications, ", ")}</td>
 						<td class="column-tiny">
 							<c:choose>
-								<c:when test="${_contact.class.simpleName == 'PersonalContact'}">
+								<c:when test="${_contact.classSimpleName == 'PersonalContact'}">
 									<img src="media/personal-small.gif" alt="Personal Contact"/>
 								</c:when>
 								<c:otherwise>

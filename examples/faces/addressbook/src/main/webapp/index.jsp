@@ -52,8 +52,8 @@
 					<f:facet name="header">
 						<h:outputText value="&nbsp;" escape="false"/>
 					</f:facet>
-					<h:graphicImage value="media/personal-small.gif" rendered="#{_contact.class.simpleName == 'PersonalContact'}" alt="Personal Contact"/>
-					<h:graphicImage value="media/business-small.gif" rendered="#{_contact.class.simpleName == 'BusinessContact'}" alt="Business Contact"/>
+					<h:graphicImage value="media/personal-small.gif" rendered="#{_contact.classSimpleName == 'PersonalContact'}" alt="Personal Contact"/>
+					<h:graphicImage value="media/business-small.gif" rendered="#{_contact.classSimpleName == 'BusinessContact'}" alt="Business Contact"/>
 				</h:column>
 
 			</h:dataTable>

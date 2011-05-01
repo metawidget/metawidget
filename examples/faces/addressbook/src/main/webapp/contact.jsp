@@ -11,14 +11,14 @@
 
 	<tags:page>
 
-		<h:panelGroup rendered="#{contact.current.class.simpleName == 'PersonalContact'}">
+		<h:panelGroup rendered="#{contact.current.classSimpleName == 'PersonalContact'}">
 			<div id="page-image">
 				<img src="media/personal.gif" alt=""/>
 			</div>
 			<div id="content">				
 			<h1>Personal Contact</h1>
 		</h:panelGroup>
-		<h:panelGroup rendered="#{contact.current.class.simpleName == 'BusinessContact'}">
+		<h:panelGroup rendered="#{contact.current.classSimpleName == 'BusinessContact'}">
 			<div id="page-image">
 				<img src="media/business.gif" alt=""/>
 			</div>
