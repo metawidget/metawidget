@@ -3,17 +3,19 @@
 		<groupId>org.metawidget</groupId>
 		<artifactId>metawidget-parent</artifactId>
 		<version>1.20-SNAPSHOT</version>
-		<relativePath>../../</relativePath>		
+		<relativePath>../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>org.metawidget</groupId>
 	<artifactId>reference-guide</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<properties>
 		<docbook.source>${basedir}/src/main/docbook/en</docbook.source>
 		<docbook.target>${project.build.directory}/docbook/en</docbook.target>
+		<!-- docbkx properties can't have dots: http://groups.google.com/group/docbkx-tools-users/browse_thread/thread/57ed8e49c5d1b6a1 -->
+		<tomcatVersion>${tomcat.version}</tomcatVersion>
 	</properties>
 	<build>
 		<defaultGoal>generate-resources</defaultGoal>
@@ -21,7 +23,7 @@
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
 				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.11</version>
+				<version>2.0.12</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.docbook</groupId>
@@ -88,7 +90,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<target>
-						<move file="target/docbook/en/pdf/index.pdf" tofile="target/docbook/en/pdf/metawidget.pdf"/>
+						<move file="target/docbook/en/pdf/index.pdf" tofile="target/docbook/en/pdf/metawidget.pdf" />
 					</target>
 				</configuration>
 				<executions>
@@ -99,7 +101,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 </project>

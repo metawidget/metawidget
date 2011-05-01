@@ -1185,8 +1185,9 @@ public class Person {
 				<para>
 					Web-based applications are inherently more difficult to setup and run than desktop-based
 					applications because they require a container application. For
-					this tutorial, we will use Apache Tomcat 6 (Tomcat), as it is one of the easier containers
-					to get running. Tomcat can be downloaded from <ulink url="http://tomcat.apache.org">http://tomcat.apache.org</ulink>.
+					this tutorial we recommend using Apache Tomcat as it is one of the easier containers
+					to get running (the examples are tested against Tomcat <?eval ${tomcatVersion}?>).
+					Tomcat can be downloaded from <ulink url="http://tomcat.apache.org">http://tomcat.apache.org</ulink>.
 				</para>
 				
 				<para>
