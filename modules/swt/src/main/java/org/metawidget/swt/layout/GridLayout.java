@@ -100,7 +100,7 @@ public class GridLayout
 		// Do nothing
 	}
 
-	public void startContainerLayout( Composite container, SwtMetawidget metawidget ) {
+	public void startContainerLayout( Composite composite, SwtMetawidget metawidget ) {
 
 		// Calculate default label inset
 		//
@@ -110,10 +110,10 @@ public class GridLayout
 		// Text boxes), so we top inset them a bit
 
 		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( mNumberOfColumns * LABEL_AND_CONTROL, false );
-		container.setLayout( layoutManager );
+		composite.setLayout( layoutManager );
 	}
 
-	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite composite, SwtMetawidget metawidget ) {
 
 		// Do not layout space for empty stubs
 
@@ -129,11 +129,11 @@ public class GridLayout
 		boolean spanAllColumns = willFillHorizontally( control, attributes );
 
 		if ( spanAllColumns ) {
-			int numberOfChildren = container.getChildren().length;
+			int numberOfChildren = countNonExcludedChildren( composite );
 			int numberColumnsRemainingOnRow = numberOfChildren % ( mNumberOfColumns * LABEL_AND_CONTROL );
 
 			if ( numberColumnsRemainingOnRow != 0 && numberOfChildren > 1 ) {
-				Control lastControl = container.getChildren()[numberOfChildren - 2];
+				Control lastControl = composite.getChildren()[numberOfChildren - 2];
 				( (GridData) lastControl.getLayoutData() ).horizontalSpan = numberColumnsRemainingOnRow;
 			}
 		}
@@ -146,7 +146,7 @@ public class GridLayout
 			labelText = metawidget.getLabelString( attributes );
 		}
 
-		layoutBeforeChild( control, labelText, elementName, attributes, container, metawidget );
+		layoutBeforeChild( control, labelText, elementName, attributes, composite, metawidget );
 
 		// ...and layout the control
 
@@ -177,7 +177,7 @@ public class GridLayout
 		control.setLayoutData( controlLayoutData );
 	}
 
-	public void endContainerLayout( Composite container, SwtMetawidget metawidget ) {
+	public void endContainerLayout( Composite composite, SwtMetawidget metawidget ) {
 
 		// Do nothing
 	}
@@ -203,12 +203,12 @@ public class GridLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Control control, String labelText, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+	protected String layoutBeforeChild( Control control, String labelText, String elementName, Map<String, String> attributes, Composite composite, SwtMetawidget metawidget ) {
 
 		// Add label
 
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
-			Label label = new Label( container, SWT.None );
+			Label label = new Label( composite, SWT.None );
 			label.setData( NAME, attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			if ( mLabelFont != null ) {
@@ -271,5 +271,29 @@ public class GridLayout
 		}
 
 		return false;
+	}
+
+	//
+	// Private methods
+	//
+
+	private int countNonExcludedChildren( Composite composite ) {
+
+		int nonExcludedChildren = 0;
+
+		for( Control control : composite.getChildren() ) {
+
+			// (manually added components will have no GridData)
+
+			GridData gridData = (GridData) control.getLayoutData();
+
+			if ( gridData != null && gridData.exclude ) {
+				continue;
+			}
+
+			nonExcludedChildren++;
+		}
+
+		return nonExcludedChildren;
 	}
 }

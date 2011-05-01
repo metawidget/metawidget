@@ -93,12 +93,12 @@ public class GridLayoutTest
 	//
 	// Constructor
 	//
-	
+
 	public GridLayoutTest( String name ) {
-		
+
 		super( name );
 	}
-	
+
 	//
 	// Public methods
 	//
@@ -272,6 +272,11 @@ public class GridLayoutTest
 
 		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setLabelSuffix( null ).setRequiredText( null ) ) );
 		assertTrue( "Abc".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
+	}
+
+	public void testNonExcludedChildren() {
+
+		// TODO: unit test this!
 	}
 
 	public void testConfig() {

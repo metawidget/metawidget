@@ -373,10 +373,7 @@ public abstract class Contact
 	 * 'class' is a reserved word.
 	 */
 
-	// TODO: SWT needs UiComesAfter here?
-
 	@UiHidden
-	@UiComesAfter
 	public String getClassSimpleName() {
 
 		return SimpleClassUtils.getSimpleName( getClass() );
