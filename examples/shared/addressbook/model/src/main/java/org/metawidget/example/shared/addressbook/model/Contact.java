@@ -373,6 +373,7 @@ public abstract class Contact
 	 * 'class' is a reserved word.
 	 */
 
+	@UiHidden
 	public String getClassSimpleName() {
 
 		return ClassUtils.getSimpleName( getClass() );
