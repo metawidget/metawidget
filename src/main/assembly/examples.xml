@@ -42,6 +42,10 @@
 			<outputDirectory>/examples</outputDirectory>
 		</fileSet>
 		<fileSet>
+			<directory>src/main/resources/for-bin/lgpl.txt</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
 			<directory>/src/main/resources/for-src</directory>
 			<outputDirectory>/src</outputDirectory>
 		</fileSet>
