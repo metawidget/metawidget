@@ -23,7 +23,8 @@
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
 				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.12</version>
+				<!-- With 2.0.12 we see java.lang.NoClassDefFoundError: org/apache/xmlgraphics/util/uri/CommonURIResolver -->
+				<version>2.0.11</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.docbook</groupId>

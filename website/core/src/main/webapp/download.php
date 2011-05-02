@@ -9,7 +9,7 @@
 		</p>		
 		
 		<p>
-			There are three downloads: one containing binaries and documentation, one containing examples, and the third containing
+			There are three downloads: one containing binaries and documentation, another containing examples, and the third containing
 			source code and tests.
 		</p>
 	
@@ -80,7 +80,7 @@
 			If you need more control over how Metawidget is included in your application, fine-grained dependencies are also available. For example you can:
 		</p>
 		<ul>
-			<li>reduce the final size of your application by only including those Metawidget plugins for technologies you actually use; or</li>
+			<li>reduce the final size of your application by only including those Metawidget plugins for technologies you use; or</li>
 			<li>resolve class loading issues by including different parts of Metawidget for different application tiers</li>
 		</ul>
 		<p>
