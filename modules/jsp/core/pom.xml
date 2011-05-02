@@ -65,6 +65,7 @@
 							<target>
 								<delete>
 									<fileset dir="target/classes">
+										<exclude name="**/*.tld"/>									
 										<exclude name="**/*.xml"/>
 										<exclude name="**/JspAnnotationInspector.java" />
 										<exclude name="**/UiJsp*.class" />

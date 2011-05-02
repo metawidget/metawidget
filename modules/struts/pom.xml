@@ -59,6 +59,7 @@
 							<target>
 								<delete>
 									<fileset dir="target/classes">
+										<exclude name="**/*.tld"/>									
 										<exclude name="**/*.xml"/>
 										<exclude name="**/StrutsAnnotationInspector.java" />
 										<exclude name="**/UiStruts*.class" />
