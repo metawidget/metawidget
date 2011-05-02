@@ -131,17 +131,23 @@ public final class MetawidgetTestUtils {
 					// (this doesn't apply to ResourceResolver)
 
 					if ( !ResourceResolver.class.equals( propertyType ) ) {
-						if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
-							writeMethod.invoke( object1, new Object[] { null } );
-							Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
-							Assert.assertFalse( object1.equals( object2 ) );
 
-							Assert.assertTrue( propertyName, null != readMethod.invoke( object2 ) );
-							writeMethod.invoke( object2, new Object[] { null } );
-							Assert.assertTrue( propertyName, null == readMethod.invoke( object2 ) );
+						// (this isn't always safe to invoke to test for null)
 
-							Assert.assertTrue( object1.equals( object2 ) );
-							Assert.assertTrue( object1.hashCode() == object2.hashCode() );
+						if ( !InputStream.class.equals( propertyType ) && !InputStream[].class.equals( propertyType )) {
+
+							if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
+								writeMethod.invoke( object1, new Object[] { null } );
+								Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
+								Assert.assertFalse( object1.equals( object2 ) );
+
+								Assert.assertTrue( propertyName, null != readMethod.invoke( object2 ) );
+								writeMethod.invoke( object2, new Object[] { null } );
+								Assert.assertTrue( propertyName, null == readMethod.invoke( object2 ) );
+
+								Assert.assertTrue( object1.equals( object2 ) );
+								Assert.assertTrue( object1.hashCode() == object2.hashCode() );
+							}
 						}
 					}
 				}
@@ -274,14 +280,14 @@ public final class MetawidgetTestUtils {
 		while ( currentClass != null ) {
 
 			try {
-				Method method = clazz.getDeclaredMethod( ClassUtils.JAVABEAN_GET_PREFIX + propertyUppercased );
+				Method method = currentClass.getDeclaredMethod( ClassUtils.JAVABEAN_GET_PREFIX + propertyUppercased );
 				method.setAccessible( true );
 
 				return method;
 
 			} catch ( Exception e1 ) {
 				try {
-					Method method = clazz.getDeclaredMethod( ClassUtils.JAVABEAN_IS_PREFIX + propertyUppercased );
+					Method method = currentClass.getDeclaredMethod( ClassUtils.JAVABEAN_IS_PREFIX + propertyUppercased );
 
 					// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
 					// only applies to boolean (little 'b')

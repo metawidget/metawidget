@@ -141,6 +141,9 @@ public class SwingAddressBookTest
 		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
 		assertTrue( ((Component) metawidgetContact.getComponent( "firstname" )) instanceof JLabel );
 		assertEquals( "Male", ( (JLabel) metawidgetContact.getComponent( "gender" ) ).getText() );
+		assertTrue( metawidgetContact.getComponent( 10 ) instanceof JPanel );
+		assertEquals( "Contact Details", ((JLabel) ((JPanel) metawidgetContact.getComponent( 10 )).getComponent( 0 )).getText() );
+		assertEquals( java.awt.GridBagConstraints.REMAINDER, ( (GridBagLayout) metawidgetContact.getLayout() ).getConstraints( metawidgetContact.getComponent( 10 ) ).gridwidth );
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
 		try {

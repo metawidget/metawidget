@@ -349,10 +349,10 @@ public class ConfigReaderIntegrationTest
 
 		@SuppressWarnings( "unchecked" )
 		List<Object> cacheWithNames = (List<Object>) cacheField.get( cachingContentHandler );
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 10 ).toString() ) );
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator config=\"HeadingTagLayoutDecoratorConfig\"".equals( cacheWithNames.get( 13 ).toString() ) );
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator".equals( cacheWithNames.get( 14 ).toString() ) );
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 17 ).toString() ) );
+		assertEquals( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout", cacheWithNames.get( 10 ).toString() );
+		assertEquals( "startElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator config=\"HeadingTagLayoutDecoratorConfig\"", cacheWithNames.get( 13 ).toString() );
+		assertEquals( "endElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator", cacheWithNames.get( 14 ).toString() );
+		assertEquals( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout", cacheWithNames.get( 17 ).toString() );
 
 		assertTrue( 29 == cacheWithNames.size() );
 
@@ -390,12 +390,12 @@ public class ConfigReaderIntegrationTest
 		startXml += "</jspAnnotationInspector>";
 		startXml += "<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
 		startXml += "<propertyStyle>";
-		startXml += "<groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\" config=\"org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig\"><excludeBaseType><pattern>foo</pattern></excludeBaseType></groovyPropertyStyle>";
+		startXml += "<groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\" config=\"GroovyPropertyStyleConfig\"><excludeBaseType><pattern>foo</pattern></excludeBaseType></groovyPropertyStyle>";
 		startXml += "</propertyStyle>";
 		startXml += "</strutsAnnotationInspector>";
 		startXml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
 		startXml += "<propertyStyle>";
-		startXml += "<groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\" config=\"org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig\"><excludeBaseType><pattern>foo</pattern></excludeBaseType></groovyPropertyStyle>";
+		startXml += "<groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\" config=\"GroovyPropertyStyleConfig\"><excludeBaseType><pattern>foo</pattern></excludeBaseType></groovyPropertyStyle>";
 		startXml += "</propertyStyle>";
 		startXml += "</springAnnotationInspector>";
 		String endXml = "</array>";
