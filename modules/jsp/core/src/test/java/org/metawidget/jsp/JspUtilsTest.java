@@ -17,8 +17,12 @@
 package org.metawidget.jsp;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Enumeration;
+import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -359,7 +363,136 @@ public class JspUtilsTest
 		public ServletContext getServletContext() {
 
 			mPageContextHits++;
-			return null;
+			return new ServletContext() {
+
+				public String getInitParameter( String arg0 ) {
+
+					return null;
+				}
+
+				//
+				// Unsupported methods
+				//
+
+				public Object getAttribute( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public Enumeration<?> getAttributeNames() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public ServletContext getContext( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public Enumeration<?> getInitParameterNames() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public int getMajorVersion() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public String getMimeType( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public int getMinorVersion() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public RequestDispatcher getNamedDispatcher( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public String getRealPath( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public RequestDispatcher getRequestDispatcher( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public URL getResource( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public InputStream getResourceAsStream( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public Set<?> getResourcePaths( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public String getServerInfo() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				@SuppressWarnings( "deprecation" )
+				public Servlet getServlet( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public String getServletContextName() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				@SuppressWarnings( "deprecation" )
+				public Enumeration<?> getServletNames() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				@SuppressWarnings( "deprecation" )
+				public Enumeration<?> getServlets() {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public void log( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				@SuppressWarnings( "deprecation" )
+				public void log( Exception arg0, String arg1 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public void log( String arg0, Throwable arg1 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public void removeAttribute( String arg0 ) {
+
+					throw new UnsupportedOperationException();
+				}
+
+				public void setAttribute( String arg0, Object arg1 ) {
+
+					throw new UnsupportedOperationException();
+				}
+			};
 		}
 
 		@Override

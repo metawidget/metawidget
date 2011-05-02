@@ -20,5 +20,12 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Test org.metawidget.faces.component.CONFIG_FILE -->
+	
+	<context-param>
+		<param-name>org.metawidget.faces.component.CONFIG_FILE</param-name>
+		<param-value>config-richfaces/metawidget.xml</param-value>
+	</context-param>
+	
 </web-app>
 

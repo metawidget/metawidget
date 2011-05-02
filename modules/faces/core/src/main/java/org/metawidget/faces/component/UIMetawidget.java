@@ -68,7 +68,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * Its default RendererType is <code>table</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -146,7 +146,7 @@ public abstract class UIMetawidget
 
 	private Object							mValue;
 
-	private String							mConfig									= DEFAULT_USER_CONFIG;
+	private String							mConfig;
 
 	private boolean							mInspectFromParent;
 
@@ -166,6 +166,19 @@ public abstract class UIMetawidget
 
 		mPipeline = newPipeline();
 
+		// Config
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+
+		String configFile = externalContext.getInitParameter( "org.metawidget.faces.component.CONFIG_FILE" );
+
+		if ( configFile == null ) {
+			mConfig = DEFAULT_USER_CONFIG;
+		} else {
+			mConfig = configFile;
+		}
+
 		// Default renderer
 
 		setRendererType( "table" );
@@ -176,11 +189,7 @@ public abstract class UIMetawidget
 		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
 		// for the duration
 
-		FacesContext context = FacesContext.getCurrentInstance();
-
 		if ( USE_PRERENDER_VIEW_EVENT == null ) {
-
-			ExternalContext externalContext = context.getExternalContext();
 
 			// Use context.class. Using context.application.class returns 'JBoss Application Server
 			// Weld Integration EE Webtier services' under JBoss AS 6
@@ -977,7 +986,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 * 
+	 *
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 

@@ -111,7 +111,7 @@ public abstract class MetawidgetTag
 
 	private String										mPathPrefix;
 
-	private String										mConfig							= DEFAULT_USER_CONFIG;
+	private String										mConfig;
 
 	private ResourceBundle								mBundle;
 
@@ -135,6 +135,27 @@ public abstract class MetawidgetTag
 	//
 	// Public methods
 	//
+
+	@Override
+	public void setPageContext( PageContext newPageContext ) {
+
+		super.setPageContext( newPageContext );
+
+		// Some more initialization
+
+		ServletContext servletContext = pageContext.getServletContext();
+		String configFile = servletContext.getInitParameter( "org.metawidget.jsp.tagext.CONFIG_FILE" );
+
+		if ( configFile == null ) {
+			mConfig = DEFAULT_USER_CONFIG;
+		} else {
+			mConfig = configFile;
+		}
+
+		if ( servletContext.getAttribute( CONFIG_READER_ATTRIBUTE ) == null ) {
+			servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, new ServletConfigReader( servletContext ) );
+		}
+	}
 
 	public String getPath() {
 
@@ -516,11 +537,6 @@ public abstract class MetawidgetTag
 		try {
 			ServletContext servletContext = pageContext.getServletContext();
 			ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
-
-			if ( configReader == null ) {
-				configReader = new ServletConfigReader( servletContext );
-				servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
-			}
 
 			if ( mConfig != null ) {
 				try {

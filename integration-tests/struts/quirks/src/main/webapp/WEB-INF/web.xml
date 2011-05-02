@@ -24,5 +24,12 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Test org.metawidget.jsp.tagext.CONFIG_FILE -->
+	
+	<context-param>
+		<param-name>org.metawidget.jsp.tagext.CONFIG_FILE</param-name>
+		<param-value>config/metawidget.xml</param-value>
+	</context-param>
+	
 </web-app>
 

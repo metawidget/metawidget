@@ -16,10 +16,6 @@
 
 package org.metawidget.jsp.tagext;
 
-import java.lang.reflect.Field;
-
-import javax.servlet.jsp.tagext.TagSupport;
-
 import junit.framework.TestCase;
 
 import org.metawidget.config.ConfigReader;
@@ -48,13 +44,8 @@ public class MetawidgetTagTest
 		throws Exception {
 
 		MockPageContext pageContext = new MockPageContext();
-		Field field = TagSupport.class.getDeclaredField( "pageContext" );
-		field.setAccessible( true );
-
 		MetawidgetTag metawidget = new HtmlMetawidgetTag();
-		field.set( metawidget, pageContext );
-
-		assertTrue( null == pageContext.getServletContext().getAttribute( "metawidget-config-reader" ) );
+		metawidget.setPageContext( pageContext );
 
 		// Should not error (just log)
 
@@ -79,7 +70,7 @@ public class MetawidgetTagTest
 
 		LogUtils.getLog( MetawidgetTagTest.class ).info( "" );
 		metawidget = new HtmlMetawidgetTag();
-		field.set( metawidget, pageContext );
+		metawidget.setPageContext( pageContext );
 		metawidget.configure();
 		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}

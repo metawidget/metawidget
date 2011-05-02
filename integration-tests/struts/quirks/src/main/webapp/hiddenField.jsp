@@ -9,7 +9,7 @@
 		
 		<html:form action="/saveHidden">
 
-			<m:metawidget property="hiddenFieldForm" config="metawidget-hiddenfield.xml"/>
+			<m:metawidget property="hiddenFieldForm" config="config/metawidget-hiddenfield.xml"/>
 
 		</html:form>
 		
