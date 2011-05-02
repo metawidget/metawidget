@@ -59,20 +59,18 @@ import org.metawidget.util.CollectionUtils;
  * interleave superclass and subclass properties. However, it is possible to use both
  * <code>UiComesAfter</code> and <code>JavassistPropertyStyle</code> together to get the best of
  * both worlds.
- *
+ * 
  * @author Richard Kennard, inspired by Tapestry 5's BeanEditForm
  */
 
-// We explored implementing this as an <code>Inspector</code> rather than a
-// <code>PropertyStyle</code>, but it came out worse. First, it is impractical to have a
-// <code>JavassistInspector</code> output <code>comes-after</code> attributes, because the
-// <code>Inspector</code> cannot know which properties will survive through to the
-// <code>ComesAfterInspectionResultProcessor</code>. Therefore every property has to be given a
-// <code>comes-after</code> attribute that has multiple names. Second, it requires the developer to
-// swap in both a <code>JavassistInspector</code> <em>and</em> some kind of
-// <code>SortByLineNumberInspectionResultProcessor</code>. Third, it is unclear how a
-// <code>JavassistInspector</code> should work with non-JavaBean property styles. On balance, it
-// just seemed easier to implement as a <code>PropertyStyle</code>.
+// We explored implementing this as an Inspector rather than a PropertyStyle, but it came out worse.
+// First, it is impractical to have a JavassistInspector output comes-after attributes, because the
+// Inspector cannot know which properties will survive through to the
+// ComesAfterInspectionResultProcessor. Therefore every property has to be given a comes-after
+// attribute that has multiple names. Second, it requires the developer to
+// swap in both a JavassistInspector and some kind of SortByLineNumberInspectionResultProcessor.
+// Third, it is unclear how a JavassistInspector should work with non-JavaBean property styles. On
+// balance, it just seemed easier to implement as a PropertyStyle.
 
 public class JavassistPropertyStyle
 	extends JavaBeanPropertyStyle {

@@ -38,6 +38,8 @@ public class BasePropertyStyleConfig {
 	// Private members
 	//
 
+	private boolean			mCacheProperties	= true;
+
 	private Pattern			mExcludeBaseType;
 
 	private boolean			mNullExcludeBaseType;
@@ -45,6 +47,25 @@ public class BasePropertyStyleConfig {
 	//
 	// Public methods
 	//
+
+	/**
+	 * Sets whether to cache property lookups for a class. In general, looking up properties is
+	 * expensive and its results are static, so caching can greatly improve performance. However it
+	 * may be useful to disable caching for debugging purposes or for dynamic classes.
+	 * <p>
+	 * True by default.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BasePropertyStyleConfig setCacheProperties( boolean cacheProperties ) {
+
+		mCacheProperties = cacheProperties;
+
+		// Fluent interface
+
+		return this;
+	}
 
 	/**
 	 * Sets the Pattern used to exclude base types when searching up the model inheritance chain.
@@ -85,6 +106,10 @@ public class BasePropertyStyleConfig {
 			return false;
 		}
 
+		if ( mCacheProperties != ( (BasePropertyStyleConfig) that ).mCacheProperties ) {
+			return false;
+		}
+
 		if ( !ObjectUtils.nullSafeEquals( mExcludeBaseType, ( (BasePropertyStyleConfig) that ).mExcludeBaseType ) ) {
 			return false;
 		}
@@ -100,6 +125,7 @@ public class BasePropertyStyleConfig {
 	public int hashCode() {
 
 		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mCacheProperties );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mExcludeBaseType );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeBaseType );
 
@@ -109,6 +135,11 @@ public class BasePropertyStyleConfig {
 	//
 	// Protected methods
 	//
+
+	protected boolean isCacheProperties() {
+
+		return mCacheProperties;
+	}
 
 	protected Pattern getExcludeBaseType() {
 

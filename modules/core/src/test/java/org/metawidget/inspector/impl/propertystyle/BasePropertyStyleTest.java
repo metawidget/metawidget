@@ -45,6 +45,27 @@ public class BasePropertyStyleTest
 		} );
 	}
 
+	public void testCacheProperties() {
+
+		// With caching
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		BasePropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
+
+		assertTrue( propertyStyle.mPropertiesCache.isEmpty() );
+		assertTrue( propertyStyle.getProperties( Date.class ) != null );
+		assertEquals( 1, propertyStyle.mPropertiesCache.size() );
+		assertTrue( propertyStyle.mPropertiesCache.get( Date.class ) != null );
+
+		// Without caching
+
+		config.setCacheProperties( false );
+		propertyStyle = new JavaBeanPropertyStyle( config );
+		assertTrue( propertyStyle.mPropertiesCache == null );
+		assertTrue( propertyStyle.getProperties( Date.class ) != null );
+		assertTrue( propertyStyle.mPropertiesCache == null );
+	}
+
 	public void testExcludedBaseType() {
 
 		// Default excludeBaseType

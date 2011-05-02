@@ -33,7 +33,6 @@ import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -58,10 +57,10 @@ public class GroovyPropertyStyle
 
 	public GroovyPropertyStyle() {
 
-		this( new BasePropertyStyleConfig() );
+		this( new GroovyPropertyStyleConfig() );
 	}
 
-	public GroovyPropertyStyle( BasePropertyStyleConfig config ) {
+	public GroovyPropertyStyle( GroovyPropertyStyleConfig config ) {
 
 		super( config );
 	}
@@ -81,10 +80,7 @@ public class GroovyPropertyStyle
 
 		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
 
-		// Iterate over all Groovy properties.
-		//
-		// Note: we do not cache this like we do JavaBean properties, because presumably
-		// these can change dynamically?
+		// Iterate over all Groovy properties
 
 		List<MetaProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 

@@ -53,15 +53,21 @@ public abstract class BasePropertyStyle
 	 * that they <code>.equal()</code> their originals.
 	 */
 
-	private final Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
+	/* package private */final Map<Class<?>, Map<String, Property>>	mPropertiesCache;
 
-	private Pattern										mExcludeBaseType;
+	private Pattern													mExcludeBaseType;
 
 	//
 	// Constructor
 	//
 
 	protected BasePropertyStyle( BasePropertyStyleConfig config ) {
+
+		if ( config.isCacheProperties() ) {
+			mPropertiesCache = CollectionUtils.newHashMap();
+		} else {
+			mPropertiesCache = null;
+		}
 
 		mExcludeBaseType = config.getExcludeBaseType();
 	}
@@ -72,39 +78,15 @@ public abstract class BasePropertyStyle
 
 	public Map<String, Property> getProperties( Class<?> clazz ) {
 
+		if ( mPropertiesCache == null ) {
+			return getUncachedProperties( clazz );
+		}
+
 		synchronized ( mPropertiesCache ) {
 			Map<String, Property> properties = getCachedProperties( clazz );
 
 			if ( properties == null ) {
-				// If the class is not a proxy...
-
-				if ( !isProxy( clazz ) ) {
-					// ...inspect it normally
-
-					properties = inspectProperties( clazz );
-				} else {
-					// ...otherwise, if the superclass is not just java.lang.Object...
-
-					Class<?> superclass = clazz.getSuperclass();
-
-					if ( !superclass.equals( Object.class ) ) {
-						// ...inspect the superclass
-
-						properties = getCachedProperties( superclass );
-
-						if ( properties == null ) {
-							properties = inspectProperties( superclass );
-							cacheProperties( superclass, properties );
-						}
-					} else {
-						// ...otherwise, inspect each interface and merge
-
-						properties = inspectProperties( clazz.getInterfaces() );
-					}
-				}
-
-				// Cache the result
-
+				properties = getUncachedProperties( clazz );
 				cacheProperties( clazz, properties );
 			}
 
@@ -121,6 +103,10 @@ public abstract class BasePropertyStyle
 	 */
 
 	public void clearCache() {
+
+		if ( mPropertiesCache == null ) {
+			return;
+		}
 
 		synchronized ( mPropertiesCache ) {
 			mPropertiesCache.clear();
@@ -287,5 +273,37 @@ public abstract class BasePropertyStyle
 	protected void cacheProperties( Class<?> clazz, Map<String, Property> properties ) {
 
 		mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
+	}
+
+	protected Map<String, Property> getUncachedProperties( Class<?> clazz ) {
+
+		// If the class is not a proxy...
+
+		if ( !isProxy( clazz ) ) {
+			// ...inspect it normally
+
+			return inspectProperties( clazz );
+		}
+
+		// ...otherwise, if the superclass is not just java.lang.Object...
+
+		Class<?> superclass = clazz.getSuperclass();
+
+		if ( !superclass.equals( Object.class ) ) {
+			// ...inspect the superclass
+
+			Map<String, Property> properties = getCachedProperties( superclass );
+
+			if ( properties == null ) {
+				properties = inspectProperties( superclass );
+				cacheProperties( superclass, properties );
+			}
+
+			return properties;
+		}
+
+		// ...otherwise, inspect each interface and merge
+
+		return inspectProperties( clazz.getInterfaces() );
 	}
 }
