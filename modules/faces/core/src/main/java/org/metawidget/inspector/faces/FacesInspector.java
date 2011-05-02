@@ -39,6 +39,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
+// REFACTOR: rename this to FacesAnnotationInspector
+
 public class FacesInspector
 	extends BaseObjectInspector {
 

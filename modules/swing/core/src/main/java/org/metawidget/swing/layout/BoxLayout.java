@@ -41,16 +41,19 @@ public class BoxLayout
 	// Public methods
 	//
 
+	@Override
 	public void onStartBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		container.setLayout( new javax.swing.BoxLayout( container, javax.swing.BoxLayout.PAGE_AXIS ) );
 	}
 
+	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -64,11 +67,13 @@ public class BoxLayout
 		container.add( component );
 	}
 
+	@Override
 	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
+	@Override
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing

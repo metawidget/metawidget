@@ -43,7 +43,15 @@
 
 	<build>
 		<plugins>
-			<!-- Upgrade annotation-based classes to Java 5 -->
+			<!-- FacesInspector needs 1.5 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>1.5</target>
+				</configuration>
+			</plugin>		
+			<!-- Downgrade other classes to Java 1.4 -->
+			<!-- (don't use a second maven-compiler-plugin for this, as m2eclipse gets confused) -->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
@@ -55,38 +63,16 @@
 						<configuration>
 							<target>
 								<delete>
-									<fileset dir="target/classes/org/metawidget/inspector">
-										<include name="**/FacesAnnotationInspector.class" />
-										<include name="**/UiFaces*.class" />
+									<fileset dir="target/classes">
+										<exclude name="**/*.xml"/>
+										<exclude name="**/FacesInspector.java" />
+										<exclude name="**/UiFaces*.class" />
 									</fileset>
 								</delete>
+								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false">
+									<classpath refid="maven.dependency.classpath" />
+								</javac>
 							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<target>jsr14</target>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<target>1.5</target>
-							<includes>
-								<include>org/metawidget/inspector/**</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-testCompile</id>
-						<configuration>
-							<target>1.5</target>
 						</configuration>
 					</execution>
 				</executions>

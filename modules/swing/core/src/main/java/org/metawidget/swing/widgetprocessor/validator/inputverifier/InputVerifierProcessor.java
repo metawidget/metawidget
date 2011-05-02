@@ -44,6 +44,7 @@ public abstract class InputVerifierProcessor
 	// Public methods
 	//
 
+	@Override
 	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		String path = metawidget.getPath();

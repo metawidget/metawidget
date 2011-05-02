@@ -474,6 +474,7 @@ public class SwingMetawidgetTest
 		// Public methods
 		//
 
+		@Override
 		@SuppressWarnings( "serial" )
 		public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget ) {
 
@@ -485,6 +486,7 @@ public class SwingMetawidgetTest
 
 			button.setAction( new AbstractAction( button.getText() ) {
 
+				@Override
 				public void actionPerformed( ActionEvent e ) {
 
 					metawidget.setValue( "FooActionBindingProcessor fired", "name" );
