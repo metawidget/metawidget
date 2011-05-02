@@ -30,6 +30,7 @@
 					<execution>
 						<id>default-testCompile</id>
 						<configuration>
+							<source>1.5</source>
 							<target>1.5</target>
 						</configuration>
 					</execution>
