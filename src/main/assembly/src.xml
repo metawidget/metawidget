@@ -25,4 +25,10 @@
 			</excludes>
 		</fileSet>
 	</fileSets>
+	<files>
+		<file>
+			<source>/src/main/resources/for-bin/lgpl.txt</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+	</files>
 </assembly>

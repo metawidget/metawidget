@@ -42,10 +42,6 @@
 			<outputDirectory>/examples</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/resources/for-bin/lgpl.txt</directory>
-			<outputDirectory>/</outputDirectory>
-		</fileSet>
-		<fileSet>
 			<directory>/src/main/resources/for-src</directory>
 			<outputDirectory>/src</outputDirectory>
 		</fileSet>
@@ -122,6 +118,10 @@
 		<file>
 			<source>/examples/swt/addressbook/target/addressbook-swt.jar</source>
 			<outputDirectory>/examples/swt</outputDirectory>
+		</file>
+		<file>
+			<source>/src/main/resources/for-bin/lgpl.txt</source>
+			<outputDirectory>/</outputDirectory>
 		</file>
 		<!-- Source code -->
 		<file>
