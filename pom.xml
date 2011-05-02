@@ -9,7 +9,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- TODO: we test against... -->
 		<tomcat.version>6.0.29</tomcat.version>
 		<mojarra1.version>1.2_15</mojarra1.version>
 		<myfaces11.version>1.1.6</myfaces11.version>
@@ -73,6 +72,9 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<maven.compile.debug>true</maven.compile.debug>
+				<maven.compile.debuglevel>lines,vars,source</maven.compile.debuglevel>
+				<maven.compile.optimize>true</maven.compile.optimize>
 				<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
 			</properties>
 		</profile>
@@ -88,8 +90,8 @@
 			<properties>
 				<!-- Putting these under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
 				<maven.compile.debug>false</maven.compile.debug>
-				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
-				<maven.compiler.optimize>true</maven.compiler.optimize>
+				<maven.compile.debuglevel>none</maven.compile.debuglevel>
+				<maven.compile.optimize>true</maven.compile.optimize>
 				<compile.addMavenDescriptor>false</compile.addMavenDescriptor>
 			</properties>
 		</profile>
