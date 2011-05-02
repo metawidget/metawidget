@@ -47,6 +47,13 @@
         <url-pattern>/block/*</url-pattern>
     </servlet-mapping>    
 
+	<!-- Group multiple metawidget*.xml config files together -->
+	
+	<context-param>
+		<param-name>org.metawidget.faces.component.CONFIG_FILE</param-name>
+		<param-value>config/metawidget.xml</param-value>
+	</context-param>	
+	
 	<!-- Welcome files (pointing directly to an IFACE page only works on JSP 2+) -->
 
 	<welcome-file-list>

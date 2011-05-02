@@ -41,7 +41,7 @@
 	                <f:facet name="body">
 	                   	<m:metawidget value="#{penguin.current}">
 	                   		<f:facet name="footer">
-	                   			<m:metawidget value="#{penguin}" config="metawidget-action.xml"/>
+	                   			<m:metawidget value="#{penguin}" config="config/metawidget-action.xml"/>
 	                       	</f:facet>
 						</m:metawidget>
 	                </f:facet>                
