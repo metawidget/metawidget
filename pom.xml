@@ -527,6 +527,12 @@
 				<version>1.8.2</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>bcel</groupId>
+				<artifactId>bcel</artifactId>
+				<version>5.1</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

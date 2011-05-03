@@ -67,7 +67,7 @@
 									<fileset dir="target/classes">
 										<exclude name="**/*.tld"/>									
 										<exclude name="**/*.xml"/>
-										<exclude name="**/JspAnnotationInspector.java" />
+										<exclude name="**/JspAnnotationInspector.class" />
 										<exclude name="**/UiJsp*.class" />
 									</fileset>
 								</delete>

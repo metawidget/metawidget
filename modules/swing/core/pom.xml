@@ -66,7 +66,8 @@
 									<fileset dir="target/classes">
 										<exclude name="**/*.xml" />
 										<exclude name="**/*.gif" />
-										<exclude name="**/GroupLayout.java" />
+										<exclude name="**/GroupLayout.class" />
+										<exclude name="**/GroupLayout$State.class" />
 									</fileset>
 								</delete>
 								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compile.debuglevel}, optimize=${maven.compile.optimize}"/>

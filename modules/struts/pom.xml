@@ -61,7 +61,7 @@
 									<fileset dir="target/classes">
 										<exclude name="**/*.tld"/>									
 										<exclude name="**/*.xml"/>
-										<exclude name="**/StrutsAnnotationInspector.java" />
+										<exclude name="**/StrutsAnnotationInspector.class" />
 										<exclude name="**/UiStruts*.class" />
 									</fileset>
 								</delete>

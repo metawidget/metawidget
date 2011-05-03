@@ -170,9 +170,9 @@ public class XmlSchemaGeneratorTask
 
 				// ...determine the package name...
 
-				String qualifiedClassName = name.replace( '/', '.' ).substring( 0, name.length() - CLASS_SUFFIX.length() );
+				String qualifiedClassName = name.replace( StringUtils.SEPARATOR_FORWARD_SLASH, StringUtils.SEPARATOR_DOT ).substring( 0, name.length() - CLASS_SUFFIX.length() );
 
-				int lastIndexOf = qualifiedClassName.lastIndexOf( '.' );
+				int lastIndexOf = qualifiedClassName.lastIndexOf( StringUtils.SEPARATOR_DOT );
 
 				if ( lastIndexOf == -1 ) {
 					continue;

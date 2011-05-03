@@ -72,10 +72,31 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-beanutils</groupId>			
+			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.swt.win32.win32</groupId>
+			<artifactId>x86</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>bcel</groupId>
+			<artifactId>bcel</artifactId>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- JdkVersionTest needs 1.6 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
