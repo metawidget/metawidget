@@ -34,6 +34,7 @@ import java.util.TimeZone;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuItem;
@@ -473,6 +474,17 @@ public class SwingAddressBookTest
 		} catch ( Exception e ) {
 			assertEquals( "No such method getBaz (or boolean isBaz) on class org.metawidget.example.swing.addressbook.SwingAddressBookTest$Foo", e.getMessage() );
 		}
+	}
+
+	public void testCreateContactDialog() {
+
+		AddressBook addressBook = new AddressBook( new JFrame() );
+
+		PersonalContact personalContact = new PersonalContact();
+		assertTrue( personalContact != addressBook.createContactDialog( personalContact ).mContactMetawidget.getToInspect() );
+
+		BusinessContact businessContact = new BusinessContact();
+		assertTrue( businessContact != addressBook.createContactDialog( businessContact ).mContactMetawidget.getToInspect() );
 	}
 
 	//

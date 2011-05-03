@@ -29,6 +29,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.SimpleClassUtils;
 
@@ -92,6 +93,30 @@ public abstract class Contact
 		mSurname = surname;
 		mAddress = new Address();
 		mAddress.setOwner( this );
+	}
+
+	protected Contact( Contact contact ) {
+
+		this( contact.mTitle, contact.mFirstname, contact.mSurname );
+
+		mId = contact.mId;
+		mGender = contact.mGender;
+		mAddress.setStreet( contact.mAddress.getStreet() );
+		mAddress.setCity( contact.mAddress.getCity() );
+		mAddress.setState( contact.mAddress.getState() );
+		mAddress.setPostcode( contact.mAddress.getPostcode() );
+
+		if ( contact.mCommunications != null ) {
+
+			mCommunications = CollectionUtils.newHashSet();
+
+			for( Communication communication : contact.mCommunications ) {
+
+				mCommunications.add( new Communication( communication ) );
+			}
+		}
+
+		mNotes = contact.mNotes;
 	}
 
 	//

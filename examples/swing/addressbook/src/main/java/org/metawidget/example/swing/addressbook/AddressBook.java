@@ -274,10 +274,21 @@ public class AddressBook
 
 				// ...and display it
 
-				new ContactDialog( AddressBook.this, contact ).setVisible( true );
+				createContactDialog( contact ).setVisible( true );
 			}
 		} );
 
 		return new JScrollPane( table );
+	}
+
+	/* package private */ContactDialog createContactDialog( Contact contact ) {
+
+		// Defensive copy (otherwise unsaved changes in the dialog appear in the summary list)
+
+		if ( contact instanceof PersonalContact ) {
+			return new ContactDialog( AddressBook.this, new PersonalContact( (PersonalContact) contact ) );
+		}
+
+		return new ContactDialog( AddressBook.this, new BusinessContact( (BusinessContact) contact ) );
 	}
 }

@@ -53,6 +53,13 @@ public class PersonalContact
 		super( title, firstname, surname );
 	}
 
+	public PersonalContact( PersonalContact personalContact ) {
+
+		super( personalContact );
+
+		mDateOfBirth = personalContact.mDateOfBirth;
+	}
+
 	//
 	// Public methods
 	//
@@ -63,8 +70,8 @@ public class PersonalContact
 		return mDateOfBirth;
 	}
 
-	public void setDateOfBirth( Date ofBirth ) {
+	public void setDateOfBirth( Date dateOfBirth ) {
 
-		mDateOfBirth = ofBirth;
+		mDateOfBirth = dateOfBirth;
 	}
 }

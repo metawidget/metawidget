@@ -63,6 +63,13 @@ public class Communication
 		mValue = value;
 	}
 
+	public Communication( Communication communication ) {
+
+		this( communication.mType, communication.mValue );
+
+		mId = communication.mId;
+	}
+
 	//
 	// Public methods
 	//

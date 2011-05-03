@@ -143,7 +143,9 @@ public class ContactsController {
 				}
 			}
 
-			allByExample.add( contact );
+			// Defensive copy
+
+			allByExample.add( load( contact.getId() ));
 		}
 
 		Collections.sort( allByExample );
@@ -152,9 +154,15 @@ public class ContactsController {
 
 	public Contact load( long id ) {
 
-		// TODO: needs some defensive copying
-		
-		return mAll.get( id );
+		Contact contact = mAll.get( id );
+
+		// Defensive copy
+
+		if ( contact instanceof PersonalContact ) {
+			return new PersonalContact( (PersonalContact) contact );
+		}
+
+		return new BusinessContact( (BusinessContact) contact );
 	}
 
 	public void save( Contact contact ) {
@@ -177,24 +185,34 @@ public class ContactsController {
 			throw new RuntimeException( "Surname is required" );
 		}
 
+		// Defensive copy
+
+		Contact contactToSave;
+
+		if ( contact instanceof PersonalContact ) {
+			contactToSave = new PersonalContact( (PersonalContact) contact );
+		} else {
+			contactToSave = new BusinessContact( (BusinessContact) contact );
+		}
+
 		// Assign automatic Id
 
-		long id = contact.getId();
+		long id = contactToSave.getId();
 
 		if ( id == 0 ) {
 			id = incrementNextContactId();
-			contact.setId( id );
+			contactToSave.setId( id );
 		} else {
 			if ( !mAll.containsKey( id ) ) {
 				throw new RuntimeException( "Contact #" + id + " not found" );
 			}
 		}
 
-		mAll.put( id, contact );
+		mAll.put( id, contactToSave );
 
 		// Simulate cascading save
 
-		Set<Communication> communications = contact.getCommunications();
+		Set<Communication> communications = contactToSave.getCommunications();
 
 		if ( communications != null ) {
 			// Remove those that need saving...

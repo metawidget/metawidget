@@ -58,6 +58,14 @@ public class BusinessContact
 		super( title, firstname, surname );
 	}
 
+	public BusinessContact( BusinessContact businessContact ) {
+
+		super( businessContact );
+
+		mCompany = businessContact.mCompany;
+		mNumberOfStaff = businessContact.mNumberOfStaff;
+	}
+
 	//
 	// Public methods
 	//
