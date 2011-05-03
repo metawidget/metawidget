@@ -29,7 +29,6 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.SimpleClassUtils;
 
@@ -108,7 +107,9 @@ public abstract class Contact
 
 		if ( contact.mCommunications != null ) {
 
-			mCommunications = CollectionUtils.newHashSet();
+			// Don't use CollectionUtils.newHashSet(), GWT can't compile it
+
+			mCommunications = new HashSet<Communication>();
 
 			for( Communication communication : contact.mCommunications ) {
 

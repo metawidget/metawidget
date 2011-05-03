@@ -38,6 +38,8 @@ public class AllWidgetsActivityTest
 	
 	public void testActivity() {
 
+		// TODO: test Android AllWidgets
+		
 		AllWidgetsActivity activity = getActivity();
 		assertNotNull( activity );
 	}
