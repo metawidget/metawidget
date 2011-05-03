@@ -111,6 +111,15 @@ public class GridLayout
 
 		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( mNumberOfColumns * LABEL_AND_CONTROL, false );
 		composite.setLayout( layoutManager );
+
+		// Initially (and after a 're-layout', say when they click the 'Edit' button and we
+		// setReadOnly( false )) none of the manually added controls should have any layout
+		// information. getTotalHorizontalSpan and getLastNonExcludedControl rely on this.
+
+		for ( Control control : composite.getChildren() ) {
+
+			control.setLayoutData( null );
+		}
 	}
 
 	public void layoutWidget( Control control, String elementName, Map<String, String> attributes, Composite composite, SwtMetawidget metawidget ) {
@@ -124,17 +133,18 @@ public class GridLayout
 			return;
 		}
 
-		// Special support for large controls
+		// Special support for large controls (make the previous control span all and kick us to the
+		// next row)
 
 		boolean spanAllColumns = willFillHorizontally( control, attributes );
 
 		if ( spanAllColumns ) {
-			int numberOfChildren = countNonExcludedChildren( composite );
-			int numberColumnsRemainingOnRow = numberOfChildren % ( mNumberOfColumns * LABEL_AND_CONTROL );
+			int totalHorizontalSpan = getTotalHorizontalSpan( composite );
+			int numberColumnsRemainingOnRow = totalHorizontalSpan % ( mNumberOfColumns * LABEL_AND_CONTROL );
 
-			if ( numberColumnsRemainingOnRow != 0 && numberOfChildren > 1 ) {
-				Control lastControl = composite.getChildren()[numberOfChildren - 2];
-				( (GridData) lastControl.getLayoutData() ).horizontalSpan = numberColumnsRemainingOnRow;
+			if ( numberColumnsRemainingOnRow != 0 ) {
+				Control lastControl = getLastNonExcludedControl( composite );
+				( (GridData) lastControl.getLayoutData() ).horizontalSpan = numberColumnsRemainingOnRow + 1;
 			}
 		}
 
@@ -277,23 +287,67 @@ public class GridLayout
 	// Private methods
 	//
 
-	private int countNonExcludedChildren( Composite composite ) {
+	/**
+	 * @return the total GridData.horizontalSpan of all controls, except excluded controls and the
+	 *         control we are about lay out.
+	 */
 
-		int nonExcludedChildren = 0;
+	private int getTotalHorizontalSpan( Composite composite ) {
 
-		for( Control control : composite.getChildren() ) {
+		Control[] children = composite.getChildren();
 
-			// (manually added components will have no GridData)
+		int totalHorizontalSpan = 0;
 
-			GridData gridData = (GridData) control.getLayoutData();
+		for ( int loop = 0, length = children.length - 1; loop < length; loop++ ) {
 
-			if ( gridData != null && gridData.exclude ) {
+			Control child = children[loop];
+			GridData gridData = (GridData) child.getLayoutData();
+
+			// Manually added controls, that have not been laid out yet, will have no GridData
+
+			if ( gridData == null ) {
 				continue;
 			}
 
-			nonExcludedChildren++;
+			// Stubs will be excluded
+
+			if ( gridData.exclude ) {
+				continue;
+			}
+
+			totalHorizontalSpan += gridData.horizontalSpan;
 		}
 
-		return nonExcludedChildren;
+		return totalHorizontalSpan;
+	}
+
+	/**
+	 * @return the last control in the composite, except excluded controls and the control we are
+	 *         about lay out.
+	 */
+
+	private Control getLastNonExcludedControl( Composite composite ) {
+
+		Control[] children = composite.getChildren();
+
+		for ( int loop = children.length - 2; loop > 0; loop-- ) {
+
+			Control child = children[loop];
+			GridData gridData = (GridData) child.getLayoutData();
+
+			// Manually added controls, that have not been laid out yet, will have no GridData
+
+			if ( gridData == null ) {
+				continue;
+			}
+
+			// Stubs will be excluded
+
+			if ( !gridData.exclude ) {
+				return child;
+			}
+		}
+
+		return null;
 	}
 }

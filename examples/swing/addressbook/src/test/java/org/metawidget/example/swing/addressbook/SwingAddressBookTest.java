@@ -183,6 +183,9 @@ public class SwingAddressBookTest
 
 		assertTrue( Gender.MALE == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
 		metawidgetContact.setValue( "Sapien", "surname" );
+		assertTrue( metawidgetContact.getComponent( 10 ) instanceof JPanel );
+		assertEquals( "Contact Details", ((JLabel) ((JPanel) metawidgetContact.getComponent( 10 )).getComponent( 0 )).getText() );
+		assertEquals( java.awt.GridBagConstraints.REMAINDER, ( (GridBagLayout) metawidgetContact.getLayout() ).getConstraints( metawidgetContact.getComponent( 10 ) ).gridwidth );
 		assertTrue( metawidgetContact.getComponentCount() == 19 );
 
 		// Check editing a communication

@@ -16,16 +16,13 @@
 
 package org.metawidget.swt;
 
-import junit.framework.TestCase;
-
 import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Richard Kennard
  */
 
-public class SwtMetawidgetTests
-	extends TestCase {
+public class SwtMetawidgetTests {
 
 	//
 	// Public statics

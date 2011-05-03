@@ -16,6 +16,8 @@
 
 package org.metawidget.swt.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -28,6 +30,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -134,7 +137,7 @@ public class GridLayoutTest
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( 3 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
+		assertEquals( 3, ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
 
 		// TabFolder
 
@@ -276,7 +279,79 @@ public class GridLayoutTest
 
 	public void testNonExcludedChildren() {
 
-		// TODO: unit test this!
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( SwtMetawidgetTests.TEST_DISPLAY, SWT.NONE ), SWT.NONE );
+		Composite composite = new Composite( metawidget, SWT.NONE );
+
+		GridLayout layout = new GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ) );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// First some stubs...
+
+		Control stub1 = new Stub( composite, SWT.BORDER );
+		layout.layoutWidget( stub1, PROPERTY, attributes, composite, metawidget );
+		assertTrue( ( (GridData) stub1.getLayoutData() ).exclude );
+
+		Control stub2 = new Stub( composite, SWT.BORDER );
+		layout.layoutWidget( stub2, PROPERTY, attributes, composite, metawidget );
+		assertTrue( ( (GridData) stub2.getLayoutData() ).exclude );
+
+		Control stub3 = new Stub( composite, SWT.BORDER );
+		layout.layoutWidget( stub3, PROPERTY, attributes, composite, metawidget );
+		assertTrue( ( (GridData) stub3.getLayoutData() ).exclude );
+
+		// ...then a wide control...
+
+		attributes.put( WIDE, TRUE );
+		Control wideText1 = new Text( composite, SWT.BORDER );
+		layout.layoutWidget( wideText1, PROPERTY, attributes, composite, metawidget );
+		assertTrue( !( (GridData) wideText1.getLayoutData() ).exclude );
+		assertEquals( 4, ( (GridData) wideText1.getLayoutData() ).horizontalSpan );
+
+		// ...then another wide control
+
+		Control wideText2 = new Text( composite, SWT.BORDER );
+		layout.layoutWidget( wideText2, PROPERTY, attributes, composite, metawidget );
+
+		assertTrue( !( (GridData) wideText2.getLayoutData() ).exclude );
+		assertEquals( 4, ( (GridData) wideText2.getLayoutData() ).horizontalSpan );
+
+		// ...should not have reset the first wide control back to 1
+
+		assertEquals( 4, ( (GridData) wideText1.getLayoutData() ).horizontalSpan );
+
+		// Then another stub...
+
+		Control stub4 = new Stub( composite, SWT.BORDER );
+		layout.layoutWidget( stub4, PROPERTY, attributes, composite, metawidget );
+		assertTrue( ( (GridData) stub4.getLayoutData() ).exclude );
+
+		// ...and another wide control...
+
+		Control wideText3 = new Text( composite, SWT.BORDER );
+		layout.layoutWidget( wideText3, PROPERTY, attributes, composite, metawidget );
+
+		// ...should not have touched the horizontalSpan of the stubs
+
+		assertTrue( !( (GridData) wideText3.getLayoutData() ).exclude );
+		assertEquals( 4, ( (GridData) wideText1.getLayoutData() ).horizontalSpan );
+		assertEquals( 4, ( (GridData) wideText2.getLayoutData() ).horizontalSpan );
+		assertEquals( 4, ( (GridData) wideText3.getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) stub1.getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) stub2.getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) stub3.getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) stub4.getLayoutData() ).horizontalSpan );
+
+		// startContainerLayout should clear all GridData again
+
+		layout.startContainerLayout( composite, metawidget );
+		assertTrue( wideText1.getLayoutData() == null );
+		assertTrue( wideText2.getLayoutData() == null );
+		assertTrue( wideText3.getLayoutData() == null );
+		assertTrue( stub1.getLayoutData() == null );
+		assertTrue( stub2.getLayoutData() == null );
+		assertTrue( stub3.getLayoutData() == null );
+		assertTrue( stub4.getLayoutData() == null );
+
 	}
 
 	public void testConfig() {

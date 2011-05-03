@@ -187,6 +187,9 @@ public class SwtAddressBookTest
 
 		assertEquals( "MALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		metawidgetContact.setValue( "Sapien", "surname" );
+		assertTrue( metawidgetContact.getChildren()[13] instanceof Composite );
+		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[13]).getChildren()[0]).getText() );
+		assertEquals( 2, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertTrue( metawidgetContact.getChildren().length == 22 );
 
 		// Check editing a communication
