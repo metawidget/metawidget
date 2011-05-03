@@ -72,6 +72,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>() {
 
+			@Override
 			public String processInspectionResult( String inspectionResult, Object metawidget ) {
 
 				called.add( "InspectionResultProcessor #1" );
@@ -80,6 +81,7 @@ public class MetawidgetPipelineTest
 		} );
 		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>() {
 
+			@Override
 			public String processInspectionResult( String inspectionResult, Object metawidget ) {
 
 				called.add( "InspectionResultProcessor #2" );
@@ -125,6 +127,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>() {
 
+			@Override
 			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget ) {
 
 				// Return null if no type (this will kick us into buildCompoundWidget)
@@ -135,6 +138,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>() {
 
+			@Override
 			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget ) {
 
 				called.add( "WidgetProcessor #1" );
@@ -144,6 +148,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>() {
 
+			@Override
 			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget ) {
 
 				called.add( "WidgetProcessor #2" );
@@ -206,6 +211,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>() {
 
+			@Override
 			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget ) {
 
 				// Will return null for the top-level (because no NAME), which will trigger

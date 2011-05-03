@@ -147,4 +147,15 @@ public class ContactsControllerTest
 		contact.setFirstname( "Jane" );
 		assertEquals( "Bob", contactsController.load( contact.getId() ).getFirstname() );
 	}
+
+	public void testIdAssignment()
+		throws Exception {
+
+		ContactsController contactsController = new ContactsController();
+		Contact contact = new PersonalContact( "Mr", "Jason", "Montgomery" );
+
+		assertEquals( 0, contact.getId() );
+		contactsController.save( contact );
+		assertEquals( 7, contact.getId() );
+	}
 }

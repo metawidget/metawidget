@@ -161,6 +161,7 @@ public class JavaBeanPropertyStyleTest
 
 		properties = propertyStyle.getProperties( new InterfaceFoo() {
 
+			@Override
 			public Object getInterfaceBar() {
 
 				return null;
@@ -429,6 +430,7 @@ public class JavaBeanPropertyStyleTest
 	class Proxied_$$_javassist_
 		implements InterfaceFoo {
 
+		@Override
 		public Object getInterfaceBar() {
 
 			return null;

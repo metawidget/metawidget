@@ -145,7 +145,7 @@ public class ContactsController {
 
 			// Defensive copy
 
-			allByExample.add( load( contact.getId() ));
+			allByExample.add( load( contact.getId() ) );
 		}
 
 		Collections.sort( allByExample );
@@ -185,6 +185,21 @@ public class ContactsController {
 			throw new RuntimeException( "Surname is required" );
 		}
 
+		// Assign automatic Id
+		//
+		// Note: this is *not* done on the defensive copy, in order to mimic JPA
+
+		long id = contact.getId();
+
+		if ( id == 0 ) {
+			id = incrementNextContactId();
+			contact.setId( id );
+		} else {
+			if ( !mAll.containsKey( id ) ) {
+				throw new RuntimeException( "Contact #" + id + " not found" );
+			}
+		}
+
 		// Defensive copy
 
 		Contact contactToSave;
@@ -193,19 +208,6 @@ public class ContactsController {
 			contactToSave = new PersonalContact( (PersonalContact) contact );
 		} else {
 			contactToSave = new BusinessContact( (BusinessContact) contact );
-		}
-
-		// Assign automatic Id
-
-		long id = contactToSave.getId();
-
-		if ( id == 0 ) {
-			id = incrementNextContactId();
-			contactToSave.setId( id );
-		} else {
-			if ( !mAll.containsKey( id ) ) {
-				throw new RuntimeException( "Contact #" + id + " not found" );
-			}
 		}
 
 		mAll.put( id, contactToSave );
