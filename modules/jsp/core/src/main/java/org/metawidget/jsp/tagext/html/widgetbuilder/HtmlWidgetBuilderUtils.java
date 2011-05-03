@@ -144,8 +144,10 @@ public final class HtmlWidgetBuilderUtils {
 		try {
 			PageContext context = metawidget.getPageContext();
 			return context.getExpressionEvaluator().evaluate( expression, Object.class, context.getVariableResolver(), null );
-		} catch ( Exception e ) {
+		} catch ( Throwable t ) {
 			// EL should fail gracefully
+			//
+			// Note: this *must* catch Throwable, not Exception, so that we catch NoSuchMethodError
 			//
 			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
 
