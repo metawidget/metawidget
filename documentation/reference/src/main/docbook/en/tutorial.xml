@@ -2355,7 +2355,7 @@ metawidget.setToInspect( animal )</programlisting>
 					<listitem>
 						<para>
 							When the project is imported, right click the <filename>pom.xml</filename> and choose <parameter>Maven &gt; Install</parameter>
-							<emphasis>(this is important as it creates the <filename>war</filename> folder GWT Hosted Mode expects)</emphasis>
+							(this is important as it creates the <filename>war</filename> folder GWT Hosted Mode expects)
 						</para>
 					</listitem>
 					<listitem>
@@ -2372,7 +2372,7 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							Choose <filename>hosted.jsp</filename>
+							Choose <filename>hosted.jsp</filename> (this is a simplified home page that doesn't invoke custom JSTL tags)
 						</para>
 					</listitem>
 					<listitem>
