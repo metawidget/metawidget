@@ -674,6 +674,49 @@
 				<!-- Testing -->
 
 				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>7.4.0.v20110414</version>
+					<configuration>
+						<daemon>true</daemon>
+						<webApp>target/${project.build.finalName}.war</webApp>
+						<webAppConfig>
+							<contextPath>/${project.artifactId}</contextPath>
+						</webAppConfig>
+						<connectors>
+							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+								<port>8081</port>
+								<maxIdleTime>60000</maxIdleTime>
+							</connector>
+						</connectors>
+						<stopPort>8801</stopPort>
+						<stopKey>stop</stopKey>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.tomcat</groupId>
+							<artifactId>catalina</artifactId>
+							<version>${tomcat.version}</version>
+						</dependency>					
+					</dependencies>
+					<!-- TODO: <executions>
+						<execution>
+							<id>start-jetty</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>run-war</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>stop-jetty</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>stop</goal>
+							</goals>
+						</execution>
+					</executions> -->
+				</plugin>
+				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>tomcat-maven-plugin</artifactId>
 					<version>1.1</version>
@@ -746,7 +789,7 @@
 					</dependencies>
 					<configuration>
 						<fork>true</fork>
-						<port>8081</port>
+						<port>8082</port>
 						<warFile>target/${project.build.finalName}.war</warFile>
 					</configuration>
 					<executions>
@@ -766,52 +809,14 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- We test against a mix of Tomcat *and* Jetty. Unfortunately we don't seem to be able to test both   -->
-				<!-- at the same time, because something initializes javaURLContextFactory (at the VM level?) to either -->
-				<!-- org.apache.naming.java.javaURLContextFactory or org.eclipse.jetty.jndi.java.javaURLContextFactory  -->
-				<plugin>
-					<groupId>org.mortbay.jetty</groupId>
-					<artifactId>jetty-maven-plugin</artifactId>
-					<version>7.4.0.v20110414</version>
-					<configuration>
-						<daemon>true</daemon>
-						<webApp>target/${project.build.finalName}.war</webApp>
-						<webAppConfig>
-							<contextPath>/${project.artifactId}</contextPath>
-						</webAppConfig>
-						<connectors>
-							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-								<port>8081</port>
-								<maxIdleTime>60000</maxIdleTime>
-							</connector>
-						</connectors>
-						<stopPort>8801</stopPort>
-						<stopKey>stop</stopKey>
-					</configuration>
-					<executions>
-						<execution>
-							<id>start-jetty</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>run-war</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>stop-jetty</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>stop</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>webtest-maven-plugin</artifactId>
 					<!-- 0.7.0-SNAPSHOT and above do not run penguincolony-faces -->
 					<version>0.6.9-SNAPSHOT</version>
 					<executions>
-						<execution>
+						<!-- <execution>
+							<id>jetty-integration-test</id>
 							<phase>integration-test</phase>
 							<goals>
 								<goal>test</goal>
@@ -819,6 +824,19 @@
 							<configuration>
 								<host>localhost</host>
 								<port>8081</port>
+								<basepath>${project.artifactId}</basepath>
+								<resultpath>target/webtest-results</resultpath>
+							</configuration>
+						</execution> -->
+						<execution>
+							<id>tomcat-integration-test</id>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>test</goal>
+							</goals>
+							<configuration>
+								<host>localhost</host>
+								<port>8082</port>
 								<basepath>${project.artifactId}</basepath>
 								<resultpath>target/webtest-results</resultpath>
 							</configuration>
