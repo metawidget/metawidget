@@ -91,11 +91,12 @@ public class AjaxProcessor
 			AjaxBehavior ajaxBehaviour = new AjaxBehavior();
 			clientBehaviorHolder.addClientBehavior( ajaxEvent, ajaxBehaviour );
 
-			// Set reRender to the parent Metawidget level. This is not perfect, as there may be
-			// cases where we want the AJAX event to, say, update a different Metawidget - but it
-			// should work in the majority of cases. It is very problematic to ask the developer to
-			// specify the 'reRender' id, because in most cases that id will be dynamically
-			// generated (may even be randomly generated)
+			// Set render to the parent Metawidget level. This is not perfect, as there may be cases
+			// where we want the AJAX event to, say, update a different Metawidget - but it should
+			// work in the majority of cases. It is very problematic to ask the developer to specify
+			// the 'render' id, because in most cases that id will be dynamically generated (may
+			// even be randomly generated). They can always use a custom WidgetProcessor in that
+			// case
 
 			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getId() ) );
 			ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );

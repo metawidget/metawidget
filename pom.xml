@@ -766,13 +766,25 @@
 						</execution>
 					</executions>
 				</plugin>
+				<!-- We test against a mix of Tomcat *and* Jetty. Unfortunately we don't seem to be able to test both   -->
+				<!-- at the same time, because something initializes javaURLContextFactory (at the VM level?) to either -->
+				<!-- org.apache.naming.java.javaURLContextFactory or org.eclipse.jetty.jndi.java.javaURLContextFactory  -->
 				<plugin>
 					<groupId>org.mortbay.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>7.4.0.RC0</version>
+					<version>7.4.0.v20110414</version>
 					<configuration>
 						<daemon>true</daemon>
 						<webApp>target/${project.build.finalName}.war</webApp>
+						<webAppConfig>
+							<contextPath>/${project.artifactId}</contextPath>
+						</webAppConfig>
+						<connectors>
+							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+								<port>8081</port>
+								<maxIdleTime>60000</maxIdleTime>
+							</connector>
+						</connectors>
 						<stopPort>8801</stopPort>
 						<stopKey>stop</stopKey>
 					</configuration>
@@ -796,11 +808,10 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>webtest-maven-plugin</artifactId>
+					<!-- 0.7.0-SNAPSHOT and above do not run penguincolony-faces -->
 					<version>0.6.9-SNAPSHOT</version>
 					<executions>
-						<!-- TODO: test with Jetty <execution> <id>jetty-integration-test</id> <phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration> <host>localhost</host> <port>8080</port> <resultpath>target/webtest-results</resultpath> </configuration> </execution> -->
 						<execution>
-							<id>tomcat-integration-test</id>
 							<phase>integration-test</phase>
 							<goals>
 								<goal>test</goal>

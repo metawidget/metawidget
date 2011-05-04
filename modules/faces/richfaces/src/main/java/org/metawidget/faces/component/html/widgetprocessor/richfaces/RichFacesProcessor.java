@@ -34,7 +34,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * <p>
  * Adds native RichFaces behaviours, such as <code>HtmlAjaxSupport</code>, to suit the inspected
  * fields.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -70,7 +70,8 @@ public class RichFacesProcessor
 			// cases where we want the AJAX event to, say, update a different Metawidget - but it
 			// should work in the majority of cases. It is very problematic to ask the developer to
 			// specify the 'reRender' id, because in most cases that id will be dynamically
-			// generated (may even be randomly generated)
+			// generated (may even be randomly generated). They can always use a custom
+			// WidgetProcessor in that case
 
 			ajaxSupport.setReRender( metawidget.getId() );
 
