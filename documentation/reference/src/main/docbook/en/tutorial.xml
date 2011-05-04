@@ -2355,7 +2355,7 @@ metawidget.setToInspect( animal )</programlisting>
 					<listitem>
 						<para>
 							When the project is imported, right click the <filename>pom.xml</filename> and choose <parameter>Maven &gt; Install</parameter>
-							<emphasis>(this is important as it creates the <filename>war</filename> folder GWT Hosted Mode expects)
+							<emphasis>(this is important as it creates the <filename>war</filename> folder GWT Hosted Mode expects)</emphasis>
 						</para>
 					</listitem>
 					<listitem>
