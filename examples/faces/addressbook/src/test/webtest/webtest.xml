@@ -161,6 +161,8 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" text="*" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-required-column']" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-required-column']" text="" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[@id='table-contactCurrentAddress-cell']/table/tbody/tr/th" text="Street:"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[@id='table-contactCurrentAddress-cell']/table/tbody/tr/td/input/@type" text="text"/>				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/thead/tr/th[1]" text="Type" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/thead/tr/th[@class='column-tiny']" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[@class='column-tiny, table-buttons']" />

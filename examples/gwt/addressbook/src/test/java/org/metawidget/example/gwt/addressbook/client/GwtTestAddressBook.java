@@ -585,6 +585,8 @@ public class GwtTestAddressBook
 									@Override
 									public void run() {
 
+										assertTrue( contactMetawidget.getWidget( "address", "street" ) instanceof TextBox );
+
 										Button saveButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 										assertEquals( "Save", saveButton.getText() );
 										assertTrue( saveButton.isVisible() );

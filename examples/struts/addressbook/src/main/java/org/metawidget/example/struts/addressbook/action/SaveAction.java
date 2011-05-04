@@ -34,6 +34,7 @@ import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.struts.addressbook.form.BusinessContactForm;
 import org.metawidget.example.struts.addressbook.form.ContactForm;
 import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
+import org.metawidget.util.simple.SimpleClassUtils;
 
 /**
  * @author Richard Kennard
@@ -135,7 +136,13 @@ public class SaveAction
 				formContact.setId( contact.getId() );
 			} catch ( Exception e ) {
 				ActionErrors errors = new ActionErrors();
-				errors.add( "save", new ActionMessage( e.getMessage(), false ) );
+				String message = e.getMessage();
+
+				if ( message == null ) {
+					message = SimpleClassUtils.getSimpleName( e.getClass() );
+				}
+
+				errors.add( "save", new ActionMessage( message, false ) );
 				addErrors( request, errors );
 
 				return mapping.findForward( "contact" );

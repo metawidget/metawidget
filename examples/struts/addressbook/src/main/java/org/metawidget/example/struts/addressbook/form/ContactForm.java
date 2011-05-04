@@ -56,7 +56,7 @@ public abstract class ContactForm
 
 	private Gender				mGender;
 
-	private Address				mAddress;
+	private Address				mAddress			= new Address();
 
 	private Set<Communication>	mCommunications;
 
