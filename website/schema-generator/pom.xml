@@ -28,5 +28,18 @@
 			<type>pom</type>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<!-- metawidget-all.jar contains 1.6-compatible files -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>	
 
 </project>

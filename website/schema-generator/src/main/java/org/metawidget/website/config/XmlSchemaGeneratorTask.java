@@ -36,6 +36,7 @@ import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.iface.Immutable;
@@ -151,6 +152,8 @@ public class XmlSchemaGeneratorTask
 			}
 
 			JarFile jarFile = new JarFile( file );
+			log( "Writing " + jarFile.getName() + " to " + destDir.getAbsolutePath(), Project.MSG_INFO );
+
 			String lastXsdFilename = null;
 
 			for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
@@ -187,6 +190,7 @@ public class XmlSchemaGeneratorTask
 				}
 
 				String packageName = qualifiedClassName.substring( 0, lastIndexOf );
+				log( "\t" + qualifiedClassName, Project.MSG_INFO );
 
 				// ...find the XSD file...
 
