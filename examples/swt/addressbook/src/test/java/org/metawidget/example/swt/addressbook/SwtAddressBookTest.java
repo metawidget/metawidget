@@ -396,6 +396,7 @@ public class SwtAddressBookTest
 		assertTrue( 3 == ( (Combo) metawidgetContact.getControl( "gender" ) ).getItemCount() );
 		assertEquals( "", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		( (Combo) metawidgetContact.getControl( "gender" ) ).setText( "FEMALE" );
+		assertTrue( metawidgetContact.getControl( "address", "street") instanceof Text );
 
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
 		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];

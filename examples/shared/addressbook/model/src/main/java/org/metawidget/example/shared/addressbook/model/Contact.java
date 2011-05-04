@@ -70,7 +70,7 @@ public abstract class Contact
 
 	private Gender				mGender;
 
-	private Address				mAddress;
+	private Address				mAddress			= new Address();
 
 	private Set<Communication>	mCommunications;
 
@@ -90,7 +90,6 @@ public abstract class Contact
 		mTitle = title;
 		mFirstname = firstname;
 		mSurname = surname;
-		mAddress = new Address();
 		mAddress.setOwner( this );
 	}
 
@@ -111,7 +110,7 @@ public abstract class Contact
 
 			mCommunications = new HashSet<Communication>();
 
-			for( Communication communication : contact.mCommunications ) {
+			for ( Communication communication : contact.mCommunications ) {
 
 				mCommunications.add( new Communication( communication ) );
 			}

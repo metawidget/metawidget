@@ -392,6 +392,7 @@ public class SwingAddressBookTest
 		assertTrue( 3 == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getItemCount() );
 		assertTrue( null == ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
 		( (JComboBox) metawidgetContact.getComponent( "gender" ) ).setSelectedItem( Gender.FEMALE );
+		assertTrue( metawidgetContact.getComponent( "address", "street") instanceof JTextField );
 
 		buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Save", buttonSave.getText() );
