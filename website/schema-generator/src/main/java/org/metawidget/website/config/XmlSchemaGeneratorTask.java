@@ -102,7 +102,13 @@ public class XmlSchemaGeneratorTask
 		try {
 			// Create/clear the dest dir
 
-			File destDir = new File( mDestDir );
+			File destDir;
+
+			if ( getProject() != null ) {
+				destDir = new File( getProject().getBaseDir(), mDestDir );
+			} else {
+				destDir = new File( mDestDir );
+			}
 			destDir.mkdirs();
 
 			for ( File file : destDir.listFiles() ) {

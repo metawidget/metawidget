@@ -143,7 +143,7 @@
 						
 						<copy todir="target/ROOT/doc/api">
 							<fileset dir="../../modules/target/site/apidocs"/>
-						</copy>						
+						</copy>
 
 						<copy todir="target/ROOT/doc/reference">
 							<fileset dir="../../documentation/reference/target/docbook">
@@ -173,6 +173,8 @@
 						
 						<taskdef name="xmlSchemaGenerator" classname="org.metawidget.website.config.XmlSchemaGeneratorTask" />
 						<xmlSchemaGenerator jar="target/ROOT/WEB-INF/lib/metawidget-all.jar" destdir="target/ROOT/xsd" />
+						<copy file="../../modules/core/src/main/resources/org/metawidget/config/metawidget-1.0.xsd" tofile="target/ROOT/xsd"/>
+						<copy file="../../modules/core/src/main/resources/org/metawidget/inspector/inspection-result-1.0.xsd" tofile="target/ROOT/xsd"/>
 						
 						<!-- Try to have something at TLD URIs -->
 
