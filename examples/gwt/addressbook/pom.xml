@@ -137,13 +137,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.gwt</groupId>
-			<artifactId>metawidget-gwt</artifactId>
-			<version>${project.version}</version>
-			<classifier>tests</classifier>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 </project>

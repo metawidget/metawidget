@@ -2354,41 +2354,80 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							When the project is imported, right click the <filename>pom.xml</filename> and choose <parameter>Maven &gt; Install</parameter>
-							(this is important as it creates the <filename>war</filename> folder GWT Hosted Mode expects)
+							After the project is imported there will be build errors related to dependent projects. Right click the
+							project and choose <parameter>Run As &gt; Maven Build...</parameter> (note the ellipses). In the <parameter>Edit Configuration</parameter>
+							dialog, remove <filename>/gwt/addressbook</filename> from the end of <parameter>Base directory</parameter>
+							and enter <parameter>Goals</parameter> as:
+						</para>
+						<programlisting language="shell">-pl org.metawidget.examples.gwt:addressbook-gwt -am install</programlisting>
+						<para>
+							Click <parameter>Run</parameter> and wait for all dependent projects to build.							
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Choose <parameter>Project &gt; Update All Maven Dependencies</parameter>.
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Right click the project and choose <parameter>Refresh</parameter>.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
 							Install the <ulink url="http://code.google.com/eclipse">Google Plugin for Eclipse</ulink>, then
 							choose <parameter>Project &gt; Properties &gt; Google &gt; Web Toolkit</parameter> and click
-							<parameter>Use Google Web Toolkit</parameter>
+							<parameter>Use Google Web Toolkit</parameter>.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Right click the project and choose <parameter>Run As &gt; Web Application</parameter>
+							Right click the project and choose <parameter>Run As &gt; Web Application</parameter>.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Choose <filename>hosted.jsp</filename> (this is a simplified home page that doesn't invoke custom JSTL tags)
+							Choose <filename>hosted.jsp</filename> (this is a simplified home page that doesn't invoke custom JSTL tags).
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Open the Google Development Mode view tab and double-click to open the URL in your browser
+							Open the Google Development Mode view tab and double-click to open the URL in your browser.
 						</para>
 					</listitem>
 				</itemizedlist>
 				
 				<para>
-					Once you have the samples running, you can quickly make changes and play around. For example,
-					find the line in <classname>ContactDialog</classname> that configures a <classname>LabelLayoutDecorator</classname>
-					(which decorates sections using <classname>Label</classname>s) and change it to a
-					<classname>TabPanelLayoutDecorator</classname>. This will decorate sections using a GWT <classname>TabPanel</classname>,
-					as shown in <xref linkend="section-introduction-part3-gwt-hosted-screenshot-tabpanel"/>.					
+					Once you have the samples running, you can quickly make changes and play around. For example:
 				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>				
+							Find the line in <classname>ContactDialog</classname> that configures a <classname>LabelLayoutDecorator</classname>
+							(which decorates sections using <classname>Label</classname>s).
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Change it to a <classname>TabPanelLayoutDecorator</classname>. This will decorate sections using a GWT <classname>TabPanel</classname>.												
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Right click the <filename>pom.xml</filename> and choose <parameter>Run As &gt; Maven Install</parameter>
+							(this step is only necessary because the GWT Address Book uses dependent projects. Import the GWT Client Side
+							 project for an example configured to deploy immediately without needing this extra step).
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Refresh your browser. The application will be using <classname>TabPanel</classname>, as
+							shown in <xref linkend="section-introduction-part3-gwt-hosted-screenshot-tabpanel"/>.
+						</para>
+					</listitem>
+				</itemizedlist>
 				
 				<figure id="section-introduction-part3-gwt-hosted-screenshot-tabpanel">
 					<title>Address Book Example using GWT TabPanel</title>
