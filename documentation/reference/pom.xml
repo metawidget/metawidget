@@ -18,7 +18,6 @@
 		<tomcatVersion>${tomcat.version}</tomcatVersion>
 	</properties>
 	<build>
-		<defaultGoal>generate-resources</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
@@ -91,7 +90,8 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<target>
-						<move file="target/docbook/en/pdf/index.pdf" tofile="target/docbook/en/pdf/metawidget.pdf" />
+						<!-- TODO: when run from parent, docbkx-maven-plugin produces metawidget.pdf not index.pdf? -->
+						<move file="target/docbook/en/pdf/index.pdf" tofile="target/docbook/en/pdf/metawidget.pdf" failonerror="false"/>
 					</target>
 				</configuration>
 				<executions>

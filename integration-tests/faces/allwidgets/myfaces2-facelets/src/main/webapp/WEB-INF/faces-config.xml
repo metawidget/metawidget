@@ -15,6 +15,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 	</navigation-rule>
 	
+	<!-- Converters. TODO: only needed for Jetty? -->
+	
+	<converter>
+		<converter-for-class>java.util.Collection</converter-for-class>
+		<converter-class>org.metawidget.integrationtest.faces.allwidgets.converter.CollectionConverter</converter-class>
+	</converter>
+	
 	<!-- Request-Level Managed Beans -->
 
 	<managed-bean>

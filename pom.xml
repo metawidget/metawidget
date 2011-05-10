@@ -66,6 +66,9 @@
 	</modules>
 
 	<profiles>
+
+		<!-- Debug/Optimized profiles -->
+
 		<profile>
 			<id>debug</id>
 			<activation>
@@ -77,6 +80,30 @@
 				<maven.compile.optimize>true</maven.compile.optimize>
 				<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tomcat-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>start-tomcat</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-war</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>stop-tomcat</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>shutdown</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<profile>
@@ -94,7 +121,106 @@
 				<maven.compile.optimize>true</maven.compile.optimize>
 				<compile.addMavenDescriptor>false</compile.addMavenDescriptor>
 			</properties>
+			<build>
+				<plugins>
+					<!-- Test against Jetty -->
+					<plugin>
+						<groupId>org.mortbay.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>start-jetty</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-war</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>stop-jetty</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
+
+		<!-- Tomcat/Jetty profiles -->
+
+		<profile>
+			<id>appserver-tomcat</id>
+			<activation>
+				<property>
+					<name>appserver</name>
+					<value>tomcat</value>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>tomcat-maven-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>start-tomcat</id>
+									<phase>pre-integration-test</phase>
+									<goals>
+										<goal>run-war</goal>
+									</goals>
+								</execution>
+								<execution>
+									<id>stop-tomcat</id>
+									<phase>post-integration-test</phase>
+									<goals>
+										<goal>shutdown</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+
+		<profile>
+			<id>appserver-jetty</id>
+			<activation>
+				<property>
+					<name>!appserver</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>			
+					<plugins>
+						<plugin>
+							<groupId>org.mortbay.jetty</groupId>
+							<artifactId>jetty-maven-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>start-jetty</id>
+									<phase>pre-integration-test</phase>
+									<goals>
+										<goal>run-war</goal>
+									</goals>
+								</execution>
+								<execution>
+									<id>stop-jetty</id>
+									<phase>post-integration-test</phase>
+									<goals>
+										<goal>stop</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+
 	</profiles>
 
 	<!-- Dependencies (all scopes are 'provided' so that metawidget-all.jar has no mandatory dependencies) -->
@@ -692,29 +818,7 @@
 						<stopPort>8801</stopPort>
 						<stopKey>stop</stopKey>
 					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.tomcat</groupId>
-							<artifactId>catalina</artifactId>
-							<version>${tomcat.version}</version>
-						</dependency>					
-					</dependencies>
-					<!-- TODO: <executions>
-						<execution>
-							<id>start-jetty</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>run-war</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>stop-jetty</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>stop</goal>
-							</goals>
-						</execution>
-					</executions> -->
+					<!-- These executions are profile dependent -->
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -789,25 +893,10 @@
 					</dependencies>
 					<configuration>
 						<fork>true</fork>
-						<port>8082</port>
+						<port>8081</port>
 						<warFile>target/${project.build.finalName}.war</warFile>
 					</configuration>
-					<executions>
-						<execution>
-							<id>start-tomcat</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>run-war</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>stop-tomcat</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>shutdown</goal>
-							</goals>
-						</execution>
-					</executions>
+					<!-- These executions are profile dependent -->
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -815,7 +904,7 @@
 					<!-- 0.7.0-SNAPSHOT and above do not run penguincolony-faces -->
 					<version>0.6.9-SNAPSHOT</version>
 					<executions>
-						<!-- <execution>
+						<execution>
 							<id>jetty-integration-test</id>
 							<phase>integration-test</phase>
 							<goals>
@@ -824,19 +913,6 @@
 							<configuration>
 								<host>localhost</host>
 								<port>8081</port>
-								<basepath>${project.artifactId}</basepath>
-								<resultpath>target/webtest-results</resultpath>
-							</configuration>
-						</execution> -->
-						<execution>
-							<id>tomcat-integration-test</id>
-							<phase>integration-test</phase>
-							<goals>
-								<goal>test</goal>
-							</goals>
-							<configuration>
-								<host>localhost</host>
-								<port>8082</port>
 								<basepath>${project.artifactId}</basepath>
 								<resultpath>target/webtest-results</resultpath>
 							</configuration>
