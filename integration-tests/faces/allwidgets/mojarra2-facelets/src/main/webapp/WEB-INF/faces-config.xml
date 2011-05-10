@@ -1,0 +1,49 @@
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+			http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+			version="2.0">
+			
+	<!-- Navigation Rules -->
+	
+	<navigation-rule>
+	
+		<navigation-case>
+			<from-outcome>saved</from-outcome>
+			<to-view-id>/saved.xhtml</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+	
+	<!-- Mojarra on Jetty does not pick up FacesConverter and ManagedBean? -->
+	
+	<converter>
+		<converter-for-class>java.util.Date</converter-for-class>
+		<converter-class>org.metawidget.integrationtest.faces.allwidgets.converter.DateConverter</converter-class>
+	</converter>
+
+	<converter>
+		<converter-for-class>java.util.Collection</converter-for-class>
+		<converter-class>org.metawidget.integrationtest.faces.allwidgets.converter.CollectionConverter</converter-class>
+	</converter>
+
+	<converter>
+		<converter-for-class>org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets</converter-for-class>
+		<converter-class>org.metawidget.integrationtest.faces.allwidgets.converter.NestedWidgetsConverter</converter-class>
+	</converter>
+	
+	<managed-bean>
+		<managed-bean-name>allWidgetsBean</managed-bean-name>
+		<managed-bean-class>org.metawidget.integrationtest.faces.allwidgets.managedbean.AllWidgetsBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<!-- Request-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>allWidgets</managed-bean-name>
+		<managed-bean-class>org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgetsProxy$AllWidgets_$$_javassist_1</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+</faces-config>
