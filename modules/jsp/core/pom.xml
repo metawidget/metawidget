@@ -71,8 +71,8 @@
 										<exclude name="**/UiJsp*.class" />
 									</fileset>
 								</delete>
-								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compile.debuglevel}, optimize=${maven.compile.optimize}"/>
-								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false" debug="${maven.compile.debug}" debuglevel="${maven.compile.debuglevel}" optimize="${maven.compile.optimize}">
+								<echo message="Downgrading to jsr14: debug=${maven.compiler.debug}, debuglevel=${maven.compiler.debuglevel}, optimize=${maven.compiler.optimize}"/>
+								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false" debug="${maven.compiler.debug}" debuglevel="${maven.compiler.debuglevel}" optimize="${maven.compiler.optimize}">
 									<classpath refid="maven.dependency.classpath" />
 								</javac>
 							</target>
