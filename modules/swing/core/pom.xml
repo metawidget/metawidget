@@ -20,6 +20,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
@@ -56,6 +57,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>process-classes</id>
 						<phase>process-classes</phase>
 						<goals>
 							<goal>run</goal>
@@ -70,10 +72,49 @@
 										<exclude name="**/GroupLayout$State.class" />
 									</fileset>
 								</delete>
-								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compile.debuglevel}, optimize=${maven.compile.optimize}"/>
+								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compile.debuglevel}, optimize=${maven.compile.optimize}" />
 								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false" debug="${maven.compile.debug}" debuglevel="${maven.compile.debuglevel}" optimize="${maven.compile.optimize}">
 									<classpath refid="maven.dependency.classpath" />
 								</javac>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>process-test-classes</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete>
+									<fileset dir="target/test-classes">
+										<include name="**/SwingJdk14Test.class" />
+									</fileset>
+								</delete>
+								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compile.debuglevel}, optimize=${maven.compile.optimize}" />
+								<javac fork="true" srcdir="src/test/java" destdir="target/test-classes" target="jsr14" includeantruntime="false" debug="${maven.compile.debug}" debuglevel="${maven.compile.debuglevel}" optimize="${maven.compile.optimize}">
+									<classpath refid="maven.test.classpath" />
+								</javac>
+							</target>
+						</configuration>
+					</execution>
+					<!-- Test under JDK 1.4 -->
+					<execution>
+						<id>integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<available property="jdk14-exists" file="${jdk14.path}/bin" />
+								<fail message="JDK 1.4 not installed at 'jdk14.path' of ${jdk14.path}" unless="jdk14-exists" />
+
+								<java classname="junit.textui.TestRunner" failonerror="true" fork="true" jvm="${jdk14.path}/bin/java">
+									<arg line="org.metawidget.swing.SwingJdk14Test" />
+									<classpath refid="maven.test.classpath" />
+								</java>
 							</target>
 						</configuration>
 					</execution>

@@ -17,6 +17,10 @@
 		<myfaces2.version>2.0.5</myfaces2.version>
 		<!-- We build against the latest RichFaces, but we test against 3.3.3.Final -->
 		<richfaces333.version>3.3.3.Final</richfaces333.version>
+		<!-- We build against 1.5, but we test against 1.4 -->
+		<jdk14.path>/j2sdk1.4.2_16</jdk14.path>
+		<!-- JDK 1.4 needs JUnit 3.x -->
+		<junit3.version>3.8.2</junit3.version>		
 	</properties>
 
 	<name>Metawidget</name>
