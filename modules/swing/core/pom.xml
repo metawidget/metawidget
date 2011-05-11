@@ -72,8 +72,8 @@
 										<exclude name="**/GroupLayout$State.class" />
 									</fileset>
 								</delete>
-								<echo message="Downgrading to jsr14: debug=${maven.compiler.debug}, debuglevel=${maven.compiler.debuglevel}, optimize=${maven.compiler.optimize}" />
-								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false" debug="${maven.compiler.debug}" debuglevel="${maven.compiler.debuglevel}" optimize="${maven.compiler.optimize}">
+								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compiler.debuglevel}, optimize=${maven.compiler.optimize}" />
+								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false" debug="${maven.compile.debug}" debuglevel="${maven.compiler.debuglevel}" optimize="${maven.compiler.optimize}">
 									<classpath refid="maven.dependency.classpath" />
 								</javac>
 							</target>
@@ -92,8 +92,8 @@
 										<include name="**/SwingJdk14Test.class" />
 									</fileset>
 								</delete>
-								<echo message="Downgrading to jsr14: debug=${maven.compiler.debug}, debuglevel=${maven.compiler.debuglevel}, optimize=${maven.compiler.optimize}" />
-								<javac fork="true" srcdir="src/test/java" destdir="target/test-classes" target="jsr14" includeantruntime="false" debug="${maven.compiler.debug}" debuglevel="${maven.compiler.debuglevel}" optimize="${maven.compiler.optimize}">
+								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compiler.debuglevel}, optimize=${maven.compiler.optimize}" />
+								<javac fork="true" srcdir="src/test/java" destdir="target/test-classes" target="jsr14" includeantruntime="false" debug="${maven.compile.debug}" debuglevel="${maven.compiler.debuglevel}" optimize="${maven.compiler.optimize}">
 									<classpath refid="maven.test.classpath" />
 								</javac>
 							</target>

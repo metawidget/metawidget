@@ -82,7 +82,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<maven.compiler.debug>true</maven.compiler.debug>
+				<maven.compile.debug>true</maven.compile.debug>
 				<maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
 				<maven.compiler.optimize>true</maven.compiler.optimize>
 				<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
@@ -99,8 +99,8 @@
 			</activation>
 			<properties>
 				<!-- Putting these under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
+				<maven.compile.debug>false</maven.compile.debug>
 				<!-- Note: Maven 2.x uses 'maven.compiler', Maven 1.x appears to have used 'maven.compile' (no 'r') -->
-				<maven.compiler.debug>false</maven.compiler.debug>
 				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
 				<maven.compiler.optimize>true</maven.compiler.optimize>
 				<compile.addMavenDescriptor>false</compile.addMavenDescriptor>
