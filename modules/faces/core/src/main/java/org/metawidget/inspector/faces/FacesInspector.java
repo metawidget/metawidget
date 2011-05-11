@@ -30,6 +30,7 @@ import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.InspectorUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -45,10 +46,18 @@ public class FacesInspector
 	extends BaseObjectInspector {
 
 	//
+	// Private statics
+	//
+
+	private final static String	THIS_ATTRIBUTE				= "this";
+
+	private final static String	UNDERSCORE_THIS_ATTRIBUTE	= "_this";
+
+	//
 	// Private members
 	//
 
-	private boolean	mInjectThis;
+	private boolean				mInjectThis;
 
 	//
 	// Constructor
@@ -74,18 +83,30 @@ public class FacesInspector
 	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
 		throws Exception {
 
+		// Sanity checks
+
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( context == null ) {
+			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+		}
+
+		Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
+
 		try {
 			if ( mInjectThis ) {
-				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put( "this", parentToInspect );
+				requestMap.put( THIS_ATTRIBUTE, parentToInspect );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, parentToInspect );
 			}
 
 			return super.inspectParent( parentToInspect, propertyInParent );
 		} finally {
 
-			// 'this' should not be available outside of this particular evaluation
+			// 'this' should not be available outside of our particular evaluation
 
 			if ( mInjectThis ) {
-				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove( "this" );
+				requestMap.remove( THIS_ATTRIBUTE );
+				requestMap.remove( UNDERSCORE_THIS_ATTRIBUTE );
 			}
 		}
 	}
@@ -94,18 +115,30 @@ public class FacesInspector
 	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
 		throws Exception {
 
+		// Sanity checks
+
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( context == null ) {
+			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+		}
+
+		Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
+
 		try {
 			if ( mInjectThis ) {
-				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put( "this", toInspect );
+				requestMap.put( THIS_ATTRIBUTE, toInspect );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, toInspect );
 			}
 
 			super.inspect( toInspect, classToInspect, toAddTo );
 		} finally {
 
-			// 'this' should not be available outside of this particular evaluation
+			// 'this' should not be available outside of our particular evaluation
 
 			if ( mInjectThis ) {
-				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove( "this" );
+				requestMap.remove( THIS_ATTRIBUTE );
+				requestMap.remove( UNDERSCORE_THIS_ATTRIBUTE );
 			}
 		}
 	}
@@ -282,8 +315,16 @@ public class FacesInspector
 			throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') is not of the form #{...}" );
 		}
 
-		if ( mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
-			throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') must not contain 'this' (see Metawidget Reference Guide)" );
+		if ( mInjectThis ) {
+			String unwrappedExpression = FacesUtils.unwrapExpression( expression );
+
+			if ( unwrappedExpression.startsWith( THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+				throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') must not contain '" + THIS_ATTRIBUTE + "' (see Metawidget Reference Guide)" );
+			}
+
+			if ( unwrappedExpression.startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+				throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') must not contain '" + UNDERSCORE_THIS_ATTRIBUTE + "' (see Metawidget Reference Guide)" );
+			}
 		}
 
 		// Put the expression
@@ -298,14 +339,6 @@ public class FacesInspector
 	@SuppressWarnings( "deprecation" )
 	private void evaluateAndPutExpression( Map<String, String> attributes, UiFacesAttribute facesAttribute ) {
 
-		// Sanity checks
-
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if ( context == null ) {
-			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
-		}
-
 		String expression = facesAttribute.expression();
 
 		if ( "".equals( expression ) ) {
@@ -316,8 +349,16 @@ public class FacesInspector
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
 		}
 
-		if ( !mInjectThis && FacesUtils.unwrapExpression( expression ).startsWith( "this.") ) {
-			throw InspectorException.newException( "Expression for '" + expression + "' contains 'this', but " + FacesInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
+		if ( !mInjectThis ) {
+			String unwrappedExpression = FacesUtils.unwrapExpression( expression );
+
+			if ( unwrappedExpression.startsWith( THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+				throw InspectorException.newException( "Expression for '" + expression + "' contains '" + THIS_ATTRIBUTE + "', but " + FacesInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
+			}
+
+			if ( unwrappedExpression.startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+				throw InspectorException.newException( "Expression for '" + expression + "' contains '" + UNDERSCORE_THIS_ATTRIBUTE + "', but " + FacesInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
+			}
 		}
 
 		// Evaluate the expression
@@ -325,6 +366,7 @@ public class FacesInspector
 		Object value;
 
 		try {
+			FacesContext context = FacesContext.getCurrentInstance();
 			value = context.getApplication().createValueBinding( expression ).getValue( context );
 
 		} catch ( Exception e ) {

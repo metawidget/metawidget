@@ -120,7 +120,7 @@ public class Penguin {
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty this.condition}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty _this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
 	@UiSection( "Detail" )
 	public void addCondition() {
@@ -128,7 +128,7 @@ public class Penguin {
 		mCondition = new PenguinCondition();
 	}
 
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty this.condition}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty _this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
 	@UiSection( "Detail" )
 	public PenguinCondition getCondition() {
@@ -155,7 +155,7 @@ public class Penguin {
 	}
 
 	@UiLarge
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!this.otherHobby}" )
+	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!_this.otherHobby}" )
 	@UiComesAfter( "hobbies" )
 	public String getDescribeHobby() {
 

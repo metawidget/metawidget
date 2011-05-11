@@ -21,7 +21,7 @@ import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a FacesInspector prior to use. Once instantiated, Inspectors are immutable.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -48,13 +48,16 @@ public class FacesInspectorConfig
 	 * is rather brittle. Injecting 'this' instead allows the EL to function regardless of how the
 	 * JSF context is configured.
 	 * <p>
-	 * Note <code>injectThis</code> cannot be used in other EL expressions such as
+	 * Note: <code>injectThis</code> cannot be used in other EL expressions such as
 	 * <code>UiFacesLookup</code>. Those expressions are evaluated at a different phase of the JSF
 	 * lifecycle, possibly without <code>FacesInspector</code> being invoked. For example if a
 	 * <code>h:selectOneMenu</code> fails to validate during POSTback, its
 	 * <code>f:selectItems</code> will be redisplayed without a new inspection and with no chance to
 	 * <code>injectThis</code>.
-	 *
+	 * <p>
+	 * Note: <code>injectThis</code> also injects a request-level '_this' attribute, for use in EL
+	 * 2.2 expressions.
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 

@@ -48,10 +48,18 @@ public class FacesXmlInspector
 	extends BaseXmlInspector {
 
 	//
+	// Private statics
+	//
+
+	private final static String	THIS_ATTRIBUTE				= "this";
+
+	private final static String	UNDERSCORE_THIS_ATTRIBUTE	= "_this";
+
+	//
 	// Private members
 	//
 
-	private boolean	mInjectThis;
+	private boolean				mInjectThis;
 
 	//
 	// Constructors
@@ -79,18 +87,28 @@ public class FacesXmlInspector
 	@Override
 	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( context == null ) {
+			throw InspectorException.newException( "FacesContext not available to FacesXmlInspector" );
+		}
+
+		Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
+
 		try {
 			if ( mInjectThis ) {
-				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put( "this", toInspect );
+				requestMap.put( THIS_ATTRIBUTE, toInspect );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, toInspect );
 			}
 
 			return super.inspectAsDom( toInspect, type, names );
 		} finally {
 
-			// 'this' should not be available outside of this particular evaluation
+			// 'this' should not be available outside of our particular evaluation
 
 			if ( mInjectThis ) {
-				FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove( "this" );
+				requestMap.remove( THIS_ATTRIBUTE );
+				requestMap.remove( UNDERSCORE_THIS_ATTRIBUTE );
 			}
 		}
 	}
@@ -139,8 +157,16 @@ public class FacesXmlInspector
 
 			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key ) ) {
 
-				if ( mInjectThis && FacesUtils.unwrapExpression( value ).startsWith( "this.") ) {
-					throw InspectorException.newException( "Expression '" + value + "' (for '" + key + "') must not contain 'this' (see Metawidget Reference Guide)" );
+				if ( mInjectThis ) {
+					String unwrappedExpression = FacesUtils.unwrapExpression( value );
+
+					if ( unwrappedExpression.startsWith( THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+						throw InspectorException.newException( "Expression '" + value + "' (for '" + key + "') must not contain '" + THIS_ATTRIBUTE + "' (see Metawidget Reference Guide)" );
+					}
+
+					if ( unwrappedExpression.startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+						throw InspectorException.newException( "Expression '" + value + "' (for '" + key + "') must not contain '" + UNDERSCORE_THIS_ATTRIBUTE + "' (see Metawidget Reference Guide)" );
+					}
 				}
 
 				continue;
@@ -154,19 +180,22 @@ public class FacesXmlInspector
 
 			// Sanity checks
 
-			FacesContext context = FacesContext.getCurrentInstance();
+			if ( !mInjectThis ) {
+				String unwrappedExpression = FacesUtils.unwrapExpression( value );
 
-			if ( context == null ) {
-				throw InspectorException.newException( "FacesContext not available to FacesXmlInspector" );
-			}
+				if ( unwrappedExpression.startsWith( THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+					throw InspectorException.newException( "Expression for '" + value + "' contains '" + THIS_ATTRIBUTE + "', but " + FacesXmlInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
+				}
 
-			if ( !mInjectThis && FacesUtils.unwrapExpression( value ).startsWith( "this." ) ) {
-				throw InspectorException.newException( "Expression for '" + value + "' contains 'this', but " + FacesXmlInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
+				if ( unwrappedExpression.startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+					throw InspectorException.newException( "Expression for '" + value + "' contains '" + UNDERSCORE_THIS_ATTRIBUTE + "', but " + FacesXmlInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
+				}
 			}
 
 			// ...evaluate it...
 
 			try {
+				FacesContext context = FacesContext.getCurrentInstance();
 				value = StringUtils.quietValueOf( context.getApplication().createValueBinding( value ).getValue( context ) );
 
 			} catch ( Exception e ) {

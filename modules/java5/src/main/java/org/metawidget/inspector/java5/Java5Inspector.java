@@ -36,6 +36,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
+// REFACTOR: this should be deployed as standard just like MetawidgetAnnotationInspector is. However this will require rewriting/refilming the tutorial
+
 public class Java5Inspector
 	extends BaseObjectInspector {
 

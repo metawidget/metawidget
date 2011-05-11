@@ -5,7 +5,7 @@ Latest Documentation:
 
    http://www.metawidget.org
 
-Bug Reports:
+Bug Reports and Enhancement Requests:
    
    http://www.metawidget.org/issues.php
 
@@ -19,7 +19,7 @@ Quick Start
 1. run 'cd examples\swing'
 2. run 'java -jar addressbook-swing.jar'
 
-Full source code (including tests) is available under examples\src.
+Full source code (including tests) is available under src\examples.
 
 Other Stuff
 -----------

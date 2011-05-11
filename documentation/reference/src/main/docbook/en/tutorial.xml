@@ -2069,11 +2069,11 @@ bin\run</programlisting>
 				
 				<programlisting language="java">@UiAction
 @UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{!empty this.condition}" )
+	expression = "#{!empty _this.condition}" )
 public void addCondition() { ... }
 
 @UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{empty this.condition}" )
+	expression = "#{empty _this.condition}" )
 public PenguinCondition getCondition() { ...}</programlisting>
 				
 				<para>

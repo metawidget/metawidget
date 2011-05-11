@@ -36,20 +36,19 @@ import java.lang.annotation.Target;
  * precedence. For example...
  * <p>
  * <code>
- *
- * @UiFacesLookup( "#{foo}" )<br/>
- * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression =
+ * &#64;UiFacesLookup( "#{foo}" )<br/>
+ * &#64;UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression =
  *                    "#{!empty bar ? '' : null}" ) </code>
- *                    <p>
- *                    ...in general, you should avoid such ambiguous situations. For example, you
- *                    could instead use...
- *                    <p>
- *                    <code>
- * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression =
+ * <p>
+ * ...in general, you should avoid such ambiguous situations. For example, you could instead use...
+ * <p>
+ * <code>
+ * &#64;UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression =
  *                    "#{!empty bar ? '' : '#{foo}'}" ) </code>
- *                    <p>
- *                    Also consider using <code>FacesInspectorConfig.setInjectThis</code>.
- *                    </p>
+ * <p>
+ * Also consider using <code>FacesInspectorConfig.setInjectThis</code>.
+ * </p>
+ *
  * @author Richard Kennard
  */
 

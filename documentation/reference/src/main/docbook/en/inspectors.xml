@@ -596,11 +596,17 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
 									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
 									the EL expression can refer to the originating object (i.e. <function>#{this.name}</function>).
-									Note <function>injectThis</function> cannot be used in other EL expressions such
+								</para>
+								<para>
+									Note: <function>injectThis</function> cannot be used in other EL expressions such
 									as <code>@UiFacesLookup</code>. Those expressions are evaluated at a different phase of the
 									JSF lifecycle, possibly without <classname>FacesInspector</classname> being invoked. For example
 									if a <parameter>h:selectOneMenu</parameter> fails to validate during POSTback, its <code>f:selectItems</code>
 									will be redisplayed without a new inspection and with no chance to <function>injectThis</function>.    								
+								</para>
+								<para>
+									Note: <function>injectThis</function> also injects a request-level <parameter>_this</parameter>
+									attribute, for use in EL 2.2 expressions.
 								</para>
 							</td>
 						</tr>

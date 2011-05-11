@@ -133,6 +133,13 @@ public class FacesInspectorTest
 		}
 
 		try {
+			inspector.inspect( null, BadExpression1c.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{_this.foo}' (for 'faces-lookup') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
+		}
+
+		try {
 			inspector.inspect( null, BadExpression2a.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
@@ -147,6 +154,13 @@ public class FacesInspectorTest
 		}
 
 		try {
+			inspector.inspect( null, BadExpression2c.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{_this.bar}' (for 'faces-suggest') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
+		}
+
+		try {
 			inspector.inspect( null, BadExpression3a.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
@@ -158,6 +172,13 @@ public class FacesInspectorTest
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "Expression '#{this.baz}' (for 'faces-ajax-action') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
+		}
+
+		try {
+			inspector.inspect( null, BadExpression3c.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression '#{_this.baz}' (for 'faces-ajax-action') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
 		}
 	}
 
@@ -176,6 +197,13 @@ public class FacesInspectorTest
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "Expression for '#{this.error}' contains 'this', but FacesInspectorConfig.setInjectThis is 'false'", e.getMessage() );
+		}
+
+		try {
+			new FacesInspector().inspect( null, BadEvaluation2d.class.getName() );
+			assertTrue( false );
+		} catch ( InspectorException e ) {
+			assertEquals( "Expression for '#{_this.error}' contains '_this', but FacesInspectorConfig.setInjectThis is 'false'", e.getMessage() );
 		}
 	}
 
@@ -313,6 +341,15 @@ public class FacesInspectorTest
 		}
 	}
 
+	public static class BadEvaluation2d {
+
+		@UiFacesAttribute( name = "foo2", expression = "#{_this.error}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
 	public static class BadExpression1a {
 
 		@UiFacesLookup( "foo" )
@@ -325,6 +362,15 @@ public class FacesInspectorTest
 	public static class BadExpression1b {
 
 		@UiFacesLookup( "#{this.foo}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression1c {
+
+		@UiFacesLookup( "#{_this.foo}" )
 		public Object getFoo() {
 
 			return null;
@@ -349,6 +395,15 @@ public class FacesInspectorTest
 		}
 	}
 
+	public static class BadExpression2c {
+
+		@UiFacesSuggest( "#{_this.bar}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
 	public static class BadExpression3a {
 
 		@UiFacesAjax( event = "anEvent", action = "baz" )
@@ -361,6 +416,15 @@ public class FacesInspectorTest
 	public static class BadExpression3b {
 
 		@UiFacesAjax( event = "anEvent", action = "#{this.baz}" )
+		public Object getFoo() {
+
+			return null;
+		}
+	}
+
+	public static class BadExpression3c {
+
+		@UiFacesAjax( event = "anEvent", action = "#{_this.baz}" )
 		public Object getFoo() {
 
 			return null;
