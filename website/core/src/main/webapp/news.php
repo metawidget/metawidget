@@ -4,6 +4,30 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v1.20 Released!</h3>
+		<h4>May 2011</h4>
+		
+		<p>
+			Metawidget v1.20 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Improved examples to work better with Tomcat 7</li>
+			<li>Improved module POMs to work better with m2eclipse</li>
+			<li>Allow JavaBeanPropertyStyle to disable caching</li>
+			<li>Allow location of metawidget.xml to be configured in web.xml</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+				
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>		
+
 		<h3>Metawidget v1.15 Released!</h3>
 		<h4>30th April 2011</h4>
 		

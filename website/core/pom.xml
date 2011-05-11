@@ -10,6 +10,11 @@
 	<artifactId>metawidget-website</artifactId>
 	<packaging>war</packaging>
 
+	<properties>
+		<maven.build.timestamp.format>dd MMM yyyy</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -139,11 +144,11 @@
 					
 						<!-- Documentation -->
 						
-						<!-- (will fail if 'javadoc:aggregate' has not been run manually) -->
+						<!-- (will fail if 'javadoc:aggregate' has not been run manually)
 						
 						<copy todir="target/ROOT/doc/api">
 							<fileset dir="../../modules/target/site/apidocs"/>
-						</copy>
+						</copy> -->
 
 						<copy todir="target/ROOT/doc/reference">
 							<fileset dir="../../documentation/reference/target/docbook">
@@ -226,7 +231,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- TODO: test links <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>tomcat-maven-plugin</artifactId> </plugin> <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>webtest-maven-plugin</artifactId> </plugin> -->
 		</plugins>
 	</build>
 

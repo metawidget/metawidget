@@ -9,6 +9,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Appears to be the highest version that works with tomcat-maven-plugin 1.1 -->
 		<tomcat.version>6.0.29</tomcat.version>
 		<!-- We build against the latest Mojarra, but we test against 1.2.x -->
 		<mojarra1.version>1.2_15</mojarra1.version>

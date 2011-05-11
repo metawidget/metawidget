@@ -90,7 +90,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<target>
-						<!-- TODO: when run from parent, docbkx-maven-plugin produces metawidget.pdf not index.pdf? -->
+						<!-- LOW: When run from parent, docbkx-maven-plugin produces metawidget.pdf not index.pdf? -->
 						<move file="target/docbook/en/pdf/index.pdf" tofile="target/docbook/en/pdf/metawidget.pdf" failonerror="false"/>
 					</target>
 				</configuration>
