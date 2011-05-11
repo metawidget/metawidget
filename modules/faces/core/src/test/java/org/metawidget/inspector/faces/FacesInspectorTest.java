@@ -19,6 +19,9 @@ package org.metawidget.inspector.faces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
@@ -27,6 +30,8 @@ import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.Trait;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -116,7 +121,7 @@ public class FacesInspectorTest
 
 	public void testBadExpression() {
 
-		FacesInspector inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true ));
+		FacesInspector inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true ) );
 
 		try {
 			inspector.inspect( null, BadExpression1a.class.getName() );
@@ -237,6 +242,78 @@ public class FacesInspectorTest
 		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "foo.bar" ) );
 		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar}" ) );
 		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ) );
+	}
+
+	public void testThisInjection() {
+
+		final List<String> injected = CollectionUtils.newArrayList();
+
+		// Without injection
+
+		FacesInspector inspector = new FacesInspector() {
+
+			@Override
+			protected Map<String, String> inspectTrait( Trait trait )
+				throws Exception {
+
+				injected.add( "1: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+				injected.add( "2: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				return null;
+			}
+		};
+
+		inspector.inspect( new Foo(), Foo.class.getName() );
+
+		assertEquals( "1: bar: null", injected.get( 0 ));
+		assertEquals( "2: bar: null", injected.get( 1 ));
+		assertEquals( "1: foo: null", injected.get( 2 ));
+		assertEquals( "2: foo: null", injected.get( 3 ));
+		assertEquals( 10, injected.size() );
+
+		// With injection
+
+		injected.clear();
+
+		inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true )) {
+
+			@Override
+			public Element inspectAsDom( Object toInspect, String type, String... names ) {
+
+				try {
+
+					injected.add( "1: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+					injected.add( "2: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+
+					return super.inspectAsDom( toInspect, type, names );
+
+				} finally {
+
+					injected.add( "5: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+					injected.add( "6: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				}
+			}
+
+			@Override
+			protected Map<String, String> inspectTrait( Trait trait )
+				throws Exception {
+
+				injected.add( "3: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+				injected.add( "4: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				return null;
+			}
+		};
+
+		inspector.inspect( new Foo(), Foo.class.getName() );
+
+		assertEquals( "1: null", injected.get( 0 ));
+		assertEquals( "2: null", injected.get( 1 ));
+		assertTrue( injected.get( 2 ).startsWith( "3: bar: " + Foo.class.getName() ));
+		assertTrue( injected.get( 3 ).startsWith( "4: bar: " + Foo.class.getName() ));
+		assertTrue( injected.get( 4 ).startsWith( "3: foo: " + Foo.class.getName() ));
+		assertTrue( injected.get( 5 ).startsWith( "4: foo: " + Foo.class.getName() ));
+		assertEquals( "5: null", injected.get( 12 ));
+		assertEquals( "6: null", injected.get( 13 ));
+		assertEquals( 14, injected.size() );
 	}
 
 	public void testConfig() {

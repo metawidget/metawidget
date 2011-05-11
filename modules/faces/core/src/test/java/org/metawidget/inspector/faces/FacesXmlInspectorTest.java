@@ -20,14 +20,18 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
+import org.metawidget.inspector.faces.FacesInspectorTest.Foo;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -162,7 +166,79 @@ public class FacesXmlInspectorTest
 		Field defaultFileField = BaseXmlInspectorConfig.class.getDeclaredField( "mDefaultFile" );
 		defaultFileField.setAccessible( true );
 
-		assertEquals( "metawidget-metadata.xml", defaultFileField.get( new FacesXmlInspectorConfig() ));
+		assertEquals( "metawidget-metadata.xml", defaultFileField.get( new FacesXmlInspectorConfig() ) );
+	}
+
+	public void testThisInjection() {
+
+		final List<String> injected = CollectionUtils.newArrayList();
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Foo\">";
+		xml += "<property name=\"bar\"/>";
+		xml += "</entity></inspection-result>";
+
+		// Without injection
+
+		FacesXmlInspector inspector = new FacesXmlInspector( new FacesXmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) ) {
+
+			@Override
+			protected Map<String, String> inspectProperty( Element toInspect ) {
+
+				injected.add( "1: " + toInspect.getAttribute( NAME ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+				injected.add( "2: " + toInspect.getAttribute( NAME ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				return null;
+			}
+		};
+
+		inspector.inspect( new Foo(), "Foo" );
+
+		assertEquals( "1: bar: null", injected.get( 0 ) );
+		assertEquals( "2: bar: null", injected.get( 1 ) );
+		assertEquals( 2, injected.size() );
+
+		// With injection
+
+		injected.clear();
+
+		inspector = new FacesXmlInspector( new FacesXmlInspectorConfig().setInjectThis( true ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) ) {
+
+			@Override
+			public Element inspectAsDom( Object toInspect, String type, String... names ) {
+
+				try {
+
+					injected.add( "1: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+					injected.add( "2: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+
+					return super.inspectAsDom( toInspect, type, names );
+
+				} finally {
+
+					injected.add( "5: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+					injected.add( "6: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				}
+			}
+
+			@Override
+			protected Map<String, String> inspectProperty( Element toInspect ) {
+
+				injected.add( "3: " + toInspect.getAttribute( NAME ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+				injected.add( "4: " + toInspect.getAttribute( NAME ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				return null;
+			}
+		};
+
+		inspector.inspect( new Foo(), "Foo" );
+
+		assertEquals( "1: null", injected.get( 0 ) );
+		assertEquals( "2: null", injected.get( 1 ) );
+		assertTrue( injected.get( 2 ).startsWith( "3: bar: " + Foo.class.getName() ) );
+		assertTrue( injected.get( 3 ).startsWith( "4: bar: " + Foo.class.getName() ) );
+		assertEquals( "5: null", injected.get( 4 ) );
+		assertEquals( "6: null", injected.get( 5 ) );
+		assertEquals( 6, injected.size() );
 	}
 
 	//
