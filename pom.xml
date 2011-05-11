@@ -10,9 +10,11 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tomcat.version>6.0.29</tomcat.version>
+		<!-- We build against the latest Mojarra, but we test against 1.2.x -->
 		<mojarra1.version>1.2_15</mojarra1.version>
 		<myfaces11.version>1.1.6</myfaces11.version>
 		<myfaces2.version>2.0.5</myfaces2.version>
+		<!-- We build against the latest RichFaces, but we test against 3.3.3.Final -->
 		<richfaces333.version>3.3.3.Final</richfaces333.version>
 	</properties>
 
@@ -145,7 +147,7 @@
 				</property>
 			</activation>
 			<build>
-				<pluginManagement>			
+				<pluginManagement>
 					<plugins>
 						<plugin>
 							<groupId>org.mortbay.jetty</groupId>
@@ -939,7 +941,7 @@
 		</plugins>
 
 		<extensions>
-			<!-- Enable the use of SSH for distributionManagement -->
+			<!-- Enable the use of SSH for &lt;distributionManagement&gt; -->
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh</artifactId>
