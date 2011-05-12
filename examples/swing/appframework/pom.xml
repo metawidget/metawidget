@@ -58,7 +58,8 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
+							<classpathLayoutType>custom</classpathLayoutType>
+							<customClasspathLayout>lib/$${artifact.artifactId}.$${artifact.extension}</customClasspathLayout>
 							<mainClass>org.metawidget.example.swing.appframework.CarApplication</mainClass>
 						</manifest>
 					</archive>
