@@ -20,7 +20,7 @@
 		<!-- We build against 1.5, but we test against 1.4 -->
 		<jdk14.path>/j2sdk1.4.2_16</jdk14.path>
 		<!-- JDK 1.4 needs JUnit 3.x -->
-		<junit3.version>3.8.2</junit3.version>		
+		<junit3.version>3.8.2</junit3.version>
 	</properties>
 
 	<name>Metawidget</name>
@@ -500,6 +500,12 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.swinglabs</groupId>
+				<artifactId>swing-worker</artifactId>
+				<version>1.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-6.0</artifactId>
 				<version>1.0.0.Final</version>
@@ -748,6 +754,7 @@
 						<outputDirectory>${project.build.directory}/lib</outputDirectory>
 						<excludeTransitive>true</excludeTransitive>
 						<includeScope>runtime</includeScope>
+						<stripVersion>true</stripVersion>
 					</configuration>
 					<executions>
 						<execution>
