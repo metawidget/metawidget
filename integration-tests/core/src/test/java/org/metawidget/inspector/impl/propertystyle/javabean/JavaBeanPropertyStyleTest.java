@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -90,14 +91,12 @@ public class JavaBeanPropertyStyleTest
 
 		propertyStyle = new FooPropertyStyle();
 		properties = propertyStyle.getProperties( Foo.class );
-		assertTrue( properties.size() == 9 );
 
 		assertEquals( properties.get( "baz" ), null );
-		assertFalse( properties.get( "methodGetterInSuper" ).isReadable() );
-		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
-		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
-		assertFalse( properties.get( "methodSetterInSuper" ).isWritable() );
-		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
+		assertEquals( properties.get( "methodGetterInSuper" ), null );
+		assertEquals( properties.get( "methodSetterInSuper" ), null );
+		assertEquals( properties.get( "methodCovariant" ), null );
+		assertEquals( 6, properties.size() );
 	}
 
 	public void testSupportPublicFields() {
@@ -272,9 +271,35 @@ public class JavaBeanPropertyStyleTest
 		throws Exception {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		assertEquals( null, propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isBigBoolean1" ) ));
-		assertEquals( "littleBoolean", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isLittleBoolean" ) ));
-		assertEquals( "bigBoolean2", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "getBigBoolean2" ) ));
+		assertEquals( null, propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isBigBoolean1" ) ) );
+		assertEquals( "littleBoolean", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isLittleBoolean" ) ) );
+		assertEquals( "bigBoolean2", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "getBigBoolean2" ) ) );
+	}
+
+	public void testExcludeOverriddenGetter() {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class );
+		assertTrue( properties.containsKey( "foo" ));
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenGetterFoo" ) );
+		propertyStyle = new JavaBeanPropertyStyle( config );
+		properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class );
+		assertTrue( !properties.containsKey( "foo" ));
+	}
+
+	public void testExcludeOverriddenSetter() {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class );
+		assertTrue( properties.containsKey( "foo" ));
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenSetterFoo" ) );
+		propertyStyle = new JavaBeanPropertyStyle( config );
+		properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class );
+		assertTrue( !properties.containsKey( "foo" ));
 	}
 
 	public void testConfig() {
@@ -288,7 +313,7 @@ public class JavaBeanPropertyStyleTest
 	// Inner class
 	//
 
-	class Foo
+	static class Foo
 		extends SuperFoo {
 
 		@Column( nullable = false )
@@ -358,7 +383,7 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	class ErrorFoo
+	static class ErrorFoo
 		extends Foo {
 
 		/**
@@ -371,7 +396,7 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	class ErrorFoo2
+	static class ErrorFoo2
 		extends ErrorFoo {
 
 		public String getFoo() {
@@ -380,7 +405,7 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	class SuperFoo {
+	static class SuperFoo {
 
 		public boolean	baz;
 
@@ -427,7 +452,7 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	class Proxied_$$_javassist_
+	static class Proxied_$$_javassist_
 		implements InterfaceFoo {
 
 		@Override
@@ -437,13 +462,13 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	interface InterfaceFoo {
+	static interface InterfaceFoo {
 
 		@UiMasked
 		Object getInterfaceBar();
 	}
 
-	class SuperPrivateFieldFoo {
+	static class SuperPrivateFieldFoo {
 
 		@Column( nullable = false )
 		private String	mBar;
@@ -493,7 +518,7 @@ public class JavaBeanPropertyStyleTest
 		}
 	}
 
-	class PrivateFieldFoo
+	static class PrivateFieldFoo
 		extends SuperPrivateFieldFoo {
 
 		// Tests finding overidden getters/setters
@@ -530,6 +555,67 @@ public class JavaBeanPropertyStyleTest
 		public Boolean getBigBoolean2() {
 
 			return null;
+		}
+	}
+
+	static class SuperExcludeOverriddenGetterFoo {
+
+		public String getFoo() {
+
+			return null;
+		}
+	}
+
+	static class ExcludeOverriddenGetterFoo
+		extends SuperExcludeOverriddenGetterFoo {
+
+		@Override
+		public String getFoo() {
+
+			return null;
+		}
+
+		/**
+		 * @param foo
+		 *            not stored
+		 */
+
+		public void setFoo( String foo ) {
+
+			// Do nothing
+		}
+	}
+
+	static class SuperExcludeOverriddenSetterFoo {
+
+		/**
+		 * @param foo
+		 *            not stored
+		 */
+
+		public void setFoo( String foo ) {
+
+			// Do nothing
+		}
+	}
+
+	static class ExcludeOverriddenSetterFoo
+		extends SuperExcludeOverriddenSetterFoo {
+
+		public String getFoo() {
+
+			return null;
+		}
+
+		/**
+		 * @param foo
+		 *            not stored
+		 */
+
+		@Override
+		public void setFoo( String foo ) {
+
+			// Do nothing
 		}
 	}
 }

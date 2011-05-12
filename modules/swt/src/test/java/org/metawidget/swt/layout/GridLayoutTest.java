@@ -356,7 +356,7 @@ public class GridLayoutTest
 
 	public void testConfig() {
 
-		Map<Class<?>, Object> dummyTypes = CollectionUtils.newHashMap();
+		Map<Class<?>, Object> dummyTypes = CollectionUtils.newWeakHashMap();
 		dummyTypes.put( Font.class, new Font( SwtMetawidgetTests.TEST_DISPLAY, "SansSerif", 12, SWT.NONE ) );
 		dummyTypes.put( Color.class, new Color( SwtMetawidgetTests.TEST_DISPLAY, 255, 0, 0 ) );
 

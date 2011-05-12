@@ -59,6 +59,10 @@ public class SimpleBindingProcessorConfig {
 	public <T> SimpleBindingProcessorConfig setAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> Adapter ) {
 
 		if ( mAdapters == null ) {
+			
+			// WeakHashMap would be better here, but not supported by GWT:
+			// http://code.google.com/webtoolkit/doc/latest/RefJreEmulation.html#Package_java_util
+			
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>();
 		}
 
@@ -83,6 +87,10 @@ public class SimpleBindingProcessorConfig {
 	public <T> SimpleBindingProcessorConfig setConverter( Class<T> forClass, Converter<T> converter ) {
 
 		if ( mConverters == null ) {
+			
+			// WeakHashMap would be better here, but not supported by GWT:
+			// http://code.google.com/webtoolkit/doc/latest/RefJreEmulation.html#Package_java_util
+			
 			mConverters = new HashMap<Class<?>, Converter<?>>();
 		}
 

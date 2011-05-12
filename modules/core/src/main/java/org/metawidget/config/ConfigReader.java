@@ -126,7 +126,7 @@ public class ConfigReader
 	 * multiple different <code>Inspector</code>s.
 	 */
 
-	/* package private */final Map<Class<?>, Map<Object, Immutable>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
+	/* package private */final Map<Class<?>, Map<Object, Immutable>>	mImmutableByClassCache		= CollectionUtils.newWeakHashMap();
 
 	/**
 	 * Cache of objects that are immutable, indexed by their id. This is a less automatic cache than

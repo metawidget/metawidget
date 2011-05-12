@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.text.MessageFormat;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
@@ -117,6 +118,15 @@ public class JavaBeanPropertyStyle
 		lookupGetters( properties, clazz );
 		lookupSetters( properties, clazz );
 
+		// Clean up explicit excludes
+
+		for ( Iterator<Map.Entry<String, Property>> i = properties.entrySet().iterator(); i.hasNext(); ) {
+
+			if ( i.next().getValue() == null ) {
+				i.remove();
+			}
+		}
+
 		return properties;
 	}
 
@@ -151,8 +161,11 @@ public class JavaBeanPropertyStyle
 			Class<?> type = field.getType();
 
 			// Exclude based on other criteria
+			//
+			// (explicitly set to null in case we encounter an imbalanced getter/setter)
 
 			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) ) {
+				properties.put( fieldName, null );
 				continue;
 			}
 
@@ -197,8 +210,11 @@ public class JavaBeanPropertyStyle
 			}
 
 			// Exclude based on other criteria
+			//
+			// (explicitly set to null in case we encounted/encounterer an imbalanced field/setter)
 
-			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) ) {
+			if ( isExcluded( ClassUtils.getOriginalDeclaringClass( method ), propertyName, type ) ) {
+				properties.put( propertyName, null );
 				continue;
 			}
 
@@ -224,13 +240,19 @@ public class JavaBeanPropertyStyle
 				}
 			}
 
+			// Explicitly excluded based on field already?
+
+			if ( existingProperty == null && properties.containsKey( propertyName ) ) {
+				continue;
+			}
+
 			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, getPrivateField( clazz, propertyName ) ) );
 		}
 	}
 
 	/**
 	 * Returns whether the given method is a 'getter' method.
-	 * 
+	 *
 	 * @param method
 	 *            a parameterless method that returns a non-void
 	 * @return the property name
@@ -289,8 +311,11 @@ public class JavaBeanPropertyStyle
 			}
 
 			// Exclude based on other criteria
+			//
+			// (explicitly set to null in case we encountered an imbalanced field/getter)
 
-			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) ) {
+			if ( isExcluded( ClassUtils.getOriginalDeclaringClass( method ), propertyName, type ) ) {
+				properties.put( propertyName, null );
 				continue;
 			}
 
@@ -314,13 +339,19 @@ public class JavaBeanPropertyStyle
 				continue;
 			}
 
+			// Explicitly excluded based on getter/field already?
+
+			if ( existingProperty == null && properties.containsKey( propertyName ) ) {
+				continue;
+			}
+
 			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, getPrivateField( clazz, propertyName ) ) );
 		}
 	}
 
 	/**
 	 * Returns whether the given method is a 'setter' method.
-	 * 
+	 *
 	 * @param method
 	 *            a single-parametered method. May return non-void (ie. for Fluent interfaces)
 	 * @return the property name
@@ -350,7 +381,7 @@ public class JavaBeanPropertyStyle
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, excludes 'propertyChangeListeners' and 'vetoableChangeListeners'.
-	 * 
+	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
@@ -380,7 +411,7 @@ public class JavaBeanPropertyStyle
 	 * <p>
 	 * Clients may override this method to change how the public-method-to-private-field mapping
 	 * operates.
-	 * 
+	 *
 	 * @return the private Field for this propertyName, or null if no such field (should not throw
 	 *         NoSuchFieldException)
 	 */

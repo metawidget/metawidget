@@ -51,7 +51,7 @@ public abstract class BaseActionStyle
 	 * that they <code>.equal()</code> their originals.
 	 */
 
-	private final Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newHashMap();
+	private final Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newWeakHashMap();
 
 	//
 	// Public methods

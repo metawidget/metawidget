@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Simple, Generator-based property and action binding processor.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -69,10 +69,17 @@ public class SimpleBindingProcessor
 		if ( config.getAdapters() == null ) {
 			mAdapters = null;
 		} else {
+
+			// WeakHashMap would be better here, but not supported by GWT:
+			// http://code.google.com/webtoolkit/doc/latest/RefJreEmulation.html#Package_java_util
+
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>( config.getAdapters() );
 		}
 
 		// Default converters
+		//
+		// WeakHashMap would be better here, but not supported by GWT:
+		// http://code.google.com/webtoolkit/doc/latest/RefJreEmulation.html#Package_java_util
 
 		mConverters = new HashMap<Class<?>, Converter<?>>();
 
@@ -142,7 +149,7 @@ public class SimpleBindingProcessor
 				throw new RuntimeException( "SimpleBindingProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 			}
 
-			if ( ((FocusWidget) widget).isEnabled() ) {
+			if ( ( (FocusWidget) widget ).isEnabled() ) {
 
 				// Bind the action
 

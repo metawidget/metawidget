@@ -16,6 +16,8 @@
 
 package org.metawidget.util;
 
+import java.lang.reflect.Method;
+
 import junit.framework.TestCase;
 
 /**
@@ -108,6 +110,28 @@ public class ClassUtilsTest
 		assertEquals( String.class, ClassUtils.niceForName( "[Ljava.lang.String;", null ).getComponentType() );
 	}
 
+	public void testGetOriginalDeclaringClass()
+		throws Exception {
+
+		// Overridden
+
+		Method method = String.class.getMethod( "equals", Object.class );
+		assertEquals( String.class, method.getDeclaringClass() );
+		assertEquals( Object.class, ClassUtils.getOriginalDeclaringClass( method ) );
+
+		// Not overridden
+
+		method = Object.class.getMethod( "equals", Object.class );
+		assertEquals( Object.class, method.getDeclaringClass() );
+		assertEquals( Object.class, ClassUtils.getOriginalDeclaringClass( method ) );
+
+		// Overridden but skipped in middle class of heirarchy
+
+		method = EqualsSkipped.class.getMethod( "equals", Object.class );
+		assertEquals( EqualsSkipped.class, method.getDeclaringClass() );
+		assertEquals( Object.class, ClassUtils.getOriginalDeclaringClass( method ) );
+	}
+
 	//
 	// Inner class
 	//
@@ -166,5 +190,20 @@ public class ClassUtilsTest
 
 	static class CannotUnproxyFoo_$$_javassist_1 {
 		// Should not unproxy, because extends java.lang.Object directly
+	}
+
+	static class SuperEqualsSkipped {
+
+		// Do not override equals
+	}
+
+	static class EqualsSkipped
+		extends SuperEqualsSkipped {
+
+		@Override
+		public boolean equals( Object obj ) {
+
+			return super.equals( obj );
+		}
 	}
 }

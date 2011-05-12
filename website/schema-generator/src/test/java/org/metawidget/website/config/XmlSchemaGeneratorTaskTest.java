@@ -116,6 +116,10 @@ public class XmlSchemaGeneratorTaskTest
 			// (don't want to see SWT Control properties)
 
 			assertTrue( filename, !contents.contains( "name=\"backgroundMode\"" ) );
+
+			// (don't want to see JSP TagSupport properties)
+
+			assertTrue( filename, !contents.contains( "name=\"pageContext\"" ) );
 		}
 	}
 

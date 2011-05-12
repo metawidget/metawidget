@@ -64,7 +64,7 @@ public abstract class BasePropertyStyle
 	protected BasePropertyStyle( BasePropertyStyleConfig config ) {
 
 		if ( config.isCacheProperties() ) {
-			mPropertiesCache = CollectionUtils.newHashMap();
+			mPropertiesCache = CollectionUtils.newWeakHashMap();
 		} else {
 			mPropertiesCache = null;
 		}

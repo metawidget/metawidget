@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with Classes.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -301,7 +301,7 @@ public final class ClassUtils {
 	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
 	 * such as 'Login Screen')</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param classLoader
 	 *            the specific ClassLoader to use to try and load this class. In general clients
 	 *            should use the other form of this method, which will default to trying the current
@@ -360,6 +360,32 @@ public final class ClassUtils {
 
 			return null;
 		}
+	}
+
+	/**
+	 * Similar to <code>Method.getDeclaringClass</code>, but traverses the class heirarchy to find
+	 * the class that <em>originally</em> declared this method, in the event the implementation has
+	 * been overridden.
+	 */
+
+	public static Class<?> getOriginalDeclaringClass( Method method ) {
+
+		Class<?> declaringClass = method.getDeclaringClass();
+		Class<?> superclass = declaringClass.getSuperclass();
+
+		while ( superclass != null ) {
+
+			try {
+				superclass.getDeclaredMethod( method.getName(), method.getParameterTypes() );
+				declaringClass = superclass;
+			} catch ( Exception e ) {
+				// Not in this superclass, but may be in super-superclass
+			}
+
+			superclass = superclass.getSuperclass();
+		}
+
+		return declaringClass;
 	}
 
 	//
