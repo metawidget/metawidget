@@ -1686,7 +1686,18 @@ public class Person {
 				<para>
 					For the Mobile Address Book we use the Android platform. Like Web-based applications, mobile applications require a container to run.
 					If you have a physical Android device you can install the Mobile Address Book by downloading and opening
-					<ulink url="http://metawidget.org/examples/android/android-addressbook.apk">http://metawidget.org/examples/android/android-addressbook.apk</ulink>.
+					<ulink url="http://metawidget.org/examples/android/addressbook-android.apk">http://metawidget.org/examples/android/addressbook-android.apk</ulink>
+					or scanning this QR Code:
+				</para>
+				
+				<figure id="section-introduction-part2-mobile-qrcode">
+					<title>Mobile Address Book APK URL</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/mobile-qrcode.png" width="30mm" />
+					</screenshot>
+				</figure>
+				
+				<para>
 					Alternatively download the Android SDK
 					from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>
 					(the examples are tested against Android 1.1).
