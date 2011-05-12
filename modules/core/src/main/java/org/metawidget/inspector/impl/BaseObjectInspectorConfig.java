@@ -36,7 +36,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * <code>AbstractPropertyInspectorConfig</code>, because a non-abstract class called
  * <code>AbstractXXX</code> was deemed confusing! All our other base classes are called
  * <code>BaseXXX</code> for consistency.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -68,7 +68,7 @@ public class BaseObjectInspectorConfig {
 
 	/**
 	 * Sets the style used to recognize properties.
-	 * 
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -87,7 +87,7 @@ public class BaseObjectInspectorConfig {
 
 	/**
 	 * Sets the style used to recognize actions.
-	 * 
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -185,12 +185,14 @@ public class BaseObjectInspectorConfig {
 			if ( DEFAULT_ACTION_STYLE == null ) {
 				try {
 					DEFAULT_ACTION_STYLE = (ActionStyle) Class.forName( ActionStyle.class.getPackage().getName() + ".metawidget.MetawidgetActionStyle" ).newInstance();
-				} catch ( Throwable t ) {
-					// MetawidgetActionStyle is unsupported on JDK 1.4, as well as
-					// some environments might choose to ship without it
-					//
-					// Note: this *must* catch Throwable, not Exception, so that we catch
-					// UnsupportedClassVersionError
+				} catch ( UnsupportedClassVersionError e ) {
+					// MetawidgetActionStyle is unsupported on JDK 1.4
+				} catch ( ClassNotFoundException e ) {
+					// Some environments might choose to ship without MetawidgetActionStyle
+				} catch ( InstantiationException e ) {
+					// Some environments might choose to ship without MetawidgetActionStyle
+				} catch ( IllegalAccessException e ) {
+					// Some environments might choose to ship without MetawidgetActionStyle
 				}
 			}
 

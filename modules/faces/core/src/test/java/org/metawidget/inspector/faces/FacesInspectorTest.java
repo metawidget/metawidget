@@ -314,6 +314,53 @@ public class FacesInspectorTest
 		assertEquals( "5: null", injected.get( 12 ));
 		assertEquals( "6: null", injected.get( 13 ));
 		assertEquals( 14, injected.size() );
+
+		// Parent injection
+
+		injected.clear();
+
+		inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true )) {
+
+			@Override
+			public Element inspectAsDom( Object toInspect, String type, String... names ) {
+
+				try {
+
+					injected.add( "1: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+					injected.add( "2: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+
+					return super.inspectAsDom( toInspect, type, names );
+
+				} finally {
+
+					injected.add( "5: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+					injected.add( "6: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				}
+			}
+
+			@Override
+			protected Map<String, String> inspectTrait( Trait trait )
+				throws Exception {
+
+				injected.add( "3: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
+				injected.add( "4: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
+				return null;
+			}
+		};
+
+		inspector.inspect( new ParentFoo(), ParentFoo.class.getName(), "fooInParent" );
+
+		assertEquals( "1: null", injected.get( 0 ));
+		assertEquals( "2: null", injected.get( 1 ));
+		assertTrue( injected.get( 2 ).startsWith( "3: fooInParent: " + ParentFoo.class.getName() ));
+		assertTrue( injected.get( 3 ).startsWith( "4: fooInParent: " + ParentFoo.class.getName() ));
+		assertTrue( injected.get( 4 ).startsWith( "3: bar: " + Foo.class.getName() ));
+		assertTrue( injected.get( 5 ).startsWith( "4: bar: " + Foo.class.getName() ));
+		assertTrue( injected.get( 6 ).startsWith( "3: foo: " + Foo.class.getName() ));
+		assertTrue( injected.get( 7 ).startsWith( "4: foo: " + Foo.class.getName() ));
+		assertEquals( "5: null", injected.get( 14 ));
+		assertEquals( "6: null", injected.get( 15 ));
+		assertEquals( 16, injected.size() );
 	}
 
 	public void testConfig() {
@@ -348,6 +395,11 @@ public class FacesInspectorTest
 	//
 	// Inner class
 	//
+
+	public static class ParentFoo {
+
+		public Foo fooInParent = new Foo();
+	}
 
 	public static class Foo {
 

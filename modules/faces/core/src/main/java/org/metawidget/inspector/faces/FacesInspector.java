@@ -83,32 +83,16 @@ public class FacesInspector
 	protected Map<String, String> inspectParent( Object parentToInspect, Property propertyInParent )
 		throws Exception {
 
-		// Sanity checks
+		if ( mInjectThis ) {
+			Map<String, Object> requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
 
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if ( context == null ) {
-			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+			requestMap.put( THIS_ATTRIBUTE, parentToInspect );
+			requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, parentToInspect );
 		}
 
-		Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
+		return super.inspectParent( parentToInspect, propertyInParent );
 
-		try {
-			if ( mInjectThis ) {
-				requestMap.put( THIS_ATTRIBUTE, parentToInspect );
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, parentToInspect );
-			}
-
-			return super.inspectParent( parentToInspect, propertyInParent );
-		} finally {
-
-			// 'this' should not be available outside of our particular evaluation
-
-			if ( mInjectThis ) {
-				requestMap.remove( THIS_ATTRIBUTE );
-				requestMap.remove( UNDERSCORE_THIS_ATTRIBUTE );
-			}
-		}
+		// THIS_ATTRIBUTE and UNDERSCORE_THIS_ATTRIBUTE will be cleaned up by inspect
 	}
 
 	@Override
@@ -134,7 +118,7 @@ public class FacesInspector
 			super.inspect( toInspect, classToInspect, toAddTo );
 		} finally {
 
-			// 'this' should not be available outside of our particular evaluation
+			// THIS_ATTRIBUTE and UNDERSCORE_THIS_ATTRIBUTE should not be available outside of our particular evaluation
 
 			if ( mInjectThis ) {
 				requestMap.remove( THIS_ATTRIBUTE );

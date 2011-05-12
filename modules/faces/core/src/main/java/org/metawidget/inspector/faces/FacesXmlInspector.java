@@ -104,7 +104,7 @@ public class FacesXmlInspector
 			return super.inspectAsDom( toInspect, type, names );
 		} finally {
 
-			// 'this' should not be available outside of our particular evaluation
+			// THIS_ATTRIBUTE and UNDERSCORE_THIS_ATTRIBUTE should not be available outside of our particular evaluation
 
 			if ( mInjectThis ) {
 				requestMap.remove( THIS_ATTRIBUTE );

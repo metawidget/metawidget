@@ -30,7 +30,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for Swing WidgetBuilders.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -144,15 +144,13 @@ public final class HtmlWidgetBuilderUtils {
 		try {
 			PageContext context = metawidget.getPageContext();
 			return context.getExpressionEvaluator().evaluate( expression, Object.class, context.getVariableResolver(), null );
-		} catch ( Throwable t ) {
+		} catch ( NoSuchMethodError e ) {
+			// pageContext.getExpressionEvaluator() is only available with JSP 2.0
+		} catch ( Exception e ) {
 			// EL should fail gracefully
-			//
-			// Note: this *must* catch Throwable, not Exception, so that we catch NoSuchMethodError
-			//
-			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
-
-			return null;
 		}
+
+		return null;
 	}
 
 	//
