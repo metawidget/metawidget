@@ -70,8 +70,10 @@
 					<version>true</version>
 					<use>true</use>
 					<doctitle>Metawidget ${project.version} API Documentation</doctitle>
-					<windowtitle>Metawidget ${project.version} API Documentation</windowtitle>
 					<overview>src/main/resources/overview.html</overview>
+					<!-- Designed for consistent diffs -->
+					<windowtitle>Metawidget API Documentation</windowtitle>
+					<notimestamp/>
 				</configuration>
 				<!-- mvn javadoc:aggregate must be manually run at *this* level (not parent POM) for JavaDoc generation to work. See MJAVADOC-311 -->
 			</plugin>
