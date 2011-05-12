@@ -144,11 +144,11 @@
 					
 						<!-- Documentation -->
 						
-						<!-- (will fail if 'javadoc:aggregate' has not been run manually)
+						<!-- (will fail if 'javadoc:aggregate' has not been run manually) -->
 						
 						<copy todir="target/ROOT/doc/api">
 							<fileset dir="../../modules/target/site/apidocs"/>
-						</copy> -->
+						</copy>
 
 						<copy todir="target/ROOT/doc/reference">
 							<fileset dir="../../documentation/reference/target/docbook">
@@ -191,6 +191,11 @@
 						<copy file="../../modules/spring/src/main/resources/META-INF/metawidget-spring.tld" todir="target/ROOT/spring"/>
 						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
 						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
+						
+						<!-- Easy Android install -->
+						
+						<copy file="../../examples/android/addressbook/application/target/addressbook-android.apk" todir="target/ROOT/examples/android"/>
+						<copy file="../../integration-tests/android/allwidgets/application/target/allwidgets-android.apk" todir="target/ROOT/integration-tests/android"/>
 						
 						<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
 				

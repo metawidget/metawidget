@@ -1684,8 +1684,12 @@ public class Person {
 				<title>Mobile Address Book</title>
 				
 				<para>
-					For the Mobile Address Book we use the Android platform. Like Web-based applications, mobile applications require a container to run. Download the Android SDK
-					(the examples are tested against Android 1.1) from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>.
+					For the Mobile Address Book we use the Android platform. Like Web-based applications, mobile applications require a container to run.
+					If you have a physical Android device you can install the Mobile Address Book by downloading and opening
+					<ulink url="http://metawidget.org/examples/android/android-addressbook.apk">http://metawidget.org/examples/android/android-addressbook.apk</ulink>.
+					Alternatively, if you do not have a physical device, download the Android SDK
+					from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>
+					(the examples are tested against Android 1.1).
 					Then change to the installation directory (usually <filename>android-sdk-windows</filename>) and run the emulator by
 					opening a command prompt and typing:
 				</para>
