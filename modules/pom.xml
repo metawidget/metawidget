@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget</groupId>
 		<artifactId>metawidget-parent</artifactId>
-		<version>1.20-SNAPSHOT</version>
+		<version>1.20</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -73,7 +73,7 @@
 					<overview>src/main/resources/overview.html</overview>
 					<!-- Designed for consistent diffs -->
 					<windowtitle>Metawidget API Documentation</windowtitle>
-					<notimestamp/>
+					<notimestamp>true</notimestamp>
 				</configuration>
 				<!-- mvn javadoc:aggregate must be manually run at *this* level (not parent POM) for JavaDoc generation to work. See MJAVADOC-311 -->
 			</plugin>

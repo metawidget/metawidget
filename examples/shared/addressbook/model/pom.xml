@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.examples</groupId>
 		<artifactId>examples-parent</artifactId>
-		<version>1.20-SNAPSHOT</version>
+		<version>1.20</version>
 		<relativePath>../../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
