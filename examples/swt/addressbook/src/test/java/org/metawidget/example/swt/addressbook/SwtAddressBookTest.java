@@ -133,9 +133,9 @@ public class SwtAddressBookTest
 		assertEquals( "Homer",  metawidgetContact.getValue( "firstname" ) );
 		assertTrue( ((Control) metawidgetContact.getControl( "firstname" )) instanceof Label );
 		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
-		assertTrue( metawidgetContact.getChildren()[13] instanceof Composite );
-		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[13]).getChildren()[0]).getText() );
-		assertEquals( 2, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
+		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
+		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[12]).getChildren()[0]).getText() );
+		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertEquals( "Address:", ( (Label) metawidgetContact.getControl( "address_label" ) ).getText() );
 		assertTrue( 1 == ( (GridData) ((Control) metawidgetContact.getControl( "address_label" )).getLayoutData() ).horizontalSpan );
 		assertTrue( 1 == ( (GridData) ((Control) metawidgetContact.getControl( "address" )).getLayoutData() ).horizontalSpan );
@@ -151,7 +151,7 @@ public class SwtAddressBookTest
 
 		Table communicationsTable = metawidgetContact.getControl( "communications" );
 		assertTrue( communicationsTable.getItemCount() == 1 );
-		assertTrue( metawidgetContact.getChildren().length == 22 );
+		assertTrue( metawidgetContact.getChildren().length == 21 );
 
 		// Check read-only editing does nothing
 
@@ -187,10 +187,10 @@ public class SwtAddressBookTest
 
 		assertEquals( "MALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		metawidgetContact.setValue( "Sapien", "surname" );
-		assertTrue( metawidgetContact.getChildren()[13] instanceof Composite );
-		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[13]).getChildren()[0]).getText() );
-		assertEquals( 2, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
-		assertTrue( metawidgetContact.getChildren().length == 22 );
+		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
+		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[12]).getChildren()[0]).getText() );
+		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
+		assertTrue( metawidgetContact.getChildren().length == 21 );
 
 		// Check editing a communication
 
@@ -304,7 +304,7 @@ public class SwtAddressBookTest
 
 		communicationsTable = metawidgetContact.getControl( "communications" );
 		assertTrue( communicationsTable.getItemCount() == 1 );
-		assertTrue( metawidgetContact.getChildren().length == 22 );
+		assertTrue( metawidgetContact.getChildren().length == 21 );
 
 		// Search everything
 
@@ -338,7 +338,7 @@ public class SwtAddressBookTest
 		metawidgetContact.setValue( 2, "numberOfStaff" );
 		metawidgetContact.setValue( "A Company", "company" );
 
-		assertTrue( metawidgetContact.getChildren().length == 24 );
+		assertTrue( metawidgetContact.getChildren().length == 23 );
 		saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
