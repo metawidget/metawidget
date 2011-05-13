@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with Classes.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -301,7 +301,7 @@ public final class ClassUtils {
 	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
 	 * such as 'Login Screen')</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param classLoader
 	 *            the specific ClassLoader to use to try and load this class. In general clients
 	 *            should use the other form of this method, which will default to trying the current
@@ -360,6 +360,26 @@ public final class ClassUtils {
 
 			return null;
 		}
+	}
+
+	/**
+	 * Gets the 'simple' name of the class.
+	 * <p>
+	 * Essentially a simplified version of <code>Class.getSimpleName</code>, which is JDK
+	 * 1.5-specific.
+	 */
+
+	public static String getSimpleName( Class<?> clazz ) {
+
+		String className = clazz.getName();
+
+		int lastIndexOf = className.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
+
+		if ( lastIndexOf != -1 ) {
+			className = className.substring( lastIndexOf + 1 );
+		}
+
+		return className;
 	}
 
 	/**

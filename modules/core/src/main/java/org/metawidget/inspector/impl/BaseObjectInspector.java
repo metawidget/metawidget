@@ -36,7 +36,6 @@ import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.Pair;
-import org.metawidget.util.simple.SimpleClassUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,7 +59,7 @@ import org.w3c.dom.Element;
  * <em>directly</em> at a type (ie. names == null), it will return properties even if the actual
  * value is null. This is important so we can inspect parameterized types of Collections without
  * having to iterate over and grab the first element in that Collection.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -259,7 +258,7 @@ public abstract class BaseObjectInspector
 	 * <p>
 	 * This method can be overridden by clients wishing to modify the parent inspection process (eg.
 	 * <code>JexlInspector</code>)
-	 * 
+	 *
 	 * @param parentToInspect
 	 *            the parent to inspect. Never null
 	 * @param propertyInParent
@@ -290,7 +289,7 @@ public abstract class BaseObjectInspector
 	 * This method can be overridden by clients wishing to modify the inspection process (eg.
 	 * <code>JexlInspector</code>). Most clients will find it easier to override one of the
 	 * sub-methods, such as <code>inspectTrait</code> or <code>inspectProperty</code>.
-	 * 
+	 *
 	 * @param toInspect
 	 *            the object to inspect. May be null
 	 * @param clazz
@@ -353,7 +352,7 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 * <p>
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
-	 * 
+	 *
 	 * @param declaredClass
 	 *            the class passed to <code>inspect</code>, or the class declared by the Object's
 	 *            parent (ie. its getter method)
@@ -382,7 +381,7 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 * 
+	 *
 	 * @param trait
 	 *            the trait to inspect
 	 */
@@ -399,7 +398,7 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 * 
+	 *
 	 * @param property
 	 *            the property to inspect
 	 */
@@ -416,7 +415,7 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 * 
+	 *
 	 * @param action
 	 *            the action to inspect
 	 */
@@ -436,7 +435,7 @@ public abstract class BaseObjectInspector
 	 * getter to retrieve the value) so is <code>false</code> by default.
 	 * <p>
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
-	 * 
+	 *
 	 * @param property
 	 *            the property to inspect
 	 */
@@ -538,7 +537,7 @@ public abstract class BaseObjectInspector
 	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than creating
 	 * and serializing an XML document, which <code>CompositeInspector</code> then deserializes and
 	 * merges, all for no meaningful content.
-	 * 
+	 *
 	 * @return true if the inspection is 'empty'
 	 */
 
@@ -562,7 +561,7 @@ public abstract class BaseObjectInspector
 	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
 	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
 	 * the database.
-	 * 
+	 *
 	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
 	 *         returns null.
 	 */
@@ -630,7 +629,7 @@ public abstract class BaseObjectInspector
 					// Trace, rather than do a debug log, because it makes for a nicer 'out
 					// of the box' experience
 
-					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider annotating {3} as @UiHidden", SimpleClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
+					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider annotating {3} as @UiHidden", ClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
 					return null;
 				}
 

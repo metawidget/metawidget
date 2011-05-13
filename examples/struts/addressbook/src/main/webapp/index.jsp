@@ -59,7 +59,7 @@
 						<td class="column-half">${a:collectionToString(_contact.communications,", ")}</td>
 						<td class="column-tiny">
 							<c:choose>
-								<c:when test="${_contact.classSimpleName == 'PersonalContact'}">
+								<c:when test="${_contact['class'].simpleName == 'PersonalContact'}">
 									<img src="media/personal-small.gif" alt="Personal Contact"/>
 								</c:when>
 								<c:otherwise>

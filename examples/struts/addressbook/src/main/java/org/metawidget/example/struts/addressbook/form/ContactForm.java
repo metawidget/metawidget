@@ -191,16 +191,4 @@ public abstract class ContactForm
 
 		mReadOnly = readOnly;
 	}
-
-	/**
-	 * Equivalent to calling <code>getClass().getSimpleName()</code>, but exposed here for EL
-	 * purposes. EL 2.2 doesn't allow <code>#{contactForm.class.simpleName}</code> because
-	 * 'class' is a reserved word.
-	 */
-
-	@UiHidden
-	public String getClassSimpleName() {
-
-		return SimpleClassUtils.getSimpleName( getClass() );
-	}
 }

@@ -11,7 +11,7 @@
 <tags:page>
 
 	<c:choose>
-		<c:when test="${contactForm.classSimpleName == 'PersonalContactForm'}">
+		<c:when test="${contactForm['class'].simpleName == 'PersonalContactForm'}">
 			<div id="page-image">
 				<img src="media/personal.gif">
 			</div>
