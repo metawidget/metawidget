@@ -36,9 +36,9 @@
 				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[4]/div/table/tbody/tr/td/textarea"/>
 
 				<invoke url="/contact.jsf?contact.load=5" />
-				<!-- LOW: Test selecting a dynamic tab once https://issues.jboss.org/browse/RF-10951 is fixed
+				<!-- Test https://issues.jboss.org/browse/RF-10951 -->
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td[6]/span)" text="Other"/>
-				<clickElement xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td[6]/span"/> -->
+				<clickElement xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td[6]/span"/>
 				
 				<clickButton label="Edit"/>
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
