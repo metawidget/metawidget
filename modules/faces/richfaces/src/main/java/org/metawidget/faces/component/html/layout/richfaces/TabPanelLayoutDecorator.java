@@ -138,6 +138,10 @@ public class TabPanelLayoutDecorator
 			}
 		}
 
+		// Set name too, as per https://issues.jboss.org/browse/RF-10951
+
+		tab.setName( localizedSection );
+
 		// Create nested Metawidget (for layout)
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) context.getApplication().createComponent( metawidget.getComponentType() );

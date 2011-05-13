@@ -2420,6 +2420,13 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 				</itemizedlist>
 				
+				<important>
+					<title>Check your Build Path</title>
+					If Hosted Mode fails to start, right click the project and choose <parameter>Properties &gt; Java Build Path &gt; Libraries</parameter>.
+					Check the build path does not include any GWT libraries outside of those in <parameter>Maven Dependencies</parameter>, and
+					that the GWT version matches the one in <filename>src/examples/gwt/addressbook/pom.xml</filename>. 
+				</important>
+				
 				<para>
 					Once you have the samples running, you can quickly make changes and play around. For example:
 				</para>
