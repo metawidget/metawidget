@@ -2359,7 +2359,7 @@ metawidget.setToInspect( animal )</programlisting>
 					<listitem>
 						<para>
 							Install <ulink url="http://m2eclipse.sonatype.org">m2eclipse</ulink>, then
-							choose <parameter>File &gt; Import &gt; Maven &gt; Existing Maven Projects</parameter>
+							choose <parameter>File &gt; Import... &gt; Maven &gt; Existing Maven Projects</parameter>
 						</para>
 					</listitem>
 					<listitem>
@@ -2369,31 +2369,38 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							After the project is imported there will be build errors related to dependent projects. Right click the
-							project and choose <parameter>Run As &gt; Maven Build...</parameter> (note the ellipses). In the <parameter>Edit Configuration</parameter>
+							The project may take a while to import and download dependencies (shown under Eclipse's <parameter>Console</parameter> tab).
+							Afterwards, there will be build errors related to missing artifacts (shown under Eclipse's <parameter>Problems</parameter> tab)
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Right click the	project and choose <parameter>Run As &gt; Maven Build...</parameter> (note the ellipses).
+							In the <parameter>Edit Configuration</parameter>
 							dialog, remove <filename>/gwt/addressbook</filename> from the end of <parameter>Base directory</parameter>
 							and enter <parameter>Goals</parameter> as:
 						</para>
 						<programlisting language="shell">-pl org.metawidget.examples.gwt:addressbook-gwt -am install</programlisting>
 						<para>
-							Click <parameter>Run</parameter> and wait for all dependent projects to build.							
+							Click <parameter>Run</parameter> and wait for all artifacts to build. Again, this may take a while.							
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Choose <parameter>Project &gt; Update All Maven Dependencies</parameter>.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							Right click the project and choose <parameter>Refresh</parameter>.
+							Choose <parameter>Project &gt; Update All Maven Dependencies</parameter>. The build errors should disappear.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
 							Install the <ulink url="http://code.google.com/eclipse">Google Plugin for Eclipse</ulink>, then
-							choose <parameter>Project &gt; Properties &gt; Google &gt; Web Toolkit</parameter> and click
+							right click the project and choose <parameter>Properties &gt; Google &gt; Web Toolkit</parameter> and click
 							<parameter>Use Google Web Toolkit</parameter>.
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							There will be a build error related to a missing <filename>web.xml</filename>. Right click the project
+							and choose <parameter>Refresh</parameter>. The build error should disappear.
 						</para>
 					</listitem>
 					<listitem>
@@ -2431,9 +2438,9 @@ metawidget.setToInspect( animal )</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							Right click the <filename>pom.xml</filename> and choose <parameter>Run As &gt; Maven Install</parameter>
-							(this step is only necessary because the GWT Address Book uses dependent projects. Import the GWT Client Side
-							 project for an example configured to deploy immediately without needing this extra step).
+							Right click the <filename>pom.xml</filename> and choose <parameter>Run As &gt; Maven Package</parameter>
+							(this step is only necessary because the GWT Address Book uses shared projects. Import the GWT Client Side
+							project for an example configured to deploy immediately without needing this extra step).
 						</para>
 					</listitem>
 					<listitem>
