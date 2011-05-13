@@ -34,7 +34,7 @@ import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.struts.addressbook.form.BusinessContactForm;
 import org.metawidget.example.struts.addressbook.form.ContactForm;
 import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
-import org.metawidget.util.simple.ClassUtils;
+import org.metawidget.util.ClassUtils;
 
 /**
  * @author Richard Kennard
