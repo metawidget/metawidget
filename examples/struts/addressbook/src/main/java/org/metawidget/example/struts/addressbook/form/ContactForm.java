@@ -27,7 +27,6 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.struts.UiStrutsLookup;
-import org.metawidget.util.simple.SimpleClassUtils;
 
 /**
  * @author Richard Kennard

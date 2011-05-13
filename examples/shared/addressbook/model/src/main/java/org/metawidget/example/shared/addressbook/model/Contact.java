@@ -30,7 +30,6 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.util.simple.ObjectUtils;
-import org.metawidget.util.simple.SimpleClassUtils;
 
 /**
  * Models a Contact in the Address Book
