@@ -380,7 +380,6 @@
 					<version>2.2</version>
 					<configuration>
 						<outputDirectory>${project.build.directory}/lib</outputDirectory>
-						<excludeTransitive>true</excludeTransitive>
 						<includeScope>runtime</includeScope>
 						<stripVersion>true</stripVersion>
 					</configuration>

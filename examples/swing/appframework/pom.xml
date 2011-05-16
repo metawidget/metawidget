@@ -32,12 +32,6 @@
 			<version>${commons.jexl.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>${commons.logging.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swing-worker</artifactId>
 			<version>${swingworker.version}</version>
