@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a SeparatorLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
@@ -76,11 +77,7 @@ public class SeparatorLayoutDecoratorConfig
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 

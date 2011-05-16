@@ -20,35 +20,50 @@
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
 			<artifactId>x86</artifactId>
+			<version>${eclipse.swt.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>org.eclipse.equinox.common</artifactId>
+			<version>${eclipse.equinox.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>databinding</artifactId>
+			<version>${eclipse.databinding.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>beans</artifactId>
+			<version>${eclipse.databinding.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>observable</artifactId>
+			<version>${eclipse.databinding.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>property</artifactId>
+			<version>${eclipse.databinding.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
 			<type>test-jar</type>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>

@@ -15,31 +15,26 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.examples.shared</groupId>
 			<artifactId>addressbook-shared-model</artifactId>
-			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<scope>runtime</scope>
+			<version>${beansbinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-jexl</groupId>
 			<artifactId>commons-jexl</artifactId>
-			<scope>compile</scope>
+			<version>${commons.jexl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

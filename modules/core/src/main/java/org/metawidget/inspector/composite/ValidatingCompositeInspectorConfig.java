@@ -62,11 +62,9 @@ public class ValidatingCompositeInspectorConfig
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		// TODO: nullSafeClassEquals
+		
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 

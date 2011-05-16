@@ -45,7 +45,7 @@
 							<directory>war</directory>
 						</fileset>
 						<fileset>
-							<directory>src/main/webapp/WEB-INF/deploy</directory>							
+							<directory>src/main/webapp/WEB-INF/deploy</directory>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -57,7 +57,7 @@
 					<!-- because it plays nicer with overlay. In general, gwt-maven-plugin recommends Solution #1 instead -->
 
 					<webappDirectory>${basedir}/war</webappDirectory>
-					
+
 					<overlays>
 						<overlay>
 							<groupId>org.metawidget.examples.shared</groupId>
@@ -89,18 +89,18 @@
 		<dependency>
 			<groupId>org.metawidget.examples.shared</groupId>
 			<artifactId>addressbook-shared-webapp</artifactId>
+			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.examples.shared</groupId>
 			<artifactId>addressbook-shared-model</artifactId>
-			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
@@ -112,29 +112,34 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<scope>runtime</scope>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<scope>runtime</scope>
+			<version>${jsp.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<scope>runtime</scope>
+			<version>${jstl.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>${taglibs.standard.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

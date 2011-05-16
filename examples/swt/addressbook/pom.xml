@@ -15,62 +15,56 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.examples.shared</groupId>
 			<artifactId>addressbook-shared-model</artifactId>
-			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>org.eclipse.equinox.common</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.equinox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
 			<artifactId>x86</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.swt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>databinding</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>beans</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>observable</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>property</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.databinding.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<scope>runtime</scope>
-		</dependency>		
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>base</artifactId>
-			<scope>runtime</scope>
+			<version>${ibm.icu.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-jexl</groupId>
 			<artifactId>commons-jexl</artifactId>
-			<version>1.1</version>
-			<scope>runtime</scope>
+			<version>${commons.jexl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

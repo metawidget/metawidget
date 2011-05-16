@@ -55,44 +55,36 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-annotation</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-java5</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-faces</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<scope>compile</scope>
+			<version>${mojarra2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<scope>compile</scope>
+			<version>${mojarra2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<scope>compile</scope>
+			<version>${taglibs.standard.version}</version>
 		</dependency>		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<scope>compile</scope>
+			<version>${jstl.version}</version>
 		</dependency>
 	</dependencies>
 	

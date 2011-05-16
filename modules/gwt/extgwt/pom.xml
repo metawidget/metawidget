@@ -19,10 +19,14 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-		</dependency>		
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.extjs</groupId>
 			<artifactId>gxt</artifactId>
+			<version>${extgwt.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

@@ -24,13 +24,12 @@
 		<dependency>
 			<groupId>org.metawidget.integration-tests.shared</groupId>
 			<artifactId>allwidgets-shared-model</artifactId>
-			<scope>compile</scope>
-		</dependency>	
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.gwt</groupId>
 			<artifactId>metawidget-gwt</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
@@ -42,17 +41,19 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.gwt</groupId>
 			<artifactId>metawidget-gwt</artifactId>
 			<version>${project.version}</version>
 			<type>test-jar</type>
-			<scope>test</scope>			
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

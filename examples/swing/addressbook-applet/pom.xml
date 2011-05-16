@@ -15,8 +15,8 @@
 		<dependency>
 			<groupId>org.metawidget.examples.shared</groupId>
 			<artifactId>addressbook-shared-model</artifactId>
-			<scope>runtime</scope>
-		</dependency>	
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.metawidget.examples.swing</groupId>
 			<artifactId>addressbook-swing</artifactId>
@@ -26,50 +26,41 @@
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-swing</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-beansbinding</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-annotation</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-java5</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.commons</groupId>
 			<artifactId>metawidget-jexl</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<scope>runtime</scope>
+			<version>${beansbinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-jexl</groupId>
 			<artifactId>commons-jexl</artifactId>
-			<scope>runtime</scope>
+			<version>${commons.jexl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -110,15 +101,8 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>			
-			<!-- TODO: test applet <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>webtest-maven-plugin</artifactId>
-			</plugin> -->			
+			<!-- TODO: test applet <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>tomcat-maven-plugin</artifactId> </plugin> <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>webtest-maven-plugin</artifactId> </plugin> -->
 		</plugins>
 	</build>
 

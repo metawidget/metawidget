@@ -9,18 +9,74 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- Appears to be the highest version that works with tomcat-maven-plugin 1.1 -->
-		<tomcat.version>6.0.29</tomcat.version>
-		<!-- We build against the latest Mojarra, but we test against 1.2.x -->
-		<mojarra1.version>1.2_15</mojarra1.version>
-		<myfaces11.version>1.1.6</myfaces11.version>
-		<myfaces2.version>2.0.5</myfaces2.version>
-		<!-- We build against the latest RichFaces, but we test against 3.3.3.Final -->
-		<richfaces333.version>3.3.3.Final</richfaces333.version>
+		
+		<!-- Artifact versions. Avoid using &lt;dependencyManagement&gt; for dependencies because: -->
+
+		<!-- 1. Maven always downloads *all* &lt;dependencyManagement&gt; dependencies even if they -->
+		<!-- are not needed (ie. you are just building *one* of the examples). See: -->
+		<!-- http://maven.40175.n5.nabble.com/Maven-unnecessarily-downloads-all-dependencies-from-parent-POM-s-lt-dependencyManagement-gt-td4392388.html -->
+
+		<!-- 2. All &lt;dependencyManagement&gt; dependencies must be marked 'provided' for our -->
+		<!-- purposes, which handicaps Maven's automatic 'dragging in' of related dependencies -->
+		
+		<android.version>1.5_r4</android.version>
+		<ant.version>1.8.2</ant.version>
+		<appframework.version>1.0.3</appframework.version>
+		<bcel.version>5.1</bcel.version>
+		<beansbinding.version>1.2.1</beansbinding.version>
+		<commons.beanutils.version>1.8.3</commons.beanutils.version>
+		<commons.jexl.version>1.1</commons.jexl.version>
+		<commons.logging.version>1.1.1</commons.logging.version>
+		<displaytag.version>1.2</displaytag.version>
+		<eclipse.databinding.version>1.2.0</eclipse.databinding.version>
+		<eclipse.equinox.version>3.6.0.v20100503</eclipse.equinox.version>
+		<!-- 3.4+ avoid the swt.dll loading problem -->
+		<eclipse.swt.version>3.6.0-v3659</eclipse.swt.version>
+		<el.version>2.2.1-b03</el.version>
+		<!-- Note: ExtGWT 2.2.3 needed for GWT 2.2.0 -->
+		<extgwt.version>2.2.3</extgwt.version>
+		<facelets.version>1.1.14</facelets.version>
+		<!-- Groovy 1.7 requires JDK 1.6 for java.awt.Dialog.ModalExclusionType -->
+		<groovy.version>1.6.9</groovy.version>
+		<gwt.version>2.2.0</gwt.version>
+		<hibernate.validator.version>3.1.0.GA</hibernate.validator.version>
+		<ibm.icu.version>3.4.5</ibm.icu.version>
+		<icefaces.version>1.8.2</icefaces.version>
+		<javassist.version>3.1</javassist.version>
+		<jboss.javaee6.version>1.0.0.Final</jboss.javaee6.version>
 		<!-- We build against 1.5, but we test against 1.4 -->
 		<jdk14.path>/j2sdk1.4.2_16</jdk14.path>
+		<jgoodies.validation.version>2.0.1</jgoodies.validation.version>
+		<jpa.version>1.0</jpa.version>
+		<jsp.version>2.0</jsp.version>
+		<jstl.version>1.1.2</jstl.version>
 		<!-- JDK 1.4 needs JUnit 3.x -->
 		<junit3.version>3.8.2</junit3.version>
+		<junit4.version>4.8.2</junit4.version>
+		<miglayout.version>3.7.3</miglayout.version>
+		<!-- We build against the latest Mojarra, but we test against 1.2.x -->
+		<mojarra1.version>1.2_15</mojarra1.version>
+		<mojarra2.version>2.1.0</mojarra2.version>
+		<myfaces11.version>1.1.6</myfaces11.version>
+		<myfaces12.version>1.2.10</myfaces12.version>
+		<myfaces2.version>2.0.5</myfaces2.version>
+		<oval.version>1.32</oval.version>
+		<primefaces.version>2.2</primefaces.version>
+		<!-- We build against the latest RichFaces, but we test against 3.3.3.Final -->
+		<richfaces31.version>3.1.6.GA</richfaces31.version>
+		<richfaces333.version>3.3.3.Final</richfaces333.version>
+		<richfaces4.version>4.0.0.Final</richfaces4.version>
+		<scala.version>2.7.2</scala.version>
+		<servlet.version>2.4</servlet.version>
+		<spring.version>2.5.6</spring.version>
+		<struts.version>1.2.9</struts.version>
+		<swingworker.version>1.1</swingworker.version>
+		<swingx.version>1.0</swingx.version>
+		<taglibs.standard.version>1.1.2</taglibs.standard.version>
+		<tomahawk.version>1.1.9</tomahawk.version>
+		<!-- Appears to be the highest version that works with tomcat-maven-plugin 1.1 -->
+		<tomcat.version>6.0.29</tomcat.version>
+
 	</properties>
 
 	<name>Metawidget</name>
@@ -188,6 +244,12 @@
 	<!-- Dependencies (all scopes are 'provided' so that metawidget-all.jar has no mandatory dependencies) -->
 
 	<repositories>
+		<!-- Try Central Repository first. It will resolve most things -->
+		<repository>
+			<id>maven-central</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<!-- Try specialized repositories next. It it slow to check (and fail) on each of these -->
 		<repository>
 			<id>jboss-public-repository</id>
 			<url>http://repository.jboss.org/nexus/content/groups/public</url>
@@ -206,450 +268,16 @@
 		</repository>
 	</repositories>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.google.android</groupId>
-				<artifactId>android</artifactId>
-				<version>1.5_r4</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>xmlParserAPIs</artifactId>
-						<groupId>xerces</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>com.google.android</groupId>
-				<artifactId>android-test</artifactId>
-				<version>1.5_r4</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.myfaces.tomahawk</groupId>
-				<artifactId>tomahawk</artifactId>
-				<version>1.1.9</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.richfaces.ui</groupId>
-				<artifactId>richfaces-ui</artifactId>
-				<version>3.1.6.GA</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>jsf-api</artifactId>
-						<groupId>javax.faces</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>jsf-impl</artifactId>
-						<groupId>javax.faces</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.richfaces</groupId>
-				<artifactId>richfaces-bom</artifactId>
-				<version>4.0.0.Final</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>org.richfaces.ui</groupId>
-				<artifactId>richfaces-components-ui</artifactId>
-				<version>4.0.0.Final</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.richfaces.core</groupId>
-				<artifactId>richfaces-core-impl</artifactId>
-				<version>4.0.0.Final</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.icefaces</groupId>
-				<artifactId>icefaces</artifactId>
-				<version>1.8.2</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>javax.el</groupId>
-				<artifactId>el-api</artifactId>
-				<version>2.2.1-b03</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.icefaces</groupId>
-				<artifactId>icefaces-comps</artifactId>
-				<version>1.8.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.primefaces</groupId>
-				<artifactId>primefaces</artifactId>
-				<version>2.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.swinglabs</groupId>
-				<artifactId>swingx</artifactId>
-				<version>1.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>2.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-dev</artifactId>
-				<version>2.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>2.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.extjs</groupId>
-				<artifactId>gxt</artifactId>
-				<!-- Note: ExtGWT 2.2.3 needed for GWT 2.2.0 -->
-				<version>2.2.3</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>commons-jexl</groupId>
-				<artifactId>commons-jexl</artifactId>
-				<version>1.1</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>junit</artifactId>
-						<groupId>junit</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>logkit</groupId>
-						<artifactId>logkit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>avalon-framework</groupId>
-						<artifactId>avalon-framework</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>3.1.0.GA</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.miglayout</groupId>
-				<artifactId>miglayout</artifactId>
-				<version>3.7.3</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jdesktop</groupId>
-				<artifactId>beansbinding</artifactId>
-				<version>1.2.1</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils</artifactId>
-				<version>1.8.3</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.jgoodies</groupId>
-				<artifactId>validation</artifactId>
-				<version>2.0.1</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>net.sf.oval</groupId>
-				<artifactId>oval</artifactId>
-				<version>1.32</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javassist</groupId>
-				<artifactId>javassist</artifactId>
-				<version>3.1</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.groovy</groupId>
-				<artifactId>groovy-all</artifactId>
-				<!-- Groovy 1.7 requires JDK 1.6 for java.awt.Dialog.ModalExclusionType -->
-				<version>1.6.9</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>ant</artifactId>
-						<groupId>org.apache.ant</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>ant-launcher</artifactId>
-						<groupId>org.apache.ant</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>junit</artifactId>
-						<groupId>junit</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>jsp-api</artifactId>
-				<version>2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.4</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>struts</groupId>
-				<artifactId>struts</artifactId>
-				<version>1.2.9</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>antlr</artifactId>
-						<groupId>antlr</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>xalan</artifactId>
-						<groupId>xalan</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>oro</artifactId>
-						<groupId>oro</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>commons-fileupload</artifactId>
-						<groupId>commons-fileupload</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>xml-apis</artifactId>
-						<groupId>xml-apis</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>commons-collections</artifactId>
-						<groupId>commons-collections</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>2.5.6</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>aopalliance</artifactId>
-						<groupId>aopalliance</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>spring-context-support</artifactId>
-						<groupId>org.springframework</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>displaytag</groupId>
-				<artifactId>displaytag</artifactId>
-				<version>1.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jdesktop</groupId>
-				<artifactId>appframework</artifactId>
-				<version>1.0.3</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.swinglabs</groupId>
-				<artifactId>swing-worker</artifactId>
-				<version>1.1</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.spec</groupId>
-				<artifactId>jboss-javaee-6.0</artifactId>
-				<version>1.0.0.Final</version>
-				<type>pom</type>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.faces</groupId>
-				<artifactId>jsf-api</artifactId>
-				<version>2.1.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.faces</groupId>
-				<artifactId>jsf-impl</artifactId>
-				<version>2.1.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.myfaces.core</groupId>
-				<artifactId>myfaces-api</artifactId>
-				<version>1.2.10</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.myfaces.core</groupId>
-				<artifactId>myfaces-impl</artifactId>
-				<version>1.2.10</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.8.2</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.equinox</groupId>
-				<artifactId>org.eclipse.equinox.common</artifactId>
-				<version>3.6.0.v20100503</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.swt.win32.win32</groupId>
-				<artifactId>x86</artifactId>
-				<!-- 3.4+ avoid the swt.dll loading problem -->
-				<version>3.6.0-v3659</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.core</groupId>
-				<artifactId>databinding</artifactId>
-				<version>1.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.core.databinding</groupId>
-				<artifactId>beans</artifactId>
-				<version>1.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.core.databinding</groupId>
-				<artifactId>observable</artifactId>
-				<version>1.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.core.databinding</groupId>
-				<artifactId>property</artifactId>
-				<version>1.2.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.ibm.icu</groupId>
-				<artifactId>base</artifactId>
-				<version>3.4.5</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-				<version>1.1.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.1.2</version>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.facelets</groupId>
-				<artifactId>jsf-facelets</artifactId>
-				<version>1.1.14</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.persistence</groupId>
-				<artifactId>persistence-api</artifactId>
-				<version>1.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ant</groupId>
-				<artifactId>ant</artifactId>
-				<version>1.8.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>bcel</groupId>
-				<artifactId>bcel</artifactId>
-				<version>5.1</version>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<pluginRepositories>
+		<!-- Try Central Repository first. It will resolve most things -->
+		<pluginRepository>
+			<id>maven-central</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</pluginRepository>
+		<!-- Try specialized repositories next. It it slow to check (and fail) on each of these -->
 		<pluginRepository>
 			<id>codehaus</id>
 			<url>http://snapshots.repository.codehaus.org</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>java.net-maven2-repository</id>
-			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>jboss-public-repository</id>
-			<url>http://repository.jboss.org/nexus/content/groups/public</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>prime-repo</id>
-			<url>http://repository.prime.com.tr</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>local-repository</id>
-			<url>https://metawidget.svn.sourceforge.net/svnroot/metawidget/trunk/repository</url>
 		</pluginRepository>
 	</pluginRepositories>
 

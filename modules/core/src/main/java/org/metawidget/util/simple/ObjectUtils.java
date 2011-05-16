@@ -29,6 +29,24 @@ public final class ObjectUtils {
 	//
 
 	/**
+	 * @return true if object1 is the same class (not assignable subclass) as object2. False
+	 *         otherwise.
+	 */
+
+	public static boolean nullSafeClassEquals( Object object1, Object object2 ) {
+
+		if ( object1 == null || object2 == null ) {
+			return false;
+		}
+
+		if ( object1.getClass() != object2.getClass() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * @return 0 if toHash is null, otherwise returns toHash.hashCode()
 	 */
 

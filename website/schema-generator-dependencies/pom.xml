@@ -15,93 +15,102 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<scope>compile</scope>
+			<version>${android.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
-			<scope>compile</scope>
+			<version>${richfaces31.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsf-api</artifactId>
+					<groupId>javax.faces</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jsf-impl</artifactId>
+					<groupId>javax.faces</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.icefaces</groupId>
 			<artifactId>icefaces-comps</artifactId>
-			<scope>compile</scope>
+			<version>${icefaces.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<scope>compile</scope>
+			<version>${primefaces.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<scope>compile</scope>
+			<version>${javassist.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
+			<version>${jboss.javaee6.version}</version>
 			<type>pom</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<scope>compile</scope>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<scope>compile</scope>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.extjs</groupId>
 			<artifactId>gxt</artifactId>
-			<scope>compile</scope>
-		</dependency>		
+			<version>${extgwt.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<scope>compile</scope>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>struts</groupId>
 			<artifactId>struts</artifactId>
-			<scope>compile</scope>
+			<version>${struts.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
-			<scope>compile</scope>
+			<version>${swingx.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout</artifactId>
-			<scope>compile</scope>
+			<version>${miglayout.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
-			<scope>compile</scope>
+			<version>${beansbinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
 			<artifactId>x86</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.swt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>databinding</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>observable</artifactId>
-			<scope>compile</scope>
+			<version>${eclipse.databinding.version}</version>
 		</dependency>
 	</dependencies>
 

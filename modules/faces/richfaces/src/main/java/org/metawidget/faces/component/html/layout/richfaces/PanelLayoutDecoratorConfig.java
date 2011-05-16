@@ -87,11 +87,7 @@ public class PanelLayoutDecoratorConfig
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 

@@ -16,36 +16,36 @@
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-swing</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-beansbinding</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.commons</groupId>
 			<artifactId>metawidget-beanutils</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
+			<version>${beansbinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
+			<version>${commons.beanutils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.integration-tests.shared</groupId>
 			<artifactId>allwidgets-shared-model</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit3.version}</version>			
+			<version>${junit3.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -74,7 +74,7 @@
 
 								<java classname="junit.textui.TestRunner" failonerror="true" fork="true" jvm="${jdk14.path}/bin/java">
 									<arg line="org.metawidget.integrationtest.swing.allwidgets.SwingAllWidgetsTest" />
-									<classpath refid="maven.test.classpath"/>
+									<classpath refid="maven.test.classpath" />
 								</java>
 							</target>
 						</configuration>

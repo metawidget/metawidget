@@ -1,4 +1,4 @@
-<project name="allwidgets-test">
+<project name="allwidgets-test-no-richfaces">
 
 	<taskdef resource="webtestTaskdefs.properties"/>
 

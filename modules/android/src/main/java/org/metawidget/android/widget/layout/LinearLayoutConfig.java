@@ -16,6 +16,8 @@
 
 package org.metawidget.android.widget.layout;
 
+import org.metawidget.util.simple.ObjectUtils;
+
 /**
  * Configures a LinearLayout prior to use. Once instantiated, Layouts are immutable.
  *
@@ -51,11 +53,7 @@ public class LinearLayoutConfig {
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 

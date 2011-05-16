@@ -17,6 +17,7 @@
 package org.metawidget.swt.layout;
 
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a MigLayout prior to use. Once instantiated, Layouts are immutable.
@@ -58,11 +59,7 @@ public class MigLayoutConfig {
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 

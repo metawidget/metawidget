@@ -14,17 +14,24 @@
 		<dependency>
 			<groupId>org.metawidget.integration-tests.shared</groupId>
 			<artifactId>allwidgets-shared-model</artifactId>
-			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>	
 		<dependency>
 			<groupId>org.metawidget.modules.android</groupId>
 			<artifactId>metawidget-android</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
+			<version>${android.version}</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>xmlParserAPIs</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 

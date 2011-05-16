@@ -30,24 +30,6 @@
 		<module>swt/addressbook</module>
 	</modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.metawidget.examples.shared</groupId>
-				<artifactId>addressbook-shared-webapp</artifactId>
-				<version>${project.version}</version>
-				<type>war</type>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.metawidget.examples.shared</groupId>
-				<artifactId>addressbook-shared-model</artifactId>
-				<version>${project.version}</version>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<repositories>
 		<!-- For building examples 'standalone' against snapshot releases -->
 		<repository>

@@ -19,6 +19,7 @@ package org.metawidget.android.widget.layout;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.util.simple.ObjectUtils;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,11 +74,7 @@ public class TextViewLayoutDecoratorConfig
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 

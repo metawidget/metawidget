@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a TabbedPaneLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
@@ -77,11 +78,7 @@ public class TabbedPaneLayoutDecoratorConfig
 			return true;
 		}
 
-		if ( that == null ) {
-			return false;
-		}
-
-		if ( getClass() != that.getClass() ) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
 			return false;
 		}
 
