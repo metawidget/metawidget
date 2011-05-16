@@ -18,7 +18,7 @@ package org.metawidget.util.simple;
 
 /**
  * Utilities for working with Objects.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -29,8 +29,11 @@ public final class ObjectUtils {
 	//
 
 	/**
-	 * @return true if object1 is the same class (not assignable subclass) as object2. False
-	 *         otherwise.
+	 * Compares the classes of the given Objects and returns true if they are identical. This check
+	 * is typically used at the start of an <code>equals</code> implementation.
+	 * 
+	 * @return true if object1 is the same class (exact same, not just assignable subclass) as
+	 *         object2. False otherwise.
 	 */
 
 	public static boolean nullSafeClassEquals( Object object1, Object object2 ) {
@@ -72,7 +75,7 @@ public final class ObjectUtils {
 	 * null == null is debatable, but this approach is useful for comparing two parent Objects who
 	 * have both left certain properties as null. Generally we want those two parent Objects to be
 	 * considered equal.
-	 *
+	 * 
 	 * @return true if both object1 and object2 are null, false if one is null and the other is not,
 	 *         otherwise returns object1.equals( object2 )
 	 */

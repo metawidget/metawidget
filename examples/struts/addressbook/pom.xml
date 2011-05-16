@@ -67,6 +67,32 @@
 			<groupId>struts</groupId>
 			<artifactId>struts</artifactId>
 			<version>${struts.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>antlr</artifactId>
+					<groupId>antlr</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-collections</artifactId>
+					<groupId>commons-collections</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-fileupload</artifactId>
+					<groupId>commons-fileupload</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>oro</artifactId>
+					<groupId>oro</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xalan</artifactId>
+					<groupId>xalan</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -82,7 +108,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
 
 </project>
