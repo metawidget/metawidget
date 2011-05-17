@@ -38,22 +38,10 @@
 		<dependency>
 			<groupId>org.icefaces</groupId>
 			<artifactId>icefaces</artifactId>
-			<version>${icefaces.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>el-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.icefaces</groupId>
 			<artifactId>icefaces-comps</artifactId>
-			<version>${icefaces.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.faces</groupId>
@@ -68,7 +56,6 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
 		</dependency>
 	</dependencies>
 

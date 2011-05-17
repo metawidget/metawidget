@@ -57,21 +57,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.richfaces</groupId>
-			<artifactId>richfaces-bom</artifactId>
-			<version>${richfaces4.version}</version>
-			<scope>import</scope>
-			<type>pom</type>
-		</dependency>		
-		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-components-ui</artifactId>
-			<version>${richfaces4.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.core</groupId>
 			<artifactId>richfaces-core-impl</artifactId>
-			<version>${richfaces4.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
@@ -86,7 +77,6 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
 		</dependency>
 
 	</dependencies>

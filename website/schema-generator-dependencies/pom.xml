@@ -19,98 +19,71 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>${android.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
-			<version>${richfaces31.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jsf-api</artifactId>
-					<groupId>javax.faces</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jsf-impl</artifactId>
-					<groupId>javax.faces</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.icefaces</groupId>
 			<artifactId>icefaces-comps</artifactId>
-			<version>${icefaces.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>${primefaces.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>${javassist.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>${jboss.javaee6.version}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.extjs</groupId>
 			<artifactId>gxt</artifactId>
-			<version>${extgwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>struts</groupId>
 			<artifactId>struts</artifactId>
-			<version>${struts.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
-			<version>${swingx.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout</artifactId>
-			<version>${miglayout.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
-			<version>${beansbinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
 			<artifactId>x86</artifactId>
-			<version>${eclipse.swt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>databinding</artifactId>
-			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>observable</artifactId>
-			<version>${eclipse.databinding.version}</version>
 		</dependency>
 	</dependencies>
 

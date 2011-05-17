@@ -24,54 +24,38 @@
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>org.eclipse.equinox.common</artifactId>
-			<version>${eclipse.equinox.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse.osgi</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
 			<artifactId>x86</artifactId>
-			<version>${eclipse.swt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>databinding</artifactId>
-			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>beans</artifactId>
-			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>observable</artifactId>
-			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core.databinding</groupId>
 			<artifactId>property</artifactId>
-			<version>${eclipse.databinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>base</artifactId>
-			<version>${ibm.icu.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-jexl</groupId>
 			<artifactId>commons-jexl</artifactId>
-			<version>${commons.jexl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

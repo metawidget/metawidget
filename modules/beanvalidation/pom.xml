@@ -20,15 +20,11 @@
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>${jboss.javaee6.version}</version>
 			<type>pom</type>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

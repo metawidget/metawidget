@@ -20,44 +20,28 @@
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-components-ui</artifactId>
-			<version>${richfaces4.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.core</groupId>
 			<artifactId>richfaces-core-impl</artifactId>
-			<version>${richfaces4.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- 3.x -->
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
-			<version>${richfaces31.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jsf-api</artifactId>
-					<groupId>javax.faces</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jsf-impl</artifactId>
-					<groupId>javax.faces</groupId>
-				</exclusion>
-			</exclusions>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>${mojarra2.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>${jboss.javaee6.version}</version>
 			<type>pom</type>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
@@ -68,8 +52,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

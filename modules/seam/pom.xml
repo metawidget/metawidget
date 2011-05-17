@@ -15,7 +15,7 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-jbpm</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
@@ -25,8 +25,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	

@@ -77,12 +77,10 @@
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>${taglibs.standard.version}</version>
 		</dependency>		
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
+			<artifactId>jstl</artifactId>			
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>

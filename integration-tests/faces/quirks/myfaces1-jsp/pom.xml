@@ -67,37 +67,22 @@
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-api</artifactId>
-			<version>${myfaces12.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-impl</artifactId>
-			<version>${myfaces12.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>${taglibs.standard.version}</version>
 		</dependency>		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
-			<version>${richfaces31.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jsf-api</artifactId>
-					<groupId>javax.faces</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jsf-impl</artifactId>
-					<groupId>javax.faces</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>		
 	</dependencies>
 	

@@ -20,13 +20,10 @@
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
-			<version>${beansbinding.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
