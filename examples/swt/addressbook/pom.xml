@@ -25,6 +25,12 @@
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>org.eclipse.equinox.common</artifactId>
 			<version>${eclipse.equinox.version}</version>
+			<excludes>
+				<exclude>
+					<groupId>org.eclipse.osgi</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclude>
+			</excludes>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>

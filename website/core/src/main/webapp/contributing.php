@@ -91,6 +91,13 @@
 					</td> 
 				</tr>
 				<tr>
+					<th>VaadinMetawidget</th>
+					<td>
+						Vaadin is a GWT-based, server-side framework with interesting opportunities for
+						integration with technologies like JEXL.
+					</td> 
+				</tr>
+				<tr>
 					<th>ZkMetawidget</th>
 					<td>
 						ZK is a very popular Web framework, and has interesting architectual differences
