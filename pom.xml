@@ -589,11 +589,13 @@
 				<groupId>javax.persistence</groupId>
 				<artifactId>persistence-api</artifactId>
 				<version>1.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ant</groupId>
 				<artifactId>ant</artifactId>
 				<version>1.8.2</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>bcel</groupId>
