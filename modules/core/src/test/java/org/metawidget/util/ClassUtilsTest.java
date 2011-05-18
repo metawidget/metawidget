@@ -197,6 +197,7 @@ public class ClassUtilsTest
 		// Do not override equals
 	}
 
+	@SuppressWarnings( "all" )
 	static class EqualsSkipped
 		extends SuperEqualsSkipped {
 

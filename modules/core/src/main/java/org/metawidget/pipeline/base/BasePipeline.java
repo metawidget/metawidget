@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
@@ -359,20 +360,32 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			// Build simple widget (from the top-level element)
 
 			E element = getChildAt( inspectionResult, 0 );
+
+			// Sanity check
+
+			String elementName = getElementName( element );
+
+			if ( !ENTITY.equals( elementName ) ) {
+				throw MetawidgetException.newException( "Top-level element name should be " + ENTITY + ", not " + elementName );
+			}
+
+			// Metawidget-wide read-only
+
 			Map<String, String> attributes = getAttributesAsMap( element );
 
 			if ( isReadOnly() ) {
 				attributes.put( READ_ONLY, TRUE );
 			}
 
-			// It is a little counter-intuitive that there can ever be an override
-			// of the top-level element. However, if we go down the path that builds
-			// a single widget (eg. doesn't invoke buildCompoundWidget), then our
-			// child is at the same top-level as us, and there are some scenarios (like
-			// Java Server Faces POST backs) where we need to re-identify that
+			// Build top-level widget.
+			//
+			// This includes invoking all WidgetBuilders, such as OverriddenWidgetBuilder. It is a
+			// little counter-intuitive that there can ever be an override of the top-level element.
+			// However, if we go down the path that builds a single widget (eg. doesn't invoke
+			// buildCompoundWidget), then our child is at the same top-level as us, and there are
+			// some scenarios (like Java Server Faces POST backs) where we need to re-identify that
 
-			String elementName = getElementName( element );
-			W widget = buildWidget( elementName, attributes );
+			W widget = buildWidget( ENTITY, attributes );
 
 			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
 			// elements)
@@ -380,10 +393,10 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			if ( widget == null ) {
 				buildCompoundWidget( element );
 			} else {
-				widget = processWidget( widget, elementName, attributes );
+				widget = processWidget( widget, ENTITY, attributes );
 
 				if ( widget != null ) {
-					layoutWidget( widget, elementName, attributes );
+					layoutWidget( widget, ENTITY, attributes );
 				}
 			}
 		}

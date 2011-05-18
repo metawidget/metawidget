@@ -201,6 +201,27 @@
 			</steps>
 		</webtest>
 		
+		<webtest name="test-richfaces-ajax-in-page">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/richFacesAjaxInPage.jsf" />
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(foo);')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[1])" text=""/>
+				
+				<clickButton label="Update"/>
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(foo);')"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[1])" text="clicked"/>
+			</steps>
+		</webtest>
+
 		<webtest name="test-richfaces-panel">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>

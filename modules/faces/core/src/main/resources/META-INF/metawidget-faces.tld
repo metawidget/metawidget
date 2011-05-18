@@ -12,6 +12,7 @@
 	<tag>
 		<name>metawidget</name>
 		<tagclass>org.metawidget.faces.taglib.html.HtmlMetawidgetTag</tagclass>
+		<bodycontent>JSP</bodycontent>
 		<info>JSP tag for HtmlMetawidget JSF component</info>
 		<attribute>
 			<name>id</name>
@@ -57,6 +58,7 @@
 	<tag>
 		<name>stub</name>
 		<tagclass>org.metawidget.faces.taglib.StubTag</tagclass>
+		<bodycontent>JSP</bodycontent>
 		<info>JSP tag for UIStub component</info>
 		<attribute>
 			<name>id</name>

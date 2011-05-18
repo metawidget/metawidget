@@ -1162,6 +1162,31 @@ public abstract class UIMetawidget
 		}
 
 		@Override
+		protected UIComponent buildWidget( String elementName, Map<String, String> attributes ) {
+
+			UIComponent entityLevelWidget = super.buildWidget( elementName, attributes );
+
+			// If we manage to build an entity-level widget, move our facets *inside* it
+			//
+			// It's pretty rare we'll manage to create an entity-level widget, and even rarer that
+			// we'll create one when we ourselves have facets, but if we do this allows us to
+			// attach, say, f:ajax handlers to a dynamically chosen widget
+
+			if ( entityLevelWidget != null && ENTITY.equals( elementName ) ) {
+				Map<String, UIComponent> metawidgetFacets = UIMetawidget.this.getFacets();
+				entityLevelWidget.getFacets().putAll( metawidgetFacets );
+				metawidgetFacets.clear();
+
+				// It's not clear whether we should move .getChildren() too. Err on the side of
+				// caution and don't for now
+			}
+
+			// TODO: test bodycontent in TLD
+
+			return entityLevelWidget;
+		}
+
+		@Override
 		protected Map<String, String> getAdditionalAttributes( UIComponent widget ) {
 
 			if ( widget instanceof UIStub ) {

@@ -25,6 +25,15 @@
 		<!-- Appears to be the highest version that works with tomcat-maven-plugin 1.1 -->
 		<tomcat.version>6.0.29</tomcat.version>
 
+		<!-- Default compilation settings (will be overridden by the 'optimized' profile) -->
+		
+		<!-- Note: this must be 'maven.compile' (no 'r') -->
+		<maven.compile.debug>true</maven.compile.debug>
+		<!-- Note: these must be 'maven.compiler' (with an 'r') -->
+		<maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
+		<maven.compiler.optimize>true</maven.compiler.optimize>
+		<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
+		
 	</properties>
 
 	<name>Metawidget</name>
@@ -78,22 +87,7 @@
 
 	<profiles>
 
-		<!-- Debug/Optimized profiles -->
-
-		<profile>
-			<id>debug</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<!-- Note: this must be 'maven.compile' (no 'r') -->
-				<maven.compile.debug>true</maven.compile.debug>
-				<!-- Note: these must be 'maven.compiler' (with an 'r') -->
-				<maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
-				<maven.compiler.optimize>true</maven.compiler.optimize>
-				<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
-			</properties>
-		</profile>
+		<!-- Optimized profile -->
 
 		<profile>
 			<id>optimized</id>
