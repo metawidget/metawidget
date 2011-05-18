@@ -62,7 +62,6 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 // TODO: test no Maven dependencies?
-// TODO: all-integration-test?
 
 public class JdkVersionTest
 	extends TestCase {

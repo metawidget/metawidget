@@ -1181,8 +1181,6 @@ public abstract class UIMetawidget
 				// caution and don't for now
 			}
 
-			// TODO: test bodycontent in TLD
-
 			return entityLevelWidget;
 		}
 
