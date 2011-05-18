@@ -12,8 +12,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>all-jar</module>
 		<module>android/allwidgets</module>
-		<module>core</module>
 		<module>faces/addressbook/richfaces</module>
 		<module>faces/addressbook2</module>
 		<module>faces/allwidgets</module>
