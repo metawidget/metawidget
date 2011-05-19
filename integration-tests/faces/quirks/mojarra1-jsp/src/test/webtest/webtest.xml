@@ -204,11 +204,21 @@
 		<webtest name="test-richfaces-ajax-in-page">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>			
 				<invoke url="/richFacesAjaxInPage.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
-				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(foo);')"/>
+				<!-- Escaping quotes is cumbersome! http://kushalm.com/the-perils-of-xpath-expressions-specifically-escaping-quotes -->
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(')"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'Foo')"/>
+				<expectDialog dialogType="alert" saveProperty="dialogText"/>
+				<clickElement htmlId="form:richQuirksAjaxSelect"/>
+				<verifyProperty name="dialogText" text="Foo"/>
+				
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Label:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[1])" text=""/>
 				
@@ -216,7 +226,8 @@
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
-				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(foo);')"/>
+				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(')"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'Foo')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Label:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[1])" text="clicked"/>
 			</steps>

@@ -16,7 +16,7 @@
 			
 			<h:form id="form">
 				<m:metawidget value="#{richQuirksAjax.select}" inspectFromParent="true">
-					<a4j:support event="onclick" onsubmit="alert(foo)"/>
+					<a4j:support event="onclick" onsubmit="alert('Foo')"/>
 				</m:metawidget>
 				<m:metawidget value="#{richQuirksAjax.label}" inspectFromParent="true"/>
 				<h:commandButton value="Update" action="#{richQuirksAjax.updateLabel}"/>

@@ -156,7 +156,7 @@ public abstract class UIMetawidget
 
 	private Pipeline						mPipeline;
 
-	private Object							mBuildWidgetsTrigger;
+	/* package private */Object				mBuildWidgetsSupport;
 
 	//
 	// Constructor
@@ -246,9 +246,9 @@ public abstract class UIMetawidget
 		}
 
 		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
-			mBuildWidgetsTrigger = new PreRenderViewEventSupport( this );
+			mBuildWidgetsSupport = new PreRenderViewEventSupport( this );
 		} else {
-			mBuildWidgetsTrigger = new EncodeBeginSupport( this );
+			mBuildWidgetsSupport = new EncodeBeginSupport( this );
 		}
 	}
 
@@ -647,8 +647,8 @@ public abstract class UIMetawidget
 
 		boolean rendered = super.isRendered();
 
-		if ( mBuildWidgetsTrigger instanceof EncodeBeginSupport ) {
-			( (EncodeBeginSupport) mBuildWidgetsTrigger ).isRendered( rendered );
+		if ( mBuildWidgetsSupport instanceof EncodeBeginSupport ) {
+			( (EncodeBeginSupport) mBuildWidgetsSupport ).isRendered( rendered );
 		}
 
 		return rendered;
@@ -658,8 +658,8 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException {
 
-		if ( mBuildWidgetsTrigger instanceof EncodeBeginSupport ) {
-			( (EncodeBeginSupport) mBuildWidgetsTrigger ).encodeBegin();
+		if ( mBuildWidgetsSupport instanceof EncodeBeginSupport ) {
+			( (EncodeBeginSupport) mBuildWidgetsSupport ).encodeBegin();
 		}
 
 		super.encodeBegin( context );
@@ -1174,7 +1174,18 @@ public abstract class UIMetawidget
 
 			if ( entityLevelWidget != null && ENTITY.equals( elementName ) ) {
 				Map<String, UIComponent> metawidgetFacets = UIMetawidget.this.getFacets();
-				entityLevelWidget.getFacets().putAll( metawidgetFacets );
+				Map<String, UIComponent> entityLevelWidgetFacets = entityLevelWidget.getFacets();
+
+				for ( Map.Entry<String, UIComponent> entry : metawidgetFacets.entrySet() ) {
+
+					UIComponent facet = entry.getValue();
+					entityLevelWidgetFacets.put( entry.getKey(), facet );
+
+					if ( mBuildWidgetsSupport instanceof EncodeBeginSupport ) {
+						( (EncodeBeginSupport) mBuildWidgetsSupport ).reassignFacet( facet );
+					}
+				}
+
 				metawidgetFacets.clear();
 
 				// It's not clear whether we should move .getChildren() too. Err on the side of
@@ -1303,7 +1314,7 @@ public abstract class UIMetawidget
 			throws IOException {
 
 			try {
-				// Remove duplicates
+				// Remove duplicate children
 				//
 				// Remove the top-level version of each duplicate, not the nested-level version,
 				// because the top-level is the 'original' whereas the nested-level is the
@@ -1329,6 +1340,19 @@ public abstract class UIMetawidget
 
 				throw new IOException( e.getMessage() );
 			}
+		}
+
+		/**
+		 * Under JSF 1.x, facets don't seem to get serialized the way children do, and our
+		 * <code>encodeBegin</code> cannot remove duplicate ones (when we move them for entity-level
+		 * widgets). Instead, give them a new unique id.
+		 */
+
+		// LOW: why don't facets get serialized the way children do?
+
+		public void reassignFacet( UIComponent facet ) {
+
+			facet.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 		}
 
 		//
