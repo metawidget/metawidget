@@ -26,14 +26,18 @@
 		<tomcat.version>6.0.29</tomcat.version>
 
 		<!-- Default compilation settings (will be overridden by the 'optimized' profile) -->
-		
+
 		<!-- Note: this must be 'maven.compile' (no 'r') -->
 		<maven.compile.debug>true</maven.compile.debug>
 		<!-- Note: these must be 'maven.compiler' (with an 'r') -->
 		<maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
 		<maven.compiler.optimize>true</maven.compiler.optimize>
 		<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
-		
+
+		<swt.artifactId>x86</swt.artifactId>
+		<!-- 3.4 and above avoid the swt.dll loading problem -->
+		<swt.version>3.6.0-v3659</swt.version>
+
 	</properties>
 
 	<name>Metawidget</name>
@@ -105,6 +109,22 @@
 				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
 				<maven.compiler.optimize>true</maven.compiler.optimize>
 				<compile.addMavenDescriptor>false</compile.addMavenDescriptor>
+			</properties>
+		</profile>
+
+		<!-- SWT -->
+
+		<profile>
+			<id>x86_64</id>
+			<activation>
+				<property>
+					<name>sun.arch.data.model</name>
+					<value>64</value>
+				</property>
+			</activation>
+			<properties>
+				<swt.artifactId>x86_64</swt.artifactId>
+				<swt.version>3.6.2</swt.version>
 			</properties>
 		</profile>
 
@@ -529,9 +549,9 @@
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.swt.win32.win32</groupId>
-				<artifactId>x86_64</artifactId>
+				<artifactId>${swt.artifactId}</artifactId>
 				<!-- 3.4+ avoid the swt.dll loading problem -->
-				<version>3.6.2</version>
+				<version>${swt.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.core</groupId>
