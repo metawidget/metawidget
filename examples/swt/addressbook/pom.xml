@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
-			<artifactId>x86</artifactId>
+			<artifactId>x86_64</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>

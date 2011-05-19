@@ -98,6 +98,12 @@
 					</td> 
 				</tr>
 				<tr>
+					<th>WicketMetawidget</th>
+					<td>
+						Wicket is a very popular Web framework, particulary as an alternative to JSF.
+					</td> 
+				</tr>
+				<tr>
 					<th>ZkMetawidget</th>
 					<td>
 						ZK is a very popular Web framework, and has interesting architectual differences
