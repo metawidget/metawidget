@@ -28,6 +28,15 @@
 		<dependency>
 			<groupId>org.eclipse.swt.win32.win32</groupId>
 			<artifactId>${swt.artifactId}</artifactId>
+			<version>${swt.version}</version>
+			<scope>${swt.examples.scope}</scope>
+		</dependency>
+		<!-- Force 32-bit for examples distribution -->
+		<dependency>
+			<groupId>org.eclipse.swt.win32.win32</groupId>
+			<artifactId>${swt.win32.artifactId}</artifactId>
+			<version>${swt.win32.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.core</groupId>

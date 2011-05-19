@@ -34,9 +34,15 @@
 		<maven.compiler.optimize>true</maven.compiler.optimize>
 		<compile.addMavenDescriptor>true</compile.addMavenDescriptor>
 
-		<swt.artifactId>x86</swt.artifactId>
+		<!-- Default SWT to 32-bit -->
+		
+		<swt.win32.artifactId>x86</swt.win32.artifactId>
 		<!-- 3.4 and above avoid the swt.dll loading problem -->
-		<swt.version>3.6.0-v3659</swt.version>
+		<swt.win32.version>3.6.0-v3659</swt.win32.version>
+
+		<swt.artifactId>${swt.win32.artifactId}</swt.artifactId>
+		<swt.version>${swt.win32.version}</swt.version>
+		<swt.examples.scope>compile</swt.examples.scope>
 
 	</properties>
 
@@ -112,7 +118,7 @@
 			</properties>
 		</profile>
 
-		<!-- SWT -->
+		<!-- SWT 64-bit -->
 
 		<profile>
 			<id>x86_64</id>
@@ -125,6 +131,7 @@
 			<properties>
 				<swt.artifactId>x86_64</swt.artifactId>
 				<swt.version>3.6.2</swt.version>
+				<swt.examples.scope>provided</swt.examples.scope>
 			</properties>
 		</profile>
 
