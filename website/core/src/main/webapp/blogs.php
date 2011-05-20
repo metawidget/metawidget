@@ -128,8 +128,8 @@
 					<td>2011</td>
 					<td>Is There Convergence in the Field of UI Generation?</td>
 					<td>Journal of Systems and Software</td>
-					<td class="link"><a href="#" target="_blank">Cite</a></td>
-					<td class="link"><a href="#">
+					<td class="link"></td>
+					<td class="link"><a href="media/downloads/Is%20There%20Convergence%20in%20the%20Field%20of%20UI%20Generation.pdf">
 						<img src="media/pdf.gif" alt="Is There Convergence in the Field of UI Generation?" title="Download PDF" style="border: 0"/>
 					</a></td>
 				</tr>
