@@ -720,6 +720,55 @@
 					
 				</section>
 
+				<section id="section-metawidgets-web-faces-facets">
+					<title>Facets</title>
+					
+					<para>
+						JSF <parameter>f:facet</parameter> tags can be used within <parameter>m:metawidget</parameter> tags to
+						adorn layouts. The exact name and interpretation of the facet is at the discretion of the <classname>Layout</classname>.
+						For example <classname>HtmlTableLayoutRenderer</classname> recognizes: 
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="..."&gt;
+	&lt;f:facet name="header"&gt;
+		...instructions could go here...
+	&lt;/f:facet&gt;
+	&lt;f:facet name="footer"&gt;
+		...button bar could go here...
+	&lt;/f:facet&gt;
+&lt;/m:metawidget&gt;</programlisting>
+					
+					<para>
+						There is a special case when the <parameter>m:metawidget</parameter>'s <parameter>value</parameter>
+						resolves directly to a single widget, rather than iterating over properties and creating multiple
+						sub-widgets (eg. if <parameter>value</parameter> is pointed directly at a <classname>String</classname>
+						field it will resolve to an <classname>HtmlInputText</classname>). In this
+						case the facet applies not to the <classname>Layout</classname> but to the generated widget. This
+						can be useful to declaratively attach behaviours:
+					</para>
+
+					<programlisting language="xml">&lt;m:metawidget value="#{foo.name}"&gt;
+	&lt;a4j:support event="onclick" onsubmit="alert('onclick')"/&gt;
+&lt;/m:metawidget&gt;</programlisting>
+
+					<para>
+						If you are generating a single widget but still want the facet to apply to the <classname>Layout</classname>,
+						wrap it in a parent <parameter>m:metawidget</parameter> that has no <parameter>value</parameter>:
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget&gt;
+	&lt;m:metawidget value="#{foo.name}" rendererType="simple"/&gt;
+	&lt;f:facet name="footer"&gt;
+		...button bar could go here...
+	&lt;/f:facet&gt;
+&lt;/m:metawidget&gt;</programlisting>
+					
+					<para>
+						A parent <parameter>m:metawidget</parameter> with no <parameter>value</parameter> simply acts as a way to lay out children.
+					</para>
+					
+				</section>
+
 				<section id="section-metawidgets-web-faces-2">
 					<title>JSF 2.0</title>
 					
