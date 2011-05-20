@@ -6,6 +6,10 @@
 	<div id="newsticker" style="display: none">
 		<ul>
 			<li>
+				I finally had a chance to try out Metawidget on an example of my own and it is quite amazing
+				<a href="http://mojavelinux.com" target="_blank">Dan Allen (author, Seam In Action)</a>
+			</li>
+			<li>
 				Looks impressive... the author of this library has evidently put some real thought into this
 				<a href="http://www.theserverside.com/news/thread.tss?thread_id=51572" target="_blank">Michael Klaene (Java Developer)</a>
 			</li>
@@ -27,6 +31,20 @@
 				I strongly agree that UI duplication is mindless, error-prone code that<br/>
 				should have	been solved years ago. I am so glad someone is addressing this
 				<a href="survey.html">Survey respondent</a>
+			</li>
+			<li>
+				Metawidget is worth taking a look at
+				<a href="http://www.theserverside.com/news/thread.tss?thread_id=52466" target="_blank">Eric Rich (Java Developer)</a>
+			</li>
+			<li>
+				I have taken a look at it, and found it's a wonderful tool. When coding with SWT,<br/>
+				I always wanted to find such kind of tool...
+				<a href="http://old.nabble.com/Re%3A-Metawidget-has-added-SWT-support-p28442101.html" target="_blank">Zhong Nanhai (SWT Developer)</a>
+			</li>
+			
+			<li>
+				On my todo list is to develop an integration with Metawidget. I'm impressed by the work they're doing here
+				<a href="http://www.theserverside.com/news/thread.tss?thread_id=58283" target="_blank">Dan Haywood (author, Domain-Driven Design using Naked Objects)</a>
 			</li>
 			<li>
 				Sounds impressive. I was infact looking for such a utility for a while
@@ -61,13 +79,10 @@
 				is very flexible and integrates an environment already in production. Great great great framework!!!
 				<a href="http://kennardconsulting.blogspot.com/2008/12/better-than-free-metawidget-v065.html" target="_blank">Nicola (Java Developer)</a>
 			</li>
+			
 			<li>
-				Metawidget is worth taking a look at
-				<a href="http://www.theserverside.com/news/thread.tss?thread_id=52466" target="_blank">Eric Rich (Java Developer)</a>
-			</li>
-			<li>
-				I finally had a chance to try out Metawidget on an example of my own and it is quite amazing
-				<a href="http://mojavelinux.com" target="_blank">Dan Allen (author, Seam In Action)</a>
+				Metawidget is very interesting... I will try to use it in one of my projects
+				<a href="http://www.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
 			</li>
 			<li>
 				Here's something different... it builds on your underlying framework and so is not competing with it
@@ -78,18 +93,9 @@
 				<a href="http://blog.singingwizard.org/2009/05/metawidget-beanutils-auto-update-binding" target="_blank">Arthur Peters (Swing Developer)</a>
 			</li>
 			<li>
-				On my todo list is to develop an integration with Metawidget. I'm impressed by the work they're doing here
-				<a href="http://www.theserverside.com/news/thread.tss?thread_id=58283" target="_blank">Dan Haywood (author, Domain-Driven Design using Naked Objects)</a>
-			</li>
-			<li>
 				Metawidget not only provides a nice UI framework but offers<br/>
 				realistically implemented connections to backends
 				<a href="http://mobilebytes.wordpress.com/2009/06/10/an-android-ui-widgetkit" target="_blank">Fred Grott (Android Developer)</a>
-			</li>
-			<li>
-				I have taken a look at it, and found it's a wonderful tool. When coding with SWT,<br/>
-				I always want to find such kind of tool...
-				<a href="http://old.nabble.com/Re%3A-Metawidget-has-added-SWT-support-p28442101.html" target="_blank">Zhong Nanhai (SWT Developer)</a>
 			</li>
 			<li>
 				It works, beautifully! Thanks for bringing us this powerful stuff
