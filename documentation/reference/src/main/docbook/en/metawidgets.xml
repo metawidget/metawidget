@@ -427,13 +427,22 @@
 
 				<section id="section-metawidgets-web-jsp-configuration">
 					<title>Configuration</title>
-										
+
 					<para>
 						<classname>HtmlMetawidgetTag</classname> is preconfigured with sensible defaults for JSP. You can change this configuration
-						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
-						explicit <parameter>config</parameter> file at the tag level:
+						by creating a <filename>metawidget.xml</filename> file. By default <classname>HtmlMetawidgetTag</classname> looks for this
+						file in <filename>WEB-INF</filename>, but you can configure its location in <filename>web.xml</filename>:
 					</para>
 					
+					<programlisting language="xml">&lt;context-param&gt;
+	&lt;param-name&gt;org.metawidget.jsp.tagext.CONFIG_FILE&lt;/param-name&gt;
+	&lt;param-value&gt;config/metawidget.xml&lt;/param-value&gt;
+&lt;/context-param&gt;</programlisting>
+
+					<para>						
+						Alternatively, you can specify an explicit <parameter>config</parameter> file at the tag level:
+					</para>
+
 					<programlisting language="xml">&lt;m:metawidget value="foo" config="alternate-metawidget.xml"/&gt;</programlisting>
 				</section>
 					
@@ -546,8 +555,17 @@
 										
 					<para>
 						<classname>UIMetawidget</classname> is preconfigured with sensible defaults for JSF. You can change this configuration
-						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
-						explicit <parameter>config</parameter> file at the tag level:
+						by creating a <filename>metawidget.xml</filename> file. By default <classname>UIMetawidget</classname> looks for this
+						file in <filename>WEB-INF</filename>, but you can configure its location in <filename>web.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;context-param&gt;
+	&lt;param-name&gt;org.metawidget.faces.component.CONFIG_FILE&lt;/param-name&gt;
+	&lt;param-value&gt;config/metawidget.xml&lt;/param-value&gt;
+&lt;/context-param&gt;</programlisting>
+
+					<para>						
+						Alternatively, you can specify an explicit <parameter>config</parameter> file at the tag level:
 					</para>
 					
 					<programlisting language="xml">&lt;m:metawidget value="#{foo}" config="alternate-metawidget.xml"/&gt;</programlisting>
@@ -845,10 +863,19 @@
 										
 					<para>
 						<classname>SpringMetawidgetTag</classname> is preconfigured with sensible defaults for Spring. You can change this configuration
-						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
-						explicit <parameter>config</parameter> file at the tag level:
+						by creating a <filename>metawidget.xml</filename> file. By default <classname>SpringMetawidgetTag</classname> looks for this
+						file in <filename>WEB-INF</filename>, but you can configure its location in <filename>web.xml</filename>:
 					</para>
 					
+					<programlisting language="xml">&lt;context-param&gt;
+	&lt;param-name&gt;org.metawidget.jsp.tagext.CONFIG_FILE&lt;/param-name&gt;
+	&lt;param-value&gt;config/metawidget.xml&lt;/param-value&gt;
+&lt;/context-param&gt;</programlisting>
+
+					<para>						
+						Alternatively, you can specify an explicit <parameter>config</parameter> file at the tag level:
+					</para>
+
 					<programlisting language="xml">&lt;m:metawidget path="fooCommand" config="alternate-metawidget.xml"/&gt;</programlisting>
 				</section>
 
@@ -958,11 +985,20 @@
 					<title>Configuration</title>
 										
 					<para>
-						<classname>StrutsMetawidgetTag</classname> is preconfigured with sensible defaults for Struts. You can change this configuration
-						by creating a <filename>metawidget.xml</filename> file in <filename>WEB-INF</filename>. Alternatively, you can specify an
-						explicit <parameter>config</parameter> file at the tag level:
+						<classname>StrutsMetawidgetTag</classname> is preconfigured with sensible defaults for Spring. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file. By default <classname>StrutsMetawidgetTag</classname> looks for this
+						file in <filename>WEB-INF</filename>, but you can configure its location in <filename>web.xml</filename>:
 					</para>
 					
+					<programlisting language="xml">&lt;context-param&gt;
+	&lt;param-name&gt;org.metawidget.jsp.tagext.CONFIG_FILE&lt;/param-name&gt;
+	&lt;param-value&gt;config/metawidget.xml&lt;/param-value&gt;
+&lt;/context-param&gt;</programlisting>
+
+					<para>						
+						Alternatively, you can specify an explicit <parameter>config</parameter> file at the tag level:
+					</para>
+
 					<programlisting language="xml">&lt;m:metawidget property="fooForm" config="alternate-metawidget.xml"/&gt;</programlisting>
 				</section>
 
