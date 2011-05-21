@@ -82,7 +82,7 @@
 			
 			<li>
 				Metawidget is very interesting... I will try to use it in one of my projects
-				<a href="http://www.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
+				<a href="http://blog.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
 			</li>
 			<li>
 				Here's something different... it builds on your underlying framework and so is not competing with it
