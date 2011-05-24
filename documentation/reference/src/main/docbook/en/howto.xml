@@ -10,7 +10,7 @@
 			<title>Order Fields</title>
 			
 			<para>
-				Metawidget supports several ways to control the order of fields in the UI, depending on your architecture and your
+				Metawidget supports several approaches to control the order of fields in the UI, depending on your architecture and your
 				preference:
 			</para>
 			
@@ -19,6 +19,7 @@
 					<para>
 						Annotate the fields with <classname>@UiComesAfter</classname>, use <classname>MetawidgetAnnotationInspector</classname>
 						in your <classname>CompositeInspector</classname> chain, and use <classname>ComesAfterInspectionResultProcessor</classname>.
+						This is the default approach.
 					</para>
 				</listitem>
 				<listitem>
@@ -144,7 +145,7 @@
 			
 			<para>
 				Unfortunately many application servers have bugs whereby TLD files cannot be detected under <filename>ear/lib</filename> (only under
-				<filename>WEB-INF/lib</filename>). If you encounter this, the easiest way to resolve it is to copy the TLD file you need
+				<filename>WEB-INF/lib</filename>). If you encounter this, the easiest way to resolve it is to copy just the TLD file you need
 				(eg. <filename>metawidget-faces.tld</filename>) into your <filename>WEB-INF</filename> folder.
 			</para>
 		</section>
