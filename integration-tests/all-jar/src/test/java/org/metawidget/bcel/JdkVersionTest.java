@@ -61,7 +61,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * @author Richard Kennard
  */
 
-// TODO: test no Maven dependencies?
+// TODO: test no additional Maven dependencies in JAR?
 
 public class JdkVersionTest
 	extends TestCase {

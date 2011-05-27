@@ -38,8 +38,6 @@ public class AddressBookActivityTest
 
 	public void testActivity() {
 
-		// TODO: test Android AddressBook
-		
 		AddressBookActivity activity = getActivity();
 		assertNotNull( activity );
 	}

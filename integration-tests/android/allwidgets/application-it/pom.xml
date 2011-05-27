@@ -31,17 +31,15 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>${android.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android-test</artifactId>
-			<version>${android.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -51,6 +49,32 @@
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>maven-android-plugin</artifactId>
+				<configuration>
+					<enableIntegrationTest>false</enableIntegrationTest>
+					<device>emulator</device>
+					<emulator>
+						<avd>android-1.6</avd>
+						<wait>60000</wait>
+					</emulator>
+				</configuration>
+				<executions>
+					<!-- TODO:  http://code.google.com/p/maven-android-plugin/issues/detail?id=4:
+					
+					<execution>
+						<id>pre-test</id>
+						<phase>package</phase>
+						<goals>
+							<goal>emulator-start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-test</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>emulator-stop</goal>
+						</goals>
+					</execution> -->
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

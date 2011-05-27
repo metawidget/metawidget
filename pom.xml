@@ -713,7 +713,7 @@
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>maven-android-plugin</artifactId>
-					<version>2.9.0-beta-2</version>
+					<version>2.9.0-beta-4</version>
 					<configuration>
 						<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
 						<assetsDirectory>${project.basedir}/assets</assetsDirectory>
@@ -722,8 +722,6 @@
 							<path>/android-sdk-windows</path>
 							<platform>3</platform>
 						</sdk>
-						<deleteConflictingFiles>true</deleteConflictingFiles>
-						<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					</configuration>
 					<extensions>true</extensions>
 				</plugin>

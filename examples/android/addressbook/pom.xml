@@ -13,7 +13,7 @@
 
 	<modules>
 		<module>application</module>
-		<!-- Pending http://code.google.com/p/maven-android-plugin/issues/detail?id=4: <module>application-it</module>-->
+		<module>application-it</module>
 	</modules>
 
 </project>
