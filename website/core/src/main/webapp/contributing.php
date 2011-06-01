@@ -65,7 +65,7 @@
 		<p>
 			You can also <a href="http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk" target="_blank">browse the source code online</a>. Because Metawidget
 			is built using Maven, each module (eg. Swing, JPA, etc.) has its own small, standalone project. This makes it easy to use tools such as
-			<a href="http://m2eclipse.sonatype.org">m2eclipse</a> to open the <tt>pom.xml</tt> in your IDE and start contributing!
+			<a href="http://m2eclipse.sonatype.org">m2eclipse</a> to open a module's <tt>pom.xml</tt> in your IDE and start contributing!
 		</p>
 		
 		<h2 class="h2-underneath">Suggested Enhancements</h2>

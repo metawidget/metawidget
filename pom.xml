@@ -224,16 +224,16 @@
 			<url>http://repository.jboss.org/nexus/content/groups/public</url>
 		</repository>
 		<repository>
-			<id>prime-repo</id>
-			<url>http://repository.prime.com.tr</url>
-		</repository>
-		<repository>
 			<id>java.net-maven2-repository</id>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 		<repository>
 			<id>local-repository</id>
 			<url>https://metawidget.svn.sourceforge.net/svnroot/metawidget/trunk/repository</url>
+		</repository>
+		<repository>
+			<id>prime-repo</id>
+			<url>http://repository.prime.com.tr</url>
 		</repository>
 	</repositories>
 
