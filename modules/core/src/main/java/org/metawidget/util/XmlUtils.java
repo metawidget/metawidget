@@ -561,6 +561,10 @@ public class XmlUtils {
 		// Constructor
 		//
 
+		/**
+		 * @param delegate	the delegate to route all SAX events to, recording as we go
+		 */
+
 		public CachingContentHandler( ContentHandler delegate ) {
 
 			mDelegate = delegate;
@@ -629,8 +633,12 @@ public class XmlUtils {
 				throw new SAXException( "Nothing to replay. Not cached any SAX events" );
 			}
 
-			for ( CachedCommand cachedEvent : mCache ) {
-				cachedEvent.replay( replayTo );
+			if ( mDelegate != null ) {
+				throw new SAXException( "Not ready to replay - ContentHandler delegate is non-null. Either endDocument must be triggered, or releaseDelegate must be called explicitly" );
+			}
+
+			for ( CachedCommand cachedCommand : mCache ) {
+				cachedCommand.replay( replayTo );
 			}
 		}
 
@@ -780,6 +788,11 @@ public class XmlUtils {
 			mLastCommand.replay( mDelegate );
 
 			// Free up resources
+
+			releaseDelegate();
+		}
+
+		public void releaseDelegate() {
 
 			mDelegate = null;
 		}

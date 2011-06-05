@@ -134,6 +134,15 @@ public class XmlUtilsTest
 		cachingContentHandler.endElement( "ee-uri", "ee-localName", "ee-name" );
 
 		SimpleContentHandler newSimpleContentHandler = new SimpleContentHandler();
+
+		try {
+			cachingContentHandler.replay( newSimpleContentHandler );
+			assertTrue( false );
+		} catch( SAXException e  ) {
+			assertEquals( "Not ready to replay - ContentHandler delegate is non-null. Either endDocument must be triggered, or releaseDelegate must be called explicitly", e.getMessage() );
+		}
+
+		cachingContentHandler.releaseDelegate();
 		cachingContentHandler.replay( newSimpleContentHandler );
 
 		assertTrue( newSimpleContentHandler.mEvents.size() == 2 );
