@@ -209,7 +209,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<tip>
 				<title>Note</title>
-				All <classname>Inspector</classname>s are both thread-safe and immutable. Therefore you only need one <classname>Inspector</classname> for your
+				All <classname>Inspector</classname>s are immutable. Therefore you only need one <classname>Inspector</classname> for your
 				<emphasis>entire</emphasis> application. Some remoting architectures support 'singletons' or 'service beans' well suited
 				to this.
 			</tip>
