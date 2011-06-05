@@ -101,7 +101,16 @@ public class CompositeInspector
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names ) {
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method is marked <code>final</code> because most Metawidget implementations will call
+	 * <code>inspectAsDom</code> directly instead. So subclasses need to override
+	 * <code>inspectAsDom</code>, not <code>inspect</code>.
+	 */
+
+	public final String inspect( Object toInspect, String type, String... names ) {
 
 		return inspect( null, toInspect, type, names );
 	}
@@ -114,9 +123,13 @@ public class CompositeInspector
 	 * For this, <code>CompositeInspector</code> supplies this overloaded method outside the normal
 	 * <code>Inspector</code> interface. It takes an additional XML string of inspection results,
 	 * and merges forthcoming inspection results with it.
+	 * <p>
+	 * This method is marked <code>final</code> because most Metawidget implementations will call
+	 * <code>inspectAsDom</code> directly instead. So subclasses need to override
+	 * <code>inspectAsDom</code>, not <code>inspect</code>.
 	 */
 
-	public String inspect( String master, Object toInspect, String type, String... names ) {
+	public final String inspect( String master, Object toInspect, String type, String... names ) {
 
 		Element element = inspectAsDom( XmlUtils.documentFromString( master ), toInspect, type, names );
 
@@ -127,7 +140,13 @@ public class CompositeInspector
 		return XmlUtils.nodeToString( element, false );
 	}
 
-	public Element inspectAsDom( Object toInspect, String type, String... names ) {
+	/**
+	 * This method is marked <code>final</code> as it delegates directly to
+	 * <code>inspectAsDom( Document, Object, String, String... )</code>. Subclasses should override
+	 * that method instead.
+	 */
+
+	public final Element inspectAsDom( Object toInspect, String type, String... names ) {
 
 		return inspectAsDom( null, toInspect, type, names );
 	}
