@@ -562,7 +562,8 @@ public class XmlUtils {
 		//
 
 		/**
-		 * @param delegate	the delegate to route all SAX events to, recording as we go
+		 * @param delegate
+		 *            the delegate to route all SAX events to, recording as we go
 		 */
 
 		public CachingContentHandler( ContentHandler delegate ) {
@@ -640,6 +641,19 @@ public class XmlUtils {
 			for ( CachedCommand cachedCommand : mCache ) {
 				cachedCommand.replay( replayTo );
 			}
+		}
+
+		/**
+		 * The ContentHandler delegate passed to <code>CachingContentHandler</code>'s constructor
+		 * must be released in order to prevent memory leaks. This is done automatically by
+		 * <code>endDocument</code>. But for use cases where <code>endDocument</code> is not
+		 * triggered, clients can call <code>releaseDelegate</code> to release the delegate
+		 * manually.
+		 */
+
+		public void releaseDelegate() {
+
+			mDelegate = null;
 		}
 
 		//
@@ -790,11 +804,6 @@ public class XmlUtils {
 			// Free up resources
 
 			releaseDelegate();
-		}
-
-		public void releaseDelegate() {
-
-			mDelegate = null;
 		}
 
 		//
