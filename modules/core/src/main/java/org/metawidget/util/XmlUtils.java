@@ -20,8 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -549,13 +549,13 @@ public class XmlUtils {
 		// Private members
 		//
 
-		private ContentHandler		mDelegate;
+		private ContentHandler				mDelegate;
 
-		private CachedCommand		mLastCommand;
+		private CachedCommand				mLastCommand;
 
-		private List<CachedCommand>	mCache	= CollectionUtils.newArrayList();
+		private ArrayList<CachedCommand>	mCache	= CollectionUtils.newArrayList();
 
-		private boolean				mCachingPaused;
+		private boolean						mCachingPaused;
 
 		//
 		// Constructor
@@ -654,6 +654,8 @@ public class XmlUtils {
 		public void releaseDelegate() {
 
 			mDelegate = null;
+			mLastCommand = null;
+			mCache.trimToSize();
 		}
 
 		//
