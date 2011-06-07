@@ -40,6 +40,8 @@ import org.metawidget.util.ThreadUtils;
  * @author Richard Kennard
  */
 
+// TODO: move me!
+
 public class JspAnnotationInspector
 	extends BaseObjectInspector {
 

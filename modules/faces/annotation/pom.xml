@@ -7,18 +7,15 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>metawidget-faces</artifactId>
+	<artifactId>metawidget-faces-annotation</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-faces</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- We actually rely on metawidget-faces-annotation, in the sense that it is   -->
-		<!-- in metawidget-html-default.xml. However this creates a circular dependency -->
-		<!-- under m2eclipse. It only affects those using the fine-grained dependencies -->
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -30,33 +27,31 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jsp-api</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-annotation</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-faces</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<target>jsr14</target>
+					<target>1.5</target>
 				</configuration>
 			</plugin>		
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 

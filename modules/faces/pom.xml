@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>annotation</module>
 		<module>core</module>
 		<module>icefaces</module>
 		<module>primefaces</module>

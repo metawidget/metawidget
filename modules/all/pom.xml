@@ -95,6 +95,11 @@
 		<!-- metawidget-faces should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-faces-annotation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-icefaces</artifactId>
 			<version>${project.version}</version>
 		</dependency>

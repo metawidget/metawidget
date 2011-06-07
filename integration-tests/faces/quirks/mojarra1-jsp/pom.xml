@@ -41,6 +41,11 @@
 		</dependency>		
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-faces-annotation</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-richfaces</artifactId>
 			<version>${project.version}</version>
 		</dependency>		

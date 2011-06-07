@@ -28,7 +28,6 @@ import javax.faces.context.FacesContext;
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
-import org.metawidget.inspector.faces.FacesInspectorTest.Foo;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.CollectionUtils;
@@ -262,4 +261,21 @@ public class FacesXmlInspectorTest
 
 		mContext.release();
 	}
+	
+	//
+	// Inner class
+	//
+	
+	public static class Foo {
+
+		public Object	object1;
+
+		public Object	object2;
+
+		public Object	object3;
+
+		public String	foo;
+
+		public String	bar;
+	}	
 }

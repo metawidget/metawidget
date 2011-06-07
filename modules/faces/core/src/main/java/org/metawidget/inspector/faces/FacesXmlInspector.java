@@ -44,6 +44,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
+// TODO: move me!
+
 public class FacesXmlInspector
 	extends BaseXmlInspector {
 

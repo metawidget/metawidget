@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 /**
  * Inspects annotations defined by Metawidget's Java Server Faces support (declared in this same
  * package).
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -118,7 +118,8 @@ public class FacesInspector
 			super.inspect( toInspect, classToInspect, toAddTo );
 		} finally {
 
-			// THIS_ATTRIBUTE and UNDERSCORE_THIS_ATTRIBUTE should not be available outside of our particular evaluation
+			// THIS_ATTRIBUTE and UNDERSCORE_THIS_ATTRIBUTE should not be available outside of our
+			// particular evaluation
 
 			if ( mInjectThis ) {
 				requestMap.remove( THIS_ATTRIBUTE );

@@ -236,7 +236,9 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( LOOKUP, "Foo, Bar, Baz" );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
 		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
@@ -248,7 +250,7 @@ public class HtmlWidgetBuilderTest
 		furtherAssert( htmlSelectOneMenu );
 
 		attributes.put( LOOKUP_LABELS, "foo-label, bar-label, baz-label" );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
 		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "foo-label", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
@@ -261,7 +263,7 @@ public class HtmlWidgetBuilderTest
 		attributes.remove( LOOKUP_LABELS );
 
 		attributes.put( REQUIRED, TRUE );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
 		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
@@ -272,10 +274,10 @@ public class HtmlWidgetBuilderTest
 		attributes.remove( REQUIRED );
 
 		attributes.put( TYPE, List.class.getName() );
-		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertTrue( null == htmlSelectManyCheckbox.getLayout() );
 		attributes.put( LOOKUP, "Foo, Bar, Baz, Abc" );
-		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
 		attributes.remove( LOOKUP );
 

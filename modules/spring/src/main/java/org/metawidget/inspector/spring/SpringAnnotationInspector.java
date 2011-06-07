@@ -31,6 +31,8 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
+// TODO: move me!
+
 public class SpringAnnotationInspector
 	extends BaseObjectInspector {
 
