@@ -8,70 +8,26 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.metawidget.modules.struts</groupId>
-	<artifactId>metawidget-struts</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>struts-parent</artifactId>
+	<packaging>pom</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.metawidget.modules.jsp</groupId>
-			<artifactId>metawidget-jsp</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jsp-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>struts</groupId>
-			<artifactId>struts</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-	</dependencies>
+	<modules>
+		<module>annotation</module>
+		<module>core</module>
+	</modules>
 
 	<build>
 		<plugins>
-			<!-- StrutsAnnotationInspector needs 1.5 -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<target>1.5</target>
+					<target>jsr14</target>
 				</configuration>
-			</plugin>
-			<!-- Downgrade other classes to Java 1.4 -->
-			<!-- (don't use a second maven-compiler-plugin for this, as m2eclipse gets confused) -->
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
+						<id>default-testCompile</id>
 						<configuration>
-							<target>
-								<delete>
-									<fileset dir="target/classes">
-										<exclude name="**/*.tld" />
-										<exclude name="**/*.xml" />
-										<exclude name="**/StrutsAnnotationInspector.class" />
-										<exclude name="**/UiStruts*.class" />
-									</fileset>
-								</delete>
-								<echo message="Downgrading to jsr14: debug=${maven.compile.debug}, debuglevel=${maven.compiler.debuglevel}, optimize=${maven.compiler.optimize}" />
-								<javac fork="true" srcdir="src/main/java" destdir="target/classes" target="jsr14" includeantruntime="false" debug="${maven.compile.debug}" debuglevel="${maven.compiler.debuglevel}" optimize="${maven.compiler.optimize}">
-									<classpath refid="maven.dependency.classpath" />
-								</javac>
-							</target>
+							<target>1.5</target>
 						</configuration>
 					</execution>
 				</executions>
