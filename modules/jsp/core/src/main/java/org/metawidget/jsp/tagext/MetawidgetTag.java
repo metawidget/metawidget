@@ -19,6 +19,7 @@ package org.metawidget.jsp.tagext;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -35,7 +36,6 @@ import org.metawidget.config.ServletConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ClassUtils;
@@ -475,11 +475,15 @@ public abstract class MetawidgetTag
 		// Inject the PageContext (in case it is used)
 
 		try {
-			JspAnnotationInspector.setThreadLocalPageContext( pageContext );
-		} catch ( NoClassDefFoundError e ) {
+			Class<?> jspAnnotationInspectorClass = Class.forName( "org.metawidget.inspector.jsp.JspAnnotationInspector" );
+			Method method = jspAnnotationInspectorClass.getMethod( "setThreadLocalPageContext", PageContext.class );
+			method.invoke( null, pageContext );
+		} catch ( ClassNotFoundException e ) {
 			// Fail gracefully (if running without JspAnnotationInspector installed)
 		} catch ( UnsupportedClassVersionError e ) {
 			// Fail gracefully (if running without annotations)
+		} catch( Exception e ) {
+			throw MetawidgetException.newException( e );
 		}
 
 		try
@@ -523,11 +527,15 @@ public abstract class MetawidgetTag
 			// Important to clean up to support webapp undeployment
 
 			try {
-				JspAnnotationInspector.setThreadLocalPageContext( null );
-			} catch ( NoClassDefFoundError e ) {
+				Class<?> jspAnnotationInspectorClass = Class.forName( "org.metawidget.inspector.jsp.JspAnnotationInspector" );
+				Method method = jspAnnotationInspectorClass.getMethod( "setThreadLocalPageContext", PageContext.class );
+				method.invoke( null, (PageContext) null );
+			} catch ( ClassNotFoundException e ) {
 				// Fail gracefully (if running without JspAnnotationInspector installed)
 			} catch ( UnsupportedClassVersionError e ) {
 				// Fail gracefully (if running without annotations)
+			} catch( Exception e ) {
+				throw MetawidgetException.newException( e );
 			}
 		}
 	}
