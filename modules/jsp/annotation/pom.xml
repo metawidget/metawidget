@@ -8,38 +8,28 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.metawidget.modules.jsp</groupId>
-	<artifactId>metawidget-jsp</artifactId>
+	<artifactId>metawidget-jsp-annotation</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
+			<groupId>org.metawidget.modules.jsp</groupId>
+			<artifactId>metawidget-jsp</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<scope>provided</scope>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-annotation</artifactId>
+			<groupId>org.metawidget.modules.jsp</groupId>
+			<artifactId>metawidget-jsp</artifactId>
 			<version>${project.version}</version>
+			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -47,16 +37,12 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>1.5</target>
+				</configuration>
 			</plugin>
-		</plugins>
+		</plugins>		
 	</build>
 
 </project>
