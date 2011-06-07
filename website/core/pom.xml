@@ -177,10 +177,10 @@
 						<copy file="../../modules/faces/core/src/main/resources/META-INF/metawidget-faces.tld" todir="target/ROOT/faces"/>
 						<copy file="../../modules/jsp/core/src/main/resources/META-INF/metawidget-html.tld" tofile="target/ROOT/html/index.html"/>
 						<copy file="../../modules/jsp/core/src/main/resources/META-INF/metawidget-html.tld" todir="target/ROOT/html"/>
-						<copy file="../../modules/spring/src/main/resources/META-INF/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
-						<copy file="../../modules/spring/src/main/resources/META-INF/metawidget-spring.tld" todir="target/ROOT/spring"/>
-						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
-						<copy file="../../modules/struts/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
+						<copy file="../../modules/spring/core/src/main/resources/META-INF/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
+						<copy file="../../modules/spring/core/src/main/resources/META-INF/metawidget-spring.tld" todir="target/ROOT/spring"/>
+						<copy file="../../modules/struts/core/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
+						<copy file="../../modules/struts/core/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
 						
 						<!-- Easy Android install -->
 						
