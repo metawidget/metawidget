@@ -45,6 +45,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.metawidget.modules.struts</groupId>
+			<artifactId>metawidget-struts</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.metawidget.modules.jsp</groupId>
 			<artifactId>metawidget-displaytag</artifactId>
 			<version>${project.version}</version>
