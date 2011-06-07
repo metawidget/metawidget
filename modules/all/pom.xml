@@ -134,12 +134,17 @@
 			<artifactId>metawidget-hibernatevalidator</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- metawidget-jsp should be implied -->
+		<dependency>
+			<groupId>org.metawidget.modules.jsp</groupId>
+			<artifactId>metawidget-jsp-annotation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.jsp</groupId>
 			<artifactId>metawidget-displaytag</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- metawidget-jsp should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.spring</groupId>
 			<artifactId>metawidget-spring</artifactId>
@@ -150,6 +155,7 @@
 			<artifactId>metawidget-struts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- metawidget-swing should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-appframework</artifactId>
@@ -160,7 +166,6 @@
 			<artifactId>metawidget-beansbinding</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- metawidget-swing should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>
 			<artifactId>metawidget-swingx</artifactId>

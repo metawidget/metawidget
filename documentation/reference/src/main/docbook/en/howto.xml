@@ -139,14 +139,23 @@
 			<para>
 				If your application is deployed as a Enterprise ARchive (EAR), typically your business objects will be in an EJB tier and your
 				UI screens in a WAR tier. To use Metawidget-specific annotations on your business objects (such as <classname>@UiComesAfter</classname>)
-				you must therefore deploy <filename>metawidget-all.jar</filename> (or some of the fine-grained dependencies, such
-				as <filename>metawidget-annotation.jar</filename>) under <filename>ear/lib</filename>. 
+				you must therefore deploy Metawidget under <filename>ear/lib</filename>. Depending on your application server, you may encounter
+				a few problems doing this. 
 			</para>
 			
 			<para>
-				Unfortunately many application servers have bugs whereby TLD files cannot be detected under <filename>ear/lib</filename> (only under
-				<filename>WEB-INF/lib</filename>). If you encounter this, the easiest way to resolve it is to copy just the TLD file you need
-				(eg. <filename>metawidget-faces.tld</filename>) into your <filename>WEB-INF</filename> folder.
+				First, many application servers have bugs whereby TLD files cannot be detected under <filename>ear/lib</filename>
+				(only under <filename>WEB-INF/lib</filename>). The
+				easiest way to resolve this is to copy just the TLD file you need (eg. <filename>metawidget-faces.tld</filename>) into your
+				<filename>WEB-INF</filename> folder.
+			</para>
+
+			<para>
+				Second, application servers that scan the classpath looking for JAR annotations (such as Weld) may struggle
+				with Metawidget classes that have optional dependencies. For example, they may throw <classname>ClassNotFoundException</classname>
+				on <classname>SpringMetawidgetTag</classname> if you are not shipping Spring with your application. The
+				easiest way to resolve this is to not use <filename>metawidget-all.jar</filename>. Instead use fine-grained dependencies
+				(eg. <filename>metawidget-faces-annotation.jar</filename> in the EJB tier, <filename>metawidget-faces.jar</filename> in the WAR tier).
 			</para>
 		</section>
 
