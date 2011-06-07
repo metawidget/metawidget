@@ -62,11 +62,6 @@
 			<version>${project.version}</version>
 		</dependency>		
 		<dependency>
-			<groupId>org.metawidget.modules.faces</groupId>
-			<artifactId>metawidget-faces</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-api</artifactId>
 			<version>${myfaces2.version}</version>

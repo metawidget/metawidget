@@ -67,11 +67,6 @@
 			<version>${project.version}</version>
 		</dependency>		
 		<dependency>
-			<groupId>org.metawidget.modules.faces</groupId>
-			<artifactId>metawidget-faces</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 		</dependency>

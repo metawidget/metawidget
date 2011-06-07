@@ -41,7 +41,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.struts</groupId>
-			<artifactId>metawidget-struts</artifactId>
+			<artifactId>metawidget-struts-annotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

@@ -36,7 +36,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.spring</groupId>
-			<artifactId>metawidget-spring</artifactId>
+			<artifactId>metawidget-spring-annotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
