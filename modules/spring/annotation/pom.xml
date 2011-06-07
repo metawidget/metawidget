@@ -15,6 +15,13 @@
 			<groupId>org.metawidget.modules.spring</groupId>
 			<artifactId>metawidget-spring</artifactId>
 			<version>${project.version}</version>
+			<!-- SpringInspectionResultConstants is statically imported -->
+			<scope>provided</scope>			
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

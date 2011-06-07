@@ -16,6 +16,13 @@
 			<groupId>org.metawidget.modules.jsp</groupId>
 			<artifactId>metawidget-jsp</artifactId>
 			<version>${project.version}</version>
+			<!-- JspInspectionResultConstants is statically imported -->
+			<scope>provided</scope>			
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

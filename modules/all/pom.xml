@@ -145,16 +145,24 @@
 			<artifactId>metawidget-displaytag</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- metawidget-spring should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.spring</groupId>
 			<artifactId>metawidget-spring-annotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- metawidget-struts should be implied -->
+		<dependency>
+			<groupId>org.metawidget.modules.spring</groupId>
+			<artifactId>metawidget-spring</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.struts</groupId>
 			<artifactId>metawidget-struts-annotation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.struts</groupId>
+			<artifactId>metawidget-struts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- metawidget-swing should be implied -->
