@@ -1,38 +1,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<groupId>org.metawidget.modules</groupId>
-		<artifactId>modules-parent</artifactId>
+		<groupId>org.metawidget.modules.spring</groupId>
+		<artifactId>spring-parent</artifactId>
 		<version>1.25-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.modules.spring</groupId>
-	<artifactId>spring-parent</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>metawidget-spring-annotation</artifactId>
+	<packaging>jar</packaging>
 
-	<modules>
-		<module>annotation</module>
-		<module>core</module>
-	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.metawidget.modules.spring</groupId>
+			<artifactId>metawidget-spring</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<target>jsr14</target>
+					<target>1.5</target>
 				</configuration>
-				<executions>
-					<execution>
-						<id>default-testCompile</id>
-						<configuration>
-							<target>1.5</target>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
