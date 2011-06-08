@@ -19,6 +19,7 @@ package org.metawidget.inspector.jsp;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ExpressionEvaluator;
@@ -29,7 +30,6 @@ import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.jsp.JspUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.ThreadUtils;
@@ -157,7 +157,7 @@ public class JspAnnotationInspector
 
 		String expression = jspAttribute.expression();
 
-		if ( !JspUtils.isExpression( expression ) ) {
+		if ( !isExpression( expression ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form ${...}" );
 		}
 
@@ -170,5 +170,16 @@ public class JspAnnotationInspector
 		for ( String attributeName : jspAttribute.name() ) {
 			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
+	}
+
+	//
+	// Private methods
+	//
+
+	private static final Pattern	PATTERN_BINDING	= Pattern.compile( "^\\$\\{(.*)\\}$" );
+
+	private boolean isExpression( String binding ) {
+
+		return PATTERN_BINDING.matcher( binding ).matches();
 	}
 }

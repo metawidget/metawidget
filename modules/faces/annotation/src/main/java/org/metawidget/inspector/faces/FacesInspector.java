@@ -20,10 +20,11 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
 
-import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.Trait;
@@ -36,7 +37,7 @@ import org.w3c.dom.Element;
 /**
  * Inspects annotations defined by Metawidget's Java Server Faces support (declared in this same
  * package).
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -296,12 +297,12 @@ public class FacesInspector
 
 		// Sanity checks
 
-		if ( !FacesUtils.isExpression( expression ) ) {
+		if ( !isExpression( expression ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') is not of the form #{...}" );
 		}
 
 		if ( mInjectThis ) {
-			String unwrappedExpression = FacesUtils.unwrapExpression( expression );
+			String unwrappedExpression = unwrapExpression( expression );
 
 			if ( unwrappedExpression.startsWith( THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
 				throw InspectorException.newException( "Expression '" + expression + "' (for '" + attributeName + "') must not contain '" + THIS_ATTRIBUTE + "' (see Metawidget Reference Guide)" );
@@ -330,12 +331,12 @@ public class FacesInspector
 			return;
 		}
 
-		if ( !FacesUtils.isExpression( expression ) ) {
+		if ( !isExpression( expression ) ) {
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
 		}
 
 		if ( !mInjectThis ) {
-			String unwrappedExpression = FacesUtils.unwrapExpression( expression );
+			String unwrappedExpression = unwrapExpression( expression );
 
 			if ( unwrappedExpression.startsWith( THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
 				throw InspectorException.newException( "Expression for '" + expression + "' contains '" + THIS_ATTRIBUTE + "', but " + FacesInspectorConfig.class.getSimpleName() + ".setInjectThis is 'false'" );
@@ -371,4 +372,66 @@ public class FacesInspector
 			InspectorUtils.putAttributeValue( attributes, attributeName, value );
 		}
 	}
+
+	/**
+	 * Return <code>true</code> if the specified value conforms to the syntax requirements of a
+	 * value binding expression.
+	 * <p>
+	 * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but that
+	 * one is deprecated so may be removed in the future.
+	 * <p>
+	 * <em>Note: this code copied from org.metawidget.faces.FacesUtils. We do not want that dependency, because
+	 * annotations may be deployed to a back-end tier</em>
+	 *
+	 * @param value
+	 *            The value to evaluate
+	 * @throws NullPointerException
+	 *             if <code>value</code> is <code>null</code>
+	 */
+
+	private boolean isExpression( String value ) {
+
+		return PATTERN_EXPRESSION.matcher( value ).matches();
+	}
+
+	/**
+	 * <em>Note: this code copied from org.metawidget.faces.FacesUtils. We do not want that dependency, because
+	 * annotations may be deployed to a back-end tier</em>
+	 *
+	 * @return the original String, not wrapped in #{...}. If the original String was not wrapped,
+	 *         returns the original String
+	 */
+
+	private String unwrapExpression( String value ) {
+
+		Matcher matcher = PATTERN_EXPRESSION.matcher( value );
+
+		if ( !matcher.matches() ) {
+			return value;
+		}
+
+		return matcher.group( 3 );
+	}
+
+	//
+	// Private statics
+	//
+
+	/**
+	 * Match #{...} and ${...}. This mirrors the approach in
+	 * <code>UIComponentTag.isValueReference</code>, but that one is deprecated so may be removed in
+	 * the future.
+	 * <p>
+	 * Like <code>UIComponentTag.isValueReference</code> we allow nested #{...} blocks, because this
+	 * can still be a legitimate value reference:
+	 * <p>
+	 * <code>
+	 * #{!empty bar ? '' : '#{foo}'}
+	 * </code>
+	 * <p>
+	 * <em>Note: this code copied from org.metawidget.faces.FacesUtils. We do not want that dependency, because
+	 * annotations may be deployed to a back-end tier</em>
+	 */
+
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)(.*)(\\})" );
 }

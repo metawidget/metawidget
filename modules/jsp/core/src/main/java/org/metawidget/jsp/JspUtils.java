@@ -54,11 +54,6 @@ public final class JspUtils {
 	// Public statics
 	//
 
-	public static boolean isExpression( String binding ) {
-
-		return PATTERN_BINDING.matcher( binding ).matches();
-	}
-
 	/**
 	 * @return true if the given HTML consists of nothing but hidden fields
 	 */
@@ -555,8 +550,6 @@ public final class JspUtils {
 	//
 	// Private statics
 	//
-
-	private static final Pattern	PATTERN_BINDING			= Pattern.compile( "^\\$\\{(.*)\\}$" );
 
 	private static final Pattern	PATTERN_HIDDEN_FIELDS	= Pattern.compile( "(\\s*<\\s*(input)\\s+[^>]*?(type)\\s*=\\s*\"\\s*hidden\\s*\"[^>]*?>\\s*)+?" );
 
