@@ -39,7 +39,7 @@
 
 		<p>
 			Metawidget is an Open Source project licensed under the <a href="/doc/faq/licensing.php">LGPL</a>. It is developed by the
-			community. It was started by Richard Kennard of <a href="http://www.kennardconsulting.com" target="_blank">Kennard Consulting</a>.
+			community. It was founded by Richard Kennard of <a href="http://www.kennardconsulting.com" target="_blank">Kennard Consulting</a>.
 		</p>
 
 		<h3><a name="goals">What are the goals of Metawidget?</a></h3>
@@ -79,7 +79,7 @@
 		</p>
 
 		<ul>
-			<li>a 'widget' is the technical term for a Graphical User Interface component (such as a text box). A 'meta' widget is a widget composed of other widgets.</li>
+			<li>a 'widget' is the technical term for a Graphical User Interface component (such as a text box). A 'meta' widget is therefore a widget composed of other widgets.</li>
 			<li>Metawidget is a widget built by metadata gathered from the back-end</li>
 		</ul>
 
@@ -111,7 +111,7 @@
 		<h3><a name="compete">Who are Metawidget's competitors?</a></h3>
 
 		<p>
-			Please see the <a href="comparison.html">comparison FAQ</a>.
+			Please see the <a href="comparison.php">comparison FAQ</a>.
 		</p>
 		
 		<h3><a name="oim">Is an OIM like an ORM?</a></h3>

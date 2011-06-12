@@ -16,10 +16,6 @@
 
 package android.view;
 
-import java.util.List;
-
-import org.metawidget.util.CollectionUtils;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -34,12 +30,6 @@ import android.util.AttributeSet;
 public class ViewGroup
 	extends View
 	implements ViewParent {
-
-	//
-	// Private members
-	//
-
-	private List<View>	mChildren	= CollectionUtils.newArrayList();
 
 	//
 	// Constructor

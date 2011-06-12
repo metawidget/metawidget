@@ -24,6 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
+import org.metawidget.android.widget.layout.LinearLayout;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 
@@ -139,5 +140,29 @@ public class AndroidMetawidgetTest
 		assertEquals( "Bar", androidMetawidget.getValue( "foo" ) );
 		androidMetawidget.setValue( "Baz", "foo" );
 		assertEquals( "Baz", androidMetawidget.getValue( "foo" ) );
+	}
+
+	public void testAutomaticBuildWidgets() {
+
+		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
+		androidMetawidget.setLayout( new LinearLayout() );
+		androidMetawidget.setToInspect( new Foo() );
+		assertEquals( 2, androidMetawidget.getChildCount() );
+
+		androidMetawidget = new AndroidMetawidget( null );
+		androidMetawidget.setLayout( new LinearLayout() );
+		androidMetawidget.setToInspect( new Foo() );
+		assertTrue( androidMetawidget.getChildAt( 1 ) instanceof EditText );
+
+		// Cannot override findViewWithTag - is marked final!
+	}
+
+	//
+	// Inner class
+	//
+
+	static class Foo {
+
+		public String name;
 	}
 }

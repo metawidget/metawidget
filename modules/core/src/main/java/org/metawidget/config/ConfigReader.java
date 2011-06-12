@@ -237,15 +237,18 @@ public class ConfigReader
 			// ...or cache a new one
 
 			else {
-				LOG.debug( "Reading resource from {0}", locationKey );
-				cachingContentHandler = new CachingContentHandler( configHandler );
-				configHandler.setCachingContentHandler( cachingContentHandler );
-				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
 
-				// Only cache if successful
+				synchronized( mImmutableByLocationCache ) {
+					LOG.debug( "Reading resource from {0}", locationKey );
+					cachingContentHandler = new CachingContentHandler( configHandler );
+					configHandler.setCachingContentHandler( cachingContentHandler );
+					mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
 
-				mResourceCache.put( locationKey, cachingContentHandler );
-				mImmutableByLocationCache.put( locationKey, immutableByLocationCache );
+					// Only cache if successful
+
+					mResourceCache.put( locationKey, cachingContentHandler );
+					mImmutableByLocationCache.put( locationKey, immutableByLocationCache );
+				}
 			}
 
 			return configHandler.getConfigured();

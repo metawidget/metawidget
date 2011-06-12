@@ -16,6 +16,10 @@
 
 package android.view;
 
+import java.util.List;
+
+import org.metawidget.util.CollectionUtils;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout.LayoutParams;
@@ -37,6 +41,12 @@ public class View {
 	public static final int	INVISIBLE	= 4;
 
 	public static final int	FOCUS_UP	= 33;
+
+	//
+	// Protected members
+	//
+
+	protected List<View>	mChildren	= CollectionUtils.newArrayList();
 
 	//
 	// Private members
@@ -148,7 +158,14 @@ public class View {
 	 * @param tag
 	 */
 
-	public View findViewWithTag( String tag ) {
+	public final View findViewWithTag( Object tag ) {
+
+		for ( View view : mChildren ) {
+
+			if ( tag.equals( view.getTag() ) ) {
+				return view;
+			}
+		}
 
 		return null;
 	}

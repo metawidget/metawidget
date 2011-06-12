@@ -1348,7 +1348,7 @@ public abstract class UIMetawidget
 		 * widgets). Instead, give them a new unique id.
 		 */
 
-		// LOW: why don't facets get serialized the way children do?
+		// TODO: why don't facets get serialized the way children do?
 
 		public void reassignFacet( UIComponent facet ) {
 

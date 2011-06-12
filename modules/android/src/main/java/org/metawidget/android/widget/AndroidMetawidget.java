@@ -43,8 +43,8 @@ import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -420,6 +420,8 @@ public class AndroidMetawidget
 		return super.getChildAt( index );
 	}
 
+	// Cannot override findViewWithTag( Object tag ), as is marked final!
+
 	/**
 	 * Gets the value from the View with the given name.
 	 * <p>
@@ -607,7 +609,7 @@ public class AndroidMetawidget
 		}
 
 		mPipeline.configureOnce();
-		
+
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
 
