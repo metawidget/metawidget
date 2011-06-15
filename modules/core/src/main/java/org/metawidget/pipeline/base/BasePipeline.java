@@ -53,6 +53,8 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * subclasses will choose <code>org.metawidget.pipeline.w3c.W3CPipeline</code>, which uses
  * <code>org.w3c.dom</code>.
  * <p>
+ * <em>BasePipeline is not Thread-safe.</em>
+ * <p>
  * Note: this class is located in <code>org.metawidget.pipeline.base</code>, as opposed to just
  * <code>org.metawidget.pipeline</code>, to make it easier to integrate GWT (which is bad at
  * ignoring sub-packages such as <code>org.metawidget.pipeline.w3c</code>).

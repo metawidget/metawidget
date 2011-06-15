@@ -18,6 +18,7 @@
 		<module>primefaces</module>
 		<module>richfaces</module>
 		<module>tomahawk</module>
+		<module>xml</module>
 	</modules>
 
 	<dependencyManagement>
