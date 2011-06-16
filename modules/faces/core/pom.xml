@@ -16,7 +16,7 @@
 			<artifactId>metawidget-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- We actually rely on metawidget-faces-annotation, in the sense that it is   -->
+		<!-- We actually rely on metawidget-facesannotation, in the sense that it is   -->
 		<!-- in metawidget-html-default.xml. However this creates a circular dependency -->
 		<!-- under m2eclipse. It only affects those using the fine-grained dependencies -->
 		<dependency>

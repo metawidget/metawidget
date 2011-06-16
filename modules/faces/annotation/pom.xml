@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>metawidget-faces-annotation</artifactId>
+	<artifactId>metawidget-facesannotation</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>

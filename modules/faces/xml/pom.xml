@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>metawidget-faces-xml</artifactId>
+	<artifactId>metawidget-facesxml</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>

@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>metawidget-spring-annotation</artifactId>
+	<artifactId>metawidget-springannotation</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>

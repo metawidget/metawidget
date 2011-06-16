@@ -95,7 +95,7 @@
 		<!-- metawidget-faces should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
-			<artifactId>metawidget-faces-annotation</artifactId>
+			<artifactId>metawidget-facesannotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -120,7 +120,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
-			<artifactId>metawidget-faces-xml</artifactId>
+			<artifactId>metawidget-facesxml</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- metawidget-gwt should be implied -->
@@ -142,7 +142,7 @@
 		<!-- metawidget-jsp should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.jsp</groupId>
-			<artifactId>metawidget-jsp-annotation</artifactId>
+			<artifactId>metawidget-jspannotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -152,7 +152,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.spring</groupId>
-			<artifactId>metawidget-spring-annotation</artifactId>
+			<artifactId>metawidget-springannotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -162,7 +162,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.struts</groupId>
-			<artifactId>metawidget-struts-annotation</artifactId>
+			<artifactId>metawidget-strutsannotation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -189,6 +189,11 @@
 		<dependency>
 			<groupId>org.metawidget.modules.swing.jgoodies</groupId>
 			<artifactId>metawidget-jgoodiesvalidator</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-grouplayout</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
