@@ -58,7 +58,6 @@
 							<target>
 								<available property="jdk14-exists" file="${jdk14.path}/bin" />
 								<fail message="JDK 1.4 not installed at 'jdk14.path' of ${jdk14.path}" unless="jdk14-exists" />
-
 								<delete>
 									<fileset dir="target/test-classes">
 										<include name="**/SwingJdk14Test.class" />

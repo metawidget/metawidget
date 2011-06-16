@@ -155,7 +155,7 @@
 				with Metawidget classes that have optional dependencies. For example, they may throw <classname>ClassNotFoundException</classname>
 				on <classname>SpringMetawidgetTag</classname> if you are not shipping Spring with your application. The
 				easiest way to resolve this is to not use <filename>metawidget-all.jar</filename>. Instead use fine-grained dependencies
-				(eg. <filename>metawidget-faces-annotation.jar</filename> in the EJB tier, <filename>metawidget-faces.jar</filename> in the WAR tier).
+				(eg. <filename>metawidget-facesannotation.jar</filename> in the EJB tier, <filename>metawidget-faces.jar</filename> in the WAR tier).
 			</para>
 		</section>
 
