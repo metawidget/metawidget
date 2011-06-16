@@ -1343,12 +1343,10 @@ public abstract class UIMetawidget
 		}
 
 		/**
-		 * Under JSF 1.x, facets don't seem to get serialized the way children do, and our
-		 * <code>encodeBegin</code> cannot remove duplicate ones (when we move them for entity-level
-		 * widgets). Instead, give them a new unique id.
+		 * Under JSF 1.x, facets will get duplicated just like children do. We can clean them up on
+		 * <code>encodeBegin</code>, but in the case of an AJAX POST-back we are not given that
+		 * chance. Instead, give them a new unique id.
 		 */
-
-		// TODO: why don't facets get serialized the way children do?
 
 		public void reassignFacet( UIComponent facet ) {
 

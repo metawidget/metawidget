@@ -58,15 +58,7 @@ public class AllJarTest
 
 			if ( name.startsWith( "META-INF/" ) ) {
 
-				if ( name.endsWith( "/" ) ) {
-					continue;
-				}
-
-				if ( name.endsWith( "pom.xml" ) ) {
-					continue;
-				}
-
-				if ( name.endsWith( "pom.properties" ) ) {
+				if ( name.equals( "META-INF/" ) ) {
 					continue;
 				}
 
@@ -109,7 +101,7 @@ public class AllJarTest
 				}
 			}
 
-			assertTrue( "Class should not be packaged in " + METAWIDGET_ALL_JAR + ": " + name, false );
+			assertTrue( "File should not be packaged in " + METAWIDGET_ALL_JAR + ": " + name, false );
 		}
 
 		assertTrue( true );

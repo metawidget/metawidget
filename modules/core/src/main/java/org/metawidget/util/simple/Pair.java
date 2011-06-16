@@ -19,8 +19,9 @@ package org.metawidget.util.simple;
 /**
  * Simple implementation of a tuple pair.
  * <p>
- * Note: if you encounter <code>MalformedParameterizedTypeException</code> when using this class on
- * JBoss 6 Final, see https://issues.jboss.org/browse/JBMDR-74
+ * <em>This is an internal implementation class. It should not be used by external clients. In
+ * particular, it gets compiled to be JDK 1.4-compatible thus losing its generics. This trick can
+ * confuse CLASSPATH scanners if exposed externally. For example https://issues.jboss.org/browse/JBMDR-74</em>
  *
  * @author Richard Kennard
  */
@@ -72,7 +73,7 @@ public class Pair<L, R> {
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 

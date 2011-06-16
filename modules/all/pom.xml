@@ -214,6 +214,25 @@
 					<!-- Don't <createDependencyReducedPom>false</createDependencyReducedPom>, drags in everything! -->
 				</configuration>
 			</plugin>
+			<!-- Rejar without META-INF/maven -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<target>
+						<unzip src="target/metawidget-all.jar" dest="target/unzipped"/>
+						<delete file="target/metawidget-all.jar"/>
+						<zip destfile="target/metawidget-all.jar" basedir="target/unzipped" excludes="META-INF/maven/**"/>
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
 		</plugins>
 	</build>
 
