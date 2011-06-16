@@ -48,6 +48,11 @@ public class AllJarTest
 
 		JarFile jar = new JarFile( "../../modules/all/target/" + METAWIDGET_ALL_JAR );
 
+		boolean hadManifest = false;
+		int hadTlds = 0;
+		int hadXsds = 0;
+		int hadXmls = 0;
+
 		for ( Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements(); ) {
 
 			String name = e.nextElement().getName();
@@ -63,6 +68,7 @@ public class AllJarTest
 				}
 
 				if ( name.equals( "META-INF/MANIFEST.MF" ) ) {
+					hadManifest = true;
 					continue;
 				}
 
@@ -75,6 +81,7 @@ public class AllJarTest
 				}
 
 				if ( name.endsWith( ".tld" ) ) {
+					hadTlds++;
 					continue;
 				}
 
@@ -89,10 +96,12 @@ public class AllJarTest
 				}
 
 				if ( name.endsWith( "-1.0.xsd" ) ) {
+					hadXsds++;
 					continue;
 				}
 
 				if ( name.endsWith( "-default.xml" ) ) {
+					hadXmls++;
 					continue;
 				}
 
@@ -104,6 +113,9 @@ public class AllJarTest
 			assertTrue( "File should not be packaged in " + METAWIDGET_ALL_JAR + ": " + name, false );
 		}
 
-		assertTrue( true );
+		assertTrue( hadManifest );
+		assertEquals( 4, hadTlds );
+		assertEquals( 2, hadXsds );
+		assertEquals( 7, hadXmls );
 	}
 }
