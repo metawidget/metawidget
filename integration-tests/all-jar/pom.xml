@@ -36,6 +36,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.metawidget.modules.faces</groupId>
+			<artifactId>metawidget-faces</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>beansbinding</artifactId>
 			<scope>test</scope>

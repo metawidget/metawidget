@@ -208,7 +208,7 @@ public class UIMetawidgetTest
 		assertTrue( attributes.equals( stub.getStubAttributesAsMap() ) );
 	}
 
-	public void testMissingDefaultConfig() {
+	public void testMissingConfig() {
 
 		assertTrue( null == FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ) );
 

@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.spring;
+package org.metawidget.jsp.tagext.html.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public class TldTest
 	public void testTld()
 		throws Exception {
 
-		InputStream in = ClassLoader.getSystemResourceAsStream( "META-INF/metawidget-spring.tld" );
+		InputStream in = ClassLoader.getSystemResourceAsStream( "META-INF/metawidget-struts.tld" );
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		IOUtils.streamBetween( in, out );
 		Document document = XmlUtils.documentFromString( out.toString() );
@@ -48,11 +48,11 @@ public class TldTest
 		Element root = document.getDocumentElement();
 		assertEquals( root.getNodeName(), "taglib" );
 
-		// org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag
+		// org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag
 
 		Element tag = XmlUtils.getChildNamed( root, "tag" );
 		Element tagclass = XmlUtils.getChildNamed( tag, "tagclass" );
-		assertEquals( tagclass.getTextContent(), "org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag" );
+		assertEquals( tagclass.getTextContent(), "org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag" );
 
 		Element bodycontent = XmlUtils.getSiblingNamed( tagclass, "bodycontent" );
 		assertEquals( bodycontent.getTextContent(), "JSP" );
@@ -66,11 +66,11 @@ public class TldTest
 		bodycontent = XmlUtils.getSiblingNamed( tagclass, "bodycontent" );
 		assertEquals( bodycontent.getTextContent(), "JSP" );
 
-		// org.metawidget.jsp.tagext.html.spring.SpringStubTag
+		// org.metawidget.jsp.tagext.html.struts.StrutsStubTag
 
 		tag = XmlUtils.getSiblingNamed( tag, "tag" );
 		tagclass = XmlUtils.getChildNamed( tag, "tagclass" );
-		assertEquals( tagclass.getTextContent(), "org.metawidget.jsp.tagext.html.spring.SpringStubTag" );
+		assertEquals( tagclass.getTextContent(), "org.metawidget.jsp.tagext.html.struts.StrutsStubTag" );
 
 		bodycontent = XmlUtils.getSiblingNamed( tagclass, "bodycontent" );
 		assertEquals( bodycontent.getTextContent(), "JSP" );
