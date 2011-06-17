@@ -1,26 +1,22 @@
 <project name="swing-applet-addressbook-test">
 
-	<path id="webtest.path.id">
-		<fileset dir="../../../target/addressbook-swing-applet" includes="*.jar"/>
-	</path>
-	
-	<taskdef resource="webtestTaskdefs.properties" classpathref="webtest.path.id"/>
+	<taskdef resource="webtestTaskdefs.properties" />
 
 	<!-- Test Applet Loads (more thorough testing is done by SwingAddressBookTest) -->
 
 	<target name="all">
 		<webtest name="test-loads">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}" />
+			<config resultpath="${resultpath}" />
 			<steps>
 				<invoke url="file://${basedir}/../../../target/addressbook-swing-applet/index.html" />
 				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />
 
 				<!-- Test contacts row count. Note this makes a new AddressBookApplet, it does not test the -->
-				<!-- one actually on the page. We couldn't figure out how to get testing with appletRunner  -->
-				<!-- working (see http://lists.canoo.com/pipermail/webtest/2008q2/010687.html)              -->
+				<!-- one actually on the page. But WebTest's appletRunner step has been discontinued        -->
 
 				<groovy>
-					def applet = new org.metawidget.example.swing.applet.AddressBookApplet();
+					def applet = new java.applet.Applet();
+					new org.metawidget.example.swing.addressbook.AddressBook( applet );
 					def label = applet.getComponent( 0 );
 					step.setWebtestProperty( 'labelClass', label.getClass().getName());
 					def panel = applet.getComponent( 1 );
