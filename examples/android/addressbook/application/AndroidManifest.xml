@@ -10,4 +10,6 @@
         </activity>
         <activity android:name=".ContactActivity"/>
     </application>
-</manifest> 
+    <!-- Support large displays -->
+    <supports-screens android:resizeable="true"/>
+</manifest>

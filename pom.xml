@@ -717,7 +717,7 @@
 						<resourceDirectory>${project.basedir}/res</resourceDirectory>
 						<sdk>
 							<path>/android-sdk-windows</path>
-							<!-- Supports android:resizeable='true' for Honeycomb -->
+							<!-- Support android:resizeable='true' for large displays -->
 							<platform>4</platform>
 						</sdk>
 					</configuration>
