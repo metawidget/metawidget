@@ -116,10 +116,11 @@ public class ConfigReaderTest
 		} catch ( MetawidgetException e ) {
 			String message = e.getMessage();
 
-			// If, bizzarely, the host actually does resolve (maybe your ISP puts in a special
-			// page), you'll get a FileNotFoundException
+			// Bizzarely, the host may actually resolve if your ISP or DNS provider (eg. OpenDNS)
+			// puts in a special page. In that case you'll get a FileNotFoundException or a
+			// SAXParseException
 
-			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( message ) || "java.io.FileNotFoundException: http://foo.nowhere".equals( message ) );
+			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( message ) || "java.io.FileNotFoundException: http://foo.nowhere".equals( message ) || message.startsWith( "org.metawidget.inspector.iface.InspectorException: org.xml.sax.SAXParseException: " ) );
 		}
 	}
 
