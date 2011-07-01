@@ -71,10 +71,7 @@
 					a <classname>WidgetBuilder</classname> that builds widgets for specific front-end frameworks. This can be a
 					single <classname>WidgetBuilder</classname> or a list of multiple <classname>WidgetBuilder</classname>s
 					(e.g. <classname>HtmlWidgetBuilder</classname>, <classname>RichFacesWidgetBuilder</classname> etc) by using
-					<classname>CompositeWidgetBuilder</classname>.
-				</para>
-				<para>
-					In the latter case, the first <classname>WidgetBuilder</classname>
+					<classname>CompositeWidgetBuilder</classname>. In the latter case, the first <classname>WidgetBuilder</classname>
 					to return a widget is used. In this way <classname>WidgetBuilder</classname>s for third party UI component libraries
 					(that provide specialized components) can be listed first, returning <parameter>null</parameter> for property types they do not
 					support. <classname>WidgetBuilder</classname>s for the platform's standard components can be listed last (as a 'fallback' choice).
