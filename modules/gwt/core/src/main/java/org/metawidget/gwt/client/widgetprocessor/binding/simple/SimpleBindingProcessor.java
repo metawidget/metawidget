@@ -113,7 +113,7 @@ public class SimpleBindingProcessor
 		metawidget.putClientProperty( SimpleBindingProcessor.class, null );
 	}
 
-	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget ) {
+	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget ) {
 
 		// Nested Metawidgets are not bound, only remembered
 

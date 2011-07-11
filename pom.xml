@@ -110,9 +110,8 @@
 				<!-- Putting these under maven-compiler-plugin didn't seem to work: http://jira.codehaus.org/browse/MCOMPILER-114 -->
 				<!-- Note: this must be 'maven.compile' (no 'r') -->
 				<maven.compile.debug>false</maven.compile.debug>
-				<!-- Note: these must be 'maven.compiler' (with an 'r') -->
+				<!-- Note: this must be 'maven.compiler' (with an 'r') -->
 				<maven.compiler.debuglevel>none</maven.compiler.debuglevel>
-				<maven.compiler.optimize>true</maven.compiler.optimize>
 			</properties>
 		</profile>
 
