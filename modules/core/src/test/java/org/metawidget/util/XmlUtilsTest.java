@@ -176,6 +176,22 @@ public class XmlUtilsTest
 		assertEquals( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>", XmlUtils.documentToString( document, true ) );
 	}
 
+	public void testCombineElements() {
+
+		Document documentMaster = XmlUtils.documentFromString( "<foo fooAttr=\"1\"><bar barAttr=\"2\"/></foo>" );
+
+		// Missing @fooAttr
+
+		Document documentToAdd = XmlUtils.documentFromString( "<foo fooAttr=\"1\"><bar bazAttr=\"3\"/></foo>" );
+
+		try {
+			XmlUtils.combineElements( documentMaster.getDocumentElement(), documentToAdd.getDocumentElement(), "fooAttr", "barAttr" );
+			assertTrue( false );
+		} catch( Exception e ) {
+			assertEquals( "Child node #1 has no @fooAttr: <bar bazAttr=\"3\"/>", e.getMessage() );
+		}
+	}
+
 	//
 	// Private members
 	//

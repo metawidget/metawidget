@@ -449,7 +449,7 @@ public class XmlUtils {
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
 			if ( childToAddName == null || "".equals( childToAddName ) ) {
-				throw new RuntimeException( "Child node #" + addLoop + " (" + childToAdd.getNodeName() + ") has no @" + topLevelAttributeToCombineOn );
+				throw new RuntimeException( "Child node #" + ( addLoop + 1 ) + " has no @" + topLevelAttributeToCombineOn + ": " + nodeToString( childToAdd, false ));
 			}
 
 			if ( !childNamesAdded.add( childToAddName ) ) {
@@ -1207,9 +1207,9 @@ public class XmlUtils {
 	 * This method is a simplified version of...
 	 * <p>
 	 * <code>
-	 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();
-	 * 	javax.xml.Transformer transformer = TransformerFactory.newInstance().newTransformer();
-	 * 	transformer.transform( new DOMSource( node ), new StreamResult( out ));
+	 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();<br/>
+	 * 	javax.xml.Transformer transformer = TransformerFactory.newInstance().newTransformer();<br/>
+	 * 	transformer.transform( new DOMSource( node ), new StreamResult( out ));<br/>
 	 * 	return out.toString();
 	 * </code>
 	 * <p>
