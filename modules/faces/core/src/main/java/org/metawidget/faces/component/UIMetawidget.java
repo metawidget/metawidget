@@ -1407,6 +1407,10 @@ public abstract class UIMetawidget
 			FacesContext context = FacesContext.getCurrentInstance();
 			UIViewRoot root = context.getViewRoot();
 
+			if ( root == null ) {
+				throw MetawidgetException.newException( "UIViewRoot is null. Is faces-config.xml set to version 2.0?" );
+			}
+
 			root.subscribeToViewEvent( PreRenderViewEvent.class, this );
 		}
 
