@@ -4,6 +4,30 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v1.25 Released!</h3>
+		<h4>14th July 2011</h4>
+		
+		<p>
+			Metawidget v1.25 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li><a href="http://metawidget.org/doc/reference/en/html/ch03s02.html#section-metawidgets-web-faces-facets">Allow adding JSF facets to top-level generated components</a></li>
+			<li>Refactor dependencies for JSF, JSP, Spring and Struts annotations</li>
+			<li>Further improved module POMs to work better with m2eclipse</li>
+			<li>Fix Android examples for tablets</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+				
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>		
+
 		<h3>Metawidget v1.20 Released!</h3>
 		<h4>12th May 2011</h4>
 		
