@@ -28,6 +28,36 @@
 
 		<hr/>		
 
+		<h3>Metawidget @ JavaOne 2011</h3>
+		<h4>12th July 2011</h4>
+		
+		<p>
+			Metawidget has been accepted for a technical session at <a href="http://www.oracle.com/javaone">JavaOne 2011</a>
+			(October 2nd-6th, San Francisco):
+		</p>
+		
+		<h5>DRY UIs: Let the metadata do the work</h5>
+		
+		<p>
+			How many times have you sat in a dark office after hours hand editing forms, page after page? Software
+			teams spend a lot of time developing the UI. To speed up the process, developers resort to drag-and-drop
+			widget solutions or model-based static generation tools. These approaches only change the appearance
+			of the problem.
+		</p>
+		
+		<p>
+			This talk presents Metawidget as a solution to keep your UIs DRY. Metawidget is a smart UI processor
+			that populates itself, at runtime, with UI components that match properties of your model. Rather than
+			introduce new technologies, it reads existing metadata (e.g. JavaBeans, annotations, XML) to create
+			native UI widgets (e.g. JSF, Android, Swing).
+		</p>
+		
+		<p>
+			Stop hand-coding your forms! Come learn how to break out of the rut!
+		</p>
+
+		<hr/>		
+
 		<h3>Metawidget v1.20 Released!</h3>
 		<h4>12th May 2011</h4>
 		
