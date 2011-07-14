@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.website</groupId>
 		<artifactId>website-parent</artifactId>
-		<version>1.25</version>
+		<version>1.30-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -74,6 +74,7 @@
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

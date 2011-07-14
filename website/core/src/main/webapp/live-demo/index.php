@@ -1,4 +1,4 @@
-<?php $title = 'Contributing'; require_once '../include/page-start.php'; ?>
+<?php $title = 'Live Demo'; require_once '../include/page-start.php'; ?>
 
 	<?php $floater='browser.png'; require_once '../include/body-start.php'; ?>
 
