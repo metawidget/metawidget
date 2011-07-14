@@ -42,15 +42,6 @@ public class DataBindingProcessorTest
 	extends TestCase {
 
 	//
-	// Constructor
-	//
-
-	public DataBindingProcessorTest( String name ) {
-
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

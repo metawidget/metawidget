@@ -30,15 +30,6 @@ public class LogUtilsTest
 	extends TestCase {
 
 	//
-	// Constructor
-	//
-
-	public LogUtilsTest( String name ) {
-
-		super( name );
-	}
-
-	//
 	// Public statics
 	//
 

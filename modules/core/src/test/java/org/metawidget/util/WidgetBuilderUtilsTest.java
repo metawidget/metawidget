@@ -31,15 +31,6 @@ public class WidgetBuilderUtilsTest
 	extends TestCase {
 
 	//
-	// Constructor
-	//
-
-	public WidgetBuilderUtilsTest( String name ) {
-
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

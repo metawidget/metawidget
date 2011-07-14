@@ -28,15 +28,6 @@ public class ArrayUtilsTest
 	extends TestCase {
 
 	//
-	// Constructor
-	//
-
-	public ArrayUtilsTest( String name ) {
-
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

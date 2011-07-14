@@ -37,6 +37,10 @@ public class SwingJdk14Test
 	// Constructor
 	//
 
+	/**
+	 * JUnit 3.7 constructor (SwingJdk14Test gets run under JDK 1.4 using JUnit 3).
+	 */
+	
 	public SwingJdk14Test( String name ) {
 
 		super( name );

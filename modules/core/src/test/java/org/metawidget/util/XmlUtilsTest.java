@@ -36,15 +36,6 @@ public class XmlUtilsTest
 	extends TestCase {
 
 	//
-	// Constructor
-	//
-
-	public XmlUtilsTest( String name ) {
-
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

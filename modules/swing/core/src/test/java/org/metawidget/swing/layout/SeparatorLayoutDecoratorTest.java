@@ -44,15 +44,6 @@ public class SeparatorLayoutDecoratorTest
 	extends TestCase {
 
 	//
-	// Constructor
-	//
-	
-	public SeparatorLayoutDecoratorTest( String name ) {
-		
-		super( name );
-	}
-	
-	//
 	// Public methods
 	//
 

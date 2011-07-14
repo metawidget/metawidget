@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
@@ -368,7 +367,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			String elementName = getElementName( element );
 
 			if ( !ENTITY.equals( elementName ) ) {
-				throw MetawidgetException.newException( "Top-level element name should be " + ENTITY + ", not " + elementName );
+				throw new Exception( "Top-level element name should be " + ENTITY + ", not " + elementName );
 			}
 
 			// Metawidget-wide read-only
@@ -451,22 +450,29 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * <code>buildWidget</code> and <code>addWidget</code> on each.
 	 */
 
-	protected void buildCompoundWidget( E element )
+	protected void buildCompoundWidget( E entity )
 		throws Exception {
 
-		for ( int loop = 0, length = getChildCount( element ); loop < length; loop++ ) {
-			E child = getChildAt( element, loop );
+		for ( int loop = 0, length = getChildCount( entity ); loop < length; loop++ ) {
+			E child = getChildAt( entity, loop );
 
 			if ( child == null ) {
 				continue;
 			}
 
-			Map<String, String> attributes = getAttributesAsMap( child );
+			// Sanity check
 
+			String elementName = getElementName( child );
+
+			if ( !PROPERTY.equals( elementName ) && !ACTION.equals( elementName )) {
+				throw new Exception( "Child element #" + ( loop + 1 ) + " should be " + PROPERTY + " or " + ACTION + ", not " + elementName );
+			}
+
+			Map<String, String> attributes = getAttributesAsMap( child );
 			String childName = attributes.get( NAME );
 
 			if ( childName == null || "".equals( childName ) ) {
-				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
+				throw new Exception( "Child element #" + ( loop + 1 ) + " has no @" + NAME );
 			}
 
 			// Metawidget as a whole may have had setReadOnly( true )
@@ -478,7 +484,6 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 				forcedReadOnly = true;
 			}
 
-			String elementName = getElementName( child );
 			W widget = buildWidget( elementName, attributes );
 
 			if ( widget == null ) {

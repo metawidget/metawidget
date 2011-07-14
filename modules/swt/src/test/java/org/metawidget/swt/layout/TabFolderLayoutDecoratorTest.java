@@ -67,15 +67,6 @@ public class TabFolderLayoutDecoratorTest
 	}
 
 	//
-	// Constructor
-	//
-	
-	public TabFolderLayoutDecoratorTest( String name ) {
-		
-		super( name );
-	}
-	
-	//
 	// Public methods
 	//
 

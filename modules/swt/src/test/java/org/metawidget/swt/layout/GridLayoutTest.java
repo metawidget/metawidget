@@ -94,15 +94,6 @@ public class GridLayoutTest
 	}
 
 	//
-	// Constructor
-	//
-
-	public GridLayoutTest( String name ) {
-
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 
