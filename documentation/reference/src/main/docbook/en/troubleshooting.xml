@@ -23,7 +23,7 @@
 							If your application does not use Apache Commons Logging, Metawidget will default to <classname>java.util.Logging</classname>.
 							Locate the <filename>logging.properties</filename> file (eg. <filename>&lt;JAVA_HOME&gt;/jre/lib/logging.properties</filename>)
 							and edit it. Set
-							<parameter>.level=DEBUG</parameter> and <parameter>java.util.logging.ConsoleHandler.level=DEBUG</parameter>.
+							<parameter>.level=FINE</parameter> and <parameter>java.util.logging.ConsoleHandler.level=FINE</parameter>.
 						</para>
 					</listitem>
 					<listitem>
@@ -39,6 +39,13 @@
 							file (eg. <filename>/jboss-6.0.0.Final/server/default/deploy/jboss-logging.xml</filename>) and edit it. Under the
 							<parameter>&lt;console-handler&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>. Under
 							the <parameter>&lt;root-logger&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							If you are running Tomcat 7 under Eclipse, make sure you edit the server's launch configuration and include
+							a VM argument of <parameter>-Djava.util.logging.config.file=&lt;tomcat path&gt;/conf/logging.properties</parameter>. Then edit
+							<filename>&lt;tomcat path&gt;/conf/logging.properties</filename> as described above.
 						</para>
 					</listitem>
 				</itemizedlist>
