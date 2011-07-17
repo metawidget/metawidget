@@ -25,7 +25,7 @@
 			</li>
 			<li>
 				This looks like a very interesting project!
-				<a href="http://kennardconsulting.blogspot.com/2008/04/declarative-user-interface-generator.html#comments">Johan Andries (Java Developer)</a>
+				<a href="http://blog.kennardconsulting.com/2008/04/declarative-user-interface-generator.html#comments">Johan Andries (Java Developer)</a>
 			</li>
 			<li>
 				I strongly agree that UI duplication is mindless, error-prone code that<br/>
@@ -72,12 +72,12 @@
 			<li>
 				I think Object Interface Mapper (OIM) is a very good 'concept' for this domain.<br/>
 				I usually call it 'domain model framework' or something like that, but now I think OIM is more clear
-				<a href="http://kennardconsulting.blogspot.com/2008/09/generate-user-inteface-automatically.html#comments" target="_blank">wangzx (Java Developer)</a>			
+				<a href="http://blog.kennardconsulting.com/2008/09/generate-user-inteface-automatically.html#comments" target="_blank">wangzx (Java Developer)</a>			
 			</li>
 			<li>
 				In the past I used [other frameworks] but their approach is too invasive and unfittable. Metawidget<br/>
 				is very flexible and integrates an environment already in production. Great great great framework!!!
-				<a href="http://kennardconsulting.blogspot.com/2008/12/better-than-free-metawidget-v065.html" target="_blank">Nicola (Java Developer)</a>
+				<a href="http://blog.kennardconsulting.com/2008/12/better-than-free-metawidget-v065.html" target="_blank">Nicola (Java Developer)</a>
 			</li>
 			
 			<li>

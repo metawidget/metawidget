@@ -41,7 +41,7 @@
 						<xref linkend="section-architecture-inspectionresultprocessors-implementing-your-own"/>); sorting
 						fields based on a different notation (such as Dewey Decimal); defining field order at the class (rather
 						than the getter) level, and many more. For complete worked examples see
-						<ulink url="http://kennardconsulting.blogspot.com/2010/08/customizing-which-form-fields-are_04.html">this blog entry</ulink>.
+						<ulink url="http://blog.kennardconsulting.com/2010/08/customizing-which-form-fields-are_04.html">this blog entry</ulink>.
 					</para>
 				</listitem>				
 			</itemizedlist>

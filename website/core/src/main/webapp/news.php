@@ -93,9 +93,9 @@
 		</p>
 		
 		<ul>
-			<li><a href="http://kennardconsulting.blogspot.com/2011/03/metawidget-full-speed-to-maven.html">Maven support</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2011/04/metawidget-streamlined-configuration.html">Streamlined Configuration</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2011/04/metawidget-richfaces-4-support.html">RichFaces 4 support</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/03/metawidget-full-speed-to-maven.html">Maven support</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/04/metawidget-streamlined-configuration.html">Streamlined Configuration</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/04/metawidget-richfaces-4-support.html">RichFaces 4 support</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 				
@@ -135,7 +135,7 @@
 		
 		<ul>
 			<li><a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-introduction-part2-web-primefaces">PrimeFaces support</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2011/02/metawidget-icefaces-paneltabset-support.php">Improved ICEfaces support</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/02/metawidget-icefaces-paneltabset-support.php">Improved ICEfaces support</a></li>
 			<li><a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-inspectors-jpa">JpaInspector.setHideVersions</a></li>
 			<li><a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-widgetprocessors-web-gwt-stylename">Refactored GWT StyleNameProcessor</a></li>
 			<li>JSF2 version of AddressBook</li>
@@ -164,8 +164,8 @@
 		</p>
 		
 		<ul>
-			<li><a href="http://kennardconsulting.blogspot.com/2010/10/safely-manipulating-component-tree-with.html">Improved JSF 2 support (Mojarra 2.1 and MyFaces 2.0.3)</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2010/10/javabean-convention-relating-public.html">Support for annotating private fields</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2010/10/safely-manipulating-component-tree-with.html">Improved JSF 2 support (Mojarra 2.1 and MyFaces 2.0.3)</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2010/10/javabean-convention-relating-public.html">Support for annotating private fields</a></li>
 			<li><a href="https://sourceforge.net/tracker/?func=detail&amp;aid=3076516&amp;group_id=208482&amp;atid=1005872">char support</a></li>
 			<li>JSF2 AjaxProcessor</li>
 			<li>Read-only actions now display as disabled buttons (rather than not displaying at all)</li>
@@ -209,7 +209,7 @@
 		</p>
 		
 		<ul>
-			<li>Improved JSF support (<a href="http://kennardconsulting.blogspot.com/2010/10/metawidget-neat-trick-configuring-jsf.html">binding attribute</a>)</li>
+			<li>Improved JSF support (<a href="http://blog.kennardconsulting.com/2010/10/metawidget-neat-trick-configuring-jsf.html">binding attribute</a>)</li>
 			<li>Refactored HiddenFieldProcessor for JSP, Struts and Spring</li>
 			<li>Improved JPA support (can now hide transient fields)</li>
 			<li>Refactoring, bug fixes, unit tests; and</li>
@@ -289,7 +289,7 @@
 		
 		<ul>
 			<li><a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-metawidgets-desktop-swt">SWT support</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2010/03/form-generation-now-with-improved.html">Improved conditional attributes</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2010/03/form-generation-now-with-improved.html">Improved conditional attributes</a></li>
 			<li>More bug fixes, unit tests and documentation</li>
 		</ul>
 
@@ -335,7 +335,7 @@
 		<ul>
 			<li><a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-architecture-widgetprocessors">WidgetProcessors</a> and
 			<a href="http://metawidget.org/doc/reference/en/html-single/index.html#chapter-architecture">refactored internal pipeline</a>
-			(see <a href="http://kennardconsulting.blogspot.com/2009/09/metawidget-08-to-085-migration-guide.html">Migration Guide</a>)</li>
+			(see <a href="http://blog.kennardconsulting.com/2009/09/metawidget-08-to-085-migration-guide.html">Migration Guide</a>)</li>
 			<li>Upgraded RichFaces support (<a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-widgetbuilders-richfaces">SuggestionBox</a>,
 			<a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-layouts-web-faces-richfaces">TabPanel and RichPanel</a>)</li>
 			<li>Upgraded ExtGWT support to 2.0.1 (includes new Slider widget)</li>
@@ -377,8 +377,8 @@
 		</p>
 		
 		<ul>
-			<li><a href="http://kennardconsulting.blogspot.com/2009/08/metawidget-on-ice.html">ICEfaces support and demo</a></li>
-			<li><a href="http://kennardconsulting.blogspot.com/2009/08/metawidget-takes-walk-on-client-side.html">GWT client-side demo (and upgrade to GWT 1.7)</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2009/08/metawidget-on-ice.html">ICEfaces support and demo</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2009/08/metawidget-takes-walk-on-client-side.html">GWT client-side demo (and upgrade to GWT 1.7)</a></li>
 			<li><a href="doc/reference/en/html/ch05s02.html#section-inspectors-beanvalidation">Bean Validation (JSR 303) support</a></li>
 			<li><a href="doc/reference/en/html/ch05s02.html#section-inspectors-oval">OVal support</a></li>
 			<li><a href="doc/reference/en/html/ch04s02.html#section-widgetbuilders-tomahawk">Tomahawk support</a></li>
@@ -404,7 +404,7 @@
 		<p>
 			Metawidget v0.75 is now included with the <a href="http://in.relation.to/Bloggers/Seam212">JBoss Seam 2.1.2</a> distribution, along
 			with updated samples for the JBoss Seam Hotel Booking, Groovy Hotel Booking and DVD Store applications. You can read more
-			about the integration between Metawidget and Seam <a href="http://kennardconsulting.blogspot.com/2009/05/metawidget-and-seam-saying-goodbye-to.html">here</a>.
+			about the integration between Metawidget and Seam <a href="http://blog.kennardconsulting.com/2009/05/metawidget-and-seam-saying-goodbye-to.html">here</a>.
 		</p>
 		
 		<p>
@@ -495,9 +495,9 @@
 		</p>
 		
 		<ul>
-			<li>JBoss jBPM support (see <a href="http://kennardconsulting.blogspot.com/2008/10/metawidget-ready-set-action.html">this blog entry</a>)</li>
-			<li>Swing AppFramework support (see <a href="http://kennardconsulting.blogspot.com/2008/10/metawidget-ready-set-action.html">this blog entry</a>)</li>
-			<li>JEXL support (see <a href="http://kennardconsulting.blogspot.com/2008/07/expression-language-el-for-swing.html">this blog entry</a>)</li>
+			<li>JBoss jBPM support (see <a href="http://blog.kennardconsulting.com/2008/10/metawidget-ready-set-action.html">this blog entry</a>)</li>
+			<li>Swing AppFramework support (see <a href="http://blog.kennardconsulting.com/2008/10/metawidget-ready-set-action.html">this blog entry</a>)</li>
+			<li>JEXL support (see <a href="http://blog.kennardconsulting.com/2008/07/expression-language-el-for-swing.html">this blog entry</a>)</li>
 			<li>Upgraded GWT support (to 1.5.2)</li>
 			<li>Upgraded Android support (to 1.0)</li>
 		</ul>
@@ -520,8 +520,8 @@
 		</p>
 		
 		<ul>
-			<li>Rebinding support (see <a href="http://kennardconsulting.blogspot.com/2008/07/metawidget-and-rebinding.html">this blog entry</a>)</li>
-			<li>Javassist support (see <a href="http://kennardconsulting.blogspot.com/2008/07/metawidget-javassist-versus.html">this blog entry</a>)</li>
+			<li>Rebinding support (see <a href="http://blog.kennardconsulting.com/2008/07/metawidget-and-rebinding.html">this blog entry</a>)</li>
+			<li>Javassist support (see <a href="http://blog.kennardconsulting.com/2008/07/metawidget-javassist-versus.html">this blog entry</a>)</li>
 		</ul>
 		
 		<p>
@@ -542,8 +542,8 @@
 		</p>
 		
 		<ul>
-			<li>Google Web Toolkit (GWT) support (see <a href="http://kennardconsulting.blogspot.com/2008/06/gwt-and-metawidget-part-1-reflection.html" target="_blank">this blog entry</a>)</li>
-			<li>Groovy support (see <a href="http://kennardconsulting.blogspot.com/2008/06/groovy-metawidget.html" target="_blank">this blog entry</a>)</li>
+			<li>Google Web Toolkit (GWT) support (see <a href="http://blog.kennardconsulting.com/2008/06/gwt-and-metawidget-part-1-reflection.html" target="_blank">this blog entry</a>)</li>
+			<li>Groovy support (see <a href="http://blog.kennardconsulting.com/2008/06/groovy-metawidget.html" target="_blank">this blog entry</a>)</li>
 			<li>Applet support</li>
 		</ul>
 		

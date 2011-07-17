@@ -229,7 +229,7 @@ public class ComesAfterInspectionResultProcessor<M>
 	 * different screens. You may have a 'comes-after-summary' attribute and a 'comes-after-detail'
 	 * attribute, and choose between them based on some property of the Metawidget. Similar to the
 	 * approach discussed here:
-	 * http://kennardconsulting.blogspot.com/2010/07/customizing-which-form-fields-are_14.html
+	 * http://blog.kennardconsulting.com/2010/07/customizing-which-form-fields-are_14.html
 	 *
 	 * @param metawidget
 	 *            Metawidget doing the rendering
@@ -247,7 +247,7 @@ public class ComesAfterInspectionResultProcessor<M>
 	 * different screens. You may have a 'comes-after-summary' attribute and a 'comes-after-detail'
 	 * attribute, and choose between them based on some property of the Metawidget. Similar to the
 	 * approach discussed here:
-	 * http://kennardconsulting.blogspot.com/2010/07/customizing-which-form-fields-are_14.html
+	 * http://blog.kennardconsulting.com/2010/07/customizing-which-form-fields-are_14.html
 	 *
 	 * @param metawidget
 	 *            Metawidget doing the rendering

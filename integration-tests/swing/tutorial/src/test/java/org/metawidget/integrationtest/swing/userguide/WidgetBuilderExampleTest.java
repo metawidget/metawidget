@@ -74,7 +74,7 @@ public class WidgetBuilderExampleTest
 	}
 
 	/**
-	 * Test of http://kennardconsulting.blogspot.com/2010/10/metawidget-jradiobutton-instead-of.html
+	 * Test of http://blog.kennardconsulting.com/2010/10/metawidget-jradiobutton-instead-of.html
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -144,7 +144,7 @@ public class WidgetBuilderExampleTest
 	}
 
 	/**
-	 * Test of http://kennardconsulting.blogspot.com/2010/10/metawidget-jradiobutton-instead-of.html
+	 * Test of http://blog.kennardconsulting.com/2010/10/metawidget-jradiobutton-instead-of.html
 	 */
 
 	static class GenericJRadioButtonWidgetBuilder

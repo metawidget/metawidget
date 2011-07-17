@@ -539,7 +539,7 @@ public abstract class BaseXmlInspector
 	 * This is necessary for path traversal. If an XML format does not specify a way to traverse
 	 * from a child to another top-level element, the Inspector cannot find information along paths
 	 * (eg. <code>foo/bar/baz</code>). There <em>is</em> a way around this but, on balance, we
-	 * decided against it (see http://kennardconsulting.blogspot.com/2008/01/ask-your-father.html).
+	 * decided against it (see http://blog.kennardconsulting.com/2008/01/ask-your-father.html).
 	 */
 
 	protected String getTypeAttribute() {

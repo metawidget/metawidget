@@ -733,7 +733,7 @@
 						<classname>Collection</classname> to their preference. This may include: supporting
 						<classname>java.util.Set</classname>; allowing inline editing; supporting pagination and so on.
 						For more information, see
-						<ulink url="http://kennardconsulting.blogspot.com/2010/10/metawidget-collections-support.html">this blog entry</ulink>.
+						<ulink url="http://blog.kennardconsulting.com/2010/10/metawidget-collections-support.html">this blog entry</ulink>.
 					</para>
 					
 				</section>

@@ -18,7 +18,7 @@
 			<tbody>
 				<tr>
 					<td>Kennard Consulting's Blog</td>
-					<td class="link"><a href="http://kennardconsulting.blogspot.com/search/label/Metawidget" target="_blank">View</a></td>
+					<td class="link"><a href="http://blog.kennardconsulting.com/search/label/Metawidget" target="_blank">View</a></td>
 				</tr>
 			</tbody>
 		</table>
