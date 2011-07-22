@@ -46,6 +46,20 @@
 			<li><a href="xsd" target="_blank">Other XML Schemas</a></li>
 		</ul>
 		
+		<h3>White Papers</h3>
+		
+		<p>
+			Industry white papers are available, for those interested in examples of organizations deploying Metawidget:
+		</p>
+		
+		<ul>
+			<li><a href="media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">Case Study: Telef&oacute;nica Health Portal</a></li>
+		</ul>
+		
+		<p>
+			Academic research papers and journal articles are <a href="blogs.php">also available</a>. 
+		</p>
+
 		<h3>Presentation Material</h3>
 		
 		<p>

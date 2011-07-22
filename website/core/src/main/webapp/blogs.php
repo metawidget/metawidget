@@ -211,6 +211,10 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<p>
+			Industry white papers are <a href="documentation.php">also available</a>.
+		</p>
 
 	<?php require_once 'include/body-end.php'; ?>		
 
