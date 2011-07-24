@@ -4,6 +4,25 @@
 	
 		<h2>News</h2>
 		
+		<h3>Case Study: Telef&oacute;nica Health Portal</h3>
+		<h4>24th July 2011</h4>
+
+		<p>
+			This <a href="http://metawidget.org/media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">white paper</a>
+			presents a case study of using Metawidget to provide automatic UI generation for the
+			Telef&oacutenica Health Portal system. The Health Portal is a Web-based application designed around a Service
+			Oriented Architecture and built using Google Web Toolkit. It serves the Spanish National Health System and
+			is deployed to some 3,000 hospitals and health clinics across Spain. The integration of Metawidget allowed
+			Telef&oacutenica to reduce development and ongoing maintenance costs. It further allowed the Health Portal to
+			offer a level of flexibility and functionality not possible in previous products.
+		</p>
+		
+		<p>
+			Download the case study <a href="http://metawidget.org/media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">here</a>.
+		</p>
+		
+		<hr/>
+
 		<h3>Metawidget v1.25 Released!</h3>
 		<h4>14th July 2011</h4>
 		
