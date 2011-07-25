@@ -49,11 +49,12 @@
 		<h3>White Papers</h3>
 		
 		<p>
-			Industry white papers are available, for those interested in examples of organizations deploying Metawidget:
+			White papers are available for those interested in examples of organizations deploying Metawidget:
 		</p>
 		
 		<ul>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">Case Study: Telef&oacute;nica Health Portal</a></li>
+			<li><a href="media/whitepaper/MetawidgetWhitePaper-AdoptionStudies.pdf">Adoption Studies</a></li>
 		</ul>
 		
 		<p>
