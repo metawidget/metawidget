@@ -89,12 +89,12 @@ import org.w3c.dom.NodeList;
  * return any XML.
  * <p>
  * Second, by default you need to explicitly specify any inheritance relationships between types in
- * the XML, because the XML has no knowledge of your Java <code>Classes</code>. If this becomes
+ * the XML, because the XML has no knowledge of your Java classes. If this becomes
  * laborious, you can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer
- * the relationships automatically.
+ * the relationships automatically from your Java classes.
  * <p>
  * Third, it is important the properties defined by the XML and the ones defined by the
- * <code>Classes</code> stay in sync. To enforce this, you can set
+ * Java classes stay in sync. To enforce this, you can set
  * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
  *
  * @author Richard Kennard

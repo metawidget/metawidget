@@ -1066,13 +1066,14 @@ public class PersonController {
 					
 					<para>
 						Second, by default you need to explicitly specify any inheritance relationships between types in the XML, because the XML
-						has no knowledge of your Java <classname>Class</classname>es. If this becomes laborious, you can set
-						<function>BaseXmlInspectorConfig.setInferInheritanceHierarchy</function> to infer the relationships automatically.
+						has no knowledge of your Java classes. If this becomes laborious, you can set
+						<function>BaseXmlInspectorConfig.setInferInheritanceHierarchy</function> to infer the relationships automatically
+						from your Java classes.
 					</para>
 					
 					<para>
  						Third, it is important the properties defined by the XML and the ones defined by the
-						<classname>Class</classname>es stay in sync. To enforce this, you can set
+						Java classes stay in sync. To enforce this, you can set
 						<function>BaseXmlInspectorConfig.setValidateAgainstClasses</function>.					
 					</para>
 				</section>
