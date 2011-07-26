@@ -9,11 +9,8 @@
 		<property name="title" spring-lookup="${contacts.allTitles}"/>
 	</entity>
 
-	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"
-			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
-
-	<entity type="org.metawidget.example.shared.addressbook.model.BusinessContact"
-			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+	<!-- We don't have to specify PersonalContact extends Contact, or BusinessContact -->
+	<!-- extends Contact, because we are using XmlInspector.inferInheritanceHierarchy -->
 
 	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
 		<property name="type" type="java.lang.String" jsp-lookup="${communications.all}"/>

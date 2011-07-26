@@ -54,6 +54,8 @@ public class BaseXmlInspectorConfig
 
 	private PropertyStyle		mRestrictAgainstObject;
 
+	private boolean				mInferInheritanceHierarchy;
+
 	//
 	// Public methods
 	//
@@ -111,6 +113,23 @@ public class BaseXmlInspectorConfig
 		return this;
 	}
 
+	/**
+	 * Sets whether to infer the inheritance heirarchy of types in the XML by looking them up
+	 * against corresponding <code>Classes</code>. This saves having to explicitly specify the
+	 * inheritance heirarchy in the XML.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseXmlInspectorConfig setInferInheritanceHierarchy( boolean inferInheritanceHierarchy ) {
+
+		mInferInheritanceHierarchy = inferInheritanceHierarchy;
+
+		// Fluent interface
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -118,7 +137,7 @@ public class BaseXmlInspectorConfig
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 
@@ -138,6 +157,10 @@ public class BaseXmlInspectorConfig
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mInferInheritanceHierarchy, ( (BaseXmlInspectorConfig) that ).mInferInheritanceHierarchy ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -149,6 +172,7 @@ public class BaseXmlInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStreams );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRestrictAgainstObject );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInferInheritanceHierarchy );
 
 		return hashCode;
 	}
@@ -188,5 +212,10 @@ public class BaseXmlInspectorConfig
 	protected PropertyStyle getRestrictAgainstObject() {
 
 		return mRestrictAgainstObject;
+	}
+
+	protected boolean isInferInheritanceHierarchy() {
+
+		return mInferInheritanceHierarchy;
 	}
 }

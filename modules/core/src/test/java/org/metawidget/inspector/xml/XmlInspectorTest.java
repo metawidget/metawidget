@@ -106,6 +106,8 @@ public class XmlInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "bar", property.getAttribute( NAME ) );
 		assertEquals( "Bar", property.getAttribute( TYPE ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertTrue( property.getAttributes().getLength() == 3 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -275,6 +277,95 @@ public class XmlInspectorTest
 		}
 	}
 
+	public void testInferInheritanceHierarchy() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo\">";
+		xml += "<property name=\"xmlBar\" type=\"int\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SubRestrictAgainstObjectFoo\">";
+		xml += "<property name=\"xmlSubSubBar\" type=\"boolean\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		// Without inferInheritanceHierarchy
+
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		assertEquals( null, mInspector.inspect( null, SubRestrictAgainstObjectFoo.class.getName() ) );
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo" ) );
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo", entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "xmlSubSubBar", property.getAttribute( NAME ) );
+		assertEquals( "boolean", property.getAttribute( TYPE ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		assertTrue( entity.getChildNodes().getLength() == 1 );
+
+		// With inferInheritanceHierarchy
+
+		// Against a missing top-level entity
+
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInferInheritanceHierarchy( true ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		document = XmlUtils.documentFromString( mInspector.inspect( null, SubRestrictAgainstObjectFoo.class.getName() ) );
+
+		// Entity
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( SubRestrictAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "xmlBar", property.getAttribute( NAME ) );
+		assertEquals( "int", property.getAttribute( TYPE ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		assertTrue( entity.getChildNodes().getLength() == 1 );
+
+		// Against a missing middle-level entity
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo" ) );
+
+		// Entity
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo", entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "xmlBar", property.getAttribute( NAME ) );
+		assertEquals( "int", property.getAttribute( TYPE ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "xmlSubSubBar", property.getAttribute( NAME ) );
+		assertEquals( "boolean", property.getAttribute( TYPE ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		assertTrue( entity.getChildNodes().getLength() == 2 );
+
+		// Against a fake entity
+
+		assertEquals( null, XmlUtils.documentFromString( mInspector.inspect( null, "Fake Entity" ) ));
+	}
+
 	//
 	// Inner class
 	//
@@ -282,5 +373,16 @@ public class XmlInspectorTest
 	public static class NullObject {
 
 		public NullObject	nestedNullObject;
+	}
+
+	public static class RestrictAgainstObjectFoo {
+
+		public String	bar;
+	}
+
+	public static class SubRestrictAgainstObjectFoo
+		extends RestrictAgainstObjectFoo {
+
+		public String	subBar;
 	}
 }

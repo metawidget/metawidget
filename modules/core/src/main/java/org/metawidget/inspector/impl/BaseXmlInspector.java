@@ -72,20 +72,26 @@ import org.w3c.dom.NodeList;
  * it because Android's Dalvik preprocessor balks at the unsupported schema classes (even if they're
  * wrapped in a <code>ClassNotFoundException</code>).
  * <p>
- * <h2>Object/Class Mismatch Problem</h2>
+ * <h2>Mixing XML and Object-based Inspectors</h2>
  * <p>
- * When mixing XML-based inspectors (eg. <code>XmlInspector</code>) and Object-based Inspectors (eg.
- * <code>PropertyTypeInspector</code>) in the same application (ie. via
- * <code>CompositeInspector</code>) you may encounter a problem if your XML-based Inspectors and
- * your Object-based Inspectors are inspecting the same classes. Specifically, the Object-based
- * Inspectors will always stop at <code>null</code> or recursive Object references, whereas the XML
- * Inspectors (which have no knowledge of Object values) will continue. This can lead to the
- * WidgetBuilders constructing a UI for a null Object, which may upset some WidgetProcessors (eg.
- * <code>BeansBindingProcessor</code>).
+ * Several pieces of functionality apply to mixing XML-based <code>Inspector</code>s (e.g.
+ * <code>XmlInspector</code>) and Object-based <code>Inspector</code>s (e.g.
+ * <code>PropertyTypeInspector</code>) in the same application (i.e. via
+ * <code>CompositeInspector</code>).
  * <p>
- * If you are encountering this particular scenario, you can set <code>restrictAgainstObject</code>,
- * whereby the XML-based Inspector will do a check for <code>null</code> or recursive Object
- * references, and not return any XML.
+ * First, you may encounter a problem whereby the Object-based <code>Inspector</code>s will always
+ * stop at <code>null</code> or recursive references, whereas the XML <code>Inspector</code>s (which
+ * have no knowledge of Object values) will continue. This can lead to the
+ * <code>WidgetBuilder</code>s constructing a UI for a <code>null</code> Object, which may upset
+ * some <code>WidgetProcessor</code>s (e.g. <code>BeansBindingProcessor</code>). To resolve this,
+ * you can set <code>BaseXmlInspectorConfig.setRestrictAgainstObject</code>, whereby the XML-based
+ * <code>Inspector</code> will do a check for <code>null</code> or recursive references, and not
+ * return any XML.
+ * <p>
+ * Second, by default you need to explicitly specify any inheritance relationships between types in
+ * the XML, because the XML has no knowledge of your Java <code>Class</code>es. If this becomes
+ * laborious, you can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer
+ * the relationships automatically.
  *
  * @author Richard Kennard
  */
@@ -106,6 +112,8 @@ public abstract class BaseXmlInspector
 	//
 
 	private final PropertyStyle	mRestrictAgainstObject;
+
+	private final boolean		mInferInheritanceHierarchy;
 
 	//
 	// Constructor
@@ -141,6 +149,10 @@ public abstract class BaseXmlInspector
 			// restrictAgainstObject
 
 			mRestrictAgainstObject = config.getRestrictAgainstObject();
+
+			// inferInheritanceHierarchy
+
+			mInferInheritanceHierarchy = config.isInferInheritanceHierarchy();
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
@@ -434,7 +446,27 @@ public abstract class BaseXmlInspector
 		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, type );
 
 		if ( entityElement == null ) {
-			return null;
+
+			if ( !mInferInheritanceHierarchy ) {
+				return null;
+			}
+
+			// If using mInferInheritanceHierarchy, we attempt to match superclasses by checking
+			// against the Java class heirarchy
+
+			Class<?> actualClass = ClassUtils.niceForName( type );
+
+			if ( actualClass != null ) {
+
+				while ( entityElement == null && ( actualClass = actualClass.getSuperclass() ) != null ) {
+
+					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, actualClass.getName() );
+				}
+			}
+
+			if ( entityElement == null ) {
+				return null;
+			}
 		}
 
 		if ( names == null ) {

@@ -47,7 +47,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Utilities for working with XML.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -233,6 +233,12 @@ public class XmlUtils {
 
 		return null;
 	}
+
+	/**
+	 * Gets the next sibling to the given element with the given name.
+	 * 
+	 * @return the next sibling, or null if no such sibling
+	 */
 
 	public static Element getSiblingNamed( Element element, String name ) {
 
@@ -449,7 +455,7 @@ public class XmlUtils {
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
 			if ( childToAddName == null || "".equals( childToAddName ) ) {
-				throw new RuntimeException( "Child node #" + ( addLoop + 1 ) + " has no @" + topLevelAttributeToCombineOn + ": " + nodeToString( childToAdd, false ));
+				throw new RuntimeException( "Child node #" + ( addLoop + 1 ) + " has no @" + topLevelAttributeToCombineOn + ": " + nodeToString( childToAdd, false ) );
 			}
 
 			if ( !childNamesAdded.add( childToAddName ) ) {
@@ -1214,7 +1220,7 @@ public class XmlUtils {
 	 * </code>
 	 * <p>
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
-	 *
+	 * 
 	 * @param indent
 	 *            how much to indent the output. -1 for no indent.
 	 */

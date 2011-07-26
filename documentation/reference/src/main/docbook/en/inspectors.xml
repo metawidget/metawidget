@@ -1043,24 +1043,33 @@ public class PersonController {
 					This functionality is extended to all XML-based <classname>Inspector</classname>s.
 				</para>
 				
-				<para>
-					Another useful piece of functionality
-					applies when mixing XML-based <classname>Inspector</classname>s (e.g. <classname>XmlInspector</classname>) and Object-based
-					<classname>Inspector</classname>s
-					(e.g. <classname>PropertyTypeInspector</classname>) in the same application (i.e. via <classname>CompositeInspector</classname>).
-					If your XML-based <classname>Inspector</classname>s and your Object-based <classname>Inspector</classname>s are inspecting
-					the same classes, you may encounter a problem in particular scenarios. Specifically, the Object-based
-					<classname>Inspector</classname>s will always stop at <parameter>null</parameter> or recursive
-					Object references, whereas the XML <classname>Inspector</classname>s (which have no knowledge of Object values) will continue. This can lead to
-					the <classname>WidgetBuilder</classname>s constructing	a UI for a <parameter>null</parameter> Object, which may upset some
-					<classname>WidgetProcessor</classname>s (e.g. <classname>BeansBindingProcessor</classname>).
-				</para>
-				
-				<para>
-					If you are encountering this particular scenario, you can set <function>BaseXmlInspectorConfig.setRestrictAgainstObject</function>,
-					whereby the XML-based <classname>Inspector</classname> will do a check for <parameter>null</parameter> or recursive Object
-					references, and not return any XML.				
-				</para>
+				<section id="section-inspectors-basexml-mixing-xml-object">
+					<title>Mixing XML and Object-based Inspectors</title>
+					
+					<para>
+						Several pieces of <classname>BaseXmlInspector</classname> functionality
+						apply to mixing XML-based <classname>Inspector</classname>s (e.g. <classname>XmlInspector</classname>) and Object-based
+						<classname>Inspector</classname>s
+						(e.g. <classname>PropertyTypeInspector</classname>) in the same application (i.e. via <classname>CompositeInspector</classname>).
+					</para>
+					
+					<para>
+						First, you may encounter a problem whereby the Object-based
+						<classname>Inspector</classname>s will always stop at <parameter>null</parameter> or recursive
+						references, whereas the XML <classname>Inspector</classname>s (which have no knowledge of Object values) will continue.
+						This can lead to the <classname>WidgetBuilder</classname>s constructing	a UI for a <parameter>null</parameter> Object, which may upset some
+						<classname>WidgetProcessor</classname>s (e.g. <classname>BeansBindingProcessor</classname>). To resolve this, you can set
+						<function>BaseXmlInspectorConfig.setRestrictAgainstObject</function>,
+						whereby the XML-based <classname>Inspector</classname> will do a check for <parameter>null</parameter> or recursive
+						references, and not return any XML.
+					</para>
+					
+					<para>
+						Second, by default you need to explicitly specify any inheritance relationships between types in the XML, because the XML
+						has no knowledge of your Java <classname>Class</classname>es. If this becomes laborious, you can set
+						<function>BaseXmlInspectorConfig.setInferInheritanceHierarchy</function> to infer the relationships automatically.
+					</para>
+				</section>
 				
  			</section>
 
