@@ -47,7 +47,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Utilities for working with XML.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -236,7 +236,7 @@ public class XmlUtils {
 
 	/**
 	 * Gets the next sibling to the given element with the given name.
-	 * 
+	 *
 	 * @return the next sibling, or null if no such sibling
 	 */
 
@@ -246,21 +246,54 @@ public class XmlUtils {
 			return null;
 		}
 
-		Node nodeNextSibling = element;
+		Node node = element;
 
 		while ( true ) {
-			nodeNextSibling = nodeNextSibling.getNextSibling();
+			node = node.getNextSibling();
 
-			if ( nodeNextSibling == null ) {
+			if ( node == null ) {
 				return null;
 			}
 
-			if ( !( nodeNextSibling instanceof Element ) ) {
+			if ( !( node instanceof Element ) ) {
 				continue;
 			}
 
-			if ( name.equals( nodeNextSibling.getNodeName() ) ) {
-				return (Element) nodeNextSibling;
+			if ( name.equals( node.getNodeName() ) ) {
+				return (Element) node;
+			}
+		}
+	}
+
+	/**
+	 * Gets the next sibling to the given element with the given attribute.
+	 *
+	 * @return the next sibling, or null if no such sibling
+	 */
+
+	public static Element getSiblingWithAttribute( Element element, String attributeName ) {
+
+		if ( element == null ) {
+			return null;
+		}
+
+		Node node = element;
+
+		while ( true ) {
+			node = node.getNextSibling();
+
+			if ( node == null ) {
+				return null;
+			}
+
+			if ( !( node instanceof Element ) ) {
+				continue;
+			}
+
+			Element nextSibling = (Element) node;
+
+			if ( nextSibling.hasAttribute( attributeName ) ) {
+				return nextSibling;
 			}
 		}
 	}
@@ -1220,7 +1253,7 @@ public class XmlUtils {
 	 * </code>
 	 * <p>
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
-	 * 
+	 *
 	 * @param indent
 	 *            how much to indent the output. -1 for no indent.
 	 */

@@ -56,6 +56,8 @@ public class BaseXmlInspectorConfig
 
 	private boolean				mInferInheritanceHierarchy;
 
+	private PropertyStyle		mValidateAgainstClasses;
+
 	//
 	// Public methods
 	//
@@ -98,7 +100,7 @@ public class BaseXmlInspectorConfig
 	}
 
 	/**
-	 * Sets the style used to restrict against <code>null</code> or recursive Objects (see
+	 * Sets the property style used to restrict against <code>null</code> or recursive Objects (see
 	 * BaseXmlInspector JavaDoc)
 	 *
 	 * @return this, as part of a fluent interface
@@ -115,7 +117,7 @@ public class BaseXmlInspectorConfig
 
 	/**
 	 * Sets whether to infer the inheritance heirarchy of types in the XML by looking them up
-	 * against corresponding <code>Classes</code>. This saves having to explicitly specify the
+	 * against corresponding Java <code>Classes</code>. This saves having to explicitly specify the
 	 * inheritance heirarchy in the XML.
 	 *
 	 * @return this, as part of a fluent interface
@@ -124,6 +126,22 @@ public class BaseXmlInspectorConfig
 	public BaseXmlInspectorConfig setInferInheritanceHierarchy( boolean inferInheritanceHierarchy ) {
 
 		mInferInheritanceHierarchy = inferInheritanceHierarchy;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Sets the property style used to validate whether properties defined in the XML match those
+	 * defined by the corresponding Java <code>Classes</code>.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseXmlInspectorConfig setValidateAgainstClasses( PropertyStyle validateAgainstClasses ) {
+
+		mValidateAgainstClasses = validateAgainstClasses;
 
 		// Fluent interface
 
@@ -161,6 +179,10 @@ public class BaseXmlInspectorConfig
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mValidateAgainstClasses, ( (BaseXmlInspectorConfig) that ).mValidateAgainstClasses ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -173,6 +195,7 @@ public class BaseXmlInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStreams );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRestrictAgainstObject );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInferInheritanceHierarchy );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mValidateAgainstClasses );
 
 		return hashCode;
 	}
@@ -217,5 +240,10 @@ public class BaseXmlInspectorConfig
 	protected boolean isInferInheritanceHierarchy() {
 
 		return mInferInheritanceHierarchy;
+	}
+
+	protected PropertyStyle getValidateAgainstClasses() {
+
+		return mValidateAgainstClasses;
 	}
 }

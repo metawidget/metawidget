@@ -72,4 +72,14 @@ public class XmlInspectorConfig
 
 		return (XmlInspectorConfig) super.setInferInheritanceHierarchy( inferInheritanceHierarchy );
 	}
+
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public XmlInspectorConfig setValidateAgainstClasses( PropertyStyle validateAgainstClasses ) {
+
+		return (XmlInspectorConfig) super.setValidateAgainstClasses( validateAgainstClasses );
+	}
 }

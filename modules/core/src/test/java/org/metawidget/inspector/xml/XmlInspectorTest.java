@@ -366,6 +366,67 @@ public class XmlInspectorTest
 		assertEquals( null, XmlUtils.documentFromString( mInspector.inspect( null, "Fake Entity" ) ));
 	}
 
+	public void testValidateAgainstClasses() {
+
+		// First entity is good, second has a bad name
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"" + NullObject.class.getName() + "\">";
+		xml += "<property name=\"nestedNullObject\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"" + RestrictAgainstObjectFoo.class.getName() + "\">";
+		xml += "<property name=\"baz\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		try {
+			mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+			assertTrue( false );
+		} catch( InspectorException e ) {
+			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo does not define a property 'baz'", e.getMessage() );
+		}
+
+		// Bad type
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"" + NullObject.class.getName() + "\">";
+		xml += "<property name=\"nestedNullObject\" type=\"int\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		try {
+			mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+			assertTrue( false );
+		} catch( InspectorException e ) {
+			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$NullObject defines property 'nestedNullObject' to be of class org.metawidget.inspector.xml.XmlInspectorTest$NullObject, not 'int'", e.getMessage() );
+		}
+
+		// Good extends
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"" + SubRestrictAgainstObjectFoo.class.getName() + "\" extends=\"" + RestrictAgainstObjectFoo.class.getName() + "\"/>";
+		xml += "</inspection-result>";
+
+		mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+
+		// Bad extends
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"" + SubRestrictAgainstObjectFoo.class.getName() + "\" extends=\"Bar\"/>";
+		xml += "</inspection-result>";
+
+		try {
+			mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+			assertTrue( false );
+		} catch( InspectorException e ) {
+			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$SubRestrictAgainstObjectFoo extends class org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo, not 'Bar'", e.getMessage() );
+		}
+	}
+
 	//
 	// Inner class
 	//

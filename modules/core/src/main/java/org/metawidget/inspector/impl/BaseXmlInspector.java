@@ -89,9 +89,13 @@ import org.w3c.dom.NodeList;
  * return any XML.
  * <p>
  * Second, by default you need to explicitly specify any inheritance relationships between types in
- * the XML, because the XML has no knowledge of your Java <code>Class</code>es. If this becomes
+ * the XML, because the XML has no knowledge of your Java <code>Classes</code>. If this becomes
  * laborious, you can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer
  * the relationships automatically.
+ * <p>
+ * Third, it is important the properties defined by the XML and the ones defined by the
+ * <code>Classes</code> stay in sync. To enforce this, you can set
+ * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
  *
  * @author Richard Kennard
  */
@@ -153,6 +157,71 @@ public abstract class BaseXmlInspector
 			// inferInheritanceHierarchy
 
 			mInferInheritanceHierarchy = config.isInferInheritanceHierarchy();
+
+			// validateAgainstClasses
+
+			PropertyStyle validateAgainstClasses = config.getValidateAgainstClasses();
+
+			if ( validateAgainstClasses != null ) {
+
+				String topLevelTypeAttribute = getTopLevelTypeAttribute();
+				String extendsAttribute = getExtendsAttribute();
+				String nameAttribute = getNameAttribute();
+				String typeAttribute = getTypeAttribute();
+
+				// For each entity...
+
+				Element entity = XmlUtils.getChildWithAttribute( mRoot, topLevelTypeAttribute );
+
+				while ( entity != null ) {
+
+					// ...the maps to a Java class...
+
+					String topLevelType = entity.getAttribute( topLevelTypeAttribute );
+					Class<?> actualClass = ClassUtils.niceForName( topLevelType );
+
+					if ( actualClass != null ) {
+
+						// ...check its extends...
+
+						String extendz = entity.getAttribute( extendsAttribute );
+						Class<?> actualSuperclass = actualClass.getSuperclass();
+
+						if ( !"".equals( extendz ) && !extendz.equals( actualSuperclass.getName() ) ) {
+							throw InspectorException.newException( actualClass + " extends " + actualSuperclass + ", not '" + extendz + "'" );
+						}
+
+						// ...then for each property...
+
+						Map<String, Property> actualProperties = validateAgainstClasses.getProperties( actualClass );
+						Element property = XmlUtils.getChildWithAttribute( entity, nameAttribute );
+
+						while ( property != null ) {
+
+							// ...check it exists
+
+							String propertyName = property.getAttribute( nameAttribute );
+							Property actualProperty = actualProperties.get( propertyName );
+
+							if ( actualProperty == null ) {
+								throw InspectorException.newException( actualClass + " does not define a property '" + propertyName + "'" );
+							}
+
+							String propertyType = property.getAttribute( typeAttribute );
+							Class<?> actualType = actualProperty.getType();
+
+							if ( !"".equals( propertyType ) && !propertyType.equals( actualType.getName() ) ) {
+								throw InspectorException.newException( actualClass + " defines property '" + propertyName + "' to be of " + actualType + ", not '" + propertyType + "'" );
+							}
+
+							property = XmlUtils.getSiblingWithAttribute( property, nameAttribute );
+						}
+					}
+
+					entity = XmlUtils.getSiblingWithAttribute( entity, topLevelTypeAttribute );
+				}
+			}
+
 		} catch ( Exception e ) {
 			throw InspectorException.newException( e );
 		}
