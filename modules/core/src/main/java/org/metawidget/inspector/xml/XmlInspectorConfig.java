@@ -63,4 +63,13 @@ public class XmlInspectorConfig
 		return (XmlInspectorConfig) super.setRestrictAgainstObject( restrictAgainstObject );
 	}
 
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public XmlInspectorConfig setInferInheritanceHierarchy( boolean inferInheritanceHierarchy ) {
+
+		return (XmlInspectorConfig) super.setInferInheritanceHierarchy( inferInheritanceHierarchy );
+	}
 }
