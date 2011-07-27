@@ -460,9 +460,13 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Public member field-based property.
+	 * <p>
+	 * We found <code>JavaBeanPropertyStyle</code> to be generally useful outside of any
+	 * <code>Inspector</code>. When using it that way, it is also generally useful to have access to
+	 * <code>FieldProperty</code>. So this class is public.
 	 */
 
-	protected static class FieldProperty
+	public static class FieldProperty
 		extends BaseProperty {
 
 		//
@@ -527,9 +531,13 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * JavaBean-convention-based property.
+	 * <p>
+	 * We found <code>JavaBeanPropertyStyle</code> to be generally useful outside of any
+	 * <code>Inspector</code>. When using it that way, it is also generally useful to have access to
+	 * <code>JavaBeanProperty</code>. So this class is public.
 	 */
 
-	protected static class JavaBeanProperty
+	public static class JavaBeanProperty
 		extends BaseProperty {
 
 		//

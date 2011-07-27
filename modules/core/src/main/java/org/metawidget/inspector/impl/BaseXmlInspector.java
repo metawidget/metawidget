@@ -558,6 +558,8 @@ public abstract class BaseXmlInspector
 			String name = names[loop];
 			Element property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
 
+			// TODO: traverse using object
+
 			if ( property == null ) {
 				// XML structure may not support 'extends'
 
