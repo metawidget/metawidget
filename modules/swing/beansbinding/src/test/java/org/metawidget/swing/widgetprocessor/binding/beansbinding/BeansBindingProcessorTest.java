@@ -210,7 +210,7 @@ public class BeansBindingProcessorTest
 			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
 		} catch ( WidgetProcessorException e ) {
-			assertEquals( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
+			assertEquals( "When saving from class javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}
 
 		// Loading

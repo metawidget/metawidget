@@ -216,7 +216,7 @@ public class BeansBindingProcessor
 						throw WidgetProcessorException.newException( failure.getConversionException() );
 					}
 				} catch ( ClassCastException e ) {
-					throw WidgetProcessorException.newException( "When saving from " + binding.getTargetObject().getClass().getName() + " to " + sourceProperty + " (have you used BeansBindingProcessorConfig.setConverter?)", e );
+					throw WidgetProcessorException.newException( "When saving from " + binding.getTargetObject().getClass() + " to " + sourceProperty + " (have you used BeansBindingProcessorConfig.setConverter?)", e );
 				}
 			}
 		}

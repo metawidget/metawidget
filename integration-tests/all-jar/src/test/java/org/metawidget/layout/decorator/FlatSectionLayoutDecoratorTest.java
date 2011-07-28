@@ -58,7 +58,7 @@ public class FlatSectionLayoutDecoratorTest
 			@Override
 			public void layoutWidget( JComponent widget, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
-				triggered.add( "layoutWidget " + widget.getClass().getName() );
+				triggered.add( "layoutWidget " + widget.getClass() );
 			}
 		};
 
@@ -77,7 +77,7 @@ public class FlatSectionLayoutDecoratorTest
 		flatSectionLayoutDecoratorTest.layoutWidget( new Stub(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Foo" );
-		assertEquals( triggered.get( 0 ), "layoutWidget org.metawidget.swing.Stub" );
+		assertEquals( triggered.get( 0 ), "layoutWidget class org.metawidget.swing.Stub" );
 		assertEquals( triggered.size(), 1 );
 
 		// Otherwise, should process
@@ -85,8 +85,8 @@ public class FlatSectionLayoutDecoratorTest
 		flatSectionLayoutDecoratorTest.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Bar" );
-		assertEquals( triggered.get( 1 ), "layoutWidget javax.swing.JPanel" );
-		assertEquals( triggered.get( 2 ), "layoutWidget javax.swing.JTextArea" );
+		assertEquals( triggered.get( 1 ), "layoutWidget class javax.swing.JPanel" );
+		assertEquals( triggered.get( 2 ), "layoutWidget class javax.swing.JTextArea" );
 		assertEquals( triggered.size(), 3 );
 
 		// Should stay
@@ -95,7 +95,7 @@ public class FlatSectionLayoutDecoratorTest
 		flatSectionLayoutDecoratorTest.layoutWidget( new JSpinner(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Bar" );
-		assertEquals( triggered.get( 3 ), "layoutWidget javax.swing.JSpinner" );
+		assertEquals( triggered.get( 3 ), "layoutWidget class javax.swing.JSpinner" );
 		assertEquals( triggered.size(), 4 );
 
 		// Should still stay (cannot 'terminate' a flat section)
@@ -104,7 +104,7 @@ public class FlatSectionLayoutDecoratorTest
 		flatSectionLayoutDecoratorTest.layoutWidget( new JTextField(), PROPERTY, attributes, container, metawidget );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections.length, 1 );
 		assertEquals( flatSectionLayoutDecoratorTest.getState( container, metawidget ).currentSections[0], "Bar" );
-		assertEquals( triggered.get( 4 ), "layoutWidget javax.swing.JTextField" );
+		assertEquals( triggered.get( 4 ), "layoutWidget class javax.swing.JTextField" );
 		assertEquals( triggered.size(), 5 );
 	}
 }

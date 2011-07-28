@@ -196,7 +196,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( mInspectionResultProcessors == null ) {
 			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>();
 		} else if ( mInspectionResultProcessors.contains( inspectionResultProcessor ) ) {
-			throw InspectionResultProcessorException.newException( "List of InspectionResultProcessors already contains " + inspectionResultProcessor.getClass().getName() );
+			throw InspectionResultProcessorException.newException( "List of InspectionResultProcessors already contains " + inspectionResultProcessor.getClass() );
 		}
 
 		mInspectionResultProcessors.add( inspectionResultProcessor );
@@ -269,7 +269,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( mWidgetProcessors == null ) {
 			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>();
 		} else if ( mWidgetProcessors.contains( widgetProcessor ) ) {
-			throw WidgetProcessorException.newException( "List of WidgetProcessors already contains " + widgetProcessor.getClass().getName() );
+			throw WidgetProcessorException.newException( "List of WidgetProcessors already contains " + widgetProcessor.getClass() );
 		}
 
 		mWidgetProcessors.add( widgetProcessor );
