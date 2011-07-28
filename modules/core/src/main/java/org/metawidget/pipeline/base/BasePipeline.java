@@ -180,14 +180,11 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		return mInspectionResultProcessors;
 	}
 
-	public void setInspectionResultProcessors( List<InspectionResultProcessor<M>> inspectionResultProcessors ) {
+	public void setInspectionResultProcessors( InspectionResultProcessor<M>... inspectionResultProcessors ) {
 
 		if ( inspectionResultProcessors == null ) {
 			mInspectionResultProcessors = null;
 		} else {
-
-			// Defensive copy
-
 			mInspectionResultProcessors = CollectionUtils.newArrayList( inspectionResultProcessors );
 		}
 	}
@@ -256,14 +253,11 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		return mWidgetProcessors;
 	}
 
-	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors ) {
+	public void setWidgetProcessors( WidgetProcessor<W, M>... widgetProcessors ) {
 
 		if ( widgetProcessors == null ) {
 			mWidgetProcessors = null;
 		} else {
-
-			// Defensive copy
-
 			mWidgetProcessors = CollectionUtils.newArrayList( widgetProcessors );
 		}
 	}
@@ -449,13 +443,23 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 		// Inspectors, InspectionResultProcessors, WidgetBuilders, WidgetProcessors and Layouts can
 		// be shared because they are immutable. However note that the InspectionResultProcessor and
-		// WidgetProcessor Lists are defensively copied by the setter
+		// WidgetProcessor Lists are defensively copied
 
 		nestedPipeline.setInspector( getInspector() );
-		nestedPipeline.setInspectionResultProcessors( getInspectionResultProcessors() );
 		nestedPipeline.setWidgetBuilder( getWidgetBuilder() );
-		nestedPipeline.setWidgetProcessors( getWidgetProcessors() );
 		nestedPipeline.setLayout( getLayout() );
+
+		if ( mInspectionResultProcessors == null ) {
+			nestedPipeline.mInspectionResultProcessors = null;
+		} else {
+			nestedPipeline.mInspectionResultProcessors = CollectionUtils.newArrayList( mInspectionResultProcessors );
+		}
+
+		if ( mWidgetProcessors == null ) {
+			nestedPipeline.mWidgetProcessors = null;
+		} else {
+			nestedPipeline.mWidgetProcessors = CollectionUtils.newArrayList( mWidgetProcessors );
+		}
 	}
 
 	//

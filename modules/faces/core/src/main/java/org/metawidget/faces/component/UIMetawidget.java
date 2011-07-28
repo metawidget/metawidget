@@ -371,7 +371,7 @@ public abstract class UIMetawidget
 
 	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors ) {
 
-		mPipeline.setWidgetProcessors( widgetProcessors ) );
+		mPipeline.setWidgetProcessors( widgetProcessors );
 	}
 
 	public List<WidgetProcessor<UIComponent, UIMetawidget>> getWidgetProcessors() {
