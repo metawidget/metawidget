@@ -19,6 +19,7 @@ package org.metawidget.pipeline.base;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,6 @@ import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -185,7 +185,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( inspectionResultProcessors == null ) {
 			mInspectionResultProcessors = null;
 		} else {
-			mInspectionResultProcessors = CollectionUtils.newArrayList( inspectionResultProcessors );
+			mInspectionResultProcessors = Arrays.asList( inspectionResultProcessors );
 		}
 	}
 
@@ -258,7 +258,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( widgetProcessors == null ) {
 			mWidgetProcessors = null;
 		} else {
-			mWidgetProcessors = CollectionUtils.newArrayList( widgetProcessors );
+			mWidgetProcessors = Arrays.asList( widgetProcessors );
 		}
 	}
 
@@ -452,13 +452,13 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( mInspectionResultProcessors == null ) {
 			nestedPipeline.mInspectionResultProcessors = null;
 		} else {
-			nestedPipeline.mInspectionResultProcessors = CollectionUtils.newArrayList( mInspectionResultProcessors );
+			nestedPipeline.mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( mInspectionResultProcessors );
 		}
 
 		if ( mWidgetProcessors == null ) {
 			nestedPipeline.mWidgetProcessors = null;
 		} else {
-			nestedPipeline.mWidgetProcessors = CollectionUtils.newArrayList( mWidgetProcessors );
+			nestedPipeline.mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>( mWidgetProcessors );
 		}
 	}
 
