@@ -251,7 +251,7 @@ public class SwtMetawidget
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<SwtMetawidget>... inspectionResultProcessors ) {
 
-		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 		invalidateWidgets();
 	}
 
@@ -275,7 +275,7 @@ public class SwtMetawidget
 
 	public void setWidgetProcessors( WidgetProcessor<Control, SwtMetawidget>... widgetProcessors ) {
 
-		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
+		mPipeline.setWidgetProcessors( widgetProcessors );
 		invalidateWidgets();
 	}
 

@@ -117,7 +117,7 @@ public class GwtRemoteInspectorImpl
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<GwtRemoteInspectorImpl>... inspectionResultProcessors ) {
 
-		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 	}
 
 	//

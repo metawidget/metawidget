@@ -29,6 +29,7 @@ import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -181,7 +182,14 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public void setInspectionResultProcessors( List<InspectionResultProcessor<M>> inspectionResultProcessors ) {
 
-		mInspectionResultProcessors = inspectionResultProcessors;
+		if ( inspectionResultProcessors == null ) {
+			mInspectionResultProcessors = null;
+		} else {
+
+			// Defensive copy
+
+			mInspectionResultProcessors = CollectionUtils.newArrayList( inspectionResultProcessors );
+		}
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<M> inspectionResultProcessor ) {
@@ -250,7 +258,14 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors ) {
 
-		mWidgetProcessors = widgetProcessors;
+		if ( widgetProcessors == null ) {
+			mWidgetProcessors = null;
+		} else {
+
+			// Defensive copy
+
+			mWidgetProcessors = CollectionUtils.newArrayList( widgetProcessors );
+		}
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
@@ -429,13 +444,15 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	public void initNestedPipeline( BasePipeline<W, C, E, M> nestedPipeline, Map<String, String> attributes ) {
 
-		nestedPipeline.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+		nestedPipeline.setReadOnly( isReadOnly() || ( attributes != null && TRUE.equals( attributes.get( READ_ONLY ) ) ) );
 		nestedPipeline.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
-		// Inspectors, WidgetBuilders, WidgetProcessors and Layouts can be shared because they are
-		// immutable
+		// Inspectors, InspectionResultProcessors, WidgetBuilders, WidgetProcessors and Layouts can
+		// be shared because they are immutable. However note that the InspectionResultProcessor and
+		// WidgetProcessor Lists are defensively copied by the setter
 
 		nestedPipeline.setInspector( getInspector() );
+		nestedPipeline.setInspectionResultProcessors( getInspectionResultProcessors() );
 		nestedPipeline.setWidgetBuilder( getWidgetBuilder() );
 		nestedPipeline.setWidgetProcessors( getWidgetProcessors() );
 		nestedPipeline.setLayout( getLayout() );
@@ -464,7 +481,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 			String elementName = getElementName( child );
 
-			if ( !PROPERTY.equals( elementName ) && !ACTION.equals( elementName )) {
+			if ( !PROPERTY.equals( elementName ) && !ACTION.equals( elementName ) ) {
 				throw new Exception( "Child element #" + ( loop + 1 ) + " should be " + PROPERTY + " or " + ACTION + ", not " + elementName );
 			}
 

@@ -296,7 +296,7 @@ public abstract class MetawidgetTag
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<MetawidgetTag>... inspectionResultProcessors ) {
 
-		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -305,9 +305,9 @@ public abstract class MetawidgetTag
 		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
-	public void setWidgetProcessors( WidgetProcessor<Tag, MetawidgetTag>... WidgetProcessors ) {
+	public void setWidgetProcessors( WidgetProcessor<Tag, MetawidgetTag>... widgetProcessors ) {
 
-		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( WidgetProcessors ) );
+		mPipeline.setWidgetProcessors( widgetProcessors );
 	}
 
 	public void setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout ) {

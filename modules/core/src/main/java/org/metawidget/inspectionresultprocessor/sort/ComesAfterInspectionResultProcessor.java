@@ -24,8 +24,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
+import org.metawidget.inspectionresultprocessor.impl.BaseDomInspectionResultProcessor;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
@@ -44,20 +44,11 @@ import org.w3c.dom.NodeList;
  */
 
 public class ComesAfterInspectionResultProcessor<M>
-	implements DomInspectionResultProcessor<Element, M> {
+	extends BaseDomInspectionResultProcessor<M> {
 
 	//
 	// Public methods
 	//
-
-	public String processInspectionResult( String inspectionResult, M metawidget ) {
-
-		Document document = XmlUtils.documentFromString( inspectionResult );
-		Element inspectionResultRoot = document.getDocumentElement();
-
-		Element newInspectionResultRoot = processInspectionResultAsDom( inspectionResultRoot, metawidget );
-		return XmlUtils.documentToString( newInspectionResultRoot.getOwnerDocument(), false );
-	}
 
 	public Element processInspectionResultAsDom( Element inspectionResultRoot, M metawidget ) {
 

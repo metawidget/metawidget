@@ -334,7 +334,7 @@ public abstract class UIMetawidget
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<UIMetawidget>... inspectionResultProcessors ) {
 
-		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder ) {
@@ -371,7 +371,7 @@ public abstract class UIMetawidget
 
 	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors ) {
 
-		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
+		mPipeline.setWidgetProcessors( widgetProcessors ) );
 	}
 
 	public List<WidgetProcessor<UIComponent, UIMetawidget>> getWidgetProcessors() {

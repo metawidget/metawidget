@@ -46,6 +46,8 @@ public interface InspectionResultProcessor<M>
 	//
 
 	/**
+	 * Process the given inspection result in context of the given Metawidget.
+	 *
 	 * @param inspectionResult
 	 *            the inspection result to process, as XML conforming to inspection-result-1.0.xsd.
 	 *            Never null

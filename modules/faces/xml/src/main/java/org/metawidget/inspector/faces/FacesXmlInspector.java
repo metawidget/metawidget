@@ -141,6 +141,8 @@ public class FacesXmlInspector
 	// Private methods
 	//
 
+	// TODO: clean this up by turning it into an InspectionResultProcessor
+
 	@SuppressWarnings( "deprecation" )
 	private Map<String, String> inspect( Element toInspect ) {
 

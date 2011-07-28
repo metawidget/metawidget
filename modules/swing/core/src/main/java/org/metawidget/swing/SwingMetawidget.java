@@ -238,7 +238,7 @@ public class SwingMetawidget
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<SwingMetawidget>... inspectionResultProcessors ) {
 
-		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 		invalidateWidgets();
 	}
 
@@ -262,7 +262,7 @@ public class SwingMetawidget
 
 	public void setWidgetProcessors( WidgetProcessor<JComponent, SwingMetawidget>... widgetProcessors ) {
 
-		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
+		mPipeline.setWidgetProcessors( widgetProcessors );
 		invalidateWidgets();
 	}
 

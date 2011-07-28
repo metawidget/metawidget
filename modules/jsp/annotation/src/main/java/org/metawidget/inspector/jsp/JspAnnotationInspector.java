@@ -65,6 +65,8 @@ public class JspAnnotationInspector
 	 * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
 	 */
 
+	// TODO: clean this up by turning it into an InspectionResultProcessor
+	
 	public static void setThreadLocalPageContext( PageContext pageContext ) {
 
 		LOCAL_PAGE_CONTEXT.set( pageContext );
