@@ -185,7 +185,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( inspectionResultProcessors == null ) {
 			mInspectionResultProcessors = null;
 		} else {
-			mInspectionResultProcessors = Arrays.asList( inspectionResultProcessors );
+			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( Arrays.asList( inspectionResultProcessors ));
 		}
 	}
 
@@ -258,7 +258,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( widgetProcessors == null ) {
 			mWidgetProcessors = null;
 		} else {
-			mWidgetProcessors = Arrays.asList( widgetProcessors );
+			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>( Arrays.asList( widgetProcessors ));
 		}
 	}
 
