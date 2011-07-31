@@ -16,12 +16,13 @@
 						<!-- strutsInspector is not actually needed here, but this tests it loads under J2SE 1.4 -->
 						<strutsInspector xmlns="java:org.metawidget.inspector.struts" config="StrutsInspectorConfig"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
-							<inputStreams>							
-								<array>								
-									<resource>metawidget-metadata.xml</resource>
-									<resource>org/metawidget/integrationtest/shared/allwidgets/model/metawidget-metadata.xml</resource>
-								</array>
-							</inputStreams>
+							<!-- restrictAgainstObject to automatically make the jump across AllWidgetsForm.allWidgets -->
+							<restrictAgainstObject>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"/>
+							</restrictAgainstObject>
+							<inputStream>							
+								<resource>org/metawidget/integrationtest/shared/allwidgets/model/metawidget-metadata.xml</resource>
+							</inputStream>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 					</array>

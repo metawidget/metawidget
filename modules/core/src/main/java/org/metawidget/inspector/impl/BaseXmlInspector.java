@@ -96,7 +96,7 @@ import org.w3c.dom.NodeList;
  * Third, it is important the properties defined by the XML and the ones defined by the Java classes
  * stay in sync. To enforce this, you can set
  * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -261,6 +261,7 @@ public abstract class BaseXmlInspector
 		try {
 			Element elementToInspect = null;
 			Map<String, String> parentAttributes = null;
+			String typeAttribute = getTypeAttribute();
 
 			// If the path has a parent...
 
@@ -272,8 +273,6 @@ public abstract class BaseXmlInspector
 				if ( propertyInParent != null ) {
 
 					parentAttributes = inspectProperty( propertyInParent );
-
-					String typeAttribute = getTypeAttribute();
 
 					// If the property in the parent has no @type, then we cannot traverse to the
 					// child. Even if we wanted to just return the parent attributes, we have no
@@ -337,12 +336,23 @@ public abstract class BaseXmlInspector
 			document.appendChild( root );
 			root.appendChild( entity );
 
-			// Add any parent attributes
+			if ( parentAttributes != null ) {
 
-			if ( parentAttributes == null ) {
+				// Add any parent attributes (including type)
+
+				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+
+			} else if ( names == null || names.length == 0 ) {
+
+				// In case we are inferring inheritance, use the original type so as to align with
+				// other Inspectors
+
 				entity.setAttribute( TYPE, type );
 			} else {
-				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+
+				// Otherwise, use the actual type we traversed to
+
+				entity.setAttribute( TYPE, elementToInspect.getAttribute( typeAttribute ) );
 			}
 
 			// Return the root
@@ -359,7 +369,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Parse the given InputStreams into a single DOM Document, and return its root.
-	 * 
+	 *
 	 * @param resolver
 	 *            helper in case <code>getDocumentElement</code> needs to resolve references defined
 	 *            in the <code>InputStream</code>.
@@ -399,7 +409,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * For example, <code>HibernateInspector</code> preprocesses the class names in Hibernate
 	 * mapping files to make them fully qualified.
-	 * 
+	 *
 	 * @param document
 	 *            DOM of XML being processed
 	 */
@@ -491,7 +501,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is a property.
-	 * 
+	 *
 	 * @param toInspect
 	 *            DOM element to inspect
 	 */
@@ -503,7 +513,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is an action.
-	 * 
+	 *
 	 * @param toInspect
 	 *            DOM element to inspect
 	 */
@@ -515,7 +525,7 @@ public abstract class BaseXmlInspector
 
 	protected Element traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
-		// If given a non-null Object, support restrictAgainstObject
+		// If given a non-null Object, use it to restrictAgainstObject
 
 		String typeToInspect = type;
 		String[] namesToInspect = names;
@@ -527,6 +537,8 @@ public abstract class BaseXmlInspector
 			if ( traverseAgainstObject == null ) {
 				return null;
 			}
+
+			// If we are 'onlyToParent' but our value is ultimately going to be null, return null
 
 			if ( onlyToParent ) {
 				Property propertyInParentProperty = mRestrictAgainstObject.getProperties( traverseAgainstObject.getClass() ).get( namesToInspect[namesToInspect.length - 1] );
@@ -547,12 +559,12 @@ public abstract class BaseXmlInspector
 
 		if ( entityElement == null ) {
 
-			if ( !mInferInheritanceHierarchy ) {
+			if ( traverseAgainstObject == null && !mInferInheritanceHierarchy ) {
 				return null;
 			}
 
-			// If using mInferInheritanceHierarchy, attempt to match superclasses by checking
-			// against the Java class heirarchy
+			// If using mRestrictAgainstObject or mInferInheritanceHierarchy, attempt to match
+			// superclasses by checking against the Java class heirarchy
 
 			Class<?> actualClass;
 
@@ -706,9 +718,6 @@ public abstract class BaseXmlInspector
 	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
 	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
 	 * the database.
-	 * 
-	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
-	 *         returns null.
 	 */
 
 	private Object traverseAgainstObject( Object toTraverse, String type, boolean onlyToParent, String... names ) {
@@ -746,9 +755,7 @@ public abstract class BaseXmlInspector
 				Object parentTraverse = traverse;
 				traverse = property.read( traverse );
 
-				// Unlike BaseXmlInspector (which can never be certain it has detected a
-				// cyclic reference because it only looks at types, not objects),
-				// BaseObjectInspector can detect cycles and nip them in the bud
+				// Detect cycles and nip them in the bud
 
 				if ( !traversed.add( traverse ) ) {
 					// Trace, rather than do a debug log, because it makes for a nicer 'out

@@ -455,7 +455,7 @@ public class XmlInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( TraverseAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( RestrictAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties

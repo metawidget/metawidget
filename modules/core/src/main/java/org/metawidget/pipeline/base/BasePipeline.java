@@ -367,13 +367,13 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		startBuild();
 
 		if ( inspectionResult != null ) {
-			// Build simple widget (from the top-level element)
+			// Build simple widget (from the top-level entity)
 
-			E element = getChildAt( inspectionResult, 0 );
+			E entity = getChildAt( inspectionResult, 0 );
 
 			// Sanity check
 
-			String elementName = getElementName( element );
+			String elementName = getElementName( entity );
 
 			if ( !ENTITY.equals( elementName ) ) {
 				throw new Exception( "Top-level element name should be " + ENTITY + ", not " + elementName );
@@ -381,7 +381,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 			// Metawidget-wide read-only
 
-			Map<String, String> attributes = getAttributesAsMap( element );
+			Map<String, String> attributes = getAttributesAsMap( entity );
 
 			if ( isReadOnly() ) {
 				attributes.put( READ_ONLY, TRUE );
@@ -401,7 +401,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			// elements)
 
 			if ( widget == null ) {
-				buildCompoundWidget( element );
+				buildCompoundWidget( entity );
 			} else {
 				widget = processWidget( widget, ENTITY, attributes );
 
