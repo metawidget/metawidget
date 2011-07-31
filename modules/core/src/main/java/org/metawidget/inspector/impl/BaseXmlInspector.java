@@ -89,14 +89,14 @@ import org.w3c.dom.NodeList;
  * return any XML.
  * <p>
  * Second, by default you need to explicitly specify any inheritance relationships between types in
- * the XML, because the XML has no knowledge of your Java classes. If this becomes
- * laborious, you can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer
- * the relationships automatically from your Java classes.
+ * the XML, because the XML has no knowledge of your Java classes. If this becomes laborious, you
+ * can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer the
+ * relationships automatically from your Java classes.
  * <p>
- * Third, it is important the properties defined by the XML and the ones defined by the
- * Java classes stay in sync. To enforce this, you can set
+ * Third, it is important the properties defined by the XML and the ones defined by the Java classes
+ * stay in sync. To enforce this, you can set
  * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -258,12 +258,6 @@ public abstract class BaseXmlInspector
 			return null;
 		}
 
-		// If restricted against Object, return nothing
-
-		if ( mRestrictAgainstObject != null && isRestrictedAgainstObject( toInspect, type, names ) ) {
-			return null;
-		}
-
 		try {
 			Element elementToInspect = null;
 			Map<String, String> parentAttributes = null;
@@ -273,40 +267,52 @@ public abstract class BaseXmlInspector
 			if ( names != null && names.length > 0 ) {
 				// ...inspect its property for useful attributes...
 
-				Element propertyInParent = traverse( type, true, names );
+				Element propertyInParent = traverse( toInspect, type, true, names );
 
-				if ( propertyInParent == null ) {
+				if ( propertyInParent != null ) {
+
+					parentAttributes = inspectProperty( propertyInParent );
+
+					String typeAttribute = getTypeAttribute();
+
+					// If the property in the parent has no @type, then we cannot traverse to the
+					// child. Even if we wanted to just return the parent attributes, we have no
+					// @type to attach to the top-level 'entity' node. So we must fail hard here. If
+					// we just return 'null', we may silently ignore parent attributes (such as a
+					// lookup)
+					//
+					// This can cause problems in cases where, say, an XmlInspector (based on
+					// classes not objects) and a PropertyTypeInspector (based on objects not
+					// classes) both try and codify the same object graph. The PropertyTypeInspector
+					// will stop if the child value of a property is null, but the XmlInspector will
+					// carry on (because it has no way to know the PropertyTypeInspector has
+					// returned null)
+					//
+					// Note: this rule should never be triggered if the property has the
+					// 'dont-expand' attribute set, because we should never try to traverse the
+					// child
+
+					if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
+						throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+					}
+
+					elementToInspect = traverse( toInspect, propertyInParent.getAttribute( typeAttribute ), false );
+
+				} else if ( mRestrictAgainstObject != null ) {
+
+					elementToInspect = traverse( toInspect, type, false, names );
+
+					if ( elementToInspect == null ) {
+						return null;
+					}
+
+				} else {
 					return null;
 				}
-
-				parentAttributes = inspectProperty( propertyInParent );
-
-				String typeAttribute = getTypeAttribute();
-
-				// If the property in the parent has no @type, then we cannot traverse to the child.
-				// Even if we wanted to just return the parent attributes, we have no @type to
-				// attach to the top-level 'entity' node. So we must fail hard here. If we just
-				// return 'null', we may silently ignore parent attributes (such as a lookup)
-				//
-				// This can cause problems in cases where, say, an XmlInspector (based on classes
-				// not objects) and a PropertyTypeInspector (based on objects not classes) both try
-				// and codify the same object graph. The PropertyTypeInspector will
-				// stop if the child value of a property is null, but the XmlInspector will carry on
-				// (because it has no way to know the PropertyTypeInspector has
-				// returned null)
-				//
-				// Note: this rule should never be triggered if the property has the 'dont-expand'
-				// attribute set, because we should never try to traverse the child
-
-				if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
-					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
-				}
-
-				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			} else {
 				// ...otherwise, just start at the end point
 
-				elementToInspect = traverse( type, false, names );
+				elementToInspect = traverse( toInspect, type, false, names );
 
 				if ( elementToInspect == null ) {
 					return null;
@@ -353,7 +359,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Parse the given InputStreams into a single DOM Document, and return its root.
-	 *
+	 * 
 	 * @param resolver
 	 *            helper in case <code>getDocumentElement</code> needs to resolve references defined
 	 *            in the <code>InputStream</code>.
@@ -393,7 +399,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * For example, <code>HibernateInspector</code> preprocesses the class names in Hibernate
 	 * mapping files to make them fully qualified.
-	 *
+	 * 
 	 * @param document
 	 *            DOM of XML being processed
 	 */
@@ -417,7 +423,7 @@ public abstract class BaseXmlInspector
 
 		if ( extendsAttribute != null ) {
 			if ( toInspect.hasAttribute( extendsAttribute ) ) {
-				inspect( traverse( toInspect.getAttribute( extendsAttribute ), false ), toAddTo );
+				inspect( traverse( null, toInspect.getAttribute( extendsAttribute ), false ), toAddTo );
 			}
 		}
 
@@ -485,7 +491,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is a property.
-	 *
+	 * 
 	 * @param toInspect
 	 *            DOM element to inspect
 	 */
@@ -497,7 +503,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is an action.
-	 *
+	 * 
 	 * @param toInspect
 	 *            DOM element to inspect
 	 */
@@ -507,12 +513,37 @@ public abstract class BaseXmlInspector
 		return null;
 	}
 
-	protected Element traverse( String type, boolean onlyToParent, String... names ) {
+	protected Element traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
+
+		// If given a non-null Object, support restrictAgainstObject
+
+		String typeToInspect = type;
+		String[] namesToInspect = names;
+		Object traverseAgainstObject = null;
+
+		if ( toTraverse != null && mRestrictAgainstObject != null ) {
+			traverseAgainstObject = traverseAgainstObject( toTraverse, typeToInspect, onlyToParent, namesToInspect );
+
+			if ( traverseAgainstObject == null ) {
+				return null;
+			}
+
+			if ( onlyToParent ) {
+				Property propertyInParentProperty = mRestrictAgainstObject.getProperties( traverseAgainstObject.getClass() ).get( namesToInspect[namesToInspect.length - 1] );
+
+				if ( propertyInParentProperty.read( traverseAgainstObject ) == null ) {
+					return null;
+				}
+			}
+
+			typeToInspect = traverseAgainstObject.getClass().getName();
+			namesToInspect = null;
+		}
 
 		// Validate type
 
 		String topLevelTypeAttribute = getTopLevelTypeAttribute();
-		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, type );
+		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, typeToInspect );
 
 		if ( entityElement == null ) {
 
@@ -520,17 +551,24 @@ public abstract class BaseXmlInspector
 				return null;
 			}
 
-			// If using mInferInheritanceHierarchy, we attempt to match superclasses by checking
+			// If using mInferInheritanceHierarchy, attempt to match superclasses by checking
 			// against the Java class heirarchy
 
-			Class<?> actualClass = ClassUtils.niceForName( type );
+			Class<?> actualClass;
 
-			if ( actualClass != null ) {
+			if ( traverseAgainstObject != null ) {
+				actualClass = traverseAgainstObject.getClass();
+			} else {
+				actualClass = ClassUtils.niceForName( typeToInspect );
 
-				while ( entityElement == null && ( actualClass = actualClass.getSuperclass() ) != null ) {
-
-					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, actualClass.getName() );
+				if ( actualClass == null ) {
+					return null;
 				}
+			}
+
+			while ( entityElement == null && ( actualClass = actualClass.getSuperclass() ) != null ) {
+
+				entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, actualClass.getName() );
 			}
 
 			if ( entityElement == null ) {
@@ -538,11 +576,11 @@ public abstract class BaseXmlInspector
 			}
 		}
 
-		if ( names == null ) {
+		if ( namesToInspect == null ) {
 			return entityElement;
 		}
 
-		int length = names.length;
+		int length = namesToInspect.length;
 
 		if ( length == 0 ) {
 			return entityElement;
@@ -555,10 +593,8 @@ public abstract class BaseXmlInspector
 		String typeAttribute = getTypeAttribute();
 
 		for ( int loop = 0; loop < length; loop++ ) {
-			String name = names[loop];
+			String name = namesToInspect[loop];
 			Element property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
-
-			// TODO: traverse using object
 
 			if ( property == null ) {
 				// XML structure may not support 'extends'
@@ -601,7 +637,7 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
-				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + typeToInspect + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_DOT, true, false ) );
 			}
 
 			String propertyType = property.getAttribute( typeAttribute );
@@ -664,31 +700,18 @@ public abstract class BaseXmlInspector
 	//
 
 	/**
-	 * @return true if the type is a Java Class (ie. is not 'Login Screen') and the Object it maps
-	 *         to is null or recursive
+	 * Traverses the given Object using properties of the given names.
+	 * <p>
+	 * Note: traversal involves calling Property.read, which invokes getter methods and can
+	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
+	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
+	 * the database.
+	 * 
+	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
+	 *         returns null.
 	 */
 
-	private boolean isRestrictedAgainstObject( Object toTraverse, String type, String... names ) {
-
-		// Special support for class lookup
-
-		if ( toTraverse == null ) {
-			// If there are names, return true
-
-			if ( names != null && names.length > 0 ) {
-				return true;
-			}
-
-			// If no such class, return false
-
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz == null ) {
-				return false;
-			}
-
-			return false;
-		}
+	private Object traverseAgainstObject( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
 		//
@@ -699,7 +722,7 @@ public abstract class BaseXmlInspector
 		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
 		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) ) {
-			return false;
+			return null;
 		}
 
 		// Traverse through names (if any)
@@ -717,31 +740,39 @@ public abstract class BaseXmlInspector
 				Property property = mRestrictAgainstObject.getProperties( traverse.getClass() ).get( name );
 
 				if ( property == null || !property.isReadable() ) {
-					return true;
+					return null;
 				}
 
+				Object parentTraverse = traverse;
 				traverse = property.read( traverse );
 
-				// Detect cycles and nip them in the bud
+				// Unlike BaseXmlInspector (which can never be certain it has detected a
+				// cyclic reference because it only looks at types, not objects),
+				// BaseObjectInspector can detect cycles and nip them in the bud
 
 				if ( !traversed.add( traverse ) ) {
 					// Trace, rather than do a debug log, because it makes for a nicer 'out
 					// of the box' experience
 
 					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", ClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
-					return true;
+					return null;
 				}
 
-				// Always come in this loop once, because we want to do the recursion check
+				// Always come in this loop once, even if onlyToParent, because we
+				// want to do the recursion check
+
+				if ( onlyToParent && loop >= length - 1 ) {
+					return parentTraverse;
+				}
 
 				if ( traverse == null ) {
-					return true;
+					return null;
 				}
 
 				traverseDeclaredType = property.getType();
 			}
 		}
 
-		return false;
+		return traverse;
 	}
 }

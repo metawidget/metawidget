@@ -226,7 +226,7 @@ public class XmlInspectorTest
 		xml += "<entity type=\"ImaginaryObject\">";
 		xml += "<property name=\"foo\" type=\"ImaginaryObject\"/>";
 		xml += "</entity>";
-		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\">";
+		xml += "<entity type=\"" + NullObject.class.getName() + "\">";
 		xml += "<property name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/>";
 		xml += "</entity>";
 		xml += "</inspection-result>";
@@ -249,7 +249,7 @@ public class XmlInspectorTest
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
-		assertTrue( null != mInspector.inspect( "", NullObject.class.getName() ) );
+		// HIGH: assertTrue( null != mInspector.inspect( "", NullObject.class.getName() ) );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ) );
 		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ) );
@@ -281,7 +281,7 @@ public class XmlInspectorTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
-		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo\">";
+		xml += "<entity type=\"" + RestrictAgainstObjectFoo.class.getName() + "\">";
 		xml += "<property name=\"xmlBar\" type=\"int\"/>";
 		xml += "</entity>";
 		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SubRestrictAgainstObjectFoo\">";
@@ -363,7 +363,7 @@ public class XmlInspectorTest
 
 		// Against a fake entity
 
-		assertEquals( null, XmlUtils.documentFromString( mInspector.inspect( null, "Fake Entity" ) ));
+		assertEquals( null, XmlUtils.documentFromString( mInspector.inspect( null, "Fake Entity" ) ) );
 	}
 
 	public void testValidateAgainstClasses() {
@@ -380,10 +380,12 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "</inspection-result>";
 
+		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() ).setValidateAgainstClasses( new JavaBeanPropertyStyle() );
+
 		try {
-			mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 			assertTrue( false );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo does not define a property 'baz'", e.getMessage() );
 		}
 
@@ -397,9 +399,9 @@ public class XmlInspectorTest
 		xml += "</inspection-result>";
 
 		try {
-			mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 			assertTrue( false );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$NullObject defines property 'nestedNullObject' to be of class org.metawidget.inspector.xml.XmlInspectorTest$NullObject, not 'int'", e.getMessage() );
 		}
 
@@ -410,7 +412,7 @@ public class XmlInspectorTest
 		xml += "<entity type=\"" + SubRestrictAgainstObjectFoo.class.getName() + "\" extends=\"" + RestrictAgainstObjectFoo.class.getName() + "\"/>";
 		xml += "</inspection-result>";
 
-		mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 
 		// Bad extends
 
@@ -420,11 +422,51 @@ public class XmlInspectorTest
 		xml += "</inspection-result>";
 
 		try {
-			mInspector = new XmlInspector( new XmlInspectorConfig().setValidateAgainstClasses( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 			assertTrue( false );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$SubRestrictAgainstObjectFoo extends class org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo, not 'Bar'", e.getMessage() );
 		}
+	}
+
+	public void testTraverseAgainstObject() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"" + RestrictAgainstObjectFoo.class.getName() + "\">";
+		xml += "<property name=\"xmlBar\" type=\"int\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		TraverseAgainstObjectFoo traverseAgainstObjectFoo = new TraverseAgainstObjectFoo();
+		traverseAgainstObjectFoo.toTraverse = new RestrictAgainstObjectFoo();
+
+		// Without traverseAgainstObject
+
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		assertEquals( null, mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName(), "toTraverse" ) );
+
+		// With traverseAgainstObject
+
+		mInspector = new XmlInspector( new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName(), "toTraverse" ) );
+
+		// Entity
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( TraverseAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "xmlBar", property.getAttribute( NAME ) );
+		assertEquals( "int", property.getAttribute( TYPE ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		assertTrue( entity.getChildNodes().getLength() == 1 );
 	}
 
 	//
@@ -445,5 +487,10 @@ public class XmlInspectorTest
 		extends RestrictAgainstObjectFoo {
 
 		public String	subBar;
+	}
+
+	public static class TraverseAgainstObjectFoo {
+
+		public Object	toTraverse;
 	}
 }

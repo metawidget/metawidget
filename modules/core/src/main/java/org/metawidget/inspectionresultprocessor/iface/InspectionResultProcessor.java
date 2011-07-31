@@ -55,5 +55,8 @@ public interface InspectionResultProcessor<M>
 	 *         be null if the InspectionResultProcessor wishes to cancel the inspection
 	 */
 
+	// REFACTOR: if this also took Object toInspect, we could do a JexlInspectionResultProcessor and
+	// implement a cleaner createContext
+
 	String processInspectionResult( String inspectionResult, M metawidget );
 }
