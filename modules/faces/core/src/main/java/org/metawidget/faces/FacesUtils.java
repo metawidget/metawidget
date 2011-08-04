@@ -51,7 +51,12 @@ public final class FacesUtils {
 
 	public static boolean isExpression( String value ) {
 
-		return PATTERN_EXPRESSION.matcher( value ).matches();
+		return matchExpression( value ).matches();
+	}
+
+	public static Matcher matchExpression( String value ) {
+
+		return PATTERN_EXPRESSION.matcher( value );
 	}
 
 	/**
@@ -176,7 +181,7 @@ public final class FacesUtils {
 	 * </code>
 	 */
 
-	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)(.*)(\\})" );
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)([^\\}]+)(\\})" );
 
 	private static final String		EXPRESSION_START	= "#{";
 

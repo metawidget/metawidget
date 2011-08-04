@@ -59,7 +59,7 @@ public class FacesInspectionResultProcessorTest
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspectionResultProcessor/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"Foo\">";
 		xml += "<property name=\"bar1\" value-is-el=\"#{baz1}\" value-is-text=\"text\"/>";
-		xml += "<property name=\"bar2\" value-is-null=\"#{null}\"/>";
+		xml += "<property name=\"bar2\" value-is-null=\"#{null}\" value-is-embedded-el=\"first #{abc} middle #{null}#{def} last\"/>";
 		xml += "<action name=\"bar3\" value-is-el=\"#{baz2}\" value-is-text=\"text\"/>";
 		xml += "</entity></inspection-result>";
 
@@ -88,7 +88,8 @@ public class FacesInspectionResultProcessorTest
 		property = XmlUtils.getNextSiblingElement( property );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
-		assertTrue( 1 == property.getAttributes().getLength() );
+		assertEquals( "first result of #{abc} middle result of #{def} last", property.getAttribute( "value-is-embedded-el" ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
 
 		// Actions
 

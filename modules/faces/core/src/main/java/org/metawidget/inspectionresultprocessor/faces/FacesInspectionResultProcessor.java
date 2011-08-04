@@ -19,6 +19,7 @@ package org.metawidget.inspectionresultprocessor.faces;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import javax.faces.context.FacesContext;
 
@@ -165,41 +166,63 @@ public class FacesInspectionResultProcessor
 				continue;
 			}
 
-			// ...that looks like an EL expression...
+			// ...that contains an EL expression...
 
-			if ( !FacesUtils.isExpression( value ) ) {
-				continue;
-			}
+			Matcher matcher = FacesUtils.matchExpression( value );
+			int matchOffset = 0;
 
-			// Sanity checks
+			while ( matcher.find() ) {
 
-			if ( mInjectThis == null ) {
-				String unwrappedExpression = FacesUtils.unwrapExpression( value );
+				String expression = matcher.group( 0 );
 
-				if ( unwrappedExpression.startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+				// Sanity checks
+
+				if ( mInjectThis == null && matcher.group( 3 ).startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
 					throw InspectionResultProcessorException.newException( "Expression for '" + value + "' contains '" + UNDERSCORE_THIS_ATTRIBUTE + "', but " + FacesInspectionResultProcessorConfig.class.getSimpleName() + ".setInjectThis is null" );
 				}
-			}
 
-			// ...evaluate it...
+				// ...evaluate it...
 
-			try {
-				FacesContext context = FacesContext.getCurrentInstance();
-				@SuppressWarnings( "deprecation" )
-				Object valueObject = context.getApplication().createValueBinding( value ).getValue( context );
+				try {
+					FacesContext context = FacesContext.getCurrentInstance();
+					@SuppressWarnings( "deprecation" )
+					Object valueObject = context.getApplication().createValueBinding( expression ).getValue( context );
+					String valueObjectAsString;
 
-				if ( valueObject == null ) {
-					value = null;
-				} else {
-					value = String.valueOf( valueObject );
+					if ( valueObject == null ) {
+
+						// Special support for when the String is just one EL
+
+						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
+							value = null;
+							break;
+						}
+
+						valueObjectAsString = "";
+					} else {
+
+						// Special support for when the String is just one EL
+
+						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
+							value = String.valueOf( valueObject );
+							break;
+						}
+
+						valueObjectAsString = String.valueOf( valueObject );
+					}
+
+					// Replace multiple ELs within the String
+
+					value = new StringBuffer( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
+					matchOffset += valueObjectAsString.length() - ( matcher.end() - matcher.start() );
+
+				} catch ( Exception e ) {
+
+					// We have found it helpful to include the actual expression we were trying to
+					// evaluate
+
+					throw InspectionResultProcessorException.newException( "Unable to evaluate " + value, e );
 				}
-
-			} catch ( Exception e ) {
-
-				// We have found it helpful to include the actual expression we were trying to
-				// evaluate
-
-				throw InspectionResultProcessorException.newException( "Unable to evaluate " + value, e );
 			}
 
 			// ...and replace it

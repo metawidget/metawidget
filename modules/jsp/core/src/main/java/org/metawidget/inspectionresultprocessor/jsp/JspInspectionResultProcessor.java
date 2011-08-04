@@ -112,6 +112,8 @@ public class JspInspectionResultProcessor
 	// Private methods
 	//
 
+	// TODO: JSP and JEXL match
+	
 	private boolean isExpression( String expression ) {
 
 		return PATTERN_EXPRESSION.matcher( expression ).matches();
