@@ -107,9 +107,8 @@
 				</listitem>
 				<listitem>
 					<para>
-						You could add an <classname>Inspector</classname> like <classname>FacesInspector</classname> or
-						<classname>JexlInspector</classname> to the end of your
-						<classname>CompositeInspector</classname> chain to override the <parameter>required</parameter>
+						You could add an <classname>InspectionResultProcessor</classname> like <classname>FacesInspectionResultProcessor</classname> or
+						<classname>JexlInspectionResultProcessor</classname> to override the <parameter>required</parameter>
 						attribute conditionally based on some Expression Language expression.
 					</para>
 				</listitem>

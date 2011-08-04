@@ -46,9 +46,10 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
+import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.FlowLayout;
@@ -252,7 +253,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = HIDDEN, expression = "!this.readOnly" )
+	@UiAttribute( name = HIDDEN, value = "${!this.readOnly}" )
 	public void edit() {
 
 		mContactMetawidget.setReadOnly( false );
@@ -263,7 +264,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly" )
+	@UiAttribute( name = HIDDEN, value = "${this.readOnly}" )
 	public void save() {
 
 		try {
@@ -282,7 +283,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( "save" )
-	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly || this.newContact" )
+	@UiAttribute( name = HIDDEN, value = "${this.readOnly || this.newContact}" )
 	public void delete() {
 
 		Contact contact = mContactMetawidget.getToInspect();
@@ -298,7 +299,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJexlAttribute( name = LABEL, expression = "if ( this.readOnly ) 'Back'" )
+	@UiLabel( "${if ( this.readOnly ) 'Back'}" )
 	public void cancel() {
 
 		setVisible( false );

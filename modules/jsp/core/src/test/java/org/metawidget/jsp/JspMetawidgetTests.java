@@ -36,16 +36,13 @@ import javax.servlet.jsp.el.ExpressionEvaluator;
 import javax.servlet.jsp.el.FunctionMapper;
 import javax.servlet.jsp.el.VariableResolver;
 
-import junit.framework.TestCase;
-
 import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class JspMetawidgetTests
-	extends TestCase {
+public class JspMetawidgetTests {
 
 	//
 	// Inner class
@@ -389,6 +386,10 @@ public class JspMetawidgetTests
 
 			if ( expression.startsWith( "${collection" ) ) {
 				return CollectionUtils.newArrayList( expression, expression );
+			}
+
+			if ( "${null}".equals( expression ) ) {
+				return null;
 			}
 
 			return "result of " + expression;

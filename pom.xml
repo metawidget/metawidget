@@ -215,7 +215,7 @@
 			<id>maven-central</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
-		<!-- Try specialized repositories next. It it slow to check (and fail) on each of these -->
+		<!-- Try specialized repositories next. It is slow to check (and fail) on each of these -->
 		<repository>
 			<id>jboss-public-repository</id>
 			<url>http://repository.jboss.org/nexus/content/groups/public</url>
@@ -640,7 +640,7 @@
 			<id>maven-central</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</pluginRepository>
-		<!-- Try specialized repositories next. It it slow to check (and fail) on each of these -->
+		<!-- Try specialized repositories next. It is slow to check (and fail) on each of these -->
 		<pluginRepository>
 			<id>codehaus</id>
 			<url>http://snapshots.repository.codehaus.org</url>

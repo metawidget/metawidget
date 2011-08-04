@@ -31,10 +31,10 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiAttribute;
+import org.metawidget.inspector.annotation.UiAttributes;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.faces.UiFacesAttribute;
-import org.metawidget.inspector.faces.UiFacesAttributes;
+import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -115,14 +115,14 @@ public class ContactBean {
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = HIDDEN, expression = "#{!contact.readOnly}" )
+	@UiAttribute( name = HIDDEN, value = "#{!contact.readOnly}" )
 	public void edit() {
 
 		mReadOnly = false;
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = HIDDEN, expression = "#{contact.readOnly}" )
+	@UiAttribute( name = HIDDEN, value = "#{contact.readOnly}" )
 	public String save()
 		throws Exception {
 
@@ -137,7 +137,7 @@ public class ContactBean {
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = HIDDEN, expression = "#{contact.readOnly || contact.current.id == 0}" )
+	@UiAttributes( { @UiAttribute( name = HIDDEN, value = "#{contact.readOnly || contact.current.id == 0}" ) } )
 	@UiComesAfter( "save" )
 	public String delete()
 		throws Exception {
@@ -149,7 +149,7 @@ public class ContactBean {
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiFacesAttributes( { @UiFacesAttribute( name = LABEL, expression = "#{contact.readOnly ? 'Back' : null}" ) } )
+	@UiLabel( "#{contact.readOnly ? 'Back'}" )
 	@UiAttribute( name = FACES_IMMEDIATE, value = "true" )
 	public String cancel()
 		throws Exception {

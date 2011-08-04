@@ -350,7 +350,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			return null;
 		}
 
-		return processInspectionResult( inspectionResult );
+		return processInspectionResult( inspectionResult, toInspect, type, names );
 	}
 
 	/**
@@ -369,7 +369,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( inspectionResult != null ) {
 			// Build simple widget (from the top-level entity)
 
-			E entity = getChildAt( inspectionResult, 0 );
+			E entity = getFirstChildElement( inspectionResult );
 
 			// Sanity check
 
@@ -474,26 +474,26 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	protected void buildCompoundWidget( E entity )
 		throws Exception {
 
-		for ( int loop = 0, length = getChildCount( entity ); loop < length; loop++ ) {
-			E child = getChildAt( entity, loop );
+		E child = getFirstChildElement( entity );
+		int loop = 0;
 
-			if ( child == null ) {
-				continue;
-			}
+		while( child != null ) {
+
+			loop++;
 
 			// Sanity check
 
 			String elementName = getElementName( child );
 
 			if ( !PROPERTY.equals( elementName ) && !ACTION.equals( elementName ) ) {
-				throw new Exception( "Child element #" + ( loop + 1 ) + " should be " + PROPERTY + " or " + ACTION + ", not " + elementName );
+				throw new Exception( "Child element #" + loop + " should be " + PROPERTY + " or " + ACTION + ", not " + elementName );
 			}
 
 			Map<String, String> attributes = getAttributesAsMap( child );
 			String childName = attributes.get( NAME );
 
 			if ( childName == null || "".equals( childName ) ) {
-				throw new Exception( "Child element #" + ( loop + 1 ) + " has no @" + NAME );
+				throw new Exception( "Child element #" + loop + " has no @" + NAME );
 			}
 
 			// Metawidget as a whole may have had setReadOnly( true )
@@ -505,38 +505,42 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 				forcedReadOnly = true;
 			}
 
-			W widget = buildWidget( elementName, attributes );
+			try {
+				W widget = buildWidget( elementName, attributes );
 
-			if ( widget == null ) {
-				if ( mMaximumInspectionDepth <= 0 ) {
+				if ( widget == null ) {
+					if ( mMaximumInspectionDepth <= 0 ) {
+						continue;
+					}
+
+					// If setReadOnly( true ), remove our forced attribute so the nestedMetawidget
+					// can differentiate whether it was forced or in the inspector XML
+
+					if ( forcedReadOnly ) {
+						attributes.remove( READ_ONLY );
+					}
+
+					widget = buildNestedMetawidget( attributes );
+				}
+
+				Map<String, String> additionalAttributes = getAdditionalAttributes( widget );
+
+				if ( additionalAttributes != null ) {
+					attributes.putAll( additionalAttributes );
+				}
+
+				widget = processWidget( widget, elementName, attributes );
+
+				// A WidgetProcessor could return null to cancel the widget
+
+				if ( widget == null ) {
 					continue;
 				}
 
-				// If setReadOnly( true ), remove our forced attribute so the nestedMetawidget
-				// can differentiate whether it was forced or in the inspector XML
-
-				if ( forcedReadOnly ) {
-					attributes.remove( READ_ONLY );
-				}
-
-				widget = buildNestedMetawidget( attributes );
+				layoutWidget( widget, elementName, attributes );
+			} finally {
+				child = getNextSiblingElement( child );
 			}
-
-			Map<String, String> additionalAttributes = getAdditionalAttributes( widget );
-
-			if ( additionalAttributes != null ) {
-				attributes.putAll( additionalAttributes );
-			}
-
-			widget = processWidget( widget, elementName, attributes );
-
-			// A WidgetProcessor could return null to cancel the widget
-
-			if ( widget == null ) {
-				continue;
-			}
-
-			layoutWidget( widget, elementName, attributes );
 		}
 	}
 
@@ -555,13 +559,9 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	protected abstract String elementToString( E element );
 
-	protected abstract int getChildCount( E element );
+	protected abstract E getFirstChildElement( E parent );
 
-	/**
-	 * @return the child at the given index. If the given child is not an Element, return null.
-	 */
-
-	protected abstract E getChildAt( E element, int index );
+	protected abstract E getNextSiblingElement( E element );
 
 	protected abstract String getElementName( E element );
 
@@ -597,7 +597,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 *            DomInspector
 	 */
 
-	protected E processInspectionResult( Object inspectionResult ) {
+	protected E processInspectionResult( Object inspectionResult, Object toInspect, String type, String... names ) {
 
 		Object inspectionResultToProcess = inspectionResult;
 
@@ -613,14 +613,14 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 					DomInspectionResultProcessor<E, M> domInspectionResultProcessor = (DomInspectionResultProcessor<E, M>) inspectionResultProcessor;
 					@SuppressWarnings( "unchecked" )
 					E inspectionResultToProcessElement = (E) inspectionResultToProcess;
-					inspectionResultToProcess = domInspectionResultProcessor.processInspectionResultAsDom( inspectionResultToProcessElement, pipelineOwner );
+					inspectionResultToProcess = domInspectionResultProcessor.processInspectionResultAsDom( inspectionResultToProcessElement, pipelineOwner, toInspect, type, names );
 				} else {
 					if ( !( inspectionResultToProcess instanceof String ) ) {
 						@SuppressWarnings( "unchecked" )
 						E inspectionResultToProcessElement = (E) inspectionResultToProcess;
 						inspectionResultToProcess = elementToString( inspectionResultToProcessElement );
 					}
-					inspectionResultToProcess = inspectionResultProcessor.processInspectionResult( (String) inspectionResultToProcess, pipelineOwner );
+					inspectionResultToProcess = inspectionResultProcessor.processInspectionResult( (String) inspectionResultToProcess, pipelineOwner, toInspect, type, names );
 				}
 
 				// An InspectionResultProcessor could return null to cancel the inspection

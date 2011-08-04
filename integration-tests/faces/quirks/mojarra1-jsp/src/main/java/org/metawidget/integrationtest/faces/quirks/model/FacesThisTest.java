@@ -16,10 +16,8 @@
 
 package org.metawidget.integrationtest.faces.quirks.model;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.faces.UiFacesAttribute;
+import org.metawidget.inspector.annotation.UiLabel;
 
 /**
  * Models an entity that tests some Faces-specific 'this'.
@@ -63,11 +61,11 @@ public class FacesThisTest {
 
 	/**
 	 * The injection of 'this' into the EL context needs to work for both normal scenarios and
-	 * 'direct to child' scenarios (ie. the Metawidget is pointed at #{thisTest.child.me}). In the
-	 * latter, 'this' has to refer to the parent, not the child
+	 * 'direct to child' scenarios (ie. the Metawidget is pointed at #{_thisTest.child.me}). In the
+	 * latter, '_this' has to refer to the parent, not the child.
 	 */
 
-	@UiFacesAttribute( name = LABEL, expression = "#{this.identity}" )
+	@UiLabel( "#{_this.identity}" )
 	public String getMe() {
 
 		return null;

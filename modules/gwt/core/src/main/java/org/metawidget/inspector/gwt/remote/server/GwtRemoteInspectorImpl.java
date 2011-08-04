@@ -27,7 +27,6 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.pipeline.w3c.W3CPipeline;
-import org.metawidget.util.CollectionUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

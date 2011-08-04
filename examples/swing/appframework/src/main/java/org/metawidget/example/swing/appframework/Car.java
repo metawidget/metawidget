@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdesktop.application.Action;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
-import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 
 /**
  * @author Richard Kennard
@@ -72,7 +72,7 @@ public class Car {
 		mType = type;
 	}
 
-	@UiJexlAttribute( name = HIDDEN, expression = "this.owner == null" )
+	@UiAttribute( name = HIDDEN, value = "${this.owner == null}" )
 	@UiComesAfter( "type" )
 	public Owner getOwner() {
 
@@ -85,7 +85,7 @@ public class Car {
 	}
 
 	@Action( name = "add" )
-	@UiJexlAttribute( name = HIDDEN, expression = "this.owner != null" )
+	@UiAttribute( name = HIDDEN, value = "${this.owner != null}" )
 	public void addOwner() {
 
 		mOwner = new Owner();

@@ -21,8 +21,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Date;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.faces.UiFacesAttribute;
 
 /**
  * Models an entity that tests some ICEfaces-specific quirks.
@@ -106,7 +106,7 @@ public class IceFacesQuirks {
 			mDate = date;
 		}
 
-		@UiFacesAttribute( name = LABEL, expression = "#{this.recreatable}" )
+		@UiLabel( "#{_this.recreatable}" )
 		public String getRecreatable() {
 
 			if ( mDate == null ) {

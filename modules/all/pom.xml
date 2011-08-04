@@ -118,11 +118,6 @@
 			<artifactId>metawidget-tomahawk</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.faces</groupId>
-			<artifactId>metawidget-facesxml</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- metawidget-gwt should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.gwt</groupId>

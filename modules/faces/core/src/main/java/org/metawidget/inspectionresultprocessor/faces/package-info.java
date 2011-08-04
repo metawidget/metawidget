@@ -14,27 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.jsp;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * Annotates arbitrary attributes for the UI, based on Java Server Pages EL expressions.
- * <p>
- * This annotation can only be used with JSP 2.0. When using this annotation, the
- * <code>PageContext</code> must be injected before each inspection using
- * <code>JspAnnotationInspector.setThreadLocalPageContext</code>.
- * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
+ * Inspectors: JSF EL expressions support.
  *
  * @author Richard Kennard
  */
 
-@Retention( RetentionPolicy.RUNTIME )
-@Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiJspAttributes {
-
-	UiJspAttribute[] value();
-}
+package org.metawidget.inspectionresultprocessor.faces;

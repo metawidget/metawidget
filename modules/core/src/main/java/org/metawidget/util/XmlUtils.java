@@ -100,6 +100,12 @@ public class XmlUtils {
 		}
 
 		for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
+
+			if ( entry.getValue() == null ) {
+				element.removeAttribute( entry.getKey() );
+				continue;
+			}
+
 			element.setAttribute( entry.getKey(), entry.getValue() );
 		}
 	}
@@ -414,27 +420,28 @@ public class XmlUtils {
 	 * indentation TextNodes).
 	 */
 
-	public static Element getElementAt( Element element, int index ) {
+	public static Element getFirstChildElement( Element parent ) {
 
-		NodeList nodes = element.getChildNodes();
+		Node node = parent.getFirstChild();
 
-		int actualIndex = 0;
+		while( node != null && !( node instanceof Element )) {
 
-		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ ) {
-			Node node = nodes.item( loop );
-
-			if ( !( node instanceof Element ) ) {
-				continue;
-			}
-
-			if ( actualIndex == index ) {
-				return (Element) node;
-			}
-
-			actualIndex++;
+			node = node.getNextSibling();
 		}
 
-		return null;
+		return (Element) node;
+	}
+
+	public static Element getNextSiblingElement( Element element ) {
+
+		Node node = element.getNextSibling();
+
+		while( node != null && !( node instanceof Element )) {
+
+			node = node.getNextSibling();
+		}
+
+		return (Element) node;
 	}
 
 	/**

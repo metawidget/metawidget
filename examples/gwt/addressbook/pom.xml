@@ -70,7 +70,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!-- TODO: <plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 			</plugin>
@@ -81,7 +81,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>webtest-maven-plugin</artifactId>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 

@@ -19,20 +19,11 @@ package org.metawidget.inspector.jsp;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.el.ExpressionEvaluator;
-import javax.servlet.jsp.el.VariableResolver;
-
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.InspectorUtils;
-import org.metawidget.util.ThreadUtils;
 
 /**
  * Inspects annotations defined by Metawidget's JSP support (declared in this same package).
@@ -42,35 +33,6 @@ import org.metawidget.util.ThreadUtils;
 
 public class JspAnnotationInspector
 	extends BaseObjectInspector {
-
-	//
-	// Private member
-	//
-
-	private static final ThreadLocal<PageContext>	LOCAL_PAGE_CONTEXT	= ThreadUtils.newThreadLocal();
-
-	//
-	// Public statics
-	//
-
-	/**
-	 * Sets the PageContext to use for this Inspection.
-	 * <p>
-	 * Unfortunately, JSP lacks a standardized mechanism to retrieve the <code>PageContext</code>
-	 * (or the <code>HttpServletRequest</code>) statically. Many containers work around this using
-	 * <code>ThreadLocal</code>-variables, but this is implementation specific.
-	 * <p>
-	 * Clients wishing to use <code>UiJspAttribute</code> or <code>UiJspAttributes</code> must call
-	 * this static method before each inspection to inject the <code>PageContext</code>.
-	 * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
-	 */
-
-	// TODO: clean this up by turning it into an InspectionResultProcessor
-	
-	public static void setThreadLocalPageContext( PageContext pageContext ) {
-
-		LOCAL_PAGE_CONTEXT.set( pageContext );
-	}
 
 	//
 	// Constructor
@@ -91,53 +53,6 @@ public class JspAnnotationInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectTrait( Trait trait )
-		throws Exception {
-
-		// UiJspAttributes/UiJspAttribute
-
-		UiJspAttributes jspAttributes = trait.getAnnotation( UiJspAttributes.class );
-		UiJspAttribute jspAttribute = trait.getAnnotation( UiJspAttribute.class );
-
-		if ( jspAttributes == null && jspAttribute == null ) {
-			return null;
-		}
-
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
-
-		if ( pageContext == null ) {
-			throw InspectorException.newException( "ThreadLocalPageContext not set" );
-		}
-
-		ExpressionEvaluator expressionEvaluator;
-
-		try {
-			expressionEvaluator = pageContext.getExpressionEvaluator();
-		} catch ( Exception e ) {
-			throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
-		}
-
-		VariableResolver variableResolver = pageContext.getVariableResolver();
-
-		// UiJspAttribute
-
-		if ( jspAttribute != null ) {
-			putJspAttribute( expressionEvaluator, variableResolver, attributes, jspAttribute );
-		}
-
-		// UiJspAttributes
-
-		if ( jspAttributes != null ) {
-			for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() ) {
-				putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
-			}
-		}
-
-		return attributes;
-	}
-
-	@Override
 	protected Map<String, String> inspectProperty( Property property )
 		throws Exception {
 
@@ -152,36 +67,5 @@ public class JspAnnotationInspector
 		}
 
 		return attributes;
-	}
-
-	protected void putJspAttribute( ExpressionEvaluator expressionEvaluator, VariableResolver variableResolver, Map<String, String> attributes, UiJspAttribute jspAttribute )
-		throws Exception {
-
-		String expression = jspAttribute.expression();
-
-		if ( !isExpression( expression ) ) {
-			throw InspectorException.newException( "Expression '" + expression + "' is not of the form ${...}" );
-		}
-
-		Object value = expressionEvaluator.evaluate( expression, Object.class, variableResolver, null );
-
-		if ( value == null ) {
-			return;
-		}
-
-		for ( String attributeName : jspAttribute.name() ) {
-			InspectorUtils.putAttributeValue( attributes, attributeName, value );
-		}
-	}
-
-	//
-	// Private methods
-	//
-
-	private static final Pattern	PATTERN_BINDING	= Pattern.compile( "^\\$\\{(.*)\\}$" );
-
-	private boolean isExpression( String binding ) {
-
-		return PATTERN_BINDING.matcher( binding ).matches();
 	}
 }

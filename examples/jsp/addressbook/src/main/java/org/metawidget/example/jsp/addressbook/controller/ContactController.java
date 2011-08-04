@@ -24,10 +24,11 @@ import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiAttribute;
+import org.metawidget.inspector.annotation.UiAttributes;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.jsp.UiJspAttribute;
-import org.metawidget.inspector.jsp.UiJspAttributes;
+import org.metawidget.inspector.annotation.UiLabel;
 
 /**
  * @author Richard Kennard
@@ -68,14 +69,14 @@ public class ContactController {
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, expression = "${!contactController.readOnly}" )
+	@UiAttribute( name = HIDDEN, value = "${!contactController.readOnly}" )
 	public void edit() {
 
 		mReadOnly = false;
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, expression = "${contactController.readOnly}" )
+	@UiAttribute( name = HIDDEN, value = "${contactController.readOnly}" )
 	public void save() {
 
 		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contacts" );
@@ -85,7 +86,7 @@ public class ContactController {
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, expression = "${contactController.readOnly || contact.id == 0}" )
+	@UiAttributes( { @UiAttribute( name = HIDDEN, value = "${contactController.readOnly || contact.id == 0}" ) } )
 	@UiComesAfter( "save" )
 	public void delete() {
 
@@ -97,7 +98,7 @@ public class ContactController {
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJspAttributes( { @UiJspAttribute( name = LABEL, expression = "${contactController.readOnly ? 'Back' : null}" ) } )
+	@UiLabel( "${contactController.readOnly ? 'Back'}" )
 	public String cancel()
 		throws Exception {
 

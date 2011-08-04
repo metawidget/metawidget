@@ -21,10 +21,10 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.List;
 
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.faces.UiFacesAttribute;
 import org.metawidget.inspector.faces.UiFacesSuggest;
 import org.metawidget.util.CollectionUtils;
 
@@ -176,7 +176,7 @@ public class RichFacesQuirks {
 	
 	@UiComesAfter( "abc" )
 	@UiSection( "dEf" )
-	@UiFacesAttribute( name = FACES_COMPONENT, expression = "#{_this.dynamicallyChangeDef1 ? 'javax.faces.HtmlInputTextarea': null}" )
+	@UiAttribute( name = FACES_COMPONENT, value = "#{_this.dynamicallyChangeDef1 ? 'javax.faces.HtmlInputTextarea': null}" )
 	public String getDef1() {
 
 		return mDef1;
@@ -222,7 +222,7 @@ public class RichFacesQuirks {
 
 	@UiComesAfter( "dynamicallyChangeDef1" )
 	@UiSection( "ghI" )
-	@UiFacesAttribute( name = HIDDEN, expression = "#{!richQuirks.showGhi}" )
+	@UiAttribute( name = HIDDEN, value = "#{!richQuirks.showGhi}" )
 	public String getGhi1() {
 
 		return mGhi1;
@@ -233,7 +233,7 @@ public class RichFacesQuirks {
 		mGhi1 = ghi1;
 	}
 
-	@UiFacesAttribute( name = HIDDEN, expression = "#{!richQuirks.showGhi}" )
+	@UiAttribute( name = HIDDEN, value = "#{!richQuirks.showGhi}" )
 	public String getGhi2() {
 
 		return mGhi2;

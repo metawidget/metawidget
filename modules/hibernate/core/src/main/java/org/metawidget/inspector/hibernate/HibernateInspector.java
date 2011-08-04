@@ -180,38 +180,32 @@ public class HibernateInspector
 		if ( packagePrefix != null && !"".equals( packagePrefix ) ) {
 			packagePrefix += StringUtils.SEPARATOR_DOT_CHAR;
 
-			NodeList children = root.getChildNodes();
 			String topLevelAttribute = getTopLevelTypeAttribute();
 			String extendsAttribute = getExtendsAttribute();
+			Element child = XmlUtils.getFirstChildElement( root );
 
-			for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
-				Node node = children.item( loop );
-
-				if ( !( node instanceof Element ) ) {
-					continue;
-				}
-
-				Element element = (Element) node;
+			while( child != null ) {
 
 				// 'name' attribute of 'class'/'subclass' element
 
-				String name = element.getAttribute( topLevelAttribute );
+				String name = child.getAttribute( topLevelAttribute );
 
 				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 ) {
-					element.setAttribute( topLevelAttribute, packagePrefix + name );
+					child.setAttribute( topLevelAttribute, packagePrefix + name );
 				}
 
 				// 'extends' attribute of 'subclass' element
 
-				String extendsClass = element.getAttribute( extendsAttribute );
+				String extendsClass = child.getAttribute( extendsAttribute );
 
 				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 ) {
-					element.setAttribute( extendsAttribute, packagePrefix + extendsClass );
+					child.setAttribute( extendsAttribute, packagePrefix + extendsClass );
 				}
 
 				// 'class' attributes of children
 
-				prependPackageToClassAttribute( element, packagePrefix );
+				prependPackageToClassAttribute( child, packagePrefix );
+				child = XmlUtils.getNextSiblingElement( child );
 			}
 		}
 	}

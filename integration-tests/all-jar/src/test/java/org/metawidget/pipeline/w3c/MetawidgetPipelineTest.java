@@ -66,14 +66,13 @@ public class MetawidgetPipelineTest
 			@Override
 			public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
-				return super.processInspectionResult( null );
+				return super.processInspectionResult( null, toInspect, type, names );
 			}
 		};
-
 		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>() {
 
 			@Override
-			public String processInspectionResult( String inspectionResult, Object metawidget ) {
+			public String processInspectionResult( String inspectionResult, Object metawidget, Object toInspect, String type, String... names ) {
 
 				called.add( "InspectionResultProcessor #1" );
 				return null;
@@ -82,7 +81,7 @@ public class MetawidgetPipelineTest
 		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Object>() {
 
 			@Override
-			public String processInspectionResult( String inspectionResult, Object metawidget ) {
+			public String processInspectionResult( String inspectionResult, Object metawidget, Object toInspect,  String type, String... names ) {
 
 				called.add( "InspectionResultProcessor #2" );
 				return null;
@@ -303,13 +302,13 @@ public class MetawidgetPipelineTest
 		public void testIndentation()
 			throws Exception {
 
-			Element element = getChildAt( stringToElement( "<foo><bar>baz</bar></foo>" ), 0 );
+			Element element = getFirstChildElement( stringToElement( "<foo><bar>baz</bar></foo>" ) );
 			assertEquals( "bar", element.getNodeName() );
 
-			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 0 );
+			element = getFirstChildElement( stringToElement( "<foo>		<bar>baz</bar></foo>" ) );
 			assertEquals( "bar", element.getNodeName() );
 
-			element = getChildAt( stringToElement( "<foo>		<bar>baz</bar></foo>" ), 1 );
+			element = getNextSiblingElement( getFirstChildElement( stringToElement( "<foo>		<bar>baz</bar></foo>" ) ) );
 			assertTrue( null == element );
 		}
 

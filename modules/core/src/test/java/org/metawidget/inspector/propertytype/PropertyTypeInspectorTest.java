@@ -303,11 +303,10 @@ public class PropertyTypeInspectorTest
 		if ( LogUtils.getLog( PropertyTypeInspector.class ).isTraceEnabled() ) {
 			assertEquals( "PropertyTypeInspector prevented infinite recursion on org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo/foo. Consider annotating foo as @UiHidden", LogUtilsTest.getLastTraceMessage() );
 		} else {
-			assertEquals( "{0} prevented infinite recursion on {1}{2}. Consider annotating {3} as @UiHidden", LogUtilsTest.getLastTraceMessage() );
-			assertEquals( "PropertyTypeInspector", LogUtilsTest.getLastTraceArguments()[0] );
-			assertEquals( "org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo", LogUtilsTest.getLastTraceArguments()[1] );
-			assertEquals( "/foo", LogUtilsTest.getLastTraceArguments()[2] );
-			assertEquals( "foo", LogUtilsTest.getLastTraceArguments()[3] );
+			assertEquals( "Prevented infinite recursion on {0}{1}. Consider marking {2} as hidden", LogUtilsTest.getLastTraceMessage() );
+			assertEquals( "org.metawidget.inspector.propertytype.PropertyTypeInspectorTest$RecursiveFoo", LogUtilsTest.getLastTraceArguments()[0] );
+			assertEquals( "/foo", LogUtilsTest.getLastTraceArguments()[1] );
+			assertEquals( "foo", LogUtilsTest.getLastTraceArguments()[2] );
 		}
 
 		// Start over

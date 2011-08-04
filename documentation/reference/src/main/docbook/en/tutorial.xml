@@ -2078,22 +2078,20 @@ bin\run</programlisting>
 				
 				<para>
 					The remaining fields are wrapped in an ICEfaces <classname>PanelTabSet</classname>. Click on the <guibutton>Details</guibutton> tab.
-					Here, the example makes use of the <classname>@UiFacesAttribute</classname> annotation. The Java code is
-					annotated:
+					Here, the example makes use of the <classname>@UiAttribute</classname> annotation and <classname>FacesInspectionResultProcessor</classname>.
+					The Java code is annotated:
 				</para>
 				
 				<programlisting language="java">@UiAction
-@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{!empty _this.condition}" )
+@UiAttribute( name = InspectionResultConstants.HIDDEN, value = "#{!empty _this.condition}" )
 public void addCondition() { ... }
 
-@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{empty _this.condition}" )
+@UiAttribute( name = InspectionResultConstants.HIDDEN, value = "#{empty _this.condition}" )
 public PenguinCondition getCondition() { ...}</programlisting>
 				
 				<para>
 					Clicking the <guibutton>Add Condition</guibutton> button, or checking one of the <parameter>Hobbies</parameter> checkboxes,
-					triggers an AJAX call that re-evaluates the	<classname>@UiFacesAttribute</classname> annotations and dynamically reconstructs the
+					triggers an AJAX call that re-evaluates the	<classname>@UiAttribute</classname> annotations and dynamically reconstructs the
 					form without requiring a page refresh. This includes removing existing buttons, creating new dropdown boxes and creating
 					new labels.
 				</para>
@@ -2175,8 +2173,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 					from the source distribution:
 				</para>
 
-				<programlisting language="xml">&lt;metawidgetAnnotationInspector
-	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+				<programlisting language="xml">&lt;metawidgetAnnotationInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;actionStyle&gt;
 		&lt;swingAppFrameworkActionStyle xmlns="java:org.metawidget.inspector.impl.actionstyle.swing"&gt;
 	&lt;/actionStyle&gt;
@@ -2184,12 +2181,12 @@ public PenguinCondition getCondition() { ...}</programlisting>
 
 				<para>
 					As a further feature, after the <guibutton>Add an Owner</guibutton> button is clicked it disappears. This is
-					acheived by using <classname>JexlInspector</classname> to introduce an expression language for Swing similar to JSP's EL.
-					The method is annotated...
+					acheived by using <classname>JexlInspectionResultProcessor</classname> to introduce an expression language
+					for Swing similar to JSP's EL. The method is annotated...
 				</para>
 				
 				<programlisting language="java">@Action( name = "add" )
-@UiJexlAttribute( name = HIDDEN, value = "this.owner != null" )
+@UiAttribute( name = HIDDEN, value = "${this.owner != null}" )
 public void addOwner() {
 	mOwner = new Owner();
 	fireActionEvent( "addOwner" );

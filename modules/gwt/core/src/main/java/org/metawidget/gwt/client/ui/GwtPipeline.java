@@ -26,7 +26,6 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 /**
@@ -84,35 +83,29 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	}
 
 	@Override
-	protected int getChildCount( Element element ) {
+	protected Element getFirstChildElement( Element parent ) {
 
-		return element.getChildNodes().getLength();
+		Node node = parent.getFirstChild();
+
+		while( node != null && !( node instanceof Element )) {
+
+			node = node.getNextSibling();
+		}
+
+		return (Element) node;
 	}
 
 	@Override
-	protected Element getChildAt( Element element, int index ) {
+	protected Element getNextSiblingElement( Element element ) {
 
-		// Get the indexed node (ignoring any indentation TextNodes)
+		Node node = element.getNextSibling();
 
-		NodeList nodes = element.getChildNodes();
+		while( node != null && !( node instanceof Element )) {
 
-		int actualIndex = 0;
-
-		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ ) {
-			Node node = nodes.item( loop );
-
-			if ( !( node instanceof Element ) ) {
-				continue;
-			}
-
-			if ( actualIndex == index ) {
-				return (Element) node;
-			}
-
-			actualIndex++;
+			node = node.getNextSibling();
 		}
 
-		return null;
+		return (Element) node;
 	}
 
 	@Override

@@ -70,7 +70,7 @@ public class IncludingInspectionResultProcessorExampleTest
 	static class IncludingInspectionResultProcessor
 		implements InspectionResultProcessor<SwingMetawidget> {
 
-		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget ) {
+		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget, Object toInspect, String type, String... names ) {
 
 			String[] includes = (String[]) metawidget.getClientProperty( "include" );
 			Document document = XmlUtils.documentFromString( inspectionResult );

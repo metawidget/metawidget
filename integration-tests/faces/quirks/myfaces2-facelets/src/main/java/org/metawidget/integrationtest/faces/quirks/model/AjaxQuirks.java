@@ -20,11 +20,11 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.faces.UiFacesAjax;
-import org.metawidget.inspector.faces.UiFacesAttribute;
 
 /**
  * Models an entity that tests some JSF2-AJAX-specific quirks.
@@ -60,7 +60,7 @@ public class AjaxQuirks {
 		mSelect = select;
 	}
 
-	@UiFacesAttribute( name = HIDDEN, expression = "#{ajaxQuirks.select != 'Show'}" )
+	@UiAttribute( name = HIDDEN, value = "#{ajaxQuirks.select != 'Show'}" )
 	@UiFacesAjax( event = "click", action = "#{ajaxQuirks.updateLabel}" )
 	@UiComesAfter( "select" )
 	public boolean isCheckbox() {

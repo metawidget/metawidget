@@ -19,20 +19,12 @@ package org.metawidget.inspector.faces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.FacesUtils;
-import org.metawidget.inspector.annotation.UiAction;
-import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.Trait;
-import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -104,131 +96,7 @@ public class FacesInspectorTest
 		assertEquals( "currency", property.getAttribute( NUMBER_TYPE ) );
 		assertTrue( 11 == property.getAttributes().getLength() );
 
-		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "result of #{foo1}", property.getAttribute( "foo1" ) );
-		assertEquals( "result of #{foo1}", property.getAttribute( "foo2" ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
-
-		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
-		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "#{array1},#{array1}", property.getAttribute( "array" ) );
-		assertEquals( "#{collection1},#{collection1}", property.getAttribute( "collection" ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
-
-		assertTrue( entity.getChildNodes().getLength() == 5 );
-	}
-
-	public void testBadExpression() {
-
-		FacesInspector inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true ) );
-
-		try {
-			inspector.inspect( null, BadExpression1a.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression 'foo' (for 'faces-lookup') is not of the form #{...}", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression1b.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression '#{this.foo}' (for 'faces-lookup') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression1c.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression '#{_this.foo}' (for 'faces-lookup') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression2a.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression 'bar' (for 'faces-suggest') is not of the form #{...}", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression2b.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression '#{this.bar}' (for 'faces-suggest') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression2c.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression '#{_this.bar}' (for 'faces-suggest') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression3a.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression 'baz' (for 'faces-ajax-action') is not of the form #{...}", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression3b.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression '#{this.baz}' (for 'faces-ajax-action') must not contain 'this' (see Metawidget Reference Guide)", e.getMessage() );
-		}
-
-		try {
-			inspector.inspect( null, BadExpression3c.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression '#{_this.baz}' (for 'faces-ajax-action') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
-		}
-	}
-
-	public void testBadEvaluation() {
-
-		try {
-			new FacesInspector().inspect( null, BadEvaluation1.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Unable to getValue of #{error}", e.getMessage() );
-			assertEquals( "Forced error", e.getCause().getMessage() );
-		}
-
-		try {
-			new FacesInspector().inspect( null, BadEvaluation2.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression for '#{this.error}' contains 'this', but FacesInspectorConfig.setInjectThis is 'false'", e.getMessage() );
-		}
-
-		try {
-			new FacesInspector().inspect( null, BadEvaluation2d.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "Expression for '#{_this.error}' contains '_this', but FacesInspectorConfig.setInjectThis is 'false'", e.getMessage() );
-		}
-	}
-
-	public void testNoFacesContext() {
-
-		mContext.release();
-
-		try {
-			new FacesInspector().inspect( new NoFacesContextOnPropertyFoo(), NoFacesContextOnPropertyFoo.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
-		}
-
-		try {
-			new FacesInspector().inspect( new NoFacesContextOnActionFoo(), NoFacesContextOnActionFoo.class.getName() );
-			assertTrue( false );
-		} catch ( InspectorException e ) {
-			assertEquals( "FacesContext not available to FacesInspector", e.getMessage() );
-		}
+		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}
 
 	public void testUtils() {
@@ -242,132 +110,6 @@ public class FacesInspectorTest
 		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "foo.bar" ) );
 		assertEquals( "#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar}" ) );
 		assertEquals( "#{#{foo.bar}", FacesUtils.wrapExpression( "#{foo.bar" ) );
-	}
-
-	public void testThisInjection() {
-
-		final List<String> injected = CollectionUtils.newArrayList();
-
-		// Without injection
-
-		FacesInspector inspector = new FacesInspector() {
-
-			@Override
-			protected Map<String, String> inspectTrait( Trait trait )
-				throws Exception {
-
-				injected.add( "1: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-				injected.add( "2: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-				return null;
-			}
-		};
-
-		inspector.inspect( new Foo(), Foo.class.getName() );
-
-		assertEquals( "1: bar: null", injected.get( 0 ));
-		assertEquals( "2: bar: null", injected.get( 1 ));
-		assertEquals( "1: foo: null", injected.get( 2 ));
-		assertEquals( "2: foo: null", injected.get( 3 ));
-		assertEquals( 10, injected.size() );
-
-		// With injection
-
-		injected.clear();
-
-		inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true )) {
-
-			@Override
-			public Element inspectAsDom( Object toInspect, String type, String... names ) {
-
-				try {
-
-					injected.add( "1: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-					injected.add( "2: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-
-					return super.inspectAsDom( toInspect, type, names );
-
-				} finally {
-
-					injected.add( "5: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-					injected.add( "6: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-				}
-			}
-
-			@Override
-			protected Map<String, String> inspectTrait( Trait trait )
-				throws Exception {
-
-				injected.add( "3: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-				injected.add( "4: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-				return null;
-			}
-		};
-
-		inspector.inspect( new Foo(), Foo.class.getName() );
-
-		assertEquals( "1: null", injected.get( 0 ));
-		assertEquals( "2: null", injected.get( 1 ));
-		assertTrue( injected.get( 2 ).startsWith( "3: bar: " + Foo.class.getName() ));
-		assertTrue( injected.get( 3 ).startsWith( "4: bar: " + Foo.class.getName() ));
-		assertTrue( injected.get( 4 ).startsWith( "3: foo: " + Foo.class.getName() ));
-		assertTrue( injected.get( 5 ).startsWith( "4: foo: " + Foo.class.getName() ));
-		assertEquals( "5: null", injected.get( 12 ));
-		assertEquals( "6: null", injected.get( 13 ));
-		assertEquals( 14, injected.size() );
-
-		// Parent injection
-
-		injected.clear();
-
-		inspector = new FacesInspector( new FacesInspectorConfig().setInjectThis( true )) {
-
-			@Override
-			public Element inspectAsDom( Object toInspect, String type, String... names ) {
-
-				try {
-
-					injected.add( "1: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-					injected.add( "2: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-
-					return super.inspectAsDom( toInspect, type, names );
-
-				} finally {
-
-					injected.add( "5: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-					injected.add( "6: " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-				}
-			}
-
-			@Override
-			protected Map<String, String> inspectTrait( Trait trait )
-				throws Exception {
-
-				injected.add( "3: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "this" ) );
-				injected.add( "4: " + trait.getName() + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
-				return null;
-			}
-		};
-
-		inspector.inspect( new ParentFoo(), ParentFoo.class.getName(), "fooInParent" );
-
-		assertEquals( "1: null", injected.get( 0 ));
-		assertEquals( "2: null", injected.get( 1 ));
-		assertTrue( injected.get( 2 ).startsWith( "3: fooInParent: " + ParentFoo.class.getName() ));
-		assertTrue( injected.get( 3 ).startsWith( "4: fooInParent: " + ParentFoo.class.getName() ));
-		assertTrue( injected.get( 4 ).startsWith( "3: bar: " + Foo.class.getName() ));
-		assertTrue( injected.get( 5 ).startsWith( "4: bar: " + Foo.class.getName() ));
-		assertTrue( injected.get( 6 ).startsWith( "3: foo: " + Foo.class.getName() ));
-		assertTrue( injected.get( 7 ).startsWith( "4: foo: " + Foo.class.getName() ));
-		assertEquals( "5: null", injected.get( 14 ));
-		assertEquals( "6: null", injected.get( 15 ));
-		assertEquals( 16, injected.size() );
-	}
-
-	public void testConfig() {
-
-		MetawidgetTestUtils.testEqualsAndHashcode( FacesInspectorConfig.class, new FacesInspectorConfig() {
-			// Subclass
-		} );
 	}
 
 	//
@@ -415,12 +157,6 @@ public class FacesInspectorTest
 
 		@UiFacesNumberConverter( currencyCode = "AUD", currencySymbol = "$", groupingUsed = true, locale = "AU", maxFractionDigits = 2, minFractionDigits = 1, maxIntegerDigits = 100, minIntegerDigits = 3, pattern = "#0.00", type = "currency" )
 		public Object	object3;
-
-		@UiFacesAttribute( name = { "foo1", "foo2" }, expression = "#{foo1}" )
-		public String	foo;
-
-		@UiFacesAttributes( { @UiFacesAttribute( name = "array", expression = "#{array1}" ), @UiFacesAttribute( name = "collection", expression = "#{collection1}" ) } )
-		public String	bar;
 	}
 
 	public static class DoubleConverterFoo {
@@ -428,52 +164,6 @@ public class FacesInspectorTest
 		@UiFacesNumberConverter
 		@UiFacesDateTimeConverter
 		public Object getBar() {
-
-			return null;
-		}
-	}
-
-	public static class NoFacesContextOnPropertyFoo {
-
-		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
-		public Object getBar() {
-
-			return null;
-		}
-	}
-
-	public static class NoFacesContextOnActionFoo {
-
-		@UiAction
-		@UiFacesAttribute( name = "baz", expression = "#{abc}" )
-		public Object action() {
-
-			return null;
-		}
-	}
-
-	public static class BadEvaluation1 {
-
-		@UiFacesAttribute( name = "foo1", expression = "#{error}" )
-		public Object getFoo() {
-
-			return null;
-		}
-	}
-
-	public static class BadEvaluation2 {
-
-		@UiFacesAttribute( name = "foo2", expression = "#{this.error}" )
-		public Object getFoo() {
-
-			return null;
-		}
-	}
-
-	public static class BadEvaluation2d {
-
-		@UiFacesAttribute( name = "foo2", expression = "#{_this.error}" )
-		public Object getFoo() {
 
 			return null;
 		}
@@ -489,15 +179,6 @@ public class FacesInspectorTest
 	}
 
 	public static class BadExpression1b {
-
-		@UiFacesLookup( "#{this.foo}" )
-		public Object getFoo() {
-
-			return null;
-		}
-	}
-
-	public static class BadExpression1c {
 
 		@UiFacesLookup( "#{_this.foo}" )
 		public Object getFoo() {
@@ -517,15 +198,6 @@ public class FacesInspectorTest
 
 	public static class BadExpression2b {
 
-		@UiFacesSuggest( "#{this.bar}" )
-		public Object getFoo() {
-
-			return null;
-		}
-	}
-
-	public static class BadExpression2c {
-
 		@UiFacesSuggest( "#{_this.bar}" )
 		public Object getFoo() {
 
@@ -543,15 +215,6 @@ public class FacesInspectorTest
 	}
 
 	public static class BadExpression3b {
-
-		@UiFacesAjax( event = "anEvent", action = "#{this.baz}" )
-		public Object getFoo() {
-
-			return null;
-		}
-	}
-
-	public static class BadExpression3c {
 
 		@UiFacesAjax( event = "anEvent", action = "#{_this.baz}" )
 		public Object getFoo() {

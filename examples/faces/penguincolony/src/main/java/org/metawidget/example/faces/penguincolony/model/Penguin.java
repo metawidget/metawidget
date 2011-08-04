@@ -20,13 +20,13 @@ import java.util.Date;
 
 import org.metawidget.inspector.InspectionResultConstants;
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.faces.UiFacesAttribute;
 import org.metawidget.util.ArrayUtils;
 
 /**
@@ -120,7 +120,7 @@ public class Penguin {
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty _this.condition}" )
+	@UiAttribute( name = InspectionResultConstants.HIDDEN, value = "#{!empty _this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
 	@UiSection( "Detail" )
 	public void addCondition() {
@@ -128,7 +128,7 @@ public class Penguin {
 		mCondition = new PenguinCondition();
 	}
 
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty _this.condition}" )
+	@UiAttribute( name = InspectionResultConstants.HIDDEN, value = "#{empty _this.condition}" )
 	@UiComesAfter( "dateOfBirth" )
 	@UiSection( "Detail" )
 	public PenguinCondition getCondition() {
@@ -155,7 +155,7 @@ public class Penguin {
 	}
 
 	@UiLarge
-	@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!_this.otherHobby}" )
+	@UiAttribute( name = InspectionResultConstants.HIDDEN, value = "#{!_this.otherHobby}" )
 	@UiComesAfter( "hobbies" )
 	public String getDescribeHobby() {
 

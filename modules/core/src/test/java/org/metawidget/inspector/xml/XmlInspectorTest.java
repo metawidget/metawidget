@@ -269,11 +269,10 @@ public class XmlInspectorTest
 		if ( LogUtils.getLog( XmlInspector.class ).isTraceEnabled() ) {
 			assertEquals( "XmlInspector prevented infinite recursion on org.metawidget.inspector.xml.XmlInspectorTest$NullObject/nestedNullObject. Consider marking nestedNullObject as hidden='true'", LogUtilsTest.getLastTraceMessage() );
 		} else {
-			assertEquals( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", LogUtilsTest.getLastTraceMessage() );
-			assertEquals( "XmlInspector", LogUtilsTest.getLastTraceArguments()[0] );
-			assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$NullObject", LogUtilsTest.getLastTraceArguments()[1] );
-			assertEquals( "/nestedNullObject", LogUtilsTest.getLastTraceArguments()[2] );
-			assertEquals( "nestedNullObject", LogUtilsTest.getLastTraceArguments()[3] );
+			assertEquals( "Prevented infinite recursion on {0}{1}. Consider marking {2} as hidden", LogUtilsTest.getLastTraceMessage() );
+			assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$NullObject", LogUtilsTest.getLastTraceArguments()[0] );
+			assertEquals( "/nestedNullObject", LogUtilsTest.getLastTraceArguments()[1] );
+			assertEquals( "nestedNullObject", LogUtilsTest.getLastTraceArguments()[2] );
 		}
 	}
 
@@ -448,7 +447,8 @@ public class XmlInspectorTest
 
 		// With traverseAgainstObject
 
-		mInspector = new XmlInspector( new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() );
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 		Document document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName(), "toTraverse" ) );
 
 		// Entity
@@ -461,6 +461,30 @@ public class XmlInspectorTest
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "xmlBar", property.getAttribute( NAME ) );
+		assertEquals( "int", property.getAttribute( TYPE ) );
+		assertTrue( property.getAttributes().getLength() == 2 );
+
+		assertTrue( entity.getChildNodes().getLength() == 1 );
+
+		// Traverse to a subtype
+
+		traverseAgainstObjectFoo.toTraverse = new SubRestrictAgainstObjectFoo();
+
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName(), "toTraverse" ) );
+
+		// Entity
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( RestrictAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		property = (Element) entity.getFirstChild();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlBar", property.getAttribute( NAME ) );
 		assertEquals( "int", property.getAttribute( TYPE ) );

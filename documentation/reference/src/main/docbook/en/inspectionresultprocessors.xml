@@ -8,7 +8,7 @@
 			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
 		</para>
 		
-		<section id="section-inspectionresultprocessors-sort-comesafter">
+		<section id="section-inspectionresultprocessors-comesafter">
 			<title>ComesAfterInspectionResultProcessor</title>
 			
 			<para>
@@ -43,4 +43,148 @@
 			
 		</section>
 		
+		<section id="section-inspectionresultprocessors-faces">
+			<title>FacesInspectionResultProcessor</title>
+			
+			<para>
+				<classname>FacesInspectionResultProcessor</classname> processes the inspection result and
+				evaluates any expressions of the form <parameter>#{...}</parameter> using JSF EL. For example:
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
+	&lt;property name="pension" hidden="#{!person.retired}"/&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				<classname>FacesInspectionResultProcessor</classname> would update this inspection result's <parameter>hidden</parameter> attribute
+				based on evaluating the JSF expression
+				<parameter>#{!person.retired}</parameter>. It could be used to show/hide the <parameter>pension</parameter>
+				field in response to the <parameter>retired</parameter> checkbox being checked.
+			</para>
+
+			<para>
+				The JSF expression language also supports branching statements. For example:
+			</para>
+			
+			<programlisting language="java">import org.metawidget.inspector.annotation.*;
+
+public class ContactBean {
+
+	@UiAction
+	@UiLabel( "#{contact.readOnly ? 'Back'}" )
+	public void cancel() { ... }
+}</programlisting>
+
+			<para>
+				<classname>FacesInspectionResultProcessor</classname> would update the <parameter>label</parameter> of this
+				action to be either 'Back' or default to 'Cancel', depending
+				on whether the <classname>Contact</classname> was being edited. It is taken from the JSF Address Book
+				sample (see <xref linkend="section-introduction-part2-web"/>).
+			</para>
+
+			<para>
+				If <classname>FacesInspectionResultProcessorConfig.setInjectThis</classname> is set, a special request-level
+				<parameter>_this</parameter> attribute (the underscore is needed because <parameter>this</parameter> is
+				a reserved word in EL) is injected into the <classname>FacesContext</classname>. JSF EL expressions rely
+				on the JSF context being properly initialized with certain managed bean names. This is rather brittle.
+				Instead, injecting <parameter>_this</parameter> allows the EL to refer to the originating object
+				(i.e. <function>#{_this.name}</function>) regardless of how the JSF context is configured.
+			</para>
+			
+			<para>
+				However <function>injectThis</function> cannot be used within attributes such
+				as <code>faces-lookup</code>. Those attributes map to well-defined places within the JSF framework
+				(i.e. <parameter>f:selectItems</parameter>) and are evaluated at a different phase of the
+				JSF lifecycle. In some cases they will skip invoking <classname>FacesInspectionResultProcessor</classname>.
+				For example if a <parameter>h:selectOneMenu</parameter> fails to validate during POSTback, its <parameter>f:selectItems</parameter>
+				will be redisplayed without a new inspection and with no chance to <function>injectThis</function>.    								
+			</para>
+
+		</section>
+
+		<section id="section-inspectionresultprocessors-jexl">
+			<title>JexlInspectionResultProcessor</title>
+			
+			<para>
+				<classname>JexlInspectionResultProcessor</classname> processes the inspection result and evaluates any expressions of the
+				form <parameter>${...}</parameter> using Apache Commons JEXL. It can
+				be used to introduce declarative UI scripting into environments that lack their	own expression language
+				(i.e. JSP has an EL, Swing does not). For example:
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
+	&lt;property name="pension" hidden="${!this.retired}"/&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				<classname>JexlInspectionResultProcessor</classname> would update this inspection result's <parameter>hidden</parameter> attribute
+				based on evaluating the JEXL expression
+				<parameter>${!this.retired}</parameter> (where <parameter>this</parameter> refers to the runtime instance of
+				the <classname>Person</classname> being inspected). It could be used to show/hide the <parameter>pension</parameter>
+				field in response to the <parameter>retired</parameter> checkbox being checked.
+			</para>
+
+			<para>
+				The JEXL expression language also supports branching statements. For example:
+			</para>
+			
+			<programlisting language="java">import org.metawidget.inspector.annotation.*;
+
+public class ContactDialog {
+
+	@UiAction
+	@UiLabel( "${if ( this.readOnly ) 'Back'}" )
+	public void cancel() { ... }
+}</programlisting>
+
+			<para>
+				<classname>JexlInspectionResultProcessor</classname> would update the <parameter>label</parameter> of this
+				action to be either 'Back' or default to 'Cancel', depending
+				on whether the <classname>Contact</classname> was being edited. It is taken from the Swing Address Book
+				sample (see <xref linkend="section-introduction-part2-desktop"/>).
+			</para>
+
+		</section>
+
+		<section id="section-inspectionresultprocessors-jsp">
+			<title>JspInspectionResultProcessor</title>
+			
+			<para>
+				<classname>JspInspectionResultProcessor</classname> processes the inspection result and evaluates any expressions of the
+				form <parameter>${...}</parameter> using JSP EL. For example:
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
+	&lt;property name="pension" hidden="${!person.retired}"/&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				<classname>JspInspectionResultProcessor</classname> would update this inspection result's <parameter>hidden</parameter> attribute
+				based on evaluating the JSP expression
+				<parameter>${!person.retired}</parameter>. It could be used to show/hide the <parameter>pension</parameter>
+				field in response to the <parameter>retired</parameter> checkbox being checked.
+			</para>
+
+			<para>
+				The JSP expression language also supports branching statements. For example:
+			</para>
+			
+			<programlisting language="java">import org.metawidget.inspector.annotation.*;
+
+public class ContactController {
+
+	@UiAction
+	@UiLabel( "${contactController.readOnly ? 'Back'}" )
+	public String cancel() { ... }
+}</programlisting>
+
+			<para>
+				<classname>JspInspectionResultProcessor</classname> would update the <parameter>label</parameter> of this
+				action to be either 'Back' or default to 'Cancel', depending
+				on whether the <classname>Contact</classname> was being edited. It is taken from the JSP Address Book
+				sample (see <xref linkend="section-introduction-part2-web"/>).
+			</para>
+
+		</section>
+
 	</chapter>

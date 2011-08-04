@@ -14,22 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.faces;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * Annotates arbitrary attributes for the UI, based on Java Server Faces EL expressions.
+ * JSP support: JSP EL expressions support.
  *
  * @author Richard Kennard
  */
 
-@Retention( RetentionPolicy.RUNTIME )
-@Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesAttributes {
-
-	UiFacesAttribute[] value();
-}
+package org.metawidget.inspectionresultprocessor.jsp;

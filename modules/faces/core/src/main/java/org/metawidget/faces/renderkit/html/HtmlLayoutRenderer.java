@@ -110,13 +110,13 @@ public abstract class HtmlLayoutRenderer
 	}
 
 	/**
-	 * Render the label text. Rendering is done via a <code>HtmlOutputText</code> renderer, so that
-	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>
+	 * Render the label text. Rendering is done via an <code>HtmlOutputText</code> renderer, so that
+	 * it is properly escaped. Any JSF EL expressions embedded in the label should have already been
+	 * evaluated by <code>FacesInspectionResultProcessor</code>.
 	 *
 	 * @return whether a label was written
 	 */
 
-	@SuppressWarnings( "deprecation" )
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException {
 
@@ -145,11 +145,9 @@ public abstract class HtmlLayoutRenderer
 			state.labelSuffix = ":";
 		}
 
-		if ( labelText.indexOf( "#{" ) != -1 ) {
-			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );
-		} else {
-			componentLabel.setValue( labelText + state.labelSuffix );
-		}
+		// (any embedded expressions should have gotten evaluated by FacesInspectionResultProcessor)
+
+		componentLabel.setValue( labelText + state.labelSuffix );
 
 		FacesUtils.render( context, componentLabel );
 		return true;

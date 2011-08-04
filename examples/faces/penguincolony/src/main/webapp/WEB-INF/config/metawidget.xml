@@ -23,13 +23,19 @@
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-						<facesInspector xmlns="java:org.metawidget.inspector.faces" config="FacesInspectorConfig">
-							<injectThis><boolean>true</boolean></injectThis>
-						</facesInspector>
+						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
 					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<inspectionResultProcessors>
+			<array>
+				<facesInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.faces" config="FacesInspectionResultProcessorConfig">
+					<injectThis><javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"/></injectThis>
+				</facesInspectionResultProcessor>
+				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort"/>
+			</array>
+		</inspectionResultProcessors>
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>

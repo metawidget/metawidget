@@ -26,6 +26,7 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.faces.FacesInspectionResultConstants;
 import org.metawidget.inspector.faces.FacesInspector;
+import org.metawidget.inspector.faces.UiFacesLookup;
 import org.metawidget.inspector.hibernate.HibernateInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.BaseObjectInspector;
@@ -35,7 +36,7 @@ import org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertySt
 import org.metawidget.inspector.jbpm.PageflowInspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.inspector.jsp.JspInspectionResultConstants;
-import org.metawidget.inspector.jsp.UiJspAttribute;
+import org.metawidget.inspector.jsp.UiJspLookup;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.seam.SeamInspector;
 import org.metawidget.inspector.spring.SpringAnnotationInspector;
@@ -110,14 +111,14 @@ public class JdkVersionTest
 		assertEquals( JDK_14_MAJOR_VERSION, Repository.lookupClass( UIMetawidget.class ).getMajor() );
 		assertEquals( JDK_14_MAJOR_VERSION, Repository.lookupClass( FacesInspectionResultConstants.class ).getMajor() );
 		assertEquals( JDK_50_MAJOR_VERSION, Repository.lookupClass( FacesInspector.class ).getMajor() );
-		assertEquals( JDK_50_MAJOR_VERSION, Repository.lookupClass( UiJspAttribute.class ).getMajor() );
+		assertEquals( JDK_50_MAJOR_VERSION, Repository.lookupClass( UiFacesLookup.class ).getMajor() );
 
 		// JSP
 
 		assertEquals( JDK_14_MAJOR_VERSION, Repository.lookupClass( MetawidgetTag.class ).getMajor() );
 		assertEquals( JDK_14_MAJOR_VERSION, Repository.lookupClass( JspInspectionResultConstants.class ).getMajor() );
 		assertEquals( JDK_50_MAJOR_VERSION, Repository.lookupClass( JspAnnotationInspector.class ).getMajor() );
-		assertEquals( JDK_50_MAJOR_VERSION, Repository.lookupClass( UiJspAttribute.class ).getMajor() );
+		assertEquals( JDK_50_MAJOR_VERSION, Repository.lookupClass( UiJspLookup.class ).getMajor() );
 
 		// Spring
 

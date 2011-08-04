@@ -294,7 +294,7 @@ public class Main {
 
 		protected Map&lt;String, Property&gt; inspectProperties( Class&lt;?&gt; clazz ) {
 			try {
-				Map&lt;String, Property&gt; properties = CollectionUtils.newHashMap();
+				Map&lt;String, Property&gt; properties = CollectionUtils.newTreeMap();
 				ResourceBundle bundle = ResourceBundle.getBundle( "MyBundle" );
 
 				for ( Enumeration&lt;String&gt; e = bundle.getKeys(); e.hasMoreElements(); ) {
@@ -580,37 +580,6 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					</thead>
 					<tbody>
 						<tr>
-							<td>(any)</td>
-							<td>
-								<classname>@UiFacesAttributes</classname> and <classname>@UiFacesAttribute</classname> - annotates
-								an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
-								<para>
-									Unlike <classname>@UiFacesLookup</classname>, which fits into a well-defined place within the JSF
-									framework (i.e. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is
-									evaluated by the <classname>Inspector</classname>, not by the Metawidget. This means the
-									<classname>Inspector</classname> must be able access to <classname>FacesContext</classname>. In practice this
-									usually happens automatically, but in some cases it may be necessary to 'combine remote
-									inspections' (see <xref linkend="section-howto-combine-remote"/>).
-								</para>
-								<para>
-									If <classname>FacesInspectorConfig.setInjectThis</classname> is true, a special request-level
-									attribute is injected into the <classname>FacesContext</classname>. This can be useful so that
-									the EL expression can refer to the originating object (i.e. <function>#{this.name}</function>).
-								</para>
-								<para>
-									Note: <function>injectThis</function> cannot be used in other EL expressions such
-									as <code>@UiFacesLookup</code>. Those expressions are evaluated at a different phase of the
-									JSF lifecycle, possibly without <classname>FacesInspector</classname> being invoked. For example
-									if a <parameter>h:selectOneMenu</parameter> fails to validate during POSTback, its <code>f:selectItems</code>
-									will be redisplayed without a new inspection and with no chance to <function>injectThis</function>.    								
-								</para>
-								<para>
-									Note: <function>injectThis</function> also injects a request-level <parameter>_this</parameter>
-									attribute, for use in EL 2.2 expressions.
-								</para>
-							</td>
-						</tr>
-						<tr>
 							<td>
 								<parameter>currency-code</parameter>,
 								<parameter>currency-symbol</parameter>, 
@@ -743,50 +712,6 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					</tbody>
 				</informaltable>
 
-			</section>
-
-			<section id="section-inspectors-jexl">
-				<title>JexlInspector</title>
-				
-				<para>
-					<classname>JexlInspector</classname> inspects <classname>@UiJexlAttribute</classname> annotations and
-					sets arbitrary attributes based on the result of evaluating an Apache Commons JEXL expression. It can
-					be used to introduce declarative UI scripting into environments that lack their	own expression language
-					(i.e. JSP has an EL, Swing does not). For example:
-				</para>
-				
-				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
-
-public class Person {
-	public boolean retired;
-	@UiJexlAttribute( name = "hidden", value = "!this.retired" )
-	public BigDecimal pension;
-}</programlisting>
-
-				<para>
-					This code returns a <parameter>hidden</parameter> attribute based on evaluating the JEXL expression
-					<parameter>!this.retired</parameter> (where <parameter>this</parameter> refers to the runtime instance of
-					the <classname>Person</classname> being inspected). It could be used to show/hide the <parameter>pension</parameter>
-					field in response to the <parameter>retired</parameter> checkbox being checked.
-				</para>
-				
-				<para>
-					The JEXL expression language also supports branching statements. For example:
-				</para>
-				
-				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
-
-public class PersonController {
-
-	@UiJexlAttribute( name = "label", value = "if ( this.readOnly ) 'Back'" )
-	public void cancel() { ... }
-}</programlisting>
-
-				<para>
-					This code overrides the <parameter>label</parameter> of an action to be either 'Back' or 'Cancel', depending
-					on whether the <classname>Person</classname> was being edited. It is taken from the Swing Address Book
-					sample (see <xref linkend="section-introduction-part2-desktop"/>).
-				</para>
 			</section>
 
 			<section id="section-inspectors-jpa">
@@ -1068,7 +993,8 @@ public class PersonController {
 						Second, by default you need to explicitly specify any inheritance relationships between types in the XML, because the XML
 						has no knowledge of your Java classes. If this becomes laborious, you can set
 						<function>BaseXmlInspectorConfig.setInferInheritanceHierarchy</function> to infer the relationships automatically
-						from your Java classes.
+						from your Java classes. If you are using <function>setRestrictAgainstObject</function>, <function>setInferInheritanceHierarchy</function>
+						is implied.
 					</para>
 					
 					<para>
@@ -1125,38 +1051,6 @@ public class PersonController {
 
 			</section>
 
-			<section id="section-inspectors-facesxml">
-				<title>FacesXmlInspector</title>
-				
-				<para>
-					<classname>FacesXmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format
-					looking for XML attributes wrapped in <parameter>#{...}</parameter> notation. It processes these attributes as
-					JSF EL expressions before returning them. For example:
-				</para>
-				
-				<programlisting language="xml">&lt;inspection-result&gt;
-
-	&lt;entity type="com.myapp.Person"&gt;
-		&lt;property name="pension" hidden="#{!this.retired}"/&gt;
-	&lt;/entity&gt;
-
-&lt;/inspection-result&gt;</programlisting>
-				
-				<para>
-					<classname>FacesXmlInspector</classname> is effectively equivalent to <classname>FacesInspector</classname>
-					but uses XML files instead of <classname>@UiFacesAttribute</classname> annotations. This includes the
-					use of <classname>FacesXmlInspectorConfig.setInjectThis</classname> (see
-					<xref linkend="section-inspectors-faces"/>).
-				</para>
-				
-				<tip>
-					<title>Note</title>
-					Because <classname>FacesXmlInspector</classname> overrides attribute values, its position in a
- 					<classname>CompositeInspector</classname> list is important (ie. it should come after <classname>XmlInspector</classname>).
-				</tip>
-
-			</section>
-
 			<section id="section-inspectors-hibernate">
 				<title>HibernateInspector</title>
 				
@@ -1202,36 +1096,6 @@ public class PersonController {
 					</tbody>
 				</informaltable>
 
-			</section>
-
-			<section id="section-inspectors-jexlxml">
-				<title>JexlXmlInspector</title>
-				
-				<para>
-					<classname>JexlXmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format
-					looking for XML attributes wrapped in <parameter>${...}</parameter> notation. It processes these attributes as
-					JEXL expressions before returning them. For example:
-				</para>
-				
-				<programlisting language="xml">&lt;inspection-result&gt;
-
-	&lt;entity type="com.myapp.Person"&gt;
-		&lt;property name="pension" hidden="${!this.retired}"/&gt;
-	&lt;/entity&gt;
-
-&lt;/inspection-result&gt;</programlisting>
-				
-				<para>
-					<classname>JexlXmlInspector</classname> is effectively equivalent to <classname>JexlInspector</classname>
-					but uses XML files instead of annotations.
-				</para>
-				
-				<tip>
-					<title>Note</title>
-					Because <classname>JexlXmlInspector</classname> overrides attribute values, its position in a
- 					<classname>CompositeInspector</classname> list is important (ie. it should come after <classname>XmlInspector</classname>).
-				</tip>
-				
 			</section>
 
 			<section id="section-inspectors-pageflow">

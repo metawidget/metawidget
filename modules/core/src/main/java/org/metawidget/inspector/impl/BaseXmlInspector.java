@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Set;
 
 import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.DomInspector;
@@ -29,15 +28,14 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Convenience implementation for Inspectors that inspect XML files.
@@ -91,7 +89,8 @@ import org.w3c.dom.NodeList;
  * Second, by default you need to explicitly specify any inheritance relationships between types in
  * the XML, because the XML has no knowledge of your Java classes. If this becomes laborious, you
  * can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer the
- * relationships automatically from your Java classes.
+ * relationships automatically from your Java classes. If you are using
+ * <code>setRestrictAgainstObject</code>, <code>setInferInheritanceHierarchy</code> is implied.
  * <p>
  * Third, it is important the properties defined by the XML and the ones defined by the Java classes
  * stay in sync. To enforce this, you can set
@@ -321,9 +320,9 @@ public abstract class BaseXmlInspector
 			Document document = XmlUtils.newDocument();
 			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
-			// Inspect properties
+			// Inspect traits
 
-			inspect( elementToInspect, entity );
+			inspectTraits( elementToInspect, entity );
 
 			// Nothing of consequence to return?
 
@@ -419,9 +418,9 @@ public abstract class BaseXmlInspector
 		// Do nothing by default
 	}
 
-	protected void inspect( Element toInspect, Element toAddTo ) {
+	protected void inspectTraits( Element entity, Element toAddTo ) {
 
-		if ( toInspect == null ) {
+		if ( entity == null ) {
 			return;
 		}
 
@@ -432,32 +431,27 @@ public abstract class BaseXmlInspector
 		String extendsAttribute = getExtendsAttribute();
 
 		if ( extendsAttribute != null ) {
-			if ( toInspect.hasAttribute( extendsAttribute ) ) {
-				inspect( traverse( null, toInspect.getAttribute( extendsAttribute ), false ), toAddTo );
+			if ( entity.hasAttribute( extendsAttribute ) ) {
+				inspectTraits( traverse( null, entity.getAttribute( extendsAttribute ), false ), toAddTo );
 			}
 		}
 
 		// Next, for each child...
 
 		Element element = document.createElementNS( NAMESPACE, ENTITY );
-		NodeList children = toInspect.getChildNodes();
+		Element trait = XmlUtils.getFirstChildElement( entity );
 
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ ) {
-			Node child = children.item( loop );
-
-			if ( !( child instanceof Element ) ) {
-				continue;
-			}
+		while ( trait != null ) {
 
 			// ...inspect its attributes...
 
-			Element inspected = inspect( document, (Element) child );
+			Element inspectedTrait = inspectTrait( document, trait );
 
-			if ( inspected == null ) {
-				continue;
+			if ( inspectedTrait != null ) {
+				element.appendChild( inspectedTrait );
 			}
 
-			element.appendChild( inspected );
+			trait = XmlUtils.getNextSiblingElement( trait );
 		}
 
 		// ...and combine them all. Note the element may already exist from the superclass,
@@ -466,7 +460,17 @@ public abstract class BaseXmlInspector
 		XmlUtils.combineElements( toAddTo, element, NAME, NAME );
 	}
 
-	protected Element inspect( Document toAddTo, Element toInspect ) {
+	/**
+	 * Inspect the given Element and return a Map of attributes if it is a trait.
+	 * <p>
+	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
+	 * as a 'trait' - based on its own rules.
+	 *
+	 * @param toInspect
+	 *            DOM element to inspect
+	 */
+
+	protected Element inspectTrait( Document toAddTo, Element toInspect ) {
 
 		// Properties
 
@@ -501,9 +505,13 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is a property.
+	 * <p>
+	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
+	 * as a 'property' - based on its own rules. Does nothing by default.
 	 *
 	 * @param toInspect
 	 *            DOM element to inspect
+	 * @return a Map of the property's attributes, or null if this Element is not a property
 	 */
 
 	protected Map<String, String> inspectProperty( Element toInspect ) {
@@ -513,9 +521,13 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is an action.
+	 * <p>
+	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
+	 * as an 'action' - based on its own rules. Does nothing by default.
 	 *
 	 * @param toInspect
 	 *            DOM element to inspect
+	 * @return a Map of the property's attributes, or null if this Element is not an action
 	 */
 
 	protected Map<String, String> inspectAction( Element toInspect ) {
@@ -532,7 +544,8 @@ public abstract class BaseXmlInspector
 		Object traverseAgainstObject = null;
 
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
-			traverseAgainstObject = traverseAgainstObject( toTraverse, typeToInspect, onlyToParent, namesToInspect );
+			Pair<Object, Class<?>> pair = InspectorUtils.traverse( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
+			traverseAgainstObject = pair.getLeft();
 
 			if ( traverseAgainstObject == null ) {
 				return null;
@@ -705,81 +718,5 @@ public abstract class BaseXmlInspector
 	protected String getExtendsAttribute() {
 
 		return null;
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Traverses the given Object using properties of the given names.
-	 * <p>
-	 * Note: traversal involves calling Property.read, which invokes getter methods and can
-	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
-	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
-	 * the database.
-	 */
-
-	private Object traverseAgainstObject( Object toTraverse, String type, boolean onlyToParent, String... names ) {
-
-		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
-		//
-		// (note: for Groovy dynamic classes, this needs the applet to be signed - I think this is
-		// still better than 'relaxing' this sanity check, as that would lead to differing behaviour
-		// when deployed as an unsigned applet versus a signed applet)
-
-		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
-
-		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) ) {
-			return null;
-		}
-
-		// Traverse through names (if any)
-
-		Object traverse = toTraverse;
-
-		if ( names != null && names.length > 0 ) {
-			Set<Object> traversed = CollectionUtils.newHashSet();
-			traversed.add( traverse );
-
-			int length = names.length;
-
-			for ( int loop = 0; loop < length; loop++ ) {
-				String name = names[loop];
-				Property property = mRestrictAgainstObject.getProperties( traverse.getClass() ).get( name );
-
-				if ( property == null || !property.isReadable() ) {
-					return null;
-				}
-
-				Object parentTraverse = traverse;
-				traverse = property.read( traverse );
-
-				// Detect cycles and nip them in the bud
-
-				if ( !traversed.add( traverse ) ) {
-					// Trace, rather than do a debug log, because it makes for a nicer 'out
-					// of the box' experience
-
-					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider marking {3} as hidden=''true''", ClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
-					return null;
-				}
-
-				// Always come in this loop once, even if onlyToParent, because we
-				// want to do the recursion check
-
-				if ( onlyToParent && loop >= length - 1 ) {
-					return parentTraverse;
-				}
-
-				if ( traverse == null ) {
-					return null;
-				}
-
-				traverseDeclaredType = property.getType();
-			}
-		}
-
-		return traverse;
 	}
 }

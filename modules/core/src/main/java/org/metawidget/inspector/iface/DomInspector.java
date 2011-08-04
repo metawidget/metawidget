@@ -42,5 +42,9 @@ public interface DomInspector<E>
 	// Methods
 	//
 
+	/**
+	 * Optimized verison of <code>inspect</code> that avoids DOM serialization/deserialization.
+	 */
+
 	E inspectAsDom( Object toInspect, String type, String... names );
 }

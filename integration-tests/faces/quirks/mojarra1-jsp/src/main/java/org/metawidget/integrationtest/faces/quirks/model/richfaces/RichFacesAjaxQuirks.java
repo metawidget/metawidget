@@ -18,11 +18,11 @@ package org.metawidget.integrationtest.faces.quirks.model.richfaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.faces.UiFacesAjax;
-import org.metawidget.inspector.faces.UiFacesAttribute;
 
 /**
  * Models an entity that tests some RichFaces-AJAX-specific quirks.
@@ -58,7 +58,7 @@ public class RichFacesAjaxQuirks {
 		mSelect = select;
 	}
 
-	@UiFacesAttribute( name = HIDDEN, expression = "#{this.select != 'Show'}" )
+	@UiAttribute( name = HIDDEN, value = "#{_this.select != 'Show'}" )
 	@UiFacesAjax( event = "onclick", action = "#{richQuirksAjax.updateLabel}" )
 	@UiComesAfter( "select" )
 	public boolean isCheckbox() {

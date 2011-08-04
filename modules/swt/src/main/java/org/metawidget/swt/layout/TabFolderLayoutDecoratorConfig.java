@@ -23,7 +23,6 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.simple.ObjectUtils;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Configures a TabFolderLayoutDecorator prior to use. Once instantiated, Layouts are immutable.

@@ -51,7 +51,7 @@ public class BaseObjectInspectorConfig {
 	private static ActionStyle		DEFAULT_ACTION_STYLE;
 
 	//
-	// Private members
+	// Protected members
 	//
 
 	protected PropertyStyle			mPropertyStyle;

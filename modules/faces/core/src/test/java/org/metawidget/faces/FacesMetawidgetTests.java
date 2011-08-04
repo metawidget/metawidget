@@ -1184,6 +1184,10 @@ public class FacesMetawidgetTests {
 				throw new EvaluationException( "Forced error" );
 			}
 
+			if ( "#{null}".equals( mExpressionString ) ) {
+				return null;
+			}
+
 			return "result of " + mExpressionString;
 		}
 

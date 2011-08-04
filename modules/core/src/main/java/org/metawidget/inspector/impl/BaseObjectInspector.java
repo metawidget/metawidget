@@ -21,7 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 
 import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.InspectorException;
@@ -29,14 +28,11 @@ import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
-import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.Pair;
-import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -59,7 +55,7 @@ import org.w3c.dom.Element;
  * <em>directly</em> at a type (ie. names == null), it will return properties even if the actual
  * value is null. This is important so we can inspect parameterized types of Collections without
  * having to iterate over and grab the first element in that Collection.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -145,9 +141,11 @@ public abstract class BaseObjectInspector
 			if ( names != null && names.length > 0 ) {
 				// ...inspect its property for useful annotations...
 
-				Pair<Object, Class<?>> pair = traverse( toInspect, type, true, names );
+				Pair<Object, Class<?>> pair = InspectorUtils.traverse( mPropertyStyle, toInspect, type, true, names );
 
-				if ( pair == null ) {
+				Object parent = pair.getLeft();
+
+				if ( parent == null ) {
 					return null;
 				}
 
@@ -156,7 +154,6 @@ public abstract class BaseObjectInspector
 				// Use the actual, runtime class (tuple[0].getClass()) not the declared class
 				// (tuple[1]), in case the declared class is an interface or subclass
 
-				Object parent = pair.getLeft();
 				Class<?> parentType = parent.getClass();
 
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
@@ -178,14 +175,13 @@ public abstract class BaseObjectInspector
 			// ...otherwise, just start at the end point
 
 			else {
-				Pair<Object, Class<?>> pair = traverse( toInspect, type, false );
-
-				if ( pair == null ) {
-					return null;
-				}
-
+				Pair<Object, Class<?>> pair = InspectorUtils.traverse( mPropertyStyle, toInspect, type, false );
 				childToInspect = pair.getLeft();
 				declaredChildType = pair.getRight();
+
+				if ( declaredChildType == null ) {
+					return null;
+				}
 			}
 
 			Document document = XmlUtils.newDocument();
@@ -202,12 +198,12 @@ public abstract class BaseObjectInspector
 				// to iterate over and grab the first element in that Collection
 
 				if ( names == null || names.length == 0 ) {
-					inspect( childToInspect, declaredChildType, entity );
+					inspectTraits( childToInspect, declaredChildType, entity );
 				}
 			} else {
 				Class<?> actualChildType = childToInspect.getClass();
 				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
-				inspect( childToInspect, actualChildType, entity );
+				inspectTraits( childToInspect, actualChildType, entity );
 			}
 
 			// Add parent attributes (if any)
@@ -256,9 +252,8 @@ public abstract class BaseObjectInspector
 	 * Inspect the parent property leading to the <code>toInspect</code>. Often the parent property
 	 * contains useful annotations, such as <code>UiLookup</code>.
 	 * <p>
-	 * This method can be overridden by clients wishing to modify the parent inspection process (eg.
-	 * <code>JexlInspector</code>)
-	 *
+	 * This method can be overridden by clients wishing to modify the parent inspection process.
+	 * 
 	 * @param parentToInspect
 	 *            the parent to inspect. Never null
 	 * @param propertyInParent
@@ -286,10 +281,10 @@ public abstract class BaseObjectInspector
 	/**
 	 * Inspect the <code>toInspect</code> for properties and actions.
 	 * <p>
-	 * This method can be overridden by clients wishing to modify the inspection process (eg.
-	 * <code>JexlInspector</code>). Most clients will find it easier to override one of the
-	 * sub-methods, such as <code>inspectTrait</code> or <code>inspectProperty</code>.
-	 *
+	 * This method can be overridden by clients wishing to modify the inspection process. Most
+	 * clients will find it easier to override one of the sub-methods, such as
+	 * <code>inspectTrait</code> or <code>inspectProperty</code>.
+	 * 
 	 * @param toInspect
 	 *            the object to inspect. May be null
 	 * @param clazz
@@ -297,7 +292,7 @@ public abstract class BaseObjectInspector
 	 *            toInspect. If toInspect is null, will be the class to lookup
 	 */
 
-	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
+	protected void inspectTraits( Object toInspect, Class<?> classToInspect, Element toAddTo )
 		throws Exception {
 
 		Document document = toAddTo.getOwnerDocument();
@@ -351,8 +346,9 @@ public abstract class BaseObjectInspector
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
 	 * <p>
-	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
-	 *
+	 * Does nothing by default. For example usage, see <code>PropertyTypeInspector</code> and
+	 * <code>Java5Inspector</code>.
+	 * 
 	 * @param declaredClass
 	 *            the class passed to <code>inspect</code>, or the class declared by the Object's
 	 *            parent (ie. its getter method)
@@ -381,7 +377,9 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 *
+	 * <p>
+	 * Does nothing by default.
+	 * 
 	 * @param trait
 	 *            the trait to inspect
 	 */
@@ -398,7 +396,9 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 *
+	 * <p>
+	 * Does nothing by default.
+	 * 
 	 * @param property
 	 *            the property to inspect
 	 */
@@ -415,7 +415,9 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 *
+	 * <p>
+	 * Does nothing by default.
+	 * 
 	 * @param action
 	 *            the action to inspect
 	 */
@@ -434,8 +436,9 @@ public abstract class BaseObjectInspector
 	 * <classname>TYPE</classname>), but it is expensive (as it requires invoking the property's
 	 * getter to retrieve the value) so is <code>false</code> by default.
 	 * <p>
-	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
-	 *
+	 * Returns <code>false</code> by default. For example usage, see
+	 * <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
+	 * 
 	 * @param property
 	 *            the property to inspect
 	 */
@@ -537,7 +540,7 @@ public abstract class BaseObjectInspector
 	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than creating
 	 * and serializing an XML document, which <code>CompositeInspector</code> then deserializes and
 	 * merges, all for no meaningful content.
-	 *
+	 * 
 	 * @return true if the inspection is 'empty'
 	 */
 
@@ -552,102 +555,5 @@ public abstract class BaseObjectInspector
 		}
 
 		return true;
-	}
-
-	/**
-	 * Traverses the given Object using properties of the given names.
-	 * <p>
-	 * Note: traversal involves calling Property.read, which invokes getter methods and can
-	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
-	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
-	 * the database.
-	 *
-	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
-	 *         returns null.
-	 */
-
-	private Pair<Object, Class<?>> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
-
-		// Special support for direct class lookup
-
-		if ( toTraverse == null ) {
-			// If there are names, return null
-
-			if ( onlyToParent ) {
-				return null;
-			}
-
-			// If no such class, return null
-
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz == null ) {
-				return null;
-			}
-
-			return new Pair<Object, Class<?>>( null, clazz );
-		}
-
-		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
-		//
-		// (note: for Groovy dynamic classes, this needs the applet to be signed - I think this is
-		// still better than 'relaxing' this sanity check, as that would lead to differing behaviour
-		// when deployed as an unsigned applet versus a signed applet)
-
-		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
-
-		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) ) {
-			return null;
-		}
-
-		// Traverse through names (if any)
-
-		Object traverse = toTraverse;
-
-		if ( names != null && names.length > 0 ) {
-			Set<Object> traversed = CollectionUtils.newHashSet();
-			traversed.add( traverse );
-
-			int length = names.length;
-
-			for ( int loop = 0; loop < length; loop++ ) {
-				String name = names[loop];
-				Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
-
-				if ( property == null || !property.isReadable() ) {
-					return null;
-				}
-
-				Object parentTraverse = traverse;
-				traverse = property.read( traverse );
-
-				// Unlike BaseXmlInspector (which can never be certain it has detected a
-				// cyclic reference because it only looks at types, not objects),
-				// BaseObjectInspector can detect cycles and nip them in the bud
-
-				if ( !traversed.add( traverse ) ) {
-					// Trace, rather than do a debug log, because it makes for a nicer 'out
-					// of the box' experience
-
-					mLog.trace( "{0} prevented infinite recursion on {1}{2}. Consider annotating {3} as @UiHidden", ClassUtils.getSimpleName( getClass() ), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
-					return null;
-				}
-
-				// Always come in this loop once, even if onlyToParent, because we
-				// want to do the recursion check
-
-				if ( onlyToParent && loop >= length - 1 ) {
-					return new Pair<Object, Class<?>>( parentTraverse, traverseDeclaredType );
-				}
-
-				if ( traverse == null ) {
-					return null;
-				}
-
-				traverseDeclaredType = property.getType();
-			}
-		}
-
-		return new Pair<Object, Class<?>>( traverse, traverseDeclaredType );
 	}
 }

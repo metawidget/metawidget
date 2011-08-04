@@ -66,7 +66,7 @@ public class BasePipelineTest
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"><bar/></entity></inspection-result>" );
 
 		try {
-			pipeline.buildCompoundWidget( XmlUtils.getElementAt( document.getDocumentElement(), 0 ) );
+			pipeline.buildCompoundWidget( XmlUtils.getFirstChildElement( document.getDocumentElement() ) );
 			assertTrue( false );
 		} catch ( Exception e ) {
 			assertEquals( "Child element #1 should be property or action, not bar", e.getMessage() );
@@ -77,7 +77,7 @@ public class BasePipelineTest
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"><property/></entity></inspection-result>" );
 
 		try {
-			pipeline.buildCompoundWidget( XmlUtils.getElementAt( document.getDocumentElement(), 0 ) );
+			pipeline.buildCompoundWidget( XmlUtils.getFirstChildElement( document.getDocumentElement() ) );
 			assertTrue( false );
 		} catch ( Exception e ) {
 			assertEquals( "Child element #1 has no @name", e.getMessage() );

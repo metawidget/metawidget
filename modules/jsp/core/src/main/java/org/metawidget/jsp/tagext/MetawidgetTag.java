@@ -19,7 +19,6 @@ package org.metawidget.jsp.tagext;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -472,72 +471,39 @@ public abstract class MetawidgetTag
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
 		String type = typeAndNames.getType();
 
-		// Inject the PageContext (in case it is used)
+		// Inspect using the 'raw' type (eg. contactForm)
 
-		try {
-			Class<?> jspAnnotationInspectorClass = Class.forName( "org.metawidget.inspector.jsp.JspAnnotationInspector" );
-			Method method = jspAnnotationInspectorClass.getMethod( "setThreadLocalPageContext", PageContext.class );
-			method.invoke( null, pageContext );
-		} catch ( ClassNotFoundException e ) {
-			// Fail gracefully (if running without JspAnnotationInspector installed)
-		} catch ( UnsupportedClassVersionError e ) {
-			// Fail gracefully (if running without annotations)
-		} catch( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
+		Element inspectionResult = mPipeline.inspectAsDom( null, type, typeAndNames.getNamesAsArray() );
 
-		try
-		{
-			// Inspect using the 'raw' type (eg. contactForm)
+		// (pageContext may be null in unit tests)
 
-			Element inspectionResult = mPipeline.inspectAsDom( null, type, typeAndNames.getNamesAsArray() );
+		if ( pageContext != null ) {
+			// Try to locate the runtime bean. This allows some Inspectors
+			// to act on it polymorphically.
 
-			// (pageContext may be null in unit tests)
+			Object obj = pageContext.findAttribute( type );
 
-			if ( pageContext != null ) {
-				// Try to locate the runtime bean. This allows some Inspectors
-				// to act on it polymorphically.
+			if ( obj != null ) {
+				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
+				Element additionalInspectionResult = mPipeline.inspectAsDom( obj, type, typeAndNames.getNamesAsArray() );
 
-				Object obj = pageContext.findAttribute( type );
+				// Combine the subtrees
+				//
+				// Note the top-level types attribute will be different, because one is the 'raw'
+				// type (eg. contactForm) and one the runtime bean (eg.
+				// org.metawidget.example.struts.addressbook.form.BusinessContactForm)
 
-				if ( obj != null ) {
-					type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-					Element additionalInspectionResult = mPipeline.inspectAsDom( obj, type, typeAndNames.getNamesAsArray() );
-
-					// Combine the subtrees
-					//
-					// Note the top-level types attribute will be different, because one is the 'raw'
-					// type (eg. contactForm) and one the runtime bean (eg.
-					// org.metawidget.example.struts.addressbook.form.BusinessContactForm)
-
-					if ( inspectionResult == null ) {
-						inspectionResult = additionalInspectionResult;
-					} else if ( additionalInspectionResult != null ) {
-						Element inspectionResultEntity = XmlUtils.getElementAt( inspectionResult, 0 );
-						Element additionalInspectionResultEntity = XmlUtils.getElementAt( additionalInspectionResult, 0 );
-						XmlUtils.combineElements( inspectionResultEntity, additionalInspectionResultEntity, NAME, null );
-					}
+				if ( inspectionResult == null ) {
+					inspectionResult = additionalInspectionResult;
+				} else if ( additionalInspectionResult != null ) {
+					Element inspectionResultEntity = XmlUtils.getFirstChildElement( inspectionResult );
+					Element additionalInspectionResultEntity = XmlUtils.getFirstChildElement( additionalInspectionResult );
+					XmlUtils.combineElements( inspectionResultEntity, additionalInspectionResultEntity, NAME, null );
 				}
 			}
-
-			return inspectionResult;
-
-		} finally {
-
-			// Important to clean up to support webapp undeployment
-
-			try {
-				Class<?> jspAnnotationInspectorClass = Class.forName( "org.metawidget.inspector.jsp.JspAnnotationInspector" );
-				Method method = jspAnnotationInspectorClass.getMethod( "setThreadLocalPageContext", PageContext.class );
-				method.invoke( null, (PageContext) null );
-			} catch ( ClassNotFoundException e ) {
-				// Fail gracefully (if running without JspAnnotationInspector installed)
-			} catch ( UnsupportedClassVersionError e ) {
-				// Fail gracefully (if running without annotations)
-			} catch( Exception e ) {
-				throw MetawidgetException.newException( e );
-			}
 		}
+
+		return inspectionResult;
 	}
 
 	protected void configure() {

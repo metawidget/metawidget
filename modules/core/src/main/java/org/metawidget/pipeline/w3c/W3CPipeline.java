@@ -118,17 +118,16 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 		return XmlUtils.nodeToString( element, false );
 	}
 
-
 	@Override
-	protected int getChildCount( Element element ) {
+	protected Element getFirstChildElement( Element parent ) {
 
-		return element.getChildNodes().getLength();
+		return XmlUtils.getFirstChildElement( parent );
 	}
 
 	@Override
-	protected Element getChildAt( Element element, int index ) {
+	protected Element getNextSiblingElement( Element element ) {
 
-		return XmlUtils.getElementAt( element, index );
+		return XmlUtils.getNextSiblingElement( element );
 	}
 
 	@Override

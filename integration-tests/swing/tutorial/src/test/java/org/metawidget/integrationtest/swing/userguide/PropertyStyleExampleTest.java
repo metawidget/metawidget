@@ -67,7 +67,7 @@ public class PropertyStyleExampleTest
 		protected Map<String, Property> inspectProperties( Class<?> clazz ) {
 
 			try {
-				Map<String, Property> properties = CollectionUtils.newHashMap();
+				Map<String, Property> properties = CollectionUtils.newTreeMap();
 				ResourceBundle bundle = ResourceBundle.getBundle( "org/metawidget/integrationtest/swing/userguide/Bundle" );
 
 				for ( Enumeration<String> e = bundle.getKeys(); e.hasMoreElements(); ) {

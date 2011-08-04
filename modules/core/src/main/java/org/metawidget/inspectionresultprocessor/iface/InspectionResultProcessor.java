@@ -51,12 +51,17 @@ public interface InspectionResultProcessor<M>
 	 * @param inspectionResult
 	 *            the inspection result to process, as XML conforming to inspection-result-1.0.xsd.
 	 *            Never null
+	 * @param metawidget
+	 *            the parent Metawidget. Never null. May be useful to help processing
+	 * @param toInspect
+	 *            the Object being inspected. May be useful to help processing
+	 * @param type
+	 *            the type being inspected. May be useful to help processing
+	 * @param names
+	 *            the names being inspected. May be useful to help processing
 	 * @return the processed inspection result, as XML conforming to inspection-result-1.0.xsd. Can
 	 *         be null if the InspectionResultProcessor wishes to cancel the inspection
 	 */
 
-	// REFACTOR: if this also took Object toInspect, we could do a JexlInspectionResultProcessor and
-	// implement a cleaner createContext
-
-	String processInspectionResult( String inspectionResult, M metawidget );
+	String processInspectionResult( String inspectionResult, M metawidget, Object toInspect, String type, String... names );
 }

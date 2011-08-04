@@ -47,7 +47,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 
 		// Test result
 
@@ -77,7 +77,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 
 		// Test result
 
@@ -107,7 +107,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 
 		// Test result
 
@@ -138,7 +138,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 
 		// Test result
 
@@ -170,7 +170,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 
 		// Test result
 
@@ -202,7 +202,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 
 		// Test result
 
@@ -231,7 +231,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 			// Run processor
 
-			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 			assertTrue( false );
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but baz comes at the end, but foo comes after bar", e.getMessage() );
@@ -249,7 +249,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 			// Run processor
 
-			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null );
+			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
 			assertTrue( false );
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "'bar' comes-after itself", e.getMessage() );
@@ -273,7 +273,7 @@ public class ComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( prettyXml, null );
+		String outputXml = new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( prettyXml, null, null, null );
 
 		// Test result
 

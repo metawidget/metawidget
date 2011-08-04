@@ -9,15 +9,21 @@
 				<inspectors>
 					<array>
 						<swingAppFrameworkInspector xmlns="java:org.metawidget.inspector.swing"/>
-						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<actionStyle>
 								<swingAppFrameworkActionStyle xmlns="java:org.metawidget.inspector.impl.actionstyle.swing"/>
 							</actionStyle>
-						</jexlInspector>
+						</metawidgetAnnotationInspector>
 					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<inspectionResultProcessors>
+			<array>
+				<jexlInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.commons.jexl"/>
+				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort"/>
+			</array>
+		</inspectionResultProcessors>		
 	</swingMetawidget>
 
 </metawidget>

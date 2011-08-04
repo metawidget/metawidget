@@ -976,7 +976,8 @@ public class CastorInspector
 					interface that defines only one method:
 				</para>
 				
-				<programlisting language="java">String processInspectionResult( String inspectionResult, M metawidget );</programlisting>
+				<programlisting language="java">String processInspectionResult( String inspectionResult, M metawidget, Object toInspect,
+                                String type, String... names );</programlisting>
 				
 				<para>
 					The <classname>InspectionResultProcessor</classname> must returned the processed inspection result as XML
@@ -1104,12 +1105,14 @@ public class CastorInspector
 						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;array&gt;
+	&lt;facesInspectionResultProcessor /&gt;
 	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>JSP</td>
 							<td><programlisting language="xml">&lt;array&gt;
+	&lt;jspInspectionResultProcessor /&gt;
 	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
@@ -1193,7 +1196,8 @@ public class Main {
 	<symbol>static class IncludingInspectionResultProcessor
 		implements InspectionResultProcessor&lt;SwingMetawidget&gt; {
 		
-		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget ) {
+		public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget,
+		                                       Object toInspect, String type, String... names ) {
 		
 			String[] includes = (String[]) metawidget.getClientProperty( "include" );
 			Document document = XmlUtils.documentFromString( inspectionResult );

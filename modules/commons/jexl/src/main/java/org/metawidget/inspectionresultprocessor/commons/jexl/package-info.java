@@ -14,35 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util;
-
 /**
- * Utilities for working with Threads
+ * Inspection Result Processors: Commons JEXL support.
  *
  * @author Richard Kennard
  */
 
-public final class ThreadUtils {
-
-	//
-	// Public statics
-	//
-
-	/**
-	 * Type-safe initializer.
-	 */
-
-	public static final <K> ThreadLocal<K> newThreadLocal() {
-
-		return new ThreadLocal<K>();
-	}
-
-	//
-	// Private constructor
-	//
-
-	private ThreadUtils() {
-
-		// Can never be called
-	}
-}
+package org.metawidget.inspectionresultprocessor.commons.jexl;

@@ -273,7 +273,7 @@ public class CompositeInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "foo", entity.getAttribute( TYPE ) );
-		assertEquals( null, XmlUtils.getElementAt( entity, 0 ) );
+		assertEquals( null, XmlUtils.getFirstChildElement( entity ) );
 
 		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector1, inspector2 ) );
 		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "bar" ) );
@@ -281,7 +281,7 @@ public class CompositeInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "foo", entity.getAttribute( TYPE ) );
-		assertEquals( null, XmlUtils.getElementAt( entity, 0 ) );
+		assertEquals( null, XmlUtils.getFirstChildElement( entity ) );
 
 		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector2, inspector1 ) );
 		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "baz" ) );
@@ -289,7 +289,7 @@ public class CompositeInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "bar", entity.getAttribute( TYPE ) );
-		Element property = XmlUtils.getElementAt( entity, 0 );
+		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "abc", property.getAttribute( NAME ) );
 		assertEquals( null, property.getNextSibling() );
@@ -300,7 +300,7 @@ public class CompositeInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "foo", entity.getAttribute( TYPE ) );
-		assertEquals( null, XmlUtils.getElementAt( entity, 0 ) );
+		assertEquals( null, XmlUtils.getFirstChildElement( entity ) );
 
 		compositeInspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector2, inspector1, inspector3 ) );
 		document = XmlUtils.documentFromString( compositeInspector.inspect( null, "baz" ) );
@@ -308,7 +308,7 @@ public class CompositeInspectorTest
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "bar", entity.getAttribute( TYPE ) );
-		property = XmlUtils.getElementAt( entity, 0 );
+		property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "abc", property.getAttribute( NAME ) );
 		property = (Element) property.getNextSibling();

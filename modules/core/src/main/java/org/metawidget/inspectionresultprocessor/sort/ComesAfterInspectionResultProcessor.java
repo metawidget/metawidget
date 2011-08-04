@@ -25,14 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
-import org.metawidget.inspectionresultprocessor.impl.BaseDomInspectionResultProcessor;
+import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Sorts an inspection result by any <code>comes-after</code> attributes.
@@ -44,13 +42,14 @@ import org.w3c.dom.NodeList;
  */
 
 public class ComesAfterInspectionResultProcessor<M>
-	extends BaseDomInspectionResultProcessor<M> {
+	extends BaseInspectionResultProcessor<M> {
 
 	//
 	// Public methods
 	//
 
-	public Element processInspectionResultAsDom( Element inspectionResultRoot, M metawidget ) {
+	@Override
+	public Element processInspectionResultAsDom( Element inspectionResult, M metawidget, Object toInspect, String type, String... names ) {
 
 		try {
 			// Start a new document
@@ -58,37 +57,31 @@ public class ComesAfterInspectionResultProcessor<M>
 			// (Android 1.1 did not cope well with shuffling the nodes of an existing document)
 
 			Document newDocument = XmlUtils.newDocument();
-			Element newInspectionResultRoot = newDocument.createElementNS( NAMESPACE, ROOT );
-			XmlUtils.setMapAsAttributes( newInspectionResultRoot, XmlUtils.getAttributesAsMap( inspectionResultRoot ) );
-			newDocument.appendChild( newInspectionResultRoot );
+			Element newInspectionResult = newDocument.createElementNS( NAMESPACE, ROOT );
+			XmlUtils.setMapAsAttributes( newInspectionResult, XmlUtils.getAttributesAsMap( inspectionResult ) );
+			newDocument.appendChild( newInspectionResult );
 
-			Element entity = XmlUtils.getElementAt( inspectionResultRoot, 0 );
+			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
 			Element newEntity = newDocument.createElementNS( NAMESPACE, ENTITY );
 			XmlUtils.setMapAsAttributes( newEntity, XmlUtils.getAttributesAsMap( entity ) );
-			newInspectionResultRoot.appendChild( newEntity );
+			newInspectionResult.appendChild( newEntity );
 
 			// Record all traits (ie. properties/actions) that have comes-after
 
 			Map<Element, String[]> traitsWithComesAfter = new LinkedHashMap<Element, String[]>();
-			NodeList traits = entity.getChildNodes();
+			Element trait = XmlUtils.getFirstChildElement( entity );
 
-			for ( int loop = 0, length = traits.getLength(); loop < length; loop++ ) {
-				Node node = traits.item( loop );
-
-				if ( !( node instanceof Element ) ) {
-					continue;
-				}
-
-				Element trait = (Element) node;
+			while( trait != null ) {
 
 				// (if no comes-after, move them across to the new document)
 
-				if ( !hasComesAfter( trait, metawidget ) ) {
+				if ( hasComesAfter( trait, metawidget ) ) {
+					traitsWithComesAfter.put( trait, ArrayUtils.fromString( getComesAfter( trait, metawidget ) ) );
+				} else {
 					newEntity.appendChild( XmlUtils.importElement( newDocument, trait ) );
-					continue;
 				}
 
-				traitsWithComesAfter.put( trait, ArrayUtils.fromString( getComesAfter( trait, metawidget ) ) );
+				trait = XmlUtils.getNextSiblingElement( trait );
 			}
 
 			// Next, sort the traits
@@ -105,7 +98,7 @@ public class ComesAfterInspectionResultProcessor<M>
 				infiniteLoop--;
 
 				if ( infiniteLoop < 0 ) {
-					List<String> names = CollectionUtils.newArrayList();
+					List<String> comesAfterNames = CollectionUtils.newArrayList();
 
 					for ( Map.Entry<Element, String[]> entry : traitsWithComesAfter.entrySet() ) {
 
@@ -117,14 +110,14 @@ public class ComesAfterInspectionResultProcessor<M>
 							value = "after " + ArrayUtils.toString( entry.getValue(), " and " );
 						}
 
-						names.add( entry.getKey().getAttribute( NAME ) + " comes " + value );
+						comesAfterNames.add( entry.getKey().getAttribute( NAME ) + " comes " + value );
 					}
 
 					// (sort for unit tests)
 
-					Collections.sort( names );
+					Collections.sort( comesAfterNames );
 
-					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( names, ", but " ) );
+					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( comesAfterNames, ", but " ) );
 				}
 
 				// For each entry in the Map...
@@ -167,29 +160,18 @@ public class ComesAfterInspectionResultProcessor<M>
 
 						// Insert it at the earliest point. This seems most 'natural'
 
-						NodeList newTraits = newEntity.getChildNodes();
-						Node insertBefore = newTraits.item( 0 );
+						Element newTrait = XmlUtils.getFirstChildElement( newEntity );
+						Element insertBefore = newTrait;
 
-						for ( int loop = 0, last = newTraits.getLength() - 1; loop <= last; loop++ ) {
-							Node node = newTraits.item( loop );
+						while( newTrait != null ) {
 
-							if ( !( node instanceof Element ) ) {
+							if ( ArrayUtils.contains( comesAfter, newTrait.getAttribute( NAME ) ) ) {
+								newTrait = XmlUtils.getNextSiblingElement( newTrait );
+								insertBefore = newTrait;
 								continue;
 							}
 
-							Element trait = (Element) node;
-
-							if ( !ArrayUtils.contains( comesAfter, trait.getAttribute( NAME ) ) ) {
-								continue;
-							}
-
-							// (Android throws an error for the last .getNextSibling)
-
-							if ( loop == last ) {
-								insertBefore = null;
-							} else {
-								insertBefore = trait.getNextSibling();
-							}
+							newTrait = XmlUtils.getNextSiblingElement( newTrait );
 						}
 
 						if ( insertBefore == null ) {
@@ -203,7 +185,7 @@ public class ComesAfterInspectionResultProcessor<M>
 				}
 			}
 
-			return newInspectionResultRoot;
+			return newInspectionResult;
 		} catch ( Exception e ) {
 			throw InspectionResultProcessorException.newException( e );
 		}
