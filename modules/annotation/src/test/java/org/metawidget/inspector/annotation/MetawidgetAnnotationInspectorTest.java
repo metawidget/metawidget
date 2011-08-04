@@ -124,16 +124,27 @@ public class MetawidgetAnnotationInspectorTest
 		assertEquals( TRUE, property.getAttribute( DONT_EXPAND ) );
 		assertEquals( TRUE, property.getAttribute( LARGE ) );
 		assertEquals( "object1", property.getAttribute( COMES_AFTER ) );
-		assertTrue( 11 == property.getAttributes().getLength() );
+		assertEquals( 11, property.getAttributes().getLength() );
 
-		Element action = (Element) property.getNextSibling();
+		property = XmlUtils.getNextSiblingElement( property );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "string2", property.getAttribute( NAME ) );
+		assertEquals( "abc-def", property.getAttribute( "abc" ) );
+		assertEquals( "abc-def", property.getAttribute( "def" ) );
+		assertEquals( "ghi-jkl", property.getAttribute( "ghi" ) );
+		assertEquals( "ghi-jkl", property.getAttribute( "jkl" ) );
+		assertEquals( "mno-pqr", property.getAttribute( "mno" ) );
+		assertEquals( "mno-pqr", property.getAttribute( "pqr" ) );
+		assertEquals( 7, property.getAttributes().getLength() );
+
+		Element action = XmlUtils.getNextSiblingElement( property );
 		assertEquals( ACTION, action.getNodeName() );
 		assertEquals( "doNothing", action.getAttribute( NAME ) );
 		assertEquals( "Bar", action.getAttribute( SECTION ) );
 		assertEquals( "string1", action.getAttribute( COMES_AFTER ) );
-		assertTrue( 3 == action.getAttributes().getLength() );
+		assertEquals( 3, action.getAttributes().getLength() );
 
-		assertTrue( null == action.getNextSibling() );
+		assertEquals( null, action.getNextSibling() );
 	}
 
 	public void testLookup() {
@@ -307,6 +318,10 @@ public class MetawidgetAnnotationInspectorTest
 		@UiComesAfter( "object1" )
 		@UiLarge
 		public String	string1;
+
+		@UiAttribute( name = { "abc", "def" }, value = "abc-def" )
+		@UiAttributes( { @UiAttribute( name = { "ghi", "jkl" }, value = "ghi-jkl" ), @UiAttribute( name = { "mno", "pqr" }, value = "mno-pqr" ) } )
+		public String	string2;
 
 		@UiAction
 		@UiComesAfter( "string1" )

@@ -106,10 +106,10 @@ public class MetawidgetAnnotationInspector
 
 		// UiAttribute
 
-		UiAttribute attribute = trait.getAnnotation( UiAttribute.class );
+		UiAttribute uiAttribute = trait.getAnnotation( UiAttribute.class );
 
-		if ( attribute != null ) {
-			attributes.put( attribute.name(), attribute.value() );
+		if ( uiAttribute != null ) {
+			putUiAttribute( uiAttribute, attributes );
 		}
 
 		// UiAttributes
@@ -117,8 +117,8 @@ public class MetawidgetAnnotationInspector
 		UiAttributes uiAttributes = trait.getAnnotation( UiAttributes.class );
 
 		if ( uiAttributes != null ) {
-			for ( UiAttribute nestedAttribute : uiAttributes.value() ) {
-				attributes.put( nestedAttribute.name(), nestedAttribute.value() );
+			for ( UiAttribute uiAttribute : uiAttributes.value() ) {
+				putUiAttribute( uiAttribute, attributes );
 			}
 		}
 
@@ -194,5 +194,16 @@ public class MetawidgetAnnotationInspector
 		}
 
 		return attributes;
+	}
+
+	//
+	// Private methods
+	//
+
+	private void putUiAttribute( UiAttribute uiAttribute, Map<String, String> attributes ) {
+
+		for ( String name : uiAttribute.name() ) {
+			attributes.put( name, uiAttribute.value() );
+		}
 	}
 }

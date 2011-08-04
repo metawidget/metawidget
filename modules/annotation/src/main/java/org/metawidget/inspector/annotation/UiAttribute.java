@@ -34,7 +34,21 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiAttribute {
 
-	String name();
+	/**
+	 * Attribute to set.
+	 * <p>
+	 * Multiple attributes can be specified if you need to set multiple attributes to the same
+	 * value.
+	 */
+
+	String[] name();
+
+	/**
+	 * Value to set the attribute to.
+	 * <p>
+	 * This can be an EL expression if using an <code>InspectionResultProcessor</code> such as
+	 * <code>FacesInspectionResultProcessor</code> or <code>JexlInspectionResultProcessor</code>.
+	 */
 
 	String value();
 }
