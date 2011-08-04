@@ -98,7 +98,7 @@ public class ContactController {
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiLabel( "${contactController.readOnly ? 'Back'}" )
+	@UiLabel( "${contactController.readOnly ? 'Back' : null}" )
 	public String cancel()
 		throws Exception {
 

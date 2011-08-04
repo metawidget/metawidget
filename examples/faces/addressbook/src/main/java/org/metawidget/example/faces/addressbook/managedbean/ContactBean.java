@@ -149,7 +149,7 @@ public class ContactBean {
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiLabel( "#{contact.readOnly ? 'Back'}" )
+	@UiLabel( "#{contact.readOnly ? 'Back' : null}" )
 	@UiAttribute( name = FACES_IMMEDIATE, value = "true" )
 	public String cancel()
 		throws Exception {

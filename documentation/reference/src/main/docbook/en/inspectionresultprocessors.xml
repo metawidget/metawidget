@@ -71,7 +71,7 @@
 public class ContactBean {
 
 	@UiAction
-	@UiLabel( "#{contact.readOnly ? 'Back'}" )
+	@UiLabel( "#{contact.readOnly ? 'Back' : null}" )
 	public void cancel() { ... }
 }</programlisting>
 
@@ -174,7 +174,7 @@ public class ContactDialog {
 public class ContactController {
 
 	@UiAction
-	@UiLabel( "${contactController.readOnly ? 'Back'}" )
+	@UiLabel( "${contactController.readOnly ? 'Back' : null}" )
 	public String cancel() { ... }
 }</programlisting>
 
