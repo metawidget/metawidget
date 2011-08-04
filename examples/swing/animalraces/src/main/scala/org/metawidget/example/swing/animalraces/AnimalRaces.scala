@@ -38,7 +38,7 @@ import org.metawidget.inspector.annotation._
 class Animal(
 	var name:String,
 	
-	@UiComesAfter( Array( "name" )) @UiAttribute{ val name = "minimum-value", val value = "0" }
+	@UiComesAfter( Array( "name" )) @UiAttribute{ val name = Array( "minimum-value" ), val value = "0" }
 	var delay:int,
 	
 	@UiLookup( Array( "Elephant", "Hippo", "Panda" )) @UiRequired @UiComesAfter
