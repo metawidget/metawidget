@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -39,6 +40,20 @@ import org.metawidget.util.CollectionUtils;
 public class FacesInspector
 	extends BaseObjectInspector {
 
+	//
+	// Constructor
+	//
+
+	public FacesInspector() {
+
+		this( new BaseObjectInspectorConfig() );
+	}
+
+	public FacesInspector( BaseObjectInspectorConfig config ) {
+
+		super( config );
+	}
+	
 	//
 	// Protected methods
 	//

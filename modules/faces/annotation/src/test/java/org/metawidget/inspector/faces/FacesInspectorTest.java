@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.FacesUtils;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +49,11 @@ public class FacesInspectorTest
 
 	public void testInspection() {
 
+		// Must support both config-less/config-based constructor
+
 		FacesInspector inspector = new FacesInspector();
+		inspector = new FacesInspector( new BaseObjectInspectorConfig() );
+
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );

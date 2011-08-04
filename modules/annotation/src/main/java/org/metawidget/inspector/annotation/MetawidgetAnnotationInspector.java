@@ -117,8 +117,8 @@ public class MetawidgetAnnotationInspector
 		UiAttributes uiAttributes = trait.getAnnotation( UiAttributes.class );
 
 		if ( uiAttributes != null ) {
-			for ( UiAttribute uiAttribute : uiAttributes.value() ) {
-				putUiAttribute( uiAttribute, attributes );
+			for ( UiAttribute nestedUiAttribute : uiAttributes.value() ) {
+				putUiAttribute( nestedUiAttribute, attributes );
 			}
 		}
 
