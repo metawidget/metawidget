@@ -137,7 +137,7 @@ public class JexlInspectionResultProcessor<M>
 
 		// For each attribute value...
 
-		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) ) {
+		for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
 
 			String key = entry.getKey();
 			String value = entry.getValue();

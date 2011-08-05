@@ -101,12 +101,14 @@ public class XmlUtils {
 
 		for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
 
-			if ( entry.getValue() == null ) {
+			String value = entry.getValue();
+
+			if ( value == null ) {
 				element.removeAttribute( entry.getKey() );
 				continue;
 			}
 
-			element.setAttribute( entry.getKey(), entry.getValue() );
+			element.setAttribute( entry.getKey(), value );
 		}
 	}
 

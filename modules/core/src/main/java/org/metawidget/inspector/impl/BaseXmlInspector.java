@@ -257,102 +257,117 @@ public abstract class BaseXmlInspector
 			return null;
 		}
 
-		try {
-			Pair<Element,String> pair;
-			Map<String, String> parentAttributes = null;
-			String typeAttribute = getTypeAttribute();
+		// "There's no requirement that a DOM be thread safe, so applications need to make sure that
+		// threads are properly synchronized for concurrent access to the DOM. This is true even if
+		// you're just invoking read operations"
+		//
+		// https://issues.apache.org/jira/browse/XERCESJ-727
 
-			// If the path has a parent...
+		synchronized ( mRoot ) {
+			try {
+				Pair<Element, String> pair;
+				Map<String, String> parentAttributes = null;
+				String typeAttribute = getTypeAttribute();
 
-			if ( names != null && names.length > 0 ) {
-				// ...inspect its property for useful attributes...
+				// If the path has a parent...
 
-				Element propertyInParent = traverse( toInspect, type, true, names ).getLeft();
+				if ( names != null && names.length > 0 ) {
+					// ...inspect its property for useful attributes...
 
-				if ( propertyInParent != null ) {
+					Element propertyInParent = traverse( toInspect, type, true, names ).getLeft();
 
-					parentAttributes = inspectProperty( propertyInParent );
+					if ( propertyInParent != null ) {
 
-					// If the property in the parent has no @type, then we cannot traverse to the
-					// child. Even if we wanted to just return the parent attributes, we have no
-					// @type to attach to the top-level 'entity' node. So we must fail hard here. If
-					// we just return 'null', we may silently ignore parent attributes (such as a
-					// lookup)
-					//
-					// This can cause problems in cases where, say, an XmlInspector (based on
-					// classes not objects) and a PropertyTypeInspector (based on objects not
-					// classes) both try and codify the same object graph. The PropertyTypeInspector
-					// will stop if the child value of a property is null, but the XmlInspector will
-					// carry on (because it has no way to know the PropertyTypeInspector has
-					// returned null)
-					//
-					// Note: this rule should never be triggered if the property has the
-					// 'dont-expand' attribute set, because we should never try to traverse the
-					// child
+						parentAttributes = inspectProperty( propertyInParent );
 
-					if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
-						throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+						// If the property in the parent has no @type, then we cannot traverse to
+						// the
+						// child. Even if we wanted to just return the parent attributes, we have no
+						// @type to attach to the top-level 'entity' node. So we must fail hard
+						// here. If
+						// we just return 'null', we may silently ignore parent attributes (such as
+						// a
+						// lookup)
+						//
+						// This can cause problems in cases where, say, an XmlInspector (based on
+						// classes not objects) and a PropertyTypeInspector (based on objects not
+						// classes) both try and codify the same object graph. The
+						// PropertyTypeInspector
+						// will stop if the child value of a property is null, but the XmlInspector
+						// will
+						// carry on (because it has no way to know the PropertyTypeInspector has
+						// returned null)
+						//
+						// Note: this rule should never be triggered if the property has the
+						// 'dont-expand' attribute set, because we should never try to traverse the
+						// child
+
+						if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
+							throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
+						}
+
+						pair = traverse( toInspect, propertyInParent.getAttribute( typeAttribute ), false );
+
+					} else if ( mRestrictAgainstObject != null ) {
+
+						pair = traverse( toInspect, type, false, names );
+
+						if ( pair.getLeft() == null ) {
+							return null;
+						}
+
+					} else {
+						return null;
 					}
-
-					pair = traverse( toInspect, propertyInParent.getAttribute( typeAttribute ), false );
-
-				} else if ( mRestrictAgainstObject != null ) {
+				} else {
+					// ...otherwise, just start at the end point
 
 					pair = traverse( toInspect, type, false, names );
 
 					if ( pair.getLeft() == null ) {
 						return null;
 					}
+				}
+
+				// TODO: JSP {40+2} boolean
+
+				Document document = XmlUtils.newDocument();
+				Element entity = document.createElementNS( NAMESPACE, ENTITY );
+
+				// Inspect traits
+
+				inspectTraits( pair.getLeft(), entity );
+
+				// Nothing of consequence to return?
+
+				if ( !entity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) ) {
+					return null;
+				}
+
+				Element root = document.createElementNS( NAMESPACE, ROOT );
+				root.setAttribute( VERSION, "1.0" );
+				document.appendChild( root );
+				root.appendChild( entity );
+
+				if ( parentAttributes != null ) {
+
+					// Add any parent attributes (including type)
+
+					XmlUtils.setMapAsAttributes( entity, parentAttributes );
 
 				} else {
-					return null;
+
+					// Use the declared type so as to align with other Inspectors
+
+					entity.setAttribute( TYPE, pair.getRight() );
 				}
-			} else {
-				// ...otherwise, just start at the end point
 
-				pair = traverse( toInspect, type, false, names );
+				// Return the root
 
-				if ( pair.getLeft() == null ) {
-					return null;
-				}
+				return root;
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
 			}
-
-			Document document = XmlUtils.newDocument();
-			Element entity = document.createElementNS( NAMESPACE, ENTITY );
-
-			// Inspect traits
-
-			inspectTraits( pair.getLeft(), entity );
-
-			// Nothing of consequence to return?
-
-			if ( !entity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) ) {
-				return null;
-			}
-
-			Element root = document.createElementNS( NAMESPACE, ROOT );
-			root.setAttribute( VERSION, "1.0" );
-			document.appendChild( root );
-			root.appendChild( entity );
-
-			if ( parentAttributes != null ) {
-
-				// Add any parent attributes (including type)
-
-				XmlUtils.setMapAsAttributes( entity, parentAttributes );
-
-			} else {
-
-				// Use the declared type so as to align with other Inspectors
-
-				entity.setAttribute( TYPE, pair.getRight() );
-			}
-
-			// Return the root
-
-			return root;
-		} catch ( Exception e ) {
-			throw InspectorException.newException( e );
 		}
 	}
 
