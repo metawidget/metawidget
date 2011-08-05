@@ -28,7 +28,6 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
@@ -36,7 +35,7 @@ import org.w3c.dom.Element;
 /**
  * Processes the inspection result and evaluates any expressions of the form <code>#{...}</code>
  * using JSF EL.
- * 
+ *
  * @author Richard Kennard
  */
 

@@ -30,7 +30,6 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorE
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.util.CollectionUtils;
 
 /**
  * Processes the inspection result and evaluates any expressions of the form <code>${...}</code>

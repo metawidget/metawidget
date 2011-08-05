@@ -55,12 +55,18 @@ import org.w3c.dom.Element;
  * <em>directly</em> at a type (ie. names == null), it will return properties even if the actual
  * value is null. This is important so we can inspect parameterized types of Collections without
  * having to iterate over and grab the first element in that Collection.
- * 
+ *
  * @author Richard Kennard
  */
 
 public abstract class BaseObjectInspector
 	implements DomInspector<Element> {
+
+	//
+	// Protected members
+	//
+
+	protected final Log			mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Private members
@@ -69,12 +75,6 @@ public abstract class BaseObjectInspector
 	private final PropertyStyle	mPropertyStyle;
 
 	private final ActionStyle	mActionStyle;
-
-	//
-	// Protected members
-	//
-
-	protected final Log			mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Constructors
@@ -253,7 +253,7 @@ public abstract class BaseObjectInspector
 	 * contains useful annotations, such as <code>UiLookup</code>.
 	 * <p>
 	 * This method can be overridden by clients wishing to modify the parent inspection process.
-	 * 
+	 *
 	 * @param parentToInspect
 	 *            the parent to inspect. Never null
 	 * @param propertyInParent
@@ -284,7 +284,7 @@ public abstract class BaseObjectInspector
 	 * This method can be overridden by clients wishing to modify the inspection process. Most
 	 * clients will find it easier to override one of the sub-methods, such as
 	 * <code>inspectTrait</code> or <code>inspectProperty</code>.
-	 * 
+	 *
 	 * @param toInspect
 	 *            the object to inspect. May be null
 	 * @param clazz
@@ -348,7 +348,7 @@ public abstract class BaseObjectInspector
 	 * <p>
 	 * Does nothing by default. For example usage, see <code>PropertyTypeInspector</code> and
 	 * <code>Java5Inspector</code>.
-	 * 
+	 *
 	 * @param declaredClass
 	 *            the class passed to <code>inspect</code>, or the class declared by the Object's
 	 *            parent (ie. its getter method)
@@ -379,7 +379,7 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 * <p>
 	 * Does nothing by default.
-	 * 
+	 *
 	 * @param trait
 	 *            the trait to inspect
 	 */
@@ -398,7 +398,7 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 * <p>
 	 * Does nothing by default.
-	 * 
+	 *
 	 * @param property
 	 *            the property to inspect
 	 */
@@ -417,7 +417,7 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 * <p>
 	 * Does nothing by default.
-	 * 
+	 *
 	 * @param action
 	 *            the action to inspect
 	 */
@@ -438,7 +438,7 @@ public abstract class BaseObjectInspector
 	 * <p>
 	 * Returns <code>false</code> by default. For example usage, see
 	 * <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
-	 * 
+	 *
 	 * @param property
 	 *            the property to inspect
 	 */
@@ -540,7 +540,7 @@ public abstract class BaseObjectInspector
 	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than creating
 	 * and serializing an XML document, which <code>CompositeInspector</code> then deserializes and
 	 * merges, all for no meaningful content.
-	 * 
+	 *
 	 * @return true if the inspection is 'empty'
 	 */
 

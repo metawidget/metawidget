@@ -95,7 +95,7 @@ import org.w3c.dom.Element;
  * Third, it is important the properties defined by the XML and the ones defined by the Java classes
  * stay in sync. To enforce this, you can set
  * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -108,11 +108,21 @@ public abstract class BaseXmlInspector
 
 	protected Log				mLog	= LogUtils.getLog( getClass() );
 
-	protected Element			mRoot;
-
 	//
 	// Private members
 	//
+
+	/**
+	 * Shared DOM to store this Inspector's source XML.
+	 * <p>
+	 * This member is private because, as <a
+	 * href="https://issues.apache.org/jira/browse/XERCESJ-727">pointed out here</a>: "There's no
+	 * requirement that a DOM be thread safe, so applications need to make sure that threads are
+	 * properly synchronized for concurrent access to [a shared] DOM. This is true even if you're
+	 * just invoking read operations".
+	 */
+
+	private Element				mRoot;
 
 	private final PropertyStyle	mRestrictAgainstObject;
 
@@ -258,8 +268,8 @@ public abstract class BaseXmlInspector
 		}
 
 		// "There's no requirement that a DOM be thread safe, so applications need to make sure that
-		// threads are properly synchronized for concurrent access to the DOM. This is true even if
-		// you're just invoking read operations"
+		// threads are properly synchronized for concurrent access to [a shared] DOM. This is true
+		// even if you're just invoking read operations"
 		//
 		// https://issues.apache.org/jira/browse/XERCESJ-727
 
@@ -281,22 +291,17 @@ public abstract class BaseXmlInspector
 						parentAttributes = inspectProperty( propertyInParent );
 
 						// If the property in the parent has no @type, then we cannot traverse to
-						// the
-						// child. Even if we wanted to just return the parent attributes, we have no
-						// @type to attach to the top-level 'entity' node. So we must fail hard
-						// here. If
-						// we just return 'null', we may silently ignore parent attributes (such as
-						// a
-						// lookup)
+						// the child. Even if we wanted to just return the parent attributes, we
+						// have no @type to attach to the top-level 'entity' node. So we must fail
+						// hard here. If we just return 'null', we may silently ignore parent
+						// attributes (such as a lookup)
 						//
 						// This can cause problems in cases where, say, an XmlInspector (based on
 						// classes not objects) and a PropertyTypeInspector (based on objects not
 						// classes) both try and codify the same object graph. The
-						// PropertyTypeInspector
-						// will stop if the child value of a property is null, but the XmlInspector
-						// will
-						// carry on (because it has no way to know the PropertyTypeInspector has
-						// returned null)
+						// PropertyTypeInspector will stop if the child value of a property is null,
+						// but the XmlInspector will carry on (because it has no way to know the
+						// PropertyTypeInspector has returned null)
 						//
 						// Note: this rule should never be triggered if the property has the
 						// 'dont-expand' attribute set, because we should never try to traverse the
@@ -377,7 +382,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Parse the given InputStreams into a single DOM Document, and return its root.
-	 *
+	 * 
 	 * @param resolver
 	 *            helper in case <code>getDocumentElement</code> needs to resolve references defined
 	 *            in the <code>InputStream</code>.
@@ -417,7 +422,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * For example, <code>HibernateInspector</code> preprocesses the class names in Hibernate
 	 * mapping files to make them fully qualified.
-	 *
+	 * 
 	 * @param document
 	 *            DOM of XML being processed
 	 */
@@ -474,7 +479,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
 	 * as a 'trait' - based on its own rules.
-	 *
+	 * 
 	 * @param toInspect
 	 *            DOM element to inspect
 	 */
@@ -517,7 +522,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
 	 * as a 'property' - based on its own rules. Does nothing by default.
-	 *
+	 * 
 	 * @param toInspect
 	 *            DOM element to inspect
 	 * @return a Map of the property's attributes, or null if this Element is not a property
@@ -533,7 +538,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
 	 * as an 'action' - based on its own rules. Does nothing by default.
-	 *
+	 * 
 	 * @param toInspect
 	 *            DOM element to inspect
 	 * @return a Map of the property's attributes, or null if this Element is not an action

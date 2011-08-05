@@ -26,7 +26,6 @@ import org.apache.commons.jexl.JexlHelper;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.InspectorUtils;
 import org.w3c.dom.Element;
 
