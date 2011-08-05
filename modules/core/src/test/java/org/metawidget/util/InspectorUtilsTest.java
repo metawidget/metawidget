@@ -16,7 +16,12 @@
 
 package org.metawidget.util;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
+
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.util.simple.Pair;
 
 /**
  * @author Richard Kennard
@@ -30,6 +35,97 @@ public class InspectorUtilsTest
 	//
 
 	public void testTraverse() {
-		// HIGH: test?
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+
+		// null with names
+
+		Pair<Object, Class<?>> pair = InspectorUtils.traverse( propertyStyle, null, Foo.class.getName(), false, "bar" );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+
+		// Return class
+
+		pair = InspectorUtils.traverse( propertyStyle, null, Foo.class.getName(), false );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( Foo.class, pair.getRight() );
+
+		// Not matching
+
+		pair = InspectorUtils.traverse( propertyStyle, new Date(), Foo.class.getName(), false );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+
+		// No names, but onlyToParent
+
+		Foo foo = new Foo();
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), true );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+
+		// Basic match
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false );
+		assertEquals( foo, pair.getLeft() );
+		assertEquals( Foo.class, pair.getRight() );
+
+		// Bad name
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false, "bad" );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+
+		// Basic traverse
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false, "bar" );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( String.class, pair.getRight() );
+
+		// Long traverse
+
+		Foo foo2 = new Foo();
+		foo.foo = foo2;
+		Foo foo3 = new Foo();
+		foo2.foo = foo3;
+		foo3.bar = "Bar";
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false, "foo", "foo", "bar" );
+		assertEquals( "Bar", pair.getLeft() );
+		assertEquals( String.class, pair.getRight() );
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false, "foo", "foo", "foo", "bar" );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+
+		// Traverse to parent
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), true, "bar" );
+		assertEquals( foo, pair.getLeft() );
+		assertEquals( Foo.class, pair.getRight() );
+
+		// Prevent recursion (silently)
+
+		foo.foo = foo;
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false );
+		assertEquals( foo, pair.getLeft() );
+		assertEquals( Foo.class, pair.getRight() );
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), false, "foo" );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+
+		pair = InspectorUtils.traverse( propertyStyle, foo, Foo.class.getName(), true, "foo" );
+		assertEquals( null, pair.getLeft() );
+		assertEquals( null, pair.getRight() );
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class Foo {
+
+		public String	bar;
+
+		public Foo		foo;
 	}
 }

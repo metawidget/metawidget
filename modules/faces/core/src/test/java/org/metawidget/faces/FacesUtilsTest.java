@@ -34,11 +34,6 @@ public class FacesUtilsTest
 
 		assertTrue( true == FacesUtils.isExpression( "#{foo}" ) );
 		assertTrue( false == FacesUtils.isExpression( "foo" ) );
-		assertTrue( true == FacesUtils.isExpression( "#{!empty bar ? '' : '#{foo}'}" ) );
-		assertTrue( true == FacesUtils.isExpression( "${!empty bar ? '' : '#{foo}'}" ) );
-		assertTrue( false == FacesUtils.isExpression( "#{!empty bar ? '' : '#{foo}'" ) );
-		assertTrue( false == FacesUtils.isExpression( "{!empty bar ? '' : '#{foo}'}" ) );
-		assertTrue( false == FacesUtils.isExpression( "#!empty bar ? '' : '#{foo}'}" ) );
 
 		assertEquals( "foo", FacesUtils.unwrapExpression( "#{foo}" ) );
 		assertEquals( "foo", FacesUtils.unwrapExpression( "foo" ) );

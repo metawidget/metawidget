@@ -56,7 +56,7 @@ public final class InspectorUtils {
 		if ( toTraverse == null ) {
 			// If there are names, return null
 
-			if ( onlyToParent ) {
+			if ( names != null && names.length > 0 ) {
 				return new Pair<Object, Class<?>>( null, null );
 			}
 
@@ -123,11 +123,20 @@ public final class InspectorUtils {
 					return new Pair<Object, Class<?>>( parentTraverse, traverseDeclaredType );
 				}
 
+				traverseDeclaredType = property.getType();
+
+				// If no object, return null
+
 				if ( traverse == null ) {
+
+					// If reached the end of the names, can at least say what the declared type was
+
+					if ( loop == length - 1 ) {
+						return new Pair<Object, Class<?>>( null, traverseDeclaredType );
+					}
+
 					return new Pair<Object, Class<?>>( null, null );
 				}
-
-				traverseDeclaredType = property.getType();
 			}
 		}
 

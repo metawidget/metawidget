@@ -117,7 +117,6 @@ public abstract class HtmlLayoutRenderer
 	 * @return whether a label was written
 	 */
 
-	@SuppressWarnings( "deprecation" )
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException {
 
@@ -148,7 +147,7 @@ public abstract class HtmlLayoutRenderer
 
 		// (any embedded expressions should have gotten evaluated by FacesInspectionResultProcessor)
 
-		componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );
+		componentLabel.setValue( labelText + state.labelSuffix );
 
 		FacesUtils.render( context, componentLabel );
 		return true;
