@@ -258,7 +258,7 @@ public abstract class BaseXmlInspector
 		}
 
 		try {
-			Element elementToInspect = null;
+			Pair<Element,String> pair;
 			Map<String, String> parentAttributes = null;
 			String typeAttribute = getTypeAttribute();
 
@@ -267,7 +267,7 @@ public abstract class BaseXmlInspector
 			if ( names != null && names.length > 0 ) {
 				// ...inspect its property for useful attributes...
 
-				Element propertyInParent = traverse( toInspect, type, true, names );
+				Element propertyInParent = traverse( toInspect, type, true, names ).getLeft();
 
 				if ( propertyInParent != null ) {
 
@@ -294,13 +294,13 @@ public abstract class BaseXmlInspector
 						throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 					}
 
-					elementToInspect = traverse( toInspect, propertyInParent.getAttribute( typeAttribute ), false );
+					pair = traverse( toInspect, propertyInParent.getAttribute( typeAttribute ), false );
 
 				} else if ( mRestrictAgainstObject != null ) {
 
-					elementToInspect = traverse( toInspect, type, false, names );
+					pair = traverse( toInspect, type, false, names );
 
-					if ( elementToInspect == null ) {
+					if ( pair.getLeft() == null ) {
 						return null;
 					}
 
@@ -310,9 +310,9 @@ public abstract class BaseXmlInspector
 			} else {
 				// ...otherwise, just start at the end point
 
-				elementToInspect = traverse( toInspect, type, false, names );
+				pair = traverse( toInspect, type, false, names );
 
-				if ( elementToInspect == null ) {
+				if ( pair.getLeft() == null ) {
 					return null;
 				}
 			}
@@ -322,7 +322,7 @@ public abstract class BaseXmlInspector
 
 			// Inspect traits
 
-			inspectTraits( elementToInspect, entity );
+			inspectTraits( pair.getLeft(), entity );
 
 			// Nothing of consequence to return?
 
@@ -341,17 +341,11 @@ public abstract class BaseXmlInspector
 
 				XmlUtils.setMapAsAttributes( entity, parentAttributes );
 
-			} else if ( names == null || names.length == 0 ) {
-
-				// In case we are inferring inheritance, use the original type so as to align with
-				// other Inspectors
-
-				entity.setAttribute( TYPE, type );
 			} else {
 
-				// Otherwise, use the actual type we traversed to
+				// Use the declared type so as to align with other Inspectors
 
-				entity.setAttribute( TYPE, elementToInspect.getAttribute( typeAttribute ) );
+				entity.setAttribute( TYPE, pair.getRight() );
 			}
 
 			// Return the root
@@ -432,7 +426,7 @@ public abstract class BaseXmlInspector
 
 		if ( extendsAttribute != null ) {
 			if ( entity.hasAttribute( extendsAttribute ) ) {
-				inspectTraits( traverse( null, entity.getAttribute( extendsAttribute ), false ), toAddTo );
+				inspectTraits( traverse( null, entity.getAttribute( extendsAttribute ), false ).getLeft(), toAddTo );
 			}
 		}
 
@@ -535,34 +529,47 @@ public abstract class BaseXmlInspector
 		return null;
 	}
 
-	protected Element traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
+	/**
+	 * @return a tuple of Element (may be null) and declared type (not actual type). Never null
+	 */
+
+	protected Pair<Element, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// If given a non-null Object, use it to restrictAgainstObject
 
 		String typeToInspect = type;
 		String[] namesToInspect = names;
 		Object traverseAgainstObject = null;
+		String declaredType = null;
 
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
 			Pair<Object, Class<?>> pair = InspectorUtils.traverse( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
 			traverseAgainstObject = pair.getLeft();
 
+			if ( pair.getRight() != null ) {
+				declaredType = pair.getRight().getName();
+			}
+
 			if ( traverseAgainstObject == null ) {
-				return null;
+				return new Pair<Element, String>( null, declaredType );
 			}
 
 			// If we are 'onlyToParent' but our value is ultimately going to be null, return null
 
 			if ( onlyToParent ) {
-				Property propertyInParentProperty = mRestrictAgainstObject.getProperties( traverseAgainstObject.getClass() ).get( namesToInspect[namesToInspect.length - 1] );
+				Property propertyInParent = mRestrictAgainstObject.getProperties( traverseAgainstObject.getClass() ).get( namesToInspect[namesToInspect.length - 1] );
 
-				if ( propertyInParentProperty.read( traverseAgainstObject ) == null ) {
-					return null;
+				if ( propertyInParent.read( traverseAgainstObject ) == null ) {
+					return new Pair<Element, String>( null, propertyInParent.getType().getName() );
 				}
 			}
 
 			typeToInspect = traverseAgainstObject.getClass().getName();
 			namesToInspect = null;
+		}
+
+		if ( declaredType == null ) {
+			declaredType = typeToInspect;
 		}
 
 		// Validate type
@@ -573,7 +580,7 @@ public abstract class BaseXmlInspector
 		if ( entityElement == null ) {
 
 			if ( traverseAgainstObject == null && !mInferInheritanceHierarchy ) {
-				return null;
+				return new Pair<Element, String>( null, declaredType );
 			}
 
 			// If using mRestrictAgainstObject or mInferInheritanceHierarchy, attempt to match
@@ -587,7 +594,7 @@ public abstract class BaseXmlInspector
 				actualClass = ClassUtils.niceForName( typeToInspect );
 
 				if ( actualClass == null ) {
-					return null;
+					return new Pair<Element, String>( null, typeToInspect );
 				}
 			}
 
@@ -597,18 +604,18 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( entityElement == null ) {
-				return null;
+				return new Pair<Element, String>( null, declaredType );
 			}
 		}
 
 		if ( namesToInspect == null ) {
-			return entityElement;
+			return new Pair<Element, String>( entityElement, declaredType );
 		}
 
 		int length = namesToInspect.length;
 
 		if ( length == 0 ) {
-			return entityElement;
+			return new Pair<Element, String>( entityElement, declaredType );
 		}
 
 		// Traverse names
@@ -625,21 +632,22 @@ public abstract class BaseXmlInspector
 				// XML structure may not support 'extends'
 
 				if ( extendsAttribute == null ) {
-					return null;
+					// TODO: unit test this case
+					return new Pair<Element, String>( null, null );
 				}
 
 				// Property may be defined in an 'extends'
 
 				while ( true ) {
 					if ( !entityElement.hasAttribute( extendsAttribute ) ) {
-						return null;
+						return new Pair<Element, String>( null, null );
 					}
 
 					String childExtends = entityElement.getAttribute( extendsAttribute );
 					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, childExtends );
 
 					if ( entityElement == null ) {
-						return null;
+						return new Pair<Element, String>( null, null );
 					}
 
 					property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
@@ -658,25 +666,22 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
-				return property;
+				return new Pair<Element, String>( property, null );
 			}
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
-				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + typeToInspect + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_DOT, true, false ) );
+				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_DOT, true, false ) );
 			}
 
-			String propertyType = property.getAttribute( typeAttribute );
-			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
+			declaredType = property.getAttribute( typeAttribute );
+			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, declaredType );
 
 			if ( entityElement == null ) {
 				break;
 			}
-
-			// Unlike BaseObjectInspector, we cannot test for cyclic references because
-			// we're only looking at types, not objects
 		}
 
-		return entityElement;
+		return new Pair<Element, String>( entityElement, declaredType );
 	}
 
 	/**

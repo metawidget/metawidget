@@ -320,6 +320,9 @@ public class XmlInspectorTest
 
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
+
+		// (should be the top-level type, so as to align the XML with other Inspectors)
+
 		assertEquals( SubRestrictAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
@@ -341,6 +344,9 @@ public class XmlInspectorTest
 
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
+
+		// (should be the top-level type, so as to align the XML with other Inspectors)
+
 		assertEquals( "org.metawidget.inspector.xml.XmlInspectorTest$SubSubRestrictAgainstObjectFoo", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
@@ -455,7 +461,10 @@ public class XmlInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( RestrictAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+
+		// (should be the parent property type, so as to align the XML with other Inspectors)
+
+		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties
@@ -479,7 +488,10 @@ public class XmlInspectorTest
 
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( RestrictAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+
+		// (should be the parent property type, so as to align the XML with other Inspectors)
+
+		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties

@@ -4,6 +4,32 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v1.30 Released!</h3>
+		<h4>September 2011</h4>
+		
+		<p>
+			Metawidget v1.30 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Refactored InspectionResultProcessors</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			This release contains breaking changes. We apologise for the disruption and provide
+			this <a href="">Metawidget 1.25 to 1.30 Migration Guide</a>.
+		</p>
+
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>		
+
 		<h3>Case Study: Telef&oacute;nica Health Portal</h3>
 		<h4>24th July 2011</h4>
 
@@ -40,7 +66,12 @@
 			<li>Fix Android examples for tablets</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
-				
+			
+		<p>
+			This release contains breaking changes. We apologise for the disruption and provide
+			this <a href="">Metawidget 1.20 to 1.25 Migration Guide</a>.
+		</p>
+
 		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
@@ -337,6 +368,10 @@
 			<li><a href="http://metawidget.org/doc/reference/en/html-single/index.html#section-architecture-xml-construct-primitives">&lt;enum&gt; and &lt;constant&gt;</a> support in metawidget.xml</li>
 			<li>More bug fixes, unit tests and documentation</li>
 		</ul>
+
+		<p>
+			This release contains breaking changes. We apologise for the disruption and provide this <a href="http://blog.kennardconsulting.com/2010/01/metawidget-085-to-09-migration-guide.html">Metawidget 0.85 to 0.9 Migration Guide</a>.
+		</p>
 		
 		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
@@ -364,6 +399,10 @@
 			<li><a href="http://metawidget.org/doc/coverage/index.html">More unit tests</a></li>
 		</ul>
 
+		<p>
+			This release contains breaking changes. We apologise for the disruption and provide this <a href="http://blog.kennardconsulting.com/2009/09/metawidget-08-to-085-migration-guide.html">Metawidget 0.8 to 0.85 Migration Guide</a>.
+		</p>
+		
 		<p>
 			Special thanks to Girolamo Violante and Illya Yalovyy for their help with this release!
 		</p>
