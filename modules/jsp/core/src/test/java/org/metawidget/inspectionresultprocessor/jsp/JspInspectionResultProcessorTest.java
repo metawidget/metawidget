@@ -83,7 +83,7 @@ public class JspInspectionResultProcessorTest
 
 		Element action = XmlUtils.getNextSiblingElement( property );
 		assertEquals( ACTION, action.getNodeName() );
-		assertEquals( "bar3", property.getAttribute( NAME ));
+		assertEquals( "bar3", action.getAttribute( NAME ));
 		assertEquals( "result of ${baz2}", action.getAttribute( "value-is-el" ) );
 		assertEquals( "text", action.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == action.getAttributes().getLength() );
