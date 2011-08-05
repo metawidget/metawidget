@@ -72,7 +72,7 @@ public final class FacesUtils {
 			return value;
 		}
 
-		return matcher.group( 3 );
+		return matcher.group( 2 );
 	}
 
 	/**
