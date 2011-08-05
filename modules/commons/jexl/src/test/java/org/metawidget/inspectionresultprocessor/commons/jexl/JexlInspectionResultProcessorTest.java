@@ -41,7 +41,8 @@ public class JexlInspectionResultProcessorTest
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest$Foo\">";
 		xml += "<property name=\"bar1\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";
-		xml += "<action name=\"bar2\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";
+		xml += "<property name=\"bar2\" value-is-null=\"${null}\" value-is-embedded-el=\"first ${this.abc} middle ${null}${this.def} last\"/>";
+		xml += "<action name=\"bar3\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";
 		xml += "</entity></inspection-result>";
 
 		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>();
@@ -60,21 +61,30 @@ public class JexlInspectionResultProcessorTest
 
 		// Properties
 
-		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
+		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar1", property.getAttribute( NAME ));
 		assertEquals( "from-baz", property.getAttribute( "value-is-el" ) );
 		assertEquals( "text", property.getAttribute( "value-is-text" ) );
 		assertEquals( property.getAttributes().getLength(), 3 );
 
+		property = XmlUtils.getNextSiblingElement( property );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar2", property.getAttribute( NAME ));
+		assertTrue( !property.hasAttribute( "value-is-null" ) );
+		assertEquals( "first from-abc middle from-def last", property.getAttribute( "value-is-embedded-el" ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+
 		// Actions
 
-		Element action = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
+		Element action =  XmlUtils.getNextSiblingElement( property );
 		assertEquals( ACTION, action.getNodeName() );
+		assertEquals( "bar3", action.getAttribute( NAME ));
 		assertEquals( "from-baz", action.getAttribute( "value-is-el" ) );
 		assertEquals( "text", action.getAttribute( "value-is-text" ) );
 		assertEquals( action.getAttributes().getLength(), 3 );
 
-		assertEquals( entity.getChildNodes().getLength(), 2 );
+		assertEquals( entity.getChildNodes().getLength(), 3 );
 
 		// Test null
 
@@ -86,11 +96,18 @@ public class JexlInspectionResultProcessorTest
 		assertTrue( !property.hasAttribute( "value-is-el" ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
+		property = XmlUtils.getNextSiblingElement( property );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar2", property.getAttribute( NAME ));
+		assertTrue( !property.hasAttribute( "value-is-null" ) );
+		assertEquals( "first  middle  last", property.getAttribute( "value-is-embedded-el" ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+
 		action = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
 		assertTrue( !action.hasAttribute( "value-is-el" ) );
 		assertEquals( action.getAttributes().getLength(), 2 );
 
-		assertEquals( entity.getChildNodes().getLength(), 2 );
+		assertEquals( entity.getChildNodes().getLength(), 3 );
 	}
 
 	public void testConfig()
@@ -187,6 +204,16 @@ public class JexlInspectionResultProcessorTest
 	//
 
 	public static class Foo {
+
+		public String getAbc() {
+
+			return "from-abc";
+		}
+
+		public String getDef() {
+
+			return "from-def";
+		}
 
 		public String getBaz() {
 

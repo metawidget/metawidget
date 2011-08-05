@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 /**
  * Processes the inspection result and evaluates any expressions of the form <code>#{...}</code>
  * using JSF EL.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -177,7 +177,7 @@ public class FacesInspectionResultProcessor
 
 				// Sanity checks
 
-				if ( mInjectThis == null && matcher.group( 3 ).startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
+				if ( mInjectThis == null && matcher.group( 2 ).startsWith( UNDERSCORE_THIS_ATTRIBUTE + StringUtils.SEPARATOR_DOT ) ) {
 					throw InspectionResultProcessorException.newException( "Expression for '" + value + "' contains '" + UNDERSCORE_THIS_ATTRIBUTE + "', but " + FacesInspectionResultProcessorConfig.class.getSimpleName() + ".setInjectThis is null" );
 				}
 

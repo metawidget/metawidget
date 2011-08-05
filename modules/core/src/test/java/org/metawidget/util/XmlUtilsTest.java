@@ -169,18 +169,24 @@ public class XmlUtilsTest
 
 	public void testCombineElements() {
 
-		Document documentMaster = XmlUtils.documentFromString( "<foo fooAttr=\"1\"><bar barAttr=\"2\"/></foo>" );
+		Document documentMaster = XmlUtils.documentFromString( "<inspection-result><foo fooAttr=\"1\"><bar barAttr=\"2\" data=\"bar2\"/></foo></inspection-result>" );
 
-		// Missing @fooAttr
+		// Missing @barAttr
 
-		Document documentToAdd = XmlUtils.documentFromString( "<foo fooAttr=\"1\"><bar bazAttr=\"3\"/></foo>" );
+		Document documentToAdd = XmlUtils.documentFromString( "<inspection-result><foo fooAttr=\"1\"><bar bazAttr=\"3\"/></foo></inspection-result>" );
 
 		try {
 			XmlUtils.combineElements( documentMaster.getDocumentElement(), documentToAdd.getDocumentElement(), "fooAttr", "barAttr" );
 			assertTrue( false );
 		} catch( Exception e ) {
-			assertEquals( "Child node #1 has no @fooAttr: <bar bazAttr=\"3\"/>", e.getMessage() );
+			assertEquals( "Child node #1 has no @barAttr: <bar bazAttr=\"3\"/>", e.getMessage() );
 		}
+
+		// Non-aligned trees
+
+		documentToAdd = XmlUtils.documentFromString( "<inspection-result><foo fooAttr=\"2\"><bar barAttr=\"3\" data=\"bar3\"/></foo></inspection-result>" );
+		XmlUtils.combineElements( documentMaster.getDocumentElement(), documentToAdd.getDocumentElement(), "fooAttr", "barAttr" );
+		assertEquals( "<inspection-result><foo fooAttr=\"1\"><bar barAttr=\"2\" data=\"bar2\"/></foo><foo fooAttr=\"2\"><bar barAttr=\"3\" data=\"bar3\"/></foo></inspection-result>", XmlUtils.documentToString( documentMaster, false ) );
 	}
 
 	//

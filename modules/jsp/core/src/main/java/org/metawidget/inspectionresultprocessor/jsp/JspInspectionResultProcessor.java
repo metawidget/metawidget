@@ -19,6 +19,7 @@ package org.metawidget.inspectionresultprocessor.jsp;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.jsp.PageContext;
@@ -34,7 +35,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Processes the inspection result and evaluates any expressions of the form <code>${...}</code>
  * using JSP EL.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -45,7 +46,7 @@ public class JspInspectionResultProcessor
 	// Private statics
 	//
 
-	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "^\\$\\{(.*)\\}$" );
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "\\$\\{([^\\}]+)\\}" );
 
 	//
 	// Protected methods
@@ -67,55 +68,70 @@ public class JspInspectionResultProcessor
 				continue;
 			}
 
-			// ...that looks like an EL expression...
+			// ...that contains an EL expression...
 
-			if ( !isExpression( value ) ) {
-				continue;
-			}
+			Matcher matcher = PATTERN_EXPRESSION.matcher( value );
+			int matchOffset = 0;
 
-			// ...evaluate it...
+			while ( matcher.find() ) {
 
-			PageContext pageContext = metawidgetTag.getPageContext();
-			ExpressionEvaluator expressionEvaluator;
+				String expression = matcher.group( 0 );
 
-			try {
-				expressionEvaluator = pageContext.getExpressionEvaluator();
-			} catch ( Exception e ) {
-				throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
-			}
+				// ...evaluate it...
 
-			try {
-				VariableResolver variableResolver = pageContext.getVariableResolver();
-				Object valueObject = expressionEvaluator.evaluate( value, Object.class, variableResolver, null );
+				PageContext pageContext = metawidgetTag.getPageContext();
+				ExpressionEvaluator expressionEvaluator;
 
-				if ( valueObject == null ) {
-					value = null;
-				} else {
-					value = String.valueOf( valueObject );
+				try {
+					expressionEvaluator = pageContext.getExpressionEvaluator();
+				} catch ( Exception e ) {
+					throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
 				}
 
-			} catch ( Exception e ) {
+				try {
+					VariableResolver variableResolver = pageContext.getVariableResolver();
+					Object valueObject = expressionEvaluator.evaluate( expression, Object.class, variableResolver, null );
+					String valueObjectAsString;
 
-				// We have found it helpful to include the actual expression we were trying to
-				// evaluate
+					if ( valueObject == null ) {
 
-				throw InspectionResultProcessorException.newException( "Unable to evaluate " + value, e );
+						// Special support for when the String is just one EL
+
+						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
+							value = null;
+							break;
+						}
+
+						valueObjectAsString = "";
+					} else {
+
+						// Special support for when the String is just one EL
+
+						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
+							value = String.valueOf( valueObject );
+							break;
+						}
+
+						valueObjectAsString = String.valueOf( valueObject );
+					}
+
+					// Replace multiple ELs within the String
+
+					value = new StringBuffer( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
+					matchOffset += valueObjectAsString.length() - ( matcher.end() - matcher.start() );
+
+				} catch ( Exception e ) {
+
+					// We have found it helpful to include the actual expression we were trying to
+					// evaluate
+
+					throw InspectionResultProcessorException.newException( "Unable to evaluate " + value, e );
+				}
 			}
 
 			// ...and replace it
 
 			attributes.put( key, value );
 		}
-	}
-
-	//
-	// Private methods
-	//
-
-	// TODO: JSP and JEXL match
-	
-	private boolean isExpression( String expression ) {
-
-		return PATTERN_EXPRESSION.matcher( expression ).matches();
 	}
 }

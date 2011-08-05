@@ -547,8 +547,6 @@ public class XmlUtils {
 				continue;
 			}
 
-			// TODO: combine unequal XML fragments? name comes across blank?
-
 			// ...or simply at the end
 
 			master.appendChild( XmlUtils.importElement( master.getOwnerDocument(), childToAdd ) );

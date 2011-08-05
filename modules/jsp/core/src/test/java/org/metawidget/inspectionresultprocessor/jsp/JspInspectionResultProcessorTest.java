@@ -43,7 +43,7 @@ public class JspInspectionResultProcessorTest
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspectionResultProcessor/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"Foo\">";
 		xml += "<property name=\"bar1\" value-is-el=\"${baz1}\" value-is-text=\"text\"/>";
-		xml += "<property name=\"bar2\" value-is-null=\"${null}\"/>";
+		xml += "<property name=\"bar2\" value-is-null=\"${null}\" value-is-embedded-el=\"first ${abc} middle ${null}${def} last\"/>";
 		xml += "<action name=\"bar3\" value-is-el=\"${baz2}\" value-is-text=\"text\"/>";
 		xml += "</entity></inspection-result>";
 
@@ -65,21 +65,25 @@ public class JspInspectionResultProcessorTest
 
 		// Properties
 
-		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
+		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar1", property.getAttribute( NAME ));
 		assertEquals( "result of ${baz1}", property.getAttribute( "value-is-el" ) );
 		assertEquals( "text", property.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getNextSiblingElement( property );
 		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar2", property.getAttribute( NAME ));
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
-		assertTrue( 1 == property.getAttributes().getLength() );
+		assertEquals( "first result of ${abc} middle result of ${def} last", property.getAttribute( "value-is-embedded-el" ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
 
 		// Actions
 
-		Element action = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar3" );
+		Element action = XmlUtils.getNextSiblingElement( property );
 		assertEquals( ACTION, action.getNodeName() );
+		assertEquals( "bar3", property.getAttribute( NAME ));
 		assertEquals( "result of ${baz2}", action.getAttribute( "value-is-el" ) );
 		assertEquals( "text", action.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == action.getAttributes().getLength() );

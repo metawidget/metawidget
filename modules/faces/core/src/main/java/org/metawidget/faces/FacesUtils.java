@@ -174,7 +174,7 @@ public final class FacesUtils {
 	 * the future.
 	 */
 
-	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)([^\\}]+)(\\})" );
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "(#|\\$)\\{([^\\}]+)\\}" );
 
 	private static final String		EXPRESSION_START	= "#{";
 

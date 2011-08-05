@@ -69,7 +69,7 @@
 			
 		<p>
 			This release contains breaking changes. We apologise for the disruption and provide
-			this <a href="">Metawidget 1.20 to 1.25 Migration Guide</a>.
+			this <a href="http://blog.kennardconsulting.com/2011/07/metawidget-120-to-125-migration-guide.html">Metawidget 1.20 to 1.25 Migration Guide</a>.
 		</p>
 
 		<p>

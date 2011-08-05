@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 /**
  * Processes the inspection result and evaluates any expressions of the form <code>${...}</code>
  * using JEXL.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -48,7 +48,7 @@ public class JexlInspectionResultProcessor<M>
 
 	private static final ThreadLocal<JexlContext>	LOCAL_CONTEXT		= new ThreadLocal<JexlContext>();
 
-	private static final Pattern					PATTERN_EXPRESSION	= Pattern.compile( "^\\$\\{(.*)\\}$" );
+	private static final Pattern					PATTERN_EXPRESSION	= Pattern.compile( "\\$\\{([^\\}]+)\\}" );
 
 	//
 	// Private members
@@ -107,8 +107,7 @@ public class JexlInspectionResultProcessor<M>
 
 		} finally {
 
-			// THIS_ATTRIBUTE should not be available outside of our particular
-			// evaluation
+			// THIS_ATTRIBUTE should not be available outside of our particular evaluation
 
 			vars.remove( THIS_ATTRIBUTE );
 		}
@@ -127,8 +126,7 @@ public class JexlInspectionResultProcessor<M>
 
 		} finally {
 
-			// THIS_ATTRIBUTE should not be available outside of our particular
-			// evaluation
+			// THIS_ATTRIBUTE should not be available outside of our particular evaluation
 
 			vars.remove( THIS_ATTRIBUTE );
 		}
@@ -144,33 +142,55 @@ public class JexlInspectionResultProcessor<M>
 			String key = entry.getKey();
 			String value = entry.getValue();
 
-			// ...that looks like a JEXL expression...
+			// ...that contains an EL expression...
 
 			Matcher matcher = PATTERN_EXPRESSION.matcher( value );
+			int matchOffset = 0;
 
-			if ( !matcher.matches() ) {
-				continue;
-			}
+			while ( matcher.find() ) {
 
-			// ...evaluate it...
+				String expression = matcher.group( 1 );
 
-			value = matcher.group( 1 );
+				// ...evaluate it...
 
-			try {
-				Object valueObject = ExpressionFactory.createExpression( value ).evaluate( LOCAL_CONTEXT.get() );
+				try {
+					Object valueObject = ExpressionFactory.createExpression( expression ).evaluate( LOCAL_CONTEXT.get() );
+					String valueObjectAsString;
 
-				if ( valueObject == null ) {
-					value = null;
-				} else {
-					value = String.valueOf( valueObject );
+					if ( valueObject == null ) {
+
+						// Special support for when the String is just one EL
+
+						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
+							value = null;
+							break;
+						}
+
+						valueObjectAsString = "";
+					} else {
+
+						// Special support for when the String is just one EL
+
+						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
+							value = String.valueOf( valueObject );
+							break;
+						}
+
+						valueObjectAsString = String.valueOf( valueObject );
+					}
+
+					// Replace multiple ELs within the String
+
+					value = new StringBuffer( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
+					matchOffset += valueObjectAsString.length() - ( matcher.end() - matcher.start() );
+
+				} catch ( Exception e ) {
+
+					// We have found it helpful to include the actual expression we were trying to
+					// evaluate
+
+					throw InspectionResultProcessorException.newException( "Unable to evaluate " + value, e );
 				}
-
-			} catch ( Exception e ) {
-
-				// We have found it helpful to include the actual expression we were trying to
-				// evaluate
-
-				throw InspectionResultProcessorException.newException( "Unable to evaluate " + value, e );
 			}
 
 			// ...and replace it
@@ -183,7 +203,7 @@ public class JexlInspectionResultProcessor<M>
 	 * Prepare the JexlContext.
 	 * <p>
 	 * Subclasses can override this method to control what is available in the context.
-	 * 
+	 *
 	 * @param metawidget
 	 *            the parent Metawidget. Never null. May be useful for finding object to add to the
 	 *            context

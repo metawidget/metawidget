@@ -41,6 +41,8 @@ public class XmlInspectorTest
 	// Private members
 	//
 
+	private String			mXml;
+
 	private XmlInspector	mInspector;
 
 	//
@@ -50,33 +52,33 @@ public class XmlInspectorTest
 	@Override
 	public void setUp() {
 
-		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
-		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
-		xml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
-		xml += "<property name=\"a\"/>";
-		xml += "<property name=\"d\"/>";
-		xml += "</entity>";
-		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
-		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\">";
-		xml += "<property name=\"a\" hidden=\"true\" label=\" \"/>";
-		xml += "<property name=\"b\" label=\"\"/>";
-		xml += "<property name=\"c\" lookup=\"Telephone, Mobile, Fax, E-mail\"/>";
-		xml += "</entity>";
-		xml += "<entity type=\"Bar\">";
-		xml += "<property name=\"baz\"/>";
-		xml += "<action name=\"doAction\"/>";
-		xml += "<some-junk name=\"ignoreMe\"/>";
-		xml += "</entity>";
-		xml += "<entity type=\"Typo1\">";
-		xml += "<property name=\"foo\" readonly=\"true\"/>";
-		xml += "</entity>";
-		xml += "<entity type=\"Typo2\">";
-		xml += "<property name=\"foo\" dontexpand=\"true\"/>";
-		xml += "</entity>";
-		xml += "</inspection-result>";
+		mXml = "<?xml version=\"1.0\"?>";
+		mXml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
+		mXml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
+		mXml += "<property name=\"a\"/>";
+		mXml += "<property name=\"d\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
+		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\">";
+		mXml += "<property name=\"a\" hidden=\"true\" label=\" \"/>";
+		mXml += "<property name=\"b\" label=\"\"/>";
+		mXml += "<property name=\"c\" lookup=\"Telephone, Mobile, Fax, E-mail\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"Bar\">";
+		mXml += "<property name=\"baz\"/>";
+		mXml += "<action name=\"doAction\"/>";
+		mXml += "<some-junk name=\"ignoreMe\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"Typo1\">";
+		mXml += "<property name=\"foo\" readonly=\"true\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"Typo2\">";
+		mXml += "<property name=\"foo\" dontexpand=\"true\"/>";
+		mXml += "</entity>";
+		mXml += "</inspection-result>";
 
-		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( mXml.getBytes() ) ) );
 	}
 
 	public void testInspection() {
@@ -160,6 +162,17 @@ public class XmlInspectorTest
 		assertEquals( "doAction", property.getAttribute( NAME ) );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
+
+		// No extends support
+
+		XmlInspector inspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( mXml.getBytes() ) ) )
+		{
+			@Override
+			protected String getExtendsAttribute() {
+				return null;
+			}
+		};
+		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ) ));
 	}
 
 	public void testMissingType() {

@@ -632,7 +632,6 @@ public abstract class BaseXmlInspector
 				// XML structure may not support 'extends'
 
 				if ( extendsAttribute == null ) {
-					// TODO: unit test this case
 					return new Pair<Element, String>( null, null );
 				}
 
