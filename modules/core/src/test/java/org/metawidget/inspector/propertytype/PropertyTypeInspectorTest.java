@@ -21,11 +21,14 @@ import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResult
 
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
@@ -48,12 +51,6 @@ public class PropertyTypeInspectorTest
 	//
 	// Public methods
 	//
-
-	@Override
-	public void setUp() {
-
-		mInspector = new PropertyTypeInspector();
-	}
 
 	public void testInspection() {
 
@@ -440,6 +437,71 @@ public class PropertyTypeInspectorTest
 
 		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ) );
 		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ) );
+	}
+
+	/**
+	 * Test BaseObjectInspector under high concurrency.
+	 */
+
+	public void testConcurrency()
+		throws Exception {
+
+		final List<Exception> concurrencyFailures = CollectionUtils.newArrayList();
+
+		// Try a few times (just to make sure)...
+
+		for ( int tryAFewTimes = 0; tryAFewTimes < 10; tryAFewTimes++ ) {
+
+			// ...prepare some Threads...
+
+			final CountDownLatch startSignal = new CountDownLatch( 1 );
+			final CountDownLatch doneSignal = new CountDownLatch( 50 );
+
+			for ( int concurrentThreads = 0; concurrentThreads < doneSignal.getCount(); concurrentThreads++ ) {
+
+				new Thread( new Runnable() {
+
+					public void run() {
+
+						try {
+							startSignal.await();
+						} catch ( InterruptedException e ) {
+							// (do nothing)
+						}
+
+						try {
+							testInspection();
+						} catch ( Exception e ) {
+							concurrencyFailures.add( e );
+							assertTrue( "Concurrency failure: " + e.getClass() + " " + e.getMessage(), false );
+						} finally {
+							doneSignal.countDown();
+						}
+					}
+				} ).start();
+			}
+
+			// ...and run them all simultaneously
+
+			startSignal.countDown();
+			doneSignal.await();
+
+			if ( !concurrencyFailures.isEmpty() ) {
+				break;
+			}
+		}
+
+		assertTrue( concurrencyFailures.isEmpty() );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void setUp() {
+
+		mInspector = new PropertyTypeInspector();
 	}
 
 	//

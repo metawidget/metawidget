@@ -19,11 +19,14 @@ package org.metawidget.inspector.xml;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.XmlUtils;
@@ -172,7 +175,7 @@ public class XmlInspectorTest
 				return null;
 			}
 		};
-		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ) ));
+		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ) ) );
 	}
 
 	public void testMissingType() {
@@ -516,6 +519,66 @@ public class XmlInspectorTest
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		assertTrue( entity.getChildNodes().getLength() == 1 );
+	}
+
+	/**
+	 * Test BaseXmlInspector under high concurrency.
+	 * <p>
+	 * As <a href="https://issues.apache.org/jira/browse/XERCESJ-727">pointed out here</a>: "There's
+	 * no requirement that a DOM be thread safe, so applications need to make sure that threads are
+	 * properly synchronized for concurrent access to [a shared] DOM. This is true even if you're
+	 * just invoking read operations".
+	 */
+
+	public void testConcurrency()
+		throws Exception {
+
+		final List<Exception> concurrencyFailures = CollectionUtils.newArrayList();
+
+		// Try a few times (just to make sure)...
+
+		for ( int tryAFewTimes = 0; tryAFewTimes < 10; tryAFewTimes++ ) {
+
+			// ...prepare some Threads...
+
+			final CountDownLatch startSignal = new CountDownLatch( 1 );
+			final CountDownLatch doneSignal = new CountDownLatch( 50 );
+
+			for ( int concurrentThreads = 0; concurrentThreads < doneSignal.getCount(); concurrentThreads++ ) {
+
+				new Thread( new Runnable() {
+
+					public void run() {
+
+						try {
+							startSignal.await();
+						} catch ( InterruptedException e ) {
+							// (do nothing)
+						}
+
+						try {
+							testInspection();
+						} catch ( Exception e ) {
+							concurrencyFailures.add( e );
+							assertTrue( "Concurrency failure: " + e.getClass() + " " + e.getMessage(), false );
+						} finally {
+							doneSignal.countDown();
+						}
+					}
+				} ).start();
+			}
+
+			// ...and run them all simultaneously
+
+			startSignal.countDown();
+			doneSignal.await();
+
+			if ( !concurrencyFailures.isEmpty() ) {
+				break;
+			}
+		}
+
+		assertTrue( concurrencyFailures.isEmpty() );
 	}
 
 	//

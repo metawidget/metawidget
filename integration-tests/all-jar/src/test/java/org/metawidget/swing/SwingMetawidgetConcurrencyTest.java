@@ -39,7 +39,7 @@ public class SwingMetawidgetConcurrencyTest
 	public void testConcurrentStartup()
 		throws Exception {
 
-		final List<InspectorException> concurrencyFailures = CollectionUtils.newArrayList();
+		final List<Exception> concurrencyFailures = CollectionUtils.newArrayList();
 
 		// Try a few times (just to make sure)...
 
@@ -69,9 +69,9 @@ public class SwingMetawidgetConcurrencyTest
 
 						try {
 							configReader.configure( "org/metawidget/swing/metawidget-swing-default.xml", new SwingMetawidget() );
-						} catch ( InspectorException e ) {
+						} catch ( Exception e ) {
 							concurrencyFailures.add( e );
-							assertTrue( "Concurrency failure: " + e.getMessage(), false );
+							assertTrue( "Concurrency failure: " + e.getClass() + " " + e.getMessage(), false );
 						} finally {
 							doneSignal.countDown();
 						}
