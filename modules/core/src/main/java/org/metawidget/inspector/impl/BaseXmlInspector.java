@@ -267,17 +267,19 @@ public abstract class BaseXmlInspector
 			return null;
 		}
 
-		// "There's no requirement that a DOM be thread safe, so applications need to make sure that
-		// threads are properly synchronized for concurrent access to [a shared] DOM. This is true
-		// even if you're just invoking read operations"
-		//
-		// https://issues.apache.org/jira/browse/XERCESJ-727
+		try {
+			Document document;
+			Element entity;
+			Pair<Element, String> pair;
+			Map<String, String> parentAttributes = null;
 
-		synchronized ( mRoot ) {
-			try {
-				Pair<Element, String> pair;
-				Map<String, String> parentAttributes = null;
-				String typeAttribute = getTypeAttribute();
+			// "There's no requirement that a DOM be thread safe, so applications need to make sure that
+			// threads are properly synchronized for concurrent access to [a shared] DOM. This is true
+			// even if you're just invoking read operations"
+			//
+			// https://issues.apache.org/jira/browse/XERCESJ-727
+
+			synchronized ( mRoot ) {
 
 				// If the path has a parent...
 
@@ -307,6 +309,8 @@ public abstract class BaseXmlInspector
 						// 'dont-expand' attribute set, because we should never try to traverse the
 						// child
 
+						String typeAttribute = getTypeAttribute();
+
 						if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
 							throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 						}
@@ -334,43 +338,43 @@ public abstract class BaseXmlInspector
 					}
 				}
 
-				Document document = XmlUtils.newDocument();
-				Element entity = document.createElementNS( NAMESPACE, ENTITY );
+				document = XmlUtils.newDocument();
+				entity = document.createElementNS( NAMESPACE, ENTITY );
 
 				// Inspect traits
 
 				inspectTraits( pair.getLeft(), entity );
-
-				// Nothing of consequence to return?
-
-				if ( !entity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) ) {
-					return null;
-				}
-
-				Element root = document.createElementNS( NAMESPACE, ROOT );
-				root.setAttribute( VERSION, "1.0" );
-				document.appendChild( root );
-				root.appendChild( entity );
-
-				if ( parentAttributes != null ) {
-
-					// Add any parent attributes (including type)
-
-					XmlUtils.setMapAsAttributes( entity, parentAttributes );
-
-				} else {
-
-					// Use the declared type so as to align with other Inspectors
-
-					entity.setAttribute( TYPE, pair.getRight() );
-				}
-
-				// Return the root
-
-				return root;
-			} catch ( Exception e ) {
-				throw InspectorException.newException( e );
 			}
+
+			// Nothing of consequence to return?
+
+			if ( !entity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) ) {
+				return null;
+			}
+
+			Element root = document.createElementNS( NAMESPACE, ROOT );
+			root.setAttribute( VERSION, "1.0" );
+			document.appendChild( root );
+			root.appendChild( entity );
+
+			if ( parentAttributes != null ) {
+
+				// Add any parent attributes (including type)
+
+				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+
+			} else {
+
+				// Use the declared type so as to align with other Inspectors
+
+				entity.setAttribute( TYPE, pair.getRight() );
+			}
+
+			// Return the root
+
+			return root;
+		} catch ( Exception e ) {
+			throw InspectorException.newException( e );
 		}
 	}
 

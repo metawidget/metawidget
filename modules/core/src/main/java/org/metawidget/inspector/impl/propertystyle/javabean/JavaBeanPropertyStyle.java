@@ -519,10 +519,6 @@ public class JavaBeanPropertyStyle
 			return mField.getGenericType();
 		}
 
-		/**
-		 * Exposed for JavassistPropertyStyle.
-		 */
-
 		public Field getField() {
 
 			return mField;
@@ -561,7 +557,7 @@ public class JavaBeanPropertyStyle
 			mReadMethod = readMethod;
 			mWriteMethod = writeMethod;
 
-			// Must have either a getter or a setter (or both)
+			// Must have a getter or a setter (or both)
 
 			if ( mReadMethod == null && mWriteMethod == null ) {
 				throw InspectorException.newException( "JavaBeanProperty '" + name + "' has no getter and no setter" );
@@ -639,18 +635,10 @@ public class JavaBeanPropertyStyle
 			return mWriteMethod.getGenericParameterTypes()[0];
 		}
 
-		/**
-		 * Exposed for JavassistPropertyStyle.
-		 */
-
 		public Method getReadMethod() {
 
 			return mReadMethod;
 		}
-
-		/**
-		 * Exposed for JavassistPropertyStyle.
-		 */
 
 		public Method getWriteMethod() {
 
