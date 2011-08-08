@@ -97,6 +97,11 @@
 					<td class="link"><a href="http://blog.singingwizard.org/2009/05/metawidget-beanutils-auto-update-binding" target="_blank">View</a></td>
 				</tr>
 				<tr>
+					<td>Stay Tuned with JK</td>
+					<td>Metawidget!</td>
+					<td class="link"><a href="http://jk-blogging.blogspot.com/2011/08/metawidget.html" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Techno-IT</td>
 					<td>Metawidget: un framework graphique qui promet</td>
 					<td class="link"><a href="http://techno-it.over-blog.fr/article-24174836.html" target="_blank">View</a></td>
