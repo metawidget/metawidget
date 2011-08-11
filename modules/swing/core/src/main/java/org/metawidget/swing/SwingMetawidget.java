@@ -92,7 +92,7 @@ public class SwingMetawidget
 
 	private boolean						mNeedToBuildWidgets;
 
-	private Element						mLastInspection;
+	private Element						mLastInspectionResult;
 
 	private boolean						mIgnoreAddRemove;
 
@@ -696,7 +696,7 @@ public class SwingMetawidget
 
 	protected void invalidateInspection() {
 
-		mLastInspection = null;
+		mLastInspectionResult = null;
 		invalidateWidgets();
 	}
 
@@ -791,8 +791,8 @@ public class SwingMetawidget
 		mIgnoreAddRemove = true;
 
 		try {
-			if ( mLastInspection == null ) {
-				mLastInspection = inspect();
+			if ( mLastInspectionResult == null ) {
+				mLastInspectionResult = inspect();
 			}
 
 			// Don't buildWidgets if null, in order to protect our 'dotted rectangle in IDE tools'
@@ -800,7 +800,7 @@ public class SwingMetawidget
 			// used purely for layout purposes
 
 			if ( mPath != null || getComponentCount() > 0 ) {
-				mPipeline.buildWidgets( mLastInspection );
+				mPipeline.buildWidgets( mLastInspectionResult );
 			}
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );

@@ -1,0 +1,76 @@
+<project name="quirks-validator-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<target name="all">
+		<webtest name="test-stubbedValidator">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/stubbedValidator.jsf" />
+				
+				<verifyTitle text="Quirks (Metawidget Validator Test)" />
+				
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/th" text="Bar:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@style" text="background-color: red"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th" text="Baz:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text=""/>
+				
+				<setInputField name="form:bar" value="Fop"/>
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text=""/>
+				
+				<setInputField name="form:bar" value="Foo"/>
+				<clickButton label="Save"/>
+				<not>					
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/ul"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text="Detail: value was Foo"/>			
+			</steps>
+		</webtest>
+		<webtest name="test-singleWidgetValidator">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/singleWidgetValidator.jsf" />
+				
+				<verifyTitle text="Quirks (Metawidget Validator Test)" />
+				
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/th" text="Bar:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@style" text="background-color: red"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th" text="Baz:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
+
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text=""/>
+				
+				<setInputField name="form:validatorQuirksBar" value="Fop"/>
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text=""/>
+				
+				<setInputField name="form:validatorQuirksBar" value="Foo"/>
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text="Detail: value was Foo"/>			
+
+				<setInputField name="form:validatorQuirksBar" value="Foo1"/>
+				<setInputField name="form:validatorQuirksBaz" value="1"/>
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text=""/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]" text="form:validatorQuirksBaz: '1' could not be understood as a currency value. Example: $99.99"/>
+
+				<setInputField name="form:validatorQuirksBaz" value="$1"/>
+				<clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]" text=""/>
+			</steps>
+		</webtest>
+	</target>
+</project>

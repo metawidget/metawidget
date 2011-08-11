@@ -42,36 +42,36 @@
 				<verifyInputField name="form:allWidgetsPassword" value=""/>
 				<setInputField name="form:allWidgetsPassword" value="Password1"/>				
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
 				<verifyText text="min:-5,"/>
 				<verifyText text="max:127,"/>
-				<verifyInputField name="form:allWidgetsByte" value="127"/>
-				<setInputField name="form:allWidgetsByte" value="126"/>
+				<verifyInputField name="form:allWidgetsBytePrimitive" value="127"/>
+				<setInputField name="form:allWidgetsBytePrimitive" value="126"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/th" text="Byte object (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsByteObject" value="-128"/>
 				<setInputField name="form:allWidgetsByteObject" value="-127"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/th" text="Short (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/th" text="Short primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
 				<verifyText text="min:-6,"/>
 				<verifyText text="max:32767,"/>
-				<verifyInputField name="form:allWidgetsShort" value="32767"/>
-				<setInputField name="form:allWidgetsShort" value="32766"/>
+				<verifyInputField name="form:allWidgetsShortPrimitive" value="32767"/>
+				<setInputField name="form:allWidgetsShortPrimitive" value="32766"/>
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/th" text="Short object (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsShortObject" value="-32768"/>
 				<setInputField name="form:allWidgetsShortObject" value="-32767"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/th" text="Int (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/th" text="Int primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
 				<verifyText text="min:-2147483648,"/>
 				<verifyText text="max:2147483647,"/>
-				<verifyInputField name="form:allWidgetsInt" value="2147483647"/>
-				<setInputField name="form:allWidgetsInt" value="2147483646"/>
+				<verifyInputField name="form:allWidgetsIntPrimitive" value="2147483647"/>
+				<setInputField name="form:allWidgetsIntPrimitive" value="2147483646"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/th" text="Integer object (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/td[1]/input[@type='text']"/>
@@ -89,12 +89,12 @@
 				<verifyInputField name="form:allWidgetsRangedInteger" value="33"/>
 				<setInputField name="form:allWidgetsRangedInteger" value="34"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/th" text="Long (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/th" text="Long primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
 				<verifyText text="min:-7,"/>
 				<verifyText text="max:9223372036854775807,"/>
-				<verifyInputField name="form:allWidgetsLong" value="42"/>
-				<setInputField name="form:allWidgetsLong" value="43"/>
+				<verifyInputField name="form:allWidgetsLongPrimitive" value="42"/>
+				<setInputField name="form:allWidgetsLongPrimitive" value="43"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[14]/th)" text="1"/>
@@ -102,12 +102,12 @@
 				<verifyInputField name="form:allWidgetsLongObject" value="43"/>
 				<setInputField name="form:allWidgetsLongObject" value="44"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text="Float (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text="Float primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
 				<verifyText text="min:-3.4028235E38,"/>
 				<verifyText text="max:2048,"/>
-				<verifyInputField name="form:allWidgetsFloat" value="4.2"/>
-				<setInputField name="form:allWidgetsFloat" value="5.3"/>
+				<verifyInputField name="form:allWidgetsFloatPrimitive" value="4.2"/>
+				<setInputField name="form:allWidgetsFloatPrimitive" value="5.3"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th" text=""/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[16]/th)" text="1"/>
@@ -115,23 +115,23 @@
 				<verifyInputField name="form:allWidgetsFloatObject" value="4.3"/>
 				<setInputField name="form:allWidgetsFloatObject" value="5.4"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/th" text="Double (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/th" text="Double primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
 				<verifyText text="min:-8,"/>
 				<verifyText text="max:1.7976931348623157E308,"/>
-				<verifyInputField name="form:allWidgetsDouble" value="42.2"/>
-				<setInputField name="form:allWidgetsDouble" value="53.3"/>
+				<verifyInputField name="form:allWidgetsDoublePrimitive" value="42.2"/>
+				<setInputField name="form:allWidgetsDoublePrimitive" value="53.3"/>
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[18]/td[@colspan=2]"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[18]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsDoubleObject" value="43.3"/>
 				<setInputField name="form:allWidgetsDoubleObject" value="54.4"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/th" text="Char (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/th" text="Char primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/td[1]/input[@type='text']"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/td[1]/input[@maxlength=1]"/>
-				<verifyInputField name="form:allWidgetsChar" value="A"/>
-				<setInputField name="form:allWidgetsChar" value="Z"/>
+				<verifyInputField name="form:allWidgetsCharPrimitive" value="A"/>
+				<setInputField name="form:allWidgetsCharPrimitive" value="Z"/>
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/th" text="Character Object (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/td[1]/input[@type='text']"/>
@@ -139,10 +139,10 @@
 				<verifyInputField name="form:allWidgetsCharacterObject" value="Z"/>
 				<setInputField name="form:allWidgetsCharacterObject" value="A"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean primitive (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]/input[@type='checkbox']"/>
-				<verifyCheckbox name="form:allWidgetsBoolean" checked="false"/>
-				<setCheckbox name="form:allWidgetsBoolean" checked="true"/>
+				<verifyCheckbox name="form:allWidgetsBooleanPrimitive" checked="false"/>
+				<setCheckbox name="form:allWidgetsBooleanPrimitive" checked="true"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Boolean object (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
@@ -277,15 +277,15 @@
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[1]" text="Password:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[2]"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[2]" text=""/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[1]" text="Byte:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[1]" text="Byte primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[2]" text="126"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[1]" text="Byte object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[2]" text="-127"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[1]" text="Short:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[1]" text="Short primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[2]" text="32766"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[1]" text="Short object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[2]" text="-32767"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[1]" text="Int:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[1]" text="Int primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[2]" text="2147483646"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[1]" text="Integer object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[2]" text="-2147483647"/>
@@ -293,23 +293,23 @@
 				<verifyXPath xpath="/html/body/form/div[1]/div[11]/div[2]" text="33"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[1]" text="Ranged integer:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[2]" text="34"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[1]" text="Long:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[1]" text="Long primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[2]" text="43"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[1]"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[2]" text="44"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[1]" text="Float:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[1]" text="Float primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[2]" text="5.3"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[16]/div[1]" text="nullInBundle:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[16]/div[2]" text="5.4"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[1]" text="Double:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[1]" text="Double primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[2]" text="53.3"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[18]/div[1]" text="54.4"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[1]" text="Char:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[1]" text="Char primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[2]" text="Z"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[1]" text="Character object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[2]" text="A"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[1]" text="Boolean:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[1]" text="Boolean primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[2]" text="true"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[1]" text="Boolean object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[2]" text="No"/>

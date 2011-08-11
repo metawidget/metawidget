@@ -231,7 +231,6 @@ public class SwingCollectionsTest
 	static class CollectionWidgetBuilder
 		implements WidgetBuilder<JComponent, SwingMetawidget> {
 
-		@Override
 		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 			// Not for us?
@@ -299,7 +298,6 @@ public class SwingCollectionsTest
 			mColumns = columns;
 		}
 
-		@Override
 		public int getColumnCount() {
 
 			return mColumns.size();
@@ -315,7 +313,6 @@ public class SwingCollectionsTest
 			return mColumns.get( columnIndex );
 		}
 
-		@Override
 		public int getRowCount() {
 
 			return mList.size();
@@ -330,7 +327,6 @@ public class SwingCollectionsTest
 			return mList.get( rowIndex );
 		}
 
-		@Override
 		public Object getValueAt( int rowIndex, int columnIndex ) {
 
 			if ( columnIndex >= getColumnCount() ) {

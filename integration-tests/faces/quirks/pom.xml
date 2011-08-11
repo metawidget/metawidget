@@ -22,6 +22,7 @@
 		<module>icefaces</module>
 		<module>richfaces4</module>
 		<module>primefaces</module>
+		<module>validator</module>
 	</modules>
 
 </project>

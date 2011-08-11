@@ -30,20 +30,20 @@ public class JspQuirks {
 	// Private members
 	//
 
-	private boolean	mBoolean;
+	private boolean	mBooleanPrimitive;
 
 	//
 	// Public methods
 	//
 
 	@UiLabel( "${40+2} boolean" )
-	public boolean isBoolean() {
+	public boolean isBooleanPrimitive() {
 
-		return mBoolean;
+		return mBooleanPrimitive;
 	}
 
-	public void setBoolean( boolean aBoolean ) {
+	public void setBooleanPrimitive( boolean booleanPrimitive ) {
 
-		mBoolean = aBoolean;
+		mBooleanPrimitive = booleanPrimitive;
 	}
 }

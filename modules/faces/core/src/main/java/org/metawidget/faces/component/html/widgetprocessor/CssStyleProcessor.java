@@ -20,6 +20,7 @@ import java.util.Map;
 
 import javax.faces.component.UIComponent;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -44,29 +45,8 @@ public class CssStyleProcessor
 		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles
 		// to all their subcomponents too
 
-		Map<String, Object> componentAttributes = component.getAttributes();
-		String style = ( (HtmlMetawidget) metawidget ).getStyle();
-		String styleClass = ( (HtmlMetawidget) metawidget ).getStyleClass();
-
-		if ( style != null ) {
-			String existingStyle = (String) componentAttributes.get( "style" );
-
-			if ( existingStyle == null || "".equals( existingStyle ) ) {
-				componentAttributes.put( "style", style );
-			} else {
-				componentAttributes.put( "style", existingStyle + " " + style );
-			}
-		}
-
-		if ( styleClass != null ) {
-			String existingStyleClass = (String) componentAttributes.get( "styleClass" );
-
-			if ( existingStyleClass == null || "".equals( existingStyleClass ) ) {
-				componentAttributes.put( "styleClass", styleClass );
-			} else {
-				componentAttributes.put( "styleClass", existingStyleClass + " " + styleClass );
-			}
-		}
+		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) metawidget;
+		FacesUtils.setStyleAndStyleClass( component, htmlMetawidget.getStyle(), htmlMetawidget.getStyleClass() );
 
 		return component;
 	}

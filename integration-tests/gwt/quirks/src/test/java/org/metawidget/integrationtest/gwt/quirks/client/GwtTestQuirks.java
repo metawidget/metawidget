@@ -148,7 +148,7 @@ public class GwtTestQuirks
 
 						// Test rebind binds to new object
 
-						( (GwtQuirks) metawidget.getToInspect() ).setBoolean( false );
+						( (GwtQuirks) metawidget.getToInspect() ).setBooleanPrimitive( false );
 
 						GwtQuirks quirks2 = new GwtQuirks();
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( quirks2, metawidget );

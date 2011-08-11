@@ -1,0 +1,27 @@
+<f:view xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:m="http://metawidget.org/faces">
+
+<html>
+	<h:head>
+		<title>#{facesContext.externalContext.request.session.servletContext.servletContextName}</title>		
+	</h:head>	
+	<h:body>
+		<h1>#{facesContext.externalContext.request.session.servletContext.servletContextName}</h1>	
+		<h:form id="form">
+			<m:metawidget value="#{validatorQuirks}">
+				<m:metawidget value="#{validatorQuirks.bar}" rendererType="simple">
+					<f:validator validatorId="fooValidator"/>
+				</m:metawidget>
+				<m:metawidget value="#{validatorQuirks.baz}" rendererType="simple">
+					<f:convertNumber currencySymbol="$" type="currency"/>
+				</m:metawidget>
+				<f:facet name="footer">
+					<h:commandButton value="Save" action="#{validatorQuirks.save}"/>
+				</f:facet>
+			</m:metawidget>
+		</h:form>
+	</h:body>
+</html>
+
+</f:view>

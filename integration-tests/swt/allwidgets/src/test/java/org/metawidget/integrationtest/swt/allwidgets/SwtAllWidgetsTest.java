@@ -152,8 +152,8 @@ public class SwtAllWidgetsTest
 
 		// Primitives
 
-		assertEquals( "Byte:", ( (Label) metawidget.getChildren()[8] ).getText() );
-		assertTrue( Byte.MAX_VALUE == (Integer) metawidget.getValue( "byte" ) );
+		assertEquals( "Byte primitive:", ( (Label) metawidget.getChildren()[8] ).getText() );
+		assertTrue( Byte.MAX_VALUE == (Integer) metawidget.getValue( "bytePrimitive" ) );
 		Spinner spinner = (Spinner) metawidget.getChildren()[9];
 
 		// (negative Spinner values don't always work -
@@ -168,8 +168,8 @@ public class SwtAllWidgetsTest
 		assertEquals( String.valueOf( Byte.MIN_VALUE ), metawidget.getValue( "byteObject" ) );
 		( (Text) metawidget.getChildren()[11] ).setText( String.valueOf( Byte.MIN_VALUE + 1 ) );
 
-		assertEquals( "Short:", ( (Label) metawidget.getChildren()[12] ).getText() );
-		assertTrue( Short.MAX_VALUE == (Integer) metawidget.getValue( "short" ) );
+		assertEquals( "Short primitive:", ( (Label) metawidget.getChildren()[12] ).getText() );
+		assertTrue( Short.MAX_VALUE == (Integer) metawidget.getValue( "shortPrimitive" ) );
 		spinner = (Spinner) metawidget.getChildren()[13];
 		assertTrue( -6 == spinner.getMinimum() || 0 == spinner.getMinimum() );
 		assertTrue( Short.MAX_VALUE == spinner.getMaximum() );
@@ -180,8 +180,8 @@ public class SwtAllWidgetsTest
 		assertEquals( String.valueOf( Short.MIN_VALUE ), ( (String) metawidget.getValue( "shortObject" ) ).replaceAll( ",", "" ) );
 		( (Text) metawidget.getChildren()[15] ).setText( String.valueOf( Short.MIN_VALUE + 1 ) );
 
-		assertEquals( "Int:", ( (Label) metawidget.getChildren()[16] ).getText() );
-		assertTrue( Integer.MAX_VALUE == (Integer) metawidget.getValue( "int" ) );
+		assertEquals( "Int primitive:", ( (Label) metawidget.getChildren()[16] ).getText() );
+		assertTrue( Integer.MAX_VALUE == (Integer) metawidget.getValue( "intPrimitive" ) );
 		spinner = (Spinner) metawidget.getChildren()[17];
 		assertTrue( Integer.MIN_VALUE == spinner.getMinimum() || 0 == spinner.getMinimum() );
 		assertTrue( Integer.MAX_VALUE == spinner.getMaximum() );
@@ -204,9 +204,9 @@ public class SwtAllWidgetsTest
 		assertEquals( "33", metawidget.getValue( "rangedInteger" ) );
 		( (Text) metawidget.getChildren()[23] ).setText( String.valueOf( 34 ) );
 
-		assertEquals( "Long:", ( (Label) metawidget.getChildren()[24] ).getText() );
+		assertEquals( "Long primitive:", ( (Label) metawidget.getChildren()[24] ).getText() );
 		assertTrue( metawidget.getChildren()[25] instanceof Text );
-		assertEquals( "42", metawidget.getValue( "long" ) );
+		assertEquals( "42", metawidget.getValue( "longPrimitive" ) );
 		( (Text) metawidget.getChildren()[25] ).setText( "43" );
 
 		assertTrue( metawidget.getChildren()[26] instanceof Text );
@@ -214,9 +214,9 @@ public class SwtAllWidgetsTest
 		assertEquals( "43", metawidget.getValue( "longObject" ) );
 		( (Text) metawidget.getChildren()[26] ).setText( "44" );
 
-		assertEquals( "Float:", ( (Label) metawidget.getChildren()[27] ).getText() );
+		assertEquals( "Float primitive:", ( (Label) metawidget.getChildren()[27] ).getText() );
 		assertTrue( metawidget.getChildren()[28] instanceof Text );
-		assertEquals( "4.2", metawidget.getValue( "float" ) );
+		assertEquals( "4.2", metawidget.getValue( "floatPrimitive" ) );
 		( (Text) metawidget.getChildren()[28] ).setText( "4.3" );
 
 		assertEquals( "nullInBundle:", ( (Label) metawidget.getChildren()[29] ).getText() );
@@ -224,9 +224,9 @@ public class SwtAllWidgetsTest
 		assertEquals( "4.3", metawidget.getValue( "floatObject" ) );
 		( (Text) metawidget.getChildren()[30] ).setText( "5.4" );
 
-		assertEquals( "Double:", ( (Label) metawidget.getChildren()[31] ).getText() );
+		assertEquals( "Double primitive:", ( (Label) metawidget.getChildren()[31] ).getText() );
 		assertTrue( metawidget.getChildren()[32] instanceof Text );
-		assertEquals( "42.2", metawidget.getValue( "double" ) );
+		assertEquals( "42.2", metawidget.getValue( "doublePrimitive" ) );
 		( (Text) metawidget.getChildren()[32] ).setText( "42.3" );
 
 		assertTrue( metawidget.getChildren()[33] instanceof Text );
@@ -234,20 +234,20 @@ public class SwtAllWidgetsTest
 		assertEquals( "43.3", metawidget.getValue( "doubleObject" ) );
 		( (Text) metawidget.getChildren()[33] ).setText( "54.4" );
 
-		assertEquals( "Char:", ( (Label) metawidget.getChildren()[34] ).getText() );
+		assertEquals( "Char primitive:", ( (Label) metawidget.getChildren()[34] ).getText() );
 		assertTrue( metawidget.getChildren()[35] instanceof Text );
-		assertEquals( "A", metawidget.getValue( "char" ) );
+		assertEquals( "A", metawidget.getValue( "charPrimitive" ) );
 		( (Text) metawidget.getChildren()[35] ).setText( "Z" );
 
 		assertEquals( "Character object:", ( (Label) metawidget.getChildren()[36] ).getText() );
 		assertTrue( metawidget.getChildren()[37] instanceof Text );
-		assertEquals( "Z", metawidget.getValue( "char" ) );
+		assertEquals( "Z", metawidget.getValue( "characterObject" ) );
 		( (Text) metawidget.getChildren()[37] ).setText( "A" );
 
-		assertEquals( "Boolean:", ( (Label) metawidget.getChildren()[38] ).getText() );
+		assertEquals( "Boolean primitive:", ( (Label) metawidget.getChildren()[38] ).getText() );
 		assertTrue( metawidget.getChildren()[39] instanceof Button );
 		assertTrue( ( metawidget.getChildren()[39].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
+		assertTrue( false == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 		( (Button) metawidget.getChildren()[39] ).setSelection( true );
 
 		assertEquals( "Boolean object:", ( (Label) metawidget.getChildren()[40] ).getText() );
@@ -410,15 +410,15 @@ public class SwtAllWidgetsTest
 		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ) == SWT.WRAP );
 		assertEquals( "Password:", ( (Label) metawidget.getChildren()[6] ).getText() );
 		assertTrue( metawidget.getChildren()[7] instanceof Composite );
-		assertEquals( "Byte:", ( (Label) metawidget.getChildren()[8] ).getText() );
+		assertEquals( "Byte primitive:", ( (Label) metawidget.getChildren()[8] ).getText() );
 		assertEquals( "126", ( (Label) metawidget.getChildren()[9] ).getText() );
 		assertEquals( "Byte object:", ( (Label) metawidget.getChildren()[10] ).getText() );
 		assertEquals( "-127", ( (Label) metawidget.getChildren()[11] ).getText() );
-		assertEquals( "Short:", ( (Label) metawidget.getChildren()[12] ).getText() );
+		assertEquals( "Short primitive:", ( (Label) metawidget.getChildren()[12] ).getText() );
 		assertEquals( "32,766", ( (Label) metawidget.getChildren()[13] ).getText() );
 		assertEquals( "Short object:", ( (Label) metawidget.getChildren()[14] ).getText() );
 		assertEquals( "-32,767", ( (Label) metawidget.getChildren()[15] ).getText() );
-		assertEquals( "Int:", ( (Label) metawidget.getChildren()[16] ).getText() );
+		assertEquals( "Int primitive:", ( (Label) metawidget.getChildren()[16] ).getText() );
 		assertEquals( "2,147,483,646", ( (Label) metawidget.getChildren()[17] ).getText() );
 		assertEquals( "Integer object:", ( (Label) metawidget.getChildren()[18] ).getText() );
 		assertEquals( "-2,147,483,647", ( (Label) metawidget.getChildren()[19] ).getText() );
@@ -426,21 +426,21 @@ public class SwtAllWidgetsTest
 		assertEquals( "33", ( (Label) metawidget.getChildren()[21] ).getText() );
 		assertEquals( "Ranged integer:", ( (Label) metawidget.getChildren()[22] ).getText() );
 		assertEquals( "34", ( (Label) metawidget.getChildren()[23] ).getText() );
-		assertEquals( "Long:", ( (Label) metawidget.getChildren()[24] ).getText() );
+		assertEquals( "Long primitive:", ( (Label) metawidget.getChildren()[24] ).getText() );
 		assertEquals( "43", ( (Label) metawidget.getChildren()[25] ).getText() );
 		assertEquals( "44", ( (Label) metawidget.getChildren()[26] ).getText() );
-		assertEquals( "Float:", ( (Label) metawidget.getChildren()[27] ).getText() );
+		assertEquals( "Float primitive:", ( (Label) metawidget.getChildren()[27] ).getText() );
 		assertTrue( ( (Label) metawidget.getChildren()[28] ).getText().startsWith( "4.3" ) || ( (Label) metawidget.getChildren()[28] ).getText().startsWith( "4.299" ) );
 		assertEquals( "nullInBundle:", ( (Label) metawidget.getChildren()[29] ).getText() );
 		assertEquals( "5.4", ( (Label) metawidget.getChildren()[30] ).getText() );
-		assertEquals( "Double:", ( (Label) metawidget.getChildren()[31] ).getText() );
+		assertEquals( "Double primitive:", ( (Label) metawidget.getChildren()[31] ).getText() );
 		assertTrue( ( (Label) metawidget.getChildren()[32] ).getText().startsWith( "42.3" ) || ( (Label) metawidget.getChildren()[32] ).getText().startsWith( "42.299" ) );
 		assertEquals( "54.4", ( (Label) metawidget.getChildren()[33] ).getText() );
-		assertEquals( "Char:", ( (Label) metawidget.getChildren()[34] ).getText() );
+		assertEquals( "Char primitive:", ( (Label) metawidget.getChildren()[34] ).getText() );
 		assertEquals( "Z", ( (Label) metawidget.getChildren()[35] ).getText() );
 		assertEquals( "Character object:", ( (Label) metawidget.getChildren()[36] ).getText() );
 		assertEquals( "A", ( (Label) metawidget.getChildren()[37] ).getText() );
-		assertEquals( "Boolean:", ( (Label) metawidget.getChildren()[38] ).getText() );
+		assertEquals( "Boolean primitive:", ( (Label) metawidget.getChildren()[38] ).getText() );
 		assertEquals( "true", ( (Label) metawidget.getChildren()[39] ).getText() );
 		assertEquals( "Boolean object:", ( (Label) metawidget.getChildren()[40] ).getText() );
 		assertEquals( "false", ( (Label) metawidget.getChildren()[41] ).getText() );

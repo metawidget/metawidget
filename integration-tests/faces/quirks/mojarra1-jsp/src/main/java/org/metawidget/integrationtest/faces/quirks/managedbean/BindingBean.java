@@ -19,11 +19,14 @@ package org.metawidget.integrationtest.faces.quirks.managedbean;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ReadableIdProcessor;
 import org.metawidget.inspector.annotation.UiAction;
@@ -174,10 +177,12 @@ public class BindingBean {
 			throw new RuntimeException( "Id is '" + widget.getId() + "'. ReadableIdProcessor still active?" );
 		}
 
-		if ( widget instanceof UIInput ) {
+		if ( widget instanceof HtmlInputText || widget instanceof HtmlInputTextarea ) {
 			widget.setId( "child" + metawidget.getChildren().size() );
-		} else {
+		} else if ( widget instanceof UIMetawidget || widget instanceof UICommand || widget instanceof UIStub ){
 			widget.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+		} else {
+			throw new RuntimeException( "Unexpected widget of " + widget.getClass() );
 		}
 
 		return widget;

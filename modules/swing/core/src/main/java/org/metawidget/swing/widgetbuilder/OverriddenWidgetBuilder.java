@@ -42,7 +42,6 @@ public class OverriddenWidgetBuilder
 	// Public methods
 	//
 
-	@Override
 	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		String name = attributes.get( NAME );

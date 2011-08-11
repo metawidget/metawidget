@@ -146,23 +146,23 @@ public class AllWidgetsActivity
 		metawidget.setValue( mAllWidgets.getLimitedTextbox(), "limitedTextbox" );
 		metawidget.setValue( mAllWidgets.getTextarea(), "textarea" );
 		metawidget.setValue( mAllWidgets.getPassword(), "password" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getByte() ), "byte" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getBytePrimitive() ), "bytePrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getByteObject() ), "byteObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getShort() ), "short" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getShortPrimitive() ), "shortPrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getShortObject() ), "shortObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getInt() ), "int" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getIntPrimitive() ), "intPrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getIntegerObject() ), "integerObject" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getRangedInt() ), "rangedInt" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getRangedInteger() ), "rangedInteger" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getLong() ), "long" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getLongPrimitive() ), "longPrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getLongObject() ), "longObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getFloat() ), "float" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getFloatPrimitive() ), "floatPrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getFloatObject() ), "floatObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDouble() ), "double" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDoublePrimitive() ), "doublePrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getDoubleObject() ), "doubleObject" );
-		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getChar() ), "char" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getCharPrimitive() ), "charPrimitive" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getCharacterObject() ), "characterObject" );
-		metawidget.setValue( mAllWidgets.isBoolean(), "boolean" );
+		metawidget.setValue( mAllWidgets.isBooleanPrimitive(), "booleanPrimitive" );
 		metawidget.setValue( mAllWidgets.getBooleanObject(), "booleanObject" );
 		metawidget.setValue( mAllWidgets.getDropdown(), "dropdown" );
 		metawidget.setValue( mAllWidgets.getDropdownWithLabels(), "dropdownWithLabels" );
@@ -195,7 +195,7 @@ public class AllWidgetsActivity
 		mAllWidgets.setLimitedTextbox( (String) metawidget.getValue( "limitedTextbox" ) );
 		mAllWidgets.setTextarea( (String) metawidget.getValue( "textarea" ) );
 		mAllWidgets.setPassword( (String) metawidget.getValue( "password" ) );
-		mAllWidgets.setByte( Byte.parseByte( (String) metawidget.getValue( "byte" ) ) );
+		mAllWidgets.setBytePrimitive( Byte.parseByte( (String) metawidget.getValue( "bytePrimitive" ) ) );
 
 		String byteObject = metawidget.getValue( "byteObject" );
 
@@ -205,7 +205,7 @@ public class AllWidgetsActivity
 			mAllWidgets.setByteObject( Byte.valueOf( byteObject ) );
 		}
 
-		mAllWidgets.setShort( Short.parseShort( (String) metawidget.getValue( "short" ) ) );
+		mAllWidgets.setShortPrimitive( Short.parseShort( (String) metawidget.getValue( "shortPrimitive" ) ) );
 
 		String shortObject = metawidget.getValue( "shortObject" );
 
@@ -215,7 +215,7 @@ public class AllWidgetsActivity
 			mAllWidgets.setShortObject( Short.valueOf( shortObject ) );
 		}
 
-		mAllWidgets.setInt( Integer.parseInt( (String) metawidget.getValue( "int" ) ) );
+		mAllWidgets.setIntPrimitive( Integer.parseInt( (String) metawidget.getValue( "intPrimitive" ) ) );
 
 		String integerObject = metawidget.getValue( "integerObject" );
 
@@ -235,7 +235,7 @@ public class AllWidgetsActivity
 			mAllWidgets.setRangedInteger( Integer.valueOf( rangedInteger ) );
 		}
 
-		mAllWidgets.setLong( Long.parseLong( (String) metawidget.getValue( "long" ) ) );
+		mAllWidgets.setLongPrimitive( Long.parseLong( (String) metawidget.getValue( "longPrimitive" ) ) );
 
 		String longObject = metawidget.getValue( "longObject" );
 
@@ -245,7 +245,7 @@ public class AllWidgetsActivity
 			mAllWidgets.setLongObject( Long.valueOf( longObject ) );
 		}
 
-		mAllWidgets.setFloat( Float.parseFloat( (String) metawidget.getValue( "float" ) ) );
+		mAllWidgets.setFloatPrimitive( Float.parseFloat( (String) metawidget.getValue( "floatPrimitive" ) ) );
 
 		String floatObject = metawidget.getValue( "floatObject" );
 
@@ -255,7 +255,7 @@ public class AllWidgetsActivity
 			mAllWidgets.setFloatObject( Float.valueOf( floatObject ) );
 		}
 
-		mAllWidgets.setDouble( Double.parseDouble( (String) metawidget.getValue( "double" ) ) );
+		mAllWidgets.setDoublePrimitive( Double.parseDouble( (String) metawidget.getValue( "doublePrimitive" ) ) );
 
 		String doubleObject = metawidget.getValue( "doubleObject" );
 
@@ -265,10 +265,10 @@ public class AllWidgetsActivity
 			mAllWidgets.setDoubleObject( Double.valueOf( doubleObject ) );
 		}
 
-		mAllWidgets.setChar( ( (String) metawidget.getValue( "char" ) ).charAt( 0 ) );
+		mAllWidgets.setCharPrimitive( ( (String) metawidget.getValue( "charPrimitive" ) ).charAt( 0 ) );
 		mAllWidgets.setCharacterObject( ( (String) metawidget.getValue( "characterObject" ) ).charAt( 0 ) );
 
-		mAllWidgets.setBoolean( (Boolean) metawidget.getValue( "boolean" ) );
+		mAllWidgets.setBooleanPrimitive( (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 
 		String booleanObject = metawidget.getValue( "booleanObject" );
 

@@ -4,7 +4,7 @@
 
 	<target name="all">
 		<webtest name="test-quirks">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}" saveresponse="true"/>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
 				<invoke url="/" />
 				

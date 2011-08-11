@@ -27,10 +27,12 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.faces.application.Application;
+import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.ValueHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
@@ -38,6 +40,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
+import javax.faces.validator.Validator;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
@@ -59,22 +62,36 @@ import org.w3c.dom.Element;
 /**
  * Base Metawidget for Java Server Faces environments.
  * <p>
- * Note: <code>UIMetawidget</code> only extends <code>UIComponentBase</code>. It is not:
+ * Its default RendererType is <code>table</code>.
+ * <p>
+ * <h2>Resolving Directly To A Single Widget</h2>
+ * <p>
+ * If the entire Metawidget resolves directly to a single widget, Metawidget allows you to attach
+ * converters, facets and validators to the dynamically chosen component. Tags placed inside the
+ * Metawidget tag will be moved on to the generated component. For example:
+ * <p>
+ * <code>&lt;m:metawidget value="#{user.name}"&gt;<br/>
+ * &nbsp;&nbsp;&nbsp;&lt;f:validator validatorId="myValidator"&gt;<br/>
+ * &lt;/m:metawidget&gt;</code>
+ * <p>
+ * Conceptually, <code>UIMetawidget</code> should only extend <code>UIComponentBase</code>. This is
+ * because it is not:
  * <p>
  * <ul>
  * <li>a <code>UIInput</code>, though it may contain input widgets
  * <li>a <code>UIOutput</code>, though it may contain output widgets
  * <li>a <code>ValueHolder</code>, as it does not use a <code>Converter</code>
+ * <li>an <code>EditableValueHolder</code>, as it does not use a <code>Validator</code>
  * </ul>
  * <p>
- * Its default RendererType is <code>table</code>.
+ * However by extending <code>UIInput</code>, we enable this useful capability.
  *
  * @author Richard Kennard
  */
 
 @SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
-	extends UIComponentBase {
+	extends UIInput {
 
 	//
 	// Public statics
@@ -143,8 +160,6 @@ public abstract class UIMetawidget
 	//
 	// Private members
 	//
-
-	private Object							mValue;
 
 	private String							mConfig;
 
@@ -260,26 +275,6 @@ public abstract class UIMetawidget
 	public String getFamily() {
 
 		return "org.metawidget";
-	}
-
-	public void setValue( Object value ) {
-
-		mValue = value;
-	}
-
-	public Object getValue() {
-
-		if ( mValue != null ) {
-			return mValue;
-		}
-
-		ValueBinding valueBinding = getValueBinding( "value" );
-
-		if ( valueBinding == null ) {
-			return null;
-		}
-
-		return valueBinding.getValue( getFacesContext() );
 	}
 
 	public boolean isReadOnly() {
@@ -683,7 +678,6 @@ public abstract class UIMetawidget
 
 		Object values[] = new Object[5];
 		values[0] = super.saveState( context );
-		values[1] = mValue;
 		values[2] = mReadOnly;
 		values[3] = mConfig;
 		values[4] = mInspectFromParent;
@@ -701,7 +695,6 @@ public abstract class UIMetawidget
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
-		mValue = values[1];
 		mReadOnly = (Boolean) values[2];
 		mConfig = (String) values[3];
 		mInspectFromParent = (Boolean) values[4];
@@ -737,22 +730,24 @@ public abstract class UIMetawidget
 
 		// ...or from a raw value (for jBPM)...
 
-		if ( mValue instanceof String ) {
-			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, (String) mValue ) );
+		Object value = getValue();
+
+		if ( value instanceof String ) {
+			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, (String) value ) );
 			return;
 		}
 
 		// ...or a Class (for 'binding' attribute)...
 
-		if ( mValue instanceof Class<?> ) {
-			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, ( (Class<?>) mValue ).getName() ) );
+		if ( value instanceof Class<?> ) {
+			mPipeline.buildWidgets( mPipeline.inspectAsDom( null, ( (Class<?>) value ).getName() ) );
 			return;
 		}
 
 		// ...or a direct Object (for 'binding' attribute)...
 
-		if ( mValue != null ) {
-			mPipeline.buildWidgets( mPipeline.inspectAsDom( mValue, mValue.getClass().getName() ) );
+		if ( value != null ) {
+			mPipeline.buildWidgets( mPipeline.inspectAsDom( value, value.getClass().getName() ) );
 			return;
 		}
 
@@ -1165,13 +1160,27 @@ public abstract class UIMetawidget
 
 			UIComponent entityLevelWidget = super.buildWidget( elementName, attributes );
 
-			// If we manage to build an entity-level widget, move our facets *inside* it
+			// If we manage to build an entity-level widget, move our children *inside* it
 			//
 			// It's pretty rare we'll manage to create an entity-level widget, and even rarer that
-			// we'll create one when we ourselves have facets, but if we do this allows us to
-			// attach, say, f:ajax handlers to a dynamically chosen widget
+			// we'll create one when we ourselves have children, but if we do this allows us to
+			// attach, say, f:validator or f:ajax handlers to a dynamically chosen widget
 
 			if ( entityLevelWidget != null && ENTITY.equals( elementName ) ) {
+
+				// Move converters
+
+				if ( entityLevelWidget instanceof ValueHolder ) {
+
+					ValueHolder valueHolder = (ValueHolder) entityLevelWidget;
+					valueHolder.setConverter( UIMetawidget.this.getConverter() );
+
+					// Do not UIMetawidget.this.setConverter( null ), else it will get lost for
+					// subsequent POSTbacks
+				}
+
+				// Move facets
+
 				Map<String, UIComponent> metawidgetFacets = UIMetawidget.this.getFacets();
 				Map<String, UIComponent> entityLevelWidgetFacets = entityLevelWidget.getFacets();
 
@@ -1186,6 +1195,20 @@ public abstract class UIMetawidget
 				}
 
 				metawidgetFacets.clear();
+
+				// Move validators
+
+				if ( entityLevelWidget instanceof EditableValueHolder ) {
+
+					EditableValueHolder entityLevelEditableValueHolder = (EditableValueHolder) entityLevelWidget;
+
+					for ( Validator metawidgetValidator : UIMetawidget.this.getValidators() ) {
+						entityLevelEditableValueHolder.addValidator( metawidgetValidator );
+
+						// Do not UIMetawidget.this.removeValidator( metawidgetValidator ), else
+						// they will get lost for subsequent POSTbacks
+					}
+				}
 
 				// It's not clear whether we should move .getChildren() too. Err on the side of
 				// caution and don't for now

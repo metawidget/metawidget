@@ -452,16 +452,16 @@ public class SwingMetawidgetTest
 		//
 
 		@UiRequired
-		public Boolean getBoolean() {
+		public Boolean getBooleanObject() {
 
 			return Boolean.FALSE;
 		}
 
 		/**
-		 * @param aBoolean
+		 * @param booleanObject
 		 */
 
-		public void setBoolean( Boolean aBoolean ) {
+		public void setBooleanObject( Boolean booleanObject ) {
 
 			// Do nothing
 		}
@@ -474,7 +474,6 @@ public class SwingMetawidgetTest
 		// Public methods
 		//
 
-		@Override
 		@SuppressWarnings( "serial" )
 		public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget ) {
 
@@ -486,7 +485,6 @@ public class SwingMetawidgetTest
 
 			button.setAction( new AbstractAction( button.getText() ) {
 
-				@Override
 				public void actionPerformed( ActionEvent e ) {
 
 					metawidget.setValue( "FooActionBindingProcessor fired", "name" );

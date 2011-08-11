@@ -66,7 +66,6 @@ public class SwingWidgetBuilder
 	// Public methods
 	//
 
-	@Override
 	public String getValueProperty( Component component ) {
 
 		if ( component instanceof JComboBox ) {
@@ -92,7 +91,6 @@ public class SwingWidgetBuilder
 		return null;
 	}
 
-	@Override
 	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		// Hidden

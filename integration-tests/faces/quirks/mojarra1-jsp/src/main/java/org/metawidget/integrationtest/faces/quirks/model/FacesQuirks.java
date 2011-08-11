@@ -75,19 +75,19 @@ public class FacesQuirks {
 
 	@UiFacesComponent( "javax.faces.HtmlSelectOneRadio" )
 	@UiLabel( "#{40+2} boolean" )
-	public Boolean getBoolean() {
+	public Boolean getBooleanObject() {
 
 		return mBoolean;
 	}
 
-	public void setBoolean( Boolean aBoolean ) {
+	public void setBooleanObject( Boolean booleanObject ) {
 
-		mBoolean = aBoolean;
+		mBoolean = booleanObject;
 	}
 
 	@UiLarge
 	@UiLabel( "" )
-	@UiComesAfter( "boolean" )
+	@UiComesAfter( "booleanObject" )
 	@UiRequired
 	public String getLarge() {
 

@@ -11,7 +11,8 @@
 				
 				<!-- Brief test: most testing is done by GwtTestAddressBook.java -->
 				
-				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='metawidget']"/>
+				<!--<verifyXPath xpath="/html/body/div[@id='content']/div[@id='metawidget']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='contacts']"/>-->
 				
 				<!-- WebTest 3.0 doesn't seem up to doing more yet. Ideally, we want to click 'Add Personal Contact' -->
 			</steps>

@@ -51,15 +51,15 @@ public class AllWidgets
 
 	private String				mPassword							= "Password";
 
-	private byte				mByte								= Byte.MAX_VALUE;
+	private byte				mBytePrimitive						= Byte.MAX_VALUE;
 
 	private Byte				mByteObject							= Byte.MIN_VALUE;
 
-	private short				mShort								= Short.MAX_VALUE;
+	private short				mShortPrimitive						= Short.MAX_VALUE;
 
 	private Short				mShortObject						= Short.MIN_VALUE;
 
-	private int					mInt								= Integer.MAX_VALUE;
+	private int					mIntPrimitive						= Integer.MAX_VALUE;
 
 	private Integer				mIntegerObject						= Integer.MIN_VALUE;
 
@@ -67,25 +67,25 @@ public class AllWidgets
 
 	private int					mRangedInteger						= 33;
 
-	private long				mLong								= 42;
+	private long				mLongPrimitive						= 42;
 
 	// (use new Long, not Long.valueOf, so that we're 1.4 compatible)
 
 	private Long				mLongObject							= new Long( 43 );
 
-	private float				mFloat								= 4.2f;
+	private float				mFloatPrimitive						= 4.2f;
 
 	// (use new Float, not Float.valueOf, so that we're 1.4 compatible)
 
 	private Float				mFloatObject						= new Float( 4.3f );
 
-	private double				mDouble								= 42.2d;
+	private double				mDoublePrimitive					= 42.2d;
 
 	// (use new Double, not Double.valueOf, so that we're 1.4 compatible)
 
 	private Double				mDoubleObject						= new Double( 43.3d );
 
-	private char				mChar								= 'A';
+	private char				mCharPrimitive						= 'A';
 
 	private Character			mCharacterObject					= 'Z';
 
@@ -96,7 +96,7 @@ public class AllWidgets
 	 * means the backing object must default to false.
 	 */
 
-	private boolean				mBoolean							= false;
+	private boolean				mBooleanPrimitive					= false;
 
 	private Boolean				mBooleanObject						= Boolean.TRUE;
 
@@ -185,14 +185,14 @@ public class AllWidgets
 		mPassword = password;
 	}
 
-	public byte getByte() {
+	public byte getBytePrimitive() {
 
-		return mByte;
+		return mBytePrimitive;
 	}
 
-	public void setByte( byte aByte ) {
+	public void setBytePrimitive( byte bytePrimitive ) {
 
-		mByte = aByte;
+		mBytePrimitive = bytePrimitive;
 	}
 
 	public Byte getByteObject() {
@@ -205,14 +205,14 @@ public class AllWidgets
 		mByteObject = object;
 	}
 
-	public short getShort() {
+	public short getShortPrimitive() {
 
-		return mShort;
+		return mShortPrimitive;
 	}
 
-	public void setShort( short aShort ) {
+	public void setShortPrimitive( short shortPrimitive ) {
 
-		mShort = aShort;
+		mShortPrimitive = shortPrimitive;
 	}
 
 	public Short getShortObject() {
@@ -225,14 +225,14 @@ public class AllWidgets
 		mShortObject = object;
 	}
 
-	public int getInt() {
+	public int getIntPrimitive() {
 
-		return mInt;
+		return mIntPrimitive;
 	}
 
-	public void setInt( int anInt ) {
+	public void setIntPrimitive( int intPrimitive ) {
 
-		mInt = anInt;
+		mIntPrimitive = intPrimitive;
 	}
 
 	public Integer getIntegerObject() {
@@ -265,14 +265,14 @@ public class AllWidgets
 		mRangedInteger = rangedInteger;
 	}
 
-	public long getLong() {
+	public long getLongPrimitive() {
 
-		return mLong;
+		return mLongPrimitive;
 	}
 
-	public void setLong( long aLong ) {
+	public void setLongPrimitive( long longPrimitive ) {
 
-		mLong = aLong;
+		mLongPrimitive = longPrimitive;
 	}
 
 	public Long getLongObject() {
@@ -285,14 +285,14 @@ public class AllWidgets
 		mLongObject = longObject;
 	}
 
-	public float getFloat() {
+	public float getFloatPrimitive() {
 
-		return mFloat;
+		return mFloatPrimitive;
 	}
 
-	public void setFloat( float aFloat ) {
+	public void setFloatPrimitive( float floatPrimitive ) {
 
-		mFloat = aFloat;
+		mFloatPrimitive = floatPrimitive;
 	}
 
 	public Float getFloatObject() {
@@ -305,14 +305,14 @@ public class AllWidgets
 		mFloatObject = object;
 	}
 
-	public double getDouble() {
+	public double getDoublePrimitive() {
 
-		return mDouble;
+		return mDoublePrimitive;
 	}
 
-	public void setDouble( double aDouble ) {
+	public void setDoublePrimitive( double doublePrimitive ) {
 
-		mDouble = aDouble;
+		mDoublePrimitive = doublePrimitive;
 	}
 
 	public Double getDoubleObject() {
@@ -325,14 +325,14 @@ public class AllWidgets
 		mDoubleObject = object;
 	}
 
-	public char getChar() {
+	public char getCharPrimitive() {
 
-		return mChar;
+		return mCharPrimitive;
 	}
 
-	public void setChar( char aChar ) {
+	public void setCharPrimitive( char charPrimitive ) {
 
-		mChar = aChar;
+		mCharPrimitive = charPrimitive;
 	}
 
 	public Character getCharacterObject() {
@@ -345,14 +345,14 @@ public class AllWidgets
 		mCharacterObject = aCharacterObject;
 	}
 
-	public boolean isBoolean() {
+	public boolean isBooleanPrimitive() {
 
-		return mBoolean;
+		return mBooleanPrimitive;
 	}
 
-	public void setBoolean( boolean aBoolean ) {
+	public void setBooleanPrimitive( boolean booleanPrimitive ) {
 
-		mBoolean = aBoolean;
+		mBooleanPrimitive = booleanPrimitive;
 	}
 
 	public Boolean getBooleanObject() {

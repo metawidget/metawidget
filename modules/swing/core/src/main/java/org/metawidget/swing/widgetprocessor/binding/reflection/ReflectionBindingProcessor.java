@@ -50,7 +50,6 @@ public class ReflectionBindingProcessor
 	// Public methods
 	//
 
-	@Override
 	@SuppressWarnings( "serial" )
 	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
@@ -104,7 +103,6 @@ public class ReflectionBindingProcessor
 
 		button.setAction( new AbstractAction( button.getText() ) {
 
-			@Override
 			public void actionPerformed( ActionEvent e ) {
 
 				try {

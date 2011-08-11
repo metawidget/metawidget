@@ -761,12 +761,18 @@
 						resolves directly to a single widget, rather than iterating over properties and creating multiple
 						sub-widgets (eg. if <parameter>value</parameter> is pointed directly at a <classname>String</classname>
 						field it will resolve to an <classname>HtmlInputText</classname>). In this
-						case the facet applies not to the <classname>Layout</classname> but to the generated widget. This
-						can be useful to declaratively attach behaviours:
+						case any facets (and converters and validators) apply not to the <classname>Layout</classname> but to
+						the generated widget. This can be useful to declaratively attach behaviours:
 					</para>
 
 					<programlisting language="xml">&lt;m:metawidget value="#{foo.name}"&gt;
 	&lt;a4j:support event="onclick" onsubmit="alert('onclick')"/&gt;
+&lt;/m:metawidget&gt;</programlisting>
+
+					<para>Or:</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo.name}"&gt;
+	&lt;f:validator validatorId="myValidator"/&gt;
 &lt;/m:metawidget&gt;</programlisting>
 
 					<para>
@@ -798,7 +804,7 @@
 						(specifically a version that <ulink url="https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826">includes this fix</ulink>)
 						or MyFaces 2.0.3
 						(specifically a version that <ulink url="https://issues.apache.org/jira/browse/MYFACES-2935">includes this fix</ulink>). If you need
-						to work with older versions, you must:
+						to work with older versions, you must...
 					</para>
 					
 					<itemizedlist>
@@ -816,6 +822,13 @@
 							</para>
 						</listitem>
 					</itemizedlist>
+					
+					<para>
+						...but even then, Metawidget exercises the dynamic capabilites of JSF implementations more than most. If you start experiencing
+						strange behaviour (such as components being re-ordered following POST back) upgrade to the latest version of JSF
+						your environment permits.
+					</para>
+					
 				</section>
 				
 			</section>

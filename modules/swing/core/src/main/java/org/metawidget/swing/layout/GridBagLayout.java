@@ -105,13 +105,11 @@ public class GridBagLayout
 	// Public methods
 	//
 
-	@Override
 	public void onStartBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	@Override
 	public void startContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		container.putClientProperty( GridBagLayout.class, null );
@@ -140,7 +138,6 @@ public class GridBagLayout
 		state.defaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
-	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		// Do not render empty stubs
@@ -217,7 +214,6 @@ public class GridBagLayout
 		}
 	}
 
-	@Override
 	public void endContainerLayout( JComponent container, SwingMetawidget metawidget ) {
 
 		// Spacer row: see JavaDoc for state.needSpacerRow
@@ -240,7 +236,6 @@ public class GridBagLayout
 		}
 	}
 
-	@Override
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Buttons

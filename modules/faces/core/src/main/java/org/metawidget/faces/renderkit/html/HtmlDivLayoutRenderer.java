@@ -25,7 +25,6 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
-import javax.faces.component.html.HtmlMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -166,18 +165,16 @@ public class HtmlDivLayoutRenderer
 	}
 
 	@Override
-	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
+	protected UIComponent createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
 
-		HtmlMessage message = super.createInlineMessage( context, metawidget, messageFor );
+		UIComponent message = super.createInlineMessage( context, metawidget, messageFor );
 
 		// Apply alternate style class (if any)
 
-		if ( message.getStyleClass() == null ) {
-			State state = getState( metawidget );
+		State state = getState( metawidget );
 
-			if ( state.divStyleClasses != null && state.divStyleClasses.length > 4 ) {
-				message.setStyleClass( state.divStyleClasses[4] );
-			}
+		if ( state.divStyleClasses != null && state.divStyleClasses.length > 4 ) {
+			FacesUtils.setStyleAndStyleClass( message, null, state.divStyleClasses[4] );
 		}
 
 		return message;

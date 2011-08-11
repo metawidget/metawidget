@@ -12,7 +12,7 @@
 	allWidgets.setLimitedTextbox( request.getParameter( "allWidgets.limitedTextbox" ) );
 	allWidgets.setTextarea( request.getParameter( "allWidgets.textarea" ) );
 	allWidgets.setPassword( request.getParameter( "allWidgets.password" ) );
-	allWidgets.setByte( Byte.parseByte( request.getParameter( "allWidgets.byte" ) ) );
+	allWidgets.setBytePrimitive( Byte.parseByte( request.getParameter( "allWidgets.bytePrimitive" ) ) );
 
 	String byteObject = request.getParameter( "allWidgets.byteObject" );
 
@@ -21,7 +21,7 @@
 	else
 		allWidgets.setByteObject( Byte.valueOf( byteObject ) );
 
-	allWidgets.setShort( Short.parseShort( request.getParameter( "allWidgets.short" ) ) );
+	allWidgets.setShortPrimitive( Short.parseShort( request.getParameter( "allWidgets.shortPrimitive" ) ) );
 
 	String shortObject = request.getParameter( "allWidgets.shortObject" );
 
@@ -30,7 +30,7 @@
 	else
 		allWidgets.setShortObject( Short.valueOf( shortObject ) );
 
-	allWidgets.setInt( Integer.parseInt( request.getParameter( "allWidgets.int" ) ) );
+	allWidgets.setIntPrimitive( Integer.parseInt( request.getParameter( "allWidgets.intPrimitive" ) ) );
 
 	String integerObject = request.getParameter( "allWidgets.integerObject" );
 
@@ -48,7 +48,7 @@
 	else
 		allWidgets.setRangedInteger( Integer.valueOf( rangedInteger ) );
 
-	allWidgets.setLong( Long.parseLong( request.getParameter( "allWidgets.long" ) ) );
+	allWidgets.setLongPrimitive( Long.parseLong( request.getParameter( "allWidgets.longPrimitive" ) ) );
 
 	String longObject = request.getParameter( "allWidgets.longObject" );
 
@@ -57,7 +57,7 @@
 	else
 		allWidgets.setLongObject( Long.valueOf( longObject ) );
 
-	allWidgets.setFloat( Float.parseFloat( request.getParameter( "allWidgets.float" ) ) );
+	allWidgets.setFloatPrimitive( Float.parseFloat( request.getParameter( "allWidgets.floatPrimitive" ) ) );
 
 	String floatObject = request.getParameter( "allWidgets.floatObject" );
 
@@ -66,7 +66,7 @@
 	else
 		allWidgets.setFloatObject( Float.valueOf( floatObject ) );
 
-	allWidgets.setDouble( Double.parseDouble( request.getParameter( "allWidgets.double" ) ) );
+	allWidgets.setDoublePrimitive( Double.parseDouble( request.getParameter( "allWidgets.doublePrimitive" ) ) );
 
 	String doubleObject = request.getParameter( "allWidgets.doubleObject" );
 
@@ -75,10 +75,10 @@
 	else
 		allWidgets.setDoubleObject( Double.valueOf( doubleObject ) );
 
-	allWidgets.setChar( ( request.getParameter( "allWidgets.char" ) ).charAt( 0 ) );
+	allWidgets.setCharPrimitive( ( request.getParameter( "allWidgets.charPrimitive" ) ).charAt( 0 ) );
 
-	if ( "on".equals( request.getParameter( "allWidgets.boolean" )))
-		allWidgets.setBoolean( true );
+	if ( "on".equals( request.getParameter( "allWidgets.booleanPrimitive" )))
+		allWidgets.setBooleanPrimitive( true );
 		
 	String booleanObject = request.getParameter( "allWidgets.booleanObject" );
 

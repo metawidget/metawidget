@@ -218,7 +218,7 @@ public abstract class HtmlLayoutRenderer
 		// http://javaserverfaces.java.net/nonav/docs/2.0/javadocs/javax/faces/component/UIComponent.html#setParent(javax.faces.component.UIComponent)
 
 		List<UIComponent> children = metawidget.getChildren();
-		HtmlMessage inlineMessage = createInlineMessage( context, metawidget, messageFor );
+		UIComponent inlineMessage = createInlineMessage( context, metawidget, messageFor );
 
 		try {
 			children.add( inlineMessage );
@@ -230,9 +230,12 @@ public abstract class HtmlLayoutRenderer
 
 	/**
 	 * Creates an inline <code>HtmlMessage</code> attached to the given <code>messageFor</code> id.
+	 * <p>
+	 * Subclasses can override this method to create a different messaging object, such as an
+	 * <code>HtmlMessages</code> (with an 's').
 	 */
 
-	protected HtmlMessage createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
+	protected UIComponent createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 		message.setId( context.getViewRoot().createUniqueId() );
@@ -241,14 +244,7 @@ public abstract class HtmlLayoutRenderer
 		// Parse styles
 
 		State state = getState( metawidget );
-
-		if ( !"".equals( state.messageStyle ) ) {
-			message.setStyle( state.messageStyle );
-		}
-
-		if ( !"".equals( state.messageStyleClass ) ) {
-			message.setStyleClass( state.messageStyleClass );
-		}
+		FacesUtils.setStyleAndStyleClass( message, state.messageStyle, state.messageStyleClass );
 
 		return message;
 	}

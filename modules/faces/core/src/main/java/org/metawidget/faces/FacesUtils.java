@@ -17,6 +17,7 @@
 package org.metawidget.faces;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -154,6 +155,39 @@ public final class FacesUtils {
 		// JSF 1.x
 
 		return (T) application.createComponent( componentType );
+	}
+
+	/**
+	 * Sets the given style and styleClass on the given Component.
+	 * <p>
+	 * JSF does not provide a common interface for all <code>UIComponent</code>s that support
+	 * <code>style</code> and <code>styleClass</code>, so we must interrogate their attributes
+	 * directly.
+	 */
+
+	public static void setStyleAndStyleClass( UIComponent component, String style, String styleClass ) {
+
+		Map<String, Object> attributes = component.getAttributes();
+
+		if ( style != null ) {
+			String existingStyle = (String) attributes.get( "style" );
+
+			if ( existingStyle == null || "".equals( existingStyle ) ) {
+				attributes.put( "style", style );
+			} else {
+				attributes.put( "style", existingStyle + " " + style );
+			}
+		}
+
+		if ( styleClass != null ) {
+			String existingStyleClass = (String) attributes.get( "styleClass" );
+
+			if ( existingStyleClass == null || "".equals( existingStyleClass ) ) {
+				attributes.put( "styleClass", styleClass );
+			} else {
+				attributes.put( "styleClass", existingStyleClass + " " + styleClass );
+			}
+		}
 	}
 
 	//

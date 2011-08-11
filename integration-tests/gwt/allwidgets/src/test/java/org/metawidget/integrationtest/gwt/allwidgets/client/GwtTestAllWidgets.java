@@ -117,9 +117,9 @@ public class GwtTestAllWidgets
 
 				// Primitives
 
-				assertEquals( "Byte:", flexTable.getText( 2, 3 ) );
+				assertEquals( "Byte primitive:", flexTable.getText( 2, 3 ) );
 				assertTrue( flexTable.getWidget( 2, 4 ) instanceof TextBox );
-				assertEquals( String.valueOf( Byte.MAX_VALUE ), metawidget.getValue( "byte" ) );
+				assertEquals( String.valueOf( Byte.MAX_VALUE ), metawidget.getValue( "bytePrimitive" ) );
 				( (TextBox) flexTable.getWidget( 2, 4 ) ).setText( String.valueOf( Byte.MAX_VALUE - 1 ) );
 
 				assertEquals( "Byte object:", flexTable.getText( 3, 0 ) );
@@ -127,9 +127,9 @@ public class GwtTestAllWidgets
 				assertEquals( String.valueOf( Byte.MIN_VALUE ), metawidget.getValue( "byteObject" ) );
 				( (TextBox) flexTable.getWidget( 3, 1 ) ).setText( String.valueOf( Byte.MIN_VALUE + 1 ) );
 
-				assertEquals( "Short:", flexTable.getText( 3, 3 ) );
+				assertEquals( "Short primitive:", flexTable.getText( 3, 3 ) );
 				assertTrue( flexTable.getWidget( 3, 4 ) instanceof TextBox );
-				assertEquals( String.valueOf( Short.MAX_VALUE ), metawidget.getValue( "short" ) );
+				assertEquals( String.valueOf( Short.MAX_VALUE ), metawidget.getValue( "shortPrimitive" ) );
 				( (TextBox) flexTable.getWidget( 3, 4 ) ).setText( String.valueOf( Short.MAX_VALUE - 1 ) );
 
 				assertEquals( "Short object:", flexTable.getText( 4, 0 ) );
@@ -137,9 +137,9 @@ public class GwtTestAllWidgets
 				assertEquals( String.valueOf( Short.MIN_VALUE ), metawidget.getValue( "shortObject" ) );
 				( (TextBox) flexTable.getWidget( 4, 1 ) ).setText( String.valueOf( Short.MIN_VALUE + 1 ) );
 
-				assertEquals( "Int:", flexTable.getText( 4, 3 ) );
+				assertEquals( "Int primitive:", flexTable.getText( 4, 3 ) );
 				assertTrue( flexTable.getWidget( 4, 4 ) instanceof TextBox );
-				assertEquals( String.valueOf( Integer.MAX_VALUE ), metawidget.getValue( "int" ) );
+				assertEquals( String.valueOf( Integer.MAX_VALUE ), metawidget.getValue( "intPrimitive" ) );
 				( (TextBox) flexTable.getWidget( 4, 4 ) ).setText( String.valueOf( Integer.MAX_VALUE - 1 ) );
 
 				assertEquals( "Integer object:", flexTable.getText( 5, 0 ) );
@@ -157,9 +157,9 @@ public class GwtTestAllWidgets
 				assertEquals( "33", metawidget.getValue( "rangedInteger" ) );
 				( (TextBox) flexTable.getWidget( 6, 1 ) ).setText( "34" );
 
-				assertEquals( "Long:", flexTable.getText( 6, 3 ) );
+				assertEquals( "Long primitive:", flexTable.getText( 6, 3 ) );
 				assertTrue( flexTable.getWidget( 6, 4 ) instanceof TextBox );
-				assertEquals( "42", metawidget.getValue( "long" ) );
+				assertEquals( "42", metawidget.getValue( "longPrimitive" ) );
 				( (TextBox) flexTable.getWidget( 6, 4 ) ).setText( "43" );
 
 				assertEquals( "", flexTable.getText( 7, 0 ) );
@@ -167,9 +167,9 @@ public class GwtTestAllWidgets
 				assertEquals( "43", metawidget.getValue( "longObject" ) );
 				( (TextBox) flexTable.getWidget( 7, 1 ) ).setText( "44" );
 
-				assertEquals( "Float:", flexTable.getText( 7, 3 ) );
+				assertEquals( "Float primitive:", flexTable.getText( 7, 3 ) );
 				assertTrue( flexTable.getWidget( 7, 4 ) instanceof TextBox );
-				assertEquals( "4.2", metawidget.getValue( "float" ) );
+				assertEquals( "4.2", metawidget.getValue( "floatPrimitive" ) );
 				( (TextBox) flexTable.getWidget( 7, 4 ) ).setText( "5.3" );
 
 				assertEquals( "nullInBundle:", flexTable.getText( 8, 0 ) );
@@ -177,9 +177,9 @@ public class GwtTestAllWidgets
 				assertEquals( "4.3", metawidget.getValue( "floatObject" ) );
 				( (TextBox) flexTable.getWidget( 8, 1 ) ).setText( "5.4" );
 
-				assertEquals( "Double:", flexTable.getText( 8, 3 ) );
+				assertEquals( "Double primitive:", flexTable.getText( 8, 3 ) );
 				assertTrue( flexTable.getWidget( 8, 4 ) instanceof TextBox );
-				assertEquals( "42.2", metawidget.getValue( "double" ) );
+				assertEquals( "42.2", metawidget.getValue( "doublePrimitive" ) );
 				( (TextBox) flexTable.getWidget( 8, 4 ) ).setText( "53.3" );
 
 				assertTrue( flexTable.getWidget( 9, 0 ) instanceof TextBox );
@@ -187,9 +187,9 @@ public class GwtTestAllWidgets
 				assertEquals( "43.3", metawidget.getValue( "doubleObject" ) );
 				( (TextBox) flexTable.getWidget( 9, 0 ) ).setText( "54.4" );
 
-				assertEquals( "Char:", flexTable.getText( 9, 2 ) );
+				assertEquals( "Char primitive:", flexTable.getText( 9, 2 ) );
 				assertTrue( flexTable.getWidget( 9, 3 ) instanceof TextBox );
-				assertEquals( "A", metawidget.getValue( "char" ) );
+				assertEquals( "A", metawidget.getValue( "charPrimitive" ) );
 				assertTrue( 1 == ( (TextBox) flexTable.getWidget( 9, 3 ) ).getMaxLength() );
 				( (TextBox) flexTable.getWidget( 9, 3 ) ).setText( "Z" );
 
@@ -199,9 +199,9 @@ public class GwtTestAllWidgets
 				assertTrue( 1 == ( (TextBox) flexTable.getWidget( 10, 1 ) ).getMaxLength() );
 				( (TextBox) flexTable.getWidget( 10, 1 ) ).setText( "A" );
 
-				assertEquals( "Boolean:", flexTable.getText( 10, 3 ) );
+				assertEquals( "Boolean primitive:", flexTable.getText( 10, 3 ) );
 				assertTrue( flexTable.getWidget( 10, 4 ) instanceof CheckBox );
-				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
+				assertTrue( false == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 				( (CheckBox) flexTable.getWidget( 10, 4 ) ).setValue( true );
 
 				assertEquals( "Boolean object:", flexTable.getText( 11, 0 ) );
@@ -430,15 +430,15 @@ public class GwtTestAllWidgets
 																assertEquals( "Textarea1", ( (Label) readOnlyFlexTable.getWidget( 5, 0 ) ).getText() );
 																assertEquals( "Password (i18n):", readOnlyFlexTable.getText( 6, 0 ) );
 																assertTrue( readOnlyFlexTable.getWidget( 7, 0 ) instanceof SimplePanel );
-																assertEquals( "Byte (i18n):", readOnlyFlexTable.getText( 8, 0 ) );
+																assertEquals( "Byte primitive (i18n):", readOnlyFlexTable.getText( 8, 0 ) );
 																assertEquals( "126", ( (Label) readOnlyFlexTable.getWidget( 9, 0 ) ).getText() );
 																assertEquals( "Byte object (i18n):", readOnlyFlexTable.getText( 10, 0 ) );
 																assertEquals( "-127", ( (Label) readOnlyFlexTable.getWidget( 11, 0 ) ).getText() );
-																assertEquals( "Short (i18n):", readOnlyFlexTable.getText( 12, 0 ) );
+																assertEquals( "Short primitive (i18n):", readOnlyFlexTable.getText( 12, 0 ) );
 																assertEquals( "32766", ( (Label) readOnlyFlexTable.getWidget( 13, 0 ) ).getText() );
 																assertEquals( "Short object (i18n):", readOnlyFlexTable.getText( 14, 0 ) );
 																assertEquals( "-32767", ( (Label) readOnlyFlexTable.getWidget( 15, 0 ) ).getText() );
-																assertEquals( "Int (i18n):", readOnlyFlexTable.getText( 16, 0 ) );
+																assertEquals( "Int primitive (i18n):", readOnlyFlexTable.getText( 16, 0 ) );
 																assertEquals( "2147483646", ( (Label) readOnlyFlexTable.getWidget( 17, 0 ) ).getText() );
 																assertEquals( "Integer object (i18n):", readOnlyFlexTable.getText( 18, 0 ) );
 																assertEquals( "-2147483647", ( (Label) readOnlyFlexTable.getWidget( 19, 0 ) ).getText() );
@@ -446,23 +446,23 @@ public class GwtTestAllWidgets
 																assertEquals( "33", ( (Label) readOnlyFlexTable.getWidget( 21, 0 ) ).getText() );
 																assertEquals( "Ranged integer (i18n):", readOnlyFlexTable.getText( 22, 0 ) );
 																assertEquals( "34", ( (Label) readOnlyFlexTable.getWidget( 23, 0 ) ).getText() );
-																assertEquals( "Long (i18n):", readOnlyFlexTable.getText( 24, 0 ) );
+																assertEquals( "Long primitive (i18n):", readOnlyFlexTable.getText( 24, 0 ) );
 																assertEquals( "43", ( (Label) readOnlyFlexTable.getWidget( 25, 0 ) ).getText() );
 																assertEquals( "??????:", readOnlyFlexTable.getText( 26, 0 ) );
 																assertEquals( "44", ( (Label) readOnlyFlexTable.getWidget( 27, 0 ) ).getText() );
-																assertEquals( "Float (i18n):", readOnlyFlexTable.getText( 28, 0 ) );
+																assertEquals( "Float primitive (i18n):", readOnlyFlexTable.getText( 28, 0 ) );
 																assertEquals( "5.3", ( (Label) readOnlyFlexTable.getWidget( 29, 0 ) ).getText() );
 																assertTrue( 0 == readOnlyFlexTable.getCellCount( 30 ) );
 																assertEquals( "5.4", ( (Label) readOnlyFlexTable.getWidget( 31, 0 ) ).getText() );
-																assertEquals( "Double (i18n):", readOnlyFlexTable.getText( 32, 0 ) );
+																assertEquals( "Double primitive (i18n):", readOnlyFlexTable.getText( 32, 0 ) );
 																assertEquals( "53.3", ( (Label) readOnlyFlexTable.getWidget( 33, 0 ) ).getText() );
 																assertEquals( "54.4", ( (Label) readOnlyFlexTable.getWidget( 34, 0 ) ).getText() );
 																assertTrue( 2 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 34, 0 ) );
-																assertEquals( "Char (i18n):", readOnlyFlexTable.getText( 35, 0 ) );
+																assertEquals( "Char primitive (i18n):", readOnlyFlexTable.getText( 35, 0 ) );
 																assertEquals( "Z", ( (Label) readOnlyFlexTable.getWidget( 36, 0 ) ).getText() );
 																assertEquals( "Character object (i18n):", readOnlyFlexTable.getText( 37, 0 ) );
 																assertEquals( "A", ( (Label) readOnlyFlexTable.getWidget( 38, 0 ) ).getText() );
-																assertEquals( "Boolean (i18n):", readOnlyFlexTable.getText( 39, 0 ) );
+																assertEquals( "Boolean primitive (i18n):", readOnlyFlexTable.getText( 39, 0 ) );
 																assertEquals( "true", ( (Label) readOnlyFlexTable.getWidget( 40, 0 ) ).getText() );
 																assertEquals( "Boolean object (i18n):", readOnlyFlexTable.getText( 41, 0 ) );
 																assertEquals( "false", ( (Label) readOnlyFlexTable.getWidget( 42, 0 ) ).getText() );
@@ -621,22 +621,22 @@ public class GwtTestAllWidgets
 			"limitedTextbox": "Limited textbox (i18n)",
 			"textarea": "Textarea (i18n)",
 			"password": "Password (i18n)",
-			"byte": "Byte (i18n)",
+			"bytePrimitive": "Byte primitive (i18n)",
 			"byteObject": "Byte object (i18n)",
-			"short": "Short (i18n)",
+			"shortPrimitive": "Short primitive (i18n)",
 			"shortObject": "Short object (i18n)",
-			"int": "Int (i18n)",
+			"intPrimitive": "Int primitive (i18n)",
 			"integerObject": "Integer object (i18n)",
 			"rangedInt": "Ranged int (i18n)",
 			"rangedInteger": "Ranged integer (i18n)",
-			"long": "Long (i18n)",
+			"longPrimitive": "Long primitive (i18n)",
 			"longObject": "Long object (i18n)",
-			"float": "Float (i18n)",
+			"floatPrimitive": "Float primitive (i18n)",
 			"nullInBundle": "",
-			"double": "Double (i18n)",
-			"char": "Char (i18n)",
+			"doublePrimitive": "Double primitive (i18n)",
+			"charPrimitive": "Char primitive (i18n)",
 			"characterObject": "Character object (i18n)",
-			"boolean": "Boolean (i18n)",
+			"booleanPrimitive": "Boolean primitive (i18n)",
 			"booleanObject": "Boolean object (i18n)",
 			"dropdown": "Dropdown (i18n)",
 			"dropdownWithLabels": "Dropdown with Labels (i18n)",

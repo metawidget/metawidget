@@ -35,7 +35,7 @@ public class GwtQuirks
 	// Private members
 	//
 
-	private boolean				mBoolean;
+	private boolean				mBooleanPrimitive;
 
 	private GwtNestedQuirks		mNestedQuirks		= new GwtNestedQuirks();
 
@@ -43,14 +43,14 @@ public class GwtQuirks
 	// Public methods
 	//
 
-	public boolean isBoolean() {
+	public boolean isBooleanPrimitive() {
 
-		return mBoolean;
+		return mBooleanPrimitive;
 	}
 
-	public void setBoolean( boolean aBoolean ) {
+	public void setBooleanPrimitive( boolean booleanPrimitive ) {
 
-		mBoolean = aBoolean;
+		mBoolean = booleanPrimitive;
 	}
 
 	public GwtNestedQuirks getNestedQuirks() {

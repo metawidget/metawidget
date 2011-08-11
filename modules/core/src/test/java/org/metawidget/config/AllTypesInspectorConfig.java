@@ -51,7 +51,7 @@ public class AllTypesInspectorConfig {
 
 	private int				mExternalConstant;
 
-	private boolean			mBoolean;
+	private boolean			mBooleanPrimitive;
 
 	private Pattern			mPattern;
 
@@ -94,9 +94,9 @@ public class AllTypesInspectorConfig {
 		mExternalConstant = externalConstant;
 	}
 
-	public void setBoolean( boolean aBoolean ) {
+	public void setBooleanPrimitive( boolean booleanPrimitive ) {
 
-		mBoolean = aBoolean;
+		mBooleanPrimitive = booleanPrimitive;
 	}
 
 	public void setPattern( Pattern pattern ) {

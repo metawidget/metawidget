@@ -135,7 +135,6 @@ public class InputVerifierProcessorTest
 		// Public methods
 		//
 
-		@Override
 		public void onStartBuild( SwingMetawidget metawidget ) {
 
 			metawidget.putClientProperty( "onStartBuild", Boolean.TRUE );
@@ -163,7 +162,6 @@ public class InputVerifierProcessorTest
 			};
 		}
 
-		@Override
 		public void onEndBuild( SwingMetawidget metawidget ) {
 
 			metawidget.putClientProperty( "onEndBuild", Boolean.TRUE );
