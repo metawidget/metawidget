@@ -170,7 +170,7 @@ public class AllTypesInspectorConfig {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mBoolean, ( (AllTypesInspectorConfig) that ).mBoolean ) ) {
+		if ( !ObjectUtils.nullSafeEquals( mBooleanPrimitive, ( (AllTypesInspectorConfig) that ).mBooleanPrimitive ) ) {
 			return false;
 		}
 
@@ -204,7 +204,7 @@ public class AllTypesInspectorConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mList );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSet );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInt );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mBoolean );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mBooleanPrimitive );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPattern );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStream );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceBundle );
@@ -240,7 +240,7 @@ public class AllTypesInspectorConfig {
 
 	protected boolean isBoolean() {
 
-		return mBoolean;
+		return mBooleanPrimitive;
 	}
 
 	protected int getInt() {

@@ -219,7 +219,7 @@ public class ConfigReaderTest
 		xml += "<string>baz</string>";
 		xml += "</set>";
 		xml += "</set>";
-		xml += "<boolean><boolean>true</boolean></boolean>";
+		xml += "<booleanPrimitive><boolean>true</boolean></booleanPrimitive>";
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
 		xml += "<inputStream><resource>org/metawidget/config/metawidget-test-caching.xml</resource></inputStream>";
 		xml += "<resourceBundle><bundle>org/metawidget/config/Resources</bundle></resourceBundle>";
