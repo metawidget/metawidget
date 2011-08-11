@@ -88,10 +88,10 @@ public class GwtTestQuirks
 
 				// Check what created
 
-				assertEquals( "Boolean:", flexTable.getText( 0, 0 ) );
+				assertEquals( "Boolean primitive:", flexTable.getText( 0, 0 ) );
 				final CheckBox checkbox = (CheckBox) flexTable.getWidget( 0, 1 );
 				assertTrue( false == checkbox.getValue() );
-				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
+				assertTrue( false == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 				checkbox.setValue( true );
 				assertEquals( "gwt-CheckBox componentStyleName", checkbox.getStyleName() );
 
@@ -144,7 +144,7 @@ public class GwtTestQuirks
 
 						assertEquals( "", checkbox.getText() );
 						assertTrue( true == checkbox.getValue() );
-						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
+						assertTrue( true == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 
 						// Test rebind binds to new object
 
@@ -158,9 +158,9 @@ public class GwtTestQuirks
 						checkbox.setValue( true );
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
-						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
-						assertTrue( quirks2.isBoolean() );
-						assertTrue( ( (GwtQuirks) metawidget.getToInspect() ).isBoolean() );
+						assertTrue( true == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
+						assertTrue( quirks2.isBooleanPrimitive() );
+						assertTrue( ( (GwtQuirks) metawidget.getToInspect() ).isBooleanPrimitive() );
 
 						// All done
 

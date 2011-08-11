@@ -11,7 +11,7 @@
 				<verifyXPath xpath="/html/body/table[1]/@id" text="table-quirks"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[1]/input/@type" text="checkbox"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[1]/input/@name" text="quirks.boolean"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[1]/input/@name" text="quirks.booleanPrimitive"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="1"/>
 			</steps>
 		</webtest>
