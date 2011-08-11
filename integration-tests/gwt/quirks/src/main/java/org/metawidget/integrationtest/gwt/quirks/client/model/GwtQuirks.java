@@ -50,7 +50,7 @@ public class GwtQuirks
 
 	public void setBooleanPrimitive( boolean booleanPrimitive ) {
 
-		mBoolean = booleanPrimitive;
+		mBooleanPrimitive = booleanPrimitive;
 	}
 
 	public GwtNestedQuirks getNestedQuirks() {
