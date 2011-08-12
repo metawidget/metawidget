@@ -515,7 +515,7 @@
 					<title>Installation</title>
 
 					<para>
-						There are three steps to installing <classname>UIMetawidget</classname> within a JSF application:
+						There are four steps to installing <classname>UIMetawidget</classname> within a JSF application:
 					</para>
 					
 					<orderedlist>
@@ -541,6 +541,12 @@
 &lt;m:metawidget value="#{foo}"/&gt;
 ...</programlisting>
 						</listitem>
+						<listitem>
+							<para>
+								If using JSF 1.x, set <parameter>javax.faces.STATE_SAVING_METHOD</parameter>
+								to <parameter>client</parameter> in <filename>web.xml</filename>.
+							</para>
+						</listitem>						
 						<listitem>
 							<para>
 								Optionally configure the Metawidget, as described below.							
@@ -811,14 +817,19 @@
 						<listitem>
 							<para>
 								disable partial state saving by setting <parameter>javax.faces.PARTIAL_STATE_SAVING</parameter> to
-								<parameter>false</parameter> in <filename>web.xml</filename>; and
+								<parameter>false</parameter> in <filename>web.xml</filename>
 							</para>
 						</listitem>
 						<listitem>
 							<para>
 								disable <classname>PreRenderViewEvent</classname> support by setting
 								<parameter>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
-								in <filename>web.xml</filename>.
+								in <filename>web.xml</filename>; and
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								set <parameter>javax.faces.STATE_SAVING_METHOD</parameter> to <parameter>client</parameter> in <filename>web.xml</filename>
 							</para>
 						</listitem>
 					</itemizedlist>
