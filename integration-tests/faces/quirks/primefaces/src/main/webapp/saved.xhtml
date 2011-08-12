@@ -9,7 +9,7 @@
 	<h:body>
 		<h1>#{facesContext.externalContext.request.session.servletContext.servletContextName} Saved</h1>	
 		<h:form id="form">
-			<m:metawidget value="#{primeFacesQuirks}" readOnly="true"/>
+			<m:metawidget value="#{primeFacesQuirks}" rendererType="table" readOnly="true"/>
 			<h:commandButton value="Edit" action="#{primeFacesQuirks.edit}"/>
 		</h:form>
 	</h:body>

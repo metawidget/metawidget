@@ -255,6 +255,22 @@ public class UIMetawidgetTest
 		assertTrue( metawidget.getWidgetBuilder() == widgetBuilder );
 	}
 
+	public void testSetRendererType()
+		throws Exception {
+
+		UIMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setConfig( "org/metawidget/faces/component/config/metawidget-rendererType.xml" );
+		assertEquals( "table", metawidget.getRendererType() );
+		metawidget.configure();
+		assertEquals( "foo", metawidget.getRendererType() );
+
+		metawidget = new HtmlMetawidget();
+		metawidget.setConfig( "org/metawidget/faces/component/config/metawidget-rendererType.xml" );
+		metawidget.setRendererType( "bar" );
+		metawidget.configure();
+		assertEquals( "bar", metawidget.getRendererType() );
+	}
+
 	//
 	// Protected methods
 	//

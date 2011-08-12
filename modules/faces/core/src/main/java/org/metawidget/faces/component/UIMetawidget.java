@@ -163,6 +163,8 @@ public abstract class UIMetawidget
 
 	private String							mConfig;
 
+	private boolean							mExplicitRendererType;
+
 	private boolean							mInspectFromParent;
 
 	private boolean							mReadOnly;
@@ -194,9 +196,10 @@ public abstract class UIMetawidget
 			mConfig = configFile;
 		}
 
-		// Default renderer
+		// Default renderer (not set mExplicitRendererType yet)
 
-		setRendererType( "table" );
+		super.setRendererType( "table" );
+		mExplicitRendererType = false;
 
 		// PreRenderViewEvent support
 		//
@@ -649,6 +652,21 @@ public abstract class UIMetawidget
 		return rendered;
 	}
 
+	/**
+	 * Overridden to flag whether the rendererType has been set explicitly by the page.
+	 * <p>
+	 * This stops global defaults, if defined in <code>metawidget.xml</code>, from overriding the
+	 * page-level renderType. This is because <code>metawidget.xml</code> is not parsed until
+	 * <em>after</em> <tt>setRendererType</tt> has been called.
+	 */
+
+	@Override
+	public void setRendererType( String rendererType ) {
+
+		mExplicitRendererType = true;
+		super.setRendererType( rendererType );
+	}
+
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException {
@@ -678,6 +696,7 @@ public abstract class UIMetawidget
 
 		Object values[] = new Object[5];
 		values[0] = super.saveState( context );
+		values[1] = mExplicitRendererType;
 		values[2] = mReadOnly;
 		values[3] = mConfig;
 		values[4] = mInspectFromParent;
@@ -695,6 +714,7 @@ public abstract class UIMetawidget
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
+		mExplicitRendererType = (Boolean) values[1];
 		mReadOnly = (Boolean) values[2];
 		mConfig = (String) values[3];
 		mInspectFromParent = (Boolean) values[4];
@@ -821,6 +841,10 @@ public abstract class UIMetawidget
 		}
 
 		if ( mConfig != null ) {
+
+			boolean wasExplicitRendererType = mExplicitRendererType;
+			String rendererType = getRendererType();
+
 			try {
 				configReader.configure( mConfig, this );
 			} catch ( MetawidgetException e ) {
@@ -833,6 +857,13 @@ public abstract class UIMetawidget
 					LOG.info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 				}
 			}
+
+			// Preserve rendererType if was set explicitly
+
+			if ( wasExplicitRendererType ) {
+				setRendererType( rendererType );
+			}
+
 		}
 
 		mPipeline.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );

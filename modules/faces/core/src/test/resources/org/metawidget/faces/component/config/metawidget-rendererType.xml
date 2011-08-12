@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
+		<rendererType>
+			<string>foo</string>
+		</rendererType>
+		<inspector>
+			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+		</inspector>
+	</htmlMetawidget>
+
+</metawidget>
