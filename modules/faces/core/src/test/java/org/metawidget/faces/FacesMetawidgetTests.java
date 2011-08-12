@@ -565,7 +565,14 @@ public class FacesMetawidgetTests {
 				@Override
 				public StateManager getStateManager() {
 
-					throw new UnsupportedOperationException();
+					return new StateManager() {
+
+						@Override
+						public UIViewRoot restoreView( FacesContext context, String viewId, String renderKitId ) {
+
+							throw new UnsupportedOperationException();
+						}
+					};
 				}
 
 				@Override

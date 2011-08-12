@@ -5,11 +5,6 @@
 
 	<display-name>Penguin Colony (Metawidget ICEfaces Example)</display-name>
 
-	<context-param>
-		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		<param-value>server</param-value>
-	</context-param>
-
 	<!-- Faces Servlet -->
 
 	<servlet>
