@@ -543,12 +543,6 @@
 						</listitem>
 						<listitem>
 							<para>
-								If using JSF 1.x, set <parameter>javax.faces.STATE_SAVING_METHOD</parameter>
-								to <parameter>client</parameter> in <filename>web.xml</filename>.
-							</para>
-						</listitem>						
-						<listitem>
-							<para>
 								Optionally configure the Metawidget, as described below.							
 							</para>
 						</listitem>
@@ -825,11 +819,6 @@
 								disable <classname>PreRenderViewEvent</classname> support by setting
 								<parameter>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</parameter> to <parameter>true</parameter>
 								in <filename>web.xml</filename>; and
-							</para>
-						</listitem>
-						<listitem>
-							<para>
-								set <parameter>javax.faces.STATE_SAVING_METHOD</parameter> to <parameter>client</parameter> in <filename>web.xml</filename>
 							</para>
 						</listitem>
 					</itemizedlist>

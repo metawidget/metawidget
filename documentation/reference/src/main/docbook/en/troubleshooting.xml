@@ -221,6 +221,25 @@ public @interface MyAnnotation {
 
 				</section>
 				
+				<section id="section-metawidgets-web-faces-client-state-saving">
+					<title>I get "View could not be restored"</title>
+					
+					<para>
+						Depending on your environment and JSF implementation, you may encounter problems restoring
+						the <classname>ViewState</classname> after POSTback. If this happens, try setting...
+					</para>
+					
+					<programlisting language="xml">&lt;context-param&gt;
+	&lt;param-name&gt;javax.faces.STATE_SAVING_METHOD&lt;/param-name&gt;
+	&lt;param-value&gt;client&lt;/param-value&gt;
+&lt;/context-param&gt;</programlisting>
+
+					<para>
+						...in your <filename>web.xml</filename>.
+					</para>
+					
+				</section>
+				
 			</section>
 			
 			<section id="section-troubleshooting-web-struts">
