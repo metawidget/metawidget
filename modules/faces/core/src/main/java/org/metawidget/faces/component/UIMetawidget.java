@@ -1305,15 +1305,6 @@ public abstract class UIMetawidget
 		public EncodeBeginSupport( UIMetawidget metawidget ) {
 
 			super( metawidget );
-
-			// EncodeBeginSupport only appears to work reliably with client-side state saving
-			// (except with ICEfaces, where it's fine)
-
-			FacesContext context = FacesContext.getCurrentInstance();
-
-			if ( !context.getApplication().getStateManager().isSavingStateInClient( context ) ) {
-				LOG.info( "When using JSF 1.x or DONT_USE_PRERENDER_VIEW_EVENT, you should generally set javax.faces.STATE_SAVING_METHOD to client" );
-			}
 		}
 
 		//
