@@ -661,9 +661,22 @@
 						Another important JSF Look and Feel technology is Renderers. Whilst
 						often Renderers are discussed in the context of rendering the same widget to different
 						platforms (e.g. HTML or WML), they can equally be used to render the same widget to the same
-						platform but in different ways.
+						platform but in different ways. Renderers can be configured either per tag:
 					</para>
 					
+					<programlisting language="xml">&lt;m:metawidget ... rendererType="div"/&gt;</programlisting>
+					
+					<para>
+						Or globally in <filename>metawidget.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
+	&lt;rendererType&gt;
+		&lt;string&gt;myRenderer&lt;/string&gt;
+	&lt;/rendererType&gt;
+	...
+&lt;/htmlMetawidget&gt;</programlisting>
+
 					<para>
 						<classname>HtmlTableLayoutRenderer</classname> is the default <classname>LayoutRenderer</classname>. It further
 						defines parameters such as <parameter>tableStyle</parameter>,
