@@ -991,7 +991,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					
 					<para>
 						Second, by default you need to explicitly specify any inheritance relationships between types in the XML, because the XML
-						has no knowledge of your Java classes. If this becomes laborious, you can set
+						has no knowledge of your Java classes. This includes the names of any proxied classes. If this becomes laborious, you can set
 						<function>BaseXmlInspectorConfig.setInferInheritanceHierarchy</function> to infer the relationships automatically
 						from your Java classes. If you are using <function>setRestrictAgainstObject</function>, <function>setInferInheritanceHierarchy</function>
 						is implied.

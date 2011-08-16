@@ -32,6 +32,7 @@ import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.Java5ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -598,7 +599,7 @@ public class JavaBeanPropertyStyle
 		public <T extends Annotation> T getAnnotation( Class<T> annotationClass ) {
 
 			if ( mReadMethod != null ) {
-				T annotation = mReadMethod.getAnnotation( annotationClass );
+				T annotation = Java5ClassUtils.getOriginalAnnotation( mReadMethod, annotationClass );
 
 				if ( annotation != null ) {
 					return annotation;
@@ -606,7 +607,7 @@ public class JavaBeanPropertyStyle
 			}
 
 			if ( mWriteMethod != null ) {
-				T annotation = mWriteMethod.getAnnotation( annotationClass );
+				T annotation = Java5ClassUtils.getOriginalAnnotation( mWriteMethod, annotationClass );
 
 				if ( annotation != null ) {
 					return annotation;
@@ -629,10 +630,10 @@ public class JavaBeanPropertyStyle
 		public Type getGenericType() {
 
 			if ( mReadMethod != null ) {
-				return mReadMethod.getGenericReturnType();
+				return Java5ClassUtils.getOriginalGenericReturnType( mReadMethod );
 			}
 
-			return mWriteMethod.getGenericParameterTypes()[0];
+			return Java5ClassUtils.getOriginalGenericParameterTypes( mWriteMethod )[0];
 		}
 
 		public Method getReadMethod() {

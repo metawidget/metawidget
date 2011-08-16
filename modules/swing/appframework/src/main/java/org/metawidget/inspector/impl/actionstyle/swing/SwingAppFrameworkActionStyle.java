@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
 
 /**
@@ -30,6 +31,20 @@ import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
 
 public class SwingAppFrameworkActionStyle
 	extends MethodActionStyle {
+
+	//
+	// Constructor
+	//
+
+	public SwingAppFrameworkActionStyle() {
+
+		this( new BaseTraitStyleConfig() );
+	}
+
+	public SwingAppFrameworkActionStyle( BaseTraitStyleConfig config ) {
+
+		super( config );
+	}
 
 	//
 	// Protected methods

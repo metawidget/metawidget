@@ -18,6 +18,7 @@ package org.metawidget.inspector.java5;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +29,9 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.java5.Java5Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.util.Java5ClassUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -76,9 +77,17 @@ public class Java5InspectorTest
 		String genericArguments = Set.class.getName() + "<" + String.class.getName() + ">," + List.class.getName() + "<" + Set.class.getName() + "<" + Date.class.getName() + ">>";
 		assertEquals( genericArguments, property.getAttribute( PARAMETERIZED_TYPE ) );
 
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "abc" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Boolean.class.getName(), property.getAttribute( PARAMETERIZED_TYPE ) );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "def" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Integer.class.getName(), property.getAttribute( PARAMETERIZED_TYPE ) );
+
 		// Check there are no more properties (eg. getClass)
 
-		assertTrue( entity.getChildNodes().getLength() == 2 );
+		assertTrue( entity.getChildNodes().getLength() == 4 );
 
 		// Test with an enum instance
 
@@ -141,6 +150,42 @@ public class Java5InspectorTest
 		assertTrue( null == inspector.inspect( "foo", String.class.getName() ) );
 	}
 
+	public void testSuperclassGenericReturnType() {
+
+		Inspector inspector = new Java5Inspector();
+
+		Document document = XmlUtils.documentFromString( inspector.inspect( new SubBar(), SubBar.class.getName() ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( SubBar.class.getName(), entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "abc" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Boolean.class.getName(), property.getAttribute( PARAMETERIZED_TYPE ) );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "def" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( Integer.class.getName(), property.getAttribute( PARAMETERIZED_TYPE ) );
+	}
+
+	public void testJava5ClassUtils()
+		throws Exception {
+
+		Method method = Date.class.getMethod( "getTime" );
+		assertEquals( method.getGenericReturnType(), Java5ClassUtils.getOriginalGenericReturnType( method ) );
+
+		method = Date.class.getMethod( "setTime", long.class );
+		assertEquals( method.getGenericParameterTypes().length, Java5ClassUtils.getOriginalGenericParameterTypes( method ).length );
+	}
+
 	//
 	// Inner classes
 	//
@@ -170,5 +215,37 @@ public class Java5InspectorTest
 		public Foo									foo;
 
 		public Map<Set<String>, List<Set<Date>>>	baz;
+
+		public List<Boolean> getAbc() {
+
+			return null;
+		}
+
+		/**
+		 * @param def
+		 */
+
+		public void setDef( List<Integer> def ) {
+
+			// Do nothing
+		}
+	}
+
+	protected static class SubBar
+		extends Bar {
+
+		@Override
+		@SuppressWarnings( { "rawtypes", "unchecked" } )
+		public List getAbc() {
+
+			return null;
+		}
+
+		@SuppressWarnings( "rawtypes" )
+		@Override
+		public void setDef( List def ) {
+
+			// Do nothing
+		}
 	}
 }

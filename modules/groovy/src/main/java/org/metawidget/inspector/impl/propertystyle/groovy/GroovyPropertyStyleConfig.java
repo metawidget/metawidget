@@ -36,6 +36,6 @@ public class GroovyPropertyStyleConfig
 
 	public GroovyPropertyStyleConfig() {
 
-		setCacheProperties( false );
+		setCacheLookups( false );
 	}
 }

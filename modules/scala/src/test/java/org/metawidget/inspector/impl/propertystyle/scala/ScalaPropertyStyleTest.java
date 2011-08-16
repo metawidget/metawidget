@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
 
 /**
  * @author Richard Kennard

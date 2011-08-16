@@ -24,19 +24,18 @@ import org.metawidget.util.simple.ObjectUtils;
 /**
  * Base class for BaseObjectInspector configurations.
  * <p>
- * Handles configuring the pattern to recognize proxied classes, as well as the convention to use to
- * recognize properties.
+ * Handles configuring the convention to use to recognize actions/properties.
  * <p>
  * Note that whilst <code>BaseObjectInspector</code> is an abstract class,
  * <code>BaseObjectInspectorConfig</code> is concrete and instantiable. This is so that subclasses
  * of <code>BaseObjectInspector</code> that don't require additional configuration (eg. most of
  * them) don't need to further define a <code>Config</code> class, whilst still allowing their
- * proxy/property/action patterns to be configured in the (rare) cases they need to. Incidentally,
- * this is why we call this class <code>BaseObjectInspectorConfig</code> as opposed to
+ * property/action styles to be configured in the (rare) cases they need to. Incidentally, this is
+ * why we call this class <code>BaseObjectInspectorConfig</code> as opposed to
  * <code>AbstractPropertyInspectorConfig</code>, because a non-abstract class called
  * <code>AbstractXXX</code> was deemed confusing! All our other base classes are called
  * <code>BaseXXX</code> for consistency.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -68,7 +67,7 @@ public class BaseObjectInspectorConfig {
 
 	/**
 	 * Sets the style used to recognize properties.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -87,7 +86,7 @@ public class BaseObjectInspectorConfig {
 
 	/**
 	 * Sets the style used to recognize actions.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -111,7 +110,7 @@ public class BaseObjectInspectorConfig {
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 

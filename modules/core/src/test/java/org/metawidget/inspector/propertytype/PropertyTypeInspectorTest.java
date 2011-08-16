@@ -336,7 +336,7 @@ public class PropertyTypeInspectorTest
 
 	public void testBadName() {
 
-		assertEquals( mInspector.inspect( new SubFoo(), "no-such-type" ), null );
+		assertTrue( mInspector.inspect( new SubFoo(), "no-such-type" ) != null );
 		assertEquals( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-name" ), null );
 		assertEquals( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-parent-name", "foo" ), null );
 	}

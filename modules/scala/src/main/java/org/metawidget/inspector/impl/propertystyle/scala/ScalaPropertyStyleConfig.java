@@ -14,44 +14,35 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.inspector.impl.propertystyle.scala;
 
-import org.metawidget.inspector.impl.BaseTrait;
+import java.text.MessageFormat;
+
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 
 /**
- * Convenience implementation for Properties.
- * <p>
- * Handles construction, and returning names and types.
- *
+ * Configures a ScalaPropertyStyleConfig prior to use. Once instantiated, PropertyStyles are
+ * immutable.
+ * 
  * @author Richard Kennard
  */
 
-public abstract class BaseProperty
-	extends BaseTrait
-	implements Property {
-
-	//
-	// Private methods
-	//
-
-	private Class<?>	mType;
+public class ScalaPropertyStyleConfig
+	extends JavaBeanPropertyStyleConfig {
 
 	//
 	// Constructor
 	//
 
-	public BaseProperty( String name, Class<?> type ) {
+	/**
+	 * Configures a ScalaPropertyStyleConfig.
+	 * <p>
+	 * Overridden to set a default <code>privateFieldConvention</code> of <code>{0}</code>, because
+	 * Scala getters/setters always map to a private field of the same name.
+	 */
 
-		super( name );
-		mType = type;
-	}
+	public ScalaPropertyStyleConfig() {
 
-	//
-	// Public methods
-	//
-
-	public Class<?> getType() {
-
-		return mType;
+		setPrivateFieldConvention( new MessageFormat( "{0}" ) );
 	}
 }

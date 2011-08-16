@@ -379,6 +379,12 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 				throw new Exception( "Top-level element name should be " + ENTITY + ", not " + elementName );
 			}
 
+			E nextSiblingElement = getNextSiblingElement( entity );
+
+			if ( nextSiblingElement != null ) {
+				throw new Exception( "Top-level " + ENTITY + " element has a sibling " + getElementName( nextSiblingElement ) + " element" );
+			}
+
 			// Metawidget-wide read-only
 
 			Map<String, String> attributes = getAttributesAsMap( entity );

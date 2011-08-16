@@ -51,7 +51,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * Note: <code>BeanUtils</code> does not bind <em>actions</em>, such as invoking a method when a
  * <code>JButton</code> is pressed. For that, see <code>ReflectionBindingProcessor</code> and
  * <code>MetawidgetActionStyle</code> or <code>SwingAppFrameworkActionStyle</code>.
- *
+ * 
  * @author Richard Kennard, Stefan Ackermann
  */
 
@@ -61,6 +61,8 @@ public class BeanUtilsBindingProcessor
 	//
 	// Private statics
 	//
+
+	// TODO: use the actual ScalaPropertyStyle here?
 
 	private static final String	SCALA_SET_SUFFIX	= "_$eq";
 
@@ -253,7 +255,7 @@ public class BeanUtilsBindingProcessor
 	 * Retrieve value identified by the given names from the given source.
 	 * <p>
 	 * Clients may override this method to incorporate their own getter convention.
-	 *
+	 * 
 	 * @param metawidget
 	 *            Metawidget to retrieve value from
 	 */
@@ -272,7 +274,7 @@ public class BeanUtilsBindingProcessor
 	 * Save the given value into the given source at the location specified by the given names.
 	 * <p>
 	 * Clients may override this method to incorporate their own setter convention.
-	 *
+	 * 
 	 * @param componentValue
 	 *            the raw value from the <code>JComponent</code>
 	 */

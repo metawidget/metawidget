@@ -1070,8 +1070,7 @@ public abstract class UIMetawidget
 			Object toInspect = valueBinding.getValue( context );
 
 			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) ) {
-				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return mPipeline.inspectAsDom( toInspect, classToInspect.getName() );
+				return mPipeline.inspectAsDom( toInspect, toInspect.getClass().getName() );
 			}
 		}
 
@@ -1097,8 +1096,7 @@ public abstract class UIMetawidget
 				Object toInspect = bindingParent.getValue( context );
 
 				if ( toInspect != null ) {
-					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-					return mPipeline.inspectAsDom( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+					return mPipeline.inspectAsDom( toInspect, toInspect.getClass().getName(), binding.substring( lastIndexOf + 1 ) );
 				}
 			}
 		}

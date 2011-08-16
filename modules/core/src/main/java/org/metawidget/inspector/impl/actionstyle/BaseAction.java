@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.impl.actionstyle;
 
-import java.lang.annotation.Annotation;
+import org.metawidget.inspector.impl.BaseTrait;
 
 /**
  * Convenience implementation for Actions.
@@ -27,13 +27,8 @@ import java.lang.annotation.Annotation;
  */
 
 public abstract class BaseAction
+	extends BaseTrait
 	implements Action {
-
-	//
-	// Private methods
-	//
-
-	private String	mName;
 
 	//
 	// Constructor
@@ -41,26 +36,8 @@ public abstract class BaseAction
 
 	public BaseAction( String name ) {
 
-		mName = name;
+		super( name );
 	}
 
-	//
-	// Public methods
-	//
-
-	public String getName() {
-
-		return mName;
-	}
-
-	public boolean isAnnotationPresent( Class<? extends Annotation> annotation ) {
-
-		return ( getAnnotation( annotation ) != null );
-	}
-
-	@Override
-	public String toString() {
-
-		return mName;
-	}
+	// REFACTOR: remove this class
 }

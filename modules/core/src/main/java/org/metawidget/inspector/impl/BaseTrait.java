@@ -14,44 +14,53 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.inspector.impl;
 
-import org.metawidget.inspector.impl.BaseTrait;
+import java.lang.annotation.Annotation;
 
 /**
- * Convenience implementation for Properties.
+ * Convenience implementation for Traits.
  * <p>
- * Handles construction, and returning names and types.
+ * Handles construction, and returning names.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseProperty
-	extends BaseTrait
-	implements Property {
+public abstract class BaseTrait
+	implements Trait {
 
 	//
 	// Private methods
 	//
 
-	private Class<?>	mType;
+	private String	mName;
 
 	//
 	// Constructor
 	//
 
-	public BaseProperty( String name, Class<?> type ) {
+	public BaseTrait( String name ) {
 
-		super( name );
-		mType = type;
+		mName = name;
 	}
 
 	//
 	// Public methods
 	//
 
-	public Class<?> getType() {
+	public String getName() {
 
-		return mType;
+		return mName;
+	}
+
+	public boolean isAnnotationPresent( Class<? extends Annotation> annotation ) {
+
+		return ( getAnnotation( annotation ) != null );
+	}
+
+	@Override
+	public String toString() {
+
+		return mName;
 	}
 }

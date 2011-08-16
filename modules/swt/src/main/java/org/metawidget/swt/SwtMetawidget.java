@@ -172,13 +172,13 @@ public class SwtMetawidget
 
 		if ( mToInspect == null ) {
 			if ( mInspectionPath == null && toInspect != null ) {
-				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+				mInspectionPath = toInspect.getClass().getName();
 			}
-		} else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mInspectionPath ) ) {
+		} else if ( mToInspect.getClass().getName().equals( mInspectionPath ) ) {
 			if ( toInspect == null ) {
 				mInspectionPath = null;
 			} else {
-				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+				mInspectionPath = toInspect.getClass().getName();
 			}
 		}
 

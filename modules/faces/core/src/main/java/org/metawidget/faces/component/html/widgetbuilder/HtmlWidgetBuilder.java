@@ -81,7 +81,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private static final String	DATATABLE_ROW_ACTION	= "dataTableRowEditAction";
+	private static final String	DATATABLE_ROW_ACTION	= "dataTableRowAction";
 
 	/**
 	 * The number of items in a multi-select lookup at which it should change from being a
@@ -230,12 +230,16 @@ public class HtmlWidgetBuilder
 			if ( component == null ) {
 				if ( boolean.class.equals( clazz ) ) {
 					component = application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
-				} else if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz )) {
+				} else if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz ) ) {
 					component = application.createComponent( "javax.faces.HtmlInputText" );
 					( (HtmlInputText) component ).setMaxlength( 1 );
 				} else if ( clazz.isPrimitive() ) {
 					component = application.createComponent( "javax.faces.HtmlInputText" );
 				} else if ( Date.class.isAssignableFrom( clazz ) ) {
+
+					// Support Date as standard, so that StandardConverterProcessor can attach a
+					// DateTimeConverter
+
 					component = application.createComponent( "javax.faces.HtmlInputText" );
 				} else if ( Number.class.isAssignableFrom( clazz ) ) {
 					component = application.createComponent( "javax.faces.HtmlInputText" );
@@ -570,17 +574,25 @@ public class HtmlWidgetBuilder
 			}
 		}
 
-		// Add an 'edit action' column (if requested)
+		// Add an 'action' column (if requested)
 
 		String rowActionParameter = metawidget.getParameter( DATATABLE_ROW_ACTION );
 
 		if ( rowActionParameter != null ) {
 			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
 			rowAction.setId( viewRoot.createUniqueId() );
-			String localizedKey = metawidget.getLocalizedKey( "edit" );
+
+			// (dataTableRowAction cannot be wrapped when used on the JSP page)
+
+			if ( FacesUtils.isExpression( rowActionParameter )) {
+				throw WidgetBuilderException.newException( DATATABLE_ROW_ACTION + " must be an unwrapped JSF expression (eg. foo.bar, not #{foo.bar})" );
+			}
+
+			String actionName = StringUtils.substringAfterLast( rowActionParameter, "." );
+			String localizedKey = metawidget.getLocalizedKey( actionName );
 
 			if ( localizedKey == null ) {
-				rowAction.setValue( "Edit" );
+				rowAction.setValue( StringUtils.uncamelCase( actionName ));
 			} else {
 				rowAction.setValue( localizedKey );
 			}

@@ -37,7 +37,7 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.MetawidgetTestUtils;
 
@@ -168,7 +168,7 @@ public class JavaBeanPropertyStyleTest
 		}.getClass() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertFalse( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
+		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 	}
 
 	public void testPublicFieldAndGetter() {
@@ -193,7 +193,7 @@ public class JavaBeanPropertyStyleTest
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
-		Field propertiesCacheField = BasePropertyStyle.class.getDeclaredField( "mPropertiesCache" );
+		Field propertiesCacheField = BaseTraitStyle.class.getDeclaredField( "mCache" );
 		propertiesCacheField.setAccessible( true );
 		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 

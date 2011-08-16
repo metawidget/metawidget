@@ -63,15 +63,18 @@ public final class InspectorUtils {
 			return new Pair<Object, Class<?>>( null, ClassUtils.niceForName( type ) );
 		}
 
-		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
+		// Sanity check that the given toTraverse is, in fact, of the given type.
 		//
-		// (note: for Groovy dynamic classes, this needs the applet to be signed - I think this is
-		// still better than 'relaxing' this sanity check, as that would lead to differing behaviour
-		// when deployed as an unsigned applet versus a signed applet)
+		// This is harder than it seems. We cannot do a simple 'equals', but to do a
+		// 'isAssignableFrom' we must instantiate the class. But instantiating the class may
+		// not be possible because of proxies, virtual classes, what tier we're on, etc. Basically,
+		// we can't be too strict about it.
+		//
+		// Use the toTraverse's ClassLoader, to support dynamic classes (eg. Groovy)
 
 		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
-		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) ) {
+		if ( traverseDeclaredType != null && !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) ) {
 			return new Pair<Object, Class<?>>( null, null );
 		}
 

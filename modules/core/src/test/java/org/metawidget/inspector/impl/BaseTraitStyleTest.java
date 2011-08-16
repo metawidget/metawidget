@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.inspector.impl;
 
 import java.util.Date;
 
@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.MetawidgetTestUtils;
@@ -31,7 +33,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class BasePropertyStyleTest
+public class BaseTraitStyleTest
 	extends TestCase {
 
 	//
@@ -40,7 +42,7 @@ public class BasePropertyStyleTest
 
 	public void testConfig() {
 
-		MetawidgetTestUtils.testEqualsAndHashcode( BasePropertyStyleConfig.class, new BasePropertyStyleConfig() {
+		MetawidgetTestUtils.testEqualsAndHashcode( BaseTraitStyleConfig.class, new BaseTraitStyleConfig() {
 			// Subclass
 		} );
 	}
@@ -50,39 +52,39 @@ public class BasePropertyStyleTest
 		// With caching
 
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
-		BasePropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
+		BaseTraitStyle<Property> traitStyle = new JavaBeanPropertyStyle( config );
 
-		assertTrue( propertyStyle.mPropertiesCache.isEmpty() );
-		assertTrue( propertyStyle.getProperties( Date.class ) != null );
-		assertEquals( 1, propertyStyle.mPropertiesCache.size() );
-		assertTrue( propertyStyle.mPropertiesCache.get( Date.class ) != null );
+		assertTrue( traitStyle.mCache.isEmpty() );
+		assertTrue( traitStyle.getTraits( Date.class ) != null );
+		assertEquals( 1, traitStyle.mCache.size() );
+		assertTrue( traitStyle.mCache.get( Date.class ) != null );
 
 		// Without caching
 
-		config.setCacheProperties( false );
-		propertyStyle = new JavaBeanPropertyStyle( config );
-		assertTrue( propertyStyle.mPropertiesCache == null );
-		assertTrue( propertyStyle.getProperties( Date.class ) != null );
-		assertTrue( propertyStyle.mPropertiesCache == null );
+		config.setCacheLookups( false );
+		traitStyle = new JavaBeanPropertyStyle( config );
+		assertTrue( traitStyle.mCache == null );
+		assertTrue( traitStyle.getTraits( Date.class ) != null );
+		assertTrue( traitStyle.mCache == null );
 	}
 
 	public void testExcludedBaseType() {
 
 		// Default excludeBaseType
 
-		BasePropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		assertTrue( true == propertyStyle.isExcludedBaseType( Date.class ) );
-		assertTrue( true == propertyStyle.isExcludedBaseType( JTextField.class ) );
-		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ) );
+		BasePropertyStyle traitStyle = new JavaBeanPropertyStyle();
+		assertTrue( true == traitStyle.isExcludedBaseType( Date.class ) );
+		assertTrue( true == traitStyle.isExcludedBaseType( JTextField.class ) );
+		assertTrue( false == traitStyle.isExcludedBaseType( Element.class ) );
 
 		// Null excludeBaseType
 
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		config.setExcludeBaseType( null );
-		propertyStyle = new JavaBeanPropertyStyle( config );
+		traitStyle = new JavaBeanPropertyStyle( config );
 
-		assertTrue( false == propertyStyle.isExcludedBaseType( Date.class ) );
-		assertTrue( false == propertyStyle.isExcludedBaseType( JTextField.class ) );
-		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ) );
+		assertTrue( false == traitStyle.isExcludedBaseType( Date.class ) );
+		assertTrue( false == traitStyle.isExcludedBaseType( JTextField.class ) );
+		assertTrue( false == traitStyle.isExcludedBaseType( Element.class ) );
 	}
 }

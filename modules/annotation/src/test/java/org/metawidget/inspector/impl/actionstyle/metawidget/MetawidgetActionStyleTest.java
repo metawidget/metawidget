@@ -24,8 +24,8 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.actionstyle.Action;
-import org.metawidget.inspector.impl.actionstyle.BaseActionStyle;
 
 /**
  * @author Richard Kennard
@@ -74,8 +74,8 @@ public class MetawidgetActionStyleTest
 		}.getClass() );
 
 		assertTrue( actions instanceof TreeMap<?, ?> );
-		assertTrue( actions.isEmpty() );
-
+		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ) );
+		assertTrue( actions.size() == 1 );
 	}
 
 	public void testClearCache()
@@ -83,7 +83,7 @@ public class MetawidgetActionStyleTest
 
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
 
-		Field propertiesCacheField = BaseActionStyle.class.getDeclaredField( "mActionCache" );
+		Field propertiesCacheField = BaseTraitStyle.class.getDeclaredField( "mCache" );
 		propertiesCacheField.setAccessible( true );
 		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 

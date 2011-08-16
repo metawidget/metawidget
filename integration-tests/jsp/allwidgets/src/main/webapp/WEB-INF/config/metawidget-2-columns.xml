@@ -12,6 +12,10 @@
 							<inputStream>
 								<resource>org/metawidget/integrationtest/shared/allwidgets/model/metawidget-metadata.xml</resource>
 							</inputStream>
+							<!-- Support traversing up from $$EnhancerByCGLIB$$1234 -->
+							<restrictAgainstObject>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"/>
+							</restrictAgainstObject>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 					</array>

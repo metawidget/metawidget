@@ -78,12 +78,6 @@ public class ClassUtilsTest
 		}
 	}
 
-	public void testUnproxy() {
-
-		assertEquals( Foo.class, ClassUtils.getUnproxiedClass( ProxiedFoo_$$_javassist_1.class ) );
-		assertEquals( CannotUnproxyFoo_$$_javassist_1.class, ClassUtils.getUnproxiedClass( CannotUnproxyFoo_$$_javassist_1.class ) );
-	}
-
 	public void testForName() {
 
 		// With ClassLoader
@@ -172,15 +166,6 @@ public class ClassUtilsTest
 	static class Baz
 		implements Bar {
 		// Just an empty class
-	}
-
-	static class ProxiedFoo_$$_javassist_1
-		extends Foo {
-		// Should unproxy
-	}
-
-	static class CannotUnproxyFoo_$$_javassist_1 {
-		// Should not unproxy, because extends java.lang.Object directly
 	}
 
 	static class SuperEqualsSkipped {

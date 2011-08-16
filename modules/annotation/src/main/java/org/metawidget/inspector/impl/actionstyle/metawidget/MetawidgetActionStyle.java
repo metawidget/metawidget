@@ -20,7 +20,9 @@ import java.lang.reflect.Method;
 
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
+import org.metawidget.util.Java5ClassUtils;
 
 /**
  * ActionStyle for Metawidget-style actions.
@@ -32,13 +34,27 @@ public class MetawidgetActionStyle
 	extends MethodActionStyle {
 
 	//
+	// Constructor
+	//
+
+	public MetawidgetActionStyle() {
+
+		this( new BaseTraitStyleConfig() );
+	}
+
+	public MetawidgetActionStyle( BaseTraitStyleConfig config ) {
+
+		super( config );
+	}
+
+	//
 	// Protected methods
 	//
 
 	@Override
 	protected boolean matchAction( Method method ) {
 
-		UiAction action = method.getAnnotation( UiAction.class );
+		UiAction action = Java5ClassUtils.getOriginalAnnotation( method, UiAction.class );
 
 		if ( action == null ) {
 			return false;

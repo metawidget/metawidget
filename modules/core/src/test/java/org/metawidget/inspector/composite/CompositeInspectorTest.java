@@ -24,10 +24,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
@@ -64,7 +64,7 @@ public class CompositeInspectorTest
 		xml += "<property name=\"notes\" large=\"true\" section=\"other\"/>";
 		xml += "</entity></inspection-result>";
 
-		XmlInspector inspectorXml = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		XmlInspector inspectorXml = new XmlInspector( new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 
 		ValidatingCompositeInspectorConfig config = new ValidatingCompositeInspectorConfig();
 		config.setInspectors( inspectorXml, new PropertyTypeInspector() );
@@ -74,10 +74,11 @@ public class CompositeInspectorTest
 		// Inspect
 
 		Foo toInspect = new Foo$EnhancerByCGLIB$$1234();
-		xml = inspector.inspect( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
+		inspector.inspect( toInspect, toInspect.getClass().getName() );
+		xml = inspector.inspect( toInspect, toInspect.getClass().getName() );
 		internalTestInspection( XmlUtils.documentFromString( xml ) );
 
-		Element domInspect = inspector.inspectAsDom( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
+		Element domInspect = inspector.inspectAsDom( toInspect, toInspect.getClass().getName() );
 		assertEquals( xml, XmlUtils.nodeToString( domInspect, false ) );
 		internalTestInspection( domInspect.getOwnerDocument() );
 
@@ -157,7 +158,7 @@ public class CompositeInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
-		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( Foo$EnhancerByCGLIB$$1234.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
 
 		// Properties

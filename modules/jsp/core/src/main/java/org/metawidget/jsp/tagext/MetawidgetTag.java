@@ -37,7 +37,6 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
@@ -112,6 +111,8 @@ public abstract class MetawidgetTag
 
 	private String										mConfig;
 
+	private boolean										mNullConfig;
+
 	private ResourceBundle								mBundle;
 
 	private Map<String, FacetTag>						mFacets;
@@ -146,7 +147,9 @@ public abstract class MetawidgetTag
 		String configFile = servletContext.getInitParameter( "org.metawidget.jsp.tagext.CONFIG_FILE" );
 
 		if ( configFile == null ) {
-			mConfig = DEFAULT_USER_CONFIG;
+			if ( !mNullConfig ) {
+				mConfig = DEFAULT_USER_CONFIG;
+			}
 		} else {
 			mConfig = configFile;
 		}
@@ -169,6 +172,10 @@ public abstract class MetawidgetTag
 	public void setConfig( String config ) {
 
 		mConfig = config;
+
+		// TODO: test this?
+
+		mNullConfig = ( config == null );
 		mPipeline.setNeedsConfiguring();
 	}
 
@@ -484,8 +491,7 @@ public abstract class MetawidgetTag
 			Object obj = pageContext.findAttribute( type );
 
 			if ( obj != null ) {
-				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-				Element additionalInspectionResult = mPipeline.inspectAsDom( obj, type, typeAndNames.getNamesAsArray() );
+				Element additionalInspectionResult = mPipeline.inspectAsDom( obj, obj.getClass().getName(), typeAndNames.getNamesAsArray() );
 
 				// Combine the subtrees
 				//
@@ -504,6 +510,10 @@ public abstract class MetawidgetTag
 		}
 
 		return inspectionResult;
+
+		// REFACTOR: instead of the above, just do mPipeline.inspectAsDom( obj, type,
+		// typeAndNames.getNamesAsArray() ) and the user can use restrictAgainstObject to figure out
+		// the Object relationship
 	}
 
 	protected void configure() {

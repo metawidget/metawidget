@@ -87,10 +87,11 @@ import org.w3c.dom.Element;
  * return any XML.
  * <p>
  * Second, by default you need to explicitly specify any inheritance relationships between types in
- * the XML, because the XML has no knowledge of your Java classes. If this becomes laborious, you
- * can set <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer the
- * relationships automatically from your Java classes. If you are using
- * <code>setRestrictAgainstObject</code>, <code>setInferInheritanceHierarchy</code> is implied.
+ * the XML, because the XML has no knowledge of your Java classes. This includes the names of any
+ * proxied classes. If this becomes laborious, you can set
+ * <code>BaseXmlInspectorConfig.setInferInheritanceHierarchy</code> to infer the relationships
+ * automatically from your Java classes. If you are using <code>setRestrictAgainstObject</code>,
+ * <code>setInferInheritanceHierarchy</code> is implied.
  * <p>
  * Third, it is important the properties defined by the XML and the ones defined by the Java classes
  * stay in sync. To enforce this, you can set
@@ -273,9 +274,9 @@ public abstract class BaseXmlInspector
 			Pair<Element, String> pair;
 			Map<String, String> parentAttributes = null;
 
-			// "There's no requirement that a DOM be thread safe, so applications need to make sure that
-			// threads are properly synchronized for concurrent access to [a shared] DOM. This is true
-			// even if you're just invoking read operations"
+			// "There's no requirement that a DOM be thread safe, so applications need to make sure
+			// that threads are properly synchronized for concurrent access to [a shared] DOM. This
+			// is true even if you're just invoking read operations"
 			//
 			// https://issues.apache.org/jira/browse/XERCESJ-727
 
@@ -289,67 +290,37 @@ public abstract class BaseXmlInspector
 					Element propertyInParent = traverse( toInspect, type, true, names ).getLeft();
 
 					if ( propertyInParent != null ) {
-
 						parentAttributes = inspectProperty( propertyInParent );
-
-						// If the property in the parent has no @type, then we cannot traverse to
-						// the child. Even if we wanted to just return the parent attributes, we
-						// have no @type to attach to the top-level 'entity' node. So we must fail
-						// hard here. If we just return 'null', we may silently ignore parent
-						// attributes (such as a lookup)
-						//
-						// This can cause problems in cases where, say, an XmlInspector (based on
-						// classes not objects) and a PropertyTypeInspector (based on objects not
-						// classes) both try and codify the same object graph. The
-						// PropertyTypeInspector will stop if the child value of a property is null,
-						// but the XmlInspector will carry on (because it has no way to know the
-						// PropertyTypeInspector has returned null)
-						//
-						// Note: this rule should never be triggered if the property has the
-						// 'dont-expand' attribute set, because we should never try to traverse the
-						// child
-
-						String typeAttribute = getTypeAttribute();
-
-						if ( !propertyInParent.hasAttribute( typeAttribute ) ) {
-							throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
-						}
-
-						pair = traverse( toInspect, propertyInParent.getAttribute( typeAttribute ), false );
-
-					} else if ( mRestrictAgainstObject != null ) {
-
-						pair = traverse( toInspect, type, false, names );
-
-						if ( pair.getLeft() == null ) {
-							return null;
-						}
-
-					} else {
-						return null;
-					}
-				} else {
-					// ...otherwise, just start at the end point
-
-					pair = traverse( toInspect, type, false, names );
-
-					if ( pair.getLeft() == null ) {
-						return null;
 					}
 				}
 
-				document = XmlUtils.newDocument();
-				entity = document.createElementNS( NAMESPACE, ENTITY );
+				// ...otherwise, just start at the end point
 
-				// Inspect traits
+				pair = traverse( toInspect, type, false, names );
 
-				inspectTraits( pair.getLeft(), entity );
-			}
+				if ( pair.getLeft() == null ) {
 
-			// Nothing of consequence to return?
+					if ( parentAttributes == null || parentAttributes.isEmpty() ) {
+						return null;
+					}
 
-			if ( !entity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) ) {
-				return null;
+					document = XmlUtils.newDocument();
+					entity = document.createElementNS( NAMESPACE, ENTITY );
+
+				} else {
+
+					// Inspect traits
+
+					document = XmlUtils.newDocument();
+					entity = document.createElementNS( NAMESPACE, ENTITY );
+					inspectTraits( pair.getLeft(), entity );
+
+					// Nothing of consequence to return?
+
+					if ( !entity.hasChildNodes() ) {
+						return null;
+					}
+				}
 			}
 
 			Element root = document.createElementNS( NAMESPACE, ROOT );
@@ -564,6 +535,8 @@ public abstract class BaseXmlInspector
 		Object traverseAgainstObject = null;
 		String declaredType = null;
 
+		// TODO: this is resolving to the DynaForm!!
+
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
 			Pair<Object, Class<?>> pair = InspectorUtils.traverse( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
 			traverseAgainstObject = pair.getLeft();
@@ -579,15 +552,16 @@ public abstract class BaseXmlInspector
 			// If we are 'onlyToParent' but our value is ultimately going to be null, return null
 
 			if ( onlyToParent ) {
-				Property propertyInParent = mRestrictAgainstObject.getProperties( traverseAgainstObject.getClass() ).get( namesToInspect[namesToInspect.length - 1] );
+				String lastName = namesToInspect[namesToInspect.length - 1];
 
-				if ( propertyInParent.read( traverseAgainstObject ) == null ) {
-					return new Pair<Element, String>( null, propertyInParent.getType().getName() );
-				}
+				// TODO: test this?
+
+				namesToInspect = new String[] { lastName };
+			} else {
+				namesToInspect = null;
 			}
 
 			typeToInspect = traverseAgainstObject.getClass().getName();
-			namesToInspect = null;
 		}
 
 		if ( declaredType == null ) {
@@ -687,11 +661,11 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
-				return new Pair<Element, String>( property, null );
+				return new Pair<Element, String>( property, property.getAttribute( typeAttribute ) );
 			}
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
-				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_DOT, true, false ) );
+				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 			}
 
 			declaredType = property.getAttribute( typeAttribute );

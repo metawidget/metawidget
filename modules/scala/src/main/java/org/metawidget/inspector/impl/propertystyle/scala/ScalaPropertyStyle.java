@@ -28,7 +28,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * Scala-style properties can <em>almost</em> be handled using <code>JavaBeanPropertyStyle</code>,
  * but you have to use Scala's <code>BeanProperty</code> annotation everywhere which is cumbersome.
  * This <code>PropertyStyle</code> is designed to access Scala properties natively.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -39,7 +39,21 @@ public class ScalaPropertyStyle
 	// Private statics
 	//
 
+	/**
+	 * Standard suffix applied to Scala-generated 'setter' methods. Note this is different from
+	 * Scala-generated 'bean setter' methods, which follow standard JavaBean convention.
+	 */
+
 	private static final String	SCALA_SET_SUFFIX	= "_$eq";
+
+	//
+	// Constructor
+	//
+
+	public ScalaPropertyStyle() {
+
+		super( new ScalaPropertyStyleConfig() );
+	}
 
 	//
 	// Protected methods
@@ -47,7 +61,7 @@ public class ScalaPropertyStyle
 
 	/**
 	 * Overridden because Scala always wraps properties with getter and setter methods. It never
-	 * uses public fields directly.
+	 * exposes public fields directly.
 	 */
 
 	@Override
@@ -57,7 +71,8 @@ public class ScalaPropertyStyle
 	}
 
 	/**
-	 * Overridden because Scala uses <code>x()</code> instead of <code>getX()</code>.
+	 * Overridden because Scala uses <code>x()</code> instead of <code>getX()</code> (what they call
+	 * a 'getter' versus a 'bean getter').
 	 */
 
 	@Override
@@ -73,7 +88,8 @@ public class ScalaPropertyStyle
 	}
 
 	/**
-	 * Overridden because Scala uses <code>foo_$eq( x )</code> instead of <code>setFoo( x )</code>.
+	 * Overridden because Scala uses <code>foo_$eq( x )</code> instead of <code>setFoo( x )</code>
+	 * (what they call a 'setter' versus a 'bean setter').
 	 */
 
 	@Override

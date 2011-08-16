@@ -28,7 +28,7 @@
 			</p>	
 			<ice:form id="form">
 				<m:metawidget value="#{penguin.all}" inspectFromParent="true" rendererType="simple">
-					<f:param name="dataTableRowEditAction" value="penguin.edit"/>
+					<f:param name="dataTableRowAction" value="penguin.edit"/>
 				</m:metawidget>
 				<div class="buttons">
 	        		<ice:commandButton value="Create New Penguin" action="#{penguin.createNew}" styleClass="button"/>

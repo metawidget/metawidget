@@ -40,8 +40,7 @@ import org.w3c.dom.Element;
  * Convenience implementation for Inspectors that inspect Objects.
  * <p>
  * Handles iterating over an Object for properties and actions, and supporting pluggable property
- * and action conventions. Also handles unwrapping an Object wrapped by a proxy library (such as
- * CGLIB or Javassist).
+ * and action conventions.
  * <p>
  * <h3>Inspecting classes</h3>
  * <p>
@@ -133,6 +132,7 @@ public abstract class BaseObjectInspector
 		try {
 			Object childToInspect = null;
 			String childName = null;
+			String childType = null;
 			Class<?> declaredChildType;
 			Map<String, String> parentAttributes = null;
 
@@ -163,6 +163,7 @@ public abstract class BaseObjectInspector
 				}
 
 				declaredChildType = propertyInParent.getType();
+				childType = declaredChildType.getName();
 
 				// ...provided it has a getter
 
@@ -180,7 +181,15 @@ public abstract class BaseObjectInspector
 				declaredChildType = pair.getRight();
 
 				if ( declaredChildType == null ) {
-					return null;
+
+					if ( childToInspect == null ) {
+						return null;
+					}
+
+					declaredChildType = childToInspect.getClass();
+					childType = type;
+				} else {
+					childType = declaredChildType.getName();
 				}
 			}
 
@@ -231,10 +240,9 @@ public abstract class BaseObjectInspector
 
 			// Every Inspector needs to attach a type to the entity, so that CompositeInspector can
 			// merge it. The type should be the *declared* type, not the *actual* type, as otherwise
-			// subtypes (and proxied types) will stop XML and Object-based Inspectors merging back
-			// together properly
+			// subtypes will stop XML and Object-based Inspectors merging back together properly
 
-			entity.setAttribute( TYPE, declaredChildType.getName() );
+			entity.setAttribute( TYPE, childType );
 
 			// Return the document
 

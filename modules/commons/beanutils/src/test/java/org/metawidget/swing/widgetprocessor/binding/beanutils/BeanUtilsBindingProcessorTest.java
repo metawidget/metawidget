@@ -309,5 +309,4 @@ public class BeanUtilsBindingProcessorTest
 			mNestedFoo = nestedFoo;
 		}
 	}
-
 }

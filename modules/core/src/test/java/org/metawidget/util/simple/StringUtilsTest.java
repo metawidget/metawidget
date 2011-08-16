@@ -29,10 +29,16 @@ public class StringUtilsTest
 	// Public methods
 	//
 
-	public void testStringUtils()
+	public void testFirstLetterUppercase()
 		throws Exception {
 
 		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ) );
+		assertTrue( false == StringUtils.isFirstLetterUppercase( "ab" ) );
+		assertTrue( StringUtils.isFirstLetterUppercase( "Ab" ) );
+	}
+
+	public void testCamelCase()
+		throws Exception {
 
 		// uncamelCase
 
@@ -47,5 +53,12 @@ public class StringUtilsTest
 		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ) );
 		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
 		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
+	}
+
+	public void testSubstringAfterLast()
+		throws Exception {
+
+		assertEquals( "baz", StringUtils.substringAfterLast( "foo.bar.baz", "." ) );
+		assertEquals( "baz", StringUtils.substringAfterLast( "baz", "." ) );
 	}
 }

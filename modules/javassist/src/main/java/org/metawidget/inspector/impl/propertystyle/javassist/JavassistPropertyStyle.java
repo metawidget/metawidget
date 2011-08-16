@@ -59,7 +59,7 @@ import org.metawidget.util.CollectionUtils;
  * interleave superclass and subclass properties. However, it is possible to use both
  * <code>UiComesAfter</code> and <code>JavassistPropertyStyle</code> together to get the best of
  * both worlds.
- * 
+ *
  * @author Richard Kennard, inspired by Tapestry 5's BeanEditForm
  */
 
@@ -92,32 +92,6 @@ public class JavassistPropertyStyle
 	//
 	// Protected methods
 	//
-
-	/**
-	 * Inspect the given Classes and merge their results.
-	 * <p>
-	 * This version of <code>inspectProperties</code> is used when inspecting the interfaces of a
-	 * proxied class. Overridden to use a <code>LinkedHashMap</code> to combine the properties.
-	 */
-
-	@Override
-	protected Map<String, Property> inspectProperties( Class<?>[] classes ) {
-
-		Map<String, Property> propertiesToReturn = CollectionUtils.newLinkedHashMap();
-
-		for ( Class<?> clazz : classes ) {
-			Map<String, Property> properties = getCachedProperties( clazz );
-
-			if ( properties == null ) {
-				properties = inspectProperties( clazz );
-				cacheProperties( clazz, properties );
-			}
-
-			propertiesToReturn.putAll( properties );
-		}
-
-		return propertiesToReturn;
-	}
 
 	@Override
 	protected Map<String, Property> inspectProperties( Class<?> clazz ) {

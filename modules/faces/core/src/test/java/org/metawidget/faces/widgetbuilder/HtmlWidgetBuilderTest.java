@@ -134,7 +134,10 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( NAME, "bar" );
-		dummyMetawdget.setParameter( "dataTableRowEditAction", "#{foo.action}" );
+		
+		// (dataTableRowAction cannot be wrapped when used on the JSP page)
+		
+		dummyMetawdget.setParameter( "dataTableRowAction", "foo.action" );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
 		// Other collections

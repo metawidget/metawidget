@@ -184,14 +184,15 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ) );
+			// TODO: what about if mRestrictAgainstObject is on?
+			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo/bar/baz" ) );
 		}
 
 		try {
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ) );
+			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo/bar/baz/abc" ) );
 		}
 	}
 
@@ -266,7 +267,7 @@ public class XmlInspectorTest
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
 		assertEquals( null, mInspector.inspect( "", NullObject.class.getName() ) );
-		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ) );
 		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ) );
 
@@ -274,7 +275,8 @@ public class XmlInspectorTest
 
 		nullObject.nestedNullObject = new NullObject();
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
-		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ) );
+		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ) );
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject", "nestedNullObject" ) );
 
 		// With recursion
 

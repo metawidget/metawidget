@@ -14,11 +14,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-import java.util._;
-import javax.swing._;
-
-import javax.persistence._;
-import org.hibernate.validator._;
+import java.util._
+import javax.swing._
+import javax.persistence._
+import org.hibernate.validator._
+import scala.annotation.target._
 
 /**
  * @author Richard Kennard
@@ -26,7 +26,7 @@ import org.hibernate.validator._;
 
 package org.metawidget.inspector.impl.propertystyle.scala
 {
-	class ScalaFoo( @Column{ val nullable = false } var foo:String, @NotNull var bar:List[Date], val baz:Boolean, private var mInaccessibleProperty:Boolean )
+	class ScalaFoo( @(Column @field)( nullable = false ) var foo:String, @(NotNull @field) var bar:List[Date], val baz:Boolean, private var mInaccessibleProperty:Boolean )
 		extends JDialog
 	{
 		def getIgnoredProperty():String = { return null }

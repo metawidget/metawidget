@@ -911,8 +911,11 @@
 									<parameter>lookup</parameter>. The
 									columns in the table are based on inspecting
 									<parameter>parameterized-type</parameter> or the
-									component type of the array. If neither can be determined,
-									the table will only have a single column
+									component type of the array (if neither can be determined,
+									the table will only have a single column). An additional
+									<parameter>dataTableRowAction</parameter>
+									facet can be used to add an 'action' column (for viewing or editing) - see
+									<xref linkend="section-introduction-part3-icefaces"/>
 								</td>
 							</tr>
 							<tr>

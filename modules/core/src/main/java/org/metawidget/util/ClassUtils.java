@@ -18,7 +18,6 @@ package org.metawidget.util;
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
-import java.util.regex.Pattern;
 
 import org.metawidget.util.simple.StringUtils;
 
@@ -233,65 +232,17 @@ public final class ClassUtils {
 	}
 
 	/**
-	 * Return the unproxied version of a class proxied by, say, CGLIB or Javassist.
-	 */
-
-	public static Class<?> getUnproxiedClass( Class<?> clazz ) {
-
-		return getUnproxiedClass( clazz, PROXY_PATTERN );
-	}
-
-	/**
-	 * Return the unproxied version of a class proxied by, say, CGLIB or Javassist.
-	 * <p>
-	 * Unproxying a class back to its original type is desirable so that
-	 * <code>BaseObjectInspector</code>-based and <code>BaseXmlInspector</code>-based inspectors can
-	 * merge to a common type.
-	 * <p>
-	 * However, unproxying may not always be possible. If the proxied class is not an extension of
-	 * some base class but simply a <code>java.lang.Object</code> that implements one or more
-	 * interfaces, we cannot know which interface is the 'right' one to return. In that class,
-	 * <code>getUnproxiedClass</code> just returns the original (proxied) class.
-	 */
-
-	public static Class<?> getUnproxiedClass( Class<?> clazz, Pattern proxyPattern ) {
-
-		if ( proxyPattern == null || !proxyPattern.matcher( clazz.getName() ).find() ) {
-			return clazz;
-		}
-
-		Class<?> superclass = clazz.getSuperclass();
-
-		// If the proxied class is not an extension of some base class but simply a java.lang.Object
-		// that implements one or more interfaces, we cannot know which interface is the 'right' one
-		// to return. In that class, just return the original (proxied) class
-
-		if ( Object.class.equals( superclass ) ) {
-			return clazz;
-		}
-
-		return superclass;
-	}
-
-	/**
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
 	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
 	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
 	 * such as 'Login Screen')</li>
 	 * </ul>
-	 * <p>
-	 * This method tries to load the class using the Thread's current ClassLoader. This works best
-	 * for EJB/WAR splits where, say, metawidget-core and metawidget-annotations are located in the
-	 * EJB/lib and the other modules are located in the WAR/lib.
 	 */
 
 	public static Class<?> niceForName( String className ) {
 
-		// Try Thread.currentThread().getContextClassLoader(), in case metawidget.jar
-		// is in JRE/lib/ext (which it might be for desktop apps)
-
-		return niceForName( className, Thread.currentThread().getContextClassLoader() );
+		return niceForName( className, null );
 	}
 
 	/**
@@ -301,16 +252,23 @@ public final class ClassUtils {
 	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
 	 * such as 'Login Screen')</li>
 	 * </ul>
+	 * <p>
+	 * This method first tries to load the class using the given ClassLoader (if any). If that
+	 * fails, it then tries the Thread's current ClassLoader (this works best for EJB/WAR splits
+	 * where, say, metawidget-core and metawidget-annotations are located in the EJB/lib and the
+	 * other modules are located in the WAR/lib). If that fails, it tries ClassUtils' ClassLoader.
 	 *
 	 * @param classLoader
 	 *            the specific ClassLoader to use to try and load this class. In general clients
 	 *            should use the other form of this method, which will default to trying the current
-	 *            Thread's ClassLoader
+	 *            Thread's ClassLoader. Can be null.
 	 * @throws NullPointerException
 	 *             if className is null
 	 */
 
 	public static Class<?> niceForName( String className, ClassLoader classLoader ) {
+
+		// Try given ClassLoader (may be none)
 
 		try {
 			if ( classLoader != null ) {
@@ -321,11 +279,27 @@ public final class ClassUtils {
 			// Fall through and try other ClassLoader
 		}
 
-		try {
-			// There may be no contextClassLoader (eg. Android)
+		// Try given Thread ClassLoader (may be none, such as on Android)
 
+		ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
+
+		try {
+			if ( threadClassLoader != null ) {
+				return Class.forName( className, false, threadClassLoader );
+			}
+		} catch ( ClassNotFoundException e ) {
+
+			// Fall through and try other ClassLoader
+		}
+
+		// Try our own ClassLoader
+
+		try {
 			return Class.forName( className, false, ClassUtils.class.getClassLoader() );
 		} catch ( ClassNotFoundException e ) {
+
+			// Support primitive types
+
 			if ( "byte".equals( className ) ) {
 				return byte.class;
 			}
@@ -407,12 +381,6 @@ public final class ClassUtils {
 
 		return declaringClass;
 	}
-
-	//
-	// Private statics
-	//
-
-	private static final Pattern	PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
 
 	//
 	// Private constructor

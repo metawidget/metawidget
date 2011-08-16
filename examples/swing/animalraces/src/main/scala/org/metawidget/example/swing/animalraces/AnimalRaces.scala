@@ -21,6 +21,7 @@ import java.awt.event.{ActionEvent, ActionListener}
 import java.util.HashMap
 import javax.swing._
 import javax.swing.border._
+import scala.annotation.target._
 
 import org.metawidget.swing._
 import org.metawidget.swing.layout._
@@ -38,10 +39,10 @@ import org.metawidget.inspector.annotation._
 class Animal(
 	var name:String,
 	
-	@UiComesAfter( Array( "name" )) @UiAttribute{ val name = Array( "minimum-value" ), val value = "0" }
-	var delay:int,
+	@(UiComesAfter @field)( Array( "name" )) @(UiAttribute @field)( name = Array( "minimum-value" ), value = "0" )
+	var delay:Int,
 	
-	@UiLookup( Array( "Elephant", "Hippo", "Panda" )) @UiRequired @UiComesAfter
+	@(UiLookup @field)( Array( "Elephant", "Hippo", "Panda" )) @(UiRequired @getter) @(UiComesAfter @field)
 	var animal:String
 )
 

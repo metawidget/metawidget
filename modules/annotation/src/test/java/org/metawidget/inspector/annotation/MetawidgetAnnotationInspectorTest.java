@@ -290,6 +290,26 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( ( (Map<String, Property>) getActionsMethod.invoke( inspector, (Object) null ) ).isEmpty() );
 	}
 
+	public void testSuperclassAnnotations()
+		throws Exception {
+
+		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
+		Document document = XmlUtils.documentFromString( inspector.inspect( new SubFoo(), SubFoo.class.getName() ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( SubFoo.class.getName(), entity.getAttribute( TYPE ) );
+
+		Element action = XmlUtils.getChildWithAttributeValue( entity, "name", "doNothing" );
+		assertEquals( ACTION, action.getNodeName() );
+		assertEquals( "string1", action.getAttribute( COMES_AFTER ) );
+		assertEquals( "Bar", action.getAttribute( SECTION ) );
+		assertEquals( "nothing", action.getAttribute( LABEL ) );
+		assertEquals( 4, action.getAttributes().getLength() );
+	}
+
 	//
 	// Inner class
 	//
@@ -342,6 +362,17 @@ public class MetawidgetAnnotationInspectorTest
 		public void doNothing( String foo ) {
 
 			// Do nothing
+		}
+	}
+
+	public static class SubFoo
+		extends Foo {
+
+		@UiLabel( "nothing" )
+		@Override
+		public void doNothing() {
+
+			// Overridden without annotations
 		}
 	}
 }

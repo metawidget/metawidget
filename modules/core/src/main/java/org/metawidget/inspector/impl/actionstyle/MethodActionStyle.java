@@ -20,7 +20,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.metawidget.inspector.impl.BaseTraitStyleConfig;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.Java5ClassUtils;
 
 /**
  * Convenience ActionStyle implementation for Method-based actions.
@@ -30,6 +33,15 @@ import org.metawidget.util.CollectionUtils;
 
 public abstract class MethodActionStyle
 	extends BaseActionStyle {
+
+	//
+	// Constructor
+	//
+
+	protected MethodActionStyle( BaseTraitStyleConfig config ) {
+
+		super( config );
+	}
 
 	//
 	// Protected methods
@@ -57,35 +69,20 @@ public abstract class MethodActionStyle
 
 			// ...that is not excluded...
 
-			if ( isExcluded( method ) ) {
+			String methodName = method.getName();
+
+			// TODO: test this
+
+			if ( isExcluded( ClassUtils.getOriginalDeclaringClass( method ), methodName, method.getReturnType() ) ) {
 				continue;
 			}
 
 			// ...add it
 
-			String methodName = method.getName();
 			actions.put( methodName, new MethodAction( methodName, method ) );
 		}
 
 		return actions;
-	}
-
-	/**
-	 * Whether to exclude the given method when searching for actions.
-	 * <p>
-	 * This can be useful when the convention or base class define methods that are
-	 * framework-specific, and should be filtered out from 'real' business model methods.
-	 * <p>
-	 * By default, does not exclude any methods.
-	 *
-	 * @param method
-	 *            method to consider excluding
-	 * @return true if the property should be excluded, false otherwise
-	 */
-
-	protected boolean isExcluded( Method method ) {
-
-		return false;
 	}
 
 	protected abstract boolean matchAction( Method method );
@@ -128,7 +125,7 @@ public abstract class MethodActionStyle
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
-			return mMethod.getAnnotation( annotation );
+			return Java5ClassUtils.getOriginalAnnotation( mMethod, annotation );
 		}
 	}
 }
