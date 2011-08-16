@@ -58,7 +58,7 @@ public class MetawidgetTagTest
 		// Should not error (just log)
 
 		metawidget.configure();
-		assertEquals( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!", LogUtilsTest.getLastInfoMessage() );
+		assertEquals( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH", LogUtilsTest.getLastInfoMessage() );
 
 		// Should have done something
 
