@@ -184,7 +184,6 @@ public class XmlInspectorTest
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			// TODO: what about if mRestrictAgainstObject is on?
 			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo/bar/baz" ) );
 		}
 
@@ -267,15 +266,15 @@ public class XmlInspectorTest
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
 		assertEquals( null, mInspector.inspect( "", NullObject.class.getName() ) );
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
+		assertEquals( mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ), "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\"><entity name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/></inspection-result>" );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "foo" ) );
 		assertEquals( null, mInspector.inspect( null, NullObject.class.getName(), "nestedNullObject", "foo" ) );
 
 		// With several levels deep
 
 		nullObject.nestedNullObject = new NullObject();
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
-		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ) );
+		assertEquals( mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ), "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\"><entity name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"><property name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/></entity></inspection-result>" );
+		assertEquals( mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ), "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\"><entity name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/></inspection-result>" );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject", "nestedNullObject" ) );
 
 		// With recursion

@@ -34,9 +34,14 @@ public final class Java5ClassUtils {
 	//
 
 	/**
-	 * Gets the given annotationClass defined on the given method. If no such annotationClass is
-	 * defined but the method is overridden, searches up the class heirarchy to original versions of
-	 * the method, and checks for annotationClass.
+	 * Gets the given annotationClass defined on the given method. If <em>no</em> annotations are
+	 * defined at all (not just annotationClass) but the method is overridden, searches up the class
+	 * heirarchy to original versions of the method and checks for annotationClass.
+	 * <p>
+	 * We work off <em>no</em> annotations being defined (rather than just annotationClass) because
+	 * we still want to support explicitly overriding methods in order to suppress annotations (such
+	 * as UiHidden). This isn't perfect, because the overridden method still has to define at least
+	 * one annotation.
 	 * <p>
 	 * This approach is important for proxied classes, which don't always retain annotations.
 	 */
@@ -47,17 +52,9 @@ public final class Java5ClassUtils {
 		String name = methodToUse.getName();
 		Class<?>[] parameterTypes = methodToUse.getParameterTypes();
 
-		do {
+		// If no annotations are defined at all, traverse up the hierarchy
 
-			// If this method has the annotation, return it...
-
-			T annotation = methodToUse.getAnnotation( annotationClass );
-
-			if ( annotation != null ) {
-				return annotation;
-			}
-
-			// ...otherwise traverse up the hierarchy
+		while ( methodToUse.getAnnotations().length == 0 ) {
 
 			Class<?> superclass = methodToUse.getDeclaringClass().getSuperclass();
 			methodToUse = null;
@@ -74,7 +71,20 @@ public final class Java5ClassUtils {
 				superclass = superclass.getSuperclass();
 			}
 
-		} while ( methodToUse != null );
+			if ( methodToUse == null ) {
+				break;
+			}
+		}
+
+		// If this method has the annotation, return it
+
+		if ( methodToUse != null ) {
+			T annotation = methodToUse.getAnnotation( annotationClass );
+
+			if ( annotation != null ) {
+				return annotation;
+			}
+		}
 
 		// Try interfaces too, in case annotation is defined there
 

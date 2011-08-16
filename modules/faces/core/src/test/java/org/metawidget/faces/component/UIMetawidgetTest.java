@@ -218,7 +218,7 @@ public class UIMetawidgetTest
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.configure();
 
-		assertEquals( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!", LogUtilsTest.getLastInfoMessage() );
+		assertEquals( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH", LogUtilsTest.getLastInfoMessage() );
 
 		// Should have done something
 
@@ -241,7 +241,7 @@ public class UIMetawidgetTest
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.configure();
 
-		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
+		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}
 
 	public void testSetWidgetBuilder() {

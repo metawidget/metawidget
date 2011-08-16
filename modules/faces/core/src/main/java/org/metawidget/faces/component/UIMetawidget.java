@@ -852,9 +852,13 @@ public abstract class UIMetawidget
 					throw e;
 				}
 
+				// Log a warning. Still log the Exception message, in case the FileNotFoundException
+				// is from inside metawidget.xml, for example 'Unable to locate checkout.jpdl.xml on
+				// CLASSPATH'
+				
 				if ( !LOGGED_MISSING_CONFIG ) {
 					LOGGED_MISSING_CONFIG = true;
-					LOG.info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
+					LOG.info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn''t finding it: {0}", e.getMessage() );
 				}
 			}
 

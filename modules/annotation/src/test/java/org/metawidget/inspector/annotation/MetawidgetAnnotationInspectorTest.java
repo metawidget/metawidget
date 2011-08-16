@@ -306,8 +306,7 @@ public class MetawidgetAnnotationInspectorTest
 		assertEquals( ACTION, action.getNodeName() );
 		assertEquals( "string1", action.getAttribute( COMES_AFTER ) );
 		assertEquals( "Bar", action.getAttribute( SECTION ) );
-		assertEquals( "nothing", action.getAttribute( LABEL ) );
-		assertEquals( 4, action.getAttributes().getLength() );
+		assertEquals( 3, action.getAttributes().getLength() );
 	}
 
 	//
@@ -368,7 +367,6 @@ public class MetawidgetAnnotationInspectorTest
 	public static class SubFoo
 		extends Foo {
 
-		@UiLabel( "nothing" )
 		@Override
 		public void doNothing() {
 

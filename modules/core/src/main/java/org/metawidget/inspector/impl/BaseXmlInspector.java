@@ -535,8 +535,6 @@ public abstract class BaseXmlInspector
 		Object traverseAgainstObject = null;
 		String declaredType = null;
 
-		// TODO: this is resolving to the DynaForm!!
-
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
 			Pair<Object, Class<?>> pair = InspectorUtils.traverse( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
 			traverseAgainstObject = pair.getLeft();
@@ -549,14 +547,8 @@ public abstract class BaseXmlInspector
 				return new Pair<Element, String>( null, declaredType );
 			}
 
-			// If we are 'onlyToParent' but our value is ultimately going to be null, return null
-
 			if ( onlyToParent ) {
-				String lastName = namesToInspect[namesToInspect.length - 1];
-
-				// TODO: test this?
-
-				namesToInspect = new String[] { lastName };
+				namesToInspect = new String[] { namesToInspect[namesToInspect.length - 1] };
 			} else {
 				namesToInspect = null;
 			}
