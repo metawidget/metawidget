@@ -80,7 +80,7 @@ public class MetawidgetTagTest
 		metawidget = new HtmlMetawidgetTag();
 		metawidget.setPageContext( pageContext );
 		metawidget.configure();
-		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ) );
+		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}
 
 	public void testDefaultConfig()
