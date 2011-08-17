@@ -34,7 +34,9 @@ import org.metawidget.util.simple.ObjectUtils;
  * why we call this class <code>BaseObjectInspectorConfig</code> as opposed to
  * <code>AbstractPropertyInspectorConfig</code>, because a non-abstract class called
  * <code>AbstractXXX</code> was deemed confusing! All our other base classes are called
- * <code>BaseXXX</code> for consistency.
+ * <code>BaseXXX</code> for consistency. Also see <a
+ * href="http://blog.joda.org/2011/08/implementations-of-interfaces-prefixes.html">Stephen
+ * Colebourne's blog</a>.
  * 
  * @author Richard Kennard
  */

@@ -152,14 +152,14 @@
 				</listitem>
 				<listitem>
 					<para>
-						Some application servers have classloader issues if the right class is not loaded by the right classloader (eg. JSF
+						Some application servers have classloader issues if a class is not loaded by the correct classloader (eg. JSF
 						components must be loaded by the WAR classloader) or if the same class is loaded by multiple classloaders
-						(eg. annotation classes loaded by both the EJB and the WAR classloader may not be recognised when passed between tiers).
+						(eg. annotation classes loaded by both the EJB and the WAR classloaders may not be recognised when passed between tiers).
 					</para>
 				</listitem>
 				<listitem>
 					<para>
-						Frameworks that scan the classpath looking for JAR annotations (such as Weld) may struggle
+						Some application servers scan the classpath on startup, looking for JAR annotations. They may struggle
 						with Metawidget classes that have optional dependencies (eg. they may throw <classname>ClassNotFoundException</classname>
 						on <classname>SpringMetawidgetTag</classname> if you are not shipping Spring with your application).
 					</para>
@@ -167,22 +167,45 @@
 			</itemizedlist>
 
 			<para>
-				All three of these problems can be resolved by not using <filename>metawidget-all.jar</filename>. Instead, switch to using
+				All these problems can be resolved by not using <filename>metawidget-all.jar</filename>. Instead, switch to using
 				fine-grained dependencies (eg. <filename>metawidget-facesannotation.jar</filename> in the EJB tier,
 				<filename>metawidget-faces.jar</filename> in the WAR tier). A typical setup might be:
 			</para>
 			
-			<programlisting language="shell">ear/lib	# EJB tier annotations	
-    metawidget-annotation.jar
-    metawidget-core.jar
-    metawidget-facesannotation.jar
-ear/war/WEB-INF/lib		# WAR tier inspectors/widgets
-    metawidget-faces.jar
-    metawidget-hibernatevalidator.jar
-    metawidget-java5.jar
-    metawidget-jpa.jar
-    metawidget-richfaces.jar
-    metawidget-tomahawk.jar</programlisting>
+			<programlisting language="shell">ear/lib                              # EJB tier annotations	
+   metawidget-annotation.jar
+   metawidget-core.jar
+   metawidget-facesannotation.jar
+ear/war/WEB-INF/lib                  # WAR tier inspectors/widgets
+   metawidget-faces.jar
+   metawidget-hibernatevalidator.jar
+   metawidget-java5.jar
+   metawidget-jpa.jar
+   metawidget-richfaces.jar
+   metawidget-tomahawk.jar</programlisting>
+   
+   			<para>
+				To use fine-grained dependencies, specify dependencies on a per-technology basis using Maven. For example:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<filename>org.metawidget.modules.faces:metawidget-richfaces</filename>
+				</listitem>
+				<listitem>
+					<filename>org.metawidget.modules.swing:metawidget-beansbinding</filename>
+				</listitem>
+				<listitem>
+					<filename>org.metawidet.modules:metawidget-jpa</filename>
+				</listitem>
+			</itemizedlist>
+			
+			<para>
+				Maven will automatically drag in related dependencies for you, such as <filename>org.metawidget.modules:metawidget-core</filename>.
+				You can browse all available fine-grained dependencies at
+				<ulink url="http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules">http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules</ulink>.
+				If you are not using Maven, you can also download and deploy the fine-grained dependencies manually. 
+   			</para>
 
 		</section>
 
