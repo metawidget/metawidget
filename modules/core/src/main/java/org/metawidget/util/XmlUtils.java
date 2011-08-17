@@ -426,7 +426,7 @@ public class XmlUtils {
 
 		Node node = parent.getFirstChild();
 
-		while( node != null && !( node instanceof Element )) {
+		while ( node != null && !( node instanceof Element ) ) {
 
 			node = node.getNextSibling();
 		}
@@ -436,14 +436,22 @@ public class XmlUtils {
 
 	public static Element getNextSiblingElement( Element element ) {
 
-		Node node = element.getNextSibling();
+		try {
+			Node node = element.getNextSibling();
 
-		while( node != null && !( node instanceof Element )) {
+			while ( node != null && !( node instanceof Element ) ) {
 
-			node = node.getNextSibling();
+				node = node.getNextSibling();
+			}
+
+			return (Element) node;
+
+		} catch ( IndexOutOfBoundsException e ) {
+
+			// Android 1.6 throws IndexOutOfBoundsException instead of correctly returning null
+
+			return null;
 		}
-
-		return (Element) node;
 	}
 
 	/**
