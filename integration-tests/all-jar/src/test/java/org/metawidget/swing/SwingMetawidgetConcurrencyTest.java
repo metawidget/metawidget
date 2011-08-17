@@ -22,7 +22,6 @@ import java.util.concurrent.CountDownLatch;
 import junit.framework.TestCase;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.CollectionUtils;
 
 /**

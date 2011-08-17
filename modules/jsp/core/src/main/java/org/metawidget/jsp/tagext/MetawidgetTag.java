@@ -172,9 +172,6 @@ public abstract class MetawidgetTag
 	public void setConfig( String config ) {
 
 		mConfig = config;
-
-		// TODO: test this?
-
 		mNullConfig = ( config == null );
 		mPipeline.setNeedsConfiguring();
 	}

@@ -104,4 +104,20 @@ public class MetawidgetTagTest
 		assertTrue( inspectors[2] instanceof JspAnnotationInspector );
 		assertEquals( inspectors.length, 3 );
 	}
+
+	public void testNullConfig()
+		throws Exception {
+
+		MockPageContext pageContext = new MockPageContext();
+		MetawidgetTag metawidget = new HtmlMetawidgetTag();
+		Field configField = MetawidgetTag.class.getDeclaredField( "mConfig" );
+		configField.setAccessible( true );
+		assertEquals( null, configField.get( metawidget ));
+		metawidget.setPageContext( pageContext );
+		assertEquals( "metawidget.xml", configField.get( metawidget ));
+
+		metawidget.setConfig( null );
+		metawidget.setPageContext( pageContext );
+		assertEquals( null, configField.get( metawidget ));
+	}
 }
