@@ -17,6 +17,7 @@
 package org.metawidget.inspector.impl.actionstyle.metawidget;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -26,6 +27,7 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.actionstyle.Action;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -76,6 +78,44 @@ public class MetawidgetActionStyleTest
 		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ) );
 		assertTrue( actions.size() == 1 );
+	}
+
+	public void testIsExcluded() {
+
+		final List<Object> isExcluded = CollectionUtils.newArrayList();
+
+		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle() {
+
+			@Override
+			protected boolean isExcludedBaseType( Class<?> classToExclude ) {
+
+				isExcluded.add( classToExclude );
+				return  super.isExcludedBaseType( classToExclude );
+			}
+
+			@Override
+			protected boolean isExcludedReturnType( Class<?> clazz ) {
+				isExcluded.add( clazz );
+				return super.isExcludedReturnType( clazz );
+			}
+
+			@Override
+			protected boolean isExcludedName( String name ) {
+
+				isExcluded.add( name );
+				return super.isExcludedName( name );
+			}
+		};
+
+		actionStyle.getActions( Proxied_$$_javassist_.class );
+
+		assertEquals( InterfaceFoo.class, isExcluded.get( 0 ));
+		assertEquals( void.class, isExcluded.get( 1 ));
+		assertEquals( "bar1", isExcluded.get( 2 ));
+		assertEquals( InterfaceBar.class, isExcluded.get( 3 ));
+		assertEquals( void.class, isExcluded.get( 4 ));
+		assertEquals( "baz", isExcluded.get( 5 ));
+		assertEquals( 6, isExcluded.size() );
 	}
 
 	public void testClearCache()

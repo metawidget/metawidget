@@ -62,13 +62,13 @@ public class BeanUtilsBindingProcessor
 	// Private statics
 	//
 
-	// TODO: use the actual ScalaPropertyStyle here?
-
 	private static final String	SCALA_SET_SUFFIX	= "_$eq";
 
 	//
 	// Private members
 	//
+
+	// REFACTOR: use the actual ScalaPropertyStyle here
 
 	private final int			mPropertyStyle;
 

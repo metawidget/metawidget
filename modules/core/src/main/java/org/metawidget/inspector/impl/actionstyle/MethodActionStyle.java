@@ -71,8 +71,6 @@ public abstract class MethodActionStyle
 
 			String methodName = method.getName();
 
-			// TODO: test this
-
 			if ( isExcluded( ClassUtils.getOriginalDeclaringClass( method ), methodName, method.getReturnType() ) ) {
 				continue;
 			}

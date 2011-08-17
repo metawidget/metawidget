@@ -181,24 +181,6 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	}
 
 	/**
-	 * Whether to exclude the given name when searching for traits.
-	 * <p>
-	 * This can be useful when the convention defines traits that are framework-specific (eg.
-	 * <code>getClass()</code>), and should be filtered out from 'real' business model traits.
-	 * <p>
-	 * By default, does not exclude any names.
-	 *
-	 * @param name
-	 *            to consider for exclusion
-	 * @return true if the trait should be excluded, false otherwise
-	 */
-
-	protected boolean isExcludedName( String name ) {
-
-		return false;
-	}
-
-	/**
 	 * Whether to exclude the given trait return type when searching for traits.
 	 * <p>
 	 * This can be useful when the convention or base class define traits that are
@@ -212,6 +194,24 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	 */
 
 	protected boolean isExcludedReturnType( Class<?> clazz ) {
+
+		return false;
+	}
+
+	/**
+	 * Whether to exclude the given name when searching for traits.
+	 * <p>
+	 * This can be useful when the convention defines traits that are framework-specific (eg.
+	 * <code>getClass()</code>), and should be filtered out from 'real' business model traits.
+	 * <p>
+	 * By default, does not exclude any names.
+	 *
+	 * @param name
+	 *            to consider for exclusion
+	 * @return true if the trait should be excluded, false otherwise
+	 */
+
+	protected boolean isExcludedName( String name ) {
 
 		return false;
 	}
