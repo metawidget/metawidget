@@ -139,23 +139,51 @@
 				If your application is deployed as a Enterprise ARchive (EAR), typically your business objects will be in an EJB tier and your
 				UI screens in a WAR tier. To use Metawidget-specific annotations on your business objects (such as <classname>@UiComesAfter</classname>)
 				you must therefore deploy Metawidget under <filename>ear/lib</filename>. Depending on your application server, you may encounter
-				a few problems doing this. 
+				a few problems doing this. Specifically: 
 			</para>
 			
-			<para>
-				First, many application servers have bugs whereby TLD files cannot be detected under <filename>ear/lib</filename>
-				(only under <filename>WEB-INF/lib</filename>). The
-				easiest way to resolve this is to copy just the TLD file you need (eg. <filename>metawidget-faces.tld</filename>) into your
-				<filename>WEB-INF</filename> folder.
-			</para>
+			<itemizedlist>
+				<listitem>			
+					<para>
+						Some application servers have bugs whereby TLD files cannot be detected under <filename>ear/lib</filename>,
+						only under <filename>WEB-INF/lib</filename>. A workaround is to copy just the TLD file you need
+						(eg. <filename>metawidget-faces.tld</filename>) into your <filename>WEB-INF</filename> folder.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Some application servers have classloader issues if the right class is not loaded by the right classloader (eg. JSF
+						components must be loaded by the WAR classloader) or if the same class is loaded by multiple classloaders
+						(eg. annotation classes loaded by both the EJB and the WAR classloader may not be recognised when passed between tiers).
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Frameworks that scan the classpath looking for JAR annotations (such as Weld) may struggle
+						with Metawidget classes that have optional dependencies (eg. they may throw <classname>ClassNotFoundException</classname>
+						on <classname>SpringMetawidgetTag</classname> if you are not shipping Spring with your application).
+					</para>
+				</listitem>
+			</itemizedlist>
 
 			<para>
-				Second, application servers that scan the classpath looking for JAR annotations (such as Weld) may struggle
-				with Metawidget classes that have optional dependencies. For example, they may throw <classname>ClassNotFoundException</classname>
-				on <classname>SpringMetawidgetTag</classname> if you are not shipping Spring with your application. The
-				easiest way to resolve this is to not use <filename>metawidget-all.jar</filename>. Instead use fine-grained dependencies
-				(eg. <filename>metawidget-facesannotation.jar</filename> in the EJB tier, <filename>metawidget-faces.jar</filename> in the WAR tier).
+				All three of these problems can be resolved by not using <filename>metawidget-all.jar</filename>. Instead, switch to using
+				fine-grained dependencies (eg. <filename>metawidget-facesannotation.jar</filename> in the EJB tier,
+				<filename>metawidget-faces.jar</filename> in the WAR tier). A typical setup might be:
 			</para>
+			
+			<programlisting language="shell">ear/lib	# EJB tier annotations	
+    metawidget-annotation.jar
+    metawidget-core.jar
+    metawidget-facesannotation.jar
+ear/war/WEB-INF/lib		# WAR tier inspectors/widgets
+    metawidget-faces.jar
+    metawidget-hibernatevalidator.jar
+    metawidget-java5.jar
+    metawidget-jpa.jar
+    metawidget-richfaces.jar
+    metawidget-tomahawk.jar</programlisting>
+
 		</section>
 
 		<section id="section-howto-remote">
