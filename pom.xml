@@ -65,8 +65,9 @@
 	</licenses>
 
 	<scm>
-		<url>https://metawidget.svn.sourceforge.net/svnroot/metawidget</url>
-		<connection>scm:svn:https://metawidget.svn.sourceforge.net/svnroot/metawidget</connection>
+		<url>http://github.com/metawidget/metawidget</url>
+		<connection>scm:git:git://github.com/metawidget/metawidget.git</connection>
+		<developerConnection>scm:git:git@github.com:metawidget/metawidget.git</developerConnection>
 	</scm>
 
 	<prerequisites>
