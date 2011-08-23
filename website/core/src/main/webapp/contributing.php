@@ -49,9 +49,10 @@
 		</ul>
 		
 		<h2 class="h2-underneath">How To Contribute</h2>
-		
+		<img src="media/logos/logo-github-large.png" alt="Hosted on GitHub" style="float: right; margin: 20px"/>
 		<p>
-			Submit a patch either via the <a href="/issues.php">issue tracker</a> or by sending it to
+			Contribute either by forking our <a href="https://github.com/metawidget/metawidget" target="_blank">GitHub repository</a> and
+			sending a pull request, attaching a patch to the <a href="/issues.php">issue tracker</a>, or e-mailing code to
 			<a href="mailto:support@metawidget.org">support@metawidget.org</a>. Full source code and documentation is included
 			in the <a href="/download.php">download</a>. Some starting points in the documentation include: 
 		</p>
@@ -63,7 +64,7 @@
 		</ul>
 		
 		<p>
-			You can also <a href="http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk" target="_blank">browse the source code online</a>. Because Metawidget
+			You can also <a href="https://github.com/metawidget/metawidget" target="_blank">browse the source code online</a>. Because Metawidget
 			is built using Maven, each module (eg. Swing, JPA, etc.) has its own small, standalone project. This makes it easy to use tools such as
 			<a href="http://m2eclipse.sonatype.org">m2eclipse</a> to open a module's <tt>pom.xml</tt> in your IDE and start contributing!
 		</p>
@@ -123,31 +124,34 @@
 			<tr>
 				<td style="width: 33%">Ashlin Eldridge<span>(testing)</span></td>
 				<td style="width: 33%">Bernhard Huber<span>(Swing mnemonics)</span></td>
-				<td style="width: 33%">G&eacute;rardo Diaz Corujo<span>(testing)</span></td>
+				<td>George Gastaldi<span>(GitHub)</span></td>
 			</tr>
 			<tr>
+				<td style="width: 33%">G&eacute;rard Collin<span>(testing)</span></td>
+				<td>G&eacute;rardo Diaz Corujo<span>(testing)</span></td>
 				<td>Girolamo Violante<span>(testing)</span></td>
-				<td>G&eacute;rard Collin<span>(testing)</span></td>
-				<td>Ian Darwin<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Ian Darwin<span>(testing)</span></td>
 				<td>Illya Yalovyy<span>(testing)</span></td>
 				<td>Ivaylo Kovatchev<span>(UiWide)</span></td>
-				<td>Leon E<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Leon E<span>(testing)</span></td>
 				<td>Lincoln Baxter III<span>(Maven, testing)</span></td>
 				<td>Michael Studman<span>(testing)</span></td>
-				<td>Renato Garcia<span>(Maven, OVal)</span></td>
 			</tr>
 			<tr>
+				<td>Renato Garcia<span>(Maven, OVal)</span></td>
 				<td>Rintcius Blok<span>(GWT build)</span></td>
 				<td>Ronald van Kuijk<span>(testing)</span></td>
-				<td>Ryan Cornia<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Ryan Cornia<span>(testing)</span></td>
 				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
 				<td>Steffan Luypaert<span>(wallchart)</span></td>
+			</tr>
+			<tr>
 				<td>Tom Bee<span>(testing)</span></td>
 			</tr>
 		</table>

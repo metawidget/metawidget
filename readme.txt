@@ -12,18 +12,22 @@ Bug Reports:
 Technical Support:
 
    http://www.metawidget.org/support.php
+   
+Contributing:
+
+   http://www.metawidget.org/contributing.php
 
 Quick Start
 -----------
 
-1. see 'documentation.html' and follow the tutorial
+Visit http://metawidget.org/doc/reference/en/html/index.html and follow the tutorial.
 
 Debug
 -----
 
 To download a version of metawidget-all.jar compiled with debug information turned on, visit:
 
-	http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules/metawidget-all
+   http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules/metawidget-all
 
 This has a larger JAR size, but may be useful to obtain line numbers while debugging.
 

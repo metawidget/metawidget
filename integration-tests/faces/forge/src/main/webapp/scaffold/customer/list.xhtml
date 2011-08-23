@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:m="http://metawidget.org/faces">
+
+<f:metadata>
+    <f:viewParam name="id" value="#{customerBean.id}">
+       <!-- <f:validateLongRange minimum="1" />  --> 
+    </f:viewParam>
+</f:metadata>
+
+<ui:composition template="/resources/forge-template.xhtml">
+
+	<ui:param name="pageTitle" value="List Customer" />
+
+	<ui:define name="header">
+		Customer
+	</ui:define>
+
+	<ui:define name="subheader">
+		Listing your objects
+	</ui:define>
+
+	<ui:define name="footer">
+	</ui:define>
+
+	<ui:define name="main">
+		<h:form id="form">
+		
+		    <h:messages />
+		    
+		    <ul>
+		    <ui:repeat var="entity" value="#{customerBean.list}">
+		    
+		        <li><h:link outcome="view">
+		            <f:param name="id" value="#{entity.id}"/>
+		        	<m:metawidget value="#{entity}" rendererType="simple" readOnly="true" />
+		        </h:link></li>
+		        
+		    </ui:repeat>
+		    </ul>
+		    <br/>
+		    <m:metawidget value="#{customerBean.list}" inspectFromParent="true">
+		    	<f:param name="dataTableRowAction" value="customerBean.load"/>
+		    </m:metawidget>
+		    
+		    <h:link value="Create new" outcome="create" />
+				
+            <h:commandLink action="#{customerBean.next}" styleClass="right"
+				value="Next #{customerBean.pagination.pageSize}"
+				rendered="#{customerBean.pagination.hasNextPage}" />
+				
+			<h:outputText styleClass="right" style="margin-left: 10px; margin-right: 10px;"
+				value="#{customerBean.pagination.pageFirstItem + 1}..#{customerBean.pagination.pageLastItem + 1}/#{customerBean.pagination.itemsCount}" />&nbsp;
+				
+            <h:commandLink action="#{customerBean.previous}" styleClass="right"
+				value="Previous #{customerBean.pagination.pageSize}"
+				rendered="#{customerBean.pagination.hasPreviousPage}" />
+		
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
+
+

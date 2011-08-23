@@ -771,11 +771,11 @@
 						</webAppConfig>
 						<connectors>
 							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-								<port>8081</port>
+								<port>8180</port>
 								<maxIdleTime>60000</maxIdleTime>
 							</connector>
 						</connectors>
-						<stopPort>8801</stopPort>
+						<stopPort>1190</stopPort>
 						<stopKey>stop</stopKey>
 					</configuration>
 					<!-- These executions are profile dependent -->
@@ -853,10 +853,49 @@
 					</dependencies>
 					<configuration>
 						<fork>true</fork>
-						<port>8081</port>
+						<port>8180</port>
 						<warFile>target/${project.build.finalName}.war</warFile>
 					</configuration>
 					<!-- These executions are profile dependent -->
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jboss-maven-plugin</artifactId>
+					<version>1.5.0</version>
+					<configuration>
+						<fileName>${project.build.directory}/${project.artifactId}.war</fileName>
+					</configuration>
+					<executions>
+						<execution>
+							<id>hard-deploy</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>hard-deploy</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>start</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>start</goal>
+							</goals>
+							<configuration>
+								<!-- Bind HTTP to port 8180 -->
+								<startOptions>-Djboss.service.binding.set=ports-01</startOptions>
+							</configuration>
+						</execution>
+						<execution>
+							<id>stop</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>stop</goal>
+							</goals>
+							<configuration>
+								<!-- JMX bound to port 1190 -->
+								<stopOptions>--port=1190</stopOptions>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -871,7 +910,7 @@
 							</goals>
 							<configuration>
 								<host>localhost</host>
-								<port>8081</port>
+								<port>8180</port>
 								<basepath>${project.artifactId}</basepath>
 								<resultpath>target/webtest-results</resultpath>
 							</configuration>

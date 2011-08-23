@@ -39,5 +39,9 @@
 			<source>/modules/all/target/metawidget-all.jar</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
+		<file>
+			<source>/readme.txt</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
 	</files>
 </assembly>

@@ -16,6 +16,9 @@
 		
 		<ul>
 			<li>Refactored InspectionResultProcessors</li>
+			<li>Harmonized JSF EL</li>
+			<li>Improved Proxy Support</li>
+			<li>Migration to GitHub</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
