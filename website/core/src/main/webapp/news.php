@@ -15,18 +15,22 @@
 		</p>
 		
 		<ul>
-			<li>Refactored InspectionResultProcessors</li>
-			<li>Harmonized JSF EL</li>
-			<li>Improved Proxy Support</li>
-			<li>Migration to GitHub</li>
+			<li><a href="http://blog.kennardconsulting.com/2011/08/metawidget-125-to-130-migration-guide.html">Refactored InspectionResultProcessors</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/08/metawidget-125-to-130-migration-guide.html">Harmonized JSF EL</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/08/metawidget-125-to-130-migration-guide.html">Improved Proxy Support</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2011/08/metawidget-moving-to-github.html">Migration to GitHub</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
 		<p>
 			This release contains breaking changes. We apologise for the disruption and provide
-			this <a href="">Metawidget 1.25 to 1.30 Migration Guide</a>.
+			this <a href="http://blog.kennardconsulting.com/2011/08/metawidget-125-to-130-migration-guide.html">Metawidget 1.25 to 1.30 Migration Guide</a>.
 		</p>
 
+		<p>
+			Special thanks to <a href="http://gastaldi.wordpress.com">George Gastaldi</a> for his help with this release!
+		</p>
+		
 		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
