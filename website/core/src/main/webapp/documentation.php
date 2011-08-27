@@ -53,6 +53,7 @@
 		</p>
 		
 		<ul>
+			<li><a href="media/whitepaper/MetawidgetWhitePaper-WhatGoodIsAnOIM.pdf">What Good is an OIM?</a></li>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">Case Study: Telef&oacute;nica Health Portal</a></li>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-AdoptionStudies.pdf">Adoption Studies</a></li>
 		</ul>

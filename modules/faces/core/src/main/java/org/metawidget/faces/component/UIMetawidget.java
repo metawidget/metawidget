@@ -29,10 +29,9 @@ import java.util.ResourceBundle;
 import javax.faces.application.Application;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
+import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
-import javax.faces.component.ValueHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
@@ -40,7 +39,6 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
-import javax.faces.validator.Validator;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
@@ -91,7 +89,7 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
-	extends UIInput {
+	extends UIComponentBase { // TODO: UIInput {
 
 	//
 	// Public statics
@@ -694,12 +692,13 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context ) {
 
-		Object values[] = new Object[5];
+		Object values[] = new Object[6];
 		values[0] = super.saveState( context );
-		values[1] = mExplicitRendererType;
-		values[2] = mReadOnly;
-		values[3] = mConfig;
-		values[4] = mInspectFromParent;
+		values[1] = mValue;
+		values[2] = mExplicitRendererType;
+		values[3] = mReadOnly;
+		values[4] = mConfig;
+		values[5] = mInspectFromParent;
 
 		return values;
 	}
@@ -714,15 +713,38 @@ public abstract class UIMetawidget
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
-		mExplicitRendererType = (Boolean) values[1];
-		mReadOnly = (Boolean) values[2];
-		mConfig = (String) values[3];
-		mInspectFromParent = (Boolean) values[4];
+		mValue = values[1];
+		mExplicitRendererType = (Boolean) values[2];
+		mReadOnly = (Boolean) values[3];
+		mConfig = (String) values[4];
+		mInspectFromParent = (Boolean) values[5];
 	}
 
 	//
 	// Protected methods
 	//
+
+	private Object							mValue;
+
+	public void setValue( Object value ) {
+
+		mValue = value;
+	}
+
+	public Object getValue() {
+
+		if ( mValue != null ) {
+			return mValue;
+		}
+
+		ValueBinding valueBinding = getValueBinding( "value" );
+
+		if ( valueBinding == null ) {
+			return null;
+		}
+
+		return valueBinding.getValue( getFacesContext() );
+	}
 
 	/**
 	 * Instantiate the Pipeline used by this Metawidget.
@@ -855,7 +877,7 @@ public abstract class UIMetawidget
 				// Log a warning. Still log the Exception message, in case the FileNotFoundException
 				// is from inside metawidget.xml, for example 'Unable to locate checkout.jpdl.xml on
 				// CLASSPATH'
-				
+
 				if ( !LOGGED_MISSING_CONFIG ) {
 					LOGGED_MISSING_CONFIG = true;
 					LOG.info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn''t finding it: {0}", e.getMessage() );
@@ -1203,14 +1225,14 @@ public abstract class UIMetawidget
 
 				// Move converters
 
-				if ( entityLevelWidget instanceof ValueHolder ) {
+				/*if ( entityLevelWidget instanceof ValueHolder ) {
 
 					ValueHolder valueHolder = (ValueHolder) entityLevelWidget;
 					valueHolder.setConverter( UIMetawidget.this.getConverter() );
 
 					// Do not UIMetawidget.this.setConverter( null ), else it will get lost for
 					// subsequent POSTbacks
-				}
+				}*/
 
 				// Move facets
 
@@ -1235,12 +1257,12 @@ public abstract class UIMetawidget
 
 					EditableValueHolder entityLevelEditableValueHolder = (EditableValueHolder) entityLevelWidget;
 
-					for ( Validator metawidgetValidator : UIMetawidget.this.getValidators() ) {
+					/*for ( Validator metawidgetValidator : UIMetawidget.this.getValidators() ) {
 						entityLevelEditableValueHolder.addValidator( metawidgetValidator );
 
 						// Do not UIMetawidget.this.removeValidator( metawidgetValidator ), else
 						// they will get lost for subsequent POSTbacks
-					}
+					}*/
 				}
 
 				// It's not clear whether we should move .getChildren() too. Err on the side of

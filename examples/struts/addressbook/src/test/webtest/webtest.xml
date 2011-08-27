@@ -78,6 +78,9 @@
 				<not>
 					<verifyText text="owner"/>
 					<verifyText text="servlet"/>
+					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tfoot/tr/td[1]/select" />
+					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tfoot/tr/td[2]/input" />
+					<verifyXPath xpath="//*[@name = 'communication.type']" />
 				</not>
 
 				<clickButton label="Edit"/>
@@ -100,6 +103,8 @@
 				
 				<clickButton label="Add"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/form/span[@class='errors'])" text="Communication type is required"/>	
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tfoot/tr/td[1]/select" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tfoot/tr/td[2]/input" />
 				<setSelectField name="communication.type" value="Fax"/>
 				<setInputField name="communication.value" value="(939) 555-0114"/>
 				<clickButton label="Add"/>
