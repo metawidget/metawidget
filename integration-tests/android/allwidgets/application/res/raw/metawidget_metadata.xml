@@ -11,22 +11,23 @@
 		<property name="limitedTextbox" maximum-length="20"/>
 		<property name="textarea" large="true"/>
 		<property name="password" masked="true"/>
-		<property name="byte"/>
+		<property name="bytePrimitive"/>
 		<property name="byteObject"/>
-		<property name="short"/>
+		<property name="shortPrimitive"/>
 		<property name="shortObject"/>
-		<property name="int" minimum-value="" maximum-value=""/>
+		<property name="intPrimitive" minimum-value="" maximum-value=""/>
 		<property name="integerObject"/>
 		<property name="rangedInt" minimum-value="1" maximum-value="100"/>
 		<property name="rangedInteger" minimum-value="2" maximum-value="99"/>
-		<property name="long"/>
+		<property name="longPrimitive"/>
 		<property name="longObject" label=" "/>
-		<property name="float"/>
+		<property name="floatPrimitive"/>
 		<property name="floatObject" label="nullInBundle"/>
-		<property name="double"/>
+		<property name="doublePrimitive"/>
 		<property name="doubleObject" label=""/>
-		<property name="char"/>
-		<property name="boolean"/>
+		<property name="charPrimitive"/>
+		<property name="characterObject"/>
+		<property name="booleanPrimitive"/>
 		<property name="booleanObject"/>
 		<property name="dropdown" lookup="foo1,dropdown1,bar1" lookup-labels=""/>
 		<property name="dropdownWithLabels" lookup="foo2,dropdown2,bar2,baz2" lookup-labels="Foo #2,Dropdown #2,Bar #2,Baz #2"/>
