@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.integration-tests.faces</groupId>
 		<artifactId>allwidgets-faces-parent</artifactId>
-		<version>1.30-SNAPSHOT</version>
+		<version>1.30</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
