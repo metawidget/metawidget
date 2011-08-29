@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Inspection Result Processors: JSP EL expressions support.
+ * Inspection Result Processors: convenience implementations.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.inspectionresultprocessor.jsp;
+package org.metawidget.inspectionresultprocessor.impl;

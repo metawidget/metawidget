@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Inspectors: JSF EL expressions support.
+ * Inspection Result Processors: JSF EL expressions support.
  *
  * @author Richard Kennard
  */
