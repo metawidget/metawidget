@@ -172,14 +172,15 @@ public class GwtTestAddressBook
 												}
 
 												final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
-												assertTrue( communications.getRowCount() == 3 );
+												assertEquals( 3, communications.getRowCount() );
 												assertEquals( "Type", communications.getText( 0, 0 ) );
 												assertEquals( "Value", communications.getText( 0, 1 ) );
 												assertEquals( String.valueOf( (char) 160 ), communications.getHTML( 0, 2 ) );
-												assertTrue( 3 == communications.getCellCount( 0 ) );
+												assertEquals( 3, communications.getCellCount( 0 ) );
 												assertEquals( "Telephone", communications.getText( 1, 0 ) );
 												assertEquals( "(939) 555-0113", communications.getText( 1, 1 ) );
-												assertTrue( 2 == communications.getCellCount( 1 ) );
+												assertEquals( 2, communications.getCellCount( 1 ) );
+												assertEquals( "", communications.getText( 2, 0 ) );
 
 												// Check editing
 
@@ -228,7 +229,7 @@ public class GwtTestAddressBook
 
 														// Check deleting a Communication
 
-														assertTrue( communications.getRowCount() == 3 );
+														assertEquals( 3, communications.getRowCount() );
 														fireClickEvent( deleteCommunication );
 														assertTrue( communications.getRowCount() == 2 );
 
