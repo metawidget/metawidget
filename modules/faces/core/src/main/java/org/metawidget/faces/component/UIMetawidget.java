@@ -1481,6 +1481,13 @@ public abstract class UIMetawidget
 		public void processEvent( SystemEvent event )
 			throws AbortProcessingException {
 
+			// Don't do unnecessary work if none of our child components are to be rendered anyway
+			// (work around for https://issues.apache.org/jira/browse/MYFACES-3293)
+
+			if ( !getMetawidget().isRendered() ) {
+				return;
+			}
+
 			try {
 				buildWidgets();
 			} catch ( Exception e ) {
