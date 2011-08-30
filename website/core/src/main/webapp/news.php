@@ -4,6 +4,22 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v1.35 Released!</h3>
+		<h4>2011</h4>
+		
+		<p>
+			Metawidget v1.35 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>		
+
 		<h3>Metawidget v1.30 Released!</h3>
 		<h4>30th August 2011</h4>
 		
