@@ -1,0 +1,12 @@
+.classpath
+.project
+.settings
+.DS_Store
+dependency-reduced-pom.xml
+target/
+*.iml
+*.ipr
+*.iws
+bin/
+/*/src/main/java/META-INF
+.gitignore.swp
