@@ -84,10 +84,10 @@
 
 			</section>		
 
-			<section id="section-inspectors-annotation">
+			<section id="section-troubleshooting-inspectors-annotation">
 				<title>Annotation-Based Inspectors</title>				
 
-				<section id="section-inspectors-annotation-troubleshooting-1">
+				<section id="section-troubleshooting-inspectors-annotation-1">
 					<title>I get "java.lang.TypeNotPresentException"</title>
 					
 					<para>
@@ -96,7 +96,7 @@
 					</para>
 				</section>
 
-				<section id="section-inspectors-annotation-troubleshooting-2">
+				<section id="section-troubleshooting-inspectors-annotation-2">
 					<title>My inspector is not finding my annotations</title>
 
 					<para>
