@@ -13,7 +13,7 @@
 					<array>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig">
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="JavaBeanPropertyStyleConfig">
 									<excludeBaseType>
 										<pattern>^(java|javax|org\.eclipse\.swt)\..*$</pattern>
 									</excludeBaseType>

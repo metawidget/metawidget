@@ -17,7 +17,7 @@
 						<strutsInspector xmlns="java:org.metawidget.inspector.struts" config="StrutsInspectorConfig"/>					
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig">
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="JavaBeanPropertyStyleConfig">
 									<excludeBaseType>
 										<pattern>^(java|javax|org\.apache\.struts)\..*$</pattern>
 									</excludeBaseType>

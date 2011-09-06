@@ -9,7 +9,7 @@
 		<section id="section-troubleshooting-general">
 			<title>General</title>
 			
-			<section id="section-inspectors-inspectors-general-doesnt-work">
+			<section id="section-troubleshooting-general-doesnt-work">
 				<title>Metawidget Doesn't Work!</title>
 				
 				<para>
@@ -37,8 +37,8 @@
 						<para>
 							If your application uses JBoss Logging (ie. under JBoss AS 6) locate the <filename>jboss-logging.xml</filename>
 							file (eg. <filename>/jboss-6.0.0.Final/server/default/deploy/jboss-logging.xml</filename>) and edit it. Under the
-							<parameter>&lt;console-handler&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>. Under
-							the <parameter>&lt;root-logger&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
+							<parameter>&lt;console-handler&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
+							Under the <parameter>&lt;root-logger&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
 						</para>
 					</listitem>
 					<listitem>
@@ -46,6 +46,15 @@
 							If you are running Tomcat 7 under Eclipse, make sure you edit the server's launch configuration and include
 							a VM argument of <parameter>-Djava.util.logging.config.file=&lt;tomcat path&gt;/conf/logging.properties</parameter>. Then edit
 							<filename>&lt;tomcat path&gt;/conf/logging.properties</filename> as described above.
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							If you are running JBoss AS 7, you will need to edit the
+							<parameter>&lt;subsystem xmlns="urn:jboss:domain:logging:1.1"&gt;</parameter>
+							section of <filename>standalone.xml</filename>. Under the
+							<parameter>&lt;console-handler&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
+							Under the <parameter>&lt;root-logger&gt;</parameter> section set <parameter>&lt;level name="DEBUG"/&gt;</parameter>.
 						</para>
 					</listitem>
 				</itemizedlist>
@@ -57,7 +66,7 @@
 		<section id="section-troubleshooting-inspectors">
 			<title>Inspectors</title>
 		
-			<section id="section-inspectors-inspectors-general">
+			<section id="section-troubleshooting-inspectors-general">
 				<title>General Inspectors</title>
 				
 				<section id="section-inspectors-general-troubleshooting-1">
@@ -75,7 +84,7 @@
 
 			</section>		
 
-			<section id="section-inspectors-inspectors-annotation">
+			<section id="section-inspectors-annotation">
 				<title>Annotation-Based Inspectors</title>				
 
 				<section id="section-inspectors-annotation-troubleshooting-1">

@@ -23,6 +23,7 @@
 							<artifactId>addressbook-faces</artifactId>
 							<excludes>
 								<exclude>*.jsp</exclude>
+								<exclude>*.tag</exclude>
 								<exclude>faces-config.xml</exclude>
 								<exclude>WEB-INF/lib/**</exclude>
 							</excludes>

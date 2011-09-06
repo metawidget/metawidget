@@ -34,6 +34,8 @@ public class JavaBeanPropertyStyleConfig
 	// Private members
 	//
 
+	// REFACTOR: this should be false by default. Most techs need getters/setters
+	
 	private boolean			mSupportPublicFields = true;
 
 	private MessageFormat	mPrivateFieldConvention;
