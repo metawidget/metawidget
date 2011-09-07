@@ -58,7 +58,7 @@ public class JavaBeanPropertyStyleTest
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertTrue( properties.size() == 10 );
+		assertEquals( 10, properties.size() );
 
 		assertEquals( "foo", properties.get( "foo" ).toString() );
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
@@ -97,6 +97,68 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( properties.get( "methodSetterInSuper" ), null );
 		assertEquals( properties.get( "methodCovariant" ), null );
 		assertEquals( 6, properties.size() );
+	}
+
+	public void testExcludeReturnType() {
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+
+		// Without excluded type
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertEquals( 10, properties.size()  );
+
+		assertEquals( "baz", properties.get( "baz" ).getName() );
+
+		// With excluded type
+
+		config.setExcludeReturnType( String.class );
+		propertyStyle = new JavaBeanPropertyStyle( config );
+		properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertEquals( 4, properties.size()  );
+
+		assertEquals( "bar", properties.get( "bar" ).getName() );
+		assertEquals( "baz", properties.get( "baz" ).getName() );
+		assertEquals( "methodAbc", properties.get( "methodAbc" ).getName() );
+		assertEquals( "methodBaz", properties.get( "methodBaz" ).getName() );
+	}
+
+	public void testExcludeName() {
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+
+		// Without excluded name
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertEquals( 10, properties.size()  );
+
+		assertEquals( "baz", properties.get( "baz" ).getName() );
+
+		// With excluded name
+
+		config.setExcludeName( "bar", "baz" );
+		propertyStyle = new JavaBeanPropertyStyle( config );
+		properties = propertyStyle.getProperties( Foo.class );
+
+		assertTrue( properties instanceof TreeMap<?, ?> );
+		assertEquals( 8, properties.size()  );
+
+		assertEquals( "foo", properties.get( "foo" ).getName() );
+		assertEquals( "methodAbc", properties.get( "methodAbc" ).getName() );
+		assertEquals( "methodBar", properties.get( "methodBar" ).getName() );
+		assertEquals( "methodBaz", properties.get( "methodBaz" ).getName() );
+		assertEquals( "methodCovariant", properties.get( "methodCovariant" ).getName() );
+		assertEquals( "methodFoo", properties.get( "methodFoo" ).getName() );
+		assertEquals( "methodGetterInSuper", properties.get( "methodGetterInSuper" ).getName() );
+		assertEquals( "methodSetterInSuper", properties.get( "methodSetterInSuper" ).getName() );
 	}
 
 	public void testSupportPublicFields() {

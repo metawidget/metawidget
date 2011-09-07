@@ -125,6 +125,11 @@ public final class FacesUtils {
 		}
 	}
 
+	public static boolean isValidationError() {
+
+		return ( FacesContext.getCurrentInstance().getMaximumSeverity() != null );
+	}
+
 	public static boolean isPartialStateSavingDisabled() {
 
 		FacesContext context = FacesContext.getCurrentInstance();

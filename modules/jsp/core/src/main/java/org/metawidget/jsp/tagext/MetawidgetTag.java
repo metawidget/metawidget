@@ -143,15 +143,17 @@ public abstract class MetawidgetTag
 
 		// Some more initialization
 
-		ServletContext servletContext = pageContext.getServletContext();
-		String configFile = servletContext.getInitParameter( "org.metawidget.jsp.tagext.CONFIG_FILE" );
-
-		if ( configFile == null ) {
-			if ( !mNullConfig ) {
-				mConfig = DEFAULT_USER_CONFIG;
+		if ( mConfig == null ) {
+			ServletContext servletContext = pageContext.getServletContext();
+			String configFile = servletContext.getInitParameter( "org.metawidget.jsp.tagext.CONFIG_FILE" );
+	
+			if ( configFile == null ) {
+				if ( !mNullConfig ) {
+					mConfig = DEFAULT_USER_CONFIG;
+				}
+			} else {
+				mConfig = configFile;
 			}
-		} else {
-			mConfig = configFile;
 		}
 
 		if ( servletContext.getAttribute( CONFIG_READER_ATTRIBUTE ) == null ) {

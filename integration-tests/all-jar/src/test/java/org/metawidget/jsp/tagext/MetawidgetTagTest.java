@@ -116,8 +116,16 @@ public class MetawidgetTagTest
 		metawidget.setPageContext( pageContext );
 		assertEquals( "metawidget.xml", configField.get( metawidget ));
 
+		// Set null
+
 		metawidget.setConfig( null );
 		metawidget.setPageContext( pageContext );
 		assertEquals( null, configField.get( metawidget ));
+
+		// Un-null again
+
+		metawidget.setConfig( "Foo" );
+		metawidget.setPageContext( pageContext );
+		assertEquals( "Foo", configField.get( metawidget ));
 	}
 }

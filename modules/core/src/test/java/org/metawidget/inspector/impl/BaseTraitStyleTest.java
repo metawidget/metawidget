@@ -17,7 +17,9 @@
 package org.metawidget.inspector.impl;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
@@ -86,5 +88,63 @@ public class BaseTraitStyleTest
 		assertTrue( false == traitStyle.isExcludedBaseType( Date.class ) );
 		assertTrue( false == traitStyle.isExcludedBaseType( JTextField.class ) );
 		assertTrue( false == traitStyle.isExcludedBaseType( Element.class ) );
+
+		// Not-null it again
+
+		config.setExcludeBaseType( Pattern.compile( "^(org)\\..*$" ));
+		traitStyle = new JavaBeanPropertyStyle( config );
+
+		assertTrue( false == traitStyle.isExcludedBaseType( Date.class ) );
+		assertTrue( false == traitStyle.isExcludedBaseType( JTextField.class ) );
+		assertTrue( true == traitStyle.isExcludedBaseType( Element.class ) );
+	}
+
+	public void testExcludeReturnType() {
+
+		// Default excludeName
+
+		BasePropertyStyle traitStyle = new JavaBeanPropertyStyle();
+		assertTrue( false == traitStyle.isExcludedReturnType( Date.class ) );
+		assertTrue( false == traitStyle.isExcludedReturnType( JTextField.class ) );
+		assertTrue( false == traitStyle.isExcludedReturnType( Element.class ) );
+
+		// Specific excludeName
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		config.setExcludeReturnType( JComponent.class, Element.class );
+		traitStyle = new JavaBeanPropertyStyle( config );
+
+		assertTrue( false == traitStyle.isExcludedReturnType( Date.class ) );
+		assertTrue( true == traitStyle.isExcludedReturnType( JTextField.class ) );
+		assertTrue( true == traitStyle.isExcludedReturnType( Element.class ) );
+	}
+
+	public void testExcludedName() {
+
+		// Default excludeName
+
+		BasePropertyStyle traitStyle = new JavaBeanPropertyStyle();
+		assertTrue( false == traitStyle.isExcludedName( "Foo" ));
+		assertTrue( true == traitStyle.isExcludedName( "propertyChangeListeners" ));
+		assertTrue( true == traitStyle.isExcludedName( "vetoableChangeListeners" ));
+
+		// Null excludeName
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		config.setExcludeName( (String[]) null );
+		traitStyle = new JavaBeanPropertyStyle( config );
+
+		assertTrue( false == traitStyle.isExcludedName( "Foo" ));
+		assertTrue( false == traitStyle.isExcludedName( "propertyChangeListeners" ));
+		assertTrue( false == traitStyle.isExcludedName( "vetoableChangeListeners" ));
+
+		// Not-null it again
+
+		config.setExcludeName( "propertyChangeListeners" );
+		traitStyle = new JavaBeanPropertyStyle( config );
+
+		assertTrue( false == traitStyle.isExcludedName( "Foo" ));
+		assertTrue( true == traitStyle.isExcludedName( "propertyChangeListeners" ));
+		assertTrue( false == traitStyle.isExcludedName( "vetoableChangeListeners" ));
 	}
 }

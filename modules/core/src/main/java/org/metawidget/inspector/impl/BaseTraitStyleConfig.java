@@ -44,6 +44,10 @@ public class BaseTraitStyleConfig {
 
 	private boolean			mNullExcludeBaseType;
 
+	private Class<?>[]		mExcludeReturnType;
+
+	private String[]		mExcludeName;
+
 	//
 	// Public methods
 	//
@@ -81,16 +85,69 @@ public class BaseTraitStyleConfig {
 	public BaseTraitStyleConfig setExcludeBaseType( Pattern excludeBaseType ) {
 
 		mExcludeBaseType = excludeBaseType;
-
-		if ( excludeBaseType == null ) {
-			mNullExcludeBaseType = true;
-		}
+		mNullExcludeBaseType = ( excludeBaseType == null );
 
 		// Fluent interface
 
 		return this;
 	}
 
+	/**
+	 * Sets a list of return types to exclude when searching for traits.
+	 * <p>
+	 * This can be useful when the convention or base class define traits that are
+	 * framework-specific, and should be filtered out from 'real' business model traits.
+	 * <p>
+	 * By default, does not exclude any return types.
+	 *
+	 * @param excludeReturnType
+	 *            list of return types to consider for exclusion
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseTraitStyleConfig setExcludeReturnType( Class<?>... excludeReturnType ) {
+
+		mExcludeReturnType = excludeReturnType;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Sets a list of names to exclude when searching for traits.
+	 * <p>
+	 * This can be useful when the convention or base class define traits that are
+	 * framework-specific, and should be filtered out from 'real' business model traits.
+	 * <p>
+	 * By default, does not exclude any return types.
+	 *
+	 * @param excludeName
+	 *            list of names to consider for exclusion
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseTraitStyleConfig setExcludeName( String... excludeName ) {
+
+		mExcludeName = excludeName;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Whether to exclude the given name when searching for traits.
+	 * <p>
+	 * This can be useful when the convention defines traits that are framework-specific (eg.
+	 * <code>getClass()</code>), and should be filtered out from 'real' business model traits.
+	 * <p>
+	 * By default, does not exclude any names.
+	 *
+	 * @param name
+	 *            to consider for exclusion
+	 * @return true if the trait should be excluded, false otherwise
+	 */
 	@Override
 	public boolean equals( Object that ) {
 
@@ -114,6 +171,14 @@ public class BaseTraitStyleConfig {
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mExcludeReturnType, ( (BaseTraitStyleConfig) that ).mExcludeReturnType ) ) {
+			return false;
+		}
+
+		if ( !ObjectUtils.nullSafeEquals( mExcludeName, ( (BaseTraitStyleConfig) that ).mExcludeName ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -124,6 +189,8 @@ public class BaseTraitStyleConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mCacheLookups );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mExcludeBaseType );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeBaseType );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mExcludeReturnType );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mExcludeName );
 
 		return hashCode;
 	}
@@ -148,5 +215,15 @@ public class BaseTraitStyleConfig {
 		}
 
 		return mExcludeBaseType;
+	}
+
+	protected Class<?>[] getExcludeReturnType() {
+
+		return mExcludeReturnType;
+	}
+
+	protected String[] getExcludeName() {
+
+		return mExcludeName;
 	}
 }

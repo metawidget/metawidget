@@ -31,18 +31,42 @@ public class JavaBeanPropertyStyleConfig
 	extends BasePropertyStyleConfig {
 
 	//
+	// Private statics
+	//
+
+	private static String[]	DEFAULT_EXCLUDE_NAME	= new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
+
+	//
 	// Private members
 	//
 
-	// REFACTOR: this should be false by default. Most techs need getters/setters
-	
-	private boolean			mSupportPublicFields = true;
+	private boolean			mNullExcludeName;
+
+	// REFACTOR: this should be false by default. Most technologies need getters/setters
+
+	private boolean			mSupportPublicFields	= true;
 
 	private MessageFormat	mPrivateFieldConvention;
 
 	//
 	// Public methods
 	//
+
+	/**
+	 * Overridden to exclude the names 'propertyChangeListeners' and 'vetoableChangeListeners' by
+	 * default.
+	 */
+
+	@Override
+	public JavaBeanPropertyStyleConfig setExcludeName( String... excludeName ) {
+
+		super.setExcludeName( excludeName );
+		mNullExcludeName = ( excludeName == null );
+
+		// Fluent interface
+
+		return this;
+	}
 
 	/**
 	 * Sets whether to recognize public fields as properties. True by default.
@@ -101,7 +125,11 @@ public class JavaBeanPropertyStyleConfig
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
+			return false;
+		}
+
+		if ( mNullExcludeName != ( (JavaBeanPropertyStyleConfig) that ).mNullExcludeName ) {
 			return false;
 		}
 
@@ -120,6 +148,7 @@ public class JavaBeanPropertyStyleConfig
 	public int hashCode() {
 
 		int hashCode = super.hashCode();
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeName );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPrivateFieldConvention );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportPublicFields );
 
@@ -129,6 +158,18 @@ public class JavaBeanPropertyStyleConfig
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String[] getExcludeName() {
+
+		String[] excludeName = super.getExcludeName();
+
+		if ( excludeName == null && !mNullExcludeName ) {
+			return DEFAULT_EXCLUDE_NAME;
+		}
+
+		return excludeName;
+	}
 
 	protected boolean isSupportPublicFields() {
 

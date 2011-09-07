@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -56,6 +57,10 @@ public abstract class BaseTraitStyle<T extends Trait> {
 
 	private Pattern												mExcludeBaseType;
 
+	private Class<?>[]											mExcludeReturnType;
+
+	private String[]											mExcludeName;
+
 	//
 	// Constructor
 	//
@@ -69,6 +74,8 @@ public abstract class BaseTraitStyle<T extends Trait> {
 		}
 
 		mExcludeBaseType = config.getExcludeBaseType();
+		mExcludeReturnType = config.getExcludeReturnType();
+		mExcludeName = config.getExcludeName();
 	}
 
 	//
@@ -181,12 +188,13 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	}
 
 	/**
-	 * Whether to exclude the given trait return type when searching for traits.
+	 * Whether to exclude the given return type when searching for traits.
 	 * <p>
 	 * This can be useful when the convention or base class define traits that are
 	 * framework-specific, and should be filtered out from 'real' business model traits.
 	 * <p>
-	 * By default, does not exclude any return types.
+	 * By default, excludes any return types from
+	 * <code>BaseTraitStyleConfig.setExcludeReturnType</code>.
 	 *
 	 * @param clazz
 	 *            return type to consider for exclusion
@@ -194,6 +202,16 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	 */
 
 	protected boolean isExcludedReturnType( Class<?> clazz ) {
+
+		if ( mExcludeReturnType != null ) {
+
+			for ( Class<?> excludedClass : mExcludeReturnType ) {
+
+				if ( excludedClass.isAssignableFrom( clazz ) ) {
+					return true;
+				}
+			}
+		}
 
 		return false;
 	}
@@ -204,7 +222,7 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	 * This can be useful when the convention defines traits that are framework-specific (eg.
 	 * <code>getClass()</code>), and should be filtered out from 'real' business model traits.
 	 * <p>
-	 * By default, does not exclude any names.
+	 * By default, excludes any names from <code>BaseTraitStyleConfig.setExcludeName</code>.
 	 *
 	 * @param name
 	 *            to consider for exclusion
@@ -212,6 +230,10 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	 */
 
 	protected boolean isExcludedName( String name ) {
+
+		if ( ArrayUtils.contains( mExcludeName, name ) ) {
+			return true;
+		}
 
 		return false;
 	}

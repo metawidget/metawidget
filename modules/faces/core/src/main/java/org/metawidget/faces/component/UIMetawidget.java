@@ -1536,7 +1536,7 @@ public abstract class UIMetawidget
 			// Validation error? Do not rebuild, as we will lose the invalid values in the
 			// components
 
-			if ( FacesContext.getCurrentInstance().getMaximumSeverity() != null ) {
+			if ( FacesUtils.isValidationError() ) {
 				return;
 			}
 

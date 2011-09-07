@@ -37,7 +37,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * <code>BaseXXX</code> for consistency. Also see <a
  * href="http://blog.joda.org/2011/08/implementations-of-interfaces-prefixes.html">Stephen
  * Colebourne's blog</a>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -69,17 +69,15 @@ public class BaseObjectInspectorConfig {
 
 	/**
 	 * Sets the style used to recognize properties.
-	 * 
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
 	public BaseObjectInspectorConfig setPropertyStyle( PropertyStyle propertyStyle ) {
 
 		mPropertyStyle = propertyStyle;
-
-		if ( propertyStyle == null ) {
-			mNullPropertyStyle = true;
-		}
+		// TODO: test
+		mNullPropertyStyle = ( propertyStyle == null );
 
 		// Fluent interface
 
@@ -88,17 +86,15 @@ public class BaseObjectInspectorConfig {
 
 	/**
 	 * Sets the style used to recognize actions.
-	 * 
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
 	public BaseObjectInspectorConfig setActionStyle( ActionStyle actionStyle ) {
 
 		mActionStyle = actionStyle;
-
-		if ( actionStyle == null ) {
-			mNullActionStyle = true;
-		}
+		// TODO: test
+		mNullActionStyle = ( actionStyle == null );
 
 		// Fluent interface
 

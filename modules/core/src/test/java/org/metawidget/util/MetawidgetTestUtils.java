@@ -24,7 +24,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
@@ -185,6 +187,8 @@ public final class MetawidgetTestUtils {
 
 					if ( String.class.equals( componentType ) ) {
 						toSet = new String[] { "foo", "bar", "baz" };
+					} else if ( Class.class.equals( componentType ) ) {
+						toSet = new Class[] { Date.class, String.class, Set.class };
 					} else if ( InputStream.class.isAssignableFrom( componentType ) ) {
 						continue;
 					} else if ( componentType.isInterface() ) {
