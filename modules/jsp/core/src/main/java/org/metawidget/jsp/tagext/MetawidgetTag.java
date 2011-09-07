@@ -140,13 +140,13 @@ public abstract class MetawidgetTag
 	public void setPageContext( PageContext newPageContext ) {
 
 		super.setPageContext( newPageContext );
+		ServletContext servletContext = pageContext.getServletContext();
 
 		// Some more initialization
 
 		if ( mConfig == null ) {
-			ServletContext servletContext = pageContext.getServletContext();
 			String configFile = servletContext.getInitParameter( "org.metawidget.jsp.tagext.CONFIG_FILE" );
-	
+
 			if ( configFile == null ) {
 				if ( !mNullConfig ) {
 					mConfig = DEFAULT_USER_CONFIG;
