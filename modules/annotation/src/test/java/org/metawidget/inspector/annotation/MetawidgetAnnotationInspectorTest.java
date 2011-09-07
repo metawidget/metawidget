@@ -28,6 +28,7 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.test.model.annotatedaddressbook.Address;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -262,6 +263,12 @@ public class MetawidgetAnnotationInspectorTest
 
 		inspector = new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( null ) );
 		assertTrue( ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, (Object) null ) ).isEmpty() );
+
+		// Un-null again
+
+		assertEquals( 0, ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, Foo.class ) ).size() );
+		inspector = new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle() ) );
+		assertEquals( 3, ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, Foo.class ) ).size() );
 	}
 
 	@SuppressWarnings( "unchecked" )
@@ -288,6 +295,12 @@ public class MetawidgetAnnotationInspectorTest
 
 		inspector = new MetawidgetAnnotationInspector( config );
 		assertTrue( ( (Map<String, Property>) getActionsMethod.invoke( inspector, (Object) null ) ).isEmpty() );
+
+		// Un-null again
+
+		assertEquals( 0, ( (Map<String, Property>) getActionsMethod.invoke( inspector, Foo.class ) ).size() );
+		inspector = new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle() ) );
+		assertEquals( 1, ( (Map<String, Property>) getActionsMethod.invoke( inspector, Foo.class ) ).size() );
 	}
 
 	public void testSuperclassAnnotations()

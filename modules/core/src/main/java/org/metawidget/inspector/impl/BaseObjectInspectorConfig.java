@@ -76,7 +76,6 @@ public class BaseObjectInspectorConfig {
 	public BaseObjectInspectorConfig setPropertyStyle( PropertyStyle propertyStyle ) {
 
 		mPropertyStyle = propertyStyle;
-		// TODO: test
 		mNullPropertyStyle = ( propertyStyle == null );
 
 		// Fluent interface
@@ -93,7 +92,6 @@ public class BaseObjectInspectorConfig {
 	public BaseObjectInspectorConfig setActionStyle( ActionStyle actionStyle ) {
 
 		mActionStyle = actionStyle;
-		// TODO: test
 		mNullActionStyle = ( actionStyle == null );
 
 		// Fluent interface
