@@ -22,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -114,20 +116,19 @@ public final class FacesUtils {
 
 	public static boolean isJsf2() {
 
-		try {
-
-			Class.forName( "javax.faces.event.PreRenderViewEvent" );
-			return true;
-
-		} catch ( ClassNotFoundException e ) {
-
-			return false;
-		}
+		return IS_JSF_2;
 	}
 
-	public static boolean isValidationError() {
+	public static boolean isValidationFailed() {
 
-		return ( FacesContext.getCurrentInstance().getMaximumSeverity() != null );
+		if ( isJsf2() ) {
+			return ( FacesContext.getCurrentInstance().isValidationFailed() );
+		}
+
+		// Not clear how to determine isValidationFailed in JSF 1.2?
+
+		Severity maximumSeverity = FacesContext.getCurrentInstance().getMaximumSeverity();
+		return ( FacesMessage.SEVERITY_ERROR.equals( maximumSeverity ) || FacesMessage.SEVERITY_FATAL.equals( maximumSeverity ));
 	}
 
 	public static boolean isPartialStateSavingDisabled() {
@@ -218,6 +219,25 @@ public final class FacesUtils {
 	private static final String		EXPRESSION_START	= "#{";
 
 	private static final String		EXPRESSION_END		= "}";
+
+	private static final boolean	IS_JSF_2;
+
+	static {
+
+		boolean isJsf2;
+
+		try {
+
+			Class.forName( "javax.faces.event.PreRenderViewEvent" );
+			isJsf2 = true;
+
+		} catch ( ClassNotFoundException e ) {
+
+			isJsf2 = false;
+		}
+
+		IS_JSF_2 = isJsf2;
+	}
 
 	//
 	// Private constructor

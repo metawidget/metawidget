@@ -21,8 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
@@ -113,9 +111,9 @@ public class UIMetawidgetTest
 		MockFacesContext context = new MockFacesContext() {
 
 			@Override
-			public Severity getMaximumSeverity() {
+			public boolean isValidationFailed() {
 
-				return FacesMessage.SEVERITY_INFO;
+				return true;
 			}
 
 			@Override
