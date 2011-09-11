@@ -11,7 +11,23 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="JavaBeanPropertyStyleConfig">
+									<excludeName>
+										<array>
+											<string>ignoredName</string>
+										</array>
+									</excludeName>
+									<excludeReturnType>
+										<array>
+											<class>java.util.Date</class>
+										</array>
+									</excludeReturnType>
+								</javaBeanPropertyStyle>
+							</propertyStyle>
+						</propertyTypeInspector>
+						
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 					</array>
 				</inspectors>

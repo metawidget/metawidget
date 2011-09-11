@@ -16,6 +16,8 @@
 
 package org.metawidget.integrationtest.jsp.quirks.model;
 
+import java.util.Date;
+
 import org.metawidget.inspector.annotation.UiLabel;
 
 /**
@@ -45,5 +47,15 @@ public class JspQuirks {
 	public void setBooleanPrimitive( boolean booleanPrimitive ) {
 
 		mBooleanPrimitive = booleanPrimitive;
+	}
+	
+	public String getIgnoredName() {
+		
+		return null;
+	}
+
+	public Date getIgnoredType() {
+		
+		return null;
 	}
 }
