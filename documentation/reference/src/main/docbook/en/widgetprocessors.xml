@@ -51,7 +51,7 @@
 						
 						<para>
 							After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
-							can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+							can load values for a new Object into the same UI without a full re-inspection by using <function>rebind</function>: 
 						</para>
 						
 						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
@@ -83,7 +83,7 @@
 						
 						<para>
 							After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
-							can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+							can load values for a new Object into the same UI without a full re-inspection by using <function>rebind</function>: 
 						</para>
 						
 						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
@@ -236,7 +236,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 					<para>
 						After <classname>Widget</classname>s have been generated for the initial <function>setToInspect</function>, clients
-						can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+						can load values for a new Object into the same UI without a full re-inspection by using <function>rebind</function>: 
 					</para>
 					
 					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>

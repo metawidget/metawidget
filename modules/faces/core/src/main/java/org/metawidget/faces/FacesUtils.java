@@ -126,6 +126,8 @@ public final class FacesUtils {
 		}
 
 		// Not clear how to determine isValidationFailed in JSF 1.2?
+		// http://java.net/jira/browse/JAVASERVERFACES_SPEC_PUBLIC-1035
+		// TODO: test this
 
 		Severity maximumSeverity = FacesContext.getCurrentInstance().getMaximumSeverity();
 		return ( FacesMessage.SEVERITY_ERROR.equals( maximumSeverity ) || FacesMessage.SEVERITY_FATAL.equals( maximumSeverity ));

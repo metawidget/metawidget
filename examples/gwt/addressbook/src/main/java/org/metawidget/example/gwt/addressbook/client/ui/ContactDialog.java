@@ -59,7 +59,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Note: for performance, this example is optimized to use <code>rebind</code> (see 'rebinding' in
  * the Reference Documentation). This results in slightly more complex code. For a more
  * straightforward example, see <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -360,8 +360,8 @@ public class ContactDialog
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 
 		// Having recreated all child widgets (as readOnly/not readOnly), or done nothing (if the
-		// child widgets were already in the desired state), update their values to the new contact.
-		// We use rebind (as opposed to setToInspect) to rebind the widget values without a full
+		// child widgets were already in the desired state), load the new contact into the UI. We
+		// use rebind (as opposed to setToInspect) to rebind the widget values without a full
 		// server-side re-inspection
 
 		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( contact, mMetawidget );
