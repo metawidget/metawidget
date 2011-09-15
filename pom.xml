@@ -231,7 +231,7 @@
 		</repository>
 		<repository>
 			<id>prime-repo</id>
-			<url>http://repository.prime.com.tr</url>
+			<url>http://repository.primefaces.org</url>
 		</repository>
 	</repositories>
 
