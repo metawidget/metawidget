@@ -187,6 +187,13 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>Chalupa, V.</td>
+					<td>2011</td>
+					<td>Nov&aacute; generace n&aacute;stroje FormBuilder</td>
+					<td>Cesk&eacute; vysok&eacute; ucen&iacute; technick&eacute; v Praze</td>
+					<td class="link"><a href="https://dip.felk.cvut.cz/browse/pdfcache/chaluva2_2011bach.pdf" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Schill, A.</td>
 					<td>2010</td>
 					<td>Generierung von interaktiven OSGi-Komponenten f&uuml;r Android</td>

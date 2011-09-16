@@ -188,6 +188,14 @@ public class JavaBeanPropertyStyle
 
 		for ( Method method : clazz.getMethods() ) {
 
+			// Exclude static methods
+
+			int modifiers = method.getModifiers();
+
+			if ( Modifier.isStatic( modifiers ) ) {
+				continue;
+			}
+
 			// Get type
 
 			Class<?>[] parameters = method.getParameterTypes();
@@ -293,6 +301,15 @@ public class JavaBeanPropertyStyle
 	protected void lookupSetters( Map<String, Property> properties, Class<?> clazz ) {
 
 		for ( Method method : clazz.getMethods() ) {
+
+			// Exclude static methods
+
+			int modifiers = method.getModifiers();
+
+			if ( Modifier.isStatic( modifiers ) ) {
+				continue;
+			}
+
 			// Get type
 
 			Class<?>[] parameters = method.getParameterTypes();

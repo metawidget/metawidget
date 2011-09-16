@@ -364,6 +364,16 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( !properties.containsKey( "foo" ));
 	}
 
+	public void testStaticMethods() {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( StaticMethodsTest.class );
+		assertTrue( !properties.containsKey( "staticString" ));
+		assertTrue( properties.containsKey( "nonStaticField" ));
+		assertTrue( properties.containsKey( "nonStaticString" ));
+		assertEquals( 2, properties.size() );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( JavaBeanPropertyStyleConfig.class, new JavaBeanPropertyStyleConfig() {
@@ -678,6 +688,29 @@ public class JavaBeanPropertyStyleTest
 		public void setFoo( String foo ) {
 
 			// Do nothing
+		}
+	}
+
+	static class StaticMethodsTest {
+
+		public static String staticString;
+
+		public static String getStaticString() {
+			return null;
+		}
+
+		public static void setStaticString( String aStaticString ) {
+			staticString = aStaticString;
+		}
+
+		public String nonStaticField;
+
+		public String getNonStaticString() {
+			return null;
+		}
+
+		public void setNonStaticString( String aNonStaticString ) {
+			nonStaticField = aNonStaticString;
 		}
 	}
 }

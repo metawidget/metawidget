@@ -84,7 +84,7 @@ public class SwingMetawidgetConcurrencyTest
 			doneSignal.await();
 
 			if ( !concurrencyFailures.isEmpty() ) {
-				break;
+				throw concurrencyFailures.get( 0 );
 			}
 		}
 

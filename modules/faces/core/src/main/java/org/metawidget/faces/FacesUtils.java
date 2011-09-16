@@ -22,8 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.application.Application;
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -121,16 +119,19 @@ public final class FacesUtils {
 
 	public static boolean isValidationFailed() {
 
+		FacesContext context = FacesContext.getCurrentInstance();
+
 		if ( isJsf2() ) {
 			return ( FacesContext.getCurrentInstance().isValidationFailed() );
 		}
 
-		// Not clear how to determine isValidationFailed in JSF 1.2?
+		// Under JSF 1.2, any severity (even SEVERITY_INFO) is considered a validation error. See
 		// http://java.net/jira/browse/JAVASERVERFACES_SPEC_PUBLIC-1035
-		// TODO: test this
 
-		Severity maximumSeverity = FacesContext.getCurrentInstance().getMaximumSeverity();
-		return ( FacesMessage.SEVERITY_ERROR.equals( maximumSeverity ) || FacesMessage.SEVERITY_FATAL.equals( maximumSeverity ));
+		// TODO: test this
+		// TODO: doco about 'handler' and other request proxy fields
+
+		return ( context.getMaximumSeverity() != null );
 	}
 
 	public static boolean isPartialStateSavingDisabled() {
@@ -144,7 +145,7 @@ public final class FacesUtils {
 	 * <code>createComponent( context, componentType, rendererType )</code> method, or the JSF 1.x
 	 * <code>createComponent( componentType )</code> method. The former can be important for JSF 2.x
 	 * controls that need to dynamically include additional resources (such as JavaScript/CSS
-	 * files).
+	 * files). See <a href="http://community.jboss.org/message/601807">this forum discussion</a>.
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -156,7 +157,6 @@ public final class FacesUtils {
 		// JSF 2.x
 
 		if ( isJsf2() ) {
-
 			return (T) application.createComponent( context, componentType, rendererType );
 		}
 
