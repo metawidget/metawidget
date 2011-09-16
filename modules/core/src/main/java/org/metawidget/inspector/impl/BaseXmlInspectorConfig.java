@@ -100,8 +100,21 @@ public class BaseXmlInspectorConfig
 	}
 
 	/**
-	 * Sets the property style used to restrict against <code>null</code> or recursive Objects (see
-	 * BaseXmlInspector JavaDoc)
+	 * Sets the property style used to restrict XML inspection against the given Object. This
+	 * applies when mixing XML-based <code>Inspector</code>s (e.g. <code>XmlInspector</code>) and
+	 * Object-based <code>Inspector</code>s (e.g. <code>PropertyTypeInspector</code>) in the same
+	 * application (i.e. via <code>CompositeInspector</code>).
+	 * <p>
+	 * You may encounter a problem whereby the Object-based <code>Inspector</code> will always stop
+	 * at <code>null</code> or recursive references, whereas the XML <code>Inspector</code> (which
+	 * have no knowledge of Object values) will continue. This can lead to the
+	 * <code>WidgetBuilder</code>s constructing a UI for a <code>null</code> Object, which may upset
+	 * some <code>WidgetProcessor</code>s (e.g. <code>BeansBindingProcessor</code>). To resolve
+	 * this, you can set <code>BaseXmlInspectorConfig.setRestrictAgainstObject</code>, whereby the
+	 * XML-based <code>Inspector</code> will do a check for <code>null</code> or recursive
+	 * references, and not return any XML. In addition, setting <code>restrictAgainstObject</code>
+	 * allows the XML <code>Inspector</code> to traverse child relationships and infer their types
+	 * using the Object. This saves having to explicitly specify those relationships in the XML.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
@@ -119,6 +132,10 @@ public class BaseXmlInspectorConfig
 	 * Sets whether to infer the inheritance heirarchy of types in the XML by looking them up
 	 * against corresponding Java <code>Classes</code>. This saves having to explicitly specify the
 	 * inheritance heirarchy in the XML.
+	 * <p>
+	 * Note this does <em>not</em> infer child relationships. For that, use
+	 * <code>setRestrictAgainstObject</code> (which also implies
+	 * <code>setInferInheritanceHierarchy</code>).
 	 *
 	 * @return this, as part of a fluent interface
 	 */

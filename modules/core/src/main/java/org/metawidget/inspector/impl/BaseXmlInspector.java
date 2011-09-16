@@ -86,6 +86,10 @@ import org.w3c.dom.Element;
  * <code>Inspector</code> will do a check for <code>null</code> or recursive references, and not
  * return any XML.
  * <p>
+ * In addition, setting <code>restrictAgainstObject</code> allows the XML <code>Inspector</code> to
+ * traverse child relationships and infer their types using the Object. This saves having to
+ * explicitly specify those relationships in the XML.
+ * <p>
  * Second, by default you need to explicitly specify any inheritance relationships between types in
  * the XML, because the XML has no knowledge of your Java classes. This includes the names of any
  * proxied classes. If this becomes laborious, you can set
@@ -167,6 +171,10 @@ public abstract class BaseXmlInspector
 			// inferInheritanceHierarchy
 
 			mInferInheritanceHierarchy = config.isInferInheritanceHierarchy();
+
+			if ( mRestrictAgainstObject != null && mInferInheritanceHierarchy ) {
+				throw InspectorException.newException( "When using restrictAgainstObject, inferInheritanceHierarchy is implied" );
+			}
 
 			// validateAgainstClasses
 

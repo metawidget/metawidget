@@ -986,7 +986,9 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 						<classname>WidgetProcessor</classname>s (e.g. <classname>BeansBindingProcessor</classname>). To resolve this, you can set
 						<function>BaseXmlInspectorConfig.setRestrictAgainstObject</function>,
 						whereby the XML-based <classname>Inspector</classname> will do a check for <parameter>null</parameter> or recursive
-						references, and not return any XML.
+						references, and not return any XML. In addition, setting <parameter>restrictAgainstObject</parameter>
+						allows the XML <classname>Inspector</classname> to traverse child relationships and infer their types
+	 					using the Object. This saves having to explicitly specify those relationships in the XML.
 					</para>
 					
 					<para>

@@ -522,6 +522,22 @@ public class XmlInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 1 );
 	}
 
+	public void testRestrictAgainstObjectImpliesInferInheritanceHeirarchy() {
+
+		String xml = "<?xml version=\"1.0\"?><inspection-result />";
+
+		XmlInspectorConfig config = new XmlInspectorConfig();
+		config.setRestrictAgainstObject( new JavaBeanPropertyStyle() );
+		config.setInferInheritanceHierarchy( true );
+		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
+
+		try {
+			mInspector = new XmlInspector( config );
+		} catch( InspectorException e ) {
+			assertEquals( "When using restrictAgainstObject, inferInheritanceHierarchy is implied", e.getMessage() );
+		}
+	}
+
 	/**
 	 * Test BaseXmlInspector under high concurrency.
 	 * <p>
