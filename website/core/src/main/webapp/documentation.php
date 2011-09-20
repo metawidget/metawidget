@@ -71,6 +71,7 @@
 		</p>
 		
 		<ul>
+			<li><a href="media/presentation/MetawidgetFlyer.pdf" target="_blank">Promotional flyer</a></li>
 			<li><a href="media/presentation/MetawidgetPresentation.pdf" target="_blank">PDF version (including speaker notes)</a></li>
 			<li><a href="media/presentation/MetawidgetPresentation.odp" target="_blank">OpenOffice ODP version (including speaker notes)</a></li>
 		</ul>
