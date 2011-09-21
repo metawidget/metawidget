@@ -129,7 +129,6 @@ public final class FacesUtils {
 		// http://java.net/jira/browse/JAVASERVERFACES_SPEC_PUBLIC-1035
 
 		// TODO: test this
-		// TODO: doco about 'handler' and other request proxy fields
 
 		return ( context.getMaximumSeverity() != null );
 	}

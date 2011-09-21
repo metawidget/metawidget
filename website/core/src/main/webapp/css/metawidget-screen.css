@@ -82,6 +82,12 @@ a {
 	display: block;
 }
 
+#banner {
+	position: absolute;
+	top: 12px;
+	left: 240px;
+}
+
 /*
  * Top tabs
  */

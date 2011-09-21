@@ -67,7 +67,7 @@
 		<p>
 			We've been asked for presentation material to help those wanting to promote Metawidget within their organisation, say
 			at a <a href="http://en.wikipedia.org/wiki/Brown_bag_seminars" target="_blank">Brown Bag Lunch</a>. The material
-			includes speaker notes and is available in two forms, including an OpenOffice version you can edit to your needs:
+			includes a flyer, slides, speaker notes and an OpenOffice version you can edit to your needs:
 		</p>
 		
 		<ul>

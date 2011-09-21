@@ -249,6 +249,39 @@ public @interface MyAnnotation {
 					
 				</section>
 				
+				<section id="section-metawidgets-web-faces-proxies">
+					<title>I get "The class ... does not have a readable property"</title>
+					
+					<para>
+						Depending on your environment, you may encounter problems with proxies introducing additional
+						properties into your objects. These additional properties cannot be read by JSF. For example
+						a <classname>@RequestScoped</classname> Weld object may
+						get wrapped with a <classname>WeldClientProxy</classname> that introduces a <parameter>handler</parameter>
+						property. If this happens, try setting...
+					</para>
+					
+					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+				config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;propertyStyle&gt;
+		&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+				config="JavaBeanPropertyStyleConfig"&gt;
+			&lt;excludeName&gt;
+				&lt;array&gt;
+					&lt;string&gt;handler&lt;/string&gt;
+				&lt;/array&gt;
+			&lt;/excludeName&gt;
+		&lt;/javaBeanPropertyStyle&gt;
+	&lt;/propertyStyle&gt;
+&lt;/propertyTypeInspector&gt;</programlisting>
+
+					<para>
+						...in your <filename>metawidget.xml</filename>. This will ignore properties named <parameter>handler</parameter>. You may
+						find the <parameter>refId</parameter> convention useful for making this declaration less verbose, see
+						<xref linkend="section-architecture-xml-understand-immutability"/>.
+					</para>
+					
+				</section>
+
 			</section>
 			
 			<section id="section-troubleshooting-web-struts">
