@@ -624,11 +624,11 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td><parameter>faces-component</parameter></td>
 							<td>
 								<classname>@UiFacesComponent</classname> - annotates the field should be rendered using the
-								given <classname>UIComponent</classname> in the UI.
+								given <parameter>component type</parameter> in the UI.
 								<para>
 									Use of this annotation does not bind the business class to the UI quite as tightly
 									as it may appear, because JSF has a loosely coupled relationship between
-									<parameter>&lt;component-name&gt;</parameter> and <parameter>&lt;component-class&gt;</parameter>, and
+									<parameter>&lt;component-type&gt;</parameter> and <parameter>&lt;component-class&gt;</parameter>, and
 									a further loose coupling between <parameter>&lt;component&gt;</parameter> and <parameter>&lt;render-kit&gt;</parameter>,
 									as defined in <filename>faces-config.xml</filename>
 								</para>
