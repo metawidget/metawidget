@@ -64,9 +64,9 @@
 			<version>${mojarra1.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-		</dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>		
 	</dependencies>
 
 </project>
