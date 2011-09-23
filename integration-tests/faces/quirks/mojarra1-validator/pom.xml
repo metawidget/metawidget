@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.metawidget.examples.faces</groupId>
-	<artifactId>quirks-faces-mojarra2-validator</artifactId>
+	<artifactId>quirks-faces-mojarra1-validator</artifactId>
 	<packaging>war</packaging>
 
 	<build>
@@ -54,16 +54,18 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.faces</groupId>
+			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
+			<version>${mojarra1.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.faces</groupId>
+			<groupId>javax.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
+			<version>${mojarra1.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
 		</dependency>
 	</dependencies>
 

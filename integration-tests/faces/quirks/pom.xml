@@ -23,6 +23,7 @@
 		<module>richfaces4</module>
 		<module>primefaces</module>
 		<module>validator</module>
+		<module>mojarra1-validator</module>
 	</modules>
 
 </project>

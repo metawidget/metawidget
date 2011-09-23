@@ -128,8 +128,6 @@ public final class FacesUtils {
 		// Under JSF 1.2, any severity (even SEVERITY_INFO) is considered a validation error. See
 		// http://java.net/jira/browse/JAVASERVERFACES_SPEC_PUBLIC-1035
 
-		// TODO: test this
-
 		return ( context.getMaximumSeverity() != null );
 	}
 

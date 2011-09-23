@@ -17,13 +17,11 @@
 package org.metawidget.integrationtest.faces.quirks.model;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 
-@ManagedBean( name = "validatorQuirks" )
 public class ValidatorQuirks {
 
 	//
@@ -34,9 +32,7 @@ public class ValidatorQuirks {
 
 	private String	mBar;
 
-	private String	mBaz;
-
-	private boolean	mMessageAdded	= false;
+	private boolean mMessageAdded = false;
 
 	//
 	// Public methods
@@ -63,22 +59,6 @@ public class ValidatorQuirks {
 		mBar = bar;
 	}
 
-	@UiComesAfter( "bar" )
-	public String getBaz() {
-
-		return mBaz;
-	}
-
-	public void setBaz( String baz ) {
-
-		mBaz = baz;
-	}
-
-	public void save() {
-
-		// Do nothing
-	}
-
 	@UiHidden
 	public boolean isMessageAdded() {
 
@@ -86,7 +66,7 @@ public class ValidatorQuirks {
 	}
 
 	/**
-	 * Tests we are using FacesContext.isValidationFailed under JSF 2
+	 * Tests we are using context.getMaximumSeverity() under JSF 1.x
 	 */
 
 	public void addMessage() {
@@ -94,6 +74,6 @@ public class ValidatorQuirks {
 		mMessageAdded = true;
 
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage( null, new FacesMessage( FacesMessage.SEVERITY_ERROR, "Message Added!", null ) );
+		context.addMessage( null, new FacesMessage( FacesMessage.SEVERITY_INFO, "Message Added!", null ) );
 	}
 }

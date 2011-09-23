@@ -1,0 +1,20 @@
+<f:view xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:m="http://metawidget.org/faces">
+
+<html>
+	<h:head>
+		<title>#{facesContext.externalContext.request.session.servletContext.servletContextName}</title>		
+	</h:head>	
+	<h:body>
+		<h1>#{facesContext.externalContext.request.session.servletContext.servletContextName}</h1>	
+		<h:form id="form">
+			<h:messages/>
+			<m:metawidget value="#{validatorQuirks.foo}" rendered="#{!validatorQuirks.messageAdded}"/>
+			<m:metawidget value="#{validatorQuirks.bar}" rendered="#{validatorQuirks.messageAdded}"/>
+			<h:commandButton value="Add Message" action="#{validatorQuirks.addMessage}"/>
+		</h:form>
+	</h:body>
+</html>
+
+</f:view>

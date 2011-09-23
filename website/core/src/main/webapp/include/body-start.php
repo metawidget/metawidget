@@ -2,6 +2,12 @@
 		<h1><a href="index.php">Metawidget</a></h1>
 	</div>
 	
+	<div id="banner">
+		<a href="http://blog.kennardconsulting.com/2011/09/metawidget-javaone-2011-updated.html" target="_blank">
+			<img src="/media/logos/banner-javaone.png" alt="I'm Speaking at JavaOne 2011" border="0">
+		</a>
+	</div>
+	
 	<div id="top-tabs">
 		<ul>
 			<li<?php if ( $_SERVER['PHP_SELF'] == '/videos.php' ) echo ' class="active"'; ?>>
@@ -32,7 +38,7 @@
 	
 	<table id="content">
 		<tr>			
-			<td id="left-bar">			
+			<td id="left-bar">
 				<div id="left-menu1" class="left-menu">
 					<h2>Get Started</h2>
 					<ul>

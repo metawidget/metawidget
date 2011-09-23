@@ -539,6 +539,8 @@ public class HtmlWidgetBuilder
 		if ( inspectedType == null ) {
 			// ...resort to a single column table...
 
+			// TODO: https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4717262
+
 			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 			columnText.setId( viewRoot.createUniqueId() );
 			ValueBinding binding = application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) );
