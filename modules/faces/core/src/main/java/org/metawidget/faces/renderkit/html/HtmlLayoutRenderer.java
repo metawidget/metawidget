@@ -28,7 +28,7 @@ import javax.faces.component.UIInput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlMessage;
-import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -54,6 +54,12 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
 
 public abstract class HtmlLayoutRenderer
 	extends Renderer {
+
+        //
+	// Private statics
+	//
+
+	private static final String	LABEL_ID_SUFFIX					= "-label";
 
 	//
 	// Public methods
@@ -136,8 +142,9 @@ public abstract class HtmlLayoutRenderer
 		}
 
 		// Render the label
-
-		HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
+                
+                HtmlOutputLabel componentLabel = 
+                        (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
 
 		State state = getState( metawidget );
 
@@ -149,6 +156,14 @@ public abstract class HtmlLayoutRenderer
 
 		componentLabel.setValue( labelText + state.labelSuffix );
 
+                String componentNeedingLabelId = componentNeedingLabel.getId();
+                componentLabel.setId(componentNeedingLabelId + LABEL_ID_SUFFIX);
+                componentLabel.setFor( componentNeedingLabelId );
+                
+                // We set parent to componentNeedingLabel parent to enable finding it "for" component for label
+                
+                componentLabel.setParent( componentNeedingLabel.getParent() );
+                
 		FacesUtils.render( context, componentLabel );
 		return true;
 	}
