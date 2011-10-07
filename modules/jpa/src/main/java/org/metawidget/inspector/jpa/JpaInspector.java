@@ -150,5 +150,6 @@ public class JpaInspector
                 }
                 
 		return attributes;
-	}
+        }
+        
 }
