@@ -291,6 +291,7 @@ public final class InspectionResultConstants {
 
 	public static final String	TIME_ZONE						= "time-zone";
 
+        // Values for use with JSF: "date", "time", "both", default "date"
 	public static final String	DATETIME_TYPE					= "datetime-type";
 
 	//

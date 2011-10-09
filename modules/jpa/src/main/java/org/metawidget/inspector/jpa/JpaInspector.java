@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -39,7 +40,7 @@ import org.metawidget.util.CollectionUtils;
 
 public class JpaInspector
 	extends BaseObjectInspector {
-
+    
 	//
 	// Private members
 	//
@@ -121,7 +122,29 @@ public class JpaInspector
 		} else if ( mHideTransients && property.isAnnotationPresent( Transient.class ) ) {
 			attributes.put( HIDDEN, TRUE );
 		}
-
+                
+                // DateTime Type
+                
+                Temporal temporal = property.getAnnotation(Temporal.class);
+                if (temporal != null) {
+                    String type = null;
+                    switch (temporal.value()) {
+                        case DATE:
+                            type = "date";
+                            break;
+                        case TIME:
+                            type = "time";
+                            break;
+                        case TIMESTAMP:
+                            type =" both";
+                            break;
+                    }
+                    if (type != null) {
+                        attributes.put( DATETIME_TYPE, type );
+                    }
+                }
+                
 		return attributes;
-	}
+        }
+        
 }

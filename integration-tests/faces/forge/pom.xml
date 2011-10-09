@@ -48,29 +48,42 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jboss-maven-plugin</artifactId>
-				<configuration>
-					<jbossHome>${JBOSS_HOME}</jbossHome>
-				</configuration>
-			</plugin>
 			<plugin> 
-            	<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
+                        	<artifactId>maven-antrun-plugin</artifactId>
+                                <executions>
+                                        <execution>
+                                                <id>chmod</id>
+                                                <phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+                                                <configuration>
+                                                    <target>
+                                                        <chmod file="${JBOSS_HOME}/bin/*.sh" perm="+x" />
+                                                    </target>
+                                                </configuration>
+                                        </execution>
 					<execution>
+                                                <id>wait</id>
 						<phase>integration-test</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
-		            	<configuration> 
-		                	<target> 
+                		            	<configuration> 
+                                                	<target> 
 								<echo message="Waiting 60 seconds for JBoss to start" /> 
 								<sleep seconds="60" />
 							</target>
 						</configuration>
 					</execution>
 				</executions>				
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jboss-maven-plugin</artifactId>
+				<configuration>
+					<jbossHome>${JBOSS_HOME}</jbossHome>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
