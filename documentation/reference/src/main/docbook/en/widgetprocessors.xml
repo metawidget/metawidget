@@ -319,7 +319,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>ImmediateAttributeProcessor</title>
 					
 					<para>
-						<classname>RequiredAttributeProcessor</classname> sets <classname>UIInput.setImmediate</classname> for any widgets
+						<classname>ImmediateAttributeProcessor</classname> sets <classname>UIInput.setImmediate</classname> for any widgets
 						with a <parameter>faces-immediate</parameter> attribute.
 					</para>
 				</section>
