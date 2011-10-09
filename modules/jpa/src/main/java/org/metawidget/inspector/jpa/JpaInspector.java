@@ -16,8 +16,6 @@
 
 package org.metawidget.inspector.jpa;
 
-import java.util.Collections;
-import java.util.EnumMap;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
@@ -27,7 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -44,19 +41,6 @@ import org.metawidget.util.CollectionUtils;
 public class JpaInspector
 	extends BaseObjectInspector {
     
-        //
-        // Private constants
-        //
-        private static final Map<TemporalType, String> TEMPORAL_TO_TYPE;
-        static {
-             EnumMap<TemporalType, String> temporalToType = 
-                new EnumMap(TemporalType.class);
-             temporalToType.put(TemporalType.DATE, "date");
-             temporalToType.put(TemporalType.TIME, "time");
-             temporalToType.put(TemporalType.TIMESTAMP, "both");
-             TEMPORAL_TO_TYPE = Collections.unmodifiableMap(temporalToType);
-        }
-
 	//
 	// Private members
 	//
@@ -143,7 +127,18 @@ public class JpaInspector
                 
                 Temporal temporal = property.getAnnotation(Temporal.class);
                 if (temporal != null) {
-                    String type = TEMPORAL_TO_TYPE.get(temporal.value());
+                    String type = null;
+                    switch (temporal.value()) {
+                        case DATE:
+                            type = "date";
+                            break;
+                        case TIME:
+                            type = "time";
+                            break;
+                        case TIMESTAMP:
+                            type =" both";
+                            break;
+                    }
                     if (type != null) {
                         attributes.put( DATETIME_TYPE, type );
                     }
