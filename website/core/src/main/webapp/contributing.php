@@ -133,25 +133,26 @@
 			</tr>
 			<tr>
 				<td>Ian Darwin<span>(testing)</span></td>
+				<td>Igor Sakovich<span>(JSF, JPA enhancements)</span></td>
 				<td>Illya Yalovyy<span>(testing)</span></td>
-				<td>Ivaylo Kovatchev<span>(UiWide)</span></td>
 			</tr>
 			<tr>
+				<td>Ivaylo Kovatchev<span>(UiWide)</span></td>
 				<td>Leon E<span>(testing)</span></td>
 				<td>Lincoln Baxter III<span>(Maven, testing)</span></td>
-				<td>Michael Studman<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Michael Studman<span>(testing)</span></td>
 				<td>Renato Garcia<span>(Maven, OVal)</span></td>
 				<td>Rintcius Blok<span>(GWT build)</span></td>
-				<td>Ronald van Kuijk<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Ronald van Kuijk<span>(testing)</span></td>
 				<td>Ryan Cornia<span>(testing)</span></td>
 				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
-				<td>Steffan Luypaert<span>(wallchart)</span></td>
 			</tr>
 			<tr>
+				<td>Steffan Luypaert<span>(wallchart)</span></td>
 				<td>Tom Bee<span>(testing)</span></td>
 			</tr>
 		</table>

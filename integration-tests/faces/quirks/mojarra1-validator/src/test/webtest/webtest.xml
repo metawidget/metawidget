@@ -11,7 +11,7 @@
 				<not>
 					<verifyXPath xpath="/html/body/form/ul"/>
 				</not>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@value" text=""/>
 

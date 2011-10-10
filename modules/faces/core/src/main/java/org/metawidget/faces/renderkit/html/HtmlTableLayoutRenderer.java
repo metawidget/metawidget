@@ -85,13 +85,13 @@ public class HtmlTableLayoutRenderer
 	// Private statics
 	//
 
-	private static final String	TABLE_PREFIX						= "table-";
+	private static final String	TABLE_ID_PREFIX						= "table-";
 
-	private static final String	ROW_SUFFIX							= "-row";
+	private static final String	ROW_ID_SUFFIX						= "-row";
 
-	private static final String	LABEL_CELL_SUFFIX					= "-label-cell";
+	private static final String	LABEL_CELL_ID_SUFFIX				= "-label-cell";
 
-	private static final String	COMPONENT_CELL_SUFFIX				= "-cell";
+	private static final String	COMPONENT_CELL_ID_SUFFIX			= "-cell";
 
 	private static final int	JUST_COMPONENT_AND_REQUIRED			= 2;
 
@@ -342,7 +342,7 @@ public class HtmlTableLayoutRenderer
 			writer.startElement( "tr", metawidget );
 
 			if ( cssId != null ) {
-				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX, null );
+				writer.writeAttribute( "id", TABLE_ID_PREFIX + cssId + ROW_ID_SUFFIX, null );
 			}
 
 			writeRowStyleClass( metawidget, writer, state.currentRow );
@@ -361,7 +361,7 @@ public class HtmlTableLayoutRenderer
 			writer.startElement( "tr", metawidget );
 
 			if ( cssId != null ) {
-				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX + "2", null );
+				writer.writeAttribute( "id", TABLE_ID_PREFIX + cssId + ROW_ID_SUFFIX + "2", null );
 			}
 
 			writeRowStyleClass( metawidget, writer, state.currentRow );
@@ -372,7 +372,7 @@ public class HtmlTableLayoutRenderer
 		writer.startElement( "td", metawidget );
 
 		if ( cssId != null ) {
-			writer.writeAttribute( "id", TABLE_PREFIX + cssId + COMPONENT_CELL_SUFFIX, null );
+			writer.writeAttribute( "id", TABLE_ID_PREFIX + cssId + COMPONENT_CELL_ID_SUFFIX, null );
 		}
 
 		// CSS
@@ -439,7 +439,7 @@ public class HtmlTableLayoutRenderer
 
 		String cssId = getCssId( componentNeedingLabel );
 		if ( cssId != null ) {
-			writer.writeAttribute( "id", TABLE_PREFIX + cssId + LABEL_CELL_SUFFIX, null );
+			writer.writeAttribute( "id", TABLE_ID_PREFIX + cssId + LABEL_CELL_ID_SUFFIX, null );
 		}
 
 		// CSS

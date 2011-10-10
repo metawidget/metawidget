@@ -15,7 +15,9 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchCurrentFirstname-cell']" />
 
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@class='table-form']" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Firstname:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label" text="Firstname:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label/@id" text="form:contactSearchCurrentFirstname-label" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label/@for" text="form:contactSearchCurrentFirstname" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td[@class='buttons']" />
@@ -47,6 +49,8 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactCurrentTitle-row']" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactCurrentTitle-cell']" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label/@id" text="form:contactCurrentTitle-label" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label/@for" text="form:contactCurrentTitle" />				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']" text="Mr" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/th[@class='table-label-column']" text="Firstname:" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-component-column']" text="Homer" />
@@ -158,7 +162,9 @@
 				<clickButton label="Cancel" />
 
 				<clickButton label="Add Business Contact" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label" text="Title:" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label/@id" text="form:contactCurrentTitle-label" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label/@for" text="form:contactCurrentTitle" />				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="*" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-required-column']" text="*" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" text="*" />

@@ -122,29 +122,24 @@ public class JpaInspector
 		} else if ( mHideTransients && property.isAnnotationPresent( Transient.class ) ) {
 			attributes.put( HIDDEN, TRUE );
 		}
-                
-                // DateTime Type
-                
-                Temporal temporal = property.getAnnotation(Temporal.class);
-                if (temporal != null) {
-                    String type = null;
-                    switch (temporal.value()) {
-                        case DATE:
-                            type = "date";
-                            break;
-                        case TIME:
-                            type = "time";
-                            break;
-                        case TIMESTAMP:
-                            type =" both";
-                            break;
-                    }
-                    if (type != null) {
-                        attributes.put( DATETIME_TYPE, type );
-                    }
-                }
-                
+
+		// Temporal
+
+		Temporal temporal = property.getAnnotation( Temporal.class );
+		if ( temporal != null ) {
+			switch ( temporal.value() ) {
+				case DATE:
+					attributes.put( DATETIME_TYPE, "date" );
+					break;
+				case TIME:
+					attributes.put( DATETIME_TYPE, "time" );
+					break;
+				case TIMESTAMP:
+					attributes.put( DATETIME_TYPE, "both" );
+					break;
+			}
+		}
+
 		return attributes;
-        }
-        
+	}
 }

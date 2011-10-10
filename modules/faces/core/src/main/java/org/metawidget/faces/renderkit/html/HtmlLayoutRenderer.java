@@ -30,7 +30,6 @@ import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlMessage;
 import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -50,18 +49,18 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  * <li><code>messageStyleClass</code>
  * <li><code>labelSuffix</code>
  * </ul>
- *
+ * 
  * @author Richard Kennard
  */
 
 public abstract class HtmlLayoutRenderer
 	extends Renderer {
 
-        //
+	//
 	// Private statics
 	//
 
-	private static final String	LABEL_ID_SUFFIX					= "-label";
+	private static final String	LABEL_ID_SUFFIX	= "-label";
 
 	//
 	// Public methods
@@ -121,7 +120,7 @@ public abstract class HtmlLayoutRenderer
 	 * Render the label text. Rendering is done via an <code>HtmlOutputText</code> renderer, so that
 	 * it is properly escaped. Any JSF EL expressions embedded in the label should have already been
 	 * evaluated by <code>FacesInspectionResultProcessor</code>.
-	 *
+	 * 
 	 * @return whether a label was written
 	 */
 
@@ -144,8 +143,8 @@ public abstract class HtmlLayoutRenderer
 		}
 
 		// Render the label
-                
-                UIOutput componentLabel = createLabel(context, metawidget, componentNeedingLabel);
+
+		UIOutput componentLabel = createLabel( context, componentNeedingLabel );
 
 		State state = getState( metawidget );
 
@@ -160,22 +159,23 @@ public abstract class HtmlLayoutRenderer
 		FacesUtils.render( context, componentLabel );
 		return true;
 	}
-        
-        protected UIOutput createLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel ) {
-                if ((componentNeedingLabel instanceof UIInput) && !(componentNeedingLabel instanceof UIMetawidget)) {
-                        HtmlOutputLabel componentLabel = 
-                                (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
-                        String componentNeedingLabelId = componentNeedingLabel.getId();
-                        componentLabel.setFor(componentNeedingLabelId);
-                        componentLabel.setParent(componentNeedingLabel.getParent());
-                        componentLabel.setId(componentNeedingLabelId + LABEL_ID_SUFFIX);
-                        return componentLabel;
-                } else {
-                        HtmlOutputText componentLabel =
-                                (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
-                        return componentLabel;
-                }
-        }
+
+	/**
+	 * Create a label component for the given <code>UIComponent</code>. Clients may override this
+	 * method to create a different type of label component.
+	 */
+	
+	protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
+
+		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
+		componentLabel.setFor( componentNeedingLabel.getId() );
+
+		// Avoid 'unable to find component with id' warning
+
+		componentLabel.setParent( componentNeedingLabel.getParent() );
+		componentLabel.setId( componentLabel.getFor() + LABEL_ID_SUFFIX );
+		return componentLabel;
+	}
 
 	protected void layoutChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
 		throws IOException {

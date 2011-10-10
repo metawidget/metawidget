@@ -31,7 +31,7 @@
 					<artifactItems>
 						<artifactItem>
 							<groupId>org.jboss.jbossas</groupId>
-							<artifactId>jboss-as-distribution</artifactId>						
+							<artifactId>jboss-as-distribution</artifactId>
 							<version>${jboss.as.version}</version>
 							<type>zip</type>
 							<overWrite>true</overWrite>
@@ -48,35 +48,36 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin> 
-                        	<artifactId>maven-antrun-plugin</artifactId>
-                                <executions>
-                                        <execution>
-                                                <id>chmod</id>
-                                                <phase>pre-integration-test</phase>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<!-- Needed on Linux (Igor Sakovich) -->
+					<execution>
+						<id>chmod</id>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
-                                                <configuration>
-                                                    <target>
-                                                        <chmod file="${JBOSS_HOME}/bin/*.sh" perm="+x" />
-                                                    </target>
-                                                </configuration>
-                                        </execution>
+						<configuration>
+							<target>
+								<chmod file="${JBOSS_HOME}/bin/*.sh" perm="+x" />
+							</target>
+						</configuration>
+					</execution>
 					<execution>
-                                                <id>wait</id>
+						<id>wait</id>
 						<phase>integration-test</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
-                		            	<configuration> 
-                                                	<target> 
-								<echo message="Waiting 60 seconds for JBoss to start" /> 
+						<configuration>
+							<target>
+								<echo message="Waiting 60 seconds for JBoss to start" />
 								<sleep seconds="60" />
 							</target>
 						</configuration>
 					</execution>
-				</executions>				
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

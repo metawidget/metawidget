@@ -434,6 +434,8 @@ public class HtmlTableLayout
 		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
+			// TODO: use an HTML <label> tag
+			
 			// Output a (possibly localized) label
 
 			writer.write( "<th" );

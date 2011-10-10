@@ -20,7 +20,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[@id='table-allWidgetsTextbox-cell']"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/@class" text="aRowClass1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Textbox"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[1]/th/label)" text="Textbox"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th/@class" text="aLabelClass"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/@style" text="aComponentStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/@class" text="aComponentClass"/>
@@ -33,87 +33,87 @@
 				<setInputField name="form:allWidgetsTextbox" value="Textbox1"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/@class" text="aRowClass2"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="Limited textbox"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/th/label)" text="Limited textbox"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input[@type='text']"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input[@maxlength=20]"/>
 				<verifyInputField name="form:allWidgetsLimitedTextbox" value="Limited Textbox"/>
 				<setInputField name="form:allWidgetsLimitedTextbox" value="Limited Textbox1"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/@class" text="aRowClass1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Textarea"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/th/label)" text="Textarea"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@cols" text="20"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@rows" text="2"/>
 				<verifyTextarea name="form:allWidgetsTextarea" text="Textarea"/>
 				<setInputField name="form:allWidgetsTextarea" value="Textarea1"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/th" text="Password"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/th/label)" text="Password"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/input[@type='password']"/>
 				<verifyInputField name="form:allWidgetsPassword" value=""/>
 				<setInputField name="form:allWidgetsPassword" value="Password1"/>				
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/th/label)" text="Byte primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsBytePrimitive" value="127"/>
 				<setInputField name="form:allWidgetsBytePrimitive" value="126"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/th" text="Byte object"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/th/label)" text="Byte object"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsByteObject" value="-128"/>
 				<setInputField name="form:allWidgetsByteObject" value="-127"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/th" text="Short primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[7]/th/label)" text="Short primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsShortPrimitive" value="32767"/>
 				<setInputField name="form:allWidgetsShortPrimitive" value="32766"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/th" text="Short object"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[8]/th/label)" text="Short object"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsShortObject" value="-32768"/>
 				<setInputField name="form:allWidgetsShortObject" value="-32767"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/th" text="Int primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[9]/th/label)" text="Int primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsIntPrimitive" value="2147483647"/>
 				<setInputField name="form:allWidgetsIntPrimitive" value="2147483646"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/th" text="Integer object"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[10]/th/label)" text="Integer object"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsIntegerObject" value="-2147483648"/>
 				<setInputField name="form:allWidgetsIntegerObject" value="-2147483647"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[11]/th" text="Ranged int"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[11]/th/label)" text="Ranged int"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[11]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsRangedInt" value="32"/>
 				<setInputField name="form:allWidgetsRangedInt" value="33"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[12]/th" text="Ranged integer"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[12]/th/label)" text="Ranged integer"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[12]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsRangedInteger" value="33"/>
 				<setInputField name="form:allWidgetsRangedInteger" value="34"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/th" text="Long primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[13]/th/label)" text="Long primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsLongPrimitive" value="42"/>
 				<setInputField name="form:allWidgetsLongPrimitive" value="43"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[14]/th/label)" text=""/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[14]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsLongObject" value="43"/>
 				<setInputField name="form:allWidgetsLongObject" value="44"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text="Float primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[15]/th/label)" text="Float primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsFloatPrimitive" value="4.2"/>
 				<setInputField name="form:allWidgetsFloatPrimitive" value="5.3"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th" text="nullInBundle"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[16]/th/label)" text="nullInBundle"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsFloatObject" value="4.3"/>
 				<setInputField name="form:allWidgetsFloatObject" value="5.4"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/th" text="Double primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[17]/th/label)" text="Double primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsDoublePrimitive" value="42.2"/>
 				<setInputField name="form:allWidgetsDoublePrimitive" value="53.3"/>
@@ -123,98 +123,98 @@
 				<verifyInputField name="form:allWidgetsDoubleObject" value="43.3"/>
 				<setInputField name="form:allWidgetsDoubleObject" value="54.4"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/th" text="Char primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[19]/th/label)" text="Char primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/td[1]/input[@type='text']"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[19]/td[1]/input[@maxlength=1]"/>
 				<verifyInputField name="form:allWidgetsCharPrimitive" value="A"/>
 				<setInputField name="form:allWidgetsCharPrimitive" value="Z"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/th" text="Character object"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[20]/th/label)" text="Character object"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/td[1]/input[@type='text']"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/td[1]/input[@maxlength=1]"/>
 				<verifyInputField name="form:allWidgetsCharacterObject" value="Z"/>
 				<setInputField name="form:allWidgetsCharacterObject" value="A"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean primitive"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[21]/th/label)" text="Boolean primitive"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]/input[@type='checkbox']"/>
 				<verifyCheckbox name="form:allWidgetsBooleanPrimitive" checked="false"/>
 				<setCheckbox name="form:allWidgetsBooleanPrimitive" checked="true"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Boolean object"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[22]/th/label)" text="Boolean object"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
 				<verifySelectField name="form:allWidgetsBooleanObject" value="true"/>
 				<setSelectField name="form:allWidgetsBooleanObject" value="false"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[23]/th/label)" text="Dropdown"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]/select"/>
 				<verifySelectField name="form:allWidgetsDropdown" text="dropdown1"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="4"/>
 				<setSelectField name="form:allWidgetsDropdown" text="foo1"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Dropdown with labels"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[24]/th/label)" text="Dropdown with labels"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/select"/>
 				<verifySelectField name="form:allWidgetsDropdownWithLabels" text="Dropdown #2"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[24]/td[1]/select/option)" text="5"/>
 				<setSelectField name="form:allWidgetsDropdownWithLabels" text="Bar #2"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Not null dropdown"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[25]/th/label)" text="Not null dropdown"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/select"/>
 				<verifySelectField name="form:allWidgetsNotNullDropdown" text="0"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[25]/td[1]/select/option)" text="3"/>
 				<setSelectField name="form:allWidgetsNotNullDropdown" text="1"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Not null object dropdown"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[26]/th/label)" text="Not null object dropdown"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/select"/>
 				<verifySelectField name="form:allWidgetsNotNullObjectDropdown" text="dropdown3"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[26]/td[1]/select/option)" text="6"/>
 				<setSelectField name="form:allWidgetsNotNullObjectDropdown" text="foo3"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Nested widgets"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/th" text="Further nested widgets"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[1]/th" text="Further nested widgets"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/th/label)" text="Nested widgets"/>	
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/th/label)" text="Further nested widgets"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[1]/th/label)" text="Further nested widgets"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[1]/td[1]/table/tbody/tr)" text="0"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[2]/th" text="Nested textbox 1"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[2]/th/label)" text="Nested textbox 1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[2]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1" value="Nested Textbox 1"/>
 				<setInputField name="form:allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1" value="Nested Textbox 1.1 (further)"/>			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[3]/th" text="Nested textbox 2"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[3]/th/label)" text="Nested textbox 2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[3]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2" value="Nested Textbox 2"/>
 				<setInputField name="form:allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2" value="Nested Textbox 2.2 (further)"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/th" text="Nested textbox 1"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/th/label)" text="Nested textbox 1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsNestedWidgetsNestedTextbox1" value="Nested Textbox 1"/>
 				<setInputField name="form:allWidgetsNestedWidgetsNestedTextbox1" value="Nested Textbox 1.1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[3]/th" text="Nested textbox 2"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[3]/th/label)" text="Nested textbox 2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[3]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsNestedWidgetsNestedTextbox2" value="Nested Textbox 2"/>
 				<setInputField name="form:allWidgetsNestedWidgetsNestedTextbox2" value="Nested Textbox 2.2"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Read only nested widgets"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[1]/th" text="Further nested widgets"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[28]/th/label)" text="Read only nested widgets"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[1]/th/label)" text="Further nested widgets"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[1]/td[1]/table/tbody/tr)" text="0"/>				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[2]/th/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-label-cell"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[2]/th" text="Nested textbox 1"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[2]/th/label)" text="Nested textbox 1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[2]/td[1]/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-cell"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[2]/td[1]/input/@type" text="hidden"/>
 				<verifyInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox1" value="Nested Textbox 1"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox1" value="Nested Textbox 1.11"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[3]/th" text="Nested textbox 2"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[3]/th/label)" text="Nested textbox 2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[3]/td[1]" text="Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/table/tbody/tr[3]/td[1]/input/@type" text="hidden"/>
 				<verifyInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox2" value="Nested Textbox 2"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox2" value="Nested Textbox 2.22"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Nested widgets dont expand"/>	
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[29]/th/label)" text="Nested widgets dont expand"/>	
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td/input[@type='text']/@value" text="Nested Textbox 1, Nested Textbox 2"/>	
 				<setInputField name="form:allWidgetsNestedWidgetsDontExpand" value="Nested Textbox 1.01, Nested Textbox 2.02"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Read only nested widgets dont expand"/>	
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[30]/th/label)" text="Read only nested widgets dont expand"/>	
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>	
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Date"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[31]/th/label)" text="Date"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='text']"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[31]/td[1]/input/@value, ' Apr ')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[31]/td[1]/input/@value, ' 1975')"/>
@@ -225,12 +225,12 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td/span/@class" text="aSectionStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td/@colspan" text="2"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text="Read only"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[33]/th/label)" text="Read only"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]" text="Read Only"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/th" text="Collection"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[34]/th/label)" text="Collection"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/table/thead/tr/th" text="Collection"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/table/tbody/tr[1]/td" text="element1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/table/tbody/tr[2]/td" text="element2"/>
@@ -238,7 +238,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input[@type='hidden']/@value" text="element1,element2"/>
 				<forceHiddenInputField name="form:allWidgetsCollection" value="element1,element2,element3"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[35]/th" text=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[35]/th/label)" text=""/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[35]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[35]/td[1]/input[@type='submit']/@value" text="Do action"/>
 				<not>
@@ -269,89 +269,89 @@
 				<verifyXPath xpath="/html/body/form/div[1]/div[1]/div[2]/@style" text="aComponentStyle"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[1]/div[2]/@class" text="aComponentClass"/>
 				
-				<verifyXPath xpath="/html/body/form/div[1]/div[1]/div[1]" text="Textbox:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[1]/div[1]/label)" text="Textbox:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[1]/div[2]" text="Textbox1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[2]/div[1]" text="Limited textbox:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[2]/div[1]/label)" text="Limited textbox:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[2]/div[2]" text="Limited Textbox1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[3]/div[1]" text="Textarea:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[3]/div[1]/label)" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[3]/div[2]" text="Textarea1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[1]" text="Password:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[4]/div[1]/label)" text="Password:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[2]"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[2]" text=""/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[1]" text="Byte primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[5]/div[1]/label)" text="Byte primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[2]" text="126"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[1]" text="Byte object:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[6]/div[1]/label)" text="Byte object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[2]" text="-127"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[1]" text="Short primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[7]/div[1]/label)" text="Short primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[2]" text="32766"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[1]" text="Short object:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[8]/div[1]/label)" text="Short object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[2]" text="-32767"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[1]" text="Int primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[9]/div[1]/label)" text="Int primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[2]" text="2147483646"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[1]" text="Integer object:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[10]/div[1]/label)" text="Integer object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[2]" text="-2147483647"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[11]/div[1]" text="Ranged int:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[11]/div[1]/label)" text="Ranged int:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[11]/div[2]" text="33"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[1]" text="Ranged integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[12]/div[1]/label)" text="Ranged integer:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[2]" text="34"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[1]" text="Long primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[13]/div[1]/label)" text="Long primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[2]" text="43"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[1]"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[2]" text="44"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[1]" text="Float primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[15]/div[1]/label)" text="Float primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[2]" text="5.3"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[16]/div[1]" text="nullInBundle:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[16]/div[1]/label)" text="nullInBundle:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[16]/div[2]" text="5.4"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[1]" text="Double primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[17]/div[1]/label)" text="Double primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[2]" text="53.3"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[18]/div[1]" text="54.4"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[1]" text="Char primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[19]/div[1]/label)" text="Char primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[2]" text="Z"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[1]" text="Character object:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[20]/div[1]/label)" text="Character object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[2]" text="A"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[1]" text="Boolean primitive:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[21]/div[1]/label)" text="Boolean primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[2]" text="true"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[1]" text="Boolean object:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[22]/div[1]/label)" text="Boolean object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[2]" text="No"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[23]/div[1]" text="Dropdown:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[23]/div[1]/label)" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[23]/div[2]" text="foo1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[24]/div[1]" text="Dropdown with labels:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[24]/div[1]/label)" text="Dropdown with labels:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[24]/div[2]" text="Bar #2"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[25]/div[1]" text="Not null dropdown:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[25]/div[1]/label)" text="Not null dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[25]/div[2]" text="1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[26]/div[1]" text="Not null object dropdown:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[26]/div[1]/label)" text="Not null object dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[26]/div[2]" text="foo3"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[1]" text="Nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[1]" text="Further nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]" text="Further nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]" text="Nested textbox 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[1]/label)" text="Nested widgets:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[1]/label)" text="Further nested widgets:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/label)" text="Further nested widgets:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/label)" text="Nested textbox 1:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[2]" text="Nested Textbox 1.1 (further)"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]" text="Nested textbox 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/label)" text="Nested textbox 2:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[3]/div[2]" text="Nested Textbox 2.2 (further)"/>				
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[2]/div[1]" text="Nested textbox 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[2]/div[1]/div[2]/div[1]/label)" text="Nested textbox 1:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[2]/div[2]" text="Nested Textbox 1.1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[3]/div[1]" text="Nested textbox 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[27]/div[2]/div[1]/div[3]/div[1]/label)" text="Nested textbox 2:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[3]/div[2]" text="Nested Textbox 2.2"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[1]" text="Read only nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[1]/div[1]" text="Further nested widgets:"/>				
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[2]/div[1]" text="Nested textbox 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[28]/div[1]/label)" text="Read only nested widgets:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[28]/div[2]/div[1]/div[1]/div[1]/label)" text="Further nested widgets:"/>				
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[28]/div[2]/div[1]/div[2]/div[1]/label)" text="Nested textbox 1:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[2]/div[2]" text="Nested Textbox 1.11"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[3]/div[1]" text="Nested textbox 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[28]/div[2]/div[1]/div[3]/div[1]/label)" text="Nested textbox 2:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[3]/div[2]" text="Nested Textbox 2.22"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[29]/div[1]" text="Nested widgets dont expand:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[29]/div[1]/label)" text="Nested widgets dont expand:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[29]/div[2]" text="Nested Textbox 1.01, Nested Textbox 2.02"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[30]/div[1]" text="Read only nested widgets dont expand:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[30]/div[1]/label)" text="Read only nested widgets dont expand:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[30]/div[2]" text="Nested Textbox 1, Nested Textbox 2"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[31]/div[1]" text="Date:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[31]/div[1]/label)" text="Date:"/>
 				<verifyXPath xpath="contains(/html/body/form/div[1]/div[31]/div[2], ' May ')"/>
 				<verifyXPath xpath="contains(/html/body/form/div[1]/div[31]/div[2], ' 1975')"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[32]/div[1]/span" text="Section Break"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[32]/div[1]/span/@style" text="aSectionStyle"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[32]/div[1]/span/@class" text="aSectionStyleClass"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[1]" text="Read only:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[33]/div[1]/label)" text="Read only:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[2]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[1]" text="Collection:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div[1]/div[34]/div[1]/label)" text="Collection:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[2]/table/thead/tr/th" text="Collection"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[2]/table/tbody/tr[1]/td" text="element1"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[2]/table/tbody/tr[2]/td" text="element2"/>

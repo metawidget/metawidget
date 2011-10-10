@@ -10,12 +10,12 @@
 				
 				<verifyTitle text="Quirks (Metawidget Validator Test)" />
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/th" text="Bar:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Bar:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@style" text="background-color: red"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th" text="Baz:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th/label)" text="Baz:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<clickButton label="Save"/>
@@ -41,14 +41,14 @@
 				
 				<verifyTitle text="Quirks (Metawidget Validator Test)" />
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/th" text="Bar:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Bar:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				<not>
 					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@style" text="background-color: red"/>
 				</not>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th" text="Baz:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Baz:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<clickButton label="Save"/>
@@ -84,13 +84,13 @@
 				<not>
 					<verifyXPath xpath="/html/body/form/ul"/>
 				</not>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 
 				<clickButton label="Add Message"/>
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/ul/li)" text="Message Added!"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Bar:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Bar:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 			</steps>
 		</webtest>

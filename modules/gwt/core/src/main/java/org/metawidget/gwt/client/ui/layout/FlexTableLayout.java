@@ -156,6 +156,7 @@ public class FlexTableLayout
 
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
 			Label label = new Label( labelText + ":" );
+			// TODO: add 'for' attribute
 
 			String styleName = getStyleName( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED, metawidget );
 

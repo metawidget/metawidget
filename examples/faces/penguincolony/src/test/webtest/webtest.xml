@@ -28,7 +28,9 @@
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[3]/a"/>
 
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/@class" text="table-label-column"/>
-				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]" text="Name:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/label" text="Name:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/label/@id" text="form:penguinCurrentName-label"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/label/@for" text="form:penguinCurrentName"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/@class" text="table-component-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/input[@type='text']/@value" text="Mumble"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/@class" text="table-required-column"/>
@@ -181,7 +183,9 @@
 				<!-- End hack until WebTest JavaScript support improves -->
 				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/@class" text="table-label-column"/>
-				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]" text="Describe hobby:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label" text="Describe hobby:"/>
+				<verifyXPath xpath="contains(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label/@id, ':0:penguinCurrentDescribeHobby-label')"/>
+				<verifyXPath xpath="contains(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label/@for, ':0:penguinCurrentDescribeHobby')"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/@class" text="table-component-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/textarea"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[2]/@class" text="table-required-column"/>

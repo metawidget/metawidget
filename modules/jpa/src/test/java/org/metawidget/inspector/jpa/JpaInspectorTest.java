@@ -19,6 +19,8 @@ package org.metawidget.inspector.jpa;
 import java.util.Date;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -84,20 +86,20 @@ public class JpaInspectorTest
 		assertEquals( TRUE, property.getAttribute( LARGE ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertTrue( property.getAttributes().getLength() == 3 );
-                
-                property = XmlUtils.getChildWithAttributeValue( entity, NAME, "date" );
-                assertEquals( PROPERTY, property.getNodeName() );
-                assertEquals( "date", property.getAttribute( DATETIME_TYPE ));
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "date" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "date", property.getAttribute( DATETIME_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
-                
-                property = XmlUtils.getChildWithAttributeValue( entity, NAME, "time" );
-                assertEquals( PROPERTY, property.getNodeName() );
-                assertEquals( "time", property.getAttribute( DATETIME_TYPE ));
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "time" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "time", property.getAttribute( DATETIME_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
-                
-                property = XmlUtils.getChildWithAttributeValue( entity, NAME, "datetime" );
-                assertEquals( PROPERTY, property.getNodeName() );
-                assertEquals( "both", property.getAttribute( DATETIME_TYPE ));
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "datetime" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "both", property.getAttribute( DATETIME_TYPE ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 	}
 
@@ -220,14 +222,14 @@ public class JpaInspectorTest
 
 		@Transient
 		public String	transient1;
-                
-                @Temporal(TemporalType.DATE)
-                public Date     date;
-                
-                @Temporal(TemporalType.TIME)
-                public Date     time;
-                
-                @Temporal(TemporalType.TIMESTAMP)
-                public Date     datetime;
+
+		@Temporal( TemporalType.DATE )
+		public Date		date;
+
+		@Temporal( TemporalType.TIME )
+		public Date		time;
+
+		@Temporal( TemporalType.TIMESTAMP )
+		public Date		datetime;
 	}
 }
