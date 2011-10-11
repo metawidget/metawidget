@@ -167,7 +167,7 @@ public abstract class HtmlLayoutRenderer
 	 */
         protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
                 // Don't create h:outputlabel for not UIInput components
-                // as it will cause warnings in log (at least in Glassfish 3.1.1)
+                // as label are supposed to be for input elements.
                 if ((componentNeedingLabel instanceof UIInput) && !(componentNeedingLabel instanceof UIMetawidget)) {
                         HtmlOutputLabel componentLabel = 
                                 (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
