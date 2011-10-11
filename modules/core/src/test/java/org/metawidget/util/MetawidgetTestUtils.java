@@ -103,7 +103,11 @@ public final class MetawidgetTestUtils {
 			Assert.assertTrue( object1 != object2 );
 			Assert.assertEquals( object1, object2 );
 			Assert.assertTrue( object1.hashCode() == object2.hashCode() );
-
+			
+			// Null check
+			
+			Assert.assertTrue( !object1.equals( null ) );
+			
 			// Test each property
 
 			JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();

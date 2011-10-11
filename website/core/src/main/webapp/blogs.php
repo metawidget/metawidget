@@ -187,6 +187,13 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>Oh, J. M., Lee, Y. S. & Moon, N.</td>
+					<td>2011</td>
+					<td>Towards Cultural User Interface Generator Principles</td>
+					<td>5th International Conference on Multimedia and Ubiquitous Engineering</td>
+					<td class="link"><a href="http://doi.ieeecomputersociety.org/10.1109/MUE.2011.37" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Chalupa, V.</td>
 					<td>2011</td>
 					<td>Nov&aacute; generace n&aacute;stroje FormBuilder</td>

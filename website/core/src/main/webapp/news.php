@@ -14,6 +14,11 @@
 			This release was focused on: 			  
 		</p>
 		
+		<ul>
+			<li>Support JPA <tt>@Temporal</tt></li>
+			<li>Output HTML &lt;label&gt; tags around labels</li>
+		</ul>
+		
 		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>

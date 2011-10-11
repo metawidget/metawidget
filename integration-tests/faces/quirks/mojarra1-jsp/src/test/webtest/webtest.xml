@@ -10,39 +10,39 @@
 			<steps>
 				<invoke url="/richFaces.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Foo"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="baz"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Baz 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Baz 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Baz 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Baz 3:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Baz 3:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/td/input/@type" text="text"/>				
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th)" text="Abc:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th/label)" text="Abc:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/@colspan" text="2"/>				
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="dEf"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Def 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Show ghi:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/td/input/@type" text="checkbox"/>				
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/th)" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/th/label)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/td/input/@type" text="checkbox"/>				
 
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td)" text="4"/>
@@ -59,45 +59,45 @@
 				
 				<!-- Test component tree intact -->
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 								
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Foo"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="baz"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Baz 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Baz 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Baz 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Baz 3:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Baz 3:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/td/input/@type" text="text"/>				
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th)" text="Abc:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th/label)" text="Abc:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/@colspan" text="2"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="dEf"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[1]/td/textarea"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Def 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Show ghi:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[3]/td/input/@type" text="checkbox"/>				
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/th)" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/th/label)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[1]/table/tbody/tr/td/table/tbody/tr[4]/td/input/@type" text="checkbox"/>				
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="ghI"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Ghi 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Ghi 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Ghi 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Ghi 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
 
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td/table/tbody/tr/td/table/tbody/tr/td)" text="7"/>
@@ -129,23 +129,23 @@
 																
 				<invoke url="/richFaces2.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1])" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1]/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[1]/div[2]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[2]/div[1])" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[2]/div[1]/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/div/div[2]/div[2]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Foo"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div[2]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div[2]/div)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div[2]/div/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/div/div[3]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div[2]/div[2]/input/@type" text="text"/>
 
 				<!-- Test validation error -->
 
 				<invoke url="/richFaces.jsf" />
 				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>
 				<setInputField xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input" value="Bad Integer"/>
 				<clickButton label="Save"/>				
@@ -159,7 +159,7 @@
 
 				<invoke url="/richFacesNoInlineMessages.jsf" />
 				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<setInputField xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input" value="Bad Integer"/>
 				<clickButton label="Save"/>				
 
@@ -181,22 +181,22 @@
 				</groovy>			
 				<invoke url="/richFacesAjax.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
 				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'A4J.AJAX.Submit(')"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>				
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Label:"/>				
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
 
 				<setSelectField name="form:richQuirksAjaxSelect" value="Hide"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Label:"/>
 
 				<setSelectField name="form:richQuirksAjaxSelect" value="Show"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Checkbox:"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Checkbox:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th/label)" text="Label:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text=""/>
 
 				<setCheckbox name="form:richQuirksAjaxCheckbox" checked="true"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th/label)" text="Label:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text="clicked"/>
 			</steps>
 		</webtest>
@@ -210,7 +210,7 @@
 				</groovy>			
 				<invoke url="/richFacesAjaxInPage.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
 				<!-- Escaping quotes is cumbersome! http://kushalm.com/the-perils-of-xpath-expressions-specifically-escaping-quotes -->
 				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(')"/>
@@ -219,16 +219,16 @@
 				<clickElement htmlId="form:richQuirksAjaxSelect"/>
 				<verifyProperty name="dialogText" text="Foo"/>
 				
-				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th/label)" text="Label:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[1])" text=""/>
 				
 				<clickButton label="Update"/>
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Select:"/>
 				<verifySelectField name="form:richQuirksAjaxSelect" value=""/>
 				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'alert(')"/>
 				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[1]/td/select/@onclick,'Foo')"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th/label)" text="Label:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/td[1])" text="clicked"/>
 			</steps>
 		</webtest>
@@ -238,42 +238,42 @@
 			<steps>
 				<invoke url="/richFacesPanel.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[1]/td[1]/div/@class, 'rich-sb-common-container')"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th[1])" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th[1]/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th[1])" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th[1]/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div)" text="baz"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[1]/th[1])" text="Baz 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[1]/th[1]/label)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/th[1])" text="Baz 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/th[1]/label)" text="Baz 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[3]/th[1])" text="Baz 3:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[3]/th[1]/label)" text="Baz 3:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[3]/td[1]/input/@type" text="text"/>
 				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/th)" text="Abc:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/th/label)" text="Abc:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div, 'dEf')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/th[1]/label)" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/th[1])" text="Def 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/th[1]/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/th[1])" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/th[1]/label)" text="Show ghi:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/td[1]/input/@type" text="checkbox"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/th[1])" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/th[1]/label)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/td[1]/input/@type" text="checkbox"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input/@type" text="submit"/>
@@ -288,49 +288,49 @@
 								
 				<!-- Test component tree intact -->
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th[1])" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th[1]/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th[1])" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th[1]/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div)" text="baz"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[1]/th[1])" text="Baz 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[1]/th[1]/label)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/th[1])" text="Baz 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/th[1]/label)" text="Baz 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[3]/th[1])" text="Baz 3:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[3]/th[1]/label)" text="Baz 3:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/div/div[3]/table/tbody/tr[2]/td/div/div[2]/table/tbody/tr[3]/td[1]/input/@type" text="text"/>
 				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/th)" text="Abc:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/th/label)" text="Abc:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div, 'dEf')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[5]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/th[1]/label)" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[1]/td[1]/textarea"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/th[1])" text="Def 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/th[1]/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/th[1])" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/th[1]/label)" text="Show ghi:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[3]/td[1]/input/@type" text="checkbox"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/th[1])" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/th[1]/label)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/div/div[3]/table/tbody/tr[4]/td[1]/input/@type" text="checkbox"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/@colspan" text="2"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[6]/td/div/div, 'ghI')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[6]/td/div/div/div/@class, 'rich-stglpanel-marker')"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[1]/th[1])" text="Ghi 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[1]/th[1]/label)" text="Ghi 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[2]/th[1])" text="Ghi 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[2]/th[1]/label)" text="Ghi 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/div/div[3]/table/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[7]/td[1]/input/@type" text="submit"/>
@@ -359,17 +359,17 @@
 																
 				<invoke url="/richFacesPanel2.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1])" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1]/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[1]/div[2]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[2]/div[1])" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[2]/div[1]/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/div/div[2]/div[2]/input/@type" text="text"/>
 								
 				<verifyXPath xpath="contains(/html/body/form/div/div[3]/div/div[1]/div[1], 'Foo')"/>
 				<verifyXPath xpath="contains(/html/body/form/div/div[3]/div/div[1]/div[1]/div/@class, 'rich-stglpanel-marker')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div[1]/div[1])" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div/div)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div/div/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div/div[2]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div[2]/div)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div[2]/div/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/div/div[3]/div/div/div[3]/div/div/div/div/div[2]/div/div[2]/div[2]/input/@type" text="text"/>
 
 				<!-- Test switchType="ajax" -->
@@ -380,25 +380,25 @@
 				</groovy>
 				<invoke url="/richFacesPanel3.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 								
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/@class, 'rich-stglpanel-header')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div[1]/div[1])" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th/label)" text="Bar 1:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type)" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@type)" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[2]/td[1]/input/@value)" text="0"/>
 
 				<clickElement xpath="/html/body/form/table/tbody/tr[3]/td/div/div"/>
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
@@ -409,15 +409,15 @@
 				
 				<clickElement xpath="/html/body/form/table/tbody/tr[3]/td/div/div"/>
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div, 'Foo')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[3]/td/div/div/@class, 'rich-stglpanel-header')"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div[1]/div[1])" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/th/label)" text="Bar 1:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/div/div[2]/table/tbody/tr/td/div/div[2]/table/tbody/tr[1]/td[1]/input/@type)" text="text"/>
 			</steps>
 		</webtest>
@@ -427,42 +427,42 @@
 			<steps>
 				<invoke url="/richFacesNested.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>			
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td)" text="Foo"/>				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="baz"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Baz 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Baz 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Baz 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Baz 3:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Baz 3:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/td/input/@type" text="text"/>
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td)" text="'Not foo'"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/@colspan" text="2"/>
 				
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/th)" text="Abc:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/th/label)" text="Abc:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[7]/td/@colspan" text="2"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[7]/td)" text="dEf"/>		
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[8]/th)" text="Def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[8]/th/label)" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[8]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[9]/th)" text="Def 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[9]/th/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[9]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[10]/th)" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[10]/th/label)" text="Show ghi:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[10]/td[1]/input/@type" text="checkbox"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[11]/th)" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[11]/th/label)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[11]/td[1]/input/@type" text="checkbox"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[12]/td[1]/input/@type" text="submit"/>
@@ -477,48 +477,48 @@
 				
 				<!-- Test component tree intact -->
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 								
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td)" text="Foo"/>				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>				
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="baz"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Baz 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Baz 1:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Baz 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Baz 2:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Baz 3:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Baz 3:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/td/input/@type" text="text"/>
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td)" text="'Not foo'"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td/@colspan" text="2"/>
 
-				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/th)" text="Abc:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/th/label)" text="Abc:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[7]/td/@colspan" text="2"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[7]/td)" text="dEf"/>		
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[8]/th)" text="Def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[8]/th/label)" text="Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[8]/td[1]/textarea"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[9]/th)" text="Def 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[9]/th/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[9]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[10]/th)" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[10]/th/label)" text="Show ghi:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[10]/td[1]/input/@type" text="checkbox"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[11]/th)" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[11]/th/label)" text="Dynamically change def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[11]/td[1]/input/@type" text="checkbox"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[12]/td/@colspan" text="2"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[12]/td)" text="ghI"/>		
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[13]/th)" text="Ghi 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[13]/th/label)" text="Ghi 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[13]/td[1]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[14]/th)" text="Ghi 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[14]/th/label)" text="Ghi 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[14]/td[1]/input/@type" text="text"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[15]/td[1]/input/@type" text="submit"/>
@@ -548,16 +548,16 @@
 																
 				<invoke url="/richFacesNested2.jsf" />
 
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1])" text="Foo 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[1]/div[1]/label)" text="Foo 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[1]/div[2]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[2]/div[1])" text="Foo 2:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[2]/div[1]/label)" text="Foo 2:"/>
 				<verifyXPath xpath="/html/body/form/div/div[2]/div[2]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[3]/div)" text="Foo"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/div/div[4]/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="bar"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[4]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div)" text="Bar 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[4]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div/label)" text="Bar 1:"/>
 				<verifyXPath xpath="/html/body/form/div/div[4]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div/div[2]/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/div/div[4]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div[2]/div)" text="Integer:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/div/div[4]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div[2]/div/label)" text="Integer:"/>
 				<verifyXPath xpath="/html/body/form/div/div[4]/div/table/tbody/tr[2]/td/table/tbody/tr/td/div/div[2]/div[2]/input/@type" text="text"/>
 				
 			</steps>
@@ -571,30 +571,30 @@
 				<repeat count="1">
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[1]/td)" text="First"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="One"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/th)" text="Foo:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/th/label)" text="Foo:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[1]/input/@name" text="form:tabQuirksFoo"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Two"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/th)" text="Bar:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/th/label)" text="Bar:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/td[1]/input/@name" text="form:tabQuirksBar"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[6]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="One"/>					
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td[3]/table/tbody/tr/td/table/tbody/tr/th)" text="Baz:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td[3]/table/tbody/tr/td/table/tbody/tr/th/label)" text="Baz:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[2]/td[3]/table/tbody/tr/td/table/tbody/tr/td[1]/input/@name" text="form:tabQuirksBaz"/>
 					
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td)" text="Second"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="One"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/th)" text="Abc:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/th/label)" text="Abc:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[1]/input/@name" text="form:tabQuirksAbc"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Two"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Def:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Def:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@name" text="form:tabQuirksDef"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Def 2:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/th/label)" text="Def 2:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[2]/td[1]/input/@name" text="form:tabQuirksDef2"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th)" text="Def 3:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/th/label)" text="Def 3:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr[3]/td[1]/input/@name" text="form:tabQuirksDef3"/>
 					
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[5]/td)" text="First"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Two"/>
-					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th)" text="Ghi:"/>
+					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/th/label)" text="Ghi:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[1]/td[1]/input/@name" text="form:tabQuirksGhi"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/th)" text=""/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td[1]/input/@name" text="form:tabQuirksSave"/>
