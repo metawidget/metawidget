@@ -74,13 +74,13 @@
 					<a href="http://groovy.codehaus.org" target="_blank" style="top: 70px; left: 100px">
 						<img src="/media/logos/logo-groovy.gif" alt="Groovy" style="border: 0px" />
 					</a>
-					<a href="http://hibernate.org" target="_blank" style="top: 130px; left: 2px">
+					<a href="http://hibernate.org" target="_blank" style="top: 135px; left: 2px">
 						<img src="/media/logos/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
 					</a>
-					<a href="http://icefaces.org" target="_blank" style="top: 175px; left: 2px">
+					<a href="http://icefaces.org" target="_blank" style="top: 170px; left: 2px">
 						<img src="/media/logos/logo-icefaces.gif" alt="ICEfaces" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 153px; left: 110px">
+					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 138px; left: 138px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 					</a>
 					<a href="http://oval.sourceforge.net" target="_blank" style="top: 230px; left: 3px">
