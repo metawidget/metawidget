@@ -36,15 +36,15 @@
 				Metawidget is worth taking a look at
 				<a href="http://www.theserverside.com/news/thread.tss?thread_id=52466" target="_blank">Eric Rich (Java Developer)</a>
 			</li>
-			<li>
-				I have taken a look at it, and found it's a wonderful tool. When coding with SWT,<br/>
-				I always wanted to find such kind of tool...
-				<a href="http://old.nabble.com/Re%3A-Metawidget-has-added-SWT-support-p28442101.html" target="_blank">Zhong Nanhai (SWT Developer)</a>
-			</li>
 			
 			<li>
 				On my todo list is to develop an integration with Metawidget. I'm impressed by the work they're doing here
 				<a href="http://www.theserverside.com/news/thread.tss?thread_id=58283" target="_blank">Dan Haywood (author, Domain-Driven Design using Naked Objects)</a>
+			</li>
+			<li>
+				I have taken a look at it, and found it's a wonderful tool. When coding with SWT,<br/>
+				I always wanted to find such kind of tool...
+				<a href="http://old.nabble.com/Re%3A-Metawidget-has-added-SWT-support-p28442101.html" target="_blank">Zhong Nanhai (SWT Developer)</a>
 			</li>
 			<li>
 				Sounds impressive. I was infact looking for such a utility for a while
@@ -69,6 +69,11 @@
 				on to something here and I like the fact that your framework integrates with others	and does not try to 'own' the UI
 				<a href="survey.html">Survey respondent</a>
 			</li>
+			
+			<li>
+				Metawidget is very interesting... I will try to use it in one of my projects
+				<a href="http://blog.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
+			</li>
 			<li>
 				I think Object Interface Mapper (OIM) is a very good 'concept' for this domain.<br/>
 				I usually call it 'domain model framework' or something like that, but now I think OIM is more clear
@@ -78,11 +83,6 @@
 				In the past I used [other frameworks] but their approach is too invasive and unfittable. Metawidget<br/>
 				is very flexible and integrates an environment already in production. Great great great framework!!!
 				<a href="http://blog.kennardconsulting.com/2008/12/better-than-free-metawidget-v065.html" target="_blank">Nicola (Java Developer)</a>
-			</li>
-			
-			<li>
-				Metawidget is very interesting... I will try to use it in one of my projects
-				<a href="http://blog.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
 			</li>
 			<li>
 				Here's something different... it builds on your underlying framework and so is not competing with it
@@ -100,6 +100,13 @@
 			<li>
 				It works, beautifully! Thanks for bringing us this powerful stuff
 				<a href="https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3788210/index/page/1" target="_blank">Phaderm (Swing Developer)</a>
+			</li>
+
+			<li>
+				I have long held that the reason for the incessant churn in how	we best complete the UI architecture task
+				is due to the continued quest for economic value. [Your work] shows there are benefits to separating the
+				elements of that task from that churn
+				<a href="http://java.net/blog/edburns" target="_blank">Ed Burns (author, JSF specification lead)</a>
 			</li>
 			<li>
 				Metawidget concept is the way to go.... you can exploit multiple UI targets with minimal code<br/>
