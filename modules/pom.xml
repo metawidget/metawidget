@@ -32,6 +32,7 @@
 		<module>scala</module>
 		<module>seam</module>
 		<module>spring</module>
+		<module>static</module>
 		<module>struts</module>
 		<module>swing</module>
 		<module>swt</module>

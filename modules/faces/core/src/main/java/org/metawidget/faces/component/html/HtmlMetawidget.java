@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Metawidget for Java Server Faces environments.
@@ -97,7 +98,7 @@ public class HtmlMetawidget
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return "org/metawidget/faces/component/html/metawidget-html-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-html-default.xml";
 	}
 
 	/**

@@ -534,6 +534,8 @@ public abstract class BaseXmlInspector
 	 * @return a tuple of Element (may be null) and declared type (not actual type). Never null
 	 */
 
+	// TODO: in Mihai's example, turning on restrictAgainstObject does not return the type from metawidget-metadata.xml
+
 	protected Pair<Element, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// If given a non-null Object, use it to restrictAgainstObject

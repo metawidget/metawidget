@@ -18,6 +18,7 @@ package org.metawidget.jsp.tagext.html;
 
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -81,7 +82,7 @@ public class HtmlMetawidgetTag
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return "org/metawidget/jsp/tagext/html/metawidget-html-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-html-default.xml";
 	}
 
 	@Override

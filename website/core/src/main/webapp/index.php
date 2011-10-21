@@ -103,9 +103,8 @@
 			</li>
 
 			<li>
-				I have long held that the reason for the incessant churn in how	we best complete the UI architecture task
-				is due to the continued quest for economic value. [Your work] shows there are benefits to separating the
-				elements of that task from that churn
+				I have long held the reason for the incessant churn in how we best complete the UI architecture task is due<br/>
+				to the continued quest for economic value. [Your work] shows there are benefits to separating the elements of that task from that churn
 				<a href="http://java.net/blog/edburns" target="_blank">Ed Burns (author, JSF specification lead)</a>
 			</li>
 			<li>

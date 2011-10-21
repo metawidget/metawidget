@@ -21,6 +21,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.struts.Globals;
 import org.apache.struts.util.MessageResources;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -90,7 +91,7 @@ public class StrutsMetawidgetTag
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return "org/metawidget/jsp/tagext/html/struts/metawidget-struts-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-struts-default.xml";
 	}
 
 	@Override

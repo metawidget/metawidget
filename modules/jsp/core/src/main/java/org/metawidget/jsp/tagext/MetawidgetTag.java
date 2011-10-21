@@ -474,7 +474,7 @@ public abstract class MetawidgetTag
 
 	protected Element inspect() {
 
-		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, StringUtils.SEPARATOR_DOT_CHAR );
 		String type = typeAndNames.getType();
 
 		// Inspect using the 'raw' type (eg. contactForm)
@@ -587,7 +587,7 @@ public abstract class MetawidgetTag
 		protected MetawidgetTag buildNestedMetawidget( final Map<String, String> attributes )
 			throws Exception {
 
-			final MetawidgetTag metawidgetTag = MetawidgetTag.this.getClass().newInstance();
+			MetawidgetTag metawidgetTag = MetawidgetTag.this.getClass().newInstance();
 			MetawidgetTag.this.initNestedMetawidget( metawidgetTag, attributes );
 
 			return metawidgetTag;

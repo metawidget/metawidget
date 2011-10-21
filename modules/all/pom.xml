@@ -165,6 +165,12 @@
 			<artifactId>metawidget-struts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- metawidget-static should be implied -->
+		<dependency>
+			<groupId>org.metawidget.modules.static.faces</groupId>
+			<artifactId>metawidget-static-faces</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- metawidget-swing should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>

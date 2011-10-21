@@ -382,6 +382,11 @@ public final class ClassUtils {
 		return declaringClass;
 	}
 
+	public static String getPackagesAsFolderNames( Class<?> clazz ) {
+
+		return clazz.getPackage().getName().replace( StringUtils.SEPARATOR_DOT_CHAR, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+	}
+
 	//
 	// Private constructor
 	//

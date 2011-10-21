@@ -1791,7 +1791,7 @@ public class ConfigReader
 
 			buffer.insert( 0, "(" );
 			buffer.insert( 0, methodName );
-			buffer.insert( 0, '.' );
+			buffer.insert( 0, StringUtils.SEPARATOR_DOT_CHAR );
 			buffer.insert( 0, clazz );
 			buffer.append( ")" );
 

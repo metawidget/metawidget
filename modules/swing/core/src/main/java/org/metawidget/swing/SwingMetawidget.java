@@ -74,7 +74,7 @@ public class SwingMetawidget
 
 	private static final ConfigReader	CONFIG_READER		= new ConfigReader();
 
-	private static final String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
+	private static final String			DEFAULT_CONFIG		= ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
 
 	private static final Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 

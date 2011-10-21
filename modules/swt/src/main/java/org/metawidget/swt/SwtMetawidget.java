@@ -67,7 +67,7 @@ public class SwtMetawidget
 
 	private static final ConfigReader	CONFIG_READER			= new ConfigReader();
 
-	private static final String			DEFAULT_CONFIG			= "org/metawidget/swt/metawidget-swt-default.xml";
+	private static final String			DEFAULT_CONFIG			= ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
 
 	//
 	// Private members

@@ -19,6 +19,7 @@ package org.metawidget.jsp.tagext.html.spring;
 import javax.servlet.http.HttpServletRequest;
 
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -91,7 +92,7 @@ public class SpringMetawidgetTag
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return "org/metawidget/jsp/tagext/html/spring/metawidget-spring-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-spring-default.xml";
 	}
 
 	@Override
