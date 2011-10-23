@@ -25,7 +25,7 @@ import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
+import org.hibernate.validator.Range;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -69,13 +69,19 @@ public class HibernateValidatorInspectorTest
 		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
 		assertTrue( 4 == property.getAttributes().getLength() );
 
-		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "minMax" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
 		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
 		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
+		assertTrue( 3 == property.getAttributes().getLength() );
 	}
 
 	//
@@ -94,6 +100,9 @@ public class HibernateValidatorInspectorTest
 		@Min( 1 )
 		@Max( 99 )
 		@Length( min = 2, max = 25 )
+		public int		minMax;
+
+		@Range( min = 1, max = 99 )
 		public int		range;
 	}
 }

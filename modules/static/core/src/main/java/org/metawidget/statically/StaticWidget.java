@@ -23,8 +23,24 @@ import java.io.Writer;
  * @author Richard Kennard
  */
 
-public abstract class StaticWidget {
+public interface StaticWidget {
 
-	public abstract void write( Writer writer )
+	//
+	// Methods
+	//
+
+	void write( Writer writer )
 		throws IOException;
+
+	/**
+	 * General-purpose storage area, like <code>JComponent.putClientProperty</code>.
+	 */
+
+	void putClientProperty( Object key, Object value );
+
+	/**
+	 * General-purpose  storage area, like <code>JComponent.getClientProperty</code>.
+	 */
+
+	public <T> T getClientProperty( Object key );
 }

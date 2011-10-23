@@ -546,7 +546,7 @@ public abstract class BaseXmlInspector
 		String declaredType = null;
 
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
-			Pair<Object, Class<?>> pair = InspectorUtils.traverse( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
+			Pair<Object, Class<?>> pair = InspectorUtils.traverseObjects( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
 			traverseAgainstObject = pair.getLeft();
 
 			if ( pair.getRight() != null ) {

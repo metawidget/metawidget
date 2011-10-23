@@ -26,6 +26,7 @@ import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Range;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -114,6 +115,15 @@ public class HibernateValidatorInspector
 
 		if ( max != null ) {
 			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
+		}
+
+		// Range
+
+		Range range = property.getAnnotation( Range.class );
+
+		if ( range != null ) {
+			attributes.put( MINIMUM_VALUE, String.valueOf( range.min() ));
+			attributes.put( MAXIMUM_VALUE, String.valueOf( range.max() ));
 		}
 
 		// Length

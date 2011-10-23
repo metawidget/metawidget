@@ -65,7 +65,7 @@ public abstract class BaseObjectInspector
 	// Protected members
 	//
 
-	protected final Log			mLog	= LogUtils.getLog( getClass() );
+	protected final Log			mLog				= LogUtils.getLog( getClass() );
 
 	//
 	// Private members
@@ -74,6 +74,8 @@ public abstract class BaseObjectInspector
 	private final PropertyStyle	mPropertyStyle;
 
 	private final ActionStyle	mActionStyle;
+
+	private final boolean		mOnlyInspectClasses;
 
 	//
 	// Constructors
@@ -95,6 +97,7 @@ public abstract class BaseObjectInspector
 
 		mPropertyStyle = config.getPropertyStyle();
 		mActionStyle = config.getActionStyle();
+		mOnlyInspectClasses = config.isOnlyInspectClasses();
 	}
 
 	//
@@ -141,21 +144,27 @@ public abstract class BaseObjectInspector
 			if ( names != null && names.length > 0 ) {
 				// ...inspect its property for useful annotations...
 
-				Pair<Object, Class<?>> pair = InspectorUtils.traverse( mPropertyStyle, toInspect, type, true, names );
+				Object parent = null;
+				Class<?> parentType;
 
-				Object parent = pair.getLeft();
+				if ( mOnlyInspectClasses ) {
+					parentType = InspectorUtils.traverseClasses( mPropertyStyle, type, true, names );
+				} else {
+					Pair<Object, Class<?>> pair = InspectorUtils.traverseObjects( mPropertyStyle, toInspect, type, true, names );
 
-				if ( parent == null ) {
-					return null;
+					parent = pair.getLeft();
+
+					if ( parent == null ) {
+						return null;
+					}
+
+					// Use the actual, runtime class (parent.getClass()) not the declared class
+					// (pair.getRight()), in case the declared class is an interface or subclass
+
+					parentType = parent.getClass();
 				}
 
 				childName = names[names.length - 1];
-
-				// Use the actual, runtime class (tuple[0].getClass()) not the declared class
-				// (tuple[1]), in case the declared class is an interface or subclass
-
-				Class<?> parentType = parent.getClass();
-
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
 				if ( propertyInParent == null ) {
@@ -167,7 +176,7 @@ public abstract class BaseObjectInspector
 
 				// ...provided it has a getter
 
-				if ( propertyInParent.isReadable() ) {
+				if ( parent != null && propertyInParent.isReadable() ) {
 					parentAttributes = inspectParent( parent, propertyInParent );
 					childToInspect = propertyInParent.read( parent );
 				}
@@ -176,7 +185,7 @@ public abstract class BaseObjectInspector
 			// ...otherwise, just start at the end point
 
 			else {
-				Pair<Object, Class<?>> pair = InspectorUtils.traverse( mPropertyStyle, toInspect, type, false );
+				Pair<Object, Class<?>> pair = InspectorUtils.traverseObjects( mPropertyStyle, toInspect, type, false );
 				childToInspect = pair.getLeft();
 				declaredChildType = pair.getRight();
 
@@ -198,7 +207,9 @@ public abstract class BaseObjectInspector
 
 			// Inspect child properties
 
-			if ( childToInspect == null || declaredChildType.isPrimitive() ) {
+			if ( mOnlyInspectClasses ) {
+				inspectTraits( null, declaredChildType, entity );
+			} else if ( childToInspect == null || declaredChildType.isPrimitive() ) {
 				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, declaredChildType ) );
 
 				// If pointed directly at a type, return properties even
@@ -508,6 +519,10 @@ public abstract class BaseObjectInspector
 		}
 
 		Class<?> entityClass = property.getType();
+
+		if ( mOnlyInspectClasses ) {
+			return inspectEntity( entityClass, entityClass );
+		}
 
 		// Inspect the runtime type
 		//

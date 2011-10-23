@@ -94,7 +94,7 @@ public class FacesInspectionResultProcessor
 		try {
 			if ( mInjectThis != null ) {
 				requestMap = context.getExternalContext().getRequestMap();
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, InspectorUtils.traverse( mInjectThis, toInspect, type, true, names ).getLeft() );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, true, names ).getLeft() );
 			}
 
 			super.processEntity( attributes, metawidget, toInspect, type, names );
@@ -124,7 +124,7 @@ public class FacesInspectionResultProcessor
 		try {
 			if ( mInjectThis != null ) {
 				requestMap = context.getExternalContext().getRequestMap();
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, InspectorUtils.traverse( mInjectThis, toInspect, type, false, names ).getLeft() );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, false, names ).getLeft() );
 			}
 
 			super.processTraits( entity, metawidget, toInspect, type, names );

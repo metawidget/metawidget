@@ -16,20 +16,22 @@
 
 package org.metawidget.statically.faces.component.html;
 
-import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.BaseStaticXmlWidget;
 
 /**
+ * Widgets within the JSF h: namespace.
+ *
  * @author Richard Kennard
  */
 
 public class HtmlWidget
-	extends StaticXmlWidget {
+	extends BaseStaticXmlWidget {
 
 	//
 	// Constructor
 	//
 
-	protected HtmlWidget( String tagName ) {
+	public HtmlWidget( String tagName ) {
 
 		super( tagName );
 		setTagPrefix( "h" );

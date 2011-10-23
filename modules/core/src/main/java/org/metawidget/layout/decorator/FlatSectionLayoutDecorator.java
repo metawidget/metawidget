@@ -24,7 +24,7 @@ import java.util.Map;
  * sections, rendering multi-level sections (ie. section="foo,bar") as siblings.
  * <p>
  * Because sections are rendered as siblings, <code>FlatSectionLayoutDecorator</code> never creates
- * a new <code>container</code>.
+ * a sub <code>container</code>.
  *
  * @author Richard Kennard
  */
@@ -116,9 +116,15 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				}
 
 				// ...add a heading
+				//
+				// Note: we cannot stop/start the delegate layout here. It is tempting, but remember
+				// addSectionWidget needs to use the delegate. If you stop/add section heading/start
+				// the delegate, who is laying out the section heading?
 
 				addSectionWidget( section, level, container, metawidget );
-				// TODO: support a stack of sections, so that sections can be closed. Or can we fake a JspNestedLayoutDecorator this way?
+
+				// TODO: support a stack of sections, so that sections can be closed. Or can we fake
+				// a JspNestedLayoutDecorator this way?
 			}
 
 			state.currentSections = sections;

@@ -101,7 +101,7 @@ public class JexlInspectionResultProcessor<M>
 		Map<String, Object> vars = context.getVars();
 
 		try {
-			vars.put( THIS_ATTRIBUTE, InspectorUtils.traverse( mInjectThis, toInspect, type, true, names ).getLeft() );
+			vars.put( THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, true, names ).getLeft() );
 			super.processEntity( attributes, metawidget, toInspect, type, names );
 
 		} finally {
@@ -120,7 +120,7 @@ public class JexlInspectionResultProcessor<M>
 		Map<String, Object> vars = context.getVars();
 
 		try {
-			vars.put( THIS_ATTRIBUTE, InspectorUtils.traverse( mInjectThis, toInspect, type, false, names ).getLeft() );
+			vars.put( THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, false, names ).getLeft() );
 			super.processTraits( entity, metawidget, toInspect, type, names );
 
 		} finally {

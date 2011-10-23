@@ -16,15 +16,22 @@
 
 package org.metawidget.statically.faces.component.html;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Map;
+
 import org.metawidget.statically.StaticMetawidget;
+import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
  */
 
 public class StaticHtmlMetawidget
-	extends StaticMetawidget {
+	extends StaticXmlMetawidget {
 
 	//
 	// Private members
@@ -56,5 +63,18 @@ public class StaticHtmlMetawidget
 	protected String getDefaultConfiguration() {
 
 		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-html-default.xml";
+	}
+
+	@Override
+	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+		super.initNestedMetawidget( nestedMetawidget, attributes );
+
+		String valueExpression = getValueExpression();
+		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+		valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
+
+		((StaticHtmlMetawidget) nestedMetawidget).setValueExpression( valueExpression );
 	}
 }

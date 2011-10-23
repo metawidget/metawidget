@@ -372,6 +372,8 @@ public class HtmlWidgetBuilder
 		addSelectItems( component, valuesAfterConversion, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 	}
 
+	// TODO: make this match static HtmlWidgetBuilder (ie. have a createInputText method)
+
 	protected void setMaximumLength( UIComponent component, Map<String, String> attributes ) {
 
 		String maximumLength = attributes.get( MAXIMUM_LENGTH );

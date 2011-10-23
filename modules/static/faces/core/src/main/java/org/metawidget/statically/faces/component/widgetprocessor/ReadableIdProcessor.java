@@ -20,9 +20,10 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.faces.StaticFacesUtils;
+import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -30,18 +31,19 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class ReadableIdProcessor
-	implements WidgetProcessor<StaticWidget, StaticMetawidget> {
+	implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticWidget processWidget( StaticWidget widget, String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
-		if ( widget instanceof StaticXmlWidget ) {
-			((StaticXmlWidget) widget).putAttribute( "id", attributes.get( NAME ) );
-		}
+		String valueExpression = metawidget.getValueExpression();
+		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 
+		widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
 		return widget;
 	}
 }

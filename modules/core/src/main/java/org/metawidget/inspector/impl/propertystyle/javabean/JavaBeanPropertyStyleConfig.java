@@ -42,7 +42,8 @@ public class JavaBeanPropertyStyleConfig
 
 	private boolean			mNullExcludeName;
 
-	// REFACTOR: this should be false by default. Most technologies need getters/setters
+	// REFACTOR: this should be false by default. Most technologies need getters/setters. It is
+	// handy for short unit tests, mind you
 
 	private boolean			mSupportPublicFields	= true;
 

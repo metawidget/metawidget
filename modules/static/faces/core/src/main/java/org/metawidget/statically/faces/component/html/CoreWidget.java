@@ -14,24 +14,26 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically;
+package org.metawidget.statically.faces.component.html;
 
-import java.io.Writer;
+import org.metawidget.statically.BaseStaticXmlWidget;
 
 /**
+ * Widgets within the JSF f: namespace.
+ *
  * @author Richard Kennard
  */
 
-public class StaticStub
-	extends StaticWidget {
+public class CoreWidget
+	extends BaseStaticXmlWidget {
 
 	//
-	// Public methods
+	// Constructor
 	//
 
-	@Override
-	public void write( Writer writer ) {
+	public CoreWidget( String tagName ) {
 
-		// Write nothing
+		super( tagName );
+		setTagPrefix( "f" );
 	}
 }

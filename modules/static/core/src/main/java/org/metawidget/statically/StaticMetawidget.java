@@ -21,8 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
@@ -30,7 +28,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
-import org.metawidget.util.CollectionUtils;
+import org.metawidget.statically.StaticUtils.IndentedWriter;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
@@ -39,17 +37,29 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
 /**
+ * Although Metawidget focuses on <em>runtime</em> UI generation, there are a category of
+ * applications that require static generation instead. It is still possible to make full use
+ * of Metawidget's 5 stage pipeline (inspectors, inspection result processors, widget builders,
+ * widget processors, layouts) during static generation.
+ * <p>
+ * An important requirement for static generation is the Metawidget must not rely on the technology
+ * being generated being available. For example, a static JSF Metawidget should not rely on
+ * <code>FacesContext.getCurrentInstance()</code>. Architectually, this makes all static Metawidgets
+ * more similar to each other than to their corresponding runtime version. For example, the static
+ * JSF Metawidget is more similar to the static Swing Metawidget than it is to the runtime JSF
+ * Metawidget. Therefore, it makes sense to have a <code>StaticMetawidget</code> base class.
+ *
  * @author Richard Kennard
  */
 
 public abstract class StaticMetawidget
-	extends StaticWidget {
+	extends BaseStaticWidget {
 
 	//
 	// Private statics
 	//
 
-	private static final ConfigReader												CONFIG_READER	= new ConfigReader();
+	private static final ConfigReader									CONFIG_READER	= new ConfigReader();
 
 	//
 	// Private members
@@ -59,23 +69,19 @@ public abstract class StaticMetawidget
 	 * Path to inspect.
 	 */
 
-	private String																	mPath;
+	private String														mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	private String																	mPathPrefix;
+	private String														mPathPrefix;
 
-	private String																	mConfig;
-
-	private ResourceBundle															mBundle;
-
-	private Map<Object, Object>														mClientProperties;
+	private String														mConfig;
 
 	private W3CPipeline<StaticWidget, StaticWidget, StaticMetawidget>	mPipeline;
 
-	private Writer																	mWriter			= new StringWriter();
+	private Writer														mWriter			= new StringWriter();
 
 	//
 	// Constructor
@@ -128,14 +134,6 @@ public abstract class StaticMetawidget
 				return null;
 			}
 
-			// (localize if possible)
-
-			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
-
-			if ( localized != null ) {
-				return localized.trim();
-			}
-
 			return label.trim();
 		}
 
@@ -144,41 +142,10 @@ public abstract class StaticMetawidget
 		String name = attributes.get( NAME );
 
 		if ( name != null ) {
-			// (localize if possible)
-
-			String localized = getLocalizedKey( name );
-
-			if ( localized != null ) {
-				return localized.trim();
-			}
-
 			return StringUtils.uncamelCase( name );
 		}
 
 		return "";
-	}
-
-	/**
-	 * @return null if no bundle, ???key??? if bundle is missing a key
-	 */
-
-	public String getLocalizedKey( String key ) {
-
-		if ( mBundle == null ) {
-			return null;
-		}
-
-		try {
-			String localizedKey = mBundle.getString( key );
-
-			if ( localizedKey != null ) {
-				return localizedKey;
-			}
-		} catch ( MissingResourceException e ) {
-			// Fall through
-		}
-
-		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
 
 	public boolean isReadOnly() {
@@ -217,37 +184,10 @@ public abstract class StaticMetawidget
 		mPipeline.setLayout( layout );
 	}
 
-	/**
-	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
-	 */
-
-	public void putClientProperty( Object key, Object value ) {
-
-		if ( mClientProperties == null ) {
-			mClientProperties = CollectionUtils.newHashMap();
-		}
-
-		mClientProperties.put( key, value );
-	}
-
-	/**
-	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getClientProperty( Object key ) {
-
-		if ( mClientProperties == null ) {
-			return null;
-		}
-
-		return (T) mClientProperties.get( key );
-	}
-
 	@Override
 	public void write( Writer writer ) {
 
-		mWriter = writer;
+		mWriter = new IndentedWriter( writer, 0 );
 		mPipeline.configureOnce();
 
 		try {
@@ -265,19 +205,6 @@ public abstract class StaticMetawidget
 	//
 	// Protected methods
 	//
-
-	/**
-	 * Sets the ResourceBundle used to localize labels.
-	 * <p>
-	 * This will need to be exposed in framework-specific ways. For example, JSTL can use
-	 * <code>LocalizationContext</code>s, though these are not necessarily available to a Struts
-	 * app.
-	 */
-
-	protected void setBundle( ResourceBundle bundle ) {
-
-		mBundle = bundle;
-	}
 
 	/**
 	 * Instantiate the Pipeline used by this Metawidget.
@@ -301,7 +228,6 @@ public abstract class StaticMetawidget
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setBundle( mBundle );
 	}
 
 	protected Element inspect() {

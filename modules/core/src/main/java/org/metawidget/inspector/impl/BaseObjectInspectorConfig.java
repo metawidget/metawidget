@@ -63,6 +63,8 @@ public class BaseObjectInspectorConfig {
 
 	protected boolean				mNullActionStyle;
 
+	protected boolean				mOnlyInspectClasses;
+
 	//
 	// Public methods
 	//
@@ -99,6 +101,22 @@ public class BaseObjectInspectorConfig {
 		return this;
 	}
 
+	/**
+	 * Sets whether inspection should only look to the declared Classes, not the runtime type of the
+	 * Objects. This is useful for the static Metawidgets.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseObjectInspectorConfig setOnlyInspectClasses( boolean onlyInspectClasses ) {
+
+		mOnlyInspectClasses = onlyInspectClasses;
+
+		// Fluent interface
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -126,6 +144,10 @@ public class BaseObjectInspectorConfig {
 			return false;
 		}
 
+		if ( mOnlyInspectClasses != ( (BaseObjectInspectorConfig) that ).mOnlyInspectClasses ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -137,6 +159,7 @@ public class BaseObjectInspectorConfig {
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullPropertyStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mActionStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullActionStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mOnlyInspectClasses );
 
 		return hashCode;
 	}
@@ -191,5 +214,10 @@ public class BaseObjectInspectorConfig {
 		}
 
 		return mActionStyle;
+	}
+
+	protected boolean isOnlyInspectClasses() {
+
+		return mOnlyInspectClasses;
 	}
 }

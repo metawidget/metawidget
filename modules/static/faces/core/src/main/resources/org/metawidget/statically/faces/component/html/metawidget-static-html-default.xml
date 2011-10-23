@@ -12,8 +12,12 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<onlyInspectClasses><boolean>true</boolean></onlyInspectClasses>
+						</propertyTypeInspector>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<onlyInspectClasses><boolean>true</boolean></onlyInspectClasses>
+						</metawidgetAnnotationInspector>
 					</array>
 				</inspectors>
 			</compositeInspector>
@@ -44,7 +48,11 @@
 		</widgetProcessors>
 		
 		<layout>
-			<simpleLayout xmlns="java:org.metawidget.statically.layout" />
+			<outputTextLayoutDecorator xmlns="java:org.metawidget.statically.faces.component.html.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+				<layout>
+					<htmlTableLayout xmlns="java:org.metawidget.statically.faces.component.html.layout" />
+				</layout>
+			</outputTextLayoutDecorator>
 		</layout>
 		
 	</staticHtmlMetawidget>			

@@ -20,13 +20,15 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticStub;
 import org.metawidget.statically.StaticWidget;
-import org.metawidget.statically.faces.component.html.HtmlInputText;
+import org.metawidget.statically.faces.StaticStub;
+import org.metawidget.statically.faces.component.html.CoreWidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -36,6 +38,12 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 public class HtmlWidgetBuilder
 	implements WidgetBuilder<StaticWidget, StaticMetawidget> {
+
+	//
+	// Private statics
+	//
+
+	private final static String	MAX_LENGTH	= "maxLength";
 
 	//
 	// Public methods
@@ -60,7 +68,7 @@ public class HtmlWidgetBuilder
 		// If no type, fail gracefully with a text box
 
 		if ( type == null ) {
-			return new HtmlInputText();
+			return createHtmlInputText( attributes );
 		}
 
 		// Lookup the Class
@@ -71,52 +79,67 @@ public class HtmlWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			return new HtmlInputText();
+			return new HtmlSelectBooleanCheckbox();
+		}
+
+		// Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) ) {
+			HtmlSelectOneMenu select = new HtmlSelectOneMenu();
+			addSelectItems( select, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes );
+
+			return select;
 		}
 
 		if ( clazz != null ) {
 			// booleans
 
 			if ( boolean.class.equals( clazz ) ) {
-				return new HtmlInputText();
+				return new HtmlSelectBooleanCheckbox();
 			}
 
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return new HtmlInputText();
+				return createHtmlInputText( attributes );
 			}
 
 			// String
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					return new HtmlInputText();
+					return new HtmlInputTextarea();
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-					return new HtmlInputText();
+					HtmlInputSecret inputSecret = new HtmlInputSecret();
+					inputSecret.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+					return inputSecret;
 				}
 
-				return new HtmlInputText();
+				return createHtmlInputText( attributes );
 			}
 
 			// Character
 
 			if ( Character.class.equals( clazz ) ) {
-				return new HtmlInputText();
+				HtmlInputText inputText = new HtmlInputText();
+				inputText.putAttribute( MAX_LENGTH, "1" );
+				return inputText;
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
-				return new HtmlInputText();
+				return createHtmlInputText( attributes );
 			}
 
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-				return new HtmlInputText();
+				return createHtmlInputText( attributes );
 			}
 
 			// Collections
@@ -129,11 +152,58 @@ public class HtmlWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return new HtmlInputText();
+			return createHtmlInputText( attributes );
 		}
 
 		// Not simple
 
 		return null;
+	}
+
+	//
+	// Private methods
+	//
+
+	private HtmlInputText createHtmlInputText( Map<String, String> attributes ) {
+
+		HtmlInputText inputText = new HtmlInputText();
+		inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+
+		return inputText;
+	}
+
+	private void addSelectItems( HtmlSelectOneMenu select, List<String> values, List<String> labels, Map<String, String> attributes ) {
+
+		if ( values == null ) {
+			return;
+		}
+
+		// Empty option
+
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			addSelectItem( select, "", null );
+		}
+
+		// Add the select items
+
+		for ( int loop = 0, length = values.size(); loop < length; loop++ ) {
+			String value = values.get( loop );
+			String label = null;
+
+			if ( labels != null && !labels.isEmpty() ) {
+				label = labels.get( loop );
+			}
+
+			addSelectItem( select, value, label );
+		}
+	}
+
+	private void addSelectItem( HtmlSelectOneMenu select, String value, String label ) {
+
+		CoreWidget selectItem = new CoreWidget( "selectItem" );
+		selectItem.putAttribute( "itemLabel", label );
+		selectItem.putAttribute( "itemValue", value );
+
+		select.addChild( selectItem );
 	}
 }

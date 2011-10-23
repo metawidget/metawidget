@@ -18,82 +18,22 @@ package org.metawidget.statically;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Map;
-
-import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public abstract class StaticXmlWidget
+public interface StaticXmlWidget
 	extends StaticWidget {
 
 	//
-	// Private members
+	// Methods
 	//
 
-	private String				mTagPrefix;
+	void putAttribute( String name, String value );
 
-	private String				mTagName;
+	String getAttribute( String name );
 
-	private Map<String, String>	mAttributes;
-
-	//
-	// Constructor
-	//
-
-	public StaticXmlWidget( String tagName ) {
-
-		mTagName = tagName;
-	}
-
-	//
-	// Public methods
-	//
-
-	public void setTagPrefix( String tagPrefix ) {
-
-		mTagPrefix = tagPrefix;
-	}
-
-	public void putAttribute( String name, String value ) {
-
-		if ( mAttributes == null ) {
-
-			// (use TreeMap for consistent unit tests)
-
-			mAttributes = CollectionUtils.newTreeMap();
-		}
-
-		mAttributes.put( name, value );
-	}
-
-	@Override
-	public void write( Writer writer )
-		throws IOException {
-
-		writer.append( '<' );
-
-		if ( mTagPrefix != null ) {
-			writer.append( mTagPrefix );
-			writer.append( ':' );
-		}
-
-		writer.append( mTagName );
-
-		if ( mAttributes != null ) {
-
-			for( Map.Entry<String, String> entry : mAttributes.entrySet() ) {
-
-				writer.append( ' ' );
-				writer.append( entry.getKey() );
-				writer.append( "=\"" );
-				writer.append( entry.getValue() );
-				writer.append( "\"" );
-			}
-		}
-
-		writer.append( "/>" );
-	}
+	void write( Writer writer )
+		throws IOException;
 }

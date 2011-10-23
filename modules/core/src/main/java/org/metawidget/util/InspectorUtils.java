@@ -39,7 +39,7 @@ public final class InspectorUtils {
 	//
 
 	/**
-	 * Traverses the given Object using properties of the given names.
+	 * Traverses the given Object heirarchy using properties of the given names.
 	 * <p>
 	 * Note: traversal involves calling Property.read, which invokes getter methods and can
 	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
@@ -49,7 +49,7 @@ public final class InspectorUtils {
 	 * @return a tuple of Object (may be null) and declared type (not actual type). Never null
 	 */
 
-	public static Pair<Object, Class<?>> traverse( PropertyStyle propertyStyle, Object toTraverse, String type, boolean onlyToParent, String... names ) {
+	public static Pair<Object, Class<?>> traverseObjects( PropertyStyle propertyStyle, Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// Special support for direct class lookup
 
@@ -144,6 +144,48 @@ public final class InspectorUtils {
 		}
 
 		return new Pair<Object, Class<?>>( traverse, traverseDeclaredType );
+	}
+
+	/**
+	 * Traverses the given Class heirarchy using properties of the given names.
+	 *
+	 * @return the declared type (not actual type). May be null
+	 */
+
+	public static Class<?> traverseClasses( PropertyStyle propertyStyle, String type, boolean onlyToParent, String... names ) {
+
+		Class<?> traverseDeclaredType = ClassUtils.niceForName( type );
+
+		// Traverse through names (if any)
+
+		if ( names == null || names.length == 0 ) {
+
+			// If no names, no parent
+
+			if ( onlyToParent ) {
+				return null;
+			}
+
+			return traverseDeclaredType;
+		}
+
+		for ( int loop = 0, length = names.length; loop < length; loop++ ) {
+
+			if ( onlyToParent && loop >= length - 1 ) {
+				return traverseDeclaredType;
+			}
+
+			String name = names[loop];
+			Property property = propertyStyle.getProperties( traverseDeclaredType ).get( name );
+
+			if ( property == null || !property.isReadable() ) {
+				return null;
+			}
+
+			traverseDeclaredType = property.getType();
+		}
+
+		return traverseDeclaredType;
 	}
 
 	//
