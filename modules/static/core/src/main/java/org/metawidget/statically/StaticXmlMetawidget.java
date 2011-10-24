@@ -58,4 +58,9 @@ public abstract class StaticXmlMetawidget
 
 		return mAttributes.get( name );
 	}
+
+	public void addChild( StaticXmlWidget child ) {
+
+		throw new UnsupportedOperationException();
+	}
 }

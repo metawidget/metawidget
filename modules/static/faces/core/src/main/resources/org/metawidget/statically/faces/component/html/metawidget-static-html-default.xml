@@ -44,6 +44,7 @@
 			<array>
 				<processor:standardBindingProcessor />
 				<processor:readableIdProcessor />
+				<processor:standardConverterProcessor />
 			</array>
 		</widgetProcessors>
 		

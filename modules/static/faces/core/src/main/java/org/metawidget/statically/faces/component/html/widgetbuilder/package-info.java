@@ -15,12 +15,11 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Static support: Java Server Faces widget builders.
+ * Static support: Java Server Faces HTML widget builders.
  *
  * @author Richard Kennard
  */
 
-// TODO: refactor static faces into separate project
 // TODO: put full XSD namespaces on metwidget-static-html-default.xml
 
 package org.metawidget.statically.faces.component.html.widgetbuilder;

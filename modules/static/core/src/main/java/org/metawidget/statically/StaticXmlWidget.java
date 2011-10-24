@@ -34,6 +34,8 @@ public interface StaticXmlWidget
 
 	String getAttribute( String name );
 
+	void addChild( StaticXmlWidget child );
+
 	void write( Writer writer )
 		throws IOException;
 }

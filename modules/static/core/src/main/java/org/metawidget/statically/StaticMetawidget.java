@@ -37,18 +37,21 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
 /**
- * Although Metawidget focuses on <em>runtime</em> UI generation, there are a category of
- * applications that require static generation instead. It is still possible to make full use
- * of Metawidget's 5 stage pipeline (inspectors, inspection result processors, widget builders,
- * widget processors, layouts) during static generation.
+ * Base Metawidget for static code generation.
  * <p>
- * An important requirement for static generation is the Metawidget must not rely on the technology
- * being generated being available. For example, a static JSF Metawidget should not rely on
- * <code>FacesContext.getCurrentInstance()</code>. Architectually, this makes all static Metawidgets
- * more similar to each other than to their corresponding runtime version. For example, the static
- * JSF Metawidget is more similar to the static Swing Metawidget than it is to the runtime JSF
- * Metawidget. Therefore, it makes sense to have a <code>StaticMetawidget</code> base class.
- *
+ * Although Metawidget focuses on <em>runtime</em> UI generation, there are a category of
+ * applications that require static code generation instead. It is still possible to make full use
+ * of Metawidget's 5 stage pipeline (inspectors, inspection result processors, widget builders,
+ * widget processors, layouts) during static code generation.
+ * <p>
+ * An important requirement for static code generation is the Metawidget should not rely on the
+ * technology being generated being available. For example, a static JSF Metawidget should not rely
+ * on <code>FacesContext.getCurrentInstance</code>. Architectually, this makes all static
+ * Metawidgets more similar to each other than to their corresponding runtime version. For example,
+ * the static JSF Metawidget is more similar to the static Swing Metawidget than it is to the
+ * runtime JSF Metawidget. Therefore, it makes sense to have a <code>StaticMetawidget</code> base
+ * class.
+ * 
  * @author Richard Kennard
  */
 

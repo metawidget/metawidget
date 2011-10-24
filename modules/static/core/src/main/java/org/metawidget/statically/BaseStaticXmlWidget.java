@@ -62,6 +62,11 @@ public abstract class BaseStaticXmlWidget
 		mTagPrefix = tagPrefix;
 	}
 
+	public String getTagName() {
+
+		return mTagName;
+	}
+
 	public void putAttribute( String name, String value ) {
 
 		if ( mAttributes == null ) {
