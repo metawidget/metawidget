@@ -106,10 +106,6 @@ public class FacesMetawidgetTests {
 	// Inner class
 	//
 
-	//
-	// Inner class
-	//
-
 	public static class MockPageContext
 		extends PageContext {
 

@@ -42,6 +42,7 @@
 
 		<widgetProcessors>
 			<array>
+				<processor:requiredAttributeProcessor />
 				<processor:standardBindingProcessor />
 				<processor:readableIdProcessor />
 				<processor:standardConverterProcessor />

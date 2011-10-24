@@ -113,7 +113,9 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputLabel for=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" id=\"allWidgetsReadOnlyNestedWidgetsDontExpand-label\" value=\"Read only nested widgets dont expand:\"/>\r\n" +
 				"\t<h:inputText id=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"#{allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsDate\" id=\"allWidgetsDate-label\" value=\"Date:\"/>\r\n" +
-				"\t<h:inputText id=\"allWidgetsDate\" value=\"#{allWidgets.date}\"/>\r\n" +
+				"\t<h:inputText id=\"allWidgetsDate\" value=\"#{allWidgets.date}\">\r\n" +
+				"\t\t<f:convertDateTime/>\r\n" +
+				"\t</h:inputText>\r\n" +
 				"\t<h:outputText value=\"Section Break\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsReadOnly\" id=\"allWidgetsReadOnly-label\" value=\"Read only:\"/>\r\n" +
