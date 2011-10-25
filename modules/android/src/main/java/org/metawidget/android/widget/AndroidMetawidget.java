@@ -40,7 +40,6 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;

@@ -29,6 +29,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.integrationtest.swing.tutorial.Person;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -64,9 +65,10 @@ public class PropertyStyleExampleTest
 		extends JavaBeanPropertyStyle {
 
 		@Override
-		protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+		protected Map<String, Property> inspectProperties( String type ) {
 
 			try {
+				Class<?> clazz = ClassUtils.niceForName( type );
 				Map<String, Property> properties = CollectionUtils.newTreeMap();
 				ResourceBundle bundle = ResourceBundle.getBundle( "org/metawidget/integrationtest/swing/userguide/Bundle" );
 

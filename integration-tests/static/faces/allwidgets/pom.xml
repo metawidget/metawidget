@@ -3,7 +3,7 @@
 		<groupId>org.metawidget.integration-tests</groupId>
 		<artifactId>integration-tests-parent</artifactId>
 		<version>1.35-SNAPSHOT</version>
-		<relativePath>../../</relativePath>
+		<relativePath>../../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 

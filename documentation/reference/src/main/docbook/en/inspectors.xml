@@ -292,8 +292,9 @@ public class Main {
 	<symbol>static class BundlePropertyStyle
 		extends JavaBeanPropertyStyle {
 
-		protected Map&lt;String, Property&gt; inspectProperties( Class&lt;?&gt; clazz ) {
+		protected Map&lt;String, Property&gt; inspectProperties( String type ) {
 			try {
+				Class<?> clazz = ClassUtils.niceForName( type );
 				Map&lt;String, Property&gt; properties = CollectionUtils.newTreeMap();
 				ResourceBundle bundle = ResourceBundle.getBundle( "MyBundle" );
 

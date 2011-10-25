@@ -25,7 +25,7 @@ public class StaticHtmAllWidgetsTest
 
 		String result = "<h:panelGrid columns=\"2\">\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsTextbox\" id=\"allWidgetsTextbox-label\" value=\"Textbox:\"/>\r\n" +
-				"\t<h:inputText id=\"allWidgetsTextbox\" value=\"#{allWidgets.textbox}\"/>\r\n" +
+				"\t<h:inputText id=\"allWidgetsTextbox\" required=\"true\" value=\"#{allWidgets.textbox}\"/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsLimitedTextbox\" id=\"allWidgetsLimitedTextbox-label\" value=\"Limited textbox:\"/>\r\n" +
 				"\t<h:inputText id=\"allWidgetsLimitedTextbox\" maxLength=\"20\" value=\"#{allWidgets.limitedTextbox}\"/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsTextarea\" id=\"allWidgetsTextarea-label\" value=\"Textarea:\"/>\r\n" +
@@ -94,7 +94,7 @@ public class StaticHtmAllWidgetsTest
 				"\t\t<f:selectItem itemValue=\"1\"/>\r\n" +
 				"\t</h:selectOneMenu>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsNotNullObjectDropdown\" id=\"allWidgetsNotNullObjectDropdown-label\" value=\"Not null object dropdown:\"/>\r\n" +
-				"\t<h:selectOneMenu id=\"allWidgetsNotNullObjectDropdown\" value=\"#{allWidgets.notNullObjectDropdown}\">\r\n" +
+				"\t<h:selectOneMenu id=\"allWidgetsNotNullObjectDropdown\" required=\"true\" value=\"#{allWidgets.notNullObjectDropdown}\">\r\n" +
 				"\t\t<f:selectItem itemValue=\"foo3\"/>\r\n" +
 				"\t\t<f:selectItem itemValue=\"dropdown3\"/>\r\n" +
 				"\t\t<f:selectItem itemValue=\"bar3\"/>\r\n" +
