@@ -52,13 +52,19 @@ public abstract class MethodActionStyle
 	 */
 
 	@Override
-	protected Map<String, Action> inspectActions( Class<?> clazz ) {
+	protected Map<String, Action> inspectActions( String type ) {
 
 		// TreeMap so that returns alphabetically sorted actions
 
 		Map<String, Action> actions = CollectionUtils.newTreeMap();
 
 		// For each action...
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		if ( clazz == null ) {
+			return actions;
+		}
 
 		for ( Method method : clazz.getMethods() ) {
 			// ...that is a match...

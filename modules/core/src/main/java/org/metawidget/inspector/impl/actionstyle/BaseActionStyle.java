@@ -44,9 +44,9 @@ public abstract class BaseActionStyle
 	// Public methods
 	//
 
-	public Map<String, Action> getActions( Class<?> clazz ) {
+	public Map<String, Action> getActions( String type ) {
 
-		return getTraits( clazz );
+		return getTraits( type );
 	}
 
 	//
@@ -54,14 +54,14 @@ public abstract class BaseActionStyle
 	//
 
 	@Override
-	protected final Map<String, Action> getUncachedTraits( Class<?> clazz ) {
+	protected final Map<String, Action> getUncachedTraits( String type ) {
 
-		return inspectActions( clazz );
+		return inspectActions( type );
 	}
 
 	/**
 	 * @return the actions of the given class. Never null.
 	 */
 
-	protected abstract Map<String, Action> inspectActions( Class<?> clazz );
+	protected abstract Map<String, Action> inspectActions( String type );
 }

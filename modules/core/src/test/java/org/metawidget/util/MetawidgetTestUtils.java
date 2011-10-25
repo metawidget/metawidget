@@ -103,16 +103,16 @@ public final class MetawidgetTestUtils {
 			Assert.assertTrue( object1 != object2 );
 			Assert.assertEquals( object1, object2 );
 			Assert.assertTrue( object1.hashCode() == object2.hashCode() );
-			
+
 			// Null check
-			
+
 			Assert.assertTrue( !object1.equals( null ) );
-			
+
 			// Test each property
 
 			JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
-			for ( Property property : propertyStyle.getProperties( object1.getClass() ).values() ) {
+			for ( Property property : propertyStyle.getProperties( object1.getClass().getName() ).values() ) {
 				String propertyName = property.getName();
 
 				if ( ArrayUtils.contains( exclude, propertyName ) ) {
@@ -129,7 +129,7 @@ public final class MetawidgetTestUtils {
 				// If the default for the property is not null, then test setting it to null returns
 				// null (tests BaseObjectInspectorConfig.mNullPropertyStyle etc)
 
-				Class<?> propertyType = property.getType();
+				Class<?> propertyType = ClassUtils.niceForName( property.getType() );
 				Method readMethod = getProtectedReadMethod( object1.getClass(), propertyName );
 				Method writeMethod = ClassUtils.getWriteMethod( object1.getClass(), propertyName, propertyType );
 

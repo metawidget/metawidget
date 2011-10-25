@@ -336,6 +336,43 @@ public final class ClassUtils {
 		}
 	}
 
+	public static boolean isPrimitive( String className ) {
+
+		if ( "byte".equals( className ) ) {
+			return true;
+		}
+
+		if ( "short".equals( className ) ) {
+			return true;
+		}
+
+		if ( "int".equals( className ) ) {
+			return true;
+		}
+
+		if ( "long".equals( className ) ) {
+			return true;
+		}
+
+		if ( "float".equals( className ) ) {
+			return true;
+		}
+
+		if ( "double".equals( className ) ) {
+			return true;
+		}
+
+		if ( "boolean".equals( className ) ) {
+			return true;
+		}
+
+		if ( "char".equals( className ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Gets the 'simple' name of the class.
 	 * <p>

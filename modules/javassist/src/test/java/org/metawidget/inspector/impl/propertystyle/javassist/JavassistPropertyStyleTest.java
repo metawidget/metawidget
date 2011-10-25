@@ -46,7 +46,7 @@ public class JavassistPropertyStyleTest
 		Map<String, Property> properties;
 
 		try {
-			properties = propertyStyle.getProperties( Foo.class );
+			properties = propertyStyle.getProperties( Foo.class.getName() );
 		} catch( InspectorException e ) {
 			assertEquals( "Line number information for class org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$Foo not available. Did you compile without debug info?", e.getMessage() );
 			return;
@@ -73,7 +73,7 @@ public class JavassistPropertyStyleTest
 		Map<String, Property> properties;
 
 		try {
-			properties = propertyStyle.getProperties( Foo.class );
+			properties = propertyStyle.getProperties( Foo.class.getName() );
 		} catch( InspectorException e ) {
 			assertEquals( "Line number information for class org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$Foo not available. Did you compile without debug info?", e.getMessage() );
 			return;
@@ -94,7 +94,7 @@ public class JavassistPropertyStyleTest
 		assertFalse( i.hasNext() );
 
 		propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ));
-		properties = propertyStyle.getProperties( Foo.class );
+		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof LinkedHashMap<?, ?> );
 
@@ -113,7 +113,7 @@ public class JavassistPropertyStyleTest
 		Map<String, Property> properties;
 
 		try {
-			properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class );
+			properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class.getName() );
 		} catch( InspectorException e ) {
 			assertEquals( "Line number information for class org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$ProxiedByCGLIB$$ not available. Did you compile without debug info?", e.getMessage() );
 			return;

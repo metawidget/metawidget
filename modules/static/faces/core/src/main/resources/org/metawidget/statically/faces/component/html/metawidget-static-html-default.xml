@@ -13,10 +13,14 @@
 				<inspectors>
 					<array>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<onlyInspectClasses><boolean>true</boolean></onlyInspectClasses>
+							<propertyStyle>
+								<staticPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.statically"/>
+							</propertyStyle>
 						</propertyTypeInspector>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<onlyInspectClasses><boolean>true</boolean></onlyInspectClasses>
+							<propertyStyle>
+								<staticPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.statically"/>
+							</propertyStyle>
 						</metawidgetAnnotationInspector>
 					</array>
 				</inspectors>

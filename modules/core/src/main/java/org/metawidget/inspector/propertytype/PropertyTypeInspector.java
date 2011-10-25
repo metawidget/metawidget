@@ -68,14 +68,14 @@ public class PropertyTypeInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
+	protected Map<String, String> inspectEntity( String declaredClass, String actualClass )
 		throws Exception {
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Type
 
-		attributes.put( TYPE, declaredClass.getName() );
+		attributes.put( TYPE, declaredClass );
 
 		// Actual class
 		//
@@ -91,12 +91,12 @@ public class PropertyTypeInspector
 		// 3. We don't want to use a proxied class as the 'type'
 
 		if ( !actualClass.equals( declaredClass ) ) {
-			attributes.put( ACTUAL_CLASS, actualClass.getName() );
+			attributes.put( ACTUAL_CLASS, actualClass );
 		}
 
 		// Special support for Booleans, which are tri-state
 
-		if ( Boolean.class.equals( actualClass ) ) {
+		if ( Boolean.class.getName().equals( actualClass )) {
 			attributes.put( LOOKUP, "true, false" );
 			attributes.put( LOOKUP_LABELS, "Yes, No" );
 		}

@@ -28,7 +28,7 @@ import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.InspectorUtils;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
@@ -65,7 +65,7 @@ public abstract class BaseObjectInspector
 	// Protected members
 	//
 
-	protected final Log			mLog				= LogUtils.getLog( getClass() );
+	protected final Log			mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Private members
@@ -74,8 +74,6 @@ public abstract class BaseObjectInspector
 	private final PropertyStyle	mPropertyStyle;
 
 	private final ActionStyle	mActionStyle;
-
-	private final boolean		mOnlyInspectClasses;
 
 	//
 	// Constructors
@@ -97,7 +95,6 @@ public abstract class BaseObjectInspector
 
 		mPropertyStyle = config.getPropertyStyle();
 		mActionStyle = config.getActionStyle();
-		mOnlyInspectClasses = config.isOnlyInspectClasses();
 	}
 
 	//
@@ -136,7 +133,7 @@ public abstract class BaseObjectInspector
 			Object childToInspect = null;
 			String childName = null;
 			String childType = null;
-			Class<?> declaredChildType;
+			String declaredChildType;
 			Map<String, String> parentAttributes = null;
 
 			// If the path has a parent...
@@ -144,16 +141,21 @@ public abstract class BaseObjectInspector
 			if ( names != null && names.length > 0 ) {
 				// ...inspect its property for useful annotations...
 
-				Object parent = null;
-				Class<?> parentType;
+				Pair<Object, String> pair = mPropertyStyle.traverse( toInspect, type, true, names );
 
-				if ( mOnlyInspectClasses ) {
-					parentType = InspectorUtils.traverseClasses( mPropertyStyle, type, true, names );
+				Object parent = pair.getLeft();
+				String parentType;
+
+				if ( toInspect == null ) {
+
+					// If no toInspect, try the declared type (this helps static Class traversal)
+
+					parentType = pair.getRight();
+
+					if ( parentType == null ) {
+						return null;
+					}
 				} else {
-					Pair<Object, Class<?>> pair = InspectorUtils.traverseObjects( mPropertyStyle, toInspect, type, true, names );
-
-					parent = pair.getLeft();
-
 					if ( parent == null ) {
 						return null;
 					}
@@ -161,7 +163,7 @@ public abstract class BaseObjectInspector
 					// Use the actual, runtime class (parent.getClass()) not the declared class
 					// (pair.getRight()), in case the declared class is an interface or subclass
 
-					parentType = parent.getClass();
+					parentType = parent.getClass().getName();
 				}
 
 				childName = names[names.length - 1];
@@ -172,7 +174,6 @@ public abstract class BaseObjectInspector
 				}
 
 				declaredChildType = propertyInParent.getType();
-				childType = declaredChildType.getName();
 
 				// ...provided it has a getter
 
@@ -185,31 +186,18 @@ public abstract class BaseObjectInspector
 			// ...otherwise, just start at the end point
 
 			else {
-				Pair<Object, Class<?>> pair = InspectorUtils.traverseObjects( mPropertyStyle, toInspect, type, false );
-				childToInspect = pair.getLeft();
-				declaredChildType = pair.getRight();
-
-				if ( declaredChildType == null ) {
-
-					if ( childToInspect == null ) {
-						return null;
-					}
-
-					declaredChildType = childToInspect.getClass();
-					childType = type;
-				} else {
-					childType = declaredChildType.getName();
-				}
+				childToInspect = toInspect;
+				declaredChildType = type;
 			}
+
+			childType = declaredChildType;
 
 			Document document = XmlUtils.newDocument();
 			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect child properties
 
-			if ( mOnlyInspectClasses ) {
-				inspectTraits( null, declaredChildType, entity );
-			} else if ( childToInspect == null || declaredChildType.isPrimitive() ) {
+			if ( childToInspect == null || ClassUtils.isPrimitive( declaredChildType ) ) {
 				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, declaredChildType ) );
 
 				// If pointed directly at a type, return properties even
@@ -217,11 +205,11 @@ public abstract class BaseObjectInspector
 				// we can inspect parameterized types of Collections without having
 				// to iterate over and grab the first element in that Collection
 
-				if ( names == null || names.length == 0 ) {
+				if ( names == null || names.length == 0 || !mPropertyStyle.isStopAtNull() ) {
 					inspectTraits( childToInspect, declaredChildType, entity );
 				}
 			} else {
-				Class<?> actualChildType = childToInspect.getClass();
+				String actualChildType = childToInspect.getClass().getName();
 				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
 				inspectTraits( childToInspect, actualChildType, entity );
 			}
@@ -311,14 +299,14 @@ public abstract class BaseObjectInspector
 	 *            toInspect. If toInspect is null, will be the class to lookup
 	 */
 
-	protected void inspectTraits( Object toInspect, Class<?> classToInspect, Element toAddTo )
+	protected void inspectTraits( Object toInspect, String type, Element toAddTo )
 		throws Exception {
 
 		Document document = toAddTo.getOwnerDocument();
 
 		// Inspect properties
 
-		for ( Property property : getProperties( classToInspect ).values() ) {
+		for ( Property property : getProperties( type ).values() ) {
 			Map<String, String> traitAttributes = inspectTrait( property );
 			Map<String, String> propertyAttributes = inspectProperty( property );
 			Map<String, String> entityAttributes = inspectPropertyAsEntity( property, toInspect );
@@ -339,7 +327,7 @@ public abstract class BaseObjectInspector
 
 		// Inspect actions
 
-		for ( Action action : getActions( classToInspect ).values() ) {
+		for ( Action action : getActions( type ).values() ) {
 			Map<String, String> traitAttributes = inspectTrait( action );
 			Map<String, String> actionAttributes = inspectAction( action );
 
@@ -376,7 +364,7 @@ public abstract class BaseObjectInspector
 	 *            you should inspect actualClass rather than declaredClass
 	 */
 
-	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
+	protected Map<String, String> inspectEntity( String declaredClass, String actualClass )
 		throws Exception {
 
 		return null;
@@ -471,7 +459,7 @@ public abstract class BaseObjectInspector
 	// Protected final methods
 	//
 
-	protected final Map<String, Property> getProperties( Class<?> clazz ) {
+	protected final Map<String, Property> getProperties( String type ) {
 
 		if ( mPropertyStyle == null ) {
 			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
@@ -481,10 +469,10 @@ public abstract class BaseObjectInspector
 			return map;
 		}
 
-		return mPropertyStyle.getProperties( clazz );
+		return mPropertyStyle.getProperties( type );
 	}
 
-	protected final Map<String, Action> getActions( Class<?> clazz ) {
+	protected final Map<String, Action> getActions( String type ) {
 
 		if ( mActionStyle == null ) {
 			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
@@ -494,7 +482,7 @@ public abstract class BaseObjectInspector
 			return map;
 		}
 
-		return mActionStyle.getActions( clazz );
+		return mActionStyle.getActions( type );
 	}
 
 	//
@@ -518,11 +506,7 @@ public abstract class BaseObjectInspector
 			return null;
 		}
 
-		Class<?> entityClass = property.getType();
-
-		if ( mOnlyInspectClasses ) {
-			return inspectEntity( entityClass, entityClass );
-		}
+		String actualType = property.getType();
 
 		// Inspect the runtime type
 		//
@@ -535,27 +519,31 @@ public abstract class BaseObjectInspector
 		// Note: If the type is final (which includes Java primitives) there is no
 		// need to call the getter because there cannot be a subtype
 
-		if ( property.isReadable() && !Modifier.isFinal( entityClass.getModifiers() ) ) {
-			Object propertyValue = null;
+		if ( toInspect != null ) {
+			Class<?> actualClass = ClassUtils.niceForName( actualType );
 
-			try {
-				propertyValue = property.read( toInspect );
-			} catch ( Exception e ) {
-				// By definition, a 'getter' method should not affect the state
-				// of the object, so it should not fail. However, sometimes a getter's
-				// implementation may rely on another object being in a certain state (eg.
-				// JSF's DataModel.getRowData) - in which case it will not be readable.
-				// We therefore treat value as 'null', so that at least we inspect the type
-			}
+			if ( property.isReadable() && !Modifier.isFinal( actualClass.getModifiers() ) ) {
+				Object propertyValue = null;
 
-			if ( propertyValue != null ) {
-				entityClass = propertyValue.getClass();
+				try {
+					propertyValue = property.read( toInspect );
+				} catch ( Exception e ) {
+					// By definition, a 'getter' method should not affect the state
+					// of the object, so it should not fail. However, sometimes a getter's
+					// implementation may rely on another object being in a certain state (eg.
+					// JSF's DataModel.getRowData) - in which case it will not be readable.
+					// We therefore treat value as 'null', so that at least we inspect the type
+				}
+
+				if ( propertyValue != null ) {
+					actualType = propertyValue.getClass().getName();
+				}
 			}
 		}
 
 		// Delegate to inspectEntity
 
-		return inspectEntity( property.getType(), entityClass );
+		return inspectEntity( property.getType(), actualType );
 	}
 
 	/**

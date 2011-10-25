@@ -43,13 +43,13 @@ public class MetawidgetActionStyleTest
 	public void testMetawidgetActionStyle() {
 
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
-		Map<String, Action> actions = actionStyle.getActions( Foo.class );
+		Map<String, Action> actions = actionStyle.getActions( Foo.class.getName() );
 
 		assertTrue( actions.size() == 1 );
 		assertEquals( "bar", actions.get( "bar" ).toString() );
 
 		try {
-			actionStyle.getActions( BadFoo.class );
+			actionStyle.getActions( BadFoo.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "@UiAction public abstract void org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters", e.getMessage() );
@@ -59,7 +59,7 @@ public class MetawidgetActionStyleTest
 	public void testInterfaceBasedActionStyle() {
 
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
-		Map<String, Action> actions = actionStyle.getActions( Proxied_$$_javassist_.class );
+		Map<String, Action> actions = actionStyle.getActions( Proxied_$$_javassist_.class.getName() );
 
 		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.get( "bar1" ).isAnnotationPresent( UiAction.class ) );
@@ -73,7 +73,7 @@ public class MetawidgetActionStyleTest
 				// Do nothing
 			}
 
-		}.getClass() );
+		}.getClass().getName() );
 
 		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ) );
@@ -107,7 +107,7 @@ public class MetawidgetActionStyleTest
 			}
 		};
 
-		actionStyle.getActions( Proxied_$$_javassist_.class );
+		actionStyle.getActions( Proxied_$$_javassist_.class.getName() );
 
 		assertEquals( InterfaceFoo.class, isExcluded.get( 0 ));
 		assertEquals( void.class, isExcluded.get( 1 ));
@@ -127,7 +127,7 @@ public class MetawidgetActionStyleTest
 		propertiesCacheField.setAccessible( true );
 		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 
-		actionStyle.getActions( Foo.class );
+		actionStyle.getActions( Foo.class.getName() );
 		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 
 		actionStyle.clearCache();

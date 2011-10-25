@@ -74,7 +74,7 @@ public class GroovyPropertyStyle
 	 */
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+	protected Map<String, Property> inspectProperties( String type ) {
 
 		// TreeMap so that returns alphabetically sorted properties
 
@@ -82,6 +82,7 @@ public class GroovyPropertyStyle
 
 		// Iterate over all Groovy properties
 
+		Class<?> clazz = ClassUtils.niceForName( type );
 		List<MetaProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
 		for ( MetaProperty property : properties ) {
@@ -93,8 +94,8 @@ public class GroovyPropertyStyle
 
 			MetaBeanProperty metaBeanProperty = (MetaBeanProperty) property;
 
-			String name = metaBeanProperty.getName();
-			Class<?> type = metaBeanProperty.getType();
+			String propertyName = metaBeanProperty.getName();
+			Class<?> propertyType = metaBeanProperty.getType();
 
 			// Only public properties
 
@@ -118,11 +119,11 @@ public class GroovyPropertyStyle
 				declaringClass = clazz;
 			}
 
-			if ( isExcluded( declaringClass, name, type ) ) {
+			if ( isExcluded( declaringClass, propertyName, propertyType ) ) {
 				continue;
 			}
 
-			propertiesToReturn.put( name, new GroovyProperty( (MetaBeanProperty) property, clazz ) );
+			propertiesToReturn.put( propertyName, new GroovyProperty( (MetaBeanProperty) property, clazz ) );
 		}
 
 		return propertiesToReturn;
@@ -209,7 +210,7 @@ public class GroovyPropertyStyle
 
 		public GroovyProperty( MetaBeanProperty property, Class<?> javaClass ) {
 
-			super( property.getName(), property.getType() );
+			super( property.getName(), property.getType().getName() );
 
 			mProperty = property;
 

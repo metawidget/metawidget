@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
-import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
 
 /**
  * @author Richard Kennard
@@ -39,21 +38,21 @@ public class SwingAppFrameworkActionStyleTest
 	public void testSwingAppFrameworkActionStyle() {
 
 		SwingAppFrameworkActionStyle actionStyle = new SwingAppFrameworkActionStyle();
-		Map<String, Action> actions = actionStyle.getActions( Foo.class );
+		Map<String, Action> actions = actionStyle.getActions( Foo.class.getName() );
 
 		assertTrue( actions.size() == 2 );
 		assertEquals( "bar", actions.get( "bar" ).toString() );
 		assertEquals( "baz", actions.get( "baz" ).toString() );
 
 		try {
-			actionStyle.getActions( BadFoo.class );
+			actionStyle.getActions( BadFoo.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter", e.getMessage() );
 		}
 
 		try {
-			actionStyle.getActions( BadFoo2.class );
+			actionStyle.getActions( BadFoo2.class.getName() );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
 			assertEquals( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent", e.getMessage() );

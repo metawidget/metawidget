@@ -28,7 +28,6 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
@@ -211,7 +210,7 @@ public abstract class BaseXmlInspector
 
 						// ...then for each property...
 
-						Map<String, Property> actualProperties = validateAgainstClasses.getProperties( actualClass );
+						Map<String, Property> actualProperties = validateAgainstClasses.getProperties( topLevelType );
 						Element property = XmlUtils.getChildWithAttribute( entity, nameAttribute );
 
 						while ( property != null ) {
@@ -226,10 +225,10 @@ public abstract class BaseXmlInspector
 							}
 
 							String propertyType = property.getAttribute( typeAttribute );
-							Class<?> actualType = actualProperty.getType();
+							String actualType = actualProperty.getType();
 
-							if ( !"".equals( propertyType ) && !propertyType.equals( actualType.getName() ) ) {
-								throw InspectorException.newException( actualClass + " defines property '" + propertyName + "' to be of " + actualType + ", not '" + propertyType + "'" );
+							if ( !"".equals( propertyType ) && !propertyType.equals( actualType ) ) {
+								throw InspectorException.newException( actualClass + " defines property '" + propertyName + "' to be " + actualType + ", not '" + propertyType + "'" );
 							}
 
 							property = XmlUtils.getSiblingWithAttribute( property, nameAttribute );
@@ -546,11 +545,11 @@ public abstract class BaseXmlInspector
 		String declaredType = null;
 
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
-			Pair<Object, Class<?>> pair = InspectorUtils.traverseObjects( mRestrictAgainstObject, toTraverse, typeToInspect, onlyToParent, namesToInspect );
+			Pair<Object, String> pair = mRestrictAgainstObject.traverse( toTraverse, typeToInspect, onlyToParent, namesToInspect );
 			traverseAgainstObject = pair.getLeft();
 
 			if ( pair.getRight() != null ) {
-				declaredType = pair.getRight().getName();
+				declaredType = pair.getRight();
 			}
 
 			if ( traverseAgainstObject == null ) {

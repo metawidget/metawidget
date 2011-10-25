@@ -44,7 +44,7 @@ public class GroovyPropertyStyleTest
 	public void testGroovy() {
 
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( GroovyFoo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( GroovyFoo.class.getName() );
 
 		assertTrue( properties.size() == 7 );
 
@@ -70,7 +70,7 @@ public class GroovyPropertyStyleTest
 	public void testIgnoreMetaArrayLengthProperty() {
 
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( byte[].class );
+		Map<String, Property> properties = propertyStyle.getProperties( byte[].class.getName() );
 		assertTrue( properties.isEmpty() );
 	}
 }

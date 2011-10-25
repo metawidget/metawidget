@@ -57,16 +57,16 @@ public class BaseTraitStyleTest
 		BaseTraitStyle<Property> traitStyle = new JavaBeanPropertyStyle( config );
 
 		assertTrue( traitStyle.mCache.isEmpty() );
-		assertTrue( traitStyle.getTraits( Date.class ) != null );
+		assertTrue( traitStyle.getTraits( Date.class.getName() ) != null );
 		assertEquals( 1, traitStyle.mCache.size() );
-		assertTrue( traitStyle.mCache.get( Date.class ) != null );
+		assertTrue( traitStyle.mCache.get( Date.class.getName() ) != null );
 
 		// Without caching
 
 		config.setCacheLookups( false );
 		traitStyle = new JavaBeanPropertyStyle( config );
 		assertTrue( traitStyle.mCache == null );
-		assertTrue( traitStyle.getTraits( Date.class ) != null );
+		assertTrue( traitStyle.getTraits( Date.class.getName() ) != null );
 		assertTrue( traitStyle.mCache == null );
 	}
 

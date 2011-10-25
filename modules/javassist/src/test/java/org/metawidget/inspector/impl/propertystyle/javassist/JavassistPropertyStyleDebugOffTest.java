@@ -36,7 +36,7 @@ public class JavassistPropertyStyleDebugOffTest
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
 
 		try {
-			propertyStyle.getProperties( Foo.class );
+			propertyStyle.getProperties( Foo.class.getName() );
 		} catch ( InspectorException e ) {
 
 			// Note: this test will not trigger unless the code has been compiled with debug off

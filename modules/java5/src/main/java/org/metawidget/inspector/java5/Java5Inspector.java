@@ -27,6 +27,7 @@ import java.util.Map;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -66,14 +67,18 @@ public class Java5Inspector
 	}
 
 	@Override
-	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
+	protected Map<String, String> inspectEntity( String declaredClass, String actualClass )
 		throws Exception {
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Enums - classToInspect may an Enum type or an enum instance type (ie. Foo$1)
 
-		if ( Enum.class.isAssignableFrom( actualClass ) ) {
+		Class<?> actualClazz = ClassUtils.niceForName( actualClass );
+
+		// TODO: test when actualClazz null
+
+		if ( actualClazz != null && Enum.class.isAssignableFrom( actualClazz ) ) {
 			// Invoke 'magic' values method
 			//
 			// This actually proved more reliable than using 'getEnumConstants', as that
@@ -81,8 +86,8 @@ public class Java5Inspector
 			// call 'values' from both the Enum class (ie. Gender) and a Enum instance
 			// (ie. Gender$Male)
 
-			Method methodValues = actualClass.getMethod( "values" );
-			Enum<?>[] enums = (Enum[]) methodValues.invoke( actualClass );
+			Method methodValues = actualClazz.getMethod( "values" );
+			Enum<?>[] enums = (Enum[]) methodValues.invoke( actualClazz );
 
 			// Construct lookup values
 
@@ -104,10 +109,10 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			if ( actualClass.isEnum() ) {
-				attributes.put( TYPE, actualClass.getName() );
+			if ( actualClazz.isEnum() ) {
+				attributes.put( TYPE, actualClazz.getName() );
 			} else {
-				attributes.put( TYPE, actualClass.getSuperclass().getName() );
+				attributes.put( TYPE, actualClazz.getSuperclass().getName() );
 			}
 		}
 

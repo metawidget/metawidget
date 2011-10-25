@@ -34,13 +34,13 @@ public abstract class BaseProperty
 	// Private methods
 	//
 
-	private Class<?>	mType;
+	private String	mType;
 
 	//
 	// Constructor
 	//
 
-	public BaseProperty( String name, Class<?> type ) {
+	public BaseProperty( String name, String type ) {
 
 		super( name );
 		mType = type;
@@ -50,7 +50,7 @@ public abstract class BaseProperty
 	// Public methods
 	//
 
-	public Class<?> getType() {
+	public String getType() {
 
 		return mType;
 	}

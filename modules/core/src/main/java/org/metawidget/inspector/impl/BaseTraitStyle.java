@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
+import org.metawidget.util.LogUtils.Log;
 
 /**
  * Convenience implementation for ActionStyles and PropertyStyles.
@@ -53,13 +55,19 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	 * that they <code>.equal()</code> their originals.
 	 */
 
-	/* package private */final Map<Class<?>, Map<String, T>>	mCache;
+	/* package private */final Map<String, Map<String, T>>	mCache;
 
-	private Pattern												mExcludeBaseType;
+	private Pattern											mExcludeBaseType;
 
-	private Class<?>[]											mExcludeReturnType;
+	private Class<?>[]										mExcludeReturnType;
 
-	private String[]											mExcludeName;
+	private String[]										mExcludeName;
+
+	//
+	// Protected members
+	//
+
+	protected final Log										mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Constructor
@@ -105,35 +113,35 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	// Protected methods
 	//
 
-	protected final Map<String, T> getTraits( Class<?> clazz ) {
+	protected final Map<String, T> getTraits( String type ) {
 
 		if ( mCache == null ) {
-			return getUncachedTraits( clazz );
+			return getUncachedTraits( type );
 		}
 
 		synchronized ( mCache ) {
-			Map<String, T> traits = getCachedTraits( clazz );
+			Map<String, T> traits = getCachedTraits( type );
 
 			if ( traits == null ) {
-				traits = getUncachedTraits( clazz );
-				cacheTraits( clazz, traits );
+				traits = getUncachedTraits( type );
+				cacheTraits( type, traits );
 			}
 
 			return traits;
 		}
 	}
 
-	protected final Map<String, T> getCachedTraits( Class<?> clazz ) {
+	protected final Map<String, T> getCachedTraits( String type ) {
 
-		return mCache.get( clazz );
+		return mCache.get( type );
 	}
 
-	protected final void cacheTraits( Class<?> clazz, Map<String, T> traits ) {
+	protected final void cacheTraits( String type, Map<String, T> traits ) {
 
-		mCache.put( clazz, Collections.unmodifiableMap( traits ) );
+		mCache.put( type, Collections.unmodifiableMap( traits ) );
 	}
 
-	protected abstract Map<String, T> getUncachedTraits( Class<?> clazz );
+	protected abstract Map<String, T> getUncachedTraits( String type );
 
 	/**
 	 * Whether to exclude the given trait, of the given type, in the given class, when searching

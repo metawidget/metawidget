@@ -34,7 +34,7 @@ public interface Property
 	// Methods
 	//
 
-	Class<?> getType();
+	String getType();
 
 	boolean isReadable();
 

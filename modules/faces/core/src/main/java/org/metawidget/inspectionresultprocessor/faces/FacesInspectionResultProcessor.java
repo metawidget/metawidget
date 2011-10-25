@@ -28,7 +28,6 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.InspectorUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -94,7 +93,7 @@ public class FacesInspectionResultProcessor
 		try {
 			if ( mInjectThis != null ) {
 				requestMap = context.getExternalContext().getRequestMap();
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, true, names ).getLeft() );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, true, names ).getLeft() );
 			}
 
 			super.processEntity( attributes, metawidget, toInspect, type, names );
@@ -124,7 +123,7 @@ public class FacesInspectionResultProcessor
 		try {
 			if ( mInjectThis != null ) {
 				requestMap = context.getExternalContext().getRequestMap();
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, false, names ).getLeft() );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, false, names ).getLeft() );
 			}
 
 			super.processTraits( entity, metawidget, toInspect, type, names );

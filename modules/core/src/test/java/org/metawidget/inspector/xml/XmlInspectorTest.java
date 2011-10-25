@@ -424,7 +424,7 @@ public class XmlInspectorTest
 			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 			assertTrue( false );
 		} catch ( InspectorException e ) {
-			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$NullObject defines property 'nestedNullObject' to be of class org.metawidget.inspector.xml.XmlInspectorTest$NullObject, not 'int'", e.getMessage() );
+			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$NullObject defines property 'nestedNullObject' to be org.metawidget.inspector.xml.XmlInspectorTest$NullObject, not 'int'", e.getMessage() );
 		}
 
 		// Good extends

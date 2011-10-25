@@ -94,17 +94,17 @@ public class JavassistPropertyStyle
 	//
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+	protected Map<String, Property> inspectProperties( String type ) {
 
 		try {
 			Map<ClassAndLineNumberAndName, Property> lineNumberedProperties = CollectionUtils.newTreeMap();
 
 			ClassPool pool = ClassPool.getDefault();
-			CtClass ctClass = pool.get( clazz.getName() );
+			CtClass ctClass = pool.get( type );
 
 			// For each JavaBean property...
 
-			Map<String, Property> properties = super.inspectProperties( clazz );
+			Map<String, Property> properties = super.inspectProperties( type );
 
 			for ( Property property : properties.values() ) {
 				String propertyName = property.getName();
@@ -126,7 +126,7 @@ public class JavassistPropertyStyle
 
 					else {
 						method = javaBeanProperty.getWriteMethod();
-						ctMethod = getCtMethod( ctClass, method, pool.get( property.getType().getName() ) );
+						ctMethod = getCtMethod( ctClass, method, pool.get( property.getType() ) );
 					}
 
 					// ...and remember its line number
@@ -135,7 +135,7 @@ public class JavassistPropertyStyle
 					int lineNumber = methodInfo.getLineNumber( 0 );
 
 					if ( lineNumber == -1 && !ctClass.isInterface() ) {
-						throw InspectorException.newException( "Line number information for " + clazz + " not available. Did you compile without debug info?" );
+						throw InspectorException.newException( "Line number information for " + type + " not available. Did you compile without debug info?" );
 					}
 
 					lineNumberedProperties.put( new ClassAndLineNumberAndName( method.getDeclaringClass(), lineNumber, propertyName ), property );

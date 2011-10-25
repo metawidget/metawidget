@@ -52,5 +52,5 @@ public interface ActionStyle
 	 * @return the actions for the given Class. Never null.
 	 */
 
-	Map<String, Action> getActions( Class<?> clazz );
+	Map<String, Action> getActions( String type );
 }

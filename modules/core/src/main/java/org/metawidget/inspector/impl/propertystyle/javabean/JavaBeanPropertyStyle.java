@@ -107,13 +107,19 @@ public class JavaBeanPropertyStyle
 	 */
 
 	@Override
-	protected Map<String, Property> inspectProperties( Class<?> clazz ) {
+	protected Map<String, Property> inspectProperties( String type ) {
 
 		// TreeMap so that returns alphabetically sorted properties
 
 		Map<String, Property> properties = CollectionUtils.newTreeMap();
 
 		// Lookup fields, getters and setters
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		if ( clazz == null ) {
+			return properties;
+		}
 
 		lookupFields( properties, clazz );
 		lookupGetters( properties, clazz );
@@ -244,7 +250,7 @@ public class JavaBeanPropertyStyle
 				// Beware covariant return types: always prefer the
 				// subclass
 
-				if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) ) {
+				if ( type.isAssignableFrom( ClassUtils.niceForName( existingJavaBeanProperty.getType() )) ) {
 					continue;
 				}
 			}
@@ -255,7 +261,7 @@ public class JavaBeanPropertyStyle
 				continue;
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null, getPrivateField( clazz, propertyName ) ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type.getName(), method, null, getPrivateField( clazz, propertyName ) ) );
 		}
 	}
 
@@ -363,7 +369,7 @@ public class JavaBeanPropertyStyle
 				continue;
 			}
 
-			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method, getPrivateField( clazz, propertyName ) ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type.getName(), null, method, getPrivateField( clazz, propertyName ) ) );
 		}
 	}
 
@@ -474,7 +480,7 @@ public class JavaBeanPropertyStyle
 
 		public FieldProperty( String name, Field field ) {
 
-			super( name, field.getType() );
+			super( name, field.getType().getName() );
 
 			mField = field;
 		}
@@ -543,9 +549,9 @@ public class JavaBeanPropertyStyle
 		// Constructor
 		//
 
-		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod, Field privateField ) {
+		public JavaBeanProperty( String name, String type, Method readMethod, Method writeMethod, Field privateField ) {
 
-			super( name, clazz );
+			super( name, type );
 
 			mReadMethod = readMethod;
 			mWriteMethod = writeMethod;

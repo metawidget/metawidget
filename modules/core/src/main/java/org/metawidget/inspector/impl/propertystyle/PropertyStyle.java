@@ -19,6 +19,7 @@ package org.metawidget.inspector.impl.propertystyle;
 import java.util.Map;
 
 import org.metawidget.iface.Immutable;
+import org.metawidget.util.simple.Pair;
 
 /**
  * Abstraction layer for retrieving properties from Classes.
@@ -51,8 +52,18 @@ public interface PropertyStyle
 	 * may later be overridden by other mechanisms (eg.
 	 * <code>ComesAfterInspectionResultProcessor</code> sorts by <code>comes-after</code>).
 	 *
-	 * @return the properties for the given Class. Never null.
+	 * @return the properties for the given type. Never null.
 	 */
 
-	Map<String, Property> getProperties( Class<?> clazz );
+	Map<String, Property> getProperties( String type );
+
+	/**
+	 * Traverses the given Object heirarchy using properties of the given names.
+	 *
+	 * @return a tuple of Object (may be null) and declared type (not actual type). Never null
+	 */
+
+	Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names );
+
+	boolean isStopAtNull();
 }

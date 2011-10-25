@@ -26,7 +26,6 @@ import org.apache.commons.jexl.JexlHelper;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.InspectorUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -101,7 +100,7 @@ public class JexlInspectionResultProcessor<M>
 		Map<String, Object> vars = context.getVars();
 
 		try {
-			vars.put( THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, true, names ).getLeft() );
+			vars.put( THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, true, names ).getLeft() );
 			super.processEntity( attributes, metawidget, toInspect, type, names );
 
 		} finally {
@@ -120,7 +119,7 @@ public class JexlInspectionResultProcessor<M>
 		Map<String, Object> vars = context.getVars();
 
 		try {
-			vars.put( THIS_ATTRIBUTE, InspectorUtils.traverseObjects( mInjectThis, toInspect, type, false, names ).getLeft() );
+			vars.put( THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, false, names ).getLeft() );
 			super.processTraits( entity, metawidget, toInspect, type, names );
 
 		} finally {

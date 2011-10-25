@@ -64,7 +64,7 @@ public class StandardConverterProcessorTest
 
 		attributes.put( TYPE, Date.class.getName() );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertDataTime/>\r\n</h:inputText>\r\n" );
+		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertDateTime/>\r\n</h:inputText>\r\n" );
 		htmlInputText = new HtmlInputText();
 
 		// DateTimeConverter
@@ -76,7 +76,7 @@ public class StandardConverterProcessorTest
 		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		attributes.put( DATETIME_TYPE, "date" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertDataTime dateStyle=\"full\" locale=\"UK\" pattern=\"dd/MM/yyyy\" timeStyle=\"medium\" timeZone=\"Australia/Sydney\" type=\"date\"/>\r\n</h:inputText>\r\n" );
+		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertDateTime dateStyle=\"full\" locale=\"UK\" pattern=\"dd/MM/yyyy\" timeStyle=\"medium\" timeZone=\"Australia/Sydney\" type=\"date\"/>\r\n</h:inputText>\r\n" );
 
 		// NumberConverter
 

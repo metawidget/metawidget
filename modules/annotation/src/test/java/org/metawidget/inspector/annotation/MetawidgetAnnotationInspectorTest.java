@@ -247,7 +247,7 @@ public class MetawidgetAnnotationInspectorTest
 		throws Exception {
 
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Method getPropertiesMethod = BaseObjectInspector.class.getDeclaredMethod( "getProperties", Class.class );
+		Method getPropertiesMethod = BaseObjectInspector.class.getDeclaredMethod( "getProperties", String.class );
 		getPropertiesMethod.setAccessible( true );
 
 		// Should fail hard
@@ -266,9 +266,9 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Un-null again
 
-		assertEquals( 0, ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, Foo.class ) ).size() );
+		assertEquals( 0, ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, Foo.class.getName() ) ).size() );
 		inspector = new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle() ) );
-		assertEquals( 3, ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, Foo.class ) ).size() );
+		assertEquals( 3, ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, Foo.class.getName() ) ).size() );
 	}
 
 	@SuppressWarnings( "unchecked" )
@@ -276,7 +276,7 @@ public class MetawidgetAnnotationInspectorTest
 		throws Exception {
 
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Method getActionsMethod = BaseObjectInspector.class.getDeclaredMethod( "getActions", Class.class );
+		Method getActionsMethod = BaseObjectInspector.class.getDeclaredMethod( "getActions", String.class );
 		getActionsMethod.setAccessible( true );
 
 		// Should fail hard
@@ -298,9 +298,9 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Un-null again
 
-		assertEquals( 0, ( (Map<String, Property>) getActionsMethod.invoke( inspector, Foo.class ) ).size() );
+		assertEquals( 0, ( (Map<String, Property>) getActionsMethod.invoke( inspector, Foo.class.getName() ) ).size() );
 		inspector = new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle() ) );
-		assertEquals( 1, ( (Map<String, Property>) getActionsMethod.invoke( inspector, Foo.class ) ).size() );
+		assertEquals( 1, ( (Map<String, Property>) getActionsMethod.invoke( inspector, Foo.class.getName() ) ).size() );
 	}
 
 	public void testSuperclassAnnotations()
