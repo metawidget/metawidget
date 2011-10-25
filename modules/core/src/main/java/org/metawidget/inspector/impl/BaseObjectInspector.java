@@ -28,11 +28,13 @@ import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.Pair;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -130,10 +132,10 @@ public abstract class BaseObjectInspector
 		}
 
 		try {
-			Object childToInspect = null;
-			String childName = null;
+			Object childToInspect;
+			String childName;
 			String declaredChildType;
-			Map<String, String> parentAttributes = null;
+			Map<String, String> parentAttributes;
 
 			// If the path has a parent...
 
@@ -143,7 +145,6 @@ public abstract class BaseObjectInspector
 
 				Pair<Object, String> pair = mPropertyStyle.traverse( toInspect, type, true, names );
 
-				Object parent = pair.getLeft();
 				String parentType = pair.getRight();
 
 				// If parentType is null, the mPropertyStyle does not want us to continue
@@ -153,7 +154,11 @@ public abstract class BaseObjectInspector
 				}
 
 				// If possible use the actual class rather than the declared class, in case
-				// the declared class is an interface or superclass
+				// the declared class is an interface or superclass.
+				//
+				// Parent can be null if we are just traversing Classes (i.e. StaticPropertyStyle)
+
+				Object parent = pair.getLeft();
 
 				if ( parent != null ) {
 					parentType = parent.getClass().getName();
@@ -162,15 +167,20 @@ public abstract class BaseObjectInspector
 				childName = names[names.length - 1];
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
+				// If the parent does not define such a property, something is wrong
+
 				if ( propertyInParent == null ) {
-					return null;
+					throw InspectorException.newException( "Parent of " + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH ) + " does not define a property '" + childName + "'" );
 				}
 
 				declaredChildType = propertyInParent.getType();
 
 				// Now step forward to the end of the path
 
-				if ( parent != null && propertyInParent.isReadable() ) {
+				if ( parent == null || !propertyInParent.isReadable() ) {
+					parentAttributes = null;
+					childToInspect = null;
+				} else {
 					parentAttributes = inspectParent( parent, propertyInParent );
 					childToInspect = propertyInParent.read( parent );
 
@@ -199,11 +209,13 @@ public abstract class BaseObjectInspector
 
 			else {
 				childToInspect = toInspect;
+				childName = null;
 				declaredChildType = type;
+				parentAttributes = null;
 
 				// Proceed even if childToInspect==null, given we know names.length==0
 				//
-				// If pointed directly at a type, we return properties even if the actual value is
+				// If pointed directly at a type, we return properties even if the toInspect is
 				// null. This is a special concession so we can inspect parameterized types of
 				// Collections without having to iterate over and grab the first element in that
 				// Collection
