@@ -294,7 +294,7 @@ public class Main {
 
 		protected Map&lt;String, Property&gt; inspectProperties( String type ) {
 			try {
-				Class<?> clazz = ClassUtils.niceForName( type );
+				Class&lt;?&gt; clazz = ClassUtils.niceForName( type );
 				Map&lt;String, Property&gt; properties = CollectionUtils.newTreeMap();
 				ResourceBundle bundle = ResourceBundle.getBundle( "MyBundle" );
 
