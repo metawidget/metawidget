@@ -64,6 +64,4 @@ public interface PropertyStyle
 	 */
 
 	Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names );
-
-	boolean isStopAtNull();
 }

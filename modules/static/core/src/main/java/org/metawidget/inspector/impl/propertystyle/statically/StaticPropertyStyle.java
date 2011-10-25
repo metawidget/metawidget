@@ -73,10 +73,4 @@ public class StaticPropertyStyle
 
 		return new Pair<Object,String>( null, traverseDeclaredType );
 	}
-
-	@Override
-	public boolean isStopAtNull() {
-
-		return false;
-	}
 }

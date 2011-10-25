@@ -44,6 +44,7 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -365,7 +366,8 @@ public class XmlSchemaGeneratorTask
 	// Private methods
 	//
 
-	private String generatePropertiesBlock( Class<?> clazz ) {
+	private String generatePropertiesBlock( Class<?> clazz )
+		throws Exception {
 
 		StringBuilder builder = new StringBuilder();
 
@@ -396,7 +398,7 @@ public class XmlSchemaGeneratorTask
 		JavaBeanPropertyStyleConfig propertyStyleConfig = new JavaBeanPropertyStyleConfig();
 		propertyStyleConfig.setExcludeBaseType( Pattern.compile( "^(java|javax|org\\.eclipse)\\..*$" ) );
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( propertyStyleConfig );
-		Map<String, Property> properties = propertyStyle.getProperties( clazz );
+		Map<String, Property> properties = propertyStyle.getProperties( clazz.getName() );
 
 		for ( Property property : properties.values() ) {
 			if ( !property.isWritable() ) {
@@ -407,7 +409,7 @@ public class XmlSchemaGeneratorTask
 				continue;
 			}
 
-			String propertyBlock = generatePropertyBlock( property.getName(), false, property.getType() );
+			String propertyBlock = generatePropertyBlock( property.getName(), false, ClassUtils.niceForName( property.getType() ));
 
 			if ( propertyBlock == null ) {
 				continue;

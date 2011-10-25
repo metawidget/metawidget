@@ -132,37 +132,30 @@ public abstract class BaseObjectInspector
 		try {
 			Object childToInspect = null;
 			String childName = null;
-			String childType = null;
 			String declaredChildType;
 			Map<String, String> parentAttributes = null;
 
 			// If the path has a parent...
 
 			if ( names != null && names.length > 0 ) {
-				// ...inspect its property for useful annotations...
+
+				// ...inspect its property for useful annotations
 
 				Pair<Object, String> pair = mPropertyStyle.traverse( toInspect, type, true, names );
 
 				Object parent = pair.getLeft();
-				String parentType;
+				String parentType = pair.getRight();
 
-				if ( toInspect == null ) {
+				// If parentType is null, the mPropertyStyle does not want us to continue
 
-					// If no toInspect, try the declared type (this helps static Class traversal)
+				if ( parentType == null ) {
+					return null;
+				}
 
-					parentType = pair.getRight();
+				// If possible use the actual class rather than the declared class, in case
+				// the declared class is an interface or superclass
 
-					if ( parentType == null ) {
-						return null;
-					}
-				} else {
-					if ( parent == null ) {
-						return null;
-					}
-
-					// Use the actual, runtime class (parent.getClass()) not the declared class
-					// (pair.getRight()), in case the declared class is an interface or subclass
-
+				if ( parent != null ) {
 					parentType = parent.getClass().getName();
 				}
 
@@ -175,11 +168,30 @@ public abstract class BaseObjectInspector
 
 				declaredChildType = propertyInParent.getType();
 
-				// ...provided it has a getter
+				// Now step forward to the end of the path
 
 				if ( parent != null && propertyInParent.isReadable() ) {
 					parentAttributes = inspectParent( parent, propertyInParent );
 					childToInspect = propertyInParent.read( parent );
+
+					// Stop if childToInspect==null, given we know names.length > 0
+					//
+					// If we are inspecting Objects, we never want to traverse past a null. If we
+					// are just inspecting Classes (i.e. StaticPropertyStyle) we will never come in
+					// here because parent==null
+
+					if ( childToInspect == null ) {
+						Document document = XmlUtils.newDocument();
+						Element root = document.createElementNS( NAMESPACE, ROOT );
+						root.setAttribute( VERSION, "1.0" );
+						document.appendChild( root );
+						Element entity = document.createElementNS( NAMESPACE, ENTITY );
+						XmlUtils.setMapAsAttributes( entity, parentAttributes );
+						entity.setAttribute( NAME, childName );
+						entity.setAttribute( TYPE, declaredChildType );
+						root.appendChild( entity );
+						return root;
+					}
 				}
 			}
 
@@ -188,31 +200,30 @@ public abstract class BaseObjectInspector
 			else {
 				childToInspect = toInspect;
 				declaredChildType = type;
-			}
 
-			childType = declaredChildType;
+				// Proceed even if childToInspect==null, given we know names.length==0
+				//
+				// If pointed directly at a type, we return properties even if the actual value is
+				// null. This is a special concession so we can inspect parameterized types of
+				// Collections without having to iterate over and grab the first element in that
+				// Collection
+			}
 
 			Document document = XmlUtils.newDocument();
 			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect child properties
 
+			String actualChildType;
+
 			if ( childToInspect == null || ClassUtils.isPrimitive( declaredChildType ) ) {
-				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, declaredChildType ) );
-
-				// If pointed directly at a type, return properties even
-				// if the actual value is null. This is a special concession so
-				// we can inspect parameterized types of Collections without having
-				// to iterate over and grab the first element in that Collection
-
-				if ( names == null || names.length == 0 || !mPropertyStyle.isStopAtNull() ) {
-					inspectTraits( childToInspect, declaredChildType, entity );
-				}
+				actualChildType = declaredChildType;
 			} else {
-				String actualChildType = childToInspect.getClass().getName();
-				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
-				inspectTraits( childToInspect, actualChildType, entity );
+				actualChildType = childToInspect.getClass().getName();
 			}
+
+			XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
+			inspectTraits( childToInspect, actualChildType, entity );
 
 			// Add parent attributes (if any)
 
@@ -241,7 +252,7 @@ public abstract class BaseObjectInspector
 			// merge it. The type should be the *declared* type, not the *actual* type, as otherwise
 			// subtypes will stop XML and Object-based Inspectors merging back together properly
 
-			entity.setAttribute( TYPE, childType );
+			entity.setAttribute( TYPE, declaredChildType );
 
 			// Return the document
 

@@ -164,11 +164,6 @@ public abstract class BasePropertyStyle
 		return new Pair<Object, String>( traverse, traverseDeclaredType );
 	}
 
-	public boolean isStopAtNull() {
-
-		return true;
-	}
-
 	//
 	// Protected methods
 	//
