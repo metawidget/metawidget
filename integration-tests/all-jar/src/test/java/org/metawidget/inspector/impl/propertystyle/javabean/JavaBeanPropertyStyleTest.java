@@ -55,7 +55,7 @@ public class JavaBeanPropertyStyleTest
 	public void testJavaBeanPropertyStyle() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertEquals( 10, properties.size() );
@@ -76,7 +76,7 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
-		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
+		assertEquals( String.class.getName(), properties.get( "methodCovariant" ).getType() );
 
 		try {
 			properties.get( "foo" ).read( new Object() );
@@ -90,7 +90,7 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( "baz", properties.get( "baz" ).getName() );
 
 		propertyStyle = new FooPropertyStyle();
-		properties = propertyStyle.getProperties( Foo.class );
+		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertEquals( properties.get( "baz" ), null );
 		assertEquals( properties.get( "methodGetterInSuper" ), null );
@@ -106,7 +106,7 @@ public class JavaBeanPropertyStyleTest
 		// Without excluded type
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertEquals( 10, properties.size()  );
@@ -117,7 +117,7 @@ public class JavaBeanPropertyStyleTest
 
 		config.setExcludeReturnType( String.class );
 		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( Foo.class );
+		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertEquals( 4, properties.size()  );
@@ -135,7 +135,7 @@ public class JavaBeanPropertyStyleTest
 		// Without excluded name
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertEquals( 10, properties.size()  );
@@ -146,7 +146,7 @@ public class JavaBeanPropertyStyleTest
 
 		config.setExcludeName( "bar", "baz" );
 		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( Foo.class );
+		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertEquals( 8, properties.size()  );
@@ -164,7 +164,7 @@ public class JavaBeanPropertyStyleTest
 	public void testSupportPublicFields() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig() );
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 10 );
@@ -185,11 +185,11 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
-		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
+		assertEquals( String.class.getName(), properties.get( "methodCovariant" ).getType() );
 		assertEquals( "baz", properties.get( "baz" ).getName() );
 
 		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ) );
-		properties = propertyStyle.getProperties( Foo.class );
+		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 7 );
@@ -208,14 +208,14 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
 		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
-		assertEquals( String.class, properties.get( "methodCovariant" ).getType() );
+		assertEquals( String.class.getName(), properties.get( "methodCovariant" ).getType() );
 		assertTrue( !properties.containsKey( "baz" ) );
 	}
 
 	public void testInterfaceBasedPropertyStyle() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( Proxied_$$_javassist_.class );
+		Map<String, Property> properties = propertyStyle.getProperties( Proxied_$$_javassist_.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
@@ -227,7 +227,7 @@ public class JavaBeanPropertyStyleTest
 
 				return null;
 			}
-		}.getClass() );
+		}.getClass().getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
@@ -238,13 +238,13 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 
 		try {
-			propertyStyle.getProperties( ErrorFoo.class );
+			propertyStyle.getProperties( ErrorFoo.class.getName() );
 		} catch ( InspectorException e ) {
 			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public setter method. Should be one or the other", e.getMessage() );
 		}
 
 		try {
-			propertyStyle.getProperties( ErrorFoo2.class );
+			propertyStyle.getProperties( ErrorFoo2.class.getName() );
 		} catch ( InspectorException e ) {
 			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public getter method. Should be one or the other", e.getMessage() );
 		}
@@ -259,7 +259,7 @@ public class JavaBeanPropertyStyleTest
 		propertiesCacheField.setAccessible( true );
 		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 
-		propertyStyle.getProperties( Foo.class );
+		propertyStyle.getProperties( Foo.class.getName() );
 		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 
 		propertyStyle.clearCache();
@@ -271,7 +271,7 @@ public class JavaBeanPropertyStyleTest
 		// No convention
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( PrivateFieldFoo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( PrivateFieldFoo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 4 );
@@ -291,7 +291,7 @@ public class JavaBeanPropertyStyleTest
 		// Convention with {0}
 
 		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setPrivateFieldConvention( new MessageFormat( "{0}" ) ) );
-		properties = propertyStyle.getProperties( PrivateFieldFoo.class );
+		properties = propertyStyle.getProperties( PrivateFieldFoo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 4 );
@@ -311,7 +311,7 @@ public class JavaBeanPropertyStyleTest
 		// Convention with {1}
 
 		propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setPrivateFieldConvention( new MessageFormat( "'m'{1}" ) ) );
-		properties = propertyStyle.getProperties( PrivateFieldFoo.class );
+		properties = propertyStyle.getProperties( PrivateFieldFoo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
 		assertTrue( properties.size() == 4 );
@@ -341,33 +341,33 @@ public class JavaBeanPropertyStyleTest
 	public void testExcludeOverriddenGetter() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class.getName() );
 		assertTrue( properties.containsKey( "foo" ));
 
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenGetterFoo" ) );
 		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class );
+		properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class.getName() );
 		assertTrue( !properties.containsKey( "foo" ));
 	}
 
 	public void testExcludeOverriddenSetter() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class.getName() );
 		assertTrue( properties.containsKey( "foo" ));
 
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenSetterFoo" ) );
 		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class );
+		properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class.getName() );
 		assertTrue( !properties.containsKey( "foo" ));
 	}
 
 	public void testStaticMethods() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( StaticMethodsTest.class );
+		Map<String, Property> properties = propertyStyle.getProperties( StaticMethodsTest.class.getName() );
 		assertTrue( !properties.containsKey( "staticString" ));
 		assertTrue( properties.containsKey( "nonStaticField" ));
 		assertTrue( properties.containsKey( "nonStaticString" ));
