@@ -108,8 +108,6 @@ public class TableLayoutTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof AndroidMetawidget );
 		assertTrue( 3 == tableLayout.getChildCount() );
 
-		// TODO: the -core unit tests don't test this scenario
-
 		AndroidMetawidget nestedNestedMetawidget = (AndroidMetawidget) tableRow.getChildAt( 1 );
 		assertTrue( 1 == nestedNestedMetawidget.getChildCount() );
 

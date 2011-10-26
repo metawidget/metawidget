@@ -22,13 +22,15 @@ import org.metawidget.iface.Immutable;
 import org.metawidget.util.simple.Pair;
 
 /**
- * Abstraction layer for retrieving properties from Classes.
+ * Abstraction layer for retrieving properties from types.
  * <p>
  * Different environments have different approaches to defining what constitutes a 'property'. For
  * example, JavaBean-properties are convention-based, whereas Groovy has explicit property support.
  * Equally, some environments may have framework-specific, base class properties that should be
  * filtered out and excluded from the list of 'real' business model properties (eg. Struts
- * <code>ActionForm</code>s).
+ * <code>ActionForm</code>s). Finally, some environments may define properties against something
+ * other than a <code>java.lang.Class</code> (eg. <code>org.jboss.forge.parser.java.JavaClass</code>
+ * ).
  * <p>
  * <code>PropertyStyle</code>s must be immutable (or, at least, appear that way to clients. They can
  * have caches or configuration settings internally, as long as they are threadsafe).
@@ -44,10 +46,10 @@ public interface PropertyStyle
 	//
 
 	/**
-	 * Gets the Properties for the given Class.
+	 * Gets the Properties for the given type.
 	 * <p>
 	 * Properties must be returned using a consistent ordering, so that both unit tests and
-	 * <code>CompositeInspector</code> merging is consistent. If the underlying platform does not
+	 * <code>CompositeInspector</code> merging is consistent. If the underlying technology does not
 	 * define an ordering, one must be imposed (eg. sorted alphabetically by name), even though this
 	 * may later be overridden by other mechanisms (eg.
 	 * <code>ComesAfterInspectionResultProcessor</code> sorts by <code>comes-after</code>).
@@ -60,7 +62,8 @@ public interface PropertyStyle
 	/**
 	 * Traverses the given Object heirarchy using properties of the given names.
 	 *
-	 * @return a tuple of Object (may be null) and declared type (not actual type). Never null
+	 * @return a tuple of Object (may be null) and declared type (not actual type). The tuple is
+	 *         never null
 	 */
 
 	Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names );

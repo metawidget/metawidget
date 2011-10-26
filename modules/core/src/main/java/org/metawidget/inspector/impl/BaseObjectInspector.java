@@ -52,10 +52,16 @@ import org.w3c.dom.Element;
  * implementations would not expect to be given a list of properties and asked to bind to a null
  * object.
  * <p>
- * However, there is a special concession. If <code>BaseObjectInspector</code> is pointed
- * <em>directly</em> at a type (ie. names == null), it will return properties even if the actual
- * value is null. This is important so we can inspect parameterized types of Collections without
- * having to iterate over and grab the first element in that Collection.
+ * However, there are special concessions:
+ * <p>
+ * <ol>
+ * <li>If <code>BaseObjectInspector</code> is pointed <em>directly</em> at a type (ie. names ==
+ * null), it will return properties even if the actual value is null. This is important so we can
+ * inspect parameterized types of Collections without having to iterate over and grab the first
+ * element in that Collection.</li>
+ * <li>Because object traversal is managed by the <code>PropertyStyle</code>, some support class
+ * traversal (eg. <code>StaticPropertyStyle</code>)</li>
+ * </ol>
  *
  * @author Richard Kennard
  */

@@ -128,6 +128,10 @@ public class Java5InspectorTest
 		assertEquals( 4, entity.getAttributes().getLength() );
 		assertFalse( entity.hasChildNodes() );
 
+		// Test with a fake type
+
+		assertTrue( null == XmlUtils.documentFromString( inspector.inspect( null, "Fake type" ) ));
+
 		// Test an enum with PropertyTypeInspector
 
 		inspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new Java5Inspector() ) );

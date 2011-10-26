@@ -401,7 +401,7 @@ public class PropertyTypeInspectorTest
 		assertEquals( boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( LOOKUP ) );
 		assertFalse( entity.hasAttribute( LOOKUP_LABELS ) );
-		assertTrue( 2 == entity.getAttributes().getLength() );
+		assertEquals( 2, entity.getAttributes().getLength() );
 	}
 
 	public void testTraverseActualTypes() {
@@ -492,6 +492,22 @@ public class PropertyTypeInspectorTest
 		}
 
 		assertTrue( concurrencyFailures.isEmpty() );
+	}
+
+	public void testAbortTraversingPastNull() {
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( new TraversePastNullTester(), TraversePastNullTester.class.getName(), "contact" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "contact", entity.getAttribute( NAME ) );
+		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+
+		// Should not return any children, because abortTraversingPastNull = true
+
+		assertEquals( 0, entity.getChildNodes().getLength() );
 	}
 
 	//
@@ -633,5 +649,10 @@ public class PropertyTypeInspectorTest
 		public boolean	littleBoolean;
 
 		public Boolean	bigBoolean;
+	}
+
+	protected static class TraversePastNullTester {
+
+		public PersonalContact	contact;
 	}
 }

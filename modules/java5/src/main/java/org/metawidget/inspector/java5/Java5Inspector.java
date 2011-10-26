@@ -76,8 +76,6 @@ public class Java5Inspector
 
 		Class<?> actualClazz = ClassUtils.niceForName( actualClass );
 
-		// TODO: test when actualClazz null
-
 		if ( actualClazz != null && Enum.class.isAssignableFrom( actualClazz ) ) {
 			// Invoke 'magic' values method
 			//

@@ -21,7 +21,7 @@ import java.util.Map;
 import org.metawidget.iface.Immutable;
 
 /**
- * Abstraction layer for retrieving actions from Classes.
+ * Abstraction layer for retrieving actions from types.
  * <p>
  * Different environments have different approaches to defining what constitutes an 'action'. For
  * example, Metawidget supplies a <code>UiAction</code> annotation and the Spring AppFramework
@@ -41,15 +41,15 @@ public interface ActionStyle
 	//
 
 	/**
-	 * Gets the Actions for the given Class.
+	 * Gets the Actions for the given type.
 	 * <p>
 	 * Actions must be returned using a consistent ordering, so that both unit tests and
-	 * <code>CompositeInspector</code> merging is consistent. If the underlying platform does not
+	 * <code>CompositeInspector</code> merging is consistent. If the underlying technology does not
 	 * define an ordering, one must be imposed (eg. sorted alphabetically by name), even though this
 	 * may later be overridden by other mechanisms (eg.
 	 * <code>ComesAfterInspectionResultProcessor</code> sorts by <code>comes-after</code>).
 	 *
-	 * @return the actions for the given Class. Never null.
+	 * @return the actions for the given type. Never null.
 	 */
 
 	Map<String, Action> getActions( String type );
