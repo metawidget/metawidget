@@ -136,6 +136,7 @@ public abstract class BaseObjectInspector
 			String childName;
 			String declaredChildType;
 			Map<String, String> parentAttributes;
+			boolean abortTraversingPastNull = false;
 
 			// If the path has a parent...
 
@@ -175,7 +176,7 @@ public abstract class BaseObjectInspector
 
 				declaredChildType = propertyInParent.getType();
 
-				// Now step forward to the end of the path
+				// Now step forward to the usual end of the path
 
 				if ( parent == null || !propertyInParent.isReadable() ) {
 					parentAttributes = null;
@@ -191,16 +192,7 @@ public abstract class BaseObjectInspector
 					// here because parent==null
 
 					if ( childToInspect == null ) {
-						Document document = XmlUtils.newDocument();
-						Element root = document.createElementNS( NAMESPACE, ROOT );
-						root.setAttribute( VERSION, "1.0" );
-						document.appendChild( root );
-						Element entity = document.createElementNS( NAMESPACE, ENTITY );
-						XmlUtils.setMapAsAttributes( entity, parentAttributes );
-						entity.setAttribute( NAME, childName );
-						entity.setAttribute( TYPE, declaredChildType );
-						root.appendChild( entity );
-						return root;
+						abortTraversingPastNull = true;
 					}
 				}
 			}
@@ -235,7 +227,10 @@ public abstract class BaseObjectInspector
 			}
 
 			XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
-			inspectTraits( childToInspect, actualChildType, entity );
+
+			if ( !abortTraversingPastNull ) {
+				inspectTraits( childToInspect, actualChildType, entity );
+			}
 
 			// Add parent attributes (if any)
 
