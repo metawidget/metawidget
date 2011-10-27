@@ -122,7 +122,11 @@ public class Java5Inspector
 
 		// Generics
 
-		attributes.put( PARAMETERIZED_TYPE, property.getGenericType() );
+		String genericType = property.getGenericType();
+
+		if ( genericType != null ) {
+			attributes.put( PARAMETERIZED_TYPE, genericType );
+		}
 
 		return attributes;
 	}

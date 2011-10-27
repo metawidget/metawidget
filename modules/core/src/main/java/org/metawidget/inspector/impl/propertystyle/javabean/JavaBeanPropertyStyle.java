@@ -226,7 +226,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 			//
-			// (explicitly set to null in case we encounted/encounterer an imbalanced field/setter)
+			// (explicitly set to null in case we encounted/encounter an imbalanced field/setter)
 
 			if ( isExcluded( ClassUtils.getOriginalDeclaringClass( method ), propertyName, type ) ) {
 				properties.put( propertyName, null );

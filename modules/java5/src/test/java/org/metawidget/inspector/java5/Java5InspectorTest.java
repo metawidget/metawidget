@@ -130,7 +130,7 @@ public class Java5InspectorTest
 
 		// Test with a fake type
 
-		assertTrue( null == XmlUtils.documentFromString( inspector.inspect( null, "Fake type" ) ));
+		assertTrue( null == XmlUtils.documentFromString( inspector.inspect( null, "Fake type" ) ) );
 
 		// Test an enum with PropertyTypeInspector
 
@@ -190,6 +190,13 @@ public class Java5InspectorTest
 
 		method = Date.class.getMethod( "setTime", long.class );
 		assertEquals( method.getGenericParameterTypes().length, Java5ClassUtils.getOriginalGenericParameterTypes( method ).length );
+	}
+
+	public void testNonJava5Inspection()
+		throws Exception {
+
+		Inspector inspector = new Java5Inspector();
+		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( new NonJava5(), NonJava5.class.getName() ) ));
 	}
 
 	//
@@ -253,5 +260,12 @@ public class Java5InspectorTest
 
 			// Do nothing
 		}
+	}
+
+	protected static class NonJava5 {
+
+		public String foo;
+		
+		public int bar;
 	}
 }
