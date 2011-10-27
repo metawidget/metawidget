@@ -19,8 +19,6 @@ package org.metawidget.inspector.java5;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +27,6 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Inspector to look for Java 5 language features, such as enums and generics.
@@ -125,42 +122,7 @@ public class Java5Inspector
 
 		// Generics
 
-		Type type = property.getGenericType();
-
-		if ( type instanceof ParameterizedType ) {
-			Type[] typeActuals = null;
-
-			try {
-				typeActuals = ( (ParameterizedType) type ).getActualTypeArguments();
-			} catch ( Exception e ) {
-				// Android 1.1_r1 fails here with a ClassNotFoundException
-			}
-
-			if ( typeActuals != null && typeActuals.length > 0 ) {
-				StringBuilder builder = new StringBuilder();
-
-				for ( Type typeActual : typeActuals ) {
-					// Android 1.1_r1 sometimes provides null typeActuals while
-					// testing the AddressBook application
-
-					if ( typeActual == null ) {
-						continue;
-					}
-
-					if ( builder.length() > 0 ) {
-						builder.append( StringUtils.SEPARATOR_COMMA );
-					}
-
-					if ( typeActual instanceof Class<?> ) {
-						builder.append( ( (Class<?>) typeActual ).getName() );
-					} else {
-						builder.append( typeActual.toString() );
-					}
-				}
-
-				attributes.put( PARAMETERIZED_TYPE, builder.toString() );
-			}
-		}
+		attributes.put( PARAMETERIZED_TYPE, property.getGenericType() );
 
 		return attributes;
 	}

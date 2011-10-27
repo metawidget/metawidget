@@ -21,6 +21,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import org.metawidget.util.simple.StringUtils;
+
 /**
  * Utilities for working with Java 5 Classes.
  *
@@ -201,6 +203,53 @@ public final class Java5ClassUtils {
 		// No generic parameter types found. Return normal
 
 		return method.getGenericParameterTypes();
+	}
+
+	/**
+	 * Converts a <code>java.lang.reflect.Type</code>, as returned by <code>getGenericType</code>
+	 * into a String representation.
+	 */
+
+	public static String getGenericTypeAsString( Type type ) {
+
+		if ( !( type instanceof ParameterizedType ) ) {
+			return null;
+		}
+
+		Type[] typeActuals = null;
+
+		try {
+			typeActuals = ( (ParameterizedType) type ).getActualTypeArguments();
+		} catch ( Exception e ) {
+			// Android 1.1_r1 fails here with a ClassNotFoundException
+		}
+
+		if ( typeActuals == null || typeActuals.length == 0 ) {
+			return null;
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		for ( Type typeActual : typeActuals ) {
+			// Android 1.1_r1 sometimes provides null typeActuals while
+			// testing the AddressBook application
+
+			if ( typeActual == null ) {
+				continue;
+			}
+
+			if ( builder.length() > 0 ) {
+				builder.append( StringUtils.SEPARATOR_COMMA );
+			}
+
+			if ( typeActual instanceof Class<?> ) {
+				builder.append( ( (Class<?>) typeActual ).getName() );
+			} else {
+				builder.append( typeActual.toString() );
+			}
+		}
+
+		return builder.toString();
 	}
 
 	//

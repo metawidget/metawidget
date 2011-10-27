@@ -25,7 +25,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +35,7 @@ import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.Java5ClassUtils;
 
 /**
  * PropertyStyle for Groovy-style properties.
@@ -277,18 +277,18 @@ public class GroovyPropertyStyle
 			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
 		}
 
-		public Type getGenericType() {
+		public String getGenericType() {
 
 			if ( mField != null ) {
-				return mField.getGenericType();
+				return Java5ClassUtils.getGenericTypeAsString( mField.getGenericType() );
 			}
 
 			if ( mGetterMethod != null ) {
-				return mGetterMethod.getGenericReturnType();
+				return Java5ClassUtils.getGenericTypeAsString( mGetterMethod.getGenericReturnType() );
 			}
 
 			if ( mSetterMethod != null ) {
-				return mSetterMethod.getGenericParameterTypes()[0];
+				return Java5ClassUtils.getGenericTypeAsString( mSetterMethod.getGenericParameterTypes()[0] );
 			}
 
 			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );

@@ -250,7 +250,7 @@ public class JavaBeanPropertyStyle
 				// Beware covariant return types: always prefer the
 				// subclass
 
-				if ( type.isAssignableFrom( ClassUtils.niceForName( existingJavaBeanProperty.getType() )) ) {
+				if ( type.isAssignableFrom( ClassUtils.niceForName( existingJavaBeanProperty.getType() ) ) ) {
 					continue;
 				}
 			}
@@ -513,9 +513,9 @@ public class JavaBeanPropertyStyle
 			return mField.getAnnotation( annotation );
 		}
 
-		public Type getGenericType() {
+		public String getGenericType() {
 
-			return mField.getGenericType();
+			return Java5ClassUtils.getGenericTypeAsString( mField.getGenericType() );
 		}
 
 		public Field getField() {
@@ -625,13 +625,17 @@ public class JavaBeanPropertyStyle
 			return null;
 		}
 
-		public Type getGenericType() {
+		public String getGenericType() {
+
+			Type type;
 
 			if ( mReadMethod != null ) {
-				return Java5ClassUtils.getOriginalGenericReturnType( mReadMethod );
+				type = Java5ClassUtils.getOriginalGenericReturnType( mReadMethod );
+			} else {
+				type = Java5ClassUtils.getOriginalGenericParameterTypes( mWriteMethod )[0];
 			}
 
-			return Java5ClassUtils.getOriginalGenericParameterTypes( mWriteMethod )[0];
+			return Java5ClassUtils.getGenericTypeAsString( type );
 		}
 
 		public Method getReadMethod() {

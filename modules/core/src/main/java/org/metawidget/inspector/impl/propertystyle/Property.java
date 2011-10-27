@@ -16,8 +16,6 @@
 
 package org.metawidget.inspector.impl.propertystyle;
 
-import java.lang.reflect.Type;
-
 import org.metawidget.inspector.impl.Trait;
 
 /**
@@ -34,12 +32,20 @@ public interface Property
 	// Methods
 	//
 
+	/**
+	 * Gets the type of the property.
+	 * <p>
+	 * Type is returned as a String, so that it can express something other than a
+	 * <code>java.lang.Class</code> (eg. <code>javassist.CtClass</code> or
+	 * <code>org.jboss.forge.parser.java.JavaClass</code>).
+	 */
+
 	String getType();
 
 	boolean isReadable();
 
 	/**
-	 * Read the given property for the given object.
+	 * Read the property for the given object.
 	 * <p>
 	 * Used by PropertyInspector to determine subtypes, and by BaseObjectInspector to traverse the
 	 * object graph.
@@ -49,5 +55,13 @@ public interface Property
 
 	boolean isWritable();
 
-	Type getGenericType();
+	/**
+	 * Gets the generic type of the property, or null if the type is not parameterized.
+	 * <p>
+	 * Type is returned as a String, so that it can express something other than a
+	 * <code>java.lang.Class</code> (eg. <code>javassist.CtClass</code> or
+	 * <code>org.jboss.forge.parser.java.JavaClass</code>).
+	 */
+
+	String getGenericType();
 }

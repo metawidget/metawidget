@@ -62,8 +62,6 @@ public abstract class BasePropertyStyle
 	 * therefore have side effects. For example, a JSF controller 'ResourceController' may have a
 	 * method 'getLoggedIn' which has to check the HttpSession, maybe even hit some EJBs or access
 	 * the database.
-	 *
-	 * @return a tuple of Object (may be null) and declared type (not actual type). Never null
 	 */
 
 	public Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {

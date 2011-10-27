@@ -16,7 +16,6 @@
 
 package org.metawidget.inspector.impl.propertystyle.groovy;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,8 +26,6 @@ import junit.framework.TestCase;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.groovy.GroovyFoo;
 
 /**
  * @author Richard Kennard
@@ -49,13 +46,13 @@ public class GroovyPropertyStyleTest
 		assertTrue( properties.size() == 7 );
 
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
-		assertEquals( Date.class, ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertEquals( Date.class.getName(), properties.get( "bar" ).getGenericType() );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
 		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
-		assertEquals( String.class, ( (ParameterizedType) properties.get( "methodBaz" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertEquals( String.class.getName(), properties.get( "methodBaz" ).getGenericType() );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );
-		assertEquals( Boolean.class, ( (ParameterizedType) properties.get( "methodAbc" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertEquals( Boolean.class.getName(), properties.get( "methodAbc" ).getGenericType() );
 		assertFalse( properties.get( "methodAbc" ).isReadable() );
 		assertTrue( properties.get( "methodAbc" ).isWritable() );
 

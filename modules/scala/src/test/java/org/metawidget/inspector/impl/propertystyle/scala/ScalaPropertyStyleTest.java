@@ -16,7 +16,6 @@
 
 package org.metawidget.inspector.impl.propertystyle.scala;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class ScalaPropertyStyleTest
 
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertTrue( properties.get( "bar" ).isAnnotationPresent( NotNull.class ) );
-		assertEquals( Date.class, ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] );
+		assertEquals( Date.class.getName(), properties.get( "bar" ).getGenericType() );
 		assertTrue( properties.get( "baz" ).isReadable() );
 		assertFalse( properties.get( "baz" ).isWritable() );
 	}
