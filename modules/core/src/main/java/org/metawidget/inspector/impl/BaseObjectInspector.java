@@ -28,12 +28,12 @@ import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -150,9 +150,9 @@ public abstract class BaseObjectInspector
 
 				// ...inspect its property for useful annotations
 
-				Pair<Object, String> pair = mPropertyStyle.traverse( toInspect, type, true, names );
+				ValueAndDeclaredType valueAndDeclaredType = mPropertyStyle.traverse( toInspect, type, true, names );
 
-				String parentType = pair.getRight();
+				String parentType = valueAndDeclaredType.getDeclaredType();
 
 				// If parentType is null, the mPropertyStyle does not want us to continue
 
@@ -165,7 +165,7 @@ public abstract class BaseObjectInspector
 				//
 				// Parent can be null if we are just traversing Classes (i.e. StaticPropertyStyle)
 
-				Object parent = pair.getLeft();
+				Object parent = valueAndDeclaredType.getValue();
 
 				if ( parent != null ) {
 					parentType = parent.getClass().getName();

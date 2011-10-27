@@ -26,12 +26,12 @@ import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -278,7 +278,7 @@ public abstract class BaseXmlInspector
 		try {
 			Document document;
 			Element entity;
-			Pair<Element, String> pair;
+			ValueAndDeclaredType valueAndDeclaredType;
 			Map<String, String> parentAttributes = null;
 
 			// "There's no requirement that a DOM be thread safe, so applications need to make sure
@@ -294,7 +294,7 @@ public abstract class BaseXmlInspector
 				if ( names != null && names.length > 0 ) {
 					// ...inspect its property for useful attributes...
 
-					Element propertyInParent = traverse( toInspect, type, true, names ).getLeft();
+					Element propertyInParent = (Element) traverse( toInspect, type, true, names ).getValue();
 
 					if ( propertyInParent != null ) {
 						parentAttributes = inspectProperty( propertyInParent );
@@ -303,9 +303,9 @@ public abstract class BaseXmlInspector
 
 				// ...otherwise, just start at the end point
 
-				pair = traverse( toInspect, type, false, names );
+				valueAndDeclaredType = traverse( toInspect, type, false, names );
 
-				if ( pair.getLeft() == null ) {
+				if ( valueAndDeclaredType.getValue() == null ) {
 
 					if ( parentAttributes == null || parentAttributes.isEmpty() ) {
 						return null;
@@ -320,7 +320,7 @@ public abstract class BaseXmlInspector
 
 					document = XmlUtils.newDocument();
 					entity = document.createElementNS( NAMESPACE, ENTITY );
-					inspectTraits( pair.getLeft(), entity );
+					inspectTraits( (Element) valueAndDeclaredType.getValue(), entity );
 
 					// Nothing of consequence to return?
 
@@ -345,7 +345,7 @@ public abstract class BaseXmlInspector
 
 				// Use the declared type so as to align with other Inspectors
 
-				entity.setAttribute( TYPE, pair.getRight() );
+				entity.setAttribute( TYPE, valueAndDeclaredType.getDeclaredType() );
 			}
 
 			// Return the root
@@ -426,7 +426,7 @@ public abstract class BaseXmlInspector
 
 		if ( extendsAttribute != null ) {
 			if ( entity.hasAttribute( extendsAttribute ) ) {
-				inspectTraits( traverse( null, entity.getAttribute( extendsAttribute ), false ).getLeft(), toAddTo );
+				inspectTraits( (Element) traverse( null, entity.getAttribute( extendsAttribute ), false ).getValue(), toAddTo );
 			}
 		}
 
@@ -530,12 +530,14 @@ public abstract class BaseXmlInspector
 	}
 
 	/**
-	 * @return a tuple of Element (may be null) and declared type (not actual type). Never null
+	 * @return the Element (may be null) and its declared type (not actual type). Never null.
+	 *         If the declared type within the ValueAndDeclaredType is null, inspection will be
+	 *         aborted
 	 */
 
 	// TODO: in Mihai's example, turning on restrictAgainstObject does not return the type from metawidget-metadata.xml
 
-	protected Pair<Element, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
+	protected ValueAndDeclaredType traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// If given a non-null Object, use it to restrictAgainstObject
 
@@ -545,15 +547,15 @@ public abstract class BaseXmlInspector
 		String declaredType = null;
 
 		if ( toTraverse != null && mRestrictAgainstObject != null ) {
-			Pair<Object, String> pair = mRestrictAgainstObject.traverse( toTraverse, typeToInspect, onlyToParent, namesToInspect );
-			traverseAgainstObject = pair.getLeft();
+			ValueAndDeclaredType valueAndDeclaredType = mRestrictAgainstObject.traverse( toTraverse, typeToInspect, onlyToParent, namesToInspect );
+			traverseAgainstObject = valueAndDeclaredType.getValue();
 
-			if ( pair.getRight() != null ) {
-				declaredType = pair.getRight();
+			if ( valueAndDeclaredType.getDeclaredType() != null ) {
+				declaredType = valueAndDeclaredType.getDeclaredType();
 			}
 
 			if ( traverseAgainstObject == null ) {
-				return new Pair<Element, String>( null, declaredType );
+				return new ValueAndDeclaredType( null, declaredType );
 			}
 
 			if ( onlyToParent ) {
@@ -577,7 +579,7 @@ public abstract class BaseXmlInspector
 		if ( entityElement == null ) {
 
 			if ( traverseAgainstObject == null && !mInferInheritanceHierarchy ) {
-				return new Pair<Element, String>( null, declaredType );
+				return new ValueAndDeclaredType( null, declaredType );
 			}
 
 			// If using mRestrictAgainstObject or mInferInheritanceHierarchy, attempt to match
@@ -591,7 +593,7 @@ public abstract class BaseXmlInspector
 				actualClass = ClassUtils.niceForName( typeToInspect );
 
 				if ( actualClass == null ) {
-					return new Pair<Element, String>( null, typeToInspect );
+					return new ValueAndDeclaredType( null, typeToInspect );
 				}
 			}
 
@@ -601,18 +603,18 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( entityElement == null ) {
-				return new Pair<Element, String>( null, declaredType );
+				return new ValueAndDeclaredType( null, declaredType );
 			}
 		}
 
 		if ( namesToInspect == null ) {
-			return new Pair<Element, String>( entityElement, declaredType );
+			return new ValueAndDeclaredType( entityElement, declaredType );
 		}
 
 		int length = namesToInspect.length;
 
 		if ( length == 0 ) {
-			return new Pair<Element, String>( entityElement, declaredType );
+			return new ValueAndDeclaredType( entityElement, declaredType );
 		}
 
 		// Traverse names
@@ -629,21 +631,21 @@ public abstract class BaseXmlInspector
 				// XML structure may not support 'extends'
 
 				if ( extendsAttribute == null ) {
-					return new Pair<Element, String>( null, null );
+					return new ValueAndDeclaredType( null, null );
 				}
 
 				// Property may be defined in an 'extends'
 
 				while ( true ) {
 					if ( !entityElement.hasAttribute( extendsAttribute ) ) {
-						return new Pair<Element, String>( null, null );
+						return new ValueAndDeclaredType( null, null );
 					}
 
 					String childExtends = entityElement.getAttribute( extendsAttribute );
 					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, childExtends );
 
 					if ( entityElement == null ) {
-						return new Pair<Element, String>( null, null );
+						return new ValueAndDeclaredType( null, null );
 					}
 
 					property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
@@ -662,7 +664,7 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
-				return new Pair<Element, String>( property, property.getAttribute( typeAttribute ) );
+				return new ValueAndDeclaredType( property, property.getAttribute( typeAttribute ) );
 			}
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
@@ -677,7 +679,7 @@ public abstract class BaseXmlInspector
 			}
 		}
 
-		return new Pair<Element, String>( entityElement, declaredType );
+		return new ValueAndDeclaredType( entityElement, declaredType );
 	}
 
 	/**

@@ -39,7 +39,7 @@ public class ReadableIdProcessor
 
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
-		String valueExpression = metawidget.getValueExpression();
+		String valueExpression = metawidget.getValueExpression( "value" );
 		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
 		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 

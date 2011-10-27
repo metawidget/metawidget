@@ -32,14 +32,14 @@
 				should have	been solved years ago. I am so glad someone is addressing this
 				<a href="survey.html">Survey respondent</a>
 			</li>
-			<li>
-				Metawidget is worth taking a look at
-				<a href="http://www.theserverside.com/news/thread.tss?thread_id=52466" target="_blank">Eric Rich (Java Developer)</a>
-			</li>
 			
 			<li>
 				On my todo list is to develop an integration with Metawidget. I'm impressed by the work they're doing here
 				<a href="http://www.theserverside.com/news/thread.tss?thread_id=58283" target="_blank">Dan Haywood (author, Domain-Driven Design using Naked Objects)</a>
+			</li>
+			<li>
+				Metawidget is worth taking a look at
+				<a href="http://www.theserverside.com/news/thread.tss?thread_id=52466" target="_blank">Eric Rich (Java Developer)</a>
 			</li>
 			<li>
 				I have taken a look at it, and found it's a wonderful tool. When coding with SWT,<br/>
@@ -59,6 +59,11 @@
 				Metawidget does not exclusively own	the front-end like many other frameworks
 				<a href="http://markashworth.blogspot.com/2008/02/metawidget-introduction-background.html" target="_blank">Mark Ashworth (Java Developer)</a>			
 			</li>
+			
+			<li>
+				Metawidget is very interesting... I will try to use it in one of my projects
+				<a href="http://blog.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
+			</li>
 			<li>
 				Think of a configurable form widget driven off of your beans through runtime inspection<br/>
 				of properties, getters and setters, annotations, etc
@@ -68,11 +73,6 @@
 				Our app has over 300 screens and UI duplication is a huge maintenance issue for us. You are definitely<br/>
 				on to something here and I like the fact that your framework integrates with others	and does not try to 'own' the UI
 				<a href="survey.html">Survey respondent</a>
-			</li>
-			
-			<li>
-				Metawidget is very interesting... I will try to use it in one of my projects
-				<a href="http://blog.adam-bien.com" target="_blank">Adam Bien (author, Oracle Java Developer of the Year)</a>
 			</li>
 			<li>
 				I think Object Interface Mapper (OIM) is a very good 'concept' for this domain.<br/>
@@ -88,6 +88,12 @@
 				Here's something different... it builds on your underlying framework and so is not competing with it
 				<a href="http://devsac.blogspot.com/2008/10/must-have-tools-for-every-smart-java.html" target="_blank">Sachin (Java Developer)</a>
 			</li>
+
+			<li>
+				I have long held the reason for the incessant churn in how we best complete the UI architecture task is due<br/>
+				to the continued quest for economic value. [Your work] shows there are benefits to separating the elements of that task from that churn
+				<a href="http://java.net/blog/edburns" target="_blank">Ed Burns (author, JSF specification lead)</a>
+			</li>
 			<li>
 				I have been using Metawidget (which is a really cool library by the way) on a project lately...
 				<a href="http://blog.singingwizard.org/2009/05/metawidget-beanutils-auto-update-binding" target="_blank">Arthur Peters (Swing Developer)</a>
@@ -101,12 +107,6 @@
 				It works, beautifully! Thanks for bringing us this powerful stuff
 				<a href="https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3788210/index/page/1" target="_blank">Phaderm (Swing Developer)</a>
 			</li>
-
-			<li>
-				I have long held the reason for the incessant churn in how we best complete the UI architecture task is due<br/>
-				to the continued quest for economic value. [Your work] shows there are benefits to separating the elements of that task from that churn
-				<a href="http://java.net/blog/edburns" target="_blank">Ed Burns (author, JSF specification lead)</a>
-			</li>
 			<li>
 				Metawidget concept is the way to go.... you can exploit multiple UI targets with minimal code<br/>
 				rewrite and take advantage of native widgets when required
@@ -117,6 +117,11 @@
 				especially useful in a model driven architecture we are implementing
 				<a href="https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4024359/index/page/1">Ashlin Eldridge (Java Developer)</a>
 			</li>
+			
+			<li>
+				Metawidget is a super-cool project
+				<a href="http://jbaruch.wordpress.com">Baruch Sadogursky (author, Spring in a Nutshell)</a>
+			</li>   			
 		</ul>
 	</div>
 

@@ -47,9 +47,7 @@ public class PathUtils {
 	public static class TypeAndNames {
 
 		//
-		//
 		// Private methods
-		//
 		//
 
 		private String		mPath;
@@ -63,9 +61,7 @@ public class PathUtils {
 		private String[]	mParsedNamesAsArray;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public TypeAndNames( String path, char separator ) {
@@ -75,9 +71,7 @@ public class PathUtils {
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public String getType() {

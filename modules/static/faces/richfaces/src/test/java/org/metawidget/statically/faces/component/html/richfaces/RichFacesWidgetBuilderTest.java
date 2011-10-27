@@ -22,7 +22,7 @@ public class RichFacesWidgetBuilderTest
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setConfig( "org/metawidget/statically/faces/component/html/richfaces/metawidget.xml" );
-		metawidget.setValueExpression( "#{foo}" );
+		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		StringWriter writer = new StringWriter();
@@ -54,21 +54,21 @@ public class RichFacesWidgetBuilderTest
 
 	public static class Foo {
 
-		public String bar;
+		public String	bar;
 
-		public int spinner;
+		public int		spinner;
 
 		@Min( 2 )
-		public int spinnerWithMin;
+		public int		spinnerWithMin;
 
 		@Max( 9 )
-		public int spinnerWithMax;
+		public int		spinnerWithMax;
 
 		@Range( min = 3, max = 8 )
-		public int slider;
+		public int		slider;
 
-		public Color color;
+		public Color	color;
 
-		public Date date;
+		public Date		date;
 	}
 }

@@ -24,7 +24,6 @@ import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -64,7 +63,7 @@ public abstract class BasePropertyStyle
 	 * the database.
 	 */
 
-	public Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
+	public ValueAndDeclaredType traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// Special support for direct class lookup
 
@@ -72,10 +71,10 @@ public abstract class BasePropertyStyle
 			// If there are names, return null
 
 			if ( names != null && names.length > 0 ) {
-				return new Pair<Object, String>( null, null );
+				return new ValueAndDeclaredType( null, null );
 			}
 
-			return new Pair<Object, String>( null, type );
+			return new ValueAndDeclaredType( null, type );
 		}
 
 		// Sanity check that the given toTraverse is, in fact, of the given type.
@@ -90,7 +89,7 @@ public abstract class BasePropertyStyle
 		Class<?> sanityCheck = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
 		if ( sanityCheck != null && !sanityCheck.isAssignableFrom( toTraverse.getClass() ) ) {
-			return new Pair<Object, String>( null, null );
+			return new ValueAndDeclaredType( null, null );
 		}
 
 		// Traverse through names (if any)
@@ -103,7 +102,7 @@ public abstract class BasePropertyStyle
 			// If no names, no parent
 
 			if ( onlyToParent ) {
-				return new Pair<Object, String>( null, null );
+				return new ValueAndDeclaredType( null, null );
 			}
 
 		} else {
@@ -117,7 +116,7 @@ public abstract class BasePropertyStyle
 				Property property = getProperties( traverse.getClass().getName() ).get( name );
 
 				if ( property == null || !property.isReadable() ) {
-					return new Pair<Object, String>( null, null );
+					return new ValueAndDeclaredType( null, null );
 				}
 
 				Object parentTraverse = traverse;
@@ -132,14 +131,14 @@ public abstract class BasePropertyStyle
 					// of the box' experience
 
 					mLog.trace( "Prevented infinite recursion on {0}{1}. Consider marking {2} as hidden", type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), name );
-					return new Pair<Object, String>( null, null );
+					return new ValueAndDeclaredType( null, null );
 				}
 
 				// Always come in this loop once, even if onlyToParent, because we
 				// want to do the recursion check
 
 				if ( onlyToParent && loop >= length - 1 ) {
-					return new Pair<Object, String>( parentTraverse, traverseDeclaredType );
+					return new ValueAndDeclaredType( parentTraverse, traverseDeclaredType );
 				}
 
 				traverseDeclaredType = property.getType();
@@ -151,15 +150,15 @@ public abstract class BasePropertyStyle
 					// If reached the end of the names, can at least say what the declared type was
 
 					if ( loop == length - 1 ) {
-						return new Pair<Object, String>( null, traverseDeclaredType );
+						return new ValueAndDeclaredType( null, traverseDeclaredType );
 					}
 
-					return new Pair<Object, String>( null, null );
+					return new ValueAndDeclaredType( null, null );
 				}
 			}
 		}
 
-		return new Pair<Object, String>( traverse, traverseDeclaredType );
+		return new ValueAndDeclaredType( traverse, traverseDeclaredType );
 	}
 
 	//

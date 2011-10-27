@@ -17,7 +17,7 @@ public class StaticHtmAllWidgetsTest
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setConfig( "org/metawidget/integrationtest/static/faces/allwidgets/metawidget.xml" );
-		metawidget.setValueExpression( "#{allWidgets}" );
+		metawidget.setValueExpression( "value", "#{allWidgets}" );
 		metawidget.setPath( AllWidgets.class.getName() );
 
 		StringWriter writer = new StringWriter();

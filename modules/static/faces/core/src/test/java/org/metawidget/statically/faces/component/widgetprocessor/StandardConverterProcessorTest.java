@@ -100,7 +100,7 @@ public class StandardConverterProcessorTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "#{foo}" );
+		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		StringWriter writer = new StringWriter();
@@ -118,6 +118,27 @@ public class StandardConverterProcessorTest
 				"</h:panelGrid>\r\n";
 
 		assertEquals( result, writer.toString() );
+	}
+
+	public void testConverterNotSupported()
+		throws Exception {
+
+		// Supports Converter
+
+		StandardConverterProcessor processor = new StandardConverterProcessor();
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( LOCALE, "AU" );
+
+		HtmlInputText htmlInputText = new HtmlInputText();
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
+
+		// Does not support Converter
+
+		StaticHtmlMetawidget staticHtmlMetawidget = new StaticHtmlMetawidget();
+		processor.processWidget( staticHtmlMetawidget, PROPERTY, null, null );
+		StaticFacesMetawidgetTests.assertWidgetEquals( staticHtmlMetawidget, "<h:panelGrid columns=\"2\">\r\n</h:panelGrid>\r\n" );
 	}
 
 	//

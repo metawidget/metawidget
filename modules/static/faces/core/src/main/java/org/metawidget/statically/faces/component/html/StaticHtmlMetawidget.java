@@ -24,6 +24,7 @@ import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -37,22 +38,40 @@ public class StaticHtmlMetawidget
 	// Private members
 	//
 
-	// TODO: does this need to be a Map?
-
-	private	String	mValueExpression;
+	private Map<String, String>	mValueExpressions;
 
 	//
 	// Public methods
 	//
 
-	public void setValueExpression( String valueExpression ) {
+	/**
+	 * Gets the value expression with the given name.
+	 * <p>
+	 * API design mimics <code>UIComponent</code>.
+	 */
 
-		mValueExpression = valueExpression;
+	public String getValueExpression( String name ) {
+
+		if ( mValueExpressions == null ) {
+			return null;
+		}
+
+		return mValueExpressions.get( name );
 	}
 
-	public String getValueExpression() {
+	/**
+	 * Sets the value expression with the given name.
+	 * <p>
+	 * API design mimics <code>UIComponent</code>.
+	 */
 
-		return mValueExpression;
+	public void setValueExpression( String name, String expression ) {
+
+		if ( mValueExpressions == null ) {
+			mValueExpressions = CollectionUtils.newHashMap();
+		}
+
+		mValueExpressions.put( name, expression );
 	}
 
 	//
@@ -70,11 +89,11 @@ public class StaticHtmlMetawidget
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 
-		String valueExpression = getValueExpression();
+		String valueExpression = getValueExpression( "value" );
 		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
 		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 		valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
 
-		((StaticHtmlMetawidget) nestedMetawidget).setValueExpression( valueExpression );
+		( (StaticHtmlMetawidget) nestedMetawidget ).setValueExpression( "value", valueExpression );
 	}
 }

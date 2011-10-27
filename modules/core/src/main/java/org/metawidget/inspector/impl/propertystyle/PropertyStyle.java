@@ -19,7 +19,6 @@ package org.metawidget.inspector.impl.propertystyle;
 import java.util.Map;
 
 import org.metawidget.iface.Immutable;
-import org.metawidget.util.simple.Pair;
 
 /**
  * Abstraction layer for retrieving properties from types.
@@ -62,9 +61,10 @@ public interface PropertyStyle
 	/**
 	 * Traverses the given Object heirarchy using properties of the given names.
 	 *
-	 * @return a tuple of Object (may be null) and declared type (not actual type). The tuple must
-	 *         never be null. If the declared type is null, inspection will be aborted
+	 * @return the Object (may be null) and its declared type (not actual type). Never null.
+	 *         If the declared type within the ValueAndDeclaredType is null, inspection will be
+	 *         aborted
 	 */
 
-	Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names );
+	ValueAndDeclaredType traverse( Object toTraverse, String type, boolean onlyToParent, String... names );
 }

@@ -20,8 +20,8 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
-import org.metawidget.util.simple.Pair;
 
 /**
  * @author Richard Kennard
@@ -40,46 +40,46 @@ public class InspectorUtilsTest
 
 		// null with names
 
-		Pair<Object, String> pair = propertyStyle.traverse( null, Foo.class.getName(), false, "bar" );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		ValueAndDeclaredType valueAndDeclaredType = propertyStyle.traverse( null, Foo.class.getName(), false, "bar" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 
 		// Return class
 
-		pair = propertyStyle.traverse( null, Foo.class.getName(), false );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( Foo.class.getName(), pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( null, Foo.class.getName(), false );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( Foo.class.getName(), valueAndDeclaredType.getDeclaredType() );
 
 		// Not matching
 
-		pair = propertyStyle.traverse( new Date(), Foo.class.getName(), false );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( new Date(), Foo.class.getName(), false );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 
 		// No names, but onlyToParent
 
 		Foo foo = new Foo();
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), true );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), true );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 
 		// Basic match
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false );
-		assertEquals( foo, pair.getLeft() );
-		assertEquals( Foo.class.getName(), pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false );
+		assertEquals( foo, valueAndDeclaredType.getValue() );
+		assertEquals( Foo.class.getName(), valueAndDeclaredType.getDeclaredType() );
 
 		// Bad name
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false, "bad" );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false, "bad" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 
 		// Basic traverse
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false, "bar" );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( String.class.getName(), pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false, "bar" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( String.class.getName(), valueAndDeclaredType.getDeclaredType() );
 
 		// Long traverse
 
@@ -88,34 +88,34 @@ public class InspectorUtilsTest
 		Foo foo3 = new Foo();
 		foo2.foo = foo3;
 		foo3.bar = "Bar";
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false, "foo", "foo", "bar" );
-		assertEquals( "Bar", pair.getLeft() );
-		assertEquals( String.class.getName(), pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false, "foo", "foo", "bar" );
+		assertEquals( "Bar", valueAndDeclaredType.getValue() );
+		assertEquals( String.class.getName(), valueAndDeclaredType.getDeclaredType() );
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false, "foo", "foo", "foo", "bar" );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false, "foo", "foo", "foo", "bar" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 
 		// Traverse to parent
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), true, "bar" );
-		assertEquals( foo, pair.getLeft() );
-		assertEquals( Foo.class.getName(), pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), true, "bar" );
+		assertEquals( foo, valueAndDeclaredType.getValue() );
+		assertEquals( Foo.class.getName(), valueAndDeclaredType.getDeclaredType() );
 
 		// Prevent recursion (silently)
 
 		foo.foo = foo;
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false );
-		assertEquals( foo, pair.getLeft() );
-		assertEquals( Foo.class.getName(), pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false );
+		assertEquals( foo, valueAndDeclaredType.getValue() );
+		assertEquals( Foo.class.getName(), valueAndDeclaredType.getDeclaredType() );
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), false, "foo" );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), false, "foo" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 
-		pair = propertyStyle.traverse( foo, Foo.class.getName(), true, "foo" );
-		assertEquals( null, pair.getLeft() );
-		assertEquals( null, pair.getRight() );
+		valueAndDeclaredType = propertyStyle.traverse( foo, Foo.class.getName(), true, "foo" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( null, valueAndDeclaredType.getDeclaredType() );
 	}
 
 	//

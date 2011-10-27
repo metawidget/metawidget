@@ -24,7 +24,7 @@ public class StaticHtmlMetawidgetTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "#{foo}" );
+		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		StringWriter writer = new StringWriter();
@@ -43,7 +43,7 @@ public class StaticHtmlMetawidgetTest
 	public void testNestedType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "#{foo}" );
+		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		StringWriter writer = new StringWriter();
@@ -67,7 +67,7 @@ public class StaticHtmlMetawidgetTest
 	public void testOutputTextLayoutDecorator() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "#{foo}" );
+		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Sections.class.getName() );
 
 		StringWriter writer = new StringWriter();

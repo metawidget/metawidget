@@ -17,8 +17,8 @@
 package org.metawidget.inspector.impl.propertystyle.statically;
 
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
-import org.metawidget.util.simple.Pair;
 
 /**
  * @author Richard Kennard
@@ -38,7 +38,7 @@ public class StaticPropertyStyle
 	 */
 
 	@Override
-	public Pair<Object, String> traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
+	public ValueAndDeclaredType traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 
 		// Traverse through names (if any)
 
@@ -47,10 +47,10 @@ public class StaticPropertyStyle
 			// If no names, no parent
 
 			if ( onlyToParent ) {
-				return new Pair<Object,String>( null, null );
+				return new ValueAndDeclaredType( null, null );
 			}
 
-			return new Pair<Object,String>( null, type );
+			return new ValueAndDeclaredType( null, type );
 		}
 
 		String traverseDeclaredType = type;
@@ -58,19 +58,19 @@ public class StaticPropertyStyle
 		for ( int loop = 0, length = names.length; loop < length; loop++ ) {
 
 			if ( onlyToParent && loop >= length - 1 ) {
-				return new Pair<Object,String>( null, traverseDeclaredType );
+				return new ValueAndDeclaredType( null, traverseDeclaredType );
 			}
 
 			String name = names[loop];
 			Property property = getProperties( traverseDeclaredType ).get( name );
 
 			if ( property == null || !property.isReadable() ) {
-				return new Pair<Object,String>( null, null );
+				return new ValueAndDeclaredType( null, null );
 			}
 
 			traverseDeclaredType = property.getType();
 		}
 
-		return new Pair<Object,String>( null, traverseDeclaredType );
+		return new ValueAndDeclaredType( null, traverseDeclaredType );
 	}
 }

@@ -59,7 +59,7 @@ public class RequiredAttributeProcessorTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "#{foo}" );
+		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		StringWriter writer = new StringWriter();

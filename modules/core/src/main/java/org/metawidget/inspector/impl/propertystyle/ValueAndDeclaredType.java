@@ -14,10 +14,48 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+package org.metawidget.inspector.impl.propertystyle;
+
+import org.metawidget.iface.Immutable;
+
 /**
- * Static support: Java Server Faces HTML widget builders.
+ * Simple immutable structure to store a value and its declared type.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.statically.faces.component.html.widgetbuilder;
+public class ValueAndDeclaredType
+	implements Immutable {
+
+	//
+	// Private members
+	//
+
+	private Object	mValue;
+
+	private String	mDeclaredType;
+
+	//
+	// Constructor
+	//
+
+	public ValueAndDeclaredType( Object value, String declaredType ) {
+
+		mValue = value;
+		mDeclaredType = declaredType;
+	}
+
+	//
+	// Public methods
+	//
+
+	public Object getValue() {
+
+		return mValue;
+	}
+
+	public String getDeclaredType() {
+
+		return mDeclaredType;
+	}
+}

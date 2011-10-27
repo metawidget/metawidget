@@ -93,7 +93,7 @@ public class FacesInspectionResultProcessor
 		try {
 			if ( mInjectThis != null ) {
 				requestMap = context.getExternalContext().getRequestMap();
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, true, names ).getLeft() );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, true, names ).getValue() );
 			}
 
 			super.processEntity( attributes, metawidget, toInspect, type, names );
@@ -123,7 +123,7 @@ public class FacesInspectionResultProcessor
 		try {
 			if ( mInjectThis != null ) {
 				requestMap = context.getExternalContext().getRequestMap();
-				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, false, names ).getLeft() );
+				requestMap.put( UNDERSCORE_THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, false, names ).getValue() );
 			}
 
 			super.processTraits( entity, metawidget, toInspect, type, names );

@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Date;
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.html.CoreWidget;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
@@ -44,6 +45,12 @@ public class StandardConverterProcessor
 		// Actions don't get converters
 
 		if ( ACTION.equals( elementName ) ) {
+			return widget;
+		}
+
+		// Ignore components that cannot have Converters
+
+		if ( widget instanceof StaticXmlMetawidget ) {
 			return widget;
 		}
 
