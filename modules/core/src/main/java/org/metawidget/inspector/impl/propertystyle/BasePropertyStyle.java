@@ -84,7 +84,8 @@ public abstract class BasePropertyStyle
 		// not be possible because of proxies, virtual classes, what tier we're on, etc. Basically,
 		// we can't be too strict about it.
 		//
-		// Use the toTraverse's ClassLoader, to support dynamic classes (eg. Groovy)
+		// Use the toTraverse's ClassLoader, to support ClassLoader isolation (eg. classes from a
+		// WAR being inspected by an EJB lib) and dynamic classes (eg. Groovy)
 
 		Class<?> sanityCheck = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
