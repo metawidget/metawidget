@@ -21,6 +21,26 @@ public class StaticHtmlMetawidgetTest
 		assertEquals( "<h:panelGrid columns=\"2\">\r\n</h:panelGrid>\r\n", writer.toString() );
 	}
 
+	public void testInitialIndent() {
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( "<h:panelGrid columns=\"2\">\r\n</h:panelGrid>\r\n", writer.toString() );
+
+		writer = new StringWriter();
+		metawidget.write( writer, 1 );
+		assertEquals( "\t<h:panelGrid columns=\"2\">\r\n\t</h:panelGrid>\r\n", writer.toString() );
+
+		writer = new StringWriter();
+		metawidget.write( writer, 5 );
+		assertEquals( "\t\t\t\t\t<h:panelGrid columns=\"2\">\r\n\t\t\t\t\t</h:panelGrid>\r\n", writer.toString() );
+
+		writer = new StringWriter();
+		metawidget.write( writer, 5 );
+		assertEquals( "<h:panelGrid columns=\"2\">\r\n\t\t\t\t\t</h:panelGrid>", writer.toString().trim() );
+	}
+
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
@@ -31,9 +51,9 @@ public class StaticHtmlMetawidgetTest
 		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"2\">\r\n" +
-				"\t<h:outputLabel for=\"fooBar\" id=\"fooBar-label\" value=\"Bar:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
 				"\t<h:inputText id=\"fooBar\" value=\"#{foo.bar}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooBaz\" id=\"fooBaz-label\" value=\"Baz:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooBaz\" value=\"Baz:\"/>\r\n" +
 				"\t<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\"/>\r\n" +
 				"</h:panelGrid>\r\n";
 
@@ -50,13 +70,13 @@ public class StaticHtmlMetawidgetTest
 		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"2\">\r\n";
-		result += "\t<h:outputLabel for=\"fooAbc\" id=\"fooAbc-label\" value=\"Abc:\"/>\r\n";
+		result += "\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n";
 		result += "\t<h:inputText id=\"fooAbc\" value=\"#{foo.abc}\"/>\r\n";
-		result += "\t<h:outputLabel for=\"fooNestedFoo\" id=\"fooNestedFoo-label\" value=\"Nested foo:\"/>\r\n";
+		result += "\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested foo:\"/>\r\n";
 		result += "\t<h:panelGrid columns=\"2\" id=\"fooNestedFoo\">\r\n";
-		result += "\t\t<h:outputLabel for=\"fooNestedFooBar\" id=\"fooNestedFooBar-label\" value=\"Bar:\"/>\r\n";
+		result += "\t\t<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>\r\n";
 		result += "\t\t<h:inputText id=\"fooNestedFooBar\" value=\"#{foo.nestedFoo.bar}\"/>\r\n";
-		result += "\t\t<h:outputLabel for=\"fooNestedFooBaz\" id=\"fooNestedFooBaz-label\" value=\"Baz:\"/>\r\n";
+		result += "\t\t<h:outputLabel for=\"fooNestedFooBaz\" value=\"Baz:\"/>\r\n";
 		result += "\t\t<h:inputText id=\"fooNestedFooBaz\" value=\"#{foo.nestedFoo.baz}\"/>\r\n";
 		result += "\t</h:panelGrid>\r\n";
 		result += "</h:panelGrid>\r\n";
@@ -76,11 +96,11 @@ public class StaticHtmlMetawidgetTest
 		String result = "<h:panelGrid columns=\"2\">\r\n" +
 				"\t<h:outputText value=\"Section #1\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooAbc\" id=\"fooAbc-label\" value=\"Abc:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
 				"\t<h:inputText id=\"fooAbc\" value=\"#{foo.abc}\"/>\r\n" +
 				"\t<h:outputText value=\"Section #2\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooDef\" id=\"fooDef-label\" value=\"Def:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooDef\" value=\"Def:\"/>\r\n" +
 				"\t<h:inputText id=\"fooDef\" value=\"#{foo.def}\"/>\r\n" +
 				"</h:panelGrid>\r\n";
 

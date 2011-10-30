@@ -22,7 +22,7 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.faces.StaticStub;
+import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
@@ -33,12 +33,6 @@ import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 public class HtmlTableLayout
 	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
-
-	//
-	// Private statics
-	//
-
-	private static final String	LABEL_SUFFIX	= "-label";
 
 	//
 	// Public methods
@@ -76,7 +70,6 @@ public class HtmlTableLayout
 
 			if ( id != null ) {
 				HtmlWidget label = new HtmlWidget( "outputLabel" );
-				label.putAttribute( "id", id + LABEL_SUFFIX );
 				label.putAttribute( "for", id );
 				String labelText = metawidget.getLabelString( attributes );
 				label.putAttribute( "value", labelText + ":" );

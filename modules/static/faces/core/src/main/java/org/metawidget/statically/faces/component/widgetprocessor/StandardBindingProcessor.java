@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
-import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.statically.faces.component.StaticUIMetawidget;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -31,13 +31,13 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class StandardBindingProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
+	implements WidgetProcessor<StaticXmlWidget, StaticUIMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
 
 		String valueExpression = metawidget.getValueExpression( "value" );
 		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );

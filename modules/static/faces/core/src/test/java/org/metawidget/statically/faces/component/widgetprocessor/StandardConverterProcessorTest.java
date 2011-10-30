@@ -107,11 +107,11 @@ public class StandardConverterProcessorTest
 		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"2\">\r\n" +
-				"\t<h:outputLabel for=\"fooBar\" id=\"fooBar-label\" value=\"Bar:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
 				"\t<h:inputText id=\"fooBar\" value=\"#{foo.bar}\">\r\n" +
 				"\t\t<f:convertDateTime dateStyle=\"yyyy-MM-dd\"/>\r\n" +
 				"\t</h:inputText>\r\n" +
-				"\t<h:outputLabel for=\"fooBaz\" id=\"fooBaz-label\" value=\"Baz:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooBaz\" value=\"Baz:\"/>\r\n" +
 				"\t<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\">\r\n" +
 				"\t\t<f:convertNumber currencySymbol=\"$\"/>\r\n" +
 				"\t</h:inputText>\r\n" +

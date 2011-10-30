@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
  * the static JSF Metawidget is more similar to the static Swing Metawidget than it is to the
  * runtime JSF Metawidget. Therefore, it makes sense to have a <code>StaticMetawidget</code> base
  * class.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -171,10 +171,9 @@ public abstract class StaticMetawidget
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 	}
 
-	@SuppressWarnings( { "unchecked", "rawtypes" } )
-	public void setWidgetBuilder( WidgetBuilder<Object, ? extends StaticMetawidget> widgetBuilder ) {
+	public void setWidgetBuilder( WidgetBuilder<StaticWidget, StaticMetawidget> widgetBuilder ) {
 
-		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
+		mPipeline.setWidgetBuilder( widgetBuilder );
 	}
 
 	public void setWidgetProcessors( WidgetProcessor<StaticWidget, StaticMetawidget>... widgetProcessors ) {
@@ -190,7 +189,21 @@ public abstract class StaticMetawidget
 	@Override
 	public void write( Writer writer ) {
 
-		mWriter = new IndentedWriter( writer, 0 );
+		write( writer, 0 );
+	}
+
+	/**
+	 * Write the Metawidget output using the given Writer.
+	 *
+	 * @param initialIndent
+	 *            the initialIndent that will be applied to every line
+	 * @param indentFirstLine
+	 *            whether to indent the first line by initialIndent
+	 */
+
+	public void write( Writer writer, int initialIndent ) {
+
+		mWriter = new IndentedWriter( writer, initialIndent );
 		mPipeline.configureOnce();
 
 		try {

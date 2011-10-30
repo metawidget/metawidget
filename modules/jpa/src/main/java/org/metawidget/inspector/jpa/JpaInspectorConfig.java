@@ -17,6 +17,7 @@
 package org.metawidget.inspector.jpa;
 
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -101,6 +102,16 @@ public class JpaInspectorConfig
 		return this;
 	}
 
+	/**
+	 * Overriden to return a JpaInspectorConfig, as part of a fluent interface.
+	 */
+
+	@Override
+	public JpaInspectorConfig setPropertyStyle( PropertyStyle propertyStyle ) {
+
+		return (JpaInspectorConfig) super.setPropertyStyle( propertyStyle );
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -108,7 +119,7 @@ public class JpaInspectorConfig
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 

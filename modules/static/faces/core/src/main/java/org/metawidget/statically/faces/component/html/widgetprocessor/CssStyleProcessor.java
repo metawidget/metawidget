@@ -14,32 +14,36 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component.widgetprocessor;
-
-import static org.metawidget.inspector.InspectionResultConstants.*;
+package org.metawidget.statically.faces.component.html.widgetprocessor;
 
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.faces.component.StaticUIMetawidget;
+import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
+ * WidgetProcessor that adds CSS styles to a StaticXmlWidget, based on the styles of the parent
+ * StaticHtmlMetawidget.
+ *
  * @author Richard Kennard
  */
 
-public class RequiredAttributeProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticUIMetawidget> {
+public class CssStyleProcessor
+	implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			widget.putAttribute( REQUIRED, TRUE );
-		}
+		// Note: this only applies the styles to UIStubs at the top-level. In practice, this seemed
+		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles
+		// to all their subcomponents too
+
+		widget.putAttribute( "style", metawidget.getStyle() );
+		widget.putAttribute( "styleClass", metawidget.getStyleClass() );
 
 		return widget;
 	}

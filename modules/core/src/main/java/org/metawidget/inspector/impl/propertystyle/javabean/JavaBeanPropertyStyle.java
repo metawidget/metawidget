@@ -220,17 +220,13 @@ public class JavaBeanPropertyStyle
 
 			// Exclude static methods
 
-			int modifiers = method.getModifiers();
-
-			if ( Modifier.isStatic( modifiers ) ) {
+			if ( Modifier.isStatic( method.getModifiers() ) ) {
 				continue;
 			}
 
 			// Get type
 
-			Class<?>[] parameters = method.getParameterTypes();
-
-			if ( parameters.length != 0 ) {
+			if ( method.getParameterTypes().length != 0 ) {
 				continue;
 			}
 
@@ -334,9 +330,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude static methods
 
-			int modifiers = method.getModifiers();
-
-			if ( Modifier.isStatic( modifiers ) ) {
+			if ( Modifier.isStatic( method.getModifiers() ) ) {
 				continue;
 			}
 

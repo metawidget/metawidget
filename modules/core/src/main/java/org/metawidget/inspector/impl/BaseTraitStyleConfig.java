@@ -136,18 +136,6 @@ public class BaseTraitStyleConfig {
 		return this;
 	}
 
-	/**
-	 * Whether to exclude the given name when searching for traits.
-	 * <p>
-	 * This can be useful when the convention defines traits that are framework-specific (eg.
-	 * <code>getClass()</code>), and should be filtered out from 'real' business model traits.
-	 * <p>
-	 * By default, does not exclude any names.
-	 *
-	 * @param name
-	 *            to consider for exclusion
-	 * @return true if the trait should be excluded, false otherwise
-	 */
 	@Override
 	public boolean equals( Object that ) {
 

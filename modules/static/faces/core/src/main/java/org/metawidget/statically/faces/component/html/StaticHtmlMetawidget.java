@@ -16,62 +16,51 @@
 
 package org.metawidget.statically.faces.component.html;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticXmlMetawidget;
-import org.metawidget.statically.faces.StaticFacesUtils;
+import org.metawidget.statically.faces.component.StaticUIMetawidget;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.StringUtils;
 
 /**
+ * Metawidget for Java Server Faces environments.
+ *
  * @author Richard Kennard
  */
 
 public class StaticHtmlMetawidget
-	extends StaticXmlMetawidget {
+	extends StaticUIMetawidget {
 
 	//
 	// Private members
 	//
 
-	private Map<String, String>	mValueExpressions;
+	private String	mStyle;
+
+	private String	mStyleClass;
 
 	//
 	// Public methods
 	//
 
-	/**
-	 * Gets the value expression with the given name.
-	 * <p>
-	 * API design mimics <code>UIComponent</code>.
-	 */
+	public String getStyle() {
 
-	public String getValueExpression( String name ) {
-
-		if ( mValueExpressions == null ) {
-			return null;
-		}
-
-		return mValueExpressions.get( name );
+		return mStyle;
 	}
 
-	/**
-	 * Sets the value expression with the given name.
-	 * <p>
-	 * API design mimics <code>UIComponent</code>.
-	 */
+	public void setStyle( String style ) {
 
-	public void setValueExpression( String name, String expression ) {
+		mStyle = style;
+	}
 
-		if ( mValueExpressions == null ) {
-			mValueExpressions = CollectionUtils.newHashMap();
-		}
+	public String getStyleClass() {
 
-		mValueExpressions.put( name, expression );
+		return mStyleClass;
+	}
+
+	public void setStyleClass( String styleClass ) {
+
+		mStyleClass = styleClass;
 	}
 
 	//
@@ -84,16 +73,20 @@ public class StaticHtmlMetawidget
 		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-html-default.xml";
 	}
 
+	/**
+	 * Overriden to carry CSS style attributes into the nested Metawidget.
+	 */
+
 	@Override
 	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 
-		String valueExpression = getValueExpression( "value" );
-		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
-		valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
+		StaticHtmlMetawidget htmlMetawidget = (StaticHtmlMetawidget) nestedMetawidget;
 
-		( (StaticHtmlMetawidget) nestedMetawidget ).setValueExpression( "value", valueExpression );
+		// Attributes
+
+		htmlMetawidget.setStyle( mStyle );
+		htmlMetawidget.setStyleClass( mStyleClass );
 	}
 }

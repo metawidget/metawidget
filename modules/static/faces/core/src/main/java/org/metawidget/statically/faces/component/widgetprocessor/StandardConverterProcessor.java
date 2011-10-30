@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.faces.component.StaticUIMetawidget;
 import org.metawidget.statically.faces.component.html.CoreWidget;
-import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -34,13 +34,13 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class StandardConverterProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
+	implements WidgetProcessor<StaticXmlWidget, StaticUIMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
 
 		// Actions don't get converters
 

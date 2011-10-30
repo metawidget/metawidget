@@ -51,6 +51,7 @@
 				<processor:standardBindingProcessor />
 				<processor:readableIdProcessor />
 				<processor:standardConverterProcessor />
+				<cssStyleProcessor xmlns="java:org.metawidget.statically.faces.component.html.widgetprocessor"/>
 			</array>
 		</widgetProcessors>
 		

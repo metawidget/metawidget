@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
-import org.metawidget.statically.faces.StaticStub;
+import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.CoreWidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;

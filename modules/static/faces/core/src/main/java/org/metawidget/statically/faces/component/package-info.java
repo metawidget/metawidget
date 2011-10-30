@@ -14,33 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component.widgetprocessor;
-
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.Map;
-
-import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.faces.component.StaticUIMetawidget;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
-
 /**
+ * Static support: Java Server Faces components
+ *
  * @author Richard Kennard
  */
 
-public class RequiredAttributeProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticUIMetawidget> {
-
-	//
-	// Public methods
-	//
-
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
-
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			widget.putAttribute( REQUIRED, TRUE );
-		}
-
-		return widget;
-	}
-}
+package org.metawidget.statically.faces.component;

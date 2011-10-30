@@ -29,19 +29,19 @@ public class RichFacesWidgetBuilderTest
 		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"2\">\r\n" +
-				"\t<h:outputLabel for=\"fooBar\" id=\"fooBar-label\" value=\"Bar:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
 				"\t<h:inputText id=\"fooBar\" value=\"#{foo.bar}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooColor\" id=\"fooColor-label\" value=\"Color:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooColor\" value=\"Color:\"/>\r\n" +
 				"\t<rich:colorPicker id=\"fooColor\" value=\"#{foo.color}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooDate\" id=\"fooDate-label\" value=\"Date:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooDate\" value=\"Date:\"/>\r\n" +
 				"\t<rich:calendar id=\"fooDate\" value=\"#{foo.date}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooSlider\" id=\"fooSlider-label\" value=\"Slider:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooSlider\" value=\"Slider:\"/>\r\n" +
 				"\t<rich:inputNumberSlider id=\"fooSlider\" maxValue=\"8\" minValue=\"3\" value=\"#{foo.slider}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooSpinner\" id=\"fooSpinner-label\" value=\"Spinner:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooSpinner\" value=\"Spinner:\"/>\r\n" +
 				"\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinner\" value=\"#{foo.spinner}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooSpinnerWithMax\" id=\"fooSpinnerWithMax-label\" value=\"Spinner with max:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooSpinnerWithMax\" value=\"Spinner with max:\"/>\r\n" +
 				"\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinnerWithMax\" maxValue=\"9\" value=\"#{foo.spinnerWithMax}\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooSpinnerWithMin\" id=\"fooSpinnerWithMin-label\" value=\"Spinner with min:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooSpinnerWithMin\" value=\"Spinner with min:\"/>\r\n" +
 				"\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinnerWithMin\" minValue=\"2\" value=\"#{foo.spinnerWithMin}\"/>\r\n" +
 				"</h:panelGrid>\r\n";
 

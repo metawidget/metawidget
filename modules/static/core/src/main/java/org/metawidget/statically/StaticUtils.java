@@ -59,6 +59,17 @@ public final class StaticUtils {
 		// Constructor
 		//
 
+		/**
+		 * Constructs a new IndentedWriter.
+		 *
+		 * @param writer
+		 *            the writer to delegate all writes to
+		 * @param initialIndent
+		 *            the initialIndent that will be applied to every line
+		 * @param indentFirstLine
+		 *            whether to indent the first line by initialIndent
+		 */
+
 		public IndentedWriter( Writer writer, int initialIndent ) {
 
 			mWriter = writer;

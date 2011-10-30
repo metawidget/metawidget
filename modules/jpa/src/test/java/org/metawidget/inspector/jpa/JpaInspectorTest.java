@@ -16,7 +16,6 @@
 
 package org.metawidget.inspector.jpa;
 
-import java.util.Date;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Date;

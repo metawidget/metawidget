@@ -14,27 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component.widgetprocessor;
+package org.metawidget.statically.faces.component.html.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.statically.faces.StaticFacesMetawidgetTests;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
-import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class RequiredAttributeProcessorTest
+public class CssStyleProcessorTest
 	extends TestCase {
 
 	//
@@ -44,21 +41,28 @@ public class RequiredAttributeProcessorTest
 	public void testWidgetProcessor()
 		throws Exception {
 
-		RequiredAttributeProcessor processor = new RequiredAttributeProcessor();
-
+		CssStyleProcessor processor = new CssStyleProcessor();
 		HtmlInputText htmlInputText = new HtmlInputText();
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+
+		// No style
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
 		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
 
-		attributes.put( REQUIRED, TRUE );
-		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText required=\"true\"/>\r\n" );
+		// Styles
+
+		metawidget.setStyle( "foo" );
+		metawidget.setStyleClass( "bar" );
+		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
+		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText style=\"foo\" styleClass=\"bar\"/>\r\n" );
 	}
 
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.setStyle( "stylin" );
+		metawidget.setStyleClass( "styleClassin" );
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
@@ -67,11 +71,11 @@ public class RequiredAttributeProcessorTest
 
 		String result = "<h:panelGrid columns=\"2\">\r\n" +
 				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
-				"\t<h:inputText id=\"fooBar\" required=\"true\" value=\"#{foo.bar}\">\r\n" +
+				"\t<h:inputText id=\"fooBar\" style=\"stylin\" styleClass=\"styleClassin\" value=\"#{foo.bar}\">\r\n" +
 				"\t\t<f:convertDateTime/>\r\n" +
 				"\t</h:inputText>\r\n" +
 				"\t<h:outputLabel for=\"fooBaz\" value=\"Baz:\"/>\r\n" +
-				"\t<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\"/>\r\n" +
+				"\t<h:inputText id=\"fooBaz\" style=\"stylin\" styleClass=\"styleClassin\" value=\"#{foo.baz}\"/>\r\n" +
 				"</h:panelGrid>\r\n";
 
 		assertEquals( result, writer.toString() );
@@ -83,7 +87,6 @@ public class RequiredAttributeProcessorTest
 
 	public static class Foo {
 
-		@UiRequired
 		public Date	bar;
 
 		public int	baz;
