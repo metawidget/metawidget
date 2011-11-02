@@ -20,6 +20,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.iface.Immutable;
+
 /**
  * Utilities for working with Layouts.
  * <p>
@@ -80,22 +82,22 @@ public final class SimpleLayoutUtils {
 	}
 
 	/**
-	 * Strips the given text and returns the text without any MNEMONIC_MARKER (&) and also the index
-	 * of the first marker.
+	 * Strips the given text and returns the text without any MNEMONIC_INDICATOR (&) and also the
+	 * index of the first marker.
 	 * <p>
-	 * For escaping purposes, treats two MNEMONIC_MARKERs together as an escaped MNEMONIC_MARKER.
-	 * Also, ignores MNEMONIC_MARKER followed by a space, because it is not likely this is intended
-	 * to be a mnemonic.
+	 * For escaping purposes, treats two MNEMONIC_INDICATORs together as an escaped
+	 * MNEMONIC_INDICATOR. Also, ignores MNEMONIC_INDICATOR followed by a space, because it is not
+	 * likely this is intended to be a mnemonic.
 	 */
 
-	public static Pair<String, Integer> stripMnemonic( String withMnemonic ) {
+	public static StrippedMnemonicAndFirstIndex stripMnemonic( String withMnemonic ) {
 
 		// Find initial marker (if any)
 
 		int markerIndex = withMnemonic.indexOf( MNEMONIC_INDICATOR );
 
 		if ( markerIndex == -1 ) {
-			return new Pair<String, Integer>( withMnemonic, MNEMONIC_INDEX_NONE );
+			return new StrippedMnemonicAndFirstIndex( withMnemonic, MNEMONIC_INDEX_NONE );
 		}
 
 		// Find subsequent markers
@@ -165,7 +167,53 @@ public final class SimpleLayoutUtils {
 
 		// Return the stripped mnemonic
 
-		return new Pair<String, Integer>( buffer.toString(), mnemonicIndex );
+		return new StrippedMnemonicAndFirstIndex( buffer.toString(), mnemonicIndex );
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple immutable structure to store a component and its value property.
+	 *
+	 * @author Richard Kennard
+	 */
+
+	public static class StrippedMnemonicAndFirstIndex
+		implements Immutable {
+
+		//
+		// Private members
+		//
+
+		private String	mStrippedMnemonic;
+
+		private int		mFirstIndex;
+
+		//
+		// Constructor
+		//
+
+		public StrippedMnemonicAndFirstIndex( String strippedMnemonic, int firstIndex ) {
+
+			mStrippedMnemonic = strippedMnemonic;
+			mFirstIndex = firstIndex;
+		}
+
+		//
+		// Public methods
+		//
+
+		public String getStrippedMnemonic() {
+
+			return mStrippedMnemonic;
+		}
+
+		public int getFirstIndex() {
+
+			return mFirstIndex;
+		}
 	}
 
 	//

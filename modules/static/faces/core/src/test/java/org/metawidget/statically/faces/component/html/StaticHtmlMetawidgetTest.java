@@ -14,6 +14,11 @@ public class StaticHtmlMetawidgetTest
 	// Public methods
 	//
 
+	public static void testNoNamespace() {
+
+		assertEquals( null, new StaticHtmlMetawidget().getTagNamespace() );
+	}
+
 	public void testNullPath() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();

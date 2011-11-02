@@ -19,7 +19,6 @@ package org.metawidget.statically.layout;
 import java.util.Map;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
 
@@ -36,10 +35,6 @@ public class SimpleLayout
 
 	public void layoutWidget( StaticWidget component, String elementName, Map<String, String> attributes, StaticWidget container, StaticMetawidget metawidget ) {
 
-		try {
-			metawidget.getChildren().add( component );
-		} catch ( Exception e ) {
-			throw LayoutException.newException( e );
-		}
+		metawidget.getChildren().add( component );
 	}
 }

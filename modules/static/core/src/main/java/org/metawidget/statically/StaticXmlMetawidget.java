@@ -59,6 +59,18 @@ public abstract class StaticXmlMetawidget
 		return mAttributes.get( name );
 	}
 
+	public String getTagPrefix() {
+
+		return "m";
+	}
+
+	public String getTagNamespace() {
+
+		// Metawidgets should never be output (kind of the point of being static)
+
+		return null;
+	}
+
 	/**
 	 * Recurse over all children and retrieve the namespaces they use.
 	 *
@@ -82,9 +94,7 @@ public abstract class StaticXmlMetawidget
 
 			StaticXmlWidget xmlChild = (StaticXmlWidget) child;
 
-			if ( child instanceof StaticXmlMetawidget ) {
-				// Metawidgets should never be output (kind of the point of being static)
-			} else {
+			if ( xmlChild.getTagNamespace() != null ) {
 				namespaces.put( xmlChild.getTagPrefix(), xmlChild.getTagNamespace() );
 			}
 

@@ -36,8 +36,8 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils.StrippedMnemonicAndFirstIndex;
 
 /**
  * Layout to arrange widgets using <code>java.awt.GridBagLayout</code>.
@@ -285,8 +285,8 @@ public class GridBagLayout
 
 			// Required
 
-			Pair<String, Integer> stripMnemonic = SimpleLayoutUtils.stripMnemonic( labelText );
-			String labelTextToUse = stripMnemonic.getLeft();
+			StrippedMnemonicAndFirstIndex strippedMnemonicAndFirstIndex = SimpleLayoutUtils.stripMnemonic( labelText );
+			String labelTextToUse = strippedMnemonicAndFirstIndex.getStrippedMnemonic();
 
 			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 				if ( mRequiredAlignment == SwingConstants.CENTER ) {
@@ -306,7 +306,7 @@ public class GridBagLayout
 
 			label.setLabelFor( child );
 
-			int mnemonicIndex = stripMnemonic.getRight();
+			int mnemonicIndex = strippedMnemonicAndFirstIndex.getFirstIndex();
 
 			if ( mnemonicIndex != -1 && mSupportMnemonics ) {
 				label.setDisplayedMnemonic( labelTextToUse.charAt( mnemonicIndex ) );

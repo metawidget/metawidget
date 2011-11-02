@@ -32,6 +32,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.metawidget.config.ConfigReader;
+import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
@@ -41,7 +42,6 @@ import org.metawidget.swt.layout.SwtLayoutDecorator;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
@@ -411,8 +411,8 @@ public class SwtMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names ) {
 
-		Pair<Control, String> controlAndValueProperty = getControlAndValueProperty( names );
-		return (T) ClassUtils.getProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight() );
+		ControlAndValueProperty controlAndValueProperty = getControlAndValueProperty( names );
+		return (T) ClassUtils.getProperty( controlAndValueProperty.getControl(), controlAndValueProperty.getValueProperty() );
 	}
 
 	/**
@@ -425,8 +425,8 @@ public class SwtMetawidget
 
 	public void setValue( Object value, String... names ) {
 
-		Pair<Control, String> controlAndValueProperty = getControlAndValueProperty( names );
-		ClassUtils.setProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight(), value );
+		ControlAndValueProperty controlAndValueProperty = getControlAndValueProperty( names );
+		ClassUtils.setProperty( controlAndValueProperty.getControl(), controlAndValueProperty.getValueProperty(), value );
 	}
 
 	/**
@@ -733,7 +733,7 @@ public class SwtMetawidget
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	private Pair<Control, String> getControlAndValueProperty( String... names ) {
+	private ControlAndValueProperty getControlAndValueProperty( String... names ) {
 
 		Control control = getControl( names );
 
@@ -741,13 +741,13 @@ public class SwtMetawidget
 			throw MetawidgetException.newException( "No control named '" + ArrayUtils.toString( names, "', '" ) + "'" );
 		}
 
-		String controlProperty = getValueProperty( control );
+		String valueProperty = getValueProperty( control );
 
-		if ( controlProperty == null ) {
+		if ( valueProperty == null ) {
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + control.getClass().getName() );
 		}
 
-		return new Pair<Control, String>( control, controlProperty );
+		return new ControlAndValueProperty( control, valueProperty );
 	}
 
 	private String getValueProperty( Control control, WidgetBuilder<Control, SwtMetawidget> widgetBuilder ) {
@@ -875,6 +875,48 @@ public class SwtMetawidget
 		protected SwtMetawidget getPipelineOwner() {
 
 			return SwtMetawidget.this;
+		}
+	}
+
+	/**
+	 * Simple immutable structure to store a component and its value property.
+	 *
+	 * @author Richard Kennard
+	 */
+
+	private static class ControlAndValueProperty
+		implements Immutable {
+
+		//
+		// Private members
+		//
+
+		private Control	mControl;
+
+		private String	mValueProperty;
+
+		//
+		// Constructor
+		//
+
+		public ControlAndValueProperty( Control control, String valueProperty ) {
+
+			mControl = control;
+			mValueProperty = valueProperty;
+		}
+
+		//
+		// Public methods
+		//
+
+		public Control getControl() {
+
+			return mControl;
+		}
+
+		public String getValueProperty() {
+
+			return mValueProperty;
 		}
 	}
 }

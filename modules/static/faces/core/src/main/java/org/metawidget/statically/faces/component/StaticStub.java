@@ -33,7 +33,9 @@ public class StaticStub
 
 	public StaticStub() {
 
-		super( "m", "stub", "http://metawidget.org/static/faces" );
+		// Null namespace: stubs should never be output (kind of the point of being static)
+
+		super( "m", "stub", null );
 	}
 
 	//

@@ -14,31 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util.simple;
+package org.metawidget.statically.faces.component;
 
 import junit.framework.TestCase;
-
-import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class PairTest
+public class StaticStubTest
 	extends TestCase {
 
 	//
-	// Public methods
+	// Public statics
 	//
 
-	public void testPair()
-		throws Exception {
+	public void testNoNamespace() {
 
-		assertEquals( "1:2", new Pair<Integer, Integer>( 1, 2 ).toString() );
-		assertEquals( "null:null", new Pair<Integer, Integer>( null, null ).toString() );
-
-		MetawidgetTestUtils.testEqualsAndHashcode( new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ), new Pair<String, String>( "foo", "bar" ) {
-			// Subclass
-		}, "left", "right" );
+		assertEquals( null, new StaticStub().getTagNamespace() );
 	}
 }

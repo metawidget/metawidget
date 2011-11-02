@@ -36,6 +36,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
 import org.metawidget.config.ConfigReader;
+import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
@@ -44,10 +45,9 @@ import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.PathUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -219,8 +219,8 @@ public class SwingMetawidget
 	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
-	{
+	public String inspect( Object toInspect, String type, String... names ) {
+
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
@@ -519,8 +519,8 @@ public class SwingMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names ) {
 
-		Pair<Component, String> componentAndValueProperty = getComponentAndValueProperty( names );
-		return (T) ClassUtils.getProperty( componentAndValueProperty.getLeft(), componentAndValueProperty.getRight() );
+		ComponentAndValueProperty componentAndValueProperty = getComponentAndValueProperty( names );
+		return (T) ClassUtils.getProperty( componentAndValueProperty.getComponent(), componentAndValueProperty.getValueProperty() );
 	}
 
 	/**
@@ -533,8 +533,8 @@ public class SwingMetawidget
 
 	public void setValue( Object value, String... names ) {
 
-		Pair<Component, String> componentAndValueProperty = getComponentAndValueProperty( names );
-		ClassUtils.setProperty( componentAndValueProperty.getLeft(), componentAndValueProperty.getRight(), value );
+		ComponentAndValueProperty componentAndValueProperty = getComponentAndValueProperty( names );
+		ClassUtils.setProperty( componentAndValueProperty.getComponent(), componentAndValueProperty.getValueProperty(), value );
 	}
 
 	/**
@@ -893,7 +893,7 @@ public class SwingMetawidget
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	private Pair<Component, String> getComponentAndValueProperty( String... names ) {
+	private ComponentAndValueProperty getComponentAndValueProperty( String... names ) {
 
 		Component component = getComponent( names );
 
@@ -913,7 +913,7 @@ public class SwingMetawidget
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 		}
 
-		return new Pair<Component, String>( component, componentProperty );
+		return new ComponentAndValueProperty( component, componentProperty );
 	}
 
 	private String getValueProperty( Component component, WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder ) {
@@ -1047,6 +1047,48 @@ public class SwingMetawidget
 		protected SwingMetawidget getPipelineOwner() {
 
 			return SwingMetawidget.this;
+		}
+	}
+
+	/**
+	 * Simple immutable structure to store a component and its value property.
+	 *
+	 * @author Richard Kennard
+	 */
+
+	private static class ComponentAndValueProperty
+		implements Immutable {
+
+		//
+		// Private members
+		//
+
+		private Component	mComponent;
+
+		private String		mValueProperty;
+
+		//
+		// Constructor
+		//
+
+		public ComponentAndValueProperty( Component component, String valueProperty ) {
+
+			mComponent = component;
+			mValueProperty = valueProperty;
+		}
+
+		//
+		// Public methods
+		//
+
+		public Component getComponent() {
+
+			return mComponent;
+		}
+
+		public String getValueProperty() {
+
+			return mValueProperty;
 		}
 	}
 }
