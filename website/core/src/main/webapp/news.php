@@ -23,8 +23,40 @@
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
 
-		<hr/>		
+		<h3>Metawidget and Seam Forge</h3>
+		<h4>2nd November 2011</h4>
 		
+		<p>
+			The next release of Metawidget will be a couple months later than usual. Our apologies.
+		</p>
+		
+		<p>
+			We are busy helping the
+			<a href="http://jboss.org">JBoss</a> team integrate Metawidget into their upcoming final
+			release of <a href="http://jboss.org/forge">JBoss Forge</a>.
+		</p>
+		
+		<hr/>
+
+		<h3>Metawidget @ JavaOne 2011</h3>
+		<h4>10th October 2011</h4>
+		
+		<p>
+			We had a great time presenting Metawidget at JavaOne 2011. We had a good turn out (about sixty people) with lots
+			of good questions at the end. My thanks to all who attended, and to my co-speaker <a href="http://mojavelinux.com">Dan Allen</a>. 
+		</p>
+		
+		<table style="margin: auto"><tr>
+			<td><a href="http://2.bp.blogspot.com/-DWQjZ6VKC38/TpIuvyjGbBI/AAAAAAAAAho/ohZPuPC9jDc/s1600/javaone2011-2.jpg"><img style="cursor:pointer; cursor:hand;width: 278px; height: 320px;" src="http://2.bp.blogspot.com/-DWQjZ6VKC38/TpIuvyjGbBI/AAAAAAAAAho/ohZPuPC9jDc/s320/javaone2011-2.jpg" border="0" alt=""id="BLOGGER_PHOTO_ID_5661639080115858450" /></a></td>
+			<td><a href="http://4.bp.blogspot.com/-1PjLUx8S4XQ/TpIuv3qoxOI/AAAAAAAAAhg/dtHCUaR1sN8/s1600/javaone2011-1.jpg"><img style="cursor:pointer; cursor:hand;width: 320px; height: 207px;" src="http://4.bp.blogspot.com/-1PjLUx8S4XQ/TpIuv3qoxOI/AAAAAAAAAhg/dtHCUaR1sN8/s320/javaone2011-1.jpg" border="0" alt=""id="BLOGGER_PHOTO_ID_5661639081489646818" /></a></td>
+		</tr></table>
+		
+		<p>
+			The full talk will be available on <a href="http://www.parleys.com/#st=4&id=102979">Parleys</a>.
+		</p>
+				
+		<hr/>
+
 		<h3>Metawidget v1.30 Released!</h3>
 		<h4>30th August 2011</h4>
 		

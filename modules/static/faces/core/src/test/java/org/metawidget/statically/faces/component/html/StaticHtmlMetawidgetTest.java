@@ -200,11 +200,8 @@ public class StaticHtmlMetawidgetTest
 		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
-				"\t<h:outputLabel value=\":\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:outputText value=\"Section #1\"/>\r\n" +
-				"\t\t<h:message/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText value=\"Section #1\"/>\r\n" +
+				"\t<h:outputText/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
@@ -212,11 +209,8 @@ public class StaticHtmlMetawidgetTest
 				"\t\t<h:message for=\"fooAbc\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel value=\":\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:outputText value=\"Section #2\"/>\r\n" +
-				"\t\t<h:message/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText value=\"Section #2\"/>\r\n" +
+				"\t<h:outputText/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"fooDef\" value=\"Def:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
