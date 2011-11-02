@@ -26,7 +26,6 @@ import java.util.Map;
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.faces.component.StaticStub;
-import org.metawidget.statically.faces.component.html.CoreWidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -200,7 +199,7 @@ public class HtmlWidgetBuilder
 
 	private void addSelectItem( HtmlSelectOneMenu select, String value, String label ) {
 
-		CoreWidget selectItem = new CoreWidget( "selectItem" );
+		SelectItem selectItem = new SelectItem();
 		selectItem.putAttribute( "itemLabel", label );
 		selectItem.putAttribute( "itemValue", value );
 

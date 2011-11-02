@@ -49,7 +49,7 @@ public abstract class BaseStaticXmlWidget
 	// Constructor
 	//
 
-	public BaseStaticXmlWidget( String tagPrefix, String tagName, String tagNamespace ) {
+	protected BaseStaticXmlWidget( String tagPrefix, String tagName, String tagNamespace ) {
 
 		mTagPrefix = tagPrefix;
 		mTagName = tagName;

@@ -23,7 +23,6 @@ import java.util.Map;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
-import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 import org.metawidget.statically.layout.StaticFlatSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 
@@ -50,7 +49,7 @@ public class OutputTextLayoutDecorator
 	@Override
 	protected void addSectionWidget( String section, int level, StaticWidget container, StaticMetawidget metawidget ) {
 
-		HtmlOutputText outputText = new HtmlOutputText();
+		HtmlSectionOutputText outputText = new HtmlSectionOutputText();
 		outputText.putAttribute( "value", section );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();

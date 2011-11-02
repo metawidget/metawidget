@@ -26,6 +26,7 @@ import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
+import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 
 /**
  * Static support: Java Server Faces layouts.
@@ -48,7 +49,7 @@ public class HtmlTableLayout
 	public void startContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
 		try {
-			HtmlWidget panelGrid = new HtmlWidget( "panelGrid" );
+			HtmlPanelGrid panelGrid = new HtmlPanelGrid();
 			panelGrid.putAttribute( "columns", "3" );
 			panelGrid.putAttribute( "id", metawidget.getAttribute( "id" ) );
 			container.getChildren().add( panelGrid );
@@ -68,9 +69,18 @@ public class HtmlTableLayout
 
 			HtmlWidget panelGrid = (HtmlWidget) container.getChildren().get( 0 );
 
+			// Support sections
+
+			if ( widget instanceof HtmlSectionOutputText ) {
+				panelGrid.getChildren().add( widget );
+				panelGrid.getChildren().add( new HtmlOutputText() );
+				panelGrid.getChildren().add( new HtmlOutputText() );
+				return;
+			}
+
 			// Label
 
-			HtmlWidget label = new HtmlWidget( "outputLabel" );
+			HtmlOutputLabel label = new HtmlOutputLabel();
 			String id = widget.getAttribute( "id" );
 
 			if ( id != null ) {
@@ -82,7 +92,7 @@ public class HtmlTableLayout
 
 			// Group starts
 
-			HtmlWidget panelGroup = new HtmlWidget( "panelGroup" );
+			HtmlPanelGroup panelGroup = new HtmlPanelGroup();
 			panelGrid.getChildren().add( panelGroup );
 
 			// Widget
@@ -91,13 +101,13 @@ public class HtmlTableLayout
 
 			// Error message
 
-			HtmlWidget message = new HtmlWidget( "message" );
+			HtmlMessage message = new HtmlMessage();
 			message.putAttribute( "for", id );
 			panelGroup.getChildren().add( message );
 
 			// Required star
 
-			HtmlWidget required = new HtmlWidget( "outputText" );
+			HtmlOutputText required = new HtmlOutputText();
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
 				required.putAttribute( "value", "*" );
 			}

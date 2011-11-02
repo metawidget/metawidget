@@ -14,25 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component.html;
+package org.metawidget.statically.faces.component.html.widgetbuilder;
 
-import org.metawidget.statically.BaseStaticXmlWidget;
+import org.metawidget.statically.faces.component.html.CoreWidget;
 
 /**
- * Widgets within the JSF f: namespace.
- *
  * @author Richard Kennard
  */
 
-public abstract class CoreWidget
-	extends BaseStaticXmlWidget {
+public class SelectItem
+	extends CoreWidget {
 
 	//
 	// Constructor
 	//
 
-	protected CoreWidget( String tagName ) {
+	public SelectItem() {
 
-		super( "f", tagName, "http://java.sun.com/jsf/core" );
+		super( "selectItem" );
 	}
 }

@@ -24,14 +24,14 @@ import org.metawidget.statically.BaseStaticXmlWidget;
  * @author Richard Kennard
  */
 
-public class HtmlWidget
+public abstract class HtmlWidget
 	extends BaseStaticXmlWidget {
 
 	//
 	// Constructor
 	//
 
-	public HtmlWidget( String tagName ) {
+	protected HtmlWidget( String tagName ) {
 
 		super( "h", tagName, "http://java.sun.com/jsf/html" );
 	}
