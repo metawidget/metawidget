@@ -18,6 +18,7 @@ package org.metawidget.statically;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 /**
  * @author Richard Kennard
@@ -29,17 +30,23 @@ public interface StaticWidget {
 	// Methods
 	//
 
+	/**
+	 * @return	the list of this widget's children. Never null
+	 */
+
+	List<StaticWidget> getChildren();
+
 	void write( Writer writer )
 		throws IOException;
 
 	/**
-	 * General-purpose storage area, like <code>JComponent.putClientProperty</code>.
+	 * General-purpose storage area, rather like <code>JComponent.putClientProperty</code>.
 	 */
 
 	void putClientProperty( Object key, Object value );
 
 	/**
-	 * General-purpose  storage area, like <code>JComponent.getClientProperty</code>.
+	 * General-purpose storage area, rather like <code>JComponent.getClientProperty</code>.
 	 */
 
 	public <T> T getClientProperty( Object key );

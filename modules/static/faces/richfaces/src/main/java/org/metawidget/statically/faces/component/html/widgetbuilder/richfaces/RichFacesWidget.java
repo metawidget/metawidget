@@ -33,7 +33,6 @@ public class RichFacesWidget
 
 	public RichFacesWidget( String tagName ) {
 
-		super( tagName );
-		setTagPrefix( "rich" );
+		super( "rich", tagName, "http://richfaces.org/rich" );
 	}
 }

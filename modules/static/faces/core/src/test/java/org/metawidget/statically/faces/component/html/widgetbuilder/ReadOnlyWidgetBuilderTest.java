@@ -23,16 +23,32 @@ public class ReadOnlyWidgetBuilderTest
 		StringWriter writer = new StringWriter();
 		metawidget.write( writer );
 
-		String result = "<h:panelGrid columns=\"2\">\r\n" +
+		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
-				"\t<h:outputText id=\"fooAbc\" value=\"#{foo.abc}\"/>\r\n" +
+				"\t<h:panelGroup>\r\n" +
+				"\t\t<h:outputText id=\"fooAbc\" value=\"#{foo.abc}\"/>\r\n" +
+				"\t\t<h:message for=\"fooAbc\"/>\r\n" +
+				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested foo:\"/>\r\n" +
-				"\t<h:panelGrid columns=\"2\" id=\"fooNestedFoo\">\r\n" +
-				"\t\t<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>\r\n" +
-				"\t\t<h:outputText id=\"fooNestedFooBar\" value=\"#{foo.nestedFoo.bar}\"/>\r\n" +
-				"\t\t<h:outputLabel for=\"fooNestedFooBaz\" value=\"Baz:\"/>\r\n" +
-				"\t\t<h:outputText id=\"fooNestedFooBaz\" value=\"#{foo.nestedFoo.baz}\"/>\r\n" +
-				"\t</h:panelGrid>\r\n" +
+				"\t<h:panelGroup>\r\n" +
+				"\t\t<h:panelGrid columns=\"3\" id=\"fooNestedFoo\">\r\n" +
+				"\t\t\t<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>\r\n" +
+				"\t\t\t<h:panelGroup>\r\n" +
+				"\t\t\t\t<h:outputText id=\"fooNestedFooBar\" value=\"#{foo.nestedFoo.bar}\"/>\r\n" +
+				"\t\t\t\t<h:message for=\"fooNestedFooBar\"/>\r\n" +
+				"\t\t\t</h:panelGroup>\r\n" +
+				"\t\t\t<h:outputText/>\r\n" +
+				"\t\t\t<h:outputLabel for=\"fooNestedFooBaz\" value=\"Baz:\"/>\r\n" +
+				"\t\t\t<h:panelGroup>\r\n" +
+				"\t\t\t\t<h:outputText id=\"fooNestedFooBaz\" value=\"#{foo.nestedFoo.baz}\"/>\r\n" +
+				"\t\t\t\t<h:message for=\"fooNestedFooBaz\"/>\r\n" +
+				"\t\t\t</h:panelGroup>\r\n" +
+				"\t\t\t<h:outputText/>\r\n" +
+				"\t\t</h:panelGrid>\r\n" +
+				"\t\t<h:message for=\"fooNestedFoo\"/>\r\n" +
+				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
 		assertEquals( result, writer.toString() );

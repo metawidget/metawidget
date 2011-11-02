@@ -33,7 +33,6 @@ public class HtmlWidget
 
 	public HtmlWidget( String tagName ) {
 
-		super( tagName );
-		setTagPrefix( "h" );
+		super( "h", tagName, "http://java.sun.com/jsf/html" );
 	}
 }

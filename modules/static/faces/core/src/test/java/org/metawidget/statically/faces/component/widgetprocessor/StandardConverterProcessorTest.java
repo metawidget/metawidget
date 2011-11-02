@@ -106,18 +106,31 @@ public class StandardConverterProcessorTest
 		StringWriter writer = new StringWriter();
 		metawidget.write( writer );
 
-		String result = "<h:panelGrid columns=\"2\">\r\n" +
+		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
-				"\t<h:inputText id=\"fooBar\" value=\"#{foo.bar}\">\r\n" +
-				"\t\t<f:convertDateTime dateStyle=\"yyyy-MM-dd\"/>\r\n" +
-				"\t</h:inputText>\r\n" +
+				"\t<h:panelGroup>\r\n" +
+				"\t\t<h:inputText id=\"fooBar\" value=\"#{foo.bar}\">\r\n" +
+				"\t\t\t<f:convertDateTime dateStyle=\"yyyy-MM-dd\"/>\r\n" +
+				"\t\t</h:inputText>\r\n" +
+				"\t\t<h:message for=\"fooBar\"/>\r\n" +
+				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"fooBaz\" value=\"Baz:\"/>\r\n" +
-				"\t<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\">\r\n" +
-				"\t\t<f:convertNumber currencySymbol=\"$\"/>\r\n" +
-				"\t</h:inputText>\r\n" +
+				"\t<h:panelGroup>\r\n" +
+				"\t\t<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\">\r\n" +
+				"\t\t\t<f:convertNumber currencySymbol=\"$\"/>\r\n" +
+				"\t\t</h:inputText>\r\n" +
+				"\t\t<h:message for=\"fooBaz\"/>\r\n" +
+				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
 		assertEquals( result, writer.toString() );
+
+		Map<String, String> namespaces = metawidget.getNamespaces();
+		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
+		assertEquals( "http://java.sun.com/jsf/core", namespaces.get( "f" ) );
+		assertEquals( 2, namespaces.size() );
 	}
 
 	public void testConverterNotSupported()
@@ -138,7 +151,7 @@ public class StandardConverterProcessorTest
 
 		StaticHtmlMetawidget staticHtmlMetawidget = new StaticHtmlMetawidget();
 		processor.processWidget( staticHtmlMetawidget, PROPERTY, null, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( staticHtmlMetawidget, "<h:panelGrid columns=\"2\">\r\n</h:panelGrid>\r\n" );
+		StaticFacesMetawidgetTests.assertWidgetEquals( staticHtmlMetawidget, "<h:panelGrid columns=\"3\"/>\r\n" );
 	}
 
 	//

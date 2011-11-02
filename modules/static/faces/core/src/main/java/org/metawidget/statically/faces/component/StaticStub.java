@@ -33,7 +33,7 @@ public class StaticStub
 
 	public StaticStub() {
 
-		super( "stub" );
+		super( "m", "stub", "http://metawidget.org/static/faces" );
 	}
 
 	//

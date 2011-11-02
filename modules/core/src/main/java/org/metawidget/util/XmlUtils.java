@@ -1334,7 +1334,7 @@ public class XmlUtils {
 			Node attribute = attributes.item( loop );
 			String attributeName = attribute.getNodeName();
 
-			// (I'm a bit surprised xmlns is an attribute - is that a bug?)
+			// (never xmlns)
 
 			if ( "xmlns".equals( attributeName ) ) {
 				continue;

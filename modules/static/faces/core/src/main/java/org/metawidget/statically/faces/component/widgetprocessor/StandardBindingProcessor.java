@@ -40,10 +40,13 @@ public class StandardBindingProcessor
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
 
 		String valueExpression = metawidget.getValueExpression( "value" );
-		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-		valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 
-		widget.putAttribute( "value", valueExpression );
+		if ( valueExpression != null ) {
+			valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+			valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+
+			widget.putAttribute( "value", valueExpression );
+		}
 		return widget;
 	}
 }

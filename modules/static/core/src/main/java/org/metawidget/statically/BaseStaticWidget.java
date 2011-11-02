@@ -18,6 +18,7 @@ package org.metawidget.statically;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.util.CollectionUtils;
@@ -33,14 +34,26 @@ public abstract class BaseStaticWidget
 	// Private methods
 	//
 
+	private List<StaticWidget>	mChildren = CollectionUtils.newArrayList();
+
 	private Map<Object, Object>	mClientProperties;
 
 	//
 	// Methods
 	//
 
-	public abstract void write( Writer writer )
-		throws IOException;
+	public List<StaticWidget> getChildren() {
+
+		return mChildren;
+	}
+
+	public void write( Writer writer )
+		throws IOException {
+
+		for ( StaticWidget child : mChildren ) {
+			child.write( writer );
+		}
+	}
 
 	/**
 	 * General storage area, like <code>JComponent.putClientProperty</code>.

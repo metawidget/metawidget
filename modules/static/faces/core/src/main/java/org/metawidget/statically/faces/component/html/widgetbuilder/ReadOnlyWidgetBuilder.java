@@ -60,7 +60,7 @@ public class ReadOnlyWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			StaticStub staticStub = new StaticStub();
-			staticStub.addChild( new StaticStub() );
+			staticStub.getChildren().add( new StaticStub() );
 			return staticStub;
 		}
 

@@ -17,10 +17,11 @@
 package org.metawidget.statically;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
-import java.util.List;
 import java.util.Map;
 
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.statically.StaticUtils.IndentedWriter;
 import org.metawidget.util.CollectionUtils;
 
@@ -36,35 +37,37 @@ public abstract class BaseStaticXmlWidget
 	// Private members
 	//
 
-	private String					mTagPrefix;
+	private String				mTagPrefix;
 
-	private String					mTagName;
+	private String				mTagName;
 
-	private Map<String, String>		mAttributes;
+	private String				mTagNamespace;
 
-	private List<StaticXmlWidget>	mChildren;
+	private Map<String, String>	mAttributes;
 
 	//
 	// Constructor
 	//
 
-	public BaseStaticXmlWidget( String tagName ) {
+	public BaseStaticXmlWidget( String tagPrefix, String tagName, String tagNamespace ) {
 
+		mTagPrefix = tagPrefix;
 		mTagName = tagName;
+		mTagNamespace = tagNamespace;
 	}
 
 	//
 	// Public methods
 	//
 
-	public void setTagPrefix( String tagPrefix ) {
+	public String getTagPrefix() {
 
-		mTagPrefix = tagPrefix;
+		return mTagPrefix;
 	}
 
-	public String getTagName() {
+	public String getTagNamespace() {
 
-		return mTagName;
+		return mTagNamespace;
 	}
 
 	public void putAttribute( String name, String value ) {
@@ -88,72 +91,41 @@ public abstract class BaseStaticXmlWidget
 		return mAttributes.get( name );
 	}
 
-	public void addChild( StaticXmlWidget child ) {
-
-		if ( mChildren == null ) {
-			mChildren = CollectionUtils.newArrayList();
-		}
-
-		mChildren.add( child );
-	}
-
 	@Override
 	public void write( Writer writer )
 		throws IOException {
 
-		if ( !hasChildren() ) {
-			writeStartTagImpl( writer );
+		if ( getChildren().isEmpty() ) {
+			writeStartTag( writer );
 			writer.append( "/>\r\n" );
 		} else {
-			writeStartTagImpl( writer );
+			writeStartTag( writer );
 			writer.append( ">\r\n" );
 			( (IndentedWriter) writer ).indent();
 
-			for ( StaticXmlWidget child : mChildren ) {
-				child.write( writer );
-			}
+			super.write( writer );
 
 			writeEndTag( writer );
 		}
 	}
 
-	public void writeStartTag( Writer writer )
-		throws IOException {
+	@Override
+	public String toString() {
 
-		writeStartTagImpl( writer );
-		writer.append( ">\r\n" );
-		( (IndentedWriter) writer ).indent();
-	}
-
-	public void writeEndTag( Writer writer )
-		throws IOException {
-
-		( (IndentedWriter) writer ).outdent();
-		writer.append( "</" );
-
-		if ( mTagPrefix != null ) {
-			writer.append( mTagPrefix );
-			writer.append( ':' );
+		try {
+			StringWriter writer = new StringWriter();
+			write( writer );
+			return writer.toString();
+		} catch ( IOException e ) {
+			throw MetawidgetException.newException( e );
 		}
-
-		writer.append( mTagName );
-		writer.append( ">\r\n" );
 	}
 
 	//
 	// Private methods
 	//
 
-	private boolean hasChildren() {
-
-		if ( mChildren == null ) {
-			return false;
-		}
-
-		return !mChildren.isEmpty();
-	}
-
-	private void writeStartTagImpl( Writer writer )
+	private void writeStartTag( Writer writer )
 		throws IOException {
 
 		writer.append( '<' );
@@ -182,5 +154,20 @@ public abstract class BaseStaticXmlWidget
 				writer.append( "\"" );
 			}
 		}
+	}
+
+	private void writeEndTag( Writer writer )
+		throws IOException {
+
+		( (IndentedWriter) writer ).outdent();
+		writer.append( "</" );
+
+		if ( mTagPrefix != null ) {
+			writer.append( mTagPrefix );
+			writer.append( ':' );
+		}
+
+		writer.append( mTagName );
+		writer.append( ">\r\n" );
 	}
 }

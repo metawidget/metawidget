@@ -59,8 +59,36 @@ public abstract class StaticXmlMetawidget
 		return mAttributes.get( name );
 	}
 
-	public void addChild( StaticXmlWidget child ) {
+	/**
+	 * Recurse over all children and retrieve the namespaces they use.
+	 *
+	 * @return map of prefix and namespace
+	 */
 
-		throw new UnsupportedOperationException();
+	public Map<String, String> getNamespaces() {
+
+		Map<String, String> namespaces = CollectionUtils.newHashMap();
+		populateNamespaces( this, namespaces );
+		return namespaces;
+	}
+
+	//
+	// Private methods
+	//
+
+	private void populateNamespaces( StaticXmlWidget xmlWidget, Map<String, String> namespaces ) {
+
+		for ( StaticWidget child : xmlWidget.getChildren() ) {
+
+			StaticXmlWidget xmlChild = (StaticXmlWidget) child;
+
+			if ( child instanceof StaticXmlMetawidget ) {
+				// Metawidgets should never be output (kind of the point of being static)
+			} else {
+				namespaces.put( xmlChild.getTagPrefix(), xmlChild.getTagNamespace() );
+			}
+
+			populateNamespaces( xmlChild, namespaces );
+		}
 	}
 }

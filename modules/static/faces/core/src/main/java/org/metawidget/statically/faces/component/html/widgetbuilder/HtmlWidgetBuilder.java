@@ -204,6 +204,6 @@ public class HtmlWidgetBuilder
 		selectItem.putAttribute( "itemLabel", label );
 		selectItem.putAttribute( "itemValue", value );
 
-		select.addChild( selectItem );
+		select.getChildren().add( selectItem );
 	}
 }

@@ -40,10 +40,13 @@ public class ReadableIdProcessor
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
 
 		String valueExpression = metawidget.getValueExpression( "value" );
-		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 
-		widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
+		if ( valueExpression != null ) {
+			valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+
+			widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
+		}
 		return widget;
 	}
 }

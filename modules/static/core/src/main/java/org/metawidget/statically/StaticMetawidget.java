@@ -18,7 +18,6 @@ package org.metawidget.statically;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
@@ -83,8 +82,6 @@ public abstract class StaticMetawidget
 	private String														mConfig;
 
 	private W3CPipeline<StaticWidget, StaticWidget, StaticMetawidget>	mPipeline;
-
-	private Writer														mWriter			= new StringWriter();
 
 	//
 	// Constructor
@@ -203,19 +200,14 @@ public abstract class StaticMetawidget
 
 	public void write( Writer writer, int initialIndent ) {
 
-		mWriter = new IndentedWriter( writer, initialIndent );
 		mPipeline.configureOnce();
 
 		try {
 			mPipeline.buildWidgets( inspect() );
+			super.write( new IndentedWriter( writer, initialIndent ));
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
-	}
-
-	public Writer getWriter() {
-
-		return mWriter;
 	}
 
 	//
@@ -229,9 +221,14 @@ public abstract class StaticMetawidget
 	 * version.
 	 */
 
-	protected W3CPipeline<StaticWidget, StaticWidget, StaticMetawidget> newPipeline() {
+	protected Pipeline newPipeline() {
 
 		return new Pipeline();
+	}
+
+	protected void startBuild() {
+
+		getChildren().clear();
 	}
 
 	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
@@ -300,6 +297,13 @@ public abstract class StaticMetawidget
 		protected Map<String, String> getAdditionalAttributes( StaticWidget tag ) {
 
 			return null;
+		}
+
+		@Override
+		protected void startBuild() {
+
+			StaticMetawidget.this.startBuild();
+			super.startBuild();
 		}
 
 		@Override

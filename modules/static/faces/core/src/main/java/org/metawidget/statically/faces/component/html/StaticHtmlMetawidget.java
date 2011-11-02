@@ -63,6 +63,16 @@ public class StaticHtmlMetawidget
 		mStyleClass = styleClass;
 	}
 
+	public String getTagPrefix() {
+
+		return "m";
+	}
+
+	public String getTagNamespace() {
+
+		return "http://metawidget.org/static/faces";
+	}
+
 	//
 	// Protected methods
 	//

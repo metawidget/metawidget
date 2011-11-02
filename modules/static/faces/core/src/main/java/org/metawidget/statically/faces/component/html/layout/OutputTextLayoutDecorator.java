@@ -18,11 +18,14 @@ package org.metawidget.statically.faces.component.html.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Map;
+
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 import org.metawidget.statically.layout.StaticFlatSectionLayoutDecorator;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -50,6 +53,7 @@ public class OutputTextLayoutDecorator
 		HtmlOutputText outputText = new HtmlOutputText();
 		outputText.putAttribute( "value", section );
 
-		getDelegate().layoutWidget( outputText, PROPERTY, null, container, metawidget );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		getDelegate().layoutWidget( outputText, PROPERTY, attributes, container, metawidget );
 	}
 }

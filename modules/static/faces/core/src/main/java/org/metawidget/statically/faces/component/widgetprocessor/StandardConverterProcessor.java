@@ -157,7 +157,7 @@ public class StandardConverterProcessor
 				converter.putAttribute( "locale", attributes.get( LOCALE ) );
 			}
 
-			widget.addChild( converter );
+			widget.getChildren().add( converter );
 		}
 
 		return widget;
@@ -170,26 +170,56 @@ public class StandardConverterProcessor
 	private CoreWidget getDateTimeConverter( CoreWidget existingConverter ) {
 
 		if ( existingConverter != null ) {
-			if ( !"convertDateTime".equals( existingConverter.getTagName() )) {
-				throw WidgetProcessorException.newException( "Unable to set date/time attributes on a " + existingConverter.getTagName() );
+			if ( !( existingConverter instanceof ConvertDateTimeWidget )) {
+				throw WidgetProcessorException.newException( "Unable to set date/time attributes on a " + existingConverter );
 			}
 
 			return existingConverter;
 		}
 
-		return new CoreWidget( "convertDateTime" );
+		return new ConvertDateTimeWidget();
 	}
 
 	private CoreWidget getNumberConverter( CoreWidget existingConverter ) {
 
 		if ( existingConverter != null ) {
-			if ( !"convertNumber".equals( existingConverter.getTagName() )) {
-				throw WidgetProcessorException.newException( "Unable to set number attributes on a " + existingConverter.getTagName() );
+			if ( !( existingConverter instanceof ConvertNumberWidget )) {
+				throw WidgetProcessorException.newException( "Unable to set number attributes on a " + existingConverter );
 			}
 
 			return existingConverter;
 		}
 
-		return new CoreWidget( "convertNumber" );
+		return new ConvertNumberWidget();
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class ConvertDateTimeWidget
+		extends CoreWidget {
+
+		//
+		// Constructor
+		//
+
+		public ConvertDateTimeWidget() {
+
+			super( "convertDateTime" );
+		}
+	}
+
+	public static class ConvertNumberWidget
+		extends CoreWidget {
+
+		//
+		// Constructor
+		//
+
+		public ConvertNumberWidget() {
+
+			super( "convertNumber" );
+		}
 	}
 }

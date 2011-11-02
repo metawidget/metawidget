@@ -33,7 +33,6 @@ public class CoreWidget
 
 	public CoreWidget( String tagName ) {
 
-		super( tagName );
-		setTagPrefix( "f" );
+		super( "f", tagName, "http://java.sun.com/jsf/core" );
 	}
 }

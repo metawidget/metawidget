@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.faces.component.html.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
@@ -47,9 +49,9 @@ public class HtmlTableLayout
 
 		try {
 			HtmlWidget panelGrid = new HtmlWidget( "panelGrid" );
-			panelGrid.putAttribute( "columns", "2" );
+			panelGrid.putAttribute( "columns", "3" );
 			panelGrid.putAttribute( "id", metawidget.getAttribute( "id" ) );
-			panelGrid.writeStartTag( metawidget.getWriter() );
+			container.getChildren().add( panelGrid );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}
@@ -64,28 +66,43 @@ public class HtmlTableLayout
 				return;
 			}
 
+			HtmlWidget panelGrid = (HtmlWidget) container.getChildren().get( 0 );
+
 			// Label
 
+			HtmlWidget label = new HtmlWidget( "outputLabel" );
 			String id = widget.getAttribute( "id" );
 
 			if ( id != null ) {
-				HtmlWidget label = new HtmlWidget( "outputLabel" );
 				label.putAttribute( "for", id );
-				String labelText = metawidget.getLabelString( attributes );
-				label.putAttribute( "value", labelText + ":" );
-				label.write( metawidget.getWriter() );
 			}
+			String labelText = metawidget.getLabelString( attributes );
+			label.putAttribute( "value", labelText + ":" );
+			panelGrid.getChildren().add( label );
+
+			// Group starts
+
+			HtmlWidget panelGroup = new HtmlWidget( "panelGroup" );
+			panelGrid.getChildren().add( panelGroup );
 
 			// Widget
 
-			widget.write( metawidget.getWriter() );
+			panelGroup.getChildren().add( widget );
 
-			// Spacer (because vanilla h:panelGrid cannot span)
+			// Error message
 
-			if ( id == null ) {
-				HtmlWidget spacer = new HtmlWidget( "outputText" );
-				spacer.write( metawidget.getWriter() );
+			HtmlWidget message = new HtmlWidget( "message" );
+			message.putAttribute( "for", id );
+			panelGroup.getChildren().add( message );
+
+			// Required star
+
+			HtmlWidget required = new HtmlWidget( "outputText" );
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
+				required.putAttribute( "value", "*" );
 			}
+			panelGrid.getChildren().add( required );
+
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}
@@ -93,12 +110,7 @@ public class HtmlTableLayout
 
 	public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
-		try {
-			HtmlWidget panelGrid = new HtmlWidget( "panelGrid" );
-			panelGrid.writeEndTag( metawidget.getWriter() );
-		} catch ( Exception e ) {
-			throw LayoutException.newException( e );
-		}
+		// Do nothing
 	}
 
 	public void onEndBuild( StaticXmlMetawidget metawidget ) {

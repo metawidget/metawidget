@@ -37,7 +37,7 @@ public class SimpleLayout
 	public void layoutWidget( StaticWidget component, String elementName, Map<String, String> attributes, StaticWidget container, StaticMetawidget metawidget ) {
 
 		try {
-			component.write( metawidget.getWriter() );
+			metawidget.getChildren().add( component );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}

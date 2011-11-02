@@ -16,8 +16,6 @@
 
 package org.metawidget.statically;
 
-import java.io.IOException;
-import java.io.Writer;
 
 /**
  * @author Richard Kennard
@@ -34,8 +32,7 @@ public interface StaticXmlWidget
 
 	String getAttribute( String name );
 
-	void addChild( StaticXmlWidget child );
+	String getTagPrefix();
 
-	void write( Writer writer )
-		throws IOException;
+	String getTagNamespace();
 }
