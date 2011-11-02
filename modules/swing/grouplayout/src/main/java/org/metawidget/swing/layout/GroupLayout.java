@@ -34,8 +34,8 @@ import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.SimpleLayoutUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils.StrippedMnemonicAndFirstIndex;
 
 /**
  * Layout to arrange widgets using <code>javax.swing.GroupLayout</code>.
@@ -118,8 +118,8 @@ public class GroupLayout
 
 				// Required
 
-				Pair<String, Integer> stripMnemonic = SimpleLayoutUtils.stripMnemonic( labelText );
-				String labelTextToUse = stripMnemonic.getLeft();
+				StrippedMnemonicAndFirstIndex stripMnemonic = SimpleLayoutUtils.stripMnemonic( labelText );
+				String labelTextToUse = stripMnemonic.getStrippedMnemonic();
 
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
 					labelTextToUse += "*";
@@ -131,7 +131,7 @@ public class GroupLayout
 
 				label.setLabelFor( component );
 
-				int mnemonicIndex = stripMnemonic.getRight();
+				int mnemonicIndex = stripMnemonic.getFirstIndex();
 
 				if ( mnemonicIndex != -1 ) {
 					label.setDisplayedMnemonic( labelTextToUse.charAt( mnemonicIndex ) );
