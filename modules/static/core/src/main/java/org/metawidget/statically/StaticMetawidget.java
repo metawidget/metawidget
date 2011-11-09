@@ -81,6 +81,7 @@ public abstract class StaticMetawidget
 
 	private String														mConfig;
 
+	// TODO: cannot setLayout(HtmlLayout)?
 	private W3CPipeline<StaticWidget, StaticWidget, StaticMetawidget>	mPipeline;
 
 	//
@@ -204,7 +205,7 @@ public abstract class StaticMetawidget
 
 		try {
 			mPipeline.buildWidgets( inspect() );
-			super.write( new IndentedWriter( writer, initialIndent ));
+			super.write( new IndentedWriter( writer, initialIndent ) );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}

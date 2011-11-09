@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.StaticStub;
@@ -90,20 +91,28 @@ public class HtmlTableLayout
 			label.putAttribute( "value", labelText + ":" );
 			panelGrid.getChildren().add( label );
 
-			// Group starts
+			if ( widget instanceof StaticMetawidget || widget instanceof HtmlOutputText ) {
 
-			HtmlPanelGroup panelGroup = new HtmlPanelGroup();
-			panelGrid.getChildren().add( panelGroup );
+				// Nested Metawidget
 
-			// Widget
+				panelGrid.getChildren().add( widget );
 
-			panelGroup.getChildren().add( widget );
+			} else {
+				// Group starts
 
-			// Error message
+				HtmlPanelGroup panelGroup = new HtmlPanelGroup();
+				panelGrid.getChildren().add( panelGroup );
 
-			HtmlMessage message = new HtmlMessage();
-			message.putAttribute( "for", id );
-			panelGroup.getChildren().add( message );
+				// Widget
+
+				panelGroup.getChildren().add( widget );
+
+				// Error message
+
+				HtmlMessage message = new HtmlMessage();
+				message.putAttribute( "for", id );
+				panelGroup.getChildren().add( message );
+			}
 
 			// Required star
 

@@ -273,7 +273,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.config.Date or supported tag <date>" ) );
+			assertTrue( e.getMessage().endsWith( "No such tag <date> or class org.metawidget.config.Date (is it on your CLASSPATH?)" ) );
 		}
 	}
 

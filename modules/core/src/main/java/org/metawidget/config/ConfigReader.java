@@ -643,7 +643,7 @@ public class ConfigReader
 			clazz = ClassUtils.niceForName( innerClassToConstruct );
 
 			if ( clazz == null ) {
-				throw MetawidgetException.newException( "No such class " + classToConstruct + " or supported tag <" + localName + ">" );
+				throw MetawidgetException.newException( "No such tag <" + localName + "> or class " + classToConstruct + " (is it on your CLASSPATH?)" );
 			}
 		}
 
