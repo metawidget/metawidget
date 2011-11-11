@@ -588,7 +588,7 @@ public class ConfigReaderIntegrationTest
 			configReader.configure( "foo", HtmlMetawidgetTag.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertEquals( "No such class org.metawidget.inspector.composite.CompositeInspectorFoo or supported tag <compositeInspectorFoo>", e.getMessage() );
+			assertEquals( "No such  tag <compositeInspectorFoo> or class org.metawidget.inspector.composite.CompositeInspectorFoo (is it on your CLASSPATH?)", e.getMessage() );
 		}
 
 		assertTrue( configReader.configure( "foo", HtmlMetawidgetTag.class ) != null );
