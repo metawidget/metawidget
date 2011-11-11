@@ -55,7 +55,7 @@ import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -171,7 +171,7 @@ public class SwingMetawidget
 	 * Gets the Object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
-	 *
+	 * 
 	 * @return the object. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
@@ -494,6 +494,8 @@ public class SwingMetawidget
 	 * When adding a Stub that immediately stubs out a widget and therefore disappears from the
 	 * component list, we must override <code>addNotify</code> to build widgets or else Swing gets
 	 * confused trying to addNotify a component that isn't there.
+	 * <p>
+	 * See <code>SwingTutorialTest.testAddNotify</code>.
 	 */
 
 	@Override
@@ -511,7 +513,7 @@ public class SwingMetawidget
 	 * need some conversion before being reapplied to the object being inspected. This obviously
 	 * requires knowledge of which Component SwingMetawidget created, which is not ideal, so clients
 	 * may prefer to use bindingClass instead.
-	 *
+	 * 
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -1008,6 +1010,21 @@ public class SwingMetawidget
 			} else {
 				super.layoutWidget( component, elementName, attributes );
 			}
+
+			// If the component is itself a SwingMetawidget, build it immediately. This:
+			//
+			// 1. stops an addNotify problem if OverriddenWidgetBuilder steals a component from its
+			// parent
+			// 2. stops us having to check for (name == null) before calling component.setName in
+			// layoutWidget (because the component will already have been stolen if needed)
+			// 3. means the endBuild of the parent SwingMetawidget gets called *after* the endBuild
+			// of the nested SwingMetawidget. This makes more sense, as otherwise the nested
+			// SwingMetawidget waits until being asked to paint, which is after the endBuild of the
+			// parent
+
+			if ( component instanceof SwingMetawidget ) {
+				( (SwingMetawidget) component ).buildWidgets();
+			}
 		}
 
 		@Override
@@ -1052,7 +1069,7 @@ public class SwingMetawidget
 
 	/**
 	 * Simple immutable structure to store a component and its value property.
-	 *
+	 * 
 	 * @author Richard Kennard
 	 */
 

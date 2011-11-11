@@ -25,13 +25,16 @@ import java.util.Map;
 import javax.swing.JComponent;
 
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * WidgetBuilder for overridden widgets in Swing environments.
  * <p>
- * Locates overridden widgets based on their <code>name</code>.
- *
+ * Locates overridden widgets based on their <code>name</code>. To support overriding nested
+ * widgets, this includes names that are paths (eg. <code>foo/bar/baz</code>).
+ * 
  * @author Richard Kennard
  */
 
@@ -42,6 +45,7 @@ public class OverriddenWidgetBuilder
 	// Public methods
 	//
 
+	@Override
 	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		String name = attributes.get( NAME );
@@ -50,20 +54,51 @@ public class OverriddenWidgetBuilder
 			return null;
 		}
 
-		Component component = null;
-		List<JComponent> existingUnusedComponents = metawidget.fetchExistingUnusedComponents();
+		SwingMetawidget metawidgetToUse = metawidget;
 
-		for ( Component componentExisting : existingUnusedComponents ) {
-			if ( name.equals( componentExisting.getName() ) ) {
-				component = componentExisting;
+		while ( true ) {
+
+			// Search for an overridden component
+
+			List<JComponent> existingUnusedComponents = metawidgetToUse.fetchExistingUnusedComponents();
+
+			Component component = null;
+
+			for ( Component componentExisting : existingUnusedComponents ) {
+				if ( name.equals( componentExisting.getName() ) ) {
+					component = componentExisting;
+					break;
+				}
+			}
+
+			if ( component != null ) {
+				existingUnusedComponents.remove( component );
+				return (JComponent) component;
+			}
+
+			// If no overridden components found, but we have a parent path...
+
+			if ( ENTITY.equals( elementName ) ) {
+				return null;
+			}
+
+			String[] names = PathUtils.parsePath( metawidgetToUse.getPath() ).getNamesAsArray();
+
+			if ( names.length == 0 ) {
 				break;
 			}
+
+			// ...traverse up the parent SwingMetawidgets
+
+			name = names[names.length - 1] + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+
+			if ( !( metawidgetToUse.getParent() instanceof SwingMetawidget ) ) {
+				return null;
+			}
+
+			metawidgetToUse = (SwingMetawidget) metawidgetToUse.getParent();
 		}
 
-		if ( component != null ) {
-			existingUnusedComponents.remove( component );
-		}
-
-		return (JComponent) component;
+		return null;
 	}
 }
