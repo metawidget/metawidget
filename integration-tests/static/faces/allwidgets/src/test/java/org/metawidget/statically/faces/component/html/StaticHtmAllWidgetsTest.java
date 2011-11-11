@@ -207,16 +207,10 @@ public class StaticHtmAllWidgetsTest
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText value=\"*\"/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsNestedWidgets\" value=\"Nested widgets:\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:panelGrid columns=\"3\" id=\"allWidgetsNestedWidgets\"/>\r\n" +
-				"\t\t<h:message for=\"allWidgetsNestedWidgets\"/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
+				"\t<h:panelGrid columns=\"3\" id=\"allWidgetsNestedWidgets\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsReadOnlyNestedWidgets\" value=\"Read only nested widgets:\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:panelGrid columns=\"3\" id=\"allWidgetsReadOnlyNestedWidgets\"/>\r\n" +
-				"\t\t<h:message for=\"allWidgetsReadOnlyNestedWidgets\"/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
+				"\t<h:panelGrid columns=\"3\" id=\"allWidgetsReadOnlyNestedWidgets\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsNestedWidgetsDontExpand\" value=\"Nested widgets dont expand:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
@@ -225,10 +219,7 @@ public class StaticHtmAllWidgetsTest
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"Read only nested widgets dont expand:\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:outputText id=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"#{allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
-				"\t\t<h:message for=\"allWidgetsReadOnlyNestedWidgetsDontExpand\"/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText id=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"#{allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsDate\" value=\"Date:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
@@ -242,10 +233,7 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsReadOnly\" value=\"Read only:\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:outputText id=\"allWidgetsReadOnly\" value=\"#{allWidgets.readOnly}\"/>\r\n" +
-				"\t\t<h:message for=\"allWidgetsReadOnly\"/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
+				"\t<h:outputText id=\"allWidgetsReadOnly\" value=\"#{allWidgets.readOnly}\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsMystery\" value=\"Mystery:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +

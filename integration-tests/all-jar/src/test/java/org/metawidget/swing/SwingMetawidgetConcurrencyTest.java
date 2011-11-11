@@ -70,6 +70,7 @@ public class SwingMetawidgetConcurrencyTest
 							configReader.configure( "org/metawidget/swing/metawidget-swing-default.xml", new SwingMetawidget() );
 						} catch ( Exception e ) {
 							concurrencyFailures.add( e );
+							// TODO: Concurrency failure: class org.metawidget.iface.MetawidgetException org.metawidget.inspector.iface.InspectorException: CompositeInspector needs at least one Inspector
 							assertTrue( "Concurrency failure: " + e.getClass() + " " + e.getMessage(), false );
 						} finally {
 							doneSignal.countDown();
