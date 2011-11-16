@@ -17,6 +17,7 @@
 package org.metawidget.statically.faces.component.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstants.*;
 
 import java.util.Date;
 import java.util.Map;
@@ -51,6 +52,15 @@ public class StandardConverterProcessor
 		// Ignore components that cannot have Converters
 
 		if ( widget instanceof StaticXmlMetawidget ) {
+			return widget;
+		}
+
+		// Explicit Converter
+
+		String converterId = attributes.get( FACES_CONVERTER_ID );
+
+		if ( converterId != null ) {
+			widget.putAttribute( "converter", converterId );
 			return widget;
 		}
 

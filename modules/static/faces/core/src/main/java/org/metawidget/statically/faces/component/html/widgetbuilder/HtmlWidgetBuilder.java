@@ -17,6 +17,7 @@
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -25,11 +26,18 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
+import org.metawidget.util.XmlUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Richard Kennard
@@ -42,7 +50,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	MAX_LENGTH	= "maxLength";
+	private final static String	MAX_LENGTH					= "maxLength";
 
 	//
 	// Public methods
@@ -60,6 +68,16 @@ public class HtmlWidgetBuilder
 
 		if ( ACTION.equals( elementName ) ) {
 			return new StaticStub();
+		}
+
+		// Faces Lookups
+
+		String facesLookup = attributes.get( FACES_LOOKUP );
+
+		if ( facesLookup != null && !"".equals( facesLookup ) ) {
+			HtmlSelectOneMenu select = new HtmlSelectOneMenu();
+			addSelectItems( select, facesLookup, attributes );
+			return select;
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -87,7 +105,7 @@ public class HtmlWidgetBuilder
 
 		if ( lookup != null && !"".equals( lookup ) ) {
 			HtmlSelectOneMenu select = new HtmlSelectOneMenu();
-			addSelectItems( select, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes );
+			addSelectItems( select, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
 
 			return select;
 		}
@@ -141,7 +159,11 @@ public class HtmlWidgetBuilder
 				return createHtmlInputText( attributes );
 			}
 
-			// Collections
+			// Supported Collections
+
+			if ( List.class.isAssignableFrom( clazz ) /* || DataModel.class.isAssignableFrom( clazz ) */|| clazz.isArray() ) {
+				return createDataTableComponent( clazz, attributes, metawidget );
+			}
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new StaticStub();
@@ -157,6 +179,46 @@ public class HtmlWidgetBuilder
 		// Not simple
 
 		return null;
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Create a UIColumn component for the given attributes.
+	 * <p>
+	 * Clients can override this method to modify the column contents. For example, to place a link
+	 * around the text.
+	 *
+	 * @return the UIColumn, or null to suppress the column
+	 */
+
+	protected StaticXmlWidget createColumnComponent( String dataTableVar, String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+
+		HtmlColumn column = new HtmlColumn();
+
+		// Make the column contents...
+
+		HtmlOutputText columnText = new HtmlOutputText();
+
+		String valueExpression = dataTableVar;
+		if ( !ENTITY.equals( elementName ) ) {
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+		}
+		columnText.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
+		column.getChildren().add( columnText );
+
+		// ...with a localized header
+
+		HtmlOutputText headerText = new HtmlOutputText();
+		headerText.putAttribute( "value", metawidget.getLabelString( attributes ) );
+		Facet headerFacet = new Facet();
+		headerFacet.putAttribute( "name", "header" );
+		headerFacet.getChildren().add( headerText );
+		column.getChildren().add( 0, headerFacet );
+
+		return column;
 	}
 
 	//
@@ -204,5 +266,123 @@ public class HtmlWidgetBuilder
 		selectItem.putAttribute( "itemValue", value );
 
 		select.getChildren().add( selectItem );
+	}
+
+	private void addSelectItems( HtmlSelectOneMenu select, String valueExpression, Map<String, String> attributes ) {
+
+		// Empty option
+
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			addSelectItem( select, "", null );
+		}
+
+		// Add the select items
+
+		SelectItems selectItems = new SelectItems();
+		selectItems.putAttribute( "value", valueExpression );
+
+		select.getChildren().add( selectItems );
+	}
+
+	private StaticXmlWidget createDataTableComponent( Class<?> clazz, Map<String, String> attributes, StaticMetawidget metawidget ) {
+
+		HtmlDataTable dataTable = new HtmlDataTable();
+		String dataTableVar = "_item";
+		dataTable.putAttribute( "var", dataTableVar );
+
+		// Inspect component type
+
+		String componentType;
+
+		if ( clazz.isArray() ) {
+			componentType = clazz.getComponentType().getName();
+		} else {
+			componentType = attributes.get( PARAMETERIZED_TYPE );
+		}
+
+		String inspectedType = null;
+
+		if ( componentType != null ) {
+			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+		}
+
+		// If there is no type...
+
+		if ( inspectedType == null ) {
+			// ...resort to a single column table...
+
+			StaticXmlWidget column = createColumnComponent( dataTableVar, ENTITY, attributes, metawidget );
+
+			if ( column != null ) {
+				dataTable.getChildren().add( column );
+			}
+		}
+
+		// ...otherwise, iterate over the component type...
+
+		else {
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			NodeList elements = root.getFirstChild().getChildNodes();
+
+			// ...and try to add columns for just the 'required' fields...
+
+			addColumnComponents( elements, dataTable, metawidget, true );
+
+			// ...but, failing that, add columns for every field
+
+			if ( dataTable.getChildren().isEmpty() ) {
+				addColumnComponents( elements, dataTable, metawidget, false );
+			}
+		}
+
+		return dataTable;
+	}
+
+	private void addColumnComponents( NodeList elements, HtmlDataTable dataTable, StaticMetawidget metawidget, boolean onlyRequired ) {
+
+		// For each property...
+
+		for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
+			Node node = elements.item( loop );
+
+			if ( !( node instanceof Element ) ) {
+				continue;
+			}
+
+			Element element = (Element) node;
+
+			// ...(not action)...
+
+			if ( ACTION.equals( element.getNodeName() ) ) {
+				continue;
+			}
+
+			// ...that is visible...
+
+			if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
+				continue;
+			}
+
+			// ...and is required...
+			//
+			// Note: this is a controversial choice. Our logic is that a) we need to limit
+			// the number of columns somehow, and b) displaying all the required fields should
+			// be enough to uniquely identify the row to the user. However, users may wish
+			// to override this default behaviour
+
+			if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
+				continue;
+			}
+
+			// ...add a column
+
+			StaticXmlWidget column = createColumnComponent( dataTable.getAttribute( "var" ), PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+
+			if ( column == null ) {
+				continue;
+			}
+
+			dataTable.getChildren().add( column );
+		}
 	}
 }

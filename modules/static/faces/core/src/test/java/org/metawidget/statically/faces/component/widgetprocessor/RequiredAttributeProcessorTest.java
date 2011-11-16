@@ -18,14 +18,12 @@ package org.metawidget.statically.faces.component.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.StringWriter;
 import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiRequired;
-import org.metawidget.statically.faces.StaticFacesMetawidgetTests;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 import org.metawidget.util.CollectionUtils;
@@ -49,11 +47,11 @@ public class RequiredAttributeProcessorTest
 		HtmlInputText htmlInputText = new HtmlInputText();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
 
 		attributes.put( REQUIRED, TRUE );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText required=\"true\"/>\r\n" );
+		assertEquals( "<h:inputText required=\"true\"/>", htmlInputText.toString() );
 	}
 
 	public void testSimpleType() {
@@ -61,9 +59,6 @@ public class RequiredAttributeProcessorTest
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
@@ -82,7 +77,7 @@ public class RequiredAttributeProcessorTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 	}
 
 	//

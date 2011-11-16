@@ -1,7 +1,5 @@
 package org.metawidget.statically.faces.component.html;
 
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
@@ -19,9 +17,6 @@ public class StaticHtmAllWidgetsTest
 		metawidget.setConfig( "org/metawidget/integrationtest/static/faces/allwidgets/metawidget.xml" );
 		metawidget.setValueExpression( "value", "#{allWidgets}" );
 		metawidget.setPath( AllWidgets.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsTextbox\" value=\"Textbox:\"/>\r\n" +
@@ -243,6 +238,6 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 	}
 }

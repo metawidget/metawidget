@@ -42,8 +42,13 @@ public class StandardBindingProcessor
 		String valueExpression = metawidget.getValueExpression( "value" );
 
 		if ( valueExpression != null ) {
-			valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-			valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+
+			// If we are not at the top level, construct the binding
+
+			if ( !ENTITY.equals( elementName ) ) {
+				valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+				valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+			}
 
 			widget.putAttribute( "value", valueExpression );
 		}

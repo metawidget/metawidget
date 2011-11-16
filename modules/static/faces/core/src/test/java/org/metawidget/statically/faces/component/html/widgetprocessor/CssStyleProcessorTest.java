@@ -18,12 +18,10 @@ package org.metawidget.statically.faces.component.html.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.StringWriter;
 import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.metawidget.statically.faces.StaticFacesMetawidgetTests;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 
@@ -48,14 +46,14 @@ public class CssStyleProcessorTest
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
 
 		// Styles
 
 		metawidget.setStyle( "foo" );
 		metawidget.setStyleClass( "bar" );
 		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText style=\"foo\" styleClass=\"bar\"/>\r\n" );
+		assertEquals( "<h:inputText style=\"foo\" styleClass=\"bar\"/>", htmlInputText.toString() );
 	}
 
 	public void testSimpleType() {
@@ -65,9 +63,6 @@ public class CssStyleProcessorTest
 		metawidget.setStyleClass( "styleClassin" );
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
@@ -86,7 +81,7 @@ public class CssStyleProcessorTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 	}
 
 	//

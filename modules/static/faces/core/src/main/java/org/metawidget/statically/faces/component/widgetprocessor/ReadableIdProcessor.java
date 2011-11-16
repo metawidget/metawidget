@@ -16,8 +16,6 @@
 
 package org.metawidget.statically.faces.component.widgetprocessor;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
@@ -27,6 +25,13 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
+ * WidgetProcessor to set 'human readable' ids on a StaticXmlWidget.
+ * <p>
+ * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the id human readable, both for
+ * debugging purposes and for when running unit tests (using, say, WebTest). Because the ids are
+ * based off the value expression (or method expression) of the StaticXmlWidget, this
+ * WidgetProcessor must come after <code>StandardBindingProcessor</code> (or equivalent).
+ *
  * @author Richard Kennard
  */
 
@@ -39,12 +44,10 @@ public class ReadableIdProcessor
 
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
 
-		String valueExpression = metawidget.getValueExpression( "value" );
+		String valueExpression = widget.getAttribute( "value" );
 
 		if ( valueExpression != null ) {
 			valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
-
 			widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
 		}
 		return widget;

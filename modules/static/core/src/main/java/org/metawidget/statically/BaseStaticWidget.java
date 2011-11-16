@@ -17,10 +17,12 @@
 package org.metawidget.statically;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -80,5 +82,17 @@ public abstract class BaseStaticWidget
 		}
 
 		return (T) mClientProperties.get( key );
+	}
+
+	@Override
+	public String toString() {
+
+		try {
+			StringWriter writer = new StringWriter();
+			write( writer );
+			return writer.toString();
+		} catch ( IOException e ) {
+			throw MetawidgetException.newException( e );
+		}
 	}
 }

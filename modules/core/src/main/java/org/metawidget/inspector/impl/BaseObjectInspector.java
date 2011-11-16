@@ -181,14 +181,13 @@ public abstract class BaseObjectInspector
 				}
 
 				declaredChildType = propertyInParent.getType();
+				parentAttributes = inspectParent( parent, propertyInParent );
 
 				// Now step forward to the usual end of the path
 
 				if ( parent == null || !propertyInParent.isReadable() ) {
-					parentAttributes = null;
 					childToInspect = null;
 				} else {
-					parentAttributes = inspectParent( parent, propertyInParent );
 					childToInspect = propertyInParent.read( parent );
 
 					// Stop if childToInspect==null, given we know names.length > 0
@@ -286,7 +285,10 @@ public abstract class BaseObjectInspector
 	 * This method can be overridden by clients wishing to modify the parent inspection process.
 	 *
 	 * @param parentToInspect
-	 *            the parent to inspect. Never null
+	 *            the parent to inspect. Can be null (eg. when using static inspection). May be
+	 *            useful to clients in determining the context of the subsequent
+	 *            <tt>inspectTrait</tt> and <tt>inspectProperty</tt> calls (eg.
+	 *            they relate to the parent, not the normal toInspect)
 	 * @param propertyInParent
 	 *            the property in the parent that points to the original toInspect
 	 */

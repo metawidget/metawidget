@@ -17,15 +17,14 @@
 package org.metawidget.statically.faces.component.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstants.*;
 
-import java.io.StringWriter;
 import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiAttribute;
-import org.metawidget.statically.faces.StaticFacesMetawidgetTests;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 import org.metawidget.util.CollectionUtils;
@@ -51,20 +50,20 @@ public class StandardConverterProcessorTest
 		// Actions get no Converters
 
 		processor.processWidget( htmlInputText, ACTION, null, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
 
 		// Empty attributes get no Converters
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( NAME, "foo" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
 
 		// Implicit DateTimeConverter
 
 		attributes.put( TYPE, Date.class.getName() );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertDateTime/>\r\n</h:inputText>\r\n" );
+		assertEquals( "<h:inputText><f:convertDateTime/></h:inputText>", htmlInputText.toString() );
 		htmlInputText = new HtmlInputText();
 
 		// DateTimeConverter
@@ -76,7 +75,7 @@ public class StandardConverterProcessorTest
 		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		attributes.put( DATETIME_TYPE, "date" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertDateTime dateStyle=\"full\" locale=\"UK\" pattern=\"dd/MM/yyyy\" timeStyle=\"medium\" timeZone=\"Australia/Sydney\" type=\"date\"/>\r\n</h:inputText>\r\n" );
+		assertEquals( "<h:inputText><f:convertDateTime dateStyle=\"full\" locale=\"UK\" pattern=\"dd/MM/yyyy\" timeStyle=\"medium\" timeZone=\"Australia/Sydney\" type=\"date\"/></h:inputText>", htmlInputText.toString() );
 
 		// NumberConverter
 
@@ -94,7 +93,14 @@ public class StandardConverterProcessorTest
 
 		htmlInputText = new HtmlInputText();
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText>\r\n\t<f:convertNumber currencyCode=\"AUD\" currencySymbol=\"$\" groupingUsed=\"true\" locale=\"AU\" maxFractionDigits=\"1\" maxIntegerDigits=\"5\" minFractionDigits=\"0\" minIntegerDigits=\"2\" pattern=\"#0.00\" type=\"currency\"/>\r\n</h:inputText>\r\n" );
+		assertEquals( "<h:inputText><f:convertNumber currencyCode=\"AUD\" currencySymbol=\"$\" groupingUsed=\"true\" locale=\"AU\" maxFractionDigits=\"1\" maxIntegerDigits=\"5\" minFractionDigits=\"0\" minIntegerDigits=\"2\" pattern=\"#0.00\" type=\"currency\"/></h:inputText>", htmlInputText.toString() );
+
+		// Explicit Converter
+
+		htmlInputText = new HtmlInputText();
+		attributes.put( FACES_CONVERTER_ID, "#{foo}" );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		assertEquals( "<h:inputText converter=\"#{foo}\"/>", htmlInputText.toString() );
 	}
 
 	public void testSimpleType() {
@@ -102,9 +108,6 @@ public class StandardConverterProcessorTest
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
@@ -125,7 +128,7 @@ public class StandardConverterProcessorTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -145,13 +148,13 @@ public class StandardConverterProcessorTest
 
 		HtmlInputText htmlInputText = new HtmlInputText();
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( htmlInputText, "<h:inputText/>\r\n" );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
 
 		// Does not support Converter
 
 		StaticHtmlMetawidget staticHtmlMetawidget = new StaticHtmlMetawidget();
 		processor.processWidget( staticHtmlMetawidget, PROPERTY, null, null );
-		StaticFacesMetawidgetTests.assertWidgetEquals( staticHtmlMetawidget, "<h:panelGrid columns=\"3\"/>\r\n" );
+		assertEquals( "<h:panelGrid columns=\"3\"/>\r\n", staticHtmlMetawidget.toString() );
 	}
 
 	//

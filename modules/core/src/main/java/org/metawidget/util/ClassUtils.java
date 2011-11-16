@@ -386,21 +386,21 @@ public final class ClassUtils {
 	}
 
 	/**
-	 * Gets the 'simple' name of the class.
+	 * Gets the 'simple' name of the class, given the fully qualified name.
 	 * <p>
 	 * Essentially a simplified version of <code>Class.getSimpleName</code>, which is JDK
 	 * 1.5-specific.
 	 */
 
-	public static String getSimpleName( String className ) {
+	public static String getSimpleName( String qualifiedClassName ) {
 
-		int lastIndexOf = className.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
+		int lastIndexOf = qualifiedClassName.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( lastIndexOf != -1 ) {
-			return className.substring( lastIndexOf + 1 );
+			return qualifiedClassName.substring( lastIndexOf + 1 );
 		}
 
-		return className;
+		return qualifiedClassName;
 	}
 
 	/**

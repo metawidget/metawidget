@@ -1,10 +1,15 @@
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
-import java.io.StringWriter;
+import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstants.*;
+
+import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.util.CollectionUtils;
 
 public class ReadOnlyWidgetBuilderTest
 	extends TestCase {
@@ -19,9 +24,6 @@ public class ReadOnlyWidgetBuilderTest
 		metawidget.setReadOnly( true );
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
@@ -39,8 +41,23 @@ public class ReadOnlyWidgetBuilderTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 	}
+
+	public void testReadOnlyFacesLookup()
+		throws Exception {
+
+		ReadOnlyWidgetBuilder widgetBuilder = new ReadOnlyWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( READ_ONLY, TRUE );
+		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "<h:outputText/>", widget.toString() );
+
+		attributes.put( FACES_LOOKUP, "#{foo}" );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "<h:outputText/>", widget.toString() );
+	}
+
 	//
 	// Inner class
 	//

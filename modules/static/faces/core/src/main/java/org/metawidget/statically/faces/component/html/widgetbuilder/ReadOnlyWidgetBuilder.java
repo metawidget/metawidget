@@ -17,6 +17,7 @@
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -89,6 +90,12 @@ public class ReadOnlyWidgetBuilder
 				return new HtmlOutputText();
 			}
 
+			return new HtmlOutputText();
+		}
+
+		String facesLookup = attributes.get( FACES_LOOKUP );
+
+		if ( facesLookup != null && !"".equals( facesLookup ) ) {
 			return new HtmlOutputText();
 		}
 

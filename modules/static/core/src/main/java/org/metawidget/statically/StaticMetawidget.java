@@ -164,6 +164,15 @@ public abstract class StaticMetawidget
 		mPipeline.setInspector( inspector );
 	}
 
+	/**
+	 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
+	 */
+
+	public String inspect( Object toInspect, String type, String... names ) {
+
+		return mPipeline.inspect( toInspect, type, names );
+	}
+	
 	public void setInspectionResultProcessors( InspectionResultProcessor<StaticMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );

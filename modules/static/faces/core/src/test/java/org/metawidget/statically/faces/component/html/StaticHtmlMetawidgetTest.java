@@ -22,9 +22,7 @@ public class StaticHtmlMetawidgetTest
 	public void testNullPath() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
-		assertEquals( "<h:panelGrid columns=\"3\"/>\r\n", writer.toString() );
+		assertEquals( "<h:panelGrid columns=\"3\"/>\r\n", metawidget.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -121,9 +119,6 @@ public class StaticHtmlMetawidgetTest
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
-
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
@@ -139,7 +134,7 @@ public class StaticHtmlMetawidgetTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -151,9 +146,6 @@ public class StaticHtmlMetawidgetTest
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
@@ -180,7 +172,7 @@ public class StaticHtmlMetawidgetTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -192,9 +184,6 @@ public class StaticHtmlMetawidgetTest
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setValueExpression( "value", "#{foo}" );
 		metawidget.setPath( Sections.class.getName() );
-
-		StringWriter writer = new StringWriter();
-		metawidget.write( writer );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputText value=\"Section #1\"/>\r\n" +
@@ -217,7 +206,7 @@ public class StaticHtmlMetawidgetTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, writer.toString() );
+		assertEquals( result, metawidget.toString() );
 	}
 
 	//

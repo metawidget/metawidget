@@ -17,11 +17,9 @@
 package org.metawidget.statically;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.statically.StaticUtils.IndentedWriter;
 import org.metawidget.util.CollectionUtils;
 
@@ -97,27 +95,21 @@ public abstract class BaseStaticXmlWidget
 
 		if ( getChildren().isEmpty() ) {
 			writeStartTag( writer );
-			writer.append( "/>\r\n" );
+			writer.append( "/>" );
+			if ( writer instanceof IndentedWriter ) {
+				writer.append( "\r\n" );
+			}
 		} else {
 			writeStartTag( writer );
-			writer.append( ">\r\n" );
-			( (IndentedWriter) writer ).indent();
+			writer.append( ">" );
+			if ( writer instanceof IndentedWriter ) {
+				writer.append( "\r\n" );
+				( (IndentedWriter) writer ).indent();
+			}
 
 			super.write( writer );
 
 			writeEndTag( writer );
-		}
-	}
-
-	@Override
-	public String toString() {
-
-		try {
-			StringWriter writer = new StringWriter();
-			write( writer );
-			return writer.toString();
-		} catch ( IOException e ) {
-			throw MetawidgetException.newException( e );
 		}
 	}
 
@@ -159,7 +151,9 @@ public abstract class BaseStaticXmlWidget
 	private void writeEndTag( Writer writer )
 		throws IOException {
 
-		( (IndentedWriter) writer ).outdent();
+		if ( writer instanceof IndentedWriter ) {
+			( (IndentedWriter) writer ).outdent();
+		}
 		writer.append( "</" );
 
 		if ( mTagPrefix != null ) {
@@ -168,6 +162,10 @@ public abstract class BaseStaticXmlWidget
 		}
 
 		writer.append( mTagName );
-		writer.append( ">\r\n" );
+		writer.append( ">" );
+
+		if ( writer instanceof IndentedWriter ) {
+			writer.append( "\r\n" );
+		}
 	}
 }

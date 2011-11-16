@@ -14,40 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces;
+package org.metawidget.statically.faces.component.html.widgetbuilder;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
-import junit.framework.Assert;
-
-import org.metawidget.statically.StaticUtils.IndentedWriter;
-import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.faces.component.html.CoreWidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class StaticFacesMetawidgetTests {
+public class Param
+	extends CoreWidget {
 
 	//
-	// Public statics
+	// Constructor
 	//
 
-	public static void assertWidgetEquals( StaticWidget widget, String equals )
-		throws IOException {
+	public Param() {
 
-		StringWriter writer = new StringWriter();
-		widget.write( new IndentedWriter( writer, 0 ) );
-		Assert.assertEquals( equals, writer.toString() );
-	}
-
-	//
-	// Private constructor
-	//
-
-	private StaticFacesMetawidgetTests() {
-
-		// Can never be called
+		super( "param" );
 	}
 }
