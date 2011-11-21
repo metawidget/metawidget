@@ -57,7 +57,7 @@ public class RequiredAttributeProcessorTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +

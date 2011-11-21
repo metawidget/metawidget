@@ -24,7 +24,6 @@ import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -32,46 +31,31 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public abstract class StaticUIMetawidget
-	extends StaticXmlMetawidget {
-
-	//
-	// Private members
-	//
-
-	private Map<String, String>	mValueExpressions;
+	extends StaticXmlMetawidget
+	implements ValueHolder {
 
 	//
 	// Public methods
 	//
 
-	/**
-	 * Gets the value expression with the given name.
-	 * <p>
-	 * API design mimics <code>UIComponent</code>.
-	 */
 
-	public String getValueExpression( String name ) {
+	//
+	// Public methods
+	//
 
-		if ( mValueExpressions == null ) {
-			return null;
-		}
+	public String getValue() {
 
-		return mValueExpressions.get( name );
+		return getAttribute( "value" );
 	}
 
-	/**
-	 * Sets the value expression with the given name.
-	 * <p>
-	 * API design mimics <code>UIComponent</code>.
-	 */
+	public void setValue( String value ) {
 
-	public void setValueExpression( String name, String expression ) {
+		putAttribute( "value", value );
+	}
 
-		if ( mValueExpressions == null ) {
-			mValueExpressions = CollectionUtils.newHashMap();
-		}
+	public void setConverter( String converter ) {
 
-		mValueExpressions.put( name, expression );
+		// Do nothing
 	}
 
 	//
@@ -83,11 +67,11 @@ public abstract class StaticUIMetawidget
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 
-		String valueExpression = getValueExpression( "value" );
+		String valueExpression = getValue();
 		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
 		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 		valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
 
-		( (StaticHtmlMetawidget) nestedMetawidget ).setValueExpression( "value", valueExpression );
+		( (StaticHtmlMetawidget) nestedMetawidget ).setValue( valueExpression );
 	}
 }

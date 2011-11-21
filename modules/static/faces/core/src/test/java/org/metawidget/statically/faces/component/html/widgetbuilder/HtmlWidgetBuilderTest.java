@@ -83,7 +83,7 @@ public class HtmlWidgetBuilderTest
 
 		PropertyStyle propertyStyle = new StaticPropertyStyle();
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ), new Java5Inspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ), new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ) ) ) );
-		metawidget.setValueExpression( "value", "#{foo.pageItems}" );
+		metawidget.setValue( "#{foo.pageItems}" );
 		metawidget.setPath( FooBean.class.getName() + "/pageItems" );
 		metawidget.setLayout( new SimpleLayout() );
 
@@ -106,7 +106,7 @@ public class HtmlWidgetBuilderTest
 
 		// With required columns
 
-		metawidget.setValueExpression( "value", null );
+		metawidget.setValue( null );
 		metawidget.setPath( FooBean.class.getName() + "/requiredPageItems" );
 		metawidget.setLayout( new SimpleLayout() );
 

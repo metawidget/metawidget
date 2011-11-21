@@ -50,7 +50,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	MAX_LENGTH					= "maxLength";
+	private final static String	MAX_LENGTH	= "maxLength";
 
 	//
 	// Public methods
@@ -185,16 +185,69 @@ public class HtmlWidgetBuilder
 	// Protected methods
 	//
 
+	protected StaticXmlWidget createDataTableComponent( Class<?> clazz, Map<String, String> attributes, StaticMetawidget metawidget ) {
+
+		HtmlDataTable dataTable = new HtmlDataTable();
+		String dataTableVar = "_item";
+		dataTable.putAttribute( "var", dataTableVar );
+
+		// Inspect component type
+
+		String componentType;
+
+		if ( clazz.isArray() ) {
+			componentType = clazz.getComponentType().getName();
+		} else {
+			componentType = attributes.get( PARAMETERIZED_TYPE );
+		}
+
+		String inspectedType = null;
+
+		if ( componentType != null ) {
+			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+		}
+
+		// If there is no type...
+
+		if ( inspectedType == null ) {
+			// ...resort to a single column table...
+
+			addColumnComponent( dataTable, componentType, ENTITY, attributes, metawidget );
+		}
+
+		// ...otherwise, iterate over the component type...
+
+		else {
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			NodeList elements = root.getFirstChild().getChildNodes();
+
+			// ...and try to add columns for just the 'required' fields...
+
+			addColumnComponents( elements, dataTable, componentType, metawidget, true );
+
+			// ...but, failing that, add columns for every field
+
+			if ( dataTable.getChildren().isEmpty() ) {
+				addColumnComponents( elements, dataTable, componentType, metawidget, false );
+			}
+		}
+
+		return dataTable;
+	}
+
 	/**
-	 * Create a UIColumn component for the given attributes.
+	 * Add an HtmlColumn component for the given attributes, to the given HtmlDataTable.
 	 * <p>
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
 	 *
-	 * @return the UIColumn, or null to suppress the column
+	 * @param dataType
+	 *            the fully qualified type of the data in the collection. Can be useful for
+	 *            determining what controller to link to if placing a link around the text. May be
+	 *            null
 	 */
 
-	protected StaticXmlWidget createColumnComponent( String dataTableVar, String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	protected void addColumnComponent( HtmlDataTable dataTable, String dataType, String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
 
 		HtmlColumn column = new HtmlColumn();
 
@@ -202,7 +255,7 @@ public class HtmlWidgetBuilder
 
 		HtmlOutputText columnText = new HtmlOutputText();
 
-		String valueExpression = dataTableVar;
+		String valueExpression = dataTable.getAttribute( "var" );
 		if ( !ENTITY.equals( elementName ) ) {
 			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 		}
@@ -218,7 +271,7 @@ public class HtmlWidgetBuilder
 		headerFacet.getChildren().add( headerText );
 		column.getChildren().add( 0, headerFacet );
 
-		return column;
+		dataTable.getChildren().add( column );
 	}
 
 	//
@@ -284,61 +337,7 @@ public class HtmlWidgetBuilder
 		select.getChildren().add( selectItems );
 	}
 
-	private StaticXmlWidget createDataTableComponent( Class<?> clazz, Map<String, String> attributes, StaticMetawidget metawidget ) {
-
-		HtmlDataTable dataTable = new HtmlDataTable();
-		String dataTableVar = "_item";
-		dataTable.putAttribute( "var", dataTableVar );
-
-		// Inspect component type
-
-		String componentType;
-
-		if ( clazz.isArray() ) {
-			componentType = clazz.getComponentType().getName();
-		} else {
-			componentType = attributes.get( PARAMETERIZED_TYPE );
-		}
-
-		String inspectedType = null;
-
-		if ( componentType != null ) {
-			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
-		}
-
-		// If there is no type...
-
-		if ( inspectedType == null ) {
-			// ...resort to a single column table...
-
-			StaticXmlWidget column = createColumnComponent( dataTableVar, ENTITY, attributes, metawidget );
-
-			if ( column != null ) {
-				dataTable.getChildren().add( column );
-			}
-		}
-
-		// ...otherwise, iterate over the component type...
-
-		else {
-			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-			NodeList elements = root.getFirstChild().getChildNodes();
-
-			// ...and try to add columns for just the 'required' fields...
-
-			addColumnComponents( elements, dataTable, metawidget, true );
-
-			// ...but, failing that, add columns for every field
-
-			if ( dataTable.getChildren().isEmpty() ) {
-				addColumnComponents( elements, dataTable, metawidget, false );
-			}
-		}
-
-		return dataTable;
-	}
-
-	private void addColumnComponents( NodeList elements, HtmlDataTable dataTable, StaticMetawidget metawidget, boolean onlyRequired ) {
+	private void addColumnComponents( NodeList elements, HtmlDataTable dataTable, String dataType, StaticMetawidget metawidget, boolean onlyRequired ) {
 
 		// For each property...
 
@@ -376,13 +375,7 @@ public class HtmlWidgetBuilder
 
 			// ...add a column
 
-			StaticXmlWidget column = createColumnComponent( dataTable.getAttribute( "var" ), PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
-
-			if ( column == null ) {
-				continue;
-			}
-
-			dataTable.getChildren().add( column );
+			addColumnComponent( dataTable, dataType, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
 		}
 	}
 }

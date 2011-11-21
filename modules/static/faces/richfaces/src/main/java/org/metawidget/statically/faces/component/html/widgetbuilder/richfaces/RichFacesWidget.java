@@ -24,14 +24,14 @@ import org.metawidget.statically.BaseStaticXmlWidget;
  * @author Richard Kennard
  */
 
-public class RichFacesWidget
+public abstract class RichFacesWidget
 	extends BaseStaticXmlWidget {
 
 	//
 	// Constructor
 	//
 
-	public RichFacesWidget( String tagName ) {
+	protected RichFacesWidget( String tagName ) {
 
 		super( "rich", tagName, "http://richfaces.org/rich" );
 	}

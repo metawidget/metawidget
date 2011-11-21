@@ -22,7 +22,7 @@ public class ReadOnlyWidgetBuilderTest
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setReadOnly( true );
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +

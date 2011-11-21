@@ -16,24 +16,27 @@
 
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
-import org.metawidget.statically.faces.component.EditableValueHolder;
+import java.io.IOException;
+import java.io.Writer;
+
+import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class HtmlInputSecret
+public class HtmlOutcomeTargetLink
 	extends HtmlWidget
-	implements EditableValueHolder {
+	implements ValueHolder {
 
 	//
 	// Constructor
 	//
 
-	public HtmlInputSecret() {
+	public HtmlOutcomeTargetLink() {
 
-		super( "inputSecret" );
+		super( "link" );
 	}
 
 	//
@@ -53,5 +56,28 @@ public class HtmlInputSecret
 	public void setConverter( String value ) {
 
 		putAttribute( "converter", value );
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Overridden to suppress writing 'value' or 'converter' attributes for <tt>h:link</tt>.
+	 * <p>
+	 * We still want <tt>HtmlOutcomeTargetLink</tt> to implement <tt>ValueHolder</tt> though,
+	 * because a) we want it to have an 'id' attribute based on its value binding; b)
+	 * <tt>javax.faces.component.html.HtmlOutcomeTargetLink</tt> implements <tt>ValueHolder</tt>.
+	 */
+
+	@Override
+	protected void writeAttribute( Writer writer, String name, String value )
+		throws IOException {
+
+		if ( "value".equals( name ) || "calendar".equals( name )) {
+			return;
+		}
+
+		super.writeAttribute( writer, name, value );
 	}
 }

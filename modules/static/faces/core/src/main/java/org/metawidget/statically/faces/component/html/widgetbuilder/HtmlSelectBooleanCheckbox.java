@@ -16,6 +16,7 @@
 
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
+import org.metawidget.statically.faces.component.EditableValueHolder;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
@@ -23,7 +24,8 @@ import org.metawidget.statically.faces.component.html.HtmlWidget;
  */
 
 public class HtmlSelectBooleanCheckbox
-	extends HtmlWidget {
+	extends HtmlWidget
+	implements EditableValueHolder {
 
 	//
 	// Constructor
@@ -32,5 +34,24 @@ public class HtmlSelectBooleanCheckbox
 	public HtmlSelectBooleanCheckbox() {
 
 		super( "selectBooleanCheckbox" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public String getValue() {
+
+		return getAttribute( "value" );
+	}
+
+	public void setValue( String value ) {
+
+		putAttribute( "value", value );
+	}
+
+	public void setConverter( String value ) {
+
+		putAttribute( "converter", value );
 	}
 }

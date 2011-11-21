@@ -388,16 +388,120 @@ public class HtmlWidgetBuilder
 		}
 	}
 
+	protected UIComponent createDataTableComponent( Class<?> clazz, Map<String, String> attributes, UIMetawidget metawidget ) {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		UIViewRoot viewRoot = context.getViewRoot();
+
+		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( "javax.faces.HtmlDataTable" );
+		dataTable.setVar( "_item" );
+
+		// CSS
+
+		dataTable.setStyleClass( mDataTableStyleClass );
+		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ) );
+		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ) );
+
+		// Inspect component type
+
+		String componentType;
+
+		if ( clazz.isArray() ) {
+			componentType = clazz.getComponentType().getName();
+		} else {
+			componentType = attributes.get( PARAMETERIZED_TYPE );
+		}
+
+		String inspectedType = null;
+
+		if ( componentType != null ) {
+			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+		}
+
+		// If there is no type...
+
+		if ( inspectedType == null ) {
+			// ...resort to a single column table...
+
+			// TODO: https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4717262
+
+			addColumnComponent( dataTable, componentType, ENTITY, attributes, metawidget );
+		}
+
+		// ...otherwise, iterate over the component type...
+
+		else {
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			NodeList elements = root.getFirstChild().getChildNodes();
+
+			// ...and try to add columns for just the 'required' fields...
+
+			addColumnComponents( elements, dataTable, componentType, metawidget, true );
+
+			// ...but, failing that, add columns for every field
+
+			if ( dataTable.getChildren().isEmpty() ) {
+				addColumnComponents( elements, dataTable, componentType, metawidget, false );
+			}
+		}
+
+		// Add an 'action' column (if requested)
+
+		String rowActionParameter = metawidget.getParameter( DATATABLE_ROW_ACTION );
+
+		if ( rowActionParameter != null ) {
+			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
+			rowAction.setId( viewRoot.createUniqueId() );
+
+			// (dataTableRowAction cannot be wrapped when used on the JSP page)
+
+			if ( FacesUtils.isExpression( rowActionParameter ) ) {
+				throw WidgetBuilderException.newException( DATATABLE_ROW_ACTION + " must be an unwrapped JSF expression (eg. foo.bar, not #{foo.bar})" );
+			}
+
+			String actionName = StringUtils.substringAfterLast( rowActionParameter, "." );
+			String localizedKey = metawidget.getLocalizedKey( actionName );
+
+			if ( localizedKey == null ) {
+				rowAction.setValue( StringUtils.uncamelCase( actionName ) );
+			} else {
+				rowAction.setValue( localizedKey );
+			}
+
+			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( rowActionParameter ), null );
+			rowAction.setAction( binding );
+
+			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+			column.setId( viewRoot.createUniqueId() );
+			column.getChildren().add( rowAction );
+			dataTable.getChildren().add( column );
+
+			// Put a blank header, so that CSS styling (such as border-bottom) still applies
+
+			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+			headerText.setId( viewRoot.createUniqueId() );
+			headerText.setValue( "<div></div>" );
+			headerText.setEscape( false );
+			column.setHeader( headerText );
+		}
+
+		return dataTable;
+	}
+
 	/**
-	 * Create a UIColumn component for the given attributes.
+	 * Create a UIColumn component for the given attributes, to the given UIData.
 	 * <p>
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
 	 *
-	 * @return the UIColumn, or null to suppress the column
+	 * @param dataType
+	 *            the fully qualified type of the data in the collection. Can be useful for
+	 *            determining what controller to link to if placing a link around the text. May be
+	 *            null
 	 */
 
-	protected UIColumn createColumnComponent( String dataTableVar, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+	protected void addColumnComponent( UIData dataTable, String dataType, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -411,8 +515,8 @@ public class HtmlWidgetBuilder
 		UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 		columnText.setId( viewRoot.createUniqueId() );
 
-		String valueBindingString = dataTableVar;
-		if ( !ENTITY.equals( elementName )) {
+		String valueBindingString = dataTable.getVar();
+		if ( !ENTITY.equals( elementName ) ) {
 			valueBindingString += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 		}
 		ValueBinding binding = application.createValueBinding( FacesUtils.wrapExpression( valueBindingString ) );
@@ -426,7 +530,7 @@ public class HtmlWidgetBuilder
 		headerText.setValue( metawidget.getLabelString( attributes ) );
 		column.setHeader( headerText );
 
-		return column;
+		dataTable.getChildren().add( column );
 	}
 
 	//
@@ -545,112 +649,7 @@ public class HtmlWidgetBuilder
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
 	}
 
-	private UIComponent createDataTableComponent( Class<?> clazz, Map<String, String> attributes, UIMetawidget metawidget ) {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
-
-		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( "javax.faces.HtmlDataTable" );
-		dataTable.setVar( "_item" );
-
-		// CSS
-
-		dataTable.setStyleClass( mDataTableStyleClass );
-		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ) );
-		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ) );
-
-		// Inspect component type
-
-		String componentType;
-
-		if ( clazz.isArray() ) {
-			componentType = clazz.getComponentType().getName();
-		} else {
-			componentType = attributes.get( PARAMETERIZED_TYPE );
-		}
-
-		String inspectedType = null;
-
-		if ( componentType != null ) {
-			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
-		}
-
-		// If there is no type...
-
-		if ( inspectedType == null ) {
-			// ...resort to a single column table...
-
-			// TODO: https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4717262
-
-			UIColumn column = createColumnComponent( dataTable.getVar(), ENTITY, attributes, metawidget );
-
-			if ( column != null ) {
-				dataTable.getChildren().add( column );
-			}
-		}
-
-		// ...otherwise, iterate over the component type...
-
-		else {
-			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-			NodeList elements = root.getFirstChild().getChildNodes();
-
-			// ...and try to add columns for just the 'required' fields...
-
-			addColumnComponents( elements, dataTable, metawidget, true );
-
-			// ...but, failing that, add columns for every field
-
-			if ( dataTable.getChildren().isEmpty() ) {
-				addColumnComponents( elements, dataTable, metawidget, false );
-			}
-		}
-
-		// Add an 'action' column (if requested)
-
-		String rowActionParameter = metawidget.getParameter( DATATABLE_ROW_ACTION );
-
-		if ( rowActionParameter != null ) {
-			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
-			rowAction.setId( viewRoot.createUniqueId() );
-
-			// (dataTableRowAction cannot be wrapped when used on the JSP page)
-
-			if ( FacesUtils.isExpression( rowActionParameter ) ) {
-				throw WidgetBuilderException.newException( DATATABLE_ROW_ACTION + " must be an unwrapped JSF expression (eg. foo.bar, not #{foo.bar})" );
-			}
-
-			String actionName = StringUtils.substringAfterLast( rowActionParameter, "." );
-			String localizedKey = metawidget.getLocalizedKey( actionName );
-
-			if ( localizedKey == null ) {
-				rowAction.setValue( StringUtils.uncamelCase( actionName ) );
-			} else {
-				rowAction.setValue( localizedKey );
-			}
-
-			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( rowActionParameter ), null );
-			rowAction.setAction( binding );
-
-			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
-			column.setId( viewRoot.createUniqueId() );
-			column.getChildren().add( rowAction );
-			dataTable.getChildren().add( column );
-
-			// Put a blank header, so that CSS styling (such as border-bottom) still applies
-
-			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
-			headerText.setId( viewRoot.createUniqueId() );
-			headerText.setValue( "<div></div>" );
-			headerText.setEscape( false );
-			column.setHeader( headerText );
-		}
-
-		return dataTable;
-	}
-
-	private void addColumnComponents( NodeList elements, UIData dataTable, UIMetawidget metawidget, boolean onlyRequired ) {
+	private void addColumnComponents( NodeList elements, UIData dataTable, String dataType, UIMetawidget metawidget, boolean onlyRequired ) {
 
 		// For each property...
 
@@ -688,13 +687,7 @@ public class HtmlWidgetBuilder
 
 			// ...add a column
 
-			UIColumn column = createColumnComponent( dataTable.getVar(), PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
-
-			if ( column == null ) {
-				continue;
-			}
-
-			dataTable.getChildren().add( column );
+			addColumnComponent( dataTable, dataType, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
 		}
 	}
 }

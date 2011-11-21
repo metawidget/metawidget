@@ -55,6 +55,13 @@ public class StringUtilsTest
 		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
 	}
 
+	public void testSubstringBefore()
+		throws Exception {
+
+		assertEquals( "foo", StringUtils.substringBefore( "foo.bar.baz", "." ) );
+		assertEquals( "baz", StringUtils.substringBefore( "baz", "." ) );
+	}
+
 	public void testSubstringAfterLast()
 		throws Exception {
 

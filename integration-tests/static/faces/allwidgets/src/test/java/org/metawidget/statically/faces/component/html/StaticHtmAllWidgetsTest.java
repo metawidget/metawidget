@@ -15,7 +15,7 @@ public class StaticHtmAllWidgetsTest
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setConfig( "org/metawidget/integrationtest/static/faces/allwidgets/metawidget.xml" );
-		metawidget.setValueExpression( "value", "#{allWidgets}" );
+		metawidget.setValue( "#{allWidgets}" );
 		metawidget.setPath( AllWidgets.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +

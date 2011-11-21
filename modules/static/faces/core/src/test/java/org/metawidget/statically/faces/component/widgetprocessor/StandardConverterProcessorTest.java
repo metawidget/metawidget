@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.statically.faces.component.html.layout.HtmlPanelGrid;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 import org.metawidget.util.CollectionUtils;
 
@@ -106,7 +107,7 @@ public class StandardConverterProcessorTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
@@ -152,9 +153,9 @@ public class StandardConverterProcessorTest
 
 		// Does not support Converter
 
-		StaticHtmlMetawidget staticHtmlMetawidget = new StaticHtmlMetawidget();
-		processor.processWidget( staticHtmlMetawidget, PROPERTY, null, null );
-		assertEquals( "<h:panelGrid columns=\"3\"/>\r\n", staticHtmlMetawidget.toString() );
+		HtmlPanelGrid htmlPanelGrid = new HtmlPanelGrid();
+		processor.processWidget( htmlPanelGrid, PROPERTY, null, null );
+		assertEquals( "<h:panelGrid/>", htmlPanelGrid.toString() );
 	}
 
 	//

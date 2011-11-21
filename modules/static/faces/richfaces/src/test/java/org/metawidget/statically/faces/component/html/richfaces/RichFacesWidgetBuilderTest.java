@@ -23,7 +23,7 @@ public class RichFacesWidgetBuilderTest
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setConfig( "org/metawidget/statically/faces/component/html/richfaces/metawidget.xml" );
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		StringWriter writer = new StringWriter();

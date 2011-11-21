@@ -90,14 +90,14 @@ public class DisplayTagWidgetBuilder
 			PageContext context = metawidgetTag.getPageContext();
 			Object toDisplay = context.getExpressionEvaluator().evaluate( "${" + metawidgetTag.getPath() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) + "}", Object.class, context.getVariableResolver(), null );
 
-			// Create the DisplayTag
+			// Create the TableTag
 
-			final TableTag displayTag = new TableTag();
-			displayTag.setName( toDisplay );
+			final TableTag tableTag = new TableTag();
+			tableTag.setName( toDisplay );
 
 			// Write the DisplayTag
 
-			String literal = JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer() {
+			String literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tableTag, metawidgetTag, new BodyPreparer() {
 
 				// After DisplayTag.doStartTag, can add columns
 
@@ -143,12 +143,10 @@ public class DisplayTagWidgetBuilder
 
 							// ...add a column
 
-							ColumnTag columnTag = new ColumnTag();
-							columnTag.setTitle( metawidgetTag.getLabelString( XmlUtils.getAttributesAsMap( element ) ) );
-							columnTag.setProperty( element.getAttribute( NAME ) );
-
-							JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, displayTag, null );
+							addColumnTag( tableTag, componentType, XmlUtils.getAttributesAsMap( element ), metawidgetTag );
 						}
+					} else {
+						// If there is no type, DisplayTag will make a best guess
 					}
 				}
 			} );
@@ -157,5 +155,31 @@ public class DisplayTagWidgetBuilder
 		} catch ( Exception e ) {
 			throw WidgetBuilderException.newException( e );
 		}
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Add a ColumnTag for the given attributes, to the given TableTag
+	 * <p>
+	 * Clients can override this method to modify the column contents. For example, to place a link
+	 * around the text.
+	 *
+	 * @param dataType
+	 *            the fully qualified type of the data in the collection. Can be useful for
+	 *            determining what controller to link to if placing a link around the text. May be
+	 *            null
+	 */
+
+	protected void addColumnTag( TableTag tableTag, String dataType, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+		throws JspException {
+
+		ColumnTag columnTag = new ColumnTag();
+		columnTag.setTitle( metawidgetTag.getLabelString( attributes ) );
+		columnTag.setProperty( attributes.get( NAME ) );
+
+		JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, tableTag, null );
 	}
 }

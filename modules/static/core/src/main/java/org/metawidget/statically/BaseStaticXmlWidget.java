@@ -21,6 +21,7 @@ import java.io.Writer;
 import java.util.Map;
 
 import org.metawidget.statically.StaticUtils.IndentedWriter;
+import org.metawidget.statically.StaticUtils.LeadingSpaceWriter;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -114,6 +115,30 @@ public abstract class BaseStaticXmlWidget
 	}
 
 	//
+	// Protected methods
+	//
+
+	/**
+	 * Writes the attribute with the given name and value to the given writer.
+	 * <p>
+	 * By default, does not write attributes whose value is null or empty. Subclasses can override
+	 * this method to suppress writing attributes for other reasons.
+	 */
+
+	protected void writeAttribute( Writer writer, String name, String value )
+		throws IOException {
+
+		if ( value == null || value.length() == 0 ) {
+			return;
+		}
+
+		writer.append( name );
+		writer.append( "=\"" );
+		writer.append( value );
+		writer.append( "\"" );
+	}
+
+	//
 	// Private methods
 	//
 
@@ -133,17 +158,7 @@ public abstract class BaseStaticXmlWidget
 
 			for ( Map.Entry<String, String> entry : mAttributes.entrySet() ) {
 
-				String value = entry.getValue();
-
-				if ( value == null || value.length() == 0 ) {
-					continue;
-				}
-
-				writer.append( ' ' );
-				writer.append( entry.getKey() );
-				writer.append( "=\"" );
-				writer.append( value );
-				writer.append( "\"" );
+				writeAttribute( new LeadingSpaceWriter( writer ), entry.getKey(), entry.getValue() );
 			}
 		}
 	}

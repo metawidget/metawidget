@@ -40,12 +40,6 @@ public final class StaticUtils {
 		extends Writer {
 
 		//
-		// Private statics
-		//
-
-		private static final char[]	INDENT_CHARS	= new char[] { '\t' };
-
-		//
 		// Private members
 		//
 
@@ -119,7 +113,7 @@ public final class StaticUtils {
 				if ( mWriteIndent ) {
 					mWriteIndent = false;
 					for ( int indent = 0; indent < mIndent; indent++ ) {
-						mWriter.write( INDENT_CHARS, 0, 1 );
+						mWriter.write( '\t' );
 					}
 				}
 
@@ -132,6 +126,75 @@ public final class StaticUtils {
 				if ( characters[loop] == '\n' ) {
 					mWriteIndent = true;
 				}
+			}
+		}
+
+		@Override
+		public void flush()
+			throws IOException {
+
+			mWriter.flush();
+		}
+
+		@Override
+		public void close()
+			throws IOException {
+
+			mWriter.close();
+		}
+	}
+
+	/**
+	 * Writer that automatically inserts a leading space before the first character.
+	 */
+
+	public static class LeadingSpaceWriter
+		extends Writer {
+
+		//
+		// Private members
+		//
+
+		private Writer				mWriter;
+
+		private boolean				mWriteLeadingSpace = true;
+
+		//
+		// Constructor
+		//
+
+		/**
+		 * Constructs a new LeadingSpaceWriter.
+		 *
+		 * @param writer
+		 *            the writer to delegate all writes to
+		 */
+
+		public LeadingSpaceWriter( Writer writer ) {
+
+			mWriter = writer;
+		}
+
+		//
+		// Public methods
+		//
+
+		/**
+		 * Write the given characters, inserting a leading space.
+		 */
+
+		@Override
+		public void write( char[] characters, int offset, int length )
+			throws IOException {
+
+			for ( int loop = offset, end = offset + length; loop < end; loop++ ) {
+
+				if ( mWriteLeadingSpace ) {
+					mWriter.write( ' ' );
+					mWriteLeadingSpace = false;
+				}
+
+				mWriter.write( characters, loop, 1 );
 			}
 		}
 

@@ -16,6 +16,7 @@
 
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
+import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
@@ -23,7 +24,8 @@ import org.metawidget.statically.faces.component.html.HtmlWidget;
  */
 
 public class HtmlOutputText
-	extends HtmlWidget {
+	extends HtmlWidget
+	implements ValueHolder {
 
 	//
 	// Constructor
@@ -32,5 +34,24 @@ public class HtmlOutputText
 	public HtmlOutputText() {
 
 		super( "outputText" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public String getValue() {
+
+		return getAttribute( "value" );
+	}
+
+	public void setValue( String value ) {
+
+		putAttribute( "value", value );
+	}
+
+	public void setConverter( String value ) {
+
+		putAttribute( "converter", value );
 	}
 }

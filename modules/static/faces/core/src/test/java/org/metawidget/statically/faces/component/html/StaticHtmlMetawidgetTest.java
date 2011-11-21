@@ -116,7 +116,7 @@ public class StaticHtmlMetawidgetTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
@@ -144,7 +144,7 @@ public class StaticHtmlMetawidgetTest
 	public void testNestedType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
@@ -182,7 +182,7 @@ public class StaticHtmlMetawidgetTest
 	public void testOutputTextLayoutDecorator() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Sections.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +

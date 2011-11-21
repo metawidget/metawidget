@@ -23,6 +23,7 @@ import java.util.Map;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.statically.faces.component.StaticUIMetawidget;
+import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -39,19 +40,23 @@ public class StandardBindingProcessor
 
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
 
-		String valueExpression = metawidget.getValueExpression( "value" );
+		if ( widget instanceof ValueHolder ) {
 
-		if ( valueExpression != null ) {
+			String valueExpression = metawidget.getValue();
 
-			// If we are not at the top level, construct the binding
+			if ( valueExpression != null ) {
 
-			if ( !ENTITY.equals( elementName ) ) {
-				valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-				valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+				// If we are not at the top level, construct the binding
+
+				if ( !ENTITY.equals( elementName ) ) {
+					valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+					valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+				}
+
+				((ValueHolder) widget).setValue( valueExpression );
 			}
-
-			widget.putAttribute( "value", valueExpression );
 		}
+
 		return widget;
 	}
 }

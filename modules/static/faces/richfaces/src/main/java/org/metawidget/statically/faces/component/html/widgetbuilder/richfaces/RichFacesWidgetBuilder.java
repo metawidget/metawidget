@@ -89,7 +89,7 @@ public class RichFacesWidgetBuilder
 
 			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
 
-				RichFacesWidget slider = new RichFacesWidget( "inputNumberSlider" );
+				HtmlInputNumberSlider slider = new HtmlInputNumberSlider();
 				slider.putAttribute( "minValue", minimumValue );
 				slider.putAttribute( "maxValue", maximumValue );
 
@@ -98,7 +98,7 @@ public class RichFacesWidgetBuilder
 
 			// Not-ranged
 
-			RichFacesWidget spinner = new RichFacesWidget( "inputNumberSpinner" );
+			HtmlInputNumberSpinner spinner = new HtmlInputNumberSpinner();
 
 			// May be ranged in one dimension only
 
@@ -129,7 +129,7 @@ public class RichFacesWidgetBuilder
 		// would allow external, app-level configuration of this Calendar
 
 		if ( Date.class.isAssignableFrom( clazz ) ) {
-			RichFacesWidget calendar = new RichFacesWidget( "calendar" );
+			HtmlCalendar calendar = new HtmlCalendar();
 
 			if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 				calendar.putAttribute( "datePattern", attributes.get( DATETIME_PATTERN ) );
@@ -153,7 +153,7 @@ public class RichFacesWidgetBuilder
 
 			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
 
-				RichFacesWidget slider = new RichFacesWidget( "inputNumberSlider" );
+				HtmlInputNumberSlider slider = new HtmlInputNumberSlider();
 				slider.putAttribute( "minValue", minimumValue );
 				slider.putAttribute( "maxValue", maximumValue );
 
@@ -173,7 +173,7 @@ public class RichFacesWidgetBuilder
 				return new HtmlOutputText();
 			}
 
-			return new RichFacesWidget( "colorPicker" );
+			return new HtmlColorPicker();
 		}
 
 		// Not for RichFaces?

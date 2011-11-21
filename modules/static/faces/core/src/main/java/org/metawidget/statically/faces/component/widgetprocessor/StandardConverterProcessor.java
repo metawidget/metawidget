@@ -22,9 +22,9 @@ import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstant
 import java.util.Date;
 import java.util.Map;
 
-import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.StaticUIMetawidget;
+import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.statically.faces.component.html.CoreWidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -51,7 +51,7 @@ public class StandardConverterProcessor
 
 		// Ignore components that cannot have Converters
 
-		if ( widget instanceof StaticXmlMetawidget ) {
+		if ( !( widget instanceof ValueHolder ) ) {
 			return widget;
 		}
 
@@ -60,7 +60,7 @@ public class StandardConverterProcessor
 		String converterId = attributes.get( FACES_CONVERTER_ID );
 
 		if ( converterId != null ) {
-			widget.putAttribute( "converter", converterId );
+			((ValueHolder) widget).setConverter( converterId );
 			return widget;
 		}
 
@@ -180,7 +180,7 @@ public class StandardConverterProcessor
 	private CoreWidget getDateTimeConverter( CoreWidget existingConverter ) {
 
 		if ( existingConverter != null ) {
-			if ( !( existingConverter instanceof ConvertDateTimeWidget )) {
+			if ( !( existingConverter instanceof ConvertDateTimeWidget ) ) {
 				throw WidgetProcessorException.newException( "Unable to set date/time attributes on a " + existingConverter );
 			}
 
@@ -193,7 +193,7 @@ public class StandardConverterProcessor
 	private CoreWidget getNumberConverter( CoreWidget existingConverter ) {
 
 		if ( existingConverter != null ) {
-			if ( !( existingConverter instanceof ConvertNumberWidget )) {
+			if ( !( existingConverter instanceof ConvertNumberWidget ) ) {
 				throw WidgetProcessorException.newException( "Unable to set number attributes on a " + existingConverter );
 			}
 

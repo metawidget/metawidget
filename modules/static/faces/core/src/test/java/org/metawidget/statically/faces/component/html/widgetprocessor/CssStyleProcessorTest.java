@@ -61,7 +61,7 @@ public class CssStyleProcessorTest
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setStyle( "stylin" );
 		metawidget.setStyleClass( "styleClassin" );
-		metawidget.setValueExpression( "value", "#{foo}" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +

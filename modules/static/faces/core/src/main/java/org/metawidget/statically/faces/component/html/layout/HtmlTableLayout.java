@@ -22,9 +22,9 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.faces.component.EditableValueHolder;
 import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
@@ -91,9 +91,9 @@ public class HtmlTableLayout
 			label.putAttribute( "value", labelText + ":" );
 			panelGrid.getChildren().add( label );
 
-			if ( widget instanceof StaticMetawidget || widget instanceof HtmlOutputText ) {
+			if ( !( widget instanceof EditableValueHolder ) ) {
 
-				// Nested Metawidget
+				// Non-editable
 
 				panelGrid.getChildren().add( widget );
 

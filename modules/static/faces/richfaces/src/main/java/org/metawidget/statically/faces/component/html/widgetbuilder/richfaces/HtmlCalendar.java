@@ -14,23 +14,43 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component.html.widgetbuilder;
+package org.metawidget.statically.faces.component.html.widgetbuilder.richfaces;
 
-import org.metawidget.statically.faces.component.html.HtmlWidget;
+import org.metawidget.statically.faces.component.EditableValueHolder;
 
 /**
  * @author Richard Kennard
  */
 
-public class HtmlLink
-	extends HtmlWidget {
+public class HtmlCalendar
+	extends RichFacesWidget
+	implements EditableValueHolder {
 
 	//
 	// Constructor
 	//
 
-	public HtmlLink() {
+	public HtmlCalendar() {
 
-		super( "link" );
+		super( "calendar" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public String getValue() {
+
+		return getAttribute( "value" );
+	}
+
+	public void setValue( String value ) {
+
+		putAttribute( "value", value );
+	}
+
+	public void setConverter( String value ) {
+
+		putAttribute( "converter", value );
 	}
 }

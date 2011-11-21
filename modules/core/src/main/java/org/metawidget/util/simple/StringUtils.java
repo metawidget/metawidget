@@ -204,6 +204,22 @@ public final class StringUtils {
 	}
 
 	/**
+	 * Returns the portion of the overall string that comes before the given string. If the given
+	 * string is not found in the overall string, returns the entire string.
+	 */
+
+	public static String substringBefore( String text, String before ) {
+
+		int iIndexOf = text.indexOf( before );
+
+		if ( iIndexOf == -1 ) {
+			return text;
+		}
+
+		return text.substring( 0, iIndexOf );
+	}
+
+	/**
 	 * Returns the portion of the overall string that comes after the last occurance of the given
 	 * string. If the given string is not found in the overall string, returns the entire string.
 	 */
@@ -218,7 +234,7 @@ public final class StringUtils {
 
 		return text.substring( iIndexOf + after.length() );
 	}
-	
+
 	//
 	// Private constructor
 	//
