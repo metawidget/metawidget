@@ -86,7 +86,7 @@ public final class StringUtils {
 	/**
 	 * Capitalize by uppercasing the first letter of the given String.
 	 */
-	
+
 	public static String capitalize( String in ) {
 
 		return Character.toUpperCase( in.charAt( 0 ) ) + in.substring( 1 );
@@ -95,7 +95,7 @@ public final class StringUtils {
 	/**
 	 * Returns true if the first letter of the given String is in uppercase.
 	 */
-	
+
 	public static boolean isCapitalized( String in ) {
 
 		if ( in.length() == 0 ) {

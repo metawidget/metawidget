@@ -226,6 +226,29 @@ public class BeansBindingProcessorTest
 		}
 	}
 
+	public void testUppercase()
+		throws Exception {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
+
+		// Saving
+
+		UppercaseFoo uppercaseFoo = new UppercaseFoo();
+		metawidget.setToInspect( uppercaseFoo );
+
+		metawidget.setValue( "1234567890", "WEPKey" );
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+		assertEquals( "1234567890", uppercaseFoo.getWEPKey() );
+
+		// Loading
+
+		uppercaseFoo.setWEPKey( "0987654321" );
+		metawidget.setToInspect( uppercaseFoo );
+
+		assertEquals( "0987654321", ((JTextField) metawidget.getComponent( 1 )).getText() );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig() {
@@ -387,5 +410,24 @@ public class BeansBindingProcessorTest
 		//
 
 		public float	bar;
+	}
+
+	protected static class UppercaseFoo {
+
+		private String	mWEPKey;
+
+		//
+		// Public methods
+		//
+
+		public String getWEPKey() {
+
+			return mWEPKey;
+		}
+
+		public void setWEPKey( String WEPKey ) {
+
+			mWEPKey = WEPKey;
+		}
 	}
 }
