@@ -29,12 +29,28 @@ public class StringUtilsTest
 	// Public methods
 	//
 
-	public void testFirstLetterUppercase()
+	public void testIsCapitalized()
 		throws Exception {
 
-		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ) );
-		assertTrue( false == StringUtils.isFirstLetterUppercase( "ab" ) );
-		assertTrue( StringUtils.isFirstLetterUppercase( "Ab" ) );
+		assertTrue( false == StringUtils.isCapitalized( "" ) );
+		assertTrue( false == StringUtils.isCapitalized( "ab" ) );
+		assertTrue( StringUtils.isCapitalized( "Ab" ) );
+	}
+
+	public void testCapitalize()
+		throws Exception {
+
+		assertEquals( "FooBah", StringUtils.capitalize( "fooBah" ) );
+		assertEquals( "X", StringUtils.capitalize( "x" ) );
+		assertEquals( "URL", StringUtils.capitalize( "URL" ) );
+	}
+
+	public void testDecapitalize()
+		throws Exception {
+
+		assertEquals( "fooBah", StringUtils.decapitalize( "FooBah" ) );
+		assertEquals( "x", StringUtils.decapitalize( "X" ) );
+		assertEquals( "URL", StringUtils.decapitalize( "URL" ) );
 	}
 
 	public void testCamelCase()

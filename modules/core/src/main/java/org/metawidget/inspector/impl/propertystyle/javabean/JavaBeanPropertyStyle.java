@@ -311,11 +311,11 @@ public class JavaBeanPropertyStyle
 			return null;
 		}
 
-		if ( !StringUtils.isFirstLetterUppercase( propertyName ) ) {
+		if ( !StringUtils.isCapitalized( propertyName ) ) {
 			return null;
 		}
 
-		return StringUtils.lowercaseFirstLetter( propertyName );
+		return StringUtils.decapitalize( propertyName );
 	}
 
 	/**
@@ -409,11 +409,11 @@ public class JavaBeanPropertyStyle
 
 		String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
 
-		if ( !StringUtils.isFirstLetterUppercase( propertyName ) ) {
+		if ( !StringUtils.isCapitalized( propertyName ) ) {
 			return null;
 		}
 
-		return StringUtils.lowercaseFirstLetter( propertyName );
+		return StringUtils.decapitalize( propertyName );
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class JavaBeanPropertyStyle
 		// {0} = dateOfBirth, surname
 		// {1} = DateOfBirth, Surname
 
-		String[] arguments = new String[] { propertyName, StringUtils.uppercaseFirstLetter( propertyName ) };
+		String[] arguments = new String[] { propertyName, StringUtils.capitalize( propertyName ) };
 		String fieldName;
 
 		synchronized ( mPrivateFieldConvention ) {

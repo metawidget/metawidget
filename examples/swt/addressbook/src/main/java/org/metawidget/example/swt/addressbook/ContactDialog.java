@@ -260,7 +260,7 @@ public class ContactDialog
 				communicationMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 				communicationMetawidget.setMetawidgetLayout( new FillLayout() );
 				communicationMetawidget.setToInspect( communication );
-				String columnName = StringUtils.lowercaseFirstLetter( mCommunicationsTable.getColumn( selectedColumn ).getText() );
+				String columnName = StringUtils.decapitalize( mCommunicationsTable.getColumn( selectedColumn ).getText() );
 				communicationMetawidget.setInspectionPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnName );
 
 				mCommunicationsEditor.setEditor( communicationMetawidget, item, selectedColumn );

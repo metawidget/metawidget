@@ -88,14 +88,14 @@ public class Stub
 
 			name = name.substring( ATTRIBUTE_PREFIX.length() );
 
-			if ( !StringUtils.isFirstLetterUppercase( name ) ) {
+			if ( !StringUtils.isCapitalized( name ) ) {
 				continue;
 			}
 
 			// ...remember it
 
 			String value = attributes.getAttributeValue( loop );
-			setAttribute( StringUtils.lowercaseFirstLetter( name ), value );
+			setAttribute( StringUtils.decapitalize( name ), value );
 		}
 	}
 

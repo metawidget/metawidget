@@ -291,7 +291,7 @@ public class SimpleBindingProcessorAdapterGenerator
 				continue;
 			}
 
-			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+			String decapitalizedPropertyName = StringUtils.decapitalize( propertyName );
 
 			// Open the block
 
@@ -313,7 +313,7 @@ public class SimpleBindingProcessorAdapterGenerator
 
 			// ...call our adaptee...
 
-			sourceWriter.println( "if ( \"" + lowercasedPropertyName + "\".equals( names[" + nameIndex + "] )) {" );
+			sourceWriter.println( "if ( \"" + decapitalizedPropertyName + "\".equals( names[" + nameIndex + "] )) {" );
 			sourceWriter.indent();
 
 			int nextNameIndex = nameIndex + 1;
@@ -346,7 +346,7 @@ public class SimpleBindingProcessorAdapterGenerator
 							classType.getMethod( setterMethodName, new JType[] { returnType } );
 							sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value ); return; }" );
 						} catch ( NotFoundException e ) {
-							sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"No setter for name '" + lowercasedPropertyName + "'\" );" );
+							sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"No setter for name '" + decapitalizedPropertyName + "'\" );" );
 						}
 						break;
 				}
@@ -359,7 +359,7 @@ public class SimpleBindingProcessorAdapterGenerator
 
 			// ...or non-recursively for other types (eg. boolean, Date, Class)
 
-			sourceWriter.println( "if ( names.length > " + nextNameIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + lowercasedPropertyName + ".\" + names[" + nextNameIndex + "] + \"'\" );" );
+			sourceWriter.println( "if ( names.length > " + nextNameIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + decapitalizedPropertyName + ".\" + names[" + nextNameIndex + "] + \"'\" );" );
 
 			switch ( writeType ) {
 				case WRITE_GETTER:
@@ -377,12 +377,12 @@ public class SimpleBindingProcessorAdapterGenerator
 						sourceWriter.println( currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value );" );
 						sourceWriter.println( "return;" );
 					} catch ( NotFoundException e ) {
-						sourceWriter.println( "throw new RuntimeException( \"No setter for property '" + lowercasedPropertyName + "'\" );" );
+						sourceWriter.println( "throw new RuntimeException( \"No setter for property '" + decapitalizedPropertyName + "'\" );" );
 					}
 					break;
 
 				case WRITE_ACTION:
-					sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"Cannot execute '" + lowercasedPropertyName + "' - is a property, not an action\" );" );
+					sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"Cannot execute '" + decapitalizedPropertyName + "' - is a property, not an action\" );" );
 					break;
 			}
 

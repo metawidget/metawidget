@@ -51,17 +51,52 @@ public final class StringUtils {
 
 	public static final String	RESOURCE_KEY_NOT_FOUND_SUFFIX	= "???";
 
-	public static String lowercaseFirstLetter( String in ) {
+	/**
+	 * Decapitalize without using <code>java.beans</code>, as that package is not available on all
+	 * target platforms.
+	 * <p>
+	 * Following the rules defined in <tt>java.beans.Introspector</tt>: "This normally means
+	 * converting the first character from upper case to lower case, but in the (unusual) special
+	 * case when there is more than one character and both the first and second characters are upper
+	 * case, we leave it alone. Thus 'FooBah' becomes 'fooBah' and 'X' becomes 'x', but 'URL' stays
+	 * as 'URL'"
+	 */
 
-		return Character.toLowerCase( in.charAt( 0 ) ) + in.substring( 1 );
+	public static String decapitalize( String in ) {
+
+		// Nothing to do?
+
+		char firstChar = in.charAt( 0 );
+
+		if ( Character.isLowerCase( firstChar ) ) {
+			return in;
+		}
+
+		// All uppercase?
+
+		if ( in.length() > 1 ) {
+			if ( Character.isUpperCase( in.charAt( 1 ))) {
+				return in;
+			}
+		}
+
+		return Character.toLowerCase( firstChar ) + in.substring( 1 );
 	}
 
-	public static String uppercaseFirstLetter( String in ) {
+	/**
+	 * Capitalize by uppercasing the first letter of the given String.
+	 */
+	
+	public static String capitalize( String in ) {
 
 		return Character.toUpperCase( in.charAt( 0 ) ) + in.substring( 1 );
 	}
 
-	public static boolean isFirstLetterUppercase( String in ) {
+	/**
+	 * Returns true if the first letter of the given String is in uppercase.
+	 */
+	
+	public static boolean isCapitalized( String in ) {
 
 		if ( in.length() == 0 ) {
 			return false;

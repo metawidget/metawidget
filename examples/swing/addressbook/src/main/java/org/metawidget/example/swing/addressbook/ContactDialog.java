@@ -357,7 +357,7 @@ public class ContactDialog
 			}
 
 			mEditor.setToInspect( communication );
-			mColumnName = StringUtils.lowercaseFirstLetter( table.getModel().getColumnName( column ) );
+			mColumnName = StringUtils.decapitalize( table.getModel().getColumnName( column ) );
 			mEditor.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + mColumnName );
 			mEditor.setValue( value, mColumnName );
 

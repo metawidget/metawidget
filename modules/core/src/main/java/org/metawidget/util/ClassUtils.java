@@ -46,7 +46,7 @@ public final class ClassUtils {
 
 	public static Method getReadMethod( Class<?> clazz, String property ) {
 
-		String propertyUppercased = StringUtils.uppercaseFirstLetter( property );
+		String propertyUppercased = StringUtils.capitalize( property );
 
 		try {
 			return clazz.getMethod( JAVABEAN_GET_PREFIX + propertyUppercased );
@@ -76,7 +76,7 @@ public final class ClassUtils {
 
 	public static Method getWriteMethod( Class<?> clazz, String property, Class<?> type ) {
 
-		String propertyUppercased = StringUtils.uppercaseFirstLetter( property );
+		String propertyUppercased = StringUtils.capitalize( property );
 
 		// First, try and match based on subtypes of the property type
 

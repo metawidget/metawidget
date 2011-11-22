@@ -278,7 +278,7 @@ public class HtmlTableLayout
 				id = attributes.get( NAME );
 
 				if ( id != null ) {
-					id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
+					id = StringUtils.capitalize( StringUtils.camelCase( id ) );
 				}
 
 				if ( SimpleLayoutUtils.isSpanAllColumns( attributes ) && state.currentColumn != 1 ) {
@@ -435,7 +435,7 @@ public class HtmlTableLayout
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
 			// TODO: use an HTML <label> tag
-			
+
 			// Output a (possibly localized) label
 
 			writer.write( "<th" );

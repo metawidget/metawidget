@@ -279,7 +279,7 @@ public final class MetawidgetTestUtils {
 
 	private static Method getProtectedReadMethod( Class<?> clazz, String propertyName ) {
 
-		String propertyUppercased = StringUtils.uppercaseFirstLetter( propertyName );
+		String propertyUppercased = StringUtils.capitalize( propertyName );
 
 		// Go looking for such a field, traversing the superclass heirarchy as necessary
 

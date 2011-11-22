@@ -290,7 +290,7 @@ public class XmlSchemaGeneratorTask
 		builder.append( " -->\r\n" );
 		builder.append( "\r\n" );
 		builder.append( "\t<xs:element name=\"" );
-		builder.append( StringUtils.lowercaseFirstLetter( className ) );
+		builder.append( StringUtils.decapitalize( className ) );
 		builder.append( "\">\r\n" );
 
 		builder.append( "\t\t<xs:complexType>\r\n" );

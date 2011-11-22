@@ -631,7 +631,7 @@ public class ConfigReader
 
 		// Try regular class
 
-		String uppercasedLocalName = StringUtils.uppercaseFirstLetter( localName );
+		String uppercasedLocalName = StringUtils.capitalize( localName );
 		String classToConstruct = packagePrefix + StringUtils.SEPARATOR_DOT_CHAR + uppercasedLocalName;
 		Class<?> clazz = ClassUtils.niceForName( classToConstruct );
 
@@ -1201,7 +1201,7 @@ public class ConfigReader
 						}
 
 						Class<?> constructingClass = constructing.getClass();
-						String methodName = "set" + StringUtils.uppercaseFirstLetter( localName );
+						String methodName = "set" + StringUtils.capitalize( localName );
 
 						try {
 							Method method = classGetMethod( constructingClass, methodName, parameters );
@@ -1296,7 +1296,7 @@ public class ConfigReader
 				Object immutable = getImmutableByRefId( refId );
 				Class<?> actualClass = immutable.getClass();
 
-				if ( !StringUtils.lowercaseFirstLetter( actualClass.getSimpleName() ).equals( localName )) {
+				if ( !StringUtils.decapitalize( actualClass.getSimpleName() ).equals( localName )) {
 
 					throw InspectorException.newException( "refId=\"" + refId + "\" points to an object of " + actualClass + ", not a <" + localName + ">" );
 				}
