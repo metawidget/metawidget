@@ -91,6 +91,37 @@ public final class WidgetBuilderUtils {
 	}
 
 	/**
+	 * Looks up the type of the components in an Array or Collection.
+	 */
+
+	public static String getComponentType( Map<String, String> attributes ) {
+
+		String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
+
+		if ( parameterizedType != null ) {
+			return parameterizedType;
+		}
+
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+		if ( type == null ) {
+			return null;
+		}
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		if ( clazz == null ) {
+			return null;
+		}
+
+		if ( clazz.isArray() ) {
+			return clazz.getComponentType().getName();
+		}
+
+		return null;
+	}
+
+	/**
 	 * Returns true if the lookup is nullable, not required, or has a forced empty choice.
 	 */
 

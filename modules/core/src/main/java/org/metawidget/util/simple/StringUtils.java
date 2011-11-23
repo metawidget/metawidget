@@ -259,6 +259,22 @@ public final class StringUtils {
 	 * string. If the given string is not found in the overall string, returns the entire string.
 	 */
 
+	public static String substringAfterLast( String text, char after ) {
+
+		int iIndexOf = text.lastIndexOf( after );
+
+		if ( iIndexOf == -1 ) {
+			return text;
+		}
+
+		return text.substring( iIndexOf + 1 );
+	}
+
+	/**
+	 * Returns the portion of the overall string that comes after the last occurance of the given
+	 * string. If the given string is not found in the overall string, returns the entire string.
+	 */
+
 	public static String substringAfterLast( String text, String after ) {
 
 		int iIndexOf = text.lastIndexOf( after );

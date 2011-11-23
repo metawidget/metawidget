@@ -14,33 +14,44 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component.widgetprocessor;
+package org.metawidget.statically.faces.component.html.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.Map;
-
-import org.metawidget.statically.StaticXmlMetawidget;
-import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.statically.faces.component.ValueHolder;
+import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class RequiredAttributeProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticXmlMetawidget> {
+public class HtmlCommandLink
+	extends HtmlWidget
+	implements ValueHolder {
+
+	//
+	// Constructor
+	//
+
+	public HtmlCommandLink() {
+
+		super( "commandLink" );
+	}
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	public String getValue() {
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			widget.putAttribute( REQUIRED, TRUE );
-		}
+		return getAttribute( "value" );
+	}
 
-		return widget;
+	public void setValue( String value ) {
+
+		putAttribute( "value", value );
+	}
+
+	public void setConverter( String value ) {
+
+		putAttribute( "converter", value );
 	}
 }

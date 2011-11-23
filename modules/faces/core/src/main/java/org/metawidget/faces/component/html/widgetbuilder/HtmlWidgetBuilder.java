@@ -264,7 +264,7 @@ public class HtmlWidgetBuilder
 				// Supported Collections
 
 				else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-					return createDataTableComponent( clazz, attributes, metawidget );
+					return createDataTableComponent( attributes, metawidget );
 				} else if ( Collection.class.isAssignableFrom( clazz ) ) {
 					return application.createComponent( "org.metawidget.Stub" );
 				}
@@ -388,7 +388,7 @@ public class HtmlWidgetBuilder
 		}
 	}
 
-	protected UIComponent createDataTableComponent( Class<?> clazz, Map<String, String> attributes, UIMetawidget metawidget ) {
+	protected UIComponent createDataTableComponent( Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -405,14 +405,7 @@ public class HtmlWidgetBuilder
 
 		// Inspect component type
 
-		String componentType;
-
-		if ( clazz.isArray() ) {
-			componentType = clazz.getComponentType().getName();
-		} else {
-			componentType = attributes.get( PARAMETERIZED_TYPE );
-		}
-
+		String componentType = WidgetBuilderUtils.getComponentType( attributes );
 		String inspectedType = null;
 
 		if ( componentType != null ) {
@@ -426,7 +419,9 @@ public class HtmlWidgetBuilder
 
 			// TODO: https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4717262
 
-			addColumnComponent( dataTable, componentType, ENTITY, attributes, metawidget );
+			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
+			columnAttributes.put( NAME, attributes.get( NAME ) );
+			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
 		}
 
 		// ...otherwise, iterate over the component type...
@@ -437,12 +432,12 @@ public class HtmlWidgetBuilder
 
 			// ...and try to add columns for just the 'required' fields...
 
-			addColumnComponents( elements, dataTable, componentType, metawidget, true );
+			addColumnComponents( dataTable, attributes, elements, metawidget, true );
 
 			// ...but, failing that, add columns for every field
 
 			if ( dataTable.getChildren().isEmpty() ) {
-				addColumnComponents( elements, dataTable, componentType, metawidget, false );
+				addColumnComponents( dataTable, attributes, elements, metawidget, false );
 			}
 		}
 
@@ -495,13 +490,12 @@ public class HtmlWidgetBuilder
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
 	 *
-	 * @param dataType
-	 *            the fully qualified type of the data in the collection. Can be useful for
-	 *            determining what controller to link to if placing a link around the text. May be
-	 *            null
+	 * @param tableAttributes
+	 *            the metadata attributes used to render the parent table. May be useful for
+	 *            determining the overall type of the row
 	 */
 
-	protected void addColumnComponent( UIData dataTable, String dataType, String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+	protected void addColumnComponent( UIData dataTable, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -517,7 +511,7 @@ public class HtmlWidgetBuilder
 
 		String valueBindingString = dataTable.getVar();
 		if ( !ENTITY.equals( elementName ) ) {
-			valueBindingString += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+			valueBindingString += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
 		}
 		ValueBinding binding = application.createValueBinding( FacesUtils.wrapExpression( valueBindingString ) );
 		columnText.setValueBinding( "value", binding );
@@ -527,7 +521,7 @@ public class HtmlWidgetBuilder
 
 		HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
 		headerText.setId( viewRoot.createUniqueId() );
-		headerText.setValue( metawidget.getLabelString( attributes ) );
+		headerText.setValue( metawidget.getLabelString( columnAttributes ) );
 		column.setHeader( headerText );
 
 		dataTable.getChildren().add( column );
@@ -649,7 +643,7 @@ public class HtmlWidgetBuilder
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
 	}
 
-	private void addColumnComponents( NodeList elements, UIData dataTable, String dataType, UIMetawidget metawidget, boolean onlyRequired ) {
+	private void addColumnComponents( UIData dataTable, Map<String, String> attributes, NodeList elements, UIMetawidget metawidget, boolean onlyRequired ) {
 
 		// For each property...
 
@@ -687,7 +681,7 @@ public class HtmlWidgetBuilder
 
 			// ...add a column
 
-			addColumnComponent( dataTable, dataType, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+			addColumnComponent( dataTable, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
 		}
 	}
 }

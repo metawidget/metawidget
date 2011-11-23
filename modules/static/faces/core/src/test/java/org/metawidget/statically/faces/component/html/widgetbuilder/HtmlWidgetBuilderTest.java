@@ -20,6 +20,7 @@ import org.metawidget.inspector.java5.Java5Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.statically.faces.component.html.layout.HtmlTableLayout;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
 
@@ -85,6 +86,7 @@ public class HtmlWidgetBuilderTest
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ), new Java5Inspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ), new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ) ) ) );
 		metawidget.setValue( "#{foo.pageItems}" );
 		metawidget.setPath( FooBean.class.getName() + "/pageItems" );
+		metawidget.setLayout( new HtmlTableLayout() );
 		metawidget.setLayout( new SimpleLayout() );
 
 		String result = "<h:dataTable id=\"fooPageItems\" value=\"#{foo.pageItems}\" var=\"_item\">\r\n" +

@@ -18,9 +18,10 @@ package org.metawidget.statically.faces.component.widgetprocessor;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
-import org.metawidget.statically.faces.component.StaticUIMetawidget;
+import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -36,20 +37,25 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class ReadableIdProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticUIMetawidget> {
+	implements WidgetProcessor<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
-		String valueExpression = widget.getAttribute( "value" );
+		if ( widget instanceof ValueHolder ) {
 
-		if ( valueExpression != null ) {
-			valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-			widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
+			ValueHolder valueWidget = (ValueHolder) widget;
+			String valueExpression = valueWidget.getValue();
+
+			if ( valueExpression != null ) {
+				valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+				widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
+			}
 		}
+
 		return widget;
 	}
 }

@@ -43,6 +43,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
@@ -257,7 +258,7 @@ public class SwingCollectionsTest
 
 			// Inspect type of List
 
-			String componentType = attributes.get( PARAMETERIZED_TYPE );
+			String componentType = WidgetBuilderUtils.getComponentType( attributes );
 			String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
 
 			// Determine columns

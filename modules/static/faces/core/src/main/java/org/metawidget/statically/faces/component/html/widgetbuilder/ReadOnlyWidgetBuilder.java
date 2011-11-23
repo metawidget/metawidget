@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -37,13 +37,13 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<StaticWidget, StaticMetawidget> {
+	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticWidget buildWidget( String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		// Not read-only?
 

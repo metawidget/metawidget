@@ -23,7 +23,6 @@ import java.util.Map;
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
-import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -72,6 +71,6 @@ public abstract class StaticUIMetawidget
 		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 		valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
 
-		( (StaticHtmlMetawidget) nestedMetawidget ).setValue( valueExpression );
+		( (StaticUIMetawidget) nestedMetawidget ).setValue( valueExpression );
 	}
 }

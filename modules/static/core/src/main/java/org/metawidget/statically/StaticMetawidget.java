@@ -61,7 +61,7 @@ public abstract class StaticMetawidget
 	// Private statics
 	//
 
-	private static final ConfigReader									CONFIG_READER	= new ConfigReader();
+	private static final ConfigReader	CONFIG_READER	= new ConfigReader();
 
 	//
 	// Private members
@@ -71,18 +71,17 @@ public abstract class StaticMetawidget
 	 * Path to inspect.
 	 */
 
-	private String														mPath;
+	private String						mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	private String														mPathPrefix;
+	private String						mPathPrefix;
 
-	private String														mConfig;
+	private String						mConfig;
 
-	// TODO: cannot setLayout(HtmlLayout)?
-	private W3CPipeline<StaticWidget, StaticWidget, StaticMetawidget>	mPipeline;
+	private Pipeline					mPipeline;
 
 	//
 	// Constructor
@@ -172,25 +171,29 @@ public abstract class StaticMetawidget
 
 		return mPipeline.inspect( toInspect, type, names );
 	}
-	
-	public void setInspectionResultProcessors( InspectionResultProcessor<StaticMetawidget>... inspectionResultProcessors ) {
 
-		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
+	@SuppressWarnings( { "unchecked" } )
+	public void setInspectionResultProcessors( InspectionResultProcessor<? extends StaticMetawidget>... inspectionResultProcessors ) {
+
+		mPipeline.setInspectionResultProcessors( (InspectionResultProcessor[]) inspectionResultProcessors );
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<StaticWidget, StaticMetawidget> widgetBuilder ) {
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
+	public <W extends StaticWidget, M extends W> void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder ) {
 
-		mPipeline.setWidgetBuilder( widgetBuilder );
+		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
-	public void setWidgetProcessors( WidgetProcessor<StaticWidget, StaticMetawidget>... widgetProcessors ) {
+	@SuppressWarnings( { "unchecked" } )
+	public <W extends StaticWidget, M extends W> void setWidgetProcessors( WidgetProcessor<W, M>... widgetProcessors ) {
 
-		mPipeline.setWidgetProcessors( widgetProcessors );
+		mPipeline.setWidgetProcessors( (WidgetProcessor[]) widgetProcessors );
 	}
 
-	public void setLayout( Layout<StaticWidget, StaticWidget, StaticMetawidget> layout ) {
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
+	public <W extends StaticWidget, C extends W, M extends C> void setLayout( Layout<W, C, M> layout ) {
 
-		mPipeline.setLayout( layout );
+		mPipeline.setLayout( (Layout) layout );
 	}
 
 	@Override
@@ -289,6 +292,24 @@ public abstract class StaticMetawidget
 	//
 	// Inner class
 	//
+
+	/**
+	 * Internal Metawidget pipeline.
+	 * <p>
+	 * We must use &lt;StaticWidget, StaticWidget, StaticMetawidget&gt; because that is what
+	 * <tt>org.metawidget.statically.layout.SimpleLayout</tt> uses. Therefore we must expose
+	 * <tt>setLayout(&lt;StaticWidget, StaticWidget, StaticMetawidget&gt;)</tt>.
+	 * <p>
+	 * We <em>also</em> need subclasses such as
+	 * <tt>setLayout(&lt;StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget&gt;)</tt>. So we must
+	 * allow extensions of <tt>StaticWidget</tt> (eg. <tt>W extends StaticWidget</tt>) during
+	 * <tt>setLayout</tt>.
+	 * <p>
+	 * However this causes problems because if <tt>W extends StaticWidget</tt> then we cannot
+	 * guarantee that <tt>M extends W</tt> and <em>also</em> extends <tt>StaticMetawidget</tt>. Java
+	 * Generics cannot express this, even with Bounded Type Parameters. Hence some
+	 * <tt>SuppressWarnings</tt> above.
+	 */
 
 	protected class Pipeline
 		extends W3CPipeline<StaticWidget, StaticWidget, StaticMetawidget> {

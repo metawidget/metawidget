@@ -22,8 +22,8 @@ import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstant
 import java.util.Date;
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.faces.component.StaticUIMetawidget;
 import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.statically.faces.component.html.CoreWidget;
 import org.metawidget.util.ClassUtils;
@@ -35,13 +35,13 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class StandardConverterProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticUIMetawidget> {
+	implements WidgetProcessor<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticUIMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		// Actions don't get converters
 

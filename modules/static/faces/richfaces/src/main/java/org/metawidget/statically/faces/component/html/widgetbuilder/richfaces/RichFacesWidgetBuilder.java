@@ -22,8 +22,8 @@ import java.awt.Color;
 import java.util.Date;
 import java.util.Map;
 
-import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -39,13 +39,13 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class RichFacesWidgetBuilder
-	implements WidgetBuilder<StaticWidget, StaticMetawidget> {
+	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticWidget buildWidget( String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		// Not for RichFaces?
 

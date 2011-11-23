@@ -32,6 +32,7 @@ import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -106,15 +107,12 @@ public class DisplayTagWidgetBuilder
 
 					// Inspect component type
 
-					String componentType;
+					String componentType = WidgetBuilderUtils.getComponentType( attributes );
+					String inspectedType = null;
 
-					if ( clazz.isArray() ) {
-						componentType = clazz.getComponentType().getName();
-					} else {
-						componentType = attributes.get( PARAMETERIZED_TYPE );
+					if ( componentType != null ) {
+						inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
 					}
-
-					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
 
 					// If there is a type...
 
@@ -143,7 +141,7 @@ public class DisplayTagWidgetBuilder
 
 							// ...add a column
 
-							addColumnTag( tableTag, componentType, XmlUtils.getAttributesAsMap( element ), metawidgetTag );
+							addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag );
 						}
 					} else {
 						// If there is no type, DisplayTag will make a best guess
@@ -167,18 +165,17 @@ public class DisplayTagWidgetBuilder
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
 	 *
-	 * @param dataType
-	 *            the fully qualified type of the data in the collection. Can be useful for
-	 *            determining what controller to link to if placing a link around the text. May be
-	 *            null
+	 * @param tableAttributes
+	 *            the metadata attributes used to render the parent table. May be useful for
+	 *            determining the overall type of the row
 	 */
 
-	protected void addColumnTag( TableTag tableTag, String dataType, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	protected void addColumnTag( TableTag tableTag, Map<String, String> tableAttributes, Map<String, String> columnAttributes, MetawidgetTag metawidgetTag )
 		throws JspException {
 
 		ColumnTag columnTag = new ColumnTag();
-		columnTag.setTitle( metawidgetTag.getLabelString( attributes ) );
-		columnTag.setProperty( attributes.get( NAME ) );
+		columnTag.setTitle( metawidgetTag.getLabelString( columnAttributes ) );
+		columnTag.setProperty( columnAttributes.get( NAME ) );
 
 		JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, tableTag, null );
 	}

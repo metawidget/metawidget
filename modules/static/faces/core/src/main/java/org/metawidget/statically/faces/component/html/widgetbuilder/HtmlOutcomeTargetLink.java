@@ -74,7 +74,7 @@ public class HtmlOutcomeTargetLink
 	protected void writeAttribute( Writer writer, String name, String value )
 		throws IOException {
 
-		if ( "value".equals( name ) || "calendar".equals( name )) {
+		if ( "value".equals( name ) || "converter".equals( name )) {
 			return;
 		}
 

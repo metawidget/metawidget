@@ -394,13 +394,7 @@ public final class ClassUtils {
 
 	public static String getSimpleName( String qualifiedClassName ) {
 
-		int lastIndexOf = qualifiedClassName.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
-
-		if ( lastIndexOf != -1 ) {
-			return qualifiedClassName.substring( lastIndexOf + 1 );
-		}
-
-		return qualifiedClassName;
+		return StringUtils.substringAfterLast( qualifiedClassName, StringUtils.SEPARATOR_DOT_CHAR );
 	}
 
 	/**

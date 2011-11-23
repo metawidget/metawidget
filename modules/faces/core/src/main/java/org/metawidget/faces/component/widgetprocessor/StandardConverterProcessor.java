@@ -37,6 +37,7 @@ import javax.faces.convert.NumberConverter;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
@@ -134,7 +135,7 @@ public class StandardConverterProcessor
 
 			// Create from parameterized type (eg. a Date converter for List<Date>)
 
-			String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
+			String parameterizedType = WidgetBuilderUtils.getComponentType( attributes );
 
 			if ( parameterizedType != null ) {
 				Class<?> parameterizedClass = ClassUtils.niceForName( parameterizedType );

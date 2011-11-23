@@ -24,8 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.statically.faces.component.StaticStub;
@@ -44,7 +43,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class HtmlWidgetBuilder
-	implements WidgetBuilder<StaticWidget, StaticMetawidget> {
+	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Private statics
@@ -56,7 +55,7 @@ public class HtmlWidgetBuilder
 	// Public methods
 	//
 
-	public StaticWidget buildWidget( String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		// Hidden
 
@@ -162,7 +161,7 @@ public class HtmlWidgetBuilder
 			// Supported Collections
 
 			if ( List.class.isAssignableFrom( clazz ) /* || DataModel.class.isAssignableFrom( clazz ) */|| clazz.isArray() ) {
-				return createDataTableComponent( clazz, attributes, metawidget );
+				return createDataTableComponent( attributes, metawidget );
 			}
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
@@ -185,7 +184,7 @@ public class HtmlWidgetBuilder
 	// Protected methods
 	//
 
-	protected StaticXmlWidget createDataTableComponent( Class<?> clazz, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	protected StaticXmlWidget createDataTableComponent( Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		HtmlDataTable dataTable = new HtmlDataTable();
 		String dataTableVar = "_item";
@@ -193,14 +192,7 @@ public class HtmlWidgetBuilder
 
 		// Inspect component type
 
-		String componentType;
-
-		if ( clazz.isArray() ) {
-			componentType = clazz.getComponentType().getName();
-		} else {
-			componentType = attributes.get( PARAMETERIZED_TYPE );
-		}
-
+		String componentType = WidgetBuilderUtils.getComponentType( attributes );
 		String inspectedType = null;
 
 		if ( componentType != null ) {
@@ -212,7 +204,9 @@ public class HtmlWidgetBuilder
 		if ( inspectedType == null ) {
 			// ...resort to a single column table...
 
-			addColumnComponent( dataTable, componentType, ENTITY, attributes, metawidget );
+			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
+			columnAttributes.put( NAME, attributes.get( NAME ) );
+			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
 		}
 
 		// ...otherwise, iterate over the component type...
@@ -223,12 +217,12 @@ public class HtmlWidgetBuilder
 
 			// ...and try to add columns for just the 'required' fields...
 
-			addColumnComponents( elements, dataTable, componentType, metawidget, true );
+			addColumnComponents( dataTable, attributes, elements, metawidget, true );
 
 			// ...but, failing that, add columns for every field
 
 			if ( dataTable.getChildren().isEmpty() ) {
-				addColumnComponents( elements, dataTable, componentType, metawidget, false );
+				addColumnComponents( dataTable, attributes, elements, metawidget, false );
 			}
 		}
 
@@ -241,13 +235,12 @@ public class HtmlWidgetBuilder
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
 	 *
-	 * @param dataType
-	 *            the fully qualified type of the data in the collection. Can be useful for
-	 *            determining what controller to link to if placing a link around the text. May be
-	 *            null
+	 * @param tableAttributes
+	 *            the metadata attributes used to render the parent table. May be useful for
+	 *            determining the overall type of the row
 	 */
 
-	protected void addColumnComponent( HtmlDataTable dataTable, String dataType, String elementName, Map<String, String> attributes, StaticMetawidget metawidget ) {
+	protected void addColumnComponent( HtmlDataTable dataTable, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, StaticXmlMetawidget metawidget ) {
 
 		HtmlColumn column = new HtmlColumn();
 
@@ -257,7 +250,7 @@ public class HtmlWidgetBuilder
 
 		String valueExpression = dataTable.getAttribute( "var" );
 		if ( !ENTITY.equals( elementName ) ) {
-			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
 		}
 		columnText.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
 		column.getChildren().add( columnText );
@@ -265,13 +258,29 @@ public class HtmlWidgetBuilder
 		// ...with a localized header
 
 		HtmlOutputText headerText = new HtmlOutputText();
-		headerText.putAttribute( "value", metawidget.getLabelString( attributes ) );
+		headerText.putAttribute( "value", metawidget.getLabelString( columnAttributes ) );
 		Facet headerFacet = new Facet();
 		headerFacet.putAttribute( "name", "header" );
 		headerFacet.getChildren().add( headerText );
 		column.getChildren().add( 0, headerFacet );
 
 		dataTable.getChildren().add( column );
+	}
+
+	protected void addSelectItems( HtmlSelectOneMenu select, String valueExpression, Map<String, String> attributes ) {
+
+		// Empty option
+
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			addSelectItem( select, "", null );
+		}
+
+		// Add the select items
+
+		SelectItems selectItems = new SelectItems();
+		selectItems.putAttribute( "value", valueExpression );
+
+		select.getChildren().add( selectItems );
 	}
 
 	//
@@ -321,23 +330,7 @@ public class HtmlWidgetBuilder
 		select.getChildren().add( selectItem );
 	}
 
-	private void addSelectItems( HtmlSelectOneMenu select, String valueExpression, Map<String, String> attributes ) {
-
-		// Empty option
-
-		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			addSelectItem( select, "", null );
-		}
-
-		// Add the select items
-
-		SelectItems selectItems = new SelectItems();
-		selectItems.putAttribute( "value", valueExpression );
-
-		select.getChildren().add( selectItems );
-	}
-
-	private void addColumnComponents( NodeList elements, HtmlDataTable dataTable, String dataType, StaticMetawidget metawidget, boolean onlyRequired ) {
+	private void addColumnComponents( HtmlDataTable dataTable, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget, boolean onlyRequired ) {
 
 		// For each property...
 
@@ -375,7 +368,7 @@ public class HtmlWidgetBuilder
 
 			// ...add a column
 
-			addColumnComponent( dataTable, dataType, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+			addColumnComponent( dataTable, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
 		}
 	}
 }
