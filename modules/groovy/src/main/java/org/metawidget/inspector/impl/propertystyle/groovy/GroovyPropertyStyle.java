@@ -36,6 +36,7 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.Java5ClassUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * PropertyStyle for Groovy-style properties.
@@ -78,7 +79,7 @@ public class GroovyPropertyStyle
 
 		// TreeMap so that returns alphabetically sorted properties
 
-		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
+		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap( StringUtils.CASE_INSENSITIVE_COMPARATOR );
 
 		// Iterate over all Groovy properties
 

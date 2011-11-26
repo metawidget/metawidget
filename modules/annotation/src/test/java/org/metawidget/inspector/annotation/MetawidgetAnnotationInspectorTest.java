@@ -322,6 +322,32 @@ public class MetawidgetAnnotationInspectorTest
 		assertEquals( 3, action.getAttributes().getLength() );
 	}
 
+	public void testAlphabeticalMethods() {
+
+		String xml = mInspector.inspect( null, AlphabeticalMethods.class.getName() );
+		Document document = XmlUtils.documentFromString( xml );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( AlphabeticalMethods.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( 3, entity.getChildNodes().getLength() );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( ACTION, property.getNodeName() );
+		assertEquals( "action", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( ACTION, property.getNodeName() );
+		assertEquals( "WEPKey", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( ACTION, property.getNodeName() );
+		assertEquals( "wepKey", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+	}
+
 	//
 	// Inner class
 	//
@@ -384,6 +410,25 @@ public class MetawidgetAnnotationInspectorTest
 		public void doNothing() {
 
 			// Overridden without annotations
+		}
+	}
+
+
+	public static class AlphabeticalMethods {
+
+		@UiAction
+		public void action() {
+			// Do nothing
+		}
+
+		@UiAction
+		public void wepKey() {
+			// Do nothing
+		}
+
+		@UiAction
+		public void WEPKey() {
+			// Do nothing
 		}
 	}
 }

@@ -16,6 +16,8 @@
 
 package org.metawidget.util.simple;
 
+import java.util.Comparator;
+
 /**
  * Utilities for working with Strings.
  *
@@ -75,7 +77,7 @@ public final class StringUtils {
 		// All uppercase?
 
 		if ( in.length() > 1 ) {
-			if ( Character.isUpperCase( in.charAt( 1 ))) {
+			if ( Character.isUpperCase( in.charAt( 1 ) ) ) {
 				return in;
 			}
 		}
@@ -285,6 +287,29 @@ public final class StringUtils {
 
 		return text.substring( iIndexOf + after.length() );
 	}
+
+	/**
+	 * Comparator that orders <code>String</code> objects as by <code>compareToIgnoreCase</code>.
+	 * <p>
+	 * Like <tt>String.CASE_INSENSITIVE_COMPARATOR</tt> but sorts case sensitively <em>within</em>
+	 * case insensitive groups, thereby ensuring comparing 'Foo' to 'foo' does not equal 0. This is
+	 * important if the Comparator is used within, say, a TreeMap. Otherwise the TreeMap will
+	 * 'collapse' case insensitive keys.
+	 */
+
+	public static final Comparator<String>	CASE_INSENSITIVE_COMPARATOR	= new Comparator<String>() {
+
+																			public int compare( String lhs, String rhs ) {
+
+																				int compareTo = lhs.compareToIgnoreCase( rhs );
+
+																				if ( compareTo == 0 ) {
+																					compareTo = lhs.compareTo( rhs );
+																				}
+
+																				return compareTo;
+																			}
+																		};
 
 	//
 	// Private constructor

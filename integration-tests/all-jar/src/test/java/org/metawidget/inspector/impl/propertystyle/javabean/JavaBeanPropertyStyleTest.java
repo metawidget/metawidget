@@ -38,6 +38,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 
 /**
@@ -108,7 +109,7 @@ public class JavaBeanPropertyStyleTest
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 10, properties.size()  );
+		assertEquals( 10, properties.size() );
 
 		assertEquals( "baz", properties.get( "baz" ).getName() );
 
@@ -119,7 +120,7 @@ public class JavaBeanPropertyStyleTest
 		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 4, properties.size()  );
+		assertEquals( 4, properties.size() );
 
 		assertEquals( "bar", properties.get( "bar" ).getName() );
 		assertEquals( "baz", properties.get( "baz" ).getName() );
@@ -137,7 +138,7 @@ public class JavaBeanPropertyStyleTest
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 10, properties.size()  );
+		assertEquals( 10, properties.size() );
 
 		assertEquals( "baz", properties.get( "baz" ).getName() );
 
@@ -148,7 +149,7 @@ public class JavaBeanPropertyStyleTest
 		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 8, properties.size()  );
+		assertEquals( 8, properties.size() );
 
 		assertEquals( "foo", properties.get( "foo" ).getName() );
 		assertEquals( "methodAbc", properties.get( "methodAbc" ).getName() );
@@ -341,36 +342,49 @@ public class JavaBeanPropertyStyleTest
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class.getName() );
-		assertTrue( properties.containsKey( "foo" ));
+		assertTrue( properties.containsKey( "foo" ) );
 
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenGetterFoo" ) );
 		propertyStyle = new JavaBeanPropertyStyle( config );
 		properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class.getName() );
-		assertTrue( !properties.containsKey( "foo" ));
+		assertTrue( !properties.containsKey( "foo" ) );
 	}
 
 	public void testExcludeOverriddenSetter() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class.getName() );
-		assertTrue( properties.containsKey( "foo" ));
+		assertTrue( properties.containsKey( "foo" ) );
 
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenSetterFoo" ) );
 		propertyStyle = new JavaBeanPropertyStyle( config );
 		properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class.getName() );
-		assertTrue( !properties.containsKey( "foo" ));
+		assertTrue( !properties.containsKey( "foo" ) );
 	}
 
 	public void testStaticMethods() {
 
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( StaticMethodsTest.class.getName() );
-		assertTrue( !properties.containsKey( "staticString" ));
-		assertTrue( properties.containsKey( "nonStaticField" ));
-		assertTrue( properties.containsKey( "nonStaticString" ));
+		assertTrue( !properties.containsKey( "staticString" ) );
+		assertTrue( properties.containsKey( "nonStaticField" ) );
+		assertTrue( properties.containsKey( "nonStaticString" ) );
 		assertEquals( 2, properties.size() );
+	}
+
+	public void testAlphabeticalOrdering() {
+
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( AlphabeticalOrderingTest.class.getName() );
+		List<String> ordered = CollectionUtils.newArrayList( properties.keySet() );
+
+		assertEquals( "abc", ordered.get( 0 ) );
+		assertEquals( "bar", ordered.get( 1 ) );
+		assertEquals( "foo", ordered.get( 2 ) );
+		assertEquals( "WEPKey", ordered.get( 3 ) );
+		assertEquals( 4, ordered.size() );
 	}
 
 	public void testConfig() {
@@ -692,24 +706,67 @@ public class JavaBeanPropertyStyleTest
 
 	static class StaticMethodsTest {
 
-		public static String staticString;
+		public static String	staticString;
 
 		public static String getStaticString() {
+
 			return null;
 		}
 
 		public static void setStaticString( String aStaticString ) {
+
 			staticString = aStaticString;
 		}
 
-		public String nonStaticField;
+		public String	nonStaticField;
 
 		public String getNonStaticString() {
+
 			return null;
 		}
 
 		public void setNonStaticString( String aNonStaticString ) {
+
 			nonStaticField = aNonStaticString;
+		}
+	}
+
+	static class AlphabeticalOrderingTest {
+
+		//
+		// Private members
+		//
+
+		private String	WEPKey;
+
+		private String	foo;
+
+		private String	bar;
+
+		private String	abc;
+
+		//
+		// Public methods
+		//
+
+		public String getWEPKey() {
+
+			return WEPKey;
+		}
+
+		public String getFoo() {
+
+			return foo;
+		}
+
+		public String getBar() {
+
+			return bar;
+		}
+
+		public String getAbc() {
+
+			return abc;
 		}
 	}
 }

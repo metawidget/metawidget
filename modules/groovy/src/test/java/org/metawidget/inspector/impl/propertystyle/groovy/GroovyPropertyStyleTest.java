@@ -17,6 +17,7 @@
 package org.metawidget.inspector.impl.propertystyle.groovy;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
@@ -26,6 +27,8 @@ import junit.framework.TestCase;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -43,8 +46,8 @@ public class GroovyPropertyStyleTest
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( GroovyFoo.class.getName() );
 
-		assertTrue( properties.size() == 7 );
-
+		assertTrue( properties.size() == 8 );
+		
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertEquals( Date.class.getName(), properties.get( "bar" ).getGenericType() );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
@@ -62,6 +65,13 @@ public class GroovyPropertyStyleTest
 		} catch ( Exception e ) {
 			// Should fail
 		}
+
+		// Test case insensitive ordering
+		
+		List<String> ordered = CollectionUtils.newArrayList( properties.keySet() );
+
+		assertEquals( "FOo", ordered.get( 2 ));
+		assertEquals( "foo", ordered.get( 3 ));
 	}
 
 	public void testIgnoreMetaArrayLengthProperty() {

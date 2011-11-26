@@ -84,4 +84,12 @@ public class StringUtilsTest
 		assertEquals( "baz", StringUtils.substringAfterLast( "foo.bar.baz", "." ) );
 		assertEquals( "baz", StringUtils.substringAfterLast( "baz", "." ) );
 	}
+
+	public void testCaseInsensitiveComparator() {
+
+		assertTrue( StringUtils.CASE_INSENSITIVE_COMPARATOR.compare( "Foo", "foo" ) < 1);
+		assertTrue( StringUtils.CASE_INSENSITIVE_COMPARATOR.compare( "foo", "Foo" ) > 1);
+		assertEquals( 0, StringUtils.CASE_INSENSITIVE_COMPARATOR.compare( "Foo", "Foo" ) );
+		assertEquals( 0, StringUtils.CASE_INSENSITIVE_COMPARATOR.compare( "foo", "foo" ) );
+	}
 }

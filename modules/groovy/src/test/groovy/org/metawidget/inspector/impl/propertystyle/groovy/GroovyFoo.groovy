@@ -30,6 +30,8 @@ class GroovyFoo
 {
 	@Column( nullable = false )
 	String		foo
+	
+	String		FOo
 
 	List<Date>	bar
 

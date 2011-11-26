@@ -24,6 +24,7 @@ import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.Java5ClassUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Convenience ActionStyle implementation for Method-based actions.
@@ -56,7 +57,7 @@ public abstract class MethodActionStyle
 
 		// TreeMap so that returns alphabetically sorted actions
 
-		Map<String, Action> actions = CollectionUtils.newTreeMap();
+		Map<String, Action> actions = CollectionUtils.newTreeMap( StringUtils.CASE_INSENSITIVE_COMPARATOR );
 
 		// For each action...
 

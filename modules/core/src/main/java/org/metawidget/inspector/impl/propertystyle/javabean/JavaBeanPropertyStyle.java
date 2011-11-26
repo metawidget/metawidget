@@ -56,7 +56,7 @@ import org.metawidget.util.simple.StringUtils;
  * validation frameworks, which rely on public getters/setters. To support the best of both worlds
  * see <code>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</code></li>
  * </ul>
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -135,7 +135,7 @@ public class JavaBeanPropertyStyle
 
 		// TreeMap so that returns alphabetically sorted properties
 
-		Map<String, Property> properties = CollectionUtils.newTreeMap();
+		Map<String, Property> properties = CollectionUtils.newTreeMap( StringUtils.CASE_INSENSITIVE_COMPARATOR );
 
 		// Lookup fields, getters and setters
 
@@ -287,7 +287,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'getter' method.
-	 *
+	 * 
 	 * @param method
 	 *            a parameterless method that returns a non-void
 	 * @return the property name
@@ -393,7 +393,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'setter' method.
-	 *
+	 * 
 	 * @param method
 	 *            a single-parametered method. May return non-void (ie. for Fluent interfaces)
 	 * @return the property name
@@ -428,7 +428,7 @@ public class JavaBeanPropertyStyle
 	 * <p>
 	 * Clients may override this method to change how the public-method-to-private-field mapping
 	 * operates.
-	 *
+	 * 
 	 * @return the private Field for this propertyName, or null if no such field (should not throw
 	 *         NoSuchFieldException)
 	 */

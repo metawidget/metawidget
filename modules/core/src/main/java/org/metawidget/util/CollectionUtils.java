@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -185,6 +186,11 @@ public final class CollectionUtils {
 	public static final <K, V> TreeMap<K, V> newTreeMap() {
 
 		return new TreeMap<K, V>();
+	}
+
+	public static final <K, V> TreeMap<K, V> newTreeMap( Comparator<K> comparator ) {
+
+		return new TreeMap<K, V>( comparator );
 	}
 
 	public static <T> List<T> unmodifiableList( T... array ) {
