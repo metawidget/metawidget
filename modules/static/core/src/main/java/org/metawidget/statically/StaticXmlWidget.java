@@ -16,7 +16,6 @@
 
 package org.metawidget.statically;
 
-
 /**
  * @author Richard Kennard
  */
@@ -28,11 +27,15 @@ public interface StaticXmlWidget
 	// Methods
 	//
 
-	void putAttribute( String name, String value );
-
 	String getAttribute( String name );
 
-	String getTagPrefix();
+	void putAttribute( String name, String value );
 
-	String getTagNamespace();
+	String getPrefix();
+
+	String getNamespaceURI();
+
+	String getTextContent();
+
+	void setTextContent( String textContent );
 }

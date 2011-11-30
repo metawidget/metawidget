@@ -59,16 +59,30 @@ public abstract class StaticXmlMetawidget
 		return mAttributes.get( name );
 	}
 
-	public String getTagPrefix() {
+	public String getPrefix() {
 
 		return "m";
 	}
 
-	public String getTagNamespace() {
+	public String getNamespaceURI() {
 
 		// Metawidgets should never be output (kind of the point of being static)
 
 		return null;
+	}
+
+	public String getTextContent() {
+
+		// Metawidgets should never have text content
+
+		throw new UnsupportedOperationException();
+	}
+
+	public void setTextContent( String textContent ) {
+
+		// Metawidgets should never have text content
+
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -94,8 +108,8 @@ public abstract class StaticXmlMetawidget
 
 			StaticXmlWidget xmlChild = (StaticXmlWidget) child;
 
-			if ( xmlChild.getTagNamespace() != null ) {
-				namespaces.put( xmlChild.getTagPrefix(), xmlChild.getTagNamespace() );
+			if ( xmlChild.getNamespaceURI() != null ) {
+				namespaces.put( xmlChild.getPrefix(), xmlChild.getNamespaceURI() );
 			}
 
 			populateNamespaces( xmlChild, namespaces );

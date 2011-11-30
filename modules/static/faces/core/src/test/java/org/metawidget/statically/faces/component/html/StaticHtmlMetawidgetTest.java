@@ -16,7 +16,7 @@ public class StaticHtmlMetawidgetTest
 
 	public static void testNoNamespace() {
 
-		assertEquals( null, new StaticHtmlMetawidget().getTagNamespace() );
+		assertEquals( null, new StaticHtmlMetawidget().getNamespaceURI() );
 	}
 
 	public void testNullPath() {

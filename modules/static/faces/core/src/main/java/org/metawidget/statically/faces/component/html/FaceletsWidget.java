@@ -14,23 +14,25 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.statically.faces.component.html;
 
-import junit.framework.TestCase;
+import org.metawidget.statically.BaseStaticXmlWidget;
 
 /**
+ * Widgets within the JSF ui: namespace.
+ *
  * @author Richard Kennard
  */
 
-public class StaticStubTest
-	extends TestCase {
+public abstract class FaceletsWidget
+	extends BaseStaticXmlWidget {
 
 	//
-	// Public statics
+	// Constructor
 	//
 
-	public void testNoNamespace() {
+	protected FaceletsWidget( String tagName ) {
 
-		assertEquals( null, new StaticStub().getNamespaceURI() );
+		super( "ui", tagName, "http://java.sun.com/jsf/facelets" );
 	}
 }

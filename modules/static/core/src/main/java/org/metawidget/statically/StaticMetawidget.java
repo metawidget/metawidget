@@ -207,8 +207,6 @@ public abstract class StaticMetawidget
 	 *
 	 * @param initialIndent
 	 *            the initialIndent that will be applied to every line
-	 * @param indentFirstLine
-	 *            whether to indent the first line by initialIndent
 	 */
 
 	public void write( Writer writer, int initialIndent ) {

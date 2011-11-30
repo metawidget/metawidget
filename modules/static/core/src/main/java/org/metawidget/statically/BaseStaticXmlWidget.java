@@ -36,37 +36,65 @@ public abstract class BaseStaticXmlWidget
 	// Private members
 	//
 
-	private String				mTagPrefix;
+	private String				mPrefix;
 
 	private String				mTagName;
 
-	private String				mTagNamespace;
+	private String				mNamespaceURI;
 
 	private Map<String, String>	mAttributes;
+
+	private String				mTextContent;
 
 	//
 	// Constructor
 	//
 
-	protected BaseStaticXmlWidget( String tagPrefix, String tagName, String tagNamespace ) {
+	/**
+	 * @param prefix
+	 *            the namespace prefix of this tag, or <tt>null</tt> if it is unspecified
+	 * @param tagName
+	 *            the name of this tag
+	 * @param namespaceURI
+	 *            the namespace URI for this tag, or <tt>null</tt> if it is unspecified
+	 */
 
-		mTagPrefix = tagPrefix;
+	protected BaseStaticXmlWidget( String prefix, String tagName, String namespaceURI ) {
+
+		mPrefix = prefix;
 		mTagName = tagName;
-		mTagNamespace = tagNamespace;
+		mNamespaceURI = namespaceURI;
 	}
 
 	//
 	// Public methods
 	//
 
-	public String getTagPrefix() {
+	/**
+	 * Gets the namespace prefix of this tag, or <tt>null</tt> if it is unspecified
+	 */
 
-		return mTagPrefix;
+	public String getPrefix() {
+
+		return mPrefix;
 	}
 
-	public String getTagNamespace() {
+	/**
+	 * Gets the namespace URI for this tag, or <tt>null</tt> if it is unspecified.
+	 */
 
-		return mTagNamespace;
+	public String getNamespaceURI() {
+
+		return mNamespaceURI;
+	}
+
+	public String getAttribute( String name ) {
+
+		if ( mAttributes == null ) {
+			return null;
+		}
+
+		return mAttributes.get( name );
 	}
 
 	public void putAttribute( String name, String value ) {
@@ -81,13 +109,14 @@ public abstract class BaseStaticXmlWidget
 		mAttributes.put( name, value );
 	}
 
-	public String getAttribute( String name ) {
+	public String getTextContent() {
 
-		if ( mAttributes == null ) {
-			return null;
-		}
+		return mTextContent;
+	}
 
-		return mAttributes.get( name );
+	public void setTextContent( String textContent ) {
+
+		mTextContent = textContent;
 	}
 
 	@Override
@@ -96,9 +125,21 @@ public abstract class BaseStaticXmlWidget
 
 		if ( getChildren().isEmpty() ) {
 			writeStartTag( writer );
-			writer.append( "/>" );
-			if ( writer instanceof IndentedWriter ) {
-				writer.append( "\r\n" );
+
+			// Non-indented text content
+
+			if ( getTextContent() != null ) {
+				writer.append( ">" );
+				writer.append( mTextContent );
+				if ( writer instanceof IndentedWriter ) {
+					( (IndentedWriter) writer ).indent();
+				}
+				writeEndTag( writer );
+			} else {
+				writer.append( "/>" );
+				if ( writer instanceof IndentedWriter ) {
+					writer.append( "\r\n" );
+				}
 			}
 		} else {
 			writeStartTag( writer );
@@ -109,6 +150,15 @@ public abstract class BaseStaticXmlWidget
 			}
 
 			super.write( writer );
+
+			// Indented text content
+
+			if ( getTextContent() != null ) {
+				writer.append( mTextContent );
+				if ( writer instanceof IndentedWriter ) {
+					writer.append( "\r\n" );
+				}
+			}
 
 			writeEndTag( writer );
 		}
@@ -147,8 +197,8 @@ public abstract class BaseStaticXmlWidget
 
 		writer.append( '<' );
 
-		if ( mTagPrefix != null ) {
-			writer.append( mTagPrefix );
+		if ( mPrefix != null ) {
+			writer.append( mPrefix );
 			writer.append( ':' );
 		}
 
@@ -171,8 +221,8 @@ public abstract class BaseStaticXmlWidget
 		}
 		writer.append( "</" );
 
-		if ( mTagPrefix != null ) {
-			writer.append( mTagPrefix );
+		if ( mPrefix != null ) {
+			writer.append( mPrefix );
 			writer.append( ':' );
 		}
 

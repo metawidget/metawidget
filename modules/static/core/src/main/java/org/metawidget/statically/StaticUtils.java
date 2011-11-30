@@ -43,25 +43,26 @@ public final class StaticUtils {
 		// Private members
 		//
 
-		private Writer				mWriter;
+		private Writer	mWriter;
 
-		private int					mIndent;
+		private int		mIndent;
 
-		private boolean				mWriteIndent = true;
+		private boolean	mWriteIndent	= true;
 
 		//
 		// Constructor
 		//
 
 		/**
-		 * Constructs a new IndentedWriter.
+		 * Constructs a new IndentedWriter with the given inital indent.
+		 * <p>
+		 * Note the initialIndent and carriage returns are applied to every line, including the
+		 * first and last. If this is undesirable, clients can use <tt>String.trim()</tt>.
 		 *
 		 * @param writer
 		 *            the writer to delegate all writes to
 		 * @param initialIndent
 		 *            the initialIndent that will be applied to every line
-		 * @param indentFirstLine
-		 *            whether to indent the first line by initialIndent
 		 */
 
 		public IndentedWriter( Writer writer, int initialIndent ) {
@@ -142,6 +143,12 @@ public final class StaticUtils {
 
 			mWriter.close();
 		}
+
+		@Override
+		public String toString() {
+
+			return mWriter.toString();
+		}
 	}
 
 	/**
@@ -155,9 +162,9 @@ public final class StaticUtils {
 		// Private members
 		//
 
-		private Writer				mWriter;
+		private Writer	mWriter;
 
-		private boolean				mWriteLeadingSpace = true;
+		private boolean	mWriteLeadingSpace	= true;
 
 		//
 		// Constructor
