@@ -47,12 +47,17 @@ public class ReadableIdProcessor
 
 		if ( widget instanceof ValueHolder ) {
 
-			ValueHolder valueWidget = (ValueHolder) widget;
-			String valueExpression = valueWidget.getValue();
+			// (do not overwrite existing, if any)
 
-			if ( valueExpression != null ) {
-				valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-				widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
+			if ( widget.getAttribute( "id" ) == null ) {
+
+				ValueHolder valueWidget = (ValueHolder) widget;
+				String valueExpression = valueWidget.getValue();
+
+				if ( valueExpression != null ) {
+					valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+					widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
+				}
 			}
 		}
 

@@ -16,9 +16,6 @@
 
 package org.metawidget.statically.faces.component.html.widgetbuilder;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.metawidget.statically.faces.component.ValueHolder;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
@@ -56,28 +53,5 @@ public class HtmlOutcomeTargetLink
 	public void setConverter( String value ) {
 
 		putAttribute( "converter", value );
-	}
-
-	//
-	// Protected methods
-	//
-
-	/**
-	 * Overridden to suppress writing 'value' or 'converter' attributes for <tt>h:link</tt>.
-	 * <p>
-	 * We still want <tt>HtmlOutcomeTargetLink</tt> to implement <tt>ValueHolder</tt> though,
-	 * because a) we want it to have an 'id' attribute based on its value binding; b)
-	 * <tt>javax.faces.component.html.HtmlOutcomeTargetLink</tt> implements <tt>ValueHolder</tt>.
-	 */
-
-	@Override
-	protected void writeAttribute( Writer writer, String name, String value )
-		throws IOException {
-
-		if ( "value".equals( name ) || "converter".equals( name )) {
-			return;
-		}
-
-		super.writeAttribute( writer, name, value );
 	}
 }

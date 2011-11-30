@@ -424,21 +424,12 @@ public class HtmlWidgetBuilder
 			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
 		}
 
-		// ...otherwise, iterate over the component type...
+		// ...otherwise, iterate over the component type and add multiple columns
 
 		else {
 			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
 			NodeList elements = root.getFirstChild().getChildNodes();
-
-			// ...and try to add columns for just the 'required' fields...
-
-			addColumnComponents( dataTable, attributes, elements, metawidget, true );
-
-			// ...but, failing that, add columns for every field
-
-			if ( dataTable.getChildren().isEmpty() ) {
-				addColumnComponents( dataTable, attributes, elements, metawidget, false );
-			}
+			addColumnComponents( dataTable, attributes, elements, metawidget );
 		}
 
 		// Add an 'action' column (if requested)
@@ -482,6 +473,69 @@ public class HtmlWidgetBuilder
 		}
 
 		return dataTable;
+	}
+
+	/**
+	 * Adds column components to the given UIData.
+	 * <p>
+	 * Clients can override this method to add additional columns, such as a 'Delete' button.
+	 */
+
+	protected void addColumnComponents( UIData dataTable, Map<String, String> attributes, NodeList elements, UIMetawidget metawidget ) {
+
+		// At first, try to add columns for just the 'required' fields
+
+		boolean onlyRequired = true;
+
+		while ( true ) {
+
+			// For each property...
+
+			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
+				Node node = elements.item( loop );
+
+				if ( !( node instanceof Element ) ) {
+					continue;
+				}
+
+				Element element = (Element) node;
+
+				// ...(not action)...
+
+				if ( ACTION.equals( element.getNodeName() ) ) {
+					continue;
+				}
+
+				// ...that is visible...
+
+				if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
+					continue;
+				}
+
+				// ...and is required...
+				//
+				// Note: this is a controversial choice. Our logic is that a) we need to limit
+				// the number of columns somehow, and b) displaying all the required fields should
+				// be enough to uniquely identify the row to the user. However, users may wish
+				// to override this default behaviour
+
+				if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
+					continue;
+				}
+
+				// ...add a column
+
+				addColumnComponent( dataTable, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+			}
+
+			// If we couldn't add any 'required' columns, try again for every field
+
+			if ( !dataTable.getChildren().isEmpty() || !onlyRequired ) {
+				break;
+			}
+
+			onlyRequired = false;
+		}
 	}
 
 	/**
@@ -641,47 +695,5 @@ public class HtmlWidgetBuilder
 		}
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
-	}
-
-	private void addColumnComponents( UIData dataTable, Map<String, String> attributes, NodeList elements, UIMetawidget metawidget, boolean onlyRequired ) {
-
-		// For each property...
-
-		for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
-			Node node = elements.item( loop );
-
-			if ( !( node instanceof Element ) ) {
-				continue;
-			}
-
-			Element element = (Element) node;
-
-			// ...(not action)...
-
-			if ( ACTION.equals( element.getNodeName() ) ) {
-				continue;
-			}
-
-			// ...that is visible...
-
-			if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
-				continue;
-			}
-
-			// ...and is required...
-			//
-			// Note: this is a controversial choice. Our logic is that a) we need to limit
-			// the number of columns somehow, and b) displaying all the required fields should
-			// be enough to uniquely identify the row to the user. However, users may wish
-			// to override this default behaviour
-
-			if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
-				continue;
-			}
-
-			// ...add a column
-
-			addColumnComponent( dataTable, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
-		}
 	}
 }

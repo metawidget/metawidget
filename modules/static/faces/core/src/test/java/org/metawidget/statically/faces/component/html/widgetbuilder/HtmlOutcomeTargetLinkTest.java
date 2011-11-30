@@ -17,11 +17,7 @@ public class HtmlOutcomeTargetLinkTest
 	public void testHtmlOutcomeTargetLink()
 		throws Exception {
 
-		// Hide 'value' and 'converter'
-
 		HtmlOutcomeTargetLink widget = new HtmlOutcomeTargetLink();
-		widget.setValue( "foo" );
-		widget.setConverter( "bar" );
 		widget.putAttribute( "baz", "abc" );
 
 		assertEquals( "<h:link baz=\"abc\"/>", widget.toString() );

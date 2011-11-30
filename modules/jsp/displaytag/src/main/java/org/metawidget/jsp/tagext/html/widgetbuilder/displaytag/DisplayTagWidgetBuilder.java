@@ -117,32 +117,12 @@ public class DisplayTagWidgetBuilder
 					// If there is a type...
 
 					if ( componentType != null ) {
-						// ...iterate over it...
+						// ...iterate over it and add columns
 
 						Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
 						NodeList elements = root.getFirstChild().getChildNodes();
+						addColumnTags( tableTag, attributes, elements, metawidgetTag );
 
-						// ...and for each property...
-
-						for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
-							Node node = elements.item( loop );
-
-							if ( !( node instanceof Element ) ) {
-								continue;
-							}
-
-							Element element = (Element) node;
-
-							// ...that is visible...
-
-							if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
-								continue;
-							}
-
-							// ...add a column
-
-							addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag );
-						}
 					} else {
 						// If there is no type, DisplayTag will make a best guess
 					}
@@ -158,6 +138,32 @@ public class DisplayTagWidgetBuilder
 	//
 	// Protected methods
 	//
+
+	protected void addColumnTags( TableTag tableTag, Map<String, String> attributes, NodeList elements, MetawidgetTag metawidgetTag )
+		throws JspException {
+
+		// For each property...
+
+		for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
+			Node node = elements.item( loop );
+
+			if ( !( node instanceof Element ) ) {
+				continue;
+			}
+
+			Element element = (Element) node;
+
+			// ...that is visible...
+
+			if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
+				continue;
+			}
+
+			// ...add a column
+
+			addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag );
+		}
+	}
 
 	/**
 	 * Add a ColumnTag for the given attributes, to the given TableTag

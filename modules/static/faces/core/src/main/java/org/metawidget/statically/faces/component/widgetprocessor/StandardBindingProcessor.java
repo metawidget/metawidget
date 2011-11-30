@@ -42,18 +42,24 @@ public class StandardBindingProcessor
 
 		if ( widget instanceof ValueHolder ) {
 
-			String valueExpression = metawidget.getValue();
+			ValueHolder valueHolder = (ValueHolder) widget;
 
-			if ( valueExpression != null ) {
+			// (do not overwrite existing, if any)
 
-				// If we are not at the top level, construct the binding
+			if ( valueHolder.getValue() == null ) {
+				String valueExpression = metawidget.getValue();
 
-				if ( !ENTITY.equals( elementName ) ) {
-					valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-					valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+				if ( valueExpression != null ) {
+
+					// If we are not at the top level, construct the binding
+
+					if ( !ENTITY.equals( elementName ) ) {
+						valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+						valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+					}
+
+					valueHolder.setValue( valueExpression );
 				}
-
-				((ValueHolder) widget).setValue( valueExpression );
 			}
 		}
 
