@@ -161,7 +161,7 @@ public class HtmlWidgetBuilder
 			// Supported Collections
 
 			if ( List.class.isAssignableFrom( clazz ) /* || DataModel.class.isAssignableFrom( clazz ) */|| clazz.isArray() ) {
-				return createDataTableComponent( attributes, metawidget );
+				return createDataTableComponent( elementName, attributes, metawidget );
 			}
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
@@ -184,7 +184,13 @@ public class HtmlWidgetBuilder
 	// Protected methods
 	//
 
-	protected StaticXmlWidget createDataTableComponent( Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	/**
+	 * @param elementName
+	 *            such as ENTITY or PROPERTY. Can be useful in determining how to construct the EL
+	 *            for the table.
+	 */
+
+	protected StaticXmlWidget createDataTableComponent( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		HtmlDataTable dataTable = new HtmlDataTable();
 		String dataTableVar = "_item";
@@ -232,7 +238,7 @@ public class HtmlWidgetBuilder
 
 		boolean onlyRequired = true;
 
-		while( true ) {
+		while ( true ) {
 
 			// For each property...
 

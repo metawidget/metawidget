@@ -46,7 +46,7 @@
 		</widgetProcessors>
 		
 		<layout>
-			<htmlTableLayout xmlns="java:org.metawidget.statically.faces.component.html.layout" />
+			<htmlPanelGridLayout xmlns="java:org.metawidget.statically.faces.component.html.layout" />
 		</layout>
 		
 	</staticHtmlMetawidget>			

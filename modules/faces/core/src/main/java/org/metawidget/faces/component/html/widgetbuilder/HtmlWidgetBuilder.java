@@ -264,7 +264,7 @@ public class HtmlWidgetBuilder
 				// Supported Collections
 
 				else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-					return createDataTableComponent( attributes, metawidget );
+					return createDataTableComponent( elementName, attributes, metawidget );
 				} else if ( Collection.class.isAssignableFrom( clazz ) ) {
 					return application.createComponent( "org.metawidget.Stub" );
 				}
@@ -388,7 +388,13 @@ public class HtmlWidgetBuilder
 		}
 	}
 
-	protected UIComponent createDataTableComponent( Map<String, String> attributes, UIMetawidget metawidget ) {
+	/**
+	 * @param elementName
+	 *            such as ENTITY or PROPERTY. Can be useful in determining how to construct the EL
+	 *            for the table.
+	 */
+
+	protected UIComponent createDataTableComponent( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();

@@ -58,7 +58,7 @@
 		<layout>
 			<outputTextLayoutDecorator xmlns="java:org.metawidget.statically.faces.component.html.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
 				<layout>
-					<htmlTableLayout xmlns="java:org.metawidget.statically.faces.component.html.layout" />
+					<htmlPanelGridLayout xmlns="java:org.metawidget.statically.faces.component.html.layout" />
 				</layout>
 			</outputTextLayoutDecorator>
 		</layout>

@@ -28,14 +28,15 @@ import org.metawidget.statically.faces.component.EditableValueHolder;
 import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
+import org.metawidget.util.WidgetBuilderUtils;
 
 /**
- * Static support: Java Server Faces layouts.
+ * Layout to arrange widgets using a panelGrid.
  *
  * @author Richard Kennard
  */
 
-public class HtmlTableLayout
+public class HtmlPanelGridLayout
 	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
@@ -81,6 +82,8 @@ public class HtmlTableLayout
 
 			// Label
 
+			// TODO: recurse into panelGroups looking for an id
+
 			HtmlOutputLabel label = new HtmlOutputLabel();
 			String id = widget.getAttribute( "id" );
 
@@ -91,7 +94,7 @@ public class HtmlTableLayout
 			label.putAttribute( "value", labelText + ":" );
 			panelGrid.getChildren().add( label );
 
-			if ( !( widget instanceof EditableValueHolder ) ) {
+			if ( !( widget instanceof EditableValueHolder ) || metawidget.isReadOnly() || WidgetBuilderUtils.isReadOnly( attributes ) ) {
 
 				// Non-editable
 
