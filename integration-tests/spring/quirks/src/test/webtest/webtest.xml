@@ -63,11 +63,11 @@
 				<verifyXPath xpath="normalize-space(/html/body/h1)" text="Spring Hidden Field Test"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-hiddenFieldCommand']"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Read only no value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Read Only No Value:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input/@name" text="readOnlyNoValue"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input/@value" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/span"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="Read only with value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="Read Only With Value:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@name" text="readOnlyWithValue"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input/@value" text="Foo"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td[1])" text="Foo"/>

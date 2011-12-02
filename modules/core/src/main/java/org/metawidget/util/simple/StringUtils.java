@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 /**
  * Utilities for working with Strings.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -153,11 +153,14 @@ public final class StringUtils {
 					buffer.append( separator );
 				}
 
-				if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) ) {
-					buffer.append( Character.toLowerCase( c ) );
-				} else {
-					buffer.append( c );
-				}
+				// Don't do: if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) )
+				// buffer.append( Character.toLowerCase( c ) );
+				//
+				// It's ambiguous if we should lowercase the letter following a space, but in
+				// general it looks nicer most of the time not to. The exception is 'joining' words
+				// such as 'of' in 'Date of Birth'
+
+				buffer.append( c );
 			} else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != separator ) {
 				buffer.append( separator );
 				buffer.append( c );

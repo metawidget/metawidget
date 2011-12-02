@@ -60,13 +60,13 @@ public class RichFacesWidgetBuilderTest
 				"\t\t<h:message for=\"fooSpinner\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooSpinnerWithMax\" value=\"Spinner with max:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooSpinnerWithMax\" value=\"Spinner With Max:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
 				"\t\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinnerWithMax\" maxValue=\"9\" value=\"#{foo.spinnerWithMax}\"/>\r\n" +
 				"\t\t<h:message for=\"fooSpinnerWithMax\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooSpinnerWithMin\" value=\"Spinner with min:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooSpinnerWithMin\" value=\"Spinner With Min:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
 				"\t\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinnerWithMin\" minValue=\"2\" value=\"#{foo.spinnerWithMin}\"/>\r\n" +
 				"\t\t<h:message for=\"fooSpinnerWithMin\"/>\r\n" +

@@ -270,77 +270,77 @@
 				
 				<verifyXPath xpath="/html/body/form/div[1]/div[1]/div[1]/label" text="Textbox:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[1]/div[2]" text="Textbox1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[2]/div[1]/label" text="Limited textbox:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[2]/div[1]/label" text="Limited Textbox:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[2]/div[2]" text="Limited Textbox1"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[3]/div[1]/label" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[3]/div[2]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[1]/label" text="Password:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[2]"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[4]/div[2]" text=""/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[1]/label" text="Byte primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[1]/label" text="Byte Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[5]/div[2]" text="126"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[1]/label" text="Byte object:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[1]/label" text="Byte Object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[6]/div[2]" text="-127"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[1]/label" text="Short primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[1]/label" text="Short Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[7]/div[2]" text="32766"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[1]/label" text="Short object:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[1]/label" text="Short Object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[8]/div[2]" text="-32767"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[1]/label" text="Int primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[1]/label" text="Int Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[9]/div[2]" text="2147483646"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[1]/label" text="Integer object:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[1]/label" text="Integer Object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[10]/div[2]" text="-2147483647"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[11]/div[1]/label" text="Ranged int:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[11]/div[1]/label" text="Ranged Int:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[11]/div[2]" text="33"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[1]/label" text="Ranged integer:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[1]/label" text="Ranged Integer:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[12]/div[2]" text="34"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[1]/label" text="Long primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[1]/label" text="Long Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[13]/div[2]" text="43"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[1]"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[14]/div[2]" text="44"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[1]/label" text="Float primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[1]/label" text="Float Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[15]/div[2]" text="5.3"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[16]/div[1]/label" text="nullInBundle:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[16]/div[2]" text="5.4"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[1]/label" text="Double primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[1]/label" text="Double Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[17]/div[2]" text="53.3"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[18]/div[1]" text="54.4"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[1]/label" text="Char primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[1]/label" text="Char Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[19]/div[2]" text="Z"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[1]/label" text="Character object:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[1]/label" text="Character Object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[20]/div[2]" text="A"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[1]/label" text="Boolean primitive:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[1]/label" text="Boolean Primitive:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[21]/div[2]" text="true"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[1]/label" text="Boolean object:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[1]/label" text="Boolean Object:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[22]/div[2]" text="No"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[23]/div[1]/label" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[23]/div[2]" text="foo1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[24]/div[1]/label" text="Dropdown with labels:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[24]/div[1]/label" text="Dropdown With Labels:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[24]/div[2]" text="Bar #2"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[25]/div[1]/label" text="Not null dropdown:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[25]/div[1]/label" text="Not Null Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[25]/div[2]" text="1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[26]/div[1]/label" text="Not null object dropdown:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[26]/div[1]/label" text="Not Null Object Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[26]/div[2]" text="foo3"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[1]/label" text="Nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[1]/label" text="Further nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/label" text="Further nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/label" text="Nested textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[1]/label" text="Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[1]/label" text="Further Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/label" text="Further Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/label" text="Nested Textbox 1:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[2]" text="Nested Textbox 1.1 (further)"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/label" text="Nested textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/label" text="Nested Textbox 2:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[1]/div[2]/div[1]/div[3]/div[2]" text="Nested Textbox 2.2 (further)"/>				
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[2]/div[1]/label" text="Nested textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[2]/div[1]/label" text="Nested Textbox 1:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[2]/div[2]" text="Nested Textbox 1.1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[3]/div[1]/label" text="Nested textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[3]/div[1]/label" text="Nested Textbox 2:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[27]/div[2]/div[1]/div[3]/div[2]" text="Nested Textbox 2.2"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[1]/label" text="Read only nested widgets:"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[1]/div[1]/label" text="Further nested widgets:"/>				
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[2]/div[1]/label" text="Nested textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[1]/label" text="Read Only Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[1]/div[1]/label" text="Further Nested Widgets:"/>				
+				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[2]/div[1]/label" text="Nested Textbox 1:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[2]/div[2]" text="Nested Textbox 1.11"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[3]/div[1]/label" text="Nested textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[3]/div[1]/label" text="Nested Textbox 2:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[28]/div[2]/div[1]/div[3]/div[2]" text="Nested Textbox 2.22"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[29]/div[1]/label" text="Nested widgets dont expand:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[29]/div[1]/label" text="Nested Widgets Dont Expand:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[29]/div[2]" text="Nested Textbox 1.01, Nested Textbox 2.02"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[30]/div[1]/label" text="Read only nested widgets dont expand:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[30]/div[1]/label" text="Read Only Nested Widgets Dont Expand:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[30]/div[2]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[31]/div[1]/label" text="Date:"/>
 				<verifyXPath xpath="contains(/html/body/form/div[1]/div[31]/div[2], ' May ')"/>
@@ -348,9 +348,9 @@
 				<verifyXPath xpath="/html/body/form/div[1]/div[32]/div[1]/span" text="Section Break"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[32]/div[1]/span/@style" text="aSectionStyle"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[32]/div[1]/span/@class" text="aSectionStyleClass"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[1]/label" text="Read only:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[1]/label" text="Read Only:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[2]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[1]/label" text="Read only:"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[1]/label" text="Read Only:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[33]/div[2]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[1]/label" text="Collection:"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[2]/table/thead/tr/th" text="Collection"/>
@@ -359,7 +359,7 @@
 				<verifyXPath xpath="/html/body/form/div[1]/div[34]/div[2]/table/tbody/tr[3]/td" text="element3"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[35]/div[1]" text=""/>				
 				<verifyXPath xpath="/html/body/form/div[1]/div[35]/div[2]/input/@type" text="submit"/>
-				<verifyXPath xpath="/html/body/form/div[1]/div[35]/div[2]/input/@value" text="Do action"/>
+				<verifyXPath xpath="/html/body/form/div[1]/div[35]/div[2]/input/@value" text="Do Action"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[35]/div[2]/input/@disabled" text="disabled"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[36]/@style" text="aFooterStyle"/>
 				<verifyXPath xpath="/html/body/form/div[1]/div[36]/@class" text="aFooterStyleClass"/>

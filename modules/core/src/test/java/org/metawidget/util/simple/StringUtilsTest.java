@@ -59,9 +59,9 @@ public class StringUtilsTest
 		// uncamelCase
 
 		assertTrue( null == StringUtils.uncamelCase( null ) );
-		assertEquals( "Camel cased", StringUtils.uncamelCase( "camelCased" ) );
+		assertEquals( "Camel Cased", StringUtils.uncamelCase( "camelCased" ) );
 		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ) );
-		assertEquals( "Camel-cased", StringUtils.uncamelCase( "camelCased", '-' ) );
+		assertEquals( "Camel-Cased", StringUtils.uncamelCase( "camelCased", '-' ) );
 
 		// camelCase
 

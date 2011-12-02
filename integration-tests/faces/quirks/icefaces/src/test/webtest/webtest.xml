@@ -29,7 +29,7 @@
 				
 				<!-- Second date popup (embedded in nested section) -->
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/th" text="Embedded quirks in section:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/th" text="Embedded Quirks In Section:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[@colspan='2']/span/table/tbody/tr/td/table/tbody/tr[1]/th" text="Date:"/>
 				
 				<not>
@@ -51,7 +51,7 @@
 
 				<!-- Third date popup (embedded outside nested section) -->
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th" text="Embedded quirks:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th" text="Embedded Quirks:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/table/tbody/tr[1]/th" text="Date:"/>
 				
 				<not>
@@ -75,7 +75,7 @@
 				
 				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[2]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[2]/td" text="Embedded"/>
-				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[3]/th" text="Embedded quirks in section:"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[3]/th" text="Embedded Quirks In Section:"/>
 				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[3]/td/table/tbody/tr[1]/th" text="Date:"/>
 				
 				<not>
@@ -95,7 +95,7 @@
 				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[3]/td/table/tbody/tr[2]/th" text="Date is empty:"/>
 				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[3]/td/table/tbody/tr[2]/td[1]" text="Date is empty"/>
 				
-				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[4]/th" text="Embedded quirks:"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[4]/th" text="Embedded Quirks:"/>
 
 			</steps>
 		</webtest>

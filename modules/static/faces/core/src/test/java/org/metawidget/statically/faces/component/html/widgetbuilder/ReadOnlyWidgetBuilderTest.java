@@ -45,7 +45,7 @@ public class ReadOnlyWidgetBuilderTest
 				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
 				"\t<h:outputText id=\"fooAbc\" value=\"#{foo.abc}\"/>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested foo:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested Foo:\"/>\r\n" +
 				"\t<h:panelGrid columns=\"3\" id=\"fooNestedFoo\">\r\n" +
 				"\t\t<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>\r\n" +
 				"\t\t<h:outputText id=\"fooNestedFooBar\" value=\"#{foo.nestedFoo.bar}\"/>\r\n" +

@@ -101,7 +101,7 @@ public class GwtTestClientSide
 				assertTrue( flexTable1.getWidget( 3, 1 ) instanceof ListBox );
 				assertTrue( 8 == ( (ListBox) flexTable1.getWidget( 3, 1 ) ).getItemCount() );
 				( (ListBox) flexTable1.getWidget( 3, 1 ) ).setSelectedIndex( 1 );
-				assertEquals( "Release date:", flexTable1.getText( 4, 0 ) );
+				assertEquals( "Release Date:", flexTable1.getText( 4, 0 ) );
 				Date releaseDate = new Date( 101, 0, 1 );
 				( (DateField) flexTable1.getWidget( 4, 1 ) ).setValue( releaseDate );
 				assertEquals( "Rating:", flexTable1.getText( 5, 0 ) );
@@ -152,7 +152,7 @@ public class GwtTestClientSide
 										assertEquals( "*", flexTable2.getText( 2, 2 ) );
 										assertEquals( "Password:", flexTable2.getText( 3, 0 ) );
 										( (PasswordTextBox) flexTable2.getWidget( 3, 1 ) ).setText( "sssh!" );
-										assertEquals( "Home address:", flexTable2.getText( 4, 0 ) );
+										assertEquals( "Home Address:", flexTable2.getText( 4, 0 ) );
 										assertTrue( flexTable2.getWidget( 4, 1 ) instanceof GwtMetawidget );
 
 										FlexTable nestedFlexTable1 = (FlexTable) ( (GwtMetawidget) flexTable2.getWidget( 4, 1 ) ).getWidget( 0 );
@@ -165,7 +165,7 @@ public class GwtTestClientSide
 										assertEquals( "Postcode:", nestedFlexTable1.getText( 3, 0 ) );
 										( (TextBox) nestedFlexTable1.getWidget( 3, 1 ) ).setText( "Home Postcode" );
 
-										assertEquals( "Work address:", flexTable2.getText( 5, 0 ) );
+										assertEquals( "Work Address:", flexTable2.getText( 5, 0 ) );
 
 										FlexTable nestedFlexTable2 = (FlexTable) ( (GwtMetawidget) flexTable2.getWidget( 5, 1 ) ).getWidget( 0 );
 										assertEquals( "Street:", nestedFlexTable2.getText( 0, 0 ) );
@@ -228,7 +228,7 @@ public class GwtTestClientSide
 																	public void run() {
 
 																		FlexTable flexTable3 = (FlexTable) metawidget.getWidget( 0 );
-																		assertEquals( "Pet name:", flexTable3.getText( 0, 0 ) );
+																		assertEquals( "Pet Name:", flexTable3.getText( 0, 0 ) );
 																		( (TextBox) flexTable3.getWidget( 0, 1 ) ).setText( "Millie" );
 																		assertEquals( "*", flexTable3.getText( 0, 2 ) );
 																		assertEquals( "Gender:", flexTable3.getText( 1, 0 ) );

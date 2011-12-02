@@ -28,6 +28,7 @@ import org.metawidget.statically.faces.component.EditableValueHolder;
 import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 
 /**
@@ -38,6 +39,26 @@ import org.metawidget.util.WidgetBuilderUtils;
 
 public class HtmlPanelGridLayout
 	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
+
+	//
+	// Private members
+	//
+
+	private final String	mColumnStyleClasses;
+
+	//
+	// Constructor
+	//
+
+	public HtmlPanelGridLayout() {
+
+		this( new HtmlPanelGridLayoutConfig() );
+	}
+
+	public HtmlPanelGridLayout( HtmlPanelGridLayoutConfig config ) {
+
+		mColumnStyleClasses = ArrayUtils.toString( config.getColumnStyleClasses() );
+	}
 
 	//
 	// Public methods
@@ -54,6 +75,7 @@ public class HtmlPanelGridLayout
 			HtmlPanelGrid panelGrid = new HtmlPanelGrid();
 			panelGrid.putAttribute( "columns", "3" );
 			panelGrid.putAttribute( "id", metawidget.getAttribute( "id" ) );
+			panelGrid.putAttribute( "columnClasses", mColumnStyleClasses );
 			container.getChildren().add( panelGrid );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );

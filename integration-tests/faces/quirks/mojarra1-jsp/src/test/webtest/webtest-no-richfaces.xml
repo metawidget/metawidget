@@ -56,7 +56,7 @@
 
 				<!-- Test Arrays with a UiLookup -->
 								
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th[1]/label)" text="String array:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th[1]/label)" text="String Array:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/input[@type='checkbox']/@value)" text="Foo2"/>
 				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/label, 'Foo2' )"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/input[@type='checkbox']/@value)" text="Bar2"/>
@@ -67,7 +67,7 @@
 
 				<!-- Test converters on Lists with a FacesLookup -->
 								
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th[2]/label)" text="Read only lookup with labels:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[4]/th[2]/label)" text="Read Only Lookup With Labels:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[3]" text="[Foo, Bar]"/>
 
 				<!-- Test DataTableWidgetBuilder -->
@@ -240,9 +240,9 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/th/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/th/label)" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/th/label)" text="Show Ghi:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input/@type" text="checkbox"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/th/label)" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/th/label)" text="Dynamically Change Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input/@type" text="checkbox"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input/@type" text="submit"/>
@@ -292,9 +292,9 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[1]/td/textarea"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/th/label)" text="Def 2:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/th/label)" text="Show ghi:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/th/label)" text="Show Ghi:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[3]/td/input/@type" text="checkbox"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/th/label)" text="Dynamically change def 1:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/th/label)" text="Dynamically Change Def 1:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td/div/table/tbody/tr[4]/td/input/@type" text="checkbox"/>
 
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td/@colspan" text="2"/>

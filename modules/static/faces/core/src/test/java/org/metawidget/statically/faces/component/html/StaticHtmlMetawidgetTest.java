@@ -170,7 +170,7 @@ public class StaticHtmlMetawidgetTest
 				"\t\t<h:message for=\"fooAbc\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested foo:\"/>\r\n" +
+				"\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested Foo:\"/>\r\n" +
 				"\t<h:panelGrid columns=\"3\" id=\"fooNestedFoo\">\r\n" +
 				"\t\t<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>\r\n" +
 				"\t\t<h:panelGroup>\r\n" +

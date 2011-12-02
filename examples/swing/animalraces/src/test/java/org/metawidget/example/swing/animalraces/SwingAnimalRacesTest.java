@@ -102,7 +102,7 @@ public class SwingAnimalRacesTest
 		// Start race
 
 		SwingMetawidget statusbar = (SwingMetawidget) mainFrame.getContentPane().getComponent( 2 );
-		assertEquals( "Start race", ( (JButton) statusbar.getComponent( 0 ) ).getText() );
+		assertEquals( "Start Race", ( (JButton) statusbar.getComponent( 0 ) ).getText() );
 		( (JButton) statusbar.getComponent( 0 ) ).doClick();
 
 		Thread.sleep( 2000 );
@@ -121,7 +121,7 @@ public class SwingAnimalRacesTest
 
 		// Stop race
 
-		assertEquals( "Stop race", ( (JButton) statusbar.getComponent( 1 ) ).getText() );
+		assertEquals( "Stop Race", ( (JButton) statusbar.getComponent( 1 ) ).getText() );
 		( (JButton) statusbar.getComponent( 1 ) ).doClick();
 		assertTrue( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x == 0 );
 		assertTrue( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x == 0 );

@@ -51,7 +51,7 @@
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td[2]/@class" text="table-required-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td[2]" text=""/>				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th/@class" text="table-label-column"/>
-				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th/label" text="Date of birth:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th/label" text="Date Of Birth:"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/@class" text="table-component-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/div/@class" text="iceSelInpDatePopup"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[2]/@class" text="table-required-column"/>
@@ -70,7 +70,7 @@
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/@class" text="icePnlTbOn"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/th" text=""/>
 				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/th)" text="1"/>
-				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td[1]/input[@type='submit']/@value" text="Add condition"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td[1]/input[@type='submit']/@value" text="Add Condition"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td[2]/@class" text="table-required-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td[2]" text=""/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/th[1]/@class" text="table-label-column"/>
@@ -125,7 +125,7 @@
 				<not>
 					<verifyXPath xpath="//select[@name='form:j_id53:0:penguinCurrentConditionBeak']"/>
 				</not>
-				<clickButton label="Add condition"/>				
+				<clickButton label="Add Condition"/>				
 				<verifyXPath xpath="//select[@name='form:j_id53:0:penguinCurrentConditionBeak']"/>
 				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[1]/th[1]/@class" text="table-label-column"/>
@@ -183,7 +183,7 @@
 				<!-- End hack until WebTest JavaScript support improves -->
 				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/@class" text="table-label-column"/>
-				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label" text="Describe hobby:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label" text="Describe Hobby:"/>
 				<verifyXPath xpath="contains(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label/@id, ':0:penguinCurrentDescribeHobby-label')"/>
 				<verifyXPath xpath="contains(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label/@for, ':0:penguinCurrentDescribeHobby')"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/@class" text="table-component-column"/>

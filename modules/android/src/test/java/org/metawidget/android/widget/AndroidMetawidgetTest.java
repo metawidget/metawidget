@@ -63,7 +63,7 @@ public class AndroidMetawidgetTest
 		attributes.remove( LABEL );
 		assertEquals( "Foo", androidMetawidget.getLabelString( attributes ) );
 		attributes.put( NAME, "fooBar" );
-		assertEquals( "Foo bar", androidMetawidget.getLabelString( attributes ) );
+		assertEquals( "Foo Bar", androidMetawidget.getLabelString( attributes ) );
 		attributes.put( LABEL, "" );
 		assertTrue( null == androidMetawidget.getLabelString( attributes ) );
 

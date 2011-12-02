@@ -88,7 +88,7 @@ public class GwtTestQuirks
 
 				// Check what created
 
-				assertEquals( "Boolean primitive:", flexTable.getText( 0, 0 ) );
+				assertEquals( "Boolean Primitive:", flexTable.getText( 0, 0 ) );
 				final CheckBox checkbox = (CheckBox) flexTable.getWidget( 0, 1 );
 				assertTrue( false == checkbox.getValue() );
 				assertTrue( false == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
@@ -101,7 +101,7 @@ public class GwtTestQuirks
 
 				// Click a nested button
 
-				assertEquals( "Nested quirks:", flexTable.getText( 1, 0 ) );
+				assertEquals( "Nested Quirks:", flexTable.getText( 1, 0 ) );
 				final GwtMetawidget nestedMetawidget = (GwtMetawidget) flexTable.getWidget( 1, 1 );
 
 				assertTrue( 3 == flexTable.getRowCount() );
@@ -114,7 +114,7 @@ public class GwtTestQuirks
 						final FlexTable nestedFlexTable = (FlexTable) nestedMetawidget.getWidget( 0 );
 						assertEquals( "", nestedFlexTable.getText( 0, 0 ) );
 						Button nestedActionButton = (Button) nestedFlexTable.getWidget( 0, 1 );
-						assertEquals( "Nested action", nestedActionButton.getText() );
+						assertEquals( "Nested Action", nestedActionButton.getText() );
 
 						try {
 							fireClickEvent( nestedActionButton );

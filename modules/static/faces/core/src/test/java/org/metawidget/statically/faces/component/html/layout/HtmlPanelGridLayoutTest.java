@@ -84,4 +84,20 @@ public class HtmlPanelGridLayoutTest
 
 		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Bar:\"/><h:inputText/><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
 	}
+
+	public void testCss()
+		throws Exception {
+
+		HtmlPanelGridLayout layout = new HtmlPanelGridLayout( new HtmlPanelGridLayoutConfig().setColumnStyleClasses( "labelStyleClass", "componentStyleClass", "requiredStyleClass" ) );
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		HtmlPanelGrid container = new HtmlPanelGrid();
+		layout.startContainerLayout( container, metawidget );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( NAME, "foo" );
+		layout.layoutWidget( new HtmlInputText(), PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<h:panelGrid><h:panelGrid columnClasses=\"labelStyleClass,componentStyleClass,requiredStyleClass\" columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+	}
 }
