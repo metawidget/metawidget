@@ -18,6 +18,14 @@
 			<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/vhx2pUb6DEY&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/vhx2pUb6DEY&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
 		</div>
 
+		<p>
+			A longer, more detailed overview (please try Full Screen mode if you find the coding examples difficult to read): 
+		</p>
+
+		<div class="video">
+			<iframe style="margin: auto" src="http://player.vimeo.com/video/30746629?title=0&amp;byline=0&amp;portrait=0" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+		</div>
+
 		<br/>
 		
 		<h3>Video Walkthroughs</h3>

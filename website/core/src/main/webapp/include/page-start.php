@@ -17,6 +17,7 @@
 		<script src="/js/effects.js" type="text/javascript"></script>
 		<script src="/js/bounce.js" type="text/javascript"></script>
 		<?php
+			header('Expires: '.gmdate('D, d M Y H:i:s', time()+360).' GMT');		
 			if ( $useTooltips ) {
 				echo '<script src="/js/newsticker.js" type="text/javascript"></script>';
 				echo '<script src="/js/tooltip-v0.2.js" type="text/javascript"></script>';
