@@ -42,8 +42,29 @@ public class CssStyleProcessor
 		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles
 		// to all their subcomponents too
 
-		widget.putAttribute( "style", metawidget.getStyle() );
-		widget.putAttribute( "styleClass", metawidget.getStyleClass() );
+		String style = metawidget.getStyle();
+
+		if (style != null ) {
+			String existingStyle = widget.getAttribute( "style" );
+
+			if ( existingStyle == null || "".equals( existingStyle ) ) {
+				widget.putAttribute( "style", style );
+			} else {
+				widget.putAttribute( "style", existingStyle + " " + style );
+			}
+		}
+
+		String styleClass = metawidget.getStyleClass();
+
+		if ( styleClass != null ) {
+			String existingStyleClass = widget.getAttribute( "styleClass" );
+
+			if ( existingStyleClass == null || "".equals( existingStyleClass ) ) {
+				widget.putAttribute( "styleClass", styleClass );
+			} else {
+				widget.putAttribute( "styleClass", existingStyleClass + " " + styleClass );
+			}
+		}
 
 		return widget;
 	}

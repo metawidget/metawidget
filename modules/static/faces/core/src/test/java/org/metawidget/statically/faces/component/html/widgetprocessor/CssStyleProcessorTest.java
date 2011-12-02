@@ -48,12 +48,20 @@ public class CssStyleProcessorTest
 		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
 		assertEquals( "<h:inputText/>", htmlInputText.toString() );
 
-		// Styles
+		// Simple styles and styleClasses
 
 		metawidget.setStyle( "foo" );
 		metawidget.setStyleClass( "bar" );
 		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
 		assertEquals( "<h:inputText style=\"foo\" styleClass=\"bar\"/>", htmlInputText.toString() );
+
+		// Compound styles and styleClasses
+
+		metawidget.setStyle( "foo2" );
+		metawidget.setStyleClass( "bar2" );
+		processor.processWidget( htmlInputText, PROPERTY, null, metawidget );
+		assertEquals( "<h:inputText style=\"foo foo2\" styleClass=\"bar bar2\"/>", htmlInputText.toString() );
+
 	}
 
 	public void testSimpleType() {
