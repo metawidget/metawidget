@@ -84,21 +84,6 @@
 			</thead>
 			<tbody>
 				<tr>
-					<th>FlexMetawidget</th>
-					<td>
-						Flex is a popular RIA platform and has interesting architectual differences
-						compared to our currently supported Web frameworks. In particular, it is not
-						Java-based.
-					</td> 
-				</tr>
-				<tr>
-					<th>VaadinMetawidget</th>
-					<td>
-						Vaadin is a GWT-based, server-side framework with interesting opportunities for
-						integration with technologies like JEXL.
-					</td> 
-				</tr>
-				<tr>
 					<th>WicketMetawidget</th>
 					<td>
 						Wicket is a very popular Web framework, particulary as an alternative to JSF.
@@ -142,16 +127,17 @@
 				<td>Lincoln Baxter III<span>(Maven, testing)</span></td>
 			</tr>
 			<tr>
+				<td>Loghman Barari<span>(Vaadin)</span></td>
 				<td>Michael Studman<span>(testing)</span></td>
 				<td>Renato Garcia<span>(Maven, OVal)</span></td>
-				<td>Rintcius Blok<span>(GWT build)</span></td>
 			</tr>
 			<tr>
+				<td>Rintcius Blok<span>(GWT build)</span></td>
 				<td>Ronald van Kuijk<span>(testing)</span></td>
 				<td>Ryan Cornia<span>(testing)</span></td>
-				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
 			</tr>
 			<tr>
+				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
 				<td>Steffan Luypaert<span>(wallchart)</span></td>
 				<td>Tom Bee<span>(testing)</span></td>
 			</tr>
