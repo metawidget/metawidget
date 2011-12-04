@@ -14,14 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
 /**
- * Marks the widget as an editable component.
+ *
+ *
+ * @author Loghman Barari
  */
 
-public interface EditableValueHolder
-	extends ValueHolder {
+public class CharacterConverter implements Converter<Character> {
 
-	// Just a marker interface
+	public Character convert(Object newValue) {
+
+		if (newValue instanceof Character) {
+			return (Character) newValue;
+		}
+		else if (newValue != null) {
+
+			String s = newValue.toString();
+
+			if (s.length() > 0) {
+				return s.charAt(0);
+			}
+		}
+
+		return null;
+	}
+
 }

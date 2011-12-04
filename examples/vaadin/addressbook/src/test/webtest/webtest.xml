@@ -1,0 +1,17 @@
+<project name="gwt-addressbook-test">
+
+	<taskdef resource="webtestTaskdefs.properties" />
+
+	<target name="all">
+		<webtest name="test-all">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/" />
+				<verifyTitle text="Address Book (Metawidget Vaadin Example)" />
+				
+				<!-- Brief test: most testing is done by VaadinAddressBookTest.java -->
+			</steps>
+		</webtest>
+	</target>
+
+</project>

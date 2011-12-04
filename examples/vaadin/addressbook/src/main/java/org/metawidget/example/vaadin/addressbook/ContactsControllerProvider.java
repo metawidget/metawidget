@@ -14,14 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.example.vaadin.addressbook;
+
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
 
 /**
- * Marks the widget as an editable component.
+ * @author Richard Kennard
  */
 
-public interface EditableValueHolder
-	extends ValueHolder {
+public interface ContactsControllerProvider {
 
-	// Just a marker interface
+	//
+	// Methods
+	//
+
+	ContactsController getContactsController();
+
+	void fireRefresh();
 }

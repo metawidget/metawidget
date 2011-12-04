@@ -14,14 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.vaadin.widgetprocessor.binding;
 
 /**
- * Marks the widget as an editable component.
+ * 
+ *
+ * @author Loghman Barari
  */
 
-public interface EditableValueHolder
-	extends ValueHolder {
+public interface BindingConverter {
 
-	// Just a marker interface
+	//
+	// Methods
+	//
+
+	/**
+	 * Convert the given String to the given expected type, if possible. If not possible, just
+	 * return the original String.
+	 */
+
+	Object convertFromString( String value, Class<?> expectedType );
 }

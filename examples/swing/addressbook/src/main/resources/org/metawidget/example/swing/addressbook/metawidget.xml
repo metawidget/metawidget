@@ -10,7 +10,7 @@
 		<opaque>
 			<boolean>false</boolean>
 		</opaque>
-		<inspector>			
+		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>

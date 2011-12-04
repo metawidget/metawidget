@@ -1,4 +1,4 @@
-// Metawidget
+//Metawidget
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -14,14 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.vaadin;
+
+import com.vaadin.ui.HorizontalLayout;
 
 /**
- * Marks the widget as an editable component.
+ * Facet for Vaadin environments.
+ *
+ * @author Loghman Barari
  */
 
-public interface EditableValueHolder
-	extends ValueHolder {
-
-	// Just a marker interface
+@SuppressWarnings("serial")
+public class Facet
+	extends HorizontalLayout {
 }

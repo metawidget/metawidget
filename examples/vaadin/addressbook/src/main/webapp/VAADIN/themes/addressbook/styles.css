@@ -1,0 +1,24 @@
+@import url(../reindeer/styles.css);
+
+BODY{
+	background: white;
+	dir: rtl;
+	}
+
+div.v-app {	
+	background-color: white;
+	background-image: url("img/background.jpg");
+	background-repeat: no-repeat;
+}
+
+/* Disable line wrap from between caption and input field */
+.v-gridlayout .v-caption {
+    display: inline-block;
+    width: 10em;
+    padding-right: 3px;
+}
+
+/* Right-align (could also disable float and set alignment) */
+.v-gridlayout .v-captiontext {
+    float: left;
+}

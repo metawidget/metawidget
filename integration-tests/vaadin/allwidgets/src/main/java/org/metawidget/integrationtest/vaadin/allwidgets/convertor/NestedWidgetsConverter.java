@@ -14,14 +14,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.integrationtest.vaadin.allwidgets.convertor;
 
-/**
- * Marks the widget as an editable component.
- */
+import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
+import org.metawidget.util.ArrayUtils;
+import org.metawidget.vaadin.widgetprocessor.binding.simple.Converter;
 
-public interface EditableValueHolder
-	extends ValueHolder {
+public class NestedWidgetsConverter implements Converter<NestedWidgets> {
 
-	// Just a marker interface
+	public NestedWidgets convert(Object newValue) {
+
+		String[] values = ArrayUtils.fromString( newValue.toString() );
+
+		if ( values.length == 0 ) {
+			return null;
+		}
+
+		NestedWidgets nestedWidgets = new NestedWidgets();
+		nestedWidgets.setNestedTextbox1( values[0] );
+
+		if ( values.length > 1 ) {
+			nestedWidgets.setNestedTextbox2( values[1] );
+		}
+
+		return nestedWidgets;
+	}
+
 }

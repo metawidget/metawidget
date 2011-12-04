@@ -14,14 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
-
 /**
- * Marks the widget as an editable component.
+ * <strong>Vaadin support.</strong>
+ *
+ * @author Loghman Barari
  */
 
-public interface EditableValueHolder
-	extends ValueHolder {
-
-	// Just a marker interface
-}
+package org.metawidget.vaadin;

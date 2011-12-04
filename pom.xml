@@ -34,7 +34,7 @@
 		<maven.compiler.optimize>true</maven.compiler.optimize>
 
 		<!-- Default SWT to 32-bit -->
-		
+
 		<swt.win32.artifactId>x86</swt.win32.artifactId>
 		<!-- 3.4 and above avoid the swt.dll loading problem -->
 		<swt.win32.version>3.6.0-v3659</swt.win32.version>
@@ -394,8 +394,8 @@
 				<version>3.1.0.GA</version>
 				<exclusions>
 					<exclusion>
-					    <groupId>org.hibernate</groupId>
-					    <artifactId>hibernate-core</artifactId>					
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-core</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -632,6 +632,11 @@
 				<groupId>bcel</groupId>
 				<artifactId>bcel</artifactId>
 				<version>5.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin</artifactId>
+				<version>6.5.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
