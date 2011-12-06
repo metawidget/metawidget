@@ -14,23 +14,16 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.statically.javacode;
 
-import junit.framework.TestCase;
+import org.metawidget.statically.StaticWidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class StaticStubTest
-	extends TestCase {
+public interface StaticJavaWidget
+	extends StaticWidget {
 
-	//
-	// Public statics
-	//
-
-	public void testNoNamespace() {
-
-		assertEquals( null, new StaticStub().getNamespaceURI() );
-	}
+	// Just a marker interface
 }

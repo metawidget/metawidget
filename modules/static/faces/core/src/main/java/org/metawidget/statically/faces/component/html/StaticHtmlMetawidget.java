@@ -23,7 +23,7 @@ import org.metawidget.statically.faces.component.StaticUIMetawidget;
 import org.metawidget.util.ClassUtils;
 
 /**
- * Metawidget for Java Server Faces environments.
+ * Static Metawidget for Java Server Faces environments.
  *
  * @author Richard Kennard
  */

@@ -14,27 +14,28 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.layout;
+package org.metawidget.statically.javacode;
 
-import java.util.Map;
-
-import org.metawidget.layout.iface.Layout;
 import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticWidget;
+import org.metawidget.util.ClassUtils;
 
 /**
+ * Static Metawidget for Java environments.
+ *
  * @author Richard Kennard
  */
 
-public class SimpleLayout
-	implements Layout<StaticWidget, StaticWidget, StaticMetawidget> {
+public class StaticJavaMetawidget
+	extends StaticMetawidget
+	implements StaticJavaWidget {
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
-	public void layoutWidget( StaticWidget component, String elementName, Map<String, String> attributes, StaticWidget container, StaticMetawidget metawidget ) {
+	@Override
+	protected String getDefaultConfiguration() {
 
-		container.getChildren().add( component );
+		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-javacode-default.xml";
 	}
 }

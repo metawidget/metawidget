@@ -14,27 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.layout;
-
-import java.util.Map;
-
-import org.metawidget.layout.iface.Layout;
-import org.metawidget.statically.StaticMetawidget;
-import org.metawidget.statically.StaticWidget;
+package org.metawidget.statically;
 
 /**
  * @author Richard Kennard
  */
 
-public class SimpleLayout
-	implements Layout<StaticWidget, StaticWidget, StaticMetawidget> {
+public class StaticStub
+	extends BaseStaticWidget {
 
 	//
-	// Public methods
+	// Constructor
 	//
 
-	public void layoutWidget( StaticWidget component, String elementName, Map<String, String> attributes, StaticWidget container, StaticMetawidget metawidget ) {
+	public StaticStub() {
 
-		container.getChildren().add( component );
+		// Parameterless constructor
 	}
 }

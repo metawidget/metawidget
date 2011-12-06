@@ -22,10 +22,10 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.statically.StaticStub;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.EditableValueHolder;
-import org.metawidget.statically.faces.component.StaticStub;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 import org.metawidget.util.ArrayUtils;

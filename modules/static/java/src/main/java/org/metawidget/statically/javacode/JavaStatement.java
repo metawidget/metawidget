@@ -14,37 +14,22 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.statically.javacode;
 
-import java.io.Writer;
-
-import org.metawidget.statically.BaseStaticXmlWidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class StaticStub
-	extends BaseStaticXmlWidget {
+public class JavaStatement
+	extends BaseStaticJavaWidget {
 
 	//
 	// Constructor
 	//
 
-	public StaticStub() {
+	public JavaStatement( String textContent ) {
 
-		// Null namespace: stubs should never be output (kind of the point of being static)
-
-		super( "m", "stub", null );
-	}
-
-	//
-	// Public methods
-	//
-
-	@Override
-	public void write( Writer writer ) {
-
-		// Write nothing
+		super( textContent );
 	}
 }

@@ -273,12 +273,6 @@ public abstract class StaticMetawidget
 				CONFIG_READER.configure( mConfig, this );
 			}
 
-			// SwingMetawidget uses setMetawidgetLayout, not setLayout
-
-			if ( mPipeline.getLayout() == null ) {
-				CONFIG_READER.configure( getDefaultConfiguration(), this, "metawidgetLayout" );
-			}
-
 			mPipeline.configureDefaults( CONFIG_READER, getDefaultConfiguration(), StaticMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
