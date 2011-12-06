@@ -24,9 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.statically.StaticStub;
-import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.util.ClassUtils;
@@ -44,7 +43,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class HtmlWidgetBuilder
-	implements WidgetBuilder<StaticWidget, StaticXmlMetawidget> {
+	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Private statics
@@ -56,18 +55,18 @@ public class HtmlWidgetBuilder
 	// Public methods
 	//
 
-	public StaticWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return new StaticStub();
+			return new StaticXmlStub();
 		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new StaticStub();
+			return new StaticXmlStub();
 		}
 
 		// Faces Lookups
@@ -166,7 +165,7 @@ public class HtmlWidgetBuilder
 			}
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new StaticStub();
+				return new StaticXmlStub();
 			}
 		}
 
@@ -275,9 +274,17 @@ public class HtmlWidgetBuilder
 					continue;
 				}
 
-				// ...add a column
+				// ...add a column...
 
 				addColumnComponent( dataTable, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+
+				// ...up to a sensible maximum
+
+				// TODO: make configurable
+
+				if ( dataTable.getChildren().size() == 5 ) {
+					break;
+				}
 			}
 
 			// If we couldn't add any 'required' columns, try again for every field

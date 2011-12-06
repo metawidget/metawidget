@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.metawidget.statically.StaticStub;
 import org.metawidget.statically.StaticWidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -36,7 +37,20 @@ public class QueryByExampleMetawidgetTest
 	// Public methods
 	//
 
-	public void testSimple() {
+	public void testWidgetBuilder() {
+
+		QueryByExampleWidgetBuilder widgetBuilder = new QueryByExampleWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( NAME, "abc" );
+		attributes.put( TYPE, String.class.getName() );
+		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, new StaticJavaMetawidget() );
+
+		assertEquals(
+					"String abc = this.search.getAbc();if (abc != null && !\"\".equals(abc)) { predicatesList.add(builder.equal(root.get(\"abc\"),abc)); }",
+					widget.toString() );
+	}
+
+	public void testMetawidget() {
 
 		StaticJavaMetawidget metawidget = new StaticJavaMetawidget();
 		metawidget.setPath( Foo.class.getName() );
@@ -95,16 +109,16 @@ public class QueryByExampleMetawidgetTest
 				String name = attributes.get( NAME );
 
 				StaticWidget toReturn = new StaticStub();
-				toReturn.getChildren().add( new JavaStatement( "String " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" ));
+				toReturn.getChildren().add( new JavaStatement( "String " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" ) );
 				JavaStatement ifNotEmpty = new JavaStatement( "if (" + name + " != null && !\"\".equals(" + name + "))" );
-				ifNotEmpty.getChildren().add( new JavaStatement( "predicatesList.add(builder.equal(root.get(\"" + name + "\")," + name + "))" ));
-				toReturn.getChildren().add(ifNotEmpty);
+				ifNotEmpty.getChildren().add( new JavaStatement( "predicatesList.add(builder.equal(root.get(\"" + name + "\")," + name + "))" ) );
+				toReturn.getChildren().add( ifNotEmpty );
 				return toReturn;
 			}
 
 			// Do not recurse sub-entities for now
 
-			if ( !ENTITY.equals( elementName )) {
+			if ( !ENTITY.equals( elementName ) ) {
 				return new StaticStub();
 			}
 
@@ -114,17 +128,17 @@ public class QueryByExampleMetawidgetTest
 
 	public static class Foo {
 
-		public String	abc;
+		public String	ghi;
 
 		public String	def;
 
 		public Bar		bar;
 
-		public String	ghi;
+		public String	abc;
 	}
 
 	public static class Bar {
 
-		public String ignored;
+		public String	ignored;
 	}
 }

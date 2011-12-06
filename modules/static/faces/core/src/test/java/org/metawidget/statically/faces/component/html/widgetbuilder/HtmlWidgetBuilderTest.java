@@ -35,6 +35,7 @@ import org.metawidget.inspector.impl.propertystyle.statically.StaticPropertyStyl
 import org.metawidget.inspector.java5.Java5Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
@@ -144,6 +145,53 @@ public class HtmlWidgetBuilderTest
 		assertEquals( result, metawidget.toString() );
 	}
 
+	public void testCollectionWithManyColumns()
+		throws Exception {
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, LargeFoo.class.getName() );
+		StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+
+		String result = "<h:dataTable var=\"_item\">" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 1\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column1}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 2\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column2}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 3\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column3}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 4\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column4}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 5\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column5}\"/>" +
+				"</h:column>" +
+				// Column 6 should be suppressed
+				"</h:dataTable>";
+
+		assertEquals( result, widget.toString() );
+	}
+
 	//
 	// Inner class
 	//
@@ -172,5 +220,20 @@ public class HtmlWidgetBuilderTest
 		@UiRequired
 		@UiComesAfter( "baz" )
 		public String	abc;
+	}
+
+	static class LargeFoo {
+
+		public String	column1;
+
+		public String	column2;
+
+		public String	column3;
+
+		public String	column4;
+
+		public String	column5;
+
+		public String	column6;
 	}
 }

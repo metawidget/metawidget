@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.statically.StaticStub;
 import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.EditableValueHolder;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
@@ -87,7 +87,7 @@ public class HtmlPanelGridLayout
 		try {
 			// Ignore stubs
 
-			if ( widget instanceof StaticStub ) {
+			if ( widget instanceof StaticXmlStub ) {
 				return;
 			}
 

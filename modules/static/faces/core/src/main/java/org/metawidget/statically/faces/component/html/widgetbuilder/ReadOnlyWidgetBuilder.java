@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.statically.StaticStub;
-import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.StaticXmlStub;
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -37,13 +37,13 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<StaticWidget, StaticXmlMetawidget> {
+	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
 		// Not read-only?
 
@@ -54,21 +54,21 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return new StaticStub();
+			return new StaticXmlStub();
 		}
 
 		// Masked (return a couple of nested Stubs, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-			StaticStub staticStub = new StaticStub();
-			staticStub.getChildren().add( new StaticStub() );
+			StaticXmlStub staticStub = new StaticXmlStub();
+			staticStub.getChildren().add( new StaticXmlStub() );
 			return staticStub;
 		}
 
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new StaticStub();
+			return new StaticXmlStub();
 		}
 
 		// Lookups

@@ -68,16 +68,27 @@ public abstract class BaseStaticJavaWidget
 
 		// With children
 
+		writer.append( " {" );
+
 		if ( writer instanceof IndentedWriter ) {
-			writer.append( " {\r\n" );
+			writer.append( "\r\n" );
 			( (IndentedWriter) writer ).indent();
+		} else {
+			writer.append( ' ' );
 		}
 
 		super.write( writer );
 
 		if ( writer instanceof IndentedWriter ) {
 			( (IndentedWriter) writer ).outdent();
-			writer.append( "}\r\n" );
+		} else {
+			writer.append( ' ' );
+		}
+
+		writer.append( '}' );
+
+		if ( writer instanceof IndentedWriter ) {
+			writer.append( "\r\n" );
 		}
 	}
 }

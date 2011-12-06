@@ -22,6 +22,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
@@ -99,5 +100,23 @@ public class HtmlPanelGridLayoutTest
 		layout.endContainerLayout( container, metawidget );
 
 		assertEquals( "<h:panelGrid><h:panelGrid columnClasses=\"labelStyleClass,componentStyleClass,requiredStyleClass\" columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+	}
+
+	public void testStub()
+		throws Exception {
+
+		HtmlPanelGridLayout layout = new HtmlPanelGridLayout();
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		HtmlPanelGrid container = new HtmlPanelGrid();
+		layout.startContainerLayout( container, metawidget );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( NAME, "foo" );
+		layout.layoutWidget( new StaticXmlStub(), PROPERTY, attributes, container, metawidget );
+		layout.layoutWidget( new HtmlInputText(), PROPERTY, attributes, container, metawidget );
+		layout.layoutWidget( new StaticXmlStub(), PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
 	}
 }
