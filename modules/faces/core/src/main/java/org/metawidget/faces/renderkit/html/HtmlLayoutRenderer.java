@@ -30,6 +30,7 @@ import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlMessage;
 import javax.faces.component.html.HtmlOutputLabel;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -164,18 +165,26 @@ public abstract class HtmlLayoutRenderer
 	 * Create a label component for the given <code>UIComponent</code>. Clients may override this
 	 * method to create a different type of label component.
 	 */
-	
-	protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
-
-		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
-		componentLabel.setFor( componentNeedingLabel.getId() );
-
-		// Avoid 'unable to find component with id' warning
-
-		componentLabel.setParent( componentNeedingLabel.getParent() );
-		componentLabel.setId( componentLabel.getFor() + LABEL_ID_SUFFIX );
-		return componentLabel;
-	}
+        protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
+                // Don't create h:outputlabel for not UIInput components
+                // as label are supposed to be for input elements.
+                if ((componentNeedingLabel instanceof UIInput) && !(componentNeedingLabel instanceof UIMetawidget)) {
+                        HtmlOutputLabel componentLabel = 
+                                (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
+                        String componentNeedingLabelId = componentNeedingLabel.getId();
+                        componentLabel.setFor(componentNeedingLabelId);
+                        componentLabel.setId(componentNeedingLabelId + LABEL_ID_SUFFIX);
+                        
+                        // Avoid 'unable to find component with id' warning
+                        componentLabel.setParent(componentNeedingLabel.getParent());
+                        return componentLabel;
+                } else {
+                        HtmlOutputText componentLabel =
+                                (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
+	 	
+                        return componentLabel;
+                }
+        }
 
 	protected void layoutChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
 		throws IOException {
