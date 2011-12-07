@@ -21,6 +21,7 @@ import static org.metawidget.inspector.faces.StaticFacesInspectionResultConstant
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -39,6 +40,7 @@ import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 public class HtmlWidgetBuilderTest
 	extends TestCase {
@@ -68,13 +70,19 @@ public class HtmlWidgetBuilderTest
 	public void testCollection()
 		throws Exception {
 
-		// Most basic
+		// Unsupported type
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( TYPE, List.class.getName() );
+		attributes.put( TYPE, Set.class.getName() );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<stub/>", widget.toString() );
+
+		// Most basic
+
+		attributes.put( TYPE, List.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText/></f:facet><h:outputText value=\"#{_item}\"/></h:column></h:dataTable>", widget.toString() );
 
 		// With parent name
@@ -190,6 +198,78 @@ public class HtmlWidgetBuilderTest
 				"</h:dataTable>";
 
 		assertEquals( result, widget.toString() );
+
+		widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 2 ) );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+
+		result = "<h:dataTable var=\"_item\">" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 1\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column1}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 2\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column2}\"/>" +
+				"</h:column>" +
+				// Column 3+ should be suppressed
+				"</h:dataTable>";
+
+		assertEquals( result, widget.toString() );
+
+		widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 0 ) );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+
+		result = "<h:dataTable var=\"_item\">" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 1\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column1}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 2\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column2}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 3\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column3}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 4\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column4}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 5\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column5}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Column 6\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.column6}\"/>" +
+				"</h:column>" +
+				"</h:dataTable>";
+
+		assertEquals( result, widget.toString() );
+	}
+
+	public void testConfig() {
+
+		MetawidgetTestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig() {
+			// Subclass
+		} );
 	}
 
 	//

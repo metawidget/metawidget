@@ -38,11 +38,9 @@ public class SwingMetawidgetConcurrencyTest
 	public void testConcurrentStartup()
 		throws Exception {
 
-		final List<Exception> concurrencyFailures = CollectionUtils.newArrayList();
-
 		// Try a few times (just to make sure)...
 
-		for ( int tryAFewTimes = 0; tryAFewTimes < 10; tryAFewTimes++ ) {
+		for ( int tryAFewTimes = 0; tryAFewTimes < 100; tryAFewTimes++ ) {
 
 			// ...create a ConfigReader with a clean cache...
 
@@ -52,6 +50,8 @@ public class SwingMetawidgetConcurrencyTest
 
 			final CountDownLatch startSignal = new CountDownLatch( 1 );
 			final CountDownLatch doneSignal = new CountDownLatch( 50 );
+
+			final List<Exception> concurrencyFailures = CollectionUtils.newArrayList();
 
 			for ( int concurrentThreads = 0; concurrentThreads < doneSignal.getCount(); concurrentThreads++ ) {
 
@@ -79,17 +79,17 @@ public class SwingMetawidgetConcurrencyTest
 				} ).start();
 			}
 
-			// ...and run them all simultaneously
+			// ...run them all simultaneously...
 
 			startSignal.countDown();
 			doneSignal.await();
+
+			// ...and see if any failed
 
 			if ( !concurrencyFailures.isEmpty() ) {
 				throw concurrencyFailures.get( 0 );
 			}
 		}
-
-		assertTrue( concurrencyFailures.isEmpty() );
 	}
 
 	//

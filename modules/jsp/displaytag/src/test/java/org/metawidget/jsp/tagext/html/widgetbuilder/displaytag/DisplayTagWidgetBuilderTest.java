@@ -18,12 +18,19 @@ package org.metawidget.jsp.tagext.html.widgetbuilder.displaytag;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.metawidget.jsp.tagext.html.widgetbuilder.displaytag.DisplayTagWidgetBuilder;
+import org.displaytag.tags.TableTag;
+import org.metawidget.jsp.JspUtilsTest.DummyPageContext;
+import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.XmlUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * @author Richard Kennard
@@ -67,5 +74,51 @@ public class DisplayTagWidgetBuilderTest
 
 		attributes.put( TYPE, String.class.getName() );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+	}
+
+	public void testCollectionWithManyColumns()
+		throws Exception {
+
+		HtmlMetawidgetTag metawidgetTag = new HtmlMetawidgetTag();
+		metawidgetTag.setPageContext( new DummyPageContext() );
+
+		Document document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"column1\"/><property name=\"column2\"/><property name=\"column3\"/><property name=\"column4\"/><property name=\"column5\"/><property name=\"column6\"/></entity></inspection-result>" );
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+
+		final List<String> columnsAdded = CollectionUtils.newArrayList();
+
+		DisplayTagWidgetBuilder widgetBuilder = new DisplayTagWidgetBuilder() {
+
+			@Override
+			protected boolean addColumnTag( TableTag tableTag, Map<String, String> tableAttributes, Map<String, String> columnAttributes, MetawidgetTag innerMetawidgetTag ) {
+
+				columnsAdded.add( innerMetawidgetTag.getLabelString( columnAttributes ));
+				return true;
+			}
+		};
+
+		TableTag tableTag = new TableTag();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		widgetBuilder.addColumnTags( tableTag, attributes, entity.getChildNodes(), metawidgetTag );
+		assertEquals( 5, columnsAdded.size() );
+	}
+
+	//
+	// Inner class
+	//
+
+	static class LargeFoo {
+
+		public String	column1;
+
+		public String	column2;
+
+		public String	column3;
+
+		public String	column4;
+
+		public String	column5;
+
+		public String	column6;
 	}
 }

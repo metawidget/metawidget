@@ -22,10 +22,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-core</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>	
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-annotation</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-java5</artifactId>

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
@@ -104,10 +105,8 @@ public class HtmlPanelGridLayout
 
 			// Label
 
-			// TODO: recurse into panelGroups looking for an id
-
 			HtmlOutputLabel label = new HtmlOutputLabel();
-			String id = widget.getAttribute( "id" );
+			String id = getWidgetId( widget );
 
 			if ( id != null ) {
 				label.putAttribute( "for", id );
@@ -160,5 +159,33 @@ public class HtmlPanelGridLayout
 	public void onEndBuild( StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Gets the id attribute of the given widget, recursing into child widgets if necessary.
+	 */
+
+	private String getWidgetId( StaticXmlWidget widget ) {
+
+		String id = widget.getAttribute( "id" );
+
+		if ( id != null ) {
+			return id;
+		}
+
+		for( StaticWidget child : widget.getChildren() ) {
+
+			id = getWidgetId( (StaticXmlWidget) child );
+
+			if ( id != null ) {
+				return id;
+			}
+		}
+
+		return null;
 	}
 }

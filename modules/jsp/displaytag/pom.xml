@@ -37,6 +37,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.metawidget.modules.jsp</groupId>
+			<artifactId>metawidget-jsp</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>

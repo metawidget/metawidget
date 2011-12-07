@@ -144,6 +144,8 @@ public class DisplayTagWidgetBuilder
 
 		// For each property...
 
+		int columnsAdded = 0;
+
 		for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
 			Node node = elements.item( loop );
 
@@ -159,9 +161,17 @@ public class DisplayTagWidgetBuilder
 				continue;
 			}
 
-			// ...add a column
+			// ...add a column...
 
-			addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag );
+			if ( addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag )) {
+				columnsAdded++;
+			}
+
+			// ...up to a sensible maximum
+
+			if ( columnsAdded == 5 ) {
+				break;
+			}
 		}
 	}
 
@@ -174,9 +184,10 @@ public class DisplayTagWidgetBuilder
 	 * @param tableAttributes
 	 *            the metadata attributes used to render the parent table. May be useful for
 	 *            determining the overall type of the row
+	 * @return true if a column was added, false otherwise
 	 */
 
-	protected void addColumnTag( TableTag tableTag, Map<String, String> tableAttributes, Map<String, String> columnAttributes, MetawidgetTag metawidgetTag )
+	protected boolean addColumnTag( TableTag tableTag, Map<String, String> tableAttributes, Map<String, String> columnAttributes, MetawidgetTag metawidgetTag )
 		throws JspException {
 
 		ColumnTag columnTag = new ColumnTag();
@@ -184,5 +195,6 @@ public class DisplayTagWidgetBuilder
 		columnTag.setProperty( columnAttributes.get( NAME ) );
 
 		JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, tableTag, null );
+		return true;
 	}
 }

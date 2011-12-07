@@ -27,6 +27,7 @@ import java.util.Set;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIData;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
@@ -134,9 +135,9 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( NAME, "bar" );
-		
+
 		// (dataTableRowAction cannot be wrapped when used on the JSP page)
-		
+
 		dummyMetawdget.setParameter( "dataTableRowAction", "foo.action" );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
@@ -178,13 +179,19 @@ public class HtmlWidgetBuilderTest
 		assertEquals( "foo", ( (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null ) ).getFamily() );
 		attributes.remove( FACES_COMPONENT );
 
-		// Unsupport types
+		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
+		// Unsupported Collections
+
+		attributes.put( TYPE, Set.class.getName() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof UIStub );
+
 		// Don't expand
 
+		attributes.put( TYPE, Color.class.getName() );
 		attributes.put( DONT_EXPAND, TRUE );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlInputText );
 		attributes.remove( DONT_EXPAND );
@@ -329,6 +336,28 @@ public class HtmlWidgetBuilderTest
 		furtherAssert( htmlInputTextarea );
 	}
 
+	public void testCollectionWithManyColumns()
+		throws Exception {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, LargeFoo.class.getName() );
+		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 5, data.getChildCount() );
+
+		widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 2 ) );
+		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 2, data.getChildCount() );
+
+		widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 0 ) );
+		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 6, data.getChildCount() );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( HtmlWidgetBuilderConfig.class, new HtmlWidgetBuilderConfig() {
@@ -400,5 +429,20 @@ public class HtmlWidgetBuilderTest
 		public String	baz;
 
 		public String	abc;
+	}
+
+	static class LargeFoo {
+
+		public String	column1;
+
+		public String	column2;
+
+		public String	column3;
+
+		public String	column4;
+
+		public String	column5;
+
+		public String	column6;
 	}
 }

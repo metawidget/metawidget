@@ -17,6 +17,18 @@
 		<module>displaytag</module>
 	</modules>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.metawidget.modules.jsp</groupId>
+				<artifactId>metawidget-jsp</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>

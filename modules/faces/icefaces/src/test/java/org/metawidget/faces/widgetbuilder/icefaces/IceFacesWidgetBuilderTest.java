@@ -21,6 +21,7 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.FacesException;
@@ -28,9 +29,11 @@ import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilderConfig;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -91,9 +94,22 @@ public class IceFacesWidgetBuilderTest
 
 		// Partial submit turned off
 
-		widgetBuilder = new IceFacesWidgetBuilder( new IceFacesWidgetBuilderConfig().setPartialSubmit( false ));
+		widgetBuilder = new IceFacesWidgetBuilder( new IceFacesWidgetBuilderConfig().setPartialSubmit( false ) );
 		selectInputDate = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( !selectInputDate.getPartialSubmit() );
+	}
+
+	@Override
+	public void testCollectionWithManyColumns()
+		throws Exception {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
 
 	@Override

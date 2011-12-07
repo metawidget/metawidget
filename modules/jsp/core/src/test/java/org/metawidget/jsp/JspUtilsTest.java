@@ -370,14 +370,19 @@ public class JspUtilsTest
 					return null;
 				}
 
+				public Object getAttribute( String arg0 ) {
+
+					return null;
+				}
+
+				public void setAttribute( String arg0, Object arg1 ) {
+
+					// Do nothing
+				}
+
 				//
 				// Unsupported methods
 				//
-
-				public Object getAttribute( String arg0 ) {
-
-					throw new UnsupportedOperationException();
-				}
 
 				public Enumeration<?> getAttributeNames() {
 
@@ -484,11 +489,6 @@ public class JspUtilsTest
 				}
 
 				public void removeAttribute( String arg0 ) {
-
-					throw new UnsupportedOperationException();
-				}
-
-				public void setAttribute( String arg0, Object arg1 ) {
 
 					throw new UnsupportedOperationException();
 				}

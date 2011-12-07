@@ -14,12 +14,12 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.html.widgetbuilder;
+package org.metawidget.statically.faces.component.html.widgetbuilder;
 
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures an HtmlWidgetBuilder prior to use. Once instantiated, WidgetBuilders are immutable.
+ * Configures a HtmlWidgetBuilder prior to use. Once instantiated, WidgetBuilders are immutable.
  *
  * @author Richard Kennard
  */
@@ -30,50 +30,11 @@ public class HtmlWidgetBuilderConfig {
 	// Private members
 	//
 
-	private String		mDataTableStyleClass;
-
-	private String[]	mDataTableColumnClasses;
-
-	private String[]	mDataTableRowClasses;
-
-	private int			mMaximumColumnsInDataTable	= 5;
+	private int	mMaximumColumnsInDataTable	= 5;
 
 	//
 	// Public methods
 	//
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlWidgetBuilderConfig setDataTableStyleClass( String dataTableStyleClass ) {
-
-		mDataTableStyleClass = dataTableStyleClass;
-
-		return this;
-	}
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlWidgetBuilderConfig setDataTableColumnClasses( String... dataTableColumnClasses ) {
-
-		mDataTableColumnClasses = dataTableColumnClasses;
-
-		return this;
-	}
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlWidgetBuilderConfig setDataTableRowClasses( String... dataTableRowClasses ) {
-
-		mDataTableRowClasses = dataTableRowClasses;
-
-		return this;
-	}
 
 	/**
 	 * Sets the maximum number of columns to display in a generated data table.
@@ -104,18 +65,6 @@ public class HtmlWidgetBuilderConfig {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mDataTableStyleClass, ( (HtmlWidgetBuilderConfig) that ).mDataTableStyleClass ) ) {
-			return false;
-		}
-
-		if ( !ObjectUtils.nullSafeEquals( mDataTableColumnClasses, ( (HtmlWidgetBuilderConfig) that ).mDataTableColumnClasses ) ) {
-			return false;
-		}
-
-		if ( !ObjectUtils.nullSafeEquals( mDataTableRowClasses, ( (HtmlWidgetBuilderConfig) that ).mDataTableRowClasses ) ) {
-			return false;
-		}
-
 		if ( mMaximumColumnsInDataTable != ( (HtmlWidgetBuilderConfig) that ).mMaximumColumnsInDataTable ) {
 			return false;
 		}
@@ -127,9 +76,6 @@ public class HtmlWidgetBuilderConfig {
 	public int hashCode() {
 
 		int hashCode = 1;
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableStyleClass );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableColumnClasses );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableRowClasses );
 		hashCode = 31 * hashCode + mMaximumColumnsInDataTable;
 
 		return hashCode;
@@ -138,21 +84,6 @@ public class HtmlWidgetBuilderConfig {
 	//
 	// Protected methods
 	//
-
-	protected String getDataTableStyleClass() {
-
-		return mDataTableStyleClass;
-	}
-
-	protected String[] getDataTableColumnClasses() {
-
-		return mDataTableColumnClasses;
-	}
-
-	protected String[] getDataTableRowClasses() {
-
-		return mDataTableRowClasses;
-	}
 
 	protected int getMaximumColumnsInDataTable() {
 

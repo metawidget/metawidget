@@ -52,6 +52,26 @@ public class HtmlWidgetBuilder
 	private final static String	MAX_LENGTH	= "maxLength";
 
 	//
+	// Private methods
+	//
+
+	private final int			mMaximumColumnsInDataTable;
+
+	//
+	// Constructor
+	//
+
+	public HtmlWidgetBuilder() {
+
+		this( new HtmlWidgetBuilderConfig() );
+	}
+
+	public HtmlWidgetBuilder( HtmlWidgetBuilderConfig config ) {
+
+		mMaximumColumnsInDataTable = config.getMaximumColumnsInDataTable();
+	}
+
+	//
 	// Public methods
 	//
 
@@ -163,6 +183,8 @@ public class HtmlWidgetBuilder
 			if ( List.class.isAssignableFrom( clazz ) /* || DataModel.class.isAssignableFrom( clazz ) */|| clazz.isArray() ) {
 				return createDataTableComponent( elementName, attributes, metawidget );
 			}
+
+			// Unsupported Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new StaticXmlStub();
@@ -280,9 +302,7 @@ public class HtmlWidgetBuilder
 
 				// ...up to a sensible maximum
 
-				// TODO: make configurable
-
-				if ( dataTable.getChildren().size() == 5 ) {
+				if ( dataTable.getChildren().size() == mMaximumColumnsInDataTable ) {
 					break;
 				}
 			}

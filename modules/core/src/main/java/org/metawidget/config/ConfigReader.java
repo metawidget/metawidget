@@ -238,7 +238,7 @@ public class ConfigReader
 
 			else {
 
-				synchronized( mImmutableByLocationCache ) {
+				synchronized ( mResourceCache ) {
 					LOG.debug( "Reading resource from {0}", locationKey );
 					cachingContentHandler = new CachingContentHandler( configHandler );
 					configHandler.setCachingContentHandler( cachingContentHandler );
@@ -246,8 +246,12 @@ public class ConfigReader
 
 					// Only cache if successful
 
-					mResourceCache.put( locationKey, cachingContentHandler );
 					mImmutableByLocationCache.put( locationKey, immutableByLocationCache );
+
+					// Cache mResourceCache to avoid concurrency problems on accessing
+					// mImmutableByLocationCache
+
+					mResourceCache.put( locationKey, cachingContentHandler );
 				}
 			}
 
@@ -679,21 +683,19 @@ public class ConfigReader
 		 * Note: not using enum, for JDK 1.4 compatibility.
 		 */
 
-		private static final int		ENCOUNTERED_METHOD						= 0;
+		private static final int		ENCOUNTERED_METHOD					= 0;
 
-		private static final int		ENCOUNTERED_NATIVE_TYPE					= 1;
+		private static final int		ENCOUNTERED_NATIVE_TYPE				= 1;
 
-		private static final int		ENCOUNTERED_NATIVE_COLLECTION_TYPE		= 2;
+		private static final int		ENCOUNTERED_NATIVE_COLLECTION_TYPE	= 2;
 
-		private static final int		ENCOUNTERED_CONFIGURED_TYPE				= 3;
+		private static final int		ENCOUNTERED_CONFIGURED_TYPE			= 3;
 
-		private static final int		ENCOUNTERED_JAVA_OBJECT					= 4;
+		private static final int		ENCOUNTERED_JAVA_OBJECT				= 4;
 
-		private static final int		ENCOUNTERED_ALREADY_CACHED_IMMUTABLE	= 5;
+		private static final int		ENCOUNTERED_WRONG_TYPE				= 5;
 
-		private static final int		ENCOUNTERED_WRONG_TYPE					= 6;
-
-		private static final int		ENCOUNTERED_WRONG_NAME					= 7;
+		private static final int		ENCOUNTERED_WRONG_NAME				= 6;
 
 		/**
 		 * Possible 'expecting' states.
@@ -701,15 +703,15 @@ public class ConfigReader
 		 * Note: not using enum, for JDK 1.4 compatibility.
 		 */
 
-		private static final int		EXPECTING_ROOT							= 0;
+		private static final int		EXPECTING_ROOT						= 0;
 
-		private static final int		EXPECTING_TO_CONFIGURE					= 1;
+		private static final int		EXPECTING_TO_CONFIGURE				= 1;
 
-		private static final int		EXPECTING_OBJECT						= 2;
+		private static final int		EXPECTING_OBJECT					= 2;
 
-		private static final int		EXPECTING_METHOD						= 3;
+		private static final int		EXPECTING_METHOD					= 3;
 
-		private static final int		EXPECTING_CLOSE_OBJECT_WITH_REFID					= 4;
+		private static final int		EXPECTING_CLOSE_OBJECT_WITH_REFID	= 4;
 
 		//
 		// Private members
@@ -750,37 +752,37 @@ public class ConfigReader
 		 * Depth after which to skip type processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreTypeAfterDepth					= -1;
+		private int						mIgnoreTypeAfterDepth				= -1;
 
 		/**
 		 * Depth after which to skip name processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreNameAfterDepth					= -1;
+		private int						mIgnoreNameAfterDepth				= -1;
 
 		/**
 		 * Depth after which to skip immutable caching, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreImmutableAfterDepth				= -1;
+		private int						mIgnoreImmutableAfterDepth			= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
 		 */
 
-		private Stack<Object>			mConstructing							= CollectionUtils.newStack();
+		private Stack<Object>			mConstructing						= CollectionUtils.newStack();
 
 		/**
 		 * Next expected state in the XML tree.
 		 */
 
-		private int						mExpecting								= EXPECTING_ROOT;
+		private int						mExpecting							= EXPECTING_ROOT;
 
 		/**
 		 * Stack of encountered states in the XML tree.
 		 */
 
-		private Stack<Integer>			mEncountered							= CollectionUtils.newStack();
+		private Stack<Integer>			mEncountered						= CollectionUtils.newStack();
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -1087,7 +1089,7 @@ public class ConfigReader
 						Object constructing = mConstructing.peek();
 
 						if ( constructing instanceof ConfigAndId ) {
-							constructing = ((ConfigAndId) mConstructing.peek()).getConfig();
+							constructing = ( (ConfigAndId) mConstructing.peek() ).getConfig();
 						}
 
 						mConstructing.push( methodParameters );
@@ -1112,14 +1114,13 @@ public class ConfigReader
 					}
 
 					case ENCOUNTERED_CONFIGURED_TYPE:
-					case ENCOUNTERED_JAVA_OBJECT:
-					case ENCOUNTERED_ALREADY_CACHED_IMMUTABLE: {
+					case ENCOUNTERED_JAVA_OBJECT: {
 						Object object = mConstructing.pop();
 
 						if ( encountered == ENCOUNTERED_CONFIGURED_TYPE ) {
 							Class<?> classToConstruct = lookupClass( uri, localName );
-							String id = ((ConfigAndId) object).getId();
-							object = ((ConfigAndId) object).getConfig();
+							String id = ( (ConfigAndId) object ).getId();
+							object = ( (ConfigAndId) object ).getConfig();
 							Object configuredObject = null;
 
 							// Immutable by class (and config)? Don't re-instantiate
@@ -1197,7 +1198,7 @@ public class ConfigReader
 						Object constructing = mConstructing.peek();
 
 						if ( constructing instanceof ConfigAndId ) {
-							constructing = ((ConfigAndId) constructing).getConfig();
+							constructing = ( (ConfigAndId) constructing ).getConfig();
 						}
 
 						Class<?> constructingClass = constructing.getClass();
@@ -1274,7 +1275,7 @@ public class ConfigReader
 		//
 
 		/**
-		 * @return	what should be expected next
+		 * @return what should be expected next
 		 */
 
 		private int handleNonNativeObject( String uri, String localName, Attributes attributes )
@@ -1296,7 +1297,7 @@ public class ConfigReader
 				Object immutable = getImmutableByRefId( refId );
 				Class<?> actualClass = immutable.getClass();
 
-				if ( !StringUtils.decapitalize( actualClass.getSimpleName() ).equals( localName )) {
+				if ( !StringUtils.decapitalize( actualClass.getSimpleName() ).equals( localName ) ) {
 
 					throw InspectorException.newException( "refId=\"" + refId + "\" points to an object of " + actualClass + ", not a <" + localName + ">" );
 				}
@@ -1343,7 +1344,7 @@ public class ConfigReader
 						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
 					}
 
-					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ));
+					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ) );
 					mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
 
 					// Pause caching (if any)

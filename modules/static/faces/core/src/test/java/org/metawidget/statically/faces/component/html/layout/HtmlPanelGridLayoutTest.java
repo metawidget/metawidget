@@ -27,6 +27,7 @@ import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 
 public class HtmlPanelGridLayoutTest
 	extends TestCase {
@@ -118,5 +119,34 @@ public class HtmlPanelGridLayoutTest
 		layout.endContainerLayout( container, metawidget );
 
 		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+	}
+
+	public void testNestedId()
+		throws Exception {
+
+		HtmlPanelGridLayout layout = new HtmlPanelGridLayout();
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		HtmlPanelGrid container = new HtmlPanelGrid();
+		layout.startContainerLayout( container, metawidget );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( NAME, "foo" );
+
+		HtmlInputText htmlInputText = new HtmlInputText();
+		htmlInputText.putAttribute( "id", "fooBeanCurrent" );
+		HtmlPanelGroup htmlPanelGroup = new HtmlPanelGroup();
+		htmlPanelGroup.getChildren().add( htmlInputText );
+
+		layout.layoutWidget( htmlPanelGroup, PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel for=\"fooBeanCurrent\" value=\"Foo:\"/><h:panelGroup><h:inputText id=\"fooBeanCurrent\"/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+	}
+
+	public void testConfig() {
+
+		MetawidgetTestUtils.testEqualsAndHashcode( HtmlPanelGridLayoutConfig.class, new HtmlPanelGridLayoutConfig() {
+			// Subclass
+		} );
 	}
 }

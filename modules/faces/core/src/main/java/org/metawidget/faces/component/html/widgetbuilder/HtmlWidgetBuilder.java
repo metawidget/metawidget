@@ -70,7 +70,7 @@ import org.w3c.dom.NodeList;
  * <p>
  * Creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneMenu</code>, to suit the inspected fields.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -102,6 +102,8 @@ public class HtmlWidgetBuilder
 
 	private final String[]		mDataTableRowClasses;
 
+	private final int			mMaximumColumnsInDataTable;
+
 	//
 	// Constructor
 	//
@@ -116,6 +118,7 @@ public class HtmlWidgetBuilder
 		mDataTableStyleClass = config.getDataTableStyleClass();
 		mDataTableColumnClasses = config.getDataTableColumnClasses();
 		mDataTableRowClasses = config.getDataTableRowClasses();
+		mMaximumColumnsInDataTable = config.getMaximumColumnsInDataTable();
 	}
 
 	//
@@ -125,7 +128,7 @@ public class HtmlWidgetBuilder
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 *
+	 * 
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
@@ -265,7 +268,11 @@ public class HtmlWidgetBuilder
 
 				else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 					return createDataTableComponent( elementName, attributes, metawidget );
-				} else if ( Collection.class.isAssignableFrom( clazz ) ) {
+				}
+
+				// Unsupported Collections
+
+				else if ( Collection.class.isAssignableFrom( clazz ) ) {
 					return application.createComponent( "org.metawidget.Stub" );
 				}
 			}
@@ -372,8 +379,6 @@ public class HtmlWidgetBuilder
 
 		addSelectItems( component, valuesAfterConversion, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 	}
-
-	// TODO: make this match static HtmlWidgetBuilder (ie. have a createInputText method)
 
 	protected void setMaximumLength( UIComponent component, Map<String, String> attributes ) {
 
@@ -529,9 +534,15 @@ public class HtmlWidgetBuilder
 					continue;
 				}
 
-				// ...add a column
+				// ...add a column...
 
 				addColumnComponent( dataTable, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+
+				// ...up to a sensible maximum
+
+				if ( dataTable.getChildren().size() == mMaximumColumnsInDataTable ) {
+					break;
+				}
 			}
 
 			// If we couldn't add any 'required' columns, try again for every field
@@ -549,7 +560,7 @@ public class HtmlWidgetBuilder
 	 * <p>
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
-	 *
+	 * 
 	 * @param tableAttributes
 	 *            the metadata attributes used to render the parent table. May be useful for
 	 *            determining the overall type of the row
