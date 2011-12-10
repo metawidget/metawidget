@@ -18,6 +18,7 @@ package org.metawidget.util;
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
+import java.util.Map;
 
 import org.metawidget.util.simple.StringUtils;
 
@@ -231,6 +232,38 @@ public final class ClassUtils {
 		}
 	}
 
+	private static final Map<String, Class<?>>	LOCAL_ALIEN_CLASSLOADER	= CollectionUtils.newHashMap();
+
+	/**
+	 * When dealing with multiple isolated ClassLoaders, sometimes the object being inspected may
+	 * reference a class that is not available to any of our own ClassLoaders. Therefore
+	 * <code>Class.forName</code> will always fail. To cope with this, we
+	 * record classes from 'alien' ClassLoaders as and when we encounter them
+	 */
+
+	// TODO: unit test this
+
+	public static void registerAlienClass( Class<?> classToRegister ) {
+
+		ClassLoader classLoader = classToRegister.getClassLoader();
+
+		// (JDK classes like java.util.ArrayList have no classloader)
+
+		if ( classLoader == null ) {
+			return;
+		}
+
+		if ( classLoader.equals( Thread.currentThread().getContextClassLoader() ) ) {
+			return;
+		}
+
+		if ( classLoader.equals( ClassUtils.class.getClassLoader() ) ) {
+			return;
+		}
+
+		LOCAL_ALIEN_CLASSLOADER.put( classToRegister.getName(), classToRegister );
+	}
+
 	/**
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
@@ -257,6 +290,7 @@ public final class ClassUtils {
 	 * fails, it then tries the Thread's current ClassLoader (this works best for EJB/WAR splits
 	 * where, say, metawidget-core and metawidget-annotations are located in the EJB/lib and the
 	 * other modules are located in the WAR/lib). If that fails, it tries ClassUtils' ClassLoader.
+	 * If that fails, it tries our alien ClassLoader.
 	 *
 	 * @param classLoader
 	 *            the specific ClassLoader to use to try and load this class. In general clients
@@ -284,7 +318,7 @@ public final class ClassUtils {
 		ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
 
 		try {
-			if ( threadClassLoader != null ) {
+			if ( threadClassLoader != null && !threadClassLoader.equals( classLoader ) ) {
 				return Class.forName( className, false, threadClassLoader );
 			}
 		} catch ( ClassNotFoundException e ) {
@@ -292,85 +326,33 @@ public final class ClassUtils {
 			// Fall through and try other ClassLoader
 		}
 
-		// Try our own ClassLoader
+		// Try our own ClassLoader (if different to threadClassLoader)
+
+		ClassLoader thisClassLoader = ClassUtils.class.getClassLoader();
 
 		try {
-			return Class.forName( className, false, ClassUtils.class.getClassLoader() );
+			if ( !thisClassLoader.equals( threadClassLoader ) ) {
+				return Class.forName( className, false, ClassUtils.class.getClassLoader() );
+			}
 		} catch ( ClassNotFoundException e ) {
 
-			// Support primitive types
-
-			if ( "byte".equals( className ) ) {
-				return byte.class;
-			}
-
-			if ( "short".equals( className ) ) {
-				return short.class;
-			}
-
-			if ( "int".equals( className ) ) {
-				return int.class;
-			}
-
-			if ( "long".equals( className ) ) {
-				return long.class;
-			}
-
-			if ( "float".equals( className ) ) {
-				return float.class;
-			}
-
-			if ( "double".equals( className ) ) {
-				return double.class;
-			}
-
-			if ( "boolean".equals( className ) ) {
-				return boolean.class;
-			}
-
-			if ( "char".equals( className ) ) {
-				return char.class;
-			}
-
-			return null;
+			// Fall through and try other ClassLoader
 		}
+
+		// Try our alien ClassLoader
+
+		Class<?> alienClass = LOCAL_ALIEN_CLASSLOADER.get( className );
+
+		if ( alienClass != null ) {
+			return alienClass;
+		}
+
+		return getPrimitive( className );
 	}
 
 	public static boolean isPrimitive( String className ) {
 
-		if ( "byte".equals( className ) ) {
-			return true;
-		}
-
-		if ( "short".equals( className ) ) {
-			return true;
-		}
-
-		if ( "int".equals( className ) ) {
-			return true;
-		}
-
-		if ( "long".equals( className ) ) {
-			return true;
-		}
-
-		if ( "float".equals( className ) ) {
-			return true;
-		}
-
-		if ( "double".equals( className ) ) {
-			return true;
-		}
-
-		if ( "boolean".equals( className ) ) {
-			return true;
-		}
-
-		if ( "char".equals( className ) ) {
-			return true;
-		}
-
-		return false;
+		return ( getPrimitive( className ) != null );
 	}
 
 	/**
@@ -426,6 +408,47 @@ public final class ClassUtils {
 	public static String getPackagesAsFolderNames( Class<?> clazz ) {
 
 		return clazz.getPackage().getName().replace( StringUtils.SEPARATOR_DOT_CHAR, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+	}
+
+	//
+	// Private statics
+	//
+
+	private static Class<?> getPrimitive( String className ) {
+
+		if ( "byte".equals( className ) ) {
+			return byte.class;
+		}
+
+		if ( "short".equals( className ) ) {
+			return short.class;
+		}
+
+		if ( "int".equals( className ) ) {
+			return int.class;
+		}
+
+		if ( "long".equals( className ) ) {
+			return long.class;
+		}
+
+		if ( "float".equals( className ) ) {
+			return float.class;
+		}
+
+		if ( "double".equals( className ) ) {
+			return double.class;
+		}
+
+		if ( "boolean".equals( className ) ) {
+			return boolean.class;
+		}
+
+		if ( "char".equals( className ) ) {
+			return char.class;
+		}
+
+		return null;
 	}
 
 	//

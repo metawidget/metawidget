@@ -144,6 +144,10 @@ public abstract class BaseObjectInspector
 			Map<String, String> parentAttributes;
 			boolean abortTraversingPastNull = false;
 
+			if ( toInspect != null ) {
+				ClassUtils.registerAlienClass( toInspect.getClass() );
+			}
+
 			// If the path has a parent...
 
 			if ( names != null && names.length > 0 ) {
@@ -198,6 +202,8 @@ public abstract class BaseObjectInspector
 
 					if ( childToInspect == null ) {
 						abortTraversingPastNull = true;
+					} else {
+						ClassUtils.registerAlienClass( childToInspect.getClass() );
 					}
 				}
 			}
