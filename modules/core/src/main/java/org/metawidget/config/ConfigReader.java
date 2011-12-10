@@ -217,28 +217,30 @@ public class ConfigReader
 
 		locationKey += ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
 
-		Map<Integer, Immutable> immutableByLocationCache = mImmutableByLocationCache.get( locationKey );
+		synchronized ( mImmutableByLocationCache ) {
 
-		if ( immutableByLocationCache == null ) {
-			immutableByLocationCache = CollectionUtils.newHashMap();
-		}
+			Map<Integer, Immutable> immutableByLocationCache = mImmutableByLocationCache.get( locationKey );
 
-		configHandler.setImmutableForThisLocationCache( immutableByLocationCache );
-
-		try {
-			// Replay the existing cache...
-
-			CachingContentHandler cachingContentHandler = mResourceCache.get( locationKey );
-
-			if ( cachingContentHandler != null ) {
-				cachingContentHandler.replay( configHandler );
+			if ( immutableByLocationCache == null ) {
+				immutableByLocationCache = CollectionUtils.newHashMap();
 			}
 
-			// ...or cache a new one
+			configHandler.setImmutableForThisLocationCache( immutableByLocationCache );
 
-			else {
+			try {
 
-				synchronized ( mResourceCache ) {
+				// Replay the existing cache...
+
+				CachingContentHandler cachingContentHandler = mResourceCache.get( locationKey );
+
+				if ( cachingContentHandler != null ) {
+					cachingContentHandler.replay( configHandler );
+				}
+
+				// ...or cache a new one
+
+				else {
+
 					LOG.debug( "Reading resource from {0}", locationKey );
 					cachingContentHandler = new CachingContentHandler( configHandler );
 					configHandler.setCachingContentHandler( cachingContentHandler );
@@ -246,18 +248,14 @@ public class ConfigReader
 
 					// Only cache if successful
 
-					mImmutableByLocationCache.put( locationKey, immutableByLocationCache );
-
-					// Cache mResourceCache to avoid concurrency problems on accessing
-					// mImmutableByLocationCache
-
 					mResourceCache.put( locationKey, cachingContentHandler );
+					mImmutableByLocationCache.put( locationKey, immutableByLocationCache );
 				}
-			}
 
-			return configHandler.getConfigured();
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
+				return configHandler.getConfigured();
+			} catch ( Exception e ) {
+				throw MetawidgetException.newException( e );
+			}
 		}
 	}
 
