@@ -122,6 +122,8 @@ public class QueryByExampleMetawidgetTest
 				return toReturn;
 			}
 
+			// Objects
+
 			if ( Baz.class.equals( clazz ) ) {
 				StaticJavaWidget toReturn = new StaticJavaStub();
 				JavaStatement getValue = new JavaStatement( clazz.getSimpleName() + " " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" );
