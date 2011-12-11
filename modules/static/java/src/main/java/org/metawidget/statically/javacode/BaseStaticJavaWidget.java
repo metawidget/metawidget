@@ -18,9 +18,11 @@ package org.metawidget.statically.javacode;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Set;
 
 import org.metawidget.statically.BaseStaticWidget;
 import org.metawidget.statically.StaticUtils.IndentedWriter;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -34,7 +36,9 @@ public abstract class BaseStaticJavaWidget
 	// Private members
 	//
 
-	private String				mTextContent;
+	private String		mTextContent;
+
+	private Set<String>	mImports;
 
 	//
 	// Constructor
@@ -48,6 +52,20 @@ public abstract class BaseStaticJavaWidget
 	//
 	// Public methods
 	//
+
+	public Set<String> getImports() {
+
+		return mImports;
+	}
+
+	public void putImport( String packageName ) {
+
+		if ( mImports == null ) {
+			mImports = CollectionUtils.newHashSet();
+		}
+
+		mImports.add( packageName );
+	}
 
 	@Override
 	public void write( Writer writer )

@@ -64,9 +64,9 @@ public abstract class StaticXmlMetawidget
 		return "m";
 	}
 
-	public String getNamespaceURI() {
+	public Map<String, String> getAdditionalNamespaceURIs() {
 
-		// Metawidgets should never be output (kind of the point of being static)
+		// Metawidgets should never have additional namespaces
 
 		return null;
 	}
@@ -83,6 +83,13 @@ public abstract class StaticXmlMetawidget
 		// Metawidgets should never have text content
 
 		throw new UnsupportedOperationException();
+	}
+
+	public String getNamespaceURI() {
+
+		// Metawidgets should never be output (kind of the point of being static)
+
+		return null;
 	}
 
 	/**
@@ -110,6 +117,10 @@ public abstract class StaticXmlMetawidget
 
 			if ( xmlChild.getNamespaceURI() != null ) {
 				namespaces.put( xmlChild.getPrefix(), xmlChild.getNamespaceURI() );
+			}
+
+			if ( xmlChild.getAdditionalNamespaceURIs() != null ) {
+				namespaces.putAll( xmlChild.getAdditionalNamespaceURIs() );
 			}
 
 			populateNamespaces( xmlChild, namespaces );

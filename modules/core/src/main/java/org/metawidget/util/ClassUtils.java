@@ -332,7 +332,7 @@ public final class ClassUtils {
 
 		try {
 			if ( !thisClassLoader.equals( threadClassLoader ) ) {
-				return Class.forName( className, false, ClassUtils.class.getClassLoader() );
+				return Class.forName( className, false, thisClassLoader );
 			}
 		} catch ( ClassNotFoundException e ) {
 

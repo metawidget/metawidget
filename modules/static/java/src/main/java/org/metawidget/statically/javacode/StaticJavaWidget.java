@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.javacode;
 
+import java.util.Set;
+
 import org.metawidget.statically.StaticWidget;
 
 /**
@@ -25,5 +27,9 @@ import org.metawidget.statically.StaticWidget;
 public interface StaticJavaWidget
 	extends StaticWidget {
 
-	// Just a marker interface
+	//
+	// Methods
+	//
+
+	Set<String> getImports();
 }

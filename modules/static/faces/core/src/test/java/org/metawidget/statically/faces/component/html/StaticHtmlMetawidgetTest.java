@@ -22,6 +22,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.statically.faces.component.html.layout.HtmlPanelGrid;
 
 public class StaticHtmlMetawidgetTest
 	extends TestCase {
@@ -43,6 +44,19 @@ public class StaticHtmlMetawidgetTest
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
 		assertEquals( 1, namespaces.size() );
+	}
+
+	public void testAdditionalNamespaces() {
+
+		HtmlPanelGrid panelGrid = new HtmlPanelGrid();
+		panelGrid.putAdditionalNamespaceURI( "foo", "http://foo.bar" );
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.getChildren().add( panelGrid );
+
+		Map<String, String> namespaces = metawidget.getNamespaces();
+		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
+		assertEquals( "http://foo.bar", namespaces.get( "foo" ) );
+		assertEquals( 2, namespaces.size() );
 	}
 
 	public void testInitialIndent() {

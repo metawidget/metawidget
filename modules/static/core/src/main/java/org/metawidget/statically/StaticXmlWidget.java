@@ -16,6 +16,8 @@
 
 package org.metawidget.statically;
 
+import java.util.Map;
+
 /**
  * @author Richard Kennard
  */
@@ -38,4 +40,13 @@ public interface StaticXmlWidget
 	String getTextContent();
 
 	void setTextContent( String textContent );
+
+	/**
+	 * Some XML tags may use namespaces in addition to the one declared for their tag. This is
+	 * particulary relevant when using functions within attributes. For example:
+	 * <p>
+	 * <tt><ns1:foo bar="#{ns2:baz()}"/></tt>
+	 */
+
+	Map<String, String> getAdditionalNamespaceURIs();
 }

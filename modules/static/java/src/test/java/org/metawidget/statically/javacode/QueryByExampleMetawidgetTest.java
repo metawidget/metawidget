@@ -19,10 +19,10 @@ package org.metawidget.statically.javacode;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.metawidget.statically.StaticStub;
 import org.metawidget.statically.StaticWidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -60,6 +60,10 @@ public class QueryByExampleMetawidgetTest
 				"if (abc != null && !\"\".equals(abc)) {\r\n" +
 				"\tpredicatesList.add(builder.equal(root.get(\"abc\"),abc));\r\n" +
 				"}\r\n" +
+				"Baz baz = this.search.getBaz();\r\n" +
+				"if (baz != null) {\r\n" +
+				"\tpredicatesList.add(builder.equal(root.get(\"baz\"),baz));\r\n" +
+				"}\r\n" +
 				"String def = this.search.getDef();\r\n" +
 				"if (def != null && !\"\".equals(def)) {\r\n" +
 				"\tpredicatesList.add(builder.equal(root.get(\"def\"),def));\r\n" +
@@ -70,6 +74,9 @@ public class QueryByExampleMetawidgetTest
 				"}\r\n";
 
 		assertEquals( result, metawidget.toString() );
+		Set<String> imports = metawidget.getImports();
+		assertEquals( Baz.class.getName(), imports.iterator().next() );
+		assertEquals( 1, imports.size() );
 	}
 
 	//
@@ -77,18 +84,18 @@ public class QueryByExampleMetawidgetTest
 	//
 
 	public static class QueryByExampleWidgetBuilder
-		implements WidgetBuilder<StaticWidget, StaticJavaMetawidget> {
+		implements WidgetBuilder<StaticJavaWidget, StaticJavaMetawidget> {
 
 		//
 		// Public methods
 		//
 
-		public StaticWidget buildWidget( String elementName, Map<String, String> attributes, StaticJavaMetawidget metawidget ) {
+		public StaticJavaWidget buildWidget( String elementName, Map<String, String> attributes, StaticJavaMetawidget metawidget ) {
 
 			// Hidden
 
 			if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-				return new StaticStub();
+				return new StaticJavaStub();
 			}
 
 			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -96,19 +103,18 @@ public class QueryByExampleMetawidgetTest
 			// If no type, fail gracefully
 
 			if ( type == null ) {
-				return new StaticStub();
+				return new StaticJavaStub();
 			}
 
 			// Lookup the Class
 
 			Class<?> clazz = ClassUtils.niceForName( type );
+			String name = attributes.get( NAME );
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-				String name = attributes.get( NAME );
-
-				StaticWidget toReturn = new StaticStub();
+				StaticJavaWidget toReturn = new StaticJavaStub();
 				toReturn.getChildren().add( new JavaStatement( "String " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" ) );
 				JavaStatement ifNotEmpty = new JavaStatement( "if (" + name + " != null && !\"\".equals(" + name + "))" );
 				ifNotEmpty.getChildren().add( new JavaStatement( "predicatesList.add(builder.equal(root.get(\"" + name + "\")," + name + "))" ) );
@@ -116,10 +122,22 @@ public class QueryByExampleMetawidgetTest
 				return toReturn;
 			}
 
+			if ( Baz.class.equals( clazz ) ) {
+				StaticJavaWidget toReturn = new StaticJavaStub();
+				JavaStatement getValue = new JavaStatement( clazz.getSimpleName() + " " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" );
+				getValue.putImport( clazz.getName().toString() );
+				toReturn.getChildren().add( getValue );
+				JavaStatement ifNotEmpty = new JavaStatement( "if (" + name + " != null)" );
+				ifNotEmpty.getChildren().add(
+							new JavaStatement( "predicatesList.add(builder.equal(root.get(\"" + name + "\")," + name + "))" ) );
+				toReturn.getChildren().add( ifNotEmpty );
+				return toReturn;
+			}
+
 			// Do not recurse sub-entities for now
 
 			if ( !ENTITY.equals( elementName ) ) {
-				return new StaticStub();
+				return new StaticJavaStub();
 			}
 
 			return null;
@@ -134,11 +152,18 @@ public class QueryByExampleMetawidgetTest
 
 		public Bar		bar;
 
+		public Baz		baz;
+
 		public String	abc;
 	}
 
 	public static class Bar {
 
 		public String	ignored;
+	}
+
+	public static class Baz {
+
+		public String	name;
 	}
 }

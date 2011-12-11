@@ -46,6 +46,8 @@ public abstract class BaseStaticXmlWidget
 
 	private String				mTextContent;
 
+	private Map<String, String>	mAdditionalNamespaceURIs;
+
 	//
 	// Constructor
 	//
@@ -117,6 +119,20 @@ public abstract class BaseStaticXmlWidget
 	public void setTextContent( String textContent ) {
 
 		mTextContent = textContent;
+	}
+
+	public Map<String, String> getAdditionalNamespaceURIs() {
+
+		return mAdditionalNamespaceURIs;
+	}
+
+	public void putAdditionalNamespaceURI( String prefix, String uri ) {
+
+		if ( mAdditionalNamespaceURIs == null ) {
+			mAdditionalNamespaceURIs = CollectionUtils.newHashMap();
+		}
+
+		mAdditionalNamespaceURIs.put( prefix, uri );
 	}
 
 	@Override

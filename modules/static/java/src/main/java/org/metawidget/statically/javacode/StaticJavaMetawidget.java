@@ -16,8 +16,12 @@
 
 package org.metawidget.statically.javacode;
 
+import java.util.Set;
+
 import org.metawidget.statically.StaticMetawidget;
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Static Metawidget for Java environments.
@@ -30,6 +34,23 @@ public class StaticJavaMetawidget
 	implements StaticJavaWidget {
 
 	//
+	// Public methods
+	//
+
+	/**
+	 * Recurse over all children and retrieve the imports they use.
+	 *
+	 * @return map of prefix and namespace
+	 */
+
+	public Set<String> getImports() {
+
+		Set<String> imports = CollectionUtils.newHashSet();
+		populateImports( this, imports );
+		return imports;
+	}
+
+	//
 	// Protected methods
 	//
 
@@ -37,5 +58,23 @@ public class StaticJavaMetawidget
 	protected String getDefaultConfiguration() {
 
 		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-javacode-default.xml";
+	}
+
+	//
+	// Private methods
+	//
+
+	private void populateImports( StaticJavaWidget javaWidget, Set<String> imports ) {
+
+		for ( StaticWidget child : javaWidget.getChildren() ) {
+
+			StaticJavaWidget javaChild = (StaticJavaWidget) child;
+
+			if ( javaChild.getImports() != null ) {
+				imports.addAll( javaChild.getImports() );
+			}
+
+			populateImports( javaChild, imports );
+		}
 	}
 }
