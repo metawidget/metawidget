@@ -27,6 +27,7 @@ import java.awt.Graphics2D;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.beans.Beans;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -55,7 +56,7 @@ import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -171,7 +172,7 @@ public class SwingMetawidget
 	 * Gets the Object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
-	 * 
+	 *
 	 * @return the object. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
@@ -513,7 +514,7 @@ public class SwingMetawidget
 	 * need some conversion before being reapplied to the object being inspected. This obviously
 	 * requires knowledge of which Component SwingMetawidget created, which is not ideal, so clients
 	 * may prefer to use bindingClass instead.
-	 * 
+	 *
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -674,7 +675,7 @@ public class SwingMetawidget
 		// When used as part of an IDE builder tool, render as a dotted square so that we can see
 		// something!
 
-		if ( mPath == null && getComponentCount() == 0 ) {
+		if ( Beans.isDesignTime() ) {
 			Graphics2D graphics2d = (Graphics2D) graphics;
 			Stroke strokeBefore = graphics2d.getStroke();
 
@@ -783,7 +784,7 @@ public class SwingMetawidget
 
 		// No need to build?
 
-		if ( !mNeedToBuildWidgets ) {
+		if ( !mNeedToBuildWidgets || Beans.isDesignTime() ) {
 			return;
 		}
 
@@ -1069,7 +1070,7 @@ public class SwingMetawidget
 
 	/**
 	 * Simple immutable structure to store a component and its value property.
-	 * 
+	 *
 	 * @author Richard Kennard
 	 */
 

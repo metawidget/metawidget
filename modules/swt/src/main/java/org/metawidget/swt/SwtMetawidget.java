@@ -18,6 +18,7 @@ package org.metawidget.swt;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.beans.Beans;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -29,6 +30,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.metawidget.config.ConfigReader;
@@ -120,12 +122,12 @@ public class SwtMetawidget
 
 		addControlListener( new ControlListener() {
 
-			public void controlResized( ControlEvent arg0 ) {
+			public void controlResized( ControlEvent event ) {
 
 				buildWidgets();
 			}
 
-			public void controlMoved( ControlEvent arg0 ) {
+			public void controlMoved( ControlEvent event ) {
 
 				buildWidgets();
 			}
@@ -139,6 +141,16 @@ public class SwtMetawidget
 
 				if ( event.count == 0 ) {
 					buildWidgets();
+				}
+
+				// When used as part of an IDE builder tool, render as a dotted square so that we
+				// can see something!
+
+				if ( Beans.isDesignTime() ) {
+					event.gc.setLineDash( new int[] { 5, 5 } );
+					event.gc.drawRectangle( 0, 0, event.width - 1, event.height - 1 );
+					Point textExtent = event.gc.textExtent( "Metawidget" );
+					event.gc.drawText( "Metawidget", 10, ( event.height - textExtent.y ) / 2 );
 				}
 			}
 		} );
@@ -289,8 +301,8 @@ public class SwtMetawidget
 	 * Set the layout for this Metawidget.
 	 * <p>
 	 * Named <code>setMetawidgetLayout</code>, rather than the usual <code>setLayout</code>, because
-	 * Swing already defines a <code>setLayout</code>. Overloading Swing's <code>setLayout</code>
-	 * was considered cute, but ultimately confusing and dangerous. For example, what should
+	 * SWT already defines a <code>setLayout</code>. Overloading SWT's <code>setLayout</code> was
+	 * considered cute, but ultimately confusing and dangerous. For example, what should
 	 * <code>setLayout( null )</code> do?
 	 */
 
@@ -596,7 +608,7 @@ public class SwtMetawidget
 
 		// No need to build?
 
-		if ( !mNeedToBuildWidgets ) {
+		if ( !mNeedToBuildWidgets || Beans.isDesignTime() ) {
 			return;
 		}
 

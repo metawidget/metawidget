@@ -185,7 +185,7 @@ public class ConfigReader
 	 * <p>
 	 * This version of <code>configure</code> uses <code>openResource</code> to open the specified
 	 * resource. It assumes the resource name is a unique key, so subsequent calls do not need to
-	 * re-open the resource, or re-parse it, making this verison of <code>configure</code> much
+	 * re-open the resource, or re-parse it, making this version of <code>configure</code> much
 	 * faster than <code>configure( InputStream, Object )</code>.
 	 * <p>
 	 * This version further caches any immutable objects, in the same way as
