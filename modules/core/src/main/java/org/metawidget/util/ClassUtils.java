@@ -18,7 +18,7 @@ package org.metawidget.util;
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
-import java.util.Map;
+import java.util.Set;
 
 import org.metawidget.util.simple.StringUtils;
 
@@ -232,20 +232,28 @@ public final class ClassUtils {
 		}
 	}
 
-	private static final Map<String, Class<?>>	LOCAL_ALIEN_CLASSLOADER	= CollectionUtils.newHashMap();
+	/**
+	 * When dealing with multiple isolated ClassLoaders, sometimes the object being inspected may
+	 * reference a class that is not available to any of our own ClassLoaders. Therefore
+	 * <code>Class.forName</code> will always fail. To cope with this, we
+	 * record 'alien' ClassLoaders as and when we encounter them.
+	 * <p>
+	 * This is a static Set, rather than a ThreadLocal, because we couldn't find a good place to
+	 * reset the ThreadLocal.
+	 */
+
+	private static final Set<ClassLoader>	ALIEN_CLASSLOADERS	= CollectionUtils.newHashSet();
 
 	/**
 	 * When dealing with multiple isolated ClassLoaders, sometimes the object being inspected may
 	 * reference a class that is not available to any of our own ClassLoaders. Therefore
 	 * <code>Class.forName</code> will always fail. To cope with this, we
-	 * record classes from 'alien' ClassLoaders as and when we encounter them
+	 * record 'alien' ClassLoaders as and when we encounter them
 	 */
 
 	// TODO: unit test this
 
-	public static void registerAlienClass( Class<?> classToRegister ) {
-
-		ClassLoader classLoader = classToRegister.getClassLoader();
+	public static void registerAlienClassLoader( ClassLoader classLoader ) {
 
 		// (JDK classes like java.util.ArrayList have no classloader)
 
@@ -261,7 +269,9 @@ public final class ClassUtils {
 			return;
 		}
 
-		LOCAL_ALIEN_CLASSLOADER.put( classToRegister.getName(), classToRegister );
+		synchronized ( ALIEN_CLASSLOADERS ) {
+			ALIEN_CLASSLOADERS.add( classLoader );
+		}
 	}
 
 	/**
@@ -310,7 +320,7 @@ public final class ClassUtils {
 			}
 		} catch ( ClassNotFoundException e ) {
 
-			// Fall through and try other ClassLoader
+			// Fall through and try other ClassLoaders
 		}
 
 		// Try given Thread ClassLoader (may be none, such as on Android)
@@ -323,7 +333,7 @@ public final class ClassUtils {
 			}
 		} catch ( ClassNotFoundException e ) {
 
-			// Fall through and try other ClassLoader
+			// Fall through and try other ClassLoaders
 		}
 
 		// Try our own ClassLoader (if different to threadClassLoader)
@@ -336,15 +346,20 @@ public final class ClassUtils {
 			}
 		} catch ( ClassNotFoundException e ) {
 
-			// Fall through and try other ClassLoader
+			// Fall through and try other ClassLoaders
 		}
 
-		// Try our alien ClassLoader
+		// Try our alien ClassLoaders
 
-		Class<?> alienClass = LOCAL_ALIEN_CLASSLOADER.get( className );
+		synchronized ( ALIEN_CLASSLOADERS ) {
+			for ( ClassLoader alienClassLoader : ALIEN_CLASSLOADERS ) {
+				try {
+					return Class.forName( className, false, alienClassLoader );
+				} catch ( ClassNotFoundException e ) {
 
-		if ( alienClass != null ) {
-			return alienClass;
+					// Fall through and try other ClassLoaders
+				}
+			}
 		}
 
 		return getPrimitive( className );

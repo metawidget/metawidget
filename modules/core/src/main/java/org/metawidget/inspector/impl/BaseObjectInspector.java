@@ -145,7 +145,7 @@ public abstract class BaseObjectInspector
 			boolean abortTraversingPastNull = false;
 
 			if ( toInspect != null ) {
-				ClassUtils.registerAlienClass( toInspect.getClass() );
+				ClassUtils.registerAlienClassLoader( toInspect.getClass().getClassLoader() );
 			}
 
 			// If the path has a parent...
@@ -203,7 +203,7 @@ public abstract class BaseObjectInspector
 					if ( childToInspect == null ) {
 						abortTraversingPastNull = true;
 					} else {
-						ClassUtils.registerAlienClass( childToInspect.getClass() );
+						ClassUtils.registerAlienClassLoader( childToInspect.getClass().getClassLoader() );
 					}
 				}
 			}
@@ -554,7 +554,7 @@ public abstract class BaseObjectInspector
 		if ( toInspect != null ) {
 			Class<?> actualClass = ClassUtils.niceForName( actualType );
 
-			if ( property.isReadable() && !Modifier.isFinal( actualClass.getModifiers() ) ) {
+			if ( property.isReadable() && ( actualClass == null || !Modifier.isFinal( actualClass.getModifiers() ) )) {
 				Object propertyValue = null;
 
 				try {

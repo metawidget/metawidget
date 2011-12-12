@@ -18,14 +18,14 @@ package org.metawidget.statically.javacode;
 
 import java.util.Set;
 
-import org.metawidget.statically.StaticStub;
+import org.metawidget.statically.BaseStaticWidget;
 
 /**
  * @author Richard Kennard
  */
 
 public class StaticJavaStub
-	extends StaticStub
+	extends BaseStaticWidget
 	implements StaticJavaWidget {
 
 	//

@@ -83,6 +83,8 @@ public abstract class StaticMetawidget
 
 	private Pipeline					mPipeline;
 
+	private StaticWidget				mParent;
+
 	//
 	// Constructor
 	//
@@ -196,6 +198,11 @@ public abstract class StaticMetawidget
 		mPipeline.setLayout( (Layout) layout );
 	}
 
+	public StaticWidget getParent() {
+
+		return mParent;
+	}
+
 	@Override
 	public void write( Writer writer ) {
 
@@ -251,6 +258,7 @@ public abstract class StaticMetawidget
 		// ...instead, copy runtime values
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
+		nestedMetawidget.mParent = this;
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 	}
 
