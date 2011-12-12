@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:processor="java:org.metawidget.statically.faces.component.widgetprocessor"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.statically.faces.component.html http://metawidget.org/xsd/org.metawidget.statically.faces.component.html-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd"
+	version="1.0">
+
+	<staticSpringMetawidget xmlns="java:org.metawidget.statically.spring">
+
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<staticPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.statically"/>
+							</propertyStyle>
+						</propertyTypeInspector>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<staticPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.statically"/>
+							</propertyStyle>
+						</metawidgetAnnotationInspector>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		
+		<inspectionResultProcessors>
+			<array>
+				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort"/>
+			</array>
+		</inspectionResultProcessors>
+		
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
+						<springWidgetBuilder xmlns="java:org.metawidget.statically.spring.widgetbuilder"/>
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>
+
+		<layout>
+			<htmlTableLayout xmlns="java:org.metawidget.statically.jsp.html.layout"/>
+		</layout>
+		
+	</staticSpringMetawidget>			
+
+</metawidget>

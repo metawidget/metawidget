@@ -98,7 +98,7 @@ public abstract class MetawidgetTag
 	 * Path to inspect.
 	 * <p>
 	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
-	 * <code>property</code> for Spring). Read by <code>WidgetBuilders</code>.
+	 * <code>property</code> for Spring).
 	 */
 
 	private String										mPath;

@@ -37,11 +37,6 @@ public abstract class StaticUIMetawidget
 	// Public methods
 	//
 
-
-	//
-	// Public methods
-	//
-
 	public String getValue() {
 
 		return getAttribute( "value" );

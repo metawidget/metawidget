@@ -73,12 +73,6 @@ public abstract class StaticMetawidget
 
 	private String						mPath;
 
-	/**
-	 * Prefix of path to inspect, to support nesting.
-	 */
-
-	private String						mPathPrefix;
-
 	private String						mConfig;
 
 	private Pipeline					mPipeline;
@@ -106,11 +100,6 @@ public abstract class StaticMetawidget
 	public String getPath() {
 
 		return mPath;
-	}
-
-	public String getPathPrefix() {
-
-		return mPathPrefix;
 	}
 
 	public void setConfig( String config ) {
