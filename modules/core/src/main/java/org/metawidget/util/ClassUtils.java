@@ -341,7 +341,7 @@ public final class ClassUtils {
 		ClassLoader thisClassLoader = ClassUtils.class.getClassLoader();
 
 		try {
-			if ( !thisClassLoader.equals( threadClassLoader ) ) {
+			if ( !thisClassLoader.equals( threadClassLoader ) && !thisClassLoader.equals( classLoader )) {
 				return Class.forName( className, false, thisClassLoader );
 			}
 		} catch ( ClassNotFoundException e ) {

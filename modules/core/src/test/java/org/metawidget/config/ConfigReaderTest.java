@@ -581,8 +581,8 @@ public class ConfigReaderTest
 	public void testLookupClass()
 		throws Exception {
 
-		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getPackage().getName(), ConfigReaderTest.class.getSimpleName() ), ConfigReaderTest.class );
-		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getName(), Foo.class.getSimpleName() ), Foo.class );
+		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getPackage().getName(), ConfigReaderTest.class.getSimpleName(), null ), ConfigReaderTest.class );
+		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getName(), Foo.class.getSimpleName(), null ), Foo.class );
 	}
 
 	public void testIdAttribute()

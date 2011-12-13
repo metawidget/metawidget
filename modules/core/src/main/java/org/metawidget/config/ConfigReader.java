@@ -620,9 +620,12 @@ public class ConfigReader
 	 *            the URI namespace, to be used as the package name
 	 * @param localName
 	 *            the name of the tag, to be used as the class name
+	 * @param classLoader
+	 *            the classLoader to use to lookup the class. This can be important if the
+	 *            ClassLoader gets swapped out on us (e.g. SWT's WindowBuilder)
 	 */
 
-	protected Class<?> lookupClass( String uri, String localName )
+	protected Class<?> lookupClass( String uri, String localName, ClassLoader classLoader )
 		throws SAXException {
 
 		if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ) ) {
@@ -635,14 +638,15 @@ public class ConfigReader
 
 		String uppercasedLocalName = StringUtils.capitalize( localName );
 		String classToConstruct = packagePrefix + StringUtils.SEPARATOR_DOT_CHAR + uppercasedLocalName;
-		Class<?> clazz = ClassUtils.niceForName( classToConstruct );
+
+		Class<?> clazz = ClassUtils.niceForName( classToConstruct, classLoader );
 
 		if ( clazz == null ) {
 
 			// Try inner class
 
 			String innerClassToConstruct = packagePrefix + '$' + uppercasedLocalName;
-			clazz = ClassUtils.niceForName( innerClassToConstruct );
+			clazz = ClassUtils.niceForName( innerClassToConstruct, classLoader );
 
 			if ( clazz == null ) {
 				throw MetawidgetException.newException( "No such tag <" + localName + "> or class " + classToConstruct + " (is it on your CLASSPATH?)" );
@@ -864,7 +868,7 @@ public class ConfigReader
 							return;
 						}
 
-						Class<?> toConfigureClass = lookupClass( uri, localName );
+						Class<?> toConfigureClass = lookupClass( uri, localName, mToConfigure.getClass().getClassLoader() );
 
 						// Match by Class...
 
@@ -1116,7 +1120,7 @@ public class ConfigReader
 						Object object = mConstructing.pop();
 
 						if ( encountered == ENCOUNTERED_CONFIGURED_TYPE ) {
-							Class<?> classToConstruct = lookupClass( uri, localName );
+							Class<?> classToConstruct = lookupClass( uri, localName, mToConfigure.getClass().getClassLoader() );
 							String id = ( (ConfigAndId) object ).getId();
 							object = ( (ConfigAndId) object ).getConfig();
 							Object configuredObject = null;
@@ -1306,7 +1310,7 @@ public class ConfigReader
 			}
 
 			Object object = null;
-			Class<?> classToConstruct = lookupClass( uri, localName );
+			Class<?> classToConstruct = lookupClass( uri, localName, mToConfigure.getClass().getClassLoader() );
 
 			// Already cached (by location)?
 			//
@@ -1331,7 +1335,7 @@ public class ConfigReader
 						configToConstruct = configClassName;
 					}
 
-					Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+					Class<?> configClass = ClassUtils.niceForName( configToConstruct, mToConfigure.getClass().getClassLoader() );
 					if ( configClass == null ) {
 						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
 					}
@@ -1627,7 +1631,7 @@ public class ConfigReader
 			}
 
 			try {
-				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" );
+				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector",  mToConfigure.getClass().getClassLoader() );
 				return false;
 			} catch ( UnsupportedClassVersionError e ) {
 				LOG.debug( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version" );

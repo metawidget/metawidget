@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.modules.static.jsp</groupId>
+	<groupId>org.metawidget.modules.static.spring</groupId>
 	<artifactId>static-spring-parent</artifactId>
 	<packaging>pom</packaging>
 

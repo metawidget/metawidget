@@ -175,6 +175,12 @@ public abstract class StaticMetawidget
 		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
+	public <W extends StaticWidget, M extends W> void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
+
+		mPipeline.addWidgetProcessor( (WidgetProcessor) widgetProcessor );
+	}
+
 	@SuppressWarnings( { "unchecked" } )
 	public <W extends StaticWidget, M extends W> void setWidgetProcessors( WidgetProcessor<W, M>... widgetProcessors ) {
 
