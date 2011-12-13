@@ -18,7 +18,7 @@ package org.metawidget.statically.spring;
 
 import junit.framework.TestCase;
 
-public class SpringMetawidgetTest
+public class StaticSpringMetawidgetTest
 	extends TestCase {
 
 	//
@@ -28,11 +28,12 @@ public class SpringMetawidgetTest
 	public void testSimpleType() {
 
 		StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+		metawidget.setValue( "foo" );
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<table>\r\n" +
-				"\t<form:input/>\r\n" +
-				"\t<form:input/>\r\n" +
+				"\t<form:input path=\"bar\"/>\r\n" +
+				"\t<form:input path=\"baz\"/>\r\n" +
 				"</table>\r\n";
 
 		assertEquals( result, metawidget.toString() );
@@ -41,13 +42,14 @@ public class SpringMetawidgetTest
 	public void testNestedType() {
 
 		StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+		metawidget.setValue( "foo" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<table>\r\n" +
-				"\t<form:input/>\r\n" +
+				"\t<form:input path=\"abc\"/>\r\n" +
 				"\t<table>\r\n" +
-				"\t\t<form:input/>\r\n" +
-				"\t\t<form:input/>\r\n" +
+				"\t\t<form:input path=\"nestedFoo.bar\"/>\r\n" +
+				"\t\t<form:input path=\"nestedFoo.baz\"/>\r\n" +
 				"\t</table>\r\n" +
 				"</table>\r\n";
 

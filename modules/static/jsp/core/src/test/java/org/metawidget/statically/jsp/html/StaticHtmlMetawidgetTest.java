@@ -28,11 +28,12 @@ public class StaticHtmlMetawidgetTest
 	public void testSimpleType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.setValue( "foo" );
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<table>\r\n" +
-				"\t<input type=\"text\"/>\r\n" +
-				"\t<input type=\"text\"/>\r\n" +
+				"\t<input name=\"fooBar\" type=\"text\"/>\r\n" +
+				"\t<input name=\"fooBaz\" type=\"text\"/>\r\n" +
 				"</table>\r\n";
 
 		assertEquals( result, metawidget.toString() );
@@ -41,13 +42,14 @@ public class StaticHtmlMetawidgetTest
 	public void testNestedType() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.setValue( "foo" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<table>\r\n" +
-				"\t<input type=\"text\"/>\r\n" +
+				"\t<input name=\"fooAbc\" type=\"text\"/>\r\n" +
 				"\t<table>\r\n" +
-				"\t\t<input type=\"text\"/>\r\n" +
-				"\t\t<input type=\"text\"/>\r\n" +
+				"\t\t<input name=\"fooNestedFooBar\" type=\"text\"/>\r\n" +
+				"\t\t<input name=\"fooNestedFooBaz\" type=\"text\"/>\r\n" +
 				"\t</table>\r\n" +
 				"</table>\r\n";
 

@@ -37,6 +37,15 @@ public abstract class StaticUIMetawidget
 	// Public methods
 	//
 
+	/**
+	 * The value binding expression used as the starting point for this Metawidget.
+	 * <p>
+	 * Note: because we are working statically, <tt>setValue</tt> and <tt>setPath</tt> must both be
+	 * called. The former is the binding value that will be written into the generated output (see
+	 * <tt>StandardBindingProcessor</tt>). The latter is the actual path that should be inspected.
+	 * Because we are working statically we cannot determine these automatically.
+	 */
+
 	public String getValue() {
 
 		return getAttribute( "value" );

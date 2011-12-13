@@ -29,7 +29,7 @@ import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Utilities for Swing WidgetBuilders.
+ * Utilities for JSP WidgetBuilders.
  * 
  * @author Richard Kennard
  */

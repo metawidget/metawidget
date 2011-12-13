@@ -45,6 +45,12 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 
+		<widgetProcessors>
+			<array>
+				<pathProcessor xmlns="java:org.metawidget.statically.spring.widgetprocessor"/>
+			</array>
+		</widgetProcessors>
+
 		<layout>
 			<htmlTableLayout xmlns="java:org.metawidget.statically.jsp.html.layout"/>
 		</layout>

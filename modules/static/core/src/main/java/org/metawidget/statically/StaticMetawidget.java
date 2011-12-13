@@ -238,6 +238,16 @@ public abstract class StaticMetawidget
 		getChildren().clear();
 	}
 
+	/**
+	 * @param element
+	 *            the parent element that will be iterated over
+	 */
+
+	protected void beforeBuildCompoundWidget( Element element ) {
+
+		// Do nothing by default
+	}
+
 	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		// Don't reconfigure...
@@ -324,6 +334,14 @@ public abstract class StaticMetawidget
 
 			StaticMetawidget.this.startBuild();
 			super.startBuild();
+		}
+
+		@Override
+		protected void buildCompoundWidget( Element element )
+			throws Exception {
+
+			StaticMetawidget.this.beforeBuildCompoundWidget( element );
+			super.buildCompoundWidget( element );
 		}
 
 		@Override

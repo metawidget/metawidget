@@ -16,7 +16,13 @@
 
 package org.metawidget.statically.jsp.html;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Map;
+
+import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -25,5 +31,44 @@ import org.metawidget.statically.StaticXmlMetawidget;
 public abstract class BaseStaticHtmlMetawidget
 	extends StaticXmlMetawidget {
 
-	// Just a placeholder
+	//
+	// Private members
+	//
+
+	private String	mValue;
+
+	//
+	// Public methods
+	//
+
+	/**
+	 * The value argument used as the starting point for this Metawidget.
+	 * <p>
+	 * Note: because we are working statically, <tt>setValue</tt> and <tt>setPath</tt> must both be
+	 * called. The former is the binding value that will be written into the generated output (see
+	 * <tt>NameProcessor</tt>, <tt>PathProcessor</tt> etc). The latter is the actual path that
+	 * should be inspected. Because we are working statically we cannot determine these
+	 * automatically.
+	 */
+
+	public String getValue() {
+
+		return mValue;
+	}
+
+	public void setValue( String value ) {
+
+		mValue = value;
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+		super.initNestedMetawidget( nestedMetawidget, attributes );
+		( (BaseStaticHtmlMetawidget) nestedMetawidget ).setValue( mValue + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+	}
 }

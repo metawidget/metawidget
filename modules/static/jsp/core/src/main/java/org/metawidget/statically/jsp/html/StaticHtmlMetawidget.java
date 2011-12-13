@@ -16,7 +16,6 @@
 
 package org.metawidget.statically.jsp.html;
 
-import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.util.ClassUtils;
 
 /**
@@ -24,7 +23,7 @@ import org.metawidget.util.ClassUtils;
  */
 
 public class StaticHtmlMetawidget
-	extends StaticXmlMetawidget {
+	extends BaseStaticHtmlMetawidget {
 
 	//
 	// Protected methods
