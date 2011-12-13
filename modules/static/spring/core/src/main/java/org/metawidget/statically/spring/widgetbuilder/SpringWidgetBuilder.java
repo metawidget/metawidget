@@ -17,6 +17,7 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard
+ * @author Ryan Bradley
  */
 
 public class SpringWidgetBuilder
@@ -70,6 +72,22 @@ public class SpringWidgetBuilder
 		// Lookup the Class
 
 		Class<?> clazz = ClassUtils.niceForName( type );
+		
+        // Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+        // Lookup)
+		
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( REQUIRED )) {
+		    // Create a checkbox?
+		    return createHtmlInputText( attributes );
+		}
+		
+		// Spring Lookups
+		
+		String springLookup = attributes.get( SPRING_LOOKUP );
+		
+		if( springLookup != null & !"".equals( springLookup ) ) {
+		    // Create select tag.
+		}
 
 		if ( clazz != null ) {
 
@@ -119,4 +137,5 @@ public class SpringWidgetBuilder
 
 		return input;
 	}
+	
 }
