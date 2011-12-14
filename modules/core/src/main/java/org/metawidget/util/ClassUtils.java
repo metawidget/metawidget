@@ -269,8 +269,10 @@ public final class ClassUtils {
 			return;
 		}
 
-		synchronized ( ALIEN_CLASSLOADERS ) {
-			ALIEN_CLASSLOADERS.add( classLoader );
+		if ( !"false".equals( System.getProperty( "register.alien.classloaders" ))) {
+			synchronized ( ALIEN_CLASSLOADERS ) {
+				ALIEN_CLASSLOADERS.add( classLoader );
+			}
 		}
 	}
 
