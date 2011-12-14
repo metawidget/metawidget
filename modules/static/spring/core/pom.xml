@@ -17,10 +17,14 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget.modules.spring</groupId>
-			<artifactId>metawidget-spring</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>3.1.0.RC1</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

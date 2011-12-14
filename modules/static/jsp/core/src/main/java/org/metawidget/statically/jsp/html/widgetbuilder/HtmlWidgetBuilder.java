@@ -17,14 +17,13 @@
 package org.metawidget.statically.jsp.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
+import static org.metawidget.statically.jsp.inspector.JspInspectionResultConstants.*;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
@@ -35,6 +34,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard
+ * @author Ryan Bradley
  */
 
 public class HtmlWidgetBuilder
@@ -102,16 +102,15 @@ public class HtmlWidgetBuilder
 		}
 
 		if ( clazz != null ) {
-		    
-		    // Booleans
-		    
-		    if ( Boolean.class.equals( clazz ) ) {
-		        return createHtmlCheckbox();
-		    }
 
-			// Primitives
+		    // Primitives
 
 			if ( clazz.isPrimitive() ) {
+			    
+			    if( boolean.class.equals( clazz ) ) {
+			        return createHtmlCheckbox();
+			    }
+			    
 				return createHtmlInputText( attributes );
 			}
 
@@ -218,7 +217,7 @@ public class HtmlWidgetBuilder
 
     private void addSelectItem(HtmlSelect select, String value, String label) {
         SelectItem selectItem = new SelectItem();
-        selectItem.setValue( value );
+        selectItem.putAttribute( "value" , value );
         
         if( label != null ) {
             selectItem.setTextContent( label );

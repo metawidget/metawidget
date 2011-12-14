@@ -8,8 +8,7 @@ import org.metawidget.statically.BaseStaticXmlWidget;
  * @author Richard Kennard
  */
 
-public class HtmlTag
-         extends BaseStaticXmlWidget
+public class HtmlTag extends BaseStaticXmlWidget
 {
    //
    // Constructor

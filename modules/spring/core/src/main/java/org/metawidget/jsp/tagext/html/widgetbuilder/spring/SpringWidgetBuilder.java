@@ -126,6 +126,7 @@ public class SpringWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
+			    
 				if ( boolean.class.equals( clazz ) ) {
 					return initSpringTag( new CheckboxTag(), attributes, metawidget );
 				}

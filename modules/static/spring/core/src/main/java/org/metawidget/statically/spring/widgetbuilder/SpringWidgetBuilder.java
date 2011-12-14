@@ -17,8 +17,11 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
+import static org.metawidget.statically.spring.inspector.SpringInspectionResultConstants.*;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlStub;
@@ -26,8 +29,10 @@ import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * @author Richard Kennard
@@ -42,6 +47,8 @@ public class SpringWidgetBuilder
 	//
 
 	private final static String	MAX_LENGTH	= "maxLength";
+	
+    private static final List<Boolean>  LIST_BOOLEAN_VALUES = CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );	
 
 	//
 	// Public methods
@@ -77,16 +84,23 @@ public class SpringWidgetBuilder
         // Lookup)
 		
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( REQUIRED )) {
-		    // Create a checkbox?
-		    return createHtmlInputText( attributes );
+		    return createHtmlCheckbox();
 		}
 		
 		// Spring Lookups
 		
 		String springLookup = attributes.get( SPRING_LOOKUP );
 		
-		if( springLookup != null & !"".equals( springLookup ) ) {
-		    // Create select tag.
+		if( springLookup != null && !"".equals( springLookup ) ) {
+		    return createSelectTag( springLookup, attributes);
+		}
+		
+		// String Lookups
+		
+		String lookup = attributes.get( LOOKUP );
+		
+		if ( lookup != null && !"".equals( lookup ) ) {
+		    return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes);
 		}
 
 		if ( clazz != null ) {
@@ -94,6 +108,10 @@ public class SpringWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
+			    if ( boolean.class.equals( clazz ) ) {
+			        return createHtmlCheckbox();
+			    }
+			    
 				return createHtmlInputText( attributes );
 			}
 
@@ -113,6 +131,37 @@ public class SpringWidgetBuilder
 
 				return createHtmlInputText( attributes );
 			}
+			
+			// Character
+			
+			if ( Character.class.equals( clazz ) ) {
+			    FormInputTag characterInput = (FormInputTag) createHtmlInputText( attributes );
+			    characterInput.putAttribute( MAX_LENGTH , "1" );
+			}
+			
+			// Dates
+			
+			if ( Date.class.equals( clazz ) ) {
+			    return createHtmlInputText( attributes );
+			}
+			
+			// Booleans (are tri-state)
+			
+			if ( Boolean.class.equals( clazz ) ) {
+			    return createSelectTag( LIST_BOOLEAN_VALUES, null, attributes);
+			}
+			
+			// Numbers
+			
+			if ( Number.class.isAssignableFrom( clazz ) ) {
+			    return createHtmlInputText( attributes );
+			}
+			
+			// Collections
+			
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
+			    return new StaticXmlStub();
+			}
 		}
 
 		// Not simple, but don't expand
@@ -130,12 +179,110 @@ public class SpringWidgetBuilder
 	// Private methods
 	//
 
-	private StaticXmlWidget createHtmlInputText( Map<String, String> attributes ) {
+    private StaticXmlWidget createHtmlInputText( Map<String, String> attributes ) {
 
 		FormInputTag input = new FormInputTag();
 		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 
 		return input;
 	}
+	
+	private StaticXmlWidget createHtmlCheckbox() {
+	    
+	    FormInputTag checkbox = new FormInputTag();
+	    checkbox.putAttribute( "type" , "checkbox" );
+	    
+	    return checkbox;
+	}
+	
+    private StaticXmlWidget createSelectTag(String expression, Map<String, String> attributes) {
+        
+        // Write the SELECT tag.
+        
+        final FormSelectTag selectTag = new FormSelectTag();
+        
+        // Do I need the JspUtils.writeTag method call?
+        
+        // Empty option
+        
+        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+            FormOptionTag emptyOption = new FormOptionTag();
+            emptyOption.putAttribute( "value", "" );
+            // delgateContext() method call?
+            
+            // Add the empty option to the SELECT tag
+            
+            selectTag.getChildren().add(emptyOption);
+        }
+        
+        // Options tag
+        
+        FormOptionsTag optionsTag = new FormOptionsTag();
+        optionsTag.putAttribute( "items" , expression );
+        
+        String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+        
+        if ( itemValue != null ) {
+            optionsTag.putAttribute( "itemValue" , itemValue );
+        }
+        
+        String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+        
+        if ( itemLabel != null ) {
+            optionsTag.putAttribute( "itemLabel" , itemLabel );
+        }
+        
+        // delgateContext() method call?
+
+        // Add the <form:options> tag as a child of <form:select>
+        
+        selectTag.getChildren().add(optionsTag);
+        
+        return selectTag;
+    }
+
+    private StaticXmlWidget createSelectTag(List<?> values, List<String> labels, Map<String, String> attributes) {
+        
+        // Write the SELECT tag.
+        
+        final FormSelectTag selectTag = new FormSelectTag();
+        
+        // Check to see if labels are being used.
+        
+        if ( labels != null && !labels.isEmpty() && labels.size() != values.size() ) {
+            throw WidgetBuilderException.newException("Labels list must be same size as values list.");
+        }
+        
+        // Empty option
+        
+        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+            FormOptionTag emptyOption = new FormOptionTag();
+            emptyOption.putAttribute( "value" , "" );
+            // delgateContext() method call?
+            
+            // Add the empty option to the SELECT tag
+            
+            selectTag.getChildren().add( emptyOption );
+        }
+        
+        // Add the options
+        
+        for ( int i = 0, length = values.size(); i < length; i++ ) {
+            final FormOptionTag optionTag = new FormOptionTag();
+            
+            optionTag.putAttribute( "value" , values.get( i ).toString() );
+            
+            if ( labels != null && !labels.isEmpty() ) {
+                optionTag.putAttribute( "label" , labels.get( i ) );
+                // delgateContext() method call?
+                
+                // Add the option to the SELECT tag
+                
+                selectTag.getChildren().add( optionTag );
+            }
+        }
+        
+        return selectTag;
+    }    
 	
 }
