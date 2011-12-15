@@ -1,4 +1,4 @@
-package org.metwaidget.statically.spring.widgetbuilder;
+package org.metwaidget.statically.spring.widgetbuilder.copy;
 
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.SpringWidgetBuilder;
 import org.metawidget.util.CollectionUtils;
 
