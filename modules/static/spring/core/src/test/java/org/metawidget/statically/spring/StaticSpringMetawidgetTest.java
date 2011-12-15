@@ -16,7 +16,18 @@
 
 package org.metawidget.statically.spring;
 
+import java.io.StringWriter;
+import java.util.Map;
+
+import org.metawidget.statically.spring.widgetbuilder.FormSelectTag;
+
 import junit.framework.TestCase;
+
+/**
+ * Basic JUnit Tests for the StaticSpringMetawidget - a Static Metawidget for Spring environments.
+ * 
+ * @author Ryan Bradley
+ */
 
 public class StaticSpringMetawidgetTest
 	extends TestCase {
@@ -24,6 +35,73 @@ public class StaticSpringMetawidgetTest
 	//
 	// Public methods
 	//
+    
+    public static void testNoNamespace() {
+        assertNull( new StaticSpringMetawidget().getNamespaceURI() );
+    }
+    
+    public void testNullPath() {
+        
+        StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+        assertEquals( "<table/>\r\n", metawidget.toString() );
+        
+        Map<String, String> namespaces = metawidget.getNamespaces();
+        assertEquals( 1, namespaces.size() );
+        assertEquals( "http://www.springframework.org/tags/form", namespaces.get( "form" ) );
+    }
+    
+    public void testAdditionalNamespaces() {
+        FormSelectTag select = new FormSelectTag();
+        select.putAdditionalNamespaceURI( "foo" , "http://foo.bar" );
+        StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+        metawidget.getChildren().add( select );
+        
+        Map<String, String> namespaces = metawidget.getNamespaces();
+        assertEquals( 2, namespaces.size() );
+        assertEquals( "http://www.springframework.org/tags/form", "form" );
+        assertEquals( "http://foo.bar", "foo" );
+    }
+    
+    public void testInitialIndent() {
+        StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+        metawidget.setPath( Foo.class.getName() );
+        StringWriter writer = new StringWriter();
+        metawidget.write( writer , 0 );
+        
+        String result = "<table/>\r\n" +
+                "\t<form:input path=\"bar\"/>\r\n" +
+                "\t<form:input path=\"baz\"/>\r\n" +
+                "</table>\r\n";
+        
+        assertEquals( result , metawidget.toString() );
+        
+        writer = new StringWriter();
+        metawidget.write( writer, 1 );
+        
+        result = "\t<table/>\r\n" +
+        "\t\t<form:input path=\"bar\"/>\r\n" +
+        "\t\t<form:input path=\"baz\"/>\r\n" +
+        "\t</table>\r\n";
+        
+        assertEquals( result, metawidget.toString() );
+        
+        writer = new StringWriter();
+        metawidget.write( writer, 5);
+        
+        result = "\t\t\t\t\t<table/>\r\n" +
+        "\t\t\t\t\t\t<form:input path=\"bar\"/>\r\n" +
+        "\t\t\t\t\t\t<form:input path=\"baz\"/>\r\n" +
+        "\t\t\t\t\t</table>\r\n";
+        
+        assertEquals( result, metawidget.toString() );
+        
+        result = "<table/>\r\n" +
+        "\t\t\t\t\t\t<form:input path=\"bar\"/>\r\n" +
+        "\t\t\t\t\t\t<form:input path=\"baz\"/>\r\n" +
+        "\t\t\t\t\t</table>\r\n";
+        
+        assertEquals( result, metawidget.toString().trim() );
+    }
 
 	public void testSimpleType() {
 
@@ -57,7 +135,7 @@ public class StaticSpringMetawidgetTest
 	}
 
 	//
-	// Inner class
+	// Inner classes
 	//
 
 	public static class Foo {

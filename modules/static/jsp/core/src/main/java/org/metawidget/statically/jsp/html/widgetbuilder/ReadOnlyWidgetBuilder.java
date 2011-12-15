@@ -72,6 +72,8 @@ public class ReadOnlyWidgetBuilder
 
 		// JSP Lookup?
 		
+		// Spring Lookup?
+		
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
