@@ -66,16 +66,14 @@ public class SpringWidgetBuilder
 
 		if ( ACTION.equals( elementName ) ) {
 			return new StaticXmlStub();
-		}
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, fail gracefully with a text box
-
-		if ( type == null ) {
-			return createHtmlInputText( attributes );
-		}
-
+		}        
+		
+        String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+        
+        if( type == null ) {
+            type = String.class.getName();
+        }
+		
 		// Lookup the Class
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -87,13 +85,14 @@ public class SpringWidgetBuilder
 		    return createHtmlCheckbox();
 		}
 		
+
 		// Spring Lookups
-		
-		String springLookup = attributes.get( SPRING_LOOKUP );
-		
-		if( springLookup != null && !"".equals( springLookup ) ) {
-		    return createSelectTag( springLookup, attributes);
-		}
+	        
+        String springLookup = attributes.get( SPRING_LOOKUP );
+        
+        if( springLookup != null && !"".equals( springLookup ) ) {
+            return createSelectTag( springLookup, attributes);
+        }		
 		
 		// String Lookups
 		
@@ -102,6 +101,12 @@ public class SpringWidgetBuilder
 		if ( lookup != null && !"".equals( lookup ) ) {
 		    return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes);
 		}
+
+/*        // If no type, fail gracefully with a text box
+
+        if ( type == null ) {
+            return createHtmlInputText( attributes );
+        }		*/
 
 		if ( clazz != null ) {
 
