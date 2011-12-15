@@ -70,6 +70,8 @@ public class ReadOnlyWidgetBuilder
 			return new StaticXmlStub();
 		}
 
+		// JSP Lookup?
+		
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );

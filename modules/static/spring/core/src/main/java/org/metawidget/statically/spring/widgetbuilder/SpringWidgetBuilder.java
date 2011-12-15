@@ -17,7 +17,7 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.statically.spring.inspector.SpringInspectionResultConstants.*;
+import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -178,7 +178,7 @@ public class SpringWidgetBuilder
 	//
 	// Private methods
 	//
-
+	
     private StaticXmlWidget createHtmlInputText( Map<String, String> attributes ) {
 
 		FormInputTag input = new FormInputTag();
@@ -200,15 +200,12 @@ public class SpringWidgetBuilder
         // Write the SELECT tag.
         
         final FormSelectTag selectTag = new FormSelectTag();
-        
-        // Do I need the JspUtils.writeTag method call?
-        
+
         // Empty option
         
         if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
             FormOptionTag emptyOption = new FormOptionTag();
             emptyOption.putAttribute( "value", "" );
-            // delgateContext() method call?
             
             // Add the empty option to the SELECT tag
             
@@ -231,8 +228,6 @@ public class SpringWidgetBuilder
         if ( itemLabel != null ) {
             optionsTag.putAttribute( "itemLabel" , itemLabel );
         }
-        
-        // delgateContext() method call?
 
         // Add the <form:options> tag as a child of <form:select>
         
@@ -258,7 +253,6 @@ public class SpringWidgetBuilder
         if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
             FormOptionTag emptyOption = new FormOptionTag();
             emptyOption.putAttribute( "value" , "" );
-            // delgateContext() method call?
             
             // Add the empty option to the SELECT tag
             
@@ -274,7 +268,6 @@ public class SpringWidgetBuilder
             
             if ( labels != null && !labels.isEmpty() ) {
                 optionTag.putAttribute( "label" , labels.get( i ) );
-                // delgateContext() method call?
                 
                 // Add the option to the SELECT tag
                 
