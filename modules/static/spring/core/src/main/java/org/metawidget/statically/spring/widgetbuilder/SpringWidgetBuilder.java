@@ -85,7 +85,6 @@ public class SpringWidgetBuilder
 		    return createHtmlCheckbox();
 		}
 		
-
 		// Spring Lookups
 	        
         String springLookup = attributes.get( SPRING_LOOKUP );
