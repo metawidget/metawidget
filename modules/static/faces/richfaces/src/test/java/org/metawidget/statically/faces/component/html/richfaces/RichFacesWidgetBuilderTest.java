@@ -90,6 +90,8 @@ public class RichFacesWidgetBuilderTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
+		writer = new StringWriter();
+		metawidget.write( writer, 0 );
 		assertEquals( result, writer.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();

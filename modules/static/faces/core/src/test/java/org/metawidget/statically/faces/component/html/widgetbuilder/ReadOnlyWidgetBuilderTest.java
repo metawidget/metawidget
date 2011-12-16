@@ -41,21 +41,21 @@ public class ReadOnlyWidgetBuilderTest
 		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
-		String result = "<h:panelGrid columns=\"3\">\r\n" +
-				"\t<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>\r\n" +
-				"\t<h:outputText id=\"fooAbc\" value=\"#{foo.abc}\"/>\r\n" +
-				"\t<h:outputText/>\r\n" +
-				"\t<h:outputLabel for=\"fooNestedFoo\" value=\"Nested Foo:\"/>\r\n" +
-				"\t<h:panelGrid columns=\"3\" id=\"fooNestedFoo\">\r\n" +
-				"\t\t<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>\r\n" +
-				"\t\t<h:outputText id=\"fooNestedFooBar\" value=\"#{foo.nestedFoo.bar}\"/>\r\n" +
-				"\t\t<h:outputText/>\r\n" +
-				"\t\t<h:outputLabel for=\"fooNestedFooBaz\" value=\"Baz:\"/>\r\n" +
-				"\t\t<h:outputText id=\"fooNestedFooBaz\" value=\"#{foo.nestedFoo.baz}\"/>\r\n" +
-				"\t\t<h:outputText/>\r\n" +
-				"\t</h:panelGrid>\r\n" +
-				"\t<h:outputText/>\r\n" +
-				"</h:panelGrid>\r\n";
+		String result = "<h:panelGrid columns=\"3\">" +
+				"<h:outputLabel for=\"fooAbc\" value=\"Abc:\"/>" +
+				"<h:outputText id=\"fooAbc\" value=\"#{foo.abc}\"/>" +
+				"<h:outputText/>" +
+				"<h:outputLabel for=\"fooNestedFoo\" value=\"Nested Foo:\"/>" +
+				"<h:panelGrid columns=\"3\" id=\"fooNestedFoo\">" +
+				"<h:outputLabel for=\"fooNestedFooBar\" value=\"Bar:\"/>" +
+				"<h:outputText id=\"fooNestedFooBar\" value=\"#{foo.nestedFoo.bar}\"/>" +
+				"<h:outputText/>" +
+				"<h:outputLabel for=\"fooNestedFooBaz\" value=\"Baz:\"/>" +
+				"<h:outputText id=\"fooNestedFooBaz\" value=\"#{foo.nestedFoo.baz}\"/>" +
+				"<h:outputText/>" +
+				"</h:panelGrid>" +
+				"<h:outputText/>" +
+				"</h:panelGrid>";
 
 		assertEquals( result, metawidget.toString() );
 	}

@@ -18,6 +18,7 @@ package org.metawidget.statically.javacode;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,7 +74,10 @@ public class QueryByExampleMetawidgetTest
 				"\tpredicatesList.add(builder.equal(root.get(\"ghi\"),ghi));\r\n" +
 				"}\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
+
 		Set<String> imports = metawidget.getImports();
 		assertEquals( Baz.class.getName(), imports.iterator().next() );
 		assertEquals( 1, imports.size() );

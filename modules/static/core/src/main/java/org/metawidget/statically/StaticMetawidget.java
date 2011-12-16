@@ -219,14 +219,14 @@ public abstract class StaticMetawidget
 	@Override
 	public void write( Writer writer ) {
 
-		write( writer, 0 );
+		write( writer, -1 );
 	}
 
 	/**
 	 * Write the Metawidget output using the given Writer.
 	 *
 	 * @param initialIndent
-	 *            the initialIndent that will be applied to every line
+	 *            the initialIndent that will be applied to every line. 0 for no initial indent. -1 for no subsequent indenting either
 	 */
 
 	public void write( Writer writer, int initialIndent ) {
@@ -235,7 +235,14 @@ public abstract class StaticMetawidget
 
 		try {
 			mPipeline.buildWidgets( inspect() );
-			super.write( new IndentedWriter( writer, initialIndent ) );
+
+			Writer writerToUse = writer;
+
+			if ( initialIndent >= 0 ) {
+				writerToUse = new IndentedWriter( writer, initialIndent );
+			}
+
+			super.write( writerToUse );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}

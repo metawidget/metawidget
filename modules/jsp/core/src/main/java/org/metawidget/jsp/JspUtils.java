@@ -131,12 +131,11 @@ public final class JspUtils {
 			int returnCode = tag.doStartTag();
 
 			if ( returnCode != Tag.SKIP_BODY ) {
-				if ( tag instanceof IterationTag ) {
-					returnCode = IterationTag.EVAL_BODY_AGAIN;
 
-					while ( returnCode == IterationTag.EVAL_BODY_AGAIN ) {
-						returnCode = ( (IterationTag) tag ).doAfterBody();
-					}
+				// doInitBody
+
+				if ( tag instanceof BodyTag ) {
+					( (BodyTag) tag ).doInitBody();
 				}
 
 				// Support deferred children
@@ -150,6 +149,16 @@ public final class JspUtils {
 						for ( Tag childTag : deferredChildren ) {
 							writeTagInternal( context, childTag, tag );
 						}
+					}
+				}
+
+				// doAfterBody
+
+				if ( tag instanceof IterationTag ) {
+					returnCode = IterationTag.EVAL_BODY_AGAIN;
+
+					while ( returnCode == IterationTag.EVAL_BODY_AGAIN ) {
+						returnCode = ( (IterationTag) tag ).doAfterBody();
 					}
 				}
 			}
