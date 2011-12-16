@@ -98,8 +98,6 @@ public abstract class StaticXmlMetawidget
 	 * @return map of prefix and namespace
 	 */
 
-	// TODO: push this down, make generic
-	
 	public Map<String, String> getNamespaces() {
 
 		Map<String, String> namespaces = CollectionUtils.newHashMap();
