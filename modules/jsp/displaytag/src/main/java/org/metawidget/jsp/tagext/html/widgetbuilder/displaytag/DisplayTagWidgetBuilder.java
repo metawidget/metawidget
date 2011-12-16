@@ -21,15 +21,12 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.displaytag.tags.ColumnTag;
 import org.displaytag.tags.TableTag;
 import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.JspUtils.BodyPreparer;
-import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -57,7 +54,7 @@ public class DisplayTagWidgetBuilder
 	// Public methods
 	//
 
-	public Tag buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag ) {
+	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
 
 		try {
 			// Not for us?
@@ -72,7 +69,7 @@ public class DisplayTagWidgetBuilder
 				return null;
 			}
 
-			final Class<?> clazz = ClassUtils.niceForName( type );
+			Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( clazz == null ) {
 				return null;
@@ -93,43 +90,32 @@ public class DisplayTagWidgetBuilder
 
 			// Create the TableTag
 
-			final TableTag tableTag = new TableTag();
+			TableTag tableTag = new TableTag();
 			tableTag.setName( toDisplay );
 
-			// Write the DisplayTag
+			// Inspect component type
 
-			String literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tableTag, metawidgetTag, new BodyPreparer() {
+			String componentType = WidgetBuilderUtils.getComponentType( attributes );
+			String inspectedType = null;
 
-				// After DisplayTag.doStartTag, can add columns
+			if ( componentType != null ) {
+				inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+			}
 
-				public void prepareBody( PageContext delgateContext )
-					throws JspException {
+			// If there is a type...
 
-					// Inspect component type
+			if ( componentType != null ) {
+				// ...iterate over it and add columns
 
-					String componentType = WidgetBuilderUtils.getComponentType( attributes );
-					String inspectedType = null;
+				Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+				NodeList elements = root.getFirstChild().getChildNodes();
+				addColumnTags( tableTag, attributes, elements, metawidgetTag );
 
-					if ( componentType != null ) {
-						inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
-					}
+			} else {
+				// If there is no type, DisplayTag will make a best guess
+			}
 
-					// If there is a type...
-
-					if ( componentType != null ) {
-						// ...iterate over it and add columns
-
-						Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-						NodeList elements = root.getFirstChild().getChildNodes();
-						addColumnTags( tableTag, attributes, elements, metawidgetTag );
-
-					} else {
-						// If there is no type, DisplayTag will make a best guess
-					}
-				}
-			} );
-
-			return new LiteralTag( literal );
+			return tableTag;
 		} catch ( Exception e ) {
 			throw WidgetBuilderException.newException( e );
 		}
@@ -139,8 +125,7 @@ public class DisplayTagWidgetBuilder
 	// Protected methods
 	//
 
-	protected void addColumnTags( TableTag tableTag, Map<String, String> attributes, NodeList elements, MetawidgetTag metawidgetTag )
-		throws JspException {
+	protected void addColumnTags( TableTag tableTag, Map<String, String> attributes, NodeList elements, MetawidgetTag metawidgetTag ) {
 
 		// For each property...
 
@@ -163,7 +148,7 @@ public class DisplayTagWidgetBuilder
 
 			// ...add a column...
 
-			if ( addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag )) {
+			if ( addColumnTag( tableTag, attributes, XmlUtils.getAttributesAsMap( element ), metawidgetTag ) ) {
 				columnsAdded++;
 			}
 
@@ -187,14 +172,13 @@ public class DisplayTagWidgetBuilder
 	 * @return true if a column was added, false otherwise
 	 */
 
-	protected boolean addColumnTag( TableTag tableTag, Map<String, String> tableAttributes, Map<String, String> columnAttributes, MetawidgetTag metawidgetTag )
-		throws JspException {
+	protected boolean addColumnTag( TableTag tableTag, Map<String, String> tableAttributes, Map<String, String> columnAttributes, MetawidgetTag metawidgetTag ) {
 
 		ColumnTag columnTag = new ColumnTag();
 		columnTag.setTitle( metawidgetTag.getLabelString( columnAttributes ) );
 		columnTag.setProperty( columnAttributes.get( NAME ) );
 
-		JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, tableTag, null );
+		JspUtils.addDeferredChild( tableTag, columnTag );
 		return true;
 	}
 }

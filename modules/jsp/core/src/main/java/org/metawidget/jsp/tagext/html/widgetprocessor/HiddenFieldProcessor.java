@@ -62,7 +62,7 @@ public class HiddenFieldProcessor
 		try {
 			// Write the tag...
 
-			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
+			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget );
 			buffer.append( value );
 
 			// ...together with a hidden tag

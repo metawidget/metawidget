@@ -78,7 +78,7 @@ public class HiddenFieldProcessor
 
 		try {
 			hiddenTag.setWrite( true );
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null );
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget );
 
 			if ( JspUtils.isJustHiddenFields( literal ) ) {
 				return new LiteralTag( literal + "<span></span>" );

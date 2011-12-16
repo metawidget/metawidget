@@ -16,7 +16,6 @@
 
 package org.metawidget.jsp;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
@@ -29,18 +28,22 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ExpressionEvaluator;
 import javax.servlet.jsp.el.VariableResolver;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTag;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.IterationTag;
 import javax.servlet.jsp.tagext.Tag;
+import javax.servlet.jsp.tagext.TagSupport;
 
 import junit.framework.TestCase;
 
-import org.metawidget.jsp.JspUtils.BodyPreparer;
+import org.metawidget.jsp.tagext.LiteralTag;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -62,172 +65,121 @@ public class JspUtilsTest
 	public void testBodyTag()
 		throws Exception {
 
-		Tag testTag = new Tag() {
+		TagSupport parentTag = new BodyTagSupport();
+		final Object object1 = new Object();
+		final Object object2 = new Object();
 
-			public int doEndTag() {
+		Tag childTag = new TagSupport() {
+
+			@Override
+			public int doEndTag()
+				throws JspException {
+
+				try {
+					// Write
+
+					JspWriter writer = pageContext.getOut();
+
+					writer.newLine();
+					writer.print( true );
+					writer.print( 'a' );
+					writer.print( Integer.MAX_VALUE );
+					writer.print( Long.MAX_VALUE );
+					writer.print( Float.MAX_VALUE );
+					writer.print( Double.MAX_VALUE );
+					writer.print( new char[] { 'b', 'c' } );
+					writer.print( object1 );
+					writer.println();
+					writer.println( false );
+					writer.println( 'b' );
+					writer.println( Integer.MIN_VALUE );
+					writer.println( Long.MIN_VALUE );
+					writer.println( Float.MIN_VALUE );
+					writer.println( Double.MIN_VALUE );
+					writer.println( new char[] { 'c', 'd' } );
+					writer.println( object2 );
+					writer.println( "END" );
+					writer.flush();
+					writer.close();
+
+					// Hit
+
+					pageContext.forward( null );
+					pageContext.getException();
+					pageContext.getPage();
+					pageContext.getRequest();
+					pageContext.getResponse();
+					pageContext.getServletConfig();
+					pageContext.getServletContext();
+					pageContext.getSession();
+					pageContext.handlePageException( (Exception) null );
+					pageContext.handlePageException( (Throwable) null );
+					pageContext.include( null );
+					pageContext.include( null, false );
+					pageContext.initialize( null, null, null, null, false, 0, false );
+					pageContext.release();
+					pageContext.findAttribute( null );
+					pageContext.getAttribute( null );
+					pageContext.getAttribute( null, 0 );
+					pageContext.getAttributeNamesInScope( 0 );
+					pageContext.getAttributesScope( null );
+					pageContext.getExpressionEvaluator();
+					pageContext.getOut();
+					pageContext.getVariableResolver();
+					pageContext.removeAttribute( null );
+					pageContext.removeAttribute( null, 0 );
+					pageContext.setAttribute( null, null );
+					pageContext.setAttribute( null, null, 0 );
+				} catch ( Exception e ) {
+					throw new JspException( e );
+				}
 
 				return Tag.EVAL_PAGE;
 			}
-
-			public int doStartTag() {
-
-				return Tag.EVAL_BODY_INCLUDE;
-			}
-
-			public Tag getParent() {
-
-				return null;
-			}
-
-			public void release() {
-
-				// Do nothing
-			}
-
-			public void setPageContext( PageContext context ) {
-
-				// Do nothing
-			}
-
-			public void setParent( Tag parent ) {
-
-				// Do nothing
-			}
 		};
 
+		JspUtils.addDeferredChild( parentTag, childTag );
+
+		// Verify
+
+		String verify = NEWLINE + "truea" + Integer.MAX_VALUE + Long.MAX_VALUE + Float.MAX_VALUE + Double.MAX_VALUE + "bc" + object1;
+		verify += NEWLINE + "false" + NEWLINE;
+		verify += "b" + NEWLINE;
+		verify += Integer.MIN_VALUE + NEWLINE;
+		verify += Long.MIN_VALUE + NEWLINE;
+		verify += Float.MIN_VALUE + NEWLINE;
+		verify += Double.MIN_VALUE + NEWLINE;
+		verify += "cd" + NEWLINE;
+		verify += object2 + NEWLINE;
+		verify += "END" + NEWLINE;
+
 		final DummyPageContext dummyPageContext = new DummyPageContext();
-
-		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer() {
-
-			public void prepareBody( PageContext delegateContext )
-				throws IOException {
-
-				JspWriter writer = delegateContext.getOut();
-
-				// Write
-
-				writer.newLine();
-				writer.print( true );
-				writer.print( 'a' );
-				writer.print( Integer.MAX_VALUE );
-				writer.print( Long.MAX_VALUE );
-				writer.print( Float.MAX_VALUE );
-				writer.print( Double.MAX_VALUE );
-				writer.print( new char[] { 'b', 'c' } );
-				Object object1 = new Object();
-				writer.print( object1 );
-				writer.println();
-				writer.println( false );
-				writer.println( 'b' );
-				writer.println( Integer.MIN_VALUE );
-				writer.println( Long.MIN_VALUE );
-				writer.println( Float.MIN_VALUE );
-				writer.println( Double.MIN_VALUE );
-				writer.println( new char[] { 'c', 'd' } );
-				Object object2 = new Object();
-				writer.println( object2 );
-				writer.println( "END" );
-				writer.flush();
-				writer.close();
-
-				// Hit
-
-				try {
-					delegateContext.forward( null );
-					delegateContext.getException();
-					delegateContext.getPage();
-					delegateContext.getRequest();
-					delegateContext.getResponse();
-					delegateContext.getServletConfig();
-					delegateContext.getServletContext();
-					delegateContext.getSession();
-					delegateContext.handlePageException( (Exception) null );
-					delegateContext.handlePageException( (Throwable) null );
-					delegateContext.include( null );
-					delegateContext.include( null, false );
-					delegateContext.initialize( null, null, null, null, false, 0, false );
-					delegateContext.release();
-					delegateContext.findAttribute( null );
-					delegateContext.getAttribute( null );
-					delegateContext.getAttribute( null, 0 );
-					delegateContext.getAttributeNamesInScope( 0 );
-					delegateContext.getAttributesScope( null );
-					delegateContext.getExpressionEvaluator();
-					delegateContext.getOut();
-					delegateContext.getVariableResolver();
-					delegateContext.removeAttribute( null );
-					delegateContext.removeAttribute( null, 0 );
-					delegateContext.setAttribute( null, null );
-					delegateContext.setAttribute( null, null, 0 );
-				} catch ( Exception e ) {
-					throw new IOException( e.getMessage() );
-				}
-
-				assertTrue( dummyPageContext.getPageContextHits() == 25 );
-
-				// Verify
-
-				String verify = NEWLINE + "truea" + Integer.MAX_VALUE + Long.MAX_VALUE + Float.MAX_VALUE + Double.MAX_VALUE + "bc" + object1;
-				verify += NEWLINE + "false" + NEWLINE;
-				verify += "b" + NEWLINE;
-				verify += Integer.MIN_VALUE + NEWLINE;
-				verify += Long.MIN_VALUE + NEWLINE;
-				verify += Float.MIN_VALUE + NEWLINE;
-				verify += Double.MIN_VALUE + NEWLINE;
-				verify += "cd" + NEWLINE;
-				verify += object2 + NEWLINE;
-				verify += "END" + NEWLINE;
-
-				assertEquals( verify, writer.toString() );
-			}
-		} );
+		assertEquals( verify, JspUtils.writeTag( dummyPageContext, parentTag, null ) );
+		assertTrue( dummyPageContext.getPageContextHits() == 25 );
 	}
 
 	public void testSkipBody()
 		throws Exception {
 
-		Tag testTag = new Tag() {
+		final Set<Integer> toReturn = CollectionUtils.newHashSet();
 
-			public int doEndTag() {
+		TagSupport testTag = new TagSupport() {
 
-				return Tag.EVAL_PAGE;
-			}
-
+			@Override
 			public int doStartTag() {
 
-				return Tag.SKIP_BODY;
-			}
-
-			public Tag getParent() {
-
-				return null;
-			}
-
-			public void release() {
-
-				// Do nothing
-			}
-
-			public void setPageContext( PageContext context ) {
-
-				// Do nothing
-			}
-
-			public void setParent( Tag parent ) {
-
-				// Do nothing
+				return toReturn.iterator().next();
 			}
 		};
 
 		final DummyPageContext dummyPageContext = new DummyPageContext();
+		JspUtils.addDeferredChild( testTag, new LiteralTag( "Foo" ) );
 
-		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer() {
+		toReturn.add( Tag.EVAL_BODY_INCLUDE );
+		assertEquals( "Foo", JspUtils.writeTag( dummyPageContext, testTag, null ) );
 
-			public void prepareBody( PageContext delegateContext ) {
-
-				assertTrue( false );
-			}
-		} );
+		toReturn.add( Tag.SKIP_BODY );
+		assertEquals( "", JspUtils.writeTag( dummyPageContext, testTag, null ) );
 	}
 
 	int	mRepeat;
@@ -291,7 +243,7 @@ public class JspUtilsTest
 
 		mRepeat = 0;
 
-		JspUtils.writeTag( null, testTag, null, null );
+		JspUtils.writeTag( null, testTag, null );
 
 		assertTrue( mRepeat == 5 );
 	}

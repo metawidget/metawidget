@@ -39,6 +39,13 @@
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
+		
+		<widgetProcessors>
+			<array>
+				<pathProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.spring"/>
+				<cssStyleProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.spring"/>
+			</array>
+		</widgetProcessors>
 
 		<layout>
 			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">

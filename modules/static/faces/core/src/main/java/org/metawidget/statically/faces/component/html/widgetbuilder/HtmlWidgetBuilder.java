@@ -136,6 +136,8 @@ public class HtmlWidgetBuilder
 				return new HtmlSelectBooleanCheckbox();
 			}
 
+			// TODO: char?
+
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {

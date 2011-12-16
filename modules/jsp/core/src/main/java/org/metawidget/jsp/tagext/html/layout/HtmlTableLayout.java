@@ -197,7 +197,7 @@ public class HtmlTableLayout
 					return;
 				}
 			} else {
-				literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag, null );
+				literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag );
 			}
 
 			// If the String is just hidden fields...

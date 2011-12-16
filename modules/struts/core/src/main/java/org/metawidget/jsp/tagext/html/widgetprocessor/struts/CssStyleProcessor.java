@@ -14,42 +14,40 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext.layout;
+package org.metawidget.jsp.tagext.html.widgetprocessor.struts;
 
 import java.util.Map;
 
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.jsp.JspUtils;
+import org.apache.struts.taglib.html.BaseHandlerTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * Layout to simply output components one after another, with no labels and no structure.
- * <p>
- * This Layout is suited to rendering single components, or for rendering components whose layout
- * relies entirely on CSS.
+ * WidgetProcessor that adds CSS styles to a Struts BaseHandlerTag, based on the styles of
+ * the parent Metawidget.
  *
  * @author Richard Kennard
  */
 
-public class SimpleLayout
-	implements Layout<Tag, BodyTag, MetawidgetTag> {
+public class CssStyleProcessor
+	implements WidgetProcessor<Tag, MetawidgetTag> {
 
 	//
 	// Public methods
 	//
 
-	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag ) {
+	public Tag processWidget( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		try {
-			JspWriter writer = metawidgetTag.getPageContext().getOut();
-			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag ) );
-		} catch ( Exception e ) {
-			throw LayoutException.newException( e );
+		if ( tag instanceof BaseHandlerTag ) {
+			BaseHandlerTag tagBaseHandler = (BaseHandlerTag) tag;
+			BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
+			tagBaseHandler.setStyle( htmlMetawidgetTag.getStyle() );
+			tagBaseHandler.setStyleClass( htmlMetawidgetTag.getStyleClass() );
 		}
+
+		return tag;
 	}
 }

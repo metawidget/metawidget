@@ -62,7 +62,7 @@ public class HiddenFieldProcessor
 		try {
 			// Write the tag...
 
-			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
+			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget );
 			buffer.append( value );
 
 			// ...together with a hidden tag
@@ -75,7 +75,7 @@ public class HiddenFieldProcessor
 			}
 
 			hiddenTag.setPath( path );
-			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
+			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ) );
 
 			// If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
 			// a hidden field' and putting it outside the table

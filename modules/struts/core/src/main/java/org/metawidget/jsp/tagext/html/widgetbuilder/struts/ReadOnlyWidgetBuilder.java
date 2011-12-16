@@ -67,7 +67,7 @@ public class ReadOnlyWidgetBuilder
 		// with all the other <hidden> fields. Output a SPAN tag to stop this.
 
 		try {
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget );
 
 			if ( JspUtils.isJustHiddenFields( literal ) ) {
 				return new LiteralTag( literal + "<span></span>" );
