@@ -63,22 +63,12 @@ public class StaticHtmlMetawidget
 		mStyleClass = styleClass;
 	}
 
-	//
-	// Protected methods
-	//
-
-	@Override
-	protected String getDefaultConfiguration() {
-
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-html-default.xml";
-	}
-
 	/**
 	 * Overriden to carry CSS style attributes into the nested Metawidget.
 	 */
 
 	@Override
-	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 
@@ -88,5 +78,15 @@ public class StaticHtmlMetawidget
 
 		htmlMetawidget.setStyle( mStyle );
 		htmlMetawidget.setStyleClass( mStyleClass );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected String getDefaultConfiguration() {
+
+		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-html-default.xml";
 	}
 }

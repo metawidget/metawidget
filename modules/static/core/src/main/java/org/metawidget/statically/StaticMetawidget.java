@@ -163,6 +163,24 @@ public abstract class StaticMetawidget
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
+	/**
+	 * Useful for WidgetBuilders to setup nested Metawidgets (eg. for wrapping them in a
+	 * panelGroup).
+	 */
+
+	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+		// Don't reconfigure...
+
+		nestedMetawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
+		nestedMetawidget.mParent = this;
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+	}
+
 	@SuppressWarnings( { "unchecked" } )
 	public void setInspectionResultProcessors( InspectionResultProcessor<? extends StaticMetawidget>... inspectionResultProcessors ) {
 
@@ -252,19 +270,6 @@ public abstract class StaticMetawidget
 	protected void beforeBuildCompoundWidget( Element element ) {
 
 		// Do nothing by default
-	}
-
-	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
-
-		// Don't reconfigure...
-
-		nestedMetawidget.setConfig( null );
-
-		// ...instead, copy runtime values
-
-		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-		nestedMetawidget.mParent = this;
-		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 	}
 
 	protected Element inspect() {

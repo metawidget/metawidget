@@ -61,12 +61,8 @@ public abstract class BaseStaticHtmlMetawidget
 		mValue = value;
 	}
 
-	//
-	// Protected methods
-	//
-
 	@Override
-	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 		( (BaseStaticHtmlMetawidget) nestedMetawidget ).setValue( mValue + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
