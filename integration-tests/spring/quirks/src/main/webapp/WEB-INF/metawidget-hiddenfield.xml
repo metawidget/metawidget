@@ -11,6 +11,8 @@
 	<springMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.spring">
 		<widgetProcessors>
 			<array>
+				<pathProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.spring"/>
+				<cssStyleProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.spring"/>
 				<hiddenFieldProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.spring"/>
 			</array>
 		</widgetProcessors>		

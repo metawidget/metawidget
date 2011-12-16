@@ -73,6 +73,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>displaytag</groupId>
+			<artifactId>displaytag</artifactId>
+			<scope>runtime</scope>
+		</dependency>		
+		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
 			<scope>runtime</scope>

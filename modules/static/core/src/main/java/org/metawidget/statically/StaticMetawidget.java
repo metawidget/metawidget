@@ -163,6 +163,24 @@ public abstract class StaticMetawidget
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
+	/**
+	 * Useful for WidgetBuilders to setup nested Metawidgets (eg. for wrapping them in a
+	 * panelGroup).
+	 */
+
+	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+		// Don't reconfigure...
+
+		nestedMetawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
+		nestedMetawidget.mParent = this;
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+	}
+
 	@SuppressWarnings( { "unchecked" } )
 	public void setInspectionResultProcessors( InspectionResultProcessor<? extends StaticMetawidget>... inspectionResultProcessors ) {
 
@@ -201,14 +219,14 @@ public abstract class StaticMetawidget
 	@Override
 	public void write( Writer writer ) {
 
-		write( writer, 0 );
+		write( writer, -1 );
 	}
 
 	/**
 	 * Write the Metawidget output using the given Writer.
 	 *
 	 * @param initialIndent
-	 *            the initialIndent that will be applied to every line
+	 *            the initialIndent that will be applied to every line. 0 for no initial indent. -1 for no subsequent indenting either
 	 */
 
 	public void write( Writer writer, int initialIndent ) {
@@ -217,7 +235,14 @@ public abstract class StaticMetawidget
 
 		try {
 			mPipeline.buildWidgets( inspect() );
-			super.write( new IndentedWriter( writer, initialIndent ) );
+
+			Writer writerToUse = writer;
+
+			if ( initialIndent >= 0 ) {
+				writerToUse = new IndentedWriter( writer, initialIndent );
+			}
+
+			super.write( writerToUse );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
@@ -252,19 +277,6 @@ public abstract class StaticMetawidget
 	protected void beforeBuildCompoundWidget( Element element ) {
 
 		// Do nothing by default
-	}
-
-	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
-
-		// Don't reconfigure...
-
-		nestedMetawidget.setConfig( null );
-
-		// ...instead, copy runtime values
-
-		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-		nestedMetawidget.mParent = this;
-		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 	}
 
 	protected Element inspect() {

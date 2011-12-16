@@ -71,7 +71,7 @@ public class ReadOnlyWidgetBuilderTest
 
 		attributes.put( MASKED, TRUE );
 		LiteralTag literalTag = (LiteralTag) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
-		assertTrue( "".equals( JspUtils.writeTag( dummyMetawdget.getPageContext(), literalTag, dummyMetawdget, null )));
+		assertTrue( "".equals( JspUtils.writeTag( dummyMetawdget.getPageContext(), literalTag, dummyMetawdget )));
 		attributes.remove( MASKED );
 
 		// Lookups

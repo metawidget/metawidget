@@ -50,6 +50,13 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		
+		<widgetProcessors>
+			<array>
+				<nameProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.struts"/>
+				<cssStyleProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.struts"/>
+			</array>
+		</widgetProcessors>
+		
 		<layout>
 			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>

@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.faces.component.html;
 
+import java.io.StringWriter;
+
 import junit.framework.TestCase;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
@@ -254,6 +256,8 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 	}
 }

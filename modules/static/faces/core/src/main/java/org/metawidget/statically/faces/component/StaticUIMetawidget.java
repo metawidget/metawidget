@@ -61,12 +61,8 @@ public abstract class StaticUIMetawidget
 		// Do nothing
 	}
 
-	//
-	// Protected methods
-	//
-
 	@Override
-	protected void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 

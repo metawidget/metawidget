@@ -60,22 +60,22 @@ public class RequiredAttributeProcessorTest
 		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<h:panelGrid columns=\"3\">\r\n" +
-				"\t<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:inputText id=\"fooBar\" required=\"true\" value=\"#{foo.bar}\">\r\n" +
-				"\t\t\t<f:convertDateTime/>\r\n" +
-				"\t\t</h:inputText>\r\n" +
-				"\t\t<h:message for=\"fooBar\"/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
-				"\t<h:outputText value=\"*\"/>\r\n" +
-				"\t<h:outputLabel for=\"fooBaz\" value=\"Baz:\"/>\r\n" +
-				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\"/>\r\n" +
-				"\t\t<h:message for=\"fooBaz\"/>\r\n" +
-				"\t</h:panelGroup>\r\n" +
-				"\t<h:outputText/>\r\n" +
-				"</h:panelGrid>\r\n";
+		String result = "<h:panelGrid columns=\"3\">" +
+				"<h:outputLabel for=\"fooBar\" value=\"Bar:\"/>" +
+				"<h:panelGroup>" +
+				"<h:inputText id=\"fooBar\" required=\"true\" value=\"#{foo.bar}\">" +
+				"<f:convertDateTime/>" +
+				"</h:inputText>" +
+				"<h:message for=\"fooBar\"/>" +
+				"</h:panelGroup>" +
+				"<h:outputText value=\"*\"/>" +
+				"<h:outputLabel for=\"fooBaz\" value=\"Baz:\"/>" +
+				"<h:panelGroup>" +
+				"<h:inputText id=\"fooBaz\" value=\"#{foo.baz}\"/>" +
+				"<h:message for=\"fooBaz\"/>" +
+				"</h:panelGroup>" +
+				"<h:outputText/>" +
+				"</h:panelGrid>";
 
 		assertEquals( result, metawidget.toString() );
 	}

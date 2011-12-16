@@ -32,6 +32,8 @@ public class HtmlPanelGridLayoutConfig {
 
 	private String[]	mColumnStyleClasses;
 
+	private String		mMessageStyleClass;
+
 	//
 	// Public methods
 	//
@@ -50,6 +52,19 @@ public class HtmlPanelGridLayoutConfig {
 		return this;
 	}
 
+	/**
+	 * CSS style class to apply to <tt>h:message</tt>
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public HtmlPanelGridLayoutConfig setMessageStyleClass( String messageStyleClass ) {
+
+		mMessageStyleClass = messageStyleClass;
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -57,11 +72,15 @@ public class HtmlPanelGridLayoutConfig {
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 
 		if ( !ObjectUtils.nullSafeEquals( mColumnStyleClasses, ( (HtmlPanelGridLayoutConfig) that ).mColumnStyleClasses ) ) {
+			return false;
+		}
+
+		if ( !ObjectUtils.nullSafeEquals( mMessageStyleClass, ( (HtmlPanelGridLayoutConfig) that ).mMessageStyleClass ) ) {
 			return false;
 		}
 
@@ -73,6 +92,7 @@ public class HtmlPanelGridLayoutConfig {
 
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mColumnStyleClasses );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mMessageStyleClass );
 
 		return hashCode;
 	}
@@ -84,5 +104,10 @@ public class HtmlPanelGridLayoutConfig {
 	protected String[] getColumnStyleClasses() {
 
 		return mColumnStyleClasses;
+	}
+
+	protected String getMessageStyleClass() {
+
+		return mMessageStyleClass;
 	}
 }

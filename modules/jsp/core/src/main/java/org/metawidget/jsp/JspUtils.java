@@ -23,6 +23,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.Servlet;
@@ -41,6 +42,9 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.IterationTag;
 import javax.servlet.jsp.tagext.Tag;
+import javax.servlet.jsp.tagext.TagSupport;
+
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Utilities for working with JSPs.
@@ -67,33 +71,88 @@ public final class JspUtils {
 	 * Writes the given Tag to a String (<em>not</em> its usual pageContext.getOut).
 	 */
 
-	public static String writeTag( PageContext context, Tag tag, Tag parentTag, BodyPreparer generator )
+	public static String writeTag( PageContext context, Tag tag, Tag parentTag )
 		throws JspException {
 
-		PageContextDelegate pageContext = new PageContextDelegate( context );
+		PageContextDelegate delegateContext = new PageContextDelegate( context );
+		writeTagInternal( delegateContext, tag, parentTag );
+		return delegateContext.getOut().toString();
+	}
 
-		tag.setPageContext( pageContext );
+	/**
+	 * Simulates adding the given child Tag to the given parent Tag.
+	 * <p>
+	 * Whilst the JSP component model provides <code>findAncestorWithClass</code> to allow Tags to
+	 * find their parent, there is no mechanism for programmatically adding children to a Tag. This
+	 * is a problem for Metawidget, which needs to be able to build Tags, separately process them,
+	 * and <em>then</em> render them.
+	 * <p>
+	 * This method provides a way to defer the rendering of a child, to give us chance to process
+	 * it.
+	 */
+
+	public static void addDeferredChild( TagSupport parentTag, Tag childTag ) {
+
+		@SuppressWarnings( "unchecked" )
+		List<Tag> deferredChildren = (List<Tag>) parentTag.getValue( DEFERRED_CHILD_KEY );
+
+		if ( deferredChildren == null ) {
+			deferredChildren = CollectionUtils.newArrayList();
+			parentTag.setValue( DEFERRED_CHILD_KEY, deferredChildren );
+		}
+
+		deferredChildren.add( childTag );
+	}
+
+	public static void setBodyContent( BodyTag tag, String content ) {
+
+		try {
+			BufferedContent bodyContent = new BufferedContent();
+			bodyContent.write( content );
+			tag.setBodyContent( bodyContent );
+		} catch( IOException e ) {
+			throw new RuntimeException( e );
+		}
+	}
+
+	//
+	// Private statics
+	//
+
+	private static final String	DEFERRED_CHILD_KEY	= JspUtils.class + ".DEFERRED_CHILD";
+
+	private static void writeTagInternal( PageContext context, Tag tag, Tag parentTag )
+		throws JspException {
+
+		tag.setPageContext( context );
 		tag.setParent( parentTag );
 
 		try {
 			int returnCode = tag.doStartTag();
 
 			if ( returnCode != Tag.SKIP_BODY ) {
-				if ( generator != null ) {
-					if ( tag instanceof BodyTag ) {
-						( (BodyTag) tag ).setBodyContent( new BufferedContent() );
-					}
 
-					try {
-						generator.prepareBody( pageContext );
-					} catch ( IOException e ) {
-						throw new JspException( e );
-					}
+				// doInitBody
 
-					if ( tag instanceof BodyTag ) {
-						( (BodyTag) tag ).doInitBody();
+				if ( tag instanceof BodyTag ) {
+					( (BodyTag) tag ).doInitBody();
+				}
+
+				// Support deferred children
+
+				if ( tag instanceof TagSupport ) {
+					@SuppressWarnings( "unchecked" )
+					List<Tag> deferredChildren = (List<Tag>) ( (TagSupport) tag ).getValue( DEFERRED_CHILD_KEY );
+
+					if ( deferredChildren != null ) {
+
+						for ( Tag childTag : deferredChildren ) {
+							writeTagInternal( context, childTag, tag );
+						}
 					}
 				}
+
+				// doAfterBody
 
 				if ( tag instanceof IterationTag ) {
 					returnCode = IterationTag.EVAL_BODY_AGAIN;
@@ -108,31 +167,11 @@ public final class JspUtils {
 		} finally {
 			tag.release();
 		}
-
-		return pageContext.getOut().toString();
 	}
 
 	//
 	// Inner class
 	//
-
-	/**
-	 * Interface for clients wishing to prepare the body of a Tag during
-	 * <code>JspUtils.writeTag</code>.
-	 * <p>
-	 * JSP tags do not maintain a List of children. Therefore, in order to manually output a Tag
-	 * that has children, the <code>doStartTag</code> and <code>doInitBody</code> methods of the
-	 * various parents and children must be called in the correct order.
-	 * <p>
-	 * To make this easier, <code>writeTag</code> takes a callback method for preparing body content
-	 * after the tag's <code>doStartTag</code> but before its <code>doInitBody</code>.
-	 */
-
-	public interface BodyPreparer {
-
-		void prepareBody( PageContext delegateContext )
-			throws JspException, IOException;
-	}
 
 	/**
 	 * Subverts the <code>getOut</code> method of a <code>PageContext</code> to use

@@ -17,10 +17,10 @@
 package org.metawidget.statically.spring;
 
 import java.io.StringWriter;
+
 import java.util.Map;
 
 import org.metawidget.statically.spring.widgetbuilder.FormSelectTag;
-
 import junit.framework.TestCase;
 
 /**
@@ -114,7 +114,9 @@ public class StaticSpringMetawidgetTest
 				"\t<form:input path=\"baz\"/>\r\n" +
 				"</table>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 	}
 
 	public void testNestedType() {
@@ -131,7 +133,9 @@ public class StaticSpringMetawidgetTest
 				"\t</table>\r\n" +
 				"</table>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 	}
 
 	//

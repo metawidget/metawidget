@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with Classes.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -247,8 +247,8 @@ public final class ClassUtils {
 	/**
 	 * When dealing with multiple isolated ClassLoaders, sometimes the object being inspected may
 	 * reference a class that is not available to any of our own ClassLoaders. Therefore
-	 * <code>Class.forName</code> will always fail. To cope with this, we
-	 * record 'alien' ClassLoaders as and when we encounter them
+	 * <code>Class.forName</code> will always fail. To cope with this, we record 'alien'
+	 * ClassLoaders as and when we encounter them
 	 */
 
 	// TODO: unit test this
@@ -301,7 +301,7 @@ public final class ClassUtils {
 	 * where, say, metawidget-core and metawidget-annotations are located in the EJB/lib and the
 	 * other modules are located in the WAR/lib). If that fails, it tries ClassUtils' ClassLoader.
 	 * If that fails, it tries our alien ClassLoader.
-	 *
+	 * 
 	 * @param classLoader
 	 *            the specific ClassLoader to use to try and load this class. In general clients
 	 *            should use the other form of this method, which will default to trying the current
@@ -341,7 +341,7 @@ public final class ClassUtils {
 		ClassLoader thisClassLoader = ClassUtils.class.getClassLoader();
 
 		try {
-			if ( !thisClassLoader.equals( threadClassLoader ) && !thisClassLoader.equals( classLoader )) {
+			if ( !thisClassLoader.equals( threadClassLoader ) && !thisClassLoader.equals( classLoader ) ) {
 				return Class.forName( className, false, thisClassLoader );
 			}
 		} catch ( ClassNotFoundException e ) {

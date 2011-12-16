@@ -39,7 +39,7 @@ public class StaticHtmlMetawidgetTest
 	public void testNullPath() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		assertEquals( "<h:panelGrid columns=\"3\"/>\r\n", metawidget.toString() );
+		assertEquals( "<h:panelGrid columns=\"3\"/>", metawidget.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -164,7 +164,9 @@ public class StaticHtmlMetawidgetTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -202,7 +204,9 @@ public class StaticHtmlMetawidgetTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 
 		Map<String, String> namespaces = metawidget.getNamespaces();
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
@@ -236,7 +240,9 @@ public class StaticHtmlMetawidgetTest
 				"\t<h:outputText/>\r\n" +
 				"</h:panelGrid>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 	}
 
 	//

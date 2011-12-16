@@ -25,18 +25,9 @@ import javax.servlet.jsp.tagext.TagSupport;
 /**
  * JSP tag to encapsulate a String literal.
  * <p>
- * The JSP component model is too lightweight for our needs. Specifically, whilst it is possible for
- * a tag to find its parent (<code>findAncestorWithClass</code>), there is no general purpose
- * mechanism for programmatically adding children to a <code>Tag</code>.
- * <p>
- * Therefore many tag evaluations (eg. evaluation of a Struts SelectTag with nested OptionsTag) must
- * be done 'ahead of time' (ie. in the WidgetBuilder, not in the Layout) and the result stored as a
- * String. This breaks the JSP component model because Strings are not Tags, and so cannot be
- * returned as Tags. <code>LiteralTag</code> wraps a String as a Tag so that the component model
- * remains intact, and we can genericize our WidgetBuilders, WidgetProcessors and Layouts as
- * &lt;Tag, MetawidgetTag&gt;.
- * <p>
- * The output of a LiteralTag is the original String, without escaping.
+ * LiteralTag provides a way to return fragments of HTML as Tags. The output of a LiteralTag is the
+ * given String, without escaping. Plain JSP lacks a component model that abstracts &lt;input&gt;,
+ * &lt;select&gt; and other sorts of tag.
  * <p>
  * <strong>LiteralTag is an internal tag for use by WidgetBuilders, WidgetProcessors and Layouts. It
  * is not available in any TLD.</strong>

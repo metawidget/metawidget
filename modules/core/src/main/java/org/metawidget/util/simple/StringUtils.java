@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 /**
  * Utilities for working with Strings.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -110,7 +110,7 @@ public final class StringUtils {
 	/**
 	 * Converts the given string from camel case.
 	 * <p>
-	 * For example, converts <code>fooBar1</code> into <code>Foo bar 1</code>.
+	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>.
 	 */
 
 	public static String uncamelCase( String camelCase ) {
@@ -121,7 +121,7 @@ public final class StringUtils {
 	/**
 	 * Converts the given string from camel case.
 	 * <p>
-	 * For example, converts <code>fooBar1</code> into <code>Foo bar 1</code>.
+	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>.
 	 */
 
 	public static String uncamelCase( String camelCase, char separator ) {

@@ -2294,11 +2294,17 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td>Spring</td>
-							<td>(none)</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;pathProcessor /&gt;
+	&lt;cssStyleProcessor /&gt;							
+&lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Struts</td>
-							<td>(none)</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;nameProcessor /&gt;
+	&lt;cssStyleProcessor /&gt;							
+&lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Swing</td>

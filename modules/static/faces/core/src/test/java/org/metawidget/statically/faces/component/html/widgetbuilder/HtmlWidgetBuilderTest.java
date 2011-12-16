@@ -112,20 +112,20 @@ public class HtmlWidgetBuilderTest
 		metawidget.setPath( FooBean.class.getName() + "/pageItems" );
 		metawidget.setLayout( new SimpleLayout() );
 
-		String result = "<h:dataTable id=\"fooPageItems\" value=\"#{foo.pageItems}\" var=\"_item\">\r\n" +
-				"\t<h:column>\r\n" +
-				"\t\t<f:facet name=\"header\">\r\n" +
-				"\t\t\t<h:outputText value=\"Bar\"/>\r\n" +
-				"\t\t</f:facet>\r\n" +
-				"\t\t<h:outputText value=\"#{_item.bar}\"/>\r\n" +
-				"\t</h:column>\r\n" +
-				"\t<h:column>\r\n" +
-				"\t\t<f:facet name=\"header\">\r\n" +
-				"\t\t\t<h:outputText value=\"Baz\"/>\r\n" +
-				"\t\t</f:facet>\r\n" +
-				"\t\t<h:outputText value=\"#{_item.baz}\"/>\r\n" +
-				"\t</h:column>\r\n" +
-				"</h:dataTable>\r\n";
+		String result = "<h:dataTable id=\"fooPageItems\" value=\"#{foo.pageItems}\" var=\"_item\">" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Bar\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.bar}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Baz\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.baz}\"/>" +
+				"</h:column>" +
+				"</h:dataTable>";
 
 		assertEquals( result, metawidget.toString() );
 
@@ -135,20 +135,20 @@ public class HtmlWidgetBuilderTest
 		metawidget.setPath( FooBean.class.getName() + "/requiredPageItems" );
 		metawidget.setLayout( new SimpleLayout() );
 
-		result = "<h:dataTable var=\"_item\">\r\n" +
-				"\t<h:column>\r\n" +
-				"\t\t<f:facet name=\"header\">\r\n" +
-				"\t\t\t<h:outputText value=\"Bar\"/>\r\n" +
-				"\t\t</f:facet>\r\n" +
-				"\t\t<h:outputText value=\"#{_item.bar}\"/>\r\n" +
-				"\t</h:column>\r\n" +
-				"\t<h:column>\r\n" +
-				"\t\t<f:facet name=\"header\">\r\n" +
-				"\t\t\t<h:outputText value=\"Abc\"/>\r\n" +
-				"\t\t</f:facet>\r\n" +
-				"\t\t<h:outputText value=\"#{_item.abc}\"/>\r\n" +
-				"\t</h:column>\r\n" +
-				"</h:dataTable>\r\n";
+		result = "<h:dataTable var=\"_item\">" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Bar\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.bar}\"/>" +
+				"</h:column>" +
+				"<h:column>" +
+				"<f:facet name=\"header\">" +
+				"<h:outputText value=\"Abc\"/>" +
+				"</f:facet>" +
+				"<h:outputText value=\"#{_item.abc}\"/>" +
+				"</h:column>" +
+				"</h:dataTable>";
 
 		assertEquals( result, metawidget.toString() );
 	}

@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.jsp.html;
 
+import java.io.StringWriter;
+
 import junit.framework.TestCase;
 
 public class StaticHtmlMetawidgetTest
@@ -36,7 +38,9 @@ public class StaticHtmlMetawidgetTest
 				"\t<input name=\"fooBaz\" type=\"text\"/>\r\n" +
 				"</table>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 	}
 
 	public void testNestedType() {
@@ -53,7 +57,9 @@ public class StaticHtmlMetawidgetTest
 				"\t</table>\r\n" +
 				"</table>\r\n";
 
-		assertEquals( result, metawidget.toString() );
+		StringWriter writer = new StringWriter();
+		metawidget.write( writer, 0 );
+		assertEquals( result, writer.toString() );
 	}
 
 	//

@@ -11,6 +11,8 @@
 	<strutsMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.struts">
 		<widgetProcessors>
 			<array>
+				<nameProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.struts"/>
+				<cssStyleProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.struts"/>
 				<hiddenFieldProcessor xmlns="java:org.metawidget.jsp.tagext.html.widgetprocessor.struts"/>
 			</array>
 		</widgetProcessors>		

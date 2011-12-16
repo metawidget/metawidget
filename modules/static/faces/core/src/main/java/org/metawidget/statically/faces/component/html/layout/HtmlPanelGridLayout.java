@@ -47,6 +47,8 @@ public class HtmlPanelGridLayout
 
 	private final String	mColumnStyleClasses;
 
+	private final String	mMessageStyleClass;
+
 	//
 	// Constructor
 	//
@@ -59,6 +61,7 @@ public class HtmlPanelGridLayout
 	public HtmlPanelGridLayout( HtmlPanelGridLayoutConfig config ) {
 
 		mColumnStyleClasses = ArrayUtils.toString( config.getColumnStyleClasses() );
+		mMessageStyleClass = config.getMessageStyleClass();
 	}
 
 	//
@@ -77,6 +80,11 @@ public class HtmlPanelGridLayout
 			panelGrid.putAttribute( "columns", "3" );
 			panelGrid.putAttribute( "id", metawidget.getAttribute( "id" ) );
 			panelGrid.putAttribute( "columnClasses", mColumnStyleClasses );
+
+			if ( container instanceof StaticXmlMetawidget ) {
+				panelGrid.putAttribute( "rendered", metawidget.getAttribute( "rendered" ) );
+			}
+
 			container.getChildren().add( panelGrid );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
@@ -135,6 +143,7 @@ public class HtmlPanelGridLayout
 
 				HtmlMessage message = new HtmlMessage();
 				message.putAttribute( "for", id );
+				message.putAttribute( "styleClass", mMessageStyleClass );
 				panelGroup.getChildren().add( message );
 			}
 
