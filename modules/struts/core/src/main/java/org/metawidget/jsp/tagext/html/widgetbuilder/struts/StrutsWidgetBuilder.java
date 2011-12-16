@@ -122,6 +122,12 @@ public class StrutsWidgetBuilder
 					return new CheckboxTag();
 				}
 
+				if ( char.class.equals( clazz ) ) {
+					TextTag textTag = new TextTag();
+					textTag.setMaxlength( "1" );
+					return textTag;
+				}
+
 				return createTextTag( attributes );
 			}
 

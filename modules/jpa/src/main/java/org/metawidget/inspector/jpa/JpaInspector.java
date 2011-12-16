@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -40,7 +41,7 @@ import org.metawidget.util.CollectionUtils;
 
 public class JpaInspector
 	extends BaseObjectInspector {
-    
+
 	//
 	// Private members
 	//
@@ -105,12 +106,16 @@ public class JpaInspector
 			}
 		}
 
+		OneToOne oneToOne = property.getAnnotation( OneToOne.class );
+
+		if ( oneToOne != null && !oneToOne.optional() ) {
+			attributes.put( REQUIRED, TRUE );
+		}
+
 		ManyToOne manyToOne = property.getAnnotation( ManyToOne.class );
 
-		if ( manyToOne != null ) {
-			if ( !manyToOne.optional() ) {
-				attributes.put( REQUIRED, TRUE );
-			}
+		if ( manyToOne != null && !manyToOne.optional() ) {
+			attributes.put( REQUIRED, TRUE );
 		}
 
 		// Hidden
