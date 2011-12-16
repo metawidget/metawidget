@@ -143,6 +143,19 @@ public class HtmlPanelGridLayoutTest
 		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel for=\"fooBeanCurrent\" value=\"Foo:\"/><h:panelGroup><h:inputText id=\"fooBeanCurrent\"/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
 	}
 
+	public void testTopLevelAttributes()
+		throws Exception {
+
+		HtmlPanelGridLayout layout = new HtmlPanelGridLayout();
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.putAttribute( "rendered", "#{foo.rendered}" );
+		layout.startContainerLayout( metawidget, metawidget );
+		layout.endContainerLayout( metawidget, metawidget );
+
+		assertEquals( "<h:panelGrid columns=\"3\" rendered=\"#{foo.rendered}\"/>", metawidget.toString() );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( HtmlPanelGridLayoutConfig.class, new HtmlPanelGridLayoutConfig() {

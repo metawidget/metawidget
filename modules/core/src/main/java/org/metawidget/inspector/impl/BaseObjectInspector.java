@@ -181,7 +181,7 @@ public abstract class BaseObjectInspector
 				// If the parent does not define such a property, something is wrong
 
 				if ( propertyInParent == null ) {
-					throw InspectorException.newException( "Parent of " + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH ) + " does not define a property '" + childName + "'" );
+					throw InspectorException.newException( "Parent of " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " does not define a property '" + childName + "'" );
 				}
 
 				declaredChildType = propertyInParent.getType();

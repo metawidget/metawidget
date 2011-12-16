@@ -77,6 +77,11 @@ public class HtmlPanelGridLayout
 			panelGrid.putAttribute( "columns", "3" );
 			panelGrid.putAttribute( "id", metawidget.getAttribute( "id" ) );
 			panelGrid.putAttribute( "columnClasses", mColumnStyleClasses );
+
+			if ( container instanceof StaticXmlMetawidget ) {
+				panelGrid.putAttribute( "rendered", metawidget.getAttribute( "rendered" ) );
+			}
+
 			container.getChildren().add( panelGrid );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
