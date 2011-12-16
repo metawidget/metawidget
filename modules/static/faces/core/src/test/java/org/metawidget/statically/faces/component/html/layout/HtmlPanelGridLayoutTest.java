@@ -90,7 +90,7 @@ public class HtmlPanelGridLayoutTest
 	public void testCss()
 		throws Exception {
 
-		HtmlPanelGridLayout layout = new HtmlPanelGridLayout( new HtmlPanelGridLayoutConfig().setColumnStyleClasses( "labelStyleClass", "componentStyleClass", "requiredStyleClass" ) );
+		HtmlPanelGridLayout layout = new HtmlPanelGridLayout( new HtmlPanelGridLayoutConfig().setColumnStyleClasses( "labelStyleClass", "componentStyleClass", "requiredStyleClass" ).setMessageStyleClass( "error" ) );
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		HtmlPanelGrid container = new HtmlPanelGrid();
@@ -100,7 +100,7 @@ public class HtmlPanelGridLayoutTest
 		layout.layoutWidget( new HtmlInputText(), PROPERTY, attributes, container, metawidget );
 		layout.endContainerLayout( container, metawidget );
 
-		assertEquals( "<h:panelGrid><h:panelGrid columnClasses=\"labelStyleClass,componentStyleClass,requiredStyleClass\" columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+		assertEquals( "<h:panelGrid><h:panelGrid columnClasses=\"labelStyleClass,componentStyleClass,requiredStyleClass\" columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message styleClass=\"error\"/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
 	}
 
 	public void testStub()

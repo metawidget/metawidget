@@ -47,6 +47,8 @@ public class HtmlPanelGridLayout
 
 	private final String	mColumnStyleClasses;
 
+	private final String	mMessageStyleClass;
+
 	//
 	// Constructor
 	//
@@ -59,6 +61,7 @@ public class HtmlPanelGridLayout
 	public HtmlPanelGridLayout( HtmlPanelGridLayoutConfig config ) {
 
 		mColumnStyleClasses = ArrayUtils.toString( config.getColumnStyleClasses() );
+		mMessageStyleClass = config.getMessageStyleClass();
 	}
 
 	//
@@ -140,6 +143,7 @@ public class HtmlPanelGridLayout
 
 				HtmlMessage message = new HtmlMessage();
 				message.putAttribute( "for", id );
+				message.putAttribute( "styleClass", mMessageStyleClass );
 				panelGroup.getChildren().add( message );
 			}
 
