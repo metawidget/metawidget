@@ -4,8 +4,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Date;
 
-import org.junit.Ignore;
-import org.metawidget.statically.jsp.html.StaticHtmlMetawidgetTest.Foo;
 import org.metawidget.statically.spring.widgetprocessor.CssStyleProcessor;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormInputTag;
@@ -52,9 +50,8 @@ public class CssStyleProcessorTest
         assertEquals( "<form:input style=\"foo foo2\" styleClass=\"bar bar2\"/>", springInput.toString() );
     }
     
-    // Need to look at this test some more in org.metawidget.statically.faces.component.html.widgetprocessor.CssStyleProcessorTest.java
+    // Not sure if this is the output that should be expected?
     
-    @Ignore
     public void testSimpleType() {
         
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
@@ -64,7 +61,9 @@ public class CssStyleProcessorTest
         metawidget.setPath( Foo.class.getName() );
         
         String result = "<table>\r\n" +
-                "\t<form:input path=\"bar\"/>";
+                "\t<form:input path=\"bar\"/>\r\n" +
+                "\t<form:input path=\"baz\"/>\r\n" +
+                "</table>\r\n";
         
         assertEquals( result, metawidget.toString() );
     }
