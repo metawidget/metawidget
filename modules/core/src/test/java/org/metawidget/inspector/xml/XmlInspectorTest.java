@@ -170,8 +170,10 @@ public class XmlInspectorTest
 
 		XmlInspector inspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( mXml.getBytes() ) ) )
 		{
+
 			@Override
 			protected String getExtendsAttribute() {
+
 				return null;
 			}
 		};
@@ -476,7 +478,7 @@ public class XmlInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 
 		// (should be the parent property type, so as to align the XML with other Inspectors)
@@ -522,6 +524,68 @@ public class XmlInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 1 );
 	}
 
+	public void testTraverseAgainstObjectImpliesType() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"" + TraverseAgainstObjectFoo.class.getName() + "\">";
+		xml += "<property name=\"toTraverse\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		TraverseAgainstObjectFoo traverseAgainstObjectFoo = new TraverseAgainstObjectFoo();
+		traverseAgainstObjectFoo.toTraverse = new TraverseAgainstObjectFoo();
+
+		// Top level
+
+		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() );
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName() ) );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( TraverseAgainstObjectFoo.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( 1, entity.getAttributes().getLength() );
+
+		// Property
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "toTraverse", property.getAttribute( NAME ) );
+
+		// (shouldn't need @type on properties, as XmlUtils.combineElements uses the @name)
+
+		assertTrue( !property.hasAttribute( TYPE ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		assertEquals( 1, entity.getChildNodes().getLength() );
+
+		// Sub-level
+
+		document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName(), "toTraverse" ) );
+
+		// Entity
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
+		assertEquals( "toTraverse", entity.getAttribute( NAME ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+
+		// Property
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "toTraverse", property.getAttribute( NAME ) );
+		assertTrue( !property.hasAttribute( TYPE ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		assertEquals( 1, entity.getChildNodes().getLength() );
+	}
+
 	public void testRestrictAgainstObjectImpliesInferInheritanceHeirarchy() {
 
 		String xml = "<?xml version=\"1.0\"?><inspection-result />";
@@ -533,7 +597,7 @@ public class XmlInspectorTest
 
 		try {
 			mInspector = new XmlInspector( config );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "When using restrictAgainstObject, inferInheritanceHierarchy is implied", e.getMessage() );
 		}
 	}

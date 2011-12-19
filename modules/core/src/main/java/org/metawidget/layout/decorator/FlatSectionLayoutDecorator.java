@@ -124,7 +124,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				addSectionWidget( section, level, container, metawidget );
 
 				// TODO: support a stack of sections, so that sections can be closed. Or can we fake
-				// a JspNestedLayoutDecorator this way?
+				// a JspNestedLayoutDecorator this way? https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4714234
 			}
 
 			state.currentSections = sections;
