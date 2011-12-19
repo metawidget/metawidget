@@ -907,7 +907,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>webtest-maven-plugin</artifactId>
-					<version>0.7.1-SNAPSHOT</version>
+					<version>1.0.0</version>
 					<executions>
 						<execution>
 							<id>jetty-integration-test</id>

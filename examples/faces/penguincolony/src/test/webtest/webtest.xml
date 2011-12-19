@@ -161,13 +161,6 @@
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[4]/td/input/@checked" text=""/>
 				<forceInputFieldAttribute xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[4]/td/input" attributeName="checked" attributeValue="checked"/>
 				
-				<!-- Begin hack until WebTest JavaScript support improves (http://webtest-community.canoo.com/jira/browse/WT-544) -->
-
-				<clickButton label="Back"/>
-				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
-				
-				<!-- End hack until WebTest JavaScript support improves -->
-				
 				<not>
 					<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/textarea"/>
 				</not>
@@ -176,10 +169,7 @@
 				<forceInputFieldAttribute xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[5]/td/input" attributeName="checked" attributeValue="checked"/>
 				
 				<!-- Begin hack until WebTest JavaScript support improves (http://webtest-community.canoo.com/jira/browse/WT-544) -->
-
-				<clickButton label="Back"/>
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
-				
 				<!-- End hack until WebTest JavaScript support improves -->
 				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/@class" text="table-label-column"/>
