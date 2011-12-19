@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Static support: Java Server Faces components.
+ * Static support: Java Server Faces HTML widget processors.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.statically.faces.component;
+package org.metawidget.statically.faces.component.html.widgetprocessor;
