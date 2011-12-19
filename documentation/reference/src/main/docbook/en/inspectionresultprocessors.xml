@@ -119,7 +119,7 @@ public class ContactBean {
 			<para>
 				<classname>JexlInspectionResultProcessor</classname> would update this inspection result's <parameter>hidden</parameter> attribute
 				based on evaluating the JEXL expression
-				<parameter>${!this.retired}</parameter> (where <parameter>this</parameter> refers to the runtime instance of
+				<parameter>${!this.retired}</parameter> (where <parameter>this</parameter> refers to the instance of
 				the <classname>Person</classname> being inspected). It could be used to show/hide the <parameter>pension</parameter>
 				field in response to the <parameter>retired</parameter> checkbox being checked.
 			</para>

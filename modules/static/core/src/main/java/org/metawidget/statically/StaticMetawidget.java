@@ -47,7 +47,7 @@ import org.w3c.dom.Element;
  * technology being generated being available. For example, a static JSF Metawidget should not rely
  * on <code>FacesContext.getCurrentInstance</code>. Architectually, this makes all static
  * Metawidgets more similar to each other than to their corresponding runtime version. For example,
- * the static JSF Metawidget is more similar to the static Swing Metawidget than it is to the
+ * the static JSF Metawidget is more similar to the static Spring Metawidget than it is to the
  * runtime JSF Metawidget. Therefore, it makes sense to have a <code>StaticMetawidget</code> base
  * class.
  *

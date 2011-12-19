@@ -20,8 +20,7 @@
 			Building user interfaces for business objects can be cumbersome and
 			time consuming in today's applications. Metawidget is an Object/User Interface Mapping tool.
 			The term Object/User Interface mapping (OIM) refers to
-			the technique of inspecting objects, at runtime, and creating
-			User Interface (UI) widgets.
+			the technique of inspecting objects and creating User Interface (UI) widgets.
 		</para>
 
 		<para>

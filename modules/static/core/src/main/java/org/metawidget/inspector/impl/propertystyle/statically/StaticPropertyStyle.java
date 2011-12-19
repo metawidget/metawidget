@@ -21,6 +21,14 @@ import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
 /**
+ * PropertyStyle for statically-declared properties.
+ * <p>
+ * StaticPropertyStyle sits at the same conceptual level as, say, JavaBeanPropertyStyle or
+ * GroovyPropertyStyle. It allows Metawidget Inspectors to be repurposed to inspect static classes,
+ * as opposed to objects. This allows the <em>same</em> Inspector to be used in either runtime or
+ * static scenarios. For example JpaInspector can be used to inspect JPA annotations on classes for
+ * either UIMetawidget or StaticUIMetawidget.
+ *
  * @author Richard Kennard
  */
 
