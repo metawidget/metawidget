@@ -136,7 +136,11 @@ public class HtmlWidgetBuilder
 				return new HtmlSelectBooleanCheckbox();
 			}
 
-			// TODO: char?
+			if ( char.class.equals( clazz ) ) {
+				HtmlInputText inputText = new HtmlInputText();
+				inputText.putAttribute( MAX_LENGTH, "1" );
+				return inputText;
+			}
 
 			// Primitives
 

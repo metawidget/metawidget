@@ -62,8 +62,6 @@ public class GridBagLayoutConfig {
 
 	public GridBagLayoutConfig setNumberOfColumns( int numberOfColumns ) {
 
-		// TODO: support 0 columns
-		
 		if ( numberOfColumns < 1 ) {
 			throw LayoutException.newException( "numberOfColumns must be >= 1" );
 		}

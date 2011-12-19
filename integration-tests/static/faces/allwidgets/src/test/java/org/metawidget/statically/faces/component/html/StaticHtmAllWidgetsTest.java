@@ -147,7 +147,7 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsCharPrimitive\" value=\"Char Primitive:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
-				"\t\t<h:inputText id=\"allWidgetsCharPrimitive\" value=\"#{allWidgets.charPrimitive}\"/>\r\n" +
+				"\t\t<h:inputText id=\"allWidgetsCharPrimitive\" maxLength=\"1\" value=\"#{allWidgets.charPrimitive}\"/>\r\n" +
 				"\t\t<h:message for=\"allWidgetsCharPrimitive\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +

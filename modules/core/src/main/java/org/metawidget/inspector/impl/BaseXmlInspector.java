@@ -335,18 +335,13 @@ public abstract class BaseXmlInspector
 			document.appendChild( root );
 			root.appendChild( entity );
 
-			if ( parentAttributes != null ) {
+			// Add parent attributes (if any)
 
-				// Add any parent attributes (including type)
+			XmlUtils.setMapAsAttributes( entity, parentAttributes );
 
-				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+			// Use the declared type so as to align with other Inspectors
 
-			} else {
-
-				// Use the declared type so as to align with other Inspectors
-
-				entity.setAttribute( TYPE, valueAndDeclaredType.getDeclaredType() );
-			}
+			entity.setAttribute( TYPE, valueAndDeclaredType.getDeclaredType() );
 
 			// Return the root
 
@@ -412,9 +407,17 @@ public abstract class BaseXmlInspector
 		// Do nothing by default
 	}
 
-	protected void inspectTraits( Element entity, Element toAddTo ) {
+	/**
+	 * Inspect the <code>toInspect</code> for properties and actions.
+	 * <p>
+	 * This method can be overridden by clients wishing to modify the inspection process. Most
+	 * clients will find it easier to override one of the sub-methods, such as
+	 * <code>inspectTrait</code> or <code>inspectProperty</code>.
+	 */
 
-		if ( entity == null ) {
+	protected void inspectTraits( Element toInspect, Element toAddTo ) {
+
+		if ( toInspect == null ) {
 			return;
 		}
 
@@ -425,15 +428,15 @@ public abstract class BaseXmlInspector
 		String extendsAttribute = getExtendsAttribute();
 
 		if ( extendsAttribute != null ) {
-			if ( entity.hasAttribute( extendsAttribute ) ) {
-				inspectTraits( (Element) traverse( null, entity.getAttribute( extendsAttribute ), false ).getValue(), toAddTo );
+			if ( toInspect.hasAttribute( extendsAttribute ) ) {
+				inspectTraits( (Element) traverse( null, toInspect.getAttribute( extendsAttribute ), false ).getValue(), toAddTo );
 			}
 		}
 
 		// Next, for each child...
 
 		Element element = document.createElementNS( NAMESPACE, ENTITY );
-		Element trait = XmlUtils.getFirstChildElement( entity );
+		Element trait = XmlUtils.getFirstChildElement( toInspect );
 
 		while ( trait != null ) {
 
@@ -534,8 +537,6 @@ public abstract class BaseXmlInspector
 	 *         If the declared type within the ValueAndDeclaredType is null, inspection will be
 	 *         aborted
 	 */
-
-	// TODO: in Mihai's example, turning on restrictAgainstObject does not return the type from metawidget-metadata.xml
 
 	protected ValueAndDeclaredType traverse( Object toTraverse, String type, boolean onlyToParent, String... names ) {
 

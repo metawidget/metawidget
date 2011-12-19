@@ -2464,6 +2464,52 @@ metawidget.setToInspect( animal )</programlisting>
 				
 			</section>
 			
+			<section id="section-introduction-part3-static">
+				<title>Static Metawidget Example</title>
+	
+				<para>
+					Although Metawidget is focussed on runtime UI generation, its static mode (see <xref linkend="section-metawidgets-static"/>) can
+					sometimes be more appropriate. The <ulink url="http://jboss.org/forge">JBoss Forge</ulink> project provides a thorough, real
+					world demonstration of static Metawidgets in action. JBoss Forge uses Metawidget internally for its UI scaffolding generation.
+				</para>
+
+				<figure id="section-introduction-part3-static-screenshot">
+					<title>Static Metawidget is used internally by JBoss Forge</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/static.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					To try using static Metawidgets inside JBoss Forge:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							<ulink url="http://jboss.org/forge">Download</ulink> Forge
+						</para>			
+					</listitem>
+					<listitem>
+						<para>
+							<ulink url="https://docs.jboss.org/author/display/FORGE/Installation">Install</ulink> it
+						</para>			
+					</listitem>
+					<listitem>
+						<para>
+							Run it
+						</para>			
+					</listitem>
+					<listitem>
+						<para>
+							Execute the following command:
+						</para>
+						<programlisting language="shell">$ run-url https://raw.github.com/forge/core/master/showcase/posale.fsh</programlisting>
+					</listitem>
+				</itemizedlist>
+				
+			</section>
+
 		</section>
 
 	</chapter>

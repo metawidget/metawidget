@@ -1230,5 +1230,66 @@ mPerson.setFirstname( (String) metawidget.getValue( "firstname" ) );</programlis
 			
 		</section>
 
+		<section id="section-metawidgets-static">
+			<title>Static Metawidgets</title>
+
+			<para>
+				Whilst Metawidget is primarily focussed on the runtime generation of UIs, there are some scenarios where static UI generation
+				is more appropriate.
+			</para>
+			
+			<para>
+				Static generation has a different set of advantages and disadvantages to runtime generation. For example it cannot be as
+				dynamic in responding to the state of the system, such as changing the UI based on the security of the logged-in user. It
+				also tends to insert a lot of lines of code into your project. On the other hand, static generation does not
+				introduce additional runtime dependencies. It also has an easier learning curve when tweaking the generated UI. 
+			</para>
+			
+			<para>
+				Nothing about the Metawidget pipeline (see <xref linkend="chapter-architecture"/>) is explictly static or runtime-based. Therefore
+				the static Metawidgets all use the same approach of pluggable <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
+				and so on, to configure your UI. The static Metawidgets even reuse the <emphasis>exact same</emphasis> <classname>Inspector</classname>s
+				and <classname>InspectionResultProcessor</classname>s. For example <classname>JpaInspector</classname> can be used to inspect JPA annotations
+				on classes for either runtime or static scenarios.
+			</para>
+			
+			<section id="section-metawidgets-static-propertystyle">
+				<title>StaticPropertyStyle</title>
+				
+				<para>
+					<classname>StaticPropertyStyle</classname> sits at the same conceptual level as, say, <classname>JavaBeanPropertyStyle</classname> or
+					<classname>GroovyPropertyStyle</classname>. It allows Metawidget <classname>Inspector</classname>s to be repurposed to inspect
+					static classes, as opposed to objects.
+				</para>
+			</section>
+			
+			<section id="section-metawidgets-static-metawidget">
+				<title>StaticMetawidget</title>
+
+				<para>
+					<classname>StaticMetawidget</classname> is the base class for all static UI generation.
+				</para>
+				
+				<para>
+					An important requirement for static code generation is the Metawidget should not rely on the
+					technology being generated being available. For example, a static JSF Metawidget should not rely
+					on <code>FacesContext.getCurrentInstance</code>. Architectually, this makes all static
+					Metawidgets more similar to each other than to their corresponding runtime version. For example,
+					the static JSF Metawidget is more similar to the static Spring Metawidget than it is to the
+					runtime JSF Metawidget. Therefore, it makes sense to have a <classname>StaticMetawidget</classname> base class.				
+				</para>
+				
+				<para>
+					The base class concerns itself with manipulating instances of <classname>StaticWidget</classname>s. These represent
+					fragments of static output (text, basically) that the Metawidget assembles. Subclasses of <classname>StaticWidget</classname>
+					provide more domain-specific APIs. For example <classname>StaticXmlWidget</classname> handles XML fragments, including
+					opening and closing tags and tracking namespaces. Equally <classname>StaticJavaWidget</classname> handles fragments of
+					Java code, including opening and closing braces and tracking imports.
+				</para>
+				
+			</section>
+			
+		</section>
+
 	</chapter>
 	
