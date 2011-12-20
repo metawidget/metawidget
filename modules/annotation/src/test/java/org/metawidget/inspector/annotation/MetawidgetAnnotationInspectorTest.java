@@ -73,7 +73,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Example Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Address.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -108,7 +108,7 @@ public class MetawidgetAnnotationInspectorTest
 		String xml = mInspector.inspect( new Foo(), Foo.class.getName() );
 		Document document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 
@@ -157,7 +157,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -209,7 +209,7 @@ public class MetawidgetAnnotationInspectorTest
 		String xml = mInspector.inspect( new Foo(), Foo.class.getName(), "string1" );
 		Document document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "string1", entity.getAttribute( NAME ) );
@@ -227,7 +227,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "foo", entity.getAttribute( NAME ) );
@@ -311,7 +311,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( SubFoo.class.getName(), entity.getAttribute( TYPE ) );
 
@@ -327,7 +327,7 @@ public class MetawidgetAnnotationInspectorTest
 		String xml = mInspector.inspect( null, AlphabeticalMethods.class.getName() );
 		Document document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( AlphabeticalMethods.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( 3, entity.getChildNodes().getLength() );

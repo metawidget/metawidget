@@ -205,7 +205,7 @@ public abstract class StaticMetawidget
 		mPipeline.setWidgetProcessors( (WidgetProcessor[]) widgetProcessors );
 	}
 
-	public <T extends WidgetProcessor<?, ?>> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
 
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}

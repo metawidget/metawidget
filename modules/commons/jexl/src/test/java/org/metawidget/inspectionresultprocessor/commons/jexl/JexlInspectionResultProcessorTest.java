@@ -54,7 +54,7 @@ public class JexlInspectionResultProcessorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest$Foo", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -90,7 +90,7 @@ public class JexlInspectionResultProcessorTest
 
 		result = inspectionResultProcessor.processInspectionResult( xml, null, null, Foo.class.getName() );
 		document = XmlUtils.documentFromString( result );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
 		assertTrue( !property.hasAttribute( "value-is-el" ) );

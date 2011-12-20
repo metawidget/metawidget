@@ -46,12 +46,12 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
 import org.metawidget.faces.component.widgetprocessor.StandardBindingProcessor;
 import org.metawidget.util.ArrayUtils;
@@ -579,25 +579,25 @@ public class HtmlWidgetBuilder
 
 		UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 		columnText.setId( viewRoot.createUniqueId() );
-		ValueBinding originalValueBinding = metawidget.getValueBinding( "value" );
-		metawidget.setValueBinding( "value", application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) ));
+
+		HtmlMetawidget dummyMetawidget = new HtmlMetawidget();
+		dummyMetawidget.setValueBinding( "value", application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) ));
 
 		// ...process them...
 
 		WidgetProcessor<UIComponent, UIMetawidget> bindingProcessor = metawidget.getWidgetProcessor( StandardBindingProcessor.class );
 
 		if ( bindingProcessor != null ) {
-			bindingProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
+			bindingProcessor.processWidget( columnText, elementName, columnAttributes, dummyMetawidget );
 		}
 
 		@SuppressWarnings( "unchecked" )
 		WidgetProcessor<UIComponent, UIMetawidget> converterProcessor = (WidgetProcessor<UIComponent, UIMetawidget>) metawidget.getWidgetProcessor( ConverterProcessor.class );
 
 		if ( converterProcessor != null ) {
-			converterProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
+			converterProcessor.processWidget( columnText, elementName, columnAttributes, dummyMetawidget );
 		}
 
-		metawidget.setValueBinding( "value", originalValueBinding );
 		column.getChildren().add( columnText );
 
 		// ...with a localized header

@@ -250,13 +250,29 @@ public final class StringUtils {
 
 	public static String substringBefore( String text, String before ) {
 
-		int iIndexOf = text.indexOf( before );
+		int indexOf = text.indexOf( before );
 
-		if ( iIndexOf == -1 ) {
+		if ( indexOf == -1 ) {
 			return text;
 		}
 
-		return text.substring( 0, iIndexOf );
+		return text.substring( 0, indexOf );
+	}
+
+	/**
+	 * Returns the portion of the overall string that comes after the first occurance of the given
+	 * string. If the given string is not found in the overall string, returns the entire string.
+	 */
+
+	public static String substringAfter( String text, String after ) {
+
+		int indexOf = text.indexOf( after );
+
+		if ( indexOf == -1 ) {
+			return text;
+		}
+
+		return text.substring( indexOf + after.length() );
 	}
 
 	/**
@@ -266,13 +282,13 @@ public final class StringUtils {
 
 	public static String substringAfterLast( String text, char after ) {
 
-		int iIndexOf = text.lastIndexOf( after );
+		int indexOf = text.lastIndexOf( after );
 
-		if ( iIndexOf == -1 ) {
+		if ( indexOf == -1 ) {
 			return text;
 		}
 
-		return text.substring( iIndexOf + 1 );
+		return text.substring( indexOf + 1 );
 	}
 
 	/**
@@ -282,13 +298,13 @@ public final class StringUtils {
 
 	public static String substringAfterLast( String text, String after ) {
 
-		int iIndexOf = text.lastIndexOf( after );
+		int indexOf = text.lastIndexOf( after );
 
-		if ( iIndexOf == -1 ) {
+		if ( indexOf == -1 ) {
 			return text;
 		}
 
-		return text.substring( iIndexOf + after.length() );
+		return text.substring( indexOf + after.length() );
 	}
 
 	/**

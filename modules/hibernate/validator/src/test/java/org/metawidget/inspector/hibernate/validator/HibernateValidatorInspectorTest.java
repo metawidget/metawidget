@@ -50,7 +50,7 @@ public class HibernateValidatorInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );

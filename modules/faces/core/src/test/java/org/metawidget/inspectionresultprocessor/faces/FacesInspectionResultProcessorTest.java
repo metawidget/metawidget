@@ -72,7 +72,7 @@ public class FacesInspectionResultProcessorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "Foo", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );

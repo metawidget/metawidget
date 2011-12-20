@@ -48,7 +48,7 @@ public class StrutsInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "testForm1", entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );

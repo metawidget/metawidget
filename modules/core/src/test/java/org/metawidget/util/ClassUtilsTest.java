@@ -16,7 +16,9 @@
 
 package org.metawidget.util;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -117,11 +119,55 @@ public class ClassUtilsTest
 		assertEquals( Object.class, ClassUtils.getOriginalDeclaringClass( method ) );
 	}
 
+	public void testAlienClassLoader()
+		throws Exception {
+
+		ClassLoader alienClassLoader = new AlienClassLoader();
+		alienClassLoader.loadClass( "org.metawidget.util.AlienSet" );
+		ClassUtilsTest.unregisterAllAlienClassLoaders();
+
+		try {
+			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
+			ClassUtils.registerAlienClassLoader( alienClassLoader );
+			assertEquals( "org.metawidget.util.AlienSet", ClassUtils.niceForName( "org.metawidget.util.AlienSet" ).getName() );
+			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
+		} finally {
+			ClassUtilsTest.unregisterAllAlienClassLoaders();
+		}
+
+		assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
+	}
+
+	public static void unregisterAllAlienClassLoaders() {
+
+		synchronized ( ClassUtils.ALIEN_CLASSLOADERS ) {
+			ClassUtils.ALIEN_CLASSLOADERS.clear();
+		}
+	}
+
 	//
 	// Inner class
 	//
 
-	protected static class Foo {
+	public static class AlienClassLoader
+		extends ClassLoader {
+
+		@Override
+		public Class<?> findClass( String name )
+			throws ClassNotFoundException {
+
+			if ( !"org.metawidget.util.AlienSet".equals( name ) ) {
+				return super.findClass( name );
+			}
+
+			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+			IOUtils.streamBetween( getResourceAsStream( "org/metawidget/util/AlienSet.alienclass" ), streamOut );
+			byte[] bytes = streamOut.toByteArray();
+			return defineClass( name, bytes, 0, bytes.length );
+		}
+	}
+
+	public static class Foo {
 
 		//
 		// Private members

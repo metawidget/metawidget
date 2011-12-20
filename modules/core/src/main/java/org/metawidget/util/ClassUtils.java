@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with Classes.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -242,7 +242,7 @@ public final class ClassUtils {
 	 * reset the ThreadLocal.
 	 */
 
-	private static final Set<ClassLoader>	ALIEN_CLASSLOADERS	= CollectionUtils.newHashSet();
+	/* package private */static final Set<ClassLoader>	ALIEN_CLASSLOADERS	= CollectionUtils.newHashSet();
 
 	/**
 	 * When dealing with multiple isolated ClassLoaders, sometimes the object being inspected may
@@ -250,8 +250,6 @@ public final class ClassUtils {
 	 * <code>Class.forName</code> will always fail. To cope with this, we record 'alien'
 	 * ClassLoaders as and when we encounter them
 	 */
-
-	// TODO: unit test this
 
 	public static void registerAlienClassLoader( ClassLoader classLoader ) {
 
@@ -301,7 +299,7 @@ public final class ClassUtils {
 	 * where, say, metawidget-core and metawidget-annotations are located in the EJB/lib and the
 	 * other modules are located in the WAR/lib). If that fails, it tries ClassUtils' ClassLoader.
 	 * If that fails, it tries our alien ClassLoader.
-	 * 
+	 *
 	 * @param classLoader
 	 *            the specific ClassLoader to use to try and load this class. In general clients
 	 *            should use the other form of this method, which will default to trying the current
