@@ -183,7 +183,7 @@ public abstract class UIMetawidget
 
 		mPipeline = newPipeline();
 
-		// Config
+		// Default config
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
@@ -201,73 +201,7 @@ public abstract class UIMetawidget
 		super.setRendererType( "table" );
 		mExplicitRendererType = false;
 
-		// PreRenderViewEvent support
-		//
-		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826
-		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
-		// for the duration
-
-		if ( USE_PRERENDER_VIEW_EVENT == null ) {
-
-			// Use context.class. Using context.application.class returns 'JBoss Application Server
-			// Weld Integration EE Webtier services' under JBoss AS 6
-
-			Package contextPackage = context.getClass().getPackage();
-			String contextImplementationTitle = contextPackage.getImplementationTitle();
-			String contextImplementationVersion = contextPackage.getImplementationVersion();
-
-			if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
-
-				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
-
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
-
-				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
-
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
-				}
-
-				// Forcibly disabled
-
-				USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
-
-			} else if ( FacesUtils.isJsf2() ) {
-
-				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) ) {
-
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
-
-				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) ) {
-
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
-				}
-
-				if ( context.getViewRoot() == null ) {
-
-					// No ViewRoot? Maybe PARTIAL_STATE_SAVING disabled under MyFaces?
-
-					USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
-
-				} else {
-
-					// Supported
-
-					USE_PRERENDER_VIEW_EVENT = Boolean.TRUE;
-				}
-
-			} else {
-
-				// JSF 1.x
-
-				USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
-			}
-		}
-
-		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
-			mBuildWidgetsSupport = new PreRenderViewEventSupport( this );
-		} else {
-			mBuildWidgetsSupport = new EncodeBeginSupport( this );
-		}
+		registerBuildWidgetsSupport();
 	}
 
 	//
@@ -736,6 +670,87 @@ public abstract class UIMetawidget
 		return new Pipeline();
 	}
 
+	/**
+	 * Register the mechanism used to build widgets.
+	 * <p>
+	 * Subclasses wishing to use their own mechanism should override this method to instantiate
+	 * their version.
+	 */
+
+	protected void registerBuildWidgetsSupport() {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+
+		// PreRenderViewEvent support
+		//
+		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826
+		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
+		// for the duration
+
+		if ( USE_PRERENDER_VIEW_EVENT == null ) {
+
+			// Use context.class. Using context.application.class returns 'JBoss Application Server
+			// Weld Integration EE Webtier services' under JBoss AS 6
+
+			Package contextPackage = context.getClass().getPackage();
+			String contextImplementationTitle = contextPackage.getImplementationTitle();
+			String contextImplementationVersion = contextPackage.getImplementationVersion();
+
+			if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
+
+				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+
+				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
+
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+				}
+
+				// Forcibly disabled
+
+				USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
+
+			} else if ( FacesUtils.isJsf2() ) {
+
+				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) ) {
+
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+
+				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) ) {
+
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade MyFaces to a version that includes this fix: https://issues.apache.org/jira/browse/MYFACES-2935" );
+				}
+
+				if ( context.getViewRoot() == null ) {
+
+					// No ViewRoot? Maybe PARTIAL_STATE_SAVING disabled under MyFaces?
+
+					USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
+
+				} else {
+
+					// Supported
+
+					USE_PRERENDER_VIEW_EVENT = Boolean.TRUE;
+				}
+
+			} else {
+
+				// JSF 1.x
+
+				USE_PRERENDER_VIEW_EVENT = Boolean.FALSE;
+			}
+		}
+
+		if ( Boolean.TRUE.equals( USE_PRERENDER_VIEW_EVENT ) ) {
+			mBuildWidgetsSupport = new PreRenderViewEventSupport( this );
+		} else {
+			mBuildWidgetsSupport = new EncodeBeginSupport( this );
+		}
+	}
+
 	protected void buildWidgets()
 		throws Exception {
 
@@ -1141,7 +1156,7 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		if ( contextImplementationVersion.contains( "2.1.10" ) || contextImplementationVersion.contains( "2.1.11" ) || contextImplementationVersion.contains( "2.1.12" )) {
+		if ( contextImplementationVersion.contains( "2.1.10" ) || contextImplementationVersion.contains( "2.1.11" ) || contextImplementationVersion.contains( "2.1.12" ) ) {
 			return true;
 		}
 
@@ -1489,6 +1504,13 @@ public abstract class UIMetawidget
 			// (work around for https://issues.apache.org/jira/browse/MYFACES-3293)
 
 			if ( !getMetawidget().isRendered() ) {
+				return;
+			}
+
+			// Don't run if we are not actually part of the View (HtmlWidgetBuilder uses us as a
+			// dummy Metawidget)
+
+			if ( getMetawidget().getParent() == null ) {
 				return;
 			}
 
