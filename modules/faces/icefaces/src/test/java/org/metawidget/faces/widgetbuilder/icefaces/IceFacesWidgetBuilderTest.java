@@ -100,6 +100,19 @@ public class IceFacesWidgetBuilderTest
 	}
 
 	@Override
+	public void testCollectionWithConverters()
+		throws Exception {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+	}
+
+	@Override
 	public void testCollectionWithManyColumns()
 		throws Exception {
 
