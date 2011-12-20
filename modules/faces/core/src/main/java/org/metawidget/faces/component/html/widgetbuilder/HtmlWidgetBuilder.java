@@ -46,13 +46,14 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
+import org.metawidget.faces.component.widgetprocessor.StandardBindingProcessor;
+import org.metawidget.faces.component.widgetprocessor.StandardConverterProcessor;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -61,6 +62,7 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -70,7 +72,7 @@ import org.w3c.dom.NodeList;
  * <p>
  * Creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneMenu</code>, to suit the inspected fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -82,7 +84,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private static final String	DATATABLE_ROW_ACTION	= "dataTableRowAction";
+	private static final String									DATATABLE_ROW_ACTION	= "dataTableRowAction";
 
 	/**
 	 * The number of items in a multi-select lookup at which it should change from being a
@@ -90,19 +92,22 @@ public class HtmlWidgetBuilder
 	 * stops the Metawidget blowing out horizontally.
 	 */
 
-	private static final int	SHORT_LOOKUP_SIZE		= 3;
+	private static final int									SHORT_LOOKUP_SIZE		= 3;
 
 	//
 	// Private members
 	//
 
-	private final String		mDataTableStyleClass;
+	private final String										mDataTableStyleClass;
 
-	private final String[]		mDataTableColumnClasses;
+	private final String[]										mDataTableColumnClasses;
 
-	private final String[]		mDataTableRowClasses;
+	private final String[]										mDataTableRowClasses;
 
-	private final int			mMaximumColumnsInDataTable;
+	private final int											mMaximumColumnsInDataTable;
+
+	@SuppressWarnings( "unchecked" )
+	private List<WidgetProcessor<UIComponent, UIMetawidget>>	mColumnProcessors		= CollectionUtils.newArrayList( new StandardBindingProcessor(), new StandardConverterProcessor() );
 
 	//
 	// Constructor
@@ -128,7 +133,7 @@ public class HtmlWidgetBuilder
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 * 
+	 *
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
@@ -428,8 +433,6 @@ public class HtmlWidgetBuilder
 		if ( inspectedType == null ) {
 			// ...resort to a single column table...
 
-			// TODO: https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4717262
-
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
 			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
@@ -560,7 +563,7 @@ public class HtmlWidgetBuilder
 	 * <p>
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
-	 * 
+	 *
 	 * @param tableAttributes
 	 *            the metadata attributes used to render the parent table. May be useful for
 	 *            determining the overall type of the row
@@ -580,12 +583,10 @@ public class HtmlWidgetBuilder
 		UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 		columnText.setId( viewRoot.createUniqueId() );
 
-		String valueBindingString = dataTable.getVar();
-		if ( !ENTITY.equals( elementName ) ) {
-			valueBindingString += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
+		for( WidgetProcessor<UIComponent, UIMetawidget> columnProcessor : mColumnProcessors ) {
+			columnProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
 		}
-		ValueBinding binding = application.createValueBinding( FacesUtils.wrapExpression( valueBindingString ) );
-		columnText.setValueBinding( "value", binding );
+
 		column.getChildren().add( columnText );
 
 		// ...with a localized header

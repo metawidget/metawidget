@@ -486,9 +486,20 @@ public class FacesMetawidgetTests {
 				}
 
 				@Override
-				public Converter createConverter( String s ) {
+				public Converter createConverter( final String converterId ) {
 
-					throw new UnsupportedOperationException();
+					return new Converter() {
+
+						public Object getAsObject( FacesContext context, UIComponent component, String value ) {
+
+							return value;
+						}
+
+						public String getAsString( FacesContext context, UIComponent component, Object value ) {
+
+							return value + " (from converter " + converterId + ")";
+						}
+					};
 				}
 
 				@Override

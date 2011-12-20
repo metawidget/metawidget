@@ -26,8 +26,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.FacesException;
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
+import javax.faces.component.UIOutput;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
@@ -51,6 +53,10 @@ import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
 import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.annotation.UiAttribute;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
@@ -336,6 +342,35 @@ public class HtmlWidgetBuilderTest
 		furtherAssert( htmlInputTextarea );
 	}
 
+	@SuppressWarnings( "deprecation" )
+	public void testCollectionWithConverters()
+		throws Exception {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setValueBinding( "value", FacesContext.getCurrentInstance().getApplication().createValueBinding( "#{foo.list}" ) );
+		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector() ) ) );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, ConverterFoo.class.getName() );
+		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+
+		UIColumn column = (UIColumn) data.getChildren().get( 0 );
+		assertEquals( "Bar", ( (UIOutput) column.getHeader() ).getValue() );
+		UIOutput outputText = (UIOutput) column.getChildren().get( 0 );
+		assertEquals( "#{foo.list.bar}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( " (from converter barConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
+
+		column = (UIColumn) data.getChildren().get( 1 );
+		assertEquals( "Baz", ( (UIOutput) column.getHeader() ).getValue() );
+		outputText = (UIOutput) column.getChildren().get( 0 );
+		assertEquals( "#{foo.list.baz}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( " (from converter bazConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
+
+		assertEquals( 2, data.getChildCount() );
+	}
+
 	public void testCollectionWithManyColumns()
 		throws Exception {
 
@@ -429,6 +464,15 @@ public class HtmlWidgetBuilderTest
 		public String	baz;
 
 		public String	abc;
+	}
+
+	public static class ConverterFoo {
+
+		@UiAttribute( name = FACES_CONVERTER_ID, value = "barConverter" )
+		public String	bar;
+
+		@UiAttribute( name = FACES_CONVERTER_ID, value = "bazConverter" )
+		public String	baz;
 	}
 
 	static class LargeFoo {
