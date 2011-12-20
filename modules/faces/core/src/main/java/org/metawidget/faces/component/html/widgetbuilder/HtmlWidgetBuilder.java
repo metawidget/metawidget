@@ -54,7 +54,6 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
 import org.metawidget.faces.component.widgetprocessor.StandardBindingProcessor;
-import org.metawidget.faces.component.widgetprocessor.StandardConverterProcessor;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -106,9 +105,6 @@ public class HtmlWidgetBuilder
 	private final String[]										mDataTableRowClasses;
 
 	private final int											mMaximumColumnsInDataTable;
-
-	@SuppressWarnings( "unchecked" )
-	private List<WidgetProcessor<UIComponent, UIMetawidget>>	mColumnProcessors		= CollectionUtils.newArrayList( new StandardBindingProcessor(), new StandardConverterProcessor() );
 
 	//
 	// Constructor
@@ -586,8 +582,19 @@ public class HtmlWidgetBuilder
 		ValueBinding originalValueBinding = metawidget.getValueBinding( "value" );
 		metawidget.setValueBinding( "value", application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) ));
 
-		for( WidgetProcessor<UIComponent, UIMetawidget> columnProcessor : mColumnProcessors ) {
-			columnProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
+		// ...process them...
+
+		WidgetProcessor<UIComponent, UIMetawidget> bindingProcessor = metawidget.getWidgetProcessor( StandardBindingProcessor.class );
+
+		if ( bindingProcessor != null ) {
+			bindingProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
+		}
+
+		@SuppressWarnings( "unchecked" )
+		WidgetProcessor<UIComponent, UIMetawidget> converterProcessor = (WidgetProcessor<UIComponent, UIMetawidget>) metawidget.getWidgetProcessor( ConverterProcessor.class );
+
+		if ( converterProcessor != null ) {
+			converterProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
 		}
 
 		metawidget.setValueBinding( "value", originalValueBinding );
@@ -717,5 +724,19 @@ public class HtmlWidgetBuilder
 		}
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
+
+		// Optional attributes
+
+		String itemLabelBinding = attributes.get( FACES_LOOKUP_ITEM_LABEL );
+
+		if ( itemLabelBinding != null ) {
+			selectItems.setValueBinding( "itemLabel", application.createValueBinding( itemLabelBinding ) );
+		}
+
+		String itemValueBinding = attributes.get( FACES_LOOKUP_ITEM_VALUE );
+
+		if ( itemValueBinding != null ) {
+			selectItems.setValueBinding( "itemValue", application.createValueBinding( itemValueBinding ) );
+		}
 	}
 }

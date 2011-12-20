@@ -53,7 +53,7 @@ public class FacesInspector
 
 		super( config );
 	}
-	
+
 	//
 	// Protected methods
 	//
@@ -70,6 +70,8 @@ public class FacesInspector
 
 		if ( facesLookup != null ) {
 			putExpression( attributes, FACES_LOOKUP, facesLookup.value() );
+			putExpression( attributes, FACES_LOOKUP_ITEM_VALUE, facesLookup.itemValue() );
+			putExpression( attributes, FACES_LOOKUP_ITEM_LABEL, facesLookup.itemLabel() );
 		}
 
 		UiFacesSuggest facesSuggest = property.getAnnotation( UiFacesSuggest.class );

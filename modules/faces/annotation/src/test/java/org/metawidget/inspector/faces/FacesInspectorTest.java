@@ -70,12 +70,14 @@ public class FacesInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "#{foo.bar}", property.getAttribute( FACES_LOOKUP ) );
+		assertEquals( "#{foo.bar.value}", property.getAttribute( FACES_LOOKUP_ITEM_VALUE ) );
+		assertEquals( "#{foo.bar.label}", property.getAttribute( FACES_LOOKUP_ITEM_LABEL ) );
 		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST ) );
 		assertEquals( "foo.component", property.getAttribute( FACES_COMPONENT ) );
 		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
 		assertEquals( "foo", property.getAttribute( FACES_AJAX_EVENT ) );
 		assertEquals( "#{bar}", property.getAttribute( FACES_AJAX_ACTION ) );
-		assertTrue( 7 == property.getAttributes().getLength() );
+		assertEquals( 9, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -145,12 +147,12 @@ public class FacesInspectorTest
 
 	public static class ParentFoo {
 
-		public Foo fooInParent = new Foo();
+		public Foo	fooInParent	= new Foo();
 	}
 
 	public static class Foo {
 
-		@UiFacesLookup( "#{foo.bar}" )
+		@UiFacesLookup( value = "#{foo.bar}", itemLabel = "#{foo.bar.label}", itemValue = "#{foo.bar.value}" )
 		@UiFacesSuggest( "#{foo.suggest}" )
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )

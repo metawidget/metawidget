@@ -36,4 +36,16 @@ public @interface UiFacesLookup {
 	 */
 
 	String value();
+
+	/**
+	 * An EL expression for the item value, of the form <code>#{...}</code>.
+	 */
+
+	String itemValue() default "";
+
+	/**
+	 * An EL expression for the item label, of the form <code>#{...}</code>.
+	 */
+
+	String itemLabel() default "";
 }
