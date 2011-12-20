@@ -347,7 +347,6 @@ public class HtmlWidgetBuilderTest
 		throws Exception {
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.setValueBinding( "value", FacesContext.getCurrentInstance().getApplication().createValueBinding( "#{foo.list}" ) );
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector() ) ) );
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
@@ -359,13 +358,13 @@ public class HtmlWidgetBuilderTest
 		UIColumn column = (UIColumn) data.getChildren().get( 0 );
 		assertEquals( "Bar", ( (UIOutput) column.getHeader() ).getValue() );
 		UIOutput outputText = (UIOutput) column.getChildren().get( 0 );
-		assertEquals( "#{foo.list.bar}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "#{" + data.getVar() + ".bar}", outputText.getValueBinding( "value" ).getExpressionString() );
 		assertEquals( " (from converter barConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
 
 		column = (UIColumn) data.getChildren().get( 1 );
 		assertEquals( "Baz", ( (UIOutput) column.getHeader() ).getValue() );
 		outputText = (UIOutput) column.getChildren().get( 0 );
-		assertEquals( "#{foo.list.baz}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "#{" + data.getVar() + ".baz}", outputText.getValueBinding( "value" ).getExpressionString() );
 		assertEquals( " (from converter bazConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
 
 		assertEquals( 2, data.getChildCount() );

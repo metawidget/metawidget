@@ -46,6 +46,7 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
+import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
@@ -582,11 +583,14 @@ public class HtmlWidgetBuilder
 
 		UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 		columnText.setId( viewRoot.createUniqueId() );
+		ValueBinding originalValueBinding = metawidget.getValueBinding( "value" );
+		metawidget.setValueBinding( "value", application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) ));
 
 		for( WidgetProcessor<UIComponent, UIMetawidget> columnProcessor : mColumnProcessors ) {
 			columnProcessor.processWidget( columnText, elementName, columnAttributes, metawidget );
 		}
 
+		metawidget.setValueBinding( "value", originalValueBinding );
 		column.getChildren().add( columnText );
 
 		// ...with a localized header
