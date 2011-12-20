@@ -233,18 +233,21 @@ public class HtmlWidgetBuilderTest
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
 		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
 		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
 		furtherAssert( htmlSelectOneMenu );
 
-		attributes.put( FACES_LOOKUP_ITEM_LABEL, "#{foo.bar.label}" );
-		attributes.put( FACES_LOOKUP_ITEM_VALUE, "#{foo.bar.value}" );
+		attributes.put( FACES_LOOKUP_VAR, "_fooBar" );
+		attributes.put( FACES_LOOKUP_ITEM_LABEL, "#{_fooBar.label}" );
+		attributes.put( FACES_LOOKUP_ITEM_VALUE, "#{_fooBar.value}" );
 		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
-		assertEquals( "#{foo.bar.label}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
-		assertEquals( "#{foo.bar.value}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ).getExpressionString() );
+		assertEquals( "_fooBar", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
+		assertEquals( "#{_fooBar.label}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
+		assertEquals( "#{_fooBar.value}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ).getExpressionString() );
 		furtherAssert( htmlSelectOneMenu );
 
 		attributes.put( REQUIRED, TRUE );
@@ -366,7 +369,7 @@ public class HtmlWidgetBuilderTest
 		xml += "</inspection-result>";
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.setInspector( new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) )) );
+		metawidget.setInspector( new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) ) );
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();

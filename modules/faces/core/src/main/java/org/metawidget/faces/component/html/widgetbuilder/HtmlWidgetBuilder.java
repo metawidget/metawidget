@@ -727,6 +727,12 @@ public class HtmlWidgetBuilder
 
 		// Optional attributes
 
+		String var = attributes.get( FACES_LOOKUP_VAR );
+
+		if ( var != null ) {
+			selectItems.getAttributes().put( "var", var );
+		}
+
 		String itemLabelBinding = attributes.get( FACES_LOOKUP_ITEM_LABEL );
 
 		if ( itemLabelBinding != null ) {

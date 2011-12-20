@@ -38,13 +38,21 @@ public @interface UiFacesLookup {
 	String value();
 
 	/**
-	 * An EL expression for the item value, of the form <code>#{...}</code>.
+	 * Name of the EL var to be referenced in <code>itemValue</code> and <code>itemLabel</code>.
+	 */
+
+	String var() default "";
+
+	/**
+	 * An EL expression for the item value, of the form <code>#{...}</code>. Typically this will
+	 * make reference to the <code>var</code> attribute, for example <code>#{_item.value}</code>.
 	 */
 
 	String itemValue() default "";
 
 	/**
-	 * An EL expression for the item label, of the form <code>#{...}</code>.
+	 * An EL expression for the item value, of the form <code>#{...}</code>. Typically this will
+	 * make reference to the <code>var</code> attribute, for example <code>#{_item.label}</code>.
 	 */
 
 	String itemLabel() default "";

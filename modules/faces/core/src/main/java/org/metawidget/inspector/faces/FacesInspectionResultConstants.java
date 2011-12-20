@@ -31,6 +31,8 @@ public final class FacesInspectionResultConstants {
 
 	public static final String	FACES_LOOKUP			= "faces-lookup";
 
+	public static final String	FACES_LOOKUP_VAR		= "faces-lookup-var";
+
 	public static final String	FACES_LOOKUP_ITEM_VALUE	= "faces-lookup-item-value";
 
 	public static final String	FACES_LOOKUP_ITEM_LABEL	= "faces-lookup-item-label";

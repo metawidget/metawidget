@@ -70,14 +70,15 @@ public class FacesInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "#{foo.bar}", property.getAttribute( FACES_LOOKUP ) );
-		assertEquals( "#{foo.bar.value}", property.getAttribute( FACES_LOOKUP_ITEM_VALUE ) );
-		assertEquals( "#{foo.bar.label}", property.getAttribute( FACES_LOOKUP_ITEM_LABEL ) );
+		assertTrue( !property.hasAttribute( FACES_LOOKUP_VAR ) );
+		assertTrue( !property.hasAttribute( FACES_LOOKUP_ITEM_VALUE ) );
+		assertTrue( !property.hasAttribute( FACES_LOOKUP_ITEM_LABEL ) );
 		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST ) );
 		assertEquals( "foo.component", property.getAttribute( FACES_COMPONENT ) );
 		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
 		assertEquals( "foo", property.getAttribute( FACES_AJAX_EVENT ) );
 		assertEquals( "#{bar}", property.getAttribute( FACES_AJAX_ACTION ) );
-		assertEquals( 9, property.getAttributes().getLength() );
+		assertEquals( 7, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -103,7 +104,15 @@ public class FacesInspectorTest
 		assertEquals( "currency", property.getAttribute( NUMBER_TYPE ) );
 		assertTrue( 11 == property.getAttributes().getLength() );
 
-		assertTrue( entity.getChildNodes().getLength() == 3 );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "complexLookup" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "#{foo.bar}", property.getAttribute( FACES_LOOKUP ) );
+		assertEquals( "_fooBar", property.getAttribute( FACES_LOOKUP_VAR ) );
+		assertEquals( "#{_fooBar.value}", property.getAttribute( FACES_LOOKUP_ITEM_VALUE ) );
+		assertEquals( "#{_fooBar.label}", property.getAttribute( FACES_LOOKUP_ITEM_LABEL ) );
+		assertEquals( 5, property.getAttributes().getLength() );
+
+		assertTrue( entity.getChildNodes().getLength() == 4 );
 	}
 
 	public void testUtils() {
@@ -152,7 +161,7 @@ public class FacesInspectorTest
 
 	public static class Foo {
 
-		@UiFacesLookup( value = "#{foo.bar}", itemLabel = "#{foo.bar.label}", itemValue = "#{foo.bar.value}" )
+		@UiFacesLookup( value = "#{foo.bar}" )
 		@UiFacesSuggest( "#{foo.suggest}" )
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )
@@ -164,6 +173,9 @@ public class FacesInspectorTest
 
 		@UiFacesNumberConverter( currencyCode = "AUD", currencySymbol = "$", groupingUsed = true, locale = "AU", maxFractionDigits = 2, minFractionDigits = 1, maxIntegerDigits = 100, minIntegerDigits = 3, pattern = "#0.00", type = "currency" )
 		public Object	object3;
+
+		@UiFacesLookup( value = "#{foo.bar}", var = "_fooBar", itemLabel = "#{_fooBar.label}", itemValue = "#{_fooBar.value}" )
+		public Object	complexLookup;
 	}
 
 	public static class DoubleConverterFoo {

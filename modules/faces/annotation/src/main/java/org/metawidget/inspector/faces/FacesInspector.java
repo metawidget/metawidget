@@ -70,6 +70,13 @@ public class FacesInspector
 
 		if ( facesLookup != null ) {
 			putExpression( attributes, FACES_LOOKUP, facesLookup.value() );
+
+			String var = facesLookup.var();
+
+			if ( !"".equals( var ) ) {
+				attributes.put( FACES_LOOKUP_VAR, var );
+			}
+
 			putExpression( attributes, FACES_LOOKUP_ITEM_VALUE, facesLookup.itemValue() );
 			putExpression( attributes, FACES_LOOKUP_ITEM_LABEL, facesLookup.itemLabel() );
 		}
