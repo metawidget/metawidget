@@ -37,12 +37,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-annotation</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>

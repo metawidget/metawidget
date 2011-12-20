@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,11 +54,9 @@ import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
 import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
-import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
-import org.metawidget.inspector.annotation.UiAttribute;
-import org.metawidget.inspector.composite.CompositeInspector;
-import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -358,13 +357,21 @@ public class HtmlWidgetBuilderTest
 	public void testCollectionWithConverters()
 		throws Exception {
 
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"ConverterFoo\">";
+		xml += "<property name=\"bar\" faces-converter-id=\"barConverter\"/>";
+		xml += "<property name=\"baz\" faces-converter-id=\"bazConverter\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector() ) ) );
+		metawidget.setInspector( new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) )) );
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
-		attributes.put( PARAMETERIZED_TYPE, ConverterFoo.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, "ConverterFoo" );
 		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 
 		UIColumn column = (UIColumn) data.getChildren().get( 0 );
@@ -475,15 +482,6 @@ public class HtmlWidgetBuilderTest
 		public String	baz;
 
 		public String	abc;
-	}
-
-	public static class ConverterFoo {
-
-		@UiAttribute( name = FACES_CONVERTER_ID, value = "barConverter" )
-		public String	bar;
-
-		@UiAttribute( name = FACES_CONVERTER_ID, value = "bazConverter" )
-		public String	baz;
 	}
 
 	static class LargeFoo {
