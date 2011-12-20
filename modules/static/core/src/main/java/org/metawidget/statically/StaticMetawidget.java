@@ -205,6 +205,11 @@ public abstract class StaticMetawidget
 		mPipeline.setWidgetProcessors( (WidgetProcessor[]) widgetProcessors );
 	}
 
+	public <T extends WidgetProcessor<?, ?>> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
+		return mPipeline.getWidgetProcessor( widgetProcessorClass );
+	}
+
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public <W extends StaticWidget, C extends W, M extends C> void setLayout( Layout<W, C, M> layout ) {
 
@@ -226,7 +231,8 @@ public abstract class StaticMetawidget
 	 * Write the Metawidget output using the given Writer.
 	 *
 	 * @param initialIndent
-	 *            the initialIndent that will be applied to every line. 0 for no initial indent. -1 for no subsequent indenting either
+	 *            the initialIndent that will be applied to every line. 0 for no initial indent. -1
+	 *            for no subsequent indenting either
 	 */
 
 	public void write( Writer writer, int initialIndent ) {
