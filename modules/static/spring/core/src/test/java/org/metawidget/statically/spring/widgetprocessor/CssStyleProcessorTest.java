@@ -1,4 +1,4 @@
-package org.metwaidget.statically.spring.widgetprocessor;
+package org.metawidget.statically.spring.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -23,7 +23,7 @@ public class CssStyleProcessorTest
     // Public methods
     //
     
-    public void testWidgetBuilder() 
+    public void testWidgetProcessor() 
         throws Exception {
         
         CssStyleProcessor processor = new CssStyleProcessor();
@@ -60,10 +60,10 @@ public class CssStyleProcessorTest
         metawidget.setValue( "#{foo}" );
         metawidget.setPath( Foo.class.getName() );
         
-        String result = "<table>\r\n" +
-                "\t<form:input path=\"bar\"/>\r\n" +
-                "\t<form:input path=\"baz\"/>\r\n" +
-                "</table>\r\n";
+        String result = "<table>" +
+                "<form:input path=\"bar\"/>" +
+                "<form:input path=\"baz\"/>" +
+                "</table>";
         
         assertEquals( result, metawidget.toString() );
     }

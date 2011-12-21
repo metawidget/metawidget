@@ -1,4 +1,4 @@
-package org.metwaidget.statically.spring.widgetbuilder.copy;
+package org.metawidget.statically.spring.widgetbuilder;
 
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
