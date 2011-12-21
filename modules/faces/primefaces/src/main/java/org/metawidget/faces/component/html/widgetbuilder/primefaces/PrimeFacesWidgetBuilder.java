@@ -40,6 +40,7 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.colorpicker.ColorPicker;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
@@ -75,6 +76,21 @@ public class PrimeFacesWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return null;
+		}
+
+		// Action
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
+		if ( ACTION.equals( elementName ) ) {
+			CommandButton button = (CommandButton) application.createComponent( CommandButton.COMPONENT_TYPE );
+			button.setValue( metawidget.getLabelString( attributes ) );
+
+			// (not sure how to handle this, so turn it off for now)
+			button.setAjax( false );
+
+			return button;
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );

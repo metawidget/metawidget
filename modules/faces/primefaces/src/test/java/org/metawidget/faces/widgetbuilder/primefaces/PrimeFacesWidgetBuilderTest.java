@@ -41,6 +41,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.colorpicker.ColorPicker;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
@@ -93,6 +94,16 @@ public class PrimeFacesWidgetBuilderTest
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		attributes.remove( HIDDEN );
+
+		// Action
+
+		attributes.put( NAME, "Press Me" );
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		CommandButton button = (CommandButton) widgetBuilder.buildWidget( ACTION, attributes, metawidget );
+		assertEquals( "Press Me", button.getValue() );
+		assertTrue( !button.isAjax() );
+		attributes.remove( ACTION );
 
 		// Faces lookup
 
@@ -104,7 +115,6 @@ public class PrimeFacesWidgetBuilderTest
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( LOOKUP, "Foo, Bar, Baz" );
-		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof SelectOneMenu );
 		attributes.remove( LOOKUP );
@@ -270,6 +280,10 @@ public class PrimeFacesWidgetBuilderTest
 
 			if ( SelectOneMenu.COMPONENT_TYPE.equals( componentName ) ) {
 				return new SelectOneMenu();
+			}
+
+			if ( CommandButton.COMPONENT_TYPE.equals( componentName ) ) {
+				return new CommandButton();
 			}
 
 			return super.createComponent( componentName );
