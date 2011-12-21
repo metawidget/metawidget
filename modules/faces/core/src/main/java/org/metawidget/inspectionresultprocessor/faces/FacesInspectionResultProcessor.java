@@ -16,8 +16,6 @@
 
 package org.metawidget.inspectionresultprocessor.faces;
 
-import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
-
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -28,6 +26,7 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -53,6 +52,8 @@ public class FacesInspectionResultProcessor
 
 	private PropertyStyle		mInjectThis;
 
+	private String[]			mIgnoreAttributes;
+
 	//
 	// Constructors
 	//
@@ -73,6 +74,7 @@ public class FacesInspectionResultProcessor
 	public FacesInspectionResultProcessor( FacesInspectionResultProcessorConfig config ) {
 
 		mInjectThis = config.getInjectThis();
+		mIgnoreAttributes = config.getIgnoreAttributes();
 	}
 
 	//
@@ -151,7 +153,7 @@ public class FacesInspectionResultProcessor
 
 			// ...except ones that are *expected* to be EL expressions...
 
-			if ( FACES_LOOKUP.equals( key ) || FACES_SUGGEST.equals( key ) || FACES_EXPRESSION.equals( key ) || FACES_AJAX_ACTION.equals( key ) ) {
+			if ( ArrayUtils.contains( mIgnoreAttributes, key )) {
 
 				if ( mInjectThis != null ) {
 					String unwrappedExpression = FacesUtils.unwrapExpression( value );

@@ -22,6 +22,7 @@
 		<module>myfaces2-facelets</module>
 		<module>icefaces</module>
 		<module>richfaces4</module>
+		<module>selectItemsLabel</module>
 		<module>primefaces</module>
 		<module>validator</module>
 	</modules>

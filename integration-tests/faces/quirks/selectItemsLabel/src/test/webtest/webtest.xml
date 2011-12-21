@@ -1,0 +1,44 @@
+<project name="quirks-validator-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<target name="all">
+		<webtest name="test-selectItemLabel">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/selectItemLabel.jsf" />
+				
+				<verifyTitle text="Quirks (Metawidget SelectItemsLabel Test)" />
+				
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Entities:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[1]/td/table/thead/tr[1]/th[1])" text="Label"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[1]/td/table/thead/tr[1]/th[2])" text="Value"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[1])" text="Label1"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[1]/td[2])" text="Value1"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[1])" text="Label2"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[2]/td[2])" text="Value2"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[3]/td[1])" text="Label3"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr/td/table/tbody/tr[3]/td[2])" text="Value3"/>
+				
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Entity Value:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[1]/@value" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[1]/@selected" text="selected"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/select/option[2])" text="Label1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[2]/@value" text="Value1"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/select/option[3])" text="Label2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[3]/@value" text="Value2"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/select/option[4])" text="Label3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[4]/@value" text="Value3"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/input/@value" text="Update"/>
+				
+				<setSelectField name="form:selectItemLabelEntityValue" value="Value2"/>
+				<clickButton label="Update"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[3]/@selected" text="selected"/>
+				<invoke url="/selectItemLabel.jsf" />
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/select/option[3]/@selected" text="selected"/>
+			</steps>
+		</webtest>
+	</target>
+</project>

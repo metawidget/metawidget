@@ -81,14 +81,14 @@ public class FacesInspectionResultProcessorTest
 
 		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "bar1", property.getAttribute( NAME ));
+		assertEquals( "bar1", property.getAttribute( NAME ) );
 		assertEquals( "result of #{baz1}", property.getAttribute( "value-is-el" ) );
 		assertEquals( "text", property.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getNextSiblingElement( property );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "bar2", property.getAttribute( NAME ));
+		assertEquals( "bar2", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
 		assertEquals( "first result of #{abc} middle result of #{def} last", property.getAttribute( "value-is-embedded-el" ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
@@ -97,7 +97,7 @@ public class FacesInspectionResultProcessorTest
 
 		Element action = XmlUtils.getNextSiblingElement( property );
 		assertEquals( ACTION, action.getNodeName() );
-		assertEquals( "bar3", action.getAttribute( NAME ));
+		assertEquals( "bar3", action.getAttribute( NAME ) );
 		assertEquals( "result of #{baz2}", action.getAttribute( "value-is-el" ) );
 		assertEquals( "text", action.getAttribute( "value-is-text" ) );
 		assertTrue( 3 == action.getAttributes().getLength() );
@@ -148,6 +148,46 @@ public class FacesInspectionResultProcessorTest
 		} );
 	}
 
+	public void testIgnoredAttributes() {
+
+		UIMetawidget metawidget = new HtmlMetawidget();
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspectionResultProcessor/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Foo\">";
+		xml += "<property name=\"bar\" not-ignored=\"#{1+1}\" faces-lookup=\"#{faces.lookup}\" faces-lookup-item-label=\"#{faces.lookup.item.label}\" faces-lookup-item-value=\"#{faces.lookup.item.value}\" faces-suggest=\"#{faces.suggest}\" faces-expression=\"#{faces.expression}\" faces-ajax-action=\"#{faces.ajax.action}\"/>";
+		xml += "</entity></inspection-result>";
+		FacesInspectionResultProcessor inspectionResultProcessor = new FacesInspectionResultProcessor( new FacesInspectionResultProcessorConfig().setInjectThis( new JavaBeanPropertyStyle() ) );
+
+		String result = inspectionResultProcessor.processInspectionResult( xml, metawidget, null, "Foo" );
+		Document document = XmlUtils.documentFromString( result );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "Foo", entity.getAttribute( TYPE ) );
+		assertFalse( entity.hasAttribute( NAME ) );
+
+		// Properties
+
+		Element property = XmlUtils.getFirstChildElement( entity );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( "result of #{1+1}", property.getAttribute( "not-ignored" ) );
+		assertEquals( "#{faces.lookup}", property.getAttribute( "faces-lookup" ) );
+		assertEquals( "#{faces.lookup.item.label}", property.getAttribute( "faces-lookup-item-label" ) );
+		assertEquals( "#{faces.lookup.item.value}", property.getAttribute( "faces-lookup-item-value" ) );
+		assertEquals( "#{faces.suggest}", property.getAttribute( "faces-suggest" ) );
+		assertEquals( "#{faces.expression}", property.getAttribute( "faces-expression" ) );
+		assertEquals( "#{faces.ajax.action}", property.getAttribute( "faces-ajax-action" ) );
+		assertEquals( 8, property.getAttributes().getLength() );
+
+		assertEquals( 1, entity.getChildNodes().getLength() );
+	}
+
 	public void testThisInjection() {
 
 		final List<String> injected = CollectionUtils.newArrayList();
@@ -165,7 +205,7 @@ public class FacesInspectionResultProcessorTest
 			@Override
 			protected void processAttributes( Map<String, String> attributes, UIMetawidget metawidget ) {
 
-				if ( attributes.containsKey( TYPE )) {
+				if ( attributes.containsKey( TYPE ) ) {
 					injected.add( "attributes: " + attributes.get( TYPE ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
 				} else {
 					injected.add( "attributes: " + attributes.get( NAME ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
@@ -203,7 +243,7 @@ public class FacesInspectionResultProcessorTest
 			@Override
 			protected void processAttributes( Map<String, String> attributes, UIMetawidget metawidget ) {
 
-				if ( attributes.containsKey( TYPE )) {
+				if ( attributes.containsKey( TYPE ) ) {
 					injected.add( "attributes: " + attributes.get( TYPE ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
 				} else {
 					injected.add( "attributes: " + attributes.get( NAME ) + ": " + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get( "_this" ) );
