@@ -87,9 +87,6 @@ public class PrimeFacesWidgetBuilder
 
 		// Faces Lookups
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
-
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
 		if ( facesLookup != null && !"".equals( facesLookup ) ) {
@@ -98,13 +95,13 @@ public class PrimeFacesWidgetBuilder
 			// UISelectMany...
 
 			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
-				component = application.createComponent( SelectManyCheckbox.COMPONENT_TYPE );
+				component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
 			}
 
 			// ...otherwise just a UISelectOne
 
 			else {
-				component = application.createComponent( SelectOneMenu.COMPONENT_TYPE );
+				component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
 			}
 
 			initFacesSelect( component, facesLookup, attributes, metawidget );
@@ -131,13 +128,13 @@ public class PrimeFacesWidgetBuilder
 				// UISelectMany...
 
 				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-					component = application.createComponent( SelectManyCheckbox.COMPONENT_TYPE );
+					component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
 				}
 
 				// ...otherwise just a UISelectOne
 
 				else {
-					component = application.createComponent( SelectOneMenu.COMPONENT_TYPE );
+					component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
 				}
 
 				initStaticSelect( component, lookup, clazz, attributes, metawidget );
