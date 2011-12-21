@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
+import org.apache.myfaces.custom.fileupload.HtmlInputFileUpload;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.metawidget.faces.FacesMetawidgetTests.MockComponent;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
@@ -75,7 +76,7 @@ public class TomahawkWidgetBuilderTest
 
 		attributes.put( TYPE, UploadedFile.class.getName() );
 		MockComponent mockComponent = (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "org.apache.myfaces.HtmlInputFileUpload", mockComponent.getFamily() );
+		assertEquals( HtmlInputFileUpload.COMPONENT_TYPE, mockComponent.getFamily() );
 	}
 
 	//

@@ -72,7 +72,7 @@ public class PanelLayoutDecorator
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlPanel panel = FacesUtils.createComponent( "org.richfaces.panel", "org.richfaces.PanelRenderer" );
+		HtmlPanel panel = FacesUtils.createComponent( HtmlPanel.COMPONENT_TYPE, "org.richfaces.PanelRenderer" );
 		panel.setId( viewRoot.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );

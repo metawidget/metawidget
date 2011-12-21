@@ -21,6 +21,7 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.awt.Color;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -28,15 +29,19 @@ import java.util.TimeZone;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.primefaces.component.calendar.Calendar;
+import org.primefaces.component.colorpicker.ColorPicker;
+import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
 
@@ -45,26 +50,30 @@ import org.primefaces.component.spinner.Spinner;
  * <p>
  * Creates native PrimeFaces UIComponents, such as <code>HtmlCalendar</code> and
  * <code>HtmlInputNumberSlider</code>, to suit the inspected fields.
+ * <p>
+ * As an implementation detail, <code>PrimeFacesWidgetBuilder</code> extends
+ * <code>HtmlWidgetBuilder</code>, which is a little unusual for a widget builder (they normally
+ * implement <code>WidgetBuilder</code> directly), but we want to reuse a lot of
+ * <code>HtmlWidgetBuilder</code>'s secondary methods. Note that whilst we extend
+ * <code>HtmlWidgetBuilder</code> we only create PrimeFaces components, not any regular JSF
+ * components.
  *
  * @author Richard Kennard
  */
 
 public class PrimeFacesWidgetBuilder
-	implements WidgetBuilder<UIComponent, UIMetawidget> {
+	extends HtmlWidgetBuilder {
 
 	//
 	// Public methods
 	//
 
+	@Override
 	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		// Not for PrimeFaces?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return null;
-		}
-
-		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) ) {
 			return null;
 		}
 
@@ -76,121 +85,177 @@ public class PrimeFacesWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		if ( clazz == null ) {
-			return null;
+		// Faces Lookups
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
+		String facesLookup = attributes.get( FACES_LOOKUP );
+
+		if ( facesLookup != null && !"".equals( facesLookup ) ) {
+			UIComponent component;
+
+			// UISelectMany...
+
+			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
+				component = application.createComponent( SelectManyCheckbox.COMPONENT_TYPE );
+			}
+
+			// ...otherwise just a UISelectOne
+
+			else {
+				component = application.createComponent( SelectOneMenu.COMPONENT_TYPE );
+			}
+
+			initFacesSelect( component, facesLookup, attributes, metawidget );
+			return component;
 		}
 
-		// Primitives
+		// clazz may be null, if type is symbolic (eg. type="Login Screen")
 
-		if ( clazz.isPrimitive() ) {
+		if ( clazz != null ) {
 
 			// Not for PrimeFaces
 
-			if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) ) {
+			if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 				return null;
 			}
 
-			// Ranged
+			// String Lookups
 
-			UIComponent ranged = createRanged( attributes );
+			String lookup = attributes.get( LOOKUP );
 
-			if ( ranged != null ) {
-				return ranged;
+			if ( lookup != null && !"".equals( lookup ) ) {
+				UIComponent component;
+
+				// UISelectMany...
+
+				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+					component = application.createComponent( SelectManyCheckbox.COMPONENT_TYPE );
+				}
+
+				// ...otherwise just a UISelectOne
+
+				else {
+					component = application.createComponent( SelectOneMenu.COMPONENT_TYPE );
+				}
+
+				initStaticSelect( component, lookup, clazz, attributes, metawidget );
+				return component;
 			}
 
-			// Not-ranged
+			// Other types
 
-			Spinner spinner = FacesUtils.createComponent( "org.primefaces.component.Spinner", "org.primefaces.component.SpinnerRenderer" );
+			if ( clazz.isPrimitive() ) {
 
-			// May be ranged in one dimension only
+				// Not for PrimeFaces
 
-			String minimumValue = attributes.get( MINIMUM_VALUE );
+				if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) ) {
+					return null;
+				}
 
-			if ( minimumValue != null && !"".equals( minimumValue ) ) {
-				spinner.setMin( Double.parseDouble( minimumValue ) );
-			} else if ( byte.class.equals( clazz ) ) {
-				spinner.setMin( Byte.MIN_VALUE );
-			} else if ( short.class.equals( clazz ) ) {
-				spinner.setMin( Short.MIN_VALUE );
-			} else if ( int.class.equals( clazz ) ) {
-				spinner.setMin( Integer.MIN_VALUE );
-			} else if ( long.class.equals( clazz ) ) {
-				spinner.setMin( Long.MIN_VALUE );
-			} else if ( float.class.equals( clazz ) ) {
-				spinner.setMin( -Float.MAX_VALUE );
-			} else if ( double.class.equals( clazz ) ) {
-				spinner.setMin( -Double.MAX_VALUE );
+				// Ranged
+
+				UIComponent ranged = createRanged( attributes );
+
+				if ( ranged != null ) {
+					return ranged;
+				}
+
+				// Not-ranged
+
+				Spinner spinner = FacesUtils.createComponent( Spinner.COMPONENT_TYPE, "org.primefaces.component.SpinnerRenderer" );
+
+				// May be ranged in one dimension only
+
+				String minimumValue = attributes.get( MINIMUM_VALUE );
+
+				if ( minimumValue != null && !"".equals( minimumValue ) ) {
+					spinner.setMin( Double.parseDouble( minimumValue ) );
+				} else if ( byte.class.equals( clazz ) ) {
+					spinner.setMin( Byte.MIN_VALUE );
+				} else if ( short.class.equals( clazz ) ) {
+					spinner.setMin( Short.MIN_VALUE );
+				} else if ( int.class.equals( clazz ) ) {
+					spinner.setMin( Integer.MIN_VALUE );
+				} else if ( long.class.equals( clazz ) ) {
+					spinner.setMin( Long.MIN_VALUE );
+				} else if ( float.class.equals( clazz ) ) {
+					spinner.setMin( -Float.MAX_VALUE );
+				} else if ( double.class.equals( clazz ) ) {
+					spinner.setMin( -Double.MAX_VALUE );
+				}
+
+				String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+				if ( maximumValue != null && !"".equals( maximumValue ) ) {
+					spinner.setMax( Double.parseDouble( maximumValue ) );
+				} else if ( byte.class.equals( clazz ) ) {
+					spinner.setMax( Byte.MAX_VALUE );
+				} else if ( short.class.equals( clazz ) ) {
+					spinner.setMax( Short.MAX_VALUE );
+				} else if ( int.class.equals( clazz ) ) {
+					spinner.setMax( Integer.MAX_VALUE );
+				} else if ( long.class.equals( clazz ) ) {
+					spinner.setMax( Long.MAX_VALUE );
+				} else if ( float.class.equals( clazz ) ) {
+					spinner.setMax( Float.MAX_VALUE );
+				} else if ( double.class.equals( clazz ) ) {
+					spinner.setMax( Double.MAX_VALUE );
+				}
+
+				if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
+					spinner.setStepFactor( 0.1 );
+				}
+
+				return spinner;
 			}
 
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
+			// Dates
 
-			if ( maximumValue != null && !"".equals( maximumValue ) ) {
-				spinner.setMax( Double.parseDouble( maximumValue ) );
-			} else if ( byte.class.equals( clazz ) ) {
-				spinner.setMax( Byte.MAX_VALUE );
-			} else if ( short.class.equals( clazz ) ) {
-				spinner.setMax( Short.MAX_VALUE );
-			} else if ( int.class.equals( clazz ) ) {
-				spinner.setMax( Integer.MAX_VALUE );
-			} else if ( long.class.equals( clazz ) ) {
-				spinner.setMax( Long.MAX_VALUE );
-			} else if ( float.class.equals( clazz ) ) {
-				spinner.setMax( Float.MAX_VALUE );
-			} else if ( double.class.equals( clazz ) ) {
-				spinner.setMax( Double.MAX_VALUE );
+			if ( Date.class.isAssignableFrom( clazz ) ) {
+				Calendar calendar = FacesUtils.createComponent( Calendar.COMPONENT_TYPE, "org.primefaces.component.CalendarRenderer" );
+
+				if ( attributes.containsKey( DATETIME_PATTERN ) ) {
+					calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
+				}
+
+				if ( attributes.containsKey( LOCALE ) ) {
+					calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
+				}
+
+				if ( attributes.containsKey( TIME_ZONE ) ) {
+					calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
+				}
+
+				return calendar;
 			}
 
-			if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
-				spinner.setStepFactor( 0.1 );
+			// Object primitives
+
+			if ( Number.class.isAssignableFrom( clazz ) ) {
+				// Ranged
+
+				UIComponent ranged = createRanged( attributes );
+
+				if ( ranged != null ) {
+					return ranged;
+				}
+
+				// Not-ranged
+				//
+				// Do not use Spinner for nullable numbers
 			}
 
-			return spinner;
-		}
+			// Colors
 
-		// Dates
+			if ( Color.class.isAssignableFrom( clazz ) ) {
+				if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+					return FacesContext.getCurrentInstance().getApplication().createComponent( HtmlOutputText.COMPONENT_TYPE );
+				}
 
-		if ( Date.class.isAssignableFrom( clazz ) ) {
-			Calendar calendar = FacesUtils.createComponent( "org.primefaces.component.Calendar", "org.primefaces.component.CalendarRenderer" );
-
-			if ( attributes.containsKey( DATETIME_PATTERN ) ) {
-				calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
+				return FacesUtils.createComponent( ColorPicker.COMPONENT_TYPE, "org.primefaces.component.ColorPickerRenderer" );
 			}
-
-			if ( attributes.containsKey( LOCALE ) ) {
-				calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
-			}
-
-			if ( attributes.containsKey( TIME_ZONE ) ) {
-				calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
-			}
-
-			return calendar;
-		}
-
-		// Object primitives
-
-		if ( Number.class.isAssignableFrom( clazz ) ) {
-			// Ranged
-
-			UIComponent ranged = createRanged( attributes );
-
-			if ( ranged != null ) {
-				return ranged;
-			}
-
-			// Not-ranged
-			//
-			// Do not use Spinner for nullable numbers
-		}
-
-		// Colors
-
-		if ( Color.class.isAssignableFrom( clazz ) ) {
-			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
-				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
-			}
-
-			return FacesUtils.createComponent( "org.primefaces.component.ColorPicker", "org.primefaces.component.ColorPickerRenderer" );
 		}
 
 		// Not for PrimeFaces
@@ -213,13 +278,13 @@ public class PrimeFacesWidgetBuilder
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
 
-			UIStub stub = (UIStub) application.createComponent( "org.metawidget.Stub" );
+			UIStub stub = (UIStub) application.createComponent( UIStub.COMPONENT_TYPE );
 
-			HtmlInputText inputText = (HtmlInputText) application.createComponent( "javax.faces.HtmlInputText" );
+			HtmlInputText inputText = (HtmlInputText) application.createComponent( HtmlInputText.COMPONENT_TYPE );
 			inputText.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 			stub.getChildren().add( inputText );
 
-			Slider slider = FacesUtils.createComponent( "org.primefaces.component.Slider", "org.primefaces.component.SliderRenderer" );
+			Slider slider = FacesUtils.createComponent( Slider.COMPONENT_TYPE, "org.primefaces.component.SliderRenderer" );
 			slider.setMinValue( Integer.parseInt( minimumValue ) );
 			slider.setMaxValue( Integer.parseInt( maximumValue ) );
 			slider.setFor( inputText.getId() );

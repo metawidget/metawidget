@@ -20,6 +20,7 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<scope>provided</scope>
+			<version>3.0.RC2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>

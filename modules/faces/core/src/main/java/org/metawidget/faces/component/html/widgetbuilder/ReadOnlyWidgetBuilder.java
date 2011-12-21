@@ -27,10 +27,12 @@ import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -63,15 +65,15 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return application.createComponent( "org.metawidget.Stub" );
+			return application.createComponent( UIStub.COMPONENT_TYPE );
 		}
 
 		// Masked (return a couple of nested Stubs, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-			UIComponent component = application.createComponent( "org.metawidget.Stub" );
+			UIComponent component = application.createComponent( UIStub.COMPONENT_TYPE );
 			List<UIComponent> listChildren = component.getChildren();
-			listChildren.add( application.createComponent( "org.metawidget.Stub" ) );
+			listChildren.add( application.createComponent( UIStub.COMPONENT_TYPE ) );
 
 			return component;
 		}
@@ -86,7 +88,7 @@ public class ReadOnlyWidgetBuilder
 				return null;
 			}
 
-			HtmlCommandButton button = (HtmlCommandButton) application.createComponent( "javax.faces.HtmlCommandButton" );
+			HtmlCommandButton button = (HtmlCommandButton) application.createComponent( HtmlCommandButton.COMPONENT_TYPE );
 			button.setDisabled( true );
 			button.setValue( metawidget.getLabelString( attributes ) );
 
@@ -101,7 +103,7 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels == null ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
 			// Special support for read-only lookups with labels
@@ -109,10 +111,10 @@ public class ReadOnlyWidgetBuilder
 			List<String> labels = CollectionUtils.fromString( lookupLabels );
 
 			if ( labels.isEmpty() ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
-			HtmlLookupOutputText lookupOutputText = (HtmlLookupOutputText) application.createComponent( "org.metawidget.HtmlLookupOutputText" );
+			HtmlLookupOutputText lookupOutputText = (HtmlLookupOutputText) application.createComponent( HtmlLookupOutputText.COMPONENT_TYPE );
 			lookupOutputText.setLabels( CollectionUtils.fromString( lookup ), labels );
 
 			return lookupOutputText;
@@ -121,7 +123,7 @@ public class ReadOnlyWidgetBuilder
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
 		if ( facesLookup != null && !"".equals( facesLookup ) ) {
-			return application.createComponent( "javax.faces.HtmlOutputText" );
+			return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -138,25 +140,25 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
 			// Collections that will be supported by HtmlWidgetBuilder
@@ -168,14 +170,14 @@ public class ReadOnlyWidgetBuilder
 			// Other Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return application.createComponent( "javax.faces.HtmlOutputText" );
+				return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return application.createComponent( "javax.faces.HtmlOutputText" );
+			return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		}
 
 		// Nested Metawidget

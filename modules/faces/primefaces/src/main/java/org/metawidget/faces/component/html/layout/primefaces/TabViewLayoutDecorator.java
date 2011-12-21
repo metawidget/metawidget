@@ -68,7 +68,7 @@ public class TabViewLayoutDecorator
 		// Whole new PanelTabSet?
 
 		if ( previousSectionWidget == null ) {
-			tabView = FacesUtils.createComponent( "org.primefaces.component.TabView", "org.primefaces.component.TabViewRenderer" );
+			tabView = FacesUtils.createComponent( TabView.COMPONENT_TYPE, "org.primefaces.component.TabViewRenderer" );
 			tabView.setId( viewRoot.createUniqueId() );
 
 			// Add to parent container
@@ -84,7 +84,7 @@ public class TabViewLayoutDecorator
 
 		// New tab
 
-		Tab tab = FacesUtils.createComponent( "org.primefaces.component.Tab", "org.primefaces.component.TabRenderer" );
+		Tab tab = FacesUtils.createComponent( Tab.COMPONENT_TYPE, "org.primefaces.component.TabRenderer" );
 		tab.setId( viewRoot.createUniqueId() );
 		tabView.getChildren().add( tab );
 

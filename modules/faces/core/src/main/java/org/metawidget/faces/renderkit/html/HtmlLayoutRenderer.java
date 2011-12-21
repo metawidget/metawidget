@@ -167,7 +167,7 @@ public abstract class HtmlLayoutRenderer
 	
 	protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
 
-		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( "javax.faces.HtmlOutputLabel" );
+		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( HtmlOutputLabel.COMPONENT_TYPE );
 		componentLabel.setFor( componentNeedingLabel.getId() );
 
 		// Avoid 'unable to find component with id' warning
@@ -261,7 +261,7 @@ public abstract class HtmlLayoutRenderer
 
 	protected UIComponent createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
 
-		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
+		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( HtmlMessage.COMPONENT_TYPE );
 		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( messageFor );
 

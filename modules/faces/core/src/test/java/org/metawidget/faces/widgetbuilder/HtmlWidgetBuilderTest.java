@@ -442,7 +442,7 @@ public class HtmlWidgetBuilderTest
 			public UIComponent createComponent( String componentName )
 				throws FacesException {
 
-				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) ) {
+				if ( HtmlLookupOutputText.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlLookupOutputText();
 				}
 

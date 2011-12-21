@@ -33,12 +33,19 @@ public class HtmlMetawidget
 	extends UIMetawidget {
 
 	//
+	// Public statics
+	//
+
+	@SuppressWarnings( "hiding" )
+	public static final String	COMPONENT_TYPE	= "org.metawidget.HtmlMetawidget";
+
+	//
 	// Private members
 	//
 
-	private String	mStyle;
+	private String				mStyle;
 
-	private String	mStyleClass;
+	private String				mStyleClass;
 
 	//
 	// Public methods

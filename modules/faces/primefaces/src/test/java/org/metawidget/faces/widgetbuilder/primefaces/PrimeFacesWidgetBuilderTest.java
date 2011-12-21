@@ -37,9 +37,11 @@ import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.primefaces.PrimeFacesWidgetBuilder;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.colorpicker.ColorPicker;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
 
@@ -86,17 +88,26 @@ public class PrimeFacesWidgetBuilderTest
 		// Active pass throughs
 
 		attributes.remove( READ_ONLY );
-		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
-		attributes.remove( LOOKUP );
-		attributes.put( FACES_LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
-		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+
+		// Faces lookup
+
+		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof SelectOneMenu );
+		attributes.remove( FACES_LOOKUP );
+
+		// Lookup
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( LOOKUP, "Foo, Bar, Baz" );
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof SelectOneMenu );
+		attributes.remove( LOOKUP );
 
 		// Sliders
 
@@ -201,7 +212,6 @@ public class PrimeFacesWidgetBuilderTest
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof ColorPicker );
 
 		attributes.put( READ_ONLY, TRUE );
-		HtmlMetawidget metawidget = new HtmlMetawidget();
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
 	}
 
@@ -242,20 +252,24 @@ public class PrimeFacesWidgetBuilderTest
 		public UIComponent createComponent( String componentName )
 			throws FacesException {
 
-			if ( "org.primefaces.component.Slider".equals( componentName ) ) {
+			if ( Slider.COMPONENT_TYPE.equals( componentName ) ) {
 				return new Slider();
 			}
 
-			if ( "org.primefaces.component.Spinner".equals( componentName ) ) {
+			if ( Spinner.COMPONENT_TYPE.equals( componentName ) ) {
 				return new Spinner();
 			}
 
-			if ( "org.primefaces.component.Calendar".equals( componentName ) ) {
+			if ( Calendar.COMPONENT_TYPE.equals( componentName ) ) {
 				return new Calendar();
 			}
 
-			if ( "org.primefaces.component.ColorPicker".equals( componentName ) ) {
+			if ( ColorPicker.COMPONENT_TYPE.equals( componentName ) ) {
 				return new ColorPicker();
+			}
+
+			if ( SelectOneMenu.COMPONENT_TYPE.equals( componentName ) ) {
+				return new SelectOneMenu();
 			}
 
 			return super.createComponent( componentName );

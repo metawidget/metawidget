@@ -47,7 +47,7 @@ public class HtmlMetawidgetTag
 	@Override
 	public String getComponentType() {
 
-		return "org.metawidget.HtmlMetawidget";
+		return HtmlMetawidget.COMPONENT_TYPE;
 	}
 
 	public void setStyle( String style ) {

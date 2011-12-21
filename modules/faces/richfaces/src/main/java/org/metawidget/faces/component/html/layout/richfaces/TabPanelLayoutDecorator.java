@@ -35,6 +35,8 @@ import org.richfaces.HeaderAlignment;
 import org.richfaces.component.SwitchType;
 import org.richfaces.component.UITab;
 import org.richfaces.component.UITabPanel;
+import org.richfaces.component.html.HtmlTab;
+import org.richfaces.component.html.HtmlTabPanel;
 
 /**
  * Layout to decorate widgets from different sections using a RichFaces TabPanel.
@@ -77,7 +79,7 @@ public class TabPanelLayoutDecorator
 		// Whole new UITabPanel?
 
 		if ( previousSectionWidget == null ) {
-			tabPanel = FacesUtils.createComponent( "org.richfaces.TabPanel", "org.richfaces.TabPanelRenderer" );
+			tabPanel = FacesUtils.createComponent( HtmlTabPanel.COMPONENT_TYPE, "org.richfaces.TabPanelRenderer" );
 			tabPanel.setId( viewRoot.createUniqueId() );
 
 			try {
@@ -111,7 +113,7 @@ public class TabPanelLayoutDecorator
 
 		// New tab
 
-		UITab tab = FacesUtils.createComponent( "org.richfaces.Tab", "org.richfaces.TabRenderer" );
+		UITab tab = FacesUtils.createComponent( HtmlTab.COMPONENT_TYPE, "org.richfaces.TabRenderer" );
 		tab.setId( viewRoot.createUniqueId() );
 		tabPanel.getChildren().add( tab );
 

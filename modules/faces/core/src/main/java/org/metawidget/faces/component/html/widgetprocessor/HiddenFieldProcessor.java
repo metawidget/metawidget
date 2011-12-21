@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
@@ -99,7 +100,7 @@ public class HiddenFieldProcessor
 			// Empty stubs become hidden fields directly
 
 			if ( component.getChildCount() == 0 ) {
-				return application.createComponent( "javax.faces.HtmlInputHidden" );
+				return application.createComponent( HtmlInputHidden.COMPONENT_TYPE );
 			}
 
 			// We cannot say whether non-empty Stubs will POST-back by themselves (unless we
@@ -110,11 +111,11 @@ public class HiddenFieldProcessor
 
 		// Other components get wrapped in a Stub
 
-		UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
+		UIComponent componentStub = application.createComponent( UIStub.COMPONENT_TYPE );
 
 		List<UIComponent> children = componentStub.getChildren();
 
-		children.add( application.createComponent( "javax.faces.HtmlInputHidden" ) );
+		children.add( application.createComponent( HtmlInputHidden.COMPONENT_TYPE ) );
 		children.add( component );
 
 		return componentStub;

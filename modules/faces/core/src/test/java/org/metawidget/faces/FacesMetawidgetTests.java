@@ -1046,71 +1046,71 @@ public class FacesMetawidgetTests {
 
 		protected UIComponent createComponent( String componentName ) {
 
-			if ( "javax.faces.HtmlOutputText".equals( componentName ) ) {
+			if ( HtmlOutputText.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlOutputText();
 			}
 
-			if ( "javax.faces.HtmlInputHidden".equals( componentName ) ) {
+			if ( HtmlInputHidden.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlInputHidden();
 			}
 
-			if ( "javax.faces.HtmlInputText".equals( componentName ) ) {
+			if ( HtmlInputText.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlInputText();
 			}
 
-			if ( "javax.faces.HtmlInputTextarea".equals( componentName ) ) {
+			if ( HtmlInputTextarea.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlInputTextarea();
 			}
 
-			if ( "javax.faces.HtmlInputSecret".equals( componentName ) ) {
+			if ( HtmlInputSecret.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlInputSecret();
 			}
 
-			if ( "javax.faces.HtmlCommandButton".equals( componentName ) ) {
+			if ( HtmlCommandButton.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlCommandButton();
 			}
 
-			if ( "javax.faces.HtmlSelectOneMenu".equals( componentName ) ) {
+			if ( HtmlSelectOneMenu.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlSelectOneMenu();
 			}
 
-			if ( "javax.faces.HtmlSelectManyCheckbox".equals( componentName ) ) {
+			if ( HtmlSelectManyCheckbox.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlSelectManyCheckbox();
 			}
 
-			if ( "javax.faces.HtmlSelectBooleanCheckbox".equals( componentName ) ) {
+			if ( HtmlSelectBooleanCheckbox.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlSelectBooleanCheckbox();
 			}
 
-			if ( "javax.faces.HtmlDataTable".equals( componentName ) ) {
+			if ( HtmlDataTable.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlDataTable();
 			}
 
-			if ( "javax.faces.HtmlCommandLink".equals( componentName ) ) {
+			if ( HtmlCommandLink.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlCommandLink();
 			}
 
-			if ( "javax.faces.Column".equals( componentName ) ) {
+			if ( HtmlColumn.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlColumn();
 			}
 
-			if ( "javax.faces.SelectItems".equals( componentName ) ) {
+			if ( UISelectItems.COMPONENT_TYPE.equals( componentName ) ) {
 				return new UISelectItems();
 			}
 
-			if ( "javax.faces.SelectItem".equals( componentName ) ) {
+			if ( UISelectItem.COMPONENT_TYPE.equals( componentName ) ) {
 				return new UISelectItem();
 			}
 
-			if ( "org.metawidget.HtmlMetawidget".equals( componentName ) ) {
+			if ( HtmlMetawidget.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlMetawidget();
 			}
 
-			if ( "org.metawidget.Stub".equals( componentName ) ) {
+			if ( UIStub.COMPONENT_TYPE.equals( componentName ) ) {
 				return new UIStub();
 			}
 
-			if ( "javax.faces.Parameter".equals( componentName ) ) {
+			if ( UIParameter.COMPONENT_TYPE.equals( componentName ) ) {
 				return new UIParameter();
 			}
 

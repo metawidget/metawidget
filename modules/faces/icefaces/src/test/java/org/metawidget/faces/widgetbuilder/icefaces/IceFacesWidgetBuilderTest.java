@@ -152,35 +152,35 @@ public class IceFacesWidgetBuilderTest
 			public UIComponent createComponent( String componentName )
 				throws FacesException {
 
-				if ( "com.icesoft.faces.SelectInputDate".equals( componentName ) ) {
+				if ( SelectInputDate.COMPONENT_TYPE.equals( componentName ) ) {
 					return new SelectInputDate();
 				}
 
-				if ( "com.icesoft.faces.HtmlInputText".equals( componentName ) ) {
+				if ( HtmlInputText.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlInputText();
 				}
 
-				if ( "com.icesoft.faces.HtmlInputTextarea".equals( componentName ) ) {
+				if ( HtmlInputTextarea.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlInputTextarea();
 				}
 
-				if ( "com.icesoft.faces.HtmlInputSecret".equals( componentName ) ) {
+				if ( HtmlInputSecret.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlInputSecret();
 				}
 
-				if ( "com.icesoft.faces.HtmlCommandButton".equals( componentName ) ) {
+				if ( HtmlCommandButton.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlCommandButton();
 				}
 
-				if ( "com.icesoft.faces.HtmlSelectOneMenu".equals( componentName ) ) {
+				if ( HtmlSelectOneMenu.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlSelectOneMenu();
 				}
 
-				if ( "com.icesoft.faces.HtmlSelectManyCheckbox".equals( componentName ) ) {
+				if ( HtmlSelectManyCheckbox.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlSelectManyCheckbox();
 				}
 
-				if ( "com.icesoft.faces.HtmlSelectBooleanCheckbox".equals( componentName ) ) {
+				if ( HtmlSelectBooleanCheckbox.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlSelectBooleanCheckbox();
 				}
 
