@@ -9,14 +9,14 @@ import org.metawidget.statically.BaseStaticXmlWidget;
  */
 
 public class HtmlTag
-         extends BaseStaticXmlWidget
-{
-   //
-   // Constructor
-   //
+	extends BaseStaticXmlWidget {
 
-   public HtmlTag(String tagName)
-   {
-      super(null, tagName, null);
-   }
+	//
+	// Constructor
+	//
+
+	public HtmlTag( String tagName ) {
+
+		super( null, tagName, "http://www.w3.org/1999/xhtml" );
+	}
 }

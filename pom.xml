@@ -734,7 +734,7 @@
 						<assetsDirectory>${project.basedir}/assets</assetsDirectory>
 						<resourceDirectory>${project.basedir}/res</resourceDirectory>
 						<sdk>
-							<path>/android-sdk-windows</path>
+							<!-- Path set by ANDROID_HOME -->
 							<!-- Support android:resizeable='true' for large displays -->
 							<platform>4</platform>
 						</sdk>

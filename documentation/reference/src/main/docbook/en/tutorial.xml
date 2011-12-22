@@ -1701,7 +1701,7 @@ public class Person {
 					Alternatively download the Android SDK
 					from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>
 					(the examples are tested against Android 1.1).
-					Then change to the installation directory (usually <filename>android-sdk-windows</filename>) and run the emulator by
+					Then change to the installation directory (usually defined by <parameter>ANDROID_HOME</parameter>) and run the emulator by
 					opening a command prompt and typing:
 				</para>
 				
@@ -1722,10 +1722,6 @@ public class Person {
 				</para>
 				
 				<programlisting language="shell">mvn -pl org.metawidget.examples.android:addressbook-android -am integration-test</programlisting>
-
-				<para>
-					(assuming you have the Android SDK installed at <filename>/android-sdk-windows</filename>).
-				</para>
 
 				<para>				
 					Next, open a <emphasis>second</emphasis> command prompt, change to the Android installation directory and type:

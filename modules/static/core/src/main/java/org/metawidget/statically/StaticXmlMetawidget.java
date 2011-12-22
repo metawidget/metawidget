@@ -115,7 +115,7 @@ public abstract class StaticXmlMetawidget
 
 			StaticXmlWidget xmlChild = (StaticXmlWidget) child;
 
-			if ( xmlChild.getNamespaceURI() != null ) {
+			if ( xmlChild.getPrefix() != null ) {
 				namespaces.put( xmlChild.getPrefix(), xmlChild.getNamespaceURI() );
 			}
 
