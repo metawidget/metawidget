@@ -48,6 +48,8 @@
 		<widgetProcessors>
 			<array>
 				<pathProcessor xmlns="java:org.metawidget.statically.spring.widgetprocessor"/>
+				<cssStyleProcessor xmlns="java:org.metawidget.statically.spring.widgetprocessor"/>
+				<hiddenFieldProcessor xmlns="java:org.metawidget.statically.spring.widgetprocessor"/>
 			</array>
 		</widgetProcessors>
 

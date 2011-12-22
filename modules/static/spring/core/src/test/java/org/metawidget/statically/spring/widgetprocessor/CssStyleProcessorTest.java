@@ -50,8 +50,6 @@ public class CssStyleProcessorTest
         assertEquals( "<form:input style=\"foo foo2\" styleClass=\"bar bar2\"/>", springInput.toString() );
     }
     
-    // Not sure if this is the output that should be expected?
-    
     public void testSimpleType() {
         
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
@@ -60,12 +58,14 @@ public class CssStyleProcessorTest
         metawidget.setValue( "#{foo}" );
         metawidget.setPath( Foo.class.getName() );
         
+        String actual = metawidget.toString();
+        
         String result = "<table>" +
-                "<form:input path=\"bar\"/>" +
-                "<form:input path=\"baz\"/>" +
+                "<form:input path=\"bar\" style=\"stylin\" styleClass=\"styleClassin\"/>" +
+                "<form:input path=\"baz\" style=\"stylin\" styleClass=\"styleClassin\"/>" +
                 "</table>";
         
-        assertEquals( result, metawidget.toString() );
+        assertEquals( result, actual );
     }
     
     //
