@@ -34,11 +34,15 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         // Not Hidden?
         
         if( !TRUE.equals( attributes.get( ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
+            
+            if( metawidget.getChildren().contains( widget ) ) {
+                metawidget.getChildren().add( widget );
+            }
+            
             return widget;
         }
         
         String name = attributes.get( NAME );
-        metawidget.getChildren().add( widget );
         
         String value = metawidget.getValue();
         
@@ -56,9 +60,9 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         
         FormHiddenTag hiddenTag = new FormHiddenTag();
         hiddenTag.putAttribute( "path", name );
-        metawidget.getChildren().add( hiddenTag );
+        widget.getChildren().add( hiddenTag );
         
-        // If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
+        // If value is empty, output a stub/SPAN to stop HtmlTableLayout treating this field as 'just
         // a hidden field' and putting it outside the table
         
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( attributes.get( HIDDEN ) ) ) {
