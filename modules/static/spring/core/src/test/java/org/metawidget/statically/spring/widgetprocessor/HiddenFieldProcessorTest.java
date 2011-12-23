@@ -2,6 +2,7 @@ package org.metawidget.statically.spring.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.metawidget.statically.spring.StaticSpringMetawidget;
@@ -24,6 +25,7 @@ public class HiddenFieldProcessorTest
     //
     
     public void testWidgetProcessor() {
+        
         HiddenFieldProcessor processor = new HiddenFieldProcessor();
         FormInputTag springInput = new FormInputTag();
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();        
@@ -57,6 +59,35 @@ public class HiddenFieldProcessorTest
         metawidget.setValue( "test.org.metawidget.statically" );
         processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:input><form:hidden path=\"org.metawidget.statically.spring\"/></form:input>", springInput.toString() );
+    }
+    
+    public void testSimpleType() {
+        
+        StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+        metawidget.putAttribute( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+        metawidget.putAttribute( NAME, "bar");
+        metawidget.setValue( "org.foo" );
+        metawidget.setPath( Foo.class.getName() );
+        
+        String result = "<table>" +
+        "<form:input path=\"foo.bar\"/>" +
+//        "<form:hidden path=\"foo.bar\"/>" +
+        "<form:input path=\"foo.baz\"/>" +
+//        "<form:hidden path=\"foo.baz\"/>" +       
+        "</table>";
+
+        assertEquals( result, metawidget.toString() );
+    }
+    
+    //
+    // Inner class
+    //
+    
+    public static class Foo {
+        
+        public Date bar;
+        
+        public int baz;        
     }
     
 }

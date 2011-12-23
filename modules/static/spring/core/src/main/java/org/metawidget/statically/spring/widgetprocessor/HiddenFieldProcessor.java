@@ -35,10 +35,6 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         
         if( !TRUE.equals( attributes.get( ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
             
-            if( metawidget.getChildren().contains( widget ) ) {
-                metawidget.getChildren().add( widget );
-            }
-            
             return widget;
         }
         
@@ -74,13 +70,7 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
             // Or should it be an HTML <span/> tag?
 //          metawidget.getChildren().add( new HtmlTag( "span" );
         }
-
-        // Add the processed widget as a child of the StaticSpringMetawidget.
-        
-        metawidget.getChildren().add( widget );
-        
-        // What exactly should be returned, we are not so much processing the widget as we are processing the metawidget?
-        
+       
         return widget;
     }
 
