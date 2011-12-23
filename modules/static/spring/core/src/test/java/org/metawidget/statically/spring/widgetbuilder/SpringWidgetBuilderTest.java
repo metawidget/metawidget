@@ -10,7 +10,6 @@ import java.util.Set;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.spring.widgetbuilder.SpringWidgetBuilder;
 import org.metawidget.util.CollectionUtils;
-
 import junit.framework.TestCase;
 
 /**
@@ -26,8 +25,27 @@ public class SpringWidgetBuilderTest
     // Public methods
     //
     
-    public void testSpringLookup()
-        throws Exception {
+    public void testLookup() {
+        
+        SpringWidgetBuilder widgetBuilder = new SpringWidgetBuilder();
+        Map<String, String> attributes = CollectionUtils.newHashMap();
+        attributes.put( LOOKUP, "#{foo.bar}" );
+        attributes.put( LOOKUP_LABELS, "foo.bar" );
+        
+        // Without 'required'
+        
+        StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+        assertEquals( "<form:select><form:option/><form:option label=\"foo.bar\" value=\"#{foo.bar}\"/></form:select>", widget.toString() );
+        
+        // With 'required
+        
+        attributes.put( REQUIRED, TRUE );
+        
+        widget = widgetBuilder.buildWidget( PROPERTY, attributes, null);
+        assertEquals( "<form:select><form:option label=\"foo.bar\" value=\"#{foo.bar}\"/></form:select>", widget.toString() );
+    }
+    
+    public void testSpringLookup() {
         
         // Without 'required'
         
@@ -44,15 +62,15 @@ public class SpringWidgetBuilderTest
         assertEquals( "<form:select><form:options items=\"#{foo.bar}\"/></form:select>", widget.toString() );
     }
     
-    public void testCollection() 
-        throws Exception {
+    public void testCollection() {
         
-        // All Collections unsupported by SpringWidgetBuilder as of now
+        // SpringWidgetBuilder returns stubs for all collections at the moment.
         
         SpringWidgetBuilder widgetBuilder = new SpringWidgetBuilder();
         Map<String, String> attributes = CollectionUtils.newHashMap();
         attributes.put( TYPE, Set.class.getName() );
-        StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null);
+        StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
         assertEquals( "<stub/>", widget.toString() );
     }
+
 }

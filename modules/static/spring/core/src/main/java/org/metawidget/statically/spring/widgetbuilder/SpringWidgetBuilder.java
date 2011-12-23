@@ -81,7 +81,7 @@ public class SpringWidgetBuilder
         // Support mandatory Booleans (can be rendered as a checkbox, even though they have a
         // Lookup)
 		
-		if ( Boolean.class.equals( clazz ) && TRUE.equals( REQUIRED )) {
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( REQUIRED ) ) {
 		    return createHtmlCheckbox();
 		}
 		
@@ -100,12 +100,6 @@ public class SpringWidgetBuilder
 		if ( lookup != null && !"".equals( lookup ) ) {
 		    return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes);
 		}
-
-/*        // If no type, fail gracefully with a text box
-
-        if ( type == null ) {
-            return createHtmlInputText( attributes );
-        }		*/
 
 		if ( clazz != null ) {
 
