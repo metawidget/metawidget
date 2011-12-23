@@ -87,7 +87,7 @@ import org.w3c.dom.Element;
  * <p>
  * In addition, setting <code>restrictAgainstObject</code> allows the XML <code>Inspector</code> to
  * traverse child relationships and infer their types using the Object. This saves having to
- * explicitly specify those relationships in the XML.
+ * explicitly specify those types and relationships in the XML.
  * <p>
  * Second, by default you need to explicitly specify any inheritance relationships between types in
  * the XML, because the XML has no knowledge of your Java classes. This includes the names of any

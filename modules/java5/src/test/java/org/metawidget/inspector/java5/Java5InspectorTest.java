@@ -57,7 +57,7 @@ public class Java5InspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Bar.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -95,7 +95,7 @@ public class Java5InspectorTest
 		bar.foo = Foo.FOO1;
 		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( Foo.class.getName(), property.getAttribute( TYPE ) );
@@ -107,7 +107,7 @@ public class Java5InspectorTest
 
 		document = XmlUtils.documentFromString( inspector.inspect( Foo.FOO1, Foo.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "FOO1,FOO2", entity.getAttribute( LOOKUP ) );
@@ -119,7 +119,7 @@ public class Java5InspectorTest
 
 		document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName(), "foo" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "foo", entity.getAttribute( NAME ) );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
@@ -137,7 +137,7 @@ public class Java5InspectorTest
 		inspector = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new Java5Inspector() ) );
 		document = XmlUtils.documentFromString( inspector.inspect( bar, Bar.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( Foo.class.getName(), property.getAttribute( TYPE ) );
@@ -166,7 +166,7 @@ public class Java5InspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( SubBar.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );

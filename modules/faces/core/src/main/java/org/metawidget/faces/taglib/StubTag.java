@@ -25,7 +25,7 @@ import org.metawidget.iface.MetawidgetException;
 
 /**
  * JSP tag for UIStub widget.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -37,11 +37,11 @@ public class StubTag
 	// Private members
 	//
 
-	private String	mAction;
+	private String				mAction;
 
-	private String	mValue;
+	private String				mValue;
 
-	private String	mStubAttributes;
+	private String				mStubAttributes;
 
 	//
 	// Public methods
@@ -50,7 +50,7 @@ public class StubTag
 	@Override
 	public String getComponentType() {
 
-		return "org.metawidget.Stub";
+		return UIStub.COMPONENT_TYPE;
 	}
 
 	public void setAction( String action ) {

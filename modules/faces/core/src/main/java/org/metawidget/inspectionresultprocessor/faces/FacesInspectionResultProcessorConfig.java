@@ -16,6 +16,8 @@
 
 package org.metawidget.inspectionresultprocessor.faces;
 
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
+
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -34,6 +36,8 @@ public class FacesInspectionResultProcessorConfig {
 
 	private PropertyStyle	mInjectThis;
 
+	private String[]		mIgnoreAttributes	= new String[] { FACES_LOOKUP, FACES_LOOKUP_ITEM_LABEL, FACES_LOOKUP_ITEM_VALUE, FACES_SUGGEST, FACES_EXPRESSION, FACES_AJAX_ACTION };
+
 	//
 	// Public methods
 	//
@@ -44,8 +48,8 @@ public class FacesInspectionResultProcessorConfig {
 	 * <p>
 	 * JSF EL expressions rely on the JSF context being properly initialized with certain managed
 	 * bean names. This is rather brittle. Instead, injecting '_this' allows the EL to refer to the
-	 * originating object (i.e. <code>#{_this.name}</code>) regardless of how the JSF
-	 * context is configured.
+	 * originating object (i.e. <code>#{_this.name}</code>) regardless of how the JSF context is
+	 * configured.
 	 * <p>
 	 * Note: <code>injectThis</code> cannot be used within attributes such as
 	 * <code>faces-lookup</code>. Those attributes map to well-defined places within the JSF
@@ -67,6 +71,22 @@ public class FacesInspectionResultProcessorConfig {
 		return this;
 	}
 
+	/**
+	 * Sets the names of attributes to ignore. Some attributes, such as <tt>FACES_LOOKUP</tt> are
+	 * expected to be EL expressions and should not be evaluated.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public FacesInspectionResultProcessorConfig setIgnoreAttributes( String... ignoreAttributes ) {
+
+		mIgnoreAttributes = ignoreAttributes;
+
+		// Fluent interface
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -82,6 +102,10 @@ public class FacesInspectionResultProcessorConfig {
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mIgnoreAttributes, ( (FacesInspectionResultProcessorConfig) that ).mIgnoreAttributes ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -90,6 +114,7 @@ public class FacesInspectionResultProcessorConfig {
 
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInjectThis );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mIgnoreAttributes );
 
 		return hashCode;
 	}
@@ -101,5 +126,10 @@ public class FacesInspectionResultProcessorConfig {
 	protected PropertyStyle getInjectThis() {
 
 		return mInjectThis;
+	}
+
+	protected String[] getIgnoreAttributes() {
+
+		return mIgnoreAttributes;
 	}
 }

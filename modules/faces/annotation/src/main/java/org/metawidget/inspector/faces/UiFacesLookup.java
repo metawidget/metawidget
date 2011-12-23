@@ -36,4 +36,27 @@ public @interface UiFacesLookup {
 	 */
 
 	String value();
+
+	/**
+	 * Name of the EL var to be referenced in <code>itemValue</code> and <code>itemLabel</code> (JSF
+	 * 2 only).
+	 */
+
+	String var() default "";
+
+	/**
+	 * An EL expression for the item value, of the form <code>#{...}</code> (JSF 2 only). Typically
+	 * this will make reference to the <code>var</code> attribute, for example
+	 * <code>#{_item.value}</code>.
+	 */
+
+	String itemValue() default "";
+
+	/**
+	 * An EL expression for the item value, of the form <code>#{...}</code> (JSF 2 only). Typically
+	 * this will make reference to the <code>var</code> attribute, for example
+	 * <code>#{_item.label}</code>.
+	 */
+
+	String itemLabel() default "";
 }

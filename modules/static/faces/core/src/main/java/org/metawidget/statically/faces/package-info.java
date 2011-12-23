@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Static support: Java Server Faces
+ * Static support: Java Server Faces.
  *
  * @author Richard Kennard
  */

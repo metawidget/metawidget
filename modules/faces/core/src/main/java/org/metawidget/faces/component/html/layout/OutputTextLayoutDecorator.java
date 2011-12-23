@@ -72,7 +72,7 @@ public class OutputTextLayoutDecorator
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		HtmlOutputText heading = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+		HtmlOutputText heading = (HtmlOutputText) application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		heading.setId( context.getViewRoot().createUniqueId() );
 		heading.setStyle( mStyle );
 		heading.setStyleClass( mStyleClass );

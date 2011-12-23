@@ -26,8 +26,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * WidgetProcessor that calls <code>addStyleName</code> on a Widget, based on
- * the <code>getStyleName</code> of the parent Metawidget.
+ * WidgetProcessor that adds a 'name' attribute to a StaticXmlWidget.
  *
  * @author Richard Kennard
  */

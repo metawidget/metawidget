@@ -34,25 +34,30 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
+import javax.faces.component.html.HtmlColumn;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.component.html.HtmlSelectManyCheckbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
+import org.metawidget.faces.component.widgetprocessor.StandardBindingProcessor;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -61,6 +66,7 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -70,7 +76,7 @@ import org.w3c.dom.NodeList;
  * <p>
  * Creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneMenu</code>, to suit the inspected fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -128,7 +134,7 @@ public class HtmlWidgetBuilder
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 * 
+	 *
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
@@ -140,7 +146,7 @@ public class HtmlWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return application.createComponent( "org.metawidget.Stub" );
+			return application.createComponent( UIStub.COMPONENT_TYPE );
 		}
 
 		// Overridden component
@@ -156,7 +162,7 @@ public class HtmlWidgetBuilder
 
 		if ( ACTION.equals( elementName ) ) {
 			if ( component == null ) {
-				component = application.createComponent( "javax.faces.HtmlCommandButton" );
+				component = application.createComponent( HtmlCommandButton.COMPONENT_TYPE );
 			}
 
 			( (UICommand) component ).setValue( metawidget.getLabelString( attributes ) );
@@ -183,13 +189,13 @@ public class HtmlWidgetBuilder
 				// UISelectMany...
 
 				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
-					component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
+					component = application.createComponent( HtmlSelectManyCheckbox.COMPONENT_TYPE );
 				}
 
 				// ...otherwise just a UISelectOne
 
 				else {
-					component = application.createComponent( "javax.faces.HtmlSelectOneMenu" );
+					component = application.createComponent( HtmlSelectOneMenu.COMPONENT_TYPE );
 				}
 			}
 
@@ -204,7 +210,7 @@ public class HtmlWidgetBuilder
 			// Lookup)
 
 			if ( component == null && Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
+				return application.createComponent( HtmlSelectBooleanCheckbox.COMPONENT_TYPE );
 			}
 
 			// String Lookups
@@ -216,13 +222,13 @@ public class HtmlWidgetBuilder
 					// UISelectMany...
 
 					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-						component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
+						component = application.createComponent( HtmlSelectManyCheckbox.COMPONENT_TYPE );
 					}
 
 					// ...otherwise just a UISelectOne
 
 					else {
-						component = application.createComponent( "javax.faces.HtmlSelectOneMenu" );
+						component = application.createComponent( HtmlSelectOneMenu.COMPONENT_TYPE );
 					}
 				}
 
@@ -233,25 +239,25 @@ public class HtmlWidgetBuilder
 
 			if ( component == null ) {
 				if ( boolean.class.equals( clazz ) ) {
-					component = application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
+					component = application.createComponent( HtmlSelectBooleanCheckbox.COMPONENT_TYPE );
 				} else if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz ) ) {
-					component = application.createComponent( "javax.faces.HtmlInputText" );
+					component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 					( (HtmlInputText) component ).setMaxlength( 1 );
 				} else if ( clazz.isPrimitive() ) {
-					component = application.createComponent( "javax.faces.HtmlInputText" );
+					component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 				} else if ( Date.class.isAssignableFrom( clazz ) ) {
 
 					// Support Date as standard, so that StandardConverterProcessor can attach a
 					// DateTimeConverter
 
-					component = application.createComponent( "javax.faces.HtmlInputText" );
+					component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 				} else if ( Number.class.isAssignableFrom( clazz ) ) {
-					component = application.createComponent( "javax.faces.HtmlInputText" );
+					component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 				} else if ( String.class.equals( clazz ) ) {
 					if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-						component = application.createComponent( "javax.faces.HtmlInputSecret" );
+						component = application.createComponent( HtmlInputSecret.COMPONENT_TYPE );
 					} else if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-						component = application.createComponent( "javax.faces.HtmlInputTextarea" );
+						component = application.createComponent( HtmlInputTextarea.COMPONENT_TYPE );
 
 						// XHTML requires the 'cols' and 'rows' attributes be set, even though
 						// most people override them with CSS widths and heights. The default is
@@ -260,7 +266,7 @@ public class HtmlWidgetBuilder
 						( (HtmlInputTextarea) component ).setCols( 20 );
 						( (HtmlInputTextarea) component ).setRows( 2 );
 					} else {
-						component = application.createComponent( "javax.faces.HtmlInputText" );
+						component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 					}
 				}
 
@@ -273,7 +279,7 @@ public class HtmlWidgetBuilder
 				// Unsupported Collections
 
 				else if ( Collection.class.isAssignableFrom( clazz ) ) {
-					return application.createComponent( "org.metawidget.Stub" );
+					return application.createComponent( UIStub.COMPONENT_TYPE );
 				}
 			}
 
@@ -287,7 +293,7 @@ public class HtmlWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return application.createComponent( "javax.faces.HtmlInputText" );
+			return application.createComponent( HtmlInputText.COMPONENT_TYPE );
 		}
 
 		// Nested Metawidget
@@ -405,7 +411,7 @@ public class HtmlWidgetBuilder
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( "javax.faces.HtmlDataTable" );
+		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( HtmlDataTable.COMPONENT_TYPE );
 		dataTable.setVar( "_item" );
 
 		// CSS
@@ -428,8 +434,6 @@ public class HtmlWidgetBuilder
 		if ( inspectedType == null ) {
 			// ...resort to a single column table...
 
-			// TODO: https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4717262
-
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
 			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
@@ -448,7 +452,7 @@ public class HtmlWidgetBuilder
 		String rowActionParameter = metawidget.getParameter( DATATABLE_ROW_ACTION );
 
 		if ( rowActionParameter != null ) {
-			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
+			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( HtmlCommandLink.COMPONENT_TYPE );
 			rowAction.setId( viewRoot.createUniqueId() );
 
 			// (dataTableRowAction cannot be wrapped when used on the JSP page)
@@ -469,14 +473,14 @@ public class HtmlWidgetBuilder
 			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( rowActionParameter ), null );
 			rowAction.setAction( binding );
 
-			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+			UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
 			column.setId( viewRoot.createUniqueId() );
 			column.getChildren().add( rowAction );
 			dataTable.getChildren().add( column );
 
 			// Put a blank header, so that CSS styling (such as border-bottom) still applies
 
-			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 			headerText.setId( viewRoot.createUniqueId() );
 			headerText.setValue( "<div></div>" );
 			headerText.setEscape( false );
@@ -560,7 +564,7 @@ public class HtmlWidgetBuilder
 	 * <p>
 	 * Clients can override this method to modify the column contents. For example, to place a link
 	 * around the text.
-	 * 
+	 *
 	 * @param tableAttributes
 	 *            the metadata attributes used to render the parent table. May be useful for
 	 *            determining the overall type of the row
@@ -572,25 +576,37 @@ public class HtmlWidgetBuilder
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+		UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
 		column.setId( viewRoot.createUniqueId() );
 
 		// Make the column contents...
 
-		UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+		UIComponent columnText = application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		columnText.setId( viewRoot.createUniqueId() );
 
-		String valueBindingString = dataTable.getVar();
-		if ( !ENTITY.equals( elementName ) ) {
-			valueBindingString += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
+		HtmlMetawidget dummyMetawidget = new HtmlMetawidget();
+		dummyMetawidget.setValueBinding( "value", application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) ) );
+
+		// ...process them...
+
+		WidgetProcessor<UIComponent, UIMetawidget> bindingProcessor = metawidget.getWidgetProcessor( StandardBindingProcessor.class );
+
+		if ( bindingProcessor != null ) {
+			bindingProcessor.processWidget( columnText, elementName, columnAttributes, dummyMetawidget );
 		}
-		ValueBinding binding = application.createValueBinding( FacesUtils.wrapExpression( valueBindingString ) );
-		columnText.setValueBinding( "value", binding );
+
+		@SuppressWarnings( "unchecked" )
+		WidgetProcessor<UIComponent, UIMetawidget> converterProcessor = (WidgetProcessor<UIComponent, UIMetawidget>) metawidget.getWidgetProcessor( ConverterProcessor.class );
+
+		if ( converterProcessor != null ) {
+			converterProcessor.processWidget( columnText, elementName, columnAttributes, dummyMetawidget );
+		}
+
 		column.getChildren().add( columnText );
 
 		// ...with a localized header
 
-		HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+		HtmlOutputText headerText = (HtmlOutputText) application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		headerText.setId( viewRoot.createUniqueId() );
 		headerText.setValue( metawidget.getLabelString( columnAttributes ) );
 		column.setHeader( headerText );
@@ -641,7 +657,7 @@ public class HtmlWidgetBuilder
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		UISelectItem selectItem = (UISelectItem) application.createComponent( "javax.faces.SelectItem" );
+		UISelectItem selectItem = (UISelectItem) application.createComponent( UISelectItem.COMPONENT_TYPE );
 		selectItem.setId( context.getViewRoot().createUniqueId() );
 
 		// JSF 1.1 doesn't allow 'null' as the item value, but JSF 1.2 requires
@@ -703,7 +719,7 @@ public class HtmlWidgetBuilder
 			addSelectItem( component, null, null, metawidget );
 		}
 
-		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
+		UISelectItems selectItems = (UISelectItems) application.createComponent( UISelectItems.COMPONENT_TYPE );
 		selectItems.setId( viewRoot.createUniqueId() );
 		component.getChildren().add( selectItems );
 
@@ -712,5 +728,25 @@ public class HtmlWidgetBuilder
 		}
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
+
+		// Optional attributes
+
+		String var = attributes.get( FACES_LOOKUP_VAR );
+
+		if ( var != null ) {
+			selectItems.getAttributes().put( "var", var );
+		}
+
+		String itemLabelBinding = attributes.get( FACES_LOOKUP_ITEM_LABEL );
+
+		if ( itemLabelBinding != null ) {
+			selectItems.setValueBinding( "itemLabel", application.createValueBinding( itemLabelBinding ) );
+		}
+
+		String itemValueBinding = attributes.get( FACES_LOOKUP_ITEM_VALUE );
+
+		if ( itemValueBinding != null ) {
+			selectItems.setValueBinding( "itemValue", application.createValueBinding( itemValueBinding ) );
+		}
 	}
 }

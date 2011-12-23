@@ -89,6 +89,12 @@ public class UIStub
 	implements ActionSource {
 
 	//
+	// Public statics
+	//
+
+	public static final String	COMPONENT_TYPE	= "org.metawidget.Stub";
+
+	//
 	// Private members
 	//
 

@@ -49,6 +49,10 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	 * @param widgetProcessorClass
 	 *            the class, or interface or superclass, to find. Returns <code>null</code> if no
 	 *            such WidgetProcessor
+	 * @param <T>
+	 *            the type of the WidgetProcessor. Note this needn't be a subclass of
+	 *            <code>WidgetProcessor</code>. It may be some orthagonal interface (like
+	 *            <code>org.metawidget.faces.component.widgetprocessor.ConverterProcessor</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )

@@ -145,7 +145,7 @@ public final class MetawidgetTestUtils {
 							if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
 								writeMethod.invoke( object1, new Object[] { null } );
 								Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
-								Assert.assertFalse( object1.equals( object2 ) );
+								Assert.assertFalse( propertyName, object1.equals( object2 ) );
 
 								Assert.assertTrue( propertyName, null != readMethod.invoke( object2 ) );
 								writeMethod.invoke( object2, new Object[] { null } );

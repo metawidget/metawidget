@@ -31,20 +31,25 @@ import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UISuggestionBox;
+import org.richfaces.component.html.HtmlCalendar;
+import org.richfaces.component.html.HtmlColumn;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
+import org.richfaces.component.html.HtmlSuggestionBox;
 
 /**
  * WidgetBuilder for RichFaces environments.
@@ -184,7 +189,7 @@ public class RichFacesWidgetBuilder
 		// would allow external, app-level configuration of this Calendar
 
 		if ( Date.class.isAssignableFrom( clazz ) ) {
-			UICalendar calendar = FacesUtils.createComponent( "org.richfaces.Calendar", "org.richfaces.CalendarRenderer" );
+			UICalendar calendar = FacesUtils.createComponent( HtmlCalendar.COMPONENT_TYPE, "org.richfaces.CalendarRenderer" );
 
 			if ( attributes.containsKey( DATETIME_PATTERN ) ) {
 				calendar.setDatePattern( attributes.get( DATETIME_PATTERN ) );
@@ -283,7 +288,7 @@ public class RichFacesWidgetBuilder
 
 			if ( Color.class.isAssignableFrom( clazz ) ) {
 				if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
-					return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
+					return FacesContext.getCurrentInstance().getApplication().createComponent( HtmlOutputText.COMPONENT_TYPE );
 				}
 
 				return application.createComponent( "org.richfaces.ColorPicker" );
@@ -298,20 +303,20 @@ public class RichFacesWidgetBuilder
 				String facesSuggest = attributes.get( FACES_SUGGEST );
 
 				if ( facesSuggest != null ) {
-					UIComponent stubComponent = application.createComponent( "org.metawidget.Stub" );
+					UIComponent stubComponent = application.createComponent( UIStub.COMPONENT_TYPE );
 					List<UIComponent> children = stubComponent.getChildren();
 
 					UIViewRoot viewRoot = context.getViewRoot();
 
 					// Standard text box
 
-					HtmlInputText inputText = (HtmlInputText) application.createComponent( "javax.faces.HtmlInputText" );
+					HtmlInputText inputText = (HtmlInputText) application.createComponent( HtmlInputText.COMPONENT_TYPE );
 					inputText.setStyle( ( (HtmlMetawidget) metawidget ).getStyle() );
 					inputText.setStyleClass( ( (HtmlMetawidget) metawidget ).getStyleClass() );
 					children.add( inputText );
 
 					UISuggestionBox suggestionBox = (UISuggestionBox)
-							application.createComponent( "org.richfaces.SuggestionBox" );
+							application.createComponent( HtmlSuggestionBox.COMPONENT_TYPE );
 
 					// Lock the 'id's so they don't get changed. This is important for the
 					// JavaScript
@@ -357,13 +362,13 @@ public class RichFacesWidgetBuilder
 
 					// Column
 
-					UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+					UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
 					column.setId( viewRoot.createUniqueId() );
 					suggestionBox.getChildren().add( column );
 
 					// Output text box
 
-					UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+					UIComponent columnText = application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 					columnText.setId( viewRoot.createUniqueId() );
 					ValueBinding valueBinding = application.createValueBinding( "#{_internal}" );
 					columnText.setValueBinding( "value", valueBinding );

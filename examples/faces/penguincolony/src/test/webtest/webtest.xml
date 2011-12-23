@@ -26,6 +26,7 @@
 				<!-- Edit penguin #1 -->
 
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[3]/a"/>
+				<previousResponse/>
 
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/@class" text="table-label-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/label" text="Name:"/>
@@ -66,7 +67,7 @@
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/@class" text="icePnlTbOff"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a/div/table/tbody/tr/td" text="Detail"/>
 				<clickLink xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a"/>
-						
+
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/@class" text="icePnlTbOn"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/th" text=""/>
 				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/th)" text="1"/>
@@ -94,7 +95,8 @@
 				
 				<!-- Delete penguin #2 -->
 
-				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>				
+				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
+				<previousResponse/>
 				<verifyInputField name="form:penguinCurrentName" value="Tux"/>
 				<verifySelectField xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td[1]/select" value="Little penguin"/>
 				<clickButton label="Delete"/>
@@ -103,6 +105,7 @@
 				<!-- Add penguin -->
 
 				<clickButton label="Create New Penguin"/>
+				<previousResponse/>
 				<verifyInputField name="form:penguinCurrentName" value="New penguin"/>
 				<verifySelectField xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[1]/td[1]/select" value="Great penguin"/>				
 				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr)" text="2"/>
@@ -161,26 +164,12 @@
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[4]/td/input/@checked" text=""/>
 				<forceInputFieldAttribute xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[4]/td/input" attributeName="checked" attributeValue="checked"/>
 				
-				<!-- Begin hack until WebTest JavaScript support improves (http://webtest-community.canoo.com/jira/browse/WT-544) -->
-
-				<clickButton label="Back"/>
-				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
-				
-				<!-- End hack until WebTest JavaScript support improves -->
-				
 				<not>
 					<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/td[1]/textarea"/>
 				</not>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[5]/td/input/@value" text="Other"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[5]/td/input/@checked" text=""/>
-				<forceInputFieldAttribute xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[5]/td/input" attributeName="checked" attributeValue="checked"/>
-				
-				<!-- Begin hack until WebTest JavaScript support improves (http://webtest-community.canoo.com/jira/browse/WT-544) -->
-
-				<clickButton label="Back"/>
-				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
-				
-				<!-- End hack until WebTest JavaScript support improves -->
+				<clickElement xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/fieldset/table/tbody/tr[5]/td/input"/>
 				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/@class" text="table-label-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr[3]/th[1]/label" text="Describe Hobby:"/>
@@ -198,6 +187,7 @@
 				<!-- Test it all saved -->
 								
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>				
+				<previousResponse/>
 				<verifyInputField name="form:penguinCurrentName" value="Tux 2"/>
 				<verifySelectField xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[1]/td[1]/select" value="Good"/>				
 				<verifySelectField xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[2]/td[1]/select" value="Fair"/>				

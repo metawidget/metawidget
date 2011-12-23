@@ -25,6 +25,7 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import org.apache.myfaces.custom.fileupload.HtmlInputFileUpload;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.util.ClassUtils;
@@ -75,7 +76,7 @@ public class TomahawkWidgetBuilder
 		// HtmlInputFileUpload
 
 		if ( UploadedFile.class.isAssignableFrom( clazz ) ) {
-			return application.createComponent( "org.apache.myfaces.HtmlInputFileUpload" );
+			return application.createComponent( HtmlInputFileUpload.COMPONENT_TYPE );
 		}
 
 		// Not for Tomahawk

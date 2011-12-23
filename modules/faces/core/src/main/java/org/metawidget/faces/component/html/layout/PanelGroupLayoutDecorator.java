@@ -77,7 +77,7 @@ public class PanelGroupLayoutDecorator
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlPanelGroup panel = (HtmlPanelGroup) application.createComponent( "javax.faces.HtmlPanelGroup" );
+		HtmlPanelGroup panel = (HtmlPanelGroup) application.createComponent( HtmlPanelGroup.COMPONENT_TYPE );
 		panel.setId( viewRoot.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setLayout( mPanelLayout );
