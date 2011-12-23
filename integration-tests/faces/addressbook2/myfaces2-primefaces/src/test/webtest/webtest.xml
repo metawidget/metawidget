@@ -4,45 +4,51 @@
 
 	<target name="all">
 		<webtest name="test-primefaces">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
-				<option name="ThrowExceptionOnScriptError" value="false"/>
-			</config>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
+				<invoke url="/" />
+
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[3]/th)" text="Type:"/>
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[3]/td[1]/div/@id" text="form:contactSearchCurrentType"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[3]/td/div/@class, 'ui-selectonemenu')"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tfoot/tr/td/button[1]/@class, 'ui-button')"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tfoot/tr/td/button[2]/@class, 'ui-button')"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tfoot/tr/td/button[3]/@class, 'ui-button')"/>
+				
 				<invoke url="/contact.jsf?contact.load=1" />
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']/div"/>				
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a/em)" text="Contact Details"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/th)" text="Address:"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/td)" text="742 Evergreen Terrace"/>				
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li[2]/a/em)" text="Other"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/th)" text="Notes:"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a)" text="Contact Details"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/th)" text="Address:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/td/table/tbody/tr/td)" text="742 Evergreen Terrace"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li[2]/a)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div[2]/table/tbody/tr/th)" text="Notes:"/>				
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tfoot/tr/td/button[1]/@class, 'ui-button')"/>
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tfoot/tr/td/button[2]/@class, 'ui-button')"/>
 				
 				<clickButton label="Edit"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="*"/>				
-				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value="Homer"/>
 				<verifyInputField name="form:contactCurrentSurname" value="Simpson"/>
-				<verifySelectField name="form:contactCurrentGender" value="MALE"/>
 				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[4]/td/span/input/@class, 'hasDatepicker')"/>
 				<verifyInputField name="form:contactCurrentDateOfBirth_input" value="(5/11|5/12|11/05|12/05)/56" regex="true"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a/em)" text="Contact Details"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/th)" text="Address:"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
-				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/input/@type" text="text"/>				
-				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/input/@value" text="742 Evergreen Terrace"/>				
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li[2]/a/em)" text="Other"/>
-				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/th)" text="Notes:"/>				
-				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/td/textarea"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li/a)" text="Contact Details"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/th)" text="Address:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/input/@type" text="text"/>				
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/input/@value" text="742 Evergreen Terrace"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/ul/li[2]/a)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div[2]/table/tbody/tr/th)" text="Notes:"/>				
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div[2]/table/tbody/tr/td/textarea"/>
 
 				<invoke url="/contact.jsf?contact.load=5" />
 
 				<clickButton label="Edit"/>
-				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value="Charles Montgomery"/>
 				<verifyInputField name="form:contactCurrentSurname" value="Burns"/>
-				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/td/div/@class, 'ui-slider ')"/>	
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div[2]/table/tbody/tr/td/div/@class, 'ui-slider ')"/>	
 				<setInputField xpath="//*[@id='table-contactCurrentNumberOfStaff-cell']/input" value="2"/>
 				<clickButton label="Save"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a)" text="Mr Charles Montgomery Burns"/>
@@ -50,7 +56,7 @@
 				<invoke url="/contact.jsf?contact.load=5" />
 	
 				<clickButton label="Edit"/>
-				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[2]/table/tbody/tr/td/div/@class, 'ui-slider ')"/>	
+				<verifyXPath xpath="contains(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/div[2]/table/tbody/tr/td/div/@class, 'ui-slider ')"/>	
 				<verifyInputField xpath="//*[@id='table-contactCurrentNumberOfStaff-cell']/input" value="2"/>
 
 				<clickButton label="Cancel"/>
@@ -58,7 +64,6 @@
 				<!-- Test validation error with a Stub doesn't break the page -->
 				
 				<clickButton label="Add Business Contact"/>
-				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value=""/>
 				<verifyInputField name="form:contactCurrentSurname" value=""/>
 				<clickButton label="Save"/>

@@ -9,10 +9,11 @@
 			of support options:
 		</p>
 	
-		<h2 class="h2-underneath">Forums</h2>
+		<h2 class="h2-underneath">Community Forums</h2>
 		
 		<p>
-			Metawidget forums are hosted on SourceForge:
+			Metawidget forums are hosted on SourceForge. Access to the forum is free, but there is no guarantee of
+			getting help in this forum. To secure our response, you may consider enterprise support described below.
 		</p>
 
 		<table class="data-table">
@@ -38,7 +39,7 @@
 			</tbody>
 		</table>
 		
-		<h2 class="h2-underneath">Internet Relay Chat (IRC)</h2>
+		<h2 class="h2-underneath">Community Internet Relay Chat (IRC)</h2>
 		
 		<p>
 			Metawidget community members can be found in the <strong>#metawidget</strong> IRC channel on <strong>irc.freenode.net</strong>. You will
@@ -46,10 +47,10 @@
 			try <a href="http://webchat.freenode.net">http://webchat.freenode.net</a>.
 		</p> 
 
-		<h2 class="h2-underneath">Wiki Community Area</h2>
+		<h2 class="h2-underneath">Community Wiki</h2>
 		
 		<p>
-			Metawidget's Wiki Community Area is hosted on SourceForge.
+			Metawidget's Community Wiki is hosted on SourceForge.
 		</p>
 	
 		<p>
@@ -57,6 +58,48 @@
 		</p>
 		
 		<h2 class="h2-underneath">Commercial Support &amp; Training</h2>
+		
+		<p>
+			We provide an hour based Enterprise Support Service. After subscribing to a term, your account will be granted a number
+			of hours that we can spend on assistance. Our enterprise services include:
+		</p>
+		
+		<ul>
+			<li>Fast response times</li>
+			<li>Unlimited number of cases</li>
+			<li>High priority to your issues and requests</li>
+		</ul>
+
+		<table class="data-table">
+			<thead>
+				<tr>
+					<th></th>
+					<th style="text-align: center">3 months</th>
+					<th style="text-align: center">6 months</th>
+					<th style="text-align: center">1 year</th>
+				</tr>				
+			</thead>
+			<tbody>
+				<tr>
+					<th>Response time</th>
+					<td style="text-align: center">24h</td>
+					<td style="text-align: center">24h</td>
+					<td style="text-align: center">24h</td>
+				</tr>
+				<tr>
+					<th>Support hours granted</th>
+					<td style="text-align: center">10</td>
+					<td style="text-align: center">20</td>
+					<td style="text-align: center">40</td>
+				</tr>
+				<tr>
+					<th>Fee</th>
+					<td style="text-align: center">$1500 AUD</td>
+					<td style="text-align: center">$2500 AUD</td>
+					<td style="text-align: center">$4000 AUD</td>
+				</tr>
+			</tbody>
+		</table>
 		
 		<p>
 			For commercial development support, production support, and training please <a href="mailto:support@metawidget.org">contact us</a>.

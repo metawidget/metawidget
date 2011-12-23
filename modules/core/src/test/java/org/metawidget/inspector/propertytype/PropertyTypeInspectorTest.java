@@ -28,6 +28,9 @@ import java.util.concurrent.CountDownLatch;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.ClassUtils;
+import org.metawidget.util.ClassUtilsTest;
+import org.metawidget.util.ClassUtilsTest.AlienClassLoader;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
@@ -61,7 +64,7 @@ public class PropertyTypeInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -87,7 +90,7 @@ public class PropertyTypeInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( DeclaredTypeTester.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -116,7 +119,7 @@ public class PropertyTypeInspectorTest
 		String xml = mInspector.inspect( "foo", String.class.getName() );
 		Document document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
@@ -127,7 +130,7 @@ public class PropertyTypeInspectorTest
 		xml = mInspector.inspect( null, String.class.getName() );
 		document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
@@ -140,7 +143,7 @@ public class PropertyTypeInspectorTest
 		xml = mInspector.inspect( stringHolder, StringHolder.class.getName(), "string" );
 		document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "string", entity.getAttribute( NAME ) );
@@ -153,7 +156,7 @@ public class PropertyTypeInspectorTest
 		xml = mInspector.inspect( stringHolder, StringHolder.class.getName(), "string" );
 		document = XmlUtils.documentFromString( xml );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "string", entity.getAttribute( NAME ) );
@@ -174,7 +177,7 @@ public class PropertyTypeInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Contact.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "value", entity.getAttribute( NAME ) );
@@ -192,7 +195,7 @@ public class PropertyTypeInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Contact.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "value", entity.getAttribute( NAME ) );
@@ -211,7 +214,7 @@ public class PropertyTypeInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 
 		assertEquals( SuperFoo.class.getName(), entity.getAttribute( TYPE ) );
@@ -227,7 +230,7 @@ public class PropertyTypeInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( SubFoo.class.getName(), entity.getAttribute( TYPE ) );
 
@@ -256,7 +259,7 @@ public class PropertyTypeInspectorTest
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( SubFoo2.class.getName(), entity.getAttribute( TYPE ) );
 
@@ -281,7 +284,7 @@ public class PropertyTypeInspectorTest
 		Document document = XmlUtils.documentFromString( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( RecursiveFoo.class.getName(), entity.getAttribute( TYPE ) );
 
@@ -317,7 +320,7 @@ public class PropertyTypeInspectorTest
 		document = XmlUtils.documentFromString( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
 
@@ -353,7 +356,7 @@ public class PropertyTypeInspectorTest
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, Boolean.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "true, false", entity.getAttribute( LOOKUP ) );
@@ -365,7 +368,7 @@ public class PropertyTypeInspectorTest
 		document = XmlUtils.documentFromString( mInspector.inspect( null, boolean.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( LOOKUP ) );
@@ -376,7 +379,7 @@ public class PropertyTypeInspectorTest
 		document = XmlUtils.documentFromString( mInspector.inspect( new BooleanHolder(), BooleanHolder.class.getName() ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "littleBoolean" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( boolean.class.getName(), property.getAttribute( TYPE ) );
@@ -395,7 +398,7 @@ public class PropertyTypeInspectorTest
 		document = XmlUtils.documentFromString( mInspector.inspect( new BooleanHolder(), BooleanHolder.class.getName(), "littleBoolean" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "littleBoolean", entity.getAttribute( NAME ) );
 		assertEquals( boolean.class.getName(), entity.getAttribute( TYPE ) );
@@ -416,7 +419,7 @@ public class PropertyTypeInspectorTest
 		Document document = XmlUtils.documentFromString( mInspector.inspect( test, test.getClass().getName(), "foo", "foo" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "foo", entity.getAttribute( NAME ) );
 		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
@@ -427,7 +430,7 @@ public class PropertyTypeInspectorTest
 		document = XmlUtils.documentFromString( mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "foo", entity.getAttribute( NAME ) );
 		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
@@ -499,7 +502,7 @@ public class PropertyTypeInspectorTest
 		Document document = XmlUtils.documentFromString( mInspector.inspect( new TraversePastNullTester(), TraversePastNullTester.class.getName(), "contact" ) );
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "contact", entity.getAttribute( NAME ) );
 		assertEquals( PersonalContact.class.getName(), entity.getAttribute( TYPE ) );
@@ -508,6 +511,40 @@ public class PropertyTypeInspectorTest
 		// Should not return any children, because abortTraversingPastNull = true
 
 		assertEquals( 0, entity.getChildNodes().getLength() );
+	}
+
+	/**
+	 * Test a WidgetBuilder (or something after the Inspector) trying to determine the type of an
+	 * alien class.
+	 */
+
+	public void testTraverseAlienClass()
+		throws Exception {
+
+		ClassLoader alienClassLoader = new AlienClassLoader();
+
+		// Entity-level
+
+		AlienClassHolder alienClassHolder = new AlienClassHolder();
+		alienClassHolder.set = (Set<?>) alienClassLoader.loadClass( "org.metawidget.util.AlienSet" ).newInstance();
+
+		try {
+			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ));
+			mInspector.inspect( alienClassHolder.set, "org.metawidget.util.AlienSet" );
+			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
+		} finally {
+			ClassUtilsTest.unregisterAllAlienClassLoaders();
+		}
+
+		// Property-level
+
+		try {
+			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ));
+			mInspector.inspect( alienClassHolder, AlienClassHolder.class.getName(), "set" );
+			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
+		} finally {
+			ClassUtilsTest.unregisterAllAlienClassLoaders();
+		}
 	}
 
 	//
@@ -654,5 +691,10 @@ public class PropertyTypeInspectorTest
 	protected static class TraversePastNullTester {
 
 		public PersonalContact	contact;
+	}
+
+	public static class AlienClassHolder {
+
+		public Set<?>	set;
 	}
 }

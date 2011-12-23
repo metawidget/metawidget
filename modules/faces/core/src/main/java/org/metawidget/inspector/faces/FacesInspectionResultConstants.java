@@ -29,19 +29,25 @@ public final class FacesInspectionResultConstants {
 	// Public statics
 	//
 
-	public static final String	FACES_LOOKUP		= "faces-lookup";
+	public static final String	FACES_LOOKUP			= "faces-lookup";
 
-	public static final String	FACES_SUGGEST		= "faces-suggest";
+	public static final String	FACES_LOOKUP_VAR		= "faces-lookup-var";
 
-	public static final String	FACES_EXPRESSION	= "faces-expression";
+	public static final String	FACES_LOOKUP_ITEM_VALUE	= "faces-lookup-item-value";
 
-	public static final String	FACES_COMPONENT		= "faces-component";
+	public static final String	FACES_LOOKUP_ITEM_LABEL	= "faces-lookup-item-label";
 
-	public static final String	FACES_AJAX_EVENT	= "faces-ajax-event";
+	public static final String	FACES_SUGGEST			= "faces-suggest";
 
-	public static final String	FACES_AJAX_ACTION	= "faces-ajax-action";
+	public static final String	FACES_EXPRESSION		= "faces-expression";
 
-	public static final String	FACES_CONVERTER_ID	= "faces-converter-id";
+	public static final String	FACES_COMPONENT			= "faces-component";
+
+	public static final String	FACES_AJAX_EVENT		= "faces-ajax-event";
+
+	public static final String	FACES_AJAX_ACTION		= "faces-ajax-action";
+
+	public static final String	FACES_CONVERTER_ID		= "faces-converter-id";
 
 	/**
 	 * Attribute indicated the UIComponent should have its <code>immediate</code> flag set.
@@ -49,7 +55,7 @@ public final class FacesInspectionResultConstants {
 	 * Should be used in conjunction with <code>ImmediateAttributeWidgetProcessor</code>.
 	 */
 
-	public static final String	FACES_IMMEDIATE		= "faces-immediate";
+	public static final String	FACES_IMMEDIATE			= "faces-immediate";
 
 	//
 	// Private constructor

@@ -323,7 +323,7 @@
 			<dependency>
 				<groupId>org.primefaces</groupId>
 				<artifactId>primefaces</artifactId>
-				<version>2.2</version>
+				<version>3.0.RC2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.swinglabs</groupId>
@@ -734,7 +734,7 @@
 						<assetsDirectory>${project.basedir}/assets</assetsDirectory>
 						<resourceDirectory>${project.basedir}/res</resourceDirectory>
 						<sdk>
-							<path>/android-sdk-windows</path>
+							<!-- Path set by ANDROID_HOME -->
 							<!-- Support android:resizeable='true' for large displays -->
 							<platform>4</platform>
 						</sdk>
@@ -907,7 +907,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>webtest-maven-plugin</artifactId>
-					<version>0.7.1-SNAPSHOT</version>
+					<version>1.0.0</version>
 					<executions>
 						<execution>
 							<id>jetty-integration-test</id>

@@ -34,7 +34,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * <p>
  * Adds native RichFaces behaviours, such as <code>HtmlAjaxSupport</code>, to suit the inspected
  * fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -62,7 +62,7 @@ public class RichFacesProcessor
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
 
-			HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) application.createComponent( "org.ajax4jsf.Support" );
+			HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) application.createComponent( HtmlAjaxSupport.COMPONENT_TYPE );
 			ajaxSupport.setId( context.getViewRoot().createUniqueId() );
 			ajaxSupport.setEvent( ajaxEvent );
 

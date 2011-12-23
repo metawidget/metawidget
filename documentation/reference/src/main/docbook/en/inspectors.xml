@@ -989,7 +989,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 						whereby the XML-based <classname>Inspector</classname> will do a check for <parameter>null</parameter> or recursive
 						references, and not return any XML. In addition, setting <parameter>restrictAgainstObject</parameter>
 						allows the XML <classname>Inspector</classname> to traverse child relationships and infer their types
-	 					using the Object. This saves having to explicitly specify those relationships in the XML.
+	 					using the Object. This saves having to explicitly specify those types and relationships in the XML.
 					</para>
 					
 					<para>

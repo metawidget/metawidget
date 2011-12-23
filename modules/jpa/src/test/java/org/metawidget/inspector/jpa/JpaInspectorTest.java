@@ -57,7 +57,7 @@ public class JpaInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Foo.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( NAME ) );
@@ -118,7 +118,7 @@ public class JpaInspectorTest
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 
 		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "id" ), null );
 
@@ -129,7 +129,7 @@ public class JpaInspectorTest
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -147,7 +147,7 @@ public class JpaInspectorTest
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 
 		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "version" ), null );
 
@@ -158,7 +158,7 @@ public class JpaInspectorTest
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "version" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -176,7 +176,7 @@ public class JpaInspectorTest
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "transient1" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -190,7 +190,7 @@ public class JpaInspectorTest
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-		entity = (Element) document.getFirstChild().getFirstChild();
+		entity = (Element) document.getDocumentElement().getFirstChild();
 
 		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "transient1" ), null );
 	}

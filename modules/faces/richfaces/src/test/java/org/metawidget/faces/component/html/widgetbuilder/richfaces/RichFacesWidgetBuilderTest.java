@@ -43,6 +43,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UISuggestionBox;
+import org.richfaces.component.html.HtmlColumn;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 import org.richfaces.component.html.HtmlSuggestionBox;
@@ -275,7 +276,7 @@ public class RichFacesWidgetBuilderTest
 			throws FacesException {
 
 			// RichFaces 3.x uses lowercase 'i'
-			
+
 			if ( "org.richfaces.inputNumberSlider".equals( componentName ) ) {
 				return new HtmlInputNumberSlider();
 			}
@@ -286,11 +287,15 @@ public class RichFacesWidgetBuilderTest
 				return new HtmlInputNumberSpinner();
 			}
 
-			if ( "org.richfaces.Calendar".equals( componentName ) ) {
+			if ( UICalendar.COMPONENT_TYPE.equals( componentName ) ) {
 				return new UICalendar();
 			}
 
-			if ( "org.richfaces.SuggestionBox".equals( componentName ) ) {
+			if ( HtmlColumn.COMPONENT_TYPE.equals( componentName ) ) {
+				return new HtmlColumn();
+			}
+
+			if ( HtmlSuggestionBox.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlSuggestionBox();
 			}
 

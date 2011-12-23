@@ -52,7 +52,7 @@
 		</tr></table>
 		
 		<p>
-			The full talk will be available on <a href="http://www.parleys.com/#st=4&id=102979">Parleys</a>.
+			The full talk will be available on <a href="http://www.parleys.com/#st=4&id=102979">Parleys</a>. A <a href="http://blog.kennardconsulting.com/2011/12/metawidget-javaone-2011-jboss-booth.html">JBoss booth video</a> is also available.
 		</p>
 				
 		<hr/>

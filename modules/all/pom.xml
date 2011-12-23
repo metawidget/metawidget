@@ -176,6 +176,11 @@
 			<artifactId>metawidget-static-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.static.jsp</groupId>
+			<artifactId>metawidget-static-jsp</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- metawidget-swing should be implied -->
 		<dependency>
 			<groupId>org.metawidget.modules.swing</groupId>

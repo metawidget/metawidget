@@ -15,6 +15,7 @@
 		<module>core</module>
 		<module>faces</module>
 		<module>java</module>
+		<module>jsp</module>
 	</modules>
 
 </project>

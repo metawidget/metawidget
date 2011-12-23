@@ -70,7 +70,7 @@ public class PanelTabSetLayoutDecorator
 		// Whole new PanelTabSet?
 
 		if ( previousSectionWidget == null ) {
-			panelTabSet = (PanelTabSet) application.createComponent( "com.icesoft.faces.PanelTabSet" );
+			panelTabSet = (PanelTabSet) application.createComponent( PanelTabSet.COMPONENT_TYPE );
 			panelTabSet.setId( viewRoot.createUniqueId() );
 
 			// Because Metawidget will destroy/recreate the PanelTabSet each time, we must store the
@@ -95,7 +95,7 @@ public class PanelTabSetLayoutDecorator
 
 		// New tab
 
-		PanelTab tab = (PanelTab) application.createComponent( "com.icesoft.faces.PanelTab" );
+		PanelTab tab = (PanelTab) application.createComponent( PanelTab.COMPONENT_TYPE );
 		tab.setId( viewRoot.createUniqueId() );
 		panelTabSet.getChildren().add( tab );
 

@@ -79,7 +79,7 @@ public class HibernateInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertFalse( entity.hasAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.SubFoo", entity.getAttribute( TYPE ) );
@@ -134,7 +134,7 @@ public class HibernateInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 
 		// Properties
 
@@ -152,7 +152,7 @@ public class HibernateInspectorTest
 
 		// Entity
 
-		Element entity = (Element) document.getFirstChild().getFirstChild();
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "bar", entity.getAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Bar", entity.getAttribute( TYPE ) );

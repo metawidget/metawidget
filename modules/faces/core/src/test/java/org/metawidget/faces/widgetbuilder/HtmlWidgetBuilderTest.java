@@ -20,14 +20,17 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.faces.FacesException;
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
+import javax.faces.component.UIOutput;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
@@ -52,6 +55,8 @@ import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
 import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -228,6 +233,21 @@ public class HtmlWidgetBuilderTest
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
 		assertTrue( null == ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
+		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
+		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
+		furtherAssert( htmlSelectOneMenu );
+
+		attributes.put( FACES_LOOKUP_VAR, "_fooBar" );
+		attributes.put( FACES_LOOKUP_ITEM_LABEL, "#{_fooBar.label}" );
+		attributes.put( FACES_LOOKUP_ITEM_VALUE, "#{_fooBar.value}" );
+		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
+		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "_fooBar", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
+		assertEquals( "#{_fooBar.label}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
+		assertEquals( "#{_fooBar.value}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ).getExpressionString() );
 		furtherAssert( htmlSelectOneMenu );
 
 		attributes.put( REQUIRED, TRUE );
@@ -336,6 +356,42 @@ public class HtmlWidgetBuilderTest
 		furtherAssert( htmlInputTextarea );
 	}
 
+	@SuppressWarnings( "deprecation" )
+	public void testCollectionWithConverters()
+		throws Exception {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"ConverterFoo\">";
+		xml += "<property name=\"bar\" faces-converter-id=\"barConverter\"/>";
+		xml += "<property name=\"baz\" faces-converter-id=\"bazConverter\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) ) );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, "ConverterFoo" );
+		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+
+		UIColumn column = (UIColumn) data.getChildren().get( 0 );
+		assertEquals( "Bar", ( (UIOutput) column.getHeader() ).getValue() );
+		UIOutput outputText = (UIOutput) column.getChildren().get( 0 );
+		assertEquals( "#{" + data.getVar() + ".bar}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( " (from converter barConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
+
+		column = (UIColumn) data.getChildren().get( 1 );
+		assertEquals( "Baz", ( (UIOutput) column.getHeader() ).getValue() );
+		outputText = (UIOutput) column.getChildren().get( 0 );
+		assertEquals( "#{" + data.getVar() + ".baz}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( " (from converter bazConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
+
+		assertEquals( 2, data.getChildCount() );
+	}
+
 	public void testCollectionWithManyColumns()
 		throws Exception {
 
@@ -386,7 +442,7 @@ public class HtmlWidgetBuilderTest
 			public UIComponent createComponent( String componentName )
 				throws FacesException {
 
-				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) ) {
+				if ( HtmlLookupOutputText.COMPONENT_TYPE.equals( componentName ) ) {
 					return new HtmlLookupOutputText();
 				}
 

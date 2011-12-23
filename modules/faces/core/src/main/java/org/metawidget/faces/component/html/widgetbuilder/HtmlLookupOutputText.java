@@ -39,12 +39,19 @@ public class HtmlLookupOutputText
 	extends HtmlOutputText {
 
 	//
+	// Public statics
+	//
+
+	@SuppressWarnings( "hiding" )
+	public static final String	COMPONENT_TYPE	= "org.metawidget.HtmlLookupOutputText";
+
+	//
 	// Private members
 	//
 
-	private List<String>	mValues;
+	private List<String>		mValues;
 
-	private List<String>	mLabels;
+	private List<String>		mLabels;
 
 	//
 	// Public methods

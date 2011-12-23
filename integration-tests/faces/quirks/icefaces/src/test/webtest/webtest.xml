@@ -9,8 +9,8 @@
 			</config>
 			<steps>
 				<groovy>
-				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
-						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+					import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+					step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
 				</groovy>
 				<invoke url="/index.iface" />
 				<verifyTitle text="Quirks (ICEfaces Test)" />
@@ -106,8 +106,8 @@
 			</config>
 			<steps>
 				<groovy>
-				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
-						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+					import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+					step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
 				</groovy>
 				<invoke url="/panelTabSet.iface" />
 				<verifyTitle text="Quirks (ICEfaces Test)" />

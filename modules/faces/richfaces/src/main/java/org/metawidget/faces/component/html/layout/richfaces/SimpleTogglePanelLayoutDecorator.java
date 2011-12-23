@@ -77,7 +77,7 @@ public class SimpleTogglePanelLayoutDecorator
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlSimpleTogglePanel panel = (HtmlSimpleTogglePanel) application.createComponent( "org.richfaces.SimpleTogglePanel" );
+		HtmlSimpleTogglePanel panel = (HtmlSimpleTogglePanel) application.createComponent( HtmlSimpleTogglePanel.COMPONENT_TYPE );
 		panel.setId( viewRoot.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );
