@@ -434,7 +434,7 @@ public abstract class UIMetawidget
 
 		else if ( appBundle != null ) {
 			try {
-				localizedKey = ResourceBundle.getBundle( appBundle ).getString( key );
+				localizedKey = ResourceBundle.getBundle( appBundle, context.getViewRoot().getLocale() ).getString( key );
 			} catch ( MissingResourceException e ) {
 				// Fail gracefully: we seem to have problems locating, say,
 				// org.jboss.seam.core.SeamResourceBundle?
