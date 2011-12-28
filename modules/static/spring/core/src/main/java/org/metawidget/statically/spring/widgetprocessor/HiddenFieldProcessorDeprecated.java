@@ -21,20 +21,23 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * @author Ryan Bradley
  */
 
-public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, StaticSpringMetawidget> {
+public class HiddenFieldProcessorDeprecated implements WidgetProcessor<StaticXmlWidget, StaticSpringMetawidget> {
 
+    public static final String                          ATTRIBUTE_NEEDS_HIDDEN_FIELD    = "metawidget-needs-hidden-field";
+    
     //
     // Public methods
     //
     
     public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
+
+        // Not Hidden?
         
-        // Not hidden?
-        
-        if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
+        if( !TRUE.equals( attributes.get( ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
+            
             return widget;
         }
-               
+        
         String name = attributes.get( NAME );
         
         String value = metawidget.getValue();
@@ -42,30 +45,32 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         if ( value != null ) {
 
             // Take the LHS minus the first path (if any), as we assume that will
-            // be supplied by the form            
+            // be supplied by the form
             
             int firstIndexOf = value.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
             
             if ( firstIndexOf != -1 ) {
-                name = value.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT + name;
+                name = value.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT + name; 
             }
         }
         
-        widget = new FormHiddenTag();
-        widget.putAttribute( "path", name );
-
+        FormHiddenTag hiddenTag = new FormHiddenTag();
+        hiddenTag.putAttribute( "path", name );
+        widget.getChildren().add( hiddenTag );
+        
+        // If value is empty, output a stub/SPAN to stop HtmlTableLayout treating this field as 'just
+        // a hidden field' and putting it outside the table
+        
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( attributes.get( HIDDEN ) ) ) {
             
             // Add a child stub to the widget.
-                       
-            widget = new StaticXmlStub();
-            metawidget.getChildren().add( widget );
-            return widget;
+            
+            metawidget.getChildren().add( new StaticXmlStub() );
             
             // Or should it be an HTML <span/> tag?
 //          metawidget.getChildren().add( new HtmlTag( "span" );
-        }        
-        
+        }
+       
         return widget;
     }
 

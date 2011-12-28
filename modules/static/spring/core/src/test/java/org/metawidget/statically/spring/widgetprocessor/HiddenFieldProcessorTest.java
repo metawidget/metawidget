@@ -26,21 +26,21 @@ public class HiddenFieldProcessorTest
     
     public void testWidgetProcessor() {
         
-        HiddenFieldProcessor processor = new HiddenFieldProcessor();
+        HiddenFieldProcessorDeprecated processor = new HiddenFieldProcessorDeprecated();
         FormInputTag springInput = new FormInputTag();
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();        
         Map<String, String> attributes = CollectionUtils.newHashMap();
         
         // Not hidden
         
-        attributes.put( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, FALSE );
+        attributes.put( HiddenFieldProcessorDeprecated.ATTRIBUTE_NEEDS_HIDDEN_FIELD, FALSE );
         processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:input/>", springInput.toString() );
         
         // Null value
         
         attributes.put( NAME, "foo" );
-        attributes.put( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+        attributes.put( HiddenFieldProcessorDeprecated.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
         processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:input><form:hidden path=\"foo\"/></form:input>", springInput.toString() );
         
@@ -64,7 +64,7 @@ public class HiddenFieldProcessorTest
     public void testSimpleType() {
         
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
-        metawidget.putAttribute( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+        metawidget.putAttribute( HiddenFieldProcessorDeprecated.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
         metawidget.putAttribute( NAME, "bar");
         metawidget.setValue( "org.foo" );
         metawidget.setPath( Foo.class.getName() );
