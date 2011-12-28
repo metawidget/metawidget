@@ -1138,7 +1138,15 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		return contextImplementationVersion.contains( "2.0." ) || contextImplementationVersion.contains( "2.1." );
+		if ( contextImplementationVersion.contains( "2.1.1" ) || contextImplementationVersion.contains( "2.1.2" ) || contextImplementationVersion.contains( "2.1.3" )) {
+			return true;
+		}
+
+		if ( contextImplementationVersion.contains( "2.1.4" ) || contextImplementationVersion.contains( "2.1.5" ) || contextImplementationVersion.contains( "2.1.6" )) {
+			return true;
+		}
+
+		return contextImplementationVersion.contains( "2.0." );
 	}
 
 	/**
