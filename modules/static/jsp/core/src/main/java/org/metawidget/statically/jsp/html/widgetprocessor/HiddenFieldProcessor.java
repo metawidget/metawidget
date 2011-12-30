@@ -12,16 +12,11 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 /**
  * WidgetProcessor that adds HTML <code>&lt;input type="hidden"&gt;</code> tags to hidden and
  * read-only values, so that they POST back.
- * <p>
- * Note: passing values via hidden tags is a potential security risk: they can be modified by
- * malicious clients before being returned to the server.
  *
  * @author Ryan Bradley
  */
 
 public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
-
-    public static final String                          ATTRIBUTE_NEEDS_HIDDEN_FIELD    = "metawidget-needs-hidden-field";    
     
     //
     // Public methods
@@ -31,13 +26,13 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         
         // Not hidden?
         
-        if ( !TRUE.equals( attributes.get( ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
+        if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
             return widget;
         }
         
         String value = widget.toString();
         
-        // Add a hidden input as a child of the widget
+        // Add a hidden input as a child of the metawidget
         
         HtmlTag tag = new HtmlTag("input");
         tag.putAttribute( "type", "hidden" );
@@ -49,9 +44,9 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
             metawidget.getChildren().add( new HtmlTag( "span" ) );
         }
         
-        // What exactly should we be returning?  We do not process the passed in widget, but rather the metawidget.
+        // Return the hidden input HtmlTag which has just been created
         
-        return widget;
+        return tag;
     }
 
 }
