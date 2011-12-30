@@ -6,6 +6,9 @@
 	<!-- Test localizing 'true'/'false' to 'Yes'/'No' -->
 	
 	<application>
+		<locale-config>
+			<default-locale>xx</default-locale>
+		</locale-config>
 		<message-bundle>org.metawidget.integrationtest.faces.quirks.resource.Resources</message-bundle>
 	</application>
 
