@@ -57,23 +57,6 @@ public abstract class MetawidgetTag
 	extends BodyTagSupport {
 
 	//
-	// Public statics
-	//
-
-	/**
-	 * Marks a tag as potentially needing a hidden field, if <code>HiddenFieldProcessor</code> is
-	 * used.
-	 * <p>
-	 * In order to align tightly with the <code>StubTag</code>s created by the
-	 * <code>WidgetBuilder</code>s, and to avoid confusion with manually created
-	 * <code>StubTag</code>s, we take a flag-based approach to hidden field processing. This would
-	 * be cleaner if JSP had a richer component model (ie. in JSF we do
-	 * <code>instanceof UIInput</code>).
-	 */
-
-	public static final String							ATTRIBUTE_NEEDS_HIDDEN_FIELD	= "metawidget-needs-hidden-field";
-
-	//
 	// Private statics
 	//
 

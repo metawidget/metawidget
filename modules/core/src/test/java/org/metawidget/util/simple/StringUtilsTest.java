@@ -35,6 +35,7 @@ public class StringUtilsTest
 		assertTrue( false == StringUtils.isCapitalized( "" ) );
 		assertTrue( false == StringUtils.isCapitalized( "ab" ) );
 		assertTrue( StringUtils.isCapitalized( "Ab" ) );
+		assertTrue( StringUtils.isCapitalized( "ID" ) );
 	}
 
 	public void testCapitalize()
@@ -43,6 +44,7 @@ public class StringUtilsTest
 		assertEquals( "FooBah", StringUtils.capitalize( "fooBah" ) );
 		assertEquals( "X", StringUtils.capitalize( "x" ) );
 		assertEquals( "URL", StringUtils.capitalize( "URL" ) );
+		assertEquals( "ID", StringUtils.capitalize( "iD" ) );
 	}
 
 	public void testDecapitalize()
@@ -51,6 +53,7 @@ public class StringUtilsTest
 		assertEquals( "fooBah", StringUtils.decapitalize( "FooBah" ) );
 		assertEquals( "x", StringUtils.decapitalize( "X" ) );
 		assertEquals( "URL", StringUtils.decapitalize( "URL" ) );
+		assertEquals( "ID", StringUtils.decapitalize( "ID" ) );
 	}
 
 	public void testCamelCase()

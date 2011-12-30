@@ -434,7 +434,7 @@ public abstract class UIMetawidget
 
 		else if ( appBundle != null ) {
 			try {
-				localizedKey = ResourceBundle.getBundle( appBundle ).getString( key );
+				localizedKey = ResourceBundle.getBundle( appBundle, context.getViewRoot().getLocale() ).getString( key );
 			} catch ( MissingResourceException e ) {
 				// Fail gracefully: we seem to have problems locating, say,
 				// org.jboss.seam.core.SeamResourceBundle?
@@ -1138,7 +1138,15 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		return contextImplementationVersion.contains( "2.0." ) || contextImplementationVersion.contains( "2.1." );
+		if ( contextImplementationVersion.contains( "2.1.1" ) || contextImplementationVersion.contains( "2.1.2" ) || contextImplementationVersion.contains( "2.1.3" )) {
+			return true;
+		}
+
+		if ( contextImplementationVersion.contains( "2.1.4" ) || contextImplementationVersion.contains( "2.1.5" ) || contextImplementationVersion.contains( "2.1.6" )) {
+			return true;
+		}
+
+		return contextImplementationVersion.contains( "2.0." );
 	}
 
 	/**
