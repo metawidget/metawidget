@@ -50,7 +50,7 @@ public class HiddenFieldProcessor
 
 		// Not for us?
 
-		if ( !TRUE.equals( attributes.get( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
+		if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
 			return tag;
 		}
 

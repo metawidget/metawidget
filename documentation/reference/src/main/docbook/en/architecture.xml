@@ -946,8 +946,7 @@ public class CastorInspector
 					<listitem>				
 	
 						<para>
-							For state that will change across multiple inspections, such as <classname>JspAnnotationInspector</classname>
-							which tracks the current <classname>PageContext</classname>, store it in a <classname>ThreadLocal</classname>.
+							For state that will change across multiple inspections, store it in a <classname>ThreadLocal</classname>.
 							This is straightforward because <classname>Inspector</classname>s are not re-entrant.
 						</para>
 						
@@ -1313,9 +1312,38 @@ public class Main {
 					<listitem>				
 	
 						<para>
-							For state that will change across multiple inspection result processings, store it in a
-							<classname>ThreadLocal</classname>. This is straightforward because <classname>InspectionResultProcessor</classname>s
-							are not re-entrant.
+							For state that will change across multiple inspection result processings, store it in the Metawidget
+							that is passed to <function>processInspectionResult</function>. You
+							may want to further wrap the state in a small helper class. For example:
+						</para>
+						
+						<programlisting language="java">public String processInspectionResult( String inspectionResult, SwingMetawidget metawidget,
+		                                       Object toInspect, String type, String... names ) {
+
+
+	...process inspection result...
+	getState( metawidget ).previousType = type;
+}
+
+private State getState( SwingMetawidget metawidget ) {
+	State state = (State) metawidget.getClientProperty( getClass() );
+
+	if ( state == null ) {
+		state = new State();
+		metawidget.putClientProperty( getClass(), state );
+	}
+
+	return state;
+}
+
+static class State {
+	String previousType;
+	...other state variables...
+}</programlisting>
+		
+						<para>
+							You could also consider storing the state in a <classname>ThreadLocal</classname>. This is
+							straightforward because <classname>InspectionResultProcessor</classname>s are not re-entrant.
 						</para>
 						
 					</listitem>
