@@ -27,7 +27,6 @@ import java.util.Map;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -318,6 +317,17 @@ public class HtmlWidgetBuilder
             onlyRequired = false;
         }
     }
+
+    /**
+     * Add an HtmlTableRow component for the given attributes, to the given HtmlTable.
+     * <p>
+     * Clients can override this method to modify the row contents. For example, to place a link
+     * around the text.
+     *
+     * @param tableAttributes
+     *            the metadata attributes used to render the parent table. May be useful for
+     *            determining the overall type of the column
+     */
     
     private void addRowComponent(HtmlTable table, Map<String, String> attributes, String elementName, Map<String, String> rowAttributes, StaticXmlMetawidget metawidget) {
         
@@ -337,44 +347,7 @@ public class HtmlWidgetBuilder
         
         table.getChildren().add( row );
     }
-
-    /**
-     * Add an HtmlTableRow component for the given attributes, to the given HtmlTable.
-     * <p>
-     * Clients can override this method to modify the row contents. For example, to place a link
-     * around the text.
-     *
-     * @param tableAttributes
-     *            the metadata attributes used to render the parent table. May be useful for
-     *            determining the overall type of the column
-     */
-    
-    protected void addColumnComponent( HtmlTable table, Map<String, String> attributes, String elementName, Map<String, String> rowAttributes, StaticHtmlMetawidget metawidget ) {
-        
-        HtmlTableRow row = new HtmlTableRow();
-        
-        // Make the row contents...
-        
-        HtmlTableCell cell = new HtmlTableCell();
-        
-        String valueExpression = table.getAttribute( "var" );
-        if ( !ENTITY.equals( elementName ) ) {
-            valueExpression += StringUtils.SEPARATOR_DOT_CHAR + rowAttributes.get( NAME );
-        }
-        cell.putAttribute( "value", valueExpression );
-        row.getChildren().add( cell );
-        
-        // ...with a localized header
-
-        // Not sure how the header should be handled, as it is awkward to handle with rows, instead of columns.
-        
-/*        HtmlTableCell header = new HtmlTableCell();
-        header.putAttribute( "value", metawidget.getLabelString( rowAttributes ) );
-*/        
-        table.getChildren().add( row );
-        return;
-    }
-    
+       
     protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
         if ( values == null ) {
             return;
