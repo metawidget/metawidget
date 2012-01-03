@@ -4,16 +4,16 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class ForEachTag
+public class OutTag
     extends CoreWidget {
     
     //
     // Public methods
     //
     
-    protected ForEachTag() {
-
-        super( "forEach" );
+    public OutTag() {
+        
+        super( "out" );
     }
 
 }

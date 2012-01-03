@@ -14,7 +14,7 @@ public class HtmlWidgetBuilderConfig {
     // Private members
     //
     
-    private int mMaximumRowsInDataTable = 100;
+    private int mMaximumColumnsInDataTable = 5;
     
     //
     // Public methods
@@ -26,14 +26,14 @@ public class HtmlWidgetBuilderConfig {
      * By default, Metawidget generates data tables for collections based on their properties.
      * However data tables can become unwieldy if they have too many columns.
      *
-     * @param maximumRowsInDataTable
+     * @param maximumColumnsInDataTable
      *            the maximum number of columns in a data table, or 0 for unlimited
      * @return this, as part of a fluent interface
      */
     
-    public HtmlWidgetBuilderConfig setMaximumRowsInDataTable( int maximumRowsInDataTable ) {
+    public HtmlWidgetBuilderConfig setMaximumColumnsInDataTable( int maximumColumnsInDataTable ) {
         
-        mMaximumRowsInDataTable = maximumRowsInDataTable;
+        mMaximumColumnsInDataTable = maximumColumnsInDataTable;
         
         return this;
     }
@@ -49,7 +49,7 @@ public class HtmlWidgetBuilderConfig {
             return false;
         }
         
-        if ( mMaximumRowsInDataTable != ( ( HtmlWidgetBuilderConfig ) that ).mMaximumRowsInDataTable ) {
+        if ( mMaximumColumnsInDataTable != ( ( HtmlWidgetBuilderConfig ) that ).mMaximumColumnsInDataTable ) {
             return false;
         }
         
@@ -60,7 +60,7 @@ public class HtmlWidgetBuilderConfig {
     public int hashCode() {
         
         int hashCode = 1;
-        hashCode = 31 * hashCode + mMaximumRowsInDataTable;
+        hashCode = 31 * hashCode + mMaximumColumnsInDataTable;
         
         return hashCode;
     }
@@ -69,9 +69,9 @@ public class HtmlWidgetBuilderConfig {
     // Protected methods
     //
     
-    protected int getMaximumRowsInDataTable() {
+    protected int getMaximumColumnsInDataTable() {
         
-        return mMaximumRowsInDataTable;
+        return mMaximumColumnsInDataTable;
     }
     
 }

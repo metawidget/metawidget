@@ -27,6 +27,7 @@ import java.util.Map;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -51,7 +52,7 @@ public class HtmlWidgetBuilder
 
 	private final static String	MAX_LENGTH	= "maxLength";
 	
-    private final int mMaximumRowsInDataTable;
+    private final int mMaximumColumnsInDataTable;
 	
 	//
 	// Constructor
@@ -64,7 +65,7 @@ public class HtmlWidgetBuilder
 	
 	public HtmlWidgetBuilder( HtmlWidgetBuilderConfig config ) {
 	    
-	    mMaximumRowsInDataTable = config.getMaximumRowsInDataTable();
+	    mMaximumColumnsInDataTable = config.getMaximumColumnsInDataTable();
 	}
 
 	//
@@ -199,76 +200,84 @@ public class HtmlWidgetBuilder
 	//
 	// Protected methods
 	//
-    
+
+    /**
+     * @param elementName
+     *            such as ENTITY or PROPERTY. Can be useful in determining how to construct the EL
+     *            for the table.
+     */	
+      
     protected StaticXmlWidget createDataTableComponent( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
-        
-        // Use a table to display the collection.
-        
+
         HtmlTable table = new HtmlTable();
-        
-        // Use a <c:forEach> tag to loop through all elements of the List or Array
-        
         ForEachTag forEach = new ForEachTag();
-        String var = "item";
-        forEach.putAttribute( "var", var);
         
-        // The loop should be executed within the table, as each element will be a distinct row of the table.
+        String items = attributes.get( NAME );
+        forEach.putAttribute( "items", items );
+        String var = "item";
+        forEach.putAttribute( "var", var );
         
         table.getChildren().add( forEach );
         
-        // Inspect list component type
+        // Inspect the component type.
         
         String componentType = WidgetBuilderUtils.getComponentType( attributes );
         String inspectedType = null;
         
         if ( componentType != null ) {
-            inspectedType = metawidget.inspect( null, componentType, (String[]) null);
+            inspectedType = metawidget.inspect( null, componentType, (String[]) null );
         }
         
         // If there is no type...
         
         if ( inspectedType == null ) {
+            // ...resort to a single column table...
             
-            // ... resort to a single column table.
+            HtmlTableRow row = new HtmlTableRow();
+            forEach.getChildren().add( row );
             
-            Map<String, String> rowAttributes = CollectionUtils.newHashMap();
-            rowAttributes.put( NAME, attributes.get( NAME ) );
-            addRowComponent( table, attributes, ENTITY, rowAttributes, metawidget);
+            Map<String, String> columnAttributes = CollectionUtils.newHashMap();
+            columnAttributes.put( NAME, attributes.get( NAME ) );
+            addColumnComponent( row, forEach, attributes, ENTITY, columnAttributes, metawidget );
         }
         
-        // ... otherwise, iterate over the component type and add multiple columns
+        // ...otherwise, iterate over the component type and add multiple columns.
         
         else {
             Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
             NodeList elements = root.getFirstChild().getChildNodes();
-            addRowComponents( table, attributes, elements, metawidget);
+            addColumnComponents( table, forEach, attributes, elements, metawidget );
         }
         
         return table;
     }
-    
+
     /**
-     * Adds row components to the given table.
+     * Adds column components to the given table.
      * <p>
-     * Clients can override this method to add additional rows, such as a 'Delete' button.
+     * Clients can override this method to add additional columns, such as a 'Delete' button.
      */
     
-    protected void addRowComponents( HtmlTable table, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
-        
-        // At first, try to add fields for just the 'required' fields.
+    private void addColumnComponents(HtmlTable table, ForEachTag forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+
+        // At first, only add columns for the 'required' fields
         
         boolean onlyRequired = true;
         
         while ( true ) {
             
+            // Add a new row to the table.
+            
+            HtmlTableRow row = new HtmlTableRow();
+            forEach.getChildren().add( row );
+            
             // For each property...
             
-            int length = elements.getLength();
-            
-            for ( int i = 0; i < length; i++ ) {
+            for ( int i = 0; i < elements.getLength(); i++ ) {
+                
                 Node node = elements.item( i );
                 
-                if ( !(node instanceof Element ) ) {
+                if ( !(node instanceof Element) ) {
                     continue;
                 }
                 
@@ -282,7 +291,7 @@ public class HtmlWidgetBuilder
                 
                 // ...that is visible...
                 
-                if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
+                if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
                     continue;
                 }
 
@@ -291,64 +300,79 @@ public class HtmlWidgetBuilder
                 // Note: this is a controversial choice. Our logic is that a) we need to limit
                 // the number of columns somehow, and b) displaying all the required fields should
                 // be enough to uniquely identify the row to the user. However, users may wish
-                // to override this default behaviour.
+                // to override this default behaviour
                 
-                if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
+                if ( onlyRequired && !TRUE.equals( attributes.get( REQUIRED ) ) ) {
                     continue;
                 }
                 
-                // ...add a row...
+                // ...add a column...
                 
-                addRowComponent( table, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
+                addColumnComponent( row, forEach, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget);
+                
+                // ...and a header for that column...
+                
+                addColumnHeader( table, XmlUtils.getAttributesAsMap( element ), metawidget );
                 
                 // ...up to a sensible maximum.
                 
-                if ( table.getChildren().size() == mMaximumRowsInDataTable ) {
+                if ( forEach.getChildren().size() == mMaximumColumnsInDataTable ) {
                     break;
                 }
+                
+                // If we couldn't add any 'required' columns, try again for every field.
+                
+                if ( !forEach.getChildren().isEmpty() || !onlyRequired ) {
+                    break;
+                }
+                
+                onlyRequired = false;
             }
-            
-            // If we couldn't add any 'required' rows, try again for every field.
-            
-            if ( !table.getChildren().isEmpty() || !onlyRequired ) {
-                break;
-            }
-            
-            onlyRequired = false;
-        }
+        }       
     }
 
     /**
-     * Add an HtmlTableRow component for the given attributes, to the given HtmlTable.
+     * Add an HtmlColumn component for the given attributes, to the given HtmlDataTable.
      * <p>
-     * Clients can override this method to modify the row contents. For example, to place a link
+     * Clients can override this method to modify the column contents. For example, to place a link
      * around the text.
      *
      * @param tableAttributes
      *            the metadata attributes used to render the parent table. May be useful for
-     *            determining the overall type of the column
+     *            determining the overall type of the row
      */
     
-    private void addRowComponent(HtmlTable table, Map<String, String> attributes, String elementName, Map<String, String> rowAttributes, StaticXmlMetawidget metawidget) {
+    protected void addColumnComponent( HtmlTableRow row, ForEachTag forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, StaticXmlMetawidget metawidget ) {
+
+        // Add a new column to the current row of the table.
         
-        HtmlTableRow row = new HtmlTableRow();
         HtmlTableCell cell = new HtmlTableCell();
-        
-        String valueExpression = table.getAttribute( "var" );
-        
-        if ( !ENTITY.equals( elementName)) {
-            valueExpression += StringUtils.SEPARATOR_DOT_CHAR + rowAttributes.get( NAME );
-        }
-        
-        cell.setTextContent( valueExpression );
         row.getChildren().add( cell );
         
-        // How to deal with localized header?
+        String valueExpression = forEach.getAttribute( "var" );
+        if ( !ENTITY.equals( elementName ) ) {
+            valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
+        }
         
-        table.getChildren().add( row );
+        OutTag out = new OutTag();
+        out.putAttribute( "value", StaticJspUtils.wrapExpression( valueExpression ) );
+        cell.getChildren().add( out );
+        
     }
-       
+    
+    private void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+
+        HtmlTableCell cell = new HtmlTableCell();
+        HeaderTag header = new HeaderTag();
+        header.setTextContent( metawidget.getLabelString( attributes ) );
+        cell.getChildren().add( header );
+        
+        table.getChildren().get( 0 ).getChildren().add( cell );
+        
+    }    
+
     protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
+        
         if ( values == null ) {
             return;
         }
