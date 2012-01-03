@@ -217,6 +217,10 @@ public class HtmlWidgetBuilder
         String var = "item";
         forEach.putAttribute( "var", var );
         
+        // Add an empty row to the table to be used for column headers.
+        
+        table.getChildren().add( new HtmlTableRow() );
+        
         table.getChildren().add( forEach );
         
         // Inspect the component type.
