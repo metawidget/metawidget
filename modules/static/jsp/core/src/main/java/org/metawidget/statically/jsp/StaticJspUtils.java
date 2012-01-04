@@ -98,7 +98,7 @@ public final class StaticJspUtils {
 
     private static final String EXPRESSION_START = "${";
     
-    private static final String EXPRESSION_END = null;
+    private static final String EXPRESSION_END = "}";
     
     //
     // Private constructor
