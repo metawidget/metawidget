@@ -29,6 +29,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
+import org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -63,7 +64,7 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+			attributes.put( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
 			return new HtmlStubTag();
 		}
 
@@ -197,7 +198,7 @@ public class ReadOnlyWidgetBuilder
 
 	protected Tag setAttributeAndCreateReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
+		attributes.put( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
 		return createReadOnlyTag( attributes, metawidget );
 	}
 }

@@ -20,14 +20,9 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.springframework.web.servlet.tags.form.HiddenInputTag;
 
 /**
@@ -41,53 +36,23 @@ import org.springframework.web.servlet.tags.form.HiddenInputTag;
  */
 
 public class HiddenFieldProcessor
-	implements WidgetProcessor<Tag, MetawidgetTag> {
+	extends org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor {
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
-	public Tag processWidget( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
+	@Override
+	protected Tag createHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// Not for us?
+		HiddenInputTag hiddenTag = new HiddenInputTag();
+		String path = attributes.get( NAME );
 
-		if ( !TRUE.equals( attributes.get( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
-			return tag;
+		if ( metawidget.getPathPrefix() != null ) {
+			path = metawidget.getPathPrefix() + path;
 		}
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		try {
-			// Write the tag...
-
-			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget );
-			buffer.append( value );
-
-			// ...together with a hidden tag
-
-			HiddenInputTag hiddenTag = new HiddenInputTag();
-			String path = attributes.get( NAME );
-
-			if ( metawidget.getPathPrefix() != null ) {
-				path = metawidget.getPathPrefix() + path;
-			}
-
-			hiddenTag.setPath( path );
-			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ) );
-
-			// If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
-			// a hidden field' and putting it outside the table
-
-			if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
-				buffer.append( "<span></span>" );
-			}
-
-		} catch ( JspException e ) {
-			throw WidgetBuilderException.newException( e );
-		}
-
-		return new LiteralTag( buffer.toString() );
+		hiddenTag.setPath( path );
+		return hiddenTag;
 	}
 }
