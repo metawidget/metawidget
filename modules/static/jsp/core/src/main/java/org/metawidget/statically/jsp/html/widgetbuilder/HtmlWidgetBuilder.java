@@ -86,6 +86,17 @@ public class HtmlWidgetBuilder
 			return new StaticXmlStub();
 		}
 
+		// JSP Lookup
+		
+        String jspLookup = attributes.get( JSP_LOOKUP );
+        
+        if ( jspLookup != null && !"".equals( jspLookup ) ) {
+            HtmlSelect select = new HtmlSelect();
+            // Not sure if this is a legitimate replacement of HtmlWidgetBuilderUtils.evaluate(jspLookup, metawidget);
+            addSelectItems( select, CollectionUtils.fromString(jspLookup), null, attributes);
+            return select;
+        }		
+		
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, fail gracefully with a text box
@@ -105,15 +116,6 @@ public class HtmlWidgetBuilder
 		}
 		
 		// Lookups
-		
-		String jspLookup = attributes.get( JSP_LOOKUP );
-		
-		if ( jspLookup != null && !"".equals( jspLookup ) ) {
-		    HtmlSelect select = new HtmlSelect();
-		    // Not sure if this is a legitimate replacement of HtmlWidgetBuilderUtils.evaluate(jspLookup, metawidget);
-		    addSelectItems( select, CollectionUtils.fromString(jspLookup), null, attributes);
-		    return select;
-		}
 		
 		String lookup = attributes.get( LOOKUP );
 		
