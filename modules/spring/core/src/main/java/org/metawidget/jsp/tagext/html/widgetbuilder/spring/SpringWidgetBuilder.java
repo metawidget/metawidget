@@ -69,6 +69,7 @@ public class SpringWidgetBuilder
 		// Hidden?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
+			attributes.put( MetawidgetTag.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
 			return new HtmlStubTag();
 		}
 

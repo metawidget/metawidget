@@ -35,6 +35,7 @@ import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -64,7 +65,7 @@ public class ReadOnlyWidgetBuilderTest
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof StubTag );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlStubTag );
 		attributes.remove( HIDDEN );
 
 		// Masked

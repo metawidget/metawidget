@@ -57,6 +57,23 @@ public abstract class MetawidgetTag
 	extends BodyTagSupport {
 
 	//
+	// Public statics
+	//
+
+	/**
+	 * Marks a tag as potentially needing a hidden field. For use with
+	 * <code>HiddenFieldProcessor</code>.
+	 * <p>
+	 * In order to align tightly with the <code>StubTag</code>s created by the
+	 * <code>WidgetBuilder</code>s, and to avoid confusion with manually created
+	 * <code>StubTag</code>s (eg. from <code>OverriddenWidgetBuilder</code>), we take a flag-based
+	 * approach to hidden field processing. This would be cleaner if JSP had a richer component
+	 * model (ie. in JSF we do <code>instanceof UIInput</code>).
+	 */
+
+	public static final String							ATTRIBUTE_NEEDS_HIDDEN_FIELD	= "metawidget-needs-hidden-field";
+
+	//
 	// Private statics
 	//
 
@@ -512,8 +529,10 @@ public abstract class MetawidgetTag
 						throw e;
 					}
 
-					// Log a warning. Still log the Exception message, in case the FileNotFoundException
-					// is from inside metawidget.xml, for example 'Unable to locate checkout.jpdl.xml on
+					// Log a warning. Still log the Exception message, in case the
+					// FileNotFoundException
+					// is from inside metawidget.xml, for example 'Unable to locate
+					// checkout.jpdl.xml on
 					// CLASSPATH'
 
 					if ( !LOGGED_MISSING_CONFIG ) {
