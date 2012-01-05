@@ -4,6 +4,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
@@ -33,6 +34,11 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
             return widget;
+        }
+        
+        for( StaticWidget child : widget.getChildren() ) {
+            
+            ( (StaticXmlWidget) child).putAttribute( HIDDEN, TRUE );
         }
                
         String name = attributes.get( NAME );
