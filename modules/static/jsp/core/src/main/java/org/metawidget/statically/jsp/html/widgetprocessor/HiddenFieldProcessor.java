@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
@@ -49,6 +50,11 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         String value = widget.toString();
         
         // Add a hidden input as a child of the metawidget
+        
+        for( StaticWidget child : widget.getChildren() ) {
+            
+            ((StaticXmlWidget) child).putAttribute( HIDDEN, TRUE );
+        }
         
         metawidget.getChildren().remove( widget );
         widget = new HtmlTag("input");
