@@ -26,60 +26,40 @@ import org.metawidget.util.CollectionUtils;
 
 import junit.framework.TestCase;
 
-/**
- * @author Ryan Bradley
- */
-
-public class CssStyleProcessorTest
+public class HiddenFieldProcessorTest
     extends TestCase {
-    
-    //
-    // Public methods
-    //
     
     public void testWidgetProcessor() {
         
-        CssStyleProcessor processor = new CssStyleProcessor();
+        HiddenFieldProcessor processor = new HiddenFieldProcessor();
+        StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
         Map<String, String> attributes = CollectionUtils.newHashMap();
         HtmlTag tag = new HtmlTag( "input" );
         
-        // No style
-        
-        StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+        // Not hidden
+
+        attributes.put( HIDDEN, FALSE );        
         tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
         
-        // Simple styles and classes
+        // Hidden
         
-        metawidget.putAttribute( "style", "foo" );
-        metawidget.putAttribute( "styleClass", "bar" );
+        attributes.put( HIDDEN, TRUE );
         tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
-        assertEquals( "<input style=\"foo\" styleClass=\"bar\"/>", tag.toString() );
-        
-        // Compound styles and classes
-        
-        metawidget.putAttribute( "style", "foo2" );
-        metawidget.putAttribute( "styleClass", "bar2" );
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
-        assertEquals( "<input style=\"foo foo2\" styleClass=\"bar bar2\"/>", tag.toString() );
+        assertEquals( "<input type=\"hidden\"/>", tag.toString() );
     }
     
     public void testSimpleType() {
         
         StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-        metawidget.putAttribute( "style", "stylin" );
-        metawidget.putAttribute( "styleClass", "styleClassin" );
-        metawidget.setValue( "${foo)" );
         metawidget.setPath( Foo.class.getName() );
+        metawidget.setValue( "${foo}" );
+        metawidget.putAttribute( HIDDEN, TRUE );
         
-        String result = "<table>" +
-            "<input name=\"fooBar\" style=\"stylin\" styleClass=\"styleClassin\" type=\"text\"/>" +
-            "<input name=\"fooBaz\" style=\"stylin\" styleClass=\"styleClassin\" type=\"text\"/>" +
-            "</table>";
+        String result = "<table><input name=\"fooBar\" type=\"hidden\"/><input name=\"fooBaz\" type=\"hidden\"/></table>";
         assertEquals( result, metawidget.toString() );
-        
     }
-    
+
     //
     // Inner class
     //
@@ -90,5 +70,4 @@ public class CssStyleProcessorTest
         
         public int baz;
     }
-
 }

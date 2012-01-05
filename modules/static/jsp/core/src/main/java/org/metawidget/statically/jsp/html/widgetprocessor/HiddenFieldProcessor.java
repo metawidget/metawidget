@@ -1,3 +1,19 @@
+// Metawidget
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 package org.metawidget.statically.jsp.html.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
@@ -34,19 +50,21 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
         
         // Add a hidden input as a child of the metawidget
         
-        HtmlTag tag = new HtmlTag("input");
-        tag.putAttribute( "type", "hidden" );
+        metawidget.getChildren().remove( widget );
+        widget = new HtmlTag("input");
+        widget.putAttribute( "type", "hidden" );
         metawidget.getChildren().add( widget );
         
-        // Not sure on the implementation of the <span/> tag as a child of metawidget or as a child of widget?
-        
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
-            metawidget.getChildren().add( new HtmlTag( "span" ) );
+            metawidget.getChildren().remove( widget );
+            widget = new HtmlTag( "span" );
+            metawidget.getChildren().add( widget );
+            return widget;
         }
         
         // Return the hidden input HtmlTag which has just been created
         
-        return tag;
+        return widget;
     }
 
 }

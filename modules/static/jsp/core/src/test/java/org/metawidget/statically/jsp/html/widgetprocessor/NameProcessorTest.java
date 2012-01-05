@@ -26,17 +26,17 @@ public class NameProcessorTest
         
         // Null metawidget value, no name
         
-        processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
         
         // Null metawidget value, name
         attributes.put( NAME, "foo" );
-        processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input name=\"foo\"/>", tag.toString() );
         
         // Metawidget value
         metawidget.setValue( "FooBar" );
-        processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input name=\"fooBarFoo\"/>", tag.toString() );
         
     }
