@@ -36,6 +36,7 @@ import org.apache.struts.taglib.html.TextareaTag;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
+import org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -69,6 +70,7 @@ public class StrutsWidgetBuilder
 		// Hidden?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
+			attributes.put( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
 			return new HtmlStubTag();
 		}
 

@@ -43,7 +43,6 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UISuggestionBox;
-import org.richfaces.component.html.HtmlColumn;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 import org.richfaces.component.html.HtmlSuggestionBox;
@@ -221,6 +220,8 @@ public class RichFacesWidgetBuilderTest
 		assertTrue( 1 == ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams().length );
 		assertTrue( suggestionBox.getChildCount() == 1 );
 		assertTrue( suggestionBox.getChildren().get( 0 ) instanceof UIColumn );
+		// (a org.richfaces.component.UIColumn did not POST back properly)
+		assertTrue( !( suggestionBox.getChildren().get( 0 ) instanceof org.richfaces.component.UIColumn ));
 		assertTrue( suggestionBox.getChildren().get( 0 ).getId() != null );
 		HtmlOutputText htmlOutputText = (HtmlOutputText) suggestionBox.getChildren().get( 0 ).getChildren().get( 0 );
 		assertTrue( htmlOutputText.getId() != null );
@@ -291,9 +292,7 @@ public class RichFacesWidgetBuilderTest
 				return new UICalendar();
 			}
 
-			if ( HtmlColumn.COMPONENT_TYPE.equals( componentName ) ) {
-				return new HtmlColumn();
-			}
+			// Should *not* use org.richfaces.component.html.HtmlColumn
 
 			if ( HtmlSuggestionBox.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlSuggestionBox();

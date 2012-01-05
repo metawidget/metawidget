@@ -72,6 +72,11 @@
 					<td class="link"><a href="http://blog.hibernate.org/Bloggers/Seam212" target="_blank">View</a></td>
 				</tr>
 				<tr>
+					<td>JBoss Community Asylum</td>
+					<td>Forging Forge</td>
+					<td class="link"><a href="http://asylum.libsyn.com/webpage/podcast-23-forging-forge" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Mark Ashworth's Blog</td>
 					<td>Introduction to Metawidget</td>
 					<td class="link"><a href="http://markashworth.blogspot.com/2008/02/metawidget-introduction-background.html" target="_blank">View</a></td>
@@ -186,6 +191,13 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>Stehno, B.</td>
+					<td>2011</td>
+					<td>Generov&aacute;n&iacute; aplikac&iacute; pro OS Android. </td>
+					<td>Cesk&eacute; vysok&eacute; ucen&iacute; technick&eacute; v Praze</td>
+					<td class="link"><a href="https://dip.felk.cvut.cz/browse/pdfcache/stehnvl1_2011dipl.pdf" target="_blank">View</a></td>
+				</tr>
 				<tr>
 					<td>Oh, J. M., Lee, Y. S. & Moon, N.</td>
 					<td>2011</td>
