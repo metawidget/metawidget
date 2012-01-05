@@ -72,16 +72,16 @@ public class HtmlWidgetBuilderTest
         
         attributes.put( NAME, "items" );
         widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-        assertEquals( "<table><tr/><c:forEach items=\"items\" var=\"item\"><tr><td><c:out value=\"${item}\"/></td></tr></c:forEach></table>", widget.toString() );
+        assertEquals( "<table><tr/><c:forEach items=\"${items}\" var=\"item\"><tr><td><c:out value=\"${item}\"/></td></tr></c:forEach></table>", widget.toString() );
         
         // With Array
         
         attributes.put( TYPE, Foo[].class.getName() );
         widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
         
-        String result = "<table><tr><td><c:out value=\"bar\"/></td><td><c:out value=\"baz\"/></td></tr>" +
-            "<c:forEach items=\"items\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
-            "<td><c:out value=\"${item.baz}\"/></td></c:forEach></table>";
+        String result = "<table><tr><td><h3>Bar</h3></td><td><h3>Baz</h3></td></tr>" +
+            "<c:forEach items=\"${items}\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
+            "<td><c:out value=\"${item.baz}\"/></td></tr></c:forEach></table>";
         
         assertEquals( result, widget.toString() );
         
@@ -102,6 +102,10 @@ public class HtmlWidgetBuilderTest
         metawidget.setValue( "${foo.pageItems}" );
         metawidget.setPath( FooBean.class.getName() + "/pageItems" );
         metawidget.setLayout( new SimpleLayout() );
+        
+        result = "<table name=\"fooPageItemsPageItems\"><tr><td><h3>Bar</h3></td><td><h3>Baz</h3></td></tr>" +
+        "<c:forEach items=\"${pageItems}\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
+        "<td><c:out value=\"${item.baz}\"/></td></tr></c:forEach></table>";        
         assertEquals( result, metawidget.toString() );
         
         // With required columns
@@ -109,8 +113,8 @@ public class HtmlWidgetBuilderTest
         metawidget.setValue( "${foo.requiredPageItems}" );
         metawidget.setLayout( new SimpleLayout() );
         metawidget.setPath( FooBean.class.getName() + "/requiredPageItems" );
-        result = "<table><tr><td><c:out value=\"bar\"/></td><td><c:out value=\"abc\"/></td></tr>" +
-            "<c:forEach items=\"${foo.requiredPageItems}\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
+        result = "<table name=\"fooRequiredPageItemsRequiredPageItems\"><tr><td><h3>Bar</h3></td><td><h3>Abc</h3></td></tr>" +
+            "<c:forEach items=\"${requiredPageItems}\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
             "<td><c:out value=\"${item.abc}\"/></td></tr></c:forEach></table>";
         assertEquals( result, metawidget.toString() );
     }
@@ -128,8 +132,8 @@ public class HtmlWidgetBuilderTest
         
         // Test the output table; 'column6' should be suppressed due to a maximum number of columns of 5.
         
-        String result = "<table><tr><td><c:out value=\"column1\"/></td><td><c:out value=\"column2\"/></td>"+
-            "<td><c:out value=\"column3\"/></td><td><c:out value=\"column4\"/></td><td><c:out value=\"column5\"/></td></tr>" +
+        String result = "<table><tr><td><h3>Column 1</h3></td><td><h3>Column 2</h3></td>"+
+            "<td><h3>Column 3</h3></td><td><h3>Column 4</h3></td><td><h3>Column 5</h3></td></tr>" +
             "<c:forEach var=\"item\"><tr><td><c:out value=\"${item.column1}\"/></td><td><c:out value=\"${item.column2}\"/></td>" +
             "<td><c:out value=\"${item.column3}\"/></td><td><c:out value=\"${item.column4}\"/></td>" +
             "<td><c:out value=\"${item.column5}\"/></td></tr></c:forEach></table>";
@@ -140,9 +144,8 @@ public class HtmlWidgetBuilderTest
         widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 2 ) );
         widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
         
-        result = "<table><tr><td><c:out value=\"column1\"/></td><td><c:out value=\"column2\"/></td>"+
-        "<td><c:out value=\"column3\"/></td><td><c:out value=\"column4\"/></td><td><c:out value=\"column5\"/></td></tr>" +
-        "<c:forEach var=\"item\"><tr><td><c:out value=\"${item.column1}\"/></td><td><c:out value=\"${item.column2}\"/></td>" +
+        result = "<table><tr><td><h3>Column 1</h3></td><td><h3>Column 2</h3></td></tr><c:forEach var=\"item\">" +
+        "<tr><td><c:out value=\"${item.column1}\"/></td><td><c:out value=\"${item.column2}\"/></td>" +
         "</tr></c:forEach></table>";
         assertEquals( result, widget.toString() );
         
@@ -150,8 +153,8 @@ public class HtmlWidgetBuilderTest
         
         widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 0 ) );
         widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-        result = "<table><tr><td><c:out value=\"column1\"/></td><td><c:out value=\"column2\"/></td>"+
-        "<td><c:out value=\"column3\"/></td><td><c:out value=\"column4\"/></td><td><c:out value=\"column5\"/></td></tr>" +
+        result = "<table><tr><td><h3>Column 1</h3></td><td><h3>Column 2</h3></td>"+
+        "<td><h3>Column 3</h3></td><td><h3>Column 4</h3></td><td><h3>Column 5</h3></td><td><h3>Column 6</h3></td></tr>" +
         "<c:forEach var=\"item\"><tr><td><c:out value=\"${item.column1}\"/></td><td><c:out value=\"${item.column2}\"/></td>" +
         "<td><c:out value=\"${item.column3}\"/></td><td><c:out value=\"${item.column4}\"/></td>" +
         "<td><c:out value=\"${item.column5}\"/></td><td><c:out value=\"${item.column6}\"/></td></tr></c:forEach></table>";

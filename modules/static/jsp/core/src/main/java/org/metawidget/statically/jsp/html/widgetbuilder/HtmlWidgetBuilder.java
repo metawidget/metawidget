@@ -215,6 +215,12 @@ public class HtmlWidgetBuilder
         ForEachTag forEach = new ForEachTag();
         
         String items = attributes.get( NAME );
+        
+        if ( items != null ) {
+            
+            items = StaticJspUtils.wrapExpression( items );
+        }
+        
         forEach.putAttribute( "items", items );
         String var = "item";
         forEach.putAttribute( "var", var );
@@ -272,10 +278,9 @@ public class HtmlWidgetBuilder
         
         while ( true ) {
             
-            // Add a new row to the table.
+            // Create a new row for the forEach tag to iterate upon.
             
             HtmlTableRow row = new HtmlTableRow();
-            forEach.getChildren().add( row );
             
             // For each property...
             
@@ -297,7 +302,7 @@ public class HtmlWidgetBuilder
                 
                 // ...that is visible...
                 
-                if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
+                if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
                     continue;
                 }
 
@@ -308,7 +313,7 @@ public class HtmlWidgetBuilder
                 // be enough to uniquely identify the row to the user. However, users may wish
                 // to override this default behaviour
                 
-                if ( onlyRequired && !TRUE.equals( attributes.get( REQUIRED ) ) ) {
+                if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
                     continue;
                 }
                 
@@ -322,18 +327,24 @@ public class HtmlWidgetBuilder
                 
                 // ...up to a sensible maximum.
                 
-                if ( forEach.getChildren().size() == mMaximumColumnsInDataTable ) {
+                if ( row.getChildren().size() == mMaximumColumnsInDataTable ) {
                     break;
                 }
                 
-                // If we couldn't add any 'required' columns, try again for every field.
-                
-                if ( !forEach.getChildren().isEmpty() || !onlyRequired ) {
-                    break;
-                }
-                
-                onlyRequired = false;
             }
+
+            if ( !row.getChildren().isEmpty() ) {
+                
+                forEach.getChildren().add( row );
+            }
+            
+            // If we couldn't add any 'required' columns, try again for every field.
+            
+            if ( !forEach.getChildren().isEmpty() || !onlyRequired ) {
+                break;
+            }            
+            
+            onlyRequired = false;
         }       
     }
 
