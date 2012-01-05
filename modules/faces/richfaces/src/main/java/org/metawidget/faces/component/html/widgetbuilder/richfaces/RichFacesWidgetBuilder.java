@@ -46,7 +46,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UISuggestionBox;
 import org.richfaces.component.html.HtmlCalendar;
-import org.richfaces.component.html.HtmlColumn;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 import org.richfaces.component.html.HtmlSuggestionBox;
@@ -319,8 +318,7 @@ public class RichFacesWidgetBuilder
 							application.createComponent( HtmlSuggestionBox.COMPONENT_TYPE );
 
 					// Lock the 'id's so they don't get changed. This is important for the
-					// JavaScript
-					// getElementById that RichFaces generates. Also, do not just use
+					// JavaScript getElementById that RichFaces generates. Also, do not just use
 					// 'viewRoot.createUniqueId' because, as per the RenderKit specification:
 					//
 					// "If the value returned from component.getId() is non-null and does not start
@@ -347,8 +345,7 @@ public class RichFacesWidgetBuilder
 						// JSF 1.1
 						//
 						// Note: according to JavaDocs returnType is only important when literal
-						// (i.e.
-						// without #{...}) expression is used, otherwise Object.class is fine
+						// (i.e. without #{...}) expression is used, otherwise Object.class is fine
 						// (http://community.jboss.org/message/516830#516830)
 
 						Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { Object.class } ) };
@@ -361,8 +358,12 @@ public class RichFacesWidgetBuilder
 					}
 
 					// Column
+					//
+					// Note: this must be javax.faces.component.html.HtmlColumn, not
+					// org.richfaces.component.html.HtmlColumn. The latter displayed okay, but when
+					// a value was selected it did not populate back to the HtmlInputText
 
-					UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
+					UIColumn column = (UIColumn) application.createComponent( javax.faces.component.html.HtmlColumn.COMPONENT_TYPE );
 					column.setId( viewRoot.createUniqueId() );
 					suggestionBox.getChildren().add( column );
 
