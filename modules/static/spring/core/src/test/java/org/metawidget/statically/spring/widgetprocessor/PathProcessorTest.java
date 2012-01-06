@@ -5,6 +5,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Date;
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormInputTag;
 import org.metawidget.util.CollectionUtils;
@@ -27,26 +28,26 @@ public class PathProcessorTest
     public void testWidgetProcessor() {
         
         PathProcessor processor = new PathProcessor();
-        FormInputTag springInput = new FormInputTag();
+        StaticXmlWidget springInput = new FormInputTag();
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
         Map<String, String> attributes = CollectionUtils.newHashMap();
                 
         // Null value
         
         attributes.put( NAME, "bar" );
-        processor.processWidget( springInput, PROPERTY, attributes, metawidget );
+        springInput = processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:input path=\"bar\"/>", springInput.toString() );
         
         // Non-null value, no dot separator
         
         metawidget.setValue( "foo" );
-        processor.processWidget( springInput, PROPERTY, attributes, metawidget );
+        springInput = processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:input path=\"bar\"/>", springInput.toString() );
         
         // Non-null value, dot separator
         
         metawidget.setValue( "org.foo" );
-        processor.processWidget( springInput, PROPERTY, attributes, metawidget );
+        springInput = processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:input path=\"foo.bar\"/>", springInput.toString() );
     }
     

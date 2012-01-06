@@ -57,19 +57,19 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
             }
         }
         
+        metawidget.getChildren().remove( widget );
         widget = new FormHiddenTag();
         widget.putAttribute( "path", name );
+        metawidget.getChildren().add( widget );
 
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( attributes.get( HIDDEN ) ) ) {
             
             // Add a child stub to the widget.
-                       
+            
+            metawidget.getChildren().remove( widget );
             widget = new StaticXmlStub();
             metawidget.getChildren().add( widget );
             return widget;
-            
-            // Or should it be an HTML <span/> tag?
-//          metawidget.getChildren().add( new HtmlTag( "span" );
         }        
         
         return widget;

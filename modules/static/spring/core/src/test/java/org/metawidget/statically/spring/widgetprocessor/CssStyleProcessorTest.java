@@ -4,6 +4,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Date;
 
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.spring.widgetprocessor.CssStyleProcessor;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormInputTag;
@@ -27,26 +28,26 @@ public class CssStyleProcessorTest
         throws Exception {
         
         CssStyleProcessor processor = new CssStyleProcessor();
-        FormInputTag springInput = new FormInputTag();
+        StaticXmlWidget springInput = new FormInputTag();
         
         // No style
         
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
-        processor.processWidget( springInput, PROPERTY, null, metawidget );
+        springInput = processor.processWidget( springInput, PROPERTY, null, metawidget );
         assertEquals( "<form:input/>", springInput.toString() );
         
         // Simple styles and classes
         
         metawidget.putAttribute( "style" , "foo");
         metawidget.putAttribute( "styleClass", "bar");
-        processor.processWidget( springInput, PROPERTY, null, metawidget );
+        springInput = processor.processWidget( springInput, PROPERTY, null, metawidget );
         assertEquals( "<form:input style=\"foo\" styleClass=\"bar\"/>", springInput.toString() );
         
         // Compound styles and compound classes
         
         metawidget.putAttribute( "style", "foo2" );
         metawidget.putAttribute( "styleClass", "bar2" );
-        processor.processWidget( springInput, PROPERTY, null, metawidget );
+        springInput = processor.processWidget( springInput, PROPERTY, null, metawidget );
         assertEquals( "<form:input style=\"foo foo2\" styleClass=\"bar bar2\"/>", springInput.toString() );
     }
     
