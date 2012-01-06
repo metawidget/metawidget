@@ -50,25 +50,6 @@ public class HiddenFieldProcessorTest
         assertEquals( "<input type=\"hidden\"/>", tag.toString() );
     }
     
-    public void testSimpleType() {
-        
-        StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-        metawidget.setPath( Foo.class.getName() );
-        metawidget.setValue( "${foo}" );
-        metawidget.putAttribute( HIDDEN, TRUE );
-        
-        String result = "<table><input name=\"fooBar\" type=\"hidden\"/><input name=\"fooBaz\" type=\"hidden\"/></table>";
-        assertEquals( result, metawidget.toString() );
-    }
-
-    //
-    // Inner class
-    //
+    // We do not support hiding the entire Metawidget, only certain members of the Metawidget, so we don't test a simple type.
     
-    public static class Foo {
-        
-        public String bar;
-        
-        public int baz;
-    }
 }
