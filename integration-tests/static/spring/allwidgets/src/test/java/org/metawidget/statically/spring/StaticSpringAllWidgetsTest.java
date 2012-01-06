@@ -19,9 +19,11 @@ package org.metawidget.statically.spring;
 import java.io.StringWriter;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
+
 import junit.framework.TestCase;
 
-public class StaticSpringAllWidgetsTest extends TestCase {
+public class StaticSpringAllWidgetsTest
+    extends TestCase {
     
     //
     // Public methods
@@ -33,13 +35,12 @@ public class StaticSpringAllWidgetsTest extends TestCase {
         metawidget.setConfig( "org/metawidget/integrationtest/static/spring/allwidgets/metawidget.xml" );
         metawidget.setValue( "${allWidgets}" );
         metawidget.setPath( AllWidgets.class.getName() );
-
+        
         String result = new String();
-
+        
         StringWriter writer = new StringWriter();
         metawidget.write( writer, 0 );
         assertEquals( result, writer.toString() );
-
     }
 
 }
