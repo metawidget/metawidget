@@ -44,6 +44,22 @@ public class HiddenFieldProcessor
 	implements WidgetProcessor<Tag, MetawidgetTag> {
 
 	//
+	// Public statics
+	//
+
+	/**
+	 * Marks a tag as potentially needing a hidden field.
+	 * <p>
+	 * In order to align tightly with the <code>StubTag</code>s created by the
+	 * <code>WidgetBuilder</code>s, and to avoid confusion with manually created
+	 * <code>StubTag</code>s (eg. from <code>OverriddenWidgetBuilder</code>), we take a flag-based
+	 * approach to hidden field processing. This would be cleaner if JSP had a richer component
+	 * model (ie. in JSF we do <code>instanceof UIInput</code>).
+	 */
+
+	public static final String	ATTRIBUTE_NEEDS_HIDDEN_FIELD	= "metawidget-needs-hidden-field";
+
+	//
 	// Public methods
 	//
 
@@ -51,15 +67,24 @@ public class HiddenFieldProcessor
 
 		// Not for us?
 
-		if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
+		if ( !TRUE.equals( attributes.get( ATTRIBUTE_NEEDS_HIDDEN_FIELD ) ) ) {
 			return tag;
 		}
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		return wrapTag( tag, attributes, metawidget );
+	}
 
-		StringBuffer buffer = new StringBuffer();
+	//
+	// Protected methods
+	//
+
+	protected Tag wrapTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		try {
+			// (use StringBuffer for J2SE 1.4 compatibility)
+
+			StringBuffer buffer = new StringBuffer();
+
 			// Write the tag...
 
 			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget );
@@ -67,10 +92,8 @@ public class HiddenFieldProcessor
 
 			// ...together with a hidden tag
 
-			buffer.append( "<input type=\"hidden\"" );
-			buffer.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
-			buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
-			buffer.append( "/>" );
+			Tag hiddenTag = createHiddenTag( attributes, metawidget );
+			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ) );
 
 			// If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
 			// a hidden field' and putting it outside the table
@@ -79,9 +102,20 @@ public class HiddenFieldProcessor
 				buffer.append( "<span></span>" );
 			}
 
+			return new LiteralTag( buffer.toString() );
 		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
+	}
+
+	protected Tag createHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<input type=\"hidden\"" );
+		buffer.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
+		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		buffer.append( "/>" );
 
 		return new LiteralTag( buffer.toString() );
 	}

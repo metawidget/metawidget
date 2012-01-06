@@ -62,7 +62,7 @@ public final class JspUtils {
 	 * @return true if the given HTML consists of nothing but hidden fields
 	 */
 
-	public static boolean isJustHiddenFields( String html ) {
+	public static boolean isJustHiddenFields( CharSequence html ) {
 
 		return PATTERN_HIDDEN_FIELDS.matcher( html ).matches();
 	}

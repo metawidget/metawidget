@@ -512,8 +512,10 @@ public abstract class MetawidgetTag
 						throw e;
 					}
 
-					// Log a warning. Still log the Exception message, in case the FileNotFoundException
-					// is from inside metawidget.xml, for example 'Unable to locate checkout.jpdl.xml on
+					// Log a warning. Still log the Exception message, in case the
+					// FileNotFoundException
+					// is from inside metawidget.xml, for example 'Unable to locate
+					// checkout.jpdl.xml on
 					// CLASSPATH'
 
 					if ( !LOGGED_MISSING_CONFIG ) {
