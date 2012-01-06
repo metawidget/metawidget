@@ -28,7 +28,6 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor that turns hidden fields into <code>HiddenTag</code>s, so that they POST back.
@@ -40,19 +39,14 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class HiddenFieldProcessor
-	implements WidgetProcessor<Tag, MetawidgetTag> {
+extends org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor {
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
-	public Tag processWidget( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
-
-		// Not for us?
-
-		if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return tag;
-		}
+	@Override
+	protected Tag wrapTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Hidden field?
 
@@ -77,14 +71,18 @@ public class HiddenFieldProcessor
 		// <hidden> fields. Output a SPAN tag to stop this.
 
 		try {
-			hiddenTag.setWrite( true );
-			String literal = JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget );
+			// (use StringBuffer for J2SE 1.4 compatibility)
 
-			if ( JspUtils.isJustHiddenFields( literal ) ) {
-				return new LiteralTag( literal + "<span></span>" );
+			StringBuffer buffer = new StringBuffer();
+
+			hiddenTag.setWrite( true );
+			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ));
+
+			if ( JspUtils.isJustHiddenFields( buffer ) ) {
+				buffer.append( "<span></span>" );
 			}
 
-			return new LiteralTag( literal );
+			return new LiteralTag( buffer.toString() );
 		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
