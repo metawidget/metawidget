@@ -2,7 +2,6 @@ package org.metawidget.statically.spring.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
@@ -62,32 +61,6 @@ public class HiddenFieldProcessorTest
         assertEquals( "<form:hidden path=\"org.metawidget.statically.spring\"/>", springInput.toString() );
     }
     
-    public void testSimpleType() {
-        
-        StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
-        metawidget.putAttribute( HIDDEN, TRUE );
-        metawidget.setValue( "org.foo" );
-        metawidget.setPath( Foo.class.getName() );
-        
-        String result = "<table>" +
-        "<form:input path=\"foo.bar\"/>" +
-//        "<form:hidden path=\"foo.bar\"/>" +
-        "<form:input path=\"foo.baz\"/>" +
-//        "<form:hidden path=\"foo.baz\"/>" +       
-        "</table>";
-
-        assertEquals( result, metawidget.toString() );
-    }
-    
-    //
-    // Inner class
-    //
-    
-    public static class Foo {
-        
-        public Date bar;
-        
-        public int baz;        
-    }
+    // We do not test a simple type as Metawidget does not support hiding the entire Metawidget, only specific members.
     
 }
