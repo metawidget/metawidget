@@ -4,6 +4,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
 import org.metawidget.util.CollectionUtils;
@@ -22,21 +23,21 @@ public class NameProcessorTest
         StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
         Map<String, String> attributes = CollectionUtils.newHashMap();
         NameProcessor processor = new NameProcessor();
-        HtmlTag tag = new HtmlTag( "input" );
+        StaticXmlWidget tag = new HtmlTag( "input" );
         
         // Null metawidget value, no name
         
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
         
         // Null metawidget value, name
         attributes.put( NAME, "foo" );
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input name=\"foo\"/>", tag.toString() );
         
         // Metawidget value
         metawidget.setValue( "FooBar" );
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input name=\"fooBarFoo\"/>", tag.toString() );
         
     }

@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
 import org.metawidget.util.CollectionUtils;
@@ -41,26 +42,26 @@ public class CssStyleProcessorTest
         
         CssStyleProcessor processor = new CssStyleProcessor();
         Map<String, String> attributes = CollectionUtils.newHashMap();
-        HtmlTag tag = new HtmlTag( "input" );
+        StaticXmlWidget tag = new HtmlTag( "input" );
         
         // No style
         
         StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
         
         // Simple styles and classes
         
         metawidget.putAttribute( "style", "foo" );
         metawidget.putAttribute( "styleClass", "bar" );
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input style=\"foo\" styleClass=\"bar\"/>", tag.toString() );
         
         // Compound styles and classes
         
         metawidget.putAttribute( "style", "foo2" );
         metawidget.putAttribute( "styleClass", "bar2" );
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input style=\"foo foo2\" styleClass=\"bar bar2\"/>", tag.toString() );
     }
     

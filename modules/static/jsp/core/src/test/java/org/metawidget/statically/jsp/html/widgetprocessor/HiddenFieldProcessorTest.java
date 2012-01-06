@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
 import org.metawidget.util.CollectionUtils;
@@ -34,18 +35,18 @@ public class HiddenFieldProcessorTest
         HiddenFieldProcessor processor = new HiddenFieldProcessor();
         StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
         Map<String, String> attributes = CollectionUtils.newHashMap();
-        HtmlTag tag = new HtmlTag( "input" );
+        StaticXmlWidget tag = new HtmlTag( "input" );
         
         // Not hidden
 
         attributes.put( HIDDEN, FALSE );        
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
         
         // Hidden
         
         attributes.put( HIDDEN, TRUE );
-        tag = (HtmlTag) processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input type=\"hidden\"/>", tag.toString() );
     }
     
