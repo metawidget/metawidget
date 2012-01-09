@@ -93,7 +93,7 @@ public class HtmlWidgetBuilder
         if ( jspLookup != null && !"".equals( jspLookup ) ) {
             HtmlSelect select = new HtmlSelect();
             // Not sure if this is a legitimate replacement of HtmlWidgetBuilderUtils.evaluate(jspLookup, metawidget);
-            addSelectItems( select, CollectionUtils.fromString(jspLookup), null, attributes);
+            addSelectItems( select, jspLookup, attributes);
             return select;
         }		
 		
@@ -136,9 +136,9 @@ public class HtmlWidgetBuilder
 			    }
 			    
 			    if ( char.class.equals( clazz ) ) {
-			        HtmlTag inputTag = new HtmlTag( "input" );
-			        inputTag.putAttribute( MAX_LENGTH, "1" );
-			        return inputTag;
+	                attributes.put( MAXIMUM_LENGTH, "1" );
+			        HtmlTag characterInput = createHtmlInputText( attributes );
+			        return characterInput;
 			    }
 			    
 				return createHtmlInputText( attributes );
@@ -152,9 +152,8 @@ public class HtmlWidgetBuilder
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-					HtmlTag inputSecret = new HtmlTag( "input" );
+					HtmlTag inputSecret = createHtmlInputText( attributes );
 					inputSecret.putAttribute( "type", "secret" );
-					inputSecret.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 					return inputSecret;
 				}
 
@@ -164,8 +163,8 @@ public class HtmlWidgetBuilder
     		// Character
     		
     		if ( Character.class.equals( clazz ) ) {
+    		    attributes.put( MAXIMUM_LENGTH, "1" );
     		    HtmlTag characterInput = createHtmlInputText( attributes );
-    		    characterInput.putAttribute( MAX_LENGTH, "1" );
     		    return characterInput;
     		}
     		
@@ -276,7 +275,7 @@ public class HtmlWidgetBuilder
      * Clients can override this method to add additional columns, such as a 'Delete' button.
      */
     
-    private void addColumnComponents(HtmlTable table, ForEachTag forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+    protected void addColumnComponents(HtmlTable table, ForEachTag forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
 
         // At first, only add columns for the 'required' fields
         
@@ -382,6 +381,21 @@ public class HtmlWidgetBuilder
         cell.getChildren().add( out );
         
     }
+    
+    private void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
+
+        // Empty option
+        
+        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+            addSelectItem( select, "", null );
+        }
+        
+        addSelectItem( select, valueExpression, null );        
+    }    
+    
+    //
+    // Private methods
+    //
     
     private void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 

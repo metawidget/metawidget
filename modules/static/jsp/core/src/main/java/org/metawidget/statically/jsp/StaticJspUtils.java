@@ -67,7 +67,7 @@ public final class StaticJspUtils {
             return value;
         }
 
-        return matcher.group( 2 );
+        return matcher.group( 1 );
     }    
 
     /**
