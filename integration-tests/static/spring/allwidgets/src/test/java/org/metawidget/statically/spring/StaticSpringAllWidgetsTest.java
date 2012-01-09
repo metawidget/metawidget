@@ -36,7 +36,15 @@ public class StaticSpringAllWidgetsTest
         metawidget.setValue( "${allWidgets}" );
         metawidget.setPath( AllWidgets.class.getName() );
         
-        String result = new String();
+        String result = "<table>" +
+            "\t<form:input path=\"${allWidgets.mTextbox}\" value=\"Textbox\"/>\r\n" +
+            "\t<form:input path=\"${allWidgets.mLimitedTextbox}\" value=\"Limited Textbox\"/>\r\n" +
+            "\t<form:input path=\"${allWidgets.mTextarea\" value=\"Textarea\"/>/r/n" +
+            "\t<form:input path=\"${allWidgets.mPassword}\" value=\"Password\"/>/r/n" +
+            "\t<form:input path=\"${allWidgets.mBytePrimitive}\" value=\"1111111\"/>/r/n" +
+            "\t<form:input path=\"${allWidgets.mByteObject}\" value=\"0000000\"/>/r/n" +
+            "\t<form:input path=\"${allWidgets.mShortPrimitive}\" value\"\"/>/r/n"
+            ;
         
         StringWriter writer = new StringWriter();
         metawidget.write( writer, 0 );
