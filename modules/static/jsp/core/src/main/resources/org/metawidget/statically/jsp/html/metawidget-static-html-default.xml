@@ -38,8 +38,8 @@
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>					
-						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>					
+						<htmlWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
 					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>
