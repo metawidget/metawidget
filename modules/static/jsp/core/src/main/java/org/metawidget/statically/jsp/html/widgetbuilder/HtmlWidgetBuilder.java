@@ -19,8 +19,8 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
