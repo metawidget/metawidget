@@ -187,6 +187,7 @@ public class HtmlWidgetBuilder
     		}
     		
     		// Unsupported Collections
+    		
             if ( Collection.class.isAssignableFrom( clazz ) ) {
                 return new StaticXmlStub();
             }
