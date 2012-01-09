@@ -111,7 +111,7 @@ public class HtmlWidgetBuilder
 		
 		// Support mandatory Booleans.
 		
-		if ( Boolean.class.equals( clazz ) && TRUE.equals( REQUIRED ) ) {
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 		    return createHtmlCheckbox();
 		}
 		
@@ -131,8 +131,14 @@ public class HtmlWidgetBuilder
 
 			if ( clazz.isPrimitive() ) {
 			    
-			    if( boolean.class.equals( clazz ) ) {
+			    if ( boolean.class.equals( clazz ) ) {
 			        return createHtmlCheckbox();
+			    }
+			    
+			    if ( char.class.equals( clazz ) ) {
+			        HtmlTag inputTag = new HtmlTag( "input" );
+			        inputTag.putAttribute( MAX_LENGTH, "1" );
+			        return inputTag;
 			    }
 			    
 				return createHtmlInputText( attributes );
