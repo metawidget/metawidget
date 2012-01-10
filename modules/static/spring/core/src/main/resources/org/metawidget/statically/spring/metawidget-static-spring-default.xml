@@ -37,10 +37,10 @@
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
-					<array>
-						<springWidgetBuilder xmlns="java:org.metawidget.statically.spring.widgetbuilder"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>					
+					<array>					
 						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
+						<springWidgetBuilder xmlns="java:org.metawidget.statically.spring.widgetbuilder"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
 					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>

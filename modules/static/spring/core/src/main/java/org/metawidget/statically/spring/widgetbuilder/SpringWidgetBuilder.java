@@ -90,7 +90,7 @@ public class SpringWidgetBuilder
         String springLookup = attributes.get( SPRING_LOOKUP );
         
         if( springLookup != null && !"".equals( springLookup ) ) {
-            return createSelectTag( springLookup, attributes);
+            return createFormSelectTag( springLookup, attributes);
         }		
 		
 		// String Lookups
@@ -98,7 +98,7 @@ public class SpringWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 		
 		if ( lookup != null && !"".equals( lookup ) ) {
-		    return createSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes);
+		    return createFormSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS )), attributes);
 		}
 
 		if ( clazz != null ) {
@@ -106,11 +106,17 @@ public class SpringWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
+			    
 			    if ( boolean.class.equals( clazz ) ) {
 			        return createHtmlCheckbox();
 			    }
 			    
-				return createHtmlInputText( attributes );
+			    if ( char.class.equals( clazz ) ) {
+			        attributes.put( MAXIMUM_LENGTH, "1" );
+			        return createFormInputText( attributes );
+			    }
+			    
+				return createFormInputText( attributes );
 			}
 
 			// String
@@ -127,35 +133,35 @@ public class SpringWidgetBuilder
 					return inputSecret;
 				}
 
-				return createHtmlInputText( attributes );
+				return createFormInputText( attributes );
 			}
 			
 			// Character
 			
 			if ( Character.class.equals( clazz ) ) {
-			    FormInputTag characterInput = (FormInputTag) createHtmlInputText( attributes );
-			    characterInput.putAttribute( MAX_LENGTH , "1" );
+			    attributes.put( MAXIMUM_LENGTH, "1" );
+			    return createFormInputText( attributes );
 			}
 			
 			// Dates
 			
 			if ( Date.class.equals( clazz ) ) {
-			    return createHtmlInputText( attributes );
+			    return createFormInputText( attributes );
 			}
 			
 			// Booleans (are tri-state)
 			
 			if ( Boolean.class.equals( clazz ) ) {
-			    return createSelectTag( LIST_BOOLEAN_VALUES, null, attributes);
+			    return createFormSelectTag( LIST_BOOLEAN_VALUES, null, attributes);
 			}
 			
 			// Numbers
 			
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-			    return createHtmlInputText( attributes );
+			    return createFormInputText( attributes );
 			}
 			
-			// Collections
+			// Collections will be handled by JSP HtmlWidgetBuilder
 			
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
 			    return new StaticXmlStub();
@@ -165,7 +171,7 @@ public class SpringWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return createHtmlInputText( attributes );
+			return createFormInputText( attributes );
 		}
 
 		// Not simple
@@ -177,7 +183,7 @@ public class SpringWidgetBuilder
 	// Private methods
 	//
 	
-    private StaticXmlWidget createHtmlInputText( Map<String, String> attributes ) {
+    private FormInputTag createFormInputText( Map<String, String> attributes ) {
 
 		FormInputTag input = new FormInputTag();
 		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
@@ -185,19 +191,19 @@ public class SpringWidgetBuilder
 		return input;
 	}
 	
-	private StaticXmlWidget createHtmlCheckbox() {
+	private HtmlTag createHtmlCheckbox() {
 	    
-	    FormInputTag checkbox = new FormInputTag();
+	    HtmlTag checkbox = new HtmlTag( "input" );
 	    checkbox.putAttribute( "type" , "checkbox" );
 	    
 	    return checkbox;
 	}
 	
-    private StaticXmlWidget createSelectTag(String expression, Map<String, String> attributes) {
+    private FormSelectTag createFormSelectTag(String expression, Map<String, String> attributes) {
         
         // Write the SELECT tag.
         
-        final FormSelectTag selectTag = new FormSelectTag();
+        FormSelectTag selectTag = new FormSelectTag();
 
         // Empty option
         
@@ -207,7 +213,7 @@ public class SpringWidgetBuilder
             
             // Add the empty option to the SELECT tag
             
-            selectTag.getChildren().add(emptyOption);
+            selectTag.getChildren().add( emptyOption );
         }
         
         // Options tag
@@ -234,11 +240,11 @@ public class SpringWidgetBuilder
         return selectTag;
     }
 
-    private StaticXmlWidget createSelectTag(List<?> values, List<String> labels, Map<String, String> attributes) {
+    private FormSelectTag createFormSelectTag(List<?> values, List<String> labels, Map<String, String> attributes) {
         
         // Write the SELECT tag.
         
-        final FormSelectTag selectTag = new FormSelectTag();
+        FormSelectTag selectTag = new FormSelectTag();
         
         // Check to see if labels are being used.
         
@@ -260,17 +266,18 @@ public class SpringWidgetBuilder
         // Add the options
         
         for ( int i = 0, length = values.size(); i < length; i++ ) {
-            final FormOptionTag optionTag = new FormOptionTag();
+            FormOptionTag optionTag = new FormOptionTag();
             
             optionTag.putAttribute( "value" , values.get( i ).toString() );
             
             if ( labels != null && !labels.isEmpty() ) {
-                optionTag.putAttribute( "label" , labels.get( i ) );
                 
-                // Add the option to the SELECT tag
-                
-                selectTag.getChildren().add( optionTag );
+                optionTag.setTextContent( labels.get( i ) );
             }
+            
+            // Add the option to the SELECT tag
+            
+            selectTag.getChildren().add( optionTag );            
         }
         
         return selectTag;
