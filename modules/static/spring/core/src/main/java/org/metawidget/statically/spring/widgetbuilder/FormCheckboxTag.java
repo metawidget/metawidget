@@ -20,12 +20,16 @@ package org.metawidget.statically.spring.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class SpringFormTag
+public class FormCheckboxTag
     extends SpringTag {
 
-    public SpringFormTag() {
-        
-        super( "form" );
+    //
+    // Public methods
+    //
+    
+    public FormCheckboxTag() {
+
+        super( "checkbox" );
     }
 
 }

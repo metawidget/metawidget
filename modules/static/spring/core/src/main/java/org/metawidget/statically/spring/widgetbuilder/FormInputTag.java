@@ -5,7 +5,7 @@ package org.metawidget.statically.spring.widgetbuilder;
  */
 
 public class FormInputTag
-	extends SpringFormTag {
+	extends SpringTag {
 
 	//
 	// Constructor

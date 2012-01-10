@@ -6,7 +6,7 @@ package org.metawidget.statically.spring.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class FormHiddenTag extends SpringFormTag {
+public class FormHiddenTag extends SpringTag {
 
     //
     // Constructor
