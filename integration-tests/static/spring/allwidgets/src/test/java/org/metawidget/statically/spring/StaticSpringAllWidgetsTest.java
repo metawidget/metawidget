@@ -39,8 +39,8 @@ public class StaticSpringAllWidgetsTest
         String result = "<table>\r\n" +
             "\t<form:input path=\"textbox\"/>\r\n" +
             "\t<form:input maxLength=\"20\" path=\"limitedTextbox\"/>\r\n" +
-            "\t<textarea path=\"textarea\"/>\r\n" +
-            "\t<input path=\"password\" type=\"secret\"/>\r\n" +
+            "\t<form:textarea path=\"textarea\"/>\r\n" +
+            "\t<form:password path=\"password\"/>\r\n" +
             "\t<form:input path=\"bytePrimitive\"/>\r\n" +
             "\t<form:input path=\"byteObject\"/>\r\n" +
             "\t<form:input path=\"shortPrimitive\"/>\r\n" +
@@ -57,7 +57,7 @@ public class StaticSpringAllWidgetsTest
             "\t<form:input path=\"doubleObject\"/>\r\n" +
             "\t<form:input maxLength=\"1\" path=\"charPrimitive\"/>\r\n" +
             "\t<form:input maxLength=\"1\" path=\"characterObject\"/>\r\n" +
-            "\t<input path=\"booleanPrimitive\" type=\"checkbox\"/>\r\n" +
+            "\t<form:checkbox path=\"booleanPrimitive\"/>\r\n" +
             "\t<form:select path=\"booleanObject\">\r\n" +
             "\t\t<form:option/>\r\n" +
             "\t\t<form:option value=\"true\">Yes</form:option>\r\n" +
