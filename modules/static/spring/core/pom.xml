@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.modules.static.spring</groupId>
 		<artifactId>static-spring-parent</artifactId>
-		<version>1.35-SNAPSHOT</version>
+		<version>1.35</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
