@@ -17,6 +17,8 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
+ * Static widget for the <form:checkbox> Spring tag
+ * 
  * @author Ryan Bradley
  */
 
@@ -24,7 +26,7 @@ public class FormCheckboxTag
     extends SpringTag {
 
     //
-    // Public methods
+    // Constructor
     //
     
     public FormCheckboxTag() {

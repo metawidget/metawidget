@@ -49,7 +49,6 @@
 		<widgetProcessors>
 			<array>
 				<processor:pathProcessor />
-				<processor:hiddenFieldProcessor />
 				<processor:cssStyleProcessor />
 			</array>
 		</widgetProcessors>

@@ -28,6 +28,8 @@ public final class SpringInspectionResultConstants {
 	//
 	// Public statics
 	//
+    
+    public static final String SPRING_COMMAND_NAME          = "commandName";
 
 	public static final String	SPRING_LOOKUP				= "spring-lookup";
 

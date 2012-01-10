@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -59,7 +58,7 @@ public class SpringWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return new StaticXmlStub();
+			return new FormHiddenTag();
 		}
 
 		// Action
@@ -82,7 +81,7 @@ public class SpringWidgetBuilder
         // Lookup)
 		
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( REQUIRED ) ) {
-		    return createHtmlCheckbox();
+		    return new FormCheckboxTag();
 		}
 		
 		// Spring Lookups
@@ -108,45 +107,44 @@ public class SpringWidgetBuilder
 			if ( clazz.isPrimitive() ) {
 			    
 			    if ( boolean.class.equals( clazz ) ) {
-			        return createHtmlCheckbox();
+			        return new FormCheckboxTag();
 			    }
 			    
 			    if ( char.class.equals( clazz ) ) {
 			        attributes.put( MAXIMUM_LENGTH, "1" );
-			        return createFormInputText( attributes );
+			        return createFormInputTag( attributes );
 			    }
 			    
-				return createFormInputText( attributes );
+				return createFormInputTag( attributes );
 			}
 
 			// String
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					return new HtmlTag( "textarea" );
+					return new FormTextareaTag();
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-					HtmlTag inputSecret = new HtmlTag( "input" );
-					inputSecret.putAttribute( "type", "secret" );
-					inputSecret.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
-					return inputSecret;
+					FormPasswordTag passwordTag = new FormPasswordTag();
+					passwordTag.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+					return passwordTag;
 				}
 
-				return createFormInputText( attributes );
+				return createFormInputTag( attributes );
 			}
 			
 			// Character
 			
 			if ( Character.class.equals( clazz ) ) {
 			    attributes.put( MAXIMUM_LENGTH, "1" );
-			    return createFormInputText( attributes );
+			    return createFormInputTag( attributes );
 			}
 			
 			// Dates
 			
 			if ( Date.class.equals( clazz ) ) {
-			    return createFormInputText( attributes );
+			    return createFormInputTag( attributes );
 			}
 			
 			// Booleans (are tri-state)
@@ -158,7 +156,7 @@ public class SpringWidgetBuilder
 			// Numbers
 			
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-			    return createFormInputText( attributes );
+			    return createFormInputTag( attributes );
 			}
 			
 			// Collections will be handled by JSP HtmlWidgetBuilder
@@ -171,7 +169,7 @@ public class SpringWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return createFormInputText( attributes );
+			return createFormInputTag( attributes );
 		}
 
 		// Not simple
@@ -179,26 +177,18 @@ public class SpringWidgetBuilder
 		return null;
 	}
 
-	//
+    //
 	// Private methods
 	//
 	
-    private FormInputTag createFormInputText( Map<String, String> attributes ) {
+    private FormInputTag createFormInputTag( Map<String, String> attributes ) {
 
 		FormInputTag input = new FormInputTag();
 		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 
 		return input;
 	}
-	
-	private HtmlTag createHtmlCheckbox() {
-	    
-	    HtmlTag checkbox = new HtmlTag( "input" );
-	    checkbox.putAttribute( "type" , "checkbox" );
-	    
-	    return checkbox;
-	}
-	
+
     private FormSelectTag createFormSelectTag(String expression, Map<String, String> attributes) {
         
         // Write the SELECT tag.

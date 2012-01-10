@@ -17,18 +17,20 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
- * Static widget for the <form:option> Spring tag
+ * Static widget for the <form:textarea> Spring tag
  * 
  * @author Ryan Bradley
  */
 
-public class FormOptionTag extends SpringTag {
-    
+public class FormTextareaTag
+    extends SpringTag {
+
     //
     // Constructor
     //
     
-    public FormOptionTag() {
-        super("option");
+    public FormTextareaTag() {
+        
+        super( "textarea" );
     }
 }

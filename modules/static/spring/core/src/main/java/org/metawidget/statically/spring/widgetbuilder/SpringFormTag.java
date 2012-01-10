@@ -17,11 +17,17 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
+ * Static widget for the <form:form> Spring tag
+ * 
  * @author Ryan Bradley
  */
 
 public class SpringFormTag
     extends SpringTag {
+    
+    //
+    // Constructor
+    //
 
     public SpringFormTag() {
         
