@@ -48,8 +48,8 @@ public class NameProcessorTest
         metawidget.setValue( "name.processor.example" );
         metawidget.setPath( Foo.class.getName() );
         
-        String result = "<table><input name=\"nameProcessorExampleBar\" type=\"text\"/>" +
-            "<input name=\"nameProcessorExampleBaz\" type=\"text\"/></table>";
+        String result = "<table><input name=\"nameProcessorExampleBar\" type=\"text\" value=\"${name.processor.example.bar}\"/>" +
+            "<input name=\"nameProcessorExampleBaz\" type=\"text\" value=\"${name.processor.example.baz}\"/></table>";
         assertEquals( result, metawidget.toString() );        
     }
     

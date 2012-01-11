@@ -70,12 +70,12 @@ public class CssStyleProcessorTest
         StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
         metawidget.putAttribute( "style", "stylin" );
         metawidget.putAttribute( "styleClass", "styleClassin" );
-        metawidget.setValue( "${foo)" );
+        metawidget.setValue( "${foo}" );
         metawidget.setPath( Foo.class.getName() );
         
         String result = "<table>" +
-            "<input name=\"fooBar\" style=\"stylin\" styleClass=\"styleClassin\" type=\"text\"/>" +
-            "<input name=\"fooBaz\" style=\"stylin\" styleClass=\"styleClassin\" type=\"text\"/>" +
+            "<input name=\"fooBar\" style=\"stylin\" styleClass=\"styleClassin\" type=\"text\" value=\"${foo.bar}\"/>" +
+            "<input name=\"fooBaz\" style=\"stylin\" styleClass=\"styleClassin\" type=\"text\" value=\"${foo.baz}\"/>" +
             "</table>";
         assertEquals( result, metawidget.toString() );
         

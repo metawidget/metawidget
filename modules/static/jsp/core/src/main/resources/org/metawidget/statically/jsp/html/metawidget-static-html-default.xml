@@ -47,9 +47,10 @@
 		
 		<widgetProcessors>
 			<array>
+				<processor:cssStyleProcessor/>			
 				<processor:nameProcessor/>
 				<processor:hiddenFieldProcessor/>
-				<processor:cssStyleProcessor/>
+				<processor:standardBindingProcessor/>
 			</array>
 		</widgetProcessors>
 
