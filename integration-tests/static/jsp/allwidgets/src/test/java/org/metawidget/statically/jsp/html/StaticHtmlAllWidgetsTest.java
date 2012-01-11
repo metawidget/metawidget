@@ -1,4 +1,3 @@
-package org.metawidget.statically.jsp.html;
 // Metawidget
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +14,14 @@ package org.metawidget.statically.jsp.html;
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+package org.metawidget.statically.jsp.html;
+
 import java.io.StringWriter;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 
 import junit.framework.TestCase;
-
 
 public class StaticHtmlAllWidgetsTest
     extends TestCase {
@@ -38,51 +38,51 @@ public class StaticHtmlAllWidgetsTest
         metawidget.setPath( AllWidgets.class.getName() );
         
         String result = "<table>\r\n" +
-            "\t<input name=\"allWidgetsTextbox\" type=\"text\"/>\r\n" +
-            "\t<input maxLength=\"20\" name=\"allWidgetsLimitedTextbox\" type=\"text\"/>\r\n" +
-            "\t<textarea name=\"allWidgetsTextarea\"/>\r\n" +
-            "\t<input name=\"allWidgetsPassword\" type=\"secret\"/>\r\n" +
-            "\t<input name=\"allWidgetsBytePrimitive\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsByteObject\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsShortPrimitive\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsShortObject\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsIntPrimitive\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsIntegerObject\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsRangedInt\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsRangedInteger\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsLongPrimitive\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsLongObject\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsFloatPrimitive\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsFloatObject\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsDoublePrimitive\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsDoubleObject\" type=\"text\"/>\r\n" +
-            "\t<input maxLength=\"1\" name=\"allWidgetsCharPrimitive\" type=\"text\"/>\r\n" +
-            "\t<input maxLength=\"1\" name=\"allWidgetsCharacterObject\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsBooleanPrimitive\" type=\"checkbox\"/>\r\n" +
-            "\t<select name=\"allWidgetsBooleanObject\">\r\n" +
+            "\t<input name=\"allWidgetsTextbox\" type=\"text\" value=\"${allWidgets.textbox}\"/>\r\n" +
+            "\t<input maxlength=\"20\" name=\"allWidgetsLimitedTextbox\" type=\"text\" value=\"${allWidgets.limitedTextbox}\"/>\r\n" +
+            "\t<textarea name=\"allWidgetsTextarea\" value=\"${allWidgets.textarea}\"/>\r\n" +
+            "\t<input name=\"allWidgetsPassword\" type=\"secret\" value=\"${allWidgets.password}\"/>\r\n" +
+            "\t<input name=\"allWidgetsBytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
+            "\t<input name=\"allWidgetsByteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
+            "\t<input name=\"allWidgetsShortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
+            "\t<input name=\"allWidgetsShortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
+            "\t<input name=\"allWidgetsIntPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
+            "\t<input name=\"allWidgetsIntegerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
+            "\t<input name=\"allWidgetsRangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
+            "\t<input name=\"allWidgetsRangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
+            "\t<input name=\"allWidgetsLongPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
+            "\t<input name=\"allWidgetsLongObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
+            "\t<input name=\"allWidgetsFloatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
+            "\t<input name=\"allWidgetsFloatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
+            "\t<input name=\"allWidgetsDoublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
+            "\t<input name=\"allWidgetsDoubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
+            "\t<input maxlength=\"1\" name=\"allWidgetsCharPrimitive\" type=\"text\" value=\"${allWidgets.charPrimitive}\"/>\r\n" +
+            "\t<input maxlength=\"1\" name=\"allWidgetsCharacterObject\" type=\"text\" value=\"${allWidgets.characterObject}\"/>\r\n" +
+            "\t<input name=\"allWidgetsBooleanPrimitive\" type=\"checkbox\" value=\"${allWidgets.booleanPrimitive}\"/>\r\n" +
+            "\t<select name=\"allWidgetsBooleanObject\" value=\"${allWidgets.booleanObject}\">\r\n" +
             "\t\t<option/>\r\n" +
             "\t\t<option value=\"true\">Yes</option>\r\n" +
             "\t\t<option value=\"false\">No</option>\r\n" +
             "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsDropdown\">\r\n" +
+            "\t<select name=\"allWidgetsDropdown\" value=\"${allWidgets.dropdown}\">\r\n" +
             "\t\t<option/>\r\n" +
             "\t\t<option value=\"foo1\"/>\r\n" +
             "\t\t<option value=\"dropdown1\"/>\r\n" +
             "\t\t<option value=\"bar1\"/>\r\n" +
             "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsDropdownWithLabels\">\r\n" +
+            "\t<select name=\"allWidgetsDropdownWithLabels\" value=\"${allWidgets.dropdownWithLabels}\">\r\n" +
             "\t\t<option/>\r\n" +
             "\t\t<option value=\"foo2\">Foo #2</option>\r\n" +
             "\t\t<option value=\"dropdown2\">Dropdown #2</option>\r\n" +
             "\t\t<option value=\"bar2\">Bar #2</option>\r\n" +
             "\t\t<option value=\"baz2\">Baz #2</option>\r\n" +
             "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsNotNullDropdown\">\r\n" +
+            "\t<select name=\"allWidgetsNotNullDropdown\" value=\"${allWidgets.notNullDropdown}\">\r\n" +
             "\t\t<option value=\"-1\"/>\r\n" +
             "\t\t<option value=\"0\"/>\r\n" +
             "\t\t<option value=\"1\"/>\r\n" +
             "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsNotNullObjectDropdown\">\r\n" +
+            "\t<select name=\"allWidgetsNotNullObjectDropdown\" value=\"${allWidgets.notNullObjectDropdown}\">\r\n" +
             "\t\t<option value=\"foo3\"/>\r\n" +
             "\t\t<option value=\"dropdown3\"/>\r\n" +
             "\t\t<option value=\"bar3\"/>\r\n" +
@@ -92,11 +92,13 @@ public class StaticHtmlAllWidgetsTest
             "\t</select>\r\n" +
             "\t<table/>\r\n" +
             "\t<table/>\r\n" +
-            "\t<input name=\"allWidgetsNestedWidgetsDontExpand\" type=\"text\"/>\r\n" +
-            "\t<span name=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" type=\"text\"/>\r\n" +
-            "\t<input type=\"hidden\"/>\r\n" +
-            "\t<span name=\"allWidgetsReadOnly\" type=\"text\"/>\r\n" +
-            "\t<input name=\"allWidgetsMystery\" type=\"text\"/>\r\n"
+            "\t<input name=\"allWidgetsNestedWidgetsDontExpand\" type=\"text\" value=\"${allWidgets.nestedWidgetsDontExpand}\"/>\r\n" +
+            "\t<span name=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
+            "\t<input name=\"allWidgetsDate\" type=\"text\" value=\"${allWidgets.date}\"/>\r\n" +
+            "\t<input name=\"allWidgetsHidden\" type=\"hidden\" value=\"${allWidgets.hidden}\"/>\r\n" +
+            "\t<span name=\"allWidgetsReadOnly\" value=\"${allWidgets.readOnly}\"/>\r\n" +
+            "\t<input name=\"allWidgetsMystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
+            "</table>\r\n"
             ;
         
         StringWriter writer = new StringWriter();
