@@ -45,7 +45,7 @@ public class SpringWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	MAX_LENGTH	= "maxLength";
+	private final static String	MAX_LENGTH	= "maxlength";
 	
     private static final List<Boolean>  LIST_BOOLEAN_VALUES = CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );	
 

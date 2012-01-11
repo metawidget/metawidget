@@ -38,7 +38,7 @@ public class StaticSpringAllWidgetsTest
         
         String result = "<table>\r\n" +
             "\t<form:input path=\"textbox\"/>\r\n" +
-            "\t<form:input maxLength=\"20\" path=\"limitedTextbox\"/>\r\n" +
+            "\t<form:input maxlength=\"20\" path=\"limitedTextbox\"/>\r\n" +
             "\t<form:textarea path=\"textarea\"/>\r\n" +
             "\t<form:password path=\"password\"/>\r\n" +
             "\t<form:input path=\"bytePrimitive\"/>\r\n" +
@@ -55,8 +55,8 @@ public class StaticSpringAllWidgetsTest
             "\t<form:input path=\"floatObject\"/>\r\n" +
             "\t<form:input path=\"doublePrimitive\"/>\r\n" +
             "\t<form:input path=\"doubleObject\"/>\r\n" +
-            "\t<form:input maxLength=\"1\" path=\"charPrimitive\"/>\r\n" +
-            "\t<form:input maxLength=\"1\" path=\"characterObject\"/>\r\n" +
+            "\t<form:input maxlength=\"1\" path=\"charPrimitive\"/>\r\n" +
+            "\t<form:input maxlength=\"1\" path=\"characterObject\"/>\r\n" +
             "\t<form:checkbox path=\"booleanPrimitive\"/>\r\n" +
             "\t<form:select path=\"booleanObject\">\r\n" +
             "\t\t<form:option/>\r\n" +
@@ -107,9 +107,7 @@ public class StaticSpringAllWidgetsTest
              * Collection and doAction not handled properly yet.
              */
             
-            "</table>\r\n" +
-            "<form:hidden path=\"hidden\"/>\r\n"
-            ;
+            "</table>\r\n";
         
         StringWriter writer = new StringWriter();
         metawidget.write( writer, 0 );
