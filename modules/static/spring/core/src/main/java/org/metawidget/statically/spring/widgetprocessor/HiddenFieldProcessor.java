@@ -4,7 +4,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
@@ -36,10 +35,7 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
             return widget;
         }
         
-        for( StaticWidget child : widget.getChildren() ) {
-            
-            ( (StaticXmlWidget) child).putAttribute( HIDDEN, TRUE );
-        }
+        // Must process the widget's path again, as we are replacing a StaticXmlStub (containing the path), with a FormHiddenTag.
                
         String name = attributes.get( NAME );
         
@@ -57,11 +53,9 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
             }
         }
         
-        metawidget.getChildren().remove( widget );
         widget = new FormHiddenTag();
         widget.putAttribute( "path", name );
-        metawidget.getChildren().add( widget );
-
+        
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( attributes.get( HIDDEN ) ) ) {
             
             // Add a child stub to the widget.

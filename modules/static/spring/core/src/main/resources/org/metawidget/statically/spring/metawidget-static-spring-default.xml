@@ -50,6 +50,7 @@
 			<array>
 				<processor:pathProcessor />
 				<processor:cssStyleProcessor />
+				<processor:hiddenFieldProcessor />
 			</array>
 		</widgetProcessors>
 

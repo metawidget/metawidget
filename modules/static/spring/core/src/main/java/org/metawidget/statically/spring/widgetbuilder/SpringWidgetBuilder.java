@@ -58,7 +58,7 @@ public class SpringWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			return new FormHiddenTag();
+			return new StaticXmlStub();
 		}
 
 		// Action
