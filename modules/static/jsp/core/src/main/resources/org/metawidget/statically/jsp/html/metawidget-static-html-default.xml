@@ -47,9 +47,9 @@
 		
 		<widgetProcessors>
 			<array>
-				<processor:cssStyleProcessor/>			
-				<processor:nameProcessor/>
+				<processor:cssStyleProcessor/>
 				<processor:hiddenFieldProcessor/>
+				<processor:nameProcessor/>
 				<processor:standardBindingProcessor/>
 			</array>
 		</widgetProcessors>

@@ -56,10 +56,8 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
             ((StaticXmlWidget) child).putAttribute( HIDDEN, TRUE );
         }
         
-        metawidget.getChildren().remove( widget );
         widget = new HtmlTag("input");
         widget.putAttribute( "type", "hidden" );
-        metawidget.getChildren().add( widget );
         
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
             metawidget.getChildren().remove( widget );
