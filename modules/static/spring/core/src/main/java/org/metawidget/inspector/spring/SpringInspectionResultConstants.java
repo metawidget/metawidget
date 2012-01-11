@@ -30,6 +30,10 @@ public final class SpringInspectionResultConstants {
 	//
     
     public static final String SPRING_COMMAND_NAME          = "commandName";
+    
+    public static final String SPRING_CSS_CLASS             = "cssClass";
+    
+    public static final String SPRING_CSS_STYLE             = "cssStyle";
 
 	public static final String	SPRING_LOOKUP				= "spring-lookup";
 

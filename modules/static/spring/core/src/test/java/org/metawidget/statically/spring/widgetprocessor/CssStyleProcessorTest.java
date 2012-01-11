@@ -38,30 +38,30 @@ public class CssStyleProcessorTest
         
         // Simple styles and classes
         
-        metawidget.putAttribute( "style" , "foo");
-        metawidget.putAttribute( "styleClass", "bar");
+        metawidget.putAttribute( "cssStyle" , "foo");
+        metawidget.putAttribute( "cssClass", "bar");
         springInput = processor.processWidget( springInput, PROPERTY, null, metawidget );
-        assertEquals( "<form:input style=\"foo\" styleClass=\"bar\"/>", springInput.toString() );
+        assertEquals( "<form:input cssClass=\"bar\" cssStyle=\"foo\"/>", springInput.toString() );
         
         // Compound styles and compound classes
         
-        metawidget.putAttribute( "style", "foo2" );
-        metawidget.putAttribute( "styleClass", "bar2" );
+        metawidget.putAttribute( "cssStyle", "foo2" );
+        metawidget.putAttribute( "cssClass", "bar2" );
         springInput = processor.processWidget( springInput, PROPERTY, null, metawidget );
-        assertEquals( "<form:input style=\"foo foo2\" styleClass=\"bar bar2\"/>", springInput.toString() );
+        assertEquals( "<form:input cssClass=\"bar bar2\" cssStyle=\"foo foo2\"/>", springInput.toString() );
     }
     
     public void testSimpleType() {
         
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
-        metawidget.putAttribute( "style", "stylin" );
-        metawidget.putAttribute( "styleClass", "styleClassin" );
+        metawidget.putAttribute( "cssStyle", "stylin" );
+        metawidget.putAttribute( "cssClass", "styleClassin" );
         metawidget.setValue( "#{foo}" );
         metawidget.setPath( Foo.class.getName() );
         
         String result = "<table>" +
-                "<form:input path=\"bar\" style=\"stylin\" styleClass=\"styleClassin\"/>" +
-                "<form:input path=\"baz\" style=\"stylin\" styleClass=\"styleClassin\"/>" +
+                "<form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"bar\"/>" +
+                "<form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"baz\"/>" +
                 "</table>";
         
         assertEquals( result, metawidget.toString() );

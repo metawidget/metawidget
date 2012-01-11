@@ -1,5 +1,7 @@
 package org.metawidget.statically.spring.widgetprocessor;
 
+import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
@@ -22,29 +24,29 @@ public class CssStyleProcessor
     
     public StaticXmlWidget processWidget(StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
 
-        String style = metawidget.getAttribute( "style" );
+        String style = metawidget.getAttribute( SPRING_CSS_STYLE );
         
         if ( style != null ) {
-            String existingStyle = widget.getAttribute( "style" );
+            String existingStyle = widget.getAttribute( SPRING_CSS_STYLE );
             
             if( existingStyle == null || "".equals(existingStyle) ) {
-                widget.putAttribute( "style" , style );
+                widget.putAttribute( SPRING_CSS_STYLE, style );
             }
             else {
-                widget.putAttribute( "style" , existingStyle + " " + style );
+                widget.putAttribute( SPRING_CSS_STYLE, existingStyle + " " + style );
             }
         }
         
-        String styleClass = metawidget.getAttribute( "styleClass" );
+        String styleClass = metawidget.getAttribute( SPRING_CSS_CLASS );
         
         if ( styleClass != null ) {
-            String existingStyleClass = widget.getAttribute( "styleClass" );
+            String existingStyleClass = widget.getAttribute( SPRING_CSS_CLASS );
             
             if ( existingStyleClass == null || "".equals( existingStyleClass) ) {
-                widget.putAttribute( "styleClass" , styleClass );
+                widget.putAttribute( SPRING_CSS_CLASS, styleClass );
             }
             else {
-                widget.putAttribute( "styleClass" , existingStyleClass + " " + styleClass );
+                widget.putAttribute( SPRING_CSS_CLASS, existingStyleClass + " " + styleClass );
             }
         }
         
