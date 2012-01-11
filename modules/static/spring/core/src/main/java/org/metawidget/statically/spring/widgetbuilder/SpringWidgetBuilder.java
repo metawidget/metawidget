@@ -122,7 +122,7 @@ public class SpringWidgetBuilder
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					return new FormTextareaTag();
+					return createFormTextareaTag( attributes );
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
@@ -188,6 +188,25 @@ public class SpringWidgetBuilder
 
 		return input;
 	}
+    
+    private StaticXmlWidget createFormTextareaTag(Map<String, String> attributes) {
+
+        FormTextareaTag textarea = new FormTextareaTag();
+        
+        String rows = attributes.get( "rows" );
+        
+        if ( rows != null ) {
+            textarea.putAttribute( "rows", rows );
+        }
+        
+        String cols = attributes.get( "cols" );
+        
+        if ( cols != null ) {
+            textarea.putAttribute( "cols", cols );
+        }
+        
+        return textarea;
+    }    
 
     private FormSelectTag createFormSelectTag(String expression, Map<String, String> attributes) {
         
@@ -236,6 +255,17 @@ public class SpringWidgetBuilder
         
         FormSelectTag selectTag = new FormSelectTag();
         
+        String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+        String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+        
+        if ( itemLabel != null ) {
+            selectTag.putAttribute( "itemLabel" , itemLabel );
+        }
+        
+        if ( itemValue != null ) {
+            selectTag.putAttribute( "itemValue", itemValue );
+        }
+        
         // Check to see if labels are being used.
         
         if ( labels != null && !labels.isEmpty() && labels.size() != values.size() ) {
@@ -262,7 +292,7 @@ public class SpringWidgetBuilder
             
             if ( labels != null && !labels.isEmpty() ) {
                 
-                optionTag.setTextContent( labels.get( i ) );
+                optionTag.putAttribute( "label", labels.get( i ) );
             }
             
             // Add the option to the SELECT tag
