@@ -50,7 +50,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	MAX_LENGTH	= "maxLength";
+	private final static String	MAX_LENGTH	= "maxlength";
 	
     private final int mMaximumColumnsInDataTable;
 	
@@ -91,8 +91,8 @@ public class HtmlWidgetBuilder
         String jspLookup = attributes.get( JSP_LOOKUP );
         
         if ( jspLookup != null && !"".equals( jspLookup ) ) {
-            HtmlSelect select = new HtmlSelect();
-            // Not sure if this is a legitimate replacement of HtmlWidgetBuilderUtils.evaluate(jspLookup, metawidget);
+            
+            HtmlSelectTag select = new HtmlSelectTag();
             addSelectItems( select, jspLookup, attributes);
             return select;
         }		
@@ -120,7 +120,7 @@ public class HtmlWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 		
 		if ( lookup != null && !"".equals( lookup ) ) {
-		    HtmlSelect select = new HtmlSelect();
+		    HtmlSelectTag select = new HtmlSelectTag();
 		    addSelectItems(select, CollectionUtils.fromString(lookup), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS) ), attributes);
 		    return select;
 		}
@@ -218,7 +218,7 @@ public class HtmlWidgetBuilder
     protected StaticXmlWidget createDataTableComponent( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
         HtmlTable table = new HtmlTable();
-        ForEachTag forEach = new ForEachTag();
+        CoreForEachTag forEach = new CoreForEachTag();
         
         String items = attributes.get( NAME );
         
@@ -276,7 +276,7 @@ public class HtmlWidgetBuilder
      * Clients can override this method to add additional columns, such as a 'Delete' button.
      */
     
-    protected void addColumnComponents(HtmlTable table, ForEachTag forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+    protected void addColumnComponents(HtmlTable table, CoreForEachTag forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
 
         // At first, only add columns for the 'required' fields
         
@@ -365,7 +365,7 @@ public class HtmlWidgetBuilder
      *            determining the overall type of the row
      */
     
-    protected void addColumnComponent( HtmlTableRow row, ForEachTag forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, StaticXmlMetawidget metawidget ) {
+    protected void addColumnComponent( HtmlTableRow row, CoreForEachTag forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, StaticXmlMetawidget metawidget ) {
 
         // Add a new column to the current row of the table.
         
@@ -377,13 +377,13 @@ public class HtmlWidgetBuilder
             valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
         }
         
-        OutTag out = new OutTag();
+        CoreOutTag out = new CoreOutTag();
         out.putAttribute( "value", StaticJspUtils.wrapExpression( valueExpression ) );
         cell.getChildren().add( out );
         
     }
     
-    private void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
+    private void addSelectItems( HtmlSelectTag select, String valueExpression, Map<String, String> attributes ) {
 
         // Empty option
         
@@ -401,7 +401,7 @@ public class HtmlWidgetBuilder
     private void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
         HtmlTableCell cell = new HtmlTableCell();
-        HeaderTag header = new HeaderTag();
+        HtmlHeaderTag header = new HtmlHeaderTag();
         header.setTextContent( metawidget.getLabelString( attributes ) );
         cell.getChildren().add( header );
         
@@ -409,7 +409,7 @@ public class HtmlWidgetBuilder
         
     }    
 
-    protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
+    protected void addSelectItems( HtmlSelectTag select, List<String> values, List<String> labels, Map<String, String> attributes ) {
         
         if ( values == null ) {
             return;
@@ -442,22 +442,22 @@ public class HtmlWidgetBuilder
 	//
 
     private HtmlTag createHtmlCheckbox() {
-        HtmlTag checkbox = new HtmlTag( "input" );
+        HtmlTag checkbox = new HtmlInputTag();
         checkbox.putAttribute( "type" , "checkbox" );
         
         return checkbox;
     }
 
     private HtmlTag createHtmlInputText( Map<String, String> attributes ) {
-		HtmlTag inputText = new HtmlTag( "input" );
-		inputText.putAttribute( "type", "text" );
-		inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+		HtmlInputTag input = new HtmlInputTag();
+		input.putAttribute( "type", "text" );
+		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 
-		return inputText;
+		return input;
 	}
     
-    private void addSelectItem( HtmlSelect select, String value, String label ) {
-        SelectItem selectItem = new SelectItem();
+    private void addSelectItem( HtmlSelectTag select, String value, String label ) {
+        HtmlOptionTag selectItem = new HtmlOptionTag();
         selectItem.putAttribute( "value" , value );
         
         if( label != null ) {
