@@ -137,7 +137,7 @@ public class HtmlWidgetBuilder
 			    
 			    if ( char.class.equals( clazz ) ) {
 	                attributes.put( MAXIMUM_LENGTH, "1" );
-			        HtmlTag characterInput = createHtmlInputText( attributes );
+			        HtmlInputTag characterInput = createHtmlInputText( attributes );
 			        return characterInput;
 			    }
 			    
@@ -148,13 +148,13 @@ public class HtmlWidgetBuilder
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					return new HtmlTag( "textarea" );
+					return createHtmlTextareaTag( attributes );
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-					HtmlTag inputSecret = createHtmlInputText( attributes );
-					inputSecret.putAttribute( "type", "secret" );
-					return inputSecret;
+					HtmlInputTag secret = createHtmlInputText( attributes );
+					secret.putAttribute( "type", "secret" );
+					return secret;
 				}
 
 				return createHtmlInputText( attributes );
@@ -164,7 +164,7 @@ public class HtmlWidgetBuilder
     		
     		if ( Character.class.equals( clazz ) ) {
     		    attributes.put( MAXIMUM_LENGTH, "1" );
-    		    HtmlTag characterInput = createHtmlInputText( attributes );
+    		    HtmlInputTag characterInput = createHtmlInputText( attributes );
     		    return characterInput;
     		}
     		
@@ -441,20 +441,39 @@ public class HtmlWidgetBuilder
 	// Private methods
 	//
 
-    private HtmlTag createHtmlCheckbox() {
+    private StaticXmlWidget createHtmlCheckbox() {
         HtmlTag checkbox = new HtmlInputTag();
         checkbox.putAttribute( "type" , "checkbox" );
         
         return checkbox;
     }
 
-    private HtmlTag createHtmlInputText( Map<String, String> attributes ) {
+    private HtmlInputTag createHtmlInputText( Map<String, String> attributes ) {
 		HtmlInputTag input = new HtmlInputTag();
 		input.putAttribute( "type", "text" );
 		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 
 		return input;
 	}
+    
+    private StaticXmlWidget createHtmlTextareaTag( Map<String, String> attributes ) {
+
+        HtmlTextareaTag textarea = new HtmlTextareaTag();
+        
+        String cols = attributes.get( "cols" );
+        
+        if ( cols != null ) {            
+            textarea.putAttribute( "cols", cols );
+        }
+        
+        String rows = attributes.get( "rows" );
+        
+        if ( rows != null ) {
+            textarea.putAttribute( "rows", rows );
+        }
+        
+        return textarea;
+    }    
     
     private void addSelectItem( HtmlSelectTag select, String value, String label ) {
         HtmlOptionTag selectItem = new HtmlOptionTag();
