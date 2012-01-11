@@ -1,7 +1,5 @@
 package org.metawidget.statically.spring.widgetprocessor;
 
-import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
-
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
@@ -24,29 +22,29 @@ public class CssStyleProcessor
     
     public StaticXmlWidget processWidget(StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
 
-        String style = metawidget.getAttribute( SPRING_CSS_STYLE );
+        String cssStyle = metawidget.getAttribute( "cssStyle" );
         
-        if ( style != null ) {
-            String existingStyle = widget.getAttribute( SPRING_CSS_STYLE );
+        if ( cssStyle != null ) {
+            String existingCssStyle = widget.getAttribute( "cssStyle" );
             
-            if( existingStyle == null || "".equals(existingStyle) ) {
-                widget.putAttribute( SPRING_CSS_STYLE, style );
+            if( existingCssStyle == null || "".equals(existingCssStyle) ) {
+                widget.putAttribute( "cssStyle", cssStyle );
             }
             else {
-                widget.putAttribute( SPRING_CSS_STYLE, existingStyle + " " + style );
+                widget.putAttribute( "cssStyle", existingCssStyle + " " + cssStyle );
             }
         }
         
-        String styleClass = metawidget.getAttribute( SPRING_CSS_CLASS );
+        String cssClass = metawidget.getAttribute( "cssClass" );
         
-        if ( styleClass != null ) {
-            String existingStyleClass = widget.getAttribute( SPRING_CSS_CLASS );
+        if ( cssClass != null ) {
+            String existingCssClass = widget.getAttribute( "cssClass" );
             
-            if ( existingStyleClass == null || "".equals( existingStyleClass) ) {
-                widget.putAttribute( SPRING_CSS_CLASS, styleClass );
+            if ( existingCssClass == null || "".equals( existingCssClass) ) {
+                widget.putAttribute( "cssClass", cssClass );
             }
             else {
-                widget.putAttribute( SPRING_CSS_CLASS, existingStyleClass + " " + styleClass );
+                widget.putAttribute( "cssClass", existingCssClass + " " + cssClass );
             }
         }
         
