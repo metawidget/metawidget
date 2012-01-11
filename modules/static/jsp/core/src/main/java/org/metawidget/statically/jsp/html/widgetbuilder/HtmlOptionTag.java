@@ -20,19 +20,13 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HeaderTag extends HtmlTag {
-
+public class HtmlOptionTag extends HtmlTag {
+    
     //
-    // Public methods
+    // Constructor
     //
     
-    /**
-     *  Default to a medium-sized header.
-     */
-    
-    public HeaderTag() {
-        
-        super( "h3" );
+    public HtmlOptionTag() {
+        super("option");
     }
-   
 }

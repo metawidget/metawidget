@@ -20,14 +20,16 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlTable extends HtmlTag {
-
+public class CoreOutTag
+    extends CoreWidget {
+    
     //
     // Constructor
     //
     
-    public HtmlTable() {
+    public CoreOutTag() {
         
-        super( "table" );
+        super( "out" );
     }
+
 }
