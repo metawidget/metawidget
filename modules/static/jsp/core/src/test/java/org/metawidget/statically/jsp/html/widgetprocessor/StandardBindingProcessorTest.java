@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlInputTag;
+import org.metawidget.statically.jsp.html.widgetbuilder.HtmlInput;
 import org.metawidget.util.CollectionUtils;
 
 import junit.framework.TestCase;
@@ -37,7 +37,7 @@ public class StandardBindingProcessorTest
         
         StandardBindingProcessor processor = new StandardBindingProcessor();
         
-        HtmlInputTag input = new HtmlInputTag();
+        HtmlInput input = new HtmlInput();
         Map<String, String> attributes = CollectionUtils.newHashMap();       
         
         // Normal
