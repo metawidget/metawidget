@@ -37,67 +37,224 @@ public class StaticHtmlAllWidgetsTest
         metawidget.setValue( "${allWidgets}" );
         metawidget.setPath( AllWidgets.class.getName() );
         
-        String result = "<table>\r\n" +
-            "\t<input name=\"allWidgetsTextbox\" type=\"text\" value=\"${allWidgets.textbox}\"/>\r\n" +
-            "\t<input maxlength=\"20\" name=\"allWidgetsLimitedTextbox\" type=\"text\" value=\"${allWidgets.limitedTextbox}\"/>\r\n" +
-            "\t<textarea name=\"allWidgetsTextarea\" value=\"${allWidgets.textarea}\"/>\r\n" +
-            "\t<input name=\"allWidgetsPassword\" type=\"secret\" value=\"${allWidgets.password}\"/>\r\n" +
-            "\t<input name=\"allWidgetsBytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
-            "\t<input name=\"allWidgetsByteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
-            "\t<input name=\"allWidgetsShortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
-            "\t<input name=\"allWidgetsShortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
-            "\t<input name=\"allWidgetsIntPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
-            "\t<input name=\"allWidgetsIntegerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
-            "\t<input name=\"allWidgetsRangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
-            "\t<input name=\"allWidgetsRangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
-            "\t<input name=\"allWidgetsLongPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
-            "\t<input name=\"allWidgetsLongObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
-            "\t<input name=\"allWidgetsFloatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
-            "\t<input name=\"allWidgetsFloatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
-            "\t<input name=\"allWidgetsDoublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
-            "\t<input name=\"allWidgetsDoubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
-            "\t<input maxlength=\"1\" name=\"allWidgetsCharPrimitive\" type=\"text\" value=\"${allWidgets.charPrimitive}\"/>\r\n" +
-            "\t<input maxlength=\"1\" name=\"allWidgetsCharacterObject\" type=\"text\" value=\"${allWidgets.characterObject}\"/>\r\n" +
-            "\t<input name=\"allWidgetsBooleanPrimitive\" type=\"checkbox\" value=\"${allWidgets.booleanPrimitive}\"/>\r\n" +
-            "\t<select name=\"allWidgetsBooleanObject\" value=\"${allWidgets.booleanObject}\">\r\n" +
-            "\t\t<option/>\r\n" +
-            "\t\t<option value=\"true\">Yes</option>\r\n" +
-            "\t\t<option value=\"false\">No</option>\r\n" +
-            "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsDropdown\" value=\"${allWidgets.dropdown}\">\r\n" +
-            "\t\t<option/>\r\n" +
-            "\t\t<option value=\"foo1\"/>\r\n" +
-            "\t\t<option value=\"dropdown1\"/>\r\n" +
-            "\t\t<option value=\"bar1\"/>\r\n" +
-            "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsDropdownWithLabels\" value=\"${allWidgets.dropdownWithLabels}\">\r\n" +
-            "\t\t<option/>\r\n" +
-            "\t\t<option value=\"foo2\">Foo #2</option>\r\n" +
-            "\t\t<option value=\"dropdown2\">Dropdown #2</option>\r\n" +
-            "\t\t<option value=\"bar2\">Bar #2</option>\r\n" +
-            "\t\t<option value=\"baz2\">Baz #2</option>\r\n" +
-            "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsNotNullDropdown\" value=\"${allWidgets.notNullDropdown}\">\r\n" +
-            "\t\t<option value=\"-1\"/>\r\n" +
-            "\t\t<option value=\"0\"/>\r\n" +
-            "\t\t<option value=\"1\"/>\r\n" +
-            "\t</select>\r\n" +
-            "\t<select name=\"allWidgetsNotNullObjectDropdown\" value=\"${allWidgets.notNullObjectDropdown}\">\r\n" +
-            "\t\t<option value=\"foo3\"/>\r\n" +
-            "\t\t<option value=\"dropdown3\"/>\r\n" +
-            "\t\t<option value=\"bar3\"/>\r\n" +
-            "\t\t<option value=\"baz3\"/>\r\n" +
-            "\t\t<option value=\"abc3\"/>\r\n" +
-            "\t\t<option value=\"def3\"/>\r\n" +
-            "\t</select>\r\n" +
-            "\t<table/>\r\n" +
-            "\t<table/>\r\n" +
-            "\t<input name=\"allWidgetsNestedWidgetsDontExpand\" type=\"text\" value=\"${allWidgets.nestedWidgetsDontExpand}\"/>\r\n" +
-            "\t<span name=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
-            "\t<input name=\"allWidgetsDate\" type=\"text\" value=\"${allWidgets.date}\"/>\r\n" +
-            "\t<input name=\"allWidgetsHidden\" type=\"hidden\" value=\"${allWidgets.hidden}\"/>\r\n" +
-            "\t<span name=\"allWidgetsReadOnly\" value=\"${allWidgets.readOnly}\"/>\r\n" +
-            "\t<input name=\"allWidgetsMystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
+        String result = "<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgets\">\r\n" +
+            "\t<tfoot colspan=\"3\">\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td/>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t</tfoot>\r\n" +
+            "\t<tbody>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsTextbox\" type=\"text\" value=\"${allWidgets.textbox}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input maxlength=\"20\" name=\"allWidgetsLimitedTextbox\" type=\"text\" value=\"${allWidgets.limitedTextbox}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<textarea name=\"allWidgetsTextarea\" value=\"${allWidgets.textarea}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsPassword\" type=\"secret\" value=\"${allWidgets.password}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsBytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsByteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsShortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsShortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<input name=\"allWidgetsIntPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<input name=\"allWidgetsIntegerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<input name=\"allWidgetsRangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsRangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsLongPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsLongObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsFloatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsFloatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsDoublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsDoubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input maxlength=\"1\" name=\"allWidgetsCharPrimitive\" type=\"text\" value=\"${allWidgets.charPrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input maxlength=\"1\" name=\"allWidgetsCharacterObject\" type=\"text\" value=\"${allWidgets.characterObject}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsBooleanPrimitive\" type=\"checkbox\" value=\"${allWidgets.booleanPrimitive}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<select name=\"allWidgetsBooleanObject\" value=\"${allWidgets.booleanObject}\">\r\n" +
+            "\t\t\t\t\t<option/>\r\n" +
+            "\t\t\t\t\t<option value=\"true\">Yes</option>\r\n" +
+            "\t\t\t\t\t<option value=\"false\">No</option>\r\n" +
+            "\t\t\t\t</select>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsDropdown\" value=\"${allWidgets.dropdown}\">\r\n" +
+            "\t\t\t\t\t<option/>\r\n" +
+            "\t\t\t\t\t<option value=\"foo1\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"dropdown1\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"bar1\"/>\r\n" +
+            "\t\t\t\t</select>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsDropdownWithLabels\" value=\"${allWidgets.dropdownWithLabels}\">\r\n" +
+            "\t\t\t\t\t<option/>\r\n" +
+            "\t\t\t\t\t<option value=\"foo2\">Foo #2</option>\r\n" +
+            "\t\t\t\t\t<option value=\"dropdown2\">Dropdown #2</option>\r\n" +
+            "\t\t\t\t\t<option value=\"bar2\">Bar #2</option>\r\n" +
+            "\t\t\t\t\t<option value=\"baz2\">Baz #2</option>\r\n" +
+            "\t\t\t\t</select>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<select name=\"allWidgetsNotNullDropdown\" value=\"${allWidgets.notNullDropdown}\">\r\n" +
+            "\t\t\t\t\t<option value=\"-1\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"0\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"1\"/>\r\n" +
+            "\t\t\t\t</select>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsNotNullObjectDropdown\" value=\"${allWidgets.notNullObjectDropdown}\">\r\n" +
+            "\t\t\t\t\t<option value=\"foo3\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"dropdown3\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"bar3\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"baz3\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"abc3\"/>\r\n" +
+            "\t\t\t\t\t<option value=\"def3\"/>\r\n" +
+            "\t\t\t\t</select>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsnestedWidgets\">\r\n" +
+            "\t\t\t\t\t<tfoot colspan=\"3\">\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td/>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t</tfoot>\r\n" +
+            "\t\t\t\t\t<tbody/>\r\n" +
+            "\t\t\t\t</table>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsreadOnlyNestedWidgets\">\r\n" +
+            "\t\t\t\t\t<tfoot colspan=\"3\">\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td/>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t</tfoot>\r\n" +
+            "\t\t\t\t\t<tbody/>\r\n" +
+            "\t\t\t\t</table>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsNestedWidgetsDontExpand\" type=\"text\" value=\"${allWidgets.nestedWidgetsDontExpand}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +            
+            "\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +           
+            "\t\t\t\t<input name=\"allWidgetsDate\" type=\"text\" value=\"${allWidgets.date}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsHidden\" type=\"hidden\" value=\"${allWidgets.hidden}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<span name=\"allWidgetsReadOnly\" value=\"${allWidgets.readOnly}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<input name=\"allWidgetsMystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t</tbody>\r\n" +
             "</table>\r\n"
             ;
         

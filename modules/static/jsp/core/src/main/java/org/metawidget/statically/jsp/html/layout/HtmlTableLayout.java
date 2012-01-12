@@ -158,7 +158,7 @@ public class HtmlTableLayout
 				return;
 			}
 
-			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 );
+			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 1 );
 			HtmlTableRow row = new HtmlTableRow();
 			HtmlTableCell cell = new HtmlTableCell();
 						
