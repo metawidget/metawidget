@@ -20,16 +20,16 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlTextareaTag
-    extends HtmlTag {
+public class CoreForEach
+    extends CoreWidget {
     
     //
     // Constructor
     //
     
-    public HtmlTextareaTag() {
-        
-        super( "textarea" );
+    public CoreForEach() {
+
+        super( "forEach" );
     }
 
 }

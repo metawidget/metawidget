@@ -20,16 +20,19 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlInputTag
-    extends HtmlTag {
+public class HtmlHeader extends HtmlTag {
 
     //
     // Constructor
     //
     
-    public HtmlInputTag() {
-        
-        super( "input" );
-    }
+    /**
+     *  Default to a medium-sized header.
+     */
     
+    public HtmlHeader() {
+        
+        super( "h3" );
+    }
+   
 }

@@ -20,14 +20,14 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class CoreOutTag
+public class CoreOut
     extends CoreWidget {
     
     //
     // Constructor
     //
     
-    public CoreOutTag() {
+    public CoreOut() {
         
         super( "out" );
     }
