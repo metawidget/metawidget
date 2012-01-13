@@ -28,7 +28,7 @@
 
 		<hr/>
 
-		<h3>Metawidget and Seam Forge</h3>
+		<h3>Metawidget and JBoss Forge</h3>
 		<h4>2nd November 2011</h4>
 		
 		<p>

@@ -304,7 +304,9 @@ public class HtmlWidgetBuilderTest
 
 	static class LargeFoo {
 
-		public String	column1;
+		// Uppercase must be decapitalized within EL
+
+		public String	Column1;
 
 		public String	column2;
 
