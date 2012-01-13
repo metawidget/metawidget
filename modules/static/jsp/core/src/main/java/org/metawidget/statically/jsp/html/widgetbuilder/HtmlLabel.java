@@ -20,16 +20,15 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlTableFooter
+public class HtmlLabel
     extends HtmlTag {
     
     //
     // Constructor
     //
     
-    public HtmlTableFooter() {
+    public HtmlLabel() {
         
-        super( "tfoot" );
+        super( "label" );
     }
-
 }

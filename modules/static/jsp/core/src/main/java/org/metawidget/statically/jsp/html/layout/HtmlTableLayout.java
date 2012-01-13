@@ -20,20 +20,22 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.jsp.html.widgetbuilder.HtmlLabel;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableCell;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableFooter;
 import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using an HTML table.
  *
  * @author Richard Kennard
+ * @author Ryan Bradley
  */
 
 public class HtmlTableLayout
@@ -44,30 +46,14 @@ public class HtmlTableLayout
     //
     
     private static final String TABLE_PREFIX                        = "table-";
-
-    private static final String ROW_SUFFIX                          = "-row";
-
-    private static final String CELL_SUFFIX                         = "-cell";
-
-    private static final int    JUST_COMPONENT_AND_REQUIRED         = 2;
-
-    private static final int    LABEL_AND_COMPONENT_AND_REQUIRED    = 3;
     
     //
     // Private members
     //
     
-    private int mNumberOfColumns;
-    
     private String mTableStyle;
     
     private String mTableStyleClass;
-    
-    private String[] mColumnStyleClasses;
-    
-    private String mFooterStyle;
-    
-    private String mFooterStyleClass;    
     
     //
     // Constructor
@@ -84,12 +70,8 @@ public class HtmlTableLayout
 
 	public HtmlTableLayout( HtmlTableLayoutConfig config ) {
 
-	    mNumberOfColumns = config.getNumberOfColumns();
 	    mTableStyle = config.getTableStyle();
 	    mTableStyleClass = config.getTableStyleClass();
-	    mColumnStyleClasses = config.getColumnStyleClasses();
-	    mFooterStyle = config.getFooterStyle();
-	    mFooterStyleClass = config.getFooterStyleClass();
     }
 
     public void onStartBuild( StaticXmlMetawidget metawidget ) {
@@ -103,6 +85,7 @@ public class HtmlTableLayout
 		    HtmlTable table = new HtmlTable();
 		    
 		    // Id
+		    
 		    String id = TABLE_PREFIX + StringUtils.camelCase( metawidget.getPath(), StringUtils.SEPARATOR_DOT_CHAR );
 		    table.putAttribute( "id", id);
 		    
@@ -116,31 +99,6 @@ public class HtmlTableLayout
 		        table.putAttribute( "class", mTableStyleClass );
 		    }
 		    
-		    // Add a table footer
-		    
-		    HtmlTableFooter footer = new HtmlTableFooter();
-
-            // Footer spans multiples of label/component/required
-            
-            Integer colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns*LABEL_AND_COMPONENT_AND_REQUIRED );
-            footer.putAttribute( "colspan", colspan.toString() );
-            
-            // CSS Styles
-            
-            if ( mFooterStyle != null ) {
-                footer.putAttribute( "style", mFooterStyle );
-            }
-            
-            if ( mFooterStyleClass != null ) {
-                footer.putAttribute( "class", mFooterStyleClass );
-            }            
-		    
-		    HtmlTableRow footerRow = new HtmlTableRow();
-		    HtmlTableCell footerCell = new HtmlTableCell();
-		    footerRow.getChildren().add( footerCell );
-            footer.getChildren().add( footerRow );
-		    
-		    table.getChildren().add( footer );
 		    table.getChildren().add( new HtmlTableBody() );
 		    
 			container.getChildren().add( table );
@@ -158,10 +116,25 @@ public class HtmlTableLayout
 				return;
 			}
 
-			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 1 );
+			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 0 );
 			HtmlTableRow row = new HtmlTableRow();
 			HtmlTableCell cell = new HtmlTableCell();
-						
+
+			// Label
+			
+			HtmlLabel label = new HtmlLabel();
+			String id = getWidgetId( widget );
+			
+			if ( id != null ) {
+			    label.putAttribute( "for", id );
+			}
+			
+			String labelText = metawidget.getLabelString( attributes );
+			label.setTextContent( labelText );
+			cell.getChildren().add( label );
+			
+			// Add widget to layout
+			
 			cell.getChildren().add( widget );
 			row.getChildren().add( cell );
 			body.getChildren().add( row );
@@ -171,7 +144,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
+    public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
@@ -180,4 +153,32 @@ public class HtmlTableLayout
 
 		// Do nothing
 	}
+	
+	//
+	// Private methods
+	//
+	
+	/**
+	 * Gets the id attribute of the given widget, recursing into child widgets if necessary.
+	 */
+	
+    private String getWidgetId(StaticXmlWidget widget) {
+        
+        String id = widget.getAttribute( "id" );
+        
+        if ( id != null ) {
+            return id;
+        }
+        
+        for( StaticWidget child : widget.getChildren() ) {
+            
+            id = getWidgetId( (StaticXmlWidget ) child );
+            
+            if ( id != null ) {
+                return id;
+            }
+        }
+
+        return null;
+    }
 }
