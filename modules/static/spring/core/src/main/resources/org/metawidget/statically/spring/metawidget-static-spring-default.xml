@@ -55,7 +55,7 @@
 		</widgetProcessors>
 
 		<layout>
-			<htmlTableLayout xmlns="java:org.metawidget.statically.jsp.html.layout"/>
+			<springFormLayout xmlns="java:org.metawidget.statically.spring.layout"/>
 		</layout>
 		
 	</staticSpringMetawidget>			
