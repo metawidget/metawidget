@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v1.35 Released!</h3>
-		<h4>2011</h4>
+		<h4>10th January 2011</h4>
 		
 		<p>
 			Metawidget v1.35 is now available!
@@ -15,15 +15,20 @@
 		</p>
 		
 		<ul>
+			<li>First version of <a href="http://blog.kennardconsulting.com/2011/12/you-cant-spell-forge-without-metawidget.html">StaticMetawidget</a></li>
 			<li>Support JPA <tt>@Temporal</tt></li>
 			<li>Output HTML &lt;label&gt; tags around labels</li>
+			<li>Refactor StrutsWidgetBuilder/SpringWidgetBuilder into WidgetProcessors</li>			
+			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
 		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
 
-		<h3>Metawidget and Seam Forge</h3>
+		<hr/>
+
+		<h3>Metawidget and JBoss Forge</h3>
 		<h4>2nd November 2011</h4>
 		
 		<p>

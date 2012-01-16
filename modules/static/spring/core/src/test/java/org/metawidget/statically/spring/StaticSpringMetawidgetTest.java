@@ -43,11 +43,12 @@ public class StaticSpringMetawidgetTest
     public void testNullPath() {
         
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
-        assertEquals( "<table/>\r\n", metawidget.toString() );
+        assertEquals( "<table/>", metawidget.toString() );
         
         Map<String, String> namespaces = metawidget.getNamespaces();
-        assertEquals( 1, namespaces.size() );
-        assertEquals( "http://www.springframework.org/tags/form", namespaces.get( "form" ) );
+        
+        // Namespaces should be empty as the only child is a <table/> element.
+        assertEquals( true, namespaces.isEmpty() );
     }
     
     public void testAdditionalNamespaces() {
@@ -58,49 +59,53 @@ public class StaticSpringMetawidgetTest
         
         Map<String, String> namespaces = metawidget.getNamespaces();
         assertEquals( 2, namespaces.size() );
-        assertEquals( "http://www.springframework.org/tags/form", "form" );
-        assertEquals( "http://foo.bar", "foo" );
+        assertEquals( "http://www.springframework.org/tags/form", namespaces.get( "form" ) );
+        assertEquals( "http://foo.bar", namespaces.get( "foo" ) );
     }
     
     public void testInitialIndent() {
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
         metawidget.setPath( Foo.class.getName() );
         StringWriter writer = new StringWriter();
-        metawidget.write( writer , 0 );
+        metawidget.write( writer, 0 );
         
-        String result = "<table/>\r\n" +
+        String result = "<table>\r\n" +
                 "\t<form:input path=\"bar\"/>\r\n" +
                 "\t<form:input path=\"baz\"/>\r\n" +
                 "</table>\r\n";
         
-        assertEquals( result , metawidget.toString() );
+        assertEquals( result, writer.toString() );
         
         writer = new StringWriter();
         metawidget.write( writer, 1 );
         
-        result = "\t<table/>\r\n" +
+        result = "\t<table>\r\n" +
         "\t\t<form:input path=\"bar\"/>\r\n" +
         "\t\t<form:input path=\"baz\"/>\r\n" +
         "\t</table>\r\n";
         
-        assertEquals( result, metawidget.toString() );
+        assertEquals( result, writer.toString() );
         
         writer = new StringWriter();
         metawidget.write( writer, 5);
         
-        result = "\t\t\t\t\t<table/>\r\n" +
+        result = "\t\t\t\t\t<table>\r\n" +
         "\t\t\t\t\t\t<form:input path=\"bar\"/>\r\n" +
         "\t\t\t\t\t\t<form:input path=\"baz\"/>\r\n" +
         "\t\t\t\t\t</table>\r\n";
         
-        assertEquals( result, metawidget.toString() );
+        assertEquals( result, writer.toString() );
         
-        result = "<table/>\r\n" +
+        result = "<table>\r\n" +
         "\t\t\t\t\t\t<form:input path=\"bar\"/>\r\n" +
         "\t\t\t\t\t\t<form:input path=\"baz\"/>\r\n" +
-        "\t\t\t\t\t</table>\r\n";
+        "\t\t\t\t\t</table>";
         
-        assertEquals( result, metawidget.toString().trim() );
+        assertEquals( result, writer.toString().trim() );
+        
+        Map<String, String> namespaces = metawidget.getNamespaces();
+        assertEquals( 1, namespaces.size() );
+        assertEquals( "http://www.springframework.org/tags/form", namespaces.get( "form" ) );        
     }
 
 	public void testSimpleType() {
@@ -117,12 +122,18 @@ public class StaticSpringMetawidgetTest
 		StringWriter writer = new StringWriter();
 		metawidget.write( writer, 0 );
 		assertEquals( result, writer.toString() );
+		
+        Map<String, String> namespaces = metawidget.getNamespaces();
+        assertEquals( 1, namespaces.size() );
+        assertEquals( "http://www.springframework.org/tags/form", namespaces.get( "form" ) );		
 	}
 
+	// Not sure if this test output should be different (i.e. more like the output from StaticHtmlMetawidgetTest.testNestedType()?
+	
 	public void testNestedType() {
 
 		StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
-		metawidget.setValue( "foo" );
+		metawidget.setValue( "#{foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<table>\r\n" +
@@ -136,6 +147,10 @@ public class StaticSpringMetawidgetTest
 		StringWriter writer = new StringWriter();
 		metawidget.write( writer, 0 );
 		assertEquals( result, writer.toString() );
+		
+		Map<String, String> namespaces = metawidget.getNamespaces();
+		assertEquals( 1, namespaces.size() );
+		assertEquals( "http://www.springframework.org/tags/form", namespaces.get( "form" ) );
 	}
 
 	//

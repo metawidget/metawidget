@@ -122,9 +122,6 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				// the delegate, who is laying out the section heading?
 
 				addSectionWidget( section, level, container, metawidget );
-
-				// TODO: support a stack of sections, so that sections can be closed. Or can we fake
-				// a JspNestedLayoutDecorator this way? https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/4714234
 			}
 
 			state.currentSections = sections;

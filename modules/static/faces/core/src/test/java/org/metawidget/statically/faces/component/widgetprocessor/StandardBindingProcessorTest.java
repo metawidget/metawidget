@@ -58,5 +58,17 @@ public class StandardBindingProcessorTest
 		attributes.put( NAME, "baz" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget );
 		assertEquals( "<h:inputText value=\"#{foo.bar}\"/>", htmlInputText.toString() );
+
+		// Capitalized
+
+		attributes.put( NAME, "Abc" );
+		htmlInputText = new HtmlInputText();
+		processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget );
+		assertEquals( "<h:inputText value=\"#{foo.abc}\"/>", htmlInputText.toString() );
+
+		attributes.put( NAME, "URL" );
+		htmlInputText = new HtmlInputText();
+		processor.processWidget( htmlInputText, PROPERTY, attributes, metawidget );
+		assertEquals( "<h:inputText value=\"#{foo.URL}\"/>", htmlInputText.toString() );
 	}
 }
