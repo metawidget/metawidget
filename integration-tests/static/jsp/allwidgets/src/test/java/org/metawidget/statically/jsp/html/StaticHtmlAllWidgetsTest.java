@@ -36,6 +36,10 @@ public class StaticHtmlAllWidgetsTest
         metawidget.setConfig( "org/metawidget/integrationtest/static/jsp/allwidgets/metawidget.xml" );
         metawidget.setValue( "${allWidgets}" );
         metawidget.setPath( AllWidgets.class.getName() );
+
+        // Because AllWidgets was designed to test Objects, it recurses too far with just Classes        
+        
+        metawidget.setMaximumInspectionDepth( 2 );
         
         String result = "<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgets\">\r\n" +
             "\t<tbody>\r\n" +
@@ -225,7 +229,41 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<label>Nested Widgets</label>\r\n" +
             "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsnestedWidgets\">\r\n" +
-            "\t\t\t\t\t<tbody/>\r\n" +
+            "\t\t\t\t\t<tbody>\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td>\r\n" + 
+            "\t\t\t\t\t\t\t\t<label>Further Nested Widgets</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsnestedWidgetsfurtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t</tbody>\r\n" +
+            "\t\t\t\t\t\t\t\t</table>\r\n" +
+            "\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t</table>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t</tr>\r\n" +
@@ -233,7 +271,41 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<label>Read Only Nested Widgets</label>\r\n" +
             "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsreadOnlyNestedWidgets\">\r\n" +
-            "\t\t\t\t\t<tbody/>\r\n" +
+            "\t\t\t\t\t<tbody>\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td>\r\n" + 
+            "\t\t\t\t\t\t\t\t<label>Further Nested Widgets</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsreadOnlyNestedWidgetsfurtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t\t\t\t</tbody>\r\n" +
+            "\t\t\t\t\t\t\t\t</table>\r\n" +
+            "\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox1\" value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t\t<tr>\r\n" +
+            "\t\t\t\t\t\t\t<td>\r\n" +
+            "\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox2\" value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t</td>\r\n" +
+            "\t\t\t\t\t\t</tr>\r\n" +
+            "\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t</table>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t</tr>\r\n" +
