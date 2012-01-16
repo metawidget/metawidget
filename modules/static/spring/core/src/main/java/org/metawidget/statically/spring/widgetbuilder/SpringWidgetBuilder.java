@@ -162,7 +162,7 @@ public class SpringWidgetBuilder
 			// Collections will be handled by JSP HtmlWidgetBuilder
 			
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-			    return new StaticXmlStub();
+			    return null;
 			}
 		}
 

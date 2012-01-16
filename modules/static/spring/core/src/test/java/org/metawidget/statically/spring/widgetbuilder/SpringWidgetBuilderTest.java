@@ -70,7 +70,7 @@ public class SpringWidgetBuilderTest
         Map<String, String> attributes = CollectionUtils.newHashMap();
         attributes.put( TYPE, Set.class.getName() );
         StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-        assertEquals( "<stub/>", widget.toString() );
+        assertNull( widget );
     }
 
 }
