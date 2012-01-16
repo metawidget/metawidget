@@ -20,53 +20,45 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * WidgetProcessor that adds HTML <code>&lt;input type="hidden"&gt;</code> tags to hidden and
- * read-only values, so that they POST back.
- *
+ * WidgetProcessor that binds the value of a JSP element.
+ * 
  * @author Ryan Bradley
  */
 
-public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
-    
+public class StandardBindingProcessor implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
+
     //
     // Public methods
     //
     
     public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+
+        // (do not overwrite existing, if any)
         
-        // Not hidden?
-        
-        if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
-            return widget;
-        }
-        
-        String value = widget.toString();
-        
-        // Add a hidden input as a child of the metawidget
-        
-        for( StaticWidget child : widget.getChildren() ) {
+        if ( widget.getAttribute( "value" ) == null ) {
             
-            ((StaticXmlWidget) child).putAttribute( HIDDEN, TRUE );
+            String valueExpression = metawidget.getValue();
+            
+            if ( valueExpression != null ) {
+                
+                // If we are not at the top level, construct the binding.
+                
+                if ( !ENTITY.equals( elementName ) ) {
+                    valueExpression = StaticJspUtils.unwrapExpression( valueExpression );
+                    valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+                    valueExpression = StaticJspUtils.wrapExpression( valueExpression );
+                }
+                
+                widget.putAttribute( "value", valueExpression );
+            }
         }
-        
-        widget = new HtmlTag("input");
-        widget.putAttribute( "type", "hidden" );
-        
-        if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
-            metawidget.getChildren().remove( widget );
-            widget = new HtmlTag( "span" );
-            metawidget.getChildren().add( widget );
-            return widget;
-        }
-        
-        // Return the hidden input HtmlTag which has just been created
         
         return widget;
     }

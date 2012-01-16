@@ -16,18 +16,23 @@
 
 package org.metawidget.statically.jsp.html.widgetbuilder;
 
+import org.metawidget.statically.BaseStaticXmlWidget;
+
 /**
+ * Widgets within the JSTL c: namespace.
+ * 
  * @author Ryan Bradley
  */
 
-public class HtmlTable extends HtmlTag {
-
+public abstract class CoreWidget 
+    extends BaseStaticXmlWidget {
+    
     //
     // Constructor
     //
-    
-    public HtmlTable() {
+
+    protected CoreWidget( String tagName ) {
         
-        super( "table" );
-    }
+        super( "c", tagName, "http://java.sun.com/jsp/jstl/core" );
+    }    
 }
