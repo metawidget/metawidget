@@ -41,7 +41,7 @@ public class JavassistPropertyStyleDebugOffTest
 
 			// Note: this test will not trigger unless the code has been compiled with debug off
 
-			String message = "Line number information for " + Foo.class + " not available. Did you compile without debug info?";
+			String message = "Line number information for " + Foo.class.getName() + " not available. Did you compile without debug info?";
 			assertEquals( message, e.getMessage() );
 		}
 	}

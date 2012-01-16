@@ -344,7 +344,7 @@ public class HtmlWidgetBuilder
 
 		String valueExpression = dataTable.getAttribute( "var" );
 		if ( !ENTITY.equals( elementName ) ) {
-			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( columnAttributes.get( NAME ));
 		}
 		columnText.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
 		column.getChildren().add( columnText );

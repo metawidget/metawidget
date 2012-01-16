@@ -106,6 +106,12 @@ public abstract class StaticMetawidget
 
 		mConfig = config;
 		mPipeline.setNeedsConfiguring();
+
+	}
+
+	public void setMaximumInspectionDepth( int maximumInspectionDepth ) {
+
+		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 	}
 
 	public String getLabelString( Map<String, String> attributes ) {

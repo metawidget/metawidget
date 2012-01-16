@@ -55,7 +55,13 @@ public class StandardBindingProcessor
 
 					if ( !ENTITY.equals( elementName ) ) {
 						valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-						valueExpression = StaticFacesUtils.wrapExpression( valueExpression + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+						valueExpression += StringUtils.SEPARATOR_DOT_CHAR;
+
+						// attribute names *must* be decapitalized for EL to work, even if the
+						// actual attribute name starts with an uppercase
+
+						valueExpression += StringUtils.decapitalize( attributes.get( NAME ) );
+						valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
 					}
 
 					valueHolder.setValue( valueExpression );

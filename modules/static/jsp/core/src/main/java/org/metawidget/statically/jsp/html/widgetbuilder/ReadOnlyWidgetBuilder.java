@@ -69,8 +69,6 @@ public class ReadOnlyWidgetBuilder
 		if ( ACTION.equals( elementName ) ) {
 			return new StaticXmlStub();
 		}
-
-		// JSP Lookup?
 		
 		// Spring Lookup?
 		
