@@ -35,6 +35,7 @@ public class StaticHtmAllWidgetsTest
 		metawidget.setConfig( "org/metawidget/integrationtest/static/faces/allwidgets/metawidget.xml" );
 		metawidget.setValue( "#{allWidgets}" );
 		metawidget.setPath( AllWidgets.class.getName() );
+		metawidget.setMaximumInspectionDepth( 1 );
 
 		String result = "<h:panelGrid columns=\"3\">\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsTextbox\" value=\"Textbox:\"/>\r\n" +
@@ -220,10 +221,30 @@ public class StaticHtmAllWidgetsTest
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText value=\"*\"/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsNestedWidgets\" value=\"Nested Widgets:\"/>\r\n" +
-				"\t<h:panelGrid columns=\"3\" id=\"allWidgetsNestedWidgets\"/>\r\n" +
+				"\t<h:panelGrid columns=\"3\" id=\"allWidgetsNestedWidgets\">\r\n" +
+				"\t\t<h:outputLabel for=\"allWidgetsNestedWidgetsNestedTextbox1\" value=\"Nested Textbox 1:\"/>\r\n" +
+				"\t\t<h:panelGroup>\r\n" +
+				"\t\t\t<h:inputText id=\"allWidgetsNestedWidgetsNestedTextbox1\" value=\"#{allWidgets.nestedWidgets.nestedTextbox1}\"/>\r\n" +
+				"\t\t\t<h:message for=\"allWidgetsNestedWidgetsNestedTextbox1\"/>\r\n" +
+				"\t\t</h:panelGroup>\r\n" +
+				"\t\t<h:outputText/>\r\n" +
+				"\t\t<h:outputLabel for=\"allWidgetsNestedWidgetsNestedTextbox2\" value=\"Nested Textbox 2:\"/>\r\n" +
+				"\t\t<h:panelGroup>\r\n" +
+				"\t\t\t<h:inputText id=\"allWidgetsNestedWidgetsNestedTextbox2\" value=\"#{allWidgets.nestedWidgets.nestedTextbox2}\"/>\r\n" +
+				"\t\t\t<h:message for=\"allWidgetsNestedWidgetsNestedTextbox2\"/>\r\n" +
+				"\t\t</h:panelGroup>\r\n" +
+				"\t\t<h:outputText/>\r\n" +
+				"\t</h:panelGrid>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsReadOnlyNestedWidgets\" value=\"Read Only Nested Widgets:\"/>\r\n" +
-				"\t<h:panelGrid columns=\"3\" id=\"allWidgetsReadOnlyNestedWidgets\"/>\r\n" +
+				"\t<h:panelGrid columns=\"3\" id=\"allWidgetsReadOnlyNestedWidgets\">\r\n" +
+				"\t\t<h:outputLabel for=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox1\" value=\"Nested Textbox 1:\"/>\r\n" +
+				"\t\t<h:outputText id=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox1\" value=\"#{allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
+				"\t\t<h:outputText/>\r\n" +
+				"\t\t<h:outputLabel for=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox2\" value=\"Nested Textbox 2:\"/>\r\n" +
+				"\t\t<h:outputText id=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox2\" value=\"#{allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
+				"\t\t<h:outputText/>\r\n" +
+				"\t</h:panelGrid>\r\n" +
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"allWidgetsNestedWidgetsDontExpand\" value=\"Nested Widgets Dont Expand:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
