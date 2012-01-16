@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.jsp.html.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
@@ -28,6 +30,8 @@ import org.metawidget.statically.jsp.html.widgetbuilder.HtmlLabel;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableCell;
+import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHead;
+import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.util.simple.StringUtils;
 
@@ -98,9 +102,26 @@ public class HtmlTableLayout
 		    if ( mTableStyleClass != null ) {
 		        table.putAttribute( "class", mTableStyleClass );
 		    }
+
+            // Add headers to table.
+
+		    HtmlTableHead thead = new HtmlTableHead();
+		    HtmlTableRow headerRow = new HtmlTableRow();
+		    thead.getChildren().add( headerRow );
 		    
+		    HtmlTableHeader labelHeader = new HtmlTableHeader();
+		    labelHeader.setTextContent( "Label" );
+		    headerRow.getChildren().add( labelHeader );
+		    HtmlTableHeader header = new HtmlTableHeader();
+		    header.setTextContent( "Field" );
+		    headerRow.getChildren().add( header );
+		    HtmlTableHeader requiredHeader = new HtmlTableHeader();
+		    requiredHeader.setTextContent( "Required" );
+		    headerRow.getChildren().add( requiredHeader );
+		    
+		    table.getChildren().add( thead );
 		    table.getChildren().add( new HtmlTableBody() );
-		    
+		    		    
 			container.getChildren().add( table );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
@@ -116,9 +137,11 @@ public class HtmlTableLayout
 				return;
 			}
 
-			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 0 );
+			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 1 );
 			HtmlTableRow row = new HtmlTableRow();
+			HtmlTableCell labelCell = new HtmlTableCell();
 			HtmlTableCell cell = new HtmlTableCell();
+			HtmlTableCell requiredCell = new HtmlTableCell();
 
 			// Label
 			
@@ -131,12 +154,24 @@ public class HtmlTableLayout
 			
 			String labelText = metawidget.getLabelString( attributes );
 			label.setTextContent( labelText );
-			cell.getChildren().add( label );
+			labelCell.getChildren().add( label );
+			row.getChildren().add( labelCell );
 			
 			// Add widget to layout
 			
 			cell.getChildren().add( widget );
 			row.getChildren().add( cell );
+			
+			// Indicate whether the field is required or not.
+			
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
+			    requiredCell.setTextContent( "Yes" );
+			}
+			else {
+			    requiredCell.setTextContent( "No" );
+			}
+			
+			row.getChildren().add( requiredCell );
 			body.getChildren().add( row );
 
 		} catch ( Exception e ) {
