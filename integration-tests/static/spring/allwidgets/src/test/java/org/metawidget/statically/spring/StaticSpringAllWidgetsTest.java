@@ -11,7 +11,7 @@
 // Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
+// License along with this library; if Not Requiredt, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package org.metawidget.statically.spring;
@@ -42,13 +42,6 @@ public class StaticSpringAllWidgetsTest
         
         String result = "<form:form commandName=\"allWidgets\">\r\n" + 
             "\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets\">\r\n" +
-            "\t\t<thead>\r\n" +
-            "\t\t\t<tr>\r\n" +
-            "\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t</tr>\r\n" +
-            "\t\t</thead>\r\n" +
             "\t\t<tbody>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -57,7 +50,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"textbox\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>Yes</td>\r\n" +
+            "\t\t\t\t<td>Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -66,7 +59,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input maxlength=\"20\" path=\"limitedTextbox\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -75,7 +68,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:textarea path=\"textarea\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -84,7 +77,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:password path=\"password\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -93,7 +86,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"bytePrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -102,7 +95,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"byteObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -111,7 +104,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"shortPrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -120,7 +113,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"shortObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -129,7 +122,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"intPrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -138,7 +131,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"integerObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -147,7 +140,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"rangedInt\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -156,7 +149,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"rangedInteger\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -165,7 +158,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"longPrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -174,7 +167,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"longObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -183,7 +176,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"floatPrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -192,7 +185,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"floatObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -201,7 +194,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"doublePrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -210,7 +203,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"doubleObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -219,7 +212,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input maxlength=\"1\" path=\"charPrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -228,7 +221,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input maxlength=\"1\" path=\"characterObject\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -237,7 +230,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:checkbox path=\"booleanPrimitive\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -250,7 +243,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t<form:option label=\"No\" value=\"false\"/>\r\n" +
             "\t\t\t\t\t</form:select>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -264,7 +257,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t<form:option value=\"bar1\"/>\r\n" +
             "\t\t\t\t\t</form:select>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -279,7 +272,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t<form:option label=\"Baz #2\" value=\"baz2\"/>\r\n" +
             "\t\t\t\t\t</form:select>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -292,7 +285,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t<form:option value=\"1\"/>\r\n" +
             "\t\t\t\t\t</form:select>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -308,7 +301,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t<form:option value=\"def3\"/>\r\n" +
             "\t\t\t\t\t</form:select>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>Yes</td>\r\n" +
+            "\t\t\t\t<td>Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -317,13 +310,6 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:form commandName=\"allWidgets.nestedWidgets\">\r\n" +
             "\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/nestedWidgets\">\r\n" +
-            "\t\t\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -332,13 +318,6 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<form:form commandName=\"allWidgets.nestedWidgets.furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/nestedWidgets/furtherNestedWidgets\">\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -347,7 +326,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -356,13 +335,13 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</table>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</form:form>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -371,7 +350,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -380,13 +359,13 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t\t\t</table>\r\n" +
             "\t\t\t\t\t</form:form>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -395,13 +374,6 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:form commandName=\"allWidgets.readOnlyNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/readOnlyNestedWidgets\">\r\n" +
-            "\t\t\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -410,13 +382,6 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<form:form commandName=\"allWidgets.readOnlyNestedWidgets.furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/readOnlyNestedWidgets/furtherNestedWidgets\">\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -425,7 +390,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -434,13 +399,13 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</table>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</form:form>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -449,7 +414,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -458,13 +423,13 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t\t\t</table>\r\n" +
             "\t\t\t\t\t</form:form>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -473,7 +438,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"nestedWidgetsDontExpand\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -482,7 +447,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<span path=\"readOnlyNestedWidgetsDontExpand\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -491,7 +456,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"date\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -500,7 +465,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:hidden path=\"hidden\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -509,7 +474,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<span path=\"readOnly\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t\t<tr>\r\n" +
             "\t\t\t\t<td>\r\n" +
@@ -518,7 +483,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t<form:input path=\"mystery\"/>\r\n" +
             "\t\t\t\t</td>\r\n" +
-            "\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t</tr>\r\n" +
             "\t\t</tbody>\r\n" +            
             "\t</table>\r\n" +

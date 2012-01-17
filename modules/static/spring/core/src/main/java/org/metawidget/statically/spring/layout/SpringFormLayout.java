@@ -30,8 +30,6 @@ import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableCell;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHead;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormLabelTag;
@@ -102,24 +100,7 @@ public class SpringFormLayout
             form.putAttribute( "commandName", commandName);
             
             HtmlTable table = new HtmlTable();
-            HtmlTableHead thead = new HtmlTableHead();
-            table.getChildren().add( thead );
             table.getChildren().add( new HtmlTableBody() );
-
-            HtmlTableRow headerRow = new HtmlTableRow();
-            thead.getChildren().add( headerRow );
-            
-            HtmlTableHeader labelHeader = new HtmlTableHeader();
-            labelHeader.setTextContent( "Label" );
-            headerRow.getChildren().add( labelHeader );
-            
-            HtmlTableHeader header = new HtmlTableHeader();
-            header.setTextContent( "Field" );
-            headerRow.getChildren().add( header );
-            
-            HtmlTableHeader requiredHeader = new HtmlTableHeader();
-            requiredHeader.setTextContent( "Required" );
-            headerRow.getChildren().add( requiredHeader );
             
             table.putAttribute( "style", mTableStyle );
             table.putAttribute( "class", mTableStyleClass );
@@ -175,15 +156,15 @@ public class SpringFormLayout
             HtmlTableCell requiredCell = new HtmlTableCell();
             
             if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
-                requiredCell.setTextContent( "Yes" );
+                requiredCell.setTextContent( "Required" );
             }
             else {
-                requiredCell.setTextContent( "No" );
+                requiredCell.setTextContent( "Not Required" );
             }
             
             row.getChildren().add( requiredCell );
             
-            table.getChildren().get( 1 ).getChildren().add( row );
+            table.getChildren().get( 0 ).getChildren().add( row );
             
         } catch (Exception e) {
             throw LayoutException.newException( e );
