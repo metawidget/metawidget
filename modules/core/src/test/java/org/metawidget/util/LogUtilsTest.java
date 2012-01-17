@@ -86,46 +86,44 @@ public class LogUtilsTest
 
 			log.trace( "trace {0}", 1 );
 
-			// Note: cannot use assertEquals because must stay JDK 1.4 compatible
-
-			assertTrue( "trace 1".equals( getLastTraceMessage() ));
+			assertEquals( "trace 1", getLastTraceMessage() );
 			log.trace( "trace {0}", "1t", new Throwable() );
-			assertTrue( "trace 1t".equals( getLastTraceMessage() ));
+			assertEquals( "trace 1t", getLastTraceMessage() );
 			log.trace( "trace", new Throwable() );
-			assertTrue( "trace".equals( getLastTraceMessage() ));
+			assertEquals( "trace", getLastTraceMessage() );
 
 			assertTrue( log.isDebugEnabled() );
 			log.debug( "debug {0}", 2 );
-			assertTrue( "debug 2".equals( getLastDebugMessage() ));
+			assertEquals( "debug 2", getLastDebugMessage() );
 			log.debug( "debug {0}", "2t", new Throwable() );
-			assertTrue( "debug 2t".equals( getLastDebugMessage() ));
+			assertEquals( "debug 2t", getLastDebugMessage() );
 			log.debug( "debug", new Throwable() );
-			assertTrue( "debug".equals( getLastDebugMessage() ));
+			assertEquals( "debug", getLastDebugMessage() );
 		}
 
 		assertTrue( log.isInfoEnabled() );
 		log.info( "info {0}", 3 );
-		assertTrue( "info 3".equals( getLastInfoMessage() ));
+		assertEquals( "info 3", getLastInfoMessage() );
 		log.info( "info {0}", "3t", new Throwable() );
-		assertTrue( "info 3t".equals( getLastInfoMessage() ));
+		assertEquals( "info 3t", getLastInfoMessage() );
 		log.info( "info", new Throwable() );
-		assertTrue( "info".equals( getLastInfoMessage() ));
+		assertEquals( "info", getLastInfoMessage() );
 
 		assertTrue( log.isWarnEnabled() );
 		log.warn( "warn {0}", 4 );
-		assertTrue( "warn 4".equals( getLastWarnMessage() ));
+		assertEquals( "warn 4", getLastWarnMessage() );
 		log.warn( "warn {0}", "4t", new Throwable() );
-		assertTrue( "warn 4t".equals( getLastWarnMessage() ));
+		assertEquals( "warn 4t", getLastWarnMessage() );
 		log.warn( "warn", new Throwable() );
-		assertTrue( "warn".equals( getLastWarnMessage() ));
+		assertEquals( "warn", getLastWarnMessage() );
 
 		assertTrue( log.isErrorEnabled() );
 		log.error( "error {0}", 5 );
-		assertTrue( "error 5".equals( getLastErrorMessage() ));
+		assertEquals( "error 5", getLastErrorMessage() );
 		log.error( "error {0}", "5t", new Throwable() );
-		assertTrue( "error 5t".equals( getLastErrorMessage() ));
+		assertEquals( "error 5t", getLastErrorMessage() );
 		log.error( "error", new Throwable() );
-		assertTrue( "error".equals( getLastErrorMessage() ));
+		assertEquals( "error", getLastErrorMessage() );
 
 		// Test bad messages
 

@@ -526,7 +526,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 			&lt;array&gt;
 				&lt;propertyTypeInspector /&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
-				&lt;facesInspector /&gt;
+				&lt;facesAnnotationInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
@@ -859,7 +859,7 @@ public class CastorInspector
 	
 				<para>
 					When implementing your own <classname>Inspector</classname>, try to avoid technology-specific XML attribute names.
-					For example, <classname>FacesInspector</classname>
+					For example, <classname>FacesAnnotationInspector</classname>
 					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has a
 					technology-specific part to it, as it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
 					it is reasonable to name that XML attribute <parameter>faces-converter-class</parameter>. However, it also
@@ -3385,7 +3385,7 @@ static class State {
 								
 				<programlisting language="xml">&lt;inspectors&gt;
 	&lt;array&gt;
-		&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"
+		&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
 			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 			&lt;propertyStyle&gt;
 				<symbol>&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
@@ -3398,7 +3398,7 @@ static class State {
 					&lt;/privateFieldConvention&gt;
 				&lt;/javaBeanPropertyStyle&gt;</symbol>
 			&lt;/propertyStyle&gt;						
-		&lt;/java5Inspector&gt;
+		&lt;/propertyTypeInspector&gt;
 		&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
 			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 			&lt;propertyStyle&gt;
@@ -3423,7 +3423,7 @@ static class State {
 				
 				<programlisting language="xml">&lt;inspectors&gt;
 	&lt;array&gt;
-		&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"
+		&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
 			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 			&lt;propertyStyle&gt;
 				&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
@@ -3436,7 +3436,7 @@ static class State {
 					&lt;/privateFieldConvention&gt;
 				&lt;/javaBeanPropertyStyle&gt;
 			&lt;/propertyStyle&gt;						
-		&lt;/java5Inspector&gt;
+		&lt;/propertyTypeInspector&gt;
 		&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
 			config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 			&lt;propertyStyle&gt;

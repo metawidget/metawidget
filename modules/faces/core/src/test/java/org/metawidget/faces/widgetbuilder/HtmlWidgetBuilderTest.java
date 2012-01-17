@@ -392,6 +392,25 @@ public class HtmlWidgetBuilderTest
 		assertEquals( 2, data.getChildCount() );
 	}
 
+	public void testCollectionWithSingleColumn()
+		throws Exception {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, data.getChildCount() );
+
+		// Should not try and recurse String. Should just create a single column
+
+		attributes.put( PARAMETERIZED_TYPE, String.class.getName() );
+		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, data.getChildCount() );
+	}
+
 	public void testCollectionWithManyColumns()
 		throws Exception {
 
@@ -487,7 +506,7 @@ public class HtmlWidgetBuilderTest
 		public String	abc;
 	}
 
-	static class LargeFoo {
+	public static class LargeFoo {
 
 		public String	column1;
 

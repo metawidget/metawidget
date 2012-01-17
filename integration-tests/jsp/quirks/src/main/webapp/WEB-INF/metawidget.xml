@@ -27,7 +27,6 @@
 								</javaBeanPropertyStyle>
 							</propertyStyle>
 						</propertyTypeInspector>
-						
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 					</array>
 				</inspectors>

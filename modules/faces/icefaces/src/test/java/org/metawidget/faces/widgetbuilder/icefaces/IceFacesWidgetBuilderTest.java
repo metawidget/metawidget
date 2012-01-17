@@ -33,6 +33,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilderConfig;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
+import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest.LargeFoo;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
@@ -112,6 +113,17 @@ public class IceFacesWidgetBuilderTest
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
 
+	public void testCollectionWithSingleColumn() {
+		
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+	}
+	
 	@Override
 	public void testCollectionWithManyColumns()
 		throws Exception {
@@ -122,6 +134,7 @@ public class IceFacesWidgetBuilderTest
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, LargeFoo.class.getName() );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
 

@@ -106,7 +106,7 @@ public final class SimpleLayoutUtils {
 		int beginIndex = 0;
 		int length = withMnemonic.length();
 		int numberOfDoubleMarkers = 0;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
 		do {
 			markerIndex++;
@@ -143,13 +143,13 @@ public final class SimpleLayoutUtils {
 
 			// Record the string without mnemonics
 
-			buffer.append( withMnemonic.substring( beginIndex, markerIndex ) );
+			builder.append( withMnemonic.substring( beginIndex, markerIndex ) );
 			beginIndex = markerIndex + 1;
 
 			// Special support for preserving MNEMONIC_INDICATOR followed by a space
 
 			if ( markerChar == ' ' ) {
-				buffer.append( ' ' );
+				builder.append( ' ' );
 			}
 
 			// Calculate next markerIndex, starting from begin
@@ -163,11 +163,11 @@ public final class SimpleLayoutUtils {
 
 		// Record any remainder
 
-		buffer.append( withMnemonic.substring( beginIndex ) );
+		builder.append( withMnemonic.substring( beginIndex ) );
 
 		// Return the stripped mnemonic
 
-		return new StrippedMnemonicAndFirstIndex( buffer.toString(), mnemonicIndex );
+		return new StrippedMnemonicAndFirstIndex( builder.toString(), mnemonicIndex );
 	}
 
 	//

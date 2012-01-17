@@ -81,28 +81,26 @@ public class HiddenFieldProcessor
 	protected Tag wrapTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		try {
-			// (use StringBuffer for J2SE 1.4 compatibility)
-
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder builder = new StringBuilder();
 
 			// Write the tag...
 
 			String value = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget );
-			buffer.append( value );
+			builder.append( value );
 
 			// ...together with a hidden tag
 
 			Tag hiddenTag = createHiddenTag( attributes, metawidget );
-			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ) );
+			builder.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ) );
 
 			// If value is empty, output a SPAN to stop HtmlTableLayout treating this field as 'just
 			// a hidden field' and putting it outside the table
 
 			if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
-				buffer.append( "<span></span>" );
+				builder.append( "<span></span>" );
 			}
 
-			return new LiteralTag( buffer.toString() );
+			return new LiteralTag( builder.toString() );
 		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}
@@ -110,13 +108,13 @@ public class HiddenFieldProcessor
 
 	protected Tag createHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
-		buffer.append( "<input type=\"hidden\"" );
-		buffer.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
-		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
-		buffer.append( "/>" );
+		builder.append( "<input type=\"hidden\"" );
+		builder.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
+		builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		builder.append( "/>" );
 
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( builder.toString() );
 	}
 }

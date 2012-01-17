@@ -322,7 +322,7 @@ public class GwtTestQuirks
 	public void testGwtRemoteInspectorProxy() {
 
 		try {
-			new GwtRemoteInspectorProxy().inspect( null, null, (String[]) null );
+			new GwtRemoteInspectorProxy().inspect( null, null );
 			assertTrue( false );
 		} catch ( Exception e ) {
 			assertEquals( "Use async inspection instead", e.getMessage() );

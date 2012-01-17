@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.modules.swing</groupId>
 		<artifactId>swing-parent</artifactId>
-		<version>1.40-SNAPSHOT</version>
+		<version>2.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -20,7 +20,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
@@ -34,48 +33,6 @@
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-java5</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<!-- Test some parts under JDK 1.4, just to be sure of compatibility -->
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<available property="jdk14-exists" file="${jdk14.path}/bin" />
-								<fail message="JDK 1.4 not installed at 'jdk14.path' of ${jdk14.path}" unless="jdk14-exists" />
-								<delete>
-									<fileset dir="target/test-classes">
-										<include name="**/SwingJdk14Test.class" />
-									</fileset>
-								</delete>
-								<javac fork="true" srcdir="src/test/java" destdir="target/test-classes" target="jsr14" includeantruntime="false">
-									<classpath refid="maven.test.classpath" />
-								</javac>
-								<java classname="junit.textui.TestRunner" failonerror="true" fork="true" jvm="${jdk14.path}/bin/java">
-									<arg line="org.metawidget.swing.SwingJdk14Test" />
-									<classpath refid="maven.test.classpath" />
-								</java>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

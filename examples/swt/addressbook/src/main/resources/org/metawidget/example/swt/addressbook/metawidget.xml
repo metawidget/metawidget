@@ -26,7 +26,6 @@
 								<resource>org/metawidget/example/swt/addressbook/metawidget-metadata.xml</resource>
 							</inputStream>
 						</xmlInspector>
-						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 					</array>
 				</inspectors>
 			</compositeInspector>

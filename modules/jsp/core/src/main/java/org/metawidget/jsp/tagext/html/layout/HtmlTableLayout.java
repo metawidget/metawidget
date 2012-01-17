@@ -190,7 +190,7 @@ public class HtmlTableLayout
 				// Ignore empty stubs
 				//
 				// Note: interestingly, you can use literal.isEmpty here and it still compiles and
-				// works under JDK 1.4 (even though 'isEmpty' is as of 1.6). The compiler must be
+				// works under JDK 1.5 (even though 'isEmpty' is as of 1.6). The compiler must be
 				// inlining it or something. It seems a bit risky though!
 
 				if ( literal == null || literal.length() == 0 ) {

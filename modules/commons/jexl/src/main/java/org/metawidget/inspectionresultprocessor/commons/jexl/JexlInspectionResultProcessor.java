@@ -179,7 +179,7 @@ public class JexlInspectionResultProcessor<M>
 
 					// Replace multiple ELs within the String
 
-					value = new StringBuffer( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
+					value = new StringBuilder( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
 					matchOffset += valueObjectAsString.length() - ( matcher.end() - matcher.start() );
 
 				} catch ( Exception e ) {

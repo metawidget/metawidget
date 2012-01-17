@@ -85,13 +85,13 @@ public class ReadOnlyWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+			return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 		}
 
 		String jspLookup = attributes.get( JSP_LOOKUP );
 
 		if ( jspLookup != null && !"".equals( jspLookup ) ) {
-			return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+			return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -108,25 +108,25 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 			}
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 			}
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) ) {
-				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-				return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+				return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 			}
 
 			// Collections
@@ -139,7 +139,7 @@ public class ReadOnlyWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return setAttributeAndCreateReadOnlyTag( attributes, metawidget );
+			return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 		}
 
 		// Nested Metawidget
@@ -151,9 +151,7 @@ public class ReadOnlyWidgetBuilder
 	// Protected methods
 	//
 
-	// REFACTOR: rename this to createReadOnlyLabelTag
-
-	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag createReadOnlyLabelTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		String value = HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget );
 
@@ -179,26 +177,24 @@ public class ReadOnlyWidgetBuilder
 
 	protected Tag createReadOnlyButton( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		StringBuilder builder = new StringBuilder();
 
-		StringBuffer buffer = new StringBuffer();
+		builder.append( "<input type=\"submit\" value=\"" );
+		builder.append( metawidget.getLabelString( attributes ) );
+		builder.append( "\"" );
+		builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		builder.append( " disabled=\"disabled\"/>" );
 
-		buffer.append( "<input type=\"submit\" value=\"" );
-		buffer.append( metawidget.getLabelString( attributes ) );
-		buffer.append( "\"" );
-		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
-		buffer.append( " disabled=\"disabled\"/>" );
-
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( builder.toString() );
 	}
 
 	//
 	// Private methods
 	//
 
-	protected Tag setAttributeAndCreateReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag setAttributeAndCreateReadOnlyLabelTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		attributes.put( HiddenFieldProcessor.ATTRIBUTE_NEEDS_HIDDEN_FIELD, TRUE );
-		return createReadOnlyTag( attributes, metawidget );
+		return createReadOnlyLabelTag( attributes, metawidget );
 	}
 }

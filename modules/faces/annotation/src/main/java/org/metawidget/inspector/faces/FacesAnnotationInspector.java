@@ -35,21 +35,19 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-// REFACTOR: rename this to FacesAnnotationInspector
-
-public class FacesInspector
+public class FacesAnnotationInspector
 	extends BaseObjectInspector {
 
 	//
 	// Constructor
 	//
 
-	public FacesInspector() {
+	public FacesAnnotationInspector() {
 
 		this( new BaseObjectInspectorConfig() );
 	}
 
-	public FacesInspector( BaseObjectInspectorConfig config ) {
+	public FacesAnnotationInspector( BaseObjectInspectorConfig config ) {
 
 		super( config );
 	}

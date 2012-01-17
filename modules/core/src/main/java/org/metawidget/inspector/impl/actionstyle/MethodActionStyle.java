@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.metawidget.inspector.impl.BaseTrait;
 import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -101,7 +102,8 @@ public abstract class MethodActionStyle
 	 */
 
 	protected static class MethodAction
-		extends BaseAction {
+		extends BaseTrait
+		implements Action {
 
 		//
 		// Private methods

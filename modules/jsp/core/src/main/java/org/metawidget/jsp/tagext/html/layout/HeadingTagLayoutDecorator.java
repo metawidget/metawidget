@@ -64,41 +64,41 @@ public class HeadingTagLayoutDecorator
 	@Override
 	protected void addSectionWidget( String section, int level, BodyTag containerTag, MetawidgetTag metawidgetTag ) {
 
-		StringBuffer buffer = new StringBuffer( "<h" );
-		buffer.append( String.valueOf( level + 1 ) );
+		StringBuilder builder = new StringBuilder( "<h" );
+		builder.append( String.valueOf( level + 1 ) );
 
 		if ( mStyle != null ) {
-			buffer.append( " style=\"" );
-			buffer.append( mStyle );
-			buffer.append( "\"" );
+			builder.append( " style=\"" );
+			builder.append( mStyle );
+			builder.append( "\"" );
 		}
 
 		if ( mStyleClass != null ) {
-			buffer.append( " class=\"" );
-			buffer.append( mStyleClass );
-			buffer.append( "\"" );
+			builder.append( " class=\"" );
+			builder.append( mStyleClass );
+			builder.append( "\"" );
 		}
 
-		buffer.append( ">" );
+		builder.append( ">" );
 
 		// Section name (possibly localized)
 
 		String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection != null ) {
-			buffer.append( localizedSection );
+			builder.append( localizedSection );
 		} else {
-			buffer.append( section );
+			builder.append( section );
 		}
 
-		buffer.append( "</h" );
-		buffer.append( String.valueOf( level + 1 ) );
-		buffer.append( ">" );
+		builder.append( "</h" );
+		builder.append( String.valueOf( level + 1 ) );
+		builder.append( ">" );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( LABEL, "" );
 		attributes.put( WIDE, TRUE );
 
-		getDelegate().layoutWidget( new LiteralTag( buffer.toString() ), PROPERTY, attributes, containerTag, metawidgetTag );
+		getDelegate().layoutWidget( new LiteralTag( builder.toString() ), PROPERTY, attributes, containerTag, metawidgetTag );
 	}
 }

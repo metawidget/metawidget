@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.impl.propertystyle.groovy;
 
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
+import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 
 /**
  * Configures a GroovyPropertyStyle prior to use. Once instantiated, PropertyStyles are immutable.
@@ -28,7 +28,7 @@ import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
  */
 
 public class GroovyPropertyStyleConfig
-	extends BasePropertyStyleConfig {
+	extends BaseTraitStyleConfig {
 
 	//
 	// Constructor
