@@ -33,7 +33,6 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilderConfig;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
-import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest.LargeFoo;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
@@ -113,8 +112,9 @@ public class IceFacesWidgetBuilderTest
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
 
+	@Override
 	public void testCollectionWithSingleColumn() {
-		
+
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 
@@ -123,7 +123,7 @@ public class IceFacesWidgetBuilderTest
 		attributes.put( TYPE, List.class.getName() );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
-	
+
 	@Override
 	public void testCollectionWithManyColumns()
 		throws Exception {
