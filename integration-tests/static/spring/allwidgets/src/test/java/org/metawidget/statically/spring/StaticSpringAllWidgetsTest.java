@@ -308,32 +308,32 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t<form:label path=\"nestedWidgets\">Nested Widgets</form:label>\r\n" +
             "\t\t\t\t</td>\r\n" +
             "\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t<form:form commandName=\"allWidgets.nestedWidgets\">\r\n" +
+            "\t\t\t\t\t<form:form commandName=\"nestedWidgets\">\r\n" +
             "\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/nestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets\">Further Nested Widgets</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"furtherNestedWidgets\">Further Nested Widgets</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:form commandName=\"allWidgets.nestedWidgets.furtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:form commandName=\"furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/nestedWidgets/furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox1\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox2\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -345,19 +345,19 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.nestedTextbox1\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.nestedTextbox2\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -372,32 +372,32 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets\">Read Only Nested Widgets</form:label>\r\n" +
             "\t\t\t\t</td>\r\n" +
             "\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t<form:form commandName=\"allWidgets.readOnlyNestedWidgets\">\r\n" +
+            "\t\t\t\t\t<form:form commandName=\"readOnlyNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/readOnlyNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets\">Further Nested Widgets</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"furtherNestedWidgets\">Further Nested Widgets</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:form commandName=\"allWidgets.readOnlyNestedWidgets.furtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:form commandName=\"furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<table id=\"table-org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets/readOnlyNestedWidgets/furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span path=\"nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span path=\"nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -409,19 +409,19 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.nestedTextbox1\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<span path=\"nestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<span path=\"readOnlyNestedWidgets.nestedTextbox2\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t<span path=\"nestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t</tr>\r\n" +
