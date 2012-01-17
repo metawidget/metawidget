@@ -57,13 +57,13 @@ public class PathProcessorTest
         
         // Name is meaningless because it will take the name of the inner class members.
         metawidget.putAttribute( NAME, "meaningless" );
-        metawidget.setValue( "org.foo" );
+        metawidget.setValue( "${foo}" );
         metawidget.setPath( Foo.class.getName() );
         
-        String result = "<table>" +
-        "<form:input path=\"foo.bar\"/>" +
-        "<form:input path=\"foo.baz\"/>" +
-        "</table>";
+        String result = "<form:form commandName=\"foo\"><table id=\"table-org.metawidget.statically.spring.widgetprocessor.PathProcessorTest$Foo\">" +
+        "<tbody><tr><td><form:label path=\"bar\">Bar</form:label></td><td><form:input path=\"bar\"/></td><td>Not Required</td></tr>" +
+        "<tr><td><form:label path=\"baz\">Baz</form:label></td><td><form:input path=\"baz\"/></td><td>Not Required</td></tr>" +
+        "</tbody></table></form:form>";
         
         assertEquals( result, metawidget.toString() );
     }

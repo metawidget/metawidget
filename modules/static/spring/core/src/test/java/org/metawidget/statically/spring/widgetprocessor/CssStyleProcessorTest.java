@@ -56,13 +56,13 @@ public class CssStyleProcessorTest
         StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
         metawidget.putAttribute( "cssStyle", "stylin" );
         metawidget.putAttribute( "cssClass", "styleClassin" );
-        metawidget.setValue( "#{foo}" );
+        metawidget.setValue( "${foo}" );
         metawidget.setPath( Foo.class.getName() );
         
-        String result = "<table>" +
-                "<form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"bar\"/>" +
-                "<form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"baz\"/>" +
-                "</table>";
+        String result = "<form:form commandName=\"foo\"><table id=\"table-org.metawidget.statically.spring.widgetprocessor.CssStyleProcessorTest$Foo\">" +
+                "<tbody><tr><td><form:label path=\"bar\">Bar</form:label></td><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"bar\"/></td><td>Not Required</td></tr>" +
+                "<tr><td><form:label path=\"baz\">Baz</form:label></td><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"baz\"/></td><td>Not Required</td></tr>" +
+                "</tbody></table></form:form>";
         
         assertEquals( result, metawidget.toString() );
     }
