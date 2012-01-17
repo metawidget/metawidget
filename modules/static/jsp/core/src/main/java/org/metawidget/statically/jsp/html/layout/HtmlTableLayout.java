@@ -30,8 +30,6 @@ import org.metawidget.statically.jsp.html.widgetbuilder.HtmlLabel;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableCell;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHead;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.util.simple.StringUtils;
 
@@ -103,23 +101,6 @@ public class HtmlTableLayout
 		        table.putAttribute( "class", mTableStyleClass );
 		    }
 
-            // Add headers to table.
-
-		    HtmlTableHead thead = new HtmlTableHead();
-		    HtmlTableRow headerRow = new HtmlTableRow();
-		    thead.getChildren().add( headerRow );
-		    
-		    HtmlTableHeader labelHeader = new HtmlTableHeader();
-		    labelHeader.setTextContent( "Label" );
-		    headerRow.getChildren().add( labelHeader );
-		    HtmlTableHeader header = new HtmlTableHeader();
-		    header.setTextContent( "Field" );
-		    headerRow.getChildren().add( header );
-		    HtmlTableHeader requiredHeader = new HtmlTableHeader();
-		    requiredHeader.setTextContent( "Required" );
-		    headerRow.getChildren().add( requiredHeader );
-		    
-		    table.getChildren().add( thead );
 		    table.getChildren().add( new HtmlTableBody() );
 		    		    
 			container.getChildren().add( table );
@@ -137,7 +118,7 @@ public class HtmlTableLayout
 				return;
 			}
 
-			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 1 );
+			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 0 );
 			HtmlTableRow row = new HtmlTableRow();
 			HtmlTableCell labelCell = new HtmlTableCell();
 			HtmlTableCell cell = new HtmlTableCell();
@@ -165,10 +146,10 @@ public class HtmlTableLayout
 			// Indicate whether the field is required or not.
 			
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			    requiredCell.setTextContent( "Yes" );
+			    requiredCell.setTextContent( "Required" );
 			}
 			else {
-			    requiredCell.setTextContent( "No" );
+			    requiredCell.setTextContent( "Not Required" );
 			}
 			
 			row.getChildren().add( requiredCell );

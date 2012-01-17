@@ -42,13 +42,6 @@ public class StaticHtmlAllWidgetsTest
         metawidget.setMaximumInspectionDepth( 2 );
         
         String result = "<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgets\">\r\n" +
-            "\t<thead>\r\n" +
-            "\t\t<tr>\r\n" +
-            "\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t<th>Required</th>\r\n" +
-            "\t\t</tr>\r\n" +
-            "\t</thead>\r\n" +
             "\t<tbody>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -57,7 +50,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsTextbox\" type=\"text\" value=\"${allWidgets.textbox}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>Yes</td>\r\n" +
+            "\t\t\t<td>Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -66,7 +59,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input maxlength=\"20\" name=\"allWidgetsLimitedTextbox\" type=\"text\" value=\"${allWidgets.limitedTextbox}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -75,7 +68,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<textarea name=\"allWidgetsTextarea\" value=\"${allWidgets.textarea}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -84,7 +77,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsPassword\" type=\"secret\" value=\"${allWidgets.password}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -93,7 +86,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsBytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -102,7 +95,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsByteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -111,7 +104,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsShortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -120,7 +113,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsShortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -129,7 +122,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsIntPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -138,7 +131,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsIntegerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -147,7 +140,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsRangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -156,7 +149,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsRangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -165,7 +158,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsLongPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -174,7 +167,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsLongObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -183,7 +176,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsFloatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -192,7 +185,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsFloatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -201,7 +194,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsDoublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -210,7 +203,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsDoubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -219,7 +212,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input maxlength=\"1\" name=\"allWidgetsCharPrimitive\" type=\"text\" value=\"${allWidgets.charPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -228,7 +221,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input maxlength=\"1\" name=\"allWidgetsCharacterObject\" type=\"text\" value=\"${allWidgets.characterObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -237,7 +230,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsBooleanPrimitive\" type=\"checkbox\" value=\"${allWidgets.booleanPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -250,7 +243,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t<option value=\"false\">No</option>\r\n" +
             "\t\t\t\t</select>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -264,7 +257,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t<option value=\"bar1\"/>\r\n" +
             "\t\t\t\t</select>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -279,7 +272,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t<option value=\"baz2\">Baz #2</option>\r\n" +
             "\t\t\t\t</select>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -292,7 +285,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t<option value=\"1\"/>\r\n" +
             "\t\t\t\t</select>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -308,7 +301,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t<option value=\"def3\"/>\r\n" +
             "\t\t\t\t</select>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>Yes</td>\r\n" +
+            "\t\t\t<td>Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -316,13 +309,6 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</td>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsnestedWidgets\">\r\n" +
-            "\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" + 
@@ -330,13 +316,6 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsnestedWidgetsfurtherNestedWidgets\">\r\n" +
-            "\t\t\t\t\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -345,7 +324,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -354,12 +333,12 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t\t\t\t\t</table>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
@@ -368,7 +347,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox1}\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
@@ -377,12 +356,12 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox2}\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t</table>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -390,13 +369,6 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</td>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsreadOnlyNestedWidgets\">\r\n" +
-            "\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" + 
@@ -404,13 +376,6 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsreadOnlyNestedWidgetsfurtherNestedWidgets\">\r\n" +
-            "\t\t\t\t\t\t\t\t\t<thead>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<th>Label</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<th>Field</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<th>Required</th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
-            "\t\t\t\t\t\t\t\t\t</thead>\r\n" +
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -419,7 +384,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
@@ -428,12 +393,12 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t\t\t\t\t</table>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
@@ -442,7 +407,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox1\" value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
@@ -451,12 +416,12 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsNestedTextbox2\" value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
-            "\t\t\t\t\t\t\t<td>No</td>\r\n" +
+            "\t\t\t\t\t\t\t<td>Not Required</td>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t</tbody>\r\n" +
             "\t\t\t\t</table>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -465,7 +430,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsNestedWidgetsDontExpand\" type=\"text\" value=\"${allWidgets.nestedWidgetsDontExpand}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -474,7 +439,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<span name=\"allWidgetsReadOnlyNestedWidgetsDontExpand\" value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -483,7 +448,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsDate\" type=\"text\" value=\"${allWidgets.date}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -492,7 +457,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsHidden\" type=\"hidden\" value=\"${allWidgets.hidden}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -501,7 +466,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<span name=\"allWidgetsReadOnly\" value=\"${allWidgets.readOnly}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<td>\r\n" +
@@ -510,7 +475,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsMystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
-            "\t\t\t<td>No</td>\r\n" +
+            "\t\t\t<td>Not Required</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t</tbody>\r\n" +
             "</table>\r\n";
