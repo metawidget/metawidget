@@ -231,17 +231,15 @@ public final class CollectionUtils {
 		Pattern patternSeparator = Pattern.compile( separator, Pattern.LITERAL );
 		String replacement = "\\\\" + separator;
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
 		for ( T t : consistentlyOrderedCollection ) {
 			String value = String.valueOf( t );
 
 			// Concatenate the separator
 
-			if ( buffer.length() > 0 || leadingSeparator ) {
-				buffer.append( separator );
+			if ( builder.length() > 0 || leadingSeparator ) {
+				builder.append( separator );
 			}
 
 			// Escape the separator
@@ -250,14 +248,14 @@ public final class CollectionUtils {
 
 			// Build the string
 
-			buffer.append( value );
+			builder.append( value );
 		}
 
-		if ( trailingSeparator && buffer.length() > 0 ) {
-			buffer.append( separator );
+		if ( trailingSeparator && builder.length() > 0 ) {
+			builder.append( separator );
 		}
 
-		return buffer.toString();
+		return builder.toString();
 	}
 
 	/**

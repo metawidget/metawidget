@@ -426,12 +426,21 @@ public class HtmlWidgetBuilder
 		String inspectedType = null;
 
 		if ( componentType != null ) {
-			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+			inspectedType = metawidget.inspect( null, componentType );
 		}
 
 		// If there is no type...
 
+		NodeList elements;
+
 		if ( inspectedType == null ) {
+			elements = null;
+		} else {
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			elements = root.getFirstChild().getChildNodes();
+		}
+
+		if ( elements == null || elements.getLength() == 0 ) {
 			// ...resort to a single column table...
 
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
@@ -442,8 +451,6 @@ public class HtmlWidgetBuilder
 		// ...otherwise, iterate over the component type and add multiple columns
 
 		else {
-			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-			NodeList elements = root.getFirstChild().getChildNodes();
 			addColumnComponents( dataTable, attributes, elements, metawidget );
 		}
 

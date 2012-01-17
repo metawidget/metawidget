@@ -121,16 +121,15 @@ public class HtmlWidgetBuilder
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					// (use StringBuffer for J2SE 1.4 compatibility)
 
-					StringBuffer buffer = new StringBuffer();
-					buffer.append( "<textarea" );
-					buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
-					buffer.append( ">" );
-					buffer.append( HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget ) );
-					buffer.append( "</textarea>" );
+					StringBuilder builder = new StringBuilder();
+					builder.append( "<textarea" );
+					builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+					builder.append( ">" );
+					builder.append( HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget ) );
+					builder.append( "</textarea>" );
 
-					return new LiteralTag( buffer.toString() );
+					return new LiteralTag( builder.toString() );
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
@@ -182,15 +181,13 @@ public class HtmlWidgetBuilder
 
 	private Tag createCheckboxTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		StringBuilder builder = new StringBuilder();
+		builder.append( "<input type=\"checkbox\"" );
+		builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		builder.append( writeCheckedAttribute( attributes, metawidget ) );
+		builder.append( "/>" );
 
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( "<input type=\"checkbox\"" );
-		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
-		buffer.append( writeCheckedAttribute( attributes, metawidget ) );
-		buffer.append( "/>" );
-
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( builder.toString() );
 	}
 
 	private Tag createTextTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
@@ -200,50 +197,46 @@ public class HtmlWidgetBuilder
 
 	private Tag createTextTag( String textTag, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		StringBuilder builder = new StringBuilder();
 
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( "<input type=\"" );
-		buffer.append( textTag );
-		buffer.append( "\"" );
-		buffer.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
-		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		builder.append( "<input type=\"" );
+		builder.append( textTag );
+		builder.append( "\"" );
+		builder.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
+		builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 
 		// Maxlength
 
 		String actualType = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( "char".equals( actualType ) || Character.class.getName().equals( actualType )) {
-			buffer.append( " maxlength=\"1\"" );
+			builder.append( " maxlength=\"1\"" );
 		} else {
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
 			if ( maximumLength != null && !"".equals( maximumLength ) ) {
-				buffer.append( " maxlength=\"" );
-				buffer.append( maximumLength );
-				buffer.append( "\"" );
+				builder.append( " maxlength=\"" );
+				builder.append( maximumLength );
+				builder.append( "\"" );
 			}
 		}
 
-		buffer.append( "/>" );
+		builder.append( "/>" );
 
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( builder.toString() );
 	}
 
 	private Tag createSubmitTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		StringBuilder builder = new StringBuilder();
 
-		StringBuffer buffer = new StringBuffer();
+		builder.append( "<input type=\"submit\" value=\"" );
+		builder.append( metawidget.getLabelString( attributes ) );
+		builder.append( "\"" );
+		builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		builder.append( "/>" );
 
-		buffer.append( "<input type=\"submit\" value=\"" );
-		buffer.append( metawidget.getLabelString( attributes ) );
-		buffer.append( "\"" );
-		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
-		buffer.append( "/>" );
-
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( builder.toString() );
 	}
 
 	private String writeCheckedAttribute( Map<String, String> attributes, MetawidgetTag metawidget ) {
@@ -282,21 +275,19 @@ public class HtmlWidgetBuilder
 			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 		}
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
 		// Start the SELECT tag
 
-		buffer.append( "<select" );
-		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
+		builder.append( "<select" );
+		builder.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 
-		buffer.append( ">" );
+		builder.append( ">" );
 
 		// Empty option
 
 		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			buffer.append( "<option value=\"\"></option>" );
+			builder.append( "<option value=\"\"></option>" );
 		}
 
 		// Evaluate the expression
@@ -314,29 +305,29 @@ public class HtmlWidgetBuilder
 
 			String stringValue = StringUtils.quietValueOf( value );
 
-			buffer.append( "<option value=\"" );
-			buffer.append( stringValue );
-			buffer.append( "\"" );
+			builder.append( "<option value=\"" );
+			builder.append( stringValue );
+			builder.append( "\"" );
 
 			if ( stringValue.equals( selected ) ) {
-				buffer.append( " selected" );
+				builder.append( " selected" );
 			}
 
-			buffer.append( ">" );
+			builder.append( ">" );
 
 			if ( labels == null || labels.isEmpty() ) {
-				buffer.append( stringValue );
+				builder.append( stringValue );
 			} else {
-				buffer.append( labels.get( loop ) );
+				builder.append( labels.get( loop ) );
 			}
 
-			buffer.append( "</option>" );
+			builder.append( "</option>" );
 		}
 
 		// End the SELECT tag
 
-		buffer.append( "</select>" );
+		builder.append( "</select>" );
 
-		return new LiteralTag( buffer.toString() );
+		return new LiteralTag( builder.toString() );
 	}
 }

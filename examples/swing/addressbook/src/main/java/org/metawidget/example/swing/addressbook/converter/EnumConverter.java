@@ -47,7 +47,7 @@ public abstract class EnumConverter<T extends Enum<T>>
 	@Override
 	public String convertForward( T anEnum ) {
 
-		// The enum will have been converted to its '.name' by Java5Inspector when
+		// The enum will have been converted to its '.name' by PropertyTypeInspector when
 		// it creates lookup values and labels. This means we must also convert the
 		// enum to its '.name' during binding.
 		//

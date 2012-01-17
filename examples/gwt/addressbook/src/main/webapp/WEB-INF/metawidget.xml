@@ -12,7 +12,6 @@
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
-						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 					</array>
 				</inspectors>
 			</compositeInspector>

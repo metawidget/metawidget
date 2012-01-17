@@ -30,7 +30,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for JSP WidgetBuilders.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -48,15 +48,13 @@ public final class HtmlWidgetBuilderUtils {
 			return "";
 		}
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		StringBuilder builder = new StringBuilder();
 
-		StringBuffer buffer = new StringBuffer();
+		builder.append( " value=\"" );
+		builder.append( result );
+		builder.append( "\"" );
 
-		buffer.append( " value=\"" );
-		buffer.append( result );
-		buffer.append( "\"" );
-
-		return buffer.toString();
+		return builder.toString();
 	}
 
 	/**
@@ -68,11 +66,9 @@ public final class HtmlWidgetBuilderUtils {
 
 	public static String writeAttributes( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		StringBuilder builder = new StringBuilder();
 
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( " name=\"" );
+		builder.append( " name=\"" );
 
 		String name = attributes.get( NAME );
 
@@ -80,26 +76,26 @@ public final class HtmlWidgetBuilderUtils {
 			name = metawidget.getPathPrefix() + name;
 		}
 
-		buffer.append( name );
-		buffer.append( "\"" );
+		builder.append( name );
+		builder.append( "\"" );
 
 		// CSS
 
 		BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
 
 		if ( htmlMetawidgetTag.getStyle() != null ) {
-			buffer.append( " style=\"" );
-			buffer.append( htmlMetawidgetTag.getStyle() );
-			buffer.append( "\"" );
+			builder.append( " style=\"" );
+			builder.append( htmlMetawidgetTag.getStyle() );
+			builder.append( "\"" );
 		}
 
 		if ( htmlMetawidgetTag.getStyleClass() != null ) {
-			buffer.append( " class=\"" );
-			buffer.append( htmlMetawidgetTag.getStyleClass() );
-			buffer.append( "\"" );
+			builder.append( " class=\"" );
+			builder.append( htmlMetawidgetTag.getStyleClass() );
+			builder.append( "\"" );
 		}
 
-		return buffer.toString();
+		return builder.toString();
 	}
 
 	/**

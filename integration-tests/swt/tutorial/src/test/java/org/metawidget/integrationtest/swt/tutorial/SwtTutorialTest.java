@@ -38,7 +38,6 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.java5.Java5Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
@@ -110,7 +109,7 @@ public class SwtTutorialTest
 
 		// Check middle of tutorial
 
-		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector(), new Java5Inspector() );
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridLayoutConfig nestedLayoutConfig = new GridLayoutConfig().setNumberOfColumns( 2 );
 		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.GridLayout( nestedLayoutConfig ) );

@@ -44,7 +44,7 @@ public class ReadOnlyWidgetBuilder
 	//
 
 	@Override
-	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag createReadOnlyLabelTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		HiddenTag tag = new HiddenTag();
 		String name = attributes.get( NAME );

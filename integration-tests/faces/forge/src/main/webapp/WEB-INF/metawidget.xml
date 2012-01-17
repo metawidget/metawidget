@@ -28,8 +28,6 @@
 								</javaBeanPropertyStyle>
 							</propertyStyle>						
 						</metawidgetAnnotationInspector>
-						<!-- java5Inspector inspects enums and generics -->
-						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<!-- jpaInspector inspects JPA annotations -->
 						<jpaInspector xmlns="java:org.metawidget.inspector.jpa" config="JpaInspectorConfig">
 							<propertyStyle>

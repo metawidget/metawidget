@@ -369,22 +369,9 @@ public final class ClassUtils {
 	}
 
 	/**
-	 * Gets the 'simple' name of the class.
-	 * <p>
-	 * Essentially a simplified version of <code>Class.getSimpleName</code>, which is JDK
-	 * 1.5-specific.
-	 */
-
-	public static String getSimpleName( Class<?> clazz ) {
-
-		return getSimpleName( clazz.getName() );
-	}
-
-	/**
 	 * Gets the 'simple' name of the class, given the fully qualified name.
 	 * <p>
-	 * Essentially a simplified version of <code>Class.getSimpleName</code>, which is JDK
-	 * 1.5-specific.
+	 * Named after <code>Class.getSimpleName</code>.
 	 */
 
 	public static String getSimpleName( String qualifiedClassName ) {

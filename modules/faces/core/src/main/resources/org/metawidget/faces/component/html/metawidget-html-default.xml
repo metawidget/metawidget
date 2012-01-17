@@ -15,7 +15,7 @@
 					<array>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
-						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
+						<facesAnnotationInspector xmlns="java:org.metawidget.inspector.faces"/>
 					</array>
 				</inspectors>
 			</compositeInspector>

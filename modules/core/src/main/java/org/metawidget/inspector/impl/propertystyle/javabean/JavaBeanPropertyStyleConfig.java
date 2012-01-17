@@ -18,7 +18,7 @@ package org.metawidget.inspector.impl.propertystyle.javabean;
 
 import java.text.MessageFormat;
 
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
+import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -28,7 +28,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class JavaBeanPropertyStyleConfig
-	extends BasePropertyStyleConfig {
+	extends BaseTraitStyleConfig {
 
 	//
 	// Private statics

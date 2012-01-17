@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class FacesInspectorTest
+public class FacesAnnotationInspectorTest
 	extends TestCase {
 
 	//
@@ -51,8 +51,8 @@ public class FacesInspectorTest
 
 		// Must support both config-less/config-based constructor
 
-		FacesInspector inspector = new FacesInspector();
-		inspector = new FacesInspector( new BaseObjectInspectorConfig() );
+		FacesAnnotationInspector inspector = new FacesAnnotationInspector();
+		inspector = new FacesAnnotationInspector( new BaseObjectInspectorConfig() );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 

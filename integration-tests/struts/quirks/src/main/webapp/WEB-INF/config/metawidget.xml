@@ -23,7 +23,6 @@
 						</propertyTypeInspector>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" />
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts" />
-						<java5Inspector xmlns="java:org.metawidget.inspector.java5" />
 					</array>
 				</inspectors>
 			</compositeInspector>

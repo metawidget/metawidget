@@ -166,7 +166,6 @@ public class ConfigReaderIntegrationTest
 		xml += "			<array>";
 		xml += "				<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
 		xml += "				<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>";
-		xml += "				<java5Inspector xmlns=\"java:org.metawidget.inspector.java5\"/>";
 		xml += "			</array>";
 		xml += "		</inspectors>";
 		xml += "	</compositeInspector>";

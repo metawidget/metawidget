@@ -54,29 +54,18 @@ public final class ArrayUtils {
 			throw new UnsupportedOperationException( "Not an array" );
 		}
 
-		String separatorEscaped = separator;
-
-		// Workaround for bug in J2SE 1.4 - dots don't get escaped properly, even
-		// when using Pattern.LITERAL
-
-		if ( separatorEscaped.equals( "." ) ) {
-			separatorEscaped = "\\.";
-		}
-
-		Pattern patternSeparator = Pattern.compile( separatorEscaped, Pattern.LITERAL );
+		Pattern patternSeparator = Pattern.compile( separator, Pattern.LITERAL );
 		String replacement = "\\\\" + separator;
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
 		for ( int loop = 0, length = Array.getLength( array ); loop < length; loop++ ) {
 			String value = String.valueOf( Array.get( array, loop ) );
 
 			// Concatenate the separator
 
-			if ( buffer.length() > 0 || leadingSeparator ) {
-				buffer.append( separator );
+			if ( builder.length() > 0 || leadingSeparator ) {
+				builder.append( separator );
 			}
 
 			// Escape the separator
@@ -85,14 +74,14 @@ public final class ArrayUtils {
 
 			// Build the string
 
-			buffer.append( value );
+			builder.append( value );
 		}
 
-		if ( trailingSeparator && buffer.length() > 0 ) {
-			buffer.append( separator );
+		if ( trailingSeparator && builder.length() > 0 ) {
+			builder.append( separator );
 		}
 
-		return buffer.toString();
+		return builder.toString();
 	}
 
 	public static String[] fromString( String array ) {

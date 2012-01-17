@@ -24,7 +24,7 @@ import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
-import org.metawidget.inspector.faces.FacesInspector;
+import org.metawidget.inspector.faces.FacesAnnotationInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.pipeline.base.BasePipeline;
@@ -66,7 +66,7 @@ public class HtmlMetawidgetTest
 
 		assertTrue( inspectors[0] instanceof PropertyTypeInspector );
 		assertTrue( inspectors[1] instanceof MetawidgetAnnotationInspector );
-		assertTrue( inspectors[2] instanceof FacesInspector );
+		assertTrue( inspectors[2] instanceof FacesAnnotationInspector );
 		assertEquals( inspectors.length, 3 );
 	}
 
