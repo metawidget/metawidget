@@ -8,6 +8,17 @@
 		<rendererType>
 			<string>simple</string>
 		</rendererType>
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" />
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" />
+						<!-- No facesAnnotationInspector -->
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
