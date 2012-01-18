@@ -69,7 +69,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			//
 			// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
-			if ( isEmptyStub( widget ) || section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
+			if ( isIgnored( widget ) || section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
@@ -95,7 +95,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			//
 			// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
-			if ( isEmptyStub( widget ) || sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
+			if ( isIgnored( widget ) || sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
@@ -143,16 +143,14 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	protected abstract State getState( C container, M metawidget );
 
 	/**
-	 * Returns <code>true</code> if the given widget is an empty Stub widget, and should therefore
-	 * be ignored and no section heading created.
+	 * Returns <code>true</code> if the given widget should be ignored, and no section heading
+	 * created for it. For example, the widget might be an empty Stub widget.
 	 * <p>
-	 * Subclasses should also return <code>true</code> if the widget is some other kind of invisible
-	 * component (eg. <code>HtmlInputHidden</code>).
+	 * Subclasses should override this method and return <code>true</code> if the widget is some
+	 * other kind of ignored component (eg. <code>HtmlInputHidden</code>).
 	 */
 
-	// REFACTOR: rename this to isInvisible
-
-	protected abstract boolean isEmptyStub( W widget );
+	protected abstract boolean isIgnored( W widget );
 
 	/**
 	 * @param section

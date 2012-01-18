@@ -42,12 +42,12 @@ public class JavassistPropertyStyleTest
 
 	public void testJavassist() {
 
-		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
+		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
 		Map<String, Property> properties;
 
 		try {
 			properties = propertyStyle.getProperties( Foo.class.getName() );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "Line number information for org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$Foo not available. Did you compile without debug info?", e.getMessage() );
 			return;
 		}
@@ -69,12 +69,12 @@ public class JavassistPropertyStyleTest
 
 	public void testSupportPublicFields() {
 
-		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig() );
+		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
 		Map<String, Property> properties;
 
 		try {
 			properties = propertyStyle.getProperties( Foo.class.getName() );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "Line number information for org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$Foo not available. Did you compile without debug info?", e.getMessage() );
 			return;
 		}
@@ -93,7 +93,7 @@ public class JavassistPropertyStyleTest
 		assertEquals( "methodBaz", i.next().getName() );
 		assertFalse( i.hasNext() );
 
-		propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( false ));
+		propertyStyle = new JavassistPropertyStyle( new JavaBeanPropertyStyleConfig() );
 		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof LinkedHashMap<?, ?> );
@@ -114,7 +114,7 @@ public class JavassistPropertyStyleTest
 
 		try {
 			properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class.getName() );
-		} catch( InspectorException e ) {
+		} catch ( InspectorException e ) {
 			assertEquals( "Line number information for org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest$ProxiedByCGLIB$$ not available. Did you compile without debug info?", e.getMessage() );
 			return;
 		}

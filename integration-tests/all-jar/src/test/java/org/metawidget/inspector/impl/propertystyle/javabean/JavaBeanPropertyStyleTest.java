@@ -54,7 +54,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testJavaBeanPropertyStyle() {
 
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
@@ -101,7 +101,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testExcludeReturnType() {
 
-		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig().setSupportPublicFields( true );
 
 		// Without excluded type
 
@@ -130,7 +130,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testExcludeName() {
 
-		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig().setSupportPublicFields( true );
 
 		// Without excluded name
 
@@ -163,7 +163,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testSupportPublicFields() {
 
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig() );
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
@@ -366,7 +366,7 @@ public class JavaBeanPropertyStyleTest
 
 	public void testStaticMethods() {
 
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
 		Map<String, Property> properties = propertyStyle.getProperties( StaticMethodsTest.class.getName() );
 		assertTrue( !properties.containsKey( "staticString" ) );
 		assertTrue( properties.containsKey( "nonStaticField" ) );
@@ -525,6 +525,11 @@ public class JavaBeanPropertyStyleTest
 
 	static class FooPropertyStyle
 		extends JavaBeanPropertyStyle {
+
+		public FooPropertyStyle() {
+
+			super( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
+		}
 
 		@Override
 		protected boolean isExcludedBaseType( Class<?> classToExclude ) {

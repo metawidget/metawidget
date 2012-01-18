@@ -68,15 +68,47 @@ public class StaticHtmlMetawidgetTest
 
 	public static class Foo {
 
-		public String	bar;
+		public String getBar() {
 
-		public String	baz;
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
+
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class NestedFoo {
 
-		public String	abc;
+		public String getAbc() {
 
-		public Foo		nestedFoo;
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
+
+		public Foo getNestedFoo() {
+
+			return null;
+		}
+
+		public void setNestedFoo( @SuppressWarnings( "unused" ) Foo nestedFoo ) {
+
+			// Do nothing
+		}
 	}
 }

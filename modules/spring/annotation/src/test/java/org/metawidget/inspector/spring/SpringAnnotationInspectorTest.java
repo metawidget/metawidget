@@ -20,8 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.spring.SpringAnnotationInspector;
-import org.metawidget.inspector.spring.UiSpringLookup;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,9 +71,25 @@ public class SpringAnnotationInspectorTest
 	public static class Foo {
 
 		@UiSpringLookup( "bar" )
-		public Object	object1;
+		public Object getObject1() {
+
+			return null;
+		}
+
+		public void setObject1( @SuppressWarnings( "unused" ) Object object1 ) {
+
+			// Do nothing
+		}
 
 		@UiSpringLookup( value = "baz", itemValue = "abc", itemLabel = "def" )
-		public Object	object2;
+		public Object getObject2() {
+
+			return null;
+		}
+
+		public void setObject2( @SuppressWarnings( "unused" ) Object object2 ) {
+
+			// Do nothing
+		}
 	}
 }

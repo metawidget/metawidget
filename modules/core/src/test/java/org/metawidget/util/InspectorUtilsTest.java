@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 
 /**
  * @author Richard Kennard
@@ -36,7 +37,7 @@ public class InspectorUtilsTest
 
 	public void testTraverse() {
 
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ));
 
 		// null with names
 

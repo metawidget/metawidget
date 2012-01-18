@@ -88,7 +88,7 @@ public abstract class SwingFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( JComponent component ) {
+	protected boolean isIgnored( JComponent component ) {
 
 		return ( component instanceof Stub && component.getComponentCount() == 0 );
 	}

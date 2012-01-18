@@ -28,6 +28,9 @@ import java.util.concurrent.CountDownLatch;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.ClassUtilsTest;
 import org.metawidget.util.ClassUtilsTest.AlienClassLoader;
@@ -168,11 +171,9 @@ public class PropertyTypeInspectorTest
 
 		// Indirectly pointed at a not null complex type
 
-		PropertyTypeInspector inspector = new PropertyTypeInspector();
-
 		DeclaredTypeTester tester = new DeclaredTypeTester();
 		tester.value = new PersonalContact();
-		String xml = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
+		String xml = mInspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
 		Document document = XmlUtils.documentFromString( xml );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -190,7 +191,7 @@ public class PropertyTypeInspectorTest
 		// Indirectly pointed at a null complex type
 
 		tester.value = null;
-		xml = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
+		xml = mInspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
 		document = XmlUtils.documentFromString( xml );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -277,7 +278,7 @@ public class PropertyTypeInspectorTest
 	public void testInfiniteRecursion() {
 
 		RecursiveFoo recursiveFoo = new RecursiveFoo();
-		recursiveFoo.foo = recursiveFoo;
+		recursiveFoo.setFoo( recursiveFoo );
 
 		// Top level
 
@@ -312,8 +313,8 @@ public class PropertyTypeInspectorTest
 		// Start over
 
 		RecursiveFoo recursiveFoo2 = new RecursiveFoo();
-		recursiveFoo.foo = recursiveFoo2;
-		recursiveFoo2.foo = recursiveFoo;
+		recursiveFoo.setFoo( recursiveFoo2 );
+		recursiveFoo2.setFoo( recursiveFoo );
 
 		// Second level
 
@@ -529,7 +530,7 @@ public class PropertyTypeInspectorTest
 		alienClassHolder.set = (Set<?>) alienClassLoader.loadClass( "org.metawidget.util.AlienSet" ).newInstance();
 
 		try {
-			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ));
+			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
 			mInspector.inspect( alienClassHolder.set, "org.metawidget.util.AlienSet" );
 			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
 		} finally {
@@ -539,7 +540,7 @@ public class PropertyTypeInspectorTest
 		// Property-level
 
 		try {
-			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ));
+			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
 			mInspector.inspect( alienClassHolder, AlienClassHolder.class.getName(), "set" );
 			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
 		} finally {
@@ -554,7 +555,7 @@ public class PropertyTypeInspectorTest
 	@Override
 	protected void setUp() {
 
-		mInspector = new PropertyTypeInspector();
+		mInspector = new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) );
 	}
 
 	//
@@ -673,7 +674,17 @@ public class PropertyTypeInspectorTest
 
 	public static class RecursiveFoo {
 
-		public Object	foo;
+		private Object	mFoo;
+
+		public Object getFoo() {
+
+			return mFoo;
+		}
+
+		public void setFoo( Object foo ) {
+
+			mFoo = foo;
+		}
 	}
 
 	public static class StringHolder {

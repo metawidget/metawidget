@@ -96,21 +96,53 @@ public class OvalInspectorTest
 	public static class Foo {
 
 		@NotNull
-		public String	bar;
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" )String bar ) {
+
+			// Do nothing
+		}
 
 		@NotEmpty
 		@Range( min = 3, max = 24 )
-		public String	baz;
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" )String baz ) {
+
+			// Do nothing
+		}
 
 		@Min( 1.5 )
 		@Max( 99.25 )
 		@Length( min = 2, max = 25 )
-		public int		range;
+		public int getRange() {
+
+			return 0;
+		}
+
+		public void setRange() {
+
+			// Do nothing
+		}
 
 		@Range( min = 3.1, max = 24.8 )
 		@MinLength( 4 )
 		@MaxLength( 23 )
 		@NotBlank
-		public int		forcedRange;
+		public int getForcedRange() {
+
+			return 0;
+		}
+
+		public void setForcedRange( @SuppressWarnings( "unused" ) int forcedRange ) {
+
+			// Do nothing
+		}
 	}
 }

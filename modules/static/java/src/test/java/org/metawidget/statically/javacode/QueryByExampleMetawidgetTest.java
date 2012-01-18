@@ -152,24 +152,80 @@ public class QueryByExampleMetawidgetTest
 
 	public static class Foo {
 
-		public String	ghi;
+		public String getGhi() {
 
-		public String	def;
+			return null;
+		}
 
-		public Bar		bar;
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
 
-		public Baz		baz;
+			// Do nothing
+		}
 
-		public String	abc;
+		public String getDef() {
+
+			return null;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) String def ) {
+
+			// Do nothing
+		}
+
+		public Bar getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
+
+		public Baz getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
+
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class Bar {
 
-		public String	ignored;
+		public String getIgnored() {
+
+			return null;
+		}
+
+		public void setIgnored( @SuppressWarnings( "unused" ) String ignored ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class Baz {
 
-		public String	name;
+		public String getName() {
+
+			return null;
+		}
+
+		public void setName( @SuppressWarnings( "unused" ) String name ) {
+
+			// Do nothing
+		}
 	}
 }

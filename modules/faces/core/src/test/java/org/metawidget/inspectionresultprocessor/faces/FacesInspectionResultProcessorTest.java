@@ -262,7 +262,7 @@ public class FacesInspectionResultProcessorTest
 		// With parent injection
 
 		ParentFoo parentFoo = new ParentFoo();
-		parentFoo.foo = new Foo();
+		parentFoo.setFoo( new Foo() );
 
 		injected.clear();
 		inspectionResultProcessor.processInspectionResult( xml, null, parentFoo, ParentFoo.class.getName(), "foo" );
@@ -302,19 +302,69 @@ public class FacesInspectionResultProcessorTest
 
 	public static class Foo {
 
-		public Object	object1;
+		public Object getObject1() {
 
-		public Object	object2;
+			return null;
+		}
 
-		public Object	object3;
+		public void setObject1( @SuppressWarnings( "unused" ) Object object1 ) {
 
-		public String	foo;
+			// Do nothing
+		}
 
-		public String	bar;
+		public Object getObject2() {
+
+			return null;
+		}
+
+		public void setObject2( @SuppressWarnings( "unused" ) Object object2 ) {
+
+			// Do nothing
+		}
+
+		public Object getObject3() {
+
+			return null;
+		}
+
+		public void setObject3( @SuppressWarnings( "unused" ) Object object3 ) {
+
+			// Do nothing
+		}
+
+		public String getFoo() {
+
+			return null;
+		}
+
+		public void setFoo( @SuppressWarnings( "unused" ) String foo ) {
+
+			// Do nothing
+		}
+
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class ParentFoo {
 
-		public Foo	foo;
+		private Foo mFoo;
+
+		public Foo getFoo() {
+
+			return mFoo;
+		}
+
+		public void setFoo( Foo foo ) {
+
+			mFoo = foo;
+		}
 	}
 }

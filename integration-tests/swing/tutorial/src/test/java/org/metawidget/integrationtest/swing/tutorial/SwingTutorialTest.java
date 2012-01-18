@@ -197,40 +197,140 @@ public class SwingTutorialTest
 
 	static class PersonWithSectionAtEnd {
 
-		public String	name;
+		private String	mName;
 
-		public int		age;
+		private int		mAge;
+
+		private boolean	mRetired;
+
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
+
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
 
 		@UiSection( "foo" )
-		public boolean	retired;
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
 	}
 
 	public static class PersonAtTutorialEnd {
 
-		public String	name;
+		private String	mName;
 
-		@UiComesAfter( "name" )
-		public int		age;
+		private int		mAge;
 
-		@UiComesAfter( "age" )
-		public boolean	retired;
-
-		@UiComesAfter( "retired" )
-		public Gender	gender;
+		private boolean	mRetired;
 
 		public enum Gender {
 			Male, Female
 		}
 
+		private Gender	mGender;
+
+		private String	mNotes;
+
+		private String	mEmployer;
+
+		private String	mDepartment;
+
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
+
+		@UiComesAfter( "name" )
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
+
+		@UiComesAfter( "age" )
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
+
+		@UiComesAfter( "retired" )
+		public Gender getGender() {
+
+			return mGender;
+		}
+
+		public void setGender( Gender gender ) {
+
+			mGender = gender;
+		}
+
 		@UiComesAfter( "gender" )
 		@UiLarge
-		public String	notes;
+		public String getNotes() {
+
+			return mNotes;
+		}
+
+		public void setNotes( String notes ) {
+
+			mNotes = notes;
+		}
 
 		@UiComesAfter( "notes" )
 		@UiSection( "Work" )
-		public String	employer;
+		public String getEmployer() {
+
+			return mEmployer;
+		}
+
+		public void setEmployer( String employer ) {
+
+			mEmployer = employer;
+		}
 
 		@UiComesAfter( "employer" )
-		public String	department;
+		public String getDepartment() {
+
+			return mDepartment;
+		}
+
+		public void setDepartment( String department ) {
+
+			mDepartment = department;
+		}
 	}
 }

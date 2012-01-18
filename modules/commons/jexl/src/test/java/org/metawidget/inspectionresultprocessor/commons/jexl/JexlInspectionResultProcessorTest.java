@@ -19,6 +19,8 @@ package org.metawidget.inspectionresultprocessor.commons.jexl;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -133,7 +135,7 @@ public class JexlInspectionResultProcessorTest
 		thisTest2.setIdentity( "ThisTest #2" );
 		thisTest1.setChild( thisTest2 );
 
-		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>();
+		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>( new JexlInspectionResultProcessorConfig().setInjectThis( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true )) ));
 
 		// Top-level
 

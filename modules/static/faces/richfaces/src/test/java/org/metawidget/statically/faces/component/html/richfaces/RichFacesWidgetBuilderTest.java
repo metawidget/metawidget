@@ -106,21 +106,77 @@ public class RichFacesWidgetBuilderTest
 
 	public static class Foo {
 
-		public String	bar;
+		public String getBar() {
 
-		public int		spinner;
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
+
+		public int getSpinner() {
+
+			return 0;
+		}
+
+		public void setSpinner( @SuppressWarnings( "unused" ) int spinner ) {
+
+			// Do nothing
+		}
 
 		@Min( 2 )
-		public int		spinnerWithMin;
+		public int getSpinnerWithMin() {
+
+			return 0;
+		}
+
+		public void setSpinnerWithMin( @SuppressWarnings( "unused" ) int spinnerWithMin ) {
+
+			// Do nothing
+		}
 
 		@Max( 9 )
-		public int		spinnerWithMax;
+		public int getSpinnerWithMax() {
+
+			return 0;
+		}
+
+		public void setSpinnerWithMax( @SuppressWarnings( "unused" ) int spinnerWithMax ) {
+
+			// Do nothing
+		}
 
 		@Range( min = 3, max = 8 )
-		public int		slider;
+		public int getSlider() {
 
-		public Color	color;
+			return 0;
+		}
 
-		public Date		date;
+		public void setSlider( @SuppressWarnings( "unused" ) int slider ) {
+
+			// Do nothing
+		}
+
+		public Color getColor() {
+
+			return null;
+		}
+
+		public void setColor( @SuppressWarnings( "unused" ) Color color ) {
+
+			// Do nothing
+		}
+
+		public Date getDate() {
+
+			return null;
+		}
+
+		public void setDate( @SuppressWarnings( "unused" ) Date date ) {
+
+			// Do nothing
+		}
 	}
 }

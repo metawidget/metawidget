@@ -163,6 +163,14 @@ public class AndroidMetawidgetTest
 
 	static class Foo {
 
-		public String name;
+		public String getName() {
+
+			return null;
+		}
+
+		public void setName( @SuppressWarnings( "unused" ) String name ) {
+
+			// Do nothing
+		}
 	}
 }

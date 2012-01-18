@@ -492,10 +492,6 @@ public abstract class MetawidgetTag
 		}
 
 		return inspectionResult;
-
-		// REFACTOR: instead of the above, just do mPipeline.inspectAsDom( obj, type,
-		// typeAndNames.getNamesAsArray() ) and the user can use restrictAgainstObject to figure out
-		// the Object relationship
 	}
 
 	protected void configure() {

@@ -27,7 +27,6 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
-import org.metawidget.integrationtest.swing.tutorial.Person;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -82,5 +81,14 @@ public class PropertyStyleExampleTest
 				throw InspectorException.newException( ex );
 			}
 		}
+	}
+
+	public class Person {
+
+		public String	name;
+
+		public int		age;
+
+		public boolean	retired;
 	}
 }

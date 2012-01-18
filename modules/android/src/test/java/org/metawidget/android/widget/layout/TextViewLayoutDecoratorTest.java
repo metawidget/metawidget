@@ -121,23 +121,71 @@ public class TextViewLayoutDecoratorTest
 
 	public static class Foo {
 
-		public String	bar;
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "bar" )
 		@UiSection( "heading1" )
-		public boolean	baz;
+		public boolean isBaz() {
+
+			return false;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) boolean bar ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "baz" )
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "heading2" )
-		public String	def;
+		public String getDef() {
+
+			return null;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) String def ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "" )
 		@UiLookup( { "foo", "bar" } )
-		public String	ghi;
+		public String getGhi() {
+
+			return null;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "heading3" )
-		public String	jkl;
+		public String getJkl() {
+
+			return null;
+		}
+
+		public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+			// Do nothing
+		}
 	}
 }
