@@ -26,14 +26,11 @@ import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableCell;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
-import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormLabelTag;
-import org.metawidget.statically.spring.widgetbuilder.SpringFormTag;
 
 /**
  * Layout to arrange widgets using a Spring <form:form> tag and a plain JSP table.
@@ -86,29 +83,21 @@ public class SpringFormLayout
     public void startContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
         try {
-            SpringFormTag form = new SpringFormTag();
-            
-            if ( mTableStyle != null ) {
-                form.putAttribute( "cssStyle", mTableStyle );
-            }
-            
-            if ( mTableStyleClass != null ) {
-                form.putAttribute( "cssClass", mTableStyleClass );
-            }
-            
-            String commandName = StaticJspUtils.unwrapExpression( ( ( StaticSpringMetawidget ) metawidget).getValue() );
-            form.putAttribute( "commandName", commandName);
             
             HtmlTable table = new HtmlTable();
             table.getChildren().add( new HtmlTableBody() );
             
-            table.putAttribute( "style", mTableStyle );
-            table.putAttribute( "class", mTableStyleClass );
+            if ( mTableStyle != null ) {
+                table.putAttribute( "style", mTableStyle );
+            }
+            
+            if ( mTableStyleClass != null ) {
+                table.putAttribute( "class", mTableStyleClass );
+            }
+            
             table.putAttribute( "id", TABLE_PREFIX + metawidget.getPath() );
-            
-            form.getChildren().add( table );
-            
-            container.getChildren().add( form );
+                        
+            container.getChildren().add( table );
         } catch (Exception e) {
             throw LayoutException.newException( e );
         }
@@ -124,7 +113,7 @@ public class SpringFormLayout
                 return;
             }
             
-            HtmlTable table = (HtmlTable) container.getChildren().get( 0 ).getChildren().get( 0 );
+            HtmlTableBody tableBody = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 0 );
             
             HtmlTableRow row = new HtmlTableRow();
             HtmlTableCell labelCell = new HtmlTableCell();
@@ -164,7 +153,7 @@ public class SpringFormLayout
             
             row.getChildren().add( requiredCell );
             
-            table.getChildren().get( 0 ).getChildren().add( row );
+            tableBody.getChildren().add( row );
             
         } catch (Exception e) {
             throw LayoutException.newException( e );
