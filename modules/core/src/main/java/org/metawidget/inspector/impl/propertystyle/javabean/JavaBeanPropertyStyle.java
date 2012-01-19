@@ -515,6 +515,15 @@ public class JavaBeanPropertyStyle
 			return true;
 		}
 
+		public void write( Object obj, Object value ) {
+
+			try {
+				mField.set( obj, value );
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
+			}
+		}
+
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
 			return mField.getAnnotation( annotation );
@@ -599,6 +608,15 @@ public class JavaBeanPropertyStyle
 		public boolean isWritable() {
 
 			return ( mWriteMethod != null );
+		}
+
+		public void write( Object obj, Object value ) {
+
+			try {
+				mWriteMethod.invoke( obj, value );
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
+			}
 		}
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotationClass ) {

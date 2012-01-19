@@ -67,13 +67,13 @@
 						
 						<para>
 							<classname>BeanUtilsProcessor</classname> binds properties using
-							<ulink url="http://commons.apache.org/beanutils">Apache BeanUtils</ulink>. It supports JavaBean
-							and Scala property styles:
+							<ulink url="http://commons.apache.org/beanutils">Apache BeanUtils</ulink>. It supports
+							arbitrary property styles:
 						</para>
 						
 						<programlisting language="java">myMetawidget.addWidgetProcessor( new BeanUtilsBindingProcessor(
 	new BeanUtilsBindingProcessorConfig()
-		.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )) );</programlisting>
+		.setPropertyStyle( new ScalaPropertyStyle() ) );</programlisting>
 		
 						<para>
 							Updates to the UI can be saved back to the <function>setToInspect</function> by calling <function>save</function>:
