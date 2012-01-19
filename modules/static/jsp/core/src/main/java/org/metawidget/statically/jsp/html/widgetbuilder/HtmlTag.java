@@ -24,14 +24,13 @@ import org.metawidget.statically.BaseStaticXmlWidget;
  * @author Richard Kennard
  */
 
-public class HtmlTag
-	extends BaseStaticXmlWidget {
+public class HtmlTag extends BaseStaticXmlWidget
+{
+   //
+   // Constructor
+   //
 
-	//
-	// Constructor
-	//
-
-	public HtmlTag( String tagName ) {
+    public HtmlTag( String tagName ) {
 
 		super( null, tagName, "http://www.w3.org/1999/xhtml" );
 	}

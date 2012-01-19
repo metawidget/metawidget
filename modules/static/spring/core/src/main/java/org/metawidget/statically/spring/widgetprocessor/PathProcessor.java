@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -43,6 +44,8 @@ public class PathProcessor
 
 		if ( value != null ) {
 
+		    value = StaticJspUtils.unwrapExpression( value );
+		    
 			// Take the LHS minus the first path (if any), as we assume that will
 			// be supplied by the form
 
