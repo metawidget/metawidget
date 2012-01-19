@@ -65,23 +65,23 @@ public class JexlInspectionResultProcessorTest
 
 		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "bar1", property.getAttribute( NAME ));
+		assertEquals( "bar1", property.getAttribute( NAME ) );
 		assertEquals( "from-baz", property.getAttribute( "value-is-el" ) );
 		assertEquals( "text", property.getAttribute( "value-is-text" ) );
 		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = XmlUtils.getNextSiblingElement( property );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "bar2", property.getAttribute( NAME ));
+		assertEquals( "bar2", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
 		assertEquals( "first from-abc middle from-def last", property.getAttribute( "value-is-embedded-el" ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		// Actions
 
-		Element action =  XmlUtils.getNextSiblingElement( property );
+		Element action = XmlUtils.getNextSiblingElement( property );
 		assertEquals( ACTION, action.getNodeName() );
-		assertEquals( "bar3", action.getAttribute( NAME ));
+		assertEquals( "bar3", action.getAttribute( NAME ) );
 		assertEquals( "from-baz", action.getAttribute( "value-is-el" ) );
 		assertEquals( "text", action.getAttribute( "value-is-text" ) );
 		assertEquals( action.getAttributes().getLength(), 3 );
@@ -100,7 +100,7 @@ public class JexlInspectionResultProcessorTest
 
 		property = XmlUtils.getNextSiblingElement( property );
 		assertEquals( PROPERTY, property.getNodeName() );
-		assertEquals( "bar2", property.getAttribute( NAME ));
+		assertEquals( "bar2", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
 		assertEquals( "first  middle  last", property.getAttribute( "value-is-embedded-el" ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
@@ -135,24 +135,24 @@ public class JexlInspectionResultProcessorTest
 		thisTest2.setIdentity( "ThisTest #2" );
 		thisTest1.setChild( thisTest2 );
 
-		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>( new JexlInspectionResultProcessorConfig().setInjectThis( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true )) ));
+		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>( new JexlInspectionResultProcessorConfig().setInjectThis( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) );
 
 		// Top-level
 
 		String result = inspectionResultProcessor.processInspectionResult( xml, null, thisTest1, ThisTest.class.getName() );
 		Document document = XmlUtils.documentFromString( result );
 		Element entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
-		assertEquals( ThisTest.class.getName(), entity.getAttribute( TYPE ));
+		assertEquals( ThisTest.class.getName(), entity.getAttribute( TYPE ) );
 		assertTrue( !entity.hasAttribute( "who-am-i" ) );
 		assertEquals( entity.getAttributes().getLength(), 1 );
 
 		Element property = XmlUtils.getFirstChildElement( entity );
-		assertEquals( "me", property.getAttribute( NAME ));
+		assertEquals( "me", property.getAttribute( NAME ) );
 		assertEquals( property.getAttribute( "who-am-i" ), "ThisTest #1" );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getNextSiblingElement( property );
-		assertEquals( "child", property.getAttribute( NAME ));
+		assertEquals( "child", property.getAttribute( NAME ) );
 		assertEquals( property.getAttribute( "who-am-i" ), "ThisTest #2" );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
@@ -163,17 +163,17 @@ public class JexlInspectionResultProcessorTest
 		result = inspectionResultProcessor.processInspectionResult( xml, null, thisTest1, ThisTest.class.getName(), "me" );
 		document = XmlUtils.documentFromString( result );
 		entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
-		assertEquals( ThisTest.class.getName(), entity.getAttribute( TYPE ));
+		assertEquals( ThisTest.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( entity.getAttribute( "who-am-i" ), "ThisTest #1" );
 		assertEquals( entity.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getFirstChildElement( entity );
-		assertEquals( "me", property.getAttribute( NAME ));
+		assertEquals( "me", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "who-am-i" ) );
 		assertEquals( property.getAttributes().getLength(), 1 );
 
 		property = XmlUtils.getNextSiblingElement( property );
-		assertEquals( "child", property.getAttribute( NAME ));
+		assertEquals( "child", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "who-am-i" ) );
 		assertEquals( property.getAttributes().getLength(), 1 );
 
@@ -184,21 +184,44 @@ public class JexlInspectionResultProcessorTest
 		result = inspectionResultProcessor.processInspectionResult( xml, null, thisTest1, ThisTest.class.getName(), "child", "me" );
 		document = XmlUtils.documentFromString( result );
 		entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
-		assertEquals( ThisTest.class.getName(), entity.getAttribute( TYPE ));
+		assertEquals( ThisTest.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( entity.getAttribute( "who-am-i" ), "ThisTest #2" );
 		assertEquals( entity.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getFirstChildElement( entity );
-		assertEquals( "me", property.getAttribute( NAME ));
+		assertEquals( "me", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "who-am-i" ) );
 		assertEquals( property.getAttributes().getLength(), 1 );
 
 		property = XmlUtils.getNextSiblingElement( property );
-		assertEquals( "child", property.getAttribute( NAME ));
+		assertEquals( "child", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "who-am-i" ) );
 		assertEquals( property.getAttributes().getLength(), 1 );
 
 		assertEquals( entity.getChildNodes().getLength(), 2 );
+	}
+
+	public void testInject() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Company\">";
+		xml += "<property name=\"employee\" lookup=\"${personController.all}\" />";
+		xml += "</entity></inspection-result>";
+
+		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>( new JexlInspectionResultProcessorConfig().setInject( new PersonController() ) );
+
+		// Top-level
+
+		String result = inspectionResultProcessor.processInspectionResult( xml, null, null, "Company" );
+		Document document = XmlUtils.documentFromString( result );
+		Element entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
+		Element property = XmlUtils.getFirstChildElement( entity );
+		assertEquals( "employee", property.getAttribute( NAME ) );
+		assertEquals( "Tom, Dick, Harry", property.getAttribute( "lookup" ));
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 	}
 
 	//
@@ -249,6 +272,14 @@ public class JexlInspectionResultProcessorTest
 		public void setIdentity( String identity ) {
 
 			this.mIdentity = identity;
+		}
+	}
+
+	public static class PersonController {
+
+		public String getAll() {
+
+			return "Tom, Dick, Harry";
 		}
 	}
 }

@@ -211,6 +211,7 @@ public class ConfigReaderTest
 		xml += "<class>java.util.Date</class>";
 		xml += "<class>java.lang.Long</class>";
 		xml += "<null/>";
+		xml += "<instanceOf>java.util.Date</instanceOf>";
 		xml += "</list>";
 		xml += "</list>";
 		xml += "<set>";
@@ -239,7 +240,8 @@ public class ConfigReaderTest
 		assertTrue( Date.class.equals( list.get( 3 ) ) );
 		assertTrue( Long.class.equals( list.get( 4 ) ) );
 		assertTrue( null == list.get( 5 ) );
-		assertTrue( 6 == list.size() );
+		assertTrue( list.get( 6 ) instanceof Date );
+		assertTrue( 7 == list.size() );
 
 		Set<Object> set = inspector.getSet();
 		assertTrue( "baz".equals( set.iterator().next() ) );

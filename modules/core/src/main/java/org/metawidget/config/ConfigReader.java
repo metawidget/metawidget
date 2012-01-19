@@ -394,6 +394,10 @@ public class ConfigReader
 			return true;
 		}
 
+		if ( "instanceOf".equals( name ) ) {
+			return true;
+		}
+
 		if ( "pattern".equals( name ) ) {
 			return true;
 		}
@@ -475,6 +479,14 @@ public class ConfigReader
 			}
 
 			return Class.forName( recordedText );
+		}
+
+		if ( "instanceOf".equals( name ) ) {
+			if ( "".equals( recordedText ) ) {
+				return null;
+			}
+
+			return Class.forName( recordedText ).newInstance();
 		}
 
 		if ( "pattern".equals( name ) ) {

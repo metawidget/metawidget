@@ -3272,6 +3272,12 @@ static class State {
 							<td>constructs a <classname>java.text.MessageFormat</classname></td>
 						</tr>
 						<tr>
+							<td><parameter>&lt;instanceOf&gt;</parameter></td>
+							<td>
+								uses <classname>Class.forName(...).newInstance()</classname> to construct an instance of the given <classname>Class</classname>
+							</td>
+						</tr>						
+						<tr>
 							<td><parameter>&lt;int&gt;</parameter></td>
 							<td>Java <classname>int</classname> primitive</td>
 						</tr>

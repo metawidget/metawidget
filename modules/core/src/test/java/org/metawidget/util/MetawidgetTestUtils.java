@@ -193,6 +193,8 @@ public final class MetawidgetTestUtils {
 						toSet = new String[] { "foo", "bar", "baz" };
 					} else if ( Class.class.equals( componentType ) ) {
 						toSet = new Class[] { Date.class, String.class, Set.class };
+					} else if ( Object.class.equals( componentType ) ) {
+						toSet = new Object[] { "Foo", "Bar", "Baz" };
 					} else if ( InputStream.class.isAssignableFrom( componentType ) ) {
 						continue;
 					} else if ( componentType.isInterface() ) {
