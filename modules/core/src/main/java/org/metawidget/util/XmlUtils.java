@@ -67,12 +67,7 @@ public class XmlUtils {
 		int length = nodes.getLength();
 
 		if ( length == 0 ) {
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that
-			// we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, String> empty = Collections.EMPTY_MAP;
-			return empty;
+			return Collections.emptyMap();
 		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap( length );

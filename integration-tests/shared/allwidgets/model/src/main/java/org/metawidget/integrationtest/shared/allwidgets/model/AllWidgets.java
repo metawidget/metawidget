@@ -26,7 +26,7 @@ import java.util.Date;
  * Models an entity that tests all available widgets.
  * <p>
  * The fields all have default values to test data binding.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -69,21 +69,15 @@ public class AllWidgets
 
 	private long				mLongPrimitive						= 42;
 
-	// (use new Long, not Long.valueOf, so that we're 1.4 compatible)
-
-	private Long				mLongObject							= new Long( 43 );
+	private Long				mLongObject							= Long.valueOf( 43 );
 
 	private float				mFloatPrimitive						= 4.2f;
 
-	// (use new Float, not Float.valueOf, so that we're 1.4 compatible)
-
-	private Float				mFloatObject						= new Float( 4.3f );
+	private Float				mFloatObject						= Float.valueOf( 4.3f );
 
 	private double				mDoublePrimitive					= 42.2d;
 
-	// (use new Double, not Double.valueOf, so that we're 1.4 compatible)
-
-	private Double				mDoubleObject						= new Double( 43.3d );
+	private Double				mDoubleObject						= Double.valueOf( 43.3d );
 
 	private char				mCharPrimitive						= 'A';
 

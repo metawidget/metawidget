@@ -492,16 +492,12 @@ public class ConfigReader
 			return new MessageFormat( recordedText );
 		}
 
-		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
-
 		if ( "int".equals( name ) ) {
-			return new Integer( recordedText );
+			return Integer.valueOf( recordedText );
 		}
 
-		// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
-
 		if ( "boolean".equals( name ) ) {
-			return new Boolean( recordedText );
+			return Boolean.valueOf( recordedText );
 		}
 
 		if ( "bundle".equals( name ) ) {

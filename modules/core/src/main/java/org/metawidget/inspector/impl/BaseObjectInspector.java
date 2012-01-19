@@ -493,11 +493,7 @@ public abstract class BaseObjectInspector
 	protected final Map<String, Property> getProperties( String type ) {
 
 		if ( mPropertyStyle == null ) {
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, Property> map = Collections.EMPTY_MAP;
-			return map;
+			return Collections.emptyMap();
 		}
 
 		return mPropertyStyle.getProperties( type );
@@ -506,11 +502,7 @@ public abstract class BaseObjectInspector
 	protected final Map<String, Action> getActions( String type ) {
 
 		if ( mActionStyle == null ) {
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, Action> map = Collections.EMPTY_MAP;
-			return map;
+			return Collections.emptyMap();
 		}
 
 		return mActionStyle.getActions( type );

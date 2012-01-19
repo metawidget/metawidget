@@ -149,9 +149,7 @@ public abstract class MetawidgetTag
 			if ( isValueReference( mReadOnly ) ) {
 				metawidetComponent.setValueBinding( "readOnly", application.createValueBinding( mReadOnly ) );
 			} else {
-				// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
-
-				metawidetComponent.setReadOnly( new Boolean( mReadOnly ) );
+				metawidetComponent.setReadOnly( Boolean.valueOf( mReadOnly ) );
 			}
 		}
 

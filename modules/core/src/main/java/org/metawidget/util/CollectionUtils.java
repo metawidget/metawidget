@@ -277,11 +277,7 @@ public final class CollectionUtils {
 	public static List<String> fromString( final String collection, char separator ) {
 
 		if ( collection == null || collection.length() == 0 ) {
-			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			List<String> list = Collections.EMPTY_LIST;
-			return list;
+			return Collections.emptyList();
 		}
 
 		List<String> split = CollectionUtils.newArrayList();

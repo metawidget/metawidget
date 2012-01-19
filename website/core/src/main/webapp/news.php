@@ -4,6 +4,28 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v2.0 Released!</h3>
+		<h4>2011</h4>
+		
+		<p>
+			Metawidget v2.0 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Drop support for JDK 1.4 (was causing a number of issues with frameworks that scan the classpath)</li>
+			<li>Implement long-standing refactorings (taking the opportunity now that we've broken compatibility)</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v1.35 Released!</h3>
 		<h4>10th January 2011</h4>
 		
