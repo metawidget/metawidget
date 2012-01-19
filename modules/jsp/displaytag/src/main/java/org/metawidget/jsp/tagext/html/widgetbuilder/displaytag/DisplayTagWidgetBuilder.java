@@ -99,7 +99,7 @@ public class DisplayTagWidgetBuilder
 			String inspectedType = null;
 
 			if ( componentType != null ) {
-				inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+				inspectedType = metawidgetTag.inspect( null, componentType );
 			}
 
 			// If there is a type...

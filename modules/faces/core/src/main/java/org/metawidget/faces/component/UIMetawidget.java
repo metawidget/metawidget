@@ -1413,7 +1413,7 @@ public abstract class UIMetawidget
 				buildWidgets();
 			} catch ( Exception e ) {
 				// IOException does not take a Throwable 'cause' argument until Java 6, so
-				// as we need to stay 1.4 compatible we output the trace here
+				// as we need to stay 1.5 compatible we output the trace here
 
 				LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
 

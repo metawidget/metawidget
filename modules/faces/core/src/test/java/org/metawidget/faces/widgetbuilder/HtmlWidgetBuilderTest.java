@@ -54,6 +54,9 @@ import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
 import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
@@ -392,11 +395,30 @@ public class HtmlWidgetBuilderTest
 		assertEquals( 2, data.getChildCount() );
 	}
 
-	public void testCollectionWithManyColumns()
+	public void testCollectionWithSingleColumn()
 		throws Exception {
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, data.getChildCount() );
+
+		// Should not try and recurse String. Should just create a single column
+
+		attributes.put( PARAMETERIZED_TYPE, String.class.getName() );
+		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, data.getChildCount() );
+	}
+
+	public void testCollectionWithManyColumns()
+		throws Exception {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) )) ));
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -487,7 +509,7 @@ public class HtmlWidgetBuilderTest
 		public String	abc;
 	}
 
-	static class LargeFoo {
+	public static class LargeFoo {
 
 		public String	column1;
 

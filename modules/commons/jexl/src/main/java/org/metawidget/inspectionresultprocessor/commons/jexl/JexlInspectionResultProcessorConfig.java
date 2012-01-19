@@ -41,7 +41,9 @@ public class JexlInspectionResultProcessorConfig {
 
 	private PropertyStyle			mInjectThis;
 
-	protected boolean				mNullInjectThis;
+	private Object[]				mInject;
+
+	private boolean					mNullInjectThis;
 
 	//
 	// Public methods
@@ -50,6 +52,10 @@ public class JexlInspectionResultProcessorConfig {
 	/**
 	 * Sets the PropertyStyle to use to inject a request-level 'this' attribute into JEXL
 	 * evaluations.
+	 * <p>
+	 * A PropertyStyle is needed so that we can traverse any Metawidget names (i.e.
+	 * <code>setToInspect( ..., "Person", "address", "name" )</code>) in order to reach the last
+	 * Object.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
@@ -61,6 +67,40 @@ public class JexlInspectionResultProcessorConfig {
 		if ( injectThis == null ) {
 			mNullInjectThis = true;
 		}
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Sets objects to inject into JEXL evaluations. The instances will be named using a
+	 * decapitalized version of their Class name.
+	 * <p>
+	 * This can be useful for accessing arbitrary Objects in an application's architecture. For
+	 * example, you could inject a <code>PersonController</code> instance programmatically...
+	 * <p>
+	 * <code>setInject( new PersonController() )</code>
+	 * <p>
+	 * ...or through <code>metawidget.xml</code>...
+	 * <p>
+	 * <code>&lt;inject&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&lt;array&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;instanceOf&gt;com.myapp.PersonController&lt;/instanceOf&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&lt;/array&gt;<br/>
+	 * &lt;/inject&gt;</code>
+	 * <p>
+	 * ...and access it through JEXL:
+	 * <p>
+	 * <code>${personController.all}</code>
+	 * </p>
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JexlInspectionResultProcessorConfig setInject( Object... inject ) {
+
+		mInject = inject;
 
 		// Fluent interface
 
@@ -86,6 +126,10 @@ public class JexlInspectionResultProcessorConfig {
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mInject, ( (JexlInspectionResultProcessorConfig) that ).mInject ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -95,6 +139,7 @@ public class JexlInspectionResultProcessorConfig {
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInjectThis );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullInjectThis );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInject );
 
 		return hashCode;
 	}
@@ -116,5 +161,10 @@ public class JexlInspectionResultProcessorConfig {
 		}
 
 		return mInjectThis;
+	}
+
+	protected Object[] getInject() {
+
+		return mInject;
 	}
 }

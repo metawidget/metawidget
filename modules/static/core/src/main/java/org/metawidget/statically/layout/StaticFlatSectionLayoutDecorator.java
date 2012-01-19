@@ -78,7 +78,7 @@ public abstract class StaticFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( StaticWidget tag ) {
+	protected boolean isIgnored( StaticWidget tag ) {
 
 		return false;
 	}

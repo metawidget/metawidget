@@ -28,7 +28,6 @@ import java.util.Map;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -56,7 +55,7 @@ import org.metawidget.util.simple.StringUtils;
  * validation frameworks, which rely on public getters/setters. To support the best of both worlds
  * see <code>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</code></li>
  * </ul>
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -86,19 +85,9 @@ public class JavaBeanPropertyStyle
 		this( new JavaBeanPropertyStyleConfig() );
 	}
 
-	/**
-	 * @deprecated use the constructor version that takes a JavaBeanPropertyStyleConfig instead
-	 */
-
-	@Deprecated
-	public JavaBeanPropertyStyle( BasePropertyStyleConfig config ) {
-
-		super( config );
-	}
-
 	public JavaBeanPropertyStyle( JavaBeanPropertyStyleConfig config ) {
 
-		this( (BasePropertyStyleConfig) config );
+		super( config );
 
 		mSupportPublicFields = config.isSupportPublicFields();
 		mPrivateFieldConvention = config.getPrivateFieldConvention();
@@ -287,7 +276,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'getter' method.
-	 * 
+	 *
 	 * @param method
 	 *            a parameterless method that returns a non-void
 	 * @return the property name
@@ -393,7 +382,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'setter' method.
-	 * 
+	 *
 	 * @param method
 	 *            a single-parametered method. May return non-void (ie. for Fluent interfaces)
 	 * @return the property name
@@ -428,7 +417,7 @@ public class JavaBeanPropertyStyle
 	 * <p>
 	 * Clients may override this method to change how the public-method-to-private-field mapping
 	 * operates.
-	 * 
+	 *
 	 * @return the private Field for this propertyName, or null if no such field (should not throw
 	 *         NoSuchFieldException)
 	 */
@@ -526,6 +515,15 @@ public class JavaBeanPropertyStyle
 			return true;
 		}
 
+		public void write( Object obj, Object value ) {
+
+			try {
+				mField.set( obj, value );
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
+			}
+		}
+
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
 			return mField.getAnnotation( annotation );
@@ -610,6 +608,15 @@ public class JavaBeanPropertyStyle
 		public boolean isWritable() {
 
 			return ( mWriteMethod != null );
+		}
+
+		public void write( Object obj, Object value ) {
+
+			try {
+				mWriteMethod.invoke( obj, value );
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
+			}
 		}
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotationClass ) {

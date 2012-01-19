@@ -132,7 +132,7 @@ public abstract class SwtNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Control control ) {
+	protected boolean isIgnored( Control control ) {
 
 		return ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 );
 	}

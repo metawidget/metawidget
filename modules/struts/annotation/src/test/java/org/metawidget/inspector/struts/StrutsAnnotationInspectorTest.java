@@ -20,8 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.struts.StrutsAnnotationInspector;
-import org.metawidget.inspector.struts.UiStrutsLookup;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,9 +73,25 @@ public class StrutsAnnotationInspectorTest
 	public static class Foo {
 
 		@UiStrutsLookup( name = "bar1", property = "baz1" )
-		public Object	object1;
+		public Object getObject1() {
+
+			return null;
+		}
+
+		public void setObject1( @SuppressWarnings( "unused" ) Object object1 ) {
+
+			// Do nothing
+		}
 
 		@UiStrutsLookup( name = "bar2", property = "baz2", labelName = "abc2", labelProperty = "def2" )
-		public Object	object2;
+		public Object getObject2() {
+
+			return null;
+		}
+
+		public void setObject2( @SuppressWarnings( "unused" ) Object object2 ) {
+
+			// Do nothing
+		}
 	}
 }

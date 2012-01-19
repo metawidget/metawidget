@@ -61,7 +61,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		String section = stripSection( attributes );
 		State<C> state = getState( container, metawidget );
 
-		if ( isEmptyStub( widget ) || section == null || section.equals( state.currentSection ) ) {
+		if ( isIgnored( widget ) || section == null || section.equals( state.currentSection ) ) {
 			if ( state.currentSectionWidget == null ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 			} else {
@@ -123,7 +123,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 	protected abstract State<C> getState( C container, M metawidget );
 
-	protected abstract boolean isEmptyStub( W widget );
+	protected abstract boolean isIgnored( W widget );
 
 	/**
 	 * Creates a new widget to hold this section (<code>getState().currentSection</code>).

@@ -22,15 +22,17 @@ package org.metawidget.iface;
  * <p>
  * Immutable classes should:
  * <ul>
- * <li>not provide any setter methods or mutators
- * <li>mark all fields final and private
+ * <li>not provide any setter methods or mutators</li>
+ * <li>make defensive copies for any getter methods</li>
+ * <li>mark all fields final and private</li>
  * </ul>
  * <p>
- * Note: this interface is not an annotation, in order to support JDK 1.4.
+ * Note: this interface is not an annotation because we want it to be automatically inherited. Even
+ * the <code>Inherited</code> annotation does not propagate from interfaces.
  * <p>
  * <strong>This is an internal API and is subject to change. Clients should use one of its
  * subinterfaces (ie. <code>Inspector</code>, <code>Layout</code> etc) instead.</strong>
- *
+ * 
  * @author Richard Kennard
  */
 

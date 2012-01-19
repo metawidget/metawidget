@@ -394,6 +394,10 @@ public class ConfigReader
 			return true;
 		}
 
+		if ( "instanceOf".equals( name ) ) {
+			return true;
+		}
+
 		if ( "pattern".equals( name ) ) {
 			return true;
 		}
@@ -477,6 +481,14 @@ public class ConfigReader
 			return Class.forName( recordedText );
 		}
 
+		if ( "instanceOf".equals( name ) ) {
+			if ( "".equals( recordedText ) ) {
+				return null;
+			}
+
+			return Class.forName( recordedText ).newInstance();
+		}
+
 		if ( "pattern".equals( name ) ) {
 			Pattern pattern = mPatternCache.get( recordedText );
 
@@ -492,16 +504,12 @@ public class ConfigReader
 			return new MessageFormat( recordedText );
 		}
 
-		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
-
 		if ( "int".equals( name ) ) {
-			return new Integer( recordedText );
+			return Integer.valueOf( recordedText );
 		}
 
-		// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
-
 		if ( "boolean".equals( name ) ) {
-			return new Boolean( recordedText );
+			return Boolean.valueOf( recordedText );
 		}
 
 		if ( "bundle".equals( name ) ) {
@@ -672,48 +680,32 @@ public class ConfigReader
 	// Inner classes
 	//
 
+	private static enum EncounteredState {
+
+		METHOD,
+		NATIVE_TYPE,
+		NATIVE_COLLECTION_TYPE,
+		CONFIGURED_TYPE,
+		JAVA_OBJECT,
+		WRONG_TYPE,
+		WRONG_NAME
+	}
+
+	private static enum ExpectingState {
+
+		ROOT,
+		TO_CONFIGURE,
+		OBJECT,
+		METHOD,
+		CLOSE_OBJECT_WITH_REFID
+	}
+
 	private class ConfigHandler
 		extends DefaultHandler {
 
 		//
 		// Private statics
 		//
-
-		/**
-		 * Possible 'encountered' states.
-		 * <p>
-		 * Note: not using enum, for JDK 1.4 compatibility.
-		 */
-
-		private static final int		ENCOUNTERED_METHOD					= 0;
-
-		private static final int		ENCOUNTERED_NATIVE_TYPE				= 1;
-
-		private static final int		ENCOUNTERED_NATIVE_COLLECTION_TYPE	= 2;
-
-		private static final int		ENCOUNTERED_CONFIGURED_TYPE			= 3;
-
-		private static final int		ENCOUNTERED_JAVA_OBJECT				= 4;
-
-		private static final int		ENCOUNTERED_WRONG_TYPE				= 5;
-
-		private static final int		ENCOUNTERED_WRONG_NAME				= 6;
-
-		/**
-		 * Possible 'expecting' states.
-		 * <p>
-		 * Note: not using enum, for JDK 1.4 compatibility.
-		 */
-
-		private static final int		EXPECTING_ROOT						= 0;
-
-		private static final int		EXPECTING_TO_CONFIGURE				= 1;
-
-		private static final int		EXPECTING_OBJECT					= 2;
-
-		private static final int		EXPECTING_METHOD					= 3;
-
-		private static final int		EXPECTING_CLOSE_OBJECT_WITH_REFID	= 4;
 
 		//
 		// Private members
@@ -754,41 +746,39 @@ public class ConfigReader
 		 * Depth after which to skip type processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreTypeAfterDepth				= -1;
+		private int						mIgnoreTypeAfterDepth		= -1;
 
 		/**
 		 * Depth after which to skip name processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreNameAfterDepth				= -1;
+		private int						mIgnoreNameAfterDepth		= -1;
 
 		/**
 		 * Depth after which to skip immutable caching, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreImmutableAfterDepth			= -1;
+		private int						mIgnoreImmutableAfterDepth	= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
 		 */
 
-		private Stack<Object>			mConstructing						= CollectionUtils.newStack();
+		private Stack<Object>			mConstructing				= CollectionUtils.newStack();
 
 		/**
 		 * Next expected state in the XML tree.
 		 */
 
-		private int						mExpecting							= EXPECTING_ROOT;
+		private ExpectingState			mExpecting					= ExpectingState.ROOT;
 
 		/**
 		 * Stack of encountered states in the XML tree.
 		 */
 
-		private Stack<Integer>			mEncountered						= CollectionUtils.newStack();
+		private Stack<EncounteredState>	mEncountered				= CollectionUtils.newStack();
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		private StringBuffer			mBufferValue;
+		private StringBuilder			mBuilderValue;
 
 		private CachingContentHandler	mCachingContentHandler;
 
@@ -853,15 +843,15 @@ public class ConfigReader
 				// re-check that here
 
 				switch ( mExpecting ) {
-					case EXPECTING_ROOT:
+					case ROOT:
 						if ( mToConfigure == null ) {
-							mExpecting = EXPECTING_OBJECT;
+							mExpecting = ExpectingState.OBJECT;
 						} else {
-							mExpecting = EXPECTING_TO_CONFIGURE;
+							mExpecting = ExpectingState.TO_CONFIGURE;
 						}
 						break;
 
-					case EXPECTING_TO_CONFIGURE: {
+					case TO_CONFIGURE: {
 						// Initial elements must be at depth == 2
 
 						if ( mDepth != 2 ) {
@@ -874,7 +864,7 @@ public class ConfigReader
 
 						if ( mToConfigure instanceof Class<?> ) {
 							if ( !( (Class<?>) mToConfigure ).isAssignableFrom( toConfigureClass ) ) {
-								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
+								mEncountered.push( EncounteredState.WRONG_TYPE );
 								mIgnoreTypeAfterDepth = 2;
 
 								// Pause caching (if any)
@@ -897,7 +887,7 @@ public class ConfigReader
 
 						else {
 							if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) ) {
-								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
+								mEncountered.push( EncounteredState.WRONG_TYPE );
 								mIgnoreTypeAfterDepth = 2;
 
 								// Pause caching (if any)
@@ -914,14 +904,14 @@ public class ConfigReader
 							}
 
 							mConstructing.push( mToConfigure );
-							mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
+							mEncountered.push( EncounteredState.JAVA_OBJECT );
 						}
 
-						mExpecting = EXPECTING_METHOD;
+						mExpecting = ExpectingState.METHOD;
 						break;
 					}
 
-					case EXPECTING_OBJECT: {
+					case OBJECT: {
 						if ( mCachingContentHandler == null || !mCachingContentHandler.isPaused() ) {
 							mLocationIndex++;
 						}
@@ -929,10 +919,10 @@ public class ConfigReader
 						// Native types
 
 						if ( isNative( localName ) || isLazyResolvingNative( localName ) ) {
-							mEncountered.push( ENCOUNTERED_NATIVE_TYPE );
+							mEncountered.push( EncounteredState.NATIVE_TYPE );
 							startRecording();
 
-							mExpecting = EXPECTING_METHOD;
+							mExpecting = ExpectingState.METHOD;
 							return;
 						}
 
@@ -942,17 +932,9 @@ public class ConfigReader
 
 						if ( collection != null ) {
 							mConstructing.push( collection );
-							mEncountered.push( ENCOUNTERED_NATIVE_COLLECTION_TYPE );
+							mEncountered.push( EncounteredState.NATIVE_COLLECTION_TYPE );
 
-							mExpecting = EXPECTING_OBJECT;
-							return;
-						}
-
-						// JDK 1.4 hack
-
-						if ( isJdk14Hack( uri, localName ) ) {
-							mEncountered.push( ENCOUNTERED_WRONG_TYPE );
-							mExpecting = EXPECTING_OBJECT;
+							mExpecting = ExpectingState.OBJECT;
 							return;
 						}
 
@@ -960,7 +942,7 @@ public class ConfigReader
 						break;
 					}
 
-					case EXPECTING_METHOD: {
+					case METHOD: {
 						// Screen names
 
 						if ( mNames != null ) {
@@ -974,7 +956,7 @@ public class ConfigReader
 								// Skip wrong names
 
 								if ( !localName.equals( expectingName ) ) {
-									mEncountered.push( ENCOUNTERED_WRONG_NAME );
+									mEncountered.push( EncounteredState.WRONG_NAME );
 									mIgnoreNameAfterDepth = mDepth;
 
 									// Pause caching (if any)
@@ -991,13 +973,13 @@ public class ConfigReader
 						// Process method
 
 						mConstructing.push( new ArrayList<Object>() );
-						mEncountered.push( ENCOUNTERED_METHOD );
+						mEncountered.push( EncounteredState.METHOD );
 
-						mExpecting = EXPECTING_OBJECT;
+						mExpecting = ExpectingState.OBJECT;
 						break;
 					}
 
-					case EXPECTING_CLOSE_OBJECT_WITH_REFID: {
+					case CLOSE_OBJECT_WITH_REFID: {
 
 						throw InspectorException.newException( "<" + name + "> not expected here. Elements with a 'refId' must have an empty body" );
 					}
@@ -1011,23 +993,23 @@ public class ConfigReader
 
 		public void startRecording() {
 
-			mBufferValue = new StringBuffer();
+			mBuilderValue = new StringBuilder();
 		}
 
 		@Override
 		public void characters( char[] characters, int start, int length ) {
 
-			if ( mBufferValue == null ) {
+			if ( mBuilderValue == null ) {
 				return;
 			}
 
-			mBufferValue.append( characters, start, length );
+			mBuilderValue.append( characters, start, length );
 		}
 
 		public String endRecording() {
 
-			String value = mBufferValue.toString();
-			mBufferValue = null;
+			String value = mBuilderValue.toString();
+			mBuilderValue = null;
 
 			return value;
 		}
@@ -1081,10 +1063,10 @@ public class ConfigReader
 			// Configure based on what was encountered
 
 			try {
-				int encountered = mEncountered.pop().intValue();
+				EncounteredState encountered = mEncountered.pop();
 
 				switch ( encountered ) {
-					case ENCOUNTERED_NATIVE_TYPE: {
+					case NATIVE_TYPE: {
 						// Pop/push to peek at namespace
 
 						Object methodParameters = mConstructing.pop();
@@ -1100,26 +1082,26 @@ public class ConfigReader
 
 						addToConstructing( createNative( localName, constructing.getClass(), endRecording() ) );
 
-						mExpecting = EXPECTING_OBJECT;
+						mExpecting = ExpectingState.OBJECT;
 						return;
 					}
 
-					case ENCOUNTERED_NATIVE_COLLECTION_TYPE: {
+					case NATIVE_COLLECTION_TYPE: {
 						Object nativeCollectionType = mConstructing.pop();
 
 						@SuppressWarnings( "unchecked" )
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( nativeCollectionType );
 
-						mExpecting = EXPECTING_OBJECT;
+						mExpecting = ExpectingState.OBJECT;
 						return;
 					}
 
-					case ENCOUNTERED_CONFIGURED_TYPE:
-					case ENCOUNTERED_JAVA_OBJECT: {
+					case CONFIGURED_TYPE:
+					case JAVA_OBJECT: {
 						Object object = mConstructing.pop();
 
-						if ( encountered == ENCOUNTERED_CONFIGURED_TYPE ) {
+						if ( encountered == EncounteredState.CONFIGURED_TYPE ) {
 							Class<?> classToConstruct = lookupClass( uri, localName, mToConfigure.getClass().getClassLoader() );
 							String id = ( (ConfigAndId) object ).getId();
 							object = ( (ConfigAndId) object ).getConfig();
@@ -1184,17 +1166,17 @@ public class ConfigReader
 
 						if ( mDepth == 1 ) {
 							mConstructing.push( object );
-							mExpecting = EXPECTING_TO_CONFIGURE;
+							mExpecting = ExpectingState.TO_CONFIGURE;
 							return;
 						}
 
 						addToConstructing( object );
 
-						mExpecting = EXPECTING_OBJECT;
+						mExpecting = ExpectingState.OBJECT;
 						return;
 					}
 
-					case ENCOUNTERED_METHOD: {
+					case METHOD: {
 						@SuppressWarnings( "unchecked" )
 						List<Object> parameters = (List<Object>) mConstructing.pop();
 						Object constructing = mConstructing.peek();
@@ -1219,7 +1201,7 @@ public class ConfigReader
 									continue;
 								}
 
-								String parameterClassName = ClassUtils.getSimpleName( parameterTypes[0].getClass() );
+								String parameterClassName = parameterTypes[0].getClass().getSimpleName();
 
 								if ( parameterClassName.endsWith( "Config" ) ) {
 									throw MetawidgetException.newException( "No such method " + methodName + " on " + constructingClass + ". Did you forget config=\"" + parameterClassName + "\"?" );
@@ -1229,14 +1211,14 @@ public class ConfigReader
 							throw e;
 						}
 
-						mExpecting = EXPECTING_METHOD;
+						mExpecting = ExpectingState.METHOD;
 						return;
 					}
 
-					case ENCOUNTERED_WRONG_TYPE:
+					case WRONG_TYPE:
 						return;
 
-					case ENCOUNTERED_WRONG_NAME:
+					case WRONG_NAME:
 						return;
 				}
 			} catch ( RuntimeException e ) {
@@ -1280,7 +1262,7 @@ public class ConfigReader
 		 * @return what should be expected next
 		 */
 
-		private int handleNonNativeObject( String uri, String localName, Attributes attributes )
+		private ExpectingState handleNonNativeObject( String uri, String localName, Attributes attributes )
 			throws Exception {
 
 			String refId = attributes.getValue( "refId" );
@@ -1305,8 +1287,8 @@ public class ConfigReader
 				}
 
 				mConstructing.push( immutable );
-				mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
-				return EXPECTING_CLOSE_OBJECT_WITH_REFID;
+				mEncountered.push( EncounteredState.JAVA_OBJECT );
+				return ExpectingState.CLOSE_OBJECT_WITH_REFID;
 			}
 
 			Object object = null;
@@ -1347,7 +1329,7 @@ public class ConfigReader
 					}
 
 					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ) );
-					mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
+					mEncountered.push( EncounteredState.CONFIGURED_TYPE );
 
 					// Pause caching (if any)
 
@@ -1356,7 +1338,7 @@ public class ConfigReader
 						mIgnoreImmutableAfterDepth = mDepth;
 					}
 
-					return EXPECTING_METHOD;
+					return ExpectingState.METHOD;
 				}
 			}
 
@@ -1398,9 +1380,9 @@ public class ConfigReader
 			}
 
 			mConstructing.push( object );
-			mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
+			mEncountered.push( EncounteredState.JAVA_OBJECT );
 
-			return EXPECTING_METHOD;
+			return ExpectingState.METHOD;
 		}
 
 		private void addToConstructing( Object toAdd ) {
@@ -1607,39 +1589,6 @@ public class ConfigReader
 		}
 
 		/**
-		 * Hack to support Java 5 versus JDK 1.4 differences.
-		 * <p>
-		 * We want Metawidget to be useful 'out of the box' (ie. without configuring) on Java 5.
-		 * This means we need to include <code>MetawidgetAnnotationInspector</code> in the default
-		 * config. But this <em>also</em> means we will fail with an
-		 * <code>UnsupportedClassVersionError</code> on JDK 1.4, and we want to run 'out of the box'
-		 * on JDK 1.4.
-		 * <p>
-		 * Therefore we allow ourselves this hack: we do not fail if we encounter an
-		 * <code>UnsupportedClassVersionError</code> when trying to instantiate a
-		 * <code>MetawidgetAnnotationInspector</code>.
-		 */
-
-		protected boolean isJdk14Hack( String uri, String localName ) {
-
-			if ( !( JAVA_NAMESPACE_PREFIX + "org.metawidget.inspector.annotation" ).equals( uri ) ) {
-				return false;
-			}
-
-			if ( !"metawidgetAnnotationInspector".equals( localName ) ) {
-				return false;
-			}
-
-			try {
-				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector",  mToConfigure.getClass().getClassLoader() );
-				return false;
-			} catch ( UnsupportedClassVersionError e ) {
-				LOG.debug( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version" );
-				return true;
-			}
-		}
-
-		/**
 		 * Finds a method with the specified parameter types.
 		 * <p>
 		 * Like <code>Class.getMethod</code>, but works based on <code>isInstance</code> rather than
@@ -1746,7 +1695,7 @@ public class ConfigReader
 			Class<?> likelyConfigClass = constructors[0].getParameterTypes()[0];
 
 			if ( likelyConfigClass.getPackage().equals( clazz.getPackage() ) ) {
-				return ClassUtils.getSimpleName( likelyConfigClass );
+				return likelyConfigClass.getSimpleName();
 			}
 
 			return likelyConfigClass.getName();
@@ -1754,51 +1703,51 @@ public class ConfigReader
 
 		private String methodToString( Method method ) {
 
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder builder = new StringBuilder();
 
 			for ( Class<?> parameterType : method.getParameterTypes() ) {
-				if ( buffer.length() > 0 ) {
-					buffer.append( ", " );
+				if ( builder.length() > 0 ) {
+					builder.append( ", " );
 				}
 
 				if ( parameterType.isArray() ) {
-					buffer.append( ClassUtils.getSimpleName( parameterType.getComponentType() ) );
-					buffer.append( "[]" );
+					builder.append( parameterType.getComponentType().getSimpleName() );
+					builder.append( "[]" );
 				} else {
-					buffer.append( ClassUtils.getSimpleName( parameterType ) );
+					builder.append( parameterType.getSimpleName() );
 				}
 			}
 
-			buffer.insert( 0, "(" );
-			buffer.insert( 0, method.getName() );
-			buffer.append( ")" );
+			builder.insert( 0, "(" );
+			builder.insert( 0, method.getName() );
+			builder.append( ")" );
 
-			return buffer.toString();
+			return builder.toString();
 		}
 
 		private String methodToString( Class<?> clazz, String methodName, List<Object> args ) {
 
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder builder = new StringBuilder();
 
 			for ( Object obj : args ) {
-				if ( buffer.length() > 0 ) {
-					buffer.append( ", " );
+				if ( builder.length() > 0 ) {
+					builder.append( ", " );
 				}
 
 				if ( obj == null ) {
-					buffer.append( "null" );
+					builder.append( "null" );
 				} else {
-					buffer.append( ClassUtils.getSimpleName( obj.getClass() ) );
+					builder.append( obj.getClass().getSimpleName() );
 				}
 			}
 
-			buffer.insert( 0, "(" );
-			buffer.insert( 0, methodName );
-			buffer.insert( 0, StringUtils.SEPARATOR_DOT_CHAR );
-			buffer.insert( 0, clazz );
-			buffer.append( ")" );
+			builder.insert( 0, "(" );
+			builder.insert( 0, methodName );
+			builder.insert( 0, StringUtils.SEPARATOR_DOT_CHAR );
+			builder.insert( 0, clazz );
+			builder.append( ")" );
 
-			return buffer.toString();
+			return builder.toString();
 		}
 	}
 

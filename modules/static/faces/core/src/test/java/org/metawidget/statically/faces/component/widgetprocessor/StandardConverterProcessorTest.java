@@ -165,9 +165,25 @@ public class StandardConverterProcessorTest
 	public static class Foo {
 
 		@UiAttribute( name = DATE_STYLE, value = "yyyy-MM-dd" )
-		public Date	bar;
+		public Date getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) Date bar ) {
+
+			// Do nothing
+		}
 
 		@UiAttribute( name = CURRENCY_SYMBOL, value = "$" )
-		public int	baz;
+		public int getBaz() {
+
+			return 0;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) int baz ) {
+
+			// Do nothing
+		}
 	}
 }

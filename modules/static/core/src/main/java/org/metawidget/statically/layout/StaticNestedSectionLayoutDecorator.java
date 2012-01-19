@@ -78,7 +78,7 @@ public abstract class StaticNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( StaticWidget component ) {
+	protected boolean isIgnored( StaticWidget component ) {
 
 		return false;
 	}

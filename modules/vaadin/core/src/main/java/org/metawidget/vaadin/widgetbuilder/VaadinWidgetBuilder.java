@@ -483,8 +483,7 @@ public class VaadinWidgetBuilder
 
 			// Inspect type of Collection
 
-			String inspectedType = metawidget.inspect( null, componentType,
-					(String[]) null );
+			String inspectedType = metawidget.inspect( null, componentType );
 
 			// Determine columns
 

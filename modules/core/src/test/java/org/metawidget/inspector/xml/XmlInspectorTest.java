@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
@@ -263,7 +264,7 @@ public class XmlInspectorTest
 
 		// With restrictAgainstObject
 
-		mInspector = new XmlInspector( new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		mInspector = new XmlInspector( new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ).setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 		assertTrue( null != mInspector.inspect( null, "ImaginaryObject" ) );
 		assertTrue( null != mInspector.inspect( null, NullObject.class.getName() ) );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
@@ -274,14 +275,14 @@ public class XmlInspectorTest
 
 		// With several levels deep
 
-		nullObject.nestedNullObject = new NullObject();
+		nullObject.setNestedNullObject( new NullObject() );
 		assertEquals( mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ), "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\"><entity name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"><property name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/></entity></inspection-result>" );
 		assertEquals( mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject" ), "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\"><entity name=\"nestedNullObject\" type=\"org.metawidget.inspector.xml.XmlInspectorTest$NullObject\"/></inspection-result>" );
 		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject", "nestedNullObject", "nestedNullObject" ) );
 
 		// With recursion
 
-		nullObject.nestedNullObject = nullObject;
+		nullObject.setNestedNullObject( nullObject );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
 		assertTrue( null == mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 
@@ -472,7 +473,7 @@ public class XmlInspectorTest
 
 		// With traverseAgainstObject
 
-		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() );
+		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 		Document document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName(), "toTraverse" ) );
 
@@ -538,7 +539,7 @@ public class XmlInspectorTest
 
 		// Top level
 
-		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle() );
+		XmlInspectorConfig config = new XmlInspectorConfig().setRestrictAgainstObject( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( traverseAgainstObjectFoo, TraverseAgainstObjectFoo.class.getName() ) );
@@ -668,7 +669,17 @@ public class XmlInspectorTest
 
 	public static class NullObject {
 
-		public NullObject	nestedNullObject;
+		private NullObject	mNestedNullObject;
+
+		public NullObject getNestedNullObject() {
+
+			return mNestedNullObject;
+		}
+
+		public void setNestedNullObject( NullObject nestedNullObject ) {
+
+			this.mNestedNullObject = nestedNullObject;
+		}
 	}
 
 	public static class RestrictAgainstObjectFoo {

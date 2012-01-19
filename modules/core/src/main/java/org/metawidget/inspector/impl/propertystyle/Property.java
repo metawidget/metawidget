@@ -56,6 +56,14 @@ public interface Property
 	boolean isWritable();
 
 	/**
+	 * Write the property for the given object.
+	 * <p>
+	 * Used by BeanUtilsBindingProcessor, and is also nicely symmetrical with <code>read</code>.
+	 */
+
+	void write( Object obj, Object value );
+
+	/**
 	 * Gets the generic type of the property, or null if the type is not parameterized.
 	 * <p>
 	 * Type is returned as a String, so that it can express something other than a

@@ -38,7 +38,6 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.java5.Java5Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.util.ClassUtils;
@@ -79,8 +78,7 @@ public class SwingCollectionsTest
 		metawidget.setInspector( new CompositeInspector(
 				new CompositeInspectorConfig().setInspectors(
 						new PropertyTypeInspector(),
-						new MetawidgetAnnotationInspector(),
-						new Java5Inspector() ) ) );
+						new MetawidgetAnnotationInspector() )));
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>(
 				new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders(
 						new CollectionWidgetBuilder(),
@@ -259,7 +257,7 @@ public class SwingCollectionsTest
 			// Inspect type of List
 
 			String componentType = WidgetBuilderUtils.getComponentType( attributes );
-			String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+			String inspectedType = metawidget.inspect( null, componentType );
 
 			// Determine columns
 

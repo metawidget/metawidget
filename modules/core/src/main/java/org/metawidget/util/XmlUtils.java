@@ -67,12 +67,7 @@ public class XmlUtils {
 		int length = nodes.getLength();
 
 		if ( length == 0 ) {
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that
-			// we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, String> empty = Collections.EMPTY_MAP;
-			return empty;
+			return Collections.emptyMap();
 		}
 
 		Map<String, String> attributes = CollectionUtils.newHashMap( length );
@@ -565,19 +560,17 @@ public class XmlUtils {
 
 	public static String attributesToString( Attributes attributes ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
 		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ ) {
-			buffer.append( " " );
-			buffer.append( attributes.getLocalName( loop ) );
-			buffer.append( "=\"" );
-			buffer.append( attributes.getValue( loop ) );
-			buffer.append( "\"" );
+			builder.append( " " );
+			builder.append( attributes.getLocalName( loop ) );
+			builder.append( "=\"" );
+			builder.append( attributes.getValue( loop ) );
+			builder.append( "\"" );
 		}
 
-		return buffer.toString();
+		return builder.toString();
 
 	}
 
@@ -1294,16 +1287,14 @@ public class XmlUtils {
 			return escapeForXml( value.trim() );
 		}
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder builder = new StringBuilder();
 
 		// Open tag
 
-		indent( buffer, indent );
+		indent( builder, indent );
 		String nodeName = escapeForXml( node.getNodeName() );
-		buffer.append( "<" );
-		buffer.append( nodeName );
+		builder.append( "<" );
+		builder.append( nodeName );
 
 		// Changing namespace
 
@@ -1311,9 +1302,9 @@ public class XmlUtils {
 		Node parentNode = node.getParentNode();
 
 		if ( namespace != null && ( parentNode == null || !namespace.equals( parentNode.getNamespaceURI() ) ) ) {
-			buffer.append( " xmlns=\"" );
-			buffer.append( namespace );
-			buffer.append( "\"" );
+			builder.append( " xmlns=\"" );
+			builder.append( namespace );
+			builder.append( "\"" );
 		}
 
 		// Attributes
@@ -1325,9 +1316,9 @@ public class XmlUtils {
 		Node name = attributes.getNamedItem( "name" );
 
 		if ( name != null ) {
-			buffer.append( " name=\"" );
-			buffer.append( escapeForXml( name.getNodeValue() ) );
-			buffer.append( "\"" );
+			builder.append( " name=\"" );
+			builder.append( escapeForXml( name.getNodeValue() ) );
+			builder.append( "\"" );
 		}
 
 		for ( int loop = 0; loop < attributes.getLength(); loop++ ) {
@@ -1346,11 +1337,11 @@ public class XmlUtils {
 				continue;
 			}
 
-			buffer.append( " " );
-			buffer.append( escapeForXml( attributeName ) );
-			buffer.append( "=\"" );
-			buffer.append( escapeForXml( attribute.getNodeValue() ) );
-			buffer.append( "\"" );
+			builder.append( " " );
+			builder.append( escapeForXml( attributeName ) );
+			builder.append( "=\"" );
+			builder.append( escapeForXml( attribute.getNodeValue() ) );
+			builder.append( "\"" );
 		}
 
 		// Children (if any)
@@ -1359,9 +1350,9 @@ public class XmlUtils {
 		int length = children.getLength();
 
 		if ( length == 0 ) {
-			buffer.append( "/>" );
+			builder.append( "/>" );
 		} else {
-			buffer.append( ">" );
+			builder.append( ">" );
 
 			int nextIndent = indent;
 
@@ -1373,31 +1364,31 @@ public class XmlUtils {
 				Node childNode = children.item( loop );
 
 				if ( indent != -1 && childNode instanceof Element ) {
-					buffer.append( "\n" );
+					builder.append( "\n" );
 				}
 
-				buffer.append( nodeToString( childNode, nextIndent ) );
+				builder.append( nodeToString( childNode, nextIndent ) );
 			}
 
-			if ( indent != -1 && buffer.charAt( buffer.length() - 1 ) == '>' ) {
-				buffer.append( "\n" );
-				indent( buffer, indent );
+			if ( indent != -1 && builder.charAt( builder.length() - 1 ) == '>' ) {
+				builder.append( "\n" );
+				indent( builder, indent );
 			}
 
 			// Close tag
 
-			buffer.append( "</" );
-			buffer.append( nodeName );
-			buffer.append( ">" );
+			builder.append( "</" );
+			builder.append( nodeName );
+			builder.append( ">" );
 		}
 
-		return buffer.toString();
+		return builder.toString();
 	}
 
-	private static void indent( StringBuffer buffer, int indent ) {
+	private static void indent( StringBuilder builder, int indent ) {
 
 		for ( int loop = 0; loop < indent; loop++ ) {
-			buffer.append( "   " );
+			builder.append( "   " );
 		}
 	}
 

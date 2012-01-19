@@ -26,23 +26,79 @@ public class GwtTabQuirks
 
 	private static final long	serialVersionUID	= 1l;
 
-	public String				abc;
+	public String getAbc() {
+
+		return null;
+	}
+
+	public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+		// Do nothing
+	}
 
 	@UiSection( { "Foo", "Bar" } )
-	public boolean				def;
+	public boolean getDef() {
+
+		return false;
+	}
+
+	public void setDef( @SuppressWarnings( "unused" ) String def ) {
+
+		// Do nothing
+	}
 
 	@UiLarge
-	public String				ghi;
+	public String getGhi() {
+
+		return null;
+	}
+
+	public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+		// Do nothing
+	}
 
 	@UiSection( { "Foo", "Baz" } )
-	public String				jkl;
+	public String getJkl() {
+
+		return null;
+	}
+
+	public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+		// Do nothing
+	}
 
 	@UiSection( { "Foo", "" } )
-	public boolean				mno;
+	public boolean isMno() {
+
+		return false;
+	}
+
+	public void setMno( @SuppressWarnings( "unused" ) boolean mno ) {
+
+		// Do nothing
+	}
 
 	@UiSection( { "Foo", "Moo" } )
-	public String				pqr;
+	public String getPqr() {
+
+		return null;
+	}
+
+	public void setPqr( @SuppressWarnings( "unused" ) String pqr ) {
+
+		// Do nothing
+	}
 
 	@UiSection( "" )
-	public String				stu;
+	public String getStu() {
+
+		return null;
+	}
+
+	public void setStu( @SuppressWarnings( "unused" ) String stu ) {
+
+		// Do nothing
+	}
 }

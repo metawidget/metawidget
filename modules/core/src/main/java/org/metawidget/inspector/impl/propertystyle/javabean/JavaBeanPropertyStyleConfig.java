@@ -18,17 +18,17 @@ package org.metawidget.inspector.impl.propertystyle.javabean;
 
 import java.text.MessageFormat;
 
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
+import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a JavaBeanPropertyStyle prior to use. Once instantiated, PropertyStyles are immutable.
- *
+ * 
  * @author Richard Kennard
  */
 
 public class JavaBeanPropertyStyleConfig
-	extends BasePropertyStyleConfig {
+	extends BaseTraitStyleConfig {
 
 	//
 	// Private statics
@@ -42,10 +42,7 @@ public class JavaBeanPropertyStyleConfig
 
 	private boolean			mNullExcludeName;
 
-	// REFACTOR: this should be false by default. Most technologies need getters/setters. It is
-	// handy for short unit tests, mind you
-
-	private boolean			mSupportPublicFields	= true;
+	private boolean			mSupportPublicFields;
 
 	private MessageFormat	mPrivateFieldConvention;
 
@@ -70,8 +67,9 @@ public class JavaBeanPropertyStyleConfig
 	}
 
 	/**
-	 * Sets whether to recognize public fields as properties. True by default.
-	 *
+	 * Sets whether to recognize public fields as properties. False by default, as public fields are
+	 * not part of the JavaBean specification and most frameworks need getters/setters.
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -108,7 +106,7 @@ public class JavaBeanPropertyStyleConfig
 	 * <p>
 	 * This mapping will fail silently in cases where there is no private field. It will also fail
 	 * silently if the private field name is misspelt, so be careful!
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 

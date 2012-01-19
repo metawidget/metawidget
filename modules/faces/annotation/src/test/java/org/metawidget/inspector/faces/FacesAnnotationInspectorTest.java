@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class FacesInspectorTest
+public class FacesAnnotationInspectorTest
 	extends TestCase {
 
 	//
@@ -51,8 +51,8 @@ public class FacesInspectorTest
 
 		// Must support both config-less/config-based constructor
 
-		FacesInspector inspector = new FacesInspector();
-		inspector = new FacesInspector( new BaseObjectInspectorConfig() );
+		FacesAnnotationInspector inspector = new FacesAnnotationInspector();
+		inspector = new FacesAnnotationInspector( new BaseObjectInspectorConfig() );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -156,7 +156,15 @@ public class FacesInspectorTest
 
 	public static class ParentFoo {
 
-		public Foo	fooInParent	= new Foo();
+		public Foo getFooInParent() {
+
+			return new Foo();
+		}
+
+		public void setFooInParent( @SuppressWarnings( "unused" ) Foo foo ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class Foo {
@@ -166,16 +174,48 @@ public class FacesInspectorTest
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )
 		@UiFacesAjax( event = "foo", action = "#{bar}" )
-		public Object	object1;
+		public Object getObject1() {
+
+			return null;
+		}
+
+		public void setObject1( @SuppressWarnings( "unused" ) Object object1 ) {
+
+			// Do nothing
+		}
 
 		@UiFacesDateTimeConverter( dateStyle = "full", timeStyle = "medium", locale = "UK", pattern = "yyyy", timeZone = "GMT", type = "date" )
-		public Object	object2;
+		public Object getObject2() {
+
+			return null;
+		}
+
+		public void setObject2( @SuppressWarnings( "unused" ) Object object2 ) {
+
+			// Do nothing
+		}
 
 		@UiFacesNumberConverter( currencyCode = "AUD", currencySymbol = "$", groupingUsed = true, locale = "AU", maxFractionDigits = 2, minFractionDigits = 1, maxIntegerDigits = 100, minIntegerDigits = 3, pattern = "#0.00", type = "currency" )
-		public Object	object3;
+		public Object getObject3() {
+
+			return null;
+		}
+
+		public void setObject3( @SuppressWarnings( "unused" ) Object object3 ) {
+
+			// Do nothing
+		}
 
 		@UiFacesLookup( value = "#{foo.bar}", var = "_fooBar", itemLabel = "#{_fooBar.label}", itemValue = "#{_fooBar.value}" )
-		public Object	complexLookup;
+		public Object getComplexLookup() {
+
+			return null;
+		}
+
+		public void setComplexLookup( @SuppressWarnings( "unused" ) Object complexLookup ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class DoubleConverterFoo {

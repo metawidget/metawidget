@@ -23,9 +23,9 @@ import java.lang.annotation.Annotation;
  * (business object properties) and <code>org.metawidget.inspector.impl.actionstyle.Action</code>
  * (business object actions).
  * <p>
- * This is essentially <code>java.lang.reflect.AnnotatedElement</code> from Java 5, but simplified
- * with fewer methods and duplicated so that we don't get a <code>NoClassDefError</code> under 1.4.
- *
+ * This is essentially <code>java.lang.reflect.AnnotatedElement</code>, but simplified with fewer
+ * methods.
+ * 
  * @author Richard Kennard
  */
 

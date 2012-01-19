@@ -16,7 +16,7 @@
 								<null/>
 							</propertyStyle>
 						</metawidgetAnnotationInspector>
-						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
+						<facesAnnotationInspector xmlns="java:org.metawidget.inspector.faces"/>
 					</array>
 				</inspectors>
 			</compositeInspector>			

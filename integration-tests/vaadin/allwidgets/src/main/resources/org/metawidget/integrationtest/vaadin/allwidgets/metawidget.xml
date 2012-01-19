@@ -17,7 +17,6 @@
 							</inputStream>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-						<java5Inspector xmlns="java:org.metawidget.inspector.java5" />
 					</array>
 				</inspectors>
 			</compositeInspector>

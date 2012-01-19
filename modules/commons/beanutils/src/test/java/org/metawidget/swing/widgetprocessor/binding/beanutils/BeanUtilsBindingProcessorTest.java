@@ -32,6 +32,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
@@ -83,7 +84,7 @@ public class BeanUtilsBindingProcessorTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ) ) );
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( new ScalaPropertyStyle() ) ) );
 		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig().setPropertyStyle( new ScalaPropertyStyle() );
 		metawidget.setInspector( new PropertyTypeInspector( config ) );
 		metawidget.setToInspect( scalaFoo );
@@ -205,6 +206,19 @@ public class BeanUtilsBindingProcessorTest
 		metawidget.setToInspect( foo1 );
 
 		assertEquals( "Bar", metawidget.getValue( "nestedFoo", "name" ) );
+	}
+
+	public void testNullPropertyStyle()
+		throws Exception {
+
+		BeanUtilsBindingProcessorConfig config = new BeanUtilsBindingProcessorConfig();
+		assertTrue( config.getPropertyStyle() instanceof JavaBeanPropertyStyle );
+
+		config.setPropertyStyle( null );
+		assertEquals( null, config.getPropertyStyle() );
+
+		config.setPropertyStyle( new ScalaPropertyStyle() );
+		assertTrue( config.getPropertyStyle() instanceof ScalaPropertyStyle );
 	}
 
 	//

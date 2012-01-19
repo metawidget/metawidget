@@ -127,7 +127,7 @@ public class SwingMetawidgetTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 		RecursiveFoo foo = new RecursiveFoo();
-		foo.foo = foo;
+		foo.setFoo( foo );
 		metawidget.setToInspect( foo );
 
 		assertTrue( null == ( (SwingMetawidget) metawidget.getComponent( "foo" ) ).getComponent( "foo" ) );

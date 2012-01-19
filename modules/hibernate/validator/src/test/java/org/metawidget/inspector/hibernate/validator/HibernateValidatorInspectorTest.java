@@ -91,18 +91,50 @@ public class HibernateValidatorInspectorTest
 	public static class Foo {
 
 		@NotNull
-		public String	bar;
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
 
 		@NotEmpty
 		@Digits( integerDigits = 1, fractionalDigits = 2 )
-		public String	baz;
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
 
 		@Min( 1 )
 		@Max( 99 )
 		@Length( min = 2, max = 25 )
-		public int		minMax;
+		public int getMinMax() {
+
+			return 0;
+		}
+
+		public void setMinMax( @SuppressWarnings( "unused" ) int minMax ) {
+
+			// Do nothing
+		}
 
 		@Range( min = 1, max = 99 )
-		public int		range;
+		public int getRange() {
+
+			return 0;
+		}
+
+		public void setRange( @SuppressWarnings( "unused" ) int range ) {
+
+			// Do nothing
+		}
 	}
 }

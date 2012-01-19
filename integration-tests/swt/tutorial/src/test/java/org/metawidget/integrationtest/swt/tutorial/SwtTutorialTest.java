@@ -38,7 +38,6 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.java5.Java5Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
@@ -49,7 +48,7 @@ import org.metawidget.swt.layout.SeparatorLayoutDecoratorConfig;
 /**
  * Tests doing the Swing tutorial using the <code>SwtMetawidget</code>, even though this is not
  * specifically covered in the Reference Documentation.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -110,7 +109,7 @@ public class SwtTutorialTest
 
 		// Check middle of tutorial
 
-		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector(), new Java5Inspector() );
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridLayoutConfig nestedLayoutConfig = new GridLayoutConfig().setNumberOfColumns( 2 );
 		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.GridLayout( nestedLayoutConfig ) );
@@ -213,40 +212,140 @@ public class SwtTutorialTest
 
 	static class PersonWithSectionAtEnd {
 
-		public String	name;
+		private String	mName;
 
-		public int		age;
+		private int		mAge;
+
+		private boolean	mRetired;
+
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
+
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
 
 		@UiSection( "foo" )
-		public boolean	retired;
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
 	}
 
 	public static class PersonAtTutorialEnd {
 
-		public String	name;
+		private String	mName;
 
-		@UiComesAfter( "name" )
-		public int		age;
+		private int		mAge;
 
-		@UiComesAfter( "age" )
-		public boolean	retired;
-
-		@UiComesAfter( "retired" )
-		public Gender	gender;
+		private boolean	mRetired;
 
 		public enum Gender {
 			Male, Female
 		}
 
+		private Gender	mGender;
+
+		private String	mNotes;
+
+		private String	mEmployer;
+
+		private String	mDepartment;
+
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
+
+		@UiComesAfter( "name" )
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
+
+		@UiComesAfter( "age" )
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
+
+		@UiComesAfter( "retired" )
+		public Gender getGender() {
+
+			return mGender;
+		}
+
+		public void setGender( Gender gender ) {
+
+			mGender = gender;
+		}
+
 		@UiComesAfter( "gender" )
 		@UiLarge
-		public String	notes;
+		public String getNotes() {
+
+			return mNotes;
+		}
+
+		public void setNotes( String notes ) {
+
+			mNotes = notes;
+		}
 
 		@UiComesAfter( "notes" )
 		@UiSection( "Work" )
-		public String	employer;
+		public String getEmployer() {
+
+			return mEmployer;
+		}
+
+		public void setEmployer( String employer ) {
+
+			mEmployer = employer;
+		}
 
 		@UiComesAfter( "employer" )
-		public String	department;
+		public String getDepartment() {
+
+			return mDepartment;
+		}
+
+		public void setDepartment( String department ) {
+
+			mDepartment = department;
+		}
 	}
 }

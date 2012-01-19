@@ -45,7 +45,7 @@ public class ReadOnlyWidgetBuilder
 	//
 
 	@Override
-	protected Tag createReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
+	protected Tag createReadOnlyLabelTag( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		// Use the Spring binder to render the read-only value
 

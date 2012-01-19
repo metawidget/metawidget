@@ -133,10 +133,7 @@ public final class StringUtils {
 		}
 
 		int length = camelCase.length();
-
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer( length );
+		StringBuilder builder = new StringBuilder( length );
 
 		boolean first = true;
 		char lastChar = separator;
@@ -146,11 +143,11 @@ public final class StringUtils {
 			char c = chars[loop];
 
 			if ( first ) {
-				buffer.append( Character.toUpperCase( c ) );
+				builder.append( Character.toUpperCase( c ) );
 				first = false;
 			} else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != separator && !Character.isUpperCase( chars[loop + 1] ) ) ) ) {
 				if ( Character.isLetter( lastChar ) ) {
-					buffer.append( separator );
+					builder.append( separator );
 				}
 
 				// Don't do: if ( loop + 1 < length && !Character.isUpperCase( chars[loop + 1] ) )
@@ -160,18 +157,18 @@ public final class StringUtils {
 				// general it looks nicer most of the time not to. The exception is 'joining' words
 				// such as 'of' in 'Date of Birth'
 
-				buffer.append( c );
+				builder.append( c );
 			} else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != separator ) {
-				buffer.append( separator );
-				buffer.append( c );
+				builder.append( separator );
+				builder.append( c );
 			} else {
-				buffer.append( c );
+				builder.append( c );
 			}
 
 			lastChar = c;
 		}
 
-		return buffer.toString();
+		return builder.toString();
 	}
 
 	/**
@@ -193,9 +190,7 @@ public final class StringUtils {
 
 	public static String camelCase( String text, char separator ) {
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer( text.length() );
+		StringBuilder builder = new StringBuilder( text.length() );
 
 		// Convert separators to camel case
 
@@ -212,21 +207,21 @@ public final class StringUtils {
 				continue;
 			}
 
-			if ( buffer.length() == 0 ) {
-				buffer.append( Character.toLowerCase( c ) );
+			if ( builder.length() == 0 ) {
+				builder.append( Character.toLowerCase( c ) );
 				continue;
 			}
 
 			if ( lastWasSeparator ) {
-				buffer.append( Character.toUpperCase( c ) );
+				builder.append( Character.toUpperCase( c ) );
 				lastWasSeparator = false;
 				continue;
 			}
 
-			buffer.append( c );
+			builder.append( c );
 		}
 
-		return buffer.toString();
+		return builder.toString();
 	}
 
 	/**

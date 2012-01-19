@@ -47,19 +47,19 @@ public class OutputTextLayoutDecoratorTest
 		} );
 	}
 
-	public void testIsEmptyStub()
+	public void testIgnored()
 		throws Exception {
 
 		OutputTextLayoutDecorator decorator = new OutputTextLayoutDecorator( new OutputTextLayoutDecoratorConfig().setLayout( new SimpleLayout() ) );
-		Method isEmptyStub = UIComponentFlatSectionLayoutDecorator.class.getDeclaredMethod( "isEmptyStub", UIComponent.class );
-		isEmptyStub.setAccessible( true );
+		Method isIgnored = UIComponentFlatSectionLayoutDecorator.class.getDeclaredMethod( "isIgnored", UIComponent.class );
+		isIgnored.setAccessible( true );
 
-		assertEquals( false, isEmptyStub.invoke( decorator, (Object) null ));
-		assertEquals( false, isEmptyStub.invoke( decorator, new HtmlInputText() ));
+		assertEquals( false, isIgnored.invoke( decorator, (Object) null ));
+		assertEquals( false, isIgnored.invoke( decorator, new HtmlInputText() ));
 		UIStub stub = new UIStub();
-		assertEquals( true, isEmptyStub.invoke( decorator, stub ));
+		assertEquals( true, isIgnored.invoke( decorator, stub ));
 		stub.getChildren().add( new HtmlInputText() );
-		assertEquals( false, isEmptyStub.invoke( decorator, stub ));
-		assertEquals( true, isEmptyStub.invoke( decorator, new HtmlInputHidden() ));
+		assertEquals( false, isIgnored.invoke( decorator, stub ));
+		assertEquals( true, isIgnored.invoke( decorator, new HtmlInputHidden() ));
 	}
 }

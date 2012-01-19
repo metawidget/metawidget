@@ -106,10 +106,40 @@ public class RemoteInspectorTest
 
 	static class Foo {
 
-		public String	id;
+		private String	mId;
 
-		public String	type;
+		private String	mType;
 
-		public String	value;
+		private String	mValue;
+
+		public String getId() {
+
+			return mId;
+		}
+
+		public void setId( String id ) {
+
+			mId = id;
+		}
+
+		public String getType() {
+
+			return mType;
+		}
+
+		public void setType( String type ) {
+
+			mType = type;
+		}
+
+		public String getValue() {
+
+			return mValue;
+		}
+
+		public void setValue( String value ) {
+
+			mValue = value;
+		}
 	}
 }

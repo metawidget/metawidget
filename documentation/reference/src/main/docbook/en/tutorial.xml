@@ -1479,8 +1479,7 @@ public class Person {
 			&lt;array&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
-				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
-				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
+				&lt;facesAnnotationInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
 				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
 			&lt;/array&gt;
 			&lt;/inspectors&gt;
@@ -1539,8 +1538,7 @@ public class Person {
 			&lt;array&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
-				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
-				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
+				&lt;facesAnnotationInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
 				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
 			&lt;/array&gt;
 			&lt;/inspectors&gt;
@@ -1624,8 +1622,7 @@ public class Person {
 			&lt;array&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
-				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
-				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
+				&lt;facesAnnotationInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
 				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
 			&lt;/array&gt;
 			&lt;/inspectors&gt;

@@ -71,18 +71,16 @@ extends org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor {
 		// <hidden> fields. Output a SPAN tag to stop this.
 
 		try {
-			// (use StringBuffer for J2SE 1.4 compatibility)
-
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder builder = new StringBuilder();
 
 			hiddenTag.setWrite( true );
-			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ));
+			builder.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget ));
 
-			if ( JspUtils.isJustHiddenFields( buffer ) ) {
-				buffer.append( "<span></span>" );
+			if ( JspUtils.isJustHiddenFields( builder ) ) {
+				builder.append( "<span></span>" );
 			}
 
-			return new LiteralTag( buffer.toString() );
+			return new LiteralTag( builder.toString() );
 		} catch ( JspException e ) {
 			throw WidgetBuilderException.newException( e );
 		}

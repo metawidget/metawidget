@@ -26,6 +26,7 @@ import org.apache.commons.jexl.JexlHelper;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -54,6 +55,8 @@ public class JexlInspectionResultProcessor<M>
 
 	private PropertyStyle							mInjectThis;
 
+	private Object[]								mInject;
+
 	//
 	// Constructors
 	//
@@ -74,6 +77,7 @@ public class JexlInspectionResultProcessor<M>
 	public JexlInspectionResultProcessor( JexlInspectionResultProcessorConfig config ) {
 
 		mInjectThis = config.getInjectThis();
+		mInject = config.getInject();
 	}
 
 	@Override
@@ -179,7 +183,7 @@ public class JexlInspectionResultProcessor<M>
 
 					// Replace multiple ELs within the String
 
-					value = new StringBuffer( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
+					value = new StringBuilder( value ).replace( matcher.start() + matchOffset, matcher.end() + matchOffset, valueObjectAsString ).toString();
 					matchOffset += valueObjectAsString.length() - ( matcher.end() - matcher.start() );
 
 				} catch ( Exception e ) {
@@ -198,17 +202,29 @@ public class JexlInspectionResultProcessor<M>
 	}
 
 	/**
-	 * Prepare the JexlContext.
+	 * Prepare the JexlContext. This includes injecting any Objects passed by
+	 * <code>JexlInspectionResultProcessor.setInject</code>.
 	 * <p>
 	 * Subclasses can override this method to control what is available in the context.
 	 *
 	 * @param metawidget
-	 *            the parent Metawidget. Never null. May be useful for finding object to add to the
-	 *            context
+	 *            the parent Metawidget. Never null. May be useful for finding the object to add to
+	 *            the context
 	 */
 
 	protected JexlContext createContext( M metawidget ) {
 
-		return JexlHelper.createContext();
+		JexlContext context = JexlHelper.createContext();
+
+		if ( mInject != null ) {
+			@SuppressWarnings( "unchecked" )
+			Map<String, Object> vars = context.getVars();
+
+			for ( Object inject : mInject ) {
+				vars.put( StringUtils.decapitalize( inject.getClass().getSimpleName() ), inject );
+			}
+		}
+
+		return context;
 	}
 }

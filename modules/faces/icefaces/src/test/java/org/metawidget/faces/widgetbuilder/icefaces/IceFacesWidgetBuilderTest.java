@@ -113,6 +113,18 @@ public class IceFacesWidgetBuilderTest
 	}
 
 	@Override
+	public void testCollectionWithSingleColumn() {
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, List.class.getName() );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+	}
+
+	@Override
 	public void testCollectionWithManyColumns()
 		throws Exception {
 
@@ -122,6 +134,7 @@ public class IceFacesWidgetBuilderTest
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
+		attributes.put( PARAMETERIZED_TYPE, LargeFoo.class.getName() );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
 

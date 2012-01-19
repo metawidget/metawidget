@@ -84,16 +84,48 @@ public class LinearLayoutTest
 
 	public static class Foo {
 
-		public String	bar;
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "bar" )
-		public boolean	baz;
+		public boolean isBaz() {
+
+			return false;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) boolean baz ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "baz" )
 		@UiSection( "Foo Section" )
 		@UiLookup( "one, two, three" )
-		public String	abc;
+		public String getAbc() {
 
-		public String	stubMe;
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
+
+		public String getStubMe() {
+
+			return null;
+		}
+
+		public void setStubMe( @SuppressWarnings( "unused" ) String stubMe ) {
+
+			// Do nothing
+		}
 	}
 }

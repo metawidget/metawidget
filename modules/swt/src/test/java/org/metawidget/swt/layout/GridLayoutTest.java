@@ -362,89 +362,257 @@ public class GridLayoutTest
 
 	public static class Foo {
 
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "abc" )
 		@UiRequired
-		public int		def;
+		public int getDef() {
+
+			return 0;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) int def ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "def" )
-		public boolean	ghi;
+		public boolean isGhi() {
+
+			return false;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) boolean ghi ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "tab1" )
 		@UiComesAfter( "ghi" )
 		@UiAttribute( name = "required", value = "true" )
 		@UiReadOnly
-		public String	tab1_jkl;
+		public String getTab1_jkl() {
+
+			return null;
+		}
+
+		public void setTab1_jkl( @SuppressWarnings( "unused" ) String tab1_jkl ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab1_jkl" )
 		@UiLookup( { "foo", "bar" } )
-		public String	tab1_mno;
+		public String getTab1_mno() {
+
+			return null;
+		}
+
+		public void setTab1_mno( @SuppressWarnings( "unused" ) String tab1_mno ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab1_mno" )
-		public String	tab1_pqr;
+		public String getTab1_pqr() {
+
+			return null;
+		}
+
+		public void setTab1_pqr( @SuppressWarnings( "unused" ) String tab1_pqr ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "tab2" )
 		@UiComesAfter( "tab1_pqr" )
 		@UiLarge
 		@UiLabel( "" )
-		public String	tab2_jkl;
+		public String getTab2_jkl() {
+
+			return null;
+		}
+
+		public void setTab2_jkl( @SuppressWarnings( "unused" ) String tab2_jkl ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "tab3" )
 		@UiComesAfter( "tab2_jkl" )
 		@UiLabel( "" )
-		public String	tab3_jkl;
+		public String getTab3_jkl() {
+
+			return null;
+		}
+
+		public void setTab3_jkl( @SuppressWarnings( "unused" ) String tab3_jkl ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab3_jkl" )
-		public String	tab3_mno;
+		public String getTab3_mno() {
+
+			return null;
+		}
+
+		public void setTab3_mno( @SuppressWarnings( "unused" ) String tab3_mno ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab3_mno" )
-		public String	tab3_pqr;
+		public String getTab3_pqr() {
+
+			return null;
+		}
+
+		public void setTab3_pqr( @SuppressWarnings( "unused" ) String tab3_pqr ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "" )
 		@UiComesAfter( "tab3_pqr" )
-		public String	mno;
+		public String getMno() {
+
+			return null;
+		}
+
+		public void setMno( @SuppressWarnings( "unused" ) String mno ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class WideFoo {
 
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String foo ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "abc" )
-		public int		def;
+		public int getDef() {
+
+			return 0;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) int def ) {
+
+			// Do nothing
+		}
 
 		@UiWide
 		@UiComesAfter( "def" )
-		public String	ghi;
+		public String getGhi() {
+
+			return null;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "ghi" )
-		public boolean	jkl;
+		public boolean isJkl() {
+
+			return false;
+		}
+
+		public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "jkl" )
-		public String	mno;
+		public String getMno() {
+
+			return null;
+		}
+
+		public void setMno( @SuppressWarnings( "unused" ) String mno ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class RequiredFoo {
 
 		@UiRequired
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "abc" )
 		@UiRequired
-		public int		def;
+		public int getDef() {
+
+			return 0;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) String def ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "def" )
 		@UiRequired
 		@UiLarge
-		public String	ghi;
+		public String getGhi() {
+
+			return null;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "ghi" )
 		@UiRequired
-		public String	jkl;
+		public String getJkl() {
+
+			return null;
+		}
+
+		public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "jkl" )
 		@UiRequired
 		@UiLabel( "" )
-		public String	mno;
+		public String getMno() {
+
+			return null;
+		}
+
+		public void setMno( @SuppressWarnings( "unused" ) String mno ) {
+
+			// Do nothing
+		}
 	}
 }
