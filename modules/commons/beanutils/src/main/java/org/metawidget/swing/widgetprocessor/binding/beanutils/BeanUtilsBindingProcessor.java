@@ -30,6 +30,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
@@ -165,8 +166,13 @@ public class BeanUtilsBindingProcessor
 			try {
 				for ( SavedBinding binding : state.bindings ) {
 					String names = binding.getNames();
-					Object sourceValue = mPropertyStyle.traverse( metawidget.getToInspect(), metawidget.getToInspect().getClass().getName(), false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) ).getValue();
-					saveValueToWidget( binding, sourceValue );
+					ValueAndDeclaredType valueAndDeclaredType = mPropertyStyle.traverse( toRebind, toRebind.getClass().getName(), false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
+
+					if ( valueAndDeclaredType.getDeclaredType() == null ) {
+						throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
+					}
+
+					saveValueToWidget( binding, valueAndDeclaredType.getValue() );
 				}
 			} catch ( Exception e ) {
 				throw WidgetProcessorException.newException( e );
