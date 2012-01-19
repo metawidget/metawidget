@@ -17,11 +17,13 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
+ * Static widget for the <form:input> Spring tag
+ * 
  * @author Richard Kennard
  */
 
 public class FormInputTag
-	extends SpringFormTag {
+	extends SpringTag {
 
 	//
 	// Constructor

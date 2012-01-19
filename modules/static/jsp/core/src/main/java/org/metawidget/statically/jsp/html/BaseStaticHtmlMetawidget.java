@@ -22,10 +22,12 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
+ * @author Ryan Bradley
  */
 
 public abstract class BaseStaticHtmlMetawidget
@@ -65,6 +67,11 @@ public abstract class BaseStaticHtmlMetawidget
 	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
-		( (BaseStaticHtmlMetawidget) nestedMetawidget ).setValue( mValue + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+		
+		String valueExpression = StaticJspUtils.unwrapExpression( mValue );
+		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+		valueExpression = StaticJspUtils.wrapExpression( valueExpression );
+		
+		( (BaseStaticHtmlMetawidget) nestedMetawidget ).setValue( valueExpression );
 	}
 }

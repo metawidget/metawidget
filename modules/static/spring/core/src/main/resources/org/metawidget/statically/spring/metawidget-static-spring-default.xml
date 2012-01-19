@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:processor="java:org.metawidget.statically.faces.component.widgetprocessor"
+	xmlns:processor="java:org.metawidget.statically.spring.widgetprocessor"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
 						java:org.metawidget.statically.faces.component.html http://metawidget.org/xsd/org.metawidget.statically.faces.component.html-1.0.xsd
 						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd"
@@ -37,9 +37,10 @@
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
-					<array>
+					<array>					
 						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
 						<springWidgetBuilder xmlns="java:org.metawidget.statically.spring.widgetbuilder"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
 					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>
@@ -47,12 +48,14 @@
 
 		<widgetProcessors>
 			<array>
-				<pathProcessor xmlns="java:org.metawidget.statically.spring.widgetprocessor"/>
+				<processor:pathProcessor />
+				<processor:cssStyleProcessor />
+				<processor:hiddenFieldProcessor />
 			</array>
 		</widgetProcessors>
 
 		<layout>
-			<htmlTableLayout xmlns="java:org.metawidget.statically.jsp.html.layout"/>
+			<springFormLayout xmlns="java:org.metawidget.statically.spring.layout"/>
 		</layout>
 		
 	</staticSpringMetawidget>			

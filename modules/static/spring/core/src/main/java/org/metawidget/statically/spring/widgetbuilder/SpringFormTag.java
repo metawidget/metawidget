@@ -16,23 +16,21 @@
 
 package org.metawidget.statically.spring.widgetbuilder;
 
-import org.metawidget.statically.BaseStaticXmlWidget;
-
 /**
- * Tags within the Spring form: namespace.
- *
- * @author Richard Kennard
+ * Static widget for the <form:form> Spring tag
+ * 
+ * @author Ryan Bradley
  */
 
-public abstract class SpringFormTag
-			extends BaseStaticXmlWidget {
+public class SpringFormTag
+    extends SpringTag {
+    
+    //
+    // Constructor
+    //
 
-	//
-	// Constructor
-	//
-
-	public SpringFormTag( String tagName ) {
-
-		super( "form", tagName, "http://www.springframework.org/tags/form" );
-	}
+    public SpringFormTag() {
+        
+        super( "form" );
+    }
 }

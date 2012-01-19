@@ -119,6 +119,7 @@ public class SpringWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
+			    
 				if ( boolean.class.equals( clazz ) ) {
 					return new CheckboxTag();
 				}
