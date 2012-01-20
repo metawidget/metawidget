@@ -87,8 +87,24 @@ public class RequiredAttributeProcessorTest
 	public static class Foo {
 
 		@UiRequired
-		public Date	bar;
+		public Date getBar() {
 
-		public int	baz;
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) Date date ) {
+
+			// Do nothing
+		}
+
+		public int getBaz() {
+
+			return 0;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) int baz ) {
+
+			// Do nothing
+		}
 	}
 }

@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.widgetprocessor.binding.beanutils;
 
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -28,32 +30,35 @@ import org.metawidget.util.simple.ObjectUtils;
 public class BeanUtilsBindingProcessorConfig {
 
 	//
-	// Public statics
+	// Private statics
 	//
 
-	public static final int	PROPERTYSTYLE_JAVABEAN	= 0;
-
-	public static final int	PROPERTYSTYLE_SCALA		= 1;
+	private static PropertyStyle	DEFAULT_PROPERTY_STYLE;
 
 	//
 	// Private members
 	//
 
-	private int				mPropertyStyle			= PROPERTYSTYLE_JAVABEAN;
+	private PropertyStyle			mPropertyStyle;
+
+	private boolean					mNullPropertyStyle;
 
 	//
 	// Public methods
 	//
 
 	/**
-	 * Sets the PropertyStyle for this BeanUtilsBinding.
+	 * Sets the style used to recognize properties.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public BeanUtilsBindingProcessorConfig setPropertyStyle( int propertyStyle ) {
+	public BeanUtilsBindingProcessorConfig setPropertyStyle( PropertyStyle propertyStyle ) {
 
 		mPropertyStyle = propertyStyle;
+		mNullPropertyStyle = ( propertyStyle == null );
+
+		// Fluent interface
 
 		return this;
 	}
@@ -65,11 +70,15 @@ public class BeanUtilsBindingProcessorConfig {
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 
-		if ( mPropertyStyle != ( (BeanUtilsBindingProcessorConfig) that ).mPropertyStyle ) {
+		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ( (BeanUtilsBindingProcessorConfig) that ).mPropertyStyle ) ) {
+			return false;
+		}
+
+		if ( mNullPropertyStyle != ( (BeanUtilsBindingProcessorConfig) that ).mNullPropertyStyle ) {
 			return false;
 		}
 
@@ -79,14 +88,32 @@ public class BeanUtilsBindingProcessorConfig {
 	@Override
 	public int hashCode() {
 
-		return mPropertyStyle;
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPropertyStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullPropertyStyle );
+
+		return hashCode;
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected int getPropertyStyle() {
+	/**
+	 * Gets the style used to recognize properties.
+	 */
+
+	protected PropertyStyle getPropertyStyle() {
+
+		if ( mPropertyStyle == null && !mNullPropertyStyle ) {
+			// Do not initialise unless needed, so that we can be shipped without
+
+			if ( DEFAULT_PROPERTY_STYLE == null ) {
+				DEFAULT_PROPERTY_STYLE = new JavaBeanPropertyStyle();
+			}
+
+			return DEFAULT_PROPERTY_STYLE;
+		}
 
 		return mPropertyStyle;
 	}

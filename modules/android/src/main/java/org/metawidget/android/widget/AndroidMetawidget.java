@@ -544,11 +544,7 @@ public class AndroidMetawidget
 
 		try {
 			if ( mConfig != 0 ) {
-				if ( CONFIG_READER == null ) {
-					CONFIG_READER = new AndroidConfigReader( getContext() );
-				}
-
-				CONFIG_READER.configure( getContext().getResources().openRawResource( mConfig ), this );
+				getConfigReader().configure( getContext().getResources().openRawResource( mConfig ), this );
 			}
 
 			// Sensible defaults
@@ -597,6 +593,15 @@ public class AndroidMetawidget
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	protected ConfigReader getConfigReader() {
+
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new AndroidConfigReader( getContext() );
+		}
+
+		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {

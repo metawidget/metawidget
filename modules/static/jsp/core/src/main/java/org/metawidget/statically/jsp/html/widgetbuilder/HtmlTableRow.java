@@ -20,14 +20,15 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlTableRow extends HtmlTag {
+public class HtmlTableRow
+	extends HtmlTag {
 
-    //
-    // Constructor
-    //
-    
-    public HtmlTableRow() {
-        
-        super( "tr" );
-    }
+	//
+	// Constructor
+	//
+
+	public HtmlTableRow() {
+
+		super( "tr" );
+	}
 }

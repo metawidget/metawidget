@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for JSP environments.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -60,16 +60,16 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private static final long							serialVersionUID				= 1l;
+	private static final long							serialVersionUID		= 1l;
 
 	/**
-	 * Cache the ConfigReader at the ServletContext level. Although, interestingly, this can also be
-	 * used to inject a different ConfigReader if needed (ie. for Grails).
+	 * Cache the ConfigReader at the ServletContext level. This can also be used to inject a
+	 * different ConfigReader if needed (ie. for Grails).
 	 */
 
-	private static final String							CONFIG_READER_ATTRIBUTE			= "metawidget-config-reader";
+	private static final String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
-	private static final String							DEFAULT_USER_CONFIG				= "metawidget.xml";
+	private static final String							DEFAULT_USER_CONFIG		= "metawidget.xml";
 
 	private static boolean								LOGGED_MISSING_CONFIG;
 
@@ -492,10 +492,6 @@ public abstract class MetawidgetTag
 		}
 
 		return inspectionResult;
-
-		// REFACTOR: instead of the above, just do mPipeline.inspectAsDom( obj, type,
-		// typeAndNames.getNamesAsArray() ) and the user can use restrictAgainstObject to figure out
-		// the Object relationship
 	}
 
 	protected void configure() {

@@ -16,11 +16,6 @@
 
 package org.metawidget.statically.spring;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.Map;
-
-import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.jsp.html.BaseStaticHtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 
@@ -30,18 +25,6 @@ import org.metawidget.util.ClassUtils;
 
 public class StaticSpringMetawidget
 	extends BaseStaticHtmlMetawidget {
-    
-    //
-    // Public methods
-    //
-    
-    @Override
-    public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
-        
-        super.initNestedMetawidget( nestedMetawidget, attributes );
-        
-        ( ( StaticSpringMetawidget ) nestedMetawidget ).setValue( attributes.get( NAME ) );
-    }
 
 	//
 	// Protected methods
@@ -50,6 +33,6 @@ public class StaticSpringMetawidget
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-spring-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( StaticSpringMetawidget.class ) + "/metawidget-static-spring-default.xml";
 	}
 }

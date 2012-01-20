@@ -32,6 +32,6 @@ public class StaticHtmlMetawidget
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-html-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( StaticHtmlMetawidget.class ) + "/metawidget-static-html-default.xml";
 	}
 }

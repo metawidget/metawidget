@@ -19,7 +19,6 @@ package org.metawidget.swing.widgetprocessor.binding.beanutils;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,10 +28,15 @@ import javax.swing.JScrollPane;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -40,18 +44,10 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 /**
  * Property binding implementation based on BeanUtils.
  * <p>
- * This implementation recognizes the following <code>SwingMetawidget.setParameter</code>
- * parameters:
- * <p>
- * <ul>
- * <li><code>propertyStyle</code> - either <code>PROPERTYSTYLE_JAVABEAN</code> (default) or
- * <code>PROPERTYSTYLE_SCALA</code> (for Scala-style getters and setters).
- * </ul>
- * <p>
  * Note: <code>BeanUtils</code> does not bind <em>actions</em>, such as invoking a method when a
  * <code>JButton</code> is pressed. For that, see <code>ReflectionBindingProcessor</code> and
  * <code>MetawidgetActionStyle</code> or <code>SwingAppFrameworkActionStyle</code>.
- * 
+ *
  * @author Richard Kennard, Stefan Ackermann
  */
 
@@ -59,18 +55,10 @@ public class BeanUtilsBindingProcessor
 	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>, BindingConverter {
 
 	//
-	// Private statics
-	//
-
-	private static final String	SCALA_SET_SUFFIX	= "_$eq";
-
-	//
 	// Private members
 	//
 
-	// REFACTOR: use the actual ScalaPropertyStyle here
-
-	private final int			mPropertyStyle;
+	private final PropertyStyle	mPropertyStyle;
 
 	//
 	// Constructor
@@ -134,18 +122,13 @@ public class BeanUtilsBindingProcessor
 		}
 
 		try {
+
+			TypeAndNames typeAndNames = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+			Object sourceValue = mPropertyStyle.traverse( metawidget.getToInspect(), typeAndNames.getType(), false, typeAndNames.getNamesAsArray() ).getValue();
+
 			// Convert 'com.Foo/bar/baz' into BeanUtils notation 'bar.baz'
 
-			String names = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
-
-			Object sourceValue;
-
-			try {
-				sourceValue = retrieveValueFromObject( metawidget, metawidget.getToInspect(), names );
-			} catch ( NoSuchMethodException e ) {
-				throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
-			}
-
+			String names = typeAndNames.getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 			SavedBinding binding = new SavedBinding( componentToBind, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
 			saveValueToWidget( binding, sourceValue );
 
@@ -182,16 +165,14 @@ public class BeanUtilsBindingProcessor
 		if ( state.bindings != null ) {
 			try {
 				for ( SavedBinding binding : state.bindings ) {
-					Object sourceValue;
 					String names = binding.getNames();
+					ValueAndDeclaredType valueAndDeclaredType = mPropertyStyle.traverse( toRebind, toRebind.getClass().getName(), false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
 
-					try {
-						sourceValue = retrieveValueFromObject( metawidget, toRebind, names );
-					} catch ( NoSuchMethodException e ) {
+					if ( valueAndDeclaredType.getDeclaredType() == null ) {
 						throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
 					}
 
-					saveValueToWidget( binding, sourceValue );
+					saveValueToWidget( binding, valueAndDeclaredType.getValue() );
 				}
 			} catch ( Exception e ) {
 				throw WidgetProcessorException.newException( e );
@@ -252,29 +233,10 @@ public class BeanUtilsBindingProcessor
 	//
 
 	/**
-	 * Retrieve value identified by the given names from the given source.
-	 * <p>
-	 * Clients may override this method to incorporate their own getter convention.
-	 * 
-	 * @param metawidget
-	 *            Metawidget to retrieve value from
-	 */
-
-	protected Object retrieveValueFromObject( SwingMetawidget metawidget, Object source, String names )
-		throws Exception {
-
-		if ( mPropertyStyle == BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ) {
-			return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
-		}
-
-		return PropertyUtils.getProperty( source, names );
-	}
-
-	/**
 	 * Save the given value into the given source at the location specified by the given names.
 	 * <p>
 	 * Clients may override this method to incorporate their own setter convention.
-	 * 
+	 *
 	 * @param componentValue
 	 *            the raw value from the <code>JComponent</code>
 	 */
@@ -284,37 +246,35 @@ public class BeanUtilsBindingProcessor
 
 		Object source = metawidget.getToInspect();
 
-		if ( mPropertyStyle == BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ) {
+		// Traverse to the setter...
+		//
+		// Note: do not use BeanUtils.setProperty( source, names, componentValue ), as this can only
+		// handle JavaBean properties
 
-			// Traverse to the setter...
+		String[] namesAsArray = names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
+		Object parent = mPropertyStyle.traverse( source, source.getClass().getName(), true, namesAsArray ).getValue();
 
-			String[] namesAsArray = names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
-			Object parent = scalaTraverse( source, true, namesAsArray );
-
-			if ( parent == null ) {
-				return;
-			}
-
-			// ...determine its type...
-
-			Class<?> parentClass = parent.getClass();
-			String lastName = namesAsArray[namesAsArray.length - 1];
-			Class<?> propertyType = parentClass.getMethod( lastName ).getReturnType();
-
-			// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
-			//
-			// Note: if this line fails, to build, check commons-beanutils comes first on the
-			// CLASSPATH
-
-			Object convertedValue = ConvertUtils.convert( componentValue, propertyType );
-
-			// ...and set it
-
-			Method writeMethod = parentClass.getMethod( lastName + SCALA_SET_SUFFIX, propertyType );
-			writeMethod.invoke( parent, convertedValue );
-		} else {
-			BeanUtils.setProperty( source, names, componentValue );
+		if ( parent == null ) {
+			return;
 		}
+
+		// ...determine its type...
+
+		Class<?> parentClass = parent.getClass();
+		String lastName = namesAsArray[namesAsArray.length - 1];
+
+		Property property = mPropertyStyle.getProperties( parentClass.getName() ).get( lastName );
+
+		// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
+		//
+		// Note: if this line fails, to build, check commons-beanutils comes first on the
+		// CLASSPATH
+
+		Object convertedValue = ConvertUtils.convert( componentValue, ClassUtils.niceForName( property.getType() ) );
+
+		// ...and set it
+
+		property.write( parent, convertedValue );
 	}
 
 	protected Object retrieveValueFromWidget( SavedBinding binding )
@@ -332,53 +292,6 @@ public class BeanUtilsBindingProcessor
 	//
 	// Private methods
 	//
-
-	private Object scalaTraverse( Object toTraverse, boolean onlyToParent, String... names )
-		throws Exception {
-
-		// Sanity check
-
-		if ( toTraverse == null ) {
-			return null;
-		}
-
-		// Traverse through names (if any)
-
-		if ( names == null ) {
-			return toTraverse;
-		}
-
-		int length = names.length;
-
-		if ( length == 0 ) {
-			return toTraverse;
-		}
-
-		// Only to parent?
-
-		if ( onlyToParent ) {
-			length--;
-		}
-
-		// Do the traversal
-
-		Object traverse = toTraverse;
-
-		for ( int loop = 0; loop < length; loop++ ) {
-			// Scala getter methods are just 'foo()', not 'getFoo()'
-
-			Method readMethod = traverse.getClass().getMethod( names[loop] );
-			traverse = readMethod.invoke( traverse );
-
-			// Can go no further?
-
-			if ( traverse == null ) {
-				break;
-			}
-		}
-
-		return traverse;
-	}
 
 	private State getState( SwingMetawidget metawidget ) {
 

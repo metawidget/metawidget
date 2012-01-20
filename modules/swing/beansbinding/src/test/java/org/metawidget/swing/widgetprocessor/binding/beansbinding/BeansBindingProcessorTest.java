@@ -30,6 +30,9 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Converter;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -182,7 +185,7 @@ public class BeansBindingProcessorTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
-		metawidget.setInspector( new PropertyTypeInspector() );
+		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ))) ));
 		metawidget.setToInspect( new NoGetSetFoo() );
 
 		try {

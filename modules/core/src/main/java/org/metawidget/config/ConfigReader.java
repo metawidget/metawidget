@@ -394,6 +394,10 @@ public class ConfigReader
 			return true;
 		}
 
+		if ( "instanceOf".equals( name ) ) {
+			return true;
+		}
+
 		if ( "pattern".equals( name ) ) {
 			return true;
 		}
@@ -477,6 +481,14 @@ public class ConfigReader
 			return Class.forName( recordedText );
 		}
 
+		if ( "instanceOf".equals( name ) ) {
+			if ( "".equals( recordedText ) ) {
+				return null;
+			}
+
+			return Class.forName( recordedText ).newInstance();
+		}
+
 		if ( "pattern".equals( name ) ) {
 			Pattern pattern = mPatternCache.get( recordedText );
 
@@ -492,16 +504,12 @@ public class ConfigReader
 			return new MessageFormat( recordedText );
 		}
 
-		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
-
 		if ( "int".equals( name ) ) {
-			return new Integer( recordedText );
+			return Integer.valueOf( recordedText );
 		}
 
-		// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
-
 		if ( "boolean".equals( name ) ) {
-			return new Boolean( recordedText );
+			return Boolean.valueOf( recordedText );
 		}
 
 		if ( "bundle".equals( name ) ) {

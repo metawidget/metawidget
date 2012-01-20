@@ -21,15 +21,24 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  */
 
 public class HtmlTextarea
-    extends HtmlTag {
-    
+    extends HtmlTag
+    implements NameHolder {
+
     //
     // Constructor
     //
-    
+
     public HtmlTextarea() {
-        
+
         super( "textarea" );
     }
 
+	//
+	// Public methods
+	//
+
+	public void setName( String name ) {
+
+		putAttribute( "name", name );
+	}
 }

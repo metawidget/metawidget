@@ -32,6 +32,8 @@ import javax.persistence.Version;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -50,7 +52,7 @@ public class JpaInspectorTest
 
 	public void testInspection() {
 
-		JpaInspector inspector = new JpaInspector();
+		JpaInspector inspector = new JpaInspector( new JpaInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -113,6 +115,7 @@ public class JpaInspectorTest
 		// Show ids
 
 		JpaInspectorConfig config = new JpaInspectorConfig();
+		config.setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		config.setHideIds( false );
 		JpaInspector inspector = new JpaInspector( config );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
@@ -125,6 +128,7 @@ public class JpaInspectorTest
 		// Hidden by default
 
 		config = new JpaInspectorConfig();
+		config.setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		inspector = new JpaInspector( config );
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -142,6 +146,7 @@ public class JpaInspectorTest
 		// Show versions
 
 		JpaInspectorConfig config = new JpaInspectorConfig();
+		config.setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		config.setHideVersions( false );
 		JpaInspector inspector = new JpaInspector( config );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
@@ -154,6 +159,7 @@ public class JpaInspectorTest
 		// Hidden by default
 
 		config = new JpaInspectorConfig();
+		config.setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		inspector = new JpaInspector( config );
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
@@ -171,6 +177,7 @@ public class JpaInspectorTest
 		// Hide transient
 
 		JpaInspectorConfig config = new JpaInspectorConfig();
+		config.setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		config.setHideTransients( true );
 		JpaInspector inspector = new JpaInspector( config );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
@@ -186,6 +193,7 @@ public class JpaInspectorTest
 		// Shown by default
 
 		config = new JpaInspectorConfig();
+		config.setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) );
 		inspector = new JpaInspector( config );
 		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 

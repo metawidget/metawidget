@@ -33,9 +33,27 @@ public class StaticHtmlMetawidgetTest
 		metawidget.setValue( "foo" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<table>\r\n" +
-				"\t<input name=\"fooBar\" type=\"text\"/>\r\n" +
-				"\t<input name=\"fooBaz\" type=\"text\"/>\r\n" +
+		String result = "<table id=\"table-orgMetawidgetStaticallyJspHtmlStaticHtmlMetawidgetTestFoo\">\r\n" +
+				"\t<tbody>\r\n" +
+				"\t\t<tr>\r\n" +
+				"\t\t\t<th>\r\n" +
+				"\t\t\t\t<label>Bar</label>\r\n" +
+				"\t\t\t</th>\r\n" +
+				"\t\t\t<td>\r\n" +
+				"\t\t\t\t<input name=\"fooBar\" type=\"text\" value=\"${foo.bar}\"/>\r\n" +
+				"\t\t\t</td>\r\n" +
+				"\t\t\t<td/>\r\n" +
+				"\t\t</tr>\r\n" +
+				"\t\t<tr>\r\n" +
+				"\t\t\t<th>\r\n" +
+				"\t\t\t\t<label>Baz</label>\r\n" +
+				"\t\t\t</th>\r\n" +
+				"\t\t\t<td>\r\n" +
+				"\t\t\t\t<input name=\"fooBaz\" type=\"text\" value=\"${foo.baz}\"/>\r\n" +
+				"\t\t\t</td>\r\n" +
+				"\t\t\t<td/>\r\n" +
+				"\t\t</tr>\r\n" +
+				"\t</tbody>\r\n" +
 				"</table>\r\n";
 
 		StringWriter writer = new StringWriter();
@@ -49,12 +67,48 @@ public class StaticHtmlMetawidgetTest
 		metawidget.setValue( "foo" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
-		String result = "<table>\r\n" +
-				"\t<input name=\"fooAbc\" type=\"text\"/>\r\n" +
-				"\t<table>\r\n" +
-				"\t\t<input name=\"fooNestedFooBar\" type=\"text\"/>\r\n" +
-				"\t\t<input name=\"fooNestedFooBaz\" type=\"text\"/>\r\n" +
-				"\t</table>\r\n" +
+		String result = "<table id=\"table-orgMetawidgetStaticallyJspHtmlStaticHtmlMetawidgetTestNestedFoo\">\r\n" +
+				"\t<tbody>\r\n" +
+				"\t\t<tr>\r\n" +
+				"\t\t\t<th>\r\n" +
+				"\t\t\t\t<label>Abc</label>\r\n" +
+				"\t\t\t</th>\r\n" +
+				"\t\t\t<td>\r\n" +
+				"\t\t\t\t<input name=\"fooAbc\" type=\"text\" value=\"${foo.abc}\"/>\r\n" +
+				"\t\t\t</td>\r\n" +
+				"\t\t\t<td/>\r\n" +
+				"\t\t</tr>\r\n" +
+				"\t\t<tr>\r\n" +
+				"\t\t\t<th>\r\n" +
+				"\t\t\t\t<label>Nested Foo</label>\r\n" +
+				"\t\t\t</th>\r\n" +
+				"\t\t\t<td>\r\n" +
+				"\t\t\t\t<table id=\"table-orgMetawidgetStaticallyJspHtmlStaticHtmlMetawidgetTestNestedFooNestedFoo\">\r\n" +
+				"\t\t\t\t\t<tbody>\r\n" +
+				"\t\t\t\t\t\t<tr>\r\n" +
+				"\t\t\t\t\t\t\t<th>\r\n" +
+				"\t\t\t\t\t\t\t\t<label>Bar</label>\r\n" +
+				"\t\t\t\t\t\t\t</th>\r\n" +
+				"\t\t\t\t\t\t\t<td>\r\n" +
+				"\t\t\t\t\t\t\t\t<input name=\"fooNestedFooBar\" type=\"text\" value=\"${foo.nestedFoo.bar}\"/>\r\n" +
+				"\t\t\t\t\t\t\t</td>\r\n" +
+				"\t\t\t\t\t\t\t<td/>\r\n" +
+				"\t\t\t\t\t\t</tr>\r\n" +
+				"\t\t\t\t\t\t<tr>\r\n" +
+				"\t\t\t\t\t\t\t<th>\r\n" +
+				"\t\t\t\t\t\t\t\t<label>Baz</label>\r\n" +
+				"\t\t\t\t\t\t\t</th>\r\n" +
+				"\t\t\t\t\t\t\t<td>\r\n" +
+				"\t\t\t\t\t\t\t\t<input name=\"fooNestedFooBaz\" type=\"text\" value=\"${foo.nestedFoo.baz}\"/>\r\n" +
+				"\t\t\t\t\t\t\t</td>\r\n" +
+				"\t\t\t\t\t\t\t<td/>\r\n" +
+				"\t\t\t\t\t\t</tr>\r\n" +
+				"\t\t\t\t\t</tbody>\r\n" +
+				"\t\t\t\t</table>\r\n" +
+				"\t\t\t</td>\r\n" +
+				"\t\t\t<td/>\r\n" +
+				"\t\t</tr>\r\n" +
+				"\t</tbody>\r\n" +
 				"</table>\r\n";
 
 		StringWriter writer = new StringWriter();
@@ -68,15 +122,47 @@ public class StaticHtmlMetawidgetTest
 
 	public static class Foo {
 
-		public String	bar;
+		public String getBar() {
 
-		public String	baz;
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
+
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class NestedFoo {
 
-		public String	abc;
+		public String getAbc() {
 
-		public Foo		nestedFoo;
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
+
+		public Foo getNestedFoo() {
+
+			return null;
+		}
+
+		public void setNestedFoo( @SuppressWarnings( "unused" ) Foo nestedFoo ) {
+
+			// Do nothing
+		}
 	}
 }

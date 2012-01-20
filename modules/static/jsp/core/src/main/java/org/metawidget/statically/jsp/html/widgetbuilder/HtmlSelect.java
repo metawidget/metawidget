@@ -20,14 +20,25 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlSelect extends HtmlTag {
-    
-    //
-    // Constructor
-    //
-    
-    public HtmlSelect() {
-        super( "select" );
-    }
+public class HtmlSelect
+	extends HtmlTag
+	implements NameHolder {
 
+	//
+	// Constructor
+	//
+
+	public HtmlSelect() {
+
+		super( "select" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public void setName( String name ) {
+
+		putAttribute( "name", name );
+	}
 }

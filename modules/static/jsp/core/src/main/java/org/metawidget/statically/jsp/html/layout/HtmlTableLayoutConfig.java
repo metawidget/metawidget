@@ -19,7 +19,7 @@ package org.metawidget.statically.jsp.html.layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures an HtmlTableLayout prior to use.  Once instantiated, Layouts are immutable.
+ * Configures an HtmlTableLayout prior to use. Once instantiated, Layouts are immutable.
  * 
  * @author Ryan Bradley
  */

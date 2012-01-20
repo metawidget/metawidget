@@ -91,7 +91,7 @@ public class StrutsMetawidgetTag
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-struts-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( StrutsMetawidgetTag.class ) + "/metawidget-struts-default.xml";
 	}
 
 	@Override

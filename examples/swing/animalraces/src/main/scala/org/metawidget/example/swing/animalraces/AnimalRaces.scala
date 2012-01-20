@@ -27,6 +27,7 @@ import org.metawidget.swing._
 import org.metawidget.swing.layout._
 import org.metawidget.swing.widgetprocessor.binding.beanutils._
 import org.metawidget.inspector.annotation._
+import org.metawidget.inspector.impl.propertystyle.scala._;
 
 /**
  * @author Richard Kennard
@@ -78,7 +79,7 @@ object AnimalRaces
 	{
 		val metawidget = new SwingMetawidget()
 		metawidget.setConfig( "org/metawidget/example/swing/animalraces/metawidget.xml" )
-		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )))
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( new ScalaPropertyStyle() )))
 		metawidget.setMetawidgetLayout( new MigLayout() )
 		metawidget.setToInspect( animal )
 		metawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));

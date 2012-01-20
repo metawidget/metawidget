@@ -65,35 +65,33 @@ public class SwtMetawidget
 	// Private statics
 	//
 
-	private static final long			serialVersionUID		= 1l;
+	private static final long		serialVersionUID		= 1l;
 
-	private static final ConfigReader	CONFIG_READER			= new ConfigReader();
-
-	private static final String			DEFAULT_CONFIG			= ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
+	private static ConfigReader		CONFIG_READER;
 
 	//
 	// Private members
 	//
 
-	private Object						mToInspect;
+	private Object					mToInspect;
 
-	private String						mInspectionPath;
+	private String					mInspectionPath;
 
-	private String						mConfig;
+	private String					mConfig;
 
-	private ResourceBundle				mBundle;
+	private ResourceBundle			mBundle;
 
-	private boolean						mNeedToBuildWidgets;
+	private boolean					mNeedToBuildWidgets;
 
-	private Element						mLastInspection;
+	private Element					mLastInspection;
 
-	private Map<String, Facet>			mFacets					= CollectionUtils.newHashMap();
+	private Map<String, Facet>		mFacets					= CollectionUtils.newHashMap();
 
 	/**
 	 * Set of existing, manually added components.
 	 */
 
-	private Set<Control>				mExistingControls		= CollectionUtils.newHashSet();
+	private Set<Control>			mExistingControls		= CollectionUtils.newHashSet();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget controls.
@@ -101,13 +99,13 @@ public class SwtMetawidget
 	 * This is a List, not a Set, for consistency during endBuild.
 	 */
 
-	private List<Control>				mExistingUnusedControls	= CollectionUtils.newArrayList();
+	private List<Control>			mExistingUnusedControls	= CollectionUtils.newArrayList();
 
-	private Set<Control>				mControlsToDispose		= CollectionUtils.newHashSet();
+	private Set<Control>			mControlsToDispose		= CollectionUtils.newHashSet();
 
-	/* package private */Composite		mCurrentLayoutComposite;
+	/* package private */Composite	mCurrentLayoutComposite;
 
-	private Pipeline					mPipeline;
+	private Pipeline				mPipeline;
 
 	//
 	// Constructor
@@ -589,19 +587,33 @@ public class SwtMetawidget
 
 		try {
 			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
+				getConfigReader().configure( mConfig, this );
 			}
 
 			// SwtMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null ) {
-				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
+				getConfigReader().configure( getDefaultConfiguration(), this, "metawidgetLayout" );
 			}
 
-			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwtMetawidget.class );
+			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), SwtMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	protected String getDefaultConfiguration() {
+
+		return ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
+	}
+
+	protected ConfigReader getConfigReader() {
+
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new ConfigReader();
+		}
+
+		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {

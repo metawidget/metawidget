@@ -20,55 +20,47 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
+import org.metawidget.statically.jsp.html.widgetbuilder.CoreOut;
+import org.metawidget.statically.jsp.html.widgetbuilder.HtmlInput;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor that adds HTML <code>&lt;input type="hidden"&gt;</code> tags to hidden and
  * read-only values, so that they POST back.
+ * <p>
+ * Note: passing values via hidden tags is a potential security risk: they can be modified by
+ * malicious clients before being returned to the server.
  *
  * @author Ryan Bradley
  */
 
-public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
-    
-    //
-    // Public methods
-    //
-    
-    public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
-        
-        // Not hidden?
-        
-        if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
-            return widget;
-        }
-        
-        String value = widget.toString();
-        
-        // Add a hidden input as a child of the metawidget
-        
-        for( StaticWidget child : widget.getChildren() ) {
-            
-            ((StaticXmlWidget) child).putAttribute( HIDDEN, TRUE );
-        }
-        
-        widget = new HtmlTag("input");
-        widget.putAttribute( "type", "hidden" );
-        
-        if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
-            metawidget.getChildren().remove( widget );
-            widget = new HtmlTag( "span" );
-            metawidget.getChildren().add( widget );
-            return widget;
-        }
-        
-        // Return the hidden input HtmlTag which has just been created
-        
-        return widget;
-    }
+public class HiddenFieldProcessor
+	implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
+
+	//
+	// Public methods
+	//
+
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+
+		// Not hidden?
+
+		if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
+			return widget;
+		}
+
+		String value = widget.toString();
+
+		if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( value ) ) {
+			return new CoreOut();
+		}
+
+		HtmlInput hidden = new HtmlInput();
+		hidden.putAttribute( "type", "hidden" );
+
+		return hidden;
+	}
 
 }

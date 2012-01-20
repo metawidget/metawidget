@@ -164,46 +164,150 @@ public class TitledPanelLayoutDecoratorTest
 
 	public static class Foo {
 
-		public String	bar;
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "bar" )
 		@UiSection( "heading1" )
-		public boolean	baz;
+		public boolean isBaz() {
+
+			return false;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) boolean baz ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "baz" )
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "heading2" )
-		public String	def;
+		public String getDef() {
+
+			return null;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) String def ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "" )
 		@UiLookup( { "foo", "bar" } )
-		public String	ghi;
+		public String getGhi() {
+
+			return null;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "heading3" )
-		public String	jkl;
+		public String getJkl() {
+
+			return null;
+		}
+
+		public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+			// Do nothing
+		}
 	}
 
 	static class Bar {
 
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "Bar" } )
-		public boolean	def;
+		public boolean isDef() {
+
+			return false;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) boolean def ) {
+
+			// Do nothing
+		}
 
 		@UiLarge
-		public String	ghi;
+		public String getGhi() {
+
+			return null;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "Baz" } )
-		public String	jkl;
+		public String getJkl() {
+
+			return null;
+		}
+
+		public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "" } )
-		public boolean	mno;
+		public boolean getMno() {
+
+			return false;
+		}
+
+		public void setMno( @SuppressWarnings( "unused" ) boolean mno ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "Moo" } )
-		public String	pqr;
+		public String getPqr() {
+
+			return null;
+		}
+
+		public void setPqr( @SuppressWarnings( "unused" ) String pqr ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "" )
-		public String	stu;
+		public String getStu() {
+
+			return null;
+		}
+
+		public void setStu( @SuppressWarnings( "unused" ) String stu ) {
+
+			// Do nothing
+		}
 	}
 }

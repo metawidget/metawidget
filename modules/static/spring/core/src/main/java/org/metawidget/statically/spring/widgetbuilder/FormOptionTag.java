@@ -17,7 +17,7 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
- * Static widget for the <form:option> Spring tag
+ * Static widget for the &lt;form:option&gt; Spring tag
  * 
  * @author Ryan Bradley
  */

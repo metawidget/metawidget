@@ -87,7 +87,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( UIComponent component ) {
+	protected boolean isIgnored( UIComponent component ) {
 
 		return ( component instanceof UIStub && component.getChildren().isEmpty() );
 	}

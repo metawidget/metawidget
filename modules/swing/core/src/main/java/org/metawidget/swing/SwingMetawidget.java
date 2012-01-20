@@ -71,31 +71,29 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private static final long			serialVersionUID	= 1l;
+	private static final long		serialVersionUID	= 1l;
 
-	private static final ConfigReader	CONFIG_READER		= new ConfigReader();
+	private static ConfigReader		CONFIG_READER;
 
-	private static final String			DEFAULT_CONFIG		= ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
-
-	private static final Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private static final Stroke		STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	// Private members
 	//
 
-	private Object						mToInspect;
+	private Object					mToInspect;
 
-	private String						mPath;
+	private String					mPath;
 
-	private String						mConfig;
+	private String					mConfig;
 
-	private ResourceBundle				mBundle;
+	private ResourceBundle			mBundle;
 
-	private boolean						mNeedToBuildWidgets;
+	private boolean					mNeedToBuildWidgets;
 
-	private Element						mLastInspectionResult;
+	private Element					mLastInspectionResult;
 
-	private boolean						mIgnoreAddRemove;
+	private boolean					mIgnoreAddRemove;
 
 	/**
 	 * List of existing, manually added components.
@@ -104,7 +102,7 @@ public class SwingMetawidget
 	 * is consistent.
 	 */
 
-	private List<JComponent>			mExistingComponents	= CollectionUtils.newArrayList();
+	private List<JComponent>		mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -112,11 +110,11 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency during endBuild.
 	 */
 
-	private List<JComponent>			mExistingUnusedComponents;
+	private List<JComponent>		mExistingUnusedComponents;
 
-	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>		mFacets				= CollectionUtils.newHashMap();
 
-	/* package private */Pipeline		mPipeline;
+	/* package private */Pipeline	mPipeline;
 
 	//
 	// Constructor
@@ -765,19 +763,33 @@ public class SwingMetawidget
 
 		try {
 			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
+				getConfigReader().configure( mConfig, this );
 			}
 
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null ) {
-				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
+				getConfigReader().configure( getDefaultConfiguration(), this, "metawidgetLayout" );
 			}
 
-			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
+			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), SwingMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	protected String getDefaultConfiguration() {
+
+		return ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
+	}
+
+	protected ConfigReader getConfigReader() {
+
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new ConfigReader();
+		}
+
+		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {

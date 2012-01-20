@@ -78,13 +78,13 @@ public abstract class UIComponentFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( UIComponent component ) {
+	protected boolean isIgnored( UIComponent component ) {
 
 		if ( component instanceof UIStub && component.getChildren().isEmpty() ) {
 			return true;
 		}
 
-		// Treat HtmlInputHidden as an empty UIStub, so that we don't create section headings for it
+		// Ignore HtmlInputHidden, so that we don't create section headings for it
 
 		if ( component instanceof HtmlInputHidden ) {
 			return true;

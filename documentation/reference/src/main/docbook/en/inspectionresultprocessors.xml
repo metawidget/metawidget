@@ -143,6 +143,29 @@ public class ContactDialog {
 				on whether the <classname>Contact</classname> was being edited. It is taken from the Swing Address Book
 				sample (see <xref linkend="section-introduction-part2-desktop"/>).
 			</para>
+			
+			<para>
+				You can inject arbitary objects into the JEXL context either by subclassing and overriding
+				<classname>JexlInspectionResultProcessor.createContext</classname>, or by using...
+			</para>
+			
+			<programlisting language="java">config.setInject( new PersonController() )</programlisting>
+	
+			<para>
+				...or the equivalent via <filename>metawidget.xml</filename>...
+			</para>
+			
+			<programlisting language="xml">&lt;inject&gt;
+	&lt;array&gt;
+		&lt;instanceOf&gt;com.myapp.PersonController&lt;/instanceOf&gt;
+	&lt;/array&gt;
+&lt;/inject&gt;</programlisting>
+
+			<para>
+				Whereupon you can access the injected object through a JEXL expression such as:
+			</para>
+			
+			<programlisting language="java">${personController.all}</programlisting>
 
 		</section>
 

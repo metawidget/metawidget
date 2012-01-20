@@ -134,12 +134,17 @@
 			<tr>
 				<td>Rintcius Blok<span>(GWT build)</span></td>
 				<td>Ronald van Kuijk<span>(testing)</span></td>
-				<td>Ryan Cornia<span>(testing)</span></td>
+				<td>Ryan Bradley<span>(static JSP, static Spring)</span></td>
 			</tr>
 			<tr>
+				<td>Ryan Cornia<span>(testing)</span></td>
 				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
 				<td>Steffan Luypaert<span>(wallchart)</span></td>
+			</tr>
+			<tr>
+				<td>
 				<td>Tom Bee<span>(testing)</span></td>
+				</td>
 			</tr>
 		</table>
 	

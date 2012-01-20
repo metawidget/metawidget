@@ -150,7 +150,7 @@ public class UIStub
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) ) {
-			// (use .length(), not .isEmpty(), so that we're 1.4 compatible)
+			// (use .length(), not .isEmpty(), so that we're 1.5 compatible)
 
 			if ( nameAndValue.length() == 0 ) {
 				continue;

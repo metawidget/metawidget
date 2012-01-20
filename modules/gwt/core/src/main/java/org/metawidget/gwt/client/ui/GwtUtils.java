@@ -169,11 +169,7 @@ public final class GwtUtils {
 	public static List<String> fromString( String collection, char separator ) {
 
 		if ( collection == null || "".equals( collection ) ) {
-			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
-
-			@SuppressWarnings( { "cast", "unchecked" } )
-			List<String> list = (List<String>) Collections.EMPTY_LIST;
-			return list;
+			return Collections.emptyList();
 		}
 
 		List<String> split = new ArrayList<String>();

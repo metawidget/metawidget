@@ -69,9 +69,9 @@ public class ReadOnlyWidgetBuilder
 		if ( ACTION.equals( elementName ) ) {
 			return new StaticXmlStub();
 		}
-		
+
 		// Spring Lookup?
-		
+
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
@@ -80,7 +80,7 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels == null ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 
 			// Special support for read-only lookups with labels
@@ -88,10 +88,10 @@ public class ReadOnlyWidgetBuilder
 			List<String> labels = CollectionUtils.fromString( lookupLabels );
 
 			if ( labels.isEmpty() ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 
-			return new HtmlTag( "span" );
+			return new CoreOut();
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -108,25 +108,25 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 
 			// Collections that will be supported by HtmlWidgetBuilder
@@ -138,14 +138,14 @@ public class ReadOnlyWidgetBuilder
 			// Other Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new HtmlTag( "span" );
+				return new CoreOut();
 			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return new HtmlTag( "span" );
+			return new CoreOut();
 		}
 
 		// Nested Metawidget

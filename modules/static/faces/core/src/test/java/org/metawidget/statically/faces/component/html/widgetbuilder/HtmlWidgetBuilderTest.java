@@ -32,6 +32,8 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.statically.StaticPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.statically.StaticWidget;
@@ -163,6 +165,7 @@ public class HtmlWidgetBuilderTest
 		throws Exception {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) ) );
 		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
@@ -284,28 +287,74 @@ public class HtmlWidgetBuilderTest
 
 	static class FooBean {
 
-		public List<Foo>			pageItems;
+		public List<Foo> getPageItems() {
 
-		public List<RequiredFoo>	requiredPageItems;
+			return null;
+		}
+
+		public List<RequiredFoo> getRequiredPageItems() {
+
+			return null;
+		}
 	}
 
 	static class Foo {
 
-		public String	bar;
+		public String getBar() {
 
-		public String	baz;
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
+
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
 	}
 
 	static class RequiredFoo {
 
 		@UiRequired
-		public String	bar;
+		public String getBar() {
 
-		public String	baz;
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
+
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
 
 		@UiRequired
 		@UiComesAfter( "baz" )
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 	}
 
 	static class LargeFoo {

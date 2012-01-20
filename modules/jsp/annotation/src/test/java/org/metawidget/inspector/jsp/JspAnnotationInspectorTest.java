@@ -66,6 +66,14 @@ public class JspAnnotationInspectorTest
 	public static class Foo {
 
 		@UiJspLookup( "${foo.bar}" )
-		public Object	object1;
+		public Object getObject1() {
+
+			return null;
+		}
+
+		public void setObject1( @SuppressWarnings( "unused" ) Object object1 ) {
+
+			// Do nothing
+		}
 	}
 }

@@ -22,42 +22,51 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
-import org.metawidget.statically.spring.StaticSpringMetawidget;
+import org.metawidget.statically.jsp.html.BaseStaticHtmlMetawidget;
+import org.metawidget.statically.jsp.html.widgetprocessor.StandardBindingProcessor;
+import org.metawidget.statically.spring.widgetbuilder.SpringTag;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
  */
 
 public class PathProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticSpringMetawidget> {
+	extends StandardBindingProcessor {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
+	@Override
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, BaseStaticHtmlMetawidget metawidget ) {
 
-		String name = attributes.get( NAME );
-		String value = metawidget.getValue();
+		if ( widget instanceof SpringTag ) {
 
-		if ( value != null ) {
+			String name = attributes.get( NAME );
+			String value = metawidget.getValue();
 
-		    value = StaticJspUtils.unwrapExpression( value );
-		    
-			// Take the LHS minus the first path (if any), as we assume that will
-			// be supplied by the form
+			if ( value != null ) {
 
-			int firstIndexOf = value.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
+				value = StaticJspUtils.unwrapExpression( value );
 
-			if ( firstIndexOf != -1 ) {
-				name = value.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR + name;
+				// Take the LHS minus the first path (if any), as we assume that will
+				// be supplied by the form
+
+				int firstIndexOf = value.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
+
+				if ( firstIndexOf != -1 ) {
+					name = value.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR + name;
+				}
 			}
+
+			widget.putAttribute( "path", name );
+			return widget;
 		}
 
-		widget.putAttribute( "path", name );
+		// Use superclass so that we add 'value' to 'c:out' (Spring doesn't have a native read-only
+		// tag)
 
-		return widget;
+		return super.processWidget( widget, elementName, attributes, metawidget );
 	}
 }

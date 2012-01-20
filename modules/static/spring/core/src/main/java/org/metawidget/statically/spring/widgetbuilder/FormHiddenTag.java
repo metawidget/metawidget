@@ -17,7 +17,7 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
- * Static widget for the <form:hidden> Spring tag
+ * Static widget for the &lt;form:hidden&gt; Spring tag
  * 
  * @author Ryan Bradley
  */

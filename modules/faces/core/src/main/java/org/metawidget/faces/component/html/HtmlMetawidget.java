@@ -105,7 +105,7 @@ public class HtmlMetawidget
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-html-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( HtmlMetawidget.class ) + "/metawidget-html-default.xml";
 	}
 
 	/**

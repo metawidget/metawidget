@@ -22,44 +22,44 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
-import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
+import org.metawidget.statically.jsp.html.BaseStaticHtmlMetawidget;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor that binds the value of a JSP element.
- * 
+ *
  * @author Ryan Bradley
  */
 
-public class StandardBindingProcessor implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
+public class StandardBindingProcessor implements WidgetProcessor<StaticXmlWidget, BaseStaticHtmlMetawidget> {
 
     //
     // Public methods
     //
-    
-    public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+
+    public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, BaseStaticHtmlMetawidget metawidget ) {
 
         // (do not overwrite existing, if any)
-        
+
         if ( widget.getAttribute( "value" ) == null ) {
-            
+
             String valueExpression = metawidget.getValue();
-            
+
             if ( valueExpression != null ) {
-                
+
                 // If we are not at the top level, construct the binding.
-                
+
                 if ( !ENTITY.equals( elementName ) ) {
                     valueExpression = StaticJspUtils.unwrapExpression( valueExpression );
                     valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
                     valueExpression = StaticJspUtils.wrapExpression( valueExpression );
                 }
-                
+
                 widget.putAttribute( "value", valueExpression );
             }
         }
-        
+
         return widget;
     }
 

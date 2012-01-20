@@ -356,7 +356,10 @@ public class MetawidgetAnnotationInspectorTest
 
 		@UiMasked
 		@UiLabel( "Foo" )
-		public String	foo;
+		public String getFoo() {
+
+			return null;
+		}
 	}
 
 	public static class Foo {
@@ -364,7 +367,10 @@ public class MetawidgetAnnotationInspectorTest
 		@UiRequired
 		@UiLookup( value = { "foo,", "bar" } )
 		@UiWide
-		public Object	object1;
+		public Object getObject1() {
+
+			return null;
+		}
 
 		@UiLabel( "bar" )
 		@UiAttributes( { @UiAttribute( name = "foo1", value = "bar1" ), @UiAttribute( name = "foo2", value = "bar2" ) } )
@@ -375,11 +381,17 @@ public class MetawidgetAnnotationInspectorTest
 		@UiMasked
 		@UiComesAfter( "object1" )
 		@UiLarge
-		public String	string1;
+		public String getString1() {
+
+			return null;
+		}
 
 		@UiAttribute( name = { "abc", "def" }, value = "abc-def" )
 		@UiAttributes( { @UiAttribute( name = { "ghi", "jkl" }, value = "ghi-jkl" ), @UiAttribute( name = { "mno", "pqr" }, value = "mno-pqr" ) } )
-		public String	string2;
+		public String getString2() {
+
+			return null;
+		}
 
 		@UiAction
 		@UiComesAfter( "string1" )
@@ -413,21 +425,23 @@ public class MetawidgetAnnotationInspectorTest
 		}
 	}
 
-
 	public static class AlphabeticalMethods {
 
 		@UiAction
 		public void action() {
+
 			// Do nothing
 		}
 
 		@UiAction
 		public void wepKey() {
+
 			// Do nothing
 		}
 
 		@UiAction
 		public void WEPKey() {
+
 			// Do nothing
 		}
 	}

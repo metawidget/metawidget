@@ -16,6 +16,7 @@
 		<module>faces</module>
 		<module>java</module>
 		<module>jsp</module>
+		<module>spring</module>
 	</modules>
 
 </project>

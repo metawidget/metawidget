@@ -283,7 +283,7 @@ public class MigLayoutTest
 		assertEquals( KeyEvent.VK_C, label.getDisplayedMnemonic() );
 		assertTrue( 2 == label.getDisplayedMnemonicIndex() );
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setSupportMnemonics( false )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setSupportMnemonics( false ) ) );
 		label = (JLabel) metawidget.getComponent( 0 );
 		assertEquals( "Abc:", label.getText() );
 		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
@@ -304,82 +304,202 @@ public class MigLayoutTest
 
 	static class Foo {
 
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "abc" )
 		@UiRequired
-		public int		def;
+		public int getDef() {
+
+			return 0;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) int def ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "def" )
-		public boolean	ghi;
+		public boolean isGhi() {
+
+			return false;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) boolean ghi ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "tab1" )
 		@UiComesAfter( "ghi" )
 		@UiAttribute( name = "required", value = "true" )
 		@UiReadOnly
-		public String	tab1_jkl;
+		public String getTab1_jkl() {
+
+			return null;
+		}
+
+		public void setTab1_jkl( @SuppressWarnings( "unused" ) String tab1_jkl ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab1_jkl" )
 		@UiLookup( { "foo", "bar" } )
-		public String	tab1_mno;
+		public String getTab1_mno() {
+
+			return null;
+		}
+
+		public void setTab1_mno( @SuppressWarnings( "unused" ) String tab1_mno ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab1_mno" )
-		public String	tab1_pqr;
+		public String getTab1_pqr() {
+
+			return null;
+		}
+
+		public void setTab1_pqr( @SuppressWarnings( "unused" ) String tab1_pqr ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "tab2" )
 		@UiComesAfter( "tab1_pqr" )
 		@UiLarge
 		@UiLabel( "" )
-		public String	tab2_jkl;
+		public String getTab2_jkl() {
+
+			return null;
+		}
+
+		public void setTab2_jkl( @SuppressWarnings( "unused" ) String tab2_jkl ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "tab3" )
 		@UiComesAfter( "tab2_jkl" )
 		@UiLabel( "" )
-		public String	tab3_jkl;
+		public String getTab3_jkl() {
+
+			return null;
+		}
+
+		public void setTab3_jkl( @SuppressWarnings( "unused" ) String tab3_jkl ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab3_jkl" )
-		public String	tab3_mno;
+		public String getTab3_mno() {
+
+			return null;
+		}
+
+		public void setTab3_mno( @SuppressWarnings( "unused" ) String tab3_mno ) {
+
+			// Do nothing
+		}
 
 		@UiComesAfter( "tab3_mno" )
-		public String	tab3_pqr;
+		public String getTab3_pqr() {
+
+			return null;
+		}
+
+		public void setTab3_pqr( @SuppressWarnings( "unused" ) String tab3_pqr ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "" )
 		@UiComesAfter( "tab3_pqr" )
-		public String	mno;
+		public String getMno() {
+
+			return null;
+		}
+
+		public void setMno( @SuppressWarnings( "unused" ) String mno ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class NastyNestingTop {
 
-		public NastyNestingBottom	nested1	= new NastyNestingBottom();
+		public NastyNestingBottom getNested1() {
 
-		public NastyNestingMiddle1	nested2	= new NastyNestingMiddle1();
+			return new NastyNestingBottom();
+		}
+
+		public NastyNestingMiddle1 getNested2() {
+
+			return new NastyNestingMiddle1();
+		}
 	}
 
 	public static class NastyNestingMiddle1 {
 
-		public NastyNestingMiddle2	nested1	= new NastyNestingMiddle2();
+		public NastyNestingMiddle2 getNested1() {
 
-		public NastyNestingBottom	nested2	= new NastyNestingBottom();
+			return new NastyNestingMiddle2();
+		}
+
+		public NastyNestingBottom getNested2() {
+
+			return new NastyNestingBottom();
+		}
 	}
 
 	public static class NastyNestingMiddle2 {
 
-		public NastyNestingBottom	nested1	= new NastyNestingBottom();
+		public NastyNestingBottom getNested1() {
 
-		public String				string;
+			return new NastyNestingBottom();
+		}
+
+		public String getString() {
+
+			return null;
+		}
 
 		@UiLarge
-		public String				large;
+		public String getLarge() {
+
+			return null;
+		}
 	}
 
 	public static class NastyNestingBottom {
 
-		public String	string;
+		public String getString() {
+
+			return null;
+		}
 	}
 
 	public static class MnemonicFoo {
 
 		@UiLabel( "Ab&c" )
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 	}
 }

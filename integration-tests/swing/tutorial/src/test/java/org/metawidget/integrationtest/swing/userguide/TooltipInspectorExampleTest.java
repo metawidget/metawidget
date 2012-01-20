@@ -74,14 +74,44 @@ public class TooltipInspectorExampleTest
 
 	static class TestPerson {
 
+		private String	mName;
+
+		private int		mAge;
+
+		private boolean	mRetired;
+
 		@Tooltip( "tooltip-name" )
-		public String	name;
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
 
 		@Tooltip( "tooltip-age" )
-		public int		age;
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
 
 		@Tooltip( "tooltip-retired" )
-		public boolean	retired;
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
 	}
 
 	static class TooltipInspector

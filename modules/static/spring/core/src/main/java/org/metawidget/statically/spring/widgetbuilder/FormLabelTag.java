@@ -17,7 +17,7 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
- * Static widget for the <form:label> Spring tag.
+ * Static widget for the &lt;form:label&gt; Spring tag.
  * 
  * @author Ryan Bradley
  */

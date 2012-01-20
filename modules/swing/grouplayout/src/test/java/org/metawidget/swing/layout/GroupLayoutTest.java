@@ -203,75 +203,251 @@ public class GroupLayoutTest
 
 	static class PersonAtTutorialStart {
 
-		public String	name;
+		private String	mName;
 
-		public int		age;
+		private int		mAge;
 
-		public boolean	retired;
+		private boolean	mRetired;
+
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
+
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
+
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
 	}
 
 	static class PersonAtTutorialEnd {
 
-		public String	name;
+		private String	mName;
+
+		private int		mAge;
+
+		private boolean	mRetired;
+
+		private String	mHobbies;
+
+		private String	mEmployer;
+
+		public String getName() {
+
+			return mName;
+		}
+
+		public void setName( String name ) {
+
+			mName = name;
+		}
 
 		@UiComesAfter( "name" )
-		public int		age;
+		public int getAge() {
+
+			return mAge;
+		}
+
+		public void setAge( int age ) {
+
+			mAge = age;
+		}
 
 		@UiComesAfter( "age" )
-		public boolean	retired;
+		public boolean isRetired() {
+
+			return mRetired;
+		}
+
+		public void setRetired( boolean retired ) {
+
+			mRetired = retired;
+		}
 
 		@UiComesAfter( "retired" )
-		public String	hobbies;
+		public String getHobbies() {
+
+			return mHobbies;
+		}
+
+		public void setHobbies( String hobbies ) {
+
+			mHobbies = hobbies;
+		}
 
 		@UiComesAfter( "hobbies" )
-		public String	employer;
+		public String getEmployer() {
+
+			return mEmployer;
+		}
+
+		public void setEmployer( String employer ) {
+
+			mEmployer = employer;
+		}
 	}
 
 	static class Foo {
 
 		@UiAttribute( name = "required", value = "true" )
-		public String	bar;
+		public String getBar() {
+
+			return null;
+		}
+
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+
+			// Do nothing
+		}
 
 		@UiRequired
 		@UiReadOnly
-		public String	baz;
+		public String getBaz() {
+
+			return null;
+		}
+
+		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+
+			// Do nothing
+		}
 	}
 
 	public static class MnemonicFoo {
 
 		@UiLabel( "A&bc" )
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 	}
 
 	static class Bar {
 
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "Bar" } )
-		public boolean	def;
+		public boolean isDef() {
+
+			return false;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) boolean def ) {
+
+			// Do nothing
+		}
 
 		@UiLarge
-		public String	ghi;
+		public String getGhi() {
+
+			return null;
+		}
+
+		public void setGhi( @SuppressWarnings( "unused" ) String ghi ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "Baz" } )
-		public String	jkl;
+		public String getJkl() {
+
+			return null;
+		}
+
+		public void setJkl( @SuppressWarnings( "unused" ) String jkl ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "" } )
-		public boolean	mno;
+		public boolean getMno() {
+
+			return false;
+		}
+
+		public void setMno( @SuppressWarnings( "unused" ) boolean mno ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Foo", "Moo" } )
-		public String	pqr;
+		public String getPqr() {
+
+			return null;
+		}
+
+		public void setPqr( @SuppressWarnings( "unused" ) String pqr ) {
+
+			// Do nothing
+		}
 
 		@UiSection( "" )
-		public String	stu;
+		public String getStu() {
+
+			return null;
+		}
+
+		public void setStu( @SuppressWarnings( "unused" ) String stu ) {
+
+			// Do nothing
+		}
 	}
 
 	static class Baz {
 
 		@UiSection( { "Foo", "Bar" } )
-		public String	abc;
+		public String getAbc() {
+
+			return null;
+		}
+
+		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+
+			// Do nothing
+		}
 
 		@UiSection( { "Baz" } )
-		public boolean	def;
+		public boolean isDef() {
+
+			return false;
+		}
+
+		public void setDef( @SuppressWarnings( "unused" ) boolean def ) {
+
+			// Do nothing
+		}
 	}
 }

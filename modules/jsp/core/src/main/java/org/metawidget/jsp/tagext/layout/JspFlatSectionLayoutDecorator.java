@@ -81,7 +81,7 @@ public abstract class JspFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Tag tag ) {
+	protected boolean isIgnored( Tag tag ) {
 
 		if ( !( tag instanceof StubTag ) ) {
 			return false;

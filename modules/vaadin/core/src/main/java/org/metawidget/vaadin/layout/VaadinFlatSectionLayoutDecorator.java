@@ -80,7 +80,7 @@ public abstract class VaadinFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected boolean isEmptyStub( Component component ) {
+	protected boolean isIgnored( Component component ) {
 
 		return ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 );
 	}

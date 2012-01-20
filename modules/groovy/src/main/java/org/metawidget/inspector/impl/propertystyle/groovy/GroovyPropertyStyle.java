@@ -261,6 +261,15 @@ public class GroovyPropertyStyle
 			return ( mProperty.getSetter() != null );
 		}
 
+		public void write( Object obj, Object value ) {
+
+			try {
+				mProperty.setProperty( obj, value );
+			} catch ( Exception e ) {
+				throw InspectorException.newException( e );
+			}
+		}
+
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
 			if ( mField != null ) {

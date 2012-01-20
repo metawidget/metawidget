@@ -61,7 +61,7 @@ public abstract class StaticMetawidget
 	// Private statics
 	//
 
-	private static final ConfigReader	CONFIG_READER	= new ConfigReader();
+	private static ConfigReader	CONFIG_READER;
 
 	//
 	// Private members
@@ -71,13 +71,13 @@ public abstract class StaticMetawidget
 	 * Path to inspect.
 	 */
 
-	private String						mPath;
+	private String				mPath;
 
-	private String						mConfig;
+	private String				mConfig;
 
-	private Pipeline					mPipeline;
+	private Pipeline			mPipeline;
 
-	private StaticWidget				mParent;
+	private StaticWidget		mParent;
 
 	//
 	// Constructor
@@ -307,13 +307,22 @@ public abstract class StaticMetawidget
 
 		try {
 			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
+				getConfigReader().configure( mConfig, this );
 			}
 
-			mPipeline.configureDefaults( CONFIG_READER, getDefaultConfiguration(), StaticMetawidget.class );
+			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), StaticMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	protected ConfigReader getConfigReader() {
+
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new ConfigReader();
+		}
+
+		return CONFIG_READER;
 	}
 
 	protected abstract String getDefaultConfiguration();

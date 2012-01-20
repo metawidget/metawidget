@@ -85,7 +85,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * However by extending <code>UIInput</code>, we enable this useful capability.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -142,7 +142,8 @@ public abstract class UIMetawidget
 	//
 
 	/**
-	 * Application-level attribute used to cache ConfigReader.
+	 * Application-level attribute used to cache ConfigReader. This can also be used to inject a
+	 * different ConfigReader if needed (ie. for Grails)
 	 */
 
 	private static final String				APPLICATION_ATTRIBUTE_CONFIG_READER		= "metawidget-config-reader";
@@ -1031,7 +1032,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 *
+	 * 
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
@@ -1138,11 +1139,11 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		if ( contextImplementationVersion.contains( "2.1.1" ) || contextImplementationVersion.contains( "2.1.2" ) || contextImplementationVersion.contains( "2.1.3" )) {
+		if ( contextImplementationVersion.contains( "2.1.1" ) || contextImplementationVersion.contains( "2.1.2" ) || contextImplementationVersion.contains( "2.1.3" ) ) {
 			return true;
 		}
 
-		if ( contextImplementationVersion.contains( "2.1.4" ) || contextImplementationVersion.contains( "2.1.5" ) || contextImplementationVersion.contains( "2.1.6" )) {
+		if ( contextImplementationVersion.contains( "2.1.4" ) || contextImplementationVersion.contains( "2.1.5" ) || contextImplementationVersion.contains( "2.1.6" ) ) {
 			return true;
 		}
 
@@ -1413,7 +1414,7 @@ public abstract class UIMetawidget
 				buildWidgets();
 			} catch ( Exception e ) {
 				// IOException does not take a Throwable 'cause' argument until Java 6, so
-				// as we need to stay 1.4 compatible we output the trace here
+				// as we need to stay 1.5 compatible we output the trace here
 
 				LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
 

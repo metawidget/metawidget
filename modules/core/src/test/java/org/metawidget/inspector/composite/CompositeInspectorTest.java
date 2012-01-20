@@ -330,10 +330,40 @@ public class CompositeInspectorTest
 
 	static class Foo {
 
-		public String	id;
+		private String	mId;
 
-		public String	fullname;
+		private String	mFullname;
 
-		public String	title;
+		private String	mTitle;
+
+		public String getId() {
+
+			return mId;
+		}
+
+		public void setId( String id ) {
+
+			mId = id;
+		}
+
+		public String getFullname() {
+
+			return mFullname;
+		}
+
+		public void setFullname( String fullname ) {
+
+			mFullname = fullname;
+		}
+
+		public String getTitle() {
+
+			return mTitle;
+		}
+
+		public void setTitle( String title ) {
+
+			mTitle = title;
+		}
 	}
 }
