@@ -65,35 +65,35 @@ public class SwtMetawidget
 	// Private statics
 	//
 
-	private static final long			serialVersionUID		= 1l;
+	private static final long		serialVersionUID		= 1l;
 
-	private static final ConfigReader	CONFIG_READER			= new ConfigReader();
+	private static ConfigReader		CONFIG_READER;
 
-	private static final String			DEFAULT_CONFIG			= ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
+	private static final String		DEFAULT_CONFIG			= ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
 
 	//
 	// Private members
 	//
 
-	private Object						mToInspect;
+	private Object					mToInspect;
 
-	private String						mInspectionPath;
+	private String					mInspectionPath;
 
-	private String						mConfig;
+	private String					mConfig;
 
-	private ResourceBundle				mBundle;
+	private ResourceBundle			mBundle;
 
-	private boolean						mNeedToBuildWidgets;
+	private boolean					mNeedToBuildWidgets;
 
-	private Element						mLastInspection;
+	private Element					mLastInspection;
 
-	private Map<String, Facet>			mFacets					= CollectionUtils.newHashMap();
+	private Map<String, Facet>		mFacets					= CollectionUtils.newHashMap();
 
 	/**
 	 * Set of existing, manually added components.
 	 */
 
-	private Set<Control>				mExistingControls		= CollectionUtils.newHashSet();
+	private Set<Control>			mExistingControls		= CollectionUtils.newHashSet();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget controls.
@@ -101,13 +101,13 @@ public class SwtMetawidget
 	 * This is a List, not a Set, for consistency during endBuild.
 	 */
 
-	private List<Control>				mExistingUnusedControls	= CollectionUtils.newArrayList();
+	private List<Control>			mExistingUnusedControls	= CollectionUtils.newArrayList();
 
-	private Set<Control>				mControlsToDispose		= CollectionUtils.newHashSet();
+	private Set<Control>			mControlsToDispose		= CollectionUtils.newHashSet();
 
-	/* package private */Composite		mCurrentLayoutComposite;
+	/* package private */Composite	mCurrentLayoutComposite;
 
-	private Pipeline					mPipeline;
+	private Pipeline				mPipeline;
 
 	//
 	// Constructor
@@ -588,6 +588,10 @@ public class SwtMetawidget
 		}
 
 		try {
+			if ( CONFIG_READER == null ) {
+				CONFIG_READER = createConfigReader();
+			}
+
 			if ( mConfig != null ) {
 				CONFIG_READER.configure( mConfig, this );
 			}
@@ -602,6 +606,17 @@ public class SwtMetawidget
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	/**
+	 * Create a new <code>ConfigReader</code> for this StaticMetawidget. This method will only be
+	 * called once, after which the <code>ConfigReader</code> instance (and its internal caches)
+	 * will be reused.
+	 */
+
+	protected ConfigReader createConfigReader() {
+
+		return new ConfigReader();
 	}
 
 	protected void buildWidgets() {

@@ -545,7 +545,7 @@ public class AndroidMetawidget
 		try {
 			if ( mConfig != 0 ) {
 				if ( CONFIG_READER == null ) {
-					CONFIG_READER = new AndroidConfigReader( getContext() );
+					CONFIG_READER = createConfigReader();
 				}
 
 				CONFIG_READER.configure( getContext().getResources().openRawResource( mConfig ), this );
@@ -599,6 +599,17 @@ public class AndroidMetawidget
 		}
 	}
 
+	/**
+	 * Create a new <code>ConfigReader</code> for this StaticMetawidget. This method will only be
+	 * called once, after which the <code>ConfigReader</code> instance (and its internal caches)
+	 * will be reused.
+	 */
+
+	protected ConfigReader createConfigReader() {
+
+		return new AndroidConfigReader( getContext() );
+	}
+	
 	protected void buildWidgets() {
 
 		// No need to build?

@@ -14,24 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.jsp.html;
+package org.metawidget.statically.javacode.subclass;
 
-import org.metawidget.util.ClassUtils;
+import junit.framework.TestCase;
 
-/**
- * @author Richard Kennard
- */
+import org.metawidget.statically.javacode.StaticJavaMetawidget;
 
-public class StaticHtmlMetawidget
-	extends BaseStaticHtmlMetawidget {
+public class StaticJavaMetawidgetSubclassTest
+	extends TestCase {
 
 	//
-	// Protected methods
+	// Public methods
 	//
 
-	@Override
-	protected String getDefaultConfiguration() {
+	/**
+	 * Test default configuration is tied to the superclass, not the subclass.
+	 */
 
-		return ClassUtils.getPackagesAsFolderNames( StaticHtmlMetawidget.class ) + "/metawidget-static-html-default.xml";
+	public static void testDefaultConfiguration() {
+
+		assertEquals( "org/metawidget/statically/javacode/metawidget-static-javacode-default.xml", new StaticJavaMetawidgetSubclass().getDefaultConfiguration() );
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class StaticJavaMetawidgetSubclass
+		extends StaticJavaMetawidget {
+
+		@Override
+		public String getDefaultConfiguration() {
+
+			return super.getDefaultConfiguration();
+		}
 	}
 }

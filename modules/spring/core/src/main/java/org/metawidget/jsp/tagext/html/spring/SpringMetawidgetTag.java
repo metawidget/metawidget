@@ -92,7 +92,7 @@ public class SpringMetawidgetTag
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-spring-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( SpringMetawidgetTag.class ) + "/metawidget-spring-default.xml";
 	}
 
 	@Override

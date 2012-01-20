@@ -33,6 +33,6 @@ public class StaticSpringMetawidget
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-spring-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( StaticSpringMetawidget.class ) + "/metawidget-static-spring-default.xml";
 	}
 }

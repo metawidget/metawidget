@@ -14,24 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.jsp.html;
+package org.metawidget.jsp.tagext.html.struts.subclass;
 
-import org.metawidget.util.ClassUtils;
+import junit.framework.TestCase;
 
-/**
- * @author Richard Kennard
- */
+import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 
-public class StaticHtmlMetawidget
-	extends BaseStaticHtmlMetawidget {
+public class StrutsMetawidgetTagSubclassTest
+	extends TestCase {
 
 	//
-	// Protected methods
+	// Public methods
 	//
 
-	@Override
-	protected String getDefaultConfiguration() {
+	/**
+	 * Test default configuration is tied to the superclass, not the subclass.
+	 */
 
-		return ClassUtils.getPackagesAsFolderNames( StaticHtmlMetawidget.class ) + "/metawidget-static-html-default.xml";
+	public static void testDefaultConfiguration() {
+
+		assertEquals( "org/metawidget/jsp/tagext/html/struts/metawidget-struts-default.xml", new StaticStrutsMetawidgetTagSubclass().getDefaultConfiguration() );
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class StaticStrutsMetawidgetTagSubclass
+		extends StrutsMetawidgetTag {
+
+		@Override
+		public String getDefaultConfiguration() {
+
+			return super.getDefaultConfiguration();
+		}
 	}
 }

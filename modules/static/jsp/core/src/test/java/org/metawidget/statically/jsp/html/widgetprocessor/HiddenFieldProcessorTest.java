@@ -49,20 +49,6 @@ public class HiddenFieldProcessorTest
         tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input type=\"hidden\"/>", tag.toString() );
 
-        // Simple value (i.e. no '.' characters used as separators)
-
-        tag = new HtmlTag( "input" );
-        attributes.put( NAME, "foo" );
-        metawidget.setValue( "bar" );
-        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
-        assertEquals( "<input type=\"hidden\"/>", tag.toString() );
-
-        // Complex metawidget value (i.e. using '.' separators)
-
-        tag = new HtmlTag( "input" );
-        attributes.put( NAME, "spring" );
-        metawidget.setValue( "test.org.metawidget.statically" );
-        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
-        assertEquals( "<input type=\"hidden\"/>", tag.toString() );
+        // TODO: replacing a read-only field with a POSTback one
     }
 }

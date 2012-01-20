@@ -57,7 +57,7 @@ public class StaticJavaMetawidget
 	@Override
 	protected String getDefaultConfiguration() {
 
-		return ClassUtils.getPackagesAsFolderNames( getClass() ) + "/metawidget-static-javacode-default.xml";
+		return ClassUtils.getPackagesAsFolderNames( StaticJavaMetawidget.class ) + "/metawidget-static-javacode-default.xml";
 	}
 
 	//
