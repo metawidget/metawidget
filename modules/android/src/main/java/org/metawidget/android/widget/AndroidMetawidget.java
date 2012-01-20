@@ -544,11 +544,7 @@ public class AndroidMetawidget
 
 		try {
 			if ( mConfig != 0 ) {
-				if ( CONFIG_READER == null ) {
-					CONFIG_READER = createConfigReader();
-				}
-
-				CONFIG_READER.configure( getContext().getResources().openRawResource( mConfig ), this );
+				getConfigReader().configure( getContext().getResources().openRawResource( mConfig ), this );
 			}
 
 			// Sensible defaults
@@ -599,17 +595,15 @@ public class AndroidMetawidget
 		}
 	}
 
-	/**
-	 * Create a new <code>ConfigReader</code> for this StaticMetawidget. This method will only be
-	 * called once, after which the <code>ConfigReader</code> instance (and its internal caches)
-	 * will be reused.
-	 */
+	protected ConfigReader getConfigReader() {
 
-	protected ConfigReader createConfigReader() {
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new AndroidConfigReader( getContext() );
+		}
 
-		return new AndroidConfigReader( getContext() );
+		return CONFIG_READER;
 	}
-	
+
 	protected void buildWidgets() {
 
 		// No need to build?

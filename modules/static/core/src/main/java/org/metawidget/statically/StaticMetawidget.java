@@ -306,29 +306,23 @@ public abstract class StaticMetawidget
 	protected void configure() {
 
 		try {
-			if ( CONFIG_READER == null ) {
-				CONFIG_READER = createConfigReader();
-			}
-
 			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
+				getConfigReader().configure( mConfig, this );
 			}
 
-			mPipeline.configureDefaults( CONFIG_READER, getDefaultConfiguration(), StaticMetawidget.class );
+			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), StaticMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
 
-	/**
-	 * Create a new <code>ConfigReader</code> for this StaticMetawidget. This method will only be
-	 * called once, after which the <code>ConfigReader</code> instance (and its internal caches)
-	 * will be reused.
-	 */
+	protected ConfigReader getConfigReader() {
 
-	protected ConfigReader createConfigReader() {
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new ConfigReader();
+		}
 
-		return new ConfigReader();
+		return CONFIG_READER;
 	}
 
 	protected abstract String getDefaultConfiguration();

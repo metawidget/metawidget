@@ -75,8 +75,6 @@ public class SwingMetawidget
 
 	private static ConfigReader		CONFIG_READER;
 
-	private static final String		DEFAULT_CONFIG		= ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
-
 	private static final Stroke		STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
@@ -764,35 +762,34 @@ public class SwingMetawidget
 		}
 
 		try {
-			if ( CONFIG_READER == null ) {
-				CONFIG_READER = createConfigReader();
-			}
-
 			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
+				getConfigReader().configure( mConfig, this );
 			}
 
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null ) {
-				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
+				getConfigReader().configure( getDefaultConfiguration(), this, "metawidgetLayout" );
 			}
 
-			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
+			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), SwingMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
 
-	/**
-	 * Create a new <code>ConfigReader</code> for this StaticMetawidget. This method will only be
-	 * called once, after which the <code>ConfigReader</code> instance (and its internal caches)
-	 * will be reused.
-	 */
+	protected String getDefaultConfiguration() {
 
-	protected ConfigReader createConfigReader() {
+		return ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
+	}
 
-		return new ConfigReader();
+	protected ConfigReader getConfigReader() {
+
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new ConfigReader();
+		}
+
+		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {

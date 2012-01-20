@@ -69,8 +69,6 @@ public class SwtMetawidget
 
 	private static ConfigReader		CONFIG_READER;
 
-	private static final String		DEFAULT_CONFIG			= ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
-
 	//
 	// Private members
 	//
@@ -588,35 +586,34 @@ public class SwtMetawidget
 		}
 
 		try {
-			if ( CONFIG_READER == null ) {
-				CONFIG_READER = createConfigReader();
-			}
-
 			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
+				getConfigReader().configure( mConfig, this );
 			}
 
 			// SwtMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null ) {
-				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
+				getConfigReader().configure( getDefaultConfiguration(), this, "metawidgetLayout" );
 			}
 
-			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwtMetawidget.class );
+			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), SwtMetawidget.class );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		}
 	}
 
-	/**
-	 * Create a new <code>ConfigReader</code> for this StaticMetawidget. This method will only be
-	 * called once, after which the <code>ConfigReader</code> instance (and its internal caches)
-	 * will be reused.
-	 */
+	protected String getDefaultConfiguration() {
 
-	protected ConfigReader createConfigReader() {
+		return ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
+	}
 
-		return new ConfigReader();
+	protected ConfigReader getConfigReader() {
+
+		if ( CONFIG_READER == null ) {
+			CONFIG_READER = new ConfigReader();
+		}
+
+		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {

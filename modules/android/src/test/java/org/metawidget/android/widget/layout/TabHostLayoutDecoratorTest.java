@@ -137,7 +137,7 @@ public class TabHostLayoutDecoratorTest
 			return null;
 		}
 
-		public void setBar( String bar ) {
+		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
 
 			// Do nothing
 		}
