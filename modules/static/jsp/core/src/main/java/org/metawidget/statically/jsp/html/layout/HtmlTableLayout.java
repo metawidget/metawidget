@@ -30,6 +30,7 @@ import org.metawidget.statically.jsp.html.widgetbuilder.HtmlLabel;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableCell;
+import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.util.simple.StringUtils;
 
@@ -42,29 +43,29 @@ import org.metawidget.util.simple.StringUtils;
 
 public class HtmlTableLayout
 	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
-    
-    //
-    // Private statics
-    //
-    
-    private static final String TABLE_PREFIX                        = "table-";
-    
-    //
-    // Private members
-    //
-    
-    private String mTableStyle;
-    
-    private String mTableStyleClass;
-    
-    //
-    // Constructor
-    //
-    
-    public HtmlTableLayout() {
-        
-        this( new HtmlTableLayoutConfig() );
-    }
+
+	//
+	// Private statics
+	//
+
+	private static final String	TABLE_PREFIX	= "table-";
+
+	//
+	// Private members
+	//
+
+	private String				mTableStyle;
+
+	private String				mTableStyleClass;
+
+	//
+	// Constructor
+	//
+
+	public HtmlTableLayout() {
+
+		this( new HtmlTableLayoutConfig() );
+	}
 
 	//
 	// Public methods
@@ -72,11 +73,11 @@ public class HtmlTableLayout
 
 	public HtmlTableLayout( HtmlTableLayoutConfig config ) {
 
-	    mTableStyle = config.getTableStyle();
-	    mTableStyleClass = config.getTableStyleClass();
-    }
+		mTableStyle = config.getTableStyle();
+		mTableStyleClass = config.getTableStyleClass();
+	}
 
-    public void onStartBuild( StaticXmlMetawidget metawidget ) {
+	public void onStartBuild( StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
@@ -84,25 +85,29 @@ public class HtmlTableLayout
 	public void startContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
 		try {
-		    HtmlTable table = new HtmlTable();
-		    
-		    // Id
-		    
-		    String id = TABLE_PREFIX + StringUtils.camelCase( metawidget.getPath(), StringUtils.SEPARATOR_DOT_CHAR );
-		    table.putAttribute( "id", id);
-		    
-		    // Styles
-		    
-		    if ( mTableStyle != null ) {
-		        table.putAttribute( "style", mTableStyle );
-		    }
-		    
-		    if ( mTableStyleClass != null ) {
-		        table.putAttribute( "class", mTableStyleClass );
-		    }
+			HtmlTable table = new HtmlTable();
 
-		    table.getChildren().add( new HtmlTableBody() );
-		    		    
+			// Id
+
+			if ( metawidget.getPath() != null ) {
+				String path = metawidget.getPath();
+				path = path.replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
+				String id = TABLE_PREFIX + StringUtils.camelCase( path, StringUtils.SEPARATOR_DOT_CHAR );
+				table.putAttribute( "id", id );
+			}
+
+			// Styles
+
+			if ( mTableStyle != null ) {
+				table.putAttribute( "style", mTableStyle );
+			}
+
+			if ( mTableStyleClass != null ) {
+				table.putAttribute( "class", mTableStyleClass );
+			}
+
+			table.getChildren().add( new HtmlTableBody() );
+
 			container.getChildren().add( table );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
@@ -120,38 +125,25 @@ public class HtmlTableLayout
 
 			HtmlTableBody body = (HtmlTableBody) container.getChildren().get( 0 ).getChildren().get( 0 );
 			HtmlTableRow row = new HtmlTableRow();
-			HtmlTableCell labelCell = new HtmlTableCell();
-			HtmlTableCell cell = new HtmlTableCell();
-			HtmlTableCell requiredCell = new HtmlTableCell();
 
 			// Label
-			
-			HtmlLabel label = new HtmlLabel();
-			String id = getWidgetId( widget );
-			
-			if ( id != null ) {
-			    label.putAttribute( "for", id );
-			}
-			
-			String labelText = metawidget.getLabelString( attributes );
-			label.setTextContent( labelText );
-			labelCell.getChildren().add( label );
-			row.getChildren().add( labelCell );
-			
+
+			layoutLabel( row, widget, elementName, attributes, metawidget );
+
 			// Add widget to layout
-			
+
+			HtmlTableCell cell = new HtmlTableCell();
 			cell.getChildren().add( widget );
 			row.getChildren().add( cell );
-			
+
 			// Indicate whether the field is required or not.
-			
+
+			HtmlTableCell requiredCell = new HtmlTableCell();
+
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
-			    requiredCell.setTextContent( "Required" );
+				requiredCell.setTextContent( "*" );
 			}
-			else {
-			    requiredCell.setTextContent( "Not Required" );
-			}
-			
+
 			row.getChildren().add( requiredCell );
 			body.getChildren().add( row );
 
@@ -160,7 +152,7 @@ public class HtmlTableLayout
 		}
 	}
 
-    public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
+	public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
@@ -169,32 +161,57 @@ public class HtmlTableLayout
 
 		// Do nothing
 	}
-	
+
 	//
-	// Private methods
+	// Protected methods
 	//
-	
+
+	/**
+	 * @param elementName
+	 *            can be useful if the Layout needs to call a WidgetProcessor
+	 * @return whether a label was written
+	 */
+
+	protected boolean layoutLabel( HtmlTableRow row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+
+		HtmlLabel label = new HtmlLabel();
+		String id = getWidgetId( widgetNeedingLabel );
+
+		if ( id != null ) {
+			label.putAttribute( "for", id );
+		}
+
+		String labelText = metawidget.getLabelString( attributes );
+		label.setTextContent( labelText );
+
+		HtmlTableHeader labelCell = new HtmlTableHeader();
+		labelCell.getChildren().add( label );
+		row.getChildren().add( labelCell );
+
+		return true;
+	}
+
 	/**
 	 * Gets the id attribute of the given widget, recursing into child widgets if necessary.
 	 */
-	
-    private String getWidgetId(StaticXmlWidget widget) {
-        
-        String id = widget.getAttribute( "id" );
-        
-        if ( id != null ) {
-            return id;
-        }
-        
-        for( StaticWidget child : widget.getChildren() ) {
-            
-            id = getWidgetId( (StaticXmlWidget ) child );
-            
-            if ( id != null ) {
-                return id;
-            }
-        }
 
-        return null;
-    }
+	protected String getWidgetId( StaticXmlWidget widget ) {
+
+		String id = widget.getAttribute( "id" );
+
+		if ( id != null ) {
+			return id;
+		}
+
+		for ( StaticWidget child : widget.getChildren() ) {
+
+			id = getWidgetId( (StaticXmlWidget) child );
+
+			if ( id != null ) {
+				return id;
+			}
+		}
+
+		return null;
+	}
 }

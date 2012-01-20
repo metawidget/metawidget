@@ -26,86 +26,77 @@ import java.util.regex.Pattern;
  */
 
 public final class StaticJspUtils {
-    
-    //
-    // Public static methods
-    //
 
-    /**
-     * Return <code>true</code> if the specified value conforms to the syntax requirements of a
-     * value binding expression.
-     * <p>
-     * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but that
-     * one is deprecated so may be removed in the future.
-     *
-     * @param value
-     *            The value to evaluate
-     * @throws NullPointerException
-     *             if <code>value</code> is <code>null</code>
-     */
-    
-    private static boolean isExpression(String value) {
+	//
+	// Public static methods
+	//
 
-        return matchExpression( value ).matches();
-    }    
+	/**
+	 * Return <code>true</code> if the specified value conforms to the syntax requirements of a
+	 * JSP EL expression.
+	 * 
+	 * @param value
+	 *            The value to evaluate
+	 * @throws NullPointerException
+	 *             if <code>value</code> is <code>null</code>
+	 */
 
-    private static Matcher matchExpression(String value) {
+	private static boolean isExpression( String value ) {
 
-        return PATTERN_EXPRESSION.matcher( value );
-    }
-    
-    /**
-     * @return the original String, not wrapped in #{...}. If the original String was not wrapped,
-     *         returns the original String
-     */
+		return matchExpression( value ).matches();
+	}
 
-    public static String unwrapExpression( String value ) {
+	private static Matcher matchExpression( String value ) {
 
-        Matcher matcher = PATTERN_EXPRESSION.matcher( value );
+		return PATTERN_EXPRESSION.matcher( value );
+	}
 
-        if ( !matcher.matches() ) {
-            return value;
-        }
+	/**
+	 * @return the original String, not wrapped in ${...}. If the original String was not wrapped,
+	 *         returns the original String
+	 */
 
-        return matcher.group( 1 );
-    }    
+	public static String unwrapExpression( String value ) {
 
-    /**
-     * @return the original String, wrapped in ${...}.  If the original String was already wrapped,
-     *         returns the original String.
-     */
-    
-    public static String wrapExpression( String value ) {
-        
-        if ( isExpression ( value ) ) {
-            return value;
-        }
-        
-        return EXPRESSION_START + value + EXPRESSION_END;
-    }
-    
-    //
-    // Private statics
-    //
-    
-    /**
-     * Match ${...}. This mirrors the approach in
-     * <code>UIComponentTag.isValueReference</code>, but that one is deprecated so may be removed in
-     * the future.
-     */    
-   
-    private static final Pattern PATTERN_EXPRESSION = Pattern.compile( "\\$\\{([^\\}]+)\\}");
+		Matcher matcher = PATTERN_EXPRESSION.matcher( value );
 
-    private static final String EXPRESSION_START = "${";
-    
-    private static final String EXPRESSION_END = "}";
-    
-    //
-    // Private constructor
-    //
-    
-    private StaticJspUtils() {
-        
-        // Can never be called.
-    }
+		if ( !matcher.matches() ) {
+			return value;
+		}
+
+		return matcher.group( 1 );
+	}
+
+	/**
+	 * @return the original String, wrapped in ${...}. If the original String was already wrapped,
+	 *         returns the original String.
+	 */
+
+	public static String wrapExpression( String value ) {
+
+		if ( isExpression( value ) ) {
+			return value;
+		}
+
+		return EXPRESSION_START + value + EXPRESSION_END;
+	}
+
+	//
+	// Private statics
+	//
+
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "\\$\\{([^\\}]+)\\}" );
+
+	private static final String		EXPRESSION_START	= "${";
+
+	private static final String		EXPRESSION_END		= "}";
+
+	//
+	// Private constructor
+	//
+
+	private StaticJspUtils() {
+
+		// Can never be called.
+	}
 }

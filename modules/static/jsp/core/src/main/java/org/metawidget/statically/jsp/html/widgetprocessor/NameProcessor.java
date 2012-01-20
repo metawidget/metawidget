@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
+import org.metawidget.statically.jsp.html.widgetbuilder.NameHolder;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -40,13 +41,16 @@ public class NameProcessor
 
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
-		String name = attributes.get( NAME );
+		if ( widget instanceof NameHolder ) {
 
-		if ( metawidget.getValue() != null ) {
-			name = StringUtils.camelCase( metawidget.getValue() + StringUtils.SEPARATOR_DOT_CHAR + name, StringUtils.SEPARATOR_DOT_CHAR );
+			String name = attributes.get( NAME );
+
+			if ( metawidget.getValue() != null ) {
+				name = StringUtils.camelCase( metawidget.getValue() + StringUtils.SEPARATOR_DOT_CHAR + name, StringUtils.SEPARATOR_DOT_CHAR );
+			}
+
+			widget.putAttribute( "name", name );
 		}
-
-		widget.putAttribute( "name", name );
 
 		return widget;
 	}

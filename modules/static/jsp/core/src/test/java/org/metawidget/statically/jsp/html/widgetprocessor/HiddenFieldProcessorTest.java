@@ -20,36 +20,49 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.html.StaticHtmlMetawidget;
 import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTag;
 import org.metawidget.util.CollectionUtils;
 
-import junit.framework.TestCase;
-
 public class HiddenFieldProcessorTest
     extends TestCase {
-    
+
     public void testWidgetProcessor() {
-        
+
         HiddenFieldProcessor processor = new HiddenFieldProcessor();
         StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
         Map<String, String> attributes = CollectionUtils.newHashMap();
         StaticXmlWidget tag = new HtmlTag( "input" );
-        
+
         // Not hidden
 
-        attributes.put( HIDDEN, FALSE );        
+        attributes.put( HIDDEN, FALSE );
         tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
-        
+
         // Hidden
-        
+
         attributes.put( HIDDEN, TRUE );
         tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input type=\"hidden\"/>", tag.toString() );
+
+        // Simple value (i.e. no '.' characters used as separators)
+
+        tag = new HtmlTag( "input" );
+        attributes.put( NAME, "foo" );
+        metawidget.setValue( "bar" );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        assertEquals( "<input type=\"hidden\"/>", tag.toString() );
+
+        // Complex metawidget value (i.e. using '.' separators)
+
+        tag = new HtmlTag( "input" );
+        attributes.put( NAME, "spring" );
+        metawidget.setValue( "test.org.metawidget.statically" );
+        tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
+        assertEquals( "<input type=\"hidden\"/>", tag.toString() );
     }
-    
-    // We do not support hiding the entire Metawidget, only certain members of the Metawidget, so we don't test a simple type.
-    
 }

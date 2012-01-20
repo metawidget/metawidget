@@ -26,47 +26,40 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
     //
     // Public methods
     //
-    
+
     public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
-        
+
         // Not hidden?
-        
+
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
             return widget;
         }
-        
+
         // Must process the widget's path again, as we are replacing a StaticXmlStub (containing the path), with a FormHiddenTag.
-               
+
         String name = attributes.get( NAME );
-        
+
         String value = metawidget.getValue();
-        
+
         if ( value != null ) {
 
             // Take the LHS minus the first path (if any), as we assume that will
-            // be supplied by the form            
-            
+            // be supplied by the form
+
             int firstIndexOf = value.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
-            
+
             if ( firstIndexOf != -1 ) {
                 name = value.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT + name;
             }
         }
-        
-        widget = new FormHiddenTag();
-        widget.putAttribute( "path", name );
-        
+
         if ( !TRUE.equals( attributes.get( HIDDEN ) ) && "".equals( attributes.get( HIDDEN ) ) ) {
-            
-            // Add a child stub to the widget.
-            
-            metawidget.getChildren().remove( widget );
-            widget = new StaticXmlStub();
-            metawidget.getChildren().add( widget );
-            return widget;
-        }        
-        
-        return widget;
+            return new StaticXmlStub();
+        }
+
+        FormHiddenTag hidden = new FormHiddenTag();
+        hidden.putAttribute( "path", name );
+        return hidden;
     }
 
 }

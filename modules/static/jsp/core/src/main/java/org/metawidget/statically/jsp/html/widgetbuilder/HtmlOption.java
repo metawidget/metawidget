@@ -20,13 +20,15 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlOption extends HtmlTag {
-    
-    //
-    // Constructor
-    //
-    
-    public HtmlOption() {
-        super("option");
-    }
+public class HtmlOption
+	extends HtmlTag {
+
+	//
+	// Constructor
+	//
+
+	public HtmlOption() {
+
+		super( "option" );
+	}
 }

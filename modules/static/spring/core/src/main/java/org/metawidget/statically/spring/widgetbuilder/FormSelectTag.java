@@ -17,18 +17,20 @@
 package org.metawidget.statically.spring.widgetbuilder;
 
 /**
- * Static widget for the <form:select> Spring tag
- * 
+ * Static widget for the &lt;form:select&gt; Spring tag
+ *
  * @author Ryan Bradley
  */
 
-public class FormSelectTag extends SpringTag {
+public class FormSelectTag
+	extends SpringTag {
 
-    //
-    // Constructor
-    //
-    
-    public FormSelectTag() {
-        super("select");
-    }
+	//
+	// Constructor
+	//
+
+	public FormSelectTag() {
+
+		super( "select" );
+	}
 }

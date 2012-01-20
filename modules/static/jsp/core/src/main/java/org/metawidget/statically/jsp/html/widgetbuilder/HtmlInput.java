@@ -21,15 +21,24 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  */
 
 public class HtmlInput
-    extends HtmlTag {
+	extends HtmlTag
+	implements NameHolder {
 
-    //
-    // Constructor
-    //
-    
-    public HtmlInput() {
-        
-        super( "input" );
-    }
-    
+	//
+	// Constructor
+	//
+
+	public HtmlInput() {
+
+		super( "input" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public void setName( String name ) {
+
+		putAttribute( "name", name );
+	}
 }
