@@ -250,19 +250,19 @@ public class SwtMetawidget
 	public void addInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<SwtMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<SwtMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<Control, SwtMetawidget> widgetBuilder ) {

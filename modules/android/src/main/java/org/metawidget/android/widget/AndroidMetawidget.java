@@ -47,6 +47,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
 import android.content.Context;
@@ -223,16 +224,28 @@ public class AndroidMetawidget
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
+	public void setInspectionResultProcessors( InspectionResultProcessor<AndroidMetawidget>... inspectionResultProcessors ) {
+
+		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
+		invalidateInspection();
+	}
+
 	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
-		invalidateInspection();
+		invalidateWidgets();
+	}
+
+	public void setWidgetProcessors( WidgetProcessor<View, AndroidMetawidget>... widgetProcessors ) {
+
+		mPipeline.setWidgetProcessors( widgetProcessors );
+		invalidateWidgets();
 	}
 
 	public void setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout ) {
 
 		mPipeline.setLayout( layout );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void setBundle( Class<?> bundle ) {

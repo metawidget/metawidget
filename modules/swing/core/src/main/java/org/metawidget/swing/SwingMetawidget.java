@@ -226,19 +226,19 @@ public class SwingMetawidget
 	public void addInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<SwingMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder ) {

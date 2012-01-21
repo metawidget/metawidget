@@ -302,19 +302,19 @@ public class GwtMetawidget
 	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<Widget, GwtMetawidget> widgetProcessor ) {
 
 		mPipeline.addWidgetProcessor( widgetProcessor );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {

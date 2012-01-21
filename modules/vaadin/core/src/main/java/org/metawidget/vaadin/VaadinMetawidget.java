@@ -253,21 +253,21 @@ public class VaadinMetawidget
 			InspectionResultProcessor<VaadinMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void removeInspectionResultProcessor(
 			InspectionResultProcessor<VaadinMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspectionResultProcessors(
 			InspectionResultProcessor<VaadinMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setWidgetBuilder(
