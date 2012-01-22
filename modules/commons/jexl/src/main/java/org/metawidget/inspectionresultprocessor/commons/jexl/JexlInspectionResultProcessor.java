@@ -26,6 +26,7 @@ import org.apache.commons.jexl2.MapContext;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -160,7 +161,7 @@ public class JexlInspectionResultProcessor<M>
 
 					if ( valueObject == null ) {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
 							value = null;
@@ -170,10 +171,14 @@ public class JexlInspectionResultProcessor<M>
 						valueObjectAsString = "";
 					} else {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
-							value = String.valueOf( valueObject );
+							if ( valueObject.getClass().isArray() ) {
+								value = ArrayUtils.toString( valueObject );
+							} else {
+								value = String.valueOf( valueObject );
+							}
 							break;
 						}
 
