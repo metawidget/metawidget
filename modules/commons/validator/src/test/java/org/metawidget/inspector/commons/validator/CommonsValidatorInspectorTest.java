@@ -19,7 +19,7 @@ package org.metawidget.inspector.commons.validator;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -38,7 +38,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testInspection() {
 
-		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
+		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ) );
 
@@ -90,7 +90,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testBadInput() {
 
-		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
+		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		try {
 			inspector.inspect( null, "testForm2" );
@@ -119,7 +119,7 @@ public class CommonsValidatorInspectorTest
 
 	public void testTraversal() {
 
-		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
+		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		assertTrue( null != inspector.inspect( null, "testForm1" ) );
 		assertTrue( null == inspector.inspect( null, "testForm1/foo" ) );

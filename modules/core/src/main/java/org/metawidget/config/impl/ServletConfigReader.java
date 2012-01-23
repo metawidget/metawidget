@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -34,7 +34,7 @@ import org.metawidget.inspector.iface.InspectorException;
  */
 
 public class ServletConfigReader
-	extends ConfigReader {
+	extends BaseConfigReader {
 
 	//
 	// Private members

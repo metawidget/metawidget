@@ -317,6 +317,18 @@ public class MetawidgetPipelineTest
 		//
 
 		@Override
+		protected Object getPipelineOwner() {
+
+			return null;
+		}
+
+		@Override
+		protected String getDefaultConfiguration() {
+
+			return null;
+		}
+
+		@Override
 		protected void configure() {
 
 			// Do nothing
@@ -351,12 +363,6 @@ public class MetawidgetPipelineTest
 		protected void endBuild() {
 
 			// Do nothing
-		}
-
-		@Override
-		protected Object getPipelineOwner() {
-
-			return null;
 		}
 	}
 }

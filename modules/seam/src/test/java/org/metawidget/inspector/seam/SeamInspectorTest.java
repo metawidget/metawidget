@@ -23,8 +23,8 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ResourceResolver;
-import org.metawidget.config.SimpleResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
+import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;

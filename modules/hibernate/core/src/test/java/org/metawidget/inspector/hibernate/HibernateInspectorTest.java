@@ -22,7 +22,7 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.MetawidgetTestUtils;
@@ -50,7 +50,7 @@ public class HibernateInspectorTest
 	@Override
 	public void setUp() {
 
-		mInspector = new HibernateInspector( new HibernateInspectorConfig().setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) ) );
+		mInspector = new HibernateInspector( new HibernateInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) ) );
 	}
 
 	@SuppressWarnings( "unused" )
@@ -126,7 +126,7 @@ public class HibernateInspectorTest
 
 	public void testHideIds() {
 
-		mInspector = new HibernateInspector( new HibernateInspectorConfig().setHideIds( false ).setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) ) );
+		mInspector = new HibernateInspector( new HibernateInspectorConfig().setHideIds( false ).setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/hibernate/test-hibernate.cfg.xml" ) ) );
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.hibernate.SubFoo" ) );
 

@@ -14,34 +14,14 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.gwt.remote.server;
-
+package org.metawidget.config.impl;
 
 /**
- * Version of <code>GwtRemoteInspectorTestImpl</code> for running unit tests.
- * <p>
- * This code can be removed once GWT's &lt;servlet&gt; module element supports &lt;init-param&gt;
- * (see http://code.google.com/p/google-web-toolkit/issues/detail?id=4079)
- *
  * @author Richard Kennard
  */
 
-public class GwtRemoteInspectorTestImpl
-	extends GwtRemoteInspectorImpl {
+public class NoEqualsSubclassInspectorConfig
+	extends AllTypesInspectorConfig {
 
-	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
-	// Protected methods
-	//
-
-	@Override
-	protected String getConfigInitParameter() {
-
-		return "metawidget.xml";
-	}
+	// Does not override equals() or hashCode()
 }

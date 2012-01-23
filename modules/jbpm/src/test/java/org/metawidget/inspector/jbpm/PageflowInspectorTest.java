@@ -19,7 +19,7 @@ package org.metawidget.inspector.jbpm;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.XmlUtils;
@@ -47,8 +47,7 @@ public class PageflowInspectorTest
 	public void setUp() {
 
 		BaseXmlInspectorConfig config = new BaseXmlInspectorConfig();
-		ConfigReader reader = new ConfigReader();
-		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow2.jpdl.xml" ) );
+		config.setInputStreams( new SimpleResourceResolver().openResource( "org/metawidget/inspector/jbpm/test-pageflow1.jpdl.xml" ), new SimpleResourceResolver().openResource( "org/metawidget/inspector/jbpm/test-pageflow2.jpdl.xml" ) );
 		mInspector = new PageflowInspector( config );
 	}
 

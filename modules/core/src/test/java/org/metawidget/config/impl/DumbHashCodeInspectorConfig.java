@@ -14,10 +14,27 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+package org.metawidget.config.impl;
+
 /**
- * <strong>External configuration support.</strong>
- *
  * @author Richard Kennard
  */
 
-package org.metawidget.config;
+public class DumbHashCodeInspectorConfig {
+
+	//
+	// Public methods
+	//
+
+	@Override
+	public int hashCode() {
+
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals( Object that ) {
+
+		return super.equals( that );
+	}
+}

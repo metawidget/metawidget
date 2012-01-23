@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -34,6 +34,9 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.iface.NeedsResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.iface.InspectorException;
@@ -50,33 +53,13 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Helper class for reading <code>metadata.xml</code> files and configuring Metawidgets.
- * <p>
- * In spirit, <code>metadata.xml</code> is a general-purpose mechanism for configuring JavaBeans
- * based on XML files. In practice, there are some Metawidget-specific features such as:
- * <p>
- * <ul>
- * <li>support for reusing immutable objects (as defined by <code>isImmutable</code>)</li>
- * <li>caching XML input based on resource name (uses <code>XmlUtils.CachingContextHandler</code>)</li>
- * <li>resolving resources from specialized locations, such as under <code>WEB-INF</code> using
- * <code>ServletContext.getResource</code> (<code>ConfigReader</code> implements
- * <code>ResourceResolver</code>)</li>
- * </ul>
- * <p>
- * This class is not just static methods, because ConfigReaders need to be able to be subclassed
- * (eg. <code>ServletConfigReader</code>)
- * <h3>Important</h3>
- * <p>
- * <code>ConfigReader</code>'s support for reusing immutable objects (eg. <code>JpaInspector</code>)
- * that use config objects (eg. <code>JpaInspectorConfig</code>) is dependant on the config object
- * overriding <code>equals</code> and <code>hashCode</code>. <strong>Failure to override these
- * methods may result in your object not being reused, or being reused inappropriately</strong>.
+ * Base implementation of <code>ConfigReader</code>.
  *
  * @author Richard Kennard
  */
 
-public class ConfigReader
-	implements ResourceResolver, Immutable {
+public class BaseConfigReader
+	implements ConfigReader, ResourceResolver {
 
 	//
 	// Package private statics
@@ -88,7 +71,7 @@ public class ConfigReader
 
 	/* package private */static final String							IMMUTABLE_NO_CONFIG			= "no-config";
 
-	/* package private */static final Log								LOG							= LogUtils.getLog( ConfigReader.class );
+	/* package private */static final Log								LOG							= LogUtils.getLog( BaseConfigReader.class );
 
 	/* package private */static final String							JAVA_NAMESPACE_PREFIX		= "java:";
 
@@ -148,7 +131,7 @@ public class ConfigReader
 	// Constructor
 	//
 
-	public ConfigReader() {
+	public BaseConfigReader() {
 
 		mFactory = SAXParserFactory.newInstance();
 		mFactory.setNamespaceAware( true );
@@ -157,28 +140,6 @@ public class ConfigReader
 	//
 	// Public methods
 	//
-
-	/**
-	 * Read configuration from an application resource.
-	 * <p>
-	 * This is a convenience method for <code>configure( String, Object )</code> that casts the
-	 * returned Object to an instance of the given <code>toConfigure</code> class.
-	 *
-	 * @param resource
-	 *            resource name that will be looked up using openResource
-	 * @param toConfigure
-	 *            class to instantiate. Can be a superclass of the one actually in the resource
-	 * @param names
-	 *            path to a property within the object. If specified, siblings to this path will be
-	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
-	 *            an object
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T configure( String resource, Class<T> toConfigure, String... names ) {
-
-		return (T) configure( resource, (Object) toConfigure, names );
-	}
 
 	/**
 	 * Read configuration from an application resource.
@@ -257,28 +218,6 @@ public class ConfigReader
 				throw MetawidgetException.newException( e );
 			}
 		}
-	}
-
-	/**
-	 * Read configuration from an input stream.
-	 * <p>
-	 * This is a convenience method for <code>configure( InputStream, Object )</code> that casts the
-	 * returned Object to an instance of the given <code>toConfigure</code> class.
-	 *
-	 * @param stream
-	 *            XML input as a stream
-	 * @param toConfigure
-	 *            class to instantiate. Can be a superclass of the one actually in the resource
-	 * @param names
-	 *            path to a property within the object. If specified, siblings to this path will be
-	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
-	 *            an object
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T configure( InputStream stream, Class<T> toConfigure, String... names ) {
-
-		return (T) configure( stream, (Object) toConfigure, names );
 	}
 
 	/**
@@ -1325,7 +1264,7 @@ public class ConfigReader
 					Object config = configClass.newInstance();
 
 					if ( config instanceof NeedsResourceResolver ) {
-						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
+						( (NeedsResourceResolver) config ).setResourceResolver( BaseConfigReader.this );
 					}
 
 					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ) );

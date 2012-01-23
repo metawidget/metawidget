@@ -26,6 +26,28 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<!-- Make sure we can set InspectionResultProcessors -->
+		<inspectionResultProcessors>
+			<array>
+				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort"/>
+			</array>
+		</inspectionResultProcessors>
+		<!-- Make sure we can set WidgetBuilders -->
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<overridenWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
+						<androidWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>
+		<!-- Make sure we can set WidgetProcessors -->
+		<widgeProcessors>
+			<array/>
+		</widgeProcessors>		
 		<layout>
 			<textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout" config="TextViewLayoutDecoratorConfig">
 				<layout>

@@ -36,7 +36,6 @@ import java.util.ResourceBundle;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -73,8 +72,6 @@ public class SwingMetawidget
 
 	private static final long		serialVersionUID	= 1l;
 
-	private static ConfigReader		CONFIG_READER;
-
 	private static final Stroke		STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
@@ -84,8 +81,6 @@ public class SwingMetawidget
 	private Object					mToInspect;
 
 	private String					mPath;
-
-	private String					mConfig;
 
 	private ResourceBundle			mBundle;
 
@@ -203,8 +198,7 @@ public class SwingMetawidget
 
 	public void setConfig( String config ) {
 
-		mConfig = config;
-		mPipeline.setNeedsConfiguring();
+		mPipeline.setConfig( config );
 		invalidateInspection();
 	}
 
@@ -226,19 +220,19 @@ public class SwingMetawidget
 	public void addInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<SwingMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<SwingMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder ) {
@@ -663,6 +657,11 @@ public class SwingMetawidget
 		return new Pipeline();
 	}
 
+	protected String getDefaultConfiguration() {
+
+		return ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
+	}
+
 	@Override
 	protected void paintComponent( Graphics graphics ) {
 
@@ -749,47 +748,6 @@ public class SwingMetawidget
 		}
 
 		super.addImpl( component, constraints, index );
-	}
-
-	protected void configure() {
-
-		// Special support for visual IDE builders
-
-		if ( mPath == null ) {
-
-			mPipeline.setNeedsConfiguring();
-			return;
-		}
-
-		try {
-			if ( mConfig != null ) {
-				getConfigReader().configure( mConfig, this );
-			}
-
-			// SwingMetawidget uses setMetawidgetLayout, not setLayout
-
-			if ( mPipeline.getLayout() == null ) {
-				getConfigReader().configure( getDefaultConfiguration(), this, "metawidgetLayout" );
-			}
-
-			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), SwingMetawidget.class );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
-	}
-
-	protected String getDefaultConfiguration() {
-
-		return ClassUtils.getPackagesAsFolderNames( SwingMetawidget.class ) + "/metawidget-swing-default.xml";
-	}
-
-	protected ConfigReader getConfigReader() {
-
-		if ( CONFIG_READER == null ) {
-			CONFIG_READER = new ConfigReader();
-		}
-
-		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {
@@ -999,9 +957,39 @@ public class SwingMetawidget
 		//
 
 		@Override
+		protected SwingMetawidget getPipelineOwner() {
+
+			return SwingMetawidget.this;
+		}
+
+		@Override
+		protected String getDefaultConfiguration() {
+
+			return SwingMetawidget.this.getDefaultConfiguration();
+		}
+
+		@Override
 		protected void configure() {
 
-			SwingMetawidget.this.configure();
+			// Special support for visual IDE builders
+
+			if ( Beans.isDesignTime() ) {
+				return;
+			}
+
+			super.configure();
+		}
+
+		@Override
+		protected void configureDefaults() {
+
+			// SwingMetawidget uses setMetawidgetLayout, not setLayout
+
+			if ( getLayout() == null ) {
+				getConfigReader().configure( getDefaultConfiguration(), getPipelineOwner(), "metawidgetLayout" );
+			}
+
+			super.configureDefaults();
 		}
 
 		@Override
@@ -1071,12 +1059,6 @@ public class SwingMetawidget
 			// super.endBuild, because that is what calls layout.endBuild
 
 			validate();
-		}
-
-		@Override
-		protected SwingMetawidget getPipelineOwner() {
-
-			return SwingMetawidget.this;
 		}
 	}
 

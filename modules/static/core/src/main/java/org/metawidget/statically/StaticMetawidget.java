@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.Writer;
 import java.util.Map;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
@@ -58,12 +58,6 @@ public abstract class StaticMetawidget
 	extends BaseStaticWidget {
 
 	//
-	// Private statics
-	//
-
-	private static ConfigReader	CONFIG_READER;
-
-	//
 	// Private members
 	//
 
@@ -72,8 +66,6 @@ public abstract class StaticMetawidget
 	 */
 
 	private String				mPath;
-
-	private String				mConfig;
 
 	private Pipeline			mPipeline;
 
@@ -102,11 +94,14 @@ public abstract class StaticMetawidget
 		return mPath;
 	}
 
+	public void setConfigReader( ConfigReader configReader ) {
+
+		mPipeline.setConfigReader( configReader );
+	}
+
 	public void setConfig( String config ) {
 
-		mConfig = config;
-		mPipeline.setNeedsConfiguring();
-
+		mPipeline.setConfig( config );
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth ) {
@@ -243,8 +238,6 @@ public abstract class StaticMetawidget
 
 	public void write( Writer writer, int initialIndent ) {
 
-		mPipeline.configureOnce();
-
 		try {
 			mPipeline.buildWidgets( inspect() );
 
@@ -303,28 +296,6 @@ public abstract class StaticMetawidget
 		return mPipeline.inspectAsDom( null, type, typeAndNames.getNamesAsArray() );
 	}
 
-	protected void configure() {
-
-		try {
-			if ( mConfig != null ) {
-				getConfigReader().configure( mConfig, this );
-			}
-
-			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), StaticMetawidget.class );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
-	}
-
-	protected ConfigReader getConfigReader() {
-
-		if ( CONFIG_READER == null ) {
-			CONFIG_READER = new ConfigReader();
-		}
-
-		return CONFIG_READER;
-	}
-
 	protected abstract String getDefaultConfiguration();
 
 	//
@@ -357,9 +328,9 @@ public abstract class StaticMetawidget
 		//
 
 		@Override
-		protected void configure() {
+		protected String getDefaultConfiguration() {
 
-			StaticMetawidget.this.configure();
+			return StaticMetawidget.this.getDefaultConfiguration();
 		}
 
 		@Override

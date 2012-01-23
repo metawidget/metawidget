@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl;
 
 import java.awt.Point;
 import java.io.ByteArrayInputStream;
@@ -32,6 +32,7 @@ import javax.xml.validation.SchemaFactory;
 import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.beanvalidation.BeanValidationInspector;
@@ -66,7 +67,7 @@ import org.xml.sax.SAXException;
  * @author Richard Kennard
  */
 
-public class ConfigReaderIntegrationTest
+public class BaseConfigReaderIntegrationTest
 	extends TestCase {
 
 	//
@@ -174,7 +175,7 @@ public class ConfigReaderIntegrationTest
 		// New Point
 
 		ConfigReader configReader = new ValidatingConfigReader();
-		Point point = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
+		Point point = (Point) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
 		assertTrue( 10 == point.x );
 		assertTrue( 20 == point.y );
 
@@ -196,7 +197,7 @@ public class ConfigReaderIntegrationTest
 
 		// New SwingMetawidget with names
 
-		metawidget1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class, "name" );
+		metawidget1 = (SwingMetawidget) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class, "name" );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
 		assertFalse( metawidget1.isOpaque() );
 
@@ -404,9 +405,9 @@ public class ConfigReaderIntegrationTest
 
 		String xml = startXml + endXml;
 
-		ConfigReader configReader = new ConfigReader();
-		Inspector inspector1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-		Inspector inspector2 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		ConfigReader configReader = new BaseConfigReader();
+		Inspector inspector1 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		Inspector inspector2 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
 		// Inspectors should be the same, even though InputStreams are not cached, because cached at
 		// Config level
@@ -419,8 +420,8 @@ public class ConfigReaderIntegrationTest
 		xml += "</xmlInspector>";
 		xml += endXml;
 
-		inspector1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-		inspector2 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		inspector1 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		inspector2 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
 		// Inspectors should not be the same, because caching at Config level should be thwarted by
 		// InputStream
@@ -456,8 +457,8 @@ public class ConfigReaderIntegrationTest
 
 		// Via resource
 
-		SwingMetawidget metawidget1 = configReader.configure( "org/metawidget/config/metawidget-test-caching.xml", SwingMetawidget.class );
-		SwingMetawidget metawidget2 = configReader.configure( "org/metawidget/config/metawidget-test-caching.xml", SwingMetawidget.class );
+		SwingMetawidget metawidget1 = (SwingMetawidget) configReader.configure( "org/metawidget/config/metawidget-test-caching.xml", SwingMetawidget.class );
+		SwingMetawidget metawidget2 = (SwingMetawidget) configReader.configure( "org/metawidget/config/metawidget-test-caching.xml", SwingMetawidget.class );
 
 		assertTrue( metawidget1 != metawidget2 );
 
@@ -476,7 +477,7 @@ public class ConfigReaderIntegrationTest
 
 		// Test what got cached
 
-		Field immutableByClassCacheField = ConfigReader.class.getDeclaredField( "mImmutableByClassCache" );
+		Field immutableByClassCacheField = BaseConfigReader.class.getDeclaredField( "mImmutableByClassCache" );
 		immutableByClassCacheField.setAccessible( true );
 
 		@SuppressWarnings( "unchecked" )
@@ -484,41 +485,41 @@ public class ConfigReaderIntegrationTest
 		assertFalse( immutableByClassCache.containsKey( Class.class ) );
 
 		Map<Object, Object> immutableByConfigCache = immutableByClassCache.get( CompositeInspector.class );
-		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 4 == immutableByConfigCache.size() );
 
 		immutableByConfigCache = immutableByClassCache.get( StrutsAnnotationInspector.class );
-		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( inspectors1[3] == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( XmlInspector.class );
-		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 3 == immutableByConfigCache.size() );
 
 		immutableByConfigCache = immutableByClassCache.get( MetawidgetAnnotationInspector.class );
-		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[1] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( inspectors1[1] == immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		immutableByConfigCache = immutableByClassCache.get( SpringAnnotationInspector.class );
-		assertFalse( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( inspectors1[4] == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( PropertyTypeInspector.class );
-		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[0] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( inspectors1[0] == immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		immutableByConfigCache = immutableByClassCache.get( GroovyPropertyStyle.class );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( propertyStyleField.get( inspectors1[3] ) == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( JavaBeanPropertyStyle.class );
-		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		assertTrue( 9 == immutableByClassCache.size() );
 	}
@@ -533,7 +534,7 @@ public class ConfigReaderIntegrationTest
 		xml += "</beansBindingProcessor>";
 		xml += "</metawidget>";
 
-		BeansBindingProcessor processor = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BeansBindingProcessor.class );
+		BeansBindingProcessor processor = (BeansBindingProcessor) new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BeansBindingProcessor.class );
 		Field updateStrategyField = BeansBindingProcessor.class.getDeclaredField( "mUpdateStrategy" );
 		updateStrategyField.setAccessible( true );
 		assertTrue( UpdateStrategy.READ_WRITE.equals( updateStrategyField.get( processor ) ) );
@@ -541,7 +542,7 @@ public class ConfigReaderIntegrationTest
 
 	public void testOnlyCacheIfSuccessful() {
 
-		ConfigReader configReader = new ConfigReader() {
+		ConfigReader configReader = new BaseConfigReader() {
 
 			private int	mOpenResource;
 
@@ -598,7 +599,7 @@ public class ConfigReaderIntegrationTest
 	//
 
 	static class ValidatingConfigReader
-		extends ConfigReader {
+		extends BaseConfigReader {
 
 		//
 		// Private members

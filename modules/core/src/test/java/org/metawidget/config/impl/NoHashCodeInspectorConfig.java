@@ -14,38 +14,22 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config.subpackage;
-
-import org.metawidget.config.AllTypesInspectorConfig;
-import org.metawidget.inspector.iface.Inspector;
+package org.metawidget.config.impl;
 
 /**
  * @author Richard Kennard
  */
 
-public class OutOfPackageConfigInspector
-	implements Inspector {
-
-	//
-	// Constructor
-	//
-
-	/**
-	 * @param config
-	 *            used to test 'out-of-package' config
-	 */
-
-	public OutOfPackageConfigInspector( AllTypesInspectorConfig config ) {
-
-		// Do nothing
-	}
+@SuppressWarnings( "all" )
+class NoHashCodeInspectorConfig {
 
 	//
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names ) {
+	@Override
+	public boolean equals( Object that ) {
 
-		return null;
+		return true;
 	}
 }

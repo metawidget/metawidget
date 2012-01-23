@@ -14,30 +14,38 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl.subpackage;
 
-import java.io.InputStream;
+import org.metawidget.config.impl.AllTypesInspectorConfig;
+import org.metawidget.inspector.iface.Inspector;
 
 /**
- * Interface for resolving references to resources.
- * <p>
- * Most resources can be resolved using standard <code>ClassLoader.getResource</code> code. However
- * some environments have specialized resource areas which are inaccessible to
- * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which can
- * only be accessed through <code>ServletContext</code>. Similarly, Android environments must
- * resolve resources using <code>Context.getResources</code>.
- * <p>
- * Note: this class is not located under <code>org.metawidget.iface</code>, because GWT does not
- * like <code>java.io.InputStream</code>.
- *
  * @author Richard Kennard
  */
 
-public interface ResourceResolver {
+public class OutOfPackageConfigInspector
+	implements Inspector {
 
 	//
-	// Methods
+	// Constructor
 	//
 
-	InputStream openResource( String resource );
+	/**
+	 * @param config
+	 *            used to test 'out-of-package' config
+	 */
+
+	public OutOfPackageConfigInspector( AllTypesInspectorConfig config ) {
+
+		// Do nothing
+	}
+
+	//
+	// Public methods
+	//
+
+	public String inspect( Object toInspect, String type, String... names ) {
+
+		return null;
+	}
 }

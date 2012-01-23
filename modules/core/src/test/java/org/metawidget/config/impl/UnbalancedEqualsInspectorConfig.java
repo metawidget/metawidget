@@ -14,22 +14,22 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl;
 
 /**
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "all" )
-class NoHashCodeInspectorConfig {
+public class UnbalancedEqualsInspectorConfig
+	extends NoHashCodeInspectorConfig {
 
 	//
 	// Public methods
 	//
 
 	@Override
-	public boolean equals( Object that ) {
+	public int hashCode() {
 
-		return true;
+		return 0;
 	}
 }

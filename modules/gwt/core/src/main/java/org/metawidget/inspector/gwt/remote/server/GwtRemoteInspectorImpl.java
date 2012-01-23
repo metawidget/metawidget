@@ -22,11 +22,12 @@ import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.metawidget.config.ServletConfigReader;
+import org.metawidget.config.impl.ServletConfigReader;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.pipeline.w3c.W3CPipeline;
+import org.metawidget.util.ClassUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -81,18 +82,15 @@ public class GwtRemoteInspectorImpl
 
 		super.init( servletConfig );
 
+		mPipeline.setConfigReader( new ServletConfigReader( getServletContext() ) );
+
 		// Locate metawidget.xml (if one specified)
 
-		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
-		String config = getConfigInitParameter( servletConfig );
+		String config = getConfigInitParameter();
 
 		if ( config != null ) {
-			servletConfigReader.configure( config, this );
+			mPipeline.setConfig( config );
 		}
-
-		// Use default configuration
-
-		mPipeline.configureDefaults( servletConfigReader, getDefaultConfiguration(), GwtRemoteInspectorImpl.class );
 	}
 
 	/**
@@ -135,18 +133,13 @@ public class GwtRemoteInspectorImpl
 		return new GwtRemoteInspectorImplPipeline();
 	}
 
-	protected String getDefaultConfiguration() {
-
-		return "org/metawidget/inspector/gwt/remote/server/metawidget-gwt-default.xml";
-	}
-
 	/**
 	 * Refactored to support <code>GwtRemoteInspectorTestImpl</code>.
 	 */
 
-	protected String getConfigInitParameter( ServletConfig servletConfig ) {
+	protected String getConfigInitParameter() {
 
-		return servletConfig.getInitParameter( "config" );
+		return getServletConfig().getInitParameter( "config" );
 	}
 
 	//
@@ -165,9 +158,9 @@ public class GwtRemoteInspectorImpl
 		//
 
 		@Override
-		protected void configure() {
+		protected String getDefaultConfiguration() {
 
-			// Do nothing
+			return ClassUtils.getPackagesAsFolderNames( GwtRemoteInspectorImpl.class ) + "/metawidget-gwt-default.xml";
 		}
 
 		@Override

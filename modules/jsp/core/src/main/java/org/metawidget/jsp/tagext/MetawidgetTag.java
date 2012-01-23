@@ -30,8 +30,8 @@ import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.config.ConfigReader;
-import org.metawidget.config.ServletConfigReader;
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.ServletConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for JSP environments.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -60,18 +60,18 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private static final long							serialVersionUID		= 1l;
+	private static final long										serialVersionUID		= 1l;
 
 	/**
 	 * Cache the ConfigReader at the ServletContext level. This can also be used to inject a
 	 * different ConfigReader if needed (ie. for Grails).
 	 */
 
-	private static final String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
+	private static final String										CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
-	private static final String							DEFAULT_USER_CONFIG		= "metawidget.xml";
+	private static final String										DEFAULT_USER_CONFIG		= "metawidget.xml";
 
-	private static boolean								LOGGED_MISSING_CONFIG;
+	/* package private */static boolean								LOGGED_MISSING_CONFIG;
 
 	//
 	// Private members
@@ -84,27 +84,25 @@ public abstract class MetawidgetTag
 	 * <code>property</code> for Spring).
 	 */
 
-	private String										mPath;
+	private String													mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	private String										mPathPrefix;
+	private String													mPathPrefix;
 
-	private String										mConfig;
+	private boolean													mNullConfig;
 
-	private boolean										mNullConfig;
+	private ResourceBundle											mBundle;
 
-	private ResourceBundle								mBundle;
+	private Map<String, FacetTag>									mFacets;
 
-	private Map<String, FacetTag>						mFacets;
+	private Map<String, StubTag>									mStubs;
 
-	private Map<String, StubTag>						mStubs;
+	private Map<Object, Object>										mClientProperties;
 
-	private Map<Object, Object>							mClientProperties;
-
-	private W3CPipeline<Tag, BodyTag, MetawidgetTag>	mPipeline;
+	/* package private */W3CPipeline<Tag, BodyTag, MetawidgetTag>	mPipeline;
 
 	//
 	// Constructor
@@ -127,21 +125,26 @@ public abstract class MetawidgetTag
 
 		// Some more initialization
 
-		if ( mConfig == null ) {
+		if ( mPipeline.getConfig() == null ) {
 			String configFile = servletContext.getInitParameter( "org.metawidget.jsp.tagext.CONFIG_FILE" );
 
 			if ( configFile == null ) {
 				if ( !mNullConfig ) {
-					mConfig = DEFAULT_USER_CONFIG;
+					mPipeline.setConfig( DEFAULT_USER_CONFIG );
 				}
 			} else {
-				mConfig = configFile;
+				mPipeline.setConfig( configFile );
 			}
 		}
 
-		if ( servletContext.getAttribute( CONFIG_READER_ATTRIBUTE ) == null ) {
-			servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, new ServletConfigReader( servletContext ) );
+		ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
+
+		if ( configReader == null ) {
+			configReader = new ServletConfigReader( servletContext );
+			servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
 		}
+
+		mPipeline.setConfigReader( configReader );
 	}
 
 	public String getPath() {
@@ -156,9 +159,8 @@ public abstract class MetawidgetTag
 
 	public void setConfig( String config ) {
 
-		mConfig = config;
+		mPipeline.setConfig( config );
 		mNullConfig = ( config == null );
-		mPipeline.setNeedsConfiguring();
 	}
 
 	public String getLabelString( Map<String, String> attributes ) {
@@ -494,39 +496,6 @@ public abstract class MetawidgetTag
 		return inspectionResult;
 	}
 
-	protected void configure() {
-
-		try {
-			ServletContext servletContext = pageContext.getServletContext();
-			ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
-
-			if ( mConfig != null ) {
-				try {
-					configReader.configure( mConfig, this );
-				} catch ( MetawidgetException e ) {
-					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) ) {
-						throw e;
-					}
-
-					// Log a warning. Still log the Exception message, in case the
-					// FileNotFoundException
-					// is from inside metawidget.xml, for example 'Unable to locate
-					// checkout.jpdl.xml on
-					// CLASSPATH'
-
-					if ( !LOGGED_MISSING_CONFIG ) {
-						LOGGED_MISSING_CONFIG = true;
-						LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn''t finding it: {0}", e.getMessage() );
-					}
-				}
-			}
-
-			mPipeline.configureDefaults( configReader, getDefaultConfiguration(), MetawidgetTag.class );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
-	}
-
 	protected abstract String getDefaultConfiguration();
 
 	//
@@ -541,9 +510,40 @@ public abstract class MetawidgetTag
 		//
 
 		@Override
+		protected MetawidgetTag getPipelineOwner() {
+
+			return MetawidgetTag.this;
+		}
+
+		@Override
+		protected String getDefaultConfiguration() {
+
+			return MetawidgetTag.this.getDefaultConfiguration();
+		}
+
+		@Override
 		protected void configure() {
 
-			MetawidgetTag.this.configure();
+			try {
+				super.configure();
+			} catch ( MetawidgetException e ) {
+				if ( !DEFAULT_USER_CONFIG.equals( getConfig() ) || !( e.getCause() instanceof FileNotFoundException ) ) {
+					throw e;
+				}
+
+				// Log a warning. Still log the Exception message, in case the
+				// FileNotFoundException
+				// is from inside metawidget.xml, for example 'Unable to locate
+				// checkout.jpdl.xml on
+				// CLASSPATH'
+
+				if ( !LOGGED_MISSING_CONFIG ) {
+					LOGGED_MISSING_CONFIG = true;
+					LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn''t finding it: {0}", e.getMessage() );
+				}
+
+				super.configureDefaults();
+			}
 		}
 
 		@Override
@@ -572,12 +572,6 @@ public abstract class MetawidgetTag
 			MetawidgetTag.this.initNestedMetawidget( metawidgetTag, attributes );
 
 			return metawidgetTag;
-		}
-
-		@Override
-		protected MetawidgetTag getPipelineOwner() {
-
-			return MetawidgetTag.this;
 		}
 	}
 }

@@ -147,12 +147,10 @@ public class XmlSchemaGeneratorTaskTest
 		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
 		assertTrue( schema.contains( "\t</xs:element>\r\n" ) );
 
-		// TODO: Optional config
+		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.propertytype", "PropertyTypeInspector" );
 
-		/*schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.java5", "Java5Inspector" );
-
-		assertTrue( schema.contains( "\r\n\t<!-- Java5Inspector -->\r\n" ) );
-		assertTrue( schema.contains( "\t<xs:element name=\"java5Inspector\">\r\n" ) );
+		assertTrue( schema.contains( "\r\n\t<!-- PropertyTypeInspector -->\r\n" ) );
+		assertTrue( schema.contains( "\t<xs:element name=\"propertyTypeInspector\">\r\n" ) );
 		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
 		assertTrue( schema.contains( "\t\t\t<xs:all>\r\n" ) );
 
@@ -176,7 +174,6 @@ public class XmlSchemaGeneratorTaskTest
 		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\"/>\r\n" ) );
 		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
 		assertTrue( schema.contains( "\t</xs:element>\r\n" ) );
-		*/
 
 		// Required config
 

@@ -70,7 +70,7 @@
 		</dependency>
 		<!-- make this metawidget-all (end) -->
 		<dependency>
-			<groupId>commons-jexl</groupId>
+			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
 		</dependency>		
 		<dependency>

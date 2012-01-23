@@ -14,14 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl;
 
 /**
  * @author Richard Kennard
  */
 
-public class NoEqualsSubclassInspectorConfig
-	extends AllTypesInspectorConfig {
+public class NoEqualsInspectorConfig {
 
-	// Does not override equals() or hashCode()
+	//
+	// Public methods
+	//
+
+	@Override
+	public int hashCode() {
+
+		return 0;
+	}
 }

@@ -171,9 +171,9 @@ public class BasePipelineTest
 		extends W3CPipeline<JComponent, JComponent, JComponent> {
 
 		@Override
-		protected void configure() {
+		protected String getDefaultConfiguration() {
 
-			// Do nothing
+			return null;
 		}
 
 		@Override

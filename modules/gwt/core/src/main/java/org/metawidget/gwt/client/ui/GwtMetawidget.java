@@ -302,19 +302,19 @@ public class GwtMetawidget
 	public void addInspectionResultProcessor( InspectionResultProcessor<GwtMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<Widget, GwtMetawidget> widgetProcessor ) {
 
 		mPipeline.addWidgetProcessor( widgetProcessor );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
@@ -652,6 +652,47 @@ public class GwtMetawidget
 		return new Pipeline();
 	}
 
+	protected void configure() {
+
+		// Sensible defaults
+		//
+		// We cannot use ConfigReader, because GWT's client-side JavaScript is not up to it
+
+		if ( mPipeline.getInspector() == null ) {
+			if ( DEFAULT_INSPECTOR == null ) {
+				DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
+			}
+
+			mPipeline.setInspector( DEFAULT_INSPECTOR );
+		}
+
+		if ( mPipeline.getWidgetBuilder() == null ) {
+			if ( DEFAULT_WIDGETBUILDER == null ) {
+				@SuppressWarnings( "unchecked" )
+				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new GwtWidgetBuilder() );
+				DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
+			}
+
+			mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+		}
+
+		if ( mPipeline.getWidgetProcessors() == null ) {
+			if ( DEFAULT_WIDGETPROCESSOR == null ) {
+				DEFAULT_WIDGETPROCESSOR = new StyleNameProcessor();
+			}
+
+			mPipeline.addWidgetProcessor( DEFAULT_WIDGETPROCESSOR );
+		}
+
+		if ( mPipeline.getLayout() == null ) {
+			if ( DEFAULT_LAYOUT == null ) {
+				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) );
+			}
+
+			mPipeline.setLayout( DEFAULT_LAYOUT );
+		}
+	}
+
 	@Override
 	protected void add( Widget child, com.google.gwt.user.client.Element container ) {
 
@@ -752,47 +793,6 @@ public class GwtMetawidget
 		mBuildWidgets.schedule( BUILD_DELAY );
 	}
 
-	protected void configure() {
-
-		// Sensible defaults
-		//
-		// We cannot use ConfigReader, because GWT's client-side JavaScript is not up to it
-
-		if ( mPipeline.getInspector() == null ) {
-			if ( DEFAULT_INSPECTOR == null ) {
-				DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
-			}
-
-			mPipeline.setInspector( DEFAULT_INSPECTOR );
-		}
-
-		if ( mPipeline.getWidgetBuilder() == null ) {
-			if ( DEFAULT_WIDGETBUILDER == null ) {
-				@SuppressWarnings( "unchecked" )
-				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new GwtWidgetBuilder() );
-				DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
-			}
-
-			mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
-		}
-
-		if ( mPipeline.getWidgetProcessors() == null ) {
-			if ( DEFAULT_WIDGETPROCESSOR == null ) {
-				DEFAULT_WIDGETPROCESSOR = new StyleNameProcessor();
-			}
-
-			mPipeline.addWidgetProcessor( DEFAULT_WIDGETPROCESSOR );
-		}
-
-		if ( mPipeline.getLayout() == null ) {
-			if ( DEFAULT_LAYOUT == null ) {
-				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) );
-			}
-
-			mPipeline.setLayout( DEFAULT_LAYOUT );
-		}
-	}
-
 	/**
 	 * Builds the widgets.
 	 * <p>
@@ -823,7 +823,7 @@ public class GwtMetawidget
 
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
-		mPipeline.configureOnce();
+		mPipeline.configure();
 
 		if ( mToInspect != null ) {
 			Inspector inspector = mPipeline.getInspector();

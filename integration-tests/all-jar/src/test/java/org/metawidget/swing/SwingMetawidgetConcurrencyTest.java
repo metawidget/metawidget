@@ -21,7 +21,8 @@ import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -44,7 +45,7 @@ public class SwingMetawidgetConcurrencyTest
 
 			// ...create a ConfigReader with a clean cache...
 
-			final ConfigReader configReader = new ConfigReader();
+			final ConfigReader configReader = new BaseConfigReader();
 
 			// ...prepare some Threads...
 

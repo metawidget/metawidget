@@ -28,7 +28,7 @@ import javax.faces.render.RenderKit;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
@@ -91,14 +91,6 @@ public class UIMetawidgetTest
 			}
 
 			@Override
-			protected void configure() {
-
-				// Should not be called
-
-				result.append( "configure called;" );
-			}
-
-			@Override
 			protected void startBuild() {
 
 				// Should not be called
@@ -106,6 +98,20 @@ public class UIMetawidgetTest
 				result.append( "startBuild called;" );
 			}
 
+			@Override
+			protected Pipeline newPipeline() {
+
+				return new Pipeline() {
+
+					@Override
+					protected void configure() {
+
+						// Should not be called
+
+						result.append( "configure called;" );
+					}
+				};
+			}
 		};
 
 		MockFacesContext context = new MockFacesContext() {
@@ -212,9 +218,9 @@ public class UIMetawidgetTest
 
 		// Should not error (just log)
 
-		HtmlMetawidget metawidget = new HtmlMetawidget();
+		UIMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.configure();
+		metawidget.mPipeline.configureOnce();
 
 		assertEquals( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH", LogUtilsTest.getLastInfoMessage() );
 
@@ -226,7 +232,7 @@ public class UIMetawidgetTest
 
 		try {
 			metawidget.setConfig( "does-not-exist.xml" );
-			metawidget.configure();
+			metawidget.mPipeline.configureOnce();
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage() );
@@ -237,7 +243,7 @@ public class UIMetawidgetTest
 		LogUtils.getLog( UIMetawidgetTest.class ).info( "" );
 		metawidget = new HtmlMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.configure();
+		metawidget.mPipeline.configureOnce();
 
 		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}
@@ -259,13 +265,13 @@ public class UIMetawidgetTest
 		UIMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setConfig( "org/metawidget/faces/component/config/metawidget-rendererType.xml" );
 		assertEquals( "table", metawidget.getRendererType() );
-		metawidget.configure();
+		metawidget.mPipeline.configure();
 		assertEquals( "foo", metawidget.getRendererType() );
 
 		metawidget = new HtmlMetawidget();
 		metawidget.setConfig( "org/metawidget/faces/component/config/metawidget-rendererType.xml" );
 		metawidget.setRendererType( "bar" );
-		metawidget.configure();
+		metawidget.mPipeline.configure();
 		assertEquals( "bar", metawidget.getRendererType() );
 	}
 

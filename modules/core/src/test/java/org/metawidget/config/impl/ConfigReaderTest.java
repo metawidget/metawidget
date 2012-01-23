@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.config.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +27,8 @@ import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.AllTypesInspectorConfig.FooEnum;
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.AllTypesInspectorConfig.FooEnum;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.iface.Inspector;
@@ -58,7 +59,7 @@ public class ConfigReaderTest
 		xml += "	<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\"/>";
 		xml += "</metawidget>";
 
-		ConfigReader configReader = new ConfigReader();
+		ConfigReader configReader = new BaseConfigReader();
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
@@ -71,14 +72,14 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
-		xml += "	<outOfPackageConfigInspector xmlns=\"java:org.metawidget.config.subpackage\"/>";
+		xml += "	<outOfPackageConfigInspector xmlns=\"java:org.metawidget.config.impl.subpackage\"/>";
 		xml += "</metawidget>";
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertEquals( "class org.metawidget.config.subpackage.OutOfPackageConfigInspector does not have a default constructor. Did you mean config=\"org.metawidget.config.AllTypesInspectorConfig\"?", e.getMessage() );
+			assertEquals( "class org.metawidget.config.impl.subpackage.OutOfPackageConfigInspector does not have a default constructor. Did you mean config=\"org.metawidget.config.impl.AllTypesInspectorConfig\"?", e.getMessage() );
 		}
 
 		// Without config hint
@@ -108,7 +109,7 @@ public class ConfigReaderTest
 		xml += "	</xmlInspector>";
 		xml += "</metawidget>";
 
-		ConfigReader configReader = new ConfigReader();
+		ConfigReader configReader = new BaseConfigReader();
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
@@ -135,7 +136,7 @@ public class ConfigReaderTest
 		xml += "	</xmlInspector>";
 		xml += "</metawidget>";
 
-		ConfigReader configReader = new ConfigReader();
+		ConfigReader configReader = new BaseConfigReader();
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
@@ -155,7 +156,7 @@ public class ConfigReaderTest
 		xml += "</propertyTypeInspector></metawidget>";
 
 		try {
-			ConfigReader configReader = new ConfigReader();
+			ConfigReader configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -173,7 +174,7 @@ public class ConfigReaderTest
 		xml += "</propertyTypeInspector></metawidget>";
 
 		try {
-			ConfigReader configReader = new ConfigReader();
+			ConfigReader configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -187,7 +188,7 @@ public class ConfigReaderTest
 		xml += "</xmlInspector></metawidget>";
 
 		try {
-			ConfigReader configReader = new ConfigReader();
+			ConfigReader configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -199,7 +200,7 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\">";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\">";
 		xml += "<int><int>3</int></int>";
 		xml += "<constant><constant>CONSTANT_VALUE</constant></constant>";
 		xml += "<externalConstant><constant>javax.swing.SwingConstants.LEFT</constant></externalConstant>";
@@ -228,7 +229,7 @@ public class ConfigReaderTest
 		xml += "</allTypesInspector>";
 		xml += "</metawidget>";
 
-		AllTypesInspector inspector = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+		AllTypesInspector inspector = (AllTypesInspector) new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 		assertTrue( 3 == inspector.getInt() );
 		assertTrue( AllTypesInspectorConfig.CONSTANT_VALUE == inspector.getConstant() );
 		assertTrue( SwingConstants.LEFT == inspector.getExternalConstant() );
@@ -266,16 +267,16 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\">";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\">";
 		xml += "<date><date>1/1/2001</date></date>";
 		xml += "</allTypesInspector>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( e.getMessage().endsWith( "No such tag <date> or class org.metawidget.config.Date (is it on your CLASSPATH?)" ) );
+			assertTrue( e.getMessage().endsWith( "No such tag <date> or class org.metawidget.config.impl.Date (is it on your CLASSPATH?)" ) );
 		}
 	}
 
@@ -283,16 +284,16 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"org.metawidget.config\" config=\"AllTypesInspectorConfig\">";
+		xml += "<allTypesInspector xmlns=\"org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\">";
 		xml += "<date><date>1/1/2001</date></date>";
 		xml += "</allTypesInspector>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config' of element <allTypesInspector> must start with java:".equals( e.getMessage() ) );
+			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config.impl' of element <allTypesInspector> must start with java:".equals( e.getMessage() ) );
 		}
 	}
 
@@ -300,7 +301,7 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\">";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\">";
 		xml += "<list>";
 		xml += "<list/>";
 		xml += "</list>";
@@ -310,7 +311,7 @@ public class ConfigReaderTest
 		xml += "</allTypesInspector>";
 		xml += "</metawidget>";
 
-		AllTypesInspector inspector = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+		AllTypesInspector inspector = (AllTypesInspector) new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 		assertTrue( inspector.getList().isEmpty() );
 		assertTrue( inspector.getSet().isEmpty() );
 	}
@@ -319,13 +320,13 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\">";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\">";
 		xml += "<failDuringConstruction><boolean>true</boolean></failDuringConstruction>";
 		xml += "</allTypesInspector>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ) );
@@ -336,13 +337,13 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\">";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\">";
 		xml += "<noParameters/>";
 		xml += "</allTypesInspector>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ) );
@@ -356,10 +357,10 @@ public class ConfigReaderTest
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "No match for class org.metawidget.config.AllTypesInspector within config".equals( e.getMessage() ) );
+			assertTrue( "No match for class org.metawidget.config.impl.AllTypesInspector within config".equals( e.getMessage() ) );
 		}
 	}
 
@@ -367,21 +368,21 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\"/>";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"AllTypesInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"AllTypesInspectorConfig\"/>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "Already configured a class org.metawidget.config.AllTypesInspector, ambiguous match with class org.metawidget.config.AllTypesInspector".equals( e.getMessage() ) );
+			assertTrue( "Already configured a class org.metawidget.config.impl.AllTypesInspector, ambiguous match with class org.metawidget.config.impl.AllTypesInspector".equals( e.getMessage() ) );
 		}
 	}
 
 	public void testMissingResource() {
 
-		ConfigReader configReader = new ConfigReader();
+		ConfigReader configReader = new BaseConfigReader();
 
 		try {
 			configReader.configure( (String) null, null );
@@ -414,7 +415,7 @@ public class ConfigReaderTest
 
 	public void testLogging() {
 
-		ConfigReader configReader = new ConfigReader();
+		ConfigReader configReader = new BaseConfigReader();
 		configReader.configure( "org/metawidget/config/metawidget-test-logging.xml", CompositeInspector.class, "inspectors", "array" );
 		configReader.configure( "org/metawidget/config/metawidget-test-logging.xml", Inspector.class, "inspectors", "array" );
 
@@ -435,7 +436,7 @@ public class ConfigReaderTest
 
 		assertFalse( Pattern.compile( "foo" ).equals( Pattern.compile( "foo" ) ) );
 
-		ConfigReader configReader = new ConfigReader();
+		BaseConfigReader configReader = new BaseConfigReader();
 		assertTrue( configReader.createNative( "pattern", null, "foo" ).equals( configReader.createNative( "pattern", null, "foo" ) ) );
 	}
 
@@ -447,7 +448,7 @@ public class ConfigReaderTest
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertTrue( "XML node 'AllTypesInspector' should start with a lowercase letter".equals( e.getMessage() ) );
@@ -460,60 +461,60 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"NoEqualsInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"NoEqualsInspectorConfig\"/>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.NoEqualsInspectorConfig does not override .equals(), so cannot cache reliably".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.config.impl.NoEqualsInspectorConfig does not override .equals(), so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
 		// No hashCode
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"NoHashCodeInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"NoHashCodeInspectorConfig\"/>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.NoHashCodeInspectorConfig does not override .hashCode(), so cannot cache reliably".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.config.impl.NoHashCodeInspectorConfig does not override .hashCode(), so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
 		// Unbalanced
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"UnbalancedEqualsInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"UnbalancedEqualsInspectorConfig\"/>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 
 			// assertTrue( false );
 			//
 			// (works running JUnit in Eclipse, but not via Ant. Does the VM cache reflection
 			// results or something?)
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.NoHashCodeInspectorConfig implements .equals(), but .hashCode() is implemented by class org.metawidget.config.UnbalancedEqualsInspectorConfig, so cannot cache reliably".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.config.impl.NoHashCodeInspectorConfig implements .equals(), but .hashCode() is implemented by class org.metawidget.config.UnbalancedEqualsInspectorConfig, so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
 		// No such constructor
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"java.lang.String\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"java.lang.String\"/>";
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.AllTypesInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.config.impl.AllTypesInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute".equals( e.getMessage() ) );
 		}
 
 		// Different constructor
@@ -524,7 +525,7 @@ public class ConfigReaderTest
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
@@ -538,7 +539,7 @@ public class ConfigReaderTest
 		xml += "</metawidget>";
 
 		try {
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Object.class );
+			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Object.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class java.lang.Object does not have a constructor that takes a class java.lang.String, as specified by your config attribute. It only has a config-less constructor".equals( e.getMessage() ) );
@@ -548,12 +549,12 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"NoEqualsSubclassInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"NoEqualsSubclassInspectorConfig\"/>";
 		xml += "</metawidget>";
 
 		LogUtilsTest.clearLastWarnMessage();
 
-		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
 		assertTrue( null == LogUtilsTest.getLastWarnMessage() );
 
@@ -561,30 +562,30 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"NoEqualsHasMethodsSubclassInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"NoEqualsHasMethodsSubclassInspectorConfig\"/>";
 		xml += "</metawidget>";
 
-		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertEquals( "class org.metawidget.config.NoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.AllTypesInspectorConfig does), so may not be cached reliably", LogUtilsTest.getLastWarnMessage() );
+		assertEquals( "class org.metawidget.config.impl.NoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.impl.AllTypesInspectorConfig does), so may not be cached reliably", LogUtilsTest.getLastWarnMessage() );
 
 		// Overridden, but uses super.hashCode
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config\" config=\"DumbHashCodeInspectorConfig\"/>";
+		xml += "<allTypesInspector xmlns=\"java:org.metawidget.config.impl\" config=\"DumbHashCodeInspectorConfig\"/>";
 		xml += "</metawidget>";
 
-		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertTrue( "class org.metawidget.config.DumbHashCodeInspectorConfig overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
+		assertTrue( "class org.metawidget.config.impl.DumbHashCodeInspectorConfig overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
 	}
 
 	public void testLookupClass()
 		throws Exception {
 
-		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getPackage().getName(), ConfigReaderTest.class.getSimpleName(), null ), ConfigReaderTest.class );
-		assertEquals( new ConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getName(), Foo.class.getSimpleName(), null ), Foo.class );
+		assertEquals( new BaseConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getPackage().getName(), ConfigReaderTest.class.getSimpleName(), null ), ConfigReaderTest.class );
+		assertEquals( new BaseConfigReader().lookupClass( "java:" + ConfigReaderTest.class.getName(), Foo.class.getSimpleName(), null ), Foo.class );
 	}
 
 	public void testIdAttribute()
@@ -597,8 +598,8 @@ public class ConfigReaderTest
 		xml += "<propertyStyle><javaBeanPropertyStyle refId=\"fooPropertyStyle\"/></propertyStyle>";
 		xml += "</propertyTypeInspector></metawidget>";
 
-		ConfigReader configReader = new ConfigReader();
-		Inspector inspector = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		ConfigReader configReader = new BaseConfigReader();
+		Inspector inspector = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 		assertTrue( inspector instanceof PropertyTypeInspector );
 
 		// Non-existent id
@@ -610,7 +611,7 @@ public class ConfigReaderTest
 		xml += "</propertyTypeInspector></metawidget>";
 
 		try {
-			configReader = new ConfigReader();
+			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -626,7 +627,7 @@ public class ConfigReaderTest
 		xml += "</propertyTypeInspector></metawidget>";
 
 		try {
-			configReader = new ConfigReader();
+			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -647,7 +648,7 @@ public class ConfigReaderTest
 		xml += "</compositeInspector></metawidget>";
 
 		try {
-			configReader = new ConfigReader();
+			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -662,7 +663,7 @@ public class ConfigReaderTest
 		xml += "</metawidget>";
 
 		try {
-			configReader = new ConfigReader();
+			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
@@ -681,7 +682,7 @@ public class ConfigReaderTest
 		xml += "</compositeInspector></metawidget>";
 
 		try {
-			configReader = new ConfigReader();
+			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {

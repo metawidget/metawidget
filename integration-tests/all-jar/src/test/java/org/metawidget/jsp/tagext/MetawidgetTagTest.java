@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -57,7 +57,7 @@ public class MetawidgetTagTest
 
 		// Should not error (just log)
 
-		metawidget.configure();
+		metawidget.mPipeline.configureOnce();
 		assertEquals( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH", LogUtilsTest.getLastInfoMessage() );
 
 		// Should have done something
@@ -68,7 +68,7 @@ public class MetawidgetTagTest
 
 		try {
 			metawidget.setConfig( "does-not-exist.xml" );
-			metawidget.configure();
+			metawidget.mPipeline.configureOnce();
 			assertTrue( false );
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage() );
@@ -79,7 +79,7 @@ public class MetawidgetTagTest
 		LogUtils.getLog( MetawidgetTagTest.class ).info( "" );
 		metawidget = new HtmlMetawidgetTag();
 		metawidget.setPageContext( pageContext );
-		metawidget.configure();
+		metawidget.mPipeline.configureOnce();
 		assertFalse( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it: java.io.FileNotFoundException: Unable to locate metawidget.xml on CLASSPATH".equals( LogUtilsTest.getLastInfoMessage() ) );
 	}
 
@@ -110,22 +110,20 @@ public class MetawidgetTagTest
 
 		MockPageContext pageContext = new MockPageContext();
 		MetawidgetTag metawidget = new HtmlMetawidgetTag();
-		Field configField = MetawidgetTag.class.getDeclaredField( "mConfig" );
-		configField.setAccessible( true );
-		assertEquals( null, configField.get( metawidget ));
+		assertEquals( null, metawidget.mPipeline.getConfig() );
 		metawidget.setPageContext( pageContext );
-		assertEquals( "metawidget.xml", configField.get( metawidget ));
+		assertEquals( "metawidget.xml", metawidget.mPipeline.getConfig() );
 
 		// Set null
 
 		metawidget.setConfig( null );
 		metawidget.setPageContext( pageContext );
-		assertEquals( null, configField.get( metawidget ));
+		assertEquals( null, metawidget.mPipeline.getConfig() );
 
 		// Un-null again
 
 		metawidget.setConfig( "Foo" );
 		metawidget.setPageContext( pageContext );
-		assertEquals( "Foo", configField.get( metawidget ));
+		assertEquals( "Foo", metawidget.mPipeline.getConfig() );
 	}
 }

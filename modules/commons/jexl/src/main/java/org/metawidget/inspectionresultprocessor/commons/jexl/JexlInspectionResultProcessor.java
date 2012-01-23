@@ -20,12 +20,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.jexl.ExpressionFactory;
-import org.apache.commons.jexl.JexlContext;
-import org.apache.commons.jexl.JexlHelper;
+import org.apache.commons.jexl2.JexlContext;
+import org.apache.commons.jexl2.JexlEngine;
+import org.apache.commons.jexl2.MapContext;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -57,6 +58,8 @@ public class JexlInspectionResultProcessor<M>
 
 	private Object[]								mInject;
 
+	private JexlEngine								mJexlEngine;
+
 	//
 	// Constructors
 	//
@@ -78,6 +81,7 @@ public class JexlInspectionResultProcessor<M>
 
 		mInjectThis = config.getInjectThis();
 		mInject = config.getInject();
+		mJexlEngine = createEngine();
 	}
 
 	@Override
@@ -100,18 +104,16 @@ public class JexlInspectionResultProcessor<M>
 	protected void processEntity( Map<String, String> attributes, M metawidget, Object toInspect, String type, String... names ) {
 
 		JexlContext context = LOCAL_CONTEXT.get();
-		@SuppressWarnings( "unchecked" )
-		Map<String, Object> vars = context.getVars();
 
 		try {
-			vars.put( THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, true, names ).getValue() );
+			context.set( THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, true, names ).getValue() );
 			super.processEntity( attributes, metawidget, toInspect, type, names );
 
 		} finally {
 
 			// THIS_ATTRIBUTE should not be available outside of our particular evaluation
 
-			vars.remove( THIS_ATTRIBUTE );
+			context.set( THIS_ATTRIBUTE, null );
 		}
 	}
 
@@ -119,18 +121,16 @@ public class JexlInspectionResultProcessor<M>
 	protected void processTraits( Element entity, M metawidget, Object toInspect, String type, String... names ) {
 
 		JexlContext context = LOCAL_CONTEXT.get();
-		@SuppressWarnings( "unchecked" )
-		Map<String, Object> vars = context.getVars();
 
 		try {
-			vars.put( THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, false, names ).getValue() );
+			context.set( THIS_ATTRIBUTE, mInjectThis.traverse( toInspect, type, false, names ).getValue() );
 			super.processTraits( entity, metawidget, toInspect, type, names );
 
 		} finally {
 
 			// THIS_ATTRIBUTE should not be available outside of our particular evaluation
 
-			vars.remove( THIS_ATTRIBUTE );
+			context.set( THIS_ATTRIBUTE, null );
 		}
 	}
 
@@ -156,12 +156,12 @@ public class JexlInspectionResultProcessor<M>
 				// ...evaluate it...
 
 				try {
-					Object valueObject = ExpressionFactory.createExpression( expression ).evaluate( LOCAL_CONTEXT.get() );
+					Object valueObject = mJexlEngine.createExpression( expression ).evaluate( LOCAL_CONTEXT.get() );
 					String valueObjectAsString;
 
 					if ( valueObject == null ) {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
 							value = null;
@@ -171,10 +171,15 @@ public class JexlInspectionResultProcessor<M>
 						valueObjectAsString = "";
 					} else {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
-							value = String.valueOf( valueObject );
+							if ( valueObject.getClass().isArray() ) {
+								// TODO: FacesInspectionResultProcessor/JspInspectionResultProcessor
+								value = ArrayUtils.toString( valueObject );
+							} else {
+								value = String.valueOf( valueObject );
+							}
 							break;
 						}
 
@@ -202,6 +207,15 @@ public class JexlInspectionResultProcessor<M>
 	}
 
 	/**
+	 * Prepare the JexlEngine.
+	 */
+
+	protected JexlEngine createEngine() {
+
+		return new JexlEngine();
+	}
+
+	/**
 	 * Prepare the JexlContext. This includes injecting any Objects passed by
 	 * <code>JexlInspectionResultProcessor.setInject</code>.
 	 * <p>
@@ -214,14 +228,12 @@ public class JexlInspectionResultProcessor<M>
 
 	protected JexlContext createContext( M metawidget ) {
 
-		JexlContext context = JexlHelper.createContext();
+		JexlContext context = new MapContext();
 
 		if ( mInject != null ) {
-			@SuppressWarnings( "unchecked" )
-			Map<String, Object> vars = context.getVars();
 
 			for ( Object inject : mInject ) {
-				vars.put( StringUtils.decapitalize( inject.getClass().getSimpleName() ), inject );
+				context.set( StringUtils.decapitalize( inject.getClass().getSimpleName() ), inject );
 			}
 		}
 

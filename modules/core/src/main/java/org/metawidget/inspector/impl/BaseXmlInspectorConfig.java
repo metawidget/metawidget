@@ -18,9 +18,9 @@ package org.metawidget.inspector.impl;
 
 import java.io.InputStream;
 
-import org.metawidget.config.NeedsResourceResolver;
-import org.metawidget.config.ResourceResolver;
-import org.metawidget.config.SimpleResourceResolver;
+import org.metawidget.config.iface.NeedsResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
+import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.simple.ObjectUtils;
 
