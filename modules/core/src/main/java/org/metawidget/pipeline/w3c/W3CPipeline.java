@@ -18,7 +18,8 @@ package org.metawidget.pipeline.w3c;
 
 import java.util.Map;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.pipeline.base.BasePipeline;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -35,8 +36,43 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	extends BasePipeline<W, C, Element, M> {
 
 	//
+	// Private statics
+	//
+
+	private static ConfigReader	DEFAULT_CONFIG_READER;
+
+	//
+	// Private methods
+	//
+
+	private ConfigReader		mConfigReader;
+
+	private Object				mConfig;
+
+	//
 	// Public methods
 	//
+
+	public void setConfigReader( ConfigReader configReader ) {
+
+		mConfigReader = configReader;
+	}
+
+	/**
+	 * Reference to the configuration file. Typically this is a Resource path (e.g.
+	 * <code>com/myapp/metawidget.xml</code>), but can also be an id (e.g. for Android).
+	 */
+
+	public Object getConfig() {
+
+		return mConfig;
+	}
+
+	public void setConfig( Object config ) {
+
+		mConfig = config;
+		setNeedsConfiguring();
+	}
 
 	/**
 	 * Returns the first WidgetProcessor in this pipeline's list of WidgetProcessors (ie. as added
@@ -71,43 +107,76 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 		return null;
 	}
 
-	/**
-	 * Uses the given <code>ConfigReader</code> to configure a default Inspector (
-	 * <code>setInspector</code>), WidgetBuilder (<code>setWidgetBuilder</code>), list of
-	 * WidgetProcessors (<code>setWidgetProcessors</code>) and a Layout (<code>setLayout</code>).
-	 *
-	 * @param metawidgetClass
-	 *            the base class of the Metawidget. This is different from
-	 *            getPipelineOwner().getClass(), as that will return the instance (and therefore
-	 *            potentially a subclass)
-	 */
-
-	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass ) {
-
-		if ( getInspector() == null ) {
-			configReader.configure( configuration, getPipelineOwner(), "inspector" );
-		}
-
-		if ( getInspectionResultProcessors() == null ) {
-			configReader.configure( configuration, getPipelineOwner(), "inspectionResultProcessors" );
-		}
-
-		if ( getWidgetBuilder() == null ) {
-			configReader.configure( configuration, getPipelineOwner(), "widgetBuilder" );
-		}
-
-		if ( getWidgetProcessors() == null ) {
-			configReader.configure( configuration, getPipelineOwner(), "widgetProcessors" );
-		}
-
-		if ( getLayout() == null ) {
-			configReader.configure( configuration, getPipelineOwner(), "layout" );
-		}
-	}
-
 	//
 	// Protected methods
 	//
+
+	/**
+	 * Gets the current <code>ConfigReader</code>, or creates a default one if one hasn't been set.
+	 */
+
+	protected final ConfigReader getConfigReader() {
+
+		if ( mConfigReader == null ) {
+			if ( DEFAULT_CONFIG_READER == null ) {
+				DEFAULT_CONFIG_READER = new BaseConfigReader();
+			}
+
+			mConfigReader = DEFAULT_CONFIG_READER;
+		}
+
+		return mConfigReader;
+	}
+
+	@Override
+	protected void configure() {
+
+		ConfigReader configReader = getConfigReader();
+
+		if ( mConfig != null ) {
+			configReader.configure( (String) mConfig, getPipelineOwner() );
+		}
+
+		configureDefaults();
+	}
+
+	protected abstract String getDefaultConfiguration();
+
+	/**
+	 * Uses <code>ConfigReader</code> to configure a default Inspector ( <code>setInspector</code>),
+	 * WidgetBuilder (<code>setWidgetBuilder</code>), list of
+	 * WidgetProcessors (<code>setWidgetProcessors</code>) and a Layout (<code>setLayout</code>).
+	 */
+
+	protected void configureDefaults() {
+
+		String defaultConfiguration = getDefaultConfiguration();
+
+		if ( defaultConfiguration != null ) {
+
+			ConfigReader configReader = getConfigReader();
+
+			if ( getInspector() == null ) {
+				configReader.configure( defaultConfiguration, getPipelineOwner(), "inspector" );
+			}
+
+			if ( getInspectionResultProcessors() == null ) {
+				configReader.configure( defaultConfiguration, getPipelineOwner(), "inspectionResultProcessors" );
+			}
+
+			if ( getWidgetBuilder() == null ) {
+				configReader.configure( defaultConfiguration, getPipelineOwner(), "widgetBuilder" );
+			}
+
+			if ( getWidgetProcessors() == null ) {
+				configReader.configure( defaultConfiguration, getPipelineOwner(), "widgetProcessors" );
+			}
+
+			if ( getLayout() == null ) {
+				configReader.configure( defaultConfiguration, getPipelineOwner(), "layout" );
+			}
+		}
+	}
 
 	@Override
 	protected Element stringToElement( String xml ) {

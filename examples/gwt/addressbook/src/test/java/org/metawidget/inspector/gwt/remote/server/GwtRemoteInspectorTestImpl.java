@@ -16,7 +16,6 @@
 
 package org.metawidget.inspector.gwt.remote.server;
 
-import javax.servlet.ServletConfig;
 
 /**
  * Version of <code>GwtRemoteInspectorTestImpl</code> for running unit tests.
@@ -41,7 +40,7 @@ public class GwtRemoteInspectorTestImpl
 	//
 
 	@Override
-	protected String getConfigInitParameter( ServletConfig servletConfig ) {
+	protected String getConfigInitParameter() {
 
 		return "metawidget.xml";
 	}

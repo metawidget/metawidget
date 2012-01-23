@@ -109,9 +109,9 @@ public class SwingAllWidgetsTest
 		// App
 
 		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setConfig( "org/metawidget/integrationtest/swing/allwidgets/metawidget.xml" );
 		metawidget.addWidgetProcessor( processor );
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
-		metawidget.setConfig( "org/metawidget/integrationtest/swing/allwidgets/metawidget.xml" );
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		metawidget.setToInspect( allWidgets );

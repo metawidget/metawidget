@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;

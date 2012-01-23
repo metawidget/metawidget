@@ -18,7 +18,7 @@ package org.metawidget.android;
 
 import java.io.InputStream;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.iface.MetawidgetException;
 
 import android.content.Context;
@@ -34,7 +34,7 @@ import android.content.res.Resources;
  */
 
 public class AndroidConfigReader
-	extends ConfigReader {
+	extends BaseConfigReader {
 
 	//
 	// Private members

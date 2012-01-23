@@ -33,7 +33,6 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -67,8 +66,6 @@ public class SwtMetawidget
 
 	private static final long		serialVersionUID		= 1l;
 
-	private static ConfigReader		CONFIG_READER;
-
 	//
 	// Private members
 	//
@@ -77,13 +74,11 @@ public class SwtMetawidget
 
 	private String					mInspectionPath;
 
-	private String					mConfig;
-
 	private ResourceBundle			mBundle;
 
 	private boolean					mNeedToBuildWidgets;
 
-	private Element					mLastInspection;
+	private Element					mLastInspectionResult;
 
 	private Map<String, Facet>		mFacets					= CollectionUtils.newHashMap();
 
@@ -227,8 +222,7 @@ public class SwtMetawidget
 
 	public void setConfig( String config ) {
 
-		mConfig = config;
-		mPipeline.setNeedsConfiguring();
+		mPipeline.setConfig( config );
 		invalidateInspection();
 	}
 
@@ -549,6 +543,11 @@ public class SwtMetawidget
 		return new Pipeline();
 	}
 
+	protected String getDefaultConfiguration() {
+
+		return ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
+	}
+
 	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 * <p>
@@ -558,7 +557,7 @@ public class SwtMetawidget
 
 	protected void invalidateInspection() {
 
-		mLastInspection = null;
+		mLastInspectionResult = null;
 		invalidateWidgets();
 	}
 
@@ -573,47 +572,6 @@ public class SwtMetawidget
 		}
 
 		mNeedToBuildWidgets = true;
-	}
-
-	protected void configure() {
-
-		// Special support for visual IDE builders
-
-		if ( mInspectionPath == null ) {
-
-			mPipeline.setNeedsConfiguring();
-			return;
-		}
-
-		try {
-			if ( mConfig != null ) {
-				getConfigReader().configure( mConfig, this );
-			}
-
-			// SwtMetawidget uses setMetawidgetLayout, not setLayout
-
-			if ( mPipeline.getLayout() == null ) {
-				getConfigReader().configure( getDefaultConfiguration(), this, "metawidgetLayout" );
-			}
-
-			mPipeline.configureDefaults( getConfigReader(), getDefaultConfiguration(), SwtMetawidget.class );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
-	}
-
-	protected String getDefaultConfiguration() {
-
-		return ClassUtils.getPackagesAsFolderNames( SwtMetawidget.class ) + "/metawidget-swt-default.xml";
-	}
-
-	protected ConfigReader getConfigReader() {
-
-		if ( CONFIG_READER == null ) {
-			CONFIG_READER = new ConfigReader();
-		}
-
-		return CONFIG_READER;
 	}
 
 	protected void buildWidgets() {
@@ -654,11 +612,11 @@ public class SwtMetawidget
 		// Build widgets
 
 		try {
-			if ( mLastInspection == null ) {
-				mLastInspection = inspect();
+			if ( mLastInspectionResult == null ) {
+				mLastInspectionResult = inspect();
 			}
 
-			mPipeline.buildWidgets( mLastInspection );
+			mPipeline.buildWidgets( mLastInspectionResult );
 
 			// Work out the delta of 'what was here originally' versus 'what was generated'
 			//
@@ -842,9 +800,39 @@ public class SwtMetawidget
 		//
 
 		@Override
+		protected SwtMetawidget getPipelineOwner() {
+
+			return SwtMetawidget.this;
+		}
+
+		@Override
+		protected String getDefaultConfiguration() {
+
+			return SwtMetawidget.this.getDefaultConfiguration();
+		}
+
+		@Override
 		protected void configure() {
 
-			SwtMetawidget.this.configure();
+			// Special support for visual IDE builders
+
+			if ( Beans.isDesignTime() ) {
+				return;
+			}
+
+			super.configure();
+		}
+
+		@Override
+		protected void configureDefaults() {
+
+			// SwtMetawidget uses setMetawidgetLayout, not setLayout
+
+			if ( getLayout() == null ) {
+				getConfigReader().configure( getDefaultConfiguration(), getPipelineOwner(), "metawidgetLayout" );
+			}
+
+			super.configureDefaults();
 		}
 
 		@Override
@@ -893,12 +881,6 @@ public class SwtMetawidget
 
 			SwtMetawidget.this.endBuild();
 			super.endBuild();
-		}
-
-		@Override
-		protected SwtMetawidget getPipelineOwner() {
-
-			return SwtMetawidget.this;
 		}
 	}
 

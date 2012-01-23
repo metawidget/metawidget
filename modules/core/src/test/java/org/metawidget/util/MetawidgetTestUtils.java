@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 
 import junit.framework.Assert;
 
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.simple.StringUtils;

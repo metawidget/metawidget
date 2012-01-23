@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;

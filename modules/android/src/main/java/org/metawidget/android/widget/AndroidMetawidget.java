@@ -29,7 +29,7 @@ import org.metawidget.android.widget.layout.TextViewLayoutDecoratorConfig;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
@@ -81,7 +81,7 @@ public class AndroidMetawidget
 
 	private static Layout<View, ViewGroup, AndroidMetawidget>	DEFAULT_LAYOUT;
 
-	private static ConfigReader									CONFIG_READER;
+	private static ConfigReader									DEFAULT_CONFIG_READER;
 
 	//
 	// Private members
@@ -90,8 +90,6 @@ public class AndroidMetawidget
 	private Object												mToInspect;
 
 	private String												mPath;
-
-	private int													mConfig;
 
 	private Class<?>											mBundle;
 
@@ -118,32 +116,44 @@ public class AndroidMetawidget
 	public AndroidMetawidget( Context context ) {
 
 		super( context );
-		mPipeline = newPipeline();
-
-		setOrientation( LinearLayout.VERTICAL );
+		initAndroidMetawidget( null );
 	}
 
 	public AndroidMetawidget( Context context, AttributeSet attributes ) {
 
 		super( context, attributes );
+		initAndroidMetawidget( attributes );
+	}
+
+	private void initAndroidMetawidget( AttributeSet attributes ) {
+
 		mPipeline = newPipeline();
 
 		setOrientation( LinearLayout.VERTICAL );
 
-		// Support overriding config in the XML
-
-		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
-
-		if ( mConfig != 0 ) {
-			mPipeline.setNeedsConfiguring();
+		if ( DEFAULT_CONFIG_READER == null ) {
+			DEFAULT_CONFIG_READER = new AndroidConfigReader( getContext() );
 		}
 
-		// Support readOnly in the XML
+		mPipeline.setConfigReader( DEFAULT_CONFIG_READER );
 
-		String readOnly = attributes.getAttributeValue( null, "readOnly" );
+		if ( attributes != null ) {
 
-		if ( readOnly != null && !"".equals( readOnly ) ) {
-			mPipeline.setReadOnly( Boolean.parseBoolean( readOnly ) );
+			// Support overriding config in the XML
+
+			int config = attributes.getAttributeResourceValue( null, "config", 0 );
+
+			if ( config != 0 ) {
+				setConfig( config );
+			}
+
+			// Support readOnly in the XML
+
+			String readOnly = attributes.getAttributeValue( null, "readOnly" );
+
+			if ( readOnly != null && !"".equals( readOnly ) ) {
+				mPipeline.setReadOnly( Boolean.parseBoolean( readOnly ) );
+			}
 		}
 	}
 
@@ -204,8 +214,7 @@ public class AndroidMetawidget
 
 	public void setConfig( int config ) {
 
-		mConfig = config;
-		mPipeline.setNeedsConfiguring();
+		mPipeline.setConfig( config );
 		invalidateInspection();
 	}
 
@@ -521,6 +530,58 @@ public class AndroidMetawidget
 		return new Pipeline();
 	}
 
+	protected void configureDefaults() {
+
+		try {
+			// Sensible defaults
+			//
+			// Unlike the other Metawidgets, we don't handle these via ConfigReader because we
+			// couldn't figure out how to read a metawidget-android-default.xml file from the
+			// JAR
+
+			if ( mPipeline.getInspector() == null ) {
+				if ( DEFAULT_INSPECTOR == null ) {
+					// Relax the dependancy on MetawidgetAnnotationInspector (if the class is
+					// hard-coded, rather than using Class.forName, Dalvik seems to pick
+					// the dependancy up even if we never come down this codepath)
+
+					Inspector annotationInspector = (Inspector) Class.forName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" ).newInstance();
+					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), annotationInspector ) );
+				}
+
+				mPipeline.setInspector( DEFAULT_INSPECTOR );
+			}
+
+			if ( mPipeline.getInspectionResultProcessors() == null ) {
+				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null ) {
+					DEFAULT_INSPECTIONRESULTPROCESSOR = new ComesAfterInspectionResultProcessor<AndroidMetawidget>();
+				}
+
+				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
+			}
+
+			if ( mPipeline.getWidgetBuilder() == null ) {
+				if ( DEFAULT_WIDGETBUILDER == null ) {
+					@SuppressWarnings( "unchecked" )
+					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new AndroidWidgetBuilder() );
+					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
+				}
+
+				setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+			}
+
+			if ( mPipeline.getLayout() == null ) {
+				if ( DEFAULT_LAYOUT == null ) {
+					DEFAULT_LAYOUT = new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() ) );
+				}
+
+				setLayout( DEFAULT_LAYOUT );
+			}
+		} catch ( Exception e ) {
+			throw MetawidgetException.newException( e );
+		}
+	}
+
 	@Override
 	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
 
@@ -553,70 +614,6 @@ public class AndroidMetawidget
 		postInvalidate();
 	}
 
-	protected void configure() {
-
-		try {
-			if ( mConfig != 0 ) {
-				getConfigReader().configure( getContext().getResources().openRawResource( mConfig ), this );
-			}
-
-			// Sensible defaults
-			//
-			// Unlike the other Metawidgets, we don't handle these via ConfigReader because we
-			// couldn't figure out how to read a metawidget-android-default.xml file from the JAR
-
-			if ( mPipeline.getInspector() == null ) {
-				if ( DEFAULT_INSPECTOR == null ) {
-					// Relax the dependancy on MetawidgetAnnotationInspector (if the class is
-					// hard-coded, rather than using Class.forName, Dalvik seems to pick
-					// the dependancy up even if we never come down this codepath)
-
-					Inspector annotationInspector = (Inspector) Class.forName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" ).newInstance();
-					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), annotationInspector ) );
-				}
-
-				mPipeline.setInspector( DEFAULT_INSPECTOR );
-			}
-
-			if ( mPipeline.getInspectionResultProcessors() == null ) {
-				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null ) {
-					DEFAULT_INSPECTIONRESULTPROCESSOR = new ComesAfterInspectionResultProcessor<AndroidMetawidget>();
-				}
-
-				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
-			}
-
-			if ( mPipeline.getWidgetBuilder() == null ) {
-				if ( DEFAULT_WIDGETBUILDER == null ) {
-					@SuppressWarnings( "unchecked" )
-					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new AndroidWidgetBuilder() );
-					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
-				}
-
-				mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
-			}
-
-			if ( mPipeline.getLayout() == null ) {
-				if ( DEFAULT_LAYOUT == null ) {
-					DEFAULT_LAYOUT = new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() ) );
-				}
-
-				mPipeline.setLayout( DEFAULT_LAYOUT );
-			}
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
-	}
-
-	protected ConfigReader getConfigReader() {
-
-		if ( CONFIG_READER == null ) {
-			CONFIG_READER = new AndroidConfigReader( getContext() );
-		}
-
-		return CONFIG_READER;
-	}
-
 	protected void buildWidgets() {
 
 		// No need to build?
@@ -625,7 +622,7 @@ public class AndroidMetawidget
 			return;
 		}
 
-		mPipeline.configureOnce();
+		mPipeline.configure();
 
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
@@ -748,13 +745,10 @@ public class AndroidMetawidget
 		for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ ) {
 			Object tag = tags[tagsLoop];
 
-			// buildWidgets just-in-time
-
-			if ( viewgroup instanceof AndroidMetawidget ) {
-				( (AndroidMetawidget) viewgroup ).buildWidgets();
-			}
-
 			// Use our own findViewWithTag, not View.findViewWithTag!
+			//
+			// Note: if viewgroup instanceof AndroidMetawidget, getChildCount will call buildWidgets
+			// just-in-time
 
 			View match = findViewWithTag( viewgroup, tag );
 
@@ -886,9 +880,24 @@ public class AndroidMetawidget
 		//
 
 		@Override
+		protected String getDefaultConfiguration() {
+
+			return null;
+		}
+
+		@Override
 		protected void configure() {
 
-			AndroidMetawidget.this.configure();
+			try {
+				if ( getConfig() != null ) {
+					getConfigReader().configure( getContext().getResources().openRawResource( (Integer) getConfig() ), this );
+				}
+
+				AndroidMetawidget.this.configureDefaults();
+
+			} catch ( Exception e ) {
+				throw MetawidgetException.newException( e );
+			}
 		}
 
 		@Override

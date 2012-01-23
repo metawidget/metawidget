@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -66,8 +65,6 @@ public class VaadinMetawidget
 
 	private static final long			serialVersionUID	= 1l;
 
-	private static final ConfigReader	CONFIG_READER		= new ConfigReader();
-
 	private static final String			DEFAULT_CONFIG		= "org/metawidget/vaadin/metawidget-vaadin-default.xml";
 
 	private static int					id					= 1;
@@ -79,8 +76,6 @@ public class VaadinMetawidget
 	private Object						mToInspect;
 
 	private String						mPath;
-
-	private String						mConfig;
 
 	private ResourceBundle				mBundle;
 
@@ -227,8 +222,7 @@ public class VaadinMetawidget
 
 	public void setConfig( String config ) {
 
-		mConfig = config;
-		mPipeline.setNeedsConfiguring();
+		mPipeline.setConfig( config );
 		invalidateInspection();
 		buildWidgets();
 	}
@@ -677,20 +671,6 @@ public class VaadinMetawidget
 		this.requestRepaint();
 	}
 
-	protected void configure() {
-
-		try {
-			if ( mConfig != null ) {
-				CONFIG_READER.configure( mConfig, this );
-			}
-
-			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG,
-					VaadinMetawidget.class );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		}
-	}
-
 	protected void buildWidgets() {
 
 		// No need to build?
@@ -956,10 +936,17 @@ public class VaadinMetawidget
 		// Protected methods
 		//
 
-		@Override
-		protected void configure() {
 
-			VaadinMetawidget.this.configure();
+		@Override
+		protected VaadinMetawidget getPipelineOwner() {
+
+			return VaadinMetawidget.this;
+		}
+
+		@Override
+		protected String getDefaultConfiguration() {
+
+			return null;
 		}
 
 		@Override
@@ -1029,12 +1016,6 @@ public class VaadinMetawidget
 
 			VaadinMetawidget.this.endBuild();
 			super.endBuild();
-		}
-
-		@Override
-		protected VaadinMetawidget getPipelineOwner() {
-
-			return VaadinMetawidget.this;
 		}
 	}
 

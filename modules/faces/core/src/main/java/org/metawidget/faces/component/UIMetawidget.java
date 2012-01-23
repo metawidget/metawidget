@@ -42,7 +42,7 @@ import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 import javax.faces.validator.Validator;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -85,7 +85,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * However by extending <code>UIInput</code>, we enable this useful capability.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -154,7 +154,7 @@ public abstract class UIMetawidget
 
 	/* package private */static final Log	LOG										= LogUtils.getLog( UIMetawidget.class );
 
-	private static boolean					LOGGED_MISSING_CONFIG;
+	/* package private */static boolean		LOGGED_MISSING_CONFIG;
 
 	private static Boolean					USE_PRERENDER_VIEW_EVENT;
 
@@ -162,9 +162,7 @@ public abstract class UIMetawidget
 	// Private members
 	//
 
-	private String							mConfig;
-
-	private boolean							mExplicitRendererType;
+	/* package private */boolean			mExplicitRendererType;
 
 	private boolean							mInspectFromParent;
 
@@ -172,7 +170,7 @@ public abstract class UIMetawidget
 
 	private Map<Object, Object>				mClientProperties;
 
-	private Pipeline						mPipeline;
+	/* package private */Pipeline			mPipeline;
 
 	/* package private */Object				mBuildWidgetsSupport;
 
@@ -192,10 +190,21 @@ public abstract class UIMetawidget
 		String configFile = externalContext.getInitParameter( "org.metawidget.faces.component.CONFIG_FILE" );
 
 		if ( configFile == null ) {
-			mConfig = DEFAULT_USER_CONFIG;
+			setConfig( DEFAULT_USER_CONFIG );
 		} else {
-			mConfig = configFile;
+			setConfig( configFile );
 		}
+
+		FacesContext facesContext = UIMetawidget.this.getFacesContext();
+		Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
+		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
+
+		if ( configReader == null ) {
+			configReader = new FacesConfigReader();
+			applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
+		}
+
+		mPipeline.setConfigReader( configReader );
 
 		// Default renderer (not set mExplicitRendererType yet)
 
@@ -237,8 +246,7 @@ public abstract class UIMetawidget
 
 	public void setConfig( String config ) {
 
-		mConfig = config;
-		mPipeline.setNeedsConfiguring();
+		mPipeline.setConfig( config );
 	}
 
 	public void setInspector( Inspector inspector ) {
@@ -633,7 +641,7 @@ public abstract class UIMetawidget
 		values[0] = super.saveState( context );
 		values[1] = mExplicitRendererType;
 		values[2] = mReadOnly;
-		values[3] = mConfig;
+		values[3] = mPipeline.getConfig();
 		values[4] = mInspectFromParent;
 
 		return values;
@@ -651,7 +659,7 @@ public abstract class UIMetawidget
 
 		mExplicitRendererType = (Boolean) values[1];
 		mReadOnly = (Boolean) values[2];
-		mConfig = (String) values[3];
+		mPipeline.setConfig( values[3] );
 		mInspectFromParent = (Boolean) values[4];
 	}
 
@@ -845,50 +853,6 @@ public abstract class UIMetawidget
 		return nestedMetawidget;
 	}
 
-	protected void configure() {
-
-		FacesContext facesContext = getFacesContext();
-		Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
-		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
-
-		if ( configReader == null ) {
-			configReader = new FacesConfigReader();
-			applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
-		}
-
-		if ( mConfig != null ) {
-
-			boolean wasExplicitRendererType = mExplicitRendererType;
-			String rendererType = getRendererType();
-
-			try {
-				configReader.configure( mConfig, this );
-			} catch ( MetawidgetException e ) {
-				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) ) {
-					throw e;
-				}
-
-				// Log a warning. Still log the Exception message, in case the FileNotFoundException
-				// is from inside metawidget.xml, for example 'Unable to locate checkout.jpdl.xml on
-				// CLASSPATH'
-
-				if ( !LOGGED_MISSING_CONFIG ) {
-					LOGGED_MISSING_CONFIG = true;
-					LOG.info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn''t finding it: {0}", e.getMessage() );
-				}
-			}
-
-			// Preserve rendererType if was set explicitly
-
-			if ( wasExplicitRendererType ) {
-				setRendererType( rendererType );
-			}
-
-		}
-
-		mPipeline.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
-	}
-
 	protected abstract String getDefaultConfiguration();
 
 	/**
@@ -1032,7 +996,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 * 
+	 *
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
@@ -1183,6 +1147,44 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
+		@Override
+		protected void configure() {
+
+			boolean wasExplicitRendererType = mExplicitRendererType;
+			String rendererType = getRendererType();
+
+			try {
+				super.configure();
+			} catch ( MetawidgetException e ) {
+				if ( !DEFAULT_USER_CONFIG.equals( getConfig() ) || !( e.getCause() instanceof FileNotFoundException ) ) {
+					throw e;
+				}
+
+				// Log a warning. Still log the Exception message, in case the FileNotFoundException
+				// is from inside metawidget.xml, for example 'Unable to locate checkout.jpdl.xml on
+				// CLASSPATH'
+
+				if ( !LOGGED_MISSING_CONFIG ) {
+					LOGGED_MISSING_CONFIG = true;
+					LOG.info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn''t finding it: {0}", e.getMessage() );
+				}
+
+				super.configureDefaults();
+			}
+
+			// Preserve rendererType if was set explicitly
+
+			if ( wasExplicitRendererType ) {
+				setRendererType( rendererType );
+			}
+		}
+
+		@Override
+		protected String getDefaultConfiguration() {
+
+			return UIMetawidget.this.getDefaultConfiguration();
+		}
+
 		/**
 		 * Overriden to just-in-time evaluate EL binding.
 		 */
@@ -1202,12 +1204,6 @@ public abstract class UIMetawidget
 		//
 		// Protected methods
 		//
-
-		@Override
-		protected void configure() {
-
-			UIMetawidget.this.configure();
-		}
 
 		@Override
 		protected void startBuild() {

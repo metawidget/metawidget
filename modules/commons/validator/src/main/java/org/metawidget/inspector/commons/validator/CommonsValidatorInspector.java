@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;

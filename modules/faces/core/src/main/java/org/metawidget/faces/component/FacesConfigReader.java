@@ -21,7 +21,7 @@ import java.net.URL;
 
 import javax.faces.context.FacesContext;
 
-import org.metawidget.config.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.inspector.iface.InspectorException;
 
 /**
@@ -33,7 +33,7 @@ import org.metawidget.inspector.iface.InspectorException;
  */
 
 public class FacesConfigReader
-	extends ConfigReader {
+	extends BaseConfigReader {
 
 	//
 	// Protected methods

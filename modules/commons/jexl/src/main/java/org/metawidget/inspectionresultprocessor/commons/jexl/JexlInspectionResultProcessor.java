@@ -175,6 +175,7 @@ public class JexlInspectionResultProcessor<M>
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
 							if ( valueObject.getClass().isArray() ) {
+								// TODO: FacesInspectionResultProcessor/JspInspectionResultProcessor
 								value = ArrayUtils.toString( valueObject );
 							} else {
 								value = String.valueOf( valueObject );
