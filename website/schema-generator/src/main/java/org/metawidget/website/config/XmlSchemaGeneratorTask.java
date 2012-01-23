@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.iface.Immutable;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
