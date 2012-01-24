@@ -826,13 +826,13 @@ public class SwtMetawidget
 		@Override
 		protected void configureDefaults() {
 
+			super.configureDefaults();
+
 			// SwtMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( getLayout() == null ) {
 				getConfigReader().configure( getDefaultConfiguration(), getPipelineOwner(), "metawidgetLayout" );
 			}
-
-			super.configureDefaults();
 		}
 
 		@Override
