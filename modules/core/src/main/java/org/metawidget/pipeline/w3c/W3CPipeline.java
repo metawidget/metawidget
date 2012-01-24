@@ -94,6 +94,8 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	@SuppressWarnings( "unchecked" )
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
 
+		configureOnce();
+
 		if ( getWidgetProcessors() == null ) {
 			return null;
 		}
@@ -113,6 +115,10 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 
 	/**
 	 * Gets the current <code>ConfigReader</code>, or creates a default one if one hasn't been set.
+	 * <p>
+	 * Subclasses wishing to set a different default should call <code>setConfigReader</code>. Care
+	 * should be taken to <em>reuse</em> the same <code>ConfigReader</code> instance as much as
+	 * possible, to maximize caching.
 	 */
 
 	protected final ConfigReader getConfigReader() {
@@ -131,19 +137,23 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	@Override
 	protected void configure() {
 
-		ConfigReader configReader = getConfigReader();
-
 		if ( mConfig != null ) {
-			configReader.configure( (String) mConfig, getPipelineOwner() );
+			getConfigReader().configure( (String) mConfig, getPipelineOwner() );
 		}
 
 		configureDefaults();
 	}
 
+	/**
+	 * @return the resource path to the default configuration file, or null if there is no default
+	 *         configuration.
+	 */
+
 	protected abstract String getDefaultConfiguration();
 
 	/**
-	 * Uses <code>ConfigReader</code> to configure a default Inspector ( <code>setInspector</code>),
+	 * Configure a default Inspector (<code>setInspector</code>),
+	 * list of InspectionResultProcessors (<code>setInspectionResultProcessors</code>),
 	 * WidgetBuilder (<code>setWidgetBuilder</code>), list of
 	 * WidgetProcessors (<code>setWidgetProcessors</code>) and a Layout (<code>setLayout</code>).
 	 */

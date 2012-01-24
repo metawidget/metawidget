@@ -983,13 +983,13 @@ public class SwingMetawidget
 		@Override
 		protected void configureDefaults() {
 
+			super.configureDefaults();
+			
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( getLayout() == null ) {
 				getConfigReader().configure( getDefaultConfiguration(), getPipelineOwner(), "metawidgetLayout" );
 			}
-
-			super.configureDefaults();
 		}
 
 		@Override
