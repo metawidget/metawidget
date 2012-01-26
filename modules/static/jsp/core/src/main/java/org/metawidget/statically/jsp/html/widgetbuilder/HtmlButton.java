@@ -20,16 +20,16 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlAnchor
+public class HtmlButton
     extends HtmlTag {
     
     //
     // Constructor
     //
     
-    public HtmlAnchor() {
+    public HtmlButton() {
         
-        super( "a" );
+        super( "button" );
     }
 
 }
