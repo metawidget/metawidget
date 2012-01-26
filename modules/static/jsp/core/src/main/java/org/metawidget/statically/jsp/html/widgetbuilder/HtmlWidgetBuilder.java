@@ -387,7 +387,7 @@ public class HtmlWidgetBuilder
 
     }
 
-    private void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
+    protected void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
 
         // Empty option
 
@@ -396,19 +396,6 @@ public class HtmlWidgetBuilder
         }
 
         addSelectItem( select, valueExpression, null );
-    }
-
-    //
-    // Private methods
-    //
-
-    private void addColumnHeader( HtmlTableHead head, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
-
-        HtmlTableHeader header = new HtmlTableHeader();
-        header.setTextContent( metawidget.getLabelString( attributes ) );
-
-        head.getChildren().get( 0 ).getChildren().add( header );
-
     }
 
     protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
@@ -437,6 +424,15 @@ public class HtmlWidgetBuilder
         }
 
         return;
+    }
+
+    protected void addColumnHeader( HtmlTableHead head, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+
+        HtmlTableHeader header = new HtmlTableHeader();
+        header.setTextContent( metawidget.getLabelString( attributes ) );
+
+        head.getChildren().get( 0 ).getChildren().add( header );
+
     }
 
 	//
