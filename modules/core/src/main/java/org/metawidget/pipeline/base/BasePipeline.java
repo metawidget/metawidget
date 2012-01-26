@@ -185,7 +185,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( inspectionResultProcessors == null ) {
 			mInspectionResultProcessors = null;
 		} else {
-			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( Arrays.asList( inspectionResultProcessors ));
+			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( Arrays.asList( inspectionResultProcessors ) );
 		}
 	}
 
@@ -258,7 +258,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( widgetProcessors == null ) {
 			mWidgetProcessors = null;
 		} else {
-			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>( Arrays.asList( widgetProcessors ));
+			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>( Arrays.asList( widgetProcessors ) );
 		}
 	}
 
@@ -440,6 +440,9 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * WidgetBuilders, WidgetProcessors and Layouts as the current pipeline. This is safe because
 	 * they are all immutable</li>
 	 * </ul>
+	 *
+	 * @param attributes
+	 *            may be null
 	 */
 
 	public void initNestedPipeline( BasePipeline<W, C, E, M> nestedPipeline, Map<String, String> attributes ) {
@@ -454,6 +457,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		nestedPipeline.setInspector( getInspector() );
 		nestedPipeline.setWidgetBuilder( getWidgetBuilder() );
 		nestedPipeline.setLayout( getLayout() );
+
+		// TODO: use setInspectionResultProcessors and setWidgetProcessors?
 
 		if ( mInspectionResultProcessors == null ) {
 			nestedPipeline.mInspectionResultProcessors = null;
@@ -483,7 +488,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		E child = getFirstChildElement( entity );
 		int loop = 0;
 
-		while( child != null ) {
+		while ( child != null ) {
 
 			loop++;
 

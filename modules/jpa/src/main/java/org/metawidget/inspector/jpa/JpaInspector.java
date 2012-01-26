@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -108,8 +109,28 @@ public class JpaInspector
 
 		OneToOne oneToOne = property.getAnnotation( OneToOne.class );
 
-		if ( oneToOne != null && !oneToOne.optional() ) {
-			attributes.put( REQUIRED, TRUE );
+		if ( oneToOne != null ) {
+
+			if ( !oneToOne.optional() ) {
+				attributes.put( REQUIRED, TRUE );
+			}
+
+			String mappedBy = oneToOne.mappedBy();
+
+			if ( !"".equals( mappedBy ) ) {
+				attributes.put( INVERSE_RELATIONSHIP, mappedBy );
+			}
+		}
+
+		OneToMany oneToMany = property.getAnnotation( OneToMany.class );
+
+		if ( oneToMany != null ) {
+
+			String mappedBy = oneToMany.mappedBy();
+
+			if ( !"".equals( mappedBy ) ) {
+				attributes.put( INVERSE_RELATIONSHIP, mappedBy );
+			}
 		}
 
 		ManyToOne manyToOne = property.getAnnotation( ManyToOne.class );

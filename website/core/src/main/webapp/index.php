@@ -269,7 +269,7 @@
 		</ul>
 
 		<p>
-			Metawidget requires J2SE 1.4 or higher. Some optional features require Java SE 5 or higher.
+			Metawidget requires Java SE 5 or higher.
 		</p>
 
 		<p>

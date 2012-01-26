@@ -16,7 +16,7 @@
 		
 		<ul>
 			<li>Drop support for JDK 1.4 (was causing a number of issues with frameworks that scan the classpath)</li>
-			<li>Implement long-standing refactorings (taking the opportunity now that we've broken compatibility)</li>
+			<li>Implement long-standing refactorings (taking the opportunity now that we've broken binary compatibility)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
