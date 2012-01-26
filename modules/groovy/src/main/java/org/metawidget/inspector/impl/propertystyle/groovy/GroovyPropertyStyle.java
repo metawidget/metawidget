@@ -84,6 +84,11 @@ public class GroovyPropertyStyle
 		// Iterate over all Groovy properties
 
 		Class<?> clazz = ClassUtils.niceForName( type );
+
+		if ( clazz == null ) {
+			return propertiesToReturn;
+		}
+		
 		List<MetaProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
 		for ( MetaProperty property : properties ) {
