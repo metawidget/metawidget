@@ -255,6 +255,13 @@ public final class InspectionResultConstants {
 
 	public static final String	FALSE							= "false";
 
+	/**
+	 * The field in a <em>child</em> entity that relates back to us (i.e. JPA's
+	 * <code>mappedBy</code>).
+	 */
+
+	public static final String	INVERSE_RELATIONSHIP			= "inverse-relationship";
+
 	//
 	// Rarer fields (only used by Faces components so far)
 	//
@@ -291,7 +298,6 @@ public final class InspectionResultConstants {
 
 	public static final String	TIME_ZONE						= "time-zone";
 
-        // Values for use with JSF: "date", "time", "both", default "date"
 	public static final String	DATETIME_TYPE					= "datetime-type";
 
 	//

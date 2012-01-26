@@ -271,6 +271,8 @@ public class HibernateInspector
 			}
 		}
 
+		// TODO: INVERSE_RELATIONSHIP?
+
 		return attributes;
 	}
 

@@ -3,9 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd" version="1.0">
 
-	<!-- We use XML, not annotations, because we  -->
-	<!-- want to test 'allwidgets' under J2SE 1.4 -->
-	
 	<entity type="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets">
 		<property name="textbox" lookup="" masked="" large="" maximum-length="" required="true"/>
 		<property name="limitedTextbox" maximum-length="20"/>

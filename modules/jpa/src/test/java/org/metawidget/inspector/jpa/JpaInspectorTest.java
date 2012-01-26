@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -107,6 +108,12 @@ public class JpaInspectorTest
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "oneToOne" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( "foo", property.getAttribute( INVERSE_RELATIONSHIP ) );
+		assertTrue( property.getAttributes().getLength() == 3 );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "oneToMany" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( INVERSE_RELATIONSHIP ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 	}
 
@@ -245,7 +252,10 @@ public class JpaInspectorTest
 		@Temporal( TemporalType.TIMESTAMP )
 		public Date		datetime;
 
-		@OneToOne( optional = false )
+		@OneToOne( optional = false, mappedBy = "foo" )
 		public String	oneToOne;
+
+		@OneToMany( mappedBy = "bar" )
+		public String	oneToMany;
 	}
 }
