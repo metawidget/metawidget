@@ -80,4 +80,10 @@ public class GroovyPropertyStyleTest
 		Map<String, Property> properties = propertyStyle.getProperties( byte[].class.getName() );
 		assertTrue( properties.isEmpty() );
 	}
+
+	public void testIgnoreInvalidTypes() {
+		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( "invalid" );
+		assertTrue( properties.isEmpty() );
+	}
 }
