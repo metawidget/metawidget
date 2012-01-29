@@ -587,6 +587,7 @@ public class HtmlWidgetBuilder
 		column.setId( viewRoot.createUniqueId() );
 
 		// Make the column contents...
+		// TODO: this should be a Metawidget too!
 
 		UIComponent columnText = application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		columnText.setId( viewRoot.createUniqueId() );

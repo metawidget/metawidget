@@ -19,6 +19,7 @@ package org.metawidget.inspector.impl.propertystyle.statically;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 
 /**
  * PropertyStyle for statically-declared properties.
@@ -34,6 +35,20 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
 
 public class StaticPropertyStyle
 	extends JavaBeanPropertyStyle {
+
+	//
+	// Constructor
+	//
+
+	public StaticPropertyStyle() {
+
+		this( new JavaBeanPropertyStyleConfig() );
+	}
+
+	public StaticPropertyStyle( JavaBeanPropertyStyleConfig config ) {
+
+		super( config );
+	}
 
 	//
 	// Public methods
