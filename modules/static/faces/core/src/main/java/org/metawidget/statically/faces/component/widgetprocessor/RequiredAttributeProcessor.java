@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -37,7 +38,7 @@ public class RequiredAttributeProcessor
 
 	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
+		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes )) {
 			widget.putAttribute( REQUIRED, TRUE );
 		}
 

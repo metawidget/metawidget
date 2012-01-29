@@ -27,6 +27,7 @@ import java.util.Map;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -148,8 +149,9 @@ public class ReadOnlyWidgetBuilder
 		}
 
 		// Not simple, but don't expand
+		// TODO: metawidget.getLayout() instanceof SimpleLayout everywhere?
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) || metawidget.getLayout() instanceof SimpleLayout ) {
 			return new HtmlOutputText();
 		}
 

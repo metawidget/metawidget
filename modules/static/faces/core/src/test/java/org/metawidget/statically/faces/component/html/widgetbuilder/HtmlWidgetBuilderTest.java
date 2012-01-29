@@ -32,7 +32,6 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.statically.StaticPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -96,14 +95,14 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, Foo[].class.getName() );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText value=\"Bar\"/></f:facet><h:outputText value=\"#{_item.bar}\"/></h:column><h:column><f:facet name=\"header\"><h:outputText value=\"Baz\"/></f:facet><h:outputText value=\"#{_item.baz}\"/></h:column></h:dataTable>", widget.toString() );
+		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText value=\"Bar\"/></f:facet><h:outputText id=\"itemBar\" value=\"#{_item.bar}\"/></h:column><h:column><f:facet name=\"header\"><h:outputText value=\"Baz\"/></f:facet><h:outputText id=\"itemBaz\" value=\"#{_item.baz}\"/></h:column></h:dataTable>", widget.toString() );
 
 		// With PARAMETERIZED_TYPE
 
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( PARAMETERIZED_TYPE, Foo.class.getName() );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText value=\"Bar\"/></f:facet><h:outputText value=\"#{_item.bar}\"/></h:column><h:column><f:facet name=\"header\"><h:outputText value=\"Baz\"/></f:facet><h:outputText value=\"#{_item.baz}\"/></h:column></h:dataTable>", widget.toString() );
+		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText value=\"Bar\"/></f:facet><h:outputText id=\"itemBar\" value=\"#{_item.bar}\"/></h:column><h:column><f:facet name=\"header\"><h:outputText value=\"Baz\"/></f:facet><h:outputText id=\"itemBaz\" value=\"#{_item.baz}\"/></h:column></h:dataTable>", widget.toString() );
 
 		// With non-recursable PARAMETERIZED_TYPE
 
@@ -125,13 +124,13 @@ public class HtmlWidgetBuilderTest
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Bar\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.bar}\"/>" +
+				"<h:outputText id=\"itemBar\" value=\"#{_item.bar}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Baz\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.baz}\"/>" +
+				"<h:outputText id=\"itemBaz\" value=\"#{_item.baz}\"/>" +
 				"</h:column>" +
 				"</h:dataTable>";
 
@@ -148,13 +147,13 @@ public class HtmlWidgetBuilderTest
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Bar\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.bar}\"/>" +
+				"<h:outputText id=\"itemBar\" value=\"#{_item.bar}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Abc\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.abc}\"/>" +
+				"<h:outputText id=\"itemAbc\" value=\"#{_item.abc}\"/>" +
 				"</h:column>" +
 				"</h:dataTable>";
 
@@ -165,7 +164,7 @@ public class HtmlWidgetBuilderTest
 		throws Exception {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
-		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) ) );
+		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new StaticPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) ) );
 		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
@@ -177,31 +176,31 @@ public class HtmlWidgetBuilderTest
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 1\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column1}\"/>" +
+				"<h:outputText id=\"itemColumn1\" value=\"#{_item.column1}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 2\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column2}\"/>" +
+				"<h:outputText id=\"itemColumn2\" value=\"#{_item.column2}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 3\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column3}\"/>" +
+				"<h:outputText id=\"itemColumn3\" value=\"#{_item.column3}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 4\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column4}\"/>" +
+				"<h:outputText id=\"itemColumn4\" value=\"#{_item.column4}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 5\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column5}\"/>" +
+				"<h:outputText id=\"itemColumn5\" value=\"#{_item.column5}\"/>" +
 				"</h:column>" +
 				// Column 6 should be suppressed
 				"</h:dataTable>";
@@ -216,13 +215,13 @@ public class HtmlWidgetBuilderTest
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 1\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column1}\"/>" +
+				"<h:outputText id=\"itemColumn1\" value=\"#{_item.column1}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 2\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column2}\"/>" +
+				"<h:outputText id=\"itemColumn2\" value=\"#{_item.column2}\"/>" +
 				"</h:column>" +
 				// Column 3+ should be suppressed
 				"</h:dataTable>";
@@ -237,37 +236,37 @@ public class HtmlWidgetBuilderTest
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 1\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column1}\"/>" +
+				"<h:outputText id=\"itemColumn1\" value=\"#{_item.column1}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 2\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column2}\"/>" +
+				"<h:outputText id=\"itemColumn2\" value=\"#{_item.column2}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 3\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column3}\"/>" +
+				"<h:outputText id=\"itemColumn3\" value=\"#{_item.column3}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 4\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column4}\"/>" +
+				"<h:outputText id=\"itemColumn4\" value=\"#{_item.column4}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 5\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column5}\"/>" +
+				"<h:outputText id=\"itemColumn5\" value=\"#{_item.column5}\"/>" +
 				"</h:column>" +
 				"<h:column>" +
 				"<f:facet name=\"header\">" +
 				"<h:outputText value=\"Column 6\"/>" +
 				"</f:facet>" +
-				"<h:outputText value=\"#{_item.column6}\"/>" +
+				"<h:outputText id=\"itemColumn6\" value=\"#{_item.column6}\"/>" +
 				"</h:column>" +
 				"</h:dataTable>";
 
