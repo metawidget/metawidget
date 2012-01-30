@@ -458,12 +458,10 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		nestedPipeline.setWidgetBuilder( getWidgetBuilder() );
 		nestedPipeline.setLayout( getLayout() );
 
-		// TODO: use setInspectionResultProcessors and setWidgetProcessors?
-
 		if ( mInspectionResultProcessors == null ) {
 			nestedPipeline.mInspectionResultProcessors = null;
 		} else {
-			nestedPipeline.mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( mInspectionResultProcessors );
+			nestedPipeline .mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( mInspectionResultProcessors );
 		}
 
 		if ( mWidgetProcessors == null ) {

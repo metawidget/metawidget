@@ -66,11 +66,14 @@ public abstract class StaticUIMetawidget
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 
-		String valueExpression = getValue();
-		valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
-		valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
-		valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
+		if ( ( (StaticUIMetawidget) nestedMetawidget ).getValue() == null ) {
 
-		( (StaticUIMetawidget) nestedMetawidget ).setValue( valueExpression );
+			String valueExpression = getValue();
+			valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+			valueExpression = StaticFacesUtils.wrapExpression( valueExpression );
+
+			( (StaticUIMetawidget) nestedMetawidget ).setValue( valueExpression );
+		}
 	}
 }

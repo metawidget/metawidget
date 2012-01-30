@@ -19,6 +19,8 @@ package org.metawidget.statically;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +38,70 @@ public abstract class BaseStaticWidget
 	// Private methods
 	//
 
-	private List<StaticWidget>	mChildren = CollectionUtils.newArrayList();
+	private StaticWidget		mParent;
+
+	private List<StaticWidget>	mChildren	= new ArrayList<StaticWidget>() {
+
+												@Override
+												public void add( int index, StaticWidget element ) {
+
+													if ( element instanceof BaseStaticWidget ) {
+														( (BaseStaticWidget) element ).setParent( BaseStaticWidget.this );
+													}
+
+													super.add( index, element );
+												}
+
+												@Override
+												public StaticWidget set( int index, StaticWidget element ) {
+
+													if ( element instanceof BaseStaticWidget ) {
+														( (BaseStaticWidget) element ).setParent( BaseStaticWidget.this );
+													}
+
+													StaticWidget previousElement = super.set( index, element );
+
+													if ( previousElement instanceof BaseStaticWidget ) {
+														( (BaseStaticWidget) previousElement ).setParent( null );
+													}
+
+													return previousElement;
+												}
+
+												@Override
+												public boolean add( StaticWidget element ) {
+
+													if ( element instanceof BaseStaticWidget ) {
+														( (BaseStaticWidget) element ).setParent( BaseStaticWidget.this );
+													}
+
+													return super.add( element );
+												}
+
+												@Override
+												public boolean addAll( Collection<? extends StaticWidget> c ) {
+
+													for( StaticWidget element : c ) {
+														if ( element instanceof BaseStaticWidget ) {
+															( (BaseStaticWidget) element ).setParent( BaseStaticWidget.this );
+														}
+													}
+
+													return super.addAll( c );
+												}
+
+												@Override
+												public boolean addAll( int index, Collection<? extends StaticWidget> c ) {
+
+													for( StaticWidget element : c ) {
+														if ( element instanceof BaseStaticWidget ) {
+															( (BaseStaticWidget) element ).setParent( BaseStaticWidget.this );
+														}
+													}
+
+													return super.addAll( index, c );
+												}
+											};
 
 	private Map<Object, Object>	mClientProperties;
 
@@ -47,6 +112,11 @@ public abstract class BaseStaticWidget
 	public List<StaticWidget> getChildren() {
 
 		return mChildren;
+	}
+
+	public StaticWidget getParent() {
+
+		return mParent;
 	}
 
 	public void write( Writer writer )
@@ -94,5 +164,14 @@ public abstract class BaseStaticWidget
 		} catch ( IOException e ) {
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	//
+	// Private methods
+	//
+
+	/*package private*/ void setParent( StaticWidget widget ) {
+
+		mParent = widget;
 	}
 }

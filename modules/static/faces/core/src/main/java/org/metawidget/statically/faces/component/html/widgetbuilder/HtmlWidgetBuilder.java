@@ -28,6 +28,8 @@ import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
+import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -344,17 +346,35 @@ public class HtmlWidgetBuilder
 	protected void addColumnComponent( HtmlDataTable dataTable, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, StaticXmlMetawidget metawidget ) {
 
 		HtmlColumn column = new HtmlColumn();
+		StaticXmlWidget columnContents;
 
 		// Make the column contents...
 
-		HtmlOutputText columnText = new HtmlOutputText();
+		if ( ENTITY.equals( elementName )) {
+			columnContents = new HtmlOutputText();
+		} else {
+
+			// ...using a nested Metawidget if we can...
+
+			columnContents = new StaticHtmlMetawidget();
+		}
 
 		String valueExpression = dataTable.getAttribute( "var" );
 		if ( !ENTITY.equals( elementName ) ) {
-			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( columnAttributes.get( NAME ));
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( columnAttributes.get( NAME ) );
 		}
-		columnText.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
-		column.getChildren().add( columnText );
+		columnContents.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
+
+		if ( !ENTITY.equals( elementName )) {
+
+			StaticHtmlMetawidget columnMetawidget = (StaticHtmlMetawidget) columnContents;
+			columnMetawidget.setPath( WidgetBuilderUtils.getComponentType( tableAttributes ) + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnAttributes.get( NAME ) );
+			metawidget.initNestedMetawidget( ( (StaticHtmlMetawidget) columnContents ), columnAttributes );
+			columnMetawidget.setLayout( new SimpleLayout() );
+			columnMetawidget.setReadOnly( true );
+		}
+
+		column.getChildren().add( columnContents );
 
 		// ...with a localized header
 

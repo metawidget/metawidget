@@ -65,11 +65,9 @@ public abstract class StaticMetawidget
 	 * Path to inspect.
 	 */
 
-	private String				mPath;
+	private String		mPath;
 
-	private Pipeline			mPipeline;
-
-	private StaticWidget		mParent;
+	private Pipeline	mPipeline;
 
 	//
 	// Constructor
@@ -178,14 +176,21 @@ public abstract class StaticMetawidget
 		// ...instead, copy runtime values
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-		nestedMetawidget.mParent = this;
-		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+
+		if ( nestedMetawidget.getPath() == null ) {
+			nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		}
 	}
 
 	@SuppressWarnings( { "unchecked" } )
 	public void setInspectionResultProcessors( InspectionResultProcessor<? extends StaticMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( (InspectionResultProcessor[]) inspectionResultProcessors );
+	}
+
+	public WidgetBuilder<StaticWidget, StaticMetawidget> getWidgetBuilder() {
+
+		return mPipeline.getWidgetBuilder();
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -211,15 +216,15 @@ public abstract class StaticMetawidget
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
+	public Layout<StaticWidget, StaticWidget, StaticMetawidget> getLayout() {
+
+		return mPipeline.getLayout();
+	}
+
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public <W extends StaticWidget, C extends W, M extends C> void setLayout( Layout<W, C, M> layout ) {
 
 		mPipeline.setLayout( (Layout) layout );
-	}
-
-	public StaticWidget getParent() {
-
-		return mParent;
 	}
 
 	@Override

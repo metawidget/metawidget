@@ -25,6 +25,8 @@ import junit.framework.TestCase;
 
 import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.statically.faces.component.html.layout.HtmlPanelGridLayout;
+import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
 
 public class ReadOnlyWidgetBuilderTest
@@ -72,6 +74,28 @@ public class ReadOnlyWidgetBuilderTest
 		attributes.put( FACES_LOOKUP, "#{foo}" );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "<h:outputText/>", widget.toString() );
+	}
+
+	public void testReadOnlyDontExpand() {
+
+		ReadOnlyWidgetBuilder widgetBuilder = new ReadOnlyWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, Foo.class.getName() );
+		attributes.put( READ_ONLY, TRUE );
+		attributes.put( DONT_EXPAND, TRUE );
+		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "<h:outputText/>", widget.toString() );
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		metawidget.setLayout( new SimpleLayout() );
+		attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, Foo.class.getName() );
+		attributes.put( READ_ONLY, TRUE );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<h:outputText/>", widget.toString() );
+
+		metawidget.setLayout( new HtmlPanelGridLayout() );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 	}
 
 	//
