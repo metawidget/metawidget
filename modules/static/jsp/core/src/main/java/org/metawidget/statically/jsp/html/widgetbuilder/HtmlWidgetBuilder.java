@@ -268,7 +268,7 @@ public class HtmlWidgetBuilder
         else {
             Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
             NodeList elements = root.getFirstChild().getChildNodes();
-            addColumnComponents( tableHead, forEach, attributes, elements, metawidget );
+            addColumnComponents( table, forEach, attributes, elements, metawidget );
         }
 
         return table;
@@ -280,7 +280,7 @@ public class HtmlWidgetBuilder
      * Clients can override this method to add additional columns, such as a 'Delete' button.
      */
 
-    protected void addColumnComponents(HtmlTableHead head, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+    protected void addColumnComponents(HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
 
         // At first, only add columns for the 'required' fields
 
@@ -333,7 +333,7 @@ public class HtmlWidgetBuilder
 
                 // ...and a header for that column...
 
-                addColumnHeader( head, XmlUtils.getAttributesAsMap( element ), metawidget );
+                addColumnHeader( table, XmlUtils.getAttributesAsMap( element ), metawidget );
 
                 // ...up to a sensible maximum.
 
@@ -387,7 +387,7 @@ public class HtmlWidgetBuilder
 
     }
 
-    private void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
+    protected void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
 
         // Empty option
 
@@ -396,19 +396,6 @@ public class HtmlWidgetBuilder
         }
 
         addSelectItem( select, valueExpression, null );
-    }
-
-    //
-    // Private methods
-    //
-
-    private void addColumnHeader( HtmlTableHead head, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
-
-        HtmlTableHeader header = new HtmlTableHeader();
-        header.setTextContent( metawidget.getLabelString( attributes ) );
-
-        head.getChildren().get( 0 ).getChildren().add( header );
-
     }
 
     protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
@@ -437,6 +424,14 @@ public class HtmlWidgetBuilder
         }
 
         return;
+    }
+
+    protected void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+
+        HtmlTableHeader header = new HtmlTableHeader();
+        header.setTextContent( metawidget.getLabelString( attributes ) );
+
+        table.getChildren().get( 0 ).getChildren().get( 0 ).getChildren().add( header );
     }
 
 	//

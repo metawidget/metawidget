@@ -20,19 +20,16 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlHeader extends HtmlTag {
-
+public class HtmlButton
+    extends HtmlTag {
+    
     //
     // Constructor
     //
     
-    /**
-     *  Default to a medium-sized header.
-     */
-    
-    public HtmlHeader() {
+    public HtmlButton() {
         
-        super( "h3" );
+        super( "button" );
     }
-   
+
 }

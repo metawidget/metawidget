@@ -127,7 +127,7 @@ public class StaticHtmlMetawidgetTest
 			return null;
 		}
 
-		public void setBar( @SuppressWarnings( "unused" ) String bar ) {
+		public void setBar( String bar ) {
 
 			// Do nothing
 		}
@@ -137,7 +137,7 @@ public class StaticHtmlMetawidgetTest
 			return null;
 		}
 
-		public void setBaz( @SuppressWarnings( "unused" ) String baz ) {
+		public void setBaz( String baz ) {
 
 			// Do nothing
 		}
@@ -150,7 +150,7 @@ public class StaticHtmlMetawidgetTest
 			return null;
 		}
 
-		public void setAbc( @SuppressWarnings( "unused" ) String abc ) {
+		public void setAbc( String abc ) {
 
 			// Do nothing
 		}
@@ -160,7 +160,7 @@ public class StaticHtmlMetawidgetTest
 			return null;
 		}
 
-		public void setNestedFoo( @SuppressWarnings( "unused" ) Foo nestedFoo ) {
+		public void setNestedFoo( Foo nestedFoo ) {
 
 			// Do nothing
 		}
