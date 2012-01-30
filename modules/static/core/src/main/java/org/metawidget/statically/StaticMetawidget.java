@@ -188,6 +188,11 @@ public abstract class StaticMetawidget
 		mPipeline.setInspectionResultProcessors( (InspectionResultProcessor[]) inspectionResultProcessors );
 	}
 
+	public WidgetBuilder<StaticWidget, StaticMetawidget> getWidgetBuilder() {
+
+		return mPipeline.getWidgetBuilder();
+	}
+
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public <W extends StaticWidget, M extends W> void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder ) {
 
