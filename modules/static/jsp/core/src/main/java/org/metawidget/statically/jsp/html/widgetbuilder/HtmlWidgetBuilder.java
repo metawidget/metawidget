@@ -52,7 +52,7 @@ public class HtmlWidgetBuilder
 
 	private final static String	MAX_LENGTH	= "maxlength";
 
-    private final int mMaximumColumnsInDataTable;
+	private final int			mMaximumColumnsInDataTable;
 
 	//
 	// Constructor
@@ -60,12 +60,12 @@ public class HtmlWidgetBuilder
 
 	public HtmlWidgetBuilder() {
 
-	    this( new HtmlWidgetBuilderConfig() );
+		this( new HtmlWidgetBuilderConfig() );
 	}
 
 	public HtmlWidgetBuilder( HtmlWidgetBuilderConfig config ) {
 
-	    mMaximumColumnsInDataTable = config.getMaximumColumnsInDataTable();
+		mMaximumColumnsInDataTable = config.getMaximumColumnsInDataTable();
 	}
 
 	//
@@ -88,14 +88,14 @@ public class HtmlWidgetBuilder
 
 		// JSP Lookup
 
-        String jspLookup = attributes.get( JSP_LOOKUP );
+		String jspLookup = attributes.get( JSP_LOOKUP );
 
-        if ( jspLookup != null && !"".equals( jspLookup ) ) {
+		if ( jspLookup != null && !"".equals( jspLookup ) ) {
 
-            HtmlSelect select = new HtmlSelect();
-            addSelectItems( select, jspLookup, attributes);
-            return select;
-        }
+			HtmlSelect select = new HtmlSelect();
+			addSelectItems( select, jspLookup, attributes );
+			return select;
+		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -112,7 +112,7 @@ public class HtmlWidgetBuilder
 		// Support mandatory Booleans.
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-		    return createHtmlCheckbox();
+			return createHtmlCheckbox();
 		}
 
 		// Lookups
@@ -120,26 +120,26 @@ public class HtmlWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-		    HtmlSelect select = new HtmlSelect();
-		    addSelectItems(select, CollectionUtils.fromString(lookup), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS) ), attributes);
-		    return select;
+			HtmlSelect select = new HtmlSelect();
+			addSelectItems( select, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
+			return select;
 		}
 
 		if ( clazz != null ) {
 
-		    // Primitives
+			// Primitives
 
 			if ( clazz.isPrimitive() ) {
 
-			    if ( boolean.class.equals( clazz ) ) {
-			        return createHtmlCheckbox();
-			    }
+				if ( boolean.class.equals( clazz ) ) {
+					return createHtmlCheckbox();
+				}
 
-			    if ( char.class.equals( clazz ) ) {
-	                attributes.put( MAXIMUM_LENGTH, "1" );
-			        HtmlInput characterInput = createHtmlInputText( attributes );
-			        return characterInput;
-			    }
+				if ( char.class.equals( clazz ) ) {
+					attributes.put( MAXIMUM_LENGTH, "1" );
+					HtmlInput characterInput = createHtmlInputText( attributes );
+					return characterInput;
+				}
 
 				return createHtmlInputText( attributes );
 			}
@@ -160,37 +160,37 @@ public class HtmlWidgetBuilder
 				return createHtmlInputText( attributes );
 			}
 
-    		// Character
+			// Character
 
-    		if ( Character.class.equals( clazz ) ) {
-    		    attributes.put( MAXIMUM_LENGTH, "1" );
-    		    HtmlInput characterInput = createHtmlInputText( attributes );
-    		    return characterInput;
-    		}
+			if ( Character.class.equals( clazz ) ) {
+				attributes.put( MAXIMUM_LENGTH, "1" );
+				HtmlInput characterInput = createHtmlInputText( attributes );
+				return characterInput;
+			}
 
-    		// Date
+			// Date
 
-    		if ( Date.class.equals( clazz ) ) {
-    		    return createHtmlInputText( attributes );
-    		}
+			if ( Date.class.equals( clazz ) ) {
+				return createHtmlInputText( attributes );
+			}
 
-    		// Numbers
+			// Numbers
 
-    		if ( Number.class.isAssignableFrom( clazz ) ) {
-    		    return createHtmlInputText( attributes );
-    		}
+			if ( Number.class.isAssignableFrom( clazz ) ) {
+				return createHtmlInputText( attributes );
+			}
 
-    		// Support List and Array Collections
+			// Support List and Array Collections
 
-    		if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-    		    return createDataTableComponent( elementName, attributes, metawidget );
-    		}
+			if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+				return createDataTableComponent( elementName, attributes, metawidget );
+			}
 
-    		// Unsupported Collections
+			// Unsupported Collections
 
-            if ( Collection.class.isAssignableFrom( clazz ) ) {
-                return new StaticXmlStub();
-            }
+			if ( Collection.class.isAssignableFrom( clazz ) ) {
+				return new StaticXmlStub();
+			}
 
 		}
 
@@ -209,243 +209,245 @@ public class HtmlWidgetBuilder
 	// Protected methods
 	//
 
-    /**
-     * @param elementName
-     *            such as ENTITY or PROPERTY. Can be useful in determining how to construct the EL
-     *            for the table.
-     */
+	/**
+	 * @param elementName
+	 *            such as ENTITY or PROPERTY. Can be useful in determining how to construct the EL
+	 *            for the table.
+	 */
 
-    protected StaticXmlWidget createDataTableComponent( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	protected StaticXmlWidget createDataTableComponent( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
-        HtmlTable table = new HtmlTable();
-        CoreForEach forEach = new CoreForEach();
+		HtmlTable table = new HtmlTable();
+		CoreForEach forEach = new CoreForEach();
 
-        String items = attributes.get( NAME );
+		String items = attributes.get( NAME );
 
-        if ( items != null ) {
+		if ( items != null ) {
 
-            items = StaticJspUtils.wrapExpression( items );
-        }
+			items = StaticJspUtils.wrapExpression( items );
+		}
 
-        forEach.putAttribute( "items", items );
-        String var = "item";
-        forEach.putAttribute( "var", var );
+		forEach.putAttribute( "items", items );
+		String var = "item";
+		forEach.putAttribute( "var", var );
 
-        // Add a section for table headers.
+		// Add a section for table headers.
 
-        HtmlTableHead tableHead = new HtmlTableHead();
-        table.getChildren().add( tableHead );
-        tableHead.getChildren().add( new HtmlTableRow() );
+		HtmlTableHead tableHead = new HtmlTableHead();
+		table.getChildren().add( tableHead );
+		tableHead.getChildren().add( new HtmlTableRow() );
 
-        HtmlTableBody body = new HtmlTableBody();
-        body.getChildren().add( forEach );
-        table.getChildren().add( body );
+		HtmlTableBody body = new HtmlTableBody();
+		body.getChildren().add( forEach );
+		table.getChildren().add( body );
 
-        // Inspect the component type.
+		// Inspect the component type.
 
-        String componentType = WidgetBuilderUtils.getComponentType( attributes );
-        String inspectedType = null;
+		String componentType = WidgetBuilderUtils.getComponentType( attributes );
+		String inspectedType = null;
 
-        if ( componentType != null ) {
-            inspectedType = metawidget.inspect( null, componentType, (String[]) null );
-        }
+		if ( componentType != null ) {
+			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+		}
 
-        // If there is no type...
+		// If there is no type...
 
-        if ( inspectedType == null ) {
-            // ...resort to a single column table...
+		if ( inspectedType == null ) {
+			// ...resort to a single column table...
 
-            HtmlTableRow row = new HtmlTableRow();
-            forEach.getChildren().add( row );
+			HtmlTableRow row = new HtmlTableRow();
+			forEach.getChildren().add( row );
 
-            Map<String, String> columnAttributes = CollectionUtils.newHashMap();
-            columnAttributes.put( NAME, attributes.get( NAME ) );
-            addColumnComponent( row, forEach, attributes, ENTITY, columnAttributes );
-        }
+			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
+			columnAttributes.put( NAME, attributes.get( NAME ) );
+			addColumnComponent( row, forEach, attributes, ENTITY, columnAttributes );
+		}
 
-        // ...otherwise, iterate over the component type and add multiple columns.
+		// ...otherwise, iterate over the component type and add multiple columns.
 
-        else {
-            Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-            NodeList elements = root.getFirstChild().getChildNodes();
-            addColumnComponents( table, forEach, attributes, elements, metawidget );
-        }
+		else {
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			NodeList elements = root.getFirstChild().getChildNodes();
+			addColumnComponents( table, forEach, attributes, elements, metawidget );
+		}
 
-        return table;
-    }
+		return table;
+	}
 
-    /**
-     * Adds column components to the given table.
-     * <p>
-     * Clients can override this method to add additional columns, such as a 'Delete' button.
-     */
+	/**
+	 * Adds column components to the given table.
+	 * <p>
+	 * Clients can override this method to add additional columns, such as a 'Delete' button.
+	 */
 
-    protected void addColumnComponents(HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+	protected void addColumnComponents( HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
 
-        // At first, only add columns for the 'required' fields
+		// At first, only add columns for the 'required' fields
 
-        boolean onlyRequired = true;
+		boolean onlyRequired = true;
 
-        while ( true ) {
+		while ( true ) {
 
-            // Create a new row for the forEach tag to iterate upon.
+			// Create a new row for the forEach tag to iterate upon.
 
-            HtmlTableRow row = new HtmlTableRow();
+			HtmlTableRow row = new HtmlTableRow();
 
-            // For each property...
+			// For each property...
 
-            for ( int i = 0; i < elements.getLength(); i++ ) {
+			for ( int i = 0; i < elements.getLength(); i++ ) {
 
-                Node node = elements.item( i );
+				Node node = elements.item( i );
 
-                if ( !(node instanceof Element) ) {
-                    continue;
-                }
+				if ( !( node instanceof Element ) ) {
+					continue;
+				}
 
-                Element element = (Element) node;
+				Element element = (Element) node;
 
-                // ...(not action)...
+				// ...(not action)...
 
-                if ( ACTION.equals( element.getNodeName() ) ) {
-                    continue;
-                }
+				if ( ACTION.equals( element.getNodeName() ) ) {
+					continue;
+				}
 
-                // ...that is visible...
+				// ...that is visible...
 
-                if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
-                    continue;
-                }
+				if ( TRUE.equals( element.getAttribute( HIDDEN ) ) ) {
+					continue;
+				}
 
-                // ...and is required...
-                //
-                // Note: this is a controversial choice. Our logic is that a) we need to limit
-                // the number of columns somehow, and b) displaying all the required fields should
-                // be enough to uniquely identify the row to the user. However, users may wish
-                // to override this default behaviour
+				// ...and is required...
+				//
+				// Note: this is a controversial choice. Our logic is that a) we need to limit
+				// the number of columns somehow, and b) displaying all the required fields should
+				// be enough to uniquely identify the row to the user. However, users may wish
+				// to override this default behaviour
 
-                if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
-                    continue;
-                }
+				if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) ) {
+					continue;
+				}
 
-                // ...add a column...
+				// ...add a column...
 
-                addColumnComponent( row, forEach, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ));
+				addColumnComponent( row, forEach, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ) );
 
-                // ...and a header for that column...
+				// ...and a header for that column...
 
-                addColumnHeader( table, XmlUtils.getAttributesAsMap( element ), metawidget );
+				addColumnHeader( table, XmlUtils.getAttributesAsMap( element ), metawidget );
 
-                // ...up to a sensible maximum.
+				// ...up to a sensible maximum.
 
-                if ( row.getChildren().size() == mMaximumColumnsInDataTable ) {
-                    break;
-                }
+				if ( row.getChildren().size() == mMaximumColumnsInDataTable ) {
+					break;
+				}
 
-            }
+			}
 
-            if ( !row.getChildren().isEmpty() ) {
+			if ( !row.getChildren().isEmpty() ) {
 
-                forEach.getChildren().add( row );
-            }
+				forEach.getChildren().add( row );
+			}
 
-            // If we couldn't add any 'required' columns, try again for every field.
+			// If we couldn't add any 'required' columns, try again for every field.
 
-            if ( !forEach.getChildren().isEmpty() || !onlyRequired ) {
-                break;
-            }
+			if ( !forEach.getChildren().isEmpty() || !onlyRequired ) {
+				break;
+			}
 
-            onlyRequired = false;
-        }
-    }
+			onlyRequired = false;
+		}
+	}
 
-    /**
-     * Add an HtmlColumn component for the given attributes, to the given HtmlDataTable.
-     * <p>
-     * Clients can override this method to modify the column contents. For example, to place a link
-     * around the text.
-     *
-     * @param tableAttributes
-     *            the metadata attributes used to render the parent table. May be useful for
-     *            determining the overall type of the row
-     */
+	/**
+	 * Add an HtmlColumn component for the given attributes, to the given HtmlDataTable.
+	 * <p>
+	 * Clients can override this method to modify the column contents. For example, to place a link
+	 * around the text.
+	 * 
+	 * @param tableAttributes
+	 *            the metadata attributes used to render the parent table. May be useful for
+	 *            determining the overall type of the row
+	 */
 
-    protected void addColumnComponent( HtmlTableRow row, CoreForEach forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes ) {
+	protected void addColumnComponent( HtmlTableRow row, CoreForEach forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes ) {
 
-        // Add a new column to the current row of the table.
+		// Add a new column to the current row of the table.
 
-        HtmlTableCell cell = new HtmlTableCell();
-        row.getChildren().add( cell );
+		HtmlTableCell cell = new HtmlTableCell();
+		row.getChildren().add( cell );
 
-        String valueExpression = forEach.getAttribute( "var" );
-        if ( !ENTITY.equals( elementName ) ) {
-            valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
-        }
+		String valueExpression = forEach.getAttribute( "var" );
+		if ( !ENTITY.equals( elementName ) ) {
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
+		}
 
-        CoreOut out = new CoreOut();
-        out.putAttribute( "value", StaticJspUtils.wrapExpression( valueExpression ) );
-        cell.getChildren().add( out );
+		CoreOut out = new CoreOut();
+		out.putAttribute( "value", StaticJspUtils.wrapExpression( valueExpression ) );
+		cell.getChildren().add( out );
 
-    }
+	}
 
-    protected void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
+	protected void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {
 
-        // Empty option
+		// Empty option
 
-        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-            addSelectItem( select, "", null );
-        }
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			addSelectItem( select, "", null );
+		}
 
-        addSelectItem( select, valueExpression, null );
-    }
+		addSelectItem( select, valueExpression, null );
+	}
 
-    protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
+	protected void addSelectItems( HtmlSelect select, List<String> values, List<String> labels, Map<String, String> attributes ) {
 
-        if ( values == null ) {
-            return;
-        }
+		if ( values == null ) {
+			return;
+		}
 
-        // Empty option.
+		// Empty option.
 
-        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-            addSelectItem(select, "", null);
-        }
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			addSelectItem( select, "", null );
+		}
 
-        // Add the rest of the select items.
+		// Add the rest of the select items.
 
-        for ( int i = 0, length = values.size(); i < length; i++ ) {
-            String value = values.get(i);
-            String label = null;
+		for ( int i = 0, length = values.size(); i < length; i++ ) {
+			String value = values.get( i );
+			String label = null;
 
-            if( labels != null && !labels.isEmpty() ) {
-                label = labels.get(i);
-            }
+			if ( labels != null && !labels.isEmpty() ) {
+				label = labels.get( i );
+			}
 
-            addSelectItem(select, value, label);
-        }
+			addSelectItem( select, value, label );
+		}
 
-        return;
-    }
+		return;
+	}
 
-    protected void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	protected void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
-        HtmlTableHeader header = new HtmlTableHeader();
-        header.setTextContent( metawidget.getLabelString( attributes ) );
+		HtmlTableHeader header = new HtmlTableHeader();
+		header.setTextContent( metawidget.getLabelString( attributes ) );
 
-        table.getChildren().get( 0 ).getChildren().get( 0 ).getChildren().add( header );
-    }
+		table.getChildren().get( 0 ).getChildren().get( 0 ).getChildren().add( header );
+	}
 
 	//
 	// Private methods
 	//
 
-    private StaticXmlWidget createHtmlCheckbox() {
-        HtmlTag checkbox = new HtmlInput();
-        checkbox.putAttribute( "type" , "checkbox" );
+	private StaticXmlWidget createHtmlCheckbox() {
 
-        return checkbox;
-    }
+		HtmlTag checkbox = new HtmlInput();
+		checkbox.putAttribute( "type", "checkbox" );
 
-    private HtmlInput createHtmlInputText( Map<String, String> attributes ) {
+		return checkbox;
+	}
+
+	private HtmlInput createHtmlInputText( Map<String, String> attributes ) {
+
 		HtmlInput input = new HtmlInput();
 		input.putAttribute( "type", "text" );
 		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
@@ -453,35 +455,36 @@ public class HtmlWidgetBuilder
 		return input;
 	}
 
-    private StaticXmlWidget createHtmlTextareaTag( Map<String, String> attributes ) {
+	private StaticXmlWidget createHtmlTextareaTag( Map<String, String> attributes ) {
 
-        HtmlTextarea textarea = new HtmlTextarea();
+		HtmlTextarea textarea = new HtmlTextarea();
 
-        String cols = attributes.get( "cols" );
+		String cols = attributes.get( "cols" );
 
-        if ( cols != null ) {
-            textarea.putAttribute( "cols", cols );
-        }
+		if ( cols != null ) {
+			textarea.putAttribute( "cols", cols );
+		}
 
-        String rows = attributes.get( "rows" );
+		String rows = attributes.get( "rows" );
 
-        if ( rows != null ) {
-            textarea.putAttribute( "rows", rows );
-        }
+		if ( rows != null ) {
+			textarea.putAttribute( "rows", rows );
+		}
 
-        return textarea;
-    }
+		return textarea;
+	}
 
-    private void addSelectItem( HtmlSelect select, String value, String label ) {
-        HtmlOption selectItem = new HtmlOption();
-        selectItem.putAttribute( "value" , value );
+	private void addSelectItem( HtmlSelect select, String value, String label ) {
 
-        if( label != null ) {
-            selectItem.setTextContent( label );
-        }
+		HtmlOption selectItem = new HtmlOption();
+		selectItem.putAttribute( "value", value );
 
-        select.getChildren().add(selectItem);
-        return;
-    }
+		if ( label != null ) {
+			selectItem.setTextContent( label );
+		}
+
+		select.getChildren().add( selectItem );
+		return;
+	}
 
 }
