@@ -22,7 +22,7 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
-import org.metawidget.util.Java5ClassUtils;
+import org.metawidget.util.ClassUtils;
 
 /**
  * ActionStyle for Metawidget-style actions.
@@ -54,7 +54,7 @@ public class MetawidgetActionStyle
 	@Override
 	protected boolean matchAction( Method method ) {
 
-		UiAction action = Java5ClassUtils.getOriginalAnnotation( method, UiAction.class );
+		UiAction action = ClassUtils.getOriginalAnnotation( method, UiAction.class );
 
 		if ( action == null ) {
 			return false;

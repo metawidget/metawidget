@@ -179,7 +179,6 @@
 ear/war/WEB-INF/lib                  # WAR tier inspectors/widgets
    metawidget-faces.jar
    metawidget-hibernatevalidator.jar
-   metawidget-java5.jar
    metawidget-jpa.jar
    metawidget-richfaces.jar
    metawidget-tomahawk.jar</programlisting>

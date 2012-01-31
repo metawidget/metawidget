@@ -24,7 +24,6 @@ import org.metawidget.inspector.impl.BaseTrait;
 import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.Java5ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -132,7 +131,7 @@ public abstract class MethodActionStyle
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotation ) {
 
-			return Java5ClassUtils.getOriginalAnnotation( mMethod, annotation );
+			return ClassUtils.getOriginalAnnotation( mMethod, annotation );
 		}
 	}
 }

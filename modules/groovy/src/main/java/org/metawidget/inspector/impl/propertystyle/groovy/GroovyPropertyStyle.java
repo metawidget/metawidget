@@ -35,7 +35,6 @@ import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.Java5ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -295,15 +294,15 @@ public class GroovyPropertyStyle
 		public String getGenericType() {
 
 			if ( mField != null ) {
-				return Java5ClassUtils.getGenericTypeAsString( mField.getGenericType() );
+				return ClassUtils.getGenericTypeAsString( mField.getGenericType() );
 			}
 
 			if ( mGetterMethod != null ) {
-				return Java5ClassUtils.getGenericTypeAsString( mGetterMethod.getGenericReturnType() );
+				return ClassUtils.getGenericTypeAsString( mGetterMethod.getGenericReturnType() );
 			}
 
 			if ( mSetterMethod != null ) {
-				return Java5ClassUtils.getGenericTypeAsString( mSetterMethod.getGenericParameterTypes()[0] );
+				return ClassUtils.getGenericTypeAsString( mSetterMethod.getGenericParameterTypes()[0] );
 			}
 
 			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );
