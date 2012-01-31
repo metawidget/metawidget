@@ -6,7 +6,7 @@
 					echo $title.' - ';
 				}
 			?>Metawidget</title>
-		<meta name="description" content="Metawidget takes your domain objects and automatically creates, at runtime, native User Interface widgets for them - saving you handcoding your UIs" />
+		<meta name="description" content="Metawidget takes your domain objects and automatically creates, either statically or at runtime, native User Interface widgets for them - saving you handcoding your UIs" />
 		<meta name="keywords" content="<?=$title?>,Domain objects,automatically create User Interface,Swing,Java Server Faces,JSF,Facelets,Spring,Spring Web MVC,Struts,Android,Hibernate" />
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />		
 		<link rel="stylesheet" type="text/css" href="/css/metawidget-all.css" media="all" />		

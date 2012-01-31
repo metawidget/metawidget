@@ -143,6 +143,46 @@ public class HtmlPanelGridLayoutTest
 		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel for=\"fooBeanCurrent\" value=\"Foo:\"/><h:panelGroup><h:inputText id=\"fooBeanCurrent\"/></h:panelGroup><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
 	}
 
+	public void testRequired()
+		throws Exception {
+
+		HtmlPanelGridLayout layout = new HtmlPanelGridLayout();
+
+		// Required
+
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		HtmlPanelGrid container = new HtmlPanelGrid();
+		layout.startContainerLayout( container, metawidget );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( NAME, "foo" );
+		attributes.put( REQUIRED, TRUE );
+		layout.layoutWidget( new HtmlInputText(), PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText value=\"*\"/></h:panelGrid></h:panelGrid>", container.toString() );
+
+		// Required but read-only
+
+		container = new HtmlPanelGrid();
+		layout.startContainerLayout( container, metawidget );
+		attributes.put( READ_ONLY, TRUE );
+		layout.layoutWidget( new HtmlInputText(), PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:inputText/><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+
+		// Required but read-only Metawidget
+
+		container = new HtmlPanelGrid();
+		metawidget.setReadOnly( true );
+		layout.startContainerLayout( container, metawidget );
+		attributes.remove( READ_ONLY );
+		layout.layoutWidget( new HtmlInputText(), PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:inputText/><h:outputText/></h:panelGrid></h:panelGrid>", container.toString() );
+	}
+
 	public void testTopLevelAttributes()
 		throws Exception {
 

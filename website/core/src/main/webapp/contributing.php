@@ -25,8 +25,7 @@
 			<li>
 				We say <strong>most practical</strong> to mean not
 				trying to 'own' the entire UI, but to focus on being a native subcomponent
-				for slotting into existing UIs. Also, to mean performing UI generation at runtime not
-				through static code generation
+				for slotting into existing UIs.
 			</li>
 			<li>
 				Finally we say <strong>existing technologies</strong> to mean adapting to as many existing back-end architectures and programming

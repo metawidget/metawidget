@@ -12,7 +12,7 @@
 		<ol>
 			<li>to create UI widgets by inspecting existing architectures</li>
 			<li>not to try to 'own' the entire UI, but to focus on creating native sub-widgets for slotting into existing UIs</li>
-			<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
+			<li>to perform inspection either statically or <em>at runtime</em>, detecting types and subtypes dynamically</li>
 		</ol>
 
 		<p>

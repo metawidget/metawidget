@@ -45,7 +45,8 @@
 
 	<name>Metawidget</name>
 	<description>
-		Metawidget is a smart User Interface widget that populates itself, at runtime,
+		Metawidget is a smart User Interface widget that populates itself,
+		either statically or at runtime,
 		with UI components to match the properties of your business objects.
 	</description>
 

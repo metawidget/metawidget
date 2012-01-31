@@ -184,7 +184,7 @@
 		
 		<p>
 			This talk presents Metawidget as a solution to keep your UIs DRY. Metawidget is a smart UI processor
-			that populates itself, at runtime, with UI components that match properties of your model. Rather than
+			that populates itself, either statically or at runtime, with UI components that match properties of your model. Rather than
 			introduce new technologies, it reads existing metadata (e.g. JavaBeans, annotations, XML) to create
 			native UI widgets (e.g. JSF, Android, Swing).
 		</p>
