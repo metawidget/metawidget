@@ -280,7 +280,7 @@ public class HtmlWidgetBuilder
      * Clients can override this method to add additional columns, such as a 'Delete' button.
      */
 
-    protected void addColumnComponents(HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+    protected void addColumnComponents( HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
 
         // At first, only add columns for the 'required' fields
 
