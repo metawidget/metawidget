@@ -737,7 +737,7 @@
 						<classname>javax.faces.model.DataModel</classname> or Java arrays. <classname>UIMetawidget</classname>'s <classname>HtmlWidgetBuilder</classname>
 						respects this and will generate an <classname>HtmlDataTable</classname> for each type. It will decide
 						<classname>UIColumn</classname>s based on inspecting the <classname>List</classname> or array's component type for
-						fields marked <parameter>required</parameter> (if any).
+						properties marked <parameter>required</parameter> (if any).
 					</para>
 					
 					<para>
@@ -773,7 +773,7 @@
 						There is a special case when the <parameter>m:metawidget</parameter>'s <parameter>value</parameter>
 						resolves directly to a single widget, rather than iterating over properties and creating multiple
 						sub-widgets (eg. if <parameter>value</parameter> is pointed directly at a <classname>String</classname>
-						field it will resolve to an <classname>HtmlInputText</classname>). In this
+						property it will resolve to an <classname>HtmlInputText</classname>). In this
 						case any facets (and converters and validators) apply not to the <classname>Layout</classname> but to
 						the generated widget. This can be useful to declaratively attach behaviours:
 					</para>

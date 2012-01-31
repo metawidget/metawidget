@@ -31,7 +31,7 @@ package org.metawidget.inspector;
  * <p>
  * However, for those attribute names that have become sufficiently standardized, it is desirable to
  * have a more formalized 'middle ground', if only to avoid typos.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -79,8 +79,8 @@ public final class InspectionResultConstants {
 	/**
 	 * Parameterized type arguments, for example the type of elements in a Set.
 	 * <p>
-	 * Often this comes from Java5 generics, but it can come from other sources (eg. Hibernate
-	 * mapping files, UiAttribute annotations).
+	 * Often this comes from generics, but it can come from other sources (eg. Hibernate mapping
+	 * files, UiAttribute annotations).
 	 */
 
 	public static final String	PARAMETERIZED_TYPE				= "parameterized-type";

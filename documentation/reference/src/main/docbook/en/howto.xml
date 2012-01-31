@@ -7,17 +7,17 @@
 		</para>
 		
 		<section id="section-howto-order">
-			<title>Order Fields</title>
+			<title>Order Properties</title>
 			
 			<para>
-				Metawidget supports several approaches to control the order of fields in the UI, depending on your architecture and your
+				Metawidget supports several approaches to control the order of properties in the UI, depending on your architecture and your
 				preference:
 			</para>
 			
 			<itemizedlist>
 				<listitem>
 					<para>
-						Annotate the fields with <classname>@UiComesAfter</classname>, use <classname>MetawidgetAnnotationInspector</classname>
+						Annotate the properties with <classname>@UiComesAfter</classname>, use <classname>MetawidgetAnnotationInspector</classname>
 						in your <classname>CompositeInspector</classname> chain, and use <classname>ComesAfterInspectionResultProcessor</classname>.
 						This is the default approach.
 					</para>
@@ -31,15 +31,15 @@
 				<listitem>
 					<para>
 						Compile your business model with debug information turned on, and use <classname>JavassistPropertyStyle</classname>. This
-						approach uses Javassist to extract line numbering information, and order the fields in source file order.
+						approach uses Javassist to extract line numbering information, and order the properties in source file order.
 					</para>
 				</listitem>
 				<listitem>
 					<para>
 						Write your own <classname>InspectionResultProcessor</classname>. This gives you a range of
-						options, including: sorting fields based on a page property (see
+						options, including: sorting properties based on a page property (see
 						<xref linkend="section-architecture-inspectionresultprocessors-implementing-your-own"/>); sorting
-						fields based on a different notation (such as Dewey Decimal); defining field order at the class (rather
+						properties based on a different notation (such as Dewey Decimal); defining property order at the class (rather
 						than the getter) level, and many more. For complete worked examples see
 						<ulink url="http://blog.kennardconsulting.com/2010/08/customizing-which-form-fields-are_04.html">this blog entry</ulink>.
 					</para>
@@ -72,9 +72,9 @@
 			<para>
 				You have a requirement to construct both a screen to view an individual employee, and a screen to search
 				for employees. For the latter you would like to reuse the <classname>Employee</classname> class but display
-				its fields a little differently. For example, your individual employee screen may use
+				its properties a little differently. For example, your individual employee screen may use
 				<classname>JpaInspector</classname>/<classname>HibernateInspector</classname> to pick up on the
-				<classname>@Column</classname> annotation and mark the <parameter>name</parameter> field as 'required'. For
+				<classname>@Column</classname> annotation and mark the <parameter>name</parameter> property as 'required'. For
 				your search screen you may not want this.
 			</para>
 			
@@ -116,14 +116,14 @@
 					<para>
 						You could create a custom annotation and custom <classname>Inspector</classname> (see
 						<xref linkend="section-architecture-inspectors-implementing-your-own"/> and a custom <classname>WidgetBuilder</classname>
-						that excluded annotated fields (see <xref linkend="section-architecture-widgetbuilders-implementing-your-own"/>). Then you
+						that excluded annotated properties (see <xref linkend="section-architecture-widgetbuilders-implementing-your-own"/>). Then you
 						could use this in a <filename>metawidget-search.xml</filename> as described above.
 					</para>
 				</listitem>
 				<listitem>
 					<para>
 						You could create another class <classname>EmployeeSearch</classname> that mirrors <classname>Employee</classname>. This would
-						introduce some duplication, but may work better if the search fields are substantially different to the employee fields. For
+						introduce some duplication, but may work better if the search properties are substantially different to the employee properties. For
 						example now <parameter>isManager</parameter> could be a <classname>Boolean</classname> (big 'B') so that you could search
 						for 'is a manager', 'is not a manager' and 'don't care'.  
 					</para>
@@ -179,7 +179,6 @@
 ear/war/WEB-INF/lib                  # WAR tier inspectors/widgets
    metawidget-faces.jar
    metawidget-hibernatevalidator.jar
-   metawidget-java5.jar
    metawidget-jpa.jar
    metawidget-richfaces.jar
    metawidget-tomahawk.jar</programlisting>
@@ -442,7 +441,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				</para>
 				
 				<para>
-					The downside of <function>rebind</function> is that the rebound object must have exactly the same set of field names
+					The downside of <function>rebind</function> is that the rebound object must have exactly the same set of property names
 					as the original object. It becomes the responsibility of the caller to ensure this consistency.
 				</para>
 				

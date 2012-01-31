@@ -31,7 +31,6 @@ import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.Java5ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -531,7 +530,7 @@ public class JavaBeanPropertyStyle
 
 		public String getGenericType() {
 
-			return Java5ClassUtils.getGenericTypeAsString( mField.getGenericType() );
+			return ClassUtils.getGenericTypeAsString( mField.getGenericType() );
 		}
 
 		public Field getField() {
@@ -622,7 +621,7 @@ public class JavaBeanPropertyStyle
 		public <T extends Annotation> T getAnnotation( Class<T> annotationClass ) {
 
 			if ( mReadMethod != null ) {
-				T annotation = Java5ClassUtils.getOriginalAnnotation( mReadMethod, annotationClass );
+				T annotation = ClassUtils.getOriginalAnnotation( mReadMethod, annotationClass );
 
 				if ( annotation != null ) {
 					return annotation;
@@ -630,7 +629,7 @@ public class JavaBeanPropertyStyle
 			}
 
 			if ( mWriteMethod != null ) {
-				T annotation = Java5ClassUtils.getOriginalAnnotation( mWriteMethod, annotationClass );
+				T annotation = ClassUtils.getOriginalAnnotation( mWriteMethod, annotationClass );
 
 				if ( annotation != null ) {
 					return annotation;
@@ -655,12 +654,12 @@ public class JavaBeanPropertyStyle
 			Type type;
 
 			if ( mReadMethod != null ) {
-				type = Java5ClassUtils.getOriginalGenericReturnType( mReadMethod );
+				type = ClassUtils.getOriginalGenericReturnType( mReadMethod );
 			} else {
-				type = Java5ClassUtils.getOriginalGenericParameterTypes( mWriteMethod )[0];
+				type = ClassUtils.getOriginalGenericParameterTypes( mWriteMethod )[0];
 			}
 
-			return Java5ClassUtils.getGenericTypeAsString( type );
+			return ClassUtils.getGenericTypeAsString( type );
 		}
 
 		public Method getReadMethod() {

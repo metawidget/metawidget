@@ -63,7 +63,7 @@
 			<listitem>
 				<para>
 					a list of <classname>InspectionResultProcessor</classname>s that can process and modify the inspection result. These can be used to
-					sort the result (e.g. <classname>ComesAfterInspectionResultProcessor</classname>), exclude certain fields, and so on.
+					sort the result (e.g. <classname>ComesAfterInspectionResultProcessor</classname>), exclude certain properties, and so on.
 				</para>
 			</listitem>
 			<listitem>
@@ -863,7 +863,7 @@ public class CastorInspector
 					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has a
 					technology-specific part to it, as it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
 					it is reasonable to name that XML attribute <parameter>faces-converter-class</parameter>. However, it also
-					describes other parts of the field, such as the maximum number of integer digits. Such parts are not JSF-specific (i.e. we can
+					describes other parts of the property, such as the maximum number of integer digits. Such parts are not JSF-specific (i.e. we can
 					source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
 					(i.e. <parameter>maximum-integer-digits</parameter>). 
 				</para>
@@ -1161,7 +1161,7 @@ public class CastorInspector
 
 				<para>
 					Here is an example of a custom <classname>InspectionResultProcessor</classname> that chooses,
-					and sorts, business object fields based on a <classname>JComponent</classname> client property. It extends the code from the tutorial
+					and sorts, business object properties based on a <classname>JComponent</classname> client property. It extends the code from the tutorial
 					(see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
@@ -1579,8 +1579,8 @@ public class Main {
 
 				<tip>
 					<title>Note</title>
-					Although you could adapt this approach to only include (instead of exclude) certain fields, you could not adapt it
-					to include fields <emphasis>in the order specified in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
+					Although you could adapt this approach to only include (instead of exclude) certain properties, you could not adapt it
+					to include properties <emphasis>in the order specified in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
 					only operate on single widgets at a time. Instead, see <xref linkend="section-architecture-inspectionresultprocessors"/> 
 				</tip>
 			</section>
@@ -1591,7 +1591,7 @@ public class Main {
 				<para>
 					The second <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
 					chain should generally be a <classname>ReadOnlyWidgetBuilder</classname>. This builds standard
-					platform widgets for fields with <parameter>read-only="true"</parameter> or
+					platform widgets for properties with <parameter>read-only="true"</parameter> or
 					<parameter>no-setter="true"</parameter> (i.e. labels).
 				</para>
 				
@@ -1600,7 +1600,7 @@ public class Main {
 					for a widget library that had its own read-only components, or if you wanted to customise the
 					read-only handling. Here is an example of a custom <classname>WidgetBuilder</classname> that returns
 					non-editable <classname>JTextField</classname>s (instead of <classname>JLabel</classname>s)
-					for read-only fields. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+					for read-only properties. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -1823,7 +1823,7 @@ public class Main {
 				<para>
 					The pluggable nature of <classname>WidgetBuilder</classname>s makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
 					be used to chain <classname>WidgetBuilder</classname>s together, you only need worry about supporting your particular widgets. You
-					can simply return <parameter>null</parameter> for all other types of fields and rely on another <classname>WidgetBuilder</classname>
+					can simply return <parameter>null</parameter> for all other types of property and rely on another <classname>WidgetBuilder</classname>
 					further down the chain to instantiate one of the usual widgets. For example, <classname>RichFacesWidgetBuilder</classname> only instantiates
 					the RichFaces components, and returns <parameter>null</parameter> for everything else.
 				</para>

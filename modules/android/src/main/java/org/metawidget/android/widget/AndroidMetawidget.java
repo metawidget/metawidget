@@ -890,7 +890,7 @@ public class AndroidMetawidget
 
 			try {
 				if ( getConfig() != null ) {
-					getConfigReader().configure( getContext().getResources().openRawResource( (Integer) getConfig() ), this );
+					getConfigReader().configure( getContext().getResources().openRawResource( (Integer) getConfig() ), AndroidMetawidget.this );
 				}
 
 				AndroidMetawidget.this.configureDefaults();

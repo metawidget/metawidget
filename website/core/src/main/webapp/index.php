@@ -132,7 +132,7 @@
 		</div>
 
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: bold; margin-right: 175px">
-			Metawidget is a smart User Interface widget that populates itself, at runtime, with UI components to match
+			Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match
 			the properties of your business objects.
 		</h2>
 
@@ -178,7 +178,7 @@
 					<div class="tooltip" style="top: -450px; left: 470px; display: block">
 						<span>2</span>
 						<h4 style="font-family: Arial, sans-serif; font-size: 8pt; font-weight: normal; font-style: normal; margin: 0">
-							Metawidget inspects, at runtime, your <em>existing</em> back-end architecture
+							Metawidget inspects, either statically or at runtime, your <em>existing</em> back-end architecture
 						</h4>
 					</div>
 		
@@ -265,7 +265,7 @@
 		<ul>
 			<li>to create UI widgets by inspecting existing architectures</li>
 			<li>not to try to 'own' the entire UI, but to focus on creating native subcomponents for slotting into existing UIs</li>
-			<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
+			<li>to perform inspection either statically or <em>at runtime</em>, detecting types and subtypes dynamically</li>
 		</ul>
 
 		<p>
