@@ -255,7 +255,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 							All <classname>PropertyStyle</classname>s must implement the <classname>PropertyStyle</classname> interface. <classname>BasePropertyStyle</classname>
 							assists in caching properties per class (looking them up is often expensive, involving reflection or similar
 							techniques) and in excluding properties based on name, type or base class. Here
-							is an example of a custom <classname>PropertyStyle</classname> that identifies fields based
+							is an example of a custom <classname>PropertyStyle</classname> that identifies properties based
 							on <classname>ResourceBundle</classname> i18n entries. It extends the code from the tutorial
 							(see <xref linkend="section-introduction-part1"/>).
 						</para>
@@ -762,7 +762,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td><parameter>dont-expand</parameter></td>
 							<td>
 								<classname>@UiDontExpand</classname> - denotes a value should not be inspected and expanded into sub-widgets. This
-								can be useful if, say, you have a read-only field and just want to display its top-level <function>toString()</function>
+								can be useful if, say, you have a read-only property and just want to display its top-level <function>toString()</function>
 								rather than all its child properties
 							</td>
 						</tr>
@@ -800,7 +800,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td><parameter>section</parameter></td>
 							<td>
 								<classname>@UiSection</classname> - denotes the start of a logical grouping in the UI.
-								Subsequent fields are assumed
+								Subsequent properties are assumed
 								to belong to the same section until a different section heading is encountered. Sections
 								can be cancelled using a section heading with an empty String. Sections can be nested
 								by specifying an array of section names.								

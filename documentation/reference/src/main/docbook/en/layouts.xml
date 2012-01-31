@@ -92,7 +92,7 @@
 							</tr>
 							<tr>
 								<td><parameter>requiredText</parameter></td>
-								<td>Text to display for required fields. Defaults to an asterisk</td>
+								<td>Text to display for required properties. Defaults to an asterisk</td>
 							</tr>
 							<tr>
 								<td><parameter>supportMnemonics</parameter></td>
@@ -321,7 +321,7 @@
 							</tr>
 							<tr>
 								<td><parameter>requiredText</parameter></td>
-								<td>Text to display for required fields. Defaults to an asterisk</td>
+								<td>Text to display for required properties. Defaults to an asterisk</td>
 							</tr>
 						</tbody>						
 					</informaltable>					

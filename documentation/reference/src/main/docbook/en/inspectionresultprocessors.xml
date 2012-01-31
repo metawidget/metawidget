@@ -37,8 +37,8 @@
 
 			<para>
 				The <parameter>comes-after</parameter> attribute can contain multiple names (comma separated) in which
-				case the field will be sorted to come after all the named fields. Alternatively the attribute can be empty, in
-				which case the field will come after every other field in the <parameter>entity</parameter>.
+				case the property will be sorted to come after all the named properties. Alternatively the attribute can be empty, in
+				which case the property will come after every other property in the <parameter>entity</parameter>.
 			</para>
 			
 		</section>

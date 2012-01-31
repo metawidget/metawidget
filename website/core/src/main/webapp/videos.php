@@ -39,22 +39,6 @@
 				<tr>
 					<td>
 						<div class="video">
-							<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/tQAu_Oa7tGk&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/tQAu_Oa7tGk&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
-						</div>
-						<div class="video">						
-							<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/SHGKDIklGWU&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/SHGKDIklGWU&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
-						</div>
-					</td>
-					<th>
-						<h4>Metawidget Tutorial Part&nbsp;1</h4>
-						<p>
-							Walkthrough of Part&nbsp;1 of the <a href="http://metawidget.org/doc/reference/en/html/ch01.html">Metawidget Tutorial</a>.
-						</p>
-					</th>
-				</tr>
-				<tr>
-					<td>
-						<div class="video">
 							<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/2JxGFC7WB1c&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/2JxGFC7WB1c&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
 						</div>
 					</td>
