@@ -52,7 +52,7 @@ public class StandardBindingProcessor implements WidgetProcessor<StaticXmlWidget
 
                 if ( !ENTITY.equals( elementName ) ) {
                     valueExpression = StaticJspUtils.unwrapExpression( valueExpression );
-                    valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+                    valueExpression += StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( attributes.get( NAME ) );
                     valueExpression = StaticJspUtils.wrapExpression( valueExpression );
                 }
 
