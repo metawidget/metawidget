@@ -180,7 +180,9 @@ public class HtmlWidgetBuilder
 				return createHtmlInputText( attributes );
 			}
 
-			if ( Collection.class.isAssignableFrom( clazz ) ) {
+			// Collections and Arrays
+			
+			if ( Collection.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 				return createDataTableComponent( elementName, attributes, metawidget );
 			}
 
