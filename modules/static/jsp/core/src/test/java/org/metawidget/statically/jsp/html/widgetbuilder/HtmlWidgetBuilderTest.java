@@ -67,14 +67,14 @@ public class HtmlWidgetBuilderTest
 
 	public void testCollection() {
 
-		// Unsupported type
+		// Basic collection
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, Set.class.getName() );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<stub/>", widget.toString() );
+		assertEquals( "<table><thead><tr/></thead><tbody><c:forEach var=\"item\"><tr><td><c:out value=\"${item}\"/></td></tr></c:forEach></tbody></table>", widget.toString() );
 
 		// Most basic
 
