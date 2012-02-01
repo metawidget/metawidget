@@ -153,7 +153,7 @@ public class HtmlPanelGridLayout
 
 			HtmlOutputText required = new HtmlOutputText();
 
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() ) {
+			if ( TRUE.equals( widget.getAttribute( REQUIRED ) )) {
 				required.putAttribute( "value", "*" );
 			}
 			panelGrid.getChildren().add( required );
