@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v2.0 Released!</h3>
-		<h4>2011</h4>
+		<h4>1st February 2011</h4>
 		
 		<p>
 			Metawidget v2.0 is now available!
@@ -17,6 +17,7 @@
 		<ul>
 			<li>Drop support for JDK 1.4 (was causing a number of issues with frameworks that scan the classpath)</li>
 			<li>Implement long-standing refactorings (taking the opportunity now that we've broken binary compatibility)</li>
+			<li>Static Metawidget improvements (ready for Forge CR1)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

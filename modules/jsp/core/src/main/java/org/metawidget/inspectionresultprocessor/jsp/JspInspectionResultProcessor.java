@@ -18,6 +18,7 @@ package org.metawidget.inspectionresultprocessor.jsp;
 
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +31,8 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorE
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Processes the inspection result and evaluates any expressions of the form <code>${...}</code>
@@ -94,7 +97,7 @@ public class JspInspectionResultProcessor
 
 					if ( valueObject == null ) {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
 							value = null;
@@ -104,10 +107,16 @@ public class JspInspectionResultProcessor
 						valueObjectAsString = "";
 					} else {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
-							value = String.valueOf( valueObject );
+							if ( valueObject instanceof Collection<?> ) {
+								value = CollectionUtils.toString( (Collection<?>) valueObject );
+							} else if ( valueObject.getClass().isArray() ) {
+								value = ArrayUtils.toString( valueObject );
+							} else {
+								value = String.valueOf( valueObject );
+							}
 							break;
 						}
 

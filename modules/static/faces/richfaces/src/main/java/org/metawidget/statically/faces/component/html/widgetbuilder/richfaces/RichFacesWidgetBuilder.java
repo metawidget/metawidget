@@ -57,7 +57,7 @@ public class RichFacesWidgetBuilder
 		// allows manual input and if you set enableManualInput=false it behaves a
 		// bit screwy for our liking (ie. if you hit backspace the browser goes back)
 
-		if ( /*attributes.containsKey( FACES_LOOKUP ) ||*/ attributes.containsKey( LOOKUP ) ) {
+		if ( /* attributes.containsKey( FACES_LOOKUP ) || */attributes.containsKey( LOOKUP ) ) {
 			return null;
 		}
 
@@ -108,6 +108,9 @@ public class RichFacesWidgetBuilder
 
 			if ( maximumValue != null && !"".equals( maximumValue ) ) {
 				spinner.putAttribute( "maxValue", maximumValue );
+			} else {
+				// RichFaces sets maxValue="100" by default
+				spinner.putAttribute( "maxValue", "999999999" );
 			}
 
 			// Wraps around?

@@ -72,7 +72,7 @@ public class RichFacesWidgetBuilderTest
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"fooSpinner\" value=\"Spinner:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
-				"\t\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinner\" value=\"#{foo.spinner}\"/>\r\n" +
+				"\t\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinner\" maxValue=\"999999999\" value=\"#{foo.spinner}\"/>\r\n" +
 				"\t\t<h:message for=\"fooSpinner\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +
@@ -84,7 +84,7 @@ public class RichFacesWidgetBuilderTest
 				"\t<h:outputText/>\r\n" +
 				"\t<h:outputLabel for=\"fooSpinnerWithMin\" value=\"Spinner With Min:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
-				"\t\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinnerWithMin\" minValue=\"2\" value=\"#{foo.spinnerWithMin}\"/>\r\n" +
+				"\t\t<rich:inputNumberSpinner cycled=\"false\" id=\"fooSpinnerWithMin\" maxValue=\"999999999\" minValue=\"2\" value=\"#{foo.spinnerWithMin}\"/>\r\n" +
 				"\t\t<h:message for=\"fooSpinnerWithMin\"/>\r\n" +
 				"\t</h:panelGroup>\r\n" +
 				"\t<h:outputText/>\r\n" +

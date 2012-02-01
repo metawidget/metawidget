@@ -55,7 +55,7 @@ import org.richfaces.component.html.HtmlSuggestionBox;
  * <p>
  * Creates native RichFaces UIComponents, such as <code>HtmlCalendar</code> and
  * <code>HtmlInputNumberSlider</code>, to suit the inspected fields.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -131,7 +131,8 @@ public class RichFacesWidgetBuilder
 
 			HtmlInputNumberSpinner spinner = VERSION_SPECIFIC_WIDGET_BUILDER.createInputNumberSpinner();
 
-			// May be ranged in one dimension only
+			// May be ranged in one dimension only. In which case, explictly range the *other*
+			// dimension because RichFaces defaults to 0-100
 
 			String minimumValue = attributes.get( MINIMUM_VALUE );
 

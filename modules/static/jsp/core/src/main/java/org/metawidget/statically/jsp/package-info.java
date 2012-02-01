@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Static support: Java Server Pages tags.
+ * Static support: Java Server Pages.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.statically.jsp.html;
+package org.metawidget.statically.jsp;
