@@ -34,7 +34,7 @@
 					<th>Project</th>
 					<td>Inspects existing architectures</td>
 					<td>Creates native sub-widgets for slotting into existing UIs</td>
-					<td>Performs runtime UI generation, not static code generation</td>
+					<td>Can perform UI generation at runtime</td>
 				</tr>
 			</thead>
 			<tbody>
