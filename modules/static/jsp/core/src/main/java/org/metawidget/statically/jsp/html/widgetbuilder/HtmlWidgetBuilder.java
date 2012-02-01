@@ -180,16 +180,8 @@ public class HtmlWidgetBuilder
 				return createHtmlInputText( attributes );
 			}
 
-			// Support List and Array Collections
-
-			if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-				return createDataTableComponent( elementName, attributes, metawidget );
-			}
-
-			// Unsupported Collections
-
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new StaticXmlStub();
+				return createDataTableComponent( elementName, attributes, metawidget );
 			}
 
 		}
