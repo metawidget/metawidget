@@ -207,7 +207,7 @@ public class Person {
 				<calloutlist>
 					<callout arearefs="co-introduction-part1-annotations" id="ca-introduction-part1-annotations">
 						<para>
-							Such annotations can also be applied to the private fields, such as <parameter>mAge</parameter>,
+							Annotations can also be applied to the private fields, such as <parameter>mAge</parameter>,
 							but that requires a little extra configuration.
 						</para>
 					</callout>
@@ -231,11 +231,7 @@ public class Person {
 				<para>
 					Introducing new annotations to improve the UI is not really in the spirit of
 					the First Goal Of Metawidget. We'd much rather improve it by gathering
-					information from <emphasis>existing</emphasis> sources.
-				</para>
-				
-				<para>
-					To demonstrate this we'll need an external source of metadata. Create a file
+					information from <emphasis>existing</emphasis> sources. To demonstrate, we'll need an external source of metadata. Create a file
 					called <filename>metawidget-metadata.xml</filename> in the same folder as your <classname>Main</classname> class:
 				</para>
 	
@@ -273,8 +269,8 @@ public class Main {
 		
 		SwingMetawidget metawidget = new SwingMetawidget();
 		<symbol>XmlInspectorConfig config = new XmlInspectorConfig();
-        config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));
-        metawidget.setInspector( new XmlInspector( config ) );</symbol>
+		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));
+		metawidget.setInspector( new XmlInspector( config ) );</symbol>
 		metawidget.setToInspect( person );
 		
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -286,7 +282,7 @@ public class Main {
 }</programlisting>
 
 				<para>
-					Then remove all the annotations from the <classname>Person</classname> class:
+					Then remove all annotations from the <classname>Person</classname> class:
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -360,9 +356,9 @@ public class Main {
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
 		<symbol>CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+			new XmlInspector( config ),
 			new PropertyTypeInspector(),
-			new MetawidgetAnnotationInspector(),
-			new XmlInspector( config ) );
+			new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );</symbol>
 		metawidget.setToInspect( person );
 		
@@ -389,7 +385,7 @@ public class Main {
 				<para>
 					This idea of combining multiple <classname>Inspector</classname>s to inspect different characteristics of your
 					existing architecture is very powerful. Metawidget comes with many pre-written
-					<classname>Inspector</classname>s for many different architectures - from JPA and Hibernate Validator annotations,
+					<classname>Inspector</classname>s for many different technologies - from JPA and Hibernate Validator annotations,
 					to <filename>struts-config.xml</filename> configuration files, to Groovy and Scala properties.
 					There is a lot of metadata already lurking in back-end
 					systems - it just needs extracting. For example, <classname>JpaInspector</classname> understands this...
@@ -433,7 +429,7 @@ public class Person {
 
 				<programlisting language="java">package com.myapp;
 
-<strong>import org.metawidget.inspector.annotation.*;</strong>
+<symbol>import org.metawidget.inspector.annotation.*;</symbol>
 
 public class Person {
 
@@ -529,9 +525,9 @@ public class Main {
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+			new XmlInspector( config ),
 			new PropertyTypeInspector(),
-			new MetawidgetAnnotationInspector(),
-			new XmlInspector( config ) );
+			new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		<symbol>GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
 		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout(
@@ -583,9 +579,9 @@ public class Main {
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+			new XmlInspector( config ),
 			new PropertyTypeInspector(),
-			new MetawidgetAnnotationInspector(),
-			new XmlInspector( config ) );
+			new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
 		<symbol>TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
@@ -650,9 +646,9 @@ public class Main {
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+			new XmlInspector( config ),
 			new PropertyTypeInspector(),
-			new MetawidgetAnnotationInspector(),
-			new XmlInspector( config ) );
+			new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
 		TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
@@ -715,9 +711,9 @@ public class Main {
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+			new XmlInspector( config ),
 			new PropertyTypeInspector(),
-			new MetawidgetAnnotationInspector(),
-			new XmlInspector( config ) );
+			new MetawidgetAnnotationInspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
 		TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
