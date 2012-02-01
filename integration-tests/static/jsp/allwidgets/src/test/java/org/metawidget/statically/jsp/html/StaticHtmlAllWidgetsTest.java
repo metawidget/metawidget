@@ -476,6 +476,22 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<th>\r\n" +
+            "\t\t\t\t<label>Collection</label>\r\n" +
+            "\t\t\t</th>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<table value=\"${allWidgets.collection}\">\r\n" +
+            "\t\t\t\t\t<thead>\r\n" +
+            "\t\t\t\t\t\t<tr/>\r\n" +
+            "\t\t\t\t\t</thead>\r\n" +
+            "\t\t\t\t\t<tbody>\r\n" +
+            "\t\t\t\t\t\t<c:forEach items=\"${collection}\" var=\"item\"/>\r\n" +
+            "\t\t\t\t\t</tbody>\r\n" +
+            "\t\t\t\t</table>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t\t<td/>\r\n" +
+            "\t\t</tr>\r\n" +
             "\t</tbody>\r\n" +
             "</table>\r\n";
 
