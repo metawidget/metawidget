@@ -381,7 +381,7 @@ public class JspMetawidgetTests {
 		public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 ) {
 
 			if ( expression.startsWith( "${array" ) ) {
-				return new int[] { 1, 2 };
+				return new String[] { expression, expression };
 			}
 
 			if ( expression.startsWith( "${collection" ) ) {

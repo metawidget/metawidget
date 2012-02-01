@@ -63,6 +63,14 @@
 			</para>
 
 			<para>
+				Arrays and collections are also supported:
+			</para>
+
+			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
+	&lt;property name="pension" lookup="#{person.arrayOfValues}"/&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
 				The JSF expression language also supports branching statements. For example:
 			</para>
 			
@@ -114,6 +122,14 @@ public class ContactBean {
 			
 			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
 	&lt;property name="pension" hidden="${!this.retired}"/&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				Arrays and collections are also supported:
+			</para>
+
+			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
+	&lt;property name="pension" lookup="${this.arrayOfValues}"/&gt;
 &lt;/entity&gt;</programlisting>
 
 			<para>
@@ -187,6 +203,14 @@ public class ContactDialog {
 				<parameter>${!person.retired}</parameter>. It could be used to show/hide the <parameter>pension</parameter>
 				field in response to the <parameter>retired</parameter> checkbox being checked.
 			</para>
+
+			<para>
+				Arrays and collections are also supported:
+			</para>
+
+			<programlisting language="xml">&lt;entity type="com.myapp.Person"&gt;
+	&lt;property name="pension" lookup="${person.arrayOfValues}"/&gt;
+&lt;/entity&gt;</programlisting>
 
 			<para>
 				The JSP expression language also supports branching statements. For example:

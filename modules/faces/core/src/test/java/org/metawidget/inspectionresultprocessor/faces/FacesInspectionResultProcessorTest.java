@@ -274,6 +274,28 @@ public class FacesInspectionResultProcessorTest
 		assertEquals( 4, injected.size() );
 	}
 
+	public void testArrays() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Company\">";
+		xml += "<property name=\"employee\" lookup=\"#{array1,}\" lookup2=\"#{collection1,}\"/>";
+		xml += "</entity></inspection-result>";
+
+		FacesInspectionResultProcessor inspectionResultProcessor = new FacesInspectionResultProcessor( new FacesInspectionResultProcessorConfig() );
+
+		String result = inspectionResultProcessor.processInspectionResult( xml, null, null, "Company" );
+		Document document = XmlUtils.documentFromString( result );
+		Element entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
+		Element property = XmlUtils.getFirstChildElement( entity );
+		assertEquals( "employee", property.getAttribute( NAME ) );
+		assertEquals( "#{array1\\,},#{array1\\,}", property.getAttribute( "lookup" ) );
+		assertEquals( "#{collection1\\,},#{collection1\\,}", property.getAttribute( "lookup2" ) );
+		assertEquals( 3, property.getAttributes().getLength() );
+
+		assertEquals( entity.getChildNodes().getLength(), 1 );
+	}
+
 	//
 	// Protected methods
 	//

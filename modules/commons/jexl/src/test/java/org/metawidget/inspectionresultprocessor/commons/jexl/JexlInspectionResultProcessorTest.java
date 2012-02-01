@@ -17,10 +17,14 @@
 package org.metawidget.inspectionresultprocessor.commons.jexl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Collection;
+
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -211,14 +215,12 @@ public class JexlInspectionResultProcessorTest
 
 		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>( new JexlInspectionResultProcessorConfig().setInject( new PersonController() ) );
 
-		// Top-level
-
 		String result = inspectionResultProcessor.processInspectionResult( xml, null, null, "Company" );
 		Document document = XmlUtils.documentFromString( result );
 		Element entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
 		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( "employee", property.getAttribute( NAME ) );
-		assertEquals( "Tom, Dick, Harry", property.getAttribute( "lookup" ) );
+		assertEquals( "Tom1, Dick1, Harry1", property.getAttribute( "lookup" ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( entity.getChildNodes().getLength(), 1 );
@@ -229,20 +231,19 @@ public class JexlInspectionResultProcessorTest
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"Company\">";
-		xml += "<property name=\"employee\" lookup=\"${personController.allArray}\" />";
+		xml += "<property name=\"employee\" lookup=\"${personController.allArray}\" lookup2=\"${personController.allCollection}\"/>";
 		xml += "</entity></inspection-result>";
 
 		JexlInspectionResultProcessor<?> inspectionResultProcessor = new JexlInspectionResultProcessor<Object>( new JexlInspectionResultProcessorConfig().setInject( new PersonController() ) );
-
-		// Top-level
 
 		String result = inspectionResultProcessor.processInspectionResult( xml, null, null, "Company" );
 		Document document = XmlUtils.documentFromString( result );
 		Element entity = XmlUtils.getFirstChildElement( document.getDocumentElement() );
 		Element property = XmlUtils.getFirstChildElement( entity );
 		assertEquals( "employee", property.getAttribute( NAME ) );
-		assertEquals( "Tom\\,,Dick,Harry", property.getAttribute( "lookup" ) );
-		assertEquals( property.getAttributes().getLength(), 2 );
+		assertEquals( "Tom2\\,,Dick2,Harry2", property.getAttribute( "lookup" ) );
+		assertEquals( "Tom3\\,,Dick3,Harry3", property.getAttribute( "lookup2" ) );
+		assertEquals( 3, property.getAttributes().getLength() );
 
 		assertEquals( entity.getChildNodes().getLength(), 1 );
 	}
@@ -302,12 +303,17 @@ public class JexlInspectionResultProcessorTest
 
 		public String getAll() {
 
-			return "Tom, Dick, Harry";
+			return "Tom1, Dick1, Harry1";
 		}
 
 		public String[] getAllArray() {
 
-			return new String[] { "Tom,", "Dick", "Harry" };
+			return new String[] { "Tom2,", "Dick2", "Harry2" };
+		}
+
+		public Collection<String> getAllCollection() {
+
+			return CollectionUtils.newArrayList( "Tom3,", "Dick3", "Harry3" );
 		}
 	}
 }

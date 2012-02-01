@@ -16,6 +16,7 @@
 
 package org.metawidget.inspectionresultprocessor.faces;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -27,6 +28,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorE
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
@@ -191,7 +193,7 @@ public class FacesInspectionResultProcessor
 
 					if ( valueObject == null ) {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
 							value = null;
@@ -201,13 +203,19 @@ public class FacesInspectionResultProcessor
 						valueObjectAsString = "";
 					} else {
 
-						// Special support for when the String is just one EL
+						// Support the default case (when the String is just one EL)
 
 						if ( matcher.start() == 0 && matcher.end() == value.length() ) {
-							value = String.valueOf( valueObject );
+							if ( valueObject instanceof Collection<?> ) {
+								value = CollectionUtils.toString( (Collection<?>) valueObject );
+							} else if ( valueObject.getClass().isArray() ) {
+								value = ArrayUtils.toString( valueObject );
+							} else {
+								value = String.valueOf( valueObject );
+							}
 							break;
 						}
-
+						
 						valueObjectAsString = String.valueOf( valueObject );
 					}
 
