@@ -17,38 +17,18 @@
 package org.metawidget.statically.jsp.html.widgetbuilder;
 
 /**
+ * Marks that the widget can contain an attribute 'value'.
+ * 
  * @author Ryan Bradley
  */
 
-public class HtmlInput
-	extends HtmlTag
-	implements NameHolder, ValueHolder {
-
-	//
-	// Constructor
-	//
-
-	public HtmlInput() {
-
-		super( "input" );
-	}
-
-	//
-	// Public methods
-	//
-
-	public void setName( String name ) {
-
-		putAttribute( "name", name );
-	}
-
-    public void setValue(String value) {
-
-        putAttribute( "value", value );
-    }
-
-    public String getValue() {
-
-        return getAttribute( "value" );
-    }
+public interface ValueHolder {
+    
+    //
+    // Methods
+    //
+    
+    void setValue( String value );
+    
+    String getValue();
 }

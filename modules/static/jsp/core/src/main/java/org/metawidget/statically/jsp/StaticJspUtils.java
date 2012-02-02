@@ -64,7 +64,7 @@ public final class StaticJspUtils {
 			return value;
 		}
 
-		return matcher.group( 1 );
+		return matcher.group( 2 );
 	}
 
 	/**
@@ -85,7 +85,11 @@ public final class StaticJspUtils {
 	// Private statics
 	//
 
-	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "\\$\\{([^\\}]+)\\}" );
+	/**
+	 * Match both #{..} and ${...}
+	 */
+	
+	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "(#|\\$)\\{([^\\}]+)\\}" );
 
 	private static final String		EXPRESSION_START	= "${";
 

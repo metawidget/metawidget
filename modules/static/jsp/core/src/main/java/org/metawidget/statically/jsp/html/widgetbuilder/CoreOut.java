@@ -21,7 +21,8 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  */
 
 public class CoreOut
-    extends CoreWidget {
+    extends CoreWidget 
+    implements ValueHolder {
     
     //
     // Constructor
@@ -30,6 +31,20 @@ public class CoreOut
     public CoreOut() {
         
         super( "out" );
+    }
+
+    //
+    // Public methods
+    //
+    
+    public void setValue(String value) {
+
+        putAttribute( "value" , value );
+    }
+
+    public String getValue() {
+
+        return getAttribute( "value" );
     }
 
 }

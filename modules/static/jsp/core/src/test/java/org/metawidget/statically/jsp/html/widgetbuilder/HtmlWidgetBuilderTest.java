@@ -67,14 +67,14 @@ public class HtmlWidgetBuilderTest
 
 	public void testCollection() {
 
-		// Unsupported type
+		// Basic collection
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, Set.class.getName() );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<stub/>", widget.toString() );
+		assertEquals( "<table><thead><tr/></thead><tbody><c:forEach var=\"item\"><tr><td><c:out value=\"${item}\"/></td></tr></c:forEach></tbody></table>", widget.toString() );
 
 		// Most basic
 
@@ -116,7 +116,7 @@ public class HtmlWidgetBuilderTest
 		metawidget.setPath( FooBean.class.getName() + "/pageItems" );
 		metawidget.setLayout( new SimpleLayout() );
 
-		result = "<table value=\"${foo.pageItems}\"><thead><tr><th>Bar</th><th>Baz</th></tr></thead>" +
+		result = "<table><thead><tr><th>Bar</th><th>Baz</th></tr></thead>" +
 				"<tbody><c:forEach items=\"${pageItems}\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
 				"<td><c:out value=\"${item.baz}\"/></td></tr></c:forEach></tbody></table>";
 		assertEquals( result, metawidget.toString() );
@@ -126,7 +126,7 @@ public class HtmlWidgetBuilderTest
 		metawidget.setValue( "${foo.requiredPageItems}" );
 		metawidget.setLayout( new SimpleLayout() );
 		metawidget.setPath( FooBean.class.getName() + "/requiredPageItems" );
-		result = "<table value=\"${foo.requiredPageItems}\"><thead><tr><th>Bar</th>" +
+		result = "<table><thead><tr><th>Bar</th>" +
 				"<th>Abc</th></tr></thead><tbody><c:forEach items=\"${requiredPageItems}\" var=\"item\"><tr><td>" +
 				"<c:out value=\"${item.bar}\"/></td><td><c:out value=\"${item.abc}\"/></td></tr></c:forEach></tbody></table>";
 		assertEquals( result, metawidget.toString() );

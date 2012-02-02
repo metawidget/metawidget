@@ -180,16 +180,10 @@ public class HtmlWidgetBuilder
 				return createHtmlInputText( attributes );
 			}
 
-			// Support List and Array Collections
-
-			if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+			// Collections and Arrays
+			
+			if ( Collection.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 				return createDataTableComponent( elementName, attributes, metawidget );
-			}
-
-			// Unsupported Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new StaticXmlStub();
 			}
 
 		}
@@ -280,7 +274,7 @@ public class HtmlWidgetBuilder
 	 * Clients can override this method to add additional columns, such as a 'Delete' button.
 	 */
 
-	protected void addColumnComponents( HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
+    protected void addColumnComponents( HtmlTable table, CoreForEach forEach, Map<String, String> attributes, NodeList elements, StaticXmlMetawidget metawidget ) {
 
 		// At first, only add columns for the 'required' fields
 
