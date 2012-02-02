@@ -481,7 +481,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t<form:label path=\"collection\">Collection</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<table value=\"${allWidgets.collection}\">\r\n" +
+            "\t\t\t\t<table>\r\n" +
             "\t\t\t\t\t<thead>\r\n" +
             "\t\t\t\t\t\t<tr/>\r\n" +
             "\t\t\t\t\t</thead>\r\n" +
