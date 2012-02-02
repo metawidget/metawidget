@@ -22,7 +22,7 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
 
 public class HtmlInput
 	extends HtmlTag
-	implements NameHolder {
+	implements NameHolder, ValueHolder {
 
 	//
 	// Constructor
@@ -41,4 +41,14 @@ public class HtmlInput
 
 		putAttribute( "name", name );
 	}
+
+    public void setValue(String value) {
+
+        putAttribute( "value", value );
+    }
+
+    public String getValue() {
+
+        return getAttribute( "value" );
+    }
 }

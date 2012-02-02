@@ -21,7 +21,8 @@ package org.metawidget.statically.jsp.html.widgetbuilder;
  */
 
 public class HtmlOption
-	extends HtmlTag {
+	extends HtmlTag
+	implements ValueHolder {
 
 	//
 	// Constructor
@@ -31,4 +32,18 @@ public class HtmlOption
 
 		super( "option" );
 	}
+	
+	//
+	// Public methods
+	//
+
+    public void setValue(String value) {
+
+        putAttribute( "value", value );
+    }
+
+    public String getValue() {
+
+        return getAttribute( "value" );
+    }
 }
