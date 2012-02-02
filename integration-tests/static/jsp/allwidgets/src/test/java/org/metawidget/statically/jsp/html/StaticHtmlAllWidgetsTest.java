@@ -65,7 +65,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label>Textarea</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<textarea name=\"allWidgetsTextarea\" value=\"${allWidgets.textarea}\"/>\r\n" +
+            "\t\t\t\t<textarea name=\"allWidgetsTextarea\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -236,7 +236,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label>Boolean Object</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsBooleanObject\" value=\"${allWidgets.booleanObject}\">\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsBooleanObject\">\r\n" +
             "\t\t\t\t\t<option/>\r\n" +
             "\t\t\t\t\t<option value=\"true\">Yes</option>\r\n" +
             "\t\t\t\t\t<option value=\"false\">No</option>\r\n" +
@@ -249,7 +249,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label>Dropdown</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsDropdown\" value=\"${allWidgets.dropdown}\">\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsDropdown\">\r\n" +
             "\t\t\t\t\t<option/>\r\n" +
             "\t\t\t\t\t<option value=\"foo1\"/>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown1\"/>\r\n" +
@@ -263,7 +263,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label>Dropdown With Labels</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsDropdownWithLabels\" value=\"${allWidgets.dropdownWithLabels}\">\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsDropdownWithLabels\">\r\n" +
             "\t\t\t\t\t<option/>\r\n" +
             "\t\t\t\t\t<option value=\"foo2\">Foo #2</option>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown2\">Dropdown #2</option>\r\n" +
@@ -278,7 +278,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label>Not Null Dropdown</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsNotNullDropdown\" value=\"${allWidgets.notNullDropdown}\">\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsNotNullDropdown\">\r\n" +
             "\t\t\t\t\t<option value=\"-1\"/>\r\n" +
             "\t\t\t\t\t<option value=\"0\"/>\r\n" +
             "\t\t\t\t\t<option value=\"1\"/>\r\n" +
@@ -291,7 +291,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label>Not Null Object Dropdown</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsNotNullObjectDropdown\" value=\"${allWidgets.notNullObjectDropdown}\">\r\n" +
+            "\t\t\t\t<select name=\"allWidgetsNotNullObjectDropdown\">\r\n" +
             "\t\t\t\t\t<option value=\"foo3\"/>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown3\"/>\r\n" +
             "\t\t\t\t\t<option value=\"bar3\"/>\r\n" +
@@ -473,6 +473,22 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input name=\"allWidgetsMystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
+            "\t\t\t</td>\r\n" +
+            "\t\t\t<td/>\r\n" +
+            "\t\t</tr>\r\n" +
+            "\t\t<tr>\r\n" +
+            "\t\t\t<th>\r\n" +
+            "\t\t\t\t<label>Collection</label>\r\n" +
+            "\t\t\t</th>\r\n" +
+            "\t\t\t<td>\r\n" +
+            "\t\t\t\t<table>\r\n" +
+            "\t\t\t\t\t<thead>\r\n" +
+            "\t\t\t\t\t\t<tr/>\r\n" +
+            "\t\t\t\t\t</thead>\r\n" +
+            "\t\t\t\t\t<tbody>\r\n" +
+            "\t\t\t\t\t\t<c:forEach items=\"${collection}\" var=\"item\"/>\r\n" +
+            "\t\t\t\t\t</tbody>\r\n" +
+            "\t\t\t\t</table>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
