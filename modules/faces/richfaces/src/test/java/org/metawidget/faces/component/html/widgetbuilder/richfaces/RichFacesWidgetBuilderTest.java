@@ -43,6 +43,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UISuggestionBox;
+import org.richfaces.component.html.HtmlCalendar;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 import org.richfaces.component.html.HtmlSuggestionBox;
@@ -288,8 +289,8 @@ public class RichFacesWidgetBuilderTest
 				return new HtmlInputNumberSpinner();
 			}
 
-			if ( UICalendar.COMPONENT_TYPE.equals( componentName ) ) {
-				return new UICalendar();
+			if ( HtmlCalendar.COMPONENT_TYPE.equals( componentName ) ) {
+				return new HtmlCalendar();
 			}
 
 			// Should *not* use org.richfaces.component.html.HtmlColumn
