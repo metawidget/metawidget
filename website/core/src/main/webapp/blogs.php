@@ -177,7 +177,7 @@
 		</table>
 
 		<p>
-			Other academic publications sometimes cite Metawidget. In chronological order:
+			Other academic publications cite Metawidget. In chronological order:
 		</p>
 
 		<table class="data-table">
@@ -192,9 +192,16 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>Cerny, T. &amp; Song, E.</td>
+					<td>2011</td>
+					<td>UML-based enhanced rich form generation</td>
+					<td>2011 ACM Symposium on Research in Applied Computation</td>
+					<td class="link"><a href="http://dl.acm.org/citation.cfm?id=2103420" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Stehno, B.</td>
 					<td>2011</td>
-					<td>Generov&aacute;n&iacute; aplikac&iacute; pro OS Android. </td>
+					<td>Generov&aacute;n&iacute; aplikac&iacute; pro OS Android</td>
 					<td>Cesk&eacute; vysok&eacute; ucen&iacute; technick&eacute; v Praze</td>
 					<td class="link"><a href="https://dip.felk.cvut.cz/browse/pdfcache/stehnvl1_2011dipl.pdf" target="_blank">View</a></td>
 				</tr>

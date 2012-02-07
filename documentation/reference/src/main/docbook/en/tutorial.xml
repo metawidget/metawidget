@@ -2394,7 +2394,7 @@ metawidget.setToInspect( animal )</programlisting>
 				<para>
 					Although Metawidget is focussed on runtime UI generation, its static mode (see <xref linkend="section-metawidgets-static"/>) can
 					sometimes be more appropriate. The <ulink url="http://jboss.org/forge">JBoss Forge</ulink> project provides a thorough, real
-					world demonstration of static Metawidgets in action. JBoss Forge uses Metawidget internally for its UI scaffolding generation.
+					world demonstration of static Metawidget in action. JBoss Forge uses Metawidget internally for its UI scaffolding generation.
 				</para>
 
 				<figure id="section-introduction-part3-static-screenshot">
@@ -2405,7 +2405,7 @@ metawidget.setToInspect( animal )</programlisting>
 				</figure>
 
 				<para>
-					To try using static Metawidgets inside JBoss Forge:
+					To try using static Metawidget inside JBoss Forge:
 				</para>
 				
 				<itemizedlist>
@@ -2431,6 +2431,18 @@ metawidget.setToInspect( animal )</programlisting>
 						<programlisting language="shell">$ run-url https://raw.github.com/forge/core/master/showcase/posale.fsh</programlisting>
 					</listitem>
 				</itemizedlist>
+				
+				<para>
+					This runs a Forge script that automates the creation of a Java EE web application. Forge makes use of
+					static Metawidget in several places, including: for the JSF components on the Create, Retrieve, Update and Delete
+					(CRUD) screens; for the search filter criteria; for generating Java statements inside the JSF managed bean.  					
+				</para>
+				
+				<para>
+					For more information on JBoss Forge and how Metawidget relates to it, see the
+					<ulink url="https://docs.jboss.org/author/display/FORGE/UI+Scaffolding">UI scaffolding section</ulink>
+					of the Forge documentation.
+				</para>
 				
 			</section>
 

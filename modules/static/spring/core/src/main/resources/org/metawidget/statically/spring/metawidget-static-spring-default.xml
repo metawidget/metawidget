@@ -38,9 +38,9 @@
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>					
-						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.widgetbuilder"/>
 						<springWidgetBuilder xmlns="java:org.metawidget.statically.spring.widgetbuilder"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.statically.jsp.html.widgetbuilder"/>
+						<jspWidgetBuilder xmlns="java:org.metawidget.statically.jsp.widgetbuilder"/>						
 					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>

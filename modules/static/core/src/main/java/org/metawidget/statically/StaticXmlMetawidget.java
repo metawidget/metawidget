@@ -21,6 +21,8 @@ import java.util.Map;
 import org.metawidget.util.CollectionUtils;
 
 /**
+ * Base Metawidget for static code generation in XML environments.
+ *
  * @author Richard Kennard
  */
 

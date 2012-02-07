@@ -16,7 +16,7 @@
 
 package org.metawidget.statically.spring;
 
-import org.metawidget.statically.jsp.html.BaseStaticHtmlMetawidget;
+import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 
 /**
@@ -24,7 +24,7 @@ import org.metawidget.util.ClassUtils;
  */
 
 public class StaticSpringMetawidget
-	extends BaseStaticHtmlMetawidget {
+	extends StaticHtmlMetawidget {
 
 	//
 	// Protected methods

@@ -20,10 +20,10 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.jsp.html.layout.HtmlTableLayout;
-import org.metawidget.statically.jsp.html.layout.HtmlTableLayoutConfig;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableHeader;
-import org.metawidget.statically.jsp.html.widgetbuilder.HtmlTableRow;
+import org.metawidget.statically.html.layout.HtmlTableLayout;
+import org.metawidget.statically.html.layout.HtmlTableLayoutConfig;
+import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
+import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormLabelTag;
 import org.metawidget.statically.spring.widgetprocessor.PathProcessor;

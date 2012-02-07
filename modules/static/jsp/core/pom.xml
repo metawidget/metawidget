@@ -12,8 +12,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.metawidget.modules.static</groupId>
-			<artifactId>metawidget-static</artifactId>
+			<groupId>org.metawidget.modules.static.html</groupId>
+			<artifactId>metawidget-static-html</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

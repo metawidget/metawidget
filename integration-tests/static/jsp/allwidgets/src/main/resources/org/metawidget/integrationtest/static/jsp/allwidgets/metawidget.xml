@@ -6,7 +6,7 @@
 						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd"
 	version="1.0">
 
-	<staticHtmlMetawidget xmlns="java:org.metawidget.statically.jsp.html">
+	<staticJspMetawidget xmlns="java:org.metawidget.statically.jsp">
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -25,6 +25,6 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-	</staticHtmlMetawidget>
+	</staticJspMetawidget>
 
 </metawidget>

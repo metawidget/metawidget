@@ -21,9 +21,9 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
-import org.metawidget.statically.jsp.html.BaseStaticHtmlMetawidget;
-import org.metawidget.statically.jsp.html.widgetprocessor.StandardBindingProcessor;
+import org.metawidget.statically.jsp.widgetprocessor.StandardBindingProcessor;
 import org.metawidget.statically.spring.widgetbuilder.SpringTag;
 import org.metawidget.util.simple.StringUtils;
 
@@ -39,7 +39,7 @@ public class PathProcessor
 	//
 
 	@Override
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, BaseStaticHtmlMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
 		if ( widget instanceof SpringTag ) {
 
