@@ -59,7 +59,13 @@ public class IceFacesWidgetBuilderTest
 	//
 
 	@Override
-	public void testWidgetBuilder()
+	public void testReadOnly() {
+
+		// No tests
+	}
+
+	@Override
+	public void testActive()
 		throws Exception {
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();

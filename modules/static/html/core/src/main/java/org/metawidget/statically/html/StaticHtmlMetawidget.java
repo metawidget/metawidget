@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
+import org.metawidget.statically.html.widgetbuilder.ValueHolder;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -33,13 +34,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class StaticHtmlMetawidget
-	extends StaticXmlMetawidget {
-
-	//
-	// Private members
-	//
-
-	private String	mValue;
+	extends StaticXmlMetawidget
+	implements ValueHolder {
 
 	//
 	// Public methods
@@ -57,12 +53,12 @@ public class StaticHtmlMetawidget
 
 	public String getValue() {
 
-		return mValue;
+		return getAttribute( "value" );
 	}
 
 	public void setValue( String value ) {
 
-		mValue = value;
+		putAttribute( "value", value );
 	}
 
 	@Override

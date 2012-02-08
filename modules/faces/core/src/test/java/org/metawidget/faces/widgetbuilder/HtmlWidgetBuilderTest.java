@@ -54,6 +54,7 @@ import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
 import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
+import org.metawidget.faces.component.layout.SimpleLayout;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
@@ -81,28 +82,28 @@ public class HtmlWidgetBuilderTest
 	// Public methods
 	//
 
-	public void testWidgetBuilder()
+	public void testReadOnly()
 		throws Exception {
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = new ReadOnlyWidgetBuilder();
-		HtmlMetawidget dummyMetawdget = new HtmlMetawidget();
+		HtmlMetawidget dummyMetawidget = new HtmlMetawidget();
 
 		// Read only
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( READ_ONLY, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof UIStub );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof UIStub );
 		attributes.remove( HIDDEN );
 
 		// Masked
 
 		attributes.put( MASKED, TRUE );
-		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
+		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget );
 		assertTrue( 1 == stub.getChildCount() );
 		assertTrue( stub.getChildren().get( 0 ) instanceof UIStub );
 		attributes.remove( MASKED );
@@ -110,34 +111,34 @@ public class HtmlWidgetBuilderTest
 		// Lookups
 
 		attributes.put( LOOKUP, "foo" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 
 		attributes.put( LOOKUP_LABELS, "Foo" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlLookupOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlLookupOutputText );
 		attributes.remove( LOOKUP_LABELS );
 		attributes.remove( LOOKUP );
 
 		// Faces lookup
 
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 		attributes.remove( FACES_LOOKUP );
 
 		// Other types
 
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 		attributes.put( TYPE, int.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 		attributes.put( TYPE, Integer.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 		attributes.put( TYPE, Date.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 
 		// Arrays
 
 		attributes.put( TYPE, Foo[].class.getName() );
-		dummyMetawdget.setInspector( new PropertyTypeInspector() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
+		dummyMetawidget.setInspector( new PropertyTypeInspector() );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Lists
 
@@ -146,33 +147,40 @@ public class HtmlWidgetBuilderTest
 
 		// (dataTableRowAction cannot be wrapped when used on the JSP page)
 
-		dummyMetawdget.setParameter( "dataTableRowAction", "foo.action" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
+		dummyMetawidget.setParameter( "dataTableRowAction", "foo.action" );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Other collections
 
 		attributes.put( TYPE, Set.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 
 		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Don't expand
 
 		attributes.put( DONT_EXPAND, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
 		attributes.remove( DONT_EXPAND );
 
-		// Non-read only
+		dummyMetawidget.setLayout( new SimpleLayout() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlOutputText );
+	}
 
-		widgetBuilder = new HtmlWidgetBuilder();
+	public void testActive()
+		throws Exception {
+
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = new HtmlWidgetBuilder();
+		HtmlMetawidget dummyMetawidget = new HtmlMetawidget();
 
 		// Hidden
 
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof UIStub );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof UIStub );
 		attributes.remove( HIDDEN );
 
 		// Masked
@@ -190,18 +198,18 @@ public class HtmlWidgetBuilderTest
 		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Unsupported Collections
 
 		attributes.put( TYPE, Set.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof UIStub );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof UIStub );
 
 		// Don't expand
 
 		attributes.put( TYPE, Color.class.getName() );
 		attributes.put( DONT_EXPAND, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlInputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) instanceof HtmlInputText );
 		attributes.remove( DONT_EXPAND );
 	}
 
@@ -418,7 +426,7 @@ public class HtmlWidgetBuilderTest
 		throws Exception {
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) )) ));
+		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) ) );
 
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();

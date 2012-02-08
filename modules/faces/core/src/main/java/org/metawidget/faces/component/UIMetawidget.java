@@ -634,6 +634,56 @@ public abstract class UIMetawidget
 
 	public abstract String getComponentType();
 
+	/**
+	 * Useful for WidgetBuilders to setup nested Metawidgets (eg. for wrapping them in a
+	 * h:column).
+	 */
+
+	public void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+		// Don't reconfigure...
+
+		nestedMetawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
+
+		// Read-only
+		//
+		// Note: initNestedPipeline takes care of literal values. This is concerned with the value
+		// binding
+
+		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) ) {
+			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
+
+			if ( bindingReadOnly != null ) {
+				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
+			}
+		}
+
+		// Bundle
+
+		nestedMetawidget.setValueBinding( "bundle", getValueBinding( "bundle" ) );
+
+		// Renderer type
+
+		nestedMetawidget.setRendererType( getRendererType() );
+
+		// Parameters
+
+		nestedMetawidget.copyParameters( this );
+
+		// Note: it is very dangerous to do, say...
+		//
+		// to.getAttributes().putAll( from.getAttributes() );
+		//
+		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
+		// the attributes map as a storage area for special flags (eg.
+		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
+		// component!
+	}
+
 	@Override
 	public Object saveState( FacesContext context ) {
 
@@ -798,59 +848,6 @@ public abstract class UIMetawidget
 		// ...or run without inspection (using the Metawidget purely for layout)
 
 		mPipeline.buildWidgets( null );
-	}
-
-	protected UIMetawidget buildNestedMetawidget( String componentType, Map<String, String> attributes )
-		throws Exception {
-
-		// Create the nested Metawidget...
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		UIMetawidget nestedMetawidget = (UIMetawidget) context.getApplication().createComponent( componentType );
-
-		// ...but don't reconfigure it...
-
-		nestedMetawidget.setConfig( null );
-
-		// ...instead, copy runtime values
-
-		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-
-		// Read-only
-		//
-		// Note: initNestedPipeline takes care of literal values. This is concerned with the value
-		// binding
-
-		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) ) {
-			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
-
-			if ( bindingReadOnly != null ) {
-				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
-			}
-		}
-
-		// Bundle
-
-		nestedMetawidget.setValueBinding( "bundle", getValueBinding( "bundle" ) );
-
-		// Renderer type
-
-		nestedMetawidget.setRendererType( getRendererType() );
-
-		// Parameters
-
-		nestedMetawidget.copyParameters( this );
-
-		// Note: it is very dangerous to do, say...
-		//
-		// to.getAttributes().putAll( from.getAttributes() );
-		//
-		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
-		// the attributes map as a storage area for special flags (eg.
-		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
-		// component!
-
-		return nestedMetawidget;
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -1288,7 +1285,12 @@ public abstract class UIMetawidget
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception {
 
-			return UIMetawidget.this.buildNestedMetawidget( UIMetawidget.this.getComponentType(), attributes );
+			FacesContext context = FacesContext.getCurrentInstance();
+			UIMetawidget metawidget = (UIMetawidget) context.getApplication().createComponent( UIMetawidget.this.getComponentType() );
+
+			UIMetawidget.this.initNestedMetawidget( metawidget, attributes );
+
+			return metawidget;
 		}
 
 		@Override

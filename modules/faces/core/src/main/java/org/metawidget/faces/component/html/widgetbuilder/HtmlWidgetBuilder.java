@@ -587,7 +587,9 @@ public class HtmlWidgetBuilder
 		column.setId( viewRoot.createUniqueId() );
 
 		// Make the column contents...
-		// TODO: this should be a Metawidget too!
+		//
+		// Note: this cannot be implemented as a nested Metawidget until
+		// http://java.net/jira/browse/JAVASERVERFACES-2089
 
 		UIComponent columnText = application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		columnText.setId( viewRoot.createUniqueId() );

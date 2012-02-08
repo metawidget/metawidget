@@ -352,24 +352,18 @@ public class HtmlWidgetBuilder
 
 		if ( ENTITY.equals( elementName )) {
 			columnContents = new HtmlOutputText();
+			columnContents.putAttribute( "value", StaticFacesUtils.wrapExpression( dataTable.getAttribute( "var" ) ) );
 		} else {
 
 			// ...using a nested Metawidget if we can...
 
 			columnContents = new StaticHtmlMetawidget();
-		}
-
-		String valueExpression = dataTable.getAttribute( "var" );
-		if ( !ENTITY.equals( elementName ) ) {
-			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( columnAttributes.get( NAME ) );
-		}
-		columnContents.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
-
-		if ( !ENTITY.equals( elementName )) {
+			String valueExpression = dataTable.getAttribute( "var" ) + StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( columnAttributes.get( NAME ) );
+			columnContents.putAttribute( "value", StaticFacesUtils.wrapExpression( valueExpression ) );
 
 			StaticHtmlMetawidget columnMetawidget = (StaticHtmlMetawidget) columnContents;
 			columnMetawidget.setPath( WidgetBuilderUtils.getComponentType( tableAttributes ) + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnAttributes.get( NAME ) );
-			metawidget.initNestedMetawidget( ( (StaticHtmlMetawidget) columnContents ), columnAttributes );
+			metawidget.initNestedMetawidget( columnMetawidget, columnAttributes );
 			columnMetawidget.setLayout( new SimpleLayout() );
 			columnMetawidget.setReadOnly( true );
 		}

@@ -33,6 +33,7 @@ import javax.faces.model.DataModel;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.component.layout.SimpleLayout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -176,7 +177,7 @@ public class ReadOnlyWidgetBuilder
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) || metawidget.getLayout() instanceof SimpleLayout ) {
 			return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		}
 

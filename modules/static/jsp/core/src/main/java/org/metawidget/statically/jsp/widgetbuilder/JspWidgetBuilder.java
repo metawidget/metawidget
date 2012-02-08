@@ -33,7 +33,9 @@ import org.metawidget.statically.html.widgetbuilder.HtmlTableCell;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableHead;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
+import org.metawidget.statically.jsp.StaticJspMetawidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
+import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -181,7 +183,7 @@ public class JspWidgetBuilder
 
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
-			addColumnComponent( row, forEach, attributes, ENTITY, columnAttributes );
+			addColumnComponent( row, forEach, attributes, ENTITY, columnAttributes, metawidget );
 		}
 
 		// ...otherwise, iterate over the component type and add multiple columns.
@@ -250,7 +252,7 @@ public class JspWidgetBuilder
 
 				// ...add a column...
 
-				addColumnComponent( row, forEach, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ) );
+				addColumnComponent( row, forEach, attributes, PROPERTY, XmlUtils.getAttributesAsMap( element ), metawidget );
 
 				// ...and a header for that column...
 
@@ -290,22 +292,36 @@ public class JspWidgetBuilder
 	 *            determining the overall type of the row
 	 */
 
-	protected void addColumnComponent( HtmlTableRow row, CoreForEach forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes ) {
+	protected void addColumnComponent( HtmlTableRow row, CoreForEach forEach, Map<String, String> tableAttributes, String elementName, Map<String, String> columnAttributes, StaticXmlMetawidget metawidget ) {
 
 		// Add a new column to the current row of the table.
 
 		HtmlTableCell cell = new HtmlTableCell();
 		row.getChildren().add( cell );
 
-		String valueExpression = forEach.getAttribute( "var" );
-		if ( !ENTITY.equals( elementName ) ) {
-			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + columnAttributes.get( NAME );
+		StaticXmlWidget columnContents;
+
+		// Make the column contents...
+
+		if ( ENTITY.equals( elementName )) {
+			columnContents = new CoreOut();
+			columnContents.putAttribute( "value", StaticJspUtils.wrapExpression( forEach.getAttribute( "var" ) ) );
+		} else {
+
+			// ...using a nested Metawidget if we can
+
+			columnContents = new StaticJspMetawidget();
+			String valueExpression = forEach.getAttribute( "var" ) + StringUtils.SEPARATOR_DOT_CHAR + StringUtils.decapitalize( columnAttributes.get( NAME ) );
+			columnContents.putAttribute( "value", StaticJspUtils.wrapExpression( valueExpression ) );
+
+			StaticJspMetawidget columnMetawidget = (StaticJspMetawidget) columnContents;
+			columnMetawidget.setPath( WidgetBuilderUtils.getComponentType( tableAttributes ) + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnAttributes.get( NAME ) );
+			metawidget.initNestedMetawidget( columnMetawidget, columnAttributes );
+			columnMetawidget.setLayout( new SimpleLayout() );
+			columnMetawidget.setReadOnly( true );
 		}
 
-		CoreOut out = new CoreOut();
-		out.putAttribute( "value", StaticJspUtils.wrapExpression( valueExpression ) );
-		cell.getChildren().add( out );
-
+		cell.getChildren().add( columnContents );
 	}
 
 	protected void addSelectItems( HtmlSelect select, String valueExpression, Map<String, String> attributes ) {

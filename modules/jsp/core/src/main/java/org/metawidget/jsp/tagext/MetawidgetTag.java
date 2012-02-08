@@ -300,6 +300,15 @@ public abstract class MetawidgetTag
 		mPipeline.setWidgetProcessors( widgetProcessors );
 	}
 
+	/**
+	 * Useful for WidgetBuilders.
+	 */
+
+	public Layout<Tag, BodyTag, MetawidgetTag> getLayout() {
+
+		return mPipeline.getLayout();
+	}
+
 	public void setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout ) {
 
 		mPipeline.setLayout( layout );

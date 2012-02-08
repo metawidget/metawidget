@@ -113,16 +113,13 @@ public class HtmlMetawidget
 	 */
 
 	@Override
-	protected UIMetawidget buildNestedMetawidget( String componentType, Map<String, String> attributes )
-		throws Exception {
+	public void initNestedMetawidget( UIMetawidget metawidget, Map<String, String> attributes ) {
 
-		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) super.buildNestedMetawidget( componentType, attributes );
+		super.initNestedMetawidget( metawidget, attributes );
 
 		// Attributes
 
-		htmlMetawidget.setStyle( mStyle );
-		htmlMetawidget.setStyleClass( mStyleClass );
-
-		return htmlMetawidget;
+		((HtmlMetawidget) metawidget).setStyle( mStyle );
+		((HtmlMetawidget) metawidget).setStyleClass( mStyleClass );
 	}
 }

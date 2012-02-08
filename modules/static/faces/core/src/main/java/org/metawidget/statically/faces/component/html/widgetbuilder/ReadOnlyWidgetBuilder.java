@@ -149,7 +149,6 @@ public class ReadOnlyWidgetBuilder
 		}
 
 		// Not simple, but don't expand
-		// TODO: metawidget.getLayout() instanceof SimpleLayout everywhere?
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) || metawidget.getLayout() instanceof SimpleLayout ) {
 			return new HtmlOutputText();

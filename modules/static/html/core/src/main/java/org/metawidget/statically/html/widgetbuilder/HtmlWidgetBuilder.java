@@ -146,12 +146,11 @@ public class HtmlWidgetBuilder
 				return createHtmlInputText( attributes );
 			}
 
-			// Unsupported Collections
+			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new StaticXmlStub();
 			}
-
 		}
 
 		// Not simple, but don't expand

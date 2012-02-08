@@ -30,6 +30,7 @@ import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor;
+import org.metawidget.jsp.tagext.layout.SimpleLayout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -138,7 +139,7 @@ public class ReadOnlyWidgetBuilder
 
 		// Not simple, but don't expand
 
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) || metawidget.getLayout() instanceof SimpleLayout ) {
 			return setAttributeAndCreateReadOnlyLabelTag( attributes, metawidget );
 		}
 

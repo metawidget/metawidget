@@ -216,6 +216,10 @@ public abstract class StaticMetawidget
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
+	/**
+	 * Useful for WidgetBuilders.
+	 */
+
 	public Layout<StaticWidget, StaticWidget, StaticMetawidget> getLayout() {
 
 		return mPipeline.getLayout();
