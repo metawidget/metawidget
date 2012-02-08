@@ -64,13 +64,13 @@ public class JGoodiesValidatorProcessorTest
 		// Initial validation
 
 		JTextField textField1 = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField1 ) );
+		assertEquals( null, ValidationComponentUtils.getMessageKeys( textField1 ) );
 		assertTrue( ValidationComponentUtils.isMandatory( textField1 ) );
 		assertEquals( ValidationComponentUtils.getMandatoryBorder(), textField1.getBorder() );
 		assertEquals( ValidationComponentUtils.getMandatoryBackground(), textField1.getBackground() );
 
 		JTextField textField2 = (JTextField) metawidget.getComponent( 3 );
-		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField2 ) );
+		assertEquals( null, ValidationComponentUtils.getMessageKeys( textField2 ) );
 		assertFalse( ValidationComponentUtils.isMandatory( textField2 ) );
 
 		// Validation after a keypress

@@ -96,30 +96,30 @@ public class HibernateInspectorTest
 		assertEquals( "bar", property.getAttribute( NAME ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Bar", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "abc", property.getAttribute( NAME ) );
-		assertTrue( property.getAttributes().getLength() == 1 );
+		assertEquals( property.getAttributes().getLength(), 1 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "def", property.getAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "ghi", property.getAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "jkl", property.getAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( property.getNextSibling(), null );
 	}

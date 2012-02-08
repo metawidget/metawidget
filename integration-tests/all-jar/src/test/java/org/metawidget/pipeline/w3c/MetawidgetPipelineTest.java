@@ -88,8 +88,8 @@ public class MetawidgetPipelineTest
 			}
 		} );
 
-		assertTrue( null == pipeline.inspectAsDom( null, null ) );
-		assertTrue( called.size() == 1 );
+		assertEquals( null, pipeline.inspectAsDom( null, null ) );
+		assertEquals( called.size(), 1 );
 		assertEquals( "InspectionResultProcessor #1", called.get( 0 ) );
 		assertFalse( called.contains( "InspectionResultProcessor #2" ) );
 	}
@@ -159,7 +159,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getDocumentElement() );
 
-		assertTrue( called.size() == 1 );
+		assertEquals( called.size(), 1 );
 		assertEquals( "WidgetProcessor #1", called.get( 0 ) );
 		assertFalse( called.contains( "WidgetProcessor #2" ) );
 
@@ -168,7 +168,7 @@ public class MetawidgetPipelineTest
 		called.clear();
 		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getDocumentElement() );
 
-		assertTrue( called.size() == 2 );
+		assertEquals( called.size(), 2 );
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
 		assertEquals( "WidgetProcessor #1", called.get( 1 ) );
 		assertFalse( called.contains( "WidgetProcessor #2" ) );
@@ -225,7 +225,7 @@ public class MetawidgetPipelineTest
 
 		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getDocumentElement() );
 
-		assertTrue( called.size() == 3 );
+		assertEquals( called.size(), 3 );
 		assertEquals( "buildCompoundWidget", called.get( 0 ) );
 		assertEquals( "nullAttributes", called.get( 1 ) );
 		assertEquals( "addWidget", called.get( 2 ) );
@@ -236,9 +236,9 @@ public class MetawidgetPipelineTest
 		InspectionResultProcessor<Object> inspectionResultProcessor1 = new ComesAfterInspectionResultProcessor<Object>();
 
 		Pipeline pipeline = new Pipeline();
-		assertTrue( null == pipeline.getInspectionResultProcessors() );
+		assertEquals( null, pipeline.getInspectionResultProcessors() );
 		pipeline.removeInspectionResultProcessor( inspectionResultProcessor1 );
-		assertTrue( null == pipeline.getInspectionResultProcessors() );
+		assertEquals( null, pipeline.getInspectionResultProcessors() );
 
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
 
@@ -254,7 +254,7 @@ public class MetawidgetPipelineTest
 		pipeline.removeInspectionResultProcessor( inspectionResultProcessor1 );
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
 
-		assertTrue( 1 == pipeline.getInspectionResultProcessors().size() );
+		assertEquals( 1, pipeline.getInspectionResultProcessors().size() );
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" } )
@@ -264,16 +264,16 @@ public class MetawidgetPipelineTest
 		WidgetProcessor<Object, Object> widgetProcessor2 = (WidgetProcessor) new JGoodiesValidatorProcessor();
 
 		Pipeline pipeline = new Pipeline();
-		assertTrue( null == pipeline.getWidgetProcessors() );
+		assertEquals( null, pipeline.getWidgetProcessors() );
 		pipeline.removeWidgetProcessor( widgetProcessor1 );
-		assertTrue( null == pipeline.getWidgetProcessors() );
+		assertEquals( null, pipeline.getWidgetProcessors() );
 
 		pipeline.addWidgetProcessor( widgetProcessor1 );
 		pipeline.addWidgetProcessor( widgetProcessor2 );
 
-		assertTrue( widgetProcessor1 == (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( WidgetProcessor.class ) );
-		assertTrue( widgetProcessor1 == (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( ReflectionBindingProcessor.class ) );
-		assertTrue( widgetProcessor2 == (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( JGoodiesValidatorProcessor.class ) );
+		assertEquals( widgetProcessor1, (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( WidgetProcessor.class ) );
+		assertEquals( widgetProcessor1, (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( ReflectionBindingProcessor.class ) );
+		assertEquals( widgetProcessor2, (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( JGoodiesValidatorProcessor.class ) );
 
 		try {
 			pipeline.addWidgetProcessor( widgetProcessor1 );
@@ -285,7 +285,7 @@ public class MetawidgetPipelineTest
 		pipeline.removeWidgetProcessor( widgetProcessor1 );
 		pipeline.addWidgetProcessor( widgetProcessor1 );
 
-		assertTrue( 2 == pipeline.getWidgetProcessors().size() );
+		assertEquals( 2, pipeline.getWidgetProcessors().size() );
 	}
 
 	//
@@ -309,7 +309,7 @@ public class MetawidgetPipelineTest
 			assertEquals( "bar", element.getNodeName() );
 
 			element = getNextSiblingElement( getFirstChildElement( stringToElement( "<foo>		<bar>baz</bar></foo>" ) ) );
-			assertTrue( null == element );
+			assertEquals( null, element );
 		}
 
 		//

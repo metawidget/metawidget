@@ -155,7 +155,7 @@ public class JspUtilsTest
 
 		final DummyPageContext dummyPageContext = new DummyPageContext();
 		assertEquals( verify, JspUtils.writeTag( dummyPageContext, parentTag, null ) );
-		assertTrue( dummyPageContext.getPageContextHits() == 25 );
+		assertEquals( dummyPageContext.getPageContextHits(), 25 );
 	}
 
 	public void testSkipBody()
@@ -245,7 +245,7 @@ public class JspUtilsTest
 
 		JspUtils.writeTag( null, testTag, null );
 
-		assertTrue( mRepeat == 5 );
+		assertEquals( mRepeat, 5 );
 	}
 
 	//

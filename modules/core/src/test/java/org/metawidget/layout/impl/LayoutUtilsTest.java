@@ -57,42 +57,42 @@ public class LayoutUtilsTest
 		throws Exception {
 
 		assertEquals( "Company", SimpleLayoutUtils.stripMnemonic( "Company" ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "Company" ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "Company" ).getFirstIndex() );
 
 		assertEquals( "Company", SimpleLayoutUtils.stripMnemonic( "&Company" ).getStrippedMnemonic() );
-		assertTrue( 0 == SimpleLayoutUtils.stripMnemonic( "&Company" ).getFirstIndex() );
+		assertEquals( 0, SimpleLayoutUtils.stripMnemonic( "&Company" ).getFirstIndex() );
 
 		assertEquals( "Company", SimpleLayoutUtils.stripMnemonic( "Compan&y" ).getStrippedMnemonic() );
-		assertTrue( 6 == SimpleLayoutUtils.stripMnemonic( "Compan&y" ).getFirstIndex() );
+		assertEquals( 6, SimpleLayoutUtils.stripMnemonic( "Compan&y" ).getFirstIndex() );
 
 		assertEquals( "C&ompany", SimpleLayoutUtils.stripMnemonic( "C&&ompa&ny" ).getStrippedMnemonic() );
-		assertTrue( 6 == SimpleLayoutUtils.stripMnemonic( "C&&ompa&ny" ).getFirstIndex() );
+		assertEquals( 6, SimpleLayoutUtils.stripMnemonic( "C&&ompa&ny" ).getFirstIndex() );
 
 		assertEquals( "Company", SimpleLayoutUtils.stripMnemonic( "C&ompa&ny" ).getStrippedMnemonic() );
-		assertTrue( 1 == SimpleLayoutUtils.stripMnemonic( "C&ompa&ny" ).getFirstIndex() );
+		assertEquals( 1, SimpleLayoutUtils.stripMnemonic( "C&ompa&ny" ).getFirstIndex() );
 
 		assertEquals( "Company&", SimpleLayoutUtils.stripMnemonic( "Company&" ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "Company&" ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "Company&" ).getFirstIndex() );
 
 		assertEquals( "Company&", SimpleLayoutUtils.stripMnemonic( "Company&&" ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "Company&&" ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "Company&&" ).getFirstIndex() );
 
 		assertEquals( "&Company", SimpleLayoutUtils.stripMnemonic( "&&Company" ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "&&Company" ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "&&Company" ).getFirstIndex() );
 
 		assertEquals( "&Company", SimpleLayoutUtils.stripMnemonic( "&&&Company" ).getStrippedMnemonic() );
-		assertTrue( 1 == SimpleLayoutUtils.stripMnemonic( "&&&Company" ).getFirstIndex() );
+		assertEquals( 1, SimpleLayoutUtils.stripMnemonic( "&&&Company" ).getFirstIndex() );
 
 		assertEquals( "& Company", SimpleLayoutUtils.stripMnemonic( "& Company" ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "& Company" ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "& Company" ).getFirstIndex() );
 
 		assertEquals( "Com& pany", SimpleLayoutUtils.stripMnemonic( "Com& pany" ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "Com& pany" ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "Com& pany" ).getFirstIndex() );
 
 		assertEquals( "Company& ", SimpleLayoutUtils.stripMnemonic( "Company& " ).getStrippedMnemonic() );
-		assertTrue( -1 == SimpleLayoutUtils.stripMnemonic( "Company& " ).getFirstIndex() );
+		assertEquals( -1, SimpleLayoutUtils.stripMnemonic( "Company& " ).getFirstIndex() );
 
 		assertEquals( "Com& pany", SimpleLayoutUtils.stripMnemonic( "Com& &pany" ).getStrippedMnemonic() );
-		assertTrue( 5 == SimpleLayoutUtils.stripMnemonic( "Com& &pany" ).getFirstIndex() );
+		assertEquals( 5, SimpleLayoutUtils.stripMnemonic( "Com& &pany" ).getFirstIndex() );
 	}
 }

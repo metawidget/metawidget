@@ -89,14 +89,14 @@ public class SwingMetawidgetIntegrationTest
 
 		// Check same component
 
-		assertTrue( textField == (Component) metawidget.getComponent( "name" ) );
-		assertTrue( nestedTextField == (Component) metawidget.getComponent( "foo", "name" ) );
+		assertEquals( textField, (Component) metawidget.getComponent( "name" ) );
+		assertEquals( nestedTextField, (Component) metawidget.getComponent( "foo", "name" ) );
 
 		// Check saves back to the correct place
 
 		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 		assertEquals( "Charlotte", foo1.getName() );
-		assertTrue( foo2 == (Object) metawidget.getToInspect() );
+		assertEquals( foo2, (Object) metawidget.getToInspect() );
 		assertEquals( "Julianne", foo2.getName() );
 
 		// Check different component
@@ -105,7 +105,7 @@ public class SwingMetawidgetIntegrationTest
 		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelAlignment( SwingConstants.RIGHT ) ) );
 		assertTrue( textField != (Component) metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField != (Component) metawidget.getComponent( "foo", "name" ) );
-		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );
+		assertEquals( SwingConstants.RIGHT, ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );
 		assertEquals( "Julianne", ( (JTextField) metawidget.getComponent( "name" ) ).getText() );
 		assertEquals( "Richard", ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() );
 

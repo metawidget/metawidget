@@ -61,9 +61,9 @@ public class SwingAppFrameworkInspectorTest
 		assertEquals( ACTION, action.getNodeName() );
 		assertEquals( "doBar", action.getAttribute( NAME ) );
 		assertEquals( "barLabel", action.getAttribute( LABEL ) );
-		assertTrue( action.getAttributes().getLength() == 2 );
+		assertEquals( action.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 	}
 
 	public void testConfig() {

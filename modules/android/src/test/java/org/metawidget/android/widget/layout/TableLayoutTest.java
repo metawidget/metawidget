@@ -77,8 +77,8 @@ public class TableLayoutTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertEquals( "Nested Foo: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
-		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 1 ) );
-		assertTrue( 2 == androidMetawidget.getChildCount() );
+		assertEquals( buttonsFacet, androidMetawidget.getChildAt( 1 ) );
+		assertEquals( 2, androidMetawidget.getChildCount() );
 
 		// nestedFoo
 
@@ -106,20 +106,20 @@ public class TableLayoutTest
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		assertEquals( "Nested Foo: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof AndroidMetawidget );
-		assertTrue( 3 == tableLayout.getChildCount() );
+		assertEquals( 3, tableLayout.getChildCount() );
 
 		AndroidMetawidget nestedNestedMetawidget = (AndroidMetawidget) tableRow.getChildAt( 1 );
-		assertTrue( 1 == nestedNestedMetawidget.getChildCount() );
+		assertEquals( 1, nestedNestedMetawidget.getChildCount() );
 
 		// (spacer)
 
-		assertTrue( null == ( (TextView) nestedNestedMetawidget.getChildAt( 0 ) ).getText() );
-		assertTrue( 1 == nestedNestedMetawidget.getChildCount() );
+		assertEquals( null, ( (TextView) nestedNestedMetawidget.getChildAt( 0 ) ).getText() );
+		assertEquals( 1, nestedNestedMetawidget.getChildCount() );
 
 		// Get/set nested value
 
-		assertTrue( null == adapterView.getSelectedItem() );
-		assertTrue( null == adapterView.getAdapter().getItem( 0 ) );
+		assertEquals( null, adapterView.getSelectedItem() );
+		assertEquals( null, adapterView.getAdapter().getItem( 0 ) );
 		assertEquals( "one", adapterView.getAdapter().getItem( 1 ) );
 		assertEquals( "two", adapterView.getAdapter().getItem( 2 ) );
 		assertEquals( "three", adapterView.getAdapter().getItem( 3 ) );

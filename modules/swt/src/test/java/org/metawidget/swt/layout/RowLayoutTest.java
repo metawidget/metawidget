@@ -58,22 +58,22 @@ public class RowLayoutTest
 
 		// layoutWidget
 
-		assertTrue( 0 == metawidget.getChildren().length );
+		assertEquals( 0, metawidget.getChildren().length );
 
 		metawidget.setMetawidgetLayout( rowLayout );
 		Stub stub = new Stub( metawidget, SWT.NONE );
 		metawidget.getChildren();
 		assertTrue( ( (RowData) stub.getLayoutData() ).exclude );
-		assertTrue( 1 == metawidget.getChildren().length );
+		assertEquals( 1, metawidget.getChildren().length );
 
 		Spinner spinner = new Spinner( stub, SWT.NONE );
 		metawidget.setToInspect( null );
 		metawidget.getChildren();
-		assertTrue( null == stub.getLayoutData() );
-		assertTrue( 1 == metawidget.getChildren().length );
+		assertEquals( null, stub.getLayoutData() );
+		assertEquals( 1, metawidget.getChildren().length );
 
 		rowLayout.layoutWidget( new Text( metawidget, SWT.NONE ), PROPERTY, null, composite, metawidget );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
-		assertTrue( 2 == metawidget.getChildren().length );
+		assertEquals( 2, metawidget.getChildren().length );
 	}
 }

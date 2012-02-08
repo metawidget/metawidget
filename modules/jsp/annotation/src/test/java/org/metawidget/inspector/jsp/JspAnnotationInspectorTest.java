@@ -54,9 +54,9 @@ public class JspAnnotationInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "${foo.bar}", property.getAttribute( JSP_LOOKUP ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
-		assertTrue( 1 == entity.getChildNodes().getLength() );
+		assertEquals( 1, entity.getChildNodes().getLength() );
 	}
 
 	//

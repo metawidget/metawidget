@@ -62,7 +62,7 @@ public class SeamInspectorTest
 		} );
 
 		SeamInspector inspector = new SeamInspector( config );
-		assertTrue( null == inspector.inspect( null, "newuser1.contact" ) );
+		assertEquals( null, inspector.inspect( null, "newuser1.contact" ) );
 
 		String xml = inspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
@@ -95,7 +95,7 @@ public class SeamInspectorTest
 		config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
 
 		SeamInspector inspector = new SeamInspector( config );
-		assertTrue( null == inspector.inspect( null, "newuser.contact" ) );
+		assertEquals( null, inspector.inspect( null, "newuser.contact" ) );
 	}
 
 	@SuppressWarnings( "unused" )

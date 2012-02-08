@@ -74,7 +74,7 @@ public class IceFacesWidgetBuilderTest
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 
 		// Masked
@@ -86,7 +86,7 @@ public class IceFacesWidgetBuilderTest
 		// Overridden component
 
 		attributes.put( FACES_COMPONENT, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( FACES_COMPONENT );
 
 		// SelectInputDate

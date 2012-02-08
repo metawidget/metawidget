@@ -109,7 +109,7 @@ public class CompositeInspectorTest
 		} );
 
 		inspector = new ValidatingCompositeInspector( config );
-		assertTrue( null == inspector.inspect( null, null ) );
+		assertEquals( null, inspector.inspect( null, null ) );
 	}
 
 	@SuppressWarnings( "unused" )
@@ -123,7 +123,7 @@ public class CompositeInspectorTest
 
 		CompositeInspector inspectorComposite = new CompositeInspector( config );
 		Inspector[] inspectorsCopied = inspectorComposite.mInspectors;
-		assertTrue( inspectorsCopied[0] == inspector );
+		assertEquals( inspectorsCopied[0], inspector );
 		inspectors[0] = null;
 		assertTrue( inspectorsCopied[0] != null );
 

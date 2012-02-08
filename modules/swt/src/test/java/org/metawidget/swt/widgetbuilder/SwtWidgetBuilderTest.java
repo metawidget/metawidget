@@ -56,9 +56,9 @@ public class SwtWidgetBuilderTest
 		attributes.put( MAXIMUM_VALUE, "99" );
 
 		Scale slider = (Scale) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( 2 == slider.getMinimum() );
-		assertTrue( 2 == slider.getSelection() );
-		assertTrue( 99 == slider.getMaximum() );
+		assertEquals( 2, slider.getMinimum() );
+		assertEquals( 2, slider.getSelection() );
+		assertEquals( 99, slider.getMaximum() );
 
 		try {
 			attributes.put( MINIMUM_VALUE, "1.5" );
@@ -74,10 +74,10 @@ public class SwtWidgetBuilderTest
 		attributes.put( LARGE, TRUE );
 
 		Text textarea = (Text) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ( textarea.getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( textarea.getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( textarea.getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( textarea.getStyle() & SWT.WRAP ) == SWT.WRAP );
+		assertEquals( ( textarea.getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( textarea.getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( textarea.getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( textarea.getStyle() & SWT.WRAP ), SWT.WRAP );
 
 		// Spinner
 
@@ -88,13 +88,13 @@ public class SwtWidgetBuilderTest
 		attributes.put( TYPE, byte.class.getName() );
 
 		Spinner spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ( (byte) 2 ) == spinner.getMinimum() );
-		assertTrue( ( (byte) 2 ) == spinner.getSelection() );
+		assertEquals( ( (byte) 2 ), spinner.getMinimum() );
+		assertEquals( ( (byte) 2 ), spinner.getSelection() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "99" );
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ( (byte) 99 ) == spinner.getMaximum() );
+		assertEquals( ( (byte) 99 ), spinner.getMaximum() );
 
 		// shorts
 
@@ -103,13 +103,13 @@ public class SwtWidgetBuilderTest
 		attributes.put( TYPE, short.class.getName() );
 
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ( (short) 3 ) == spinner.getMinimum() );
-		assertTrue( ( (short) 3 ) == spinner.getSelection() );
+		assertEquals( ( (short) 3 ), spinner.getMinimum() );
+		assertEquals( ( (short) 3 ), spinner.getSelection() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "98" );
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( ( (short) 98 ) == spinner.getMaximum() );
+		assertEquals( ( (short) 98 ), spinner.getMaximum() );
 
 		// ints
 
@@ -118,13 +118,13 @@ public class SwtWidgetBuilderTest
 		attributes.put( TYPE, int.class.getName() );
 
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( 4 == spinner.getMinimum() );
-		assertTrue( 4 == spinner.getSelection() );
+		assertEquals( 4, spinner.getMinimum() );
+		assertEquals( 4, spinner.getSelection() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "97" );
 		spinner = (Spinner) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( 97 == spinner.getMaximum() );
+		assertEquals( 97, spinner.getMaximum() );
 
 		// longs
 

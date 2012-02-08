@@ -120,22 +120,22 @@ public class GridLayoutTest
 
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );
 		assertTrue( "abc_label".equals( metawidget.getChildren()[0].getData( "name" ) ) );
-		assertTrue( metawidget.getControl( "abc_label" ) == metawidget.getChildren()[0] );
+		assertEquals( metawidget.getControl( "abc_label" ), metawidget.getChildren()[0] );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
 		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
 		assertEquals( 3, ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
 
 		// TabFolder
 
 		TabFolder tabbedPane = (TabFolder) metawidget.getChildren()[6];
-		assertTrue( 3 == tabbedPane.getItemCount() );
-		assertTrue( SWT.FILL == ( (GridData) tabbedPane.getLayoutData() ).horizontalAlignment );
-		assertTrue( SWT.FILL == ( (GridData) tabbedPane.getLayoutData() ).verticalAlignment );
+		assertEquals( 3, tabbedPane.getItemCount() );
+		assertEquals( SWT.FILL, ( (GridData) tabbedPane.getLayoutData() ).horizontalAlignment );
+		assertEquals( SWT.FILL, ( (GridData) tabbedPane.getLayoutData() ).verticalAlignment );
 		assertTrue( ( (GridData) tabbedPane.getLayoutData() ).grabExcessHorizontalSpace );
 		assertTrue( ( (GridData) tabbedPane.getLayoutData() ).grabExcessVerticalSpace );
 
@@ -148,24 +148,24 @@ public class GridLayoutTest
 		assertTrue( tabPanel.getChildren()[3] instanceof Combo );
 		assertTrue( "Tab 1_pqr:".equals( ( (Label) tabPanel.getChildren()[4] ).getText() ) );
 		assertTrue( tabPanel.getChildren()[5] instanceof Text );
-		assertTrue( 6 == tabPanel.getChildren().length );
+		assertEquals( 6, tabPanel.getChildren().length );
 
 		assertTrue( "tab2".equals( tabbedPane.getItem( 1 ).getText() ) );
 		tabPanel = (Composite) tabbedPane.getChildren()[1];
 		assertTrue( tabPanel.getChildren()[0] instanceof Text );
-		assertTrue( ( tabPanel.getChildren()[0].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( 4 == ( (GridData) tabPanel.getChildren()[0].getLayoutData() ).horizontalSpan );
-		assertTrue( 1 == tabPanel.getChildren().length );
+		assertEquals( ( tabPanel.getChildren()[0].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( 4, ( (GridData) tabPanel.getChildren()[0].getLayoutData() ).horizontalSpan );
+		assertEquals( 1, tabPanel.getChildren().length );
 
 		assertTrue( "tab3".equals( tabbedPane.getItem( 2 ).getText() ) );
 		tabPanel = (Composite) tabbedPane.getChildren()[2];
 		assertTrue( tabPanel.getChildren()[0] instanceof Text );
-		assertTrue( 2 == ( (GridData) tabPanel.getChildren()[0].getLayoutData() ).horizontalSpan );
+		assertEquals( 2, ( (GridData) tabPanel.getChildren()[0].getLayoutData() ).horizontalSpan );
 		assertTrue( "Tab 3_mno:".equals( ( (Label) tabPanel.getChildren()[1] ).getText() ) );
 		assertTrue( tabPanel.getChildren()[2] instanceof Text );
 		assertTrue( "Tab 3_pqr:".equals( ( (Label) tabPanel.getChildren()[3] ).getText() ) );
 		assertTrue( tabPanel.getChildren()[4] instanceof Text );
-		assertTrue( 5 == tabPanel.getChildren().length );
+		assertEquals( 5, tabPanel.getChildren().length );
 
 		assertTrue( "Mno:".equals( ( (Label) metawidget.getChildren()[7] ).getText() ) );
 		assertTrue( metawidget.getChildren()[8] instanceof Text );
@@ -201,17 +201,17 @@ public class GridLayoutTest
 		assertTrue( "Def*:".equals( ( (Label) metawidget.getChildren()[2] ).getText() ) );
 		assertTrue( metawidget.getChildren()[3] instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
-		assertTrue( 3 == ( (GridData) ( (Stub) metawidget.getChildren()[3] ).getLayoutData() ).horizontalSpan );
+		assertEquals( 3, ( (GridData) ( (Stub) metawidget.getChildren()[3] ).getLayoutData() ).horizontalSpan );
 
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
 
 		assertTrue( metawidget.getChildren()[6] instanceof TabFolder );
 		assertTrue( stub.equals( metawidget.getChildren()[7] ) );
 		assertTrue( arbitrary.equals( metawidget.getChildren()[8] ) );
 		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getChildren()[9] ) );
-		assertTrue( 4 == ( (GridData) arbitraryStubWithAttributes.getLayoutData() ).horizontalSpan );
+		assertEquals( 4, ( (GridData) arbitraryStubWithAttributes.getLayoutData() ).horizontalSpan );
 
 		// Read-only on required labels
 
@@ -237,11 +237,11 @@ public class GridLayoutTest
 
 		assertTrue( "Ghi:".equals( ( (Label) metawidget.getChildren()[4] ).getText() ) );
 		assertTrue( metawidget.getChildren()[5] instanceof Text );
-		assertTrue( 3 == ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
+		assertEquals( 3, ( (GridData) metawidget.getChildren()[5].getLayoutData() ).horizontalSpan );
 
 		assertTrue( "Jkl:".equals( ( (Label) metawidget.getChildren()[6] ).getText() ) );
 		assertTrue( metawidget.getChildren()[7] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.CHECK ), SWT.CHECK );
 
 		assertTrue( "Mno:".equals( ( (Label) metawidget.getChildren()[8] ).getText() ) );
 		assertTrue( metawidget.getChildren()[9] instanceof Text );
@@ -335,13 +335,13 @@ public class GridLayoutTest
 		// startContainerLayout should clear all GridData again
 
 		layout.startContainerLayout( composite, metawidget );
-		assertTrue( wideText1.getLayoutData() == null );
-		assertTrue( wideText2.getLayoutData() == null );
-		assertTrue( wideText3.getLayoutData() == null );
-		assertTrue( stub1.getLayoutData() == null );
-		assertTrue( stub2.getLayoutData() == null );
-		assertTrue( stub3.getLayoutData() == null );
-		assertTrue( stub4.getLayoutData() == null );
+		assertEquals( wideText1.getLayoutData(), null );
+		assertEquals( wideText2.getLayoutData(), null );
+		assertEquals( wideText3.getLayoutData(), null );
+		assertEquals( stub1.getLayoutData(), null );
+		assertEquals( stub2.getLayoutData(), null );
+		assertEquals( stub3.getLayoutData(), null );
+		assertEquals( stub4.getLayoutData(), null );
 
 	}
 

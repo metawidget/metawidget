@@ -61,48 +61,48 @@ public class StandardBindingProcessorTest
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		HtmlInputText component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, ENTITY, attributes, metawidget ) );
+		assertEquals( component, processor.processWidget( component, ENTITY, attributes, metawidget ) );
 		assertEquals( "#{foo.bar}", component.getValueBinding( "value" ).getExpressionString() );
 
 		// Do not overwrite existing value bindings
 
 		attributes.put( NAME, "baz" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertEquals( "#{foo.bar}", component.getValueBinding( "value" ).getExpressionString() );
 
 		// Property bindings
 
 		component.setValueBinding( "value", null );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertEquals( "#{foo.bar.baz}", component.getValueBinding( "value" ).getExpressionString() );
 
 		// Action bindings
 
 		HtmlCommandButton command = new HtmlCommandButton();
-		assertTrue( command == processor.processWidget( command, ACTION, attributes, metawidget ) );
+		assertEquals( command, processor.processWidget( command, ACTION, attributes, metawidget ) );
 		assertEquals( "#{foo.bar.baz}", command.getAction().getExpressionString() );
 
 		// Do not overwrite existing action bindings
 
 		metawidget.setValueBinding( "value", null );
-		assertTrue( command == processor.processWidget( command, ACTION, attributes, metawidget ) );
+		assertEquals( command, processor.processWidget( command, ACTION, attributes, metawidget ) );
 		assertEquals( "#{foo.bar.baz}", command.getAction().getExpressionString() );
 
 		// Raw bindings
 
 		command.setAction( null );
-		assertTrue( command == processor.processWidget( command, ACTION, attributes, metawidget ) );
+		assertEquals( command, processor.processWidget( command, ACTION, attributes, metawidget ) );
 		assertEquals( "baz", command.getAction().getExpressionString() );
 
 		// Faces expression for actions
 
 		attributes.put( FACES_EXPRESSION, "#{abc}" );
 		command.setAction( null );
-		assertTrue( command == processor.processWidget( command, ACTION, attributes, metawidget ) );
+		assertEquals( command, processor.processWidget( command, ACTION, attributes, metawidget ) );
 		assertEquals( "#{abc}", command.getAction().getExpressionString() );
 
 		component.setValueBinding( "value", null );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertEquals( "#{abc}", component.getValueBinding( "value" ).getExpressionString() );
 	}
 

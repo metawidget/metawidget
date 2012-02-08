@@ -63,7 +63,7 @@ public class StrutsAnnotationInspectorTest
 		assertEquals( "abc2", property.getAttribute( STRUTS_LOOKUP_LABEL_NAME ) );
 		assertEquals( "def2", property.getAttribute( STRUTS_LOOKUP_LABEL_PROPERTY ) );
 
-		assertTrue( entity.getChildNodes().getLength() == 2 );
+		assertEquals( entity.getChildNodes().getLength(), 2 );
 	}
 
 	//

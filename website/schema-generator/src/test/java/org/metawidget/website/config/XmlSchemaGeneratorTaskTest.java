@@ -129,12 +129,12 @@ public class XmlSchemaGeneratorTaskTest
 		// Not concrete
 
 		String schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.impl", "BaseObjectInspector" );
-		assertTrue( null == schema );
+		assertEquals( null, schema );
 
 		// Not immutable
 
 		schema = mXmlSchemaGeneratorTask.generateClassBlock( "java.lang", "String" );
-		assertTrue( null == schema );
+		assertEquals( null, schema );
 
 		// No config
 

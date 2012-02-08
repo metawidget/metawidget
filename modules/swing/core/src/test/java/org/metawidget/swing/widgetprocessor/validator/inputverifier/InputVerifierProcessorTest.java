@@ -57,7 +57,7 @@ public class InputVerifierProcessorTest
 		metawidget.setToInspect( foo1 );
 
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
-		assertTrue( null == spinner.getInputVerifier() );
+		assertEquals( null, spinner.getInputVerifier() );
 
 		// Setup
 
@@ -65,7 +65,7 @@ public class InputVerifierProcessorTest
 
 		// Validate
 
-		assertTrue( null == metawidget.getClientProperty( "onStartBuild" ) );
+		assertEquals( null, metawidget.getClientProperty( "onStartBuild" ) );
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertFalse( spinner.getInputVerifier().verify( spinner ) );
 		assertEquals( Boolean.TRUE, metawidget.getClientProperty( "onStartBuild" ) );
@@ -75,7 +75,7 @@ public class InputVerifierProcessorTest
 		// Test validate applies to nested Metawidgets too
 
 		SwingMetawidget nestedMetawidget = (SwingMetawidget) metawidget.getComponent( 3 );
-		assertTrue( null == nestedMetawidget.getInputVerifier() );
+		assertEquals( null, nestedMetawidget.getInputVerifier() );
 
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertFalse( nestedSpinner.getInputVerifier().verify( spinner ) );

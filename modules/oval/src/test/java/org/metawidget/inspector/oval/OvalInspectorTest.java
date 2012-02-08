@@ -62,14 +62,14 @@ public class OvalInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( "3", property.getAttribute( MINIMUM_VALUE ) );
 		assertEquals( "24", property.getAttribute( MAXIMUM_VALUE ) );
-		assertTrue( 4 == property.getAttributes().getLength() );
+		assertEquals( 4, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -77,7 +77,7 @@ public class OvalInspectorTest
 		assertEquals( "99.25", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
 		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( 5 == property.getAttributes().getLength() );
+		assertEquals( 5, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "forcedRange" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -86,7 +86,7 @@ public class OvalInspectorTest
 		assertEquals( "24.8", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( "4", property.getAttribute( MINIMUM_LENGTH ) );
 		assertEquals( "23", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( 6 == property.getAttributes().getLength() );
+		assertEquals( 6, property.getAttributes().getLength() );
 	}
 
 	//

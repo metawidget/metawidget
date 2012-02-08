@@ -171,24 +171,24 @@ public class SwingAllWidgetsTest
 
 		assertEquals( "Limited Textbox:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
 		assertEquals( "Limited Textbox", metawidget.getValue( "limitedTextbox" ) );
 		( (JTextField) metawidget.getComponent( 3 ) ).setText( "Limited Textbox1" );
 
 		assertEquals( "Textarea:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JScrollPane );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridx );
 		assertEquals( "Textarea", metawidget.getValue( "textarea" ) );
 
 		JTextArea textarea = (JTextArea) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView();
-		assertTrue( 2 == textarea.getRows() );
-		assertTrue( true == textarea.getLineWrap() );
-		assertTrue( true == textarea.getWrapStyleWord() );
+		assertEquals( 2, textarea.getRows() );
+		assertEquals( true, textarea.getLineWrap() );
+		assertEquals( true, textarea.getWrapStyleWord() );
 		textarea.setText( "Textarea1" );
 
 		assertEquals( "Password:", ( (JLabel) metawidget.getComponent( 6 ) ).getText() );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JPasswordField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridx );
 		assertEquals( "Password", metawidget.getValue( "password" ) );
 		( (JPasswordField) metawidget.getComponent( 7 ) ).setText( "Password1" );
 
@@ -196,151 +196,151 @@ public class SwingAllWidgetsTest
 
 		assertEquals( "Byte Primitive:", ( (JLabel) metawidget.getComponent( 8 ) ).getText() );
 		assertTrue( metawidget.getComponent( 9 ) instanceof JSpinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridx );
 		assertTrue( Byte.MAX_VALUE == (Byte) metawidget.getValue( "bytePrimitive" ) );
 		assertTrue( -5 == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMinimum() );
 		assertTrue( Byte.MAX_VALUE == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMaximum() );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 9 ) ).getEditor() ).getTextField().getColumns() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 9 ) ).getEditor() ).getTextField().getColumns() );
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 9 );
 		spinner.setValue( spinner.getModel().getPreviousValue() );
 
 		assertEquals( "Byte Object:", ( (JLabel) metawidget.getComponent( 10 ) ).getText() );
 		assertTrue( metawidget.getComponent( 11 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 11 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 11 ) ).gridx );
 		assertEquals( String.valueOf( Byte.MIN_VALUE ), metawidget.getValue( "byteObject" ) );
 		( (JTextField) metawidget.getComponent( 11 ) ).setText( String.valueOf( Byte.MIN_VALUE + 1 ) );
 
 		assertEquals( "Short Primitive:", ( (JLabel) metawidget.getComponent( 12 ) ).getText() );
 		assertTrue( metawidget.getComponent( 13 ) instanceof JSpinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridx );
 		assertTrue( Short.MAX_VALUE == (Short) metawidget.getValue( "shortPrimitive" ) );
 		assertTrue( -6 == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMinimum() );
 		assertTrue( Short.MAX_VALUE == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 13 );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getPreviousValue() );
 
 		assertEquals( "Short Object:", ( (JLabel) metawidget.getComponent( 14 ) ).getText() );
 		assertTrue( metawidget.getComponent( 15 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 15 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 15 ) ).gridx );
 		assertEquals( String.valueOf( Short.MIN_VALUE ), metawidget.getValue( "shortObject" ) );
 		( (JTextField) metawidget.getComponent( 15 ) ).setText( String.valueOf( Short.MIN_VALUE + 1 ) );
 
 		assertEquals( "Int Primitive:", ( (JLabel) metawidget.getComponent( 16 ) ).getText() );
 		assertTrue( metawidget.getComponent( 17 ) instanceof JSpinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 17 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 17 ) ).gridx );
 		assertTrue( Integer.MAX_VALUE == (Integer) metawidget.getValue( "intPrimitive" ) );
 		assertTrue( Integer.MIN_VALUE == (Integer) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 17 ) ).getModel() ).getMinimum() );
 		assertTrue( Integer.MAX_VALUE == (Integer) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 17 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 17 );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getPreviousValue() );
 
 		assertEquals( "Integer Object:", ( (JLabel) metawidget.getComponent( 18 ) ).getText() );
 		assertTrue( metawidget.getComponent( 19 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 19 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 19 ) ).gridx );
 		assertEquals( String.valueOf( Integer.MIN_VALUE ), metawidget.getValue( "integerObject" ) );
 		( (JTextField) metawidget.getComponent( 19 ) ).setText( String.valueOf( Integer.MIN_VALUE + 1 ) );
 
 		assertEquals( "Ranged Int:", ( (JLabel) metawidget.getComponent( 20 ) ).getText() );
 		assertTrue( metawidget.getComponent( 21 ) instanceof JSlider );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 21 ) ).gridx );
-		assertTrue( 1 == ( (JSlider) metawidget.getComponent( 21 ) ).getMinimum() );
-		assertTrue( 100 == ( (JSlider) metawidget.getComponent( 21 ) ).getMaximum() );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 21 ) ).gridx );
+		assertEquals( 1, ( (JSlider) metawidget.getComponent( 21 ) ).getMinimum() );
+		assertEquals( 100, ( (JSlider) metawidget.getComponent( 21 ) ).getMaximum() );
 		assertTrue( 32 == (Integer) metawidget.getValue( "rangedInt" ) );
 		( (JSlider) metawidget.getComponent( 21 ) ).setValue( 33 );
 
 		assertEquals( "Ranged Integer:", ( (JLabel) metawidget.getComponent( 22 ) ).getText() );
 		assertTrue( metawidget.getComponent( 23 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 23 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 23 ) ).gridx );
 		assertEquals( "33", metawidget.getValue( "rangedInteger" ) );
 		( (JTextField) metawidget.getComponent( 23 ) ).setText( String.valueOf( 34 ) );
 
 		assertEquals( "Long Primitive:", ( (JLabel) metawidget.getComponent( 24 ) ).getText() );
 		assertTrue( metawidget.getComponent( 25 ) instanceof JSpinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 25 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 25 ) ).gridx );
 		assertTrue( 42 == (Long) metawidget.getValue( "longPrimitive" ) );
 		assertTrue( -7 == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMinimum() );
 		assertTrue( Long.MAX_VALUE == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 25 );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getNextValue() );
 
 		assertTrue( metawidget.getComponent( 26 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 26 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 26 ) ).gridx );
 		assertEquals( "43", metawidget.getValue( "longObject" ) );
 		( (JTextField) metawidget.getComponent( 26 ) ).setText( "44" );
 
 		assertEquals( "Float Primitive:", ( (JLabel) metawidget.getComponent( 27 ) ).getText() );
 		assertTrue( metawidget.getComponent( 28 ) instanceof JSpinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 28 ) ).gridx );
-		assertTrue( 4.2f == (Float) metawidget.getValue( "floatPrimitive" ) );
-		assertTrue( -Float.MAX_VALUE == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMinimum() );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 28 ) ).gridx );
+		assertEquals( 4.2f, (Float) metawidget.getValue( "floatPrimitive" ) );
+		assertEquals( -Float.MAX_VALUE, (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMinimum() );
 		assertTrue( 2048 == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 28 );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getNextValue() );
 
 		assertEquals( "nullInBundle:", ( (JLabel) metawidget.getComponent( 29 ) ).getText() );
 		assertTrue( metawidget.getComponent( 30 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 30 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 30 ) ).gridx );
 		assertEquals( "4.3", metawidget.getValue( "floatObject" ) );
 		( (JTextField) metawidget.getComponent( 30 ) ).setText( "5.4" );
 
 		assertEquals( "Double Primitive:", ( (JLabel) metawidget.getComponent( 31 ) ).getText() );
 		assertTrue( metawidget.getComponent( 32 ) instanceof JSpinner );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 32 ) ).gridx );
-		assertTrue( 42.2d == (Double) metawidget.getValue( "doublePrimitive" ) );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 32 ) ).gridx );
+		assertEquals( 42.2d, (Double) metawidget.getValue( "doublePrimitive" ) );
 		assertTrue( -8 == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMinimum() );
-		assertTrue( Double.MAX_VALUE == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMaximum() );
+		assertEquals( Double.MAX_VALUE, (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 32 );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getNextValue() );
 
 		assertTrue( metawidget.getComponent( 33 ) instanceof JTextField );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 33 ) ).gridx );
-		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 33 ) ).gridwidth );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 33 ) ).gridx );
+		assertEquals( 2, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 33 ) ).gridwidth );
 		assertEquals( "43.3", metawidget.getValue( "doubleObject" ) );
 		( (JTextField) metawidget.getComponent( 33 ) ).setText( "54.4" );
 
 		assertEquals( "Char Primitive:", ( (JLabel) metawidget.getComponent( 34 ) ).getText() );
 		assertTrue( metawidget.getComponent( 35 ) instanceof JTextField );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 35 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 35 ) ).gridx );
 		assertEquals( "A", metawidget.getValue( "charPrimitive" ) );
 		( (JTextField) metawidget.getComponent( 35 ) ).setText( "Z" );
 
 		assertEquals( "Character Object:", ( (JLabel) metawidget.getComponent( 36 ) ).getText() );
 		assertTrue( metawidget.getComponent( 37 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 37 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 37 ) ).gridx );
 		assertEquals( "Z", metawidget.getValue( "characterObject" ) );
 		( (JTextField) metawidget.getComponent( 37 ) ).setText( "A" );
 
 		assertEquals( "Boolean Primitive:", ( (JLabel) metawidget.getComponent( 38 ) ).getText() );
 		assertTrue( metawidget.getComponent( 39 ) instanceof JCheckBox );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 39 ) ).gridx );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 39 ) ).gridx );
 		assertTrue( false == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 		( (JCheckBox) metawidget.getComponent( 39 ) ).setSelected( true );
 
 		assertEquals( "Boolean Object:", ( (JLabel) metawidget.getComponent( 40 ) ).getText() );
 		assertTrue( metawidget.getComponent( 41 ) instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 37 ) ).gridx );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 41 ) ).getItemCount() );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 37 ) ).gridx );
+		assertEquals( 3, ( (JComboBox) metawidget.getComponent( 41 ) ).getItemCount() );
 		assertEquals( Boolean.TRUE, metawidget.getValue( "booleanObject" ) );
 		( (JComboBox) metawidget.getComponent( 41 ) ).setSelectedItem( Boolean.FALSE );
 
 		assertEquals( "Dropdown:", ( (JLabel) metawidget.getComponent( 42 ) ).getText() );
 		assertTrue( metawidget.getComponent( 43 ) instanceof JComboBox );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 43 ) ).gridx );
-		assertTrue( 4 == ( (JComboBox) metawidget.getComponent( 43 ) ).getItemCount() );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 43 ) ).gridx );
+		assertEquals( 4, ( (JComboBox) metawidget.getComponent( 43 ) ).getItemCount() );
 		assertEquals( "dropdown1", metawidget.getValue( "dropdown" ) );
 		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "foo1" );
 
 		assertEquals( "Dropdown With Labels:", ( (JLabel) metawidget.getComponent( 44 ) ).getText() );
 		assertTrue( metawidget.getComponent( 45 ) instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 45 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 45 ) ).gridx );
 
 		JComboBox combo = (JComboBox) metawidget.getComponent( 45 );
-		assertTrue( 5 == combo.getItemCount() );
+		assertEquals( 5, combo.getItemCount() );
 		assertEquals( "Foo #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "foo2", 1, false, false ) ).getText() );
 		assertEquals( "Dropdown #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown2", 1, false, false ) ).getText() );
 		assertEquals( "Bar #2", ( (JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "bar2", 1, false, false ) ).getText() );
@@ -350,15 +350,15 @@ public class SwingAllWidgetsTest
 
 		assertEquals( "Not Null Dropdown:", ( (JLabel) metawidget.getComponent( 46 ) ).getText() );
 		assertTrue( metawidget.getComponent( 47 ) instanceof JComboBox );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 47 ) ).gridx );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 47 ) ).gridx );
+		assertEquals( 3, ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
 		assertTrue( 0 == (Byte) metawidget.getValue( "notNullDropdown" ) );
 		( (JComboBox) metawidget.getComponent( 47 ) ).setSelectedItem( (byte) 1 );
 
 		assertEquals( "Not Null Object Dropdown*:", ( (JLabel) metawidget.getComponent( 48 ) ).getText() );
 		assertTrue( metawidget.getComponent( 49 ) instanceof JComboBox );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 49 ) ).gridx );
-		assertTrue( 6 == ( (JComboBox) metawidget.getComponent( 49 ) ).getItemCount() );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 49 ) ).gridx );
+		assertEquals( 6, ( (JComboBox) metawidget.getComponent( 49 ) ).getItemCount() );
 		assertEquals( "dropdown3", metawidget.getValue( "notNullObjectDropdown" ) );
 		( (JComboBox) metawidget.getComponent( 49 ) ).setSelectedIndex( 0 );
 
@@ -368,16 +368,16 @@ public class SwingAllWidgetsTest
 		SwingMetawidget metawidgetNested = (SwingMetawidget) metawidget.getComponent( 51 );
 
 		assertEquals( "Further Nested Widgets:", ( (JLabel) metawidgetNested.getComponent( 0 ) ).getText() );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 1 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 1 ) ).gridx );
 
 		SwingMetawidget metawidgetFurtherNested = (SwingMetawidget) metawidgetNested.getComponent( 1 );
 		assertEquals( "Further Nested Widgets:", ( (JLabel) metawidgetFurtherNested.getComponent( 0 ) ).getText() );
 		assertTrue( metawidgetFurtherNested.getComponent( 1 ) instanceof SwingMetawidget );
-		assertTrue( ( (JPanel) ( (SwingMetawidget) metawidgetFurtherNested.getComponent( 1 ) ).getComponent( 0 ) ).getComponentCount() == 0 );
+		assertEquals( ( (JPanel) ( (SwingMetawidget) metawidgetFurtherNested.getComponent( 1 ) ).getComponent( 0 ) ).getComponentCount(), 0 );
 
 		assertEquals( "Nested Textbox 1:", ( (JLabel) metawidgetFurtherNested.getComponent( 2 ) ).getText() );
 		assertTrue( metawidgetFurtherNested.getComponent( 3 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 3 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 3 ) ).gridx );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) );
 		( (JTextField) metawidgetFurtherNested.getComponent( 3 ) ).setText( "Nested Textbox 1.1 (further)" );
 
@@ -386,19 +386,19 @@ public class SwingAllWidgetsTest
 
 		// (should be 1, as in next row, if getEffectiveNumberOfColumns is working)
 
-		assertTrue( 1 == ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 5 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 5 ) ).gridx );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
 		( (JTextField) metawidgetFurtherNested.getComponent( 5 ) ).setText( "Nested Textbox 2.2 (further)" );
 
 		assertEquals( "Nested Textbox 1:", ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() );
 		assertTrue( metawidgetNested.getComponent( 3 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 		( (JTextField) metawidgetNested.getComponent( 3 ) ).setText( "Nested Textbox 1.1" );
 
 		assertEquals( "Nested Textbox 2:", ( (JLabel) metawidgetNested.getComponent( 4 ) ).getText() );
 		assertTrue( metawidgetNested.getComponent( 5 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 		( (JTextField) metawidgetNested.getComponent( 5 ) ).setText( "Nested Textbox 2.2" );
 
@@ -408,12 +408,12 @@ public class SwingAllWidgetsTest
 		metawidgetNested = (SwingMetawidget) metawidget.getComponent( 53 );
 		assertEquals( "Nested Textbox 1:", ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() );
 		assertTrue( metawidgetNested.getComponent( 3 ) instanceof JLabel );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) );
 
 		assertEquals( "Nested Textbox 2:", ( (JLabel) metawidgetNested.getComponent( 4 ) ).getText() );
 		assertTrue( metawidgetNested.getComponent( 5 ) instanceof JLabel );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) );
 
 		assertEquals( "Nested Widgets Dont Expand:", ( (JLabel) metawidget.getComponent( 54 ) ).getText() );
@@ -425,7 +425,7 @@ public class SwingAllWidgetsTest
 
 		assertEquals( "Date:", ( (JLabel) metawidget.getComponent( 58 ) ).getText() );
 		assertTrue( metawidget.getComponent( 59 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 59 ) ).gridx );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 59 ) ).gridx );
 
 		DateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 		assertEquals( dateFormat.format( allWidgets.getDate() ), metawidget.getValue( "date" ) );
@@ -433,7 +433,7 @@ public class SwingAllWidgetsTest
 
 		JPanel separatorPanel = (JPanel) metawidget.getComponent( 60 );
 		assertEquals( "Section Break", ( (JLabel) separatorPanel.getComponent( 0 ) ).getText() );
-		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).gridwidth );
+		assertEquals( GridBagConstraints.REMAINDER, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).gridwidth );
 		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
 		assertEquals( "Read Only:", ( (JLabel) metawidget.getComponent( 61 ) ).getText() );
@@ -441,8 +441,8 @@ public class SwingAllWidgetsTest
 		assertEquals( "Read Only", metawidget.getValue( "readOnly" ) );
 
 		assertTrue( metawidget.getComponent( 63 ) instanceof JButton );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).gridx );
-		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).fill );
+		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).gridx );
+		assertEquals( GridBagConstraints.NONE, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).fill );
 		JButton button = ( (JButton) metawidget.getComponent( 63 ) );
 		assertEquals( "Do Action", button.getText() );
 		assertTrue( button.isEnabled() );
@@ -453,7 +453,7 @@ public class SwingAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
-		assertTrue( 64 == metawidget.getComponentCount() );
+		assertEquals( 64, metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -558,12 +558,12 @@ public class SwingAllWidgetsTest
 		assertEquals( "Do Action", ( (JButton) metawidget.getComponent( 63 ) ).getText() );
 		assertTrue( !( (JButton) metawidget.getComponent( 63 ) ).isEnabled() );
 
-		assertTrue( metawidget.getComponentCount() == 64 );
+		assertEquals( metawidget.getComponentCount(), 64 );
 
 		// Test Binding.onStartBuild clears the state
 
 		assertTrue( null != metawidget.getClientProperty( processor.getClass() ) );
 		processor.onStartBuild( metawidget );
-		assertTrue( null == metawidget.getClientProperty( processor.getClass() ) );
+		assertEquals( null, metawidget.getClientProperty( processor.getClass() ) );
 	}
 }

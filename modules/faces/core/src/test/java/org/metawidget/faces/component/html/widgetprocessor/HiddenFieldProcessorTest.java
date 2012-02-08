@@ -57,14 +57,14 @@ public class HiddenFieldProcessorTest
 		// Pass through
 
 		UIComponent component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, null ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, null, null ) );
 
 		// No setter? No hidden field
 
 		UIStub stub = new UIStub();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( NO_SETTER, TRUE );
-		assertTrue( stub == processor.processWidget( stub, PROPERTY, attributes, null ) );
+		assertEquals( stub, processor.processWidget( stub, PROPERTY, attributes, null ) );
 
 		// Stubs become hidden fields directly
 
@@ -75,14 +75,14 @@ public class HiddenFieldProcessorTest
 
 		component = new UIStub();
 		component.getChildren().add( new HtmlOutputText() );
-		assertTrue( processor.processWidget( component, PROPERTY, attributes, null ) == component );
+		assertEquals( processor.processWidget( component, PROPERTY, attributes, null ), component );
 
 		// Everything else gets wrapped
 
 		component = new HtmlOutputText();
 		UIStub wrapped = (UIStub) processor.processWidget( component, PROPERTY, attributes, null );
 		assertTrue( wrapped.getChildren().get( 0 ) instanceof HtmlInputHidden );
-		assertTrue( component == wrapped.getChildren().get( 1 ) );
+		assertEquals( component, wrapped.getChildren().get( 1 ) );
 	}
 
 	//

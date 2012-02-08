@@ -33,12 +33,12 @@ public class WidgetProcessorExceptionTest
 		throws Exception {
 
 		Throwable throwable = new Throwable();
-		assertTrue( throwable == WidgetProcessorException.newException( throwable ).getCause() );
+		assertEquals( throwable, WidgetProcessorException.newException( throwable ).getCause() );
 
 		throwable = WidgetProcessorException.newException( "Foo" );
 		assertEquals( "Foo", throwable.getMessage() );
-		assertTrue( throwable == WidgetProcessorException.newException( throwable ) );
+		assertEquals( throwable, WidgetProcessorException.newException( throwable ) );
 		assertEquals( "Foo", WidgetProcessorException.newException( "Foo", throwable ).getMessage() );
-		assertTrue( throwable == WidgetProcessorException.newException( "Foo", throwable ).getCause() );
+		assertEquals( throwable, WidgetProcessorException.newException( "Foo", throwable ).getCause() );
 	}
 }

@@ -112,10 +112,10 @@ public class BeanUtilsBindingProcessorTest
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime( scalaFoo.bar() );
-		assertTrue( 1976 == calendar.get( Calendar.YEAR ) );
-		assertTrue( null == scalaFoo2.bar() );
+		assertEquals( 1976, calendar.get( Calendar.YEAR ) );
+		assertEquals( null, scalaFoo2.bar() );
 		calendar.setTime( scalaFoo3.bar() );
-		assertTrue( 1977 == calendar.get( Calendar.YEAR ) );
+		assertEquals( 1977, calendar.get( Calendar.YEAR ) );
 
 		// Rebinding
 

@@ -63,7 +63,7 @@ public class SwingAnimalRacesTest
 		float padding = ( (CC) ( (MigLayout) elephantMetawidget.getLayout() ).getComponentConstraints( elephantMetawidget.getComponent( 4 ) ) ).getPadding()[0].getValue();
 		assertTrue( 6f == padding || 2f == padding );
 		assertEquals( "Elephant", ( (JComboBox) elephantMetawidget.getComponent( 5 ) ).getSelectedItem() );
-		assertTrue( 3 == ( (JComboBox) elephantMetawidget.getComponent( 5 ) ).getItemCount() );
+		assertEquals( 3, ( (JComboBox) elephantMetawidget.getComponent( 5 ) ).getItemCount() );
 		assertEquals( "Harry", ( (JTextField) hippoMetawidget.getComponent( 1 ) ).getText() );
 		assertTrue( 5 == (Integer) ( (JSpinner) hippoMetawidget.getComponent( 3 ) ).getValue() );
 		assertEquals( "Hippo", ( (JComboBox) hippoMetawidget.getComponent( 5 ) ).getSelectedItem() );
@@ -75,16 +75,16 @@ public class SwingAnimalRacesTest
 
 		JPanel racetrack = (JPanel) mainFrame.getContentPane().getComponent( 1 );
 		assertEquals( "Eddie", ( (JLabel) racetrack.getComponent( 0 ) ).getText() );
-		assertTrue( 0 == ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x );
-		assertTrue( 0 == ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().y );
+		assertEquals( 0, ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x );
+		assertEquals( 0, ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().y );
 		Icon elephantIcon = ( (JLabel) racetrack.getComponent( 0 ) ).getIcon();
 		assertEquals( "Harry", ( (JLabel) racetrack.getComponent( 1 ) ).getText() );
-		assertTrue( 0 == ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x );
-		assertTrue( 200 == ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().y );
+		assertEquals( 0, ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x );
+		assertEquals( 200, ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().y );
 		Icon hippoIcon = ( (JLabel) racetrack.getComponent( 1 ) ).getIcon();
 		assertEquals( "Paula", ( (JLabel) racetrack.getComponent( 2 ) ).getText() );
-		assertTrue( 0 == ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x );
-		assertTrue( 400 == ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().y );
+		assertEquals( 0, ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x );
+		assertEquals( 400, ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().y );
 		Icon pandaIcon = ( (JLabel) racetrack.getComponent( 2 ) ).getIcon();
 
 		// Configure race
@@ -108,24 +108,24 @@ public class SwingAnimalRacesTest
 		Thread.sleep( 2000 );
 		assertEquals( "Eddie1", ( (JLabel) racetrack.getComponent( 0 ) ).getText() );
 		assertTrue( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x > 20 );
-		assertTrue( 0 == ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().y );
-		assertTrue( hippoIcon == ( (JLabel) racetrack.getComponent( 0 ) ).getIcon() );
+		assertEquals( 0, ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().y );
+		assertEquals( hippoIcon, ( (JLabel) racetrack.getComponent( 0 ) ).getIcon() );
 		assertEquals( "Harry1", ( (JLabel) racetrack.getComponent( 1 ) ).getText() );
 		assertTrue( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x > 20 );
-		assertTrue( 200 == ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().y );
-		assertTrue( pandaIcon == ( (JLabel) racetrack.getComponent( 1 ) ).getIcon() );
+		assertEquals( 200, ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().y );
+		assertEquals( pandaIcon, ( (JLabel) racetrack.getComponent( 1 ) ).getIcon() );
 		assertEquals( "Paula1", ( (JLabel) racetrack.getComponent( 2 ) ).getText() );
 		assertTrue( ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x > 20 );
-		assertTrue( 400 == ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().y );
-		assertTrue( elephantIcon == ( (JLabel) racetrack.getComponent( 2 ) ).getIcon() );
+		assertEquals( 400, ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().y );
+		assertEquals( elephantIcon, ( (JLabel) racetrack.getComponent( 2 ) ).getIcon() );
 
 		// Stop race
 
 		assertEquals( "Stop Race", ( (JButton) statusbar.getComponent( 1 ) ).getText() );
 		( (JButton) statusbar.getComponent( 1 ) ).doClick();
-		assertTrue( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x == 0 );
-		assertTrue( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x == 0 );
-		assertTrue( ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x == 0 );
+		assertEquals( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x, 0 );
+		assertEquals( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x, 0 );
+		assertEquals( ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x, 0 );
 
 		// Start race again
 
@@ -139,9 +139,9 @@ public class SwingAnimalRacesTest
 		// Stop race again
 
 		( (JButton) statusbar.getComponent( 1 ) ).doClick();
-		assertTrue( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x == 0 );
-		assertTrue( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x == 0 );
-		assertTrue( ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x == 0 );
+		assertEquals( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x, 0 );
+		assertEquals( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x, 0 );
+		assertEquals( ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x, 0 );
 
 		// Close (don't actually click Close, as it calls System.exit)
 

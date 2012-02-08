@@ -57,7 +57,7 @@ public class CommonsValidatorInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "foo", property.getAttribute( NAME ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -65,27 +65,27 @@ public class CommonsValidatorInspectorTest
 		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
 		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( "42", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( property.getAttributes().getLength() == 4 );
+		assertEquals( property.getAttributes().getLength(), 4 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "baz", property.getAttribute( NAME ) );
 		assertEquals( "5", property.getAttribute( MINIMUM_LENGTH ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "abc", property.getAttribute( NAME ) );
 		assertEquals( "0.5", property.getAttribute( MINIMUM_VALUE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "def", property.getAttribute( NAME ) );
 		assertEquals( "0.99", property.getAttribute( MAXIMUM_VALUE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 5 );
+		assertEquals( entity.getChildNodes().getLength(), 5 );
 	}
 
 	public void testBadInput() {
@@ -122,7 +122,7 @@ public class CommonsValidatorInspectorTest
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( new CommonsValidatorInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ) ) );
 
 		assertTrue( null != inspector.inspect( null, "testForm1" ) );
-		assertTrue( null == inspector.inspect( null, "testForm1/foo" ) );
-		assertTrue( null == inspector.inspect( null, "testForm1/foo/bar" ) );
+		assertEquals( null, inspector.inspect( null, "testForm1/foo" ) );
+		assertEquals( null, inspector.inspect( null, "testForm1/foo/bar" ) );
 	}
 }

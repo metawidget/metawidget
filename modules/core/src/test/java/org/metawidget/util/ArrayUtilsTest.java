@@ -39,7 +39,7 @@ public class ArrayUtilsTest
 		// fromString
 
 		assertTrue( Arrays.equals( compareTo, ArrayUtils.fromString( "foo,bar,baz" ) ) );
-		assertTrue( 0 == ArrayUtils.fromString( null ).length );
+		assertEquals( 0, ArrayUtils.fromString( null ).length );
 
 		// toString
 
@@ -68,10 +68,10 @@ public class ArrayUtilsTest
 
 		// indexOf
 
-		assertTrue( ArrayUtils.indexOf( null, "bar" ) == -1 );
-		assertTrue( ArrayUtils.indexOf( compareTo, "bar" ) == 1 );
-		assertTrue( ArrayUtils.indexOf( compareTo, "abc" ) == -1 );
-		assertTrue( ArrayUtils.indexOf( new String[] { "foo", null }, null ) == 1 );
+		assertEquals( ArrayUtils.indexOf( null, "bar" ), -1 );
+		assertEquals( ArrayUtils.indexOf( compareTo, "bar" ), 1 );
+		assertEquals( ArrayUtils.indexOf( compareTo, "abc" ), -1 );
+		assertEquals( ArrayUtils.indexOf( new String[] { "foo", null }, null ), 1 );
 
 		// removeAt
 

@@ -51,11 +51,11 @@ public class CollectionUtilsTest
 
 		assertTrue( CollectionUtils.fromString( null ).isEmpty() );
 		assertTrue( CollectionUtils.fromString( "" ).isEmpty() );
-		assertTrue( CollectionUtils.fromString( " " ).size() == 1 );
-		assertTrue( CollectionUtils.fromString( "foo" ).size() == 1 );
-		assertTrue( CollectionUtils.fromString( "," ).size() == 2 );
-		assertTrue( CollectionUtils.fromString( "foo," ).size() == 2 );
-		assertTrue( CollectionUtils.fromString( ",,foo" ).size() == 3 );
-		assertTrue( CollectionUtils.fromString( ",,foo," ).size() == 4 );
+		assertEquals( CollectionUtils.fromString( " " ).size(), 1 );
+		assertEquals( CollectionUtils.fromString( "foo" ).size(), 1 );
+		assertEquals( CollectionUtils.fromString( "," ).size(), 2 );
+		assertEquals( CollectionUtils.fromString( "foo," ).size(), 2 );
+		assertEquals( CollectionUtils.fromString( ",,foo" ).size(), 3 );
+		assertEquals( CollectionUtils.fromString( ",,foo," ).size(), 4 );
 	}
 }

@@ -53,12 +53,12 @@ public class ReadOnlyWidgetBuilderTest
 		attributes.put( LARGE, TRUE );
 
 		JScrollPane scrollPane = (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( null == scrollPane.getBorder() );
+		assertEquals( null, scrollPane.getBorder() );
 		JTextArea textarea = (JTextArea) scrollPane.getViewport().getView();
-		assertTrue( true == textarea.getLineWrap() );
-		assertTrue( true == textarea.getWrapStyleWord() );
-		assertTrue( false == textarea.isEditable() );
-		assertTrue( 2 == textarea.getRows() );
+		assertEquals( true, textarea.getLineWrap() );
+		assertEquals( true, textarea.getWrapStyleWord() );
+		assertEquals( false, textarea.isEditable() );
+		assertEquals( 2, textarea.getRows() );
 	}
 
 	public void testReadOnlyDontExpand() {

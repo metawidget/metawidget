@@ -58,24 +58,24 @@ public class StrutsInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "foo", property.getAttribute( NAME ) );
 		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "bar", property.getAttribute( NAME ) );
 		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "baz", property.getAttribute( NAME ) );
 		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "abc", property.getAttribute( NAME ) );
 		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 	}
 }

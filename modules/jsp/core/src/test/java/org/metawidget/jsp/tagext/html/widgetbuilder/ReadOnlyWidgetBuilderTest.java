@@ -106,7 +106,7 @@ public class ReadOnlyWidgetBuilderTest
 
 		attributes.put( TYPE, String[].class.getName() );
 		dummyMetawidget.setInspector( new PropertyTypeInspector() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Lists
 
@@ -122,7 +122,7 @@ public class ReadOnlyWidgetBuilderTest
 		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Don't expand
 

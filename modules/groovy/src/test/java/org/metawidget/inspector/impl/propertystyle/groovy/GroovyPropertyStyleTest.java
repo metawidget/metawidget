@@ -46,12 +46,12 @@ public class GroovyPropertyStyleTest
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( GroovyFoo.class.getName() );
 
-		assertTrue( properties.size() == 8 );
+		assertEquals( properties.size(), 8 );
 		
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertEquals( Date.class.getName(), properties.get( "bar" ).getGenericType() );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
-		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertEquals( 5, properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
 		assertEquals( String.class.getName(), properties.get( "methodBaz" ).getGenericType() );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );

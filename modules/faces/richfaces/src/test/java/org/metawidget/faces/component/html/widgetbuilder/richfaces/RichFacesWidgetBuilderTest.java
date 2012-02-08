@@ -74,35 +74,35 @@ public class RichFacesWidgetBuilderTest
 		// Read-only pass throughs
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( READ_ONLY, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( LOOKUP );
 		attributes.put( FACES_LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		// Active pass throughs
 
 		attributes.remove( READ_ONLY );
 		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( LOOKUP );
 		attributes.put( FACES_LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		// Sliders
 
@@ -207,7 +207,7 @@ public class RichFacesWidgetBuilderTest
 		metawidget.setStyleClass( "aStyleClass" );
 		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( stub.getId(), null );
-		assertTrue( stub.getChildCount() == 2 );
+		assertEquals( stub.getChildCount(), 2 );
 
 		HtmlInputText htmlInputText = (HtmlInputText) stub.getChildren().get( 0 );
 		UISuggestionBox suggestionBox = (UISuggestionBox) stub.getChildren().get( 1 );
@@ -217,9 +217,9 @@ public class RichFacesWidgetBuilderTest
 		assertTrue( suggestionBox.getId().startsWith( "suggestionBox_" ) );
 		assertEquals( suggestionBox.getFor(), htmlInputText.getId() );
 		assertEquals( "#{foo.bar}", suggestionBox.getSuggestionAction().getExpressionString() );
-		assertTrue( Object.class == ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams()[0] );
-		assertTrue( 1 == ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams().length );
-		assertTrue( suggestionBox.getChildCount() == 1 );
+		assertEquals( Object.class, ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams()[0] );
+		assertEquals( 1, ( (MockMethodBinding) suggestionBox.getSuggestionAction() ).getParams().length );
+		assertEquals( suggestionBox.getChildCount(), 1 );
 		assertTrue( suggestionBox.getChildren().get( 0 ) instanceof UIColumn );
 		// (a org.richfaces.component.UIColumn did not POST back properly)
 		assertTrue( !( suggestionBox.getChildren().get( 0 ) instanceof org.richfaces.component.UIColumn ));

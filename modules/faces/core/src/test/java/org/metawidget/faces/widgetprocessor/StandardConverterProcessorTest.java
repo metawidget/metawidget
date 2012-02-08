@@ -63,15 +63,15 @@ public class StandardConverterProcessorTest
 		// Actions get no Converters
 
 		processor.processWidget( htmlInputText, ACTION, null, null );
-		assertTrue( null == htmlInputText.getConverter() );
+		assertEquals( null, htmlInputText.getConverter() );
 
 		// Empty attributes get no Converters
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( NAME, "foo" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		assertTrue( null == htmlInputText.getConverter() );
-		assertTrue( null == htmlInputText.getLabel() );
+		assertEquals( null, htmlInputText.getConverter() );
+		assertEquals( null, htmlInputText.getLabel() );
 
 		// Implicit DateTimeConverter
 
@@ -89,7 +89,7 @@ public class StandardConverterProcessorTest
 		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		attributes.put( DATETIME_TYPE, "date" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, new HtmlMetawidget() );
-		assertTrue( null == htmlInputText.getLabel() );
+		assertEquals( null, htmlInputText.getLabel() );
 
 		DateTimeConverter dateTimeConverter = (DateTimeConverter) htmlInputText.getConverter();
 		assertEquals( "full", dateTimeConverter.getDateStyle() );
@@ -116,7 +116,7 @@ public class StandardConverterProcessorTest
 		// (should not overwrite existing Converter)
 
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
-		assertTrue( dateTimeConverter == htmlInputText.getConverter() );
+		assertEquals( dateTimeConverter, htmlInputText.getConverter() );
 		htmlInputText.setConverter( null );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 
@@ -125,10 +125,10 @@ public class StandardConverterProcessorTest
 		assertEquals( "$", numberConverter.getCurrencySymbol() );
 		assertTrue( numberConverter.isGroupingUsed() );
 		assertEquals( "au", numberConverter.getLocale().getLanguage() );
-		assertTrue( 0 == numberConverter.getMinFractionDigits() );
-		assertTrue( 1 == numberConverter.getMaxFractionDigits() );
-		assertTrue( 2 == numberConverter.getMinIntegerDigits() );
-		assertTrue( 5 == numberConverter.getMaxIntegerDigits() );
+		assertEquals( 0, numberConverter.getMinFractionDigits() );
+		assertEquals( 1, numberConverter.getMaxFractionDigits() );
+		assertEquals( 2, numberConverter.getMinIntegerDigits() );
+		assertEquals( 5, numberConverter.getMaxIntegerDigits() );
 		assertEquals( "#0.00", numberConverter.getPattern() );
 		assertEquals( "currency", numberConverter.getType() );
 	}

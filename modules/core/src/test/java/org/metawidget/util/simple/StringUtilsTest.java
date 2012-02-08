@@ -32,8 +32,8 @@ public class StringUtilsTest
 	public void testIsCapitalized()
 		throws Exception {
 
-		assertTrue( false == StringUtils.isCapitalized( "" ) );
-		assertTrue( false == StringUtils.isCapitalized( "ab" ) );
+		assertEquals( false, StringUtils.isCapitalized( "" ) );
+		assertEquals( false, StringUtils.isCapitalized( "ab" ) );
 		assertTrue( StringUtils.isCapitalized( "Ab" ) );
 		assertTrue( StringUtils.isCapitalized( "ID" ) );
 	}
@@ -61,7 +61,7 @@ public class StringUtilsTest
 
 		// uncamelCase
 
-		assertTrue( null == StringUtils.uncamelCase( null ) );
+		assertEquals( null, StringUtils.uncamelCase( null ) );
 		assertEquals( "Camel Cased", StringUtils.uncamelCase( "camelCased" ) );
 		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ) );
 		assertEquals( "Camel-Cased", StringUtils.uncamelCase( "camelCased", '-' ) );

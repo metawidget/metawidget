@@ -95,7 +95,7 @@ public class GwtTestAddressBook
 			@Override
 			public void run() {
 
-				assertTrue( contacts.getRowCount() == 7 );
+				assertEquals( contacts.getRowCount(), 7 );
 				final FlexCellFormatter cellFormatter = contacts.getFlexCellFormatter();
 
 				executeAfterBuildWidgets( metawidgetSearch, new Timer() {
@@ -108,7 +108,7 @@ public class GwtTestAddressBook
 
 						FlexTable flexTable = (FlexTable) metawidgetSearch.getWidget( 0 );
 
-						assertTrue( flexTable.getRowCount() == 4 );
+						assertEquals( flexTable.getRowCount(), 4 );
 						final Button buttonSearch = (Button) ( (FlowPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
 						assertEquals( "Search", buttonSearch.getText() );
 						fireClickEvent( buttonSearch );
@@ -118,7 +118,7 @@ public class GwtTestAddressBook
 							@Override
 							public void run() {
 
-								assertTrue( contacts.getRowCount() == 3 );
+								assertEquals( contacts.getRowCount(), 3 );
 								assertEquals( "Name", contacts.getText( 0, 0 ) );
 								assertEquals( "header", cellFormatter.getStyleName( 0, 0 ) );
 								assertEquals( "Contact", contacts.getText( 0, 1 ) );
@@ -160,7 +160,7 @@ public class GwtTestAddressBook
 												// running in Australia)
 												assertTrue( "1956-05-12".equals( contactMetawidget.getValue( "dateOfBirth" ) ) || "1956-05-13".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 												assertEquals( "Contact Details", contactFlexTable.getText( 5, 0 ) );
-												assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
+												assertEquals( 2, contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
 												assertEquals( "section-heading", ( (Label) contactFlexTable.getWidget( 5, 0 ) ).getStyleName() );
 												assertEquals( "Address:", contactFlexTable.getText( 6, 0 ) );
 
@@ -184,7 +184,7 @@ public class GwtTestAddressBook
 
 												// Check editing
 
-												assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 11 );
+												assertEquals( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount(), 11 );
 
 												Button backButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
 												assertEquals( "Back", backButton.getText() );
@@ -202,7 +202,7 @@ public class GwtTestAddressBook
 
 														assertFalse( editButton.isVisible() );
 														assertTrue( ( (Widget) contactMetawidget.getWidget( "title" ) ) instanceof ListBox );
-														assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
+														assertEquals( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount(), 5 );
 
 														assertTrue( ( (Widget) contactMetawidget.getWidget( "firstname" ) ) instanceof TextBox );
 														assertEquals( "Homer", contactMetawidget.getValue( "firstname" ) );
@@ -231,7 +231,7 @@ public class GwtTestAddressBook
 
 														assertEquals( 3, communications.getRowCount() );
 														fireClickEvent( deleteCommunication );
-														assertTrue( communications.getRowCount() == 2 );
+														assertEquals( communications.getRowCount(), 2 );
 
 														// Save again
 
@@ -435,7 +435,7 @@ public class GwtTestAddressBook
 								// Check adding a Communication
 
 								final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
-								assertTrue( communications.getRowCount() == 2 );
+								assertEquals( communications.getRowCount(), 2 );
 
 								final GwtMetawidget typeMetawidget = (GwtMetawidget) communications.getWidget( 1, 0 );
 
@@ -459,7 +459,7 @@ public class GwtTestAddressBook
 												assertEquals( "Add", addButton.getText() );
 												assertTrue( addButton.isVisible() );
 												fireClickEvent( addButton );
-												assertTrue( communications.getRowCount() == 3 );
+												assertEquals( communications.getRowCount(), 3 );
 												assertEquals( "Mobile", communications.getText( 1, 0 ) );
 												assertEquals( "(0402) 123 456", communications.getText( 1, 1 ) );
 												Button communicationsDeleteButton = (Button) communications.getWidget( 1, 2 );
@@ -551,7 +551,7 @@ public class GwtTestAddressBook
 				// Check adding a Communication
 
 				final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
-				assertTrue( communications.getRowCount() == 2 );
+				assertEquals( communications.getRowCount(), 2 );
 
 				final GwtMetawidget typeMetawidget = (GwtMetawidget) communications.getWidget( 1, 0 );
 
@@ -575,7 +575,7 @@ public class GwtTestAddressBook
 								assertEquals( "Add", addButton.getText() );
 								assertTrue( addButton.isVisible() );
 								fireClickEvent( addButton );
-								assertTrue( communications.getRowCount() == 3 );
+								assertEquals( communications.getRowCount(), 3 );
 								assertEquals( "Mobile", communications.getText( 1, 0 ) );
 								assertEquals( "(0402) 456 123", communications.getText( 1, 1 ) );
 
@@ -600,7 +600,7 @@ public class GwtTestAddressBook
 											@Override
 											public void run() {
 
-												assertTrue( contacts.getRowCount() == 8 );
+												assertEquals( contacts.getRowCount(), 8 );
 
 												assertEquals( "Miss Business Contact", contacts.getText( 1, 0 ) );
 												assertEquals( "Mobile: (0402) 456 123", contacts.getText( 1, 1 ) );
@@ -659,7 +659,7 @@ public class GwtTestAddressBook
 																			@Override
 																			public void run() {
 
-																				assertTrue( contacts.getRowCount() == 7 );
+																				assertEquals( contacts.getRowCount(), 7 );
 																				finish();
 																			}
 																		};

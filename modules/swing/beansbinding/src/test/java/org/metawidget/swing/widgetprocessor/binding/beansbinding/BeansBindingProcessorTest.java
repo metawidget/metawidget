@@ -92,9 +92,9 @@ public class BeansBindingProcessorTest
 		foo.setBar( 43 );
 		assertTrue( 43 == (Long) spinner.getValue() );
 		spinner.setValue( 44l );
-		assertTrue( 43 == foo.getBar() );
+		assertEquals( 43, foo.getBar() );
 		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
-		assertTrue( 44 == foo.getBar() );
+		assertEquals( 44, foo.getBar() );
 
 		// Test UpdateStrategy.READ_WRITE
 
@@ -103,7 +103,7 @@ public class BeansBindingProcessorTest
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
-		assertTrue( 45 == foo.getBar() );
+		assertEquals( 45, foo.getBar() );
 	}
 
 	public void testSingleComponentBinding()
@@ -126,7 +126,7 @@ public class BeansBindingProcessorTest
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 0 );
 		assertTrue( 42l == (Long) spinner.getValue() );
 		spinner.setValue( 43l );
-		assertTrue( 43l == foo.getBar() );
+		assertEquals( 43l, foo.getBar() );
 	}
 
 	public void testReadOnlyToStringConverter()
@@ -264,9 +264,9 @@ public class BeansBindingProcessorTest
 
 		NumberConverter<Integer> numberConverter = new NumberConverter<Integer>( Integer.class );
 
-		assertTrue( null == numberConverter.convertReverse( null ) );
-		assertTrue( null == numberConverter.convertReverse( "" ) );
-		assertTrue( null == numberConverter.convertReverse( "   " ) );
+		assertEquals( null, numberConverter.convertReverse( null ) );
+		assertEquals( null, numberConverter.convertReverse( "" ) );
+		assertEquals( null, numberConverter.convertReverse( "   " ) );
 		assertTrue( 3 == numberConverter.convertReverse( "3" ) );
 	}
 

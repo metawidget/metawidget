@@ -33,12 +33,12 @@ public class MetawidgetExceptionTest
 		throws Exception {
 
 		Throwable throwable = new Throwable();
-		assertTrue( throwable == MetawidgetException.newException( throwable ).getCause() );
+		assertEquals( throwable, MetawidgetException.newException( throwable ).getCause() );
 
 		throwable = MetawidgetException.newException( "Foo" );
 		assertEquals( "Foo", throwable.getMessage() );
-		assertTrue( throwable == MetawidgetException.newException( throwable ) );
+		assertEquals( throwable, MetawidgetException.newException( throwable ) );
 		assertEquals( "Foo", MetawidgetException.newException( "Foo", throwable ).getMessage() );
-		assertTrue( throwable == MetawidgetException.newException( "Foo", throwable ).getCause() );
+		assertEquals( throwable, MetawidgetException.newException( "Foo", throwable ).getCause() );
 	}
 }

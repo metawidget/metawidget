@@ -169,11 +169,11 @@ public class UIMetawidgetTest
 		metawidget.getChildren().add( notRecreatableComponent );
 		metawidget.getChildren().add( recreatableComponent2 );
 
-		assertTrue( 3 == metawidget.getChildCount() );
+		assertEquals( 3, metawidget.getChildCount() );
 		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ) );
 		metawidget.startBuild();
-		assertTrue( 1 == metawidget.getChildCount() );
-		assertTrue( notRecreatableComponent == metawidget.getChildren().get( 0 ) );
+		assertEquals( 1, metawidget.getChildCount() );
+		assertEquals( notRecreatableComponent, metawidget.getChildren().get( 0 ) );
 	}
 
 	public void testStub()
@@ -214,7 +214,7 @@ public class UIMetawidgetTest
 
 	public void testMissingConfig() {
 
-		assertTrue( null == FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ) );
+		assertEquals( null, FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ) );
 
 		// Should not error (just log)
 
@@ -256,7 +256,7 @@ public class UIMetawidgetTest
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setWidgetBuilder( widgetBuilder );
 
-		assertTrue( metawidget.getWidgetBuilder() == widgetBuilder );
+		assertEquals( metawidget.getWidgetBuilder(), widgetBuilder );
 	}
 
 	public void testSetRendererType()

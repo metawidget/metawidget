@@ -79,34 +79,34 @@ public class OverriddenWidgetBuilderTest
 		// Pass through
 
 		OverriddenWidgetBuilder overriddenWidgetBuilder = new OverriddenWidgetBuilder();
-		assertTrue( null == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
+		assertEquals( null, overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Test Faces Expression overrides property name
 
 		attributes.put( FACES_EXPRESSION, "#{foo}" );
 		attributes.put( NAME, "bar" );
-		assertTrue( htmlInputText1 == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
+		assertEquals( htmlInputText1, overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Test name
 
 		attributes.remove( FACES_EXPRESSION );
-		assertTrue( htmlInputText2 == overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
+		assertEquals( htmlInputText2, overriddenWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Test action
 
 		attributes.put( NAME, "baz" );
-		assertTrue( htmlCommandButton1 == overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) );
+		assertEquals( htmlCommandButton1, overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) );
 
 		// Test Faces Expression overrides action name
 
 		attributes.put( FACES_EXPRESSION, "#{abc}" );
-		assertTrue( htmlCommandButton2 == overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) );
+		assertEquals( htmlCommandButton2, overriddenWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) );
 
 		// Test ENTITY looks for overrides at the top level (ie. the single widget scenario, where
 		// the top-level type can be represented by a single widget, and then it gets POSTed back)
 
 		attributes.remove( FACES_EXPRESSION );
-		assertTrue( htmlInputText3 == overriddenWidgetBuilder.buildWidget( ENTITY, attributes, metawidget ) );
+		assertEquals( htmlInputText3, overriddenWidgetBuilder.buildWidget( ENTITY, attributes, metawidget ) );
 	}
 
 	//

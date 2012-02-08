@@ -104,7 +104,7 @@ public class GwtTestQuirks
 				assertEquals( "Nested Quirks:", flexTable.getText( 1, 0 ) );
 				final GwtMetawidget nestedMetawidget = (GwtMetawidget) flexTable.getWidget( 1, 1 );
 
-				assertTrue( 3 == flexTable.getRowCount() );
+				assertEquals( 3, flexTable.getRowCount() );
 
 				executeAfterBuildWidgets( nestedMetawidget, new Timer() {
 
@@ -152,7 +152,7 @@ public class GwtTestQuirks
 
 						GwtQuirks quirks2 = new GwtQuirks();
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( quirks2, metawidget );
-						assertTrue( quirks2 == metawidget.getToInspect() );
+						assertEquals( quirks2, metawidget.getToInspect() );
 						assertEquals( "", checkbox.getText() );
 						assertTrue( false == checkbox.getValue() );
 						checkbox.setValue( true );
@@ -203,11 +203,11 @@ public class GwtTestQuirks
 
 				TabPanel outerTabPanel = ( (TabPanel) flexTable.getWidget( 1, 0 ) );
 				assertEquals( "Foo", outerTabPanel.getTabBar().getTabHTML( 0 ) );
-				assertTrue( 1 == outerTabPanel.getTabBar().getTabCount() );
+				assertEquals( 1, outerTabPanel.getTabBar().getTabCount() );
 
 				FlexTable outerTable = (FlexTable) ( (FlowPanel) outerTabPanel.getWidget( 0 ) ).getWidget( 0 );
 				TabPanel innerTabPanel = ( (TabPanel) outerTable.getWidget( 0, 0 ) );
-				assertTrue( 2 == innerTabPanel.getTabBar().getTabCount() );
+				assertEquals( 2, innerTabPanel.getTabBar().getTabCount() );
 
 				assertEquals( "Bar", innerTabPanel.getTabBar().getTabHTML( 0 ) );
 				FlexTable innerTable = (FlexTable) ( (FlowPanel) innerTabPanel.getWidget( 0 ) ).getWidget( 0 );
@@ -215,29 +215,29 @@ public class GwtTestQuirks
 				assertTrue( innerTable.getWidget( 0, 1 ) instanceof CheckBox );
 				assertEquals( "Ghi:", innerTable.getText( 1, 0 ) );
 				assertTrue( innerTable.getWidget( 1, 1 ) instanceof TextArea );
-				assertTrue( 2 == innerTable.getRowCount() );
+				assertEquals( 2, innerTable.getRowCount() );
 
 				assertEquals( "Baz", innerTabPanel.getTabBar().getTabHTML( 1 ) );
 				innerTable = (FlexTable) ( (FlowPanel) innerTabPanel.getWidget( 1 ) ).getWidget( 0 );
 				assertEquals( "Jkl:", innerTable.getText( 0, 0 ) );
 				assertTrue( innerTable.getWidget( 0, 1 ) instanceof TextBox );
-				assertTrue( 1 == innerTable.getRowCount() );
+				assertEquals( 1, innerTable.getRowCount() );
 
 				assertEquals( "Mno:", outerTable.getText( 1, 0 ) );
 				assertTrue( outerTable.getWidget( 1, 1 ) instanceof CheckBox );
 
 				innerTabPanel = ( (TabPanel) outerTable.getWidget( 2, 0 ) );
-				assertTrue( 1 == innerTabPanel.getTabBar().getTabCount() );
+				assertEquals( 1, innerTabPanel.getTabBar().getTabCount() );
 
 				assertEquals( "Moo", innerTabPanel.getTabBar().getTabHTML( 0 ) );
 				innerTable = (FlexTable) ( (FlowPanel) innerTabPanel.getWidget( 0 ) ).getWidget( 0 );
 				assertEquals( "Pqr:", innerTable.getText( 0, 0 ) );
 				assertTrue( innerTable.getWidget( 0, 1 ) instanceof TextBox );
-				assertTrue( 1 == innerTable.getRowCount() );
+				assertEquals( 1, innerTable.getRowCount() );
 
 				assertEquals( "Stu:", flexTable.getText( 2, 0 ) );
 				assertTrue( flexTable.getWidget( 2, 1 ) instanceof TextBox );
-				assertTrue( 3 == flexTable.getRowCount() );
+				assertEquals( 3, flexTable.getRowCount() );
 
 				// All done
 
@@ -306,8 +306,8 @@ public class GwtTestQuirks
 		assertTrue( 2 == (Short) converter.convertFromWidget( null, "2", short.class ) );
 		assertTrue( 3 == (Integer) converter.convertFromWidget( null, "3", int.class ) );
 		assertTrue( 4l == (Long) converter.convertFromWidget( null, "4", long.class ) );
-		assertTrue( 5f == (Float) converter.convertFromWidget( null, "5", float.class ) );
-		assertTrue( 6d == (Double) converter.convertFromWidget( null, "6", double.class ) );
+		assertEquals( 5f, (Float) converter.convertFromWidget( null, "5", float.class ) );
+		assertEquals( 6d, (Double) converter.convertFromWidget( null, "6", double.class ) );
 		assertTrue( true == (Boolean) converter.convertFromWidget( null, "true", boolean.class ) );
 		assertTrue( 'a' == (Character) converter.convertFromWidget( null, "a", char.class ) );
 

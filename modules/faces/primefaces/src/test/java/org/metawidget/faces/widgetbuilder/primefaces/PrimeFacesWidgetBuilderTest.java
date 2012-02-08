@@ -71,29 +71,29 @@ public class PrimeFacesWidgetBuilderTest
 		// Read-only pass throughs
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( READ_ONLY, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( LOOKUP );
 		attributes.put( FACES_LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		// Active pass throughs
 
 		attributes.remove( READ_ONLY );
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 
 		// Action

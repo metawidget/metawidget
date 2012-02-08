@@ -33,12 +33,12 @@ public class LayoutExceptionTest
 		throws Exception {
 
 		Throwable throwable = new Throwable();
-		assertTrue( throwable == LayoutException.newException( throwable ).getCause() );
+		assertEquals( throwable, LayoutException.newException( throwable ).getCause() );
 
 		throwable = LayoutException.newException( "Foo" );
 		assertEquals( "Foo", throwable.getMessage() );
-		assertTrue( throwable == LayoutException.newException( throwable ) );
+		assertEquals( throwable, LayoutException.newException( throwable ) );
 		assertEquals( "Foo", LayoutException.newException( "Foo", throwable ).getMessage() );
-		assertTrue( throwable == LayoutException.newException( "Foo", throwable ).getCause() );
+		assertEquals( throwable, LayoutException.newException( "Foo", throwable ).getCause() );
 	}
 }

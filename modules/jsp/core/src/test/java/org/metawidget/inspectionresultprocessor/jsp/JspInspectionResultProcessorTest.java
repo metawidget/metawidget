@@ -70,14 +70,14 @@ public class JspInspectionResultProcessorTest
 		assertEquals( "bar1", property.getAttribute( NAME ));
 		assertEquals( "result of ${baz1}", property.getAttribute( "value-is-el" ) );
 		assertEquals( "text", property.getAttribute( "value-is-text" ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 
 		property = XmlUtils.getNextSiblingElement( property );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "bar2", property.getAttribute( NAME ));
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
 		assertEquals( "first result of ${abc} middle result of ${def} last", property.getAttribute( "value-is-embedded-el" ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		// Actions
 
@@ -86,9 +86,9 @@ public class JspInspectionResultProcessorTest
 		assertEquals( "bar3", action.getAttribute( NAME ));
 		assertEquals( "result of ${baz2}", action.getAttribute( "value-is-el" ) );
 		assertEquals( "text", action.getAttribute( "value-is-text" ) );
-		assertTrue( 3 == action.getAttributes().getLength() );
+		assertEquals( 3, action.getAttributes().getLength() );
 
-		assertTrue( entity.getChildNodes().getLength() == 3 );
+		assertEquals( entity.getChildNodes().getLength(), 3 );
 	}
 
 	public void testArrays() {

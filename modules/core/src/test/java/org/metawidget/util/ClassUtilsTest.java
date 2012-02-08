@@ -127,7 +127,7 @@ public class ClassUtilsTest
 		ClassUtilsTest.unregisterAllAlienClassLoaders();
 
 		try {
-			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
+			assertEquals( null, ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
 			ClassUtils.registerAlienClassLoader( alienClassLoader );
 			assertEquals( "org.metawidget.util.AlienSet", ClassUtils.niceForName( "org.metawidget.util.AlienSet" ).getName() );
 			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
@@ -135,7 +135,7 @@ public class ClassUtilsTest
 			ClassUtilsTest.unregisterAllAlienClassLoaders();
 		}
 
-		assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
+		assertEquals( null, ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
 	}
 
 	public static void unregisterAllAlienClassLoaders() {

@@ -51,29 +51,29 @@ public class DisplayTagWidgetBuilderTest
 		// No type
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 
 		// Lookup
 
 		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( LOOKUP );
 
 		// Bad type
 
 		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		// Non-collection
 
 		attributes.put( TYPE, String.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 	}
 
 	public void testCollectionWithManyColumns()

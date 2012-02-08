@@ -125,8 +125,8 @@ public class PropertyTypeInspectorTest
 		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
-		assertTrue( 1 == entity.getAttributes().getLength() );
-		assertTrue( 0 == entity.getChildNodes().getLength() );
+		assertEquals( 1, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
 
 		// Test pointed directly at a null String
 
@@ -136,8 +136,8 @@ public class PropertyTypeInspectorTest
 		entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
-		assertTrue( 1 == entity.getAttributes().getLength() );
-		assertTrue( 0 == entity.getChildNodes().getLength() );
+		assertEquals( 1, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
 
 		// Test pointed indirectly at an actual String
 
@@ -150,8 +150,8 @@ public class PropertyTypeInspectorTest
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "string", entity.getAttribute( NAME ) );
-		assertTrue( 2 == entity.getAttributes().getLength() );
-		assertTrue( 0 == entity.getChildNodes().getLength() );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
 
 		// Test pointed indirectly at a null String
 
@@ -163,8 +163,8 @@ public class PropertyTypeInspectorTest
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( String.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "string", entity.getAttribute( NAME ) );
-		assertTrue( 2 == entity.getAttributes().getLength() );
-		assertTrue( 0 == entity.getChildNodes().getLength() );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
 	}
 
 	public void testTraverseViaParent() {
@@ -183,7 +183,7 @@ public class PropertyTypeInspectorTest
 		assertEquals( Contact.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "value", entity.getAttribute( NAME ) );
 		assertEquals( PersonalContact.class.getName(), entity.getAttribute( ACTUAL_CLASS ) );
-		assertTrue( 3 == entity.getAttributes().getLength() );
+		assertEquals( 3, entity.getAttributes().getLength() );
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "address" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -200,11 +200,11 @@ public class PropertyTypeInspectorTest
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( Contact.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "value", entity.getAttribute( NAME ) );
-		assertTrue( 2 == entity.getAttributes().getLength() );
+		assertEquals( 2, entity.getAttributes().getLength() );
 
 		// (should be no children because value was null)
 
-		assertTrue( 0 == entity.getChildNodes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
 	}
 
 	public void testCovariantReturn() {
@@ -240,14 +240,14 @@ public class PropertyTypeInspectorTest
 		assertEquals( "bar", property.getAttribute( NAME ) );
 		assertEquals( TRUE, property.getAttribute( NO_GETTER ) );
 		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "contact", property.getAttribute( NAME ) );
 		assertEquals( PersonalContact.class.getName(), property.getAttribute( TYPE ) );
 		assertEquals( TRUE, property.getAttribute( NO_SETTER ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 
 		// Check there are no more properties (eg. public static int notVisible)
 
@@ -268,7 +268,7 @@ public class PropertyTypeInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "contact", property.getAttribute( NAME ) );
 		assertEquals( PersonalContact.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		// Check there are no more properties (eg. public static int notVisible)
 
@@ -294,7 +294,7 @@ public class PropertyTypeInspectorTest
 		assertEquals( "foo", property.getAttribute( NAME ) );
 		assertEquals( RecursiveFoo.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
 		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 		assertEquals( property.getNextSibling(), null );
 
 		// Second level (should block)
@@ -328,7 +328,7 @@ public class PropertyTypeInspectorTest
 		property = (Element) entity.getFirstChild();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "foo", property.getAttribute( NAME ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 		assertEquals( RecursiveFoo.class.getName(), property.getAttribute( ACTUAL_CLASS ) );
 		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 		assertEquals( property.getNextSibling(), null );
@@ -347,7 +347,7 @@ public class PropertyTypeInspectorTest
 
 	public void testNullType() {
 
-		assertTrue( null == mInspector.inspect( null, null ) );
+		assertEquals( null, mInspector.inspect( null, null ) );
 	}
 
 	public void testBoolean() {
@@ -362,7 +362,7 @@ public class PropertyTypeInspectorTest
 		assertEquals( Boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertEquals( "true, false", entity.getAttribute( LOOKUP ) );
 		assertEquals( "Yes, No", entity.getAttribute( LOOKUP_LABELS ) );
-		assertTrue( 3 == entity.getAttributes().getLength() );
+		assertEquals( 3, entity.getAttributes().getLength() );
 
 		// boolean (little 'b')
 
@@ -373,7 +373,7 @@ public class PropertyTypeInspectorTest
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( boolean.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( LOOKUP ) );
-		assertTrue( 1 == entity.getAttributes().getLength() );
+		assertEquals( 1, entity.getAttributes().getLength() );
 
 		// boolean with a value
 
@@ -385,14 +385,14 @@ public class PropertyTypeInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( boolean.class.getName(), property.getAttribute( TYPE ) );
 		assertFalse( property.hasAttribute( LOOKUP ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bigBoolean" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( Boolean.class.getName(), property.getAttribute( TYPE ) );
 		assertEquals( "true, false", property.getAttribute( LOOKUP ) );
 		assertEquals( "Yes, No", property.getAttribute( LOOKUP_LABELS ) );
-		assertTrue( 4 == property.getAttributes().getLength() );
+		assertEquals( 4, property.getAttributes().getLength() );
 
 		// Pointed directly at a boolean (little 'b')
 
@@ -439,8 +439,8 @@ public class PropertyTypeInspectorTest
 
 		// Traversal any further should fail gracefully (ie. not NullPointerException)
 
-		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ) );
-		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ) );
+		assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ) );
+		assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ) );
 	}
 
 	/**
@@ -530,7 +530,7 @@ public class PropertyTypeInspectorTest
 		alienClassHolder.set = (Set<?>) alienClassLoader.loadClass( "org.metawidget.util.AlienSet" ).newInstance();
 
 		try {
-			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
+			assertEquals( null, ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
 			mInspector.inspect( alienClassHolder.set, "org.metawidget.util.AlienSet" );
 			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
 		} finally {
@@ -540,7 +540,7 @@ public class PropertyTypeInspectorTest
 		// Property-level
 
 		try {
-			assertTrue( null == ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
+			assertEquals( null, ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) );
 			mInspector.inspect( alienClassHolder, AlienClassHolder.class.getName(), "set" );
 			assertTrue( Set.class.isAssignableFrom( ClassUtils.niceForName( "org.metawidget.util.AlienSet" ) ) );
 		} finally {

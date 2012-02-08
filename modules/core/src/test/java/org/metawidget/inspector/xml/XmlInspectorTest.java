@@ -113,34 +113,34 @@ public class XmlInspectorTest
 		assertEquals( "bar", property.getAttribute( NAME ) );
 		assertEquals( "Bar", property.getAttribute( TYPE ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "a", property.getAttribute( NAME ) );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 		assertEquals( " ", property.getAttribute( LABEL ) );
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "b", property.getAttribute( NAME ) );
 		assertTrue( property.hasAttribute( LABEL ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "c", property.getAttribute( NAME ) );
 		assertFalse( property.hasAttribute( LABEL ) );
 		assertEquals( "Telephone, Mobile, Fax, E-mail", property.getAttribute( LOOKUP ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "d", property.getAttribute( NAME ) );
-		assertTrue( property.getAttributes().getLength() == 1 );
+		assertEquals( property.getAttributes().getLength(), 1 );
 
-		assertTrue( entity.getChildNodes().getLength() == 5 );
+		assertEquals( entity.getChildNodes().getLength(), 5 );
 	}
 
 	public void testTraverseViaParent() {
@@ -165,7 +165,7 @@ public class XmlInspectorTest
 		assertEquals( ACTION, property.getNodeName() );
 		assertEquals( "doAction", property.getAttribute( NAME ) );
 
-		assertTrue( entity.getChildNodes().getLength() == 2 );
+		assertEquals( entity.getChildNodes().getLength(), 2 );
 
 		// No extends support
 
@@ -200,7 +200,7 @@ public class XmlInspectorTest
 
 	public void testNullType() {
 
-		assertTrue( null == mInspector.inspect( null, (String) null ) );
+		assertEquals( null, mInspector.inspect( null, (String) null ) );
 	}
 
 	public void testBadName() {
@@ -284,7 +284,7 @@ public class XmlInspectorTest
 
 		nullObject.setNestedNullObject( nullObject );
 		assertTrue( null != mInspector.inspect( nullObject, NullObject.class.getName() ) );
-		assertTrue( null == mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
+		assertEquals( null, mInspector.inspect( nullObject, NullObject.class.getName(), "nestedNullObject" ) );
 
 		if ( LogUtils.getLog( XmlInspector.class ).isTraceEnabled() ) {
 			assertEquals( "XmlInspector prevented infinite recursion on org.metawidget.inspector.xml.XmlInspectorTest$NullObject/nestedNullObject. Consider marking nestedNullObject as hidden='true'", LogUtilsTest.getLastTraceMessage() );
@@ -325,9 +325,9 @@ public class XmlInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlSubSubBar", property.getAttribute( NAME ) );
 		assertEquals( "boolean", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 
 		// With inferInheritanceHierarchy
 
@@ -352,9 +352,9 @@ public class XmlInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlBar", property.getAttribute( NAME ) );
 		assertEquals( "int", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 
 		// Against a missing middle-level entity
 
@@ -376,15 +376,15 @@ public class XmlInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlBar", property.getAttribute( NAME ) );
 		assertEquals( "int", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlSubSubBar", property.getAttribute( NAME ) );
 		assertEquals( "boolean", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 2 );
+		assertEquals( entity.getChildNodes().getLength(), 2 );
 
 		// Against a fake entity
 
@@ -493,9 +493,9 @@ public class XmlInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlBar", property.getAttribute( NAME ) );
 		assertEquals( "int", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 
 		// Traverse to a subtype
 
@@ -520,9 +520,9 @@ public class XmlInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "xmlBar", property.getAttribute( NAME ) );
 		assertEquals( "int", property.getAttribute( TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 	}
 
 	public void testTraverseAgainstObjectImpliesType() {

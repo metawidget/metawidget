@@ -135,18 +135,18 @@ public class SwtAllWidgetsTest
 		assertEquals( "Textarea:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Text );
 		assertTrue( ( (GridData) metawidget.getChildren()[5].getLayoutData() ).grabExcessVerticalSpace );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ) == SWT.WRAP );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ), SWT.WRAP );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.H_SCROLL ), SWT.NONE );
 		assertEquals( "Textarea", metawidget.getValue( "textarea" ) );
 		( (Text) metawidget.getChildren()[5] ).setText( "Textarea1" );
 
 		assertEquals( "Password:", ( (Label) metawidget.getChildren()[6] ).getText() );
 		assertTrue( metawidget.getChildren()[7] instanceof Text );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.PASSWORD ) == SWT.PASSWORD );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.BORDER ) == SWT.BORDER );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.PASSWORD ), SWT.PASSWORD );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.BORDER ), SWT.BORDER );
 		assertEquals( "Password", metawidget.getValue( "password" ) );
 		( (Text) metawidget.getChildren()[7] ).setText( "Password1" );
 
@@ -160,7 +160,7 @@ public class SwtAllWidgetsTest
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=91317)
 
 		assertTrue( -5 == spinner.getMinimum() || 0 == spinner.getMinimum() );
-		assertTrue( Byte.MAX_VALUE == spinner.getMaximum() );
+		assertEquals( Byte.MAX_VALUE, spinner.getMaximum() );
 		spinner.setSelection( spinner.getSelection() - spinner.getIncrement() );
 
 		assertEquals( "Byte Object:", ( (Label) metawidget.getChildren()[10] ).getText() );
@@ -172,7 +172,7 @@ public class SwtAllWidgetsTest
 		assertTrue( Short.MAX_VALUE == (Integer) metawidget.getValue( "shortPrimitive" ) );
 		spinner = (Spinner) metawidget.getChildren()[13];
 		assertTrue( -6 == spinner.getMinimum() || 0 == spinner.getMinimum() );
-		assertTrue( Short.MAX_VALUE == spinner.getMaximum() );
+		assertEquals( Short.MAX_VALUE, spinner.getMaximum() );
 		spinner.setSelection( spinner.getSelection() - spinner.getIncrement() );
 
 		assertEquals( "Short Object:", ( (Label) metawidget.getChildren()[14] ).getText() );
@@ -184,7 +184,7 @@ public class SwtAllWidgetsTest
 		assertTrue( Integer.MAX_VALUE == (Integer) metawidget.getValue( "intPrimitive" ) );
 		spinner = (Spinner) metawidget.getChildren()[17];
 		assertTrue( Integer.MIN_VALUE == spinner.getMinimum() || 0 == spinner.getMinimum() );
-		assertTrue( Integer.MAX_VALUE == spinner.getMaximum() );
+		assertEquals( Integer.MAX_VALUE, spinner.getMaximum() );
 		spinner.setSelection( spinner.getSelection() - spinner.getIncrement() );
 
 		assertEquals( "Integer Object:", ( (Label) metawidget.getChildren()[18] ).getText() );
@@ -194,8 +194,8 @@ public class SwtAllWidgetsTest
 
 		assertEquals( "Ranged Int:", ( (Label) metawidget.getChildren()[20] ).getText() );
 		assertTrue( metawidget.getChildren()[21] instanceof Scale );
-		assertTrue( 1 == ( (Scale) metawidget.getChildren()[21] ).getMinimum() );
-		assertTrue( 100 == ( (Scale) metawidget.getChildren()[21] ).getMaximum() );
+		assertEquals( 1, ( (Scale) metawidget.getChildren()[21] ).getMinimum() );
+		assertEquals( 100, ( (Scale) metawidget.getChildren()[21] ).getMaximum() );
 		assertTrue( 32 == (Integer) metawidget.getValue( "rangedInt" ) );
 		( (Scale) metawidget.getChildren()[21] ).setSelection( 33 );
 
@@ -210,7 +210,7 @@ public class SwtAllWidgetsTest
 		( (Text) metawidget.getChildren()[25] ).setText( "43" );
 
 		assertTrue( metawidget.getChildren()[26] instanceof Text );
-		assertTrue( 2 == ( (GridData) metawidget.getChildren()[26].getLayoutData() ).horizontalSpan );
+		assertEquals( 2, ( (GridData) metawidget.getChildren()[26].getLayoutData() ).horizontalSpan );
 		assertEquals( "43", metawidget.getValue( "longObject" ) );
 		( (Text) metawidget.getChildren()[26] ).setText( "44" );
 
@@ -230,7 +230,7 @@ public class SwtAllWidgetsTest
 		( (Text) metawidget.getChildren()[32] ).setText( "42.3" );
 
 		assertTrue( metawidget.getChildren()[33] instanceof Text );
-		assertTrue( 2 == ( (GridData) metawidget.getChildren()[33].getLayoutData() ).horizontalSpan );
+		assertEquals( 2, ( (GridData) metawidget.getChildren()[33].getLayoutData() ).horizontalSpan );
 		assertEquals( "43.3", metawidget.getValue( "doubleObject" ) );
 		( (Text) metawidget.getChildren()[33] ).setText( "54.4" );
 
@@ -246,46 +246,46 @@ public class SwtAllWidgetsTest
 
 		assertEquals( "Boolean Primitive:", ( (Label) metawidget.getChildren()[38] ).getText() );
 		assertTrue( metawidget.getChildren()[39] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[39].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[39].getStyle() & SWT.CHECK ), SWT.CHECK );
 		assertTrue( false == (Boolean) metawidget.getValue( "booleanPrimitive" ) );
 		( (Button) metawidget.getChildren()[39] ).setSelection( true );
 
 		assertEquals( "Boolean Object:", ( (Label) metawidget.getChildren()[40] ).getText() );
 		assertTrue( metawidget.getChildren()[41] instanceof Combo );
-		assertTrue( ( metawidget.getChildren()[41].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
-		assertTrue( 3 == ( (Combo) metawidget.getChildren()[41] ).getItemCount() );
+		assertEquals( ( metawidget.getChildren()[41].getStyle() & SWT.READ_ONLY ), SWT.READ_ONLY );
+		assertEquals( 3, ( (Combo) metawidget.getChildren()[41] ).getItemCount() );
 		assertEquals( "true", metawidget.getValue( "booleanObject" ) );
 		( (Combo) metawidget.getChildren()[41] ).setText( "false" );
 
 		assertEquals( "Dropdown:", ( (Label) metawidget.getChildren()[42] ).getText() );
 		assertTrue( metawidget.getChildren()[43] instanceof Combo );
-		assertTrue( ( metawidget.getChildren()[43].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
-		assertTrue( 4 == ( (Combo) metawidget.getChildren()[43] ).getItemCount() );
+		assertEquals( ( metawidget.getChildren()[43].getStyle() & SWT.READ_ONLY ), SWT.READ_ONLY );
+		assertEquals( 4, ( (Combo) metawidget.getChildren()[43] ).getItemCount() );
 		assertEquals( "dropdown1", metawidget.getValue( "dropdown" ) );
 		( (Combo) metawidget.getChildren()[43] ).setText( "foo1" );
 
 		assertEquals( "Dropdown With Labels:", ( (Label) metawidget.getChildren()[44] ).getText() );
 		assertTrue( metawidget.getChildren()[45] instanceof Combo );
-		assertTrue( 5 == ( (Combo) metawidget.getChildren()[45] ).getItemCount() );
+		assertEquals( 5, ( (Combo) metawidget.getChildren()[45] ).getItemCount() );
 		assertEquals( "dropdown2", metawidget.getValue( "dropdownWithLabels" ) );
 		( (Combo) metawidget.getChildren()[45] ).setText( "bar2" );
 
 		assertEquals( "Not Null Dropdown:", ( (Label) metawidget.getChildren()[46] ).getText() );
 		assertTrue( metawidget.getChildren()[47] instanceof Combo );
-		assertTrue( 3 == ( (Combo) metawidget.getChildren()[47] ).getItemCount() );
+		assertEquals( 3, ( (Combo) metawidget.getChildren()[47] ).getItemCount() );
 		assertEquals( "0", metawidget.getValue( "notNullDropdown" ) );
 		( (Combo) metawidget.getChildren()[47] ).setText( "1" );
 
 		assertEquals( "Not Null Object Dropdown*:", ( (Label) metawidget.getChildren()[48] ).getText() );
 		assertTrue( metawidget.getChildren()[49] instanceof Combo );
-		assertTrue( 6 == ( (Combo) metawidget.getChildren()[49] ).getItemCount() );
+		assertEquals( 6, ( (Combo) metawidget.getChildren()[49] ).getItemCount() );
 		assertEquals( "dropdown3", metawidget.getValue( "notNullObjectDropdown" ) );
 		( (Combo) metawidget.getChildren()[49] ).setText( "foo3" );
 
 		assertEquals( "Nested Widgets:", ( (Label) metawidget.getChildren()[50] ).getText() );
-		assertTrue( 1 == ( (GridData) metawidget.getChildren()[50].getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) metawidget.getChildren()[50].getLayoutData() ).horizontalSpan );
 		assertTrue( metawidget.getChildren()[51] instanceof SwtMetawidget );
-		assertTrue( 1 == ( (GridData) metawidget.getChildren()[51].getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) metawidget.getChildren()[51].getLayoutData() ).horizontalSpan );
 
 		SwtMetawidget metawidgetNested = (SwtMetawidget) metawidget.getChildren()[51];
 		assertEquals( "Further Nested Widgets:", ( (Label) metawidgetNested.getChildren()[0] ).getText() );
@@ -293,7 +293,7 @@ public class SwtAllWidgetsTest
 		SwtMetawidget metawidgetFurtherNested = (SwtMetawidget) metawidgetNested.getChildren()[1];
 		assertEquals( "Further Nested Widgets:", ( (Label) metawidgetFurtherNested.getChildren()[0] ).getText() );
 		assertTrue( metawidgetFurtherNested.getChildren()[1] instanceof SwtMetawidget );
-		assertTrue( ( (SwtMetawidget) metawidgetFurtherNested.getChildren()[1] ).getChildren().length == 0 );
+		assertEquals( ( (SwtMetawidget) metawidgetFurtherNested.getChildren()[1] ).getChildren().length, 0 );
 
 		assertEquals( "Nested Textbox 1:", ( (Label) metawidgetFurtherNested.getChildren()[2] ).getText() );
 		assertTrue( metawidgetFurtherNested.getChildren()[3] instanceof Text );
@@ -346,11 +346,11 @@ public class SwtAllWidgetsTest
 		assertTrue( ( (GridData) metawidget.getChildren()[60].getLayoutData() ).exclude );
 
 		Composite separatorComposite = (Composite) metawidget.getChildren()[61];
-		assertTrue( ( (org.eclipse.swt.layout.GridLayout) separatorComposite.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (org.eclipse.swt.layout.GridLayout) separatorComposite.getLayout() ).marginWidth, 0 );
 		assertEquals( "Section Break", ( (Label) separatorComposite.getChildren()[0] ).getText() );
 		assertTrue( separatorComposite.getChildren()[1] instanceof Label );
-		assertTrue( ( separatorComposite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
-		assertTrue( SWT.FILL == ( (GridData) separatorComposite.getChildren()[1].getLayoutData() ).horizontalAlignment );
+		assertEquals( ( separatorComposite.getChildren()[1].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
+		assertEquals( SWT.FILL, ( (GridData) separatorComposite.getChildren()[1].getLayoutData() ).horizontalAlignment );
 		assertTrue( ( (GridData) separatorComposite.getChildren()[1].getLayoutData() ).grabExcessHorizontalSpace );
 
 		assertEquals( "Read Only:", ( (Label) metawidget.getChildren()[62] ).getText() );
@@ -376,7 +376,7 @@ public class SwtAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
-		assertTrue( 67 == metawidget.getChildren().length );
+		assertEquals( 67, metawidget.getChildren().length );
 
 		// Check MetawidgetException
 
@@ -403,11 +403,11 @@ public class SwtAllWidgetsTest
 		assertEquals( "Limited Textbox1", ( (Label) metawidget.getChildren()[3] ).getText() );
 		assertEquals( "Textarea:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertEquals( "Textarea1", ( (Text) metawidget.getChildren()[5] ).getText() );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.READ_ONLY ) == SWT.READ_ONLY );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ) == SWT.WRAP );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.READ_ONLY ), SWT.READ_ONLY );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.WRAP ), SWT.WRAP );
 		assertEquals( "Password:", ( (Label) metawidget.getChildren()[6] ).getText() );
 		assertTrue( metawidget.getChildren()[7] instanceof Composite );
 		assertEquals( "Byte Primitive:", ( (Label) metawidget.getChildren()[8] ).getText() );

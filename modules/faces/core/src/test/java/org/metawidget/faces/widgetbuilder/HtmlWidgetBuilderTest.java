@@ -104,7 +104,7 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( MASKED, TRUE );
 		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget );
-		assertTrue( 1 == stub.getChildCount() );
+		assertEquals( 1, stub.getChildCount() );
 		assertTrue( stub.getChildren().get( 0 ) instanceof UIStub );
 		attributes.remove( MASKED );
 
@@ -138,7 +138,7 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, Foo[].class.getName() );
 		dummyMetawidget.setInspector( new PropertyTypeInspector() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Lists
 
@@ -148,7 +148,7 @@ public class HtmlWidgetBuilderTest
 		// (dataTableRowAction cannot be wrapped when used on the JSP page)
 
 		dummyMetawidget.setParameter( "dataTableRowAction", "foo.action" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Other collections
 
@@ -158,7 +158,7 @@ public class HtmlWidgetBuilderTest
 		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Don't expand
 
@@ -198,7 +198,7 @@ public class HtmlWidgetBuilderTest
 		// Unsupported types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget ) );
 
 		// Unsupported Collections
 
@@ -242,11 +242,11 @@ public class HtmlWidgetBuilderTest
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
 		HtmlSelectOneMenu htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
+		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
-		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
-		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
-		assertTrue( null == ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
+		assertEquals( null, ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
+		assertEquals( null, ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
+		assertEquals( null, ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
 		furtherAssert( htmlSelectOneMenu );
 
 		attributes.put( FACES_LOOKUP_VAR, "_fooBar" );
@@ -254,7 +254,7 @@ public class HtmlWidgetBuilderTest
 		attributes.put( FACES_LOOKUP_ITEM_VALUE, "#{_fooBar.value}" );
 		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
-		assertTrue( null == ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
+		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
 		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
 		assertEquals( "_fooBar", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
 		assertEquals( "#{_fooBar.label}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
@@ -316,7 +316,7 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, List.class.getName() );
 		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( null == htmlSelectManyCheckbox.getLayout() );
+		assertEquals( null, htmlSelectManyCheckbox.getLayout() );
 		attributes.put( LOOKUP, "Foo, Bar, Baz, Abc" );
 		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
@@ -339,21 +339,21 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, char.class.getName() );
 		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( 1 == htmlInputText.getMaxlength() );
+		assertEquals( 1, htmlInputText.getMaxlength() );
 		furtherAssert( htmlInputText );
 
 		// int
 
 		attributes.put( TYPE, int.class.getName() );
 		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( Integer.MIN_VALUE == htmlInputText.getMaxlength() );
+		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
 		furtherAssert( htmlInputText );
 
 		// Integer
 
 		attributes.put( TYPE, Integer.class.getName() );
 		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( Integer.MIN_VALUE == htmlInputText.getMaxlength() );
+		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
 		furtherAssert( htmlInputText );
 
 		// Large
@@ -362,8 +362,8 @@ public class HtmlWidgetBuilderTest
 		attributes.remove( MASKED );
 		attributes.put( LARGE, TRUE );
 		HtmlInputTextarea htmlInputTextarea = (HtmlInputTextarea) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( 20 == htmlInputTextarea.getCols() );
-		assertTrue( 2 == htmlInputTextarea.getRows() );
+		assertEquals( 20, htmlInputTextarea.getCols() );
+		assertEquals( 2, htmlInputTextarea.getRows() );
 		furtherAssert( htmlInputTextarea );
 	}
 

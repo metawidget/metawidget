@@ -176,20 +176,20 @@ public class BaseConfigReaderIntegrationTest
 
 		ConfigReader configReader = new ValidatingConfigReader();
 		Point point = (Point) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
-		assertTrue( 10 == point.x );
-		assertTrue( 20 == point.y );
+		assertEquals( 10, point.x );
+		assertEquals( 20, point.y );
 
 		// Existing Point
 
 		point = new Point();
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), point );
-		assertTrue( 10 == point.x );
-		assertTrue( 20 == point.y );
+		assertEquals( 10, point.x );
+		assertEquals( 20, point.y );
 
 		// SwingMetawidget
 
 		SwingMetawidget metawidget1 = new SwingMetawidget();
-		assertTrue( null == metawidget1.getName() );
+		assertEquals( null, metawidget1.getName() );
 		assertFalse( metawidget1.isOpaque() );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
@@ -211,7 +211,7 @@ public class BaseConfigReaderIntegrationTest
 		// SwingMetawidget2
 
 		SwingMetawidget metawidget2 = new SwingMetawidget();
-		assertTrue( null == metawidget2.getName() );
+		assertEquals( null, metawidget2.getName() );
 		assertFalse( metawidget2.isOpaque() );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget2 );
 
@@ -227,7 +227,7 @@ public class BaseConfigReaderIntegrationTest
 		Field widgetBuilderField = BasePipeline.class.getDeclaredField( "mWidgetBuilder" );
 		widgetBuilderField.setAccessible( true );
 
-		assertTrue( null == widgetBuilderField.get( pipeline1 ) );
+		assertEquals( null, widgetBuilderField.get( pipeline1 ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "widgetBuilder" );
 
 		@SuppressWarnings( "unchecked" )
@@ -237,10 +237,10 @@ public class BaseConfigReaderIntegrationTest
 
 		// Will be the same, even though InputStreams
 
-		assertTrue( compositeWidgetBuilder1 == compositeWidgetBuilder2 );
+		assertEquals( compositeWidgetBuilder1, compositeWidgetBuilder2 );
 		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = compositeWidgetBuilder1.getWidgetBuilders();
 
-		assertTrue( widgetBuilders.length == 2 );
+		assertEquals( widgetBuilders.length, 2 );
 		assertTrue( widgetBuilders[0] instanceof SwingXWidgetBuilder );
 		assertTrue( widgetBuilders[1] instanceof SwingWidgetBuilder );
 
@@ -249,19 +249,19 @@ public class BaseConfigReaderIntegrationTest
 		Field inspectorField = BasePipeline.class.getDeclaredField( "mInspector" );
 		inspectorField.setAccessible( true );
 
-		assertTrue( null == inspectorField.get( pipeline1 ) );
+		assertEquals( null, inspectorField.get( pipeline1 ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "inspector" );
 
 		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( pipeline1 );
 		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( pipeline1 );
 
-		assertTrue( compositeInspector1 == compositeInspector2 );
+		assertEquals( compositeInspector1, compositeInspector2 );
 
 		Field inspectorsField = CompositeInspector.class.getDeclaredField( "mInspectors" );
 		inspectorsField.setAccessible( true );
 		Inspector[] inspectors = (Inspector[]) inspectorsField.get( compositeInspector1 );
 
-		assertTrue( inspectors.length == 11 );
+		assertEquals( inspectors.length, 11 );
 		assertTrue( inspectors[0] instanceof MetawidgetAnnotationInspector );
 		assertTrue( inspectors[1] instanceof BeanValidationInspector );
 		assertTrue( inspectors[2] instanceof HibernateValidatorInspector );
@@ -287,7 +287,7 @@ public class BaseConfigReaderIntegrationTest
 		// Test re-caching of JavaBeanPropertyStyle with an embedded MessageFormat
 
 		assertTrue( propertyStyle.get( inspectors[2] ) != propertyStyle.get( inspectors[3] ) );
-		assertTrue( propertyStyle.get( inspectors[3] ) == propertyStyle.get( inspectors[4] ) );
+		assertEquals( propertyStyle.get( inspectors[3] ), propertyStyle.get( inspectors[4] ) );
 	}
 
 	public void testCaching()
@@ -339,12 +339,12 @@ public class BaseConfigReaderIntegrationTest
 		assertTrue( "endPrefixMapping xsi".equals( cache.get( 22 ).toString() ) );
 		assertTrue( "endDocument".equals( cache.get( 23 ).toString() ) );
 
-		assertTrue( 24 == cache.size() );
+		assertEquals( 24, cache.size() );
 
 		// Test caching with names (should not cache things outside the name)
 
 		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", SpringMetawidgetTag.class, "layout" );
-		assertTrue( 3 == configReader.mResourceCache.size() );
+		assertEquals( 3, configReader.mResourceCache.size() );
 		cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/config/metawidget-test-names.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/layout" );
 
 		@SuppressWarnings( "unchecked" )
@@ -354,14 +354,14 @@ public class BaseConfigReaderIntegrationTest
 		assertEquals( "endElement java:org.metawidget.jsp.tagext.html.layout headingTagLayoutDecorator headingTagLayoutDecorator", cacheWithNames.get( 14 ).toString() );
 		assertEquals( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout", cacheWithNames.get( 17 ).toString() );
 
-		assertTrue( 29 == cacheWithNames.size() );
+		assertEquals( 29, cacheWithNames.size() );
 
 		// Test scenarios that we've seen fail hard
 
 		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", SpringMetawidgetTag.class, "widgetBuilder" );
-		assertTrue( 4 == configReader.mResourceCache.size() );
+		assertEquals( 4, configReader.mResourceCache.size() );
 		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag(), "widgetBuilder" );
-		assertTrue( 4 == configReader.mResourceCache.size() );
+		assertEquals( 4, configReader.mResourceCache.size() );
 
 		try {
 			configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag() );
@@ -370,7 +370,7 @@ public class BaseConfigReaderIntegrationTest
 			assertEquals( "org.metawidget.inspector.iface.InspectorException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
 		}
 
-		assertTrue( 4 == configReader.mResourceCache.size() );
+		assertEquals( 4, configReader.mResourceCache.size() );
 	}
 
 	public void testImmutable()
@@ -412,7 +412,7 @@ public class BaseConfigReaderIntegrationTest
 		// Inspectors should be the same, even though InputStreams are not cached, because cached at
 		// Config level
 
-		assertTrue( inspector1 == inspector2 );
+		assertEquals( inspector1, inspector2 );
 
 		xml = startXml;
 		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
@@ -437,23 +437,23 @@ public class BaseConfigReaderIntegrationTest
 
 		// Sub-inspectors should be the same, because are cached at the Config level
 
-		assertTrue( inspectors1[0] == inspectors2[0] );
-		assertTrue( inspectors1[1] == inspectors2[1] );
-		assertTrue( inspectors1[2] == inspectors2[2] );
-		assertTrue( inspectors1[3] == inspectors2[3] );
+		assertEquals( inspectors1[0], inspectors2[0] );
+		assertEquals( inspectors1[1], inspectors2[1] );
+		assertEquals( inspectors1[2], inspectors2[2] );
+		assertEquals( inspectors1[3], inspectors2[3] );
 
 		// PropertyStyle should be shared across Inspectors
 
 		Field propertyStyleField = BaseObjectInspector.class.getDeclaredField( "mPropertyStyle" );
 		propertyStyleField.setAccessible( true );
 
-		assertTrue( propertyStyleField.get( inspectors1[0] ) == propertyStyleField.get( inspectors1[1] ) );
-		assertTrue( propertyStyleField.get( inspectors2[0] ) == propertyStyleField.get( inspectors2[0] ) );
-		assertTrue( propertyStyleField.get( inspectors2[0] ) == propertyStyleField.get( inspectors2[1] ) );
+		assertEquals( propertyStyleField.get( inspectors1[0] ), propertyStyleField.get( inspectors1[1] ) );
+		assertEquals( propertyStyleField.get( inspectors2[0] ), propertyStyleField.get( inspectors2[0] ) );
+		assertEquals( propertyStyleField.get( inspectors2[0] ), propertyStyleField.get( inspectors2[1] ) );
 
-		assertTrue( propertyStyleField.get( inspectors1[3] ) == propertyStyleField.get( inspectors1[4] ) );
-		assertTrue( propertyStyleField.get( inspectors1[3] ) == propertyStyleField.get( inspectors2[3] ) );
-		assertTrue( propertyStyleField.get( inspectors2[3] ) == propertyStyleField.get( inspectors2[4] ) );
+		assertEquals( propertyStyleField.get( inspectors1[3] ), propertyStyleField.get( inspectors1[4] ) );
+		assertEquals( propertyStyleField.get( inspectors1[3] ), propertyStyleField.get( inspectors2[3] ) );
+		assertEquals( propertyStyleField.get( inspectors2[3] ), propertyStyleField.get( inspectors2[4] ) );
 
 		// Via resource
 
@@ -473,7 +473,7 @@ public class BaseConfigReaderIntegrationTest
 		// Inspectors should be the same, because resources are cached even though it contains
 		// InputStreams
 
-		assertTrue( pipeline1.getInspector() == pipeline2.getInspector() );
+		assertEquals( pipeline1.getInspector(), pipeline2.getInspector() );
 
 		// Test what got cached
 
@@ -486,42 +486,42 @@ public class BaseConfigReaderIntegrationTest
 
 		Map<Object, Object> immutableByConfigCache = immutableByClassCache.get( CompositeInspector.class );
 		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 4 == immutableByConfigCache.size() );
+		assertEquals( 4, immutableByConfigCache.size() );
 
 		immutableByConfigCache = immutableByClassCache.get( StrutsAnnotationInspector.class );
 		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[3] == immutableByConfigCache.values().iterator().next() );
+		assertEquals( 1, immutableByConfigCache.size() );
+		assertEquals( inspectors1[3], immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( XmlInspector.class );
 		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 3 == immutableByConfigCache.size() );
+		assertEquals( 3, immutableByConfigCache.size() );
 
 		immutableByConfigCache = immutableByClassCache.get( MetawidgetAnnotationInspector.class );
 		assertTrue( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[1] == immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertEquals( 1, immutableByConfigCache.size() );
+		assertEquals( inspectors1[1], immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		immutableByConfigCache = immutableByClassCache.get( SpringAnnotationInspector.class );
 		assertFalse( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[4] == immutableByConfigCache.values().iterator().next() );
+		assertEquals( 1, immutableByConfigCache.size() );
+		assertEquals( inspectors1[4], immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( PropertyTypeInspector.class );
 		assertTrue( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[0] == immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertEquals( 1, immutableByConfigCache.size() );
+		assertEquals( inspectors1[0], immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		immutableByConfigCache = immutableByClassCache.get( GroovyPropertyStyle.class );
-		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( propertyStyleField.get( inspectors1[3] ) == immutableByConfigCache.values().iterator().next() );
+		assertEquals( 1, immutableByConfigCache.size() );
+		assertEquals( propertyStyleField.get( inspectors1[3] ), immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( JavaBeanPropertyStyle.class );
 		assertTrue( immutableByConfigCache.containsKey( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
-		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertEquals( 1, immutableByConfigCache.size() );
+		assertEquals( propertyStyleField.get( inspectors1[2] ), immutableByConfigCache.get( BaseConfigReader.IMMUTABLE_NO_CONFIG ) );
 
-		assertTrue( 9 == immutableByClassCache.size() );
+		assertEquals( 9, immutableByClassCache.size() );
 	}
 
 	public void testEnum()

@@ -51,8 +51,8 @@ public class CompositeWidgetBuilderTest
 
 		CompositeWidgetBuilder<JComponent, SwingMetawidget> widgetBuilderComposite = new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuildersCopied = widgetBuilderComposite.mWidgetBuilders;
-		assertTrue( widgetBuildersCopied[0] == widgetBuilder1 );
-		assertTrue( widgetBuildersCopied[1] == widgetBuilder2 );
+		assertEquals( widgetBuildersCopied[0], widgetBuilder1 );
+		assertEquals( widgetBuildersCopied[1], widgetBuilder2 );
 		widgetBuilders[0] = null;
 		assertTrue( widgetBuildersCopied[0] != null );
 

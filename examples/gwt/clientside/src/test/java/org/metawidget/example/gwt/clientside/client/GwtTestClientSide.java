@@ -99,19 +99,19 @@ public class GwtTestClientSide
 
 				assertEquals( "Genre:", flexTable1.getText( 3, 0 ) );
 				assertTrue( flexTable1.getWidget( 3, 1 ) instanceof ListBox );
-				assertTrue( 8 == ( (ListBox) flexTable1.getWidget( 3, 1 ) ).getItemCount() );
+				assertEquals( 8, ( (ListBox) flexTable1.getWidget( 3, 1 ) ).getItemCount() );
 				( (ListBox) flexTable1.getWidget( 3, 1 ) ).setSelectedIndex( 1 );
 				assertEquals( "Release Date:", flexTable1.getText( 4, 0 ) );
 				Date releaseDate = new Date( 101, 0, 1 );
 				( (DateField) flexTable1.getWidget( 4, 1 ) ).setValue( releaseDate );
 				assertEquals( "Rating:", flexTable1.getText( 5, 0 ) );
-				assertTrue( 10 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMaxValue() );
-				assertTrue( 1 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMinValue() );
+				assertEquals( 10, ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMaxValue() );
+				assertEquals( 1, ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMinValue() );
 				( (Slider) flexTable1.getWidget( 5, 1 ) ).setValue( 4 );
 				assertEquals( "Notes:", flexTable1.getText( 6, 0 ) );
 				( (TextArea) flexTable1.getWidget( 6, 1 ) ).setText( "Baz" );
 				assertTrue( flexTable1.getWidget( 7, 0 ) instanceof Facet );
-				assertTrue( flexTable1.getRowCount() == 8 );
+				assertEquals( flexTable1.getRowCount(), 8 );
 
 				// Save after populating
 
@@ -141,7 +141,7 @@ public class GwtTestClientSide
 
 										FlexTable flexTable2 = (FlexTable) metawidget.getWidget( 0 );
 										assertEquals( "Title:", flexTable2.getText( 0, 0 ) );
-										assertTrue( 3 == ( (ListBox) flexTable2.getWidget( 0, 1 ) ).getItemCount() );
+										assertEquals( 3, ( (ListBox) flexTable2.getWidget( 0, 1 ) ).getItemCount() );
 										( (ListBox) flexTable2.getWidget( 0, 1 ) ).setSelectedIndex( 1 );
 										assertEquals( "*", flexTable2.getText( 0, 2 ) );
 										assertEquals( "Firstname:", flexTable2.getText( 1, 0 ) );
@@ -232,7 +232,7 @@ public class GwtTestClientSide
 																		( (TextBox) flexTable3.getWidget( 0, 1 ) ).setText( "Millie" );
 																		assertEquals( "*", flexTable3.getText( 0, 2 ) );
 																		assertEquals( "Gender:", flexTable3.getText( 1, 0 ) );
-																		assertTrue( 3 == ( (ListBox) flexTable3.getWidget( 1, 1 ) ).getItemCount() );
+																		assertEquals( 3, ( (ListBox) flexTable3.getWidget( 1, 1 ) ).getItemCount() );
 																		( (ListBox) flexTable3.getWidget( 1, 1 ) ).setSelectedIndex( 1 );
 																		assertEquals( "", flexTable3.getText( 1, 2 ) );
 																		assertEquals( "Species (eg. dog):", flexTable3.getText( 2, 0 ) );

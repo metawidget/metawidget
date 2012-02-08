@@ -60,13 +60,13 @@ public class BeanValidationInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "1", property.getAttribute( MAXIMUM_INTEGER_DIGITS ) );
 		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -74,7 +74,7 @@ public class BeanValidationInspectorTest
 		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
 		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( 5 == property.getAttributes().getLength() );
+		assertEquals( 5, property.getAttributes().getLength() );
 	}
 
 	//

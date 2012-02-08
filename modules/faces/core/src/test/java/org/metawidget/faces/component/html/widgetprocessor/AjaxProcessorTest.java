@@ -70,7 +70,7 @@ public class AjaxProcessorTest
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setId( "metawidget-id" );
 		UIComponent component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertTrue( ( (ClientBehaviorHolder) component ).getClientBehaviors().isEmpty() );
 
 		// Bad event?
@@ -90,11 +90,11 @@ public class AjaxProcessorTest
 		// Ajax
 
 		attributes.put( FACES_AJAX_EVENT, "click" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertEquals( 1, ( (ClientBehaviorHolder) component ).getClientBehaviors().size() );
 
 		List<ClientBehavior> clientBehaviors = ( (ClientBehaviorHolder) component ).getClientBehaviors().get( "click" );
-		assertTrue( clientBehaviors.size() == 1 );
+		assertEquals( clientBehaviors.size(), 1 );
 		AjaxBehavior ajaxBehaviour = (AjaxBehavior) clientBehaviors.get( 0 );
 
 		assertEquals( CollectionUtils.newArrayList( "metawidget-id" ), ajaxBehaviour.getRender() );
@@ -106,18 +106,18 @@ public class AjaxProcessorTest
 
 		component = new HtmlInputText();
 		attributes.put( FACES_AJAX_ACTION, "#{bar}" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
-		assertTrue( ( (ClientBehaviorHolder) component ).getClientBehaviors().size() == 1 );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( ( (ClientBehaviorHolder) component ).getClientBehaviors().size(), 1 );
 
 		clientBehaviors = ( (ClientBehaviorHolder) component ).getClientBehaviors().get( "click" );
-		assertTrue( clientBehaviors.size() == 1 );
+		assertEquals( clientBehaviors.size(), 1 );
 		ajaxBehaviour = (AjaxBehavior) clientBehaviors.get( 0 );
 
 		assertEquals( CollectionUtils.newArrayList( "metawidget-id" ), ajaxBehaviour.getRender() );
 
 		@SuppressWarnings( "unchecked" )
 		List<AjaxBehaviorListener> listeners = (List<AjaxBehaviorListener>) listenersField.get( ajaxBehaviour );
-		assertTrue( listeners.size() == 1 );
+		assertEquals( listeners.size(), 1 );
 
 		AjaxBehaviorListener ajaxBehaviorListener = listeners.get( 0 );
 		assertTrue( ajaxBehaviorListener instanceof Serializable );

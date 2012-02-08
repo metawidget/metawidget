@@ -55,19 +55,19 @@ public class FlowLayoutTest
 
 		// layoutWidget
 
-		assertTrue( 0 == container.getComponentCount() );
+		assertEquals( 0, container.getComponentCount() );
 
 		Stub stub = new Stub();
 		flowLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
-		assertTrue( 0 == container.getComponentCount() );
+		assertEquals( 0, container.getComponentCount() );
 
 		stub.add( new JSpinner() );
 		flowLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
-		assertTrue( stub == container.getComponent( 0 ) );
-		assertTrue( 1 == container.getComponentCount() );
+		assertEquals( stub, container.getComponent( 0 ) );
+		assertEquals( 1, container.getComponentCount() );
 
 		flowLayout.layoutWidget( new JTextField(), PROPERTY, null, container, metawidget );
 		assertTrue( container.getComponent( 1 ) instanceof JTextField );
-		assertTrue( 2 == container.getComponentCount() );
+		assertEquals( 2, container.getComponentCount() );
 	}
 }

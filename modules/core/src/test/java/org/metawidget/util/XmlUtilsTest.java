@@ -56,7 +56,7 @@ public class XmlUtilsTest
 
 		Field delegateField = CachingContentHandler.class.getDeclaredField( "mDelegate" );
 		delegateField.setAccessible( true );
-		assertTrue( simpleContentHandler == delegateField.get( cachingContentHandler ) );
+		assertEquals( simpleContentHandler, delegateField.get( cachingContentHandler ) );
 
 		// Fire events
 
@@ -77,7 +77,7 @@ public class XmlUtilsTest
 
 		// Check delegate field was released
 
-		assertTrue( null == delegateField.get( cachingContentHandler ) );
+		assertEquals( null, delegateField.get( cachingContentHandler ) );
 
 		try {
 			cachingContentHandler.startDocument();
@@ -109,7 +109,7 @@ public class XmlUtilsTest
 
 		// Check delegate field was not used
 
-		assertTrue( null == delegateField.get( cachingContentHandler ) );
+		assertEquals( null, delegateField.get( cachingContentHandler ) );
 
 		// Check they got replayed
 
@@ -136,12 +136,12 @@ public class XmlUtilsTest
 		cachingContentHandler.releaseDelegate();
 		cachingContentHandler.replay( newSimpleContentHandler );
 
-		assertTrue( newSimpleContentHandler.mEvents.size() == 2 );
+		assertEquals( newSimpleContentHandler.mEvents.size(), 2 );
 		assertEquals( "startElement", simpleContentHandler.mEvents.get( 0 )[0] );
 		assertEquals( "se-uri", simpleContentHandler.mEvents.get( 0 )[1] );
 		assertEquals( "se-localName", simpleContentHandler.mEvents.get( 0 )[2] );
 		assertEquals( "se-name", simpleContentHandler.mEvents.get( 0 )[3] );
-		assertTrue( 0 == ( (Attributes) simpleContentHandler.mEvents.get( 0 )[4] ).getLength() );
+		assertEquals( 0, ( (Attributes) simpleContentHandler.mEvents.get( 0 )[4] ).getLength() );
 		assertEquals( "endElement", simpleContentHandler.mEvents.get( 1 )[0] );
 		assertEquals( "ee-uri", simpleContentHandler.mEvents.get( 1 )[1] );
 		assertEquals( "ee-localName", simpleContentHandler.mEvents.get( 1 )[2] );
@@ -195,7 +195,7 @@ public class XmlUtilsTest
 
 	private void assertSimpleContentHandler( SimpleContentHandler simpleContentHandler ) {
 
-		assertTrue( simpleContentHandler.mEvents.size() == 10 );
+		assertEquals( simpleContentHandler.mEvents.size(), 10 );
 		assertEquals( "startDocument", simpleContentHandler.mEvents.get( 0 )[0] );
 		assertEquals( "processingInstruction", simpleContentHandler.mEvents.get( 1 )[0] );
 		assertEquals( "pi-target", simpleContentHandler.mEvents.get( 1 )[1] );
@@ -213,7 +213,7 @@ public class XmlUtilsTest
 		assertEquals( "se-name", simpleContentHandler.mEvents.get( 5 )[3] );
 		assertEquals( "a-value", ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getValue( "a-uri", "a-localName" ) );
 		assertEquals( "a-type", ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getType( "a-uri", "a-localName" ) );
-		assertTrue( 1 == ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getLength() );
+		assertEquals( 1, ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getLength() );
 		assertEquals( "characters", simpleContentHandler.mEvents.get( 6 )[0] );
 		assertEquals( "c-characters", String.valueOf( (char[]) simpleContentHandler.mEvents.get( 6 )[1] ) );
 		assertTrue( 0 == (Integer) simpleContentHandler.mEvents.get( 6 )[2] );

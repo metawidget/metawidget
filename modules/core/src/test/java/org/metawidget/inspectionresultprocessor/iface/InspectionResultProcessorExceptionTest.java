@@ -33,12 +33,12 @@ public class InspectionResultProcessorExceptionTest
 		throws Exception {
 
 		Throwable throwable = new Throwable();
-		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ).getCause() );
+		assertEquals( throwable, InspectionResultProcessorException.newException( throwable ).getCause() );
 
 		throwable = InspectionResultProcessorException.newException( "Foo" );
 		assertEquals( "Foo", throwable.getMessage() );
-		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ) );
+		assertEquals( throwable, InspectionResultProcessorException.newException( throwable ) );
 		assertEquals( "Foo", InspectionResultProcessorException.newException( "Foo", throwable ).getMessage() );
-		assertTrue( throwable == InspectionResultProcessorException.newException( "Foo", throwable ).getCause() );
+		assertEquals( throwable, InspectionResultProcessorException.newException( "Foo", throwable ).getCause() );
 	}
 }

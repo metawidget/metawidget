@@ -88,7 +88,7 @@ public class FacesAnnotationInspectorTest
 		assertEquals( "yyyy", property.getAttribute( DATETIME_PATTERN ) );
 		assertEquals( "GMT", property.getAttribute( TIME_ZONE ) );
 		assertEquals( "date", property.getAttribute( DATETIME_TYPE ) );
-		assertTrue( 7 == property.getAttributes().getLength() );
+		assertEquals( 7, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object3" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -102,7 +102,7 @@ public class FacesAnnotationInspectorTest
 		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
 		assertEquals( "#0.00", property.getAttribute( NUMBER_PATTERN ) );
 		assertEquals( "currency", property.getAttribute( NUMBER_TYPE ) );
-		assertTrue( 11 == property.getAttributes().getLength() );
+		assertEquals( 11, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "complexLookup" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -112,7 +112,7 @@ public class FacesAnnotationInspectorTest
 		assertEquals( "#{_fooBar.label}", property.getAttribute( FACES_LOOKUP_ITEM_LABEL ) );
 		assertEquals( 5, property.getAttributes().getLength() );
 
-		assertTrue( entity.getChildNodes().getLength() == 4 );
+		assertEquals( entity.getChildNodes().getLength(), 4 );
 	}
 
 	public void testUtils() {

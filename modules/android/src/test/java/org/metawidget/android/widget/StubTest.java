@@ -38,7 +38,7 @@ public class StubTest
 
 		stub.setAttribute( "foo", "bar" );
 		assertEquals( "bar", stub.getAttributes().get( "foo" ) );
-		assertTrue( null == stub.getTag() );
+		assertEquals( null, stub.getTag() );
 
 		MockAttributeSet attributeSet = new MockAttributeSet();
 		attributeSet.setAttributeValue( "foo", "should-not-appear" );
@@ -47,7 +47,7 @@ public class StubTest
 		attributeSet.setAttributeValue( "tag", "baz" );
 		stub = new Stub( null, attributeSet );
 		assertEquals( "bar", stub.getAttributes().get( "name" ) );
-		assertTrue( 1 == stub.getAttributes().size() );
+		assertEquals( 1, stub.getAttributes().size() );
 		assertEquals( "baz", stub.getTag() );
 	}
 }

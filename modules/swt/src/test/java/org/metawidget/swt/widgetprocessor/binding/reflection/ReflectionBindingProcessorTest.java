@@ -69,9 +69,9 @@ public class ReflectionBindingProcessorTest
 
 		Button button = (Button) ( (SwtMetawidget) metawidget.getChildren()[1] ).getChildren()[0];
 
-		assertTrue( mActionFired == 0 );
+		assertEquals( mActionFired, 0 );
 		button.notifyListeners( SWT.Selection, null );
-		assertTrue( mActionFired == 1 );
+		assertEquals( mActionFired, 1 );
 	}
 
 	public void testNullBinding() {

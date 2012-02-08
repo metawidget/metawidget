@@ -67,9 +67,9 @@ public class ReflectionBindingProcessorTest
 
 		JButton button = (JButton) ( (SwingMetawidget) metawidget.getComponent( 1 ) ).getComponent( 0 );
 
-		assertTrue( mActionFired == 0 );
+		assertEquals( mActionFired, 0 );
 		button.doClick();
-		assertTrue( mActionFired == 1 );
+		assertEquals( mActionFired, 1 );
 	}
 
 	public void testNullBinding() {

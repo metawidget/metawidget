@@ -61,7 +61,7 @@ public class SpringAnnotationInspectorTest
 		assertEquals( "abc", property.getAttribute( SPRING_LOOKUP_ITEM_VALUE ) );
 		assertEquals( "def", property.getAttribute( SPRING_LOOKUP_ITEM_LABEL ) );
 
-		assertTrue( entity.getChildNodes().getLength() == 2 );
+		assertEquals( entity.getChildNodes().getLength(), 2 );
 	}
 
 	//

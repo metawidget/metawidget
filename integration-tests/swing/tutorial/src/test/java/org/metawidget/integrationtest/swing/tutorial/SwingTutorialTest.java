@@ -69,7 +69,7 @@ public class SwingTutorialTest
 		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
 		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
-		assertTrue( 7 == metawidget.getComponentCount() );
+		assertEquals( 7, metawidget.getComponentCount() );
 
 		// Check middle of tutorial
 
@@ -83,17 +83,17 @@ public class SwingTutorialTest
 		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertEquals( "Age:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
-		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 2 ) ) ).gridx );
+		assertEquals( 2, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 2 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 4 ) ) ).gridx );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 4 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
 		assertEquals( "Gender:", ( (JLabel) metawidget.getComponent( 6 ) ).getText() );
-		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
+		assertEquals( 2, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JComboBox );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 7 ) ).getModel().getSize() );
+		assertEquals( 3, ( (JComboBox) metawidget.getComponent( 7 ) ).getModel().getSize() );
 		assertEquals( "Notes:", ( (JLabel) metawidget.getComponent( 8 ) ).getText() );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 8 ) ) ).gridx );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 8 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 9 ) instanceof JScrollPane );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 9 ) ) ).weighty );
 
@@ -106,7 +106,7 @@ public class SwingTutorialTest
 		assertEquals( "Department:", ( (JLabel) metawidget.getComponent( 13 ) ).getText() );
 		assertTrue( metawidget.getComponent( 14 ) instanceof JTextField );
 
-		assertTrue( 15 == metawidget.getComponentCount() );
+		assertEquals( 15, metawidget.getComponentCount() );
 
 		// Check end of tutorial
 
@@ -119,14 +119,14 @@ public class SwingTutorialTest
 		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertEquals( "Age:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
-		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 2 ) ) ).gridx );
+		assertEquals( 2, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 2 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertEquals( "Gender:", ( (JLabel) metawidget.getComponent( 4 ) ).getText() );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 4 ) ) ).gridx );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 4 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JComboBox );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 5 ) ).getModel().getSize() );
+		assertEquals( 3, ( (JComboBox) metawidget.getComponent( 5 ) ).getModel().getSize() );
 		assertEquals( "Notes:", ( (JLabel) metawidget.getComponent( 6 ) ).getText() );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 7 ) ) ).weighty );
 
@@ -135,13 +135,13 @@ public class SwingTutorialTest
 
 		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
 		assertEquals( "Employer:", ( (JLabel) panel.getComponent( 0 ) ).getText() );
-		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getComponent( 0 ) ) ).gridx );
+		assertEquals( 0, ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getComponent( 0 ) ) ).gridx );
 		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
 		assertEquals( "Department:", ( (JLabel) panel.getComponent( 2 ) ).getText() );
-		assertTrue( 2 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getComponent( 2 ) ) ).gridx );
+		assertEquals( 2, ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getComponent( 2 ) ) ).gridx );
 		assertTrue( panel.getComponent( 3 ) instanceof JTextField );
 
-		assertTrue( 9 == metawidget.getComponentCount() );
+		assertEquals( 9, metawidget.getComponentCount() );
 	}
 
 	public void testSectionAtEnd()
@@ -161,7 +161,7 @@ public class SwingTutorialTest
 		assertEquals( "Retired:", ( (JLabel) metawidget.getComponent( 5 ) ).getText() );
 		assertTrue( metawidget.getComponent( 6 ) instanceof JCheckBox );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JPanel );
-		assertTrue( 8 == metawidget.getComponentCount() );
+		assertEquals( 8, metawidget.getComponentCount() );
 	}
 
 	/**

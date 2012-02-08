@@ -104,8 +104,8 @@ public class SwtTutorialTest
 		assertTrue( metawidget.getChildren()[3] instanceof Text );
 		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( 6 == metawidget.getChildren().length );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
+		assertEquals( 6, metawidget.getChildren().length );
 
 		// Check middle of tutorial
 
@@ -122,31 +122,31 @@ public class SwtTutorialTest
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
 		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
 		assertEquals( "Gender:", ( (Label) metawidget.getChildren()[6] ).getText() );
 		assertTrue( metawidget.getChildren()[7] instanceof Combo );
-		assertTrue( 3 == ( (Combo) metawidget.getChildren()[7] ).getItemCount() );
+		assertEquals( 3, ( (Combo) metawidget.getChildren()[7] ).getItemCount() );
 		assertEquals( "Notes:", ( (Label) metawidget.getChildren()[8] ).getText() );
 		assertTrue( metawidget.getChildren()[9] instanceof Text );
 		assertTrue( ( (GridData) metawidget.getChildren()[9].getLayoutData() ).grabExcessVerticalSpace );
-		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.WRAP ) == SWT.WRAP );
-		assertTrue( ( metawidget.getChildren()[9].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
+		assertEquals( ( metawidget.getChildren()[9].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( metawidget.getChildren()[9].getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( metawidget.getChildren()[9].getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( metawidget.getChildren()[9].getStyle() & SWT.WRAP ), SWT.WRAP );
+		assertEquals( ( metawidget.getChildren()[9].getStyle() & SWT.H_SCROLL ), SWT.NONE );
 
 		Composite separator = (Composite) metawidget.getChildren()[10];
-		assertTrue( ( (GridLayout) separator.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (GridLayout) separator.getLayout() ).marginWidth, 0 );
 		assertEquals( "Work", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
-		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
 
 		assertEquals( "Employer:", ( (Label) metawidget.getChildren()[11] ).getText() );
 		assertTrue( metawidget.getChildren()[12] instanceof Text );
 		assertEquals( "Department:", ( (Label) metawidget.getChildren()[13] ).getText() );
 		assertTrue( metawidget.getChildren()[14] instanceof Text );
 
-		assertTrue( 15 == metawidget.getChildren().length );
+		assertEquals( 15, metawidget.getChildren().length );
 
 		// Check end of tutorial
 
@@ -162,15 +162,15 @@ public class SwtTutorialTest
 		assertTrue( ( (GridData) metawidget.getChildren()[4].getLayoutData() ).exclude );
 		assertEquals( "Gender:", ( (Label) metawidget.getChildren()[5] ).getText() );
 		assertTrue( metawidget.getChildren()[6] instanceof Combo );
-		assertTrue( 3 == ( (Combo) metawidget.getChildren()[6] ).getItemCount() );
+		assertEquals( 3, ( (Combo) metawidget.getChildren()[6] ).getItemCount() );
 		assertEquals( "Notes:", ( (Label) metawidget.getChildren()[7] ).getText() );
 		assertTrue( metawidget.getChildren()[8] instanceof Text );
 		assertTrue( ( (GridData) metawidget.getChildren()[8].getLayoutData() ).grabExcessVerticalSpace );
-		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.WRAP ) == SWT.WRAP );
-		assertTrue( ( metawidget.getChildren()[8].getStyle() & SWT.H_SCROLL ) == SWT.NONE );
+		assertEquals( ( metawidget.getChildren()[8].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( metawidget.getChildren()[8].getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( metawidget.getChildren()[8].getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( metawidget.getChildren()[8].getStyle() & SWT.WRAP ), SWT.WRAP );
+		assertEquals( ( metawidget.getChildren()[8].getStyle() & SWT.H_SCROLL ), SWT.NONE );
 
 		TabFolder tabFolder = (TabFolder) metawidget.getChildren()[9];
 		assertEquals( "Work", tabFolder.getItem( 0 ).getText() );
@@ -181,7 +181,7 @@ public class SwtTutorialTest
 		assertEquals( "Department:", ( (Label) panel.getChildren()[2] ).getText() );
 		assertTrue( panel.getChildren()[3] instanceof Text );
 
-		assertTrue( 10 == metawidget.getChildren().length );
+		assertEquals( 10, metawidget.getChildren().length );
 	}
 
 	public void testSectionAtEnd()
@@ -195,15 +195,15 @@ public class SwtTutorialTest
 		assertTrue( metawidget.getChildren()[3] instanceof Text );
 
 		Composite separator = (Composite) metawidget.getChildren()[4];
-		assertTrue( ( (GridLayout) separator.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (GridLayout) separator.getLayout() ).marginWidth, 0 );
 		assertEquals( "foo", ( (Label) separator.getChildren()[0] ).getText() );
 		assertTrue( separator.getChildren()[1] instanceof Label );
-		assertTrue( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( ( separator.getChildren()[1].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
 
 		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[5] ).getText() );
 		assertTrue( metawidget.getChildren()[6] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[6].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( 7 == metawidget.getChildren().length );
+		assertEquals( ( metawidget.getChildren()[6].getStyle() & SWT.CHECK ), SWT.CHECK );
+		assertEquals( 7, metawidget.getChildren().length );
 	}
 
 	//

@@ -60,14 +60,14 @@ public class HibernateValidatorInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( "1", property.getAttribute( MAXIMUM_INTEGER_DIGITS ) );
 		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
-		assertTrue( 4 == property.getAttributes().getLength() );
+		assertEquals( 4, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "minMax" );
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -75,13 +75,13 @@ public class HibernateValidatorInspectorTest
 		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
 		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( 5 == property.getAttributes().getLength() );
+		assertEquals( 5, property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
 		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
+		assertEquals( 3, property.getAttributes().getLength() );
 	}
 
 	//

@@ -175,13 +175,17 @@ public class GridBagLayout
 		componentConstraints.anchor = GridBagConstraints.WEST;
 		componentConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 
+		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+
 		if ( labelText != null ) {
-			componentConstraints.gridx++;
+			if ( numberOfColumns == 0 ) {
+				state.currentRow++;
+			} else {
+				componentConstraints.gridx++;
+			}
 		} else {
 			componentConstraints.gridwidth = 2;
 		}
-
-		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
 
 		componentConstraints.gridy = state.currentRow;
 		componentConstraints.weightx = 1.0f / numberOfColumns;

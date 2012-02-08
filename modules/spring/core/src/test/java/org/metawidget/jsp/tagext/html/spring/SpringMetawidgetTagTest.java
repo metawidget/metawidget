@@ -44,13 +44,13 @@ public class SpringMetawidgetTagTest
 
 		metawidget.setPath( "foo" );
 		assertEquals( "foo", metawidget.getPath() );
-		assertTrue( null == metawidget.getPathPrefix() );
+		assertEquals( null, metawidget.getPathPrefix() );
 
 		// Path with prefix
 
 		metawidget.setPath( "foo.bar" );
 		assertEquals( "foo.bar", metawidget.getPath() );
-		assertTrue( null == metawidget.getPathPrefix() );
+		assertEquals( null, metawidget.getPathPrefix() );
 
 		metawidget.setPath( "foo.bar.baz" );
 		assertEquals( "foo.bar.baz", metawidget.getPath() );

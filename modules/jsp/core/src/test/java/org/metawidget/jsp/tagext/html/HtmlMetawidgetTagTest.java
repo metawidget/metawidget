@@ -49,7 +49,7 @@ public class HtmlMetawidgetTagTest
 
 		metawidget.setValue( "foo" );
 		assertEquals( "foo", metawidget.getPath() );
-		assertTrue( null == metawidget.getPathPrefix() );
+		assertEquals( null, metawidget.getPathPrefix() );
 
 		// Value with prefix
 
@@ -99,8 +99,8 @@ public class HtmlMetawidgetTagTest
 		// Should reset facets and stubs
 
 		metawidget.doStartTag();
-		assertTrue( null == facets.get( metawidget ) );
-		assertTrue( null == stubs.get( metawidget ) );
+		assertEquals( null, facets.get( metawidget ) );
+		assertEquals( null, stubs.get( metawidget ) );
 		assertTrue( true == (Boolean) needsConfiguringField.get( pipeline ) );
 	}
 }

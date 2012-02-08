@@ -71,50 +71,50 @@ public class JpaInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 		assertFalse( property.hasAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( "10", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "20", property.getAttribute( MAXIMUM_LENGTH ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( LARGE ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "date" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "date", property.getAttribute( DATETIME_TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "time" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "time", property.getAttribute( DATETIME_TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "datetime" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "both", property.getAttribute( DATETIME_TYPE ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "oneToOne" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( "foo", property.getAttribute( INVERSE_RELATIONSHIP ) );
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "oneToMany" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "bar", property.getAttribute( INVERSE_RELATIONSHIP ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 	}
 
 	public void testHideIds() {
@@ -145,7 +145,7 @@ public class JpaInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 	}
 
 	public void testHideVersions() {
@@ -176,7 +176,7 @@ public class JpaInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "version" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 	}
 
 	public void testHideTransients() {
@@ -195,7 +195,7 @@ public class JpaInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "transient1" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		// Shown by default
 

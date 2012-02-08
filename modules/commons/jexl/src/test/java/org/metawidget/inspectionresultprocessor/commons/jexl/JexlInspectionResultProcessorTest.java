@@ -79,7 +79,7 @@ public class JexlInspectionResultProcessorTest
 		assertEquals( "bar2", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
 		assertEquals( "first from-abc middle from-def last", property.getAttribute( "value-is-embedded-el" ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		// Actions
 
@@ -107,7 +107,7 @@ public class JexlInspectionResultProcessorTest
 		assertEquals( "bar2", property.getAttribute( NAME ) );
 		assertTrue( !property.hasAttribute( "value-is-null" ) );
 		assertEquals( "first  middle  last", property.getAttribute( "value-is-embedded-el" ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertEquals( 2, property.getAttributes().getLength() );
 
 		action = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
 		assertTrue( !action.hasAttribute( "value-is-el" ) );

@@ -127,7 +127,7 @@ public class MigLayoutTest
 
 		metawidget.setMetawidgetLayout( new TabFolderLayoutDecorator( new TabFolderLayoutDecoratorConfig().setLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
-		assertTrue( 0 == ( (LC) ( (net.miginfocom.swt.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
+		assertEquals( 0, ( (LC) ( (net.miginfocom.swt.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
 		UnitValue[] insets = ( (LC) ( (net.miginfocom.swt.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );
 		assertTrue( 0 == insets[1].getValue() );
@@ -135,65 +135,65 @@ public class MigLayoutTest
 		assertTrue( 0 == insets[3].getValue() );
 		assertEquals( "Abc:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
-		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
-		assertTrue( null == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getGrow() );
+		assertEquals( 1, ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
+		assertEquals( null, ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getGrow() );
 		assertEquals( ( ConstraintParser.parseUnitValueOrAlign( "top", false, null ) ), ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getAlign() );
 		assertEquals( "Def*:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
-		assertTrue( 3 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
+		assertEquals( 3, ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
 		assertEquals( "Ghi:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
+		assertEquals( 1, ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		// TabFolder
 
 		TabFolder tabFolder = (TabFolder) metawidget.getChildren()[6];
-		assertTrue( 3 == tabFolder.getItemCount() );
-		assertTrue( 0 == ( (CC) tabFolder.getLayoutData() ).getCellX() );
-		assertTrue( 2 == ( (CC) tabFolder.getLayoutData() ).getCellY() );
-		assertTrue( SPAN_ALL == ( (CC) tabFolder.getLayoutData() ).getSpanX() );
+		assertEquals( 3, tabFolder.getItemCount() );
+		assertEquals( 0, ( (CC) tabFolder.getLayoutData() ).getCellX() );
+		assertEquals( 2, ( (CC) tabFolder.getLayoutData() ).getCellY() );
+		assertEquals( SPAN_ALL, ( (CC) tabFolder.getLayoutData() ).getSpanX() );
 
 		assertEquals( "tab1", tabFolder.getItem( 0 ).getText() );
 		Composite tabComposite = (Composite) tabFolder.getChildren()[0];
 		assertTrue( tabComposite.getChildren()[0] instanceof Label );
 		assertEquals( "Tab 1_jkl:", ( (Label) tabComposite.getChildren()[0] ).getText() );
-		assertTrue( false == ( (LC) ( (net.miginfocom.swt.MigLayout) tabComposite.getLayout() ).getLayoutConstraints() ).isFillY() );
-		assertTrue( 1 == ( (CC) tabComposite.getChildren()[1].getLayoutData() ).getCellX() );
+		assertEquals( false, ( (LC) ( (net.miginfocom.swt.MigLayout) tabComposite.getLayout() ).getLayoutConstraints() ).isFillY() );
+		assertEquals( 1, ( (CC) tabComposite.getChildren()[1].getLayoutData() ).getCellX() );
 		assertEquals( "Tab 1_mno:", ( (Label) tabComposite.getChildren()[2] ).getText() );
 		assertTrue( tabComposite.getChildren()[3] instanceof Combo );
-		assertTrue( 3 == ( (CC) tabComposite.getChildren()[3].getLayoutData() ).getCellX() );
+		assertEquals( 3, ( (CC) tabComposite.getChildren()[3].getLayoutData() ).getCellX() );
 		assertEquals( "Tab 1_pqr:", ( (Label) tabComposite.getChildren()[4] ).getText() );
 		assertTrue( tabComposite.getChildren()[5] instanceof Text );
-		assertTrue( 1 == ( (CC) tabComposite.getChildren()[5].getLayoutData() ).getCellX() );
-		assertTrue( 6 == tabComposite.getChildren().length );
+		assertEquals( 1, ( (CC) tabComposite.getChildren()[5].getLayoutData() ).getCellX() );
+		assertEquals( 6, tabComposite.getChildren().length );
 
 		assertEquals( "tab2", tabFolder.getItem( 1 ).getText() );
 		tabComposite = (Composite) tabFolder.getChildren()[1];
 		assertTrue( tabComposite.getChildren()[0] instanceof Text );
-		assertTrue( 0 == ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getCellX() );
-		assertTrue( SPAN_ALL == ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getSpanX() );
+		assertEquals( 0, ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getCellX() );
+		assertEquals( SPAN_ALL, ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getSpanX() );
 		assertTrue( GROW_ALL == ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getVertical().getGrow() );
-		assertTrue( 1f == ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getPushY() );
-		assertTrue( 1 == tabComposite.getChildren().length );
+		assertEquals( 1f, ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getPushY() );
+		assertEquals( 1, tabComposite.getChildren().length );
 
 		assertEquals( "tab3", tabFolder.getItem( 2 ).getText() );
 		tabComposite = (Composite) tabFolder.getChildren()[2];
-		assertTrue( false == ( (LC) ( (net.miginfocom.swt.MigLayout) tabComposite.getLayout() ).getLayoutConstraints() ).isFillY() );
+		assertEquals( false, ( (LC) ( (net.miginfocom.swt.MigLayout) tabComposite.getLayout() ).getLayoutConstraints() ).isFillY() );
 		assertTrue( tabComposite.getChildren()[0] instanceof Text );
-		assertTrue( 0 == ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getCellX() );
-		assertTrue( 2 == ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getSpanX() );
+		assertEquals( 0, ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getCellX() );
+		assertEquals( 2, ( (CC) tabComposite.getChildren()[0].getLayoutData() ).getSpanX() );
 		assertEquals( "Tab 3_mno:", ( (Label) tabComposite.getChildren()[1] ).getText() );
 		assertTrue( tabComposite.getChildren()[2] instanceof Text );
-		assertTrue( 3 == ( (CC) tabComposite.getChildren()[2].getLayoutData() ).getCellX() );
+		assertEquals( 3, ( (CC) tabComposite.getChildren()[2].getLayoutData() ).getCellX() );
 		assertEquals( "Tab 3_pqr:", ( (Label) tabComposite.getChildren()[3] ).getText() );
 		assertTrue( tabComposite.getChildren()[4] instanceof Text );
-		assertTrue( 1 == ( (CC) tabComposite.getChildren()[4].getLayoutData() ).getCellX() );
-		assertTrue( 5 == tabComposite.getChildren().length );
+		assertEquals( 1, ( (CC) tabComposite.getChildren()[4].getLayoutData() ).getCellX() );
+		assertEquals( 5, tabComposite.getChildren().length );
 
 		assertEquals( "Mno:", ( (Label) metawidget.getChildren()[7] ).getText() );
 		assertTrue( metawidget.getChildren()[8] instanceof Text );
-		assertTrue( 1 == ( (CC) metawidget.getChildren()[8].getLayoutData() ).getCellX() );
+		assertEquals( 1, ( (CC) metawidget.getChildren()[8].getLayoutData() ).getCellX() );
 
 		// With stub
 
@@ -234,28 +234,28 @@ public class MigLayoutTest
 		padding = ( (CC) metawidget.getChildren()[1].getLayoutData() ).getPadding();
 		assertEquals( padding, null );
 
-		assertTrue( 0f == ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
-		assertTrue( 1 == ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
+		assertEquals( 0f, ( (CC) metawidget.getChildren()[0].getLayoutData() ).getVertical().getAlign().getValue() );
+		assertEquals( 1, ( (CC) metawidget.getChildren()[1].getLayoutData() ).getCellX() );
 		assertEquals( ( ConstraintParser.parseUnitValueOrAlign( "top", false, null ) ), ( (CC) metawidget.getChildren()[1].getLayoutData() ).getVertical().getAlign() );
 		assertEquals( "Def*:", ( (Label) metawidget.getChildren()[2] ).getText() );
 		assertTrue( metawidget.getChildren()[3] instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getChildren()[3] ).getChildren()[0] instanceof Spinner );
-		assertTrue( 1 == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
-		assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[3].getLayoutData() ).getSpanX() );
+		assertEquals( 1, ( (CC) metawidget.getChildren()[3].getLayoutData() ).getCellX() );
+		assertEquals( SPAN_ALL, ( (CC) metawidget.getChildren()[3].getLayoutData() ).getSpanX() );
 		assertEquals( "Ghi:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( 1 == ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
+		assertEquals( 1, ( (CC) metawidget.getChildren()[5].getLayoutData() ).getCellX() );
 
 		assertTrue( metawidget.getChildren()[6] instanceof TabFolder );
 		assertEquals( stub, metawidget.getChildren()[7] );
-		assertTrue( 3 == ( (CC) stub.getLayoutData() ).getHideMode() );
+		assertEquals( 3, ( (CC) stub.getLayoutData() ).getHideMode() );
 		assertTrue( !stub.getVisible() );
 		assertEquals( arbitrary, metawidget.getChildren()[8] );
 		assertTrue( arbitrary.getVisible() );
 		assertEquals( arbitraryStubWithAttributes, metawidget.getChildren()[9] );
-		assertTrue( 0 == ( (CC) metawidget.getChildren()[9].getLayoutData() ).getCellX() );
-		assertTrue( SPAN_ALL == ( (CC) metawidget.getChildren()[9].getLayoutData() ).getSpanX() );
+		assertEquals( 0, ( (CC) metawidget.getChildren()[9].getLayoutData() ).getCellX() );
+		assertEquals( SPAN_ALL, ( (CC) metawidget.getChildren()[9].getLayoutData() ).getSpanX() );
 
 		// Read-only on required labels
 
@@ -276,9 +276,9 @@ public class MigLayoutTest
 		// Facet goes at 'row 1', not 'row 0 column 2'
 
 		Facet facet = (Facet) metawidget.getChildren()[1];
-		assertTrue( 0 == ( (CC) facet.getLayoutData() ).getCellX() );
-		assertTrue( 1 == ( (CC) facet.getLayoutData() ).getCellY() );
-		assertTrue( SPAN_ALL == ( (CC) facet.getLayoutData() ).getSpanX() );
+		assertEquals( 0, ( (CC) facet.getLayoutData() ).getCellX() );
+		assertEquals( 1, ( (CC) facet.getLayoutData() ).getCellY() );
+		assertEquals( SPAN_ALL, ( (CC) facet.getLayoutData() ).getSpanX() );
 		assertTrue( GROW_ALL == ( (CC) facet.getLayoutData() ).getHorizontal().getGrow() );
 	}
 

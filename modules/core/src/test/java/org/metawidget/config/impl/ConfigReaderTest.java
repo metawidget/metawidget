@@ -230,9 +230,9 @@ public class ConfigReaderTest
 		xml += "</metawidget>";
 
 		AllTypesInspector inspector = (AllTypesInspector) new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-		assertTrue( 3 == inspector.getInt() );
-		assertTrue( AllTypesInspectorConfig.CONSTANT_VALUE == inspector.getConstant() );
-		assertTrue( SwingConstants.LEFT == inspector.getExternalConstant() );
+		assertEquals( 3, inspector.getInt() );
+		assertEquals( AllTypesInspectorConfig.CONSTANT_VALUE, inspector.getConstant() );
+		assertEquals( SwingConstants.LEFT, inspector.getExternalConstant() );
 
 		List<Object> list = inspector.getList();
 		assertTrue( "foo".equals( list.get( 0 ) ) );
@@ -240,14 +240,14 @@ public class ConfigReaderTest
 		assertTrue( String.class.equals( list.get( 2 ) ) );
 		assertTrue( Date.class.equals( list.get( 3 ) ) );
 		assertTrue( Long.class.equals( list.get( 4 ) ) );
-		assertTrue( null == list.get( 5 ) );
+		assertEquals( null, list.get( 5 ) );
 		assertTrue( list.get( 6 ) instanceof Date );
-		assertTrue( 7 == list.size() );
+		assertEquals( 7, list.size() );
 
 		Set<Object> set = inspector.getSet();
 		assertTrue( "baz".equals( set.iterator().next() ) );
 
-		assertTrue( true == inspector.isBoolean() );
+		assertEquals( true, inspector.isBoolean() );
 		assertTrue( ".*?".equals( inspector.getPattern().toString() ) );
 
 		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
@@ -256,7 +256,7 @@ public class ConfigReaderTest
 
 		assertTrue( "Limited textbox (i18n)".equals( inspector.getResourceBundle().getString( "limitedTextbox" ) ) );
 
-		assertTrue( 2 == inspector.getStringArray().length );
+		assertEquals( 2, inspector.getStringArray().length );
 		assertTrue( "foo".equals( inspector.getStringArray()[0] ) );
 		assertTrue( "bar".equals( inspector.getStringArray()[1] ) );
 
@@ -556,7 +556,7 @@ public class ConfigReaderTest
 
 		new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertTrue( null == LogUtilsTest.getLastWarnMessage() );
+		assertEquals( null, LogUtilsTest.getLastWarnMessage() );
 
 		// Superclass does, but subclass doesn't, and has methods
 

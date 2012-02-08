@@ -65,22 +65,22 @@ public class AndroidMetawidgetTest
 		attributes.put( NAME, "fooBar" );
 		assertEquals( "Foo Bar", androidMetawidget.getLabelString( attributes ) );
 		attributes.put( LABEL, "" );
-		assertTrue( null == androidMetawidget.getLabelString( attributes ) );
+		assertEquals( null, androidMetawidget.getLabelString( attributes ) );
 
-		assertTrue( null == androidMetawidget.getLocalizedKey( null ) );
-		assertTrue( null == androidMetawidget.getLocalizedKey( "" ) );
+		assertEquals( null, androidMetawidget.getLocalizedKey( null ) );
+		assertEquals( null, androidMetawidget.getLocalizedKey( "" ) );
 
 		// clientProperties
 
-		assertTrue( null == androidMetawidget.getClientProperty( "foo" ) );
+		assertEquals( null, androidMetawidget.getClientProperty( "foo" ) );
 		androidMetawidget.putClientProperty( "foo", "bar" );
 		assertEquals( "bar", androidMetawidget.getClientProperty( "foo" ) );
 
 		// maximumInspectionDepth
 
-		assertTrue( 10 == androidMetawidget.getMaximumInspectionDepth() );
+		assertEquals( 10, androidMetawidget.getMaximumInspectionDepth() );
 		androidMetawidget.setMaximumInspectionDepth( 2 );
-		assertTrue( 2 == androidMetawidget.getMaximumInspectionDepth() );
+		assertEquals( 2, androidMetawidget.getMaximumInspectionDepth() );
 
 		// readOnly
 

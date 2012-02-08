@@ -170,7 +170,7 @@ public class MetawidgetAnnotationInspectorTest
 		assertEquals( "foo\\,,bar", property.getAttribute( LOOKUP ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( TRUE, property.getAttribute( WIDE ) );
-		assertTrue( property.getAttributes().getLength() == 4 );
+		assertEquals( property.getAttributes().getLength(), 4 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( "string1", property.getAttribute( NAME ) );
@@ -185,7 +185,7 @@ public class MetawidgetAnnotationInspectorTest
 		assertEquals( TRUE, property.getAttribute( LARGE ) );
 		assertEquals( "object1", property.getAttribute( COMES_AFTER ) );
 
-		assertTrue( property.getAttributes().getLength() == 11 );
+		assertEquals( property.getAttributes().getLength(), 11 );
 	}
 
 	public void testBadAction() {
@@ -202,7 +202,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Should 'short circuit' and return null, as an optimization for CompositeInspector
 
-		assertTrue( null == mInspector.inspect( "foo", String.class.getName() ) );
+		assertEquals( null, mInspector.inspect( "foo", String.class.getName() ) );
 
 		// Should gather annotations from parent
 
@@ -233,13 +233,13 @@ public class MetawidgetAnnotationInspectorTest
 		assertEquals( "foo", entity.getAttribute( NAME ) );
 		assertEquals( TRUE, entity.getAttribute( MASKED ) );
 		assertEquals( "Foo", entity.getAttribute( LABEL ) );
-		assertTrue( 4 == entity.getAttributes().getLength() );
+		assertEquals( 4, entity.getAttributes().getLength() );
 
-		assertTrue( 0 == entity.getChildNodes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
 
 		// Test null parent doesn't throw NullPointerException
 
-		assertTrue( null == inspector.inspect( null, PropertyAndTraitAnnotation.class.getName(), "foo" ) );
+		assertEquals( null, inspector.inspect( null, PropertyAndTraitAnnotation.class.getName(), "foo" ) );
 	}
 
 	@SuppressWarnings( "unchecked" )

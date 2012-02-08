@@ -102,7 +102,7 @@ public final class MetawidgetTestUtils {
 
 			Assert.assertTrue( object1 != object2 );
 			Assert.assertEquals( object1, object2 );
-			Assert.assertTrue( object1.hashCode() == object2.hashCode() );
+			Assert.assertEquals( object1.hashCode(), object2.hashCode() );
 
 			// Null check
 
@@ -144,15 +144,15 @@ public final class MetawidgetTestUtils {
 
 							if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
 								writeMethod.invoke( object1, new Object[] { null } );
-								Assert.assertTrue( propertyName, null == readMethod.invoke( object1 ) );
+								Assert.assertEquals( propertyName, null, readMethod.invoke( object1 ) );
 								Assert.assertFalse( propertyName, object1.equals( object2 ) );
 
 								Assert.assertTrue( propertyName, null != readMethod.invoke( object2 ) );
 								writeMethod.invoke( object2, new Object[] { null } );
-								Assert.assertTrue( propertyName, null == readMethod.invoke( object2 ) );
+								Assert.assertEquals( propertyName, null, readMethod.invoke( object2 ) );
 
 								Assert.assertTrue( object1.equals( object2 ) );
-								Assert.assertTrue( object1.hashCode() == object2.hashCode() );
+								Assert.assertEquals( object1.hashCode(), object2.hashCode() );
 							}
 						}
 					}
@@ -241,7 +241,7 @@ public final class MetawidgetTestUtils {
 					// initialisation
 
 					Assert.assertTrue( propertyName, object1.equals( object2 ) );
-					Assert.assertTrue( propertyName, object1.hashCode() == hashCodeBefore );
+					Assert.assertEquals( propertyName, object1.hashCode(), hashCodeBefore );
 				}
 
 				writeMethod.invoke( object1, toSet );
@@ -263,7 +263,7 @@ public final class MetawidgetTestUtils {
 
 				writeMethod.invoke( object2, toSet );
 				Assert.assertTrue( object1.equals( object2 ) );
-				Assert.assertTrue( object1.hashCode() == object2.hashCode() );
+				Assert.assertEquals( object1.hashCode(), object2.hashCode() );
 			}
 		} catch ( Exception e ) {
 			throw new RuntimeException( e );

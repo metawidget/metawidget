@@ -123,9 +123,9 @@ public class BasePipelineTest
 
 		// Test elements are initialized
 
-		assertTrue( nestedPipeline.getInspector() == inspector );
-		assertTrue( nestedPipeline.getWidgetBuilder() == widgetBuilder );
-		assertTrue( nestedPipeline.getLayout() == layout );
+		assertEquals( nestedPipeline.getInspector(), inspector );
+		assertEquals( nestedPipeline.getWidgetBuilder(), widgetBuilder );
+		assertEquals( nestedPipeline.getLayout(), layout );
 
 		// Test defensive copy
 

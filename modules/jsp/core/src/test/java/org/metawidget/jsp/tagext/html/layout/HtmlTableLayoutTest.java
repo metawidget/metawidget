@@ -42,10 +42,10 @@ public class HtmlTableLayoutTest
 	public void testMinimumColumns() {
 
 		HtmlTableLayoutConfig config = new HtmlTableLayoutConfig();
-		assertTrue( 1 == config.getNumberOfColumns() );
+		assertEquals( 1, config.getNumberOfColumns() );
 
 		config.setNumberOfColumns( 0 );
-		assertTrue( 0 == config.getNumberOfColumns() );
+		assertEquals( 0, config.getNumberOfColumns() );
 
 		try {
 			config.setNumberOfColumns( -1 );

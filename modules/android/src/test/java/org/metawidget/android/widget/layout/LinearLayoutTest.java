@@ -66,9 +66,9 @@ public class LinearLayoutTest
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 5 );
 		assertEquals( "Abc: ", ( (TextView) linearLayout.getChildAt( 0 ) ).getText() );
 		assertTrue( linearLayout.getChildAt( 1 ) instanceof Spinner );
-		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 6 ) );
+		assertEquals( buttonsFacet, androidMetawidget.getChildAt( 6 ) );
 
-		assertTrue( androidMetawidget.getChildCount() == 7 );
+		assertEquals( androidMetawidget.getChildCount(), 7 );
 	}
 
 	public void testConfig() {

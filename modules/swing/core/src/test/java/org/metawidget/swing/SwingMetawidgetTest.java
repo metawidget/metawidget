@@ -130,7 +130,7 @@ public class SwingMetawidgetTest
 		foo.setFoo( foo );
 		metawidget.setToInspect( foo );
 
-		assertTrue( null == ( (SwingMetawidget) metawidget.getComponent( "foo" ) ).getComponent( "foo" ) );
+		assertEquals( null, ( (SwingMetawidget) metawidget.getComponent( "foo" ) ).getComponent( "foo" ) );
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class SwingMetawidgetTest
 		assertEquals( metawidget.getComponent( "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 1 );
-		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
+		assertEquals( 1, metawidget.getMaximumInspectionDepth() );
 		assertTrue( ( (Component) metawidget.getComponent( "foo" ) ) instanceof SwingMetawidget );
 		assertTrue( ( (Component) metawidget.getComponent( "foo", "name" ) ) instanceof JTextField );
 		assertEquals( "name", ( (Component) metawidget.getComponent( "foo", "name" ) ).getName() );
@@ -178,7 +178,7 @@ public class SwingMetawidgetTest
 		// Metawidget
 
 		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
-		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
+		assertEquals( 1, ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
 
@@ -198,7 +198,7 @@ public class SwingMetawidgetTest
 
 		JComponent component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
 		assertTrue( component instanceof JComboBox );
-		assertTrue( 3 == ( (JComboBox) component ).getItemCount() );
+		assertEquals( 3, ( (JComboBox) component ).getItemCount() );
 
 		// ...and not-nullable...
 
@@ -206,7 +206,7 @@ public class SwingMetawidgetTest
 
 		component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
 		assertTrue( component instanceof JComboBox );
-		assertTrue( 2 == ( (JComboBox) component ).getItemCount() );
+		assertEquals( 2, ( (JComboBox) component ).getItemCount() );
 
 		// Also test UiDontExpand on a dynamic type
 
@@ -214,7 +214,7 @@ public class SwingMetawidgetTest
 		attributes.remove( LOOKUP );
 
 		component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
-		assertTrue( null == component );
+		assertEquals( null, component );
 
 		attributes.put( DONT_EXPAND, TRUE );
 
@@ -252,22 +252,22 @@ public class SwingMetawidgetTest
 
 		// Without a path, should be no layout
 
-		assertTrue( metawidget.getComponentCount() == 0 );
+		assertEquals( metawidget.getComponentCount(), 0 );
 
 		// With a path, GridBagLayout spacer panel should appear (but not facet)
 
 		metawidget.setPath( "Foo" );
-		assertTrue( metawidget.getComponentCount() == 1 );
+		assertEquals( metawidget.getComponentCount(), 1 );
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JPanel );
-		assertTrue( metawidget.getComponentCount() == 1 );
+		assertEquals( metawidget.getComponentCount(), 1 );
 
 		// Normal component should appear (but still not facet)
 
 		metawidget.add( new JTextField() );
 		assertTrue( metawidget.getComponent( 0 ) instanceof JTextField );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JPanel );
-		assertTrue( metawidget.getComponentCount() == 2 );
+		assertEquals( metawidget.getComponentCount(), 2 );
 	}
 
 	public void testRequiredBoolean() {
@@ -320,7 +320,7 @@ public class SwingMetawidgetTest
 
 		assertEquals( "endBuild", called.get( 0 ) );
 		assertEquals( "validate", called.get( 1 ) );
-		assertTrue( 2 == called.size() );
+		assertEquals( 2, called.size() );
 	}
 
 	public void testGetWidgetProcessor() {

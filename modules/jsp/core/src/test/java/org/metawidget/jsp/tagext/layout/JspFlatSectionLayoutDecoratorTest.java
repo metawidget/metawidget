@@ -42,16 +42,16 @@ public class JspFlatSectionLayoutDecoratorTest
 		throws Exception {
 
 		HeadingTagLayoutDecorator layoutDecorator = new HeadingTagLayoutDecorator( new HeadingTagLayoutDecoratorConfig().setLayout( new HtmlTableLayout() ) );
-		assertTrue( false == layoutDecorator.isIgnored( null ) );
-		assertTrue( false == layoutDecorator.isIgnored( new HtmlMetawidgetTag() ) );
+		assertEquals( false, layoutDecorator.isIgnored( null ) );
+		assertEquals( false, layoutDecorator.isIgnored( new HtmlMetawidgetTag() ) );
 
 		StubTag stub = new HtmlStubTag();
-		assertTrue( true == layoutDecorator.isIgnored( stub ) );
+		assertEquals( true, layoutDecorator.isIgnored( stub ) );
 
 		Field field = StubTag.class.getDeclaredField( "mSavedBodyContent" );
 		field.setAccessible( true );
 		field.set( stub, "Foo" );
 
-		assertTrue( false == layoutDecorator.isIgnored( stub ) );
+		assertEquals( false, layoutDecorator.isIgnored( stub ) );
 	}
 }

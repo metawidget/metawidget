@@ -32,25 +32,25 @@ public class ObjectUtilsTest
 	public void testNullSafeHashCode()
 		throws Exception {
 
-		assertTrue( 0 == ObjectUtils.nullSafeHashCode( null ) );
-		assertTrue( "foo".hashCode() == ObjectUtils.nullSafeHashCode( "foo" ) );
+		assertEquals( 0, ObjectUtils.nullSafeHashCode( null ) );
+		assertEquals( "foo".hashCode(), ObjectUtils.nullSafeHashCode( "foo" ) );
 	}
 
 	public void testNullSafeEquals()
 		throws Exception {
 
-		assertTrue( true == ObjectUtils.nullSafeEquals( null, null ) );
-		assertTrue( false == ObjectUtils.nullSafeEquals( null, "foo" ) );
-		assertTrue( false == ObjectUtils.nullSafeEquals( "foo", null ) );
-		assertTrue( true == ObjectUtils.nullSafeEquals( "foo", "foo" ) );
+		assertEquals( true, ObjectUtils.nullSafeEquals( null, null ) );
+		assertEquals( false, ObjectUtils.nullSafeEquals( null, "foo" ) );
+		assertEquals( false, ObjectUtils.nullSafeEquals( "foo", null ) );
+		assertEquals( true, ObjectUtils.nullSafeEquals( "foo", "foo" ) );
 	}
 
 	public void testNullSafeCompareTo()
 		throws Exception {
 
-		assertTrue( 0 == ObjectUtils.nullSafeCompareTo( null, null ) );
-		assertTrue( -1 == ObjectUtils.nullSafeCompareTo( null, "foo" ) );
-		assertTrue( 1 == ObjectUtils.nullSafeCompareTo( "foo", null ) );
-		assertTrue( 0 == ObjectUtils.nullSafeCompareTo( "foo", "foo" ) );
+		assertEquals( 0, ObjectUtils.nullSafeCompareTo( null, null ) );
+		assertEquals( -1, ObjectUtils.nullSafeCompareTo( null, "foo" ) );
+		assertEquals( 1, ObjectUtils.nullSafeCompareTo( "foo", null ) );
+		assertEquals( 0, ObjectUtils.nullSafeCompareTo( "foo", "foo" ) );
 	}
 }

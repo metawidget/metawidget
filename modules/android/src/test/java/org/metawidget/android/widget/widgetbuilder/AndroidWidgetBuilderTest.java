@@ -75,9 +75,9 @@ public class AndroidWidgetBuilderTest
 
 		// Masked
 
-		assertTrue( View.VISIBLE == ( (TextView) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getVisibility() );
+		assertEquals( View.VISIBLE, ( (TextView) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getVisibility() );
 		attributes.put( MASKED, TRUE );
-		assertTrue( View.INVISIBLE == ( (TextView) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getVisibility() );
+		assertEquals( View.INVISIBLE, ( (TextView) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getVisibility() );
 		attributes.remove( MASKED );
 
 		// Lookup
@@ -127,7 +127,7 @@ public class AndroidWidgetBuilderTest
 		// Metawidget
 
 		attributes.put( TYPE, "unknown-type" );
-		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
+		assertEquals( null, androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Don't expand
 
@@ -208,7 +208,7 @@ public class AndroidWidgetBuilderTest
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
 		ArrayAdapter<String> adapter3 = (ArrayAdapter<String>) ( (AdapterView<?>) spinner ).getAdapter();
-		assertTrue( null == adapter3.getItem( 0 ) );
+		assertEquals( null, adapter3.getItem( 0 ) );
 		assertEquals( "", ( (TextView) adapter3.getView( 0, null, null ) ).getText() );
 		assertEquals( "foo", adapter3.getItem( 1 ) );
 		assertEquals( "Foo #1", ( (TextView) adapter3.getView( 1, null, null ) ).getText() );
@@ -291,7 +291,7 @@ public class AndroidWidgetBuilderTest
 		// Metawidget
 
 		attributes.put( TYPE, "unknown-type" );
-		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
+		assertEquals( null, androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Don't expand
 
@@ -306,8 +306,8 @@ public class AndroidWidgetBuilderTest
 
 		// Pass through
 
-		assertTrue( null == androidWidgetBuilder.getValue( null ) );
-		assertTrue( null == androidWidgetBuilder.getValue( new View( null ) ) );
+		assertEquals( null, androidWidgetBuilder.getValue( null ) );
+		assertEquals( null, androidWidgetBuilder.getValue( new View( null ) ) );
 		assertFalse( androidWidgetBuilder.setValue( null, null ) );
 
 		// CheckBox
@@ -321,7 +321,7 @@ public class AndroidWidgetBuilderTest
 		// TextView
 
 		TextView textView = new TextView( null );
-		assertTrue( null == androidWidgetBuilder.getValue( textView ) );
+		assertEquals( null, androidWidgetBuilder.getValue( textView ) );
 		androidWidgetBuilder.setValue( "foo", textView );
 		assertEquals( "foo", textView.getText() );
 		assertEquals( "foo", androidWidgetBuilder.getValue( textView ) );
@@ -334,12 +334,12 @@ public class AndroidWidgetBuilderTest
 		DatePicker datePicker = new DatePicker( null );
 		Date date = new Date( 75, 4, 9 );
 		androidWidgetBuilder.setValue( date, datePicker );
-		assertTrue( 1975 == datePicker.getYear() );
-		assertTrue( 4 == datePicker.getMonth() );
-		assertTrue( 9 == datePicker.getDayOfMonth() );
-		assertTrue( 75 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getYear() );
-		assertTrue( 4 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getMonth() );
-		assertTrue( 9 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getDate() );
+		assertEquals( 1975, datePicker.getYear() );
+		assertEquals( 4, datePicker.getMonth() );
+		assertEquals( 9, datePicker.getDayOfMonth() );
+		assertEquals( 75, ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getYear() );
+		assertEquals( 4, ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getMonth() );
+		assertEquals( 9, ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getDate() );
 
 		// Spinner
 

@@ -53,15 +53,15 @@ public class CssStyleProcessorTest
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		UIComponent component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ) );
-		assertTrue( null == component.getAttributes().get( "style" ) );
-		assertTrue( null == component.getAttributes().get( "styleClass" ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, null, metawidget ) );
+		assertEquals( null, component.getAttributes().get( "style" ) );
+		assertEquals( null, component.getAttributes().get( "styleClass" ) );
 
 		// Simple styles and styleClasses
 
 		metawidget.setStyle( "foo1" );
 		metawidget.setStyleClass( "bar1" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, null, metawidget ) );
 		assertEquals( "foo1", component.getAttributes().get( "style" ) );
 		assertEquals( "bar1", component.getAttributes().get( "styleClass" ) );
 
@@ -69,7 +69,7 @@ public class CssStyleProcessorTest
 
 		metawidget.setStyle( "foo2" );
 		metawidget.setStyleClass( "bar2" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ) );
+		assertEquals( component, processor.processWidget( component, PROPERTY, null, metawidget ) );
 		assertEquals( "foo1 foo2", component.getAttributes().get( "style" ) );
 		assertEquals( "bar1 bar2", component.getAttributes().get( "styleClass" ) );
 	}

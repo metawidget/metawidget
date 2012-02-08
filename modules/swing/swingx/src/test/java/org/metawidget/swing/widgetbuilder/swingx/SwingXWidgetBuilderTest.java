@@ -51,10 +51,10 @@ public class SwingXWidgetBuilderTest
 		SwingXWidgetBuilder widgetBuilder = new SwingXWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		attributes.put( TYPE, String.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		attributes.put( TYPE, Date.class.getName() );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof JXDatePicker );
@@ -77,9 +77,9 @@ public class SwingXWidgetBuilderTest
 		metawidget.setValue( date, "date" );
 		metawidget.setValue( "Foo", "string" );
 		Date dateFromMetawidget = (Date) metawidget.getValue( "date" );
-		assertTrue( date.getDay() == dateFromMetawidget.getDay() );
-		assertTrue( date.getMonth() == dateFromMetawidget.getMonth() );
-		assertTrue( date.getYear() == dateFromMetawidget.getYear() );
+		assertEquals( date.getDay(), dateFromMetawidget.getDay() );
+		assertEquals( date.getMonth(), dateFromMetawidget.getMonth() );
+		assertEquals( date.getYear(), dateFromMetawidget.getYear() );
 		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 
 		assertEquals( dateFromMetawidget, dateHolder.getDate() );

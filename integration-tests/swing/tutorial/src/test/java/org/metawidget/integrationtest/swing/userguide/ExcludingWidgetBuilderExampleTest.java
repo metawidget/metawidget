@@ -61,7 +61,7 @@ public class ExcludingWidgetBuilderExampleTest
 		assertTrue( metawidget.getComponent( 0 ) instanceof JLabel );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( metawidget.getComponent( 2 ) instanceof JPanel );
-		assertTrue( 3 == metawidget.getComponentCount() );
+		assertEquals( 3, metawidget.getComponentCount() );
 	}
 
 	//

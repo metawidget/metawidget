@@ -45,7 +45,7 @@ public class MetawidgetActionStyleTest
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
 		Map<String, Action> actions = actionStyle.getActions( Foo.class.getName() );
 
-		assertTrue( actions.size() == 1 );
+		assertEquals( actions.size(), 1 );
 		assertEquals( "bar", actions.get( "bar" ).toString() );
 
 		try {
@@ -64,7 +64,7 @@ public class MetawidgetActionStyleTest
 		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.get( "bar1" ).isAnnotationPresent( UiAction.class ) );
 		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ) );
-		assertTrue( actions.size() == 2 );
+		assertEquals( actions.size(), 2 );
 
 		actions = actionStyle.getActions( new InterfaceBar() {
 
@@ -77,7 +77,7 @@ public class MetawidgetActionStyleTest
 
 		assertTrue( actions instanceof TreeMap<?, ?> );
 		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ) );
-		assertTrue( actions.size() == 1 );
+		assertEquals( actions.size(), 1 );
 	}
 
 	public void testIsExcluded() {
@@ -125,13 +125,13 @@ public class MetawidgetActionStyleTest
 
 		Field propertiesCacheField = BaseTraitStyle.class.getDeclaredField( "mCache" );
 		propertiesCacheField.setAccessible( true );
-		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
+		assertEquals( 0, ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 
 		actionStyle.getActions( Foo.class.getName() );
-		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
+		assertEquals( 1, ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 
 		actionStyle.clearCache();
-		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
+		assertEquals( 0, ( (Map<?, ?>) propertiesCacheField.get( actionStyle ) ).size() );
 	}
 
 	//

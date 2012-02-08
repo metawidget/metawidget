@@ -37,11 +37,11 @@ public class PathUtilsTest
 		assertEquals( "foo", PathUtils.parsePath( "foo" ).getType() );
 		assertEquals( "foo", PathUtils.parsePath( " foo " ).getType() );
 		assertEquals( "foo", PathUtils.parsePath( "foo/" ).getType() );
-		assertTrue( 0 == PathUtils.parsePath( "foo" ).getNamesAsArray().length );
-		assertTrue( 0 == PathUtils.parsePath( "foo/" ).getNamesAsArray().length );
+		assertEquals( 0, PathUtils.parsePath( "foo" ).getNamesAsArray().length );
+		assertEquals( 0, PathUtils.parsePath( "foo/" ).getNamesAsArray().length );
 		assertEquals( "bar", PathUtils.parsePath( "foo/bar" ).getNamesAsArray()[0] );
 		assertEquals( "bar", PathUtils.parsePath( "foo/bar " ).getNamesAsArray()[0] );
-		assertTrue( 1 == PathUtils.parsePath( "foo/bar/" ).getNamesAsArray().length );
+		assertEquals( 1, PathUtils.parsePath( "foo/bar/" ).getNamesAsArray().length );
 		assertEquals( "bar", PathUtils.parsePath( "foo/bar/" ).getNamesAsArray()[0] );
 		assertEquals( "baz", PathUtils.parsePath( "foo/bar/baz" ).getNamesAsArray()[1] );
 

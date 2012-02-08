@@ -70,8 +70,8 @@ public class TextViewLayoutDecoratorTest
 		assertEquals( "heading1", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
-		assertTrue( android.widget.LinearLayout.VERTICAL == linearLayout.getOrientation() );
-		assertTrue( android.widget.LinearLayout.HORIZONTAL == new android.widget.LinearLayout( null ).getOrientation() );
+		assertEquals( android.widget.LinearLayout.VERTICAL, linearLayout.getOrientation() );
+		assertEquals( android.widget.LinearLayout.HORIZONTAL, new android.widget.LinearLayout( null ).getOrientation() );
 		android.widget.TableLayout sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
 		assertEquals( "Baz: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
@@ -79,7 +79,7 @@ public class TextViewLayoutDecoratorTest
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 1 );
 		assertEquals( "Abc: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
-		assertTrue( 2 == sectionTableLayout.getChildCount() );
+		assertEquals( 2, sectionTableLayout.getChildCount() );
 
 		// Heading #2
 
@@ -91,7 +91,7 @@ public class TextViewLayoutDecoratorTest
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
 		assertEquals( "Def: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
-		assertTrue( 1 == sectionTableLayout.getChildCount() );
+		assertEquals( 1, sectionTableLayout.getChildCount() );
 
 		// Separate component
 
@@ -109,10 +109,10 @@ public class TextViewLayoutDecoratorTest
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
 		assertEquals( "Jkl: ", ( (TextView) tableRow.getChildAt( 0 ) ).getText() );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
-		assertTrue( 1 == sectionTableLayout.getChildCount() );
+		assertEquals( 1, sectionTableLayout.getChildCount() );
 
-		assertTrue( facet == androidMetawidget.getChildAt( 1 ) );
-		assertTrue( 2 == androidMetawidget.getChildCount() );
+		assertEquals( facet, androidMetawidget.getChildAt( 1 ) );
+		assertEquals( 2, androidMetawidget.getChildCount() );
 	}
 
 	//

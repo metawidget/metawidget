@@ -42,7 +42,7 @@ public class ScalaPropertyStyleTest
 		ScalaPropertyStyle propertyStyle = new ScalaPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( org.metawidget.inspector.impl.propertystyle.scala.ScalaFoo.class.getName() );
 
-		assertTrue( properties.size() == 3 );
+		assertEquals( properties.size(), 3 );
 
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertTrue( properties.get( "bar" ).isAnnotationPresent( NotNull.class ) );

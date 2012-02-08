@@ -60,7 +60,7 @@ public class IncludingInspectionResultProcessorExampleTest
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertEquals( "age", metawidget.getComponent( 3 ).getName() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JPanel );
-		assertTrue( 5 == metawidget.getComponentCount() );
+		assertEquals( 5, metawidget.getComponentCount() );
 	}
 
 	//

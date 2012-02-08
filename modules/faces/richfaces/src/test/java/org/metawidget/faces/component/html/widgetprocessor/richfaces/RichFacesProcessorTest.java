@@ -62,14 +62,14 @@ public class RichFacesProcessorTest
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.setId( "metawidget-id" );
 		UIComponent component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
-		assertTrue( 0 == component.getChildCount() );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( 0, component.getChildCount() );
 
 		// Ajax
 
 		attributes.put( FACES_AJAX_EVENT, "onFoo" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
-		assertTrue( 1 == component.getChildCount() );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( 1, component.getChildCount() );
 
 		HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) component.getChildren().get( 0 );
 
@@ -82,8 +82,8 @@ public class RichFacesProcessorTest
 
 		component = new HtmlInputText();
 		attributes.put( FACES_AJAX_ACTION, "#{bar}" );
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
-		assertTrue( 1 == component.getChildCount() );
+		assertEquals( component, processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertEquals( 1, component.getChildCount() );
 
 		ajaxSupport = (HtmlAjaxSupport) component.getChildren().get( 0 );
 

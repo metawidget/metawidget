@@ -33,12 +33,12 @@ public class WidgetBuilderExceptionTest
 		throws Exception {
 
 		Throwable throwable = new Throwable();
-		assertTrue( throwable == WidgetBuilderException.newException( throwable ).getCause() );
+		assertEquals( throwable, WidgetBuilderException.newException( throwable ).getCause() );
 
 		throwable = WidgetBuilderException.newException( "Foo" );
 		assertEquals( "Foo", throwable.getMessage() );
-		assertTrue( throwable == WidgetBuilderException.newException( throwable ) );
+		assertEquals( throwable, WidgetBuilderException.newException( throwable ) );
 		assertEquals( "Foo", WidgetBuilderException.newException( "Foo", throwable ).getMessage() );
-		assertTrue( throwable == WidgetBuilderException.newException( "Foo", throwable ).getCause() );
+		assertEquals( throwable, WidgetBuilderException.newException( "Foo", throwable ).getCause() );
 	}
 }

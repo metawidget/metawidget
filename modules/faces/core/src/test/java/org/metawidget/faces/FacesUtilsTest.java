@@ -32,8 +32,8 @@ public class FacesUtilsTest
 	public void testWrapping()
 		throws Exception {
 
-		assertTrue( true == FacesUtils.isExpression( "#{foo}" ) );
-		assertTrue( false == FacesUtils.isExpression( "foo" ) );
+		assertEquals( true, FacesUtils.isExpression( "#{foo}" ) );
+		assertEquals( false, FacesUtils.isExpression( "foo" ) );
 
 		assertEquals( "foo", FacesUtils.unwrapExpression( "#{foo}" ) );
 		assertEquals( "foo", FacesUtils.unwrapExpression( "foo" ) );

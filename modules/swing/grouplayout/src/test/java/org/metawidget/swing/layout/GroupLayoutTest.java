@@ -66,7 +66,7 @@ public class GroupLayoutTest
 
 		assertEquals( "Age:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertEquals( ( "age_label" ), metawidget.getComponent( 0 ).getName() );
-		assertTrue( metawidget.getComponent( "age_label" ) == metawidget.getComponent( 0 ) );
+		assertEquals( metawidget.getComponent( "age_label" ), metawidget.getComponent( 0 ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
 		assertEquals( "Name:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
@@ -122,7 +122,7 @@ public class GroupLayoutTest
 		assertEquals( "Abc:", label.getText() );
 		assertEquals( metawidget.getComponent( 1 ), label.getLabelFor() );
 		assertEquals( KeyEvent.VK_B, label.getDisplayedMnemonic() );
-		assertTrue( 1 == label.getDisplayedMnemonicIndex() );
+		assertEquals( 1, label.getDisplayedMnemonicIndex() );
 	}
 
 	public void testNestedTabsWithGroupLayout() {
@@ -137,7 +137,7 @@ public class GroupLayoutTest
 		JTabbedPane outerTabbedPane = (JTabbedPane) metawidget.getComponent( 2 );
 		assertEquals( "Foo", outerTabbedPane.getTitleAt( 0 ) );
 		JPanel outerPanel = (JPanel) outerTabbedPane.getComponent( 0 );
-		assertTrue( 4 == outerPanel.getComponentCount() );
+		assertEquals( 4, outerPanel.getComponentCount() );
 
 		JTabbedPane innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 0 );
 		assertEquals( "Bar", innerTabbedPane.getTitleAt( 0 ) );
@@ -146,13 +146,13 @@ public class GroupLayoutTest
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JCheckBox );
 		assertEquals( "Ghi:", ( (JLabel) innerPanel.getComponent( 2 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 3 ) instanceof JScrollPane );
-		assertTrue( 4 == innerPanel.getComponentCount() );
+		assertEquals( 4, innerPanel.getComponentCount() );
 
 		assertEquals( "Baz", innerTabbedPane.getTitleAt( 1 ) );
 		innerPanel = (JPanel) innerTabbedPane.getComponent( 1 );
 		assertEquals( "Jkl:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
-		assertTrue( 2 == innerPanel.getComponentCount() );
+		assertEquals( 2, innerPanel.getComponentCount() );
 
 		assertEquals( "Mno:", ( (JLabel) outerPanel.getComponent( 1 ) ).getText() );
 		assertTrue( outerPanel.getComponent( 2 ) instanceof JCheckBox );
@@ -162,11 +162,11 @@ public class GroupLayoutTest
 		innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
 		assertEquals( "Pqr:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
-		assertTrue( 2 == innerPanel.getComponentCount() );
+		assertEquals( 2, innerPanel.getComponentCount() );
 
 		assertEquals( "Stu:", ( (JLabel) metawidget.getComponent( 3 ) ).getText() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
-		assertTrue( 5 == metawidget.getComponentCount() );
+		assertEquals( 5, metawidget.getComponentCount() );
 	}
 
 	public void testFlatSectionAroundNestedSectionLayoutDecorator() {
@@ -177,7 +177,7 @@ public class GroupLayoutTest
 
 		JPanel panel = (JPanel) metawidget.getComponent( 0 );
 		assertEquals( "Foo", ( (JLabel) panel.getComponent( 0 ) ).getText() );
-		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertEquals( 5, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
 
 		JTabbedPane innerTabbedPane = (JTabbedPane) metawidget.getComponent( 1 );
@@ -185,16 +185,16 @@ public class GroupLayoutTest
 		JPanel innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
 		assertEquals( "Abc:", ( (JLabel) innerPanel.getComponent( 0 ) ).getText() );
 		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
-		assertTrue( 2 == innerPanel.getComponentCount() );
+		assertEquals( 2, innerPanel.getComponentCount() );
 
 		panel = (JPanel) metawidget.getComponent( 2 );
 		assertEquals( "Baz", ( (JLabel) panel.getComponent( 0 ) ).getText() );
-		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertEquals( 5, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
 
 		assertEquals( "Def:", ( (JLabel) metawidget.getComponent( 3 ) ).getText() );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JCheckBox );
-		assertTrue( 5 == metawidget.getComponentCount() );
+		assertEquals( 5, metawidget.getComponentCount() );
 	}
 
 	//

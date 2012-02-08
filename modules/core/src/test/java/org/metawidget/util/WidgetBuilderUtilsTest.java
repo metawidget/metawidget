@@ -40,9 +40,9 @@ public class WidgetBuilderUtilsTest
 		// getType
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == WidgetBuilderUtils.getActualClassOrType( attributes ) );
+		assertEquals( null, WidgetBuilderUtils.getActualClassOrType( attributes ) );
 		attributes.put( TYPE, "" );
-		assertTrue( null == WidgetBuilderUtils.getActualClassOrType( attributes ) );
+		assertEquals( null, WidgetBuilderUtils.getActualClassOrType( attributes ) );
 		attributes.put( TYPE, "foo" );
 		assertEquals( "foo", WidgetBuilderUtils.getActualClassOrType( attributes ) );
 		attributes.put( ACTUAL_CLASS, "" );

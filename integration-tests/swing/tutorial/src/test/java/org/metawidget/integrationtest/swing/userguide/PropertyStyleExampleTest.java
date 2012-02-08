@@ -53,7 +53,7 @@ public class PropertyStyleExampleTest
 
 		assertEquals( "name", metawidget.getComponent( 1 ).getName() );
 		assertEquals( "retired", metawidget.getComponent( 3 ).getName() );
-		assertTrue( 5 == metawidget.getComponentCount() );
+		assertEquals( 5, metawidget.getComponentCount() );
 	}
 
 	//

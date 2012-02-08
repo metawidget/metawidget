@@ -89,42 +89,42 @@ public class TabFolderLayoutDecoratorTest
 		TabFolder outerTabFolder = (TabFolder) metawidget.getChildren()[2];
 		assertEquals( "Foo", outerTabFolder.getItem( 0 ).getText() );
 		Composite outerPanel = (Composite) outerTabFolder.getChildren()[0];
-		assertTrue( 4 == outerPanel.getChildren().length );
+		assertEquals( 4, outerPanel.getChildren().length );
 
 		TabFolder innerTabFolder = (TabFolder) outerPanel.getChildren()[0];
 		assertEquals( "Bar", innerTabFolder.getItem( 0 ).getText() );
 		Composite barComposite = (Composite) innerTabFolder.getChildren()[0];
 		assertEquals( "Def:", ( (Label) barComposite.getChildren()[0] ).getText() );
 		assertTrue( barComposite.getChildren()[1] instanceof Button );
-		assertTrue( ( barComposite.getChildren()[1].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( barComposite.getChildren()[1].getStyle() & SWT.CHECK ), SWT.CHECK );
 		assertEquals( "Ghi:", ( (Label) barComposite.getChildren()[2] ).getText() );
-		assertTrue( ( barComposite.getChildren()[3].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( barComposite.getChildren()[3].getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( barComposite.getChildren()[3].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( barComposite.getChildren()[3].getStyle() & SWT.WRAP ) == SWT.WRAP );
+		assertEquals( ( barComposite.getChildren()[3].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( barComposite.getChildren()[3].getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( barComposite.getChildren()[3].getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( barComposite.getChildren()[3].getStyle() & SWT.WRAP ), SWT.WRAP );
 
-		assertTrue( 4 == barComposite.getChildren().length );
+		assertEquals( 4, barComposite.getChildren().length );
 
 		assertEquals( "Baz", innerTabFolder.getItem( 1 ).getText() );
 		Composite bazComposite = (Composite) innerTabFolder.getChildren()[1];
 		assertEquals( "Jkl:", ( (Label) bazComposite.getChildren()[0] ).getText() );
 		assertTrue( bazComposite.getChildren()[1] instanceof Text );
-		assertTrue( 2 == bazComposite.getChildren().length );
+		assertEquals( 2, bazComposite.getChildren().length );
 
 		assertEquals( "Mno:", ( (Label) outerPanel.getChildren()[1] ).getText() );
 		assertTrue( outerPanel.getChildren()[2] instanceof Button );
-		assertTrue( ( outerPanel.getChildren()[2].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( outerPanel.getChildren()[2].getStyle() & SWT.CHECK ), SWT.CHECK );
 
 		innerTabFolder = (TabFolder) outerPanel.getChildren()[3];
 		assertEquals( "Moo", innerTabFolder.getItem( 0 ).getText() );
 		Composite mooComposite = (Composite) innerTabFolder.getChildren()[0];
 		assertEquals( "Pqr:", ( (Label) mooComposite.getChildren()[0] ).getText() );
 		assertTrue( mooComposite.getChildren()[1] instanceof Text );
-		assertTrue( 2 == mooComposite.getChildren().length );
+		assertEquals( 2, mooComposite.getChildren().length );
 
 		assertEquals( "Stu:", ( (Label) metawidget.getChildren()[3] ).getText() );
 		assertTrue( metawidget.getChildren()[4] instanceof Text );
-		assertTrue( 5 == metawidget.getChildren().length );
+		assertEquals( 5, metawidget.getChildren().length );
 
 		// Test components within nested tabs still accessible by name
 
@@ -144,26 +144,26 @@ public class TabFolderLayoutDecoratorTest
 		metawidget.setToInspect( new Baz() );
 
 		Composite composite = (Composite) metawidget.getChildren()[0];
-		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth, 0 );
 		assertEquals( "Foo", ( (Label) composite.getChildren()[0] ).getText() );
-		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
 
 		TabFolder innerTabFolder = (TabFolder) metawidget.getChildren()[1];
 		assertEquals( "Bar", innerTabFolder.getItem( 0 ).getText() );
 		Composite innerPanel = (Composite) innerTabFolder.getChildren()[0];
 		assertEquals( "Abc:", ( (Label) innerPanel.getChildren()[0] ).getText() );
 		assertTrue( innerPanel.getChildren()[1] instanceof Text );
-		assertTrue( 2 == innerPanel.getChildren().length );
+		assertEquals( 2, innerPanel.getChildren().length );
 
 		composite = (Composite) metawidget.getChildren()[2];
-		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth, 0 );
 		assertEquals( "Baz", ( (Label) composite.getChildren()[0] ).getText() );
-		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
 
 		assertEquals( "Def:", ( (Label) metawidget.getChildren()[3] ).getText() );
 		assertTrue( metawidget.getChildren()[4] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[4].getStyle() & SWT.CHECK ) == SWT.CHECK );
-		assertTrue( 5 == metawidget.getChildren().length );
+		assertEquals( ( metawidget.getChildren()[4].getStyle() & SWT.CHECK ), SWT.CHECK );
+		assertEquals( 5, metawidget.getChildren().length );
 	}
 
 	//

@@ -68,7 +68,7 @@ public class ReadOnlyWidgetBuilderExampleTest
 		assertTrue( metawidget.getComponent( 4 ) instanceof JLabel );
 		assertFalse( ( (JTextField) metawidget.getComponent( 5 ) ).isEditable() );
 		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
-		assertTrue( 7 == metawidget.getComponentCount() );
+		assertEquals( 7, metawidget.getComponentCount() );
 	}
 
 	@SuppressWarnings( "unchecked" )
@@ -98,7 +98,7 @@ public class ReadOnlyWidgetBuilderExampleTest
 		assertEquals( "Nested:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
 		assertEquals( "Homer", ( (JTextField) metawidget.getComponent( 1 ) ).getText() );
 		assertFalse( ( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
-		assertTrue( 3 == metawidget.getComponentCount() );
+		assertEquals( 3, metawidget.getComponentCount() );
 	}
 
 	//

@@ -65,7 +65,7 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( "bar", properties.get( "bar" ).getName() );
 		assertEquals( Date.class.getName(), properties.get( "bar" ).getGenericType() );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
-		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertEquals( 5, properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
 		assertEquals( String.class.getName(), properties.get( "methodBaz" ).getGenericType() );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );
@@ -167,14 +167,14 @@ public class JavaBeanPropertyStyleTest
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertTrue( properties.size() == 10 );
+		assertEquals( properties.size(), 10 );
 
 		assertEquals( "foo", properties.get( "foo" ).toString() );
 		assertFalse( properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertEquals( "bar", properties.get( "bar" ).getName() );
 		assertEquals( Date.class.getName(), properties.get( "bar" ).getGenericType() );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
-		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertEquals( 5, properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
 		assertEquals( String.class.getName(), properties.get( "methodBaz" ).getGenericType() );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );
@@ -192,12 +192,12 @@ public class JavaBeanPropertyStyleTest
 		properties = propertyStyle.getProperties( Foo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertTrue( properties.size() == 7 );
+		assertEquals( properties.size(), 7 );
 
 		assertTrue( !properties.containsKey( "foo" ) );
 		assertTrue( !properties.containsKey( "bar" ) );
 		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ) );
-		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertEquals( 5, properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
 		assertEquals( String.class.getName(), properties.get( "methodBaz" ).getGenericType() );
 		assertTrue( properties.get( "methodBaz" ).isReadable() );
 		assertFalse( properties.get( "methodBaz" ).isWritable() );
@@ -257,13 +257,13 @@ public class JavaBeanPropertyStyleTest
 
 		Field propertiesCacheField = BaseTraitStyle.class.getDeclaredField( "mCache" );
 		propertiesCacheField.setAccessible( true );
-		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
+		assertEquals( 0, ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 
 		propertyStyle.getProperties( Foo.class.getName() );
-		assertTrue( 1 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
+		assertEquals( 1, ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 
 		propertyStyle.clearCache();
-		assertTrue( 0 == ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
+		assertEquals( 0, ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
 	}
 
 	public void testPrivateFieldAndGetter() {
@@ -274,7 +274,7 @@ public class JavaBeanPropertyStyleTest
 		Map<String, Property> properties = propertyStyle.getProperties( PrivateFieldFoo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertTrue( properties.size() == 4 );
+		assertEquals( properties.size(), 4 );
 
 		assertEquals( "foo", properties.get( "foo" ).toString() );
 		assertEquals( "Foo Section", properties.get( "foo" ).getAnnotation( UiSection.class ).value()[0] );
@@ -294,7 +294,7 @@ public class JavaBeanPropertyStyleTest
 		properties = propertyStyle.getProperties( PrivateFieldFoo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertTrue( properties.size() == 4 );
+		assertEquals( properties.size(), 4 );
 
 		assertEquals( "foo", properties.get( "foo" ).toString() );
 		assertEquals( "Foo Section", properties.get( "foo" ).getAnnotation( UiSection.class ).value()[0] );
@@ -314,7 +314,7 @@ public class JavaBeanPropertyStyleTest
 		properties = propertyStyle.getProperties( PrivateFieldFoo.class.getName() );
 
 		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertTrue( properties.size() == 4 );
+		assertEquals( properties.size(), 4 );
 
 		assertEquals( "foo", properties.get( "foo" ).toString() );
 		assertEquals( "Foo Section", properties.get( "foo" ).getAnnotation( UiSection.class ).value()[0] );

@@ -83,23 +83,23 @@ public class SeparatorLayoutDecoratorTest
 		metawidget.setToInspect( new Foo() );
 
 		Composite composite = (Composite) metawidget.getChildren()[0];
-		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth, 0 );
 		assertEquals( "Section", ( (Label) composite.getChildren()[0] ).getText() );
 		assertTrue( composite.getChildren()[1] instanceof Label );
-		assertTrue( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( ( composite.getChildren()[1].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
 		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[1] ).getText() );
 		assertTrue( metawidget.getChildren()[2] instanceof Text );
-		assertTrue( 3 == metawidget.getChildren().length );
+		assertEquals( 3, metawidget.getChildren().length );
 
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setAlignment( SWT.RIGHT ).setLayout( new GridLayout() ) ) );
 		composite = (Composite) metawidget.getChildren()[0];
-		assertTrue( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth == 0 );
+		assertEquals( ( (org.eclipse.swt.layout.GridLayout) composite.getLayout() ).marginWidth, 0 );
 		assertEquals( "Section", ( (Label) composite.getChildren()[1] ).getText() );
 		assertTrue( composite.getChildren()[0] instanceof Label );
-		assertTrue( ( composite.getChildren()[0].getStyle() & SWT.SEPARATOR ) == SWT.SEPARATOR );
+		assertEquals( ( composite.getChildren()[0].getStyle() & SWT.SEPARATOR ), SWT.SEPARATOR );
 		assertEquals( "Bar:", ( (Label) metawidget.getChildren()[1] ).getText() );
 		assertTrue( metawidget.getChildren()[2] instanceof Text );
-		assertTrue( 3 == metawidget.getChildren().length );
+		assertEquals( 3, metawidget.getChildren().length );
 	}
 
 	public void testNestedSeparators() {
@@ -118,13 +118,13 @@ public class SeparatorLayoutDecoratorTest
 		assertEquals( "Bar", ( (Label) innerSeparator.getChildren()[0] ).getText() );
 		assertEquals( "Def:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
 		assertEquals( "Ghi:", ( (Label) metawidget.getChildren()[6] ).getText() );
 		assertTrue( metawidget.getChildren()[7] instanceof Text );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.MULTI ) == SWT.MULTI );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.BORDER ) == SWT.BORDER );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.V_SCROLL ) == SWT.V_SCROLL );
-		assertTrue( ( metawidget.getChildren()[7].getStyle() & SWT.WRAP ) == SWT.WRAP );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.BORDER ), SWT.BORDER );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.V_SCROLL ), SWT.V_SCROLL );
+		assertEquals( ( metawidget.getChildren()[7].getStyle() & SWT.WRAP ), SWT.WRAP );
 
 		innerSeparator = (Composite) metawidget.getChildren()[8];
 		assertEquals( "Baz", ( (Label) innerSeparator.getChildren()[0] ).getText() );
@@ -133,7 +133,7 @@ public class SeparatorLayoutDecoratorTest
 
 		assertEquals( "Mno:", ( (Label) metawidget.getChildren()[11] ).getText() );
 		assertTrue( metawidget.getChildren()[12] instanceof Button );
-		assertTrue( ( metawidget.getChildren()[12].getStyle() & SWT.CHECK ) == SWT.CHECK );
+		assertEquals( ( metawidget.getChildren()[12].getStyle() & SWT.CHECK ), SWT.CHECK );
 
 		innerSeparator = (Composite) metawidget.getChildren()[13];
 		assertEquals( "Moo", ( (Label) innerSeparator.getChildren()[0] ).getText() );
@@ -148,7 +148,7 @@ public class SeparatorLayoutDecoratorTest
 
 		assertEquals( "Stu:", ( (Label) metawidget.getChildren()[19] ).getText() );
 		assertTrue( metawidget.getChildren()[20] instanceof Text );
-		assertTrue( 21 == metawidget.getChildren().length );
+		assertEquals( 21, metawidget.getChildren().length );
 	}
 
 	//

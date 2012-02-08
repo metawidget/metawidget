@@ -76,7 +76,7 @@ public class SwtAddressBookTest
 		Main main = new Main( shell );
 		assertTrue( shell.getChildren()[0] instanceof Label );
 		Table contactsTable = (Table) shell.getChildren()[2];
-		assertTrue( contactsTable.getItemCount() == 6 );
+		assertEquals( contactsTable.getItemCount(), 6 );
 
 		// Check searching
 
@@ -85,13 +85,13 @@ public class SwtAddressBookTest
 		metawidgetSearch.setValue( "Simpson", "surname" );
 		metawidgetSearch.setValue( "PERSONAL", "type" );
 
-		assertTrue( metawidgetSearch.getChildren().length == 7 );
+		assertEquals( metawidgetSearch.getChildren().length, 7 );
 
 		Facet buttonFacet = (Facet) metawidgetSearch.getChildren()[metawidgetSearch.getChildren().length - 1];
-		assertTrue( 2 == ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
-		assertTrue( SWT.FILL == ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
+		assertEquals( 2, ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
+		assertEquals( SWT.FILL, ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
 		assertTrue( ( (GridData) buttonFacet.getLayoutData() ).grabExcessHorizontalSpace );
-		assertTrue( buttonFacet.getChildren().length == 1 );
+		assertEquals( buttonFacet.getChildren().length, 1 );
 		SwtMetawidget buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
 		assertTrue( buttonsMetawidget.getLayout() instanceof RowLayout );
 
@@ -108,20 +108,20 @@ public class SwtAddressBookTest
 		assertEquals( "PERSONAL", ( (Combo) metawidgetSearch.getControl( "type" ) ).getText() );
 
 		ContactsController contactsController = main.getContactsController();
-		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
+		assertEquals( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size(), 2 );
 
 		// Open dialog for Personal Contact
 
 		Contact contact = contactsController.load( 1 );
 		assertEquals( "Mr Homer Simpson", contact.getFullname() );
 		assertEquals( "Mr Homer Simpson", contact.toString() );
-		assertTrue( 32 == contact.hashCode() );
+		assertEquals( 32, contact.hashCode() );
 		assertFalse( contact.equals( new Object() ) );
 		assertEquals( contact, contact );
-		assertTrue( contact.compareTo( null ) == -1 );
-		assertTrue( contact.compareTo( contact ) == 0 );
+		assertEquals( contact.compareTo( null ), -1 );
+		assertEquals( contact.compareTo( contact ), 0 );
 		assertEquals( "742 Evergreen Terrace", contact.getAddress().getStreet() );
-		assertTrue( contact.getCommunications().size() == 1 );
+		assertEquals( contact.getCommunications().size(), 1 );
 
 		ContactDialog dialog = new ContactDialog( main );
 		dialog.setShowConfirmDialog( false );
@@ -137,8 +137,8 @@ public class SwtAddressBookTest
 		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[12]).getChildren()[0]).getText() );
 		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertEquals( "Address:", ( (Label) metawidgetContact.getControl( "address_label" ) ).getText() );
-		assertTrue( 1 == ( (GridData) ((Control) metawidgetContact.getControl( "address_label" )).getLayoutData() ).horizontalSpan );
-		assertTrue( 1 == ( (GridData) ((Control) metawidgetContact.getControl( "address" )).getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) ((Control) metawidgetContact.getControl( "address_label" )).getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) ((Control) metawidgetContact.getControl( "address" )).getLayoutData() ).horizontalSpan );
 
 		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
 
@@ -150,8 +150,8 @@ public class SwtAddressBookTest
 		}
 
 		Table communicationsTable = metawidgetContact.getControl( "communications" );
-		assertTrue( communicationsTable.getItemCount() == 1 );
-		assertTrue( metawidgetContact.getChildren().length == 21 );
+		assertEquals( communicationsTable.getItemCount(), 1 );
+		assertEquals( metawidgetContact.getChildren().length, 21 );
 
 		// Check read-only editing does nothing
 
@@ -169,10 +169,10 @@ public class SwtAddressBookTest
 		// Check editing
 
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
-		assertTrue( 2 == ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
-		assertTrue( SWT.FILL == ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
+		assertEquals( 2, ( (GridData) buttonFacet.getLayoutData() ).horizontalSpan );
+		assertEquals( SWT.FILL, ( (GridData) buttonFacet.getLayoutData() ).horizontalAlignment );
 		assertTrue( ( (GridData) buttonFacet.getLayoutData() ).grabExcessHorizontalSpace );
-		assertTrue( buttonFacet.getChildren().length == 1 );
+		assertEquals( buttonFacet.getChildren().length, 1 );
 		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];
 		assertTrue( buttonsMetawidget.getLayout() instanceof RowLayout );
 
@@ -190,11 +190,11 @@ public class SwtAddressBookTest
 		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
 		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[12]).getChildren()[0]).getText() );
 		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
-		assertTrue( metawidgetContact.getChildren().length == 21 );
+		assertEquals( metawidgetContact.getChildren().length, 21 );
 
 		// Check editing a communication
 
-		assertTrue( communicationsTable.getItemCount() == 2 );
+		assertEquals( communicationsTable.getItemCount(), 2 );
 
 		assertEquals( null, dialog.mCommunicationsEditor.getEditor() );
 		event.button = 0;
@@ -222,7 +222,7 @@ public class SwtAddressBookTest
 		text.setText( "" );
 		event.y = 0;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertTrue( communicationsTable.getItemCount() == 2 );
+		assertEquals( communicationsTable.getItemCount(), 2 );
 
 		// Check adding a communication
 
@@ -233,9 +233,9 @@ public class SwtAddressBookTest
 		combo = (Combo) communicationMetawidget.getChildren()[0];
 		combo.setText( "Mobile" );
 		event.y = 0;
-		assertTrue( communicationsTable.getItemCount() == 2 );
+		assertEquals( communicationsTable.getItemCount(), 2 );
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertTrue( communicationsTable.getItemCount() == 3 );
+		assertEquals( communicationsTable.getItemCount(), 3 );
 
 		event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
 		event.y = communicationsTable.getItem( 1 ).getBounds( 2 ).y;
@@ -245,7 +245,7 @@ public class SwtAddressBookTest
 		text.setText( "(0402) 123 456" );
 		event.y = 0;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertTrue( communicationsTable.getItemCount() == 3 );
+		assertEquals( communicationsTable.getItemCount(), 3 );
 
 		// Check deleting a communication
 
@@ -263,9 +263,9 @@ public class SwtAddressBookTest
 		combo = (Combo) communicationMetawidget.getChildren()[0];
 		combo.setText( "" );
 		event.y = 0;
-		assertTrue( communicationsTable.getItemCount() == 2 );
+		assertEquals( communicationsTable.getItemCount(), 2 );
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertTrue( communicationsTable.getItemCount() == 2 );
+		assertEquals( communicationsTable.getItemCount(), 2 );
 
 		// Check saving
 
@@ -286,7 +286,7 @@ public class SwtAddressBookTest
 
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		assertTrue( ( (PersonalContact) contact ).getDateOfBirth().getTime() == -398908800000l );
+		assertEquals( ( (PersonalContact) contact ).getDateOfBirth().getTime(), -398908800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();
@@ -303,15 +303,15 @@ public class SwtAddressBookTest
 		assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
 
 		communicationsTable = metawidgetContact.getControl( "communications" );
-		assertTrue( communicationsTable.getItemCount() == 1 );
-		assertTrue( metawidgetContact.getChildren().length == 21 );
+		assertEquals( communicationsTable.getItemCount(), 1 );
+		assertEquals( metawidgetContact.getChildren().length, 21 );
 
 		// Search everything
 
 		metawidgetSearch.setValue( "", "surname" );
 		metawidgetSearch.setValue( "", "type" );
 		searchButton.notifyListeners( SWT.Selection, null );
-		assertTrue( contactsTable.getItemCount() == 6 );
+		assertEquals( contactsTable.getItemCount(), 6 );
 		dialog.dispose();
 
 		// Open dialog for Business Contact
@@ -338,12 +338,12 @@ public class SwtAddressBookTest
 		metawidgetContact.setValue( 2, "numberOfStaff" );
 		metawidgetContact.setValue( "A Company", "company" );
 
-		assertTrue( metawidgetContact.getChildren().length == 23 );
+		assertEquals( metawidgetContact.getChildren().length, 23 );
 		saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
 
-		assertTrue( 2 == ( (BusinessContact) contact ).getNumberOfStaff() );
+		assertEquals( 2, ( (BusinessContact) contact ).getNumberOfStaff() );
 		assertEquals( "A Company", ( (BusinessContact) contact ).getCompany() );
 		dialog.dispose();
 
@@ -361,10 +361,10 @@ public class SwtAddressBookTest
 		Button cancelButton = (Button) buttonsMetawidget.getChildren()[5];
 		assertEquals( "Cancel", cancelButton.getText() );
 
-		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
+		assertEquals( contactsController.getAllByExample( null ).size(), 6 );
 		deleteButton.notifyListeners( SWT.Selection, null );
-		assertTrue( contactsController.getAllByExample( null ).size() == 5 );
-		assertTrue( contactsTable.getItemCount() == 5 );
+		assertEquals( contactsController.getAllByExample( null ).size(), 5 );
+		assertEquals( contactsTable.getItemCount(), 5 );
 		dialog.dispose();
 
 		// Open dialog for new Personal Contact
@@ -389,11 +389,11 @@ public class SwtAddressBookTest
 		dialog.open( new BusinessContact() );
 		metawidgetContact = dialog.mContactMetawidget;
 		assertEquals( "Mr", ( (Combo) metawidgetContact.getControl( "title" ) ).getItem( 0 ) );
-		assertTrue( 5 == ( (Combo) metawidgetContact.getControl( "title" ) ).getItemCount() );
+		assertEquals( 5, ( (Combo) metawidgetContact.getControl( "title" ) ).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
 		metawidgetContact.setValue( "Contact", "surname" );
-		assertTrue( 3 == ( (Combo) metawidgetContact.getControl( "gender" ) ).getItemCount() );
+		assertEquals( 3, ( (Combo) metawidgetContact.getControl( "gender" ) ).getItemCount() );
 		assertEquals( "", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		( (Combo) metawidgetContact.getControl( "gender" ) ).setText( "FEMALE" );
 		assertTrue( metawidgetContact.getControl( "address", "street") instanceof Text );
@@ -403,7 +403,7 @@ public class SwtAddressBookTest
 		saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
-		assertTrue( contactsTable.getItemCount() == 6 );
+		assertEquals( contactsTable.getItemCount(), 6 );
 		dialog.dispose();
 
 		// Check viewing

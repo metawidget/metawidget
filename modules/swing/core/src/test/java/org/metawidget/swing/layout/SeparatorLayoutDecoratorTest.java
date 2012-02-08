@@ -61,26 +61,26 @@ public class SeparatorLayoutDecoratorTest
 
 		JPanel panel = (JPanel) metawidget.getComponent( 0 );
 		assertEquals( "Section", ( (JLabel) panel.getComponent( 0 ) ).getText() );
-		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.left );
-		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertEquals( 0, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.left );
+		assertEquals( 5, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
 		assertEquals( "Bar:", ( (JLabel) metawidget.getComponent( 1 ) ).getText() );
 		assertTrue( metawidget.getComponent( 2 ) instanceof JTextField );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JPanel );
-		assertTrue( 4 == metawidget.getComponentCount() );
+		assertEquals( 4, metawidget.getComponentCount() );
 
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setAlignment( SwingConstants.RIGHT ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		panel = (JPanel) metawidget.getComponent( 0 );
 		assertEquals( "Section", ( (JLabel) panel.getComponent( 0 ) ).getText() );
-		assertTrue( 1 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).gridx );
-		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.left );
-		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertEquals( 1, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).gridx );
+		assertEquals( 5, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.left );
+		assertEquals( 0, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
-		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 1 ) ).gridx );
+		assertEquals( 0, ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 1 ) ).gridx );
 		assertEquals( "Bar:", ( (JLabel) metawidget.getComponent( 1 ) ).getText() );
 		assertTrue( metawidget.getComponent( 2 ) instanceof JTextField );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JPanel );
-		assertTrue( 4 == metawidget.getComponentCount() );
+		assertEquals( 4, metawidget.getComponentCount() );
 	}
 
 	public void testNestedSeparators() {
@@ -123,7 +123,7 @@ public class SeparatorLayoutDecoratorTest
 
 		assertEquals( "Stu:", ( (JLabel) metawidget.getComponent( 19 ) ).getText() );
 		assertTrue( metawidget.getComponent( 20 ) instanceof JTextField );
-		assertTrue( 21 == metawidget.getComponentCount() );
+		assertEquals( 21, metawidget.getComponentCount() );
 	}
 
 	public void testEmptyStub() {
@@ -134,22 +134,22 @@ public class SeparatorLayoutDecoratorTest
 
 		assertTrue( metawidget.getLayout() instanceof GridBagLayout );
 		assertTrue( metawidget.getComponent( 0 ) instanceof JPanel );
-		assertTrue( false == metawidget.getComponent( 0 ).isOpaque() );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridy );
+		assertEquals( false, metawidget.getComponent( 0 ).isOpaque() );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridy );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).weighty );
 
-		assertTrue( 1 == metawidget.getComponentCount() );
+		assertEquals( 1, metawidget.getComponentCount() );
 
 		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Baz() );
 
 		assertTrue( metawidget.getLayout() instanceof GridBagLayout );
 		assertTrue( metawidget.getComponent( 0 ) instanceof JPanel );
-		assertTrue( false == metawidget.getComponent( 0 ).isOpaque() );
-		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridy );
+		assertEquals( false, metawidget.getComponent( 0 ).isOpaque() );
+		assertEquals( 0, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridy );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).weighty );
 
-		assertTrue( 1 == metawidget.getComponentCount() );
+		assertEquals( 1, metawidget.getComponentCount() );
 	}
 
 	public static void main( String[] args ) {
