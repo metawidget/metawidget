@@ -40,11 +40,11 @@ public class StaticSpringAllWidgetsTest
 
         metawidget.setMaximumInspectionDepth( 2 );
 
-        String result = "<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgets\">\r\n" +
+        String result = "<table>\r\n" +
             "\t<tbody>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"textbox\">Textbox</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"textbox\">Textbox:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"textbox\"/>\r\n" +
@@ -53,7 +53,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"limitedTextbox\">Limited Textbox</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"limitedTextbox\">Limited Textbox:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input maxlength=\"20\" path=\"limitedTextbox\"/>\r\n" +
@@ -62,7 +62,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"textarea\">Textarea</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"textarea\">Textarea:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:textarea path=\"textarea\"/>\r\n" +
@@ -71,7 +71,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"password\">Password</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"password\">Password:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:password path=\"password\"/>\r\n" +
@@ -80,7 +80,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"bytePrimitive\">Byte Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"bytePrimitive\">Byte Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"bytePrimitive\"/>\r\n" +
@@ -89,7 +89,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"byteObject\">Byte Object</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"byteObject\">Byte Object:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"byteObject\"/>\r\n" +
@@ -98,7 +98,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"shortPrimitive\">Short Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"shortPrimitive\">Short Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"shortPrimitive\"/>\r\n" +
@@ -107,7 +107,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"shortObject\">Short Object</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"shortObject\">Short Object:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"shortObject\"/>\r\n" +
@@ -116,7 +116,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"intPrimitive\">Int Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"intPrimitive\">Int Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"intPrimitive\"/>\r\n" +
@@ -125,7 +125,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"integerObject\">Integer Object</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"integerObject\">Integer Object:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"integerObject\"/>\r\n" +
@@ -134,7 +134,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"rangedInt\">Ranged Int</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"rangedInt\">Ranged Int:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"rangedInt\"/>\r\n" +
@@ -143,7 +143,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"rangedInteger\">Ranged Integer</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"rangedInteger\">Ranged Integer:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"rangedInteger\"/>\r\n" +
@@ -152,7 +152,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"longPrimitive\">Long Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"longPrimitive\">Long Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"longPrimitive\"/>\r\n" +
@@ -161,7 +161,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"longObject\"></form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"longObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"longObject\"/>\r\n" +
@@ -170,7 +170,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"floatPrimitive\">Float Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"floatPrimitive\">Float Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"floatPrimitive\"/>\r\n" +
@@ -179,7 +179,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"floatObject\">nullInBundle</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"floatObject\">nullInBundle:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"floatObject\"/>\r\n" +
@@ -188,7 +188,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"doublePrimitive\">Double Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"doublePrimitive\">Double Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"doublePrimitive\"/>\r\n" +
@@ -206,7 +206,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"charPrimitive\">Char Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"charPrimitive\">Char Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input maxlength=\"1\" path=\"charPrimitive\"/>\r\n" +
@@ -215,7 +215,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"characterObject\">Character Object</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"characterObject\">Character Object:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input maxlength=\"1\" path=\"characterObject\"/>\r\n" +
@@ -224,7 +224,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"booleanPrimitive\">Boolean Primitive</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"booleanPrimitive\">Boolean Primitive:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:checkbox path=\"booleanPrimitive\"/>\r\n" +
@@ -233,7 +233,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"booleanObject\">Boolean Object</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"booleanObject\">Boolean Object:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"booleanObject\">\r\n" +
@@ -246,7 +246,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"dropdown\">Dropdown</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"dropdown\">Dropdown:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"dropdown\">\r\n" +
@@ -260,7 +260,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"dropdownWithLabels\">Dropdown With Labels</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"dropdownWithLabels\">Dropdown With Labels:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"dropdownWithLabels\">\r\n" +
@@ -275,7 +275,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"notNullDropdown\">Not Null Dropdown</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"notNullDropdown\">Not Null Dropdown:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"notNullDropdown\">\r\n" +
@@ -288,7 +288,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"notNullObjectDropdown\">Not Null Object Dropdown</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"notNullObjectDropdown\">Not Null Object Dropdown:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"notNullObjectDropdown\">\r\n" +
@@ -304,21 +304,21 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"nestedWidgets\">Nested Widgets</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"nestedWidgets\">Nested Widgets:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsNestedWidgets\">\r\n" +
+            "\t\t\t\t<table id=\"nestedWidgets\">\r\n" +
             "\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets\">Further Nested Widgets</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets\">Further Nested Widgets:</form:label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsNestedWidgetsFurtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t<table id=\"nestedWidgets-furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox1\">Nested Textbox 1:</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox1\"/>\r\n" +
@@ -327,7 +327,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox2\">Nested Textbox 2:</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.furtherNestedWidgets.nestedTextbox2\"/>\r\n" +
@@ -341,7 +341,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.nestedTextbox1\">Nested Textbox 1:</form:label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.nestedTextbox1\"/>\r\n" +
@@ -350,7 +350,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t<form:label path=\"nestedWidgets.nestedTextbox2\">Nested Textbox 2:</form:label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<form:input path=\"nestedWidgets.nestedTextbox2\"/>\r\n" +
@@ -364,21 +364,21 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"readOnlyNestedWidgets\">Read Only Nested Widgets</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"readOnlyNestedWidgets\">Read Only Nested Widgets:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsReadOnlyNestedWidgets\">\r\n" +
+            "\t\t\t\t<table id=\"readOnlyNestedWidgets\">\r\n" +
             "\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets\">Further Nested Widgets</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets\">Further Nested Widgets:</form:label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t<table id=\"readOnlyNestedWidgets-furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1\">Nested Textbox 1:</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
@@ -387,7 +387,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2\">Nested Textbox 2:</form:label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
@@ -401,7 +401,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.nestedTextbox1\">Nested Textbox 1</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.nestedTextbox1\">Nested Textbox 1:</form:label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
@@ -410,7 +410,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.nestedTextbox2\">Nested Textbox 2</form:label>\r\n" +
+            "\t\t\t\t\t\t\t\t<form:label path=\"readOnlyNestedWidgets.nestedTextbox2\">Nested Textbox 2:</form:label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
@@ -424,7 +424,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"nestedWidgetsDontExpand\">Nested Widgets Dont Expand</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"nestedWidgetsDontExpand\">Nested Widgets Dont Expand:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"nestedWidgetsDontExpand\"/>\r\n" +
@@ -433,7 +433,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"readOnlyNestedWidgetsDontExpand\">Read Only Nested Widgets Dont Expand</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"readOnlyNestedWidgetsDontExpand\">Read Only Nested Widgets Dont Expand:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
@@ -442,7 +442,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"date\">Date</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"date\">Date:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"date\"/>\r\n" +
@@ -451,7 +451,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"hidden\">Hidden</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"hidden\">Hidden:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:hidden path=\"hidden\"/>\r\n" +
@@ -460,7 +460,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"readOnly\">Read Only</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"readOnly\">Read Only:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<c:out value=\"${allWidgets.readOnly}\"/>\r\n" +
@@ -469,7 +469,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"mystery\">Mystery</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"mystery\">Mystery:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:input path=\"mystery\"/>\r\n" +
@@ -478,7 +478,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<form:label path=\"collection\">Collection</form:label>\r\n" +
+            "\t\t\t\t<form:label path=\"collection\">Collection:</form:label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<table>\r\n" +

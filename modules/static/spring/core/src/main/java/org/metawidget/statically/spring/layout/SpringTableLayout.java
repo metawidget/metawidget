@@ -65,7 +65,9 @@ public class SpringTableLayout
 		FormLabelTag label = new FormLabelTag();
 		metawidget.getWidgetProcessor( PathProcessor.class ).processWidget( label, elementName, attributes, (StaticSpringMetawidget) metawidget );
 		String labelText = metawidget.getLabelString( attributes );
-		label.setTextContent( labelText );
+		if ( labelText != null && labelText.length() > 0 ) {
+			label.setTextContent( labelText + ":" );
+		}
 
 		HtmlTableHeader labelCell = new HtmlTableHeader();
 		labelCell.getChildren().add( label );
