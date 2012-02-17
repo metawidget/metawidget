@@ -22,7 +22,7 @@ package org.metawidget.statically.html.widgetbuilder;
 
 public class HtmlSelect
 	extends HtmlTag
-	implements NameHolder {
+	implements IdHolder, NameHolder, ValueHolder {
 
 	//
 	// Constructor
@@ -37,8 +37,33 @@ public class HtmlSelect
 	// Public methods
 	//
 
+	public void setId( String id ) {
+
+		putAttribute( "id", id );
+	}
+
+	public String getId() {
+
+		return getAttribute( "id" );
+	}
+
 	public void setName( String name ) {
 
 		putAttribute( "name", name );
+	}
+
+	public String getName() {
+
+		return getAttribute( "name" );
+	}
+
+	public void setValue( String value ) {
+
+		putAttribute( "value", value );
+	}
+
+	public String getValue() {
+
+		return getAttribute( "value" );
 	}
 }

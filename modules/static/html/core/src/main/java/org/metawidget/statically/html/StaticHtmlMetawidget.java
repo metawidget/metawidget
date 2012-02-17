@@ -22,9 +22,8 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticXmlMetawidget;
-import org.metawidget.statically.html.widgetbuilder.ValueHolder;
+import org.metawidget.statically.html.widgetbuilder.IdHolder;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Metawidget for statically generating Plain Old HTML.
@@ -35,30 +34,24 @@ import org.metawidget.util.simple.StringUtils;
 
 public class StaticHtmlMetawidget
 	extends StaticXmlMetawidget
-	implements ValueHolder {
+	implements IdHolder {
 
 	//
 	// Public methods
 	//
 
 	/**
-	 * The value argument used as the starting point for this Metawidget.
-	 * <p>
-	 * Note: because we are working statically, <tt>setValue</tt> and <tt>setPath</tt> must both be
-	 * called. The former is the binding value that will be written into the generated output (see
-	 * <tt>NameProcessor</tt>, <tt>PathProcessor</tt> etc). The latter is the actual path that
-	 * should be inspected. Because we are working statically we cannot determine these
-	 * automatically.
+	 * Optional 'id' to prepend to child identifiers.
 	 */
 
-	public String getValue() {
+	public void setId( String id ) {
 
-		return getAttribute( "value" );
+		putAttribute( "id", id );
 	}
 
-	public void setValue( String value ) {
+	public String getId() {
 
-		putAttribute( "value", value );
+		return getAttribute( "id" );
 	}
 
 	@Override
@@ -66,9 +59,14 @@ public class StaticHtmlMetawidget
 
 		super.initNestedMetawidget( nestedMetawidget, attributes );
 
-		if ( ( (StaticHtmlMetawidget) nestedMetawidget ).getValue() == null ) {
-			String valueExpression = getValue() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
-			( (StaticHtmlMetawidget) nestedMetawidget ).setValue( valueExpression );
+		if ( ( (StaticHtmlMetawidget) nestedMetawidget ).getId() == null ) {
+			String nestedId = attributes.get( NAME );
+
+			if ( getId() != null ) {
+				nestedId = getId() + '-' + nestedId;
+			}
+
+			( (StaticHtmlMetawidget) nestedMetawidget ).setId( nestedId );
 		}
 	}
 

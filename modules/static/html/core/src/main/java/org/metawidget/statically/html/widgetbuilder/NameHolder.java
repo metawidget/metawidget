@@ -17,7 +17,7 @@
 package org.metawidget.statically.html.widgetbuilder;
 
 /**
- * Marks the widget as having a name.
+ * Marks the widget as needing a name.
  */
 
 public interface NameHolder {
@@ -25,6 +25,8 @@ public interface NameHolder {
 	//
 	// Methods
 	//
+
+	String getName();
 
 	void setName( String name );
 }

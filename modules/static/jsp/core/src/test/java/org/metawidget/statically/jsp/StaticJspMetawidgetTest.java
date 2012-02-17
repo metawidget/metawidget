@@ -30,26 +30,27 @@ public class StaticJspMetawidgetTest
 	public void testSimpleType() {
 
 		StaticJspMetawidget metawidget = new StaticJspMetawidget();
-		metawidget.setValue( "foo" );
+		metawidget.setId( "foo" );
+		metawidget.setValue( "${foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallyJspStaticJspMetawidgetTestFoo\">\r\n" +
+		String result = "<table id=\"foo\">\r\n" +
 				"\t<tbody>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<label>Bar</label>\r\n" +
+				"\t\t\t\t<label for=\"foo-bar\">Bar:</label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
-				"\t\t\t\t<input name=\"fooBar\" type=\"text\" value=\"${foo.bar}\"/>\r\n" +
+				"\t\t\t\t<input id=\"foo-bar\" name=\"fooBar\" type=\"text\" value=\"${foo.bar}\"/>\r\n" +
 				"\t\t\t</td>\r\n" +
 				"\t\t\t<td/>\r\n" +
 				"\t\t</tr>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<label>Baz</label>\r\n" +
+				"\t\t\t\t<label for=\"foo-baz\">Baz:</label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
-				"\t\t\t\t<input name=\"fooBaz\" type=\"text\" value=\"${foo.baz}\"/>\r\n" +
+				"\t\t\t\t<input id=\"foo-baz\" name=\"fooBaz\" type=\"text\" value=\"${foo.baz}\"/>\r\n" +
 				"\t\t\t</td>\r\n" +
 				"\t\t\t<td/>\r\n" +
 				"\t\t</tr>\r\n" +
@@ -64,42 +65,43 @@ public class StaticJspMetawidgetTest
 	public void testNestedType() {
 
 		StaticJspMetawidget metawidget = new StaticJspMetawidget();
-		metawidget.setValue( "foo" );
+		metawidget.setId( "foo" );
+		metawidget.setValue( "${foo}" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallyJspStaticJspMetawidgetTestNestedFoo\">\r\n" +
+		String result = "<table id=\"foo\">\r\n" +
 				"\t<tbody>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<label>Abc</label>\r\n" +
+				"\t\t\t\t<label for=\"foo-abc\">Abc:</label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
-				"\t\t\t\t<input name=\"fooAbc\" type=\"text\" value=\"${foo.abc}\"/>\r\n" +
+				"\t\t\t\t<input id=\"foo-abc\" name=\"fooAbc\" type=\"text\" value=\"${foo.abc}\"/>\r\n" +
 				"\t\t\t</td>\r\n" +
 				"\t\t\t<td/>\r\n" +
 				"\t\t</tr>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<label>Nested Foo</label>\r\n" +
+				"\t\t\t\t<label for=\"foo-nestedFoo\">Nested Foo:</label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
-				"\t\t\t\t<table id=\"table-orgMetawidgetStaticallyJspStaticJspMetawidgetTestNestedFooNestedFoo\">\r\n" +
+				"\t\t\t\t<table id=\"foo-nestedFoo\">\r\n" +
 				"\t\t\t\t\t<tbody>\r\n" +
 				"\t\t\t\t\t\t<tr>\r\n" +
 				"\t\t\t\t\t\t\t<th>\r\n" +
-				"\t\t\t\t\t\t\t\t<label>Bar</label>\r\n" +
+				"\t\t\t\t\t\t\t\t<label for=\"foo-nestedFoo-bar\">Bar:</label>\r\n" +
 				"\t\t\t\t\t\t\t</th>\r\n" +
 				"\t\t\t\t\t\t\t<td>\r\n" +
-				"\t\t\t\t\t\t\t\t<input name=\"fooNestedFooBar\" type=\"text\" value=\"${foo.nestedFoo.bar}\"/>\r\n" +
+				"\t\t\t\t\t\t\t\t<input id=\"foo-nestedFoo-bar\" name=\"fooNestedFooBar\" type=\"text\" value=\"${foo.nestedFoo.bar}\"/>\r\n" +
 				"\t\t\t\t\t\t\t</td>\r\n" +
 				"\t\t\t\t\t\t\t<td/>\r\n" +
 				"\t\t\t\t\t\t</tr>\r\n" +
 				"\t\t\t\t\t\t<tr>\r\n" +
 				"\t\t\t\t\t\t\t<th>\r\n" +
-				"\t\t\t\t\t\t\t\t<label>Baz</label>\r\n" +
+				"\t\t\t\t\t\t\t\t<label for=\"foo-nestedFoo-baz\">Baz:</label>\r\n" +
 				"\t\t\t\t\t\t\t</th>\r\n" +
 				"\t\t\t\t\t\t\t<td>\r\n" +
-				"\t\t\t\t\t\t\t\t<input name=\"fooNestedFooBaz\" type=\"text\" value=\"${foo.nestedFoo.baz}\"/>\r\n" +
+				"\t\t\t\t\t\t\t\t<input id=\"foo-nestedFoo-baz\" name=\"fooNestedFooBaz\" type=\"text\" value=\"${foo.nestedFoo.baz}\"/>\r\n" +
 				"\t\t\t\t\t\t\t</td>\r\n" +
 				"\t\t\t\t\t\t\t<td/>\r\n" +
 				"\t\t\t\t\t\t</tr>\r\n" +

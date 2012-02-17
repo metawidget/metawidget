@@ -40,203 +40,203 @@ public class StaticJspAllWidgetsTest
 
         metawidget.setMaximumInspectionDepth( 2 );
 
-        String result = "<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgets\">\r\n" +
+        String result = "<table>\r\n" +
             "\t<tbody>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Textbox</label>\r\n" +
+            "\t\t\t\t<label for=\"textbox\">Textbox:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsTextbox\" type=\"text\" value=\"${allWidgets.textbox}\"/>\r\n" +
+            "\t\t\t\t<input id=\"textbox\" name=\"textbox\" type=\"text\" value=\"${allWidgets.textbox}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td>*</td>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Limited Textbox</label>\r\n" +
+            "\t\t\t\t<label for=\"limitedTextbox\">Limited Textbox:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input maxlength=\"20\" name=\"allWidgetsLimitedTextbox\" type=\"text\" value=\"${allWidgets.limitedTextbox}\"/>\r\n" +
+            "\t\t\t\t<input id=\"limitedTextbox\" maxlength=\"20\" name=\"limitedTextbox\" type=\"text\" value=\"${allWidgets.limitedTextbox}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Textarea</label>\r\n" +
+            "\t\t\t\t<label for=\"textarea\">Textarea:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<textarea name=\"allWidgetsTextarea\"/>\r\n" +
+            "\t\t\t\t<textarea id=\"textarea\" name=\"textarea\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Password</label>\r\n" +
+            "\t\t\t\t<label for=\"password\">Password:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsPassword\" type=\"secret\" value=\"${allWidgets.password}\"/>\r\n" +
+            "\t\t\t\t<input id=\"password\" name=\"password\" type=\"secret\" value=\"${allWidgets.password}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Byte Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"bytePrimitive\">Byte Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsBytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"bytePrimitive\" name=\"bytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Byte Object</label>\r\n" +
+            "\t\t\t\t<label for=\"byteObject\">Byte Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsByteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"byteObject\" name=\"byteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Short Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"shortPrimitive\">Short Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsShortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"shortPrimitive\" name=\"shortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Short Object</label>\r\n" +
+            "\t\t\t\t<label for=\"shortObject\">Short Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsShortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"shortObject\" name=\"shortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Int Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"intPrimitive\">Int Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsIntPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"intPrimitive\" name=\"intPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Integer Object</label>\r\n" +
+            "\t\t\t\t<label for=\"integerObject\">Integer Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsIntegerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"integerObject\" name=\"integerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Ranged Int</label>\r\n" +
+            "\t\t\t\t<label for=\"rangedInt\">Ranged Int:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsRangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
+            "\t\t\t\t<input id=\"rangedInt\" name=\"rangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Ranged Integer</label>\r\n" +
+            "\t\t\t\t<label for=\"rangedInteger\">Ranged Integer:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsRangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
+            "\t\t\t\t<input id=\"rangedInteger\" name=\"rangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Long Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"longPrimitive\">Long Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsLongPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"longPrimitive\" name=\"longPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label></label>\r\n" +
+            "\t\t\t\t<label for=\"longObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsLongObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"longObject\" name=\"longObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Float Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"floatPrimitive\">Float Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsFloatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"floatPrimitive\" name=\"floatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>nullInBundle</label>\r\n" +
+            "\t\t\t\t<label for=\"floatObject\">nullInBundle:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsFloatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"floatObject\" name=\"floatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Double Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"doublePrimitive\">Double Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsDoublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"doublePrimitive\" name=\"doublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label/>\r\n" +
+            "\t\t\t\t<label for=\"doubleObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsDoubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"doubleObject\" name=\"doubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Char Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"charPrimitive\">Char Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input maxlength=\"1\" name=\"allWidgetsCharPrimitive\" type=\"text\" value=\"${allWidgets.charPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"charPrimitive\" maxlength=\"1\" name=\"charPrimitive\" type=\"text\" value=\"${allWidgets.charPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Character Object</label>\r\n" +
+            "\t\t\t\t<label for=\"characterObject\">Character Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input maxlength=\"1\" name=\"allWidgetsCharacterObject\" type=\"text\" value=\"${allWidgets.characterObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"characterObject\" maxlength=\"1\" name=\"characterObject\" type=\"text\" value=\"${allWidgets.characterObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Boolean Primitive</label>\r\n" +
+            "\t\t\t\t<label for=\"booleanPrimitive\">Boolean Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsBooleanPrimitive\" type=\"checkbox\" value=\"${allWidgets.booleanPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"booleanPrimitive\" name=\"booleanPrimitive\" type=\"checkbox\" value=\"${allWidgets.booleanPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Boolean Object</label>\r\n" +
+            "\t\t\t\t<label for=\"booleanObject\">Boolean Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsBooleanObject\">\r\n" +
+            "\t\t\t\t<select id=\"booleanObject\" name=\"booleanObject\" value=\"${allWidgets.booleanObject}\">\r\n" +
             "\t\t\t\t\t<option/>\r\n" +
             "\t\t\t\t\t<option value=\"true\">Yes</option>\r\n" +
             "\t\t\t\t\t<option value=\"false\">No</option>\r\n" +
@@ -246,10 +246,10 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Dropdown</label>\r\n" +
+            "\t\t\t\t<label for=\"dropdown\">Dropdown:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsDropdown\">\r\n" +
+            "\t\t\t\t<select id=\"dropdown\" name=\"dropdown\" value=\"${allWidgets.dropdown}\">\r\n" +
             "\t\t\t\t\t<option/>\r\n" +
             "\t\t\t\t\t<option value=\"foo1\"/>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown1\"/>\r\n" +
@@ -260,10 +260,10 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Dropdown With Labels</label>\r\n" +
+            "\t\t\t\t<label for=\"dropdownWithLabels\">Dropdown With Labels:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsDropdownWithLabels\">\r\n" +
+            "\t\t\t\t<select id=\"dropdownWithLabels\" name=\"dropdownWithLabels\" value=\"${allWidgets.dropdownWithLabels}\">\r\n" +
             "\t\t\t\t\t<option/>\r\n" +
             "\t\t\t\t\t<option value=\"foo2\">Foo #2</option>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown2\">Dropdown #2</option>\r\n" +
@@ -275,10 +275,10 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Not Null Dropdown</label>\r\n" +
+            "\t\t\t\t<label for=\"notNullDropdown\">Not Null Dropdown:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsNotNullDropdown\">\r\n" +
+            "\t\t\t\t<select id=\"notNullDropdown\" name=\"notNullDropdown\" value=\"${allWidgets.notNullDropdown}\">\r\n" +
             "\t\t\t\t\t<option value=\"-1\"/>\r\n" +
             "\t\t\t\t\t<option value=\"0\"/>\r\n" +
             "\t\t\t\t\t<option value=\"1\"/>\r\n" +
@@ -288,10 +288,10 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Not Null Object Dropdown</label>\r\n" +
+            "\t\t\t\t<label for=\"notNullObjectDropdown\">Not Null Object Dropdown:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<select name=\"allWidgetsNotNullObjectDropdown\">\r\n" +
+            "\t\t\t\t<select id=\"notNullObjectDropdown\" name=\"notNullObjectDropdown\" value=\"${allWidgets.notNullObjectDropdown}\">\r\n" +
             "\t\t\t\t\t<option value=\"foo3\"/>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown3\"/>\r\n" +
             "\t\t\t\t\t<option value=\"bar3\"/>\r\n" +
@@ -304,33 +304,33 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Nested Widgets</label>\r\n" +
+            "\t\t\t\t<label for=\"nestedWidgets\">Nested Widgets:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsNestedWidgets\">\r\n" +
+            "\t\t\t\t<table id=\"nestedWidgets\">\r\n" +
             "\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label>Further Nested Widgets</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-furtherNestedWidgets\">Further Nested Widgets:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsNestedWidgetsFurtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t<table id=\"nestedWidgets-furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-furtherNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<input id=\"nestedWidgets-furtherNestedWidgets-nestedTextbox1\" name=\"nestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-furtherNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<input id=\"nestedWidgets-furtherNestedWidgets-nestedTextbox2\" name=\"nestedWidgetsFurtherNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -341,19 +341,19 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t<input id=\"nestedWidgets-nestedTextbox1\" name=\"nestedWidgetsNestedTextbox1\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox1}\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<input name=\"allWidgetsNestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t<input id=\"nestedWidgets-nestedTextbox2\" name=\"nestedWidgetsNestedTextbox2\" type=\"text\" value=\"${allWidgets.nestedWidgets.nestedTextbox2}\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -364,21 +364,21 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Read Only Nested Widgets</label>\r\n" +
+            "\t\t\t\t<label for=\"readOnlyNestedWidgets\">Read Only Nested Widgets:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsReadOnlyNestedWidgets\">\r\n" +
+            "\t\t\t\t<table id=\"readOnlyNestedWidgets\">\r\n" +
             "\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label>Further Nested Widgets</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets\">Further Nested Widgets:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<table id=\"table-orgMetawidgetIntegrationtestSharedAllwidgetsModelAllWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets\">\r\n" +
+            "\t\t\t\t\t\t\t\t<table id=\"readOnlyNestedWidgets-furtherNestedWidgets\">\r\n" +
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
@@ -387,7 +387,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
@@ -401,7 +401,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label>Nested Textbox 1</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label>Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
@@ -410,7 +410,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label>Nested Textbox 2</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label>Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
@@ -424,16 +424,16 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Nested Widgets Dont Expand</label>\r\n" +
+            "\t\t\t\t<label for=\"nestedWidgetsDontExpand\">Nested Widgets Dont Expand:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsNestedWidgetsDontExpand\" type=\"text\" value=\"${allWidgets.nestedWidgetsDontExpand}\"/>\r\n" +
+            "\t\t\t\t<input id=\"nestedWidgetsDontExpand\" name=\"nestedWidgetsDontExpand\" type=\"text\" value=\"${allWidgets.nestedWidgetsDontExpand}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Read Only Nested Widgets Dont Expand</label>\r\n" +
+            "\t\t\t\t<label>Read Only Nested Widgets Dont Expand:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
@@ -442,25 +442,25 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Date</label>\r\n" +
+            "\t\t\t\t<label for=\"date\">Date:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsDate\" type=\"text\" value=\"${allWidgets.date}\"/>\r\n" +
+            "\t\t\t\t<input id=\"date\" name=\"date\" type=\"date\" value=\"${allWidgets.date}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Hidden</label>\r\n" +
+            "\t\t\t\t<label for=\"hidden\">Hidden:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsHidden\" type=\"hidden\" value=\"${allWidgets.hidden}\"/>\r\n" +
+            "\t\t\t\t<input id=\"hidden\" name=\"hidden\" type=\"hidden\" value=\"${allWidgets.hidden}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Read Only</label>\r\n" +
+            "\t\t\t\t<label>Read Only:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<c:out value=\"${allWidgets.readOnly}\"/>\r\n" +
@@ -469,19 +469,19 @@ public class StaticJspAllWidgetsTest
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Mystery</label>\r\n" +
+            "\t\t\t\t<label for=\"mystery\">Mystery:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input name=\"allWidgetsMystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
+            "\t\t\t\t<input id=\"mystery\" name=\"mystery\" type=\"text\" value=\"${allWidgets.mystery}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
             "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label>Collection</label>\r\n" +
+            "\t\t\t\t<label for=\"collection\">Collection:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<table>\r\n" +
+            "\t\t\t\t<table id=\"collection\">\r\n" +
             "\t\t\t\t\t<thead>\r\n" +
             "\t\t\t\t\t\t<tr/>\r\n" +
             "\t\t\t\t\t</thead>\r\n" +

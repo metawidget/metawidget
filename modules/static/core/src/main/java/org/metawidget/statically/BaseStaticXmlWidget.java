@@ -144,7 +144,7 @@ public abstract class BaseStaticXmlWidget
 
 			// Non-indented text content
 
-			if ( getTextContent() != null ) {
+			if ( getTextContent() != null && getTextContent().length() > 0 ) {
 				writer.append( ">" );
 				writer.append( mTextContent );
 				if ( writer instanceof IndentedWriter ) {

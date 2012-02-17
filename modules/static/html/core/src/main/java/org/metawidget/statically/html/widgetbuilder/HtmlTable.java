@@ -20,14 +20,30 @@ package org.metawidget.statically.html.widgetbuilder;
  * @author Ryan Bradley
  */
 
-public class HtmlTable extends HtmlTag {
+public class HtmlTable
+	extends HtmlTag
+	implements IdHolder {
 
-    //
-    // Constructor
-    //
+	//
+	// Constructor
+	//
 
-    public HtmlTable() {
+	public HtmlTable() {
 
-        super( "table" );
-    }
+		super( "table" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public void setId( String id ) {
+
+		putAttribute( "id", id );
+	}
+
+	public String getId() {
+
+		return getAttribute( "id" );
+	}
 }

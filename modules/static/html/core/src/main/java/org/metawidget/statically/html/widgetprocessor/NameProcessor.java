@@ -45,11 +45,11 @@ public class NameProcessor
 
 			String name = attributes.get( NAME );
 
-			if ( metawidget.getValue() != null ) {
-				name = StringUtils.camelCase( metawidget.getValue() + StringUtils.SEPARATOR_DOT_CHAR + name, StringUtils.SEPARATOR_DOT_CHAR );
+			if ( metawidget.getId() != null ) {
+				name = StringUtils.camelCase( metawidget.getId() + '-' + name, '-' );
 			}
 
-			widget.putAttribute( "name", name );
+			((NameHolder) widget).setName( name );
 		}
 
 		return widget;

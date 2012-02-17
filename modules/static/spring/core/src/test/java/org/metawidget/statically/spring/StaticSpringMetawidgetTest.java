@@ -71,7 +71,7 @@ public class StaticSpringMetawidgetTest
 		metawidget.setValue( "foo" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallySpringStaticSpringMetawidgetTestFoo\">\r\n" +
+		String result = "<table>\r\n" +
 				"\t<tbody>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
@@ -109,7 +109,7 @@ public class StaticSpringMetawidgetTest
 		metawidget.setValue( "foo" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallySpringStaticSpringMetawidgetTestNestedFoo\">\r\n" +
+		String result = "<table>\r\n" +
 				"\t<tbody>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
@@ -125,7 +125,7 @@ public class StaticSpringMetawidgetTest
 				"\t\t\t\t<form:label path=\"nestedFoo\">Nested Foo</form:label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
-				"\t\t\t\t<table id=\"table-orgMetawidgetStaticallySpringStaticSpringMetawidgetTestNestedFooNestedFoo\">\r\n" +
+				"\t\t\t\t<table id=\"nestedFoo\">\r\n" +
 				"\t\t\t\t\t<tbody>\r\n" +
 				"\t\t\t\t\t\t<tr>\r\n" +
 				"\t\t\t\t\t\t\t<th>\r\n" +

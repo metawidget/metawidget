@@ -76,7 +76,7 @@ public class PathProcessorTest
 		metawidget.setValue( "${foo}" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallySpringWidgetprocessorPathProcessorTestFoo\">" +
+		String result = "<table>" +
 				"<tbody><tr><th><form:label path=\"bar\">Bar</form:label></th><td><form:input path=\"bar\"/></td><td/></tr>" +
 				"<tr><th><form:label path=\"baz\">Baz</form:label></th><td><form:input path=\"baz\"/></td><td/></tr>" +
 				"</tbody></table>";

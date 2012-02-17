@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:processor="java:org.metawidget.statically.html.widgetprocessor"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
 						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
 						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd"
@@ -25,6 +26,17 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		
+		<widgetProcessors>
+			<array>
+				<hiddenFieldProcessor xmlns="java:org.metawidget.statically.jsp.widgetprocessor"/>
+				<processor:cssStyleProcessor/>
+				<processor:idProcessor/>
+				<processor:nameProcessor/>
+				<standardBindingProcessor xmlns="java:org.metawidget.statically.jsp.widgetprocessor"/>
+			</array>
+		</widgetProcessors>
+		
 	</staticJspMetawidget>
 
 </metawidget>

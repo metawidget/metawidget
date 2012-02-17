@@ -73,7 +73,7 @@ public class CssStyleProcessorTest
 		metawidget.putAttribute( "cssClass", "styleClassin" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallySpringWidgetprocessorCssStyleProcessorTestFoo\">" +
+		String result = "<table>" +
 				"<tbody><tr><th><form:label path=\"bar\">Bar</form:label></th><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"bar\"/></td><td/></tr>" +
 				"<tr><th><form:label path=\"baz\">Baz</form:label></th><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"baz\"/></td><td/></tr>" +
 				"</tbody></table>";

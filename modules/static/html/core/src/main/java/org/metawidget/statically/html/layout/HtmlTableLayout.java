@@ -22,17 +22,15 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.statically.StaticWidget;
-import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.html.widgetbuilder.HtmlLabel;
+import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetbuilder.HtmlTable;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableBody;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableCell;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
-import org.metawidget.util.simple.StringUtils;
+import org.metawidget.statically.html.widgetbuilder.HtmlTag;
 
 /**
  * Layout to arrange widgets using an HTML table.
@@ -42,13 +40,8 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
-
-	//
-	// Private statics
-	//
-
-	private static final String	TABLE_PREFIX	= "table-";
+	extends HtmlLayout
+	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticHtmlMetawidget> {
 
 	//
 	// Private members
@@ -67,34 +60,29 @@ public class HtmlTableLayout
 		this( new HtmlTableLayoutConfig() );
 	}
 
-	//
-	// Public methods
-	//
-
 	public HtmlTableLayout( HtmlTableLayoutConfig config ) {
 
 		mTableStyle = config.getTableStyle();
 		mTableStyleClass = config.getTableStyleClass();
 	}
 
-	public void onStartBuild( StaticXmlMetawidget metawidget ) {
+	//
+	// Public methods
+	//
+
+	public void onStartBuild( StaticHtmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	public void startContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
+	public void startContainerLayout( StaticXmlWidget container, StaticHtmlMetawidget metawidget ) {
 
 		try {
 			HtmlTable table = new HtmlTable();
 
 			// Id
 
-			if ( metawidget.getPath() != null ) {
-				String path = metawidget.getPath();
-				path = path.replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
-				String id = TABLE_PREFIX + StringUtils.camelCase( path, StringUtils.SEPARATOR_DOT_CHAR );
-				table.putAttribute( "id", id );
-			}
+			table.setId( metawidget.getId() );
 
 			// Styles
 
@@ -114,7 +102,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void layoutWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
+	public void layoutWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlWidget container, StaticHtmlMetawidget metawidget ) {
 
 		try {
 			// Ignore stubs
@@ -152,12 +140,12 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
+	public void endContainerLayout( StaticXmlWidget container, StaticHtmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	public void onEndBuild( StaticXmlMetawidget metawidget ) {
+	public void onEndBuild( StaticHtmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
@@ -172,46 +160,14 @@ public class HtmlTableLayout
 	 * @return whether a label was written
 	 */
 
-	protected boolean layoutLabel( HtmlTableRow row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
-
-		HtmlLabel label = new HtmlLabel();
-		String id = getWidgetId( widgetNeedingLabel );
-
-		if ( id != null ) {
-			label.putAttribute( "for", id );
-		}
-
-		String labelText = metawidget.getLabelString( attributes );
-		label.setTextContent( labelText );
+	@Override
+	protected boolean layoutLabel( HtmlTag row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
 		HtmlTableHeader labelCell = new HtmlTableHeader();
-		labelCell.getChildren().add( label );
 		row.getChildren().add( labelCell );
 
+		super.layoutLabel( labelCell, widgetNeedingLabel, elementName, attributes, metawidget );
+
 		return true;
-	}
-
-	/**
-	 * Gets the id attribute of the given widget, recursing into child widgets if necessary.
-	 */
-
-	protected String getWidgetId( StaticXmlWidget widget ) {
-
-		String id = widget.getAttribute( "id" );
-
-		if ( id != null ) {
-			return id;
-		}
-
-		for ( StaticWidget child : widget.getChildren() ) {
-
-			id = getWidgetId( (StaticXmlWidget) child );
-
-			if ( id != null ) {
-				return id;
-			}
-		}
-
-		return null;
 	}
 }

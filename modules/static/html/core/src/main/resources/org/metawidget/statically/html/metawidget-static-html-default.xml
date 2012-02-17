@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:processor="java:org.metawidget.statically.html.widgetprocessor"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
-						java:org.metawidget.statically.faces.component.html http://metawidget.org/xsd/org.metawidget.statically.faces.component.html-1.0.xsd
 						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd"
 	version="1.0">
 
@@ -48,7 +47,7 @@
 		<widgetProcessors>
 			<array>
 				<processor:cssStyleProcessor/>
-				<processor:hiddenFieldProcessor/>
+				<processor:idProcessor/>
 				<processor:nameProcessor/>
 			</array>
 		</widgetProcessors>

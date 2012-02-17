@@ -21,8 +21,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetbuilder.ValueHolder;
+import org.metawidget.statically.jsp.StaticJspMetawidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -34,13 +34,13 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class StandardBindingProcessor
-	implements WidgetProcessor<StaticXmlWidget, StaticHtmlMetawidget> {
+	implements WidgetProcessor<StaticXmlWidget, StaticJspMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+	public StaticXmlWidget processWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticJspMetawidget metawidget ) {
 
 		// (do not overwrite existing, if any)
 

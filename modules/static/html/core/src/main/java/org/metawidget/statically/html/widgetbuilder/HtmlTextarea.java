@@ -22,7 +22,7 @@ package org.metawidget.statically.html.widgetbuilder;
 
 public class HtmlTextarea
     extends HtmlTag
-    implements NameHolder {
+    implements IdHolder, NameHolder {
 
     //
     // Constructor
@@ -37,8 +37,23 @@ public class HtmlTextarea
 	// Public methods
 	//
 
+	public void setId( String id ) {
+
+		putAttribute( "id", id );
+	}
+
+	public String getId() {
+
+		return getAttribute( "id" );
+	}
+
 	public void setName( String name ) {
 
 		putAttribute( "name", name );
+	}
+
+	public String getName() {
+
+		return getAttribute( "name" );
 	}
 }

@@ -55,7 +55,7 @@ public class JspWidgetBuilder
 	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
-	// Private statics
+	// Private members
 	//
 
 	private final int			mMaximumColumnsInDataTable;
@@ -281,6 +281,14 @@ public class JspWidgetBuilder
 		}
 	}
 
+	protected void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+
+		HtmlTableHeader header = new HtmlTableHeader();
+		header.setTextContent( metawidget.getLabelString( attributes ) );
+
+		table.getChildren().get( 0 ).getChildren().get( 0 ).getChildren().add( header );
+	}
+
 	/**
 	 * Add an HtmlColumn component for the given attributes, to the given HtmlDataTable.
 	 * <p>
@@ -361,14 +369,6 @@ public class JspWidgetBuilder
 		}
 
 		return;
-	}
-
-	protected void addColumnHeader( HtmlTable table, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
-
-		HtmlTableHeader header = new HtmlTableHeader();
-		header.setTextContent( metawidget.getLabelString( attributes ) );
-
-		table.getChildren().get( 0 ).getChildren().get( 0 ).getChildren().add( header );
 	}
 
 	//

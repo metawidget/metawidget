@@ -41,7 +41,7 @@ import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 
-public class HtmlWidgetBuilderTest
+public class JspWidgetBuilderTest
 	extends TestCase {
 
 	//
@@ -110,7 +110,7 @@ public class HtmlWidgetBuilderTest
 		metawidget.setPath( FooBean.class.getName() + "/pageItems" );
 		metawidget.setLayout( new SimpleLayout() );
 
-		result = "<table><thead><tr><th>Bar</th><th>Baz</th></tr></thead>" +
+		result = "<table id=\"pageItems\"><thead><tr><th>Bar</th><th>Baz</th></tr></thead>" +
 				"<tbody><c:forEach items=\"${pageItems}\" var=\"item\"><tr><td><c:out value=\"${item.bar}\"/></td>" +
 				"<td><c:out value=\"${item.baz}\"/></td></tr></c:forEach></tbody></table>";
 		assertEquals( result, metawidget.toString() );
@@ -120,7 +120,7 @@ public class HtmlWidgetBuilderTest
 		metawidget.setValue( "${foo.requiredPageItems}" );
 		metawidget.setLayout( new SimpleLayout() );
 		metawidget.setPath( FooBean.class.getName() + "/requiredPageItems" );
-		result = "<table><thead><tr><th>Bar</th>" +
+		result = "<table id=\"requiredPageItems\"><thead><tr><th>Bar</th>" +
 				"<th>Abc</th></tr></thead><tbody><c:forEach items=\"${requiredPageItems}\" var=\"item\"><tr><td>" +
 				"<c:out value=\"${item.bar}\"/></td><td><c:out value=\"${item.abc}\"/></td></tr></c:forEach></tbody></table>";
 		assertEquals( result, metawidget.toString() );
@@ -161,10 +161,12 @@ public class HtmlWidgetBuilderTest
 		widgetBuilder = new JspWidgetBuilder( new JspWidgetBuilderConfig().setMaximumColumnsInDataTable( 0 ) );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		result = "<table><thead><tr><th>Column 1</th><th>Column 2</th>" +
-				"<th>Column 3</th><th>Column 4</th><th>Column 5</th><th>Column 6</th></td></tr></thead><tbody>" +
+				"<th>Column 3</th><th>Column 4</th><th>Column 5</th><th>Column 6</th></tr></thead><tbody>" +
 				"<c:forEach var=\"item\"><tr><td><c:out value=\"${item.column1}\"/></td><td><c:out value=\"${item.column2}\"/></td>" +
 				"<td><c:out value=\"${item.column3}\"/></td><td><c:out value=\"${item.column4}\"/></td>" +
 				"<td><c:out value=\"${item.column5}\"/></td><td><c:out value=\"${item.column6}\"/></td></tr></c:forEach></tbody></table>";
+
+		assertEquals( result, widget.toString() );
 	}
 
 	public void testConfig() {

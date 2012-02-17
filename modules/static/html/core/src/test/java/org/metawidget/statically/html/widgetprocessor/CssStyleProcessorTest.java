@@ -71,20 +71,13 @@ public class CssStyleProcessorTest
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.putAttribute( "class", "classy" );
 		metawidget.putAttribute( "style", "stylin" );
-		metawidget.setValue( "${foo}" );
+		metawidget.setId( "foo" );
 		metawidget.setPath( Foo.class.getName() );
 
-		String result = "<table id=\"table-orgMetawidgetStaticallyHtmlWidgetprocessorCssStyleProcessorTestFoo\">" +
-				"<tbody><tr>" +
-				"<th><label>Bar</label></th>" +
-				"<td><input class=\"classy\" name=\"fooBar\" style=\"stylin\" type=\"text\"/></td>" +
-				"<td/>" +
-				"</tr><tr>" +
-				"<th><label>Baz</label></th>" +
-				"<td><input class=\"classy\" name=\"fooBaz\" style=\"stylin\" type=\"text\"/></td>" +
-				"<td/>" +
-				"</tr></tbody>" +
-				"</table>";
+		String result = "<table id=\"foo\"><tbody>";
+		result += "<tr><th><label for=\"foo-bar\">Bar:</label></th><td><input class=\"classy\" id=\"foo-bar\" name=\"fooBar\" style=\"stylin\" type=\"date\"/></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-baz\">Baz:</label></th><td><input class=\"classy\" id=\"foo-baz\" name=\"fooBaz\" style=\"stylin\" type=\"text\"/></td><td/></tr>";
+		result += "</tbody></table>";
 		assertEquals( result, metawidget.toString() );
 
 	}

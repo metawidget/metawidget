@@ -18,12 +18,12 @@ package org.metawidget.statically.spring.layout;
 
 import java.util.Map;
 
-import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.layout.HtmlTableLayout;
 import org.metawidget.statically.html.layout.HtmlTableLayoutConfig;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
-import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
+import org.metawidget.statically.html.widgetbuilder.HtmlTag;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormLabelTag;
 import org.metawidget.statically.spring.widgetprocessor.PathProcessor;
@@ -60,15 +60,9 @@ public class SpringTableLayout
 	 */
 
 	@Override
-	protected boolean layoutLabel( HtmlTableRow row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	protected boolean layoutLabel( HtmlTag row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
 		FormLabelTag label = new FormLabelTag();
-		String id = getWidgetId( widgetNeedingLabel );
-
-		if ( id != null ) {
-			label.putAttribute( "for", id );
-		}
-
 		metawidget.getWidgetProcessor( PathProcessor.class ).processWidget( label, elementName, attributes, (StaticSpringMetawidget) metawidget );
 		String labelText = metawidget.getLabelString( attributes );
 		label.setTextContent( labelText );
