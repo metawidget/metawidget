@@ -75,7 +75,7 @@ public class StaticSpringMetawidgetTest
 				"\t<tbody>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<form:label path=\"bar\">Bar</form:label>\r\n" +
+				"\t\t\t\t<form:label path=\"bar\">Bar:</form:label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
 				"\t\t\t\t<form:input path=\"bar\"/>\r\n" +
@@ -84,7 +84,7 @@ public class StaticSpringMetawidgetTest
 				"\t\t</tr>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<form:label path=\"baz\">Baz</form:label>\r\n" +
+				"\t\t\t\t<form:label path=\"baz\">Baz:</form:label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
 				"\t\t\t\t<form:input path=\"baz\"/>\r\n" +
@@ -113,7 +113,7 @@ public class StaticSpringMetawidgetTest
 				"\t<tbody>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<form:label path=\"abc\">Abc</form:label>\r\n" +
+				"\t\t\t\t<form:label path=\"abc\">Abc:</form:label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
 				"\t\t\t\t<form:input path=\"abc\"/>\r\n" +
@@ -122,14 +122,14 @@ public class StaticSpringMetawidgetTest
 				"\t\t</tr>\r\n" +
 				"\t\t<tr>\r\n" +
 				"\t\t\t<th>\r\n" +
-				"\t\t\t\t<form:label path=\"nestedFoo\">Nested Foo</form:label>\r\n" +
+				"\t\t\t\t<form:label path=\"nestedFoo\">Nested Foo:</form:label>\r\n" +
 				"\t\t\t</th>\r\n" +
 				"\t\t\t<td>\r\n" +
 				"\t\t\t\t<table id=\"nestedFoo\">\r\n" +
 				"\t\t\t\t\t<tbody>\r\n" +
 				"\t\t\t\t\t\t<tr>\r\n" +
 				"\t\t\t\t\t\t\t<th>\r\n" +
-				"\t\t\t\t\t\t\t\t<form:label path=\"nestedFoo.bar\">Bar</form:label>\r\n" +
+				"\t\t\t\t\t\t\t\t<form:label path=\"nestedFoo.bar\">Bar:</form:label>\r\n" +
 				"\t\t\t\t\t\t\t</th>\r\n" +
 				"\t\t\t\t\t\t\t<td>\r\n" +
 				"\t\t\t\t\t\t\t\t<form:input path=\"nestedFoo.bar\"/>\r\n" +
@@ -138,7 +138,7 @@ public class StaticSpringMetawidgetTest
 				"\t\t\t\t\t\t</tr>\r\n" +
 				"\t\t\t\t\t\t<tr>\r\n" +
 				"\t\t\t\t\t\t\t<th>\r\n" +
-				"\t\t\t\t\t\t\t\t<form:label path=\"nestedFoo.baz\">Baz</form:label>\r\n" +
+				"\t\t\t\t\t\t\t\t<form:label path=\"nestedFoo.baz\">Baz:</form:label>\r\n" +
 				"\t\t\t\t\t\t\t</th>\r\n" +
 				"\t\t\t\t\t\t\t<td>\r\n" +
 				"\t\t\t\t\t\t\t\t<form:input path=\"nestedFoo.baz\"/>\r\n" +

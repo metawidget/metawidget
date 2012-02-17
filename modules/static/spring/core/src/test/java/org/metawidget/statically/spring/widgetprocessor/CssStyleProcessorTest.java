@@ -74,8 +74,8 @@ public class CssStyleProcessorTest
 		metawidget.setPath( Foo.class.getName() );
 
 		String result = "<table>" +
-				"<tbody><tr><th><form:label path=\"bar\">Bar</form:label></th><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"bar\"/></td><td/></tr>" +
-				"<tr><th><form:label path=\"baz\">Baz</form:label></th><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"baz\"/></td><td/></tr>" +
+				"<tbody><tr><th><form:label path=\"bar\">Bar:</form:label></th><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"bar\"/></td><td/></tr>" +
+				"<tr><th><form:label path=\"baz\">Baz:</form:label></th><td><form:input cssClass=\"styleClassin\" cssStyle=\"stylin\" path=\"baz\"/></td><td/></tr>" +
 				"</tbody></table>";
 
 		assertEquals( result, metawidget.toString() );
