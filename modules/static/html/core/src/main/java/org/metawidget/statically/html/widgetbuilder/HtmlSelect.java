@@ -66,4 +66,14 @@ public class HtmlSelect
 
 		return getAttribute( "value" );
 	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected boolean isSelfClosing() {
+
+		return false;
+	}
 }

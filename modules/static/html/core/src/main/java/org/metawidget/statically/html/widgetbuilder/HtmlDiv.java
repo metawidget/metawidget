@@ -20,14 +20,25 @@ package org.metawidget.statically.html.widgetbuilder;
  * @author Richard Kennard
  */
 
-public class HtmlDiv extends HtmlTag {
+public class HtmlDiv
+	extends HtmlTag {
 
-    //
-    // Constructor
-    //
+	//
+	// Constructor
+	//
 
-    public HtmlDiv() {
+	public HtmlDiv() {
 
-        super( "div" );
-    }
+		super( "div" );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected boolean isSelfClosing() {
+
+		return false;
+	}
 }

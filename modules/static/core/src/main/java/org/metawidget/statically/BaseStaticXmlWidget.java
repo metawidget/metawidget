@@ -144,9 +144,11 @@ public abstract class BaseStaticXmlWidget
 
 			// Non-indented text content
 
-			if ( getTextContent() != null && getTextContent().length() > 0 ) {
+			if ( !isSelfClosing() ) {
 				writer.append( ">" );
-				writer.append( mTextContent );
+				if ( mTextContent != null ) {
+					writer.append( mTextContent );
+				}
 				if ( writer instanceof IndentedWriter ) {
 					( (IndentedWriter) writer ).indent();
 				}
@@ -169,7 +171,7 @@ public abstract class BaseStaticXmlWidget
 
 			// Indented text content
 
-			if ( getTextContent() != null ) {
+			if ( getTextContent() != null && getTextContent().length() > 0 ) {
 				writer.append( mTextContent );
 				if ( writer instanceof IndentedWriter ) {
 					writer.append( "\r\n" );
@@ -202,6 +204,18 @@ public abstract class BaseStaticXmlWidget
 		writer.append( "=\"" );
 		writer.append( value );
 		writer.append( "\"" );
+	}
+
+	/**
+	 * Returns true if this widget is self closing (i.e. will be written as &lt;foo/&gt; rather than
+	 * &lt;foo&gt;&lt;/foo&gt;).
+	 *
+	 * @return true if this widget is self closing.
+	 */
+
+	protected boolean isSelfClosing() {
+
+		return ( getTextContent() == null || getTextContent().length() == 0 );
 	}
 
 	//
