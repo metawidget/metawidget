@@ -380,7 +380,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\"></div>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -389,7 +389,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\"></div>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -403,7 +403,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-nestedTextbox1\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-nestedTextbox1\"></div>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -412,7 +412,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-nestedTextbox2\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-nestedTextbox2\"></div>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -435,7 +435,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"readOnlyNestedWidgetsDontExpand\">Read Only Nested Widgets Dont Expand:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<div id=\"readOnlyNestedWidgetsDontExpand\"/>\r\n" +
+            "\t\t\t\t<div id=\"readOnlyNestedWidgetsDontExpand\"></div>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -462,7 +462,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"readOnly\">Read Only:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<div id=\"readOnly\"/>\r\n" +
+            "\t\t\t\t<div id=\"readOnly\"></div>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
