@@ -44,7 +44,9 @@ public class IdProcessor
 
 			String id = attributes.get( NAME );
 
-			if ( metawidget.getId() != null ) {
+			if ( id == null ) {
+				id = metawidget.getId();
+			} else if ( metawidget.getId() != null ) {
 				id = metawidget.getId() + '-' + id;
 			}
 

@@ -443,6 +443,22 @@ public class PropertyTypeInspectorTest
 		assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ) );
 	}
 
+	public void testParameterizedType() {
+
+		String type = List.class.getName() + "<" + String.class.getName() + ">";
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, type ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( type, entity.getAttribute( TYPE ) );
+		assertEquals( String.class.getName(), entity.getAttribute( PARAMETERIZED_TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
+
+		assertTrue( List.class.isAssignableFrom( ClassUtils.niceForName( type ) ) );
+	}
+
 	/**
 	 * Test BaseObjectInspector under high concurrency.
 	 */

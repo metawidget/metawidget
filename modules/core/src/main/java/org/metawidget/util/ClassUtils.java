@@ -292,9 +292,10 @@ public final class ClassUtils {
 	/**
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
-	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
 	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
 	 * such as 'Login Screen')</li>
+	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
+	 * <li>supports parameterized types (strips off the &lt;...&gt;)</li>
 	 * </ul>
 	 * <p>
 	 * This method first tries to load the class using the given ClassLoader (if any). If that
@@ -313,11 +314,21 @@ public final class ClassUtils {
 
 	public static Class<?> niceForName( String className, ClassLoader classLoader ) {
 
+		String classNameToUse = className;
+
+		// Support parameterized type
+
+		int indexOf = classNameToUse.indexOf( '<' );
+
+		if ( indexOf != -1 ) {
+			classNameToUse = classNameToUse.substring( 0, indexOf );
+		}
+
 		// Try given ClassLoader (may be none)
 
 		try {
 			if ( classLoader != null ) {
-				return Class.forName( className, false, classLoader );
+				return Class.forName( classNameToUse, false, classLoader );
 			}
 		} catch ( ClassNotFoundException e ) {
 
@@ -330,7 +341,7 @@ public final class ClassUtils {
 
 		try {
 			if ( threadClassLoader != null && !threadClassLoader.equals( classLoader ) ) {
-				return Class.forName( className, false, threadClassLoader );
+				return Class.forName( classNameToUse, false, threadClassLoader );
 			}
 		} catch ( ClassNotFoundException e ) {
 
@@ -343,7 +354,7 @@ public final class ClassUtils {
 
 		try {
 			if ( !thisClassLoader.equals( threadClassLoader ) && !thisClassLoader.equals( classLoader ) ) {
-				return Class.forName( className, false, thisClassLoader );
+				return Class.forName( classNameToUse, false, thisClassLoader );
 			}
 		} catch ( ClassNotFoundException e ) {
 
@@ -355,7 +366,7 @@ public final class ClassUtils {
 		synchronized ( ALIEN_CLASSLOADERS ) {
 			for ( ClassLoader alienClassLoader : ALIEN_CLASSLOADERS ) {
 				try {
-					return Class.forName( className, false, alienClassLoader );
+					return Class.forName( classNameToUse, false, alienClassLoader );
 				} catch ( ClassNotFoundException e ) {
 
 					// Fall through and try other ClassLoaders
@@ -363,7 +374,7 @@ public final class ClassUtils {
 			}
 		}
 
-		return getPrimitive( className );
+		return getPrimitive( classNameToUse );
 	}
 
 	public static boolean isPrimitive( String className ) {

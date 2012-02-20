@@ -80,6 +80,15 @@ public class PropertyTypeInspector
 
 		attributes.put( TYPE, declaredClass );
 
+		// Support passing a parameterized type in the class name
+
+		int openingIndexOf = declaredClass.indexOf( '<' );
+
+		if ( openingIndexOf != -1 ) {
+			int closingIndexOf = declaredClass.indexOf( '>' );
+			attributes.put( PARAMETERIZED_TYPE, declaredClass.substring( openingIndexOf + 1, closingIndexOf ) );
+		}
+
 		// Actual class
 		//
 		// Note: we don't do this the other way around (eg. return the actual class as
@@ -99,7 +108,7 @@ public class PropertyTypeInspector
 
 		// Special support for Booleans, which are tri-state
 
-		if ( Boolean.class.getName().equals( actualClass )) {
+		if ( Boolean.class.getName().equals( actualClass ) ) {
 			attributes.put( LOOKUP, "true, false" );
 			attributes.put( LOOKUP_LABELS, "Yes, No" );
 		}

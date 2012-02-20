@@ -92,9 +92,21 @@ public class HtmlWidgetBuilderTest
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( result, widget.toString() );
 
-		// From Metawidget
+		// From Metawidget (direct class)
 
 		PropertyStyle propertyStyle = new StaticPropertyStyle();
+		metawidget.setInspector( new CompositeInspector(
+				new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ),
+						new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ) ) ) );
+		metawidget.setId( "search-results" );
+		metawidget.setPath( List.class.getName() + '<' + Foo.class.getName() + '>' );
+		metawidget.setLayout( new SimpleLayout() );
+
+		assertEquals( "<table id=\"search-results\"><thead><tr><th id=\"search-results-bar\">Bar</th><th id=\"search-results-baz\">Baz</th></tr></thead><tbody/></table>", metawidget.toString() );
+
+		// From Metawidget
+
+		metawidget = new StaticHtmlMetawidget();
 		metawidget.setInspector( new CompositeInspector(
 				new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ),
 						new MetawidgetAnnotationInspector( new BaseObjectInspectorConfig().setPropertyStyle( propertyStyle ) ) ) ) );

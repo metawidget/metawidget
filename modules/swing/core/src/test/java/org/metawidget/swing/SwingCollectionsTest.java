@@ -78,7 +78,7 @@ public class SwingCollectionsTest
 		metawidget.setInspector( new CompositeInspector(
 				new CompositeInspectorConfig().setInspectors(
 						new PropertyTypeInspector(),
-						new MetawidgetAnnotationInspector() )));
+						new MetawidgetAnnotationInspector() ) ) );
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>(
 				new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders(
 						new CollectionWidgetBuilder(),
@@ -105,6 +105,34 @@ public class SwingCollectionsTest
 		assertEquals( "State", table.getColumnName( 2 ) );
 		assertEquals( 3, table.getColumnCount() );
 		assertEquals( 2, table.getRowCount() );
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public void testDirectCollection()
+		throws Exception {
+
+		// Metawidget
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new CompositeInspector(
+				new CompositeInspectorConfig().setInspectors(
+						new PropertyTypeInspector(),
+						new MetawidgetAnnotationInspector() ) ) );
+		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>(
+				new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders(
+						new CollectionWidgetBuilder(),
+						new SwingWidgetBuilder() ) ) );
+		metawidget.setPath( List.class.getName() + "<" + Address.class.getName() + ">" );
+
+		// Test
+
+		assertTrue( metawidget.getComponent( 0 ) instanceof JScrollPane );
+		JTable table = (JTable) ( (JScrollPane) metawidget.getComponent( 0 ) ).getViewport().getView();
+		assertEquals( "Street", table.getColumnName( 0 ) );
+		assertEquals( "City", table.getColumnName( 1 ) );
+		assertEquals( "State", table.getColumnName( 2 ) );
+		assertEquals( 3, table.getColumnCount() );
+		assertEquals( 0, table.getRowCount() );
 	}
 
 	//
@@ -273,7 +301,13 @@ public class SwingCollectionsTest
 
 			// Fetch the data. This part could be improved to use BeansBinding or similar
 
-			List<?> list = (List<?>) ClassUtils.getProperty( metawidget.getToInspect(), attributes.get( NAME ) );
+			List<?> list;
+
+			if ( metawidget.getToInspect() == null) {
+				list = CollectionUtils.newArrayList();
+			} else {
+				list = (List<?>) ClassUtils.getProperty( metawidget.getToInspect(), attributes.get( NAME ) );
+			}
 
 			// Return the JTable
 
