@@ -61,7 +61,7 @@ public class ReadOnlyWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 			StaticXmlStub staticStub = new StaticXmlStub();
-			staticStub.getChildren().add( new HtmlOutput() );
+			staticStub.getChildren().add( new HtmlDiv() );
 			return staticStub;
 		}
 
@@ -81,7 +81,7 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels == null ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 
 			// Special support for read-only lookups with labels
@@ -89,10 +89,10 @@ public class ReadOnlyWidgetBuilder
 			List<String> labels = CollectionUtils.fromString( lookupLabels );
 
 			if ( labels.isEmpty() ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 
-			return new HtmlOutput();
+			return new HtmlDiv();
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -109,25 +109,25 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 
 			// Collections that will be supported by HtmlWidgetBuilder
@@ -139,14 +139,14 @@ public class ReadOnlyWidgetBuilder
 			// Other Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new HtmlOutput();
+				return new HtmlDiv();
 			}
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) || metawidget.getLayout() instanceof SimpleLayout ) {
-			return new HtmlOutput();
+			return new HtmlDiv();
 		}
 
 		// Nested Metawidget

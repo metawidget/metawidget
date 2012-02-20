@@ -21,7 +21,8 @@ package org.metawidget.statically.html.widgetbuilder;
  */
 
 public class HtmlDiv
-	extends HtmlTag {
+	extends HtmlTag
+	implements IdHolder {
 
 	//
 	// Constructor
@@ -30,6 +31,20 @@ public class HtmlDiv
 	public HtmlDiv() {
 
 		super( "div" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public void setId( String id ) {
+
+		putAttribute( "id", id );
+	}
+
+	public String getId() {
+
+		return getAttribute( "id" );
 	}
 
 	//
