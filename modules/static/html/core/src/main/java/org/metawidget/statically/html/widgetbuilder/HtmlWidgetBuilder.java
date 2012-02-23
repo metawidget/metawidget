@@ -47,12 +47,6 @@ public class HtmlWidgetBuilder
 	implements WidgetBuilder<StaticXmlWidget, StaticHtmlMetawidget> {
 
 	//
-	// Private statics
-	//
-
-	private final static String	MAX_LENGTH	= "maxlength";
-
-	//
 	// Private members
 	//
 
@@ -166,7 +160,15 @@ public class HtmlWidgetBuilder
 					return secret;
 				}
 
-				return createHtmlInputText( attributes );
+				if ( TRUE.equals( attributes.get( "validation-email" ) ) ) {
+					HtmlInput email = createHtmlInputText( attributes );
+					email.putAttribute( "type", "email" );
+					return email;
+				}
+
+				HtmlInput text = createHtmlInputText( attributes );
+				text.putAttribute( "pattern", attributes.get( VALIDATION_PATTERN ) );
+				return text;
 			}
 
 			// Character
@@ -424,7 +426,7 @@ public class HtmlWidgetBuilder
 
 		HtmlInput input = new HtmlInput();
 		input.putAttribute( "type", "text" );
-		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+		input.putAttribute( "maxlength", attributes.get( MAXIMUM_LENGTH ) );
 
 		return input;
 	}

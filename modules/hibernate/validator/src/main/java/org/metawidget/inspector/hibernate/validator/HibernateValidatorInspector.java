@@ -17,15 +17,18 @@
 package org.metawidget.inspector.hibernate.validator;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.hibernate.validator.HibernateValidatorInspectionResultConstants.*;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
+import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 import org.hibernate.validator.Range;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
@@ -122,8 +125,8 @@ public class HibernateValidatorInspector
 		Range range = property.getAnnotation( Range.class );
 
 		if ( range != null ) {
-			attributes.put( MINIMUM_VALUE, String.valueOf( range.min() ));
-			attributes.put( MAXIMUM_VALUE, String.valueOf( range.max() ));
+			attributes.put( MINIMUM_VALUE, String.valueOf( range.min() ) );
+			attributes.put( MAXIMUM_VALUE, String.valueOf( range.max() ) );
 		}
 
 		// Length
@@ -138,6 +141,20 @@ public class HibernateValidatorInspector
 			if ( length.max() > 0 ) {
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ) );
 			}
+		}
+
+		// Pattern
+
+		Pattern pattern = property.getAnnotation( Pattern.class );
+
+		if ( pattern != null ) {
+			attributes.put( VALIDATION_PATTERN, String.valueOf( pattern.regex() ) );
+		}
+
+		// Email
+
+		if ( property.isAnnotationPresent( Email.class ) ) {
+			attributes.put( VALIDATION_EMAIL, TRUE );
 		}
 
 		return attributes;

@@ -20,11 +20,13 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.hibernate.validator.Digits;
+import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 import org.hibernate.validator.Range;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -82,6 +84,16 @@ public class HibernateValidatorInspectorTest
 		assertEquals( "1", property.getAttribute( MINIMUM_VALUE ) );
 		assertEquals( "99", property.getAttribute( MAXIMUM_VALUE ) );
 		assertEquals( 3, property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "email" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( "validation-email" ) );
+		assertEquals( 2, property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "telephone" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "[A-Za-z ]*", property.getAttribute( VALIDATION_PATTERN ) );
+		assertEquals( 2, property.getAttributes().getLength() );
 	}
 
 	//
@@ -135,6 +147,18 @@ public class HibernateValidatorInspectorTest
 		public void setRange( @SuppressWarnings( "unused" ) int range ) {
 
 			// Do nothing
+		}
+
+		@Email
+		public String getEmail() {
+
+			return null;
+		}
+
+		@Pattern( regex = "[A-Za-z ]*" )
+		public String getTelephone() {
+
+			return null;
 		}
 	}
 }

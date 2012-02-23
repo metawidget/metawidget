@@ -31,7 +31,7 @@ package org.metawidget.inspector;
  * <p>
  * However, for those attribute names that have become sufficiently standardized, it is desirable to
  * have a more formalized 'middle ground', if only to avoid typos.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -299,6 +299,12 @@ public final class InspectionResultConstants {
 	public static final String	TIME_ZONE						= "time-zone";
 
 	public static final String	DATETIME_TYPE					= "datetime-type";
+
+	/**
+	 * Regular expression pattern specified by validation library.
+	 */
+
+	public static final String	VALIDATION_PATTERN				= "validation-pattern";
 
 	//
 	// Private constructor

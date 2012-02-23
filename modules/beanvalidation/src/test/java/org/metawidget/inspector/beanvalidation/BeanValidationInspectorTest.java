@@ -22,6 +22,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import junit.framework.TestCase;
@@ -75,6 +76,11 @@ public class BeanValidationInspectorTest
 		assertEquals( "2", property.getAttribute( MINIMUM_LENGTH ) );
 		assertEquals( "25", property.getAttribute( MAXIMUM_LENGTH ) );
 		assertEquals( 5, property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "telephone" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "[A-Za-z ]*", property.getAttribute( VALIDATION_PATTERN ) );
+		assertEquals( 2, property.getAttributes().getLength() );
 	}
 
 	//
@@ -116,6 +122,12 @@ public class BeanValidationInspectorTest
 		public void setRange( @SuppressWarnings( "unused" ) int range ) {
 
 			// Do nothing
+		}
+
+		@Pattern( regexp = "[A-Za-z ]*" )
+		public String getTelephone() {
+
+			return null;
 		}
 	}
 }

@@ -61,11 +61,18 @@ public class HtmlWidgetBuilderTest
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "<input maxlength=\"30\" type=\"text\"/>", widget.toString() );
 
+		// Pattern
+
+		attributes.put( VALIDATION_PATTERN, "[A-Za-z ]*" );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input maxlength=\"30\" pattern=\"[A-Za-z ]*\" type=\"text\"/>", widget.toString() );
+
 		// Masked
 
 		attributes.put( MASKED, TRUE );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "<input maxlength=\"30\" type=\"secret\"/>", widget.toString() );
+		attributes.remove( MASKED );
 
 		// Date
 
@@ -84,6 +91,14 @@ public class HtmlWidgetBuilderTest
 		attributes.put( TYPE, int.class.getName() );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "<input type=\"number\"/>", widget.toString() );
+
+		// Email
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( "validation-email", TRUE );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input maxlength=\"30\" type=\"email\"/>", widget.toString() );
+		attributes.remove( "validation-email" );
 
 		// With minimum/maximum
 

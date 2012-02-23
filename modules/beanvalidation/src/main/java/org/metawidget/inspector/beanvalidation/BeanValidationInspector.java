@@ -24,6 +24,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
@@ -116,6 +117,14 @@ public class BeanValidationInspector
 			if ( size.max() > 0 ) {
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( size.max() ) );
 			}
+		}
+
+		// Pattern
+
+		Pattern pattern = property.getAnnotation( Pattern.class );
+
+		if ( pattern != null ) {
+			attributes.put( VALIDATION_PATTERN, String.valueOf( pattern.regexp() ) );
 		}
 
 		return attributes;
