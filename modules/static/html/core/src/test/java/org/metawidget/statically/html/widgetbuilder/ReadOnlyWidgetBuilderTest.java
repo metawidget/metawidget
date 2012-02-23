@@ -18,11 +18,14 @@ package org.metawidget.statically.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Color;
+import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.layout.HtmlTableLayout;
 import org.metawidget.statically.layout.SimpleLayout;
@@ -38,15 +41,46 @@ public class ReadOnlyWidgetBuilderTest
 	public void testReadOnlyWidgetBuilder() {
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		ReadOnlyWidgetBuilder widgetBuilder = new ReadOnlyWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( READ_ONLY, TRUE );
+
+		// Masked
+
+		attributes.put( MASKED, TRUE );
+		StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<stub><output></output></stub>", widget.toString() );
+		attributes.remove( MASKED );
+
+		// Date
+
+		attributes.put( TYPE, Date.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<output></output>", widget.toString() );
+
+		// Color
+
+		attributes.put( TYPE, Color.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<output></output>", widget.toString() );
+
+		// Number
+
+		attributes.put( TYPE, int.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<output></output>", widget.toString() );
+
+		// From Metawidget
+
 		metawidget.setReadOnly( true );
 		metawidget.setId( "foo" );
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<table id=\"foo\"><tbody>";
-		result += "<tr><th><label for=\"foo-abc\">Abc:</label></th><td><output id=\"foo-abc\" name=\"fooAbc\"/></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-abc\">Abc:</label></th><td><output id=\"foo-abc\" name=\"fooAbc\"></output></td><td/></tr>";
 		result += "<tr><th><label for=\"foo-nestedFoo\">Nested Foo:</label></th><td><table id=\"foo-nestedFoo\"><tbody>";
-		result += "<tr><th><label for=\"foo-nestedFoo-bar\">Bar:</label></th><td><output id=\"foo-nestedFoo-bar\" name=\"fooNestedFooBar\"/></td><td/></tr>";
-		result += "<tr><th><label for=\"foo-nestedFoo-baz\">Baz:</label></th><td><output id=\"foo-nestedFoo-baz\" name=\"fooNestedFooBaz\"/></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-nestedFoo-bar\">Bar:</label></th><td><output id=\"foo-nestedFoo-bar\" name=\"fooNestedFooBar\"></output></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-nestedFoo-baz\">Baz:</label></th><td><output id=\"foo-nestedFoo-baz\" name=\"fooNestedFooBaz\"></output></td><td/></tr>";
 		result += "</tbody></table></td><td/></tr></tbody></table>";
 
 		assertEquals( result, metawidget.toString() );
@@ -60,7 +94,7 @@ public class ReadOnlyWidgetBuilderTest
 		attributes.put( READ_ONLY, TRUE );
 		attributes.put( DONT_EXPAND, TRUE );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<output/>", widget.toString() );
+		assertEquals( "<output></output>", widget.toString() );
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setLayout( new SimpleLayout() );
@@ -68,7 +102,7 @@ public class ReadOnlyWidgetBuilderTest
 		attributes.put( TYPE, Foo.class.getName() );
 		attributes.put( READ_ONLY, TRUE );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<output/>", widget.toString() );
+		assertEquals( "<output></output>", widget.toString() );
 
 		metawidget.setLayout( new HtmlTableLayout() );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));

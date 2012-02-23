@@ -18,6 +18,7 @@ package org.metawidget.statically.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -121,6 +122,12 @@ public class ReadOnlyWidgetBuilder
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) ) {
+				return new HtmlOutput();
+			}
+
+			// Colors
+
+			if ( Color.class.isAssignableFrom( clazz ) ) {
 				return new HtmlOutput();
 			}
 

@@ -57,4 +57,14 @@ public class HtmlOutput
 
 		return getAttribute( "name" );
 	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected boolean isSelfClosing() {
+
+		return false;
+	}
 }
