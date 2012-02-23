@@ -17,18 +17,44 @@
 package org.metawidget.statically.html.widgetbuilder;
 
 /**
- * @author Richard Kennard
+ * Creates an &lt;output&gt; tag. Output tags are only available in HTML 5,
+ * but earlier versions of HTML should degrade to a &lt;div&gt;.
  */
 
-public class HtmlDiv
-	extends HtmlTag {
+public class HtmlOutput
+	extends HtmlTag
+	implements IdHolder, NameHolder {
 
 	//
 	// Constructor
 	//
 
-	public HtmlDiv() {
+	public HtmlOutput() {
 
-		super( "div" );
+		super( "output" );
+	}
+
+	//
+	// Public methods
+	//
+
+	public void setId( String id ) {
+
+		putAttribute( "id", id );
+	}
+
+	public String getId() {
+
+		return getAttribute( "id" );
+	}
+
+	public void setName( String name ) {
+
+		putAttribute( "name", name );
+	}
+
+	public String getName() {
+
+		return getAttribute( "name" );
 	}
 }

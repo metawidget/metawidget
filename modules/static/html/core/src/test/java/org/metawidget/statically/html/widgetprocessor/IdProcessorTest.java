@@ -69,7 +69,7 @@ public class IdProcessorTest
 				"<td/>" +
 				"</tr><tr>" +
 				"<th><label for=\"name-processor-example-baz\">Baz:</label></th>" +
-				"<td><input id=\"name-processor-example-baz\" name=\"nameProcessorExampleBaz\" type=\"text\"/></td>" +
+				"<td><input id=\"name-processor-example-baz\" name=\"nameProcessorExampleBaz\" type=\"number\"/></td>" +
 				"<td/></tr></tbody></table>";
 
 		assertEquals( result, metawidget.toString() );

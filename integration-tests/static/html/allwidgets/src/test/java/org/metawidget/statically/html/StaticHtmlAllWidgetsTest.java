@@ -82,7 +82,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"bytePrimitive\">Byte Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"bytePrimitive\" name=\"bytePrimitive\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"bytePrimitive\" min=\"-5\" name=\"bytePrimitive\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -91,7 +91,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"byteObject\">Byte Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"byteObject\" name=\"byteObject\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"byteObject\" name=\"byteObject\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -100,7 +100,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"shortPrimitive\">Short Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"shortPrimitive\" name=\"shortPrimitive\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"shortPrimitive\" min=\"-6\" name=\"shortPrimitive\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -109,7 +109,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"shortObject\">Short Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"shortObject\" name=\"shortObject\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"shortObject\" name=\"shortObject\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -118,7 +118,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"intPrimitive\">Int Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"intPrimitive\" name=\"intPrimitive\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"intPrimitive\" name=\"intPrimitive\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -127,7 +127,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"integerObject\">Integer Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"integerObject\" name=\"integerObject\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"integerObject\" name=\"integerObject\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -136,7 +136,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"rangedInt\">Ranged Int:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"rangedInt\" name=\"rangedInt\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"rangedInt\" max=\"100\" min=\"1\" name=\"rangedInt\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -145,7 +145,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"rangedInteger\">Ranged Integer:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"rangedInteger\" name=\"rangedInteger\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"rangedInteger\" max=\"99\" min=\"2\" name=\"rangedInteger\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -154,7 +154,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"longPrimitive\">Long Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"longPrimitive\" name=\"longPrimitive\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"longPrimitive\" min=\"-7\" name=\"longPrimitive\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -163,7 +163,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"longObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"longObject\" name=\"longObject\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"longObject\" name=\"longObject\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -172,7 +172,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"floatPrimitive\">Float Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"floatPrimitive\" name=\"floatPrimitive\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"floatPrimitive\" max=\"2048\" name=\"floatPrimitive\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -181,7 +181,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"floatObject\">nullInBundle:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"floatObject\" name=\"floatObject\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"floatObject\" name=\"floatObject\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -190,7 +190,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"doublePrimitive\">Double Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"doublePrimitive\" name=\"doublePrimitive\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"doublePrimitive\" min=\"-8\" name=\"doublePrimitive\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -199,7 +199,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"doubleObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"doubleObject\" name=\"doubleObject\" type=\"text\"/>\r\n" +
+            "\t\t\t\t<input id=\"doubleObject\" name=\"doubleObject\" type=\"number\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -380,7 +380,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\"></div>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\" name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -389,7 +389,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\"></div>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\" name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -403,7 +403,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-nestedTextbox1\"></div>\r\n" +
+            "\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-nestedTextbox1\" name=\"readOnlyNestedWidgetsNestedTextbox1\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -412,7 +412,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<div id=\"readOnlyNestedWidgets-nestedTextbox2\"></div>\r\n" +
+            "\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-nestedTextbox2\" name=\"readOnlyNestedWidgetsNestedTextbox2\"/>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -435,7 +435,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"readOnlyNestedWidgetsDontExpand\">Read Only Nested Widgets Dont Expand:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<div id=\"readOnlyNestedWidgetsDontExpand\"></div>\r\n" +
+            "\t\t\t\t<output id=\"readOnlyNestedWidgetsDontExpand\" name=\"readOnlyNestedWidgetsDontExpand\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -462,7 +462,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"readOnly\">Read Only:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<div id=\"readOnly\"></div>\r\n" +
+            "\t\t\t\t<output id=\"readOnly\" name=\"readOnly\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +

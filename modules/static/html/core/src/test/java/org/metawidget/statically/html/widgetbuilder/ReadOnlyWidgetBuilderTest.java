@@ -43,10 +43,10 @@ public class ReadOnlyWidgetBuilderTest
 		metawidget.setPath( NestedFoo.class.getName() );
 
 		String result = "<table id=\"foo\"><tbody>";
-		result += "<tr><th><label for=\"foo-abc\">Abc:</label></th><td><div id=\"foo-abc\"></div></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-abc\">Abc:</label></th><td><output id=\"foo-abc\" name=\"fooAbc\"/></td><td/></tr>";
 		result += "<tr><th><label for=\"foo-nestedFoo\">Nested Foo:</label></th><td><table id=\"foo-nestedFoo\"><tbody>";
-		result += "<tr><th><label for=\"foo-nestedFoo-bar\">Bar:</label></th><td><div id=\"foo-nestedFoo-bar\"></div></td><td/></tr>";
-		result += "<tr><th><label for=\"foo-nestedFoo-baz\">Baz:</label></th><td><div id=\"foo-nestedFoo-baz\"></div></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-nestedFoo-bar\">Bar:</label></th><td><output id=\"foo-nestedFoo-bar\" name=\"fooNestedFooBar\"/></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-nestedFoo-baz\">Baz:</label></th><td><output id=\"foo-nestedFoo-baz\" name=\"fooNestedFooBaz\"/></td><td/></tr>";
 		result += "</tbody></table></td><td/></tr></tbody></table>";
 
 		assertEquals( result, metawidget.toString() );
@@ -60,7 +60,7 @@ public class ReadOnlyWidgetBuilderTest
 		attributes.put( READ_ONLY, TRUE );
 		attributes.put( DONT_EXPAND, TRUE );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<div></div>", widget.toString() );
+		assertEquals( "<output/>", widget.toString() );
 
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		metawidget.setLayout( new SimpleLayout() );
@@ -68,7 +68,7 @@ public class ReadOnlyWidgetBuilderTest
 		attributes.put( TYPE, Foo.class.getName() );
 		attributes.put( READ_ONLY, TRUE );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<div></div>", widget.toString() );
+		assertEquals( "<output/>", widget.toString() );
 
 		metawidget.setLayout( new HtmlTableLayout() );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));

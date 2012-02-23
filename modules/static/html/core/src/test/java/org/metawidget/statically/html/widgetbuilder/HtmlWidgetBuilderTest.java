@@ -18,6 +18,7 @@ package org.metawidget.statically.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +51,51 @@ public class HtmlWidgetBuilderTest
 
 	public void testPoh5() {
 
-		// Most basic
-
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( TYPE, Date.class.getName() );
+
+		// Maximum length
+
+		attributes.put( MAXIMUM_LENGTH, "30" );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input maxlength=\"30\" type=\"text\"/>", widget.toString() );
+
+		// Masked
+
+		attributes.put( MASKED, TRUE );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input maxlength=\"30\" type=\"secret\"/>", widget.toString() );
+
+		// Date
+
+		attributes.put( TYPE, Date.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "<input type=\"date\"/>", widget.toString() );
+
+		// Color
+
+		attributes.put( TYPE, Color.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input type=\"color\"/>", widget.toString() );
+
+		// Number
+
+		attributes.put( TYPE, int.class.getName() );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input type=\"number\"/>", widget.toString() );
+
+		// With minimum/maximum
+
+		attributes.put( TYPE, long.class.getName() );
+		attributes.put( MINIMUM_VALUE, "2" );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input min=\"2\" type=\"number\"/>", widget.toString() );
+
+		attributes.put( TYPE, float.class.getName() );
+		attributes.put( MAXIMUM_VALUE, "42" );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "<input max=\"42\" min=\"2\" type=\"number\"/>", widget.toString() );
 	}
 
 	public void testCollection() {

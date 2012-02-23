@@ -76,7 +76,7 @@ public class CssStyleProcessorTest
 
 		String result = "<table id=\"foo\"><tbody>";
 		result += "<tr><th><label for=\"foo-bar\">Bar:</label></th><td><input class=\"classy\" id=\"foo-bar\" name=\"fooBar\" style=\"stylin\" type=\"date\"/></td><td/></tr>";
-		result += "<tr><th><label for=\"foo-baz\">Baz:</label></th><td><input class=\"classy\" id=\"foo-baz\" name=\"fooBaz\" style=\"stylin\" type=\"text\"/></td><td/></tr>";
+		result += "<tr><th><label for=\"foo-baz\">Baz:</label></th><td><input class=\"classy\" id=\"foo-baz\" name=\"fooBaz\" style=\"stylin\" type=\"number\"/></td><td/></tr>";
 		result += "</tbody></table>";
 		assertEquals( result, metawidget.toString() );
 

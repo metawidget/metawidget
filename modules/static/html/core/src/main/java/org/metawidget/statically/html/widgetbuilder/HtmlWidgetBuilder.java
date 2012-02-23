@@ -18,6 +18,7 @@ package org.metawidget.statically.html.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -89,17 +90,18 @@ public class HtmlWidgetBuilder
 			return new StaticXmlStub();
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, fail gracefully with a text box
-
-		if ( type == null ) {
-			return createHtmlInputText( attributes );
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz;
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+		// If no type, assume a String
+
+		if ( type == null ) {
+			clazz = String.class;
+		} else {
+			clazz = ClassUtils.niceForName( type );
+		}
 
 		// Support mandatory Booleans.
 
@@ -119,6 +121,9 @@ public class HtmlWidgetBuilder
 
 		if ( clazz != null ) {
 
+			String minimumValue = attributes.get( MINIMUM_VALUE );
+			String maximumValue = attributes.get( MAXIMUM_VALUE );
+
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
@@ -133,7 +138,19 @@ public class HtmlWidgetBuilder
 					return characterInput;
 				}
 
-				return createHtmlInputText( attributes );
+				HtmlInput inputNumber = createHtmlInputNumber();
+
+				// Ranged
+
+				if ( minimumValue != null ) {
+					inputNumber.putAttribute( "min", minimumValue );
+				}
+
+				if ( maximumValue != null ) {
+					inputNumber.putAttribute( "max", maximumValue );
+				}
+
+				return inputNumber;
 			}
 
 			// String
@@ -163,13 +180,32 @@ public class HtmlWidgetBuilder
 			// Date
 
 			if ( Date.class.equals( clazz ) ) {
-				return createHtmlInputDate( attributes );
+				return createHtmlInputDate();
 			}
 
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-				return createHtmlInputText( attributes );
+
+				HtmlInput inputNumber = createHtmlInputNumber();
+
+				// Ranged
+
+				if ( minimumValue != null ) {
+					inputNumber.putAttribute( "min", minimumValue );
+				}
+
+				if ( maximumValue != null ) {
+					inputNumber.putAttribute( "max", maximumValue );
+				}
+
+				return inputNumber;
+			}
+
+			// Color
+
+			if ( Color.class.equals( clazz ) ) {
+				return createHtmlInputColor();
 			}
 
 			// Collections and Arrays
@@ -384,14 +420,6 @@ public class HtmlWidgetBuilder
 	// Private methods
 	//
 
-	private StaticXmlWidget createHtmlCheckbox() {
-
-		HtmlTag checkbox = new HtmlInput();
-		checkbox.putAttribute( "type", "checkbox" );
-
-		return checkbox;
-	}
-
 	private HtmlInput createHtmlInputText( Map<String, String> attributes ) {
 
 		HtmlInput input = new HtmlInput();
@@ -401,16 +429,49 @@ public class HtmlWidgetBuilder
 		return input;
 	}
 
+	private StaticXmlWidget createHtmlCheckbox() {
+
+		HtmlTag checkbox = new HtmlInput();
+		checkbox.putAttribute( "type", "checkbox" );
+
+		return checkbox;
+	}
+
 	/**
 	 * Creates an HTML &lt;input type=\"date\"&gt;. Date inputs are only available in HTML 5,
 	 * but earlier versions of HTML will degrade to a textbox.
 	 */
 
-	private HtmlInput createHtmlInputDate( Map<String, String> attributes ) {
+	private HtmlInput createHtmlInputDate() {
 
 		HtmlInput input = new HtmlInput();
 		input.putAttribute( "type", "date" );
-		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+
+		return input;
+	}
+
+	/**
+	 * Creates an HTML &lt;input type=\"number\"&gt;. Number inputs are only available in HTML 5,
+	 * but earlier versions of HTML will degrade to a textbox.
+	 */
+
+	private HtmlInput createHtmlInputNumber() {
+
+		HtmlInput input = new HtmlInput();
+		input.putAttribute( "type", "number" );
+
+		return input;
+	}
+
+	/**
+	 * Creates an HTML &lt;input type=\"color\"&gt;. Color inputs are only available in HTML 5,
+	 * but earlier versions of HTML will degrade to a textbox.
+	 */
+
+	private HtmlInput createHtmlInputColor() {
+
+		HtmlInput input = new HtmlInput();
+		input.putAttribute( "type", "color" );
 
 		return input;
 	}
