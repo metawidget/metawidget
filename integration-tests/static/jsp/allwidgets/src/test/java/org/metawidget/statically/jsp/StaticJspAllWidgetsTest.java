@@ -83,7 +83,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"bytePrimitive\">Byte Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"bytePrimitive\" name=\"bytePrimitive\" type=\"text\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"bytePrimitive\" min=\"-5\" name=\"bytePrimitive\" type=\"number\" value=\"${allWidgets.bytePrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -92,7 +92,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"byteObject\">Byte Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"byteObject\" name=\"byteObject\" type=\"text\" value=\"${allWidgets.byteObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"byteObject\" name=\"byteObject\" type=\"number\" value=\"${allWidgets.byteObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -101,7 +101,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"shortPrimitive\">Short Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"shortPrimitive\" name=\"shortPrimitive\" type=\"text\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"shortPrimitive\" min=\"-6\" name=\"shortPrimitive\" type=\"number\" value=\"${allWidgets.shortPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -110,7 +110,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"shortObject\">Short Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"shortObject\" name=\"shortObject\" type=\"text\" value=\"${allWidgets.shortObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"shortObject\" name=\"shortObject\" type=\"number\" value=\"${allWidgets.shortObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -119,7 +119,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"intPrimitive\">Int Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"intPrimitive\" name=\"intPrimitive\" type=\"text\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"intPrimitive\" name=\"intPrimitive\" type=\"number\" value=\"${allWidgets.intPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -128,7 +128,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"integerObject\">Integer Object:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"integerObject\" name=\"integerObject\" type=\"text\" value=\"${allWidgets.integerObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"integerObject\" name=\"integerObject\" type=\"number\" value=\"${allWidgets.integerObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -137,7 +137,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"rangedInt\">Ranged Int:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"rangedInt\" name=\"rangedInt\" type=\"text\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
+            "\t\t\t\t<input id=\"rangedInt\" max=\"100\" min=\"1\" name=\"rangedInt\" type=\"number\" value=\"${allWidgets.rangedInt}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -146,7 +146,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"rangedInteger\">Ranged Integer:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"rangedInteger\" name=\"rangedInteger\" type=\"text\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
+            "\t\t\t\t<input id=\"rangedInteger\" max=\"99\" min=\"2\" name=\"rangedInteger\" type=\"number\" value=\"${allWidgets.rangedInteger}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -155,7 +155,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"longPrimitive\">Long Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"longPrimitive\" name=\"longPrimitive\" type=\"text\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"longPrimitive\" min=\"-7\" name=\"longPrimitive\" type=\"number\" value=\"${allWidgets.longPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -164,7 +164,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"longObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"longObject\" name=\"longObject\" type=\"text\" value=\"${allWidgets.longObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"longObject\" name=\"longObject\" type=\"number\" value=\"${allWidgets.longObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -173,7 +173,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"floatPrimitive\">Float Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"floatPrimitive\" name=\"floatPrimitive\" type=\"text\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"floatPrimitive\" max=\"2048\" name=\"floatPrimitive\" type=\"number\" value=\"${allWidgets.floatPrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -182,7 +182,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"floatObject\">nullInBundle:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"floatObject\" name=\"floatObject\" type=\"text\" value=\"${allWidgets.floatObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"floatObject\" name=\"floatObject\" type=\"number\" value=\"${allWidgets.floatObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -191,7 +191,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"doublePrimitive\">Double Primitive:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"doublePrimitive\" name=\"doublePrimitive\" type=\"text\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
+            "\t\t\t\t<input id=\"doublePrimitive\" min=\"-8\" name=\"doublePrimitive\" type=\"number\" value=\"${allWidgets.doublePrimitive}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -200,7 +200,7 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label for=\"doubleObject\"/>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<input id=\"doubleObject\" name=\"doubleObject\" type=\"text\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
+            "\t\t\t\t<input id=\"doubleObject\" name=\"doubleObject\" type=\"number\" value=\"${allWidgets.doubleObject}\"/>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
