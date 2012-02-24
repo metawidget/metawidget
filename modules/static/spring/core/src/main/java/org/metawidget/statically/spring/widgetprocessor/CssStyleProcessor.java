@@ -18,8 +18,8 @@ package org.metawidget.statically.spring.widgetprocessor;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -30,13 +30,13 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  */
 
 public class CssStyleProcessor
-    implements WidgetProcessor<StaticXmlWidget, StaticSpringMetawidget> {
+    implements WidgetProcessor<StaticXmlWidget, StaticXmlMetawidget> {
 
     //
     // Public methods
     //
 
-    public StaticXmlWidget processWidget(StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
+    public StaticXmlWidget processWidget(StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
 
         String cssStyle = metawidget.getAttribute( "cssStyle" );
 
