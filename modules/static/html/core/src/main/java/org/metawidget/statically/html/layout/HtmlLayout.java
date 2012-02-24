@@ -44,6 +44,18 @@ public abstract class HtmlLayout
 
 	protected boolean layoutLabel( HtmlTag tag, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
+		HtmlTag label = createLabel( widgetNeedingLabel, elementName, attributes, metawidget );
+		tag.getChildren().add( label );
+		return true;
+	}
+
+	/**
+	 * @param elementName
+	 *            can be useful if the Layout needs to call a WidgetProcessor
+	 */
+
+	protected HtmlTag createLabel( StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
+
 		HtmlLabel label = new HtmlLabel();
 		String id = getWidgetId( widgetNeedingLabel );
 
@@ -56,20 +68,14 @@ public abstract class HtmlLayout
 			label.setTextContent( labelText + ":" );
 		}
 
-		tag.getChildren().add( label );
-
-		return true;
+		return label;
 	}
-
-	//
-	// Private methods
-	//
 
 	/**
 	 * Gets the id attribute of the given widget, recursing into child widgets if necessary.
 	 */
 
-	private String getWidgetId( StaticXmlWidget widget ) {
+	protected String getWidgetId( StaticXmlWidget widget ) {
 
 		String id = widget.getAttribute( "id" );
 
