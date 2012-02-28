@@ -2439,6 +2439,19 @@ metawidget.setToInspect( animal )</programlisting>
 				</para>
 				
 				<para>
+					Alternatively, there are Forge plugins that can generate scaffolds for different environments. For example the
+					Spring plugin uses <classname>StaticSpringMetawidget</classname> to generate Spring scaffolds, and the AeroGear plugin
+					uses <classname>StaticHtmlMetawidget</classname> to generate mobile scaffolds:
+				</para>
+				
+				<figure id="section-introduction-part3-static-mobile-screenshot">
+					<title>Forge, AeroGear and Static Metawidget generate mobile applications</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/static-mobile.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+				
+				<para>
 					For more information on JBoss Forge and how Metawidget relates to it, see the
 					<ulink url="https://docs.jboss.org/author/display/FORGE/UI+Scaffolding">UI scaffolding section</ulink>
 					of the Forge documentation.
