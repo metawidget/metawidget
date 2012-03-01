@@ -145,6 +145,11 @@ public class ClassUtilsTest
 		}
 	}
 
+	public static void testGetPackagesAsFolderNames() {
+
+		assertEquals( "/java/lang", ClassUtils.getPackagesAsFolderNames( String.class ));
+	}
+
 	//
 	// Inner class
 	//

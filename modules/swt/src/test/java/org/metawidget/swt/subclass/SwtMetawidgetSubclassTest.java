@@ -36,7 +36,7 @@ public class SwtMetawidgetSubclassTest
 
 	public static void testDefaultConfiguration() {
 
-		assertEquals( "org/metawidget/swt/metawidget-swt-default.xml", new SwtMetawidgetSubclass().getDefaultConfiguration() );
+		assertEquals( "/org/metawidget/swt/metawidget-swt-default.xml", new SwtMetawidgetSubclass().getDefaultConfiguration() );
 	}
 
 	//

@@ -42,7 +42,7 @@ public class HtmlMetawidgetSubclassTest
 
 	public static void testDefaultConfiguration() {
 
-		assertEquals( "org/metawidget/faces/component/html/metawidget-html-default.xml", new HtmlMetawidgetSubclass().getDefaultConfiguration() );
+		assertEquals( "/org/metawidget/faces/component/html/metawidget-html-default.xml", new HtmlMetawidgetSubclass().getDefaultConfiguration() );
 	}
 
 	//

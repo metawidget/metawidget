@@ -33,7 +33,7 @@ public class SwingMetawidgetSubclassTest
 
 	public static void testDefaultConfiguration() {
 
-		assertEquals( "org/metawidget/swing/metawidget-swing-default.xml", new SwingMetawidgetSubclass().getDefaultConfiguration() );
+		assertEquals( "/org/metawidget/swing/metawidget-swing-default.xml", new SwingMetawidgetSubclass().getDefaultConfiguration() );
 	}
 
 	//
