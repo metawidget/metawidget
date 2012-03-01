@@ -586,14 +586,14 @@ public class BaseConfigReader
 		String uppercasedLocalName = StringUtils.capitalize( localName );
 		String classToConstruct = packagePrefix + StringUtils.SEPARATOR_DOT_CHAR + uppercasedLocalName;
 
-		Class<?> clazz = ClassUtils.niceForName( classToConstruct, classLoader );
+		Class<?> clazz = lookupClass( classToConstruct, classLoader );
 
 		if ( clazz == null ) {
 
 			// Try inner class
 
 			String innerClassToConstruct = packagePrefix + '$' + uppercasedLocalName;
-			clazz = ClassUtils.niceForName( innerClassToConstruct, classLoader );
+			clazz = lookupClass( innerClassToConstruct, classLoader );
 
 			if ( clazz == null ) {
 				throw MetawidgetException.newException( "No such tag <" + localName + "> or class " + classToConstruct + " (is it on your CLASSPATH?)" );
@@ -603,6 +603,17 @@ public class BaseConfigReader
 		// Return it
 
 		return clazz;
+	}
+
+	/**
+	 * Lookup a class based on its name.
+	 * <p>
+	 * Subclasses can override this method to lookup a class in other ways (for example using a module system).
+	 */
+
+	protected Class<?> lookupClass( String className, ClassLoader classLoader ) {
+
+		return ClassUtils.niceForName( className, classLoader );
 	}
 
 	/**
@@ -1256,7 +1267,7 @@ public class BaseConfigReader
 						configToConstruct = configClassName;
 					}
 
-					Class<?> configClass = ClassUtils.niceForName( configToConstruct, mToConfigure.getClass().getClassLoader() );
+					Class<?> configClass = lookupClass( configToConstruct, mToConfigure.getClass().getClassLoader() );
 					if ( configClass == null ) {
 						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
 					}
