@@ -35,7 +35,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>webtest-maven-plugin</artifactId>
-				<!-- LOW: once http://java.net/jira/browse/JAVASERVERFACES-1826 is fixed (and delete local one) <configuration> <sourcedirectory>../myfaces2-richfaces/src/test/webtest</sourcedirectory> </configuration> -->
+				<!-- LOW: once http://java.net/jira/browse/JAVASERVERFACES-2283 is fixed (and delete local one) <configuration> <sourcedirectory>../myfaces2-richfaces/src/test/webtest</sourcedirectory> </configuration> -->
 			</plugin>
 		</plugins>
 	</build>

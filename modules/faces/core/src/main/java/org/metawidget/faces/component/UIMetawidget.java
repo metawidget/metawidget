@@ -701,7 +701,7 @@ public abstract class UIMetawidget
 	public void restoreState( FacesContext context, Object state ) {
 
 		if ( !( state instanceof Object[] ) ) {
-			throw MetawidgetException.newException( "State not Object[]. See http://java.net/jira/browse/JAVASERVERFACES-1826 for analysis of this issue" );
+			throw MetawidgetException.newException( "State not Object[]. See http://java.net/jira/browse/JAVASERVERFACES-2283 for analysis of this issue" );
 		}
 
 		Object values[] = (Object[]) state;
@@ -743,7 +743,7 @@ public abstract class UIMetawidget
 
 		// PreRenderViewEvent support
 		//
-		// This is dependent on https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826
+		// This is dependent on http://java.net/jira/browse/JAVASERVERFACES-2283
 		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
 		// for the duration
 
@@ -760,7 +760,7 @@ public abstract class UIMetawidget
 
 				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: http://java.net/jira/browse/JAVASERVERFACES-2283" );
 
 				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
@@ -775,7 +775,7 @@ public abstract class UIMetawidget
 
 				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) ) {
 
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=1826" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: http://java.net/jira/browse/JAVASERVERFACES-2283" );
 
 				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) ) {
 
@@ -1087,7 +1087,7 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Mojarra 2.x requires a fix for http://java.net/jira/browse/JAVASERVERFACES-1826.
+	 * Mojarra 2.x requires a fix for http://java.net/jira/browse/JAVASERVERFACES-2283.
 	 */
 
 	private boolean isBadMojarra2( String contextImplementationTitle, String contextImplementationVersion ) {
@@ -1100,11 +1100,7 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		if ( contextImplementationVersion.contains( "2.1.1" ) || contextImplementationVersion.contains( "2.1.2" ) || contextImplementationVersion.contains( "2.1.3" ) ) {
-			return true;
-		}
-
-		if ( contextImplementationVersion.contains( "2.1.4" ) || contextImplementationVersion.contains( "2.1.5" ) || contextImplementationVersion.contains( "2.1.6" ) ) {
+		if ( contextImplementationVersion.contains( "2.1." ) || contextImplementationVersion.contains( "2.2." )) {
 			return true;
 		}
 
