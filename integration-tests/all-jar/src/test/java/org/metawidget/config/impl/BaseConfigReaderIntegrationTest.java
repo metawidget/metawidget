@@ -33,6 +33,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.beanvalidation.BeanValidationInspector;
@@ -303,7 +304,7 @@ public class BaseConfigReaderIntegrationTest
 
 		// (4 because each metawidget-allwidgets.xml contains a metawidget-metadata.xml)
 
-		assertEquals( 4, configReader.getOpenedResource() );
+		assertEquals( 4, ((CountingResourceResolver) configReader.getResourceResolver()).getOpenedResource() );
 		assertEquals( 2, configReader.mResourceCache.size() );
 
 		// Check caching paused and unpaused correctly
@@ -542,7 +543,7 @@ public class BaseConfigReaderIntegrationTest
 
 	public void testOnlyCacheIfSuccessful() {
 
-		ConfigReader configReader = new BaseConfigReader() {
+		ConfigReader configReader = new BaseConfigReader( new ResourceResolver() {
 
 			private int	mOpenResource;
 
@@ -582,7 +583,7 @@ public class BaseConfigReaderIntegrationTest
 
 				return new ByteArrayInputStream( xml.getBytes() );
 			}
-		};
+		} );
 
 		try {
 			configReader.configure( "foo", HtmlMetawidgetTag.class );
@@ -605,16 +606,16 @@ public class BaseConfigReaderIntegrationTest
 		// Private members
 		//
 
-		private int	mOpenedResource;
-
 		//
 		// Constructor
 		//
 
 		public ValidatingConfigReader() {
 
+			super( new CountingResourceResolver() );
+
 			SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-			InputStream in = super.openResource( "org/metawidget/config/metawidget-1.0.xsd" );
+			InputStream in = getResourceResolver().openResource( "org/metawidget/config/metawidget-1.0.xsd" );
 
 			try {
 				mFactory.setSchema( factory.newSchema( new StreamSource( in ) ) );
@@ -622,16 +623,17 @@ public class BaseConfigReaderIntegrationTest
 				throw MetawidgetException.newException( e );
 			}
 		}
+	}
 
-		//
-		// Public methods
-		//
+	static class CountingResourceResolver
+		extends SimpleResourceResolver {
+
+		private int	mOpenedResource;
 
 		@Override
 		public InputStream openResource( String resource ) {
 
 			mOpenedResource++;
-
 			return super.openResource( resource );
 		}
 
