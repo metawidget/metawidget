@@ -31,7 +31,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.config.iface.ConfigReader;
-import org.metawidget.config.impl.ServletConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
+import org.metawidget.config.impl.ServletResourceResolver;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
@@ -140,7 +141,7 @@ public abstract class MetawidgetTag
 		ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
 
 		if ( configReader == null ) {
-			configReader = new ServletConfigReader( servletContext );
+			configReader = new BaseConfigReader( new ServletResourceResolver( servletContext ));
 			servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
 		}
 

@@ -59,7 +59,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 
 public class BaseConfigReader
-	implements ConfigReader, ResourceResolver {
+	implements ConfigReader {
 
 	//
 	// Package private statics
@@ -84,6 +84,8 @@ public class BaseConfigReader
 	//
 	// Private members
 	//
+
+	private final ResourceResolver										mResourceResolver;
 
 	/**
 	 * Cache of resource content based on resource name
@@ -133,8 +135,14 @@ public class BaseConfigReader
 
 	public BaseConfigReader() {
 
+		this( new SimpleResourceResolver() );
+	}
+
+	public BaseConfigReader( ResourceResolver resourceResolver ) {
+
 		mFactory = SAXParserFactory.newInstance();
 		mFactory.setNamespaceAware( true );
+		mResourceResolver = resourceResolver;
 	}
 
 	//
@@ -205,7 +213,7 @@ public class BaseConfigReader
 					LOG.debug( "Reading resource from {0}", locationKey );
 					cachingContentHandler = new CachingContentHandler( configHandler );
 					configHandler.setCachingContentHandler( cachingContentHandler );
-					mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
+					mFactory.newSAXParser().parse( mResourceResolver.openResource( resource ), cachingContentHandler );
 
 					// Only cache if successful
 
@@ -293,18 +301,9 @@ public class BaseConfigReader
 		}
 	}
 
-	/**
-	 * Locate the given resource by trying, in order:
-	 * <p>
-	 * <ul>
-	 * <li>the current thread's context classloader, if any
-	 * <li>the classloader that loaded ClassUtils
-	 * </ul>
-	 */
+	public final ResourceResolver getResourceResolver() {
 
-	public InputStream openResource( String resource ) {
-
-		return new SimpleResourceResolver().openResource( resource );
+		return mResourceResolver;
 	}
 
 	//
@@ -477,7 +476,7 @@ public class BaseConfigReader
 		// are used by, say, a PropertyStyle because that PropertyStyle can never be shared
 
 		if ( "resource".equals( name ) ) {
-			return openResource( recordedText );
+			return mResourceResolver.openResource( recordedText );
 		}
 
 		if ( "url".equals( name ) ) {
@@ -608,7 +607,8 @@ public class BaseConfigReader
 	/**
 	 * Lookup a class based on its name.
 	 * <p>
-	 * Subclasses can override this method to lookup a class in other ways (for example using a module system).
+	 * Subclasses can override this method to lookup a class in other ways (for example using a
+	 * module system).
 	 */
 
 	protected Class<?> lookupClass( String className, ClassLoader classLoader ) {
@@ -1275,7 +1275,7 @@ public class BaseConfigReader
 					Object config = configClass.newInstance();
 
 					if ( config instanceof NeedsResourceResolver ) {
-						( (NeedsResourceResolver) config ).setResourceResolver( BaseConfigReader.this );
+						( (NeedsResourceResolver) config ).setResourceResolver( getResourceResolver() );
 					}
 
 					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ) );

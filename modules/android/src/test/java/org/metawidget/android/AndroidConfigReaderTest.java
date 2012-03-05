@@ -39,7 +39,7 @@ public class AndroidConfigReaderTest
 		assertTrue( 123 == (Integer) androidConfigReader.createNative( "int", null, "123" ) );
 
 		try {
-			androidConfigReader.openResource( "foo" );
+			androidConfigReader.getResourceResolver().openResource( "foo" );
 		} catch ( MetawidgetException e ) {
 			assertEquals( "Resource name does not start with '@': foo", e.getMessage() );
 		}

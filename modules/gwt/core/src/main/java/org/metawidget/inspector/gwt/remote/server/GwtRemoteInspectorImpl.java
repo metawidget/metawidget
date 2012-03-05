@@ -22,7 +22,8 @@ import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.metawidget.config.impl.ServletConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
+import org.metawidget.config.impl.ServletResourceResolver;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
@@ -82,7 +83,7 @@ public class GwtRemoteInspectorImpl
 
 		super.init( servletConfig );
 
-		mPipeline.setConfigReader( new ServletConfigReader( getServletContext() ) );
+		mPipeline.setConfigReader( new BaseConfigReader( new ServletResourceResolver( getServletContext() ) ));
 
 		// Locate metawidget.xml (if one specified)
 

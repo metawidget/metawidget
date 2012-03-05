@@ -18,6 +18,7 @@ package org.metawidget.android;
 
 import java.io.InputStream;
 
+import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.iface.MetawidgetException;
 
@@ -46,36 +47,34 @@ public class AndroidConfigReader
 	// Constructor
 	//
 
-	public AndroidConfigReader( Context context ) {
+	public AndroidConfigReader( final Context context ) {
+
+		super( new ResourceResolver() {
+
+			/**
+			 * Overridden to try <code>Context.getResources</code> first.
+			 * <p>
+			 * Resource strings should be of the form <code>@com.foo:raw/metawidget_metadata</code>.
+			 */
+
+			public InputStream openResource( String resource ) {
+
+				if ( !resource.startsWith( "@" ) ) {
+					throw MetawidgetException.newException( "Resource name does not start with '@': " + resource );
+				}
+
+				Resources resources = context.getResources();
+				int id = resources.getIdentifier( resource, null, null );
+
+				if ( id == 0 ) {
+					throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + resource );
+				}
+
+				return resources.openRawResource( id );
+			}
+		} );
 
 		mContext = context;
-	}
-
-	//
-	// Public methods
-	//
-
-	/**
-	 * Overridden to try <code>Context.getResources</code> first.
-	 * <p>
-	 * Resource strings should be of the form <code>@com.foo:raw/metawidget_metadata</code>.
-	 */
-
-	@Override
-	public InputStream openResource( String resource ) {
-
-		if ( !resource.startsWith( "@" ) ) {
-			throw MetawidgetException.newException( "Resource name does not start with '@': " + resource );
-		}
-
-		Resources resources = mContext.getResources();
-		int id = resources.getIdentifier( resource, null, null );
-
-		if ( id == 0 ) {
-			throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + resource );
-		}
-
-		return resources.openRawResource( id );
 	}
 
 	//

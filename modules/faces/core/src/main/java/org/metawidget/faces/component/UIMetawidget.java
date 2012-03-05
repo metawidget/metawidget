@@ -43,6 +43,7 @@ import javax.faces.event.SystemEventListener;
 import javax.faces.validator.Validator;
 
 import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -200,7 +201,7 @@ public abstract class UIMetawidget
 		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
 
 		if ( configReader == null ) {
-			configReader = new FacesConfigReader();
+			configReader = new BaseConfigReader( new FacesResourceResolver() );
 			applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
 		}
 
@@ -1100,7 +1101,7 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		if ( contextImplementationVersion.contains( "2.1." ) || contextImplementationVersion.contains( "2.2." )) {
+		if ( contextImplementationVersion.contains( "2.1." ) || contextImplementationVersion.contains( "2.2." ) ) {
 			return true;
 		}
 
