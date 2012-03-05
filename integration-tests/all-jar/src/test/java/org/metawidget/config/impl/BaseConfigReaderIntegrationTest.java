@@ -302,9 +302,10 @@ public class BaseConfigReaderIntegrationTest
 		configReader.configure( "org/metawidget/config/metawidget-test-caching2.xml", GwtRemoteInspectorImpl.class );
 		configReader.configure( "org/metawidget/config/metawidget-test-caching2.xml", GwtRemoteInspectorImpl.class );
 
-		// (4 because each metawidget-allwidgets.xml contains a metawidget-metadata.xml)
+		// (5 because each metawidget-allwidgets.xml contains a metawidget-metadata.xml, plus
+		// metawidget-1.0.xsd)
 
-		assertEquals( 4, ((CountingResourceResolver) configReader.getResourceResolver()).getOpenedResource() );
+		assertEquals( 5, ( (CountingResourceResolver) configReader.getResourceResolver() ).getOpenedResource() );
 		assertEquals( 2, configReader.mResourceCache.size() );
 
 		// Check caching paused and unpaused correctly
