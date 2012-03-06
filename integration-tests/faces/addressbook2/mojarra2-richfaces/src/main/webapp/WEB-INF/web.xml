@@ -20,7 +20,7 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Until http://java.net/jira/browse/JAVASERVERFACES-1826 -->
+	<!-- Until http://java.net/jira/browse/JAVASERVERFACES-2283 -->
 	
 	<context-param>
 		<param-name>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</param-name>

@@ -33,7 +33,7 @@ public class StrutsMetawidgetTagSubclassTest
 
 	public static void testDefaultConfiguration() {
 
-		assertEquals( "org/metawidget/jsp/tagext/html/struts/metawidget-struts-default.xml", new StaticStrutsMetawidgetTagSubclass().getDefaultConfiguration() );
+		assertEquals( "/org/metawidget/jsp/tagext/html/struts/metawidget-struts-default.xml", new StaticStrutsMetawidgetTagSubclass().getDefaultConfiguration() );
 	}
 
 	//

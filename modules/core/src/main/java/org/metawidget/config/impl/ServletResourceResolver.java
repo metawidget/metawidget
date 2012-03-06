@@ -24,7 +24,7 @@ import javax.servlet.ServletContext;
 import org.metawidget.inspector.iface.InspectorException;
 
 /**
- * Specialized ConfigReader for Servlets.
+ * Specialized ResourceResolver for Servlets.
  * <p>
  * Resolves references by looking in <code>/WEB-INF/</code> first. Defined here, rather than in
  * <code>org.metawidget.jsp</code>, because needs to be shared by various Web-based frameworks
@@ -33,8 +33,8 @@ import org.metawidget.inspector.iface.InspectorException;
  * @author Richard Kennard
  */
 
-public class ServletConfigReader
-	extends BaseConfigReader {
+public class ServletResourceResolver
+	extends SimpleResourceResolver {
 
 	//
 	// Private members
@@ -46,7 +46,7 @@ public class ServletConfigReader
 	// Constructor
 	//
 
-	public ServletConfigReader( ServletContext context ) {
+	public ServletResourceResolver( ServletContext context ) {
 
 		mContext = context;
 	}

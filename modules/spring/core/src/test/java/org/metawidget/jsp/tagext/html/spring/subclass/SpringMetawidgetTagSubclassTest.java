@@ -33,7 +33,7 @@ public class SpringMetawidgetTagSubclassTest
 
 	public static void testDefaultConfiguration() {
 
-		assertEquals( "org/metawidget/jsp/tagext/html/spring/metawidget-spring-default.xml", new StaticSpringMetawidgetTagSubclass().getDefaultConfiguration() );
+		assertEquals( "/org/metawidget/jsp/tagext/html/spring/metawidget-spring-default.xml", new StaticSpringMetawidgetTagSubclass().getDefaultConfiguration() );
 	}
 
 	//

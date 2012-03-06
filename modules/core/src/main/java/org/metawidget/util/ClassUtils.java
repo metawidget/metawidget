@@ -419,9 +419,14 @@ public final class ClassUtils {
 		return declaringClass;
 	}
 
+	/**
+	 * Converts <code>com.foo.Bar</code> into <code>/com/foo</code>. The leading forward slash can
+	 * be important in some module loading environments (e.g. for JBoss Forge).
+	 */
+
 	public static String getPackagesAsFolderNames( Class<?> clazz ) {
 
-		return clazz.getPackage().getName().replace( StringUtils.SEPARATOR_DOT_CHAR, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+		return StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + clazz.getPackage().getName().replace( StringUtils.SEPARATOR_DOT_CHAR, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
 
 	/**

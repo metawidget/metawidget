@@ -21,19 +21,19 @@ import java.net.URL;
 
 import javax.faces.context.FacesContext;
 
-import org.metawidget.config.impl.BaseConfigReader;
+import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 
 /**
- * Specialized ConfigReader for Java Server Faces.
+ * Specialized ResourceResolver for Java Server Faces.
  * <p>
  * Resolves references by looking in <code>/WEB-INF/</code> first.
  *
  * @author Richard Kennard
  */
 
-public class FacesConfigReader
-	extends BaseConfigReader {
+public class FacesResourceResolver
+	extends SimpleResourceResolver {
 
 	//
 	// Protected methods

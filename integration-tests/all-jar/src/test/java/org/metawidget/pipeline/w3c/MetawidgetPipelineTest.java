@@ -271,9 +271,9 @@ public class MetawidgetPipelineTest
 		pipeline.addWidgetProcessor( widgetProcessor1 );
 		pipeline.addWidgetProcessor( widgetProcessor2 );
 
-		assertEquals( widgetProcessor1, (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( WidgetProcessor.class ) );
-		assertEquals( widgetProcessor1, (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( ReflectionBindingProcessor.class ) );
-		assertEquals( widgetProcessor2, (WidgetProcessor<?, ?>) pipeline.getWidgetProcessor( JGoodiesValidatorProcessor.class ) );
+		assertEquals( widgetProcessor1, pipeline.getWidgetProcessor( WidgetProcessor.class ) );
+		assertEquals( widgetProcessor1, pipeline.getWidgetProcessor( ReflectionBindingProcessor.class ) );
+		assertEquals( widgetProcessor2, pipeline.getWidgetProcessor( JGoodiesValidatorProcessor.class ) );
 
 		try {
 			pipeline.addWidgetProcessor( widgetProcessor1 );

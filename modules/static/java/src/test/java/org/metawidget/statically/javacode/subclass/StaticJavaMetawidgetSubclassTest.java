@@ -33,7 +33,7 @@ public class StaticJavaMetawidgetSubclassTest
 
 	public static void testDefaultConfiguration() {
 
-		assertEquals( "org/metawidget/statically/javacode/metawidget-static-javacode-default.xml", new StaticJavaMetawidgetSubclass().getDefaultConfiguration() );
+		assertEquals( "/org/metawidget/statically/javacode/metawidget-static-javacode-default.xml", new StaticJavaMetawidgetSubclass().getDefaultConfiguration() );
 	}
 
 	//
