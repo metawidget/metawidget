@@ -450,6 +450,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
+            "\t\t\t<th/>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:hidden path=\"hidden\"/>\r\n" +
             "\t\t\t</td>\r\n" +

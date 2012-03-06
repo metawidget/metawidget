@@ -64,7 +64,7 @@ public class SpringTableLayout
 	protected boolean layoutLabel( HtmlTag row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
 	    if ( widgetNeedingLabel instanceof FormHiddenTag ) {
-
+	        row.getChildren().add( new HtmlTableHeader() );
 	        return false;
 	    }
 
