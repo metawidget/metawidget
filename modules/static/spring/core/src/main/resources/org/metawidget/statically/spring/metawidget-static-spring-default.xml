@@ -40,7 +40,6 @@
 					<array>					
 						<readOnlyWidgetBuilder xmlns="java:org.metawidget.statically.jsp.widgetbuilder"/>
 						<springWidgetBuilder xmlns="java:org.metawidget.statically.spring.widgetbuilder"/>
-						<jspWidgetBuilder xmlns="java:org.metawidget.statically.jsp.widgetbuilder"/>						
 					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>

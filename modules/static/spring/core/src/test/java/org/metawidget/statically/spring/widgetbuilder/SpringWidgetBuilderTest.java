@@ -25,7 +25,12 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.jsp.StaticJspMetawidget;
+import org.metawidget.statically.layout.SimpleLayout;
+import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -80,13 +85,22 @@ public class SpringWidgetBuilderTest
 
     public void testCollection() {
 
-        // SpringWidgetBuilder returns stubs for all collections at the moment.
+        // SpringWidgetBuilder defers to StaticJspMetawidget
 
+    	Inspector inspector = new MetawidgetAnnotationInspector();
+        StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+        metawidget.setPath( "com.foo.Bar" );
+        metawidget.setInspector( inspector );
         SpringWidgetBuilder widgetBuilder = new SpringWidgetBuilder();
         Map<String, String> attributes = CollectionUtils.newHashMap();
+        attributes.put( NAME, "set" );
         attributes.put( TYPE, Set.class.getName() );
-        StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-        assertNull( widget );
-    }
 
+        StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+        assertTrue( widget instanceof StaticJspMetawidget );
+        assertEquals( inspector, ((StaticJspMetawidget) widget).getInspector() );
+        assertTrue( ((StaticJspMetawidget) widget).getLayout() instanceof SimpleLayout );
+        assertEquals( "com.foo.Bar/set", ((StaticJspMetawidget) widget).getPath() );
+        assertEquals( "", widget.toString() );
+    }
 }
