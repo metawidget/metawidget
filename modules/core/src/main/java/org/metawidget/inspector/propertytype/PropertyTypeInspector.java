@@ -143,16 +143,6 @@ public class PropertyTypeInspector
 
 			attributes.put( LOOKUP, CollectionUtils.toString( lookup ) );
 			attributes.put( LOOKUP_LABELS, CollectionUtils.toString( lookupLabels ) );
-
-			// Put the type in too. This is not strictly necessary, as generally we
-			// will be teamed up with PropertyTypeInspector, but we are used standalone
-			// in the tutorial so we need to support this (contrived) use case.
-
-			if ( actualClazz.isEnum() ) {
-				attributes.put( TYPE, actualClazz.getName() );
-			} else {
-				attributes.put( TYPE, actualClazz.getSuperclass().getName() );
-			}
 		}
 
 		return attributes;

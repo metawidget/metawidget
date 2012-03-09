@@ -148,6 +148,11 @@ public abstract class StaticMetawidget
 		mPipeline.setReadOnly( readOnly );
 	}
 
+	public Inspector getInspector() {
+
+		return mPipeline.getInspector();
+	}
+
 	public void setInspector( Inspector inspector ) {
 
 		mPipeline.setInspector( inspector );
