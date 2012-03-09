@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.html.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.layout.iface.Layout;
@@ -27,6 +29,7 @@ import org.metawidget.statically.html.widgetbuilder.HtmlTag;
 
 /**
  * @author Richard Kennard
+ * @author Ryan Bradley
  */
 
 public abstract class HtmlLayout
@@ -44,7 +47,11 @@ public abstract class HtmlLayout
 
 	protected boolean layoutLabel( HtmlTag tag, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
-		HtmlTag label = createLabel( widgetNeedingLabel, elementName, attributes, metawidget );
+	    if ( TRUE.equals( attributes.get(HIDDEN) ) ) {
+	        return false;
+	    }
+
+	    HtmlTag label = createLabel( widgetNeedingLabel, elementName, attributes, metawidget );
 		tag.getChildren().add( label );
 		return true;
 	}
