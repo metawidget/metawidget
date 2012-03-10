@@ -166,8 +166,6 @@ public class HtmlTableLayout
 		HtmlTableHeader labelCell = new HtmlTableHeader();
 		row.getChildren().add( labelCell );
 
-		super.layoutLabel( labelCell, widgetNeedingLabel, elementName, attributes, metawidget );
-
-		return true;
+		return super.layoutLabel( labelCell, widgetNeedingLabel, elementName, attributes, metawidget );
 	}
 }

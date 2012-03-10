@@ -449,9 +449,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
             "\t\t<tr>\r\n" +
-            "\t\t\t<th>\r\n" +
-            "\t\t\t\t<label for=\"hidden\">Hidden:</label>\r\n" +
-            "\t\t\t</th>\r\n" +
+            "\t\t\t<th/>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<input id=\"hidden\" name=\"hidden\" type=\"hidden\"/>\r\n" +
             "\t\t\t</td>\r\n" +
