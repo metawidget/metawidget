@@ -24,11 +24,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.StaticJspMetawidget;
 import org.metawidget.statically.layout.SimpleLayout;
+import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -42,7 +42,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class SpringWidgetBuilder
-	implements WidgetBuilder<StaticXmlWidget, StaticXmlMetawidget> {
+	implements WidgetBuilder<StaticXmlWidget, StaticSpringMetawidget> {
 
 	//
 	// Private statics
@@ -56,7 +56,7 @@ public class SpringWidgetBuilder
 	// Public methods
 	//
 
-	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticXmlMetawidget metawidget ) {
+	public StaticXmlWidget buildWidget( String elementName, Map<String, String> attributes, StaticSpringMetawidget metawidget ) {
 
 		// Hidden
 
