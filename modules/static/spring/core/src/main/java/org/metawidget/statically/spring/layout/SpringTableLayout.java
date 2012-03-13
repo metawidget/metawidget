@@ -25,6 +25,7 @@ import org.metawidget.statically.html.layout.HtmlTableLayoutConfig;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.html.widgetbuilder.HtmlTag;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
+import org.metawidget.statically.spring.widgetbuilder.FormHiddenTag;
 import org.metawidget.statically.spring.widgetbuilder.FormLabelTag;
 import org.metawidget.statically.spring.widgetprocessor.PathProcessor;
 
@@ -62,7 +63,12 @@ public class SpringTableLayout
 	@Override
 	protected boolean layoutLabel( HtmlTag row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
-		FormLabelTag label = new FormLabelTag();
+	    if ( widgetNeedingLabel instanceof FormHiddenTag ) {
+	        row.getChildren().add( new HtmlTableHeader() );
+	        return false;
+	    }
+
+	    FormLabelTag label = new FormLabelTag();
 		metawidget.getWidgetProcessor( PathProcessor.class ).processWidget( label, elementName, attributes, (StaticSpringMetawidget) metawidget );
 		String labelText = metawidget.getLabelString( attributes );
 		if ( labelText != null && labelText.length() > 0 ) {
