@@ -13,7 +13,7 @@
 		
 		<p>
 			Metawidget forums are hosted on SourceForge. Access to the forum is free, but there is no guarantee of
-			getting help in this forum. To secure our response, you may consider enterprise support described below.
+			getting help in this forum. To secure our response, you may consider <a href="#commercial">commercial support</a>.
 		</p>
 
 		<table class="data-table">
@@ -57,17 +57,19 @@
 			<a href="http://sourceforge.net/apps/mediawiki/metawidget">Click here</a> to visit the Wiki.
 		</p>
 		
+		<a name="commercial"></a>
 		<h2 class="h2-underneath">Commercial Support &amp; Training</h2>
 		
 		<p>
-			We provide an hour based Enterprise Support Service. After subscribing to a term, your account will be granted a number
-			of hours that we can spend on assistance. Our enterprise services include:
+			We provide an hour based Commercial Support Service. After subscribing to a term, your account will be granted a number
+			of hours that we can spend on assistance. Our commercial services include:
 		</p>
 		
 		<ul>
 			<li>Fast response times</li>
 			<li>Unlimited number of cases</li>
 			<li>High priority to your issues and requests</li>
+			<li>Covers development support, production support, and training</li>
 		</ul>
 
 		<table class="data-table">
@@ -102,7 +104,7 @@
 		</table>
 		
 		<p>
-			For commercial development support, production support, and training please <a href="mailto:support@metawidget.org">contact us</a>.
+			For more details please <a href="mailto:support@metawidget.org">contact us</a>.
 		</p>
 		
 	<?php require_once 'include/body-end.php'; ?>		
