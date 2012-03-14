@@ -759,7 +759,11 @@ public class BaseConfigReader
 		public Object getConfigured() {
 
 			if ( mConstructing.isEmpty() ) {
-				throw MetawidgetException.newException( "No match for " + mToConfigure + " within config" );
+				if ( mToConfigure instanceof Class ) {
+					throw MetawidgetException.newException( "No match for " + mToConfigure + " within config" );
+				}
+
+				throw MetawidgetException.newException( "No match for " + mToConfigure.getClass() + " within config" );
 			}
 
 			if ( mConstructing.size() > 1 ) {
