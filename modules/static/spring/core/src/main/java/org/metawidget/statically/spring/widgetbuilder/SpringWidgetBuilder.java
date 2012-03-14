@@ -171,6 +171,10 @@ public class SpringWidgetBuilder
 				nestedMetawidget.setInspector( metawidget.getInspector() );
 				nestedMetawidget.setLayout( new SimpleLayout() );
 				nestedMetawidget.setPath( metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+
+				// If using an external config, lookup StaticJspMetawidget within it
+
+				nestedMetawidget.setConfig( metawidget.getConfig() );
 				return nestedMetawidget;
 			}
 		}

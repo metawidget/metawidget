@@ -836,7 +836,13 @@ public class BaseConfigReader
 						// ...or instance of Object
 
 						else {
-							if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) ) {
+
+							// If already constructed Object of correct type, or if this element has wrong @type...
+
+							if ( !mConstructing.isEmpty() || !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) ) {
+
+								// ...ignore it
+
 								mEncountered.push( EncounteredState.WRONG_TYPE );
 								mIgnoreTypeAfterDepth = 2;
 
@@ -847,10 +853,6 @@ public class BaseConfigReader
 								}
 
 								return;
-							}
-
-							if ( !mConstructing.isEmpty() ) {
-								throw MetawidgetException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
 							}
 
 							mConstructing.push( mToConfigure );

@@ -19,6 +19,7 @@ package org.metawidget.statically;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.Writer;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.config.iface.ConfigReader;
@@ -95,6 +96,11 @@ public abstract class StaticMetawidget
 	public void setConfigReader( ConfigReader configReader ) {
 
 		mPipeline.setConfigReader( configReader );
+	}
+
+	public String getConfig() {
+
+		return (String) mPipeline.getConfig();
 	}
 
 	public void setConfig( String config ) {
@@ -208,6 +214,11 @@ public abstract class StaticMetawidget
 	public <W extends StaticWidget, M extends W> void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
 
 		mPipeline.addWidgetProcessor( (WidgetProcessor) widgetProcessor );
+	}
+
+	public List<WidgetProcessor<StaticWidget, StaticMetawidget>> getWidgetProcessors() {
+
+		return mPipeline.getWidgetProcessors();
 	}
 
 	@SuppressWarnings( { "unchecked" } )
