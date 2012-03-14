@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.StaticJspMetawidget;
@@ -171,6 +172,18 @@ public class SpringWidgetBuilder
 				nestedMetawidget.setInspector( metawidget.getInspector() );
 				nestedMetawidget.setLayout( new SimpleLayout() );
 				nestedMetawidget.setPath( metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+
+				// If using an external config, lookup StaticJspMetawidget within it
+
+				if ( metawidget.getConfig() != null ) {
+					nestedMetawidget.setConfig( metawidget.getConfig() );
+					try {
+						nestedMetawidget.getWidgetProcessors();
+					} catch( MetawidgetException e ) {
+						// Ignore external config if no match. Fallback to default
+						nestedMetawidget.setConfig( null );
+					}
+				}
 				return nestedMetawidget;
 			}
 		}

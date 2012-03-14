@@ -129,16 +129,10 @@ public class ReadOnlyWidgetBuilder
 				return new CoreOut();
 			}
 
-			// Collections that will be supported by HtmlWidgetBuilder
+			// Collections will be supported by JspWidgetBuilder
 
-			if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+			if ( Collection.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 				return null;
-			}
-
-			// Other Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new CoreOut();
 			}
 		}
 
