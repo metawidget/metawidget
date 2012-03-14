@@ -32,6 +32,8 @@ import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
+import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -48,6 +50,8 @@ public class SpringWidgetBuilder
 	//
 	// Private statics
 	//
+
+	private static final Log			LOG					= LogUtils.getLog( SpringWidgetBuilder.class );
 
 	private final static String			MAX_LENGTH			= "maxlength";
 
@@ -179,8 +183,8 @@ public class SpringWidgetBuilder
 					nestedMetawidget.setConfig( metawidget.getConfig() );
 					try {
 						nestedMetawidget.getWidgetProcessors();
-					} catch( MetawidgetException e ) {
-						// Ignore external config if no match. Fallback to default
+					} catch ( MetawidgetException e ) {
+						LOG.debug( "Could not configure a " + StaticJspMetawidget.class.getName() + " from config " + metawidget.getConfig() + ". Falling back to default" );
 						nestedMetawidget.setConfig( null );
 					}
 				}
