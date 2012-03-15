@@ -328,5 +328,4 @@ public class SpringWidgetBuilder
 
 		return selectTag;
 	}
-
 }
