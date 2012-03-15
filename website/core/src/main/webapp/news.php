@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v2.0 Released!</h3>
-		<h4>1st February 2011</h4>
+		<h4>1st February 2012</h4>
 		
 		<p>
 			Metawidget v2.0 is now available!
@@ -28,7 +28,7 @@
 		<hr/>
 
 		<h3>Metawidget v1.35 Released!</h3>
-		<h4>10th January 2011</h4>
+		<h4>10th January 2012</h4>
 		
 		<p>
 			Metawidget v1.35 is now available!
