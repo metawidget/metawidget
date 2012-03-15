@@ -128,7 +128,7 @@ public class HtmlTableLayout
 
 			HtmlTableCell requiredCell = new HtmlTableCell();
 
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( HIDDEN ) ) ) {
 				requiredCell.setTextContent( "*" );
 			}
 
