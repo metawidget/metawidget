@@ -96,6 +96,16 @@ public class StandardConverterProcessorTest
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 		assertEquals( "<h:inputText><f:convertNumber currencyCode=\"AUD\" currencySymbol=\"$\" groupingUsed=\"true\" locale=\"AU\" maxFractionDigits=\"1\" maxIntegerDigits=\"5\" minFractionDigits=\"0\" minIntegerDigits=\"2\" pattern=\"#0.00\" type=\"currency\"/></h:inputText>", htmlInputText.toString() );
 
+		// NumberConverter with non-Number
+
+		attributes.clear();
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( MAXIMUM_INTEGER_DIGITS, "12" );
+
+		htmlInputText = new HtmlInputText();
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
+
 		// Explicit Converter
 
 		htmlInputText = new HtmlInputText();

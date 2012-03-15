@@ -60,7 +60,7 @@ public class StandardConverterProcessor
 		String converterId = attributes.get( FACES_CONVERTER_ID );
 
 		if ( converterId != null ) {
-			((ValueHolder) widget).setConverter( converterId );
+			( (ValueHolder) widget ).setConverter( converterId );
 			return widget;
 		}
 
@@ -75,10 +75,11 @@ public class StandardConverterProcessor
 		// JSF *does* appear to implicitly hook up NumberConverters.
 
 		String type = attributes.get( TYPE );
+		Class<?> clazz = null;
 
 		if ( type != null ) {
 
-			Class<?> clazz = ClassUtils.niceForName( type );
+			clazz = ClassUtils.niceForName( type );
 
 			if ( clazz != null ) {
 
@@ -113,51 +114,54 @@ public class StandardConverterProcessor
 			converter.putAttribute( "type", attributes.get( DATETIME_TYPE ) );
 		}
 
-		// Support for NumberConverter
+		// Support for NumberConverter (so long as it's a number)
 
-		if ( attributes.containsKey( CURRENCY_CODE ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "currencyCode", attributes.get( CURRENCY_CODE ) );
-		}
+		if ( clazz == null || clazz.isAssignableFrom( Number.class ) || clazz.isPrimitive() ) {
 
-		if ( attributes.containsKey( CURRENCY_SYMBOL ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "currencySymbol", attributes.get( CURRENCY_SYMBOL ) );
-		}
+			if ( attributes.containsKey( CURRENCY_CODE ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "currencyCode", attributes.get( CURRENCY_CODE ) );
+			}
 
-		if ( attributes.containsKey( NUMBER_USES_GROUPING_SEPARATORS ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "groupingUsed", attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) );
-		}
+			if ( attributes.containsKey( CURRENCY_SYMBOL ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "currencySymbol", attributes.get( CURRENCY_SYMBOL ) );
+			}
 
-		if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "minIntegerDigits", attributes.get( MINIMUM_INTEGER_DIGITS ) );
-		}
+			if ( attributes.containsKey( NUMBER_USES_GROUPING_SEPARATORS ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "groupingUsed", attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) );
+			}
 
-		if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "maxIntegerDigits", attributes.get( MAXIMUM_INTEGER_DIGITS ) );
-		}
+			if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "minIntegerDigits", attributes.get( MINIMUM_INTEGER_DIGITS ) );
+			}
 
-		if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "minFractionDigits", attributes.get( MINIMUM_FRACTIONAL_DIGITS ) );
-		}
+			if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "maxIntegerDigits", attributes.get( MAXIMUM_INTEGER_DIGITS ) );
+			}
 
-		if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "maxFractionDigits", attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) );
-		}
+			if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "minFractionDigits", attributes.get( MINIMUM_FRACTIONAL_DIGITS ) );
+			}
 
-		if ( attributes.containsKey( NUMBER_PATTERN ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "pattern", attributes.get( NUMBER_PATTERN ) );
-		}
+			if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "maxFractionDigits", attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) );
+			}
 
-		if ( attributes.containsKey( NUMBER_TYPE ) ) {
-			converter = getNumberConverter( converter );
-			converter.putAttribute( "type", attributes.get( NUMBER_TYPE ) );
+			if ( attributes.containsKey( NUMBER_PATTERN ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "pattern", attributes.get( NUMBER_PATTERN ) );
+			}
+
+			if ( attributes.containsKey( NUMBER_TYPE ) ) {
+				converter = getNumberConverter( converter );
+				converter.putAttribute( "type", attributes.get( NUMBER_TYPE ) );
+			}
 		}
 
 		if ( converter != null ) {
