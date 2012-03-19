@@ -4,6 +4,60 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v2.1 Released!</h3>
+		<h4>19th Match 2012</h4>
+		
+		<p>
+			Metawidget v2.1 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Static HTML 5 Metawidget (ready for JBoss AeroGear)</li>
+			<li>Improvements to static Metawidgets for JSP, Spring and JSF</li>
+			<li>Swing GridBagLayout supports 0 columns</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
+		<h3>Metawidget and JBoss Forge</h3>
+		<h4>29th February 2012</h4>
+
+		<p>
+			After years of hard work, <a href="http://jboss.org/forge">JBoss Forge 1.0.0.Final</a> has been released! Forge is
+			a core framework and next-generation shell for rapid-application development in a standards-based environment. Forge
+			uses Metawidget internally for static generation of its UI scaffolding.
+		</p>
+		
+		<p>
+			For full details visit <a href="http://jboss.org/forge">the JBoss Forge website</a>.
+		</p>
+		
+		<hr/>
+
+		<h3>Metawidget and JBoss AeroGear</h3>
+		<h4>24th February 2012</h4>
+
+		<p>
+			Metawidget has been prototyped into <a href="http://jboss.org/aerogear">JBoss AeroGear</a>. This
+			allows <a href="http://jboss.org/forge">JBoss Forge</a> to generate UI scaffolds
+			for mobile applications, based on <a href="https://community.jboss.org/wiki/POH5PlainOldHTML5Applications">POH5</a> and
+			<a href="http://jquery.com">JQuery</a>.
+		</p>
+		
+		<p>
+			Full details, and a working sample, can be downloaded <a href="http://blog.kennardconsulting.com/2012/02/metawidget-and-aerogear.html">here</a>.
+		</p>
+		
+		<hr/>
+
 		<h3>Metawidget v2.0 Released!</h3>
 		<h4>1st February 2012</h4>
 		
@@ -17,7 +71,7 @@
 		<ul>
 			<li>Drop support for JDK 1.4 (was causing a number of issues with frameworks that scan the classpath)</li>
 			<li>Implement long-standing refactorings (taking the opportunity now that we've broken binary compatibility)</li>
-			<li>Static Metawidget improvements (ready for Forge CR1)</li>
+			<li>Static Metawidget improvements (ready for JBoss Forge CR1)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

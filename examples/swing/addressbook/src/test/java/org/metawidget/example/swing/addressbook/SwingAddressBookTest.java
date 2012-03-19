@@ -385,6 +385,10 @@ public class SwingAddressBookTest
 		// Check adding
 
 		assertEquals( "Mr", ( (JComboBox) metawidgetContact.getComponent( "title" ) ).getItemAt( 0 ) );
+
+		// (don't preselect the first item - that's up to the binding implementation)
+
+		assertEquals( -1, ( (JComboBox) metawidgetContact.getComponent( "title" ) ).getSelectedIndex() );
 		assertEquals( 5, ( (JComboBox) metawidgetContact.getComponent( "title" ) ).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );

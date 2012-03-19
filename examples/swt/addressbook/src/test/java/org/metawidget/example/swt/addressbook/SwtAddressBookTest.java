@@ -389,6 +389,10 @@ public class SwtAddressBookTest
 		dialog.open( new BusinessContact() );
 		metawidgetContact = dialog.mContactMetawidget;
 		assertEquals( "Mr", ( (Combo) metawidgetContact.getControl( "title" ) ).getItem( 0 ) );
+
+		// (don't preselect the first item - that's up to the binding implementation)
+
+		assertEquals( -1, ( (Combo) metawidgetContact.getControl( "title" ) ).getSelectionIndex() );
 		assertEquals( 5, ( (Combo) metawidgetContact.getControl( "title" ) ).getItemCount() );
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
