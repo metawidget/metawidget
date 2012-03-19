@@ -15,7 +15,7 @@
 		</p>
 		
 		<ul>
-			<li>Static HTML 5 Metawidget (ready for <a href="http://jboss.org/aerogear">JBoss AeroGear</a>)</li>
+			<li>Static HTML 5 Metawidget (ready for <a href="http://blog.kennardconsulting.com/2012/02/metawidget-and-aerogear.html">JBoss AeroGear</a>)</li>
 			<li>Improvements to static Metawidgets for JSP, Spring and JSF</li>
 			<li>Swing GridBagLayout now supports 0 columns</li>
 			<li>Bug fixes, documentation and unit tests</li>
