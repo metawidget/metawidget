@@ -15,12 +15,16 @@
 		</p>
 		
 		<ul>
-			<li>Static HTML 5 Metawidget (ready for JBoss AeroGear)</li>
+			<li>Static HTML 5 Metawidget (ready for <a href="http://jboss.org/aerogear">JBoss AeroGear</a>)</li>
 			<li>Improvements to static Metawidgets for JSP, Spring and JSF</li>
-			<li>Swing GridBagLayout supports 0 columns</li>
+			<li>Swing GridBagLayout now supports 0 columns</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
+		<p>
+			Special thanks to Ryan Bradley for his help with this release!
+		</p>
+
 		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
@@ -71,7 +75,7 @@
 		<ul>
 			<li>Drop support for JDK 1.4 (was causing a number of issues with frameworks that scan the classpath)</li>
 			<li>Implement long-standing refactorings (taking the opportunity now that we've broken binary compatibility)</li>
-			<li>Static Metawidget improvements (ready for JBoss Forge CR1)</li>
+			<li>Static Metawidget improvements (ready for <a href="http://jboss.org/forge">JBoss Forge</a>)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

@@ -103,6 +103,12 @@ p {
 	margin: auto;
 }
 
+hr {
+	border: 1px solid #cccccc;
+	margin-top: 30px;
+	margin-bottom: 30px;	
+}
+
 /*
  * Front page
  */
