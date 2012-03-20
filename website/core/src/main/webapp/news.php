@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v2.1 Released!</h3>
-		<h4>19th Match 2012</h4>
+		<h4>19th March 2012</h4>
 		
 		<p>
 			Metawidget v2.1 is now available!
