@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -142,6 +143,8 @@ public class JpaInspector
 		// Hidden
 
 		if ( mHideIds && property.isAnnotationPresent( Id.class ) ) {
+			attributes.put( HIDDEN, TRUE );
+		} else if ( mHideIds && property.isAnnotationPresent( EmbeddedId.class ) ) {
 			attributes.put( HIDDEN, TRUE );
 		} else if ( mHideVersions && property.isAnnotationPresent( Version.class ) ) {
 			attributes.put( HIDDEN, TRUE );

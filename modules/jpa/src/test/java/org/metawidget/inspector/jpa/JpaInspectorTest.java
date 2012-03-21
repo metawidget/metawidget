@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -73,6 +74,12 @@ public class JpaInspectorTest
 		assertFalse( property.hasAttribute( MAXIMUM_LENGTH ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "embeddedId" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertFalse( property.hasAttribute( MAXIMUM_LENGTH ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
@@ -115,6 +122,8 @@ public class JpaInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "bar", property.getAttribute( INVERSE_RELATIONSHIP ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( entity.getChildNodes().getLength(), 11 );
 	}
 
 	public void testHideIds() {
@@ -131,6 +140,7 @@ public class JpaInspectorTest
 		Element entity = (Element) document.getDocumentElement().getFirstChild();
 
 		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "id" ), null );
+		assertEquals( XmlUtils.getChildWithAttributeValue( entity, NAME, "embeddedId" ), null );
 
 		// Hidden by default
 
@@ -143,6 +153,11 @@ public class JpaInspectorTest
 		entity = (Element) document.getDocumentElement().getFirstChild();
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "embeddedId" );
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( TRUE, property.getAttribute( HIDDEN ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
@@ -226,6 +241,9 @@ public class JpaInspectorTest
 		@Id
 		@Column
 		public String	id;
+
+		@EmbeddedId
+		public String	embeddedId;
 
 		@Version
 		public String	version;

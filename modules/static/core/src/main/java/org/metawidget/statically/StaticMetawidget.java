@@ -232,6 +232,12 @@ public abstract class StaticMetawidget
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
+	public <W extends StaticWidget, M extends W> void removeWidgetProcessor( WidgetProcessor<W, M> widgetProcessor ) {
+
+		mPipeline.removeWidgetProcessor( (WidgetProcessor) widgetProcessor );
+	}
+
 	/**
 	 * Useful for WidgetBuilders.
 	 */
