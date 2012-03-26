@@ -205,6 +205,7 @@
 							<ul>
 								<li>Android</li>
 								<li>Google Web Toolkit (GWT)</li>
+								<li>HTML 5 (POH5)</li>
 								<li>Java Server Faces (JSF)
 									<ul>
 										<li>Facelets</li>
@@ -228,7 +229,7 @@
 										<li>SwingX</li>
 									</ul></li>
 								<li>SWT</li>
-								<li><a href="contributing.html">...help us add more!</a></li>
+								<li><a href="contributing.php">...help us add more!</a></li>
 							</ul>
 						</td>
 						<td>
@@ -245,12 +246,13 @@
 								<li>JavaBeans</li>
 								<li>Java Persistence API (JPA)</li>
 								<li>Javassist</li>
+								<li>JBoss Forge</li>
 								<li>JBoss jBPM</li>
 								<li>OVal</li>
 								<li>Scala</li>
 								<li>Seam</li>
 								<li>Swing AppFramework</li>
-								<li><a href="contributing.html">...help us add more!</a></li>
+								<li><a href="contributing.php">...help us add more!</a></li>
 							</ul>
 						</td>
 					</tr>

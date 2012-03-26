@@ -71,7 +71,7 @@
 		<para>
 			Metawidget comes with a native UI component for each supported front-end.
 			This support includes: Android, Google Web Toolkit (including
-			extensions such as ExtGWT), Java Server
+			extensions such as ExtGWT), 'plain' HTML 5 (POH5), Java Server
 			Faces (including extensions such as Facelets, ICEfaces, PrimeFaces, RichFaces and Tomahawk),
 			'plain' Java Server Pages (including extensions such as DisplayTag),
 			Spring Web MVC, Struts, Swing (including extensions such as Beans Binding,
@@ -82,7 +82,7 @@
 			Metawidget can read business object information from any combination of supported
 			back-end technologies. This support includes: annotations, Bean Validation (JSR 303), Commons
 			JEXL, Commons Validator, Groovy, Hibernate, Hibernate Validator, JavaBeans, Java Persistence
-			Architecture (JPA), Javassist, JBoss jBPM, OVal, Scala, Seam and the Swing AppFramework. 
+			Architecture (JPA), Javassist, JBoss Forge, JBoss jBPM, OVal, Scala, Seam and the Swing AppFramework. 
 		</para>
 
 		<tip>
