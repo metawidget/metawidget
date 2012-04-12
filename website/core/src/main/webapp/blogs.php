@@ -192,6 +192,13 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>Lienert, C., Jenny, B., Schnabel, O. & Hurni, L.</td>
+					<td>2012</td>
+					<td>Current Trends in Vector-Based Internet Mapping: A Technical Review</td>
+					<td>Online Maps with APIs and WebServices</td>
+					<td class="link"><a href="http://springerlink.com/content/x25511h5xgw37373/" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Cerny, T. &amp; Song, E.</td>
 					<td>2011</td>
 					<td>UML-based enhanced rich form generation</td>
