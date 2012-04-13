@@ -63,27 +63,23 @@ public class VaadinMetawidget
 	// Private statics
 	//
 
-	private static final long			serialVersionUID	= 1l;
-
-	private static final String			DEFAULT_CONFIG		= "org/metawidget/vaadin/metawidget-vaadin-default.xml";
-
-	private static int					id					= 1;
+	private static int				NEXT_ID				= 1;
 
 	//
 	// Private members
 	//
 
-	private Object						mToInspect;
+	private Object					mToInspect;
 
-	private String						mPath;
+	private String					mPath;
 
-	private ResourceBundle				mBundle;
+	private ResourceBundle			mBundle;
 
-	private boolean						mNeedToBuildWidgets;
+	private boolean					mNeedToBuildWidgets;
 
-	private Element						mLastInspection;
+	private Element					mLastInspection;
 
-	private boolean						mIgnoreAddRemove;
+	private boolean					mIgnoreAddRemove;
 
 	/**
 	 * List of existing, manually added components.
@@ -92,8 +88,7 @@ public class VaadinMetawidget
 	 * is consistent.
 	 */
 
-	private List<Component>				mExistingComponents	= CollectionUtils
-																								.newArrayList();
+	private List<Component>			mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -101,21 +96,19 @@ public class VaadinMetawidget
 	 * This is a List, not a Set, for consistency during endBuild.
 	 */
 
-	private List<Component>				mExistingUnusedComponents;
+	private List<Component>			mExistingUnusedComponents;
 
-	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>		mFacets				= CollectionUtils.newHashMap();
 
-	private Map<Object, Object>			mClientProperties;
+	private Map<Object, Object>		mClientProperties;
 
-	/* package private */Pipeline		mPipeline;
+	/* package private */Pipeline	mPipeline;
 
 	//
 	// Constructor
 	//
 
 	public VaadinMetawidget() {
-
-		super();
 
 		setDebugId( "VaadinMetawidget#" );
 		setSpacing( true );
@@ -130,7 +123,7 @@ public class VaadinMetawidget
 
 		setDebugId( id );
 	}
-
+	
 	//
 	// Public methods
 	//
@@ -138,11 +131,11 @@ public class VaadinMetawidget
 	@Override
 	public void setDebugId( String id ) {
 
-		if ( VaadinMetawidget.id > Integer.MAX_VALUE - 10 ) {
-			VaadinMetawidget.id = Integer.MIN_VALUE;
+		if ( VaadinMetawidget.NEXT_ID > Integer.MAX_VALUE - 10 ) {
+			VaadinMetawidget.NEXT_ID = Integer.MIN_VALUE;
 		}
 
-		super.setDebugId( id + VaadinMetawidget.id );
+		super.setDebugId( id + VaadinMetawidget.NEXT_ID );
 	}
 
 	/**
@@ -190,8 +183,8 @@ public class VaadinMetawidget
 	 * <p>
 	 * Exposed for binding implementations.
 	 *
-	 * @return the object. Note this return type uses generics, so as to not
-	 *         require a cast by the caller (eg. <code>Person p = getToInspect()</code>)
+	 * @return the object. Note this return type uses generics, so as to not require a cast by the
+	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -381,8 +374,7 @@ public class VaadinMetawidget
 		try {
 			return mBundle.getString( key );
 		} catch ( MissingResourceException e ) {
-			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key
-					+ StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
+			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 		}
 	}
 
@@ -462,11 +454,8 @@ public class VaadinMetawidget
 
 		Object value;
 
-		if ( ( componentAndValueProperty.getComponent() instanceof AbstractField ) &&
-				( ( (AbstractField) componentAndValueProperty.getComponent() ).getPropertyDataSource() != null ) ) {
-
+		if ( ( componentAndValueProperty.getComponent() instanceof AbstractField ) && ( ( (AbstractField) componentAndValueProperty.getComponent() ).getPropertyDataSource() != null ) ) {
 			value = ( (AbstractField) componentAndValueProperty.getComponent() ).getPropertyDataSource().getValue();
-
 		} else {
 			value = ClassUtils.getProperty( componentAndValueProperty.getComponent(), componentAndValueProperty.getValueProperty() );
 		}
@@ -485,8 +474,7 @@ public class VaadinMetawidget
 	public void setValue( Object value, String... names ) {
 
 		ComponentAndValueProperty componentAndValueProperty = getComponentAndValueProperty( names );
-		ClassUtils.setProperty( componentAndValueProperty.getComponent(),
-				componentAndValueProperty.getValueProperty(), value );
+		ClassUtils.setProperty( componentAndValueProperty.getComponent(), componentAndValueProperty.getValueProperty(), value );
 	}
 
 	/**
@@ -561,9 +549,7 @@ public class VaadinMetawidget
 			}
 
 			if ( topComponent == null ) {
-				throw MetawidgetException.newException( "No such component '"
-						+ name + "' of '" + ArrayUtils.toString( names, "', '" )
-						+ "'" );
+				throw MetawidgetException.newException( "No such component '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
 			}
 		}
 
@@ -627,6 +613,11 @@ public class VaadinMetawidget
 		return new Pipeline();
 	}
 
+	protected String getDefaultConfiguration() {
+
+		return ClassUtils.getPackagesAsFolderNames( VaadinMetawidget.class ) + "/metawidget-vaadin-default.xml";
+	}
+
 	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 * <p>
@@ -665,8 +656,7 @@ public class VaadinMetawidget
 		}
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like
-		// doing
-		// a 'remove' of a button that masks a Metawidget
+		// doing a 'remove' of a button that masks a Metawidget
 
 		this.requestRepaint();
 	}
@@ -701,8 +691,7 @@ public class VaadinMetawidget
 
 	protected void startBuild() {
 
-		mExistingUnusedComponents = CollectionUtils
-				.newArrayList( mExistingComponents );
+		mExistingUnusedComponents = CollectionUtils.newArrayList( mExistingComponents );
 	}
 
 	/**
@@ -720,8 +709,7 @@ public class VaadinMetawidget
 
 		// Look up any additional attributes
 
-		Map<String, String> additionalAttributes = mPipeline
-				.getAdditionalAttributes( component );
+		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
 
 		if ( additionalAttributes != null ) {
 			attributes.putAll( additionalAttributes );
@@ -755,9 +743,7 @@ public class VaadinMetawidget
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 
-		nestedMetawidget.setPath( mPath
-				+ StringUtils.SEPARATOR_FORWARD_SLASH_CHAR
-				+ attributes.get( NAME ) );
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		nestedMetawidget.setDebugId( this.getDebugId() + "$" + attributes.get( NAME ) );
 		nestedMetawidget.setWidth( "100%" );
@@ -796,8 +782,7 @@ public class VaadinMetawidget
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 
-		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(),
-				typeAndNames.getNamesAsArray() );
+		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
 	private ComponentAndValueProperty getComponentAndValueProperty(
@@ -806,16 +791,13 @@ public class VaadinMetawidget
 		Component component = getComponent( names );
 
 		if ( component == null ) {
-			throw MetawidgetException.newException( "No component named '"
-					+ ArrayUtils.toString( names, "', '" ) + "'" );
+			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
 		}
 
 		String componentProperty = getValueProperty( component );
 
 		if ( componentProperty == null ) {
-			throw MetawidgetException
-					.newException( "Don't know how to getValue from a "
-							+ component.getClass().getName() );
+			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 		}
 
 		return new ComponentAndValueProperty( component, componentProperty );
@@ -828,11 +810,9 @@ public class VaadinMetawidget
 
 		try {
 			if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
-				for ( WidgetBuilder<Component, VaadinMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Component, VaadinMetawidget>) widgetBuilder )
-						.getWidgetBuilders() ) {
+				for ( WidgetBuilder<Component, VaadinMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Component, VaadinMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
 
-					String valueProperty = getValueProperty( component,
-							widgetBuilderChild );
+					String valueProperty = getValueProperty( component, widgetBuilderChild );
 
 					if ( valueProperty != null ) {
 						return valueProperty;
@@ -849,8 +829,7 @@ public class VaadinMetawidget
 
 		if ( widgetBuilder instanceof VaadinValuePropertyProvider ) {
 
-			return ( (VaadinValuePropertyProvider) widgetBuilder )
-					.getValueProperty( component );
+			return ( (VaadinValuePropertyProvider) widgetBuilder ).getValueProperty( component );
 		}
 
 		return null;
@@ -866,10 +845,8 @@ public class VaadinMetawidget
 
 			// Drill into unnamed containers
 
-			if ( childComponent.getDebugId() == null
-					&& childComponent instanceof ComponentContainer ) {
-				childComponent = getComponent(
-						(ComponentContainer) childComponent, name );
+			if ( childComponent.getDebugId() == null && childComponent instanceof ComponentContainer ) {
+				childComponent = getComponent( (ComponentContainer) childComponent, name );
 
 				if ( childComponent != null ) {
 
@@ -881,9 +858,7 @@ public class VaadinMetawidget
 
 			// Start by name
 
-			if ( ( childComponent.getDebugId() != null ) &&
-					childComponent.getDebugId().startsWith( name ) &&
-					childComponent.getDebugId().substring( name.length() ).matches( "^\\d*$" ) ) {
+			if ( ( childComponent.getDebugId() != null ) && childComponent.getDebugId().startsWith( name ) && childComponent.getDebugId().substring( name.length() ).matches( "^\\d*$" ) ) {
 
 				return childComponent;
 			}
@@ -926,16 +901,12 @@ public class VaadinMetawidget
 	//
 
 	protected class Pipeline
-		extends
-			W3CPipeline<Component, ComponentContainer, VaadinMetawidget>
-			implements Serializable {
-
-		private static final long	serialVersionUID	= 1L;
+		extends W3CPipeline<Component, ComponentContainer, VaadinMetawidget>
+		implements Serializable {
 
 		//
 		// Protected methods
 		//
-
 
 		@Override
 		protected VaadinMetawidget getPipelineOwner() {
@@ -946,7 +917,7 @@ public class VaadinMetawidget
 		@Override
 		protected String getDefaultConfiguration() {
 
-			return null;
+			return VaadinMetawidget.this.getDefaultConfiguration();
 		}
 
 		@Override
@@ -961,8 +932,7 @@ public class VaadinMetawidget
 		protected void layoutWidget( Component component, String elementName,
 				Map<String, String> attributes ) {
 
-			VaadinMetawidget.this.layoutWidget( component, elementName,
-					attributes );
+			VaadinMetawidget.this.layoutWidget( component, elementName, attributes );
 
 			// Support null layouts
 
@@ -998,11 +968,9 @@ public class VaadinMetawidget
 				return null;
 			}
 
-			VaadinMetawidget nestedMetawidget = VaadinMetawidget.this
-					.getClass().newInstance();
+			VaadinMetawidget nestedMetawidget = VaadinMetawidget.this.getClass().newInstance();
 
-			VaadinMetawidget.this.initNestedMetawidget( nestedMetawidget,
-					attributes );
+			VaadinMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			if ( nestedMetawidget.getComponentCount() == 0 ) {
 				return null;

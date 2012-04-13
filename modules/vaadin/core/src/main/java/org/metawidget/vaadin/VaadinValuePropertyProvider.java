@@ -18,7 +18,6 @@ package org.metawidget.vaadin;
 
 import com.vaadin.ui.Component;
 
-
 /**
  * Common element and attribute names
  *

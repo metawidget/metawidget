@@ -36,6 +36,7 @@
 		<module>swing/tutorial</module>
 		<module>swt/allwidgets</module>
 		<module>swt/tutorial</module>
+		<module>vaadin/allwidgets</module>
 	</modules>
 	
 </project>

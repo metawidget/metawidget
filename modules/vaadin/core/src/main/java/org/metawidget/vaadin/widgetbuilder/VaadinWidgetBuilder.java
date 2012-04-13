@@ -100,7 +100,7 @@ public class VaadinWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
-			
+
 			// TODO: this should return a Stub
 			return null;
 		}
@@ -532,11 +532,9 @@ public class VaadinWidgetBuilder
 			table.setCaption( caption );
 
 			return table;
-		} else {
-
-			return new TableWrapper( caption, table, metawidget );
 		}
 
+		return new TableWrapper( caption, table, metawidget );
 	}
 
 	private Component createComboBoxComponent( String labelString,
@@ -584,7 +582,7 @@ public class VaadinWidgetBuilder
 
 				try {
 					caption = metawidget.getLocalizedKey( caption );
-				} catch( MissingResourceException e  ){
+				} catch ( MissingResourceException e ) {
 					// Use default caption
 				}
 			}
@@ -983,7 +981,7 @@ public class VaadinWidgetBuilder
 			if ( mBundle != null ) {
 				try {
 					return mBundle.getString( key );
-				} catch( MissingResourceException e ) {
+				} catch ( MissingResourceException e ) {
 					// return null
 				}
 			}

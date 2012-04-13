@@ -35,6 +35,7 @@
 		<module>struts</module>
 		<module>swing</module>
 		<module>swt</module>
+		<module>vaadin</module>
 	</modules>
 
 	<dependencyManagement>

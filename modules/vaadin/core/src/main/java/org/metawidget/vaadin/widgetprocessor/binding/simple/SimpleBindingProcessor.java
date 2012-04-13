@@ -173,18 +173,17 @@ public class SimpleBindingProcessor
 
 		if ( converter != null ) {
 			return converter.convert( value );
-		} else {
-			Constructor<?> constructor;
-			try {
-				constructor = expectedType.getConstructor(
+		}
+		Constructor<?> constructor;
+		try {
+			constructor = expectedType.getConstructor(
 						new Class[] { String.class } );
 
-				// Creates new object from the string
-				return constructor.newInstance( new Object[] { value.toString() } );
+			// Creates new object from the string
+			return constructor.newInstance( new Object[] { value.toString() } );
 
-			} catch ( Exception e ) {
-				// e.printStackTrace();
-			}
+		} catch ( Exception e ) {
+			// e.printStackTrace();
 		}
 
 		// ...or don't convert
