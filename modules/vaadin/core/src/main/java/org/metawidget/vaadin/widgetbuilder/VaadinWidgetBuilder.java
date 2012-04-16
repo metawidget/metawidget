@@ -70,7 +70,7 @@ import com.vaadin.ui.VerticalLayout;
  * <p>
  * Creates native Vaadin <code>Components</code>, such as <code>TextField</code> and
  * <code>ComboBox</code> or <code>CheckBox<code>, to suit the inspected fields.
- * 
+ *
  * @author Loghman Barari
  */
 
@@ -102,8 +102,7 @@ public class VaadinWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
 
-			// TODO: this should return a Stub
-			return null;
+			return new Stub();
 		}
 
 		String labelString = metawidget.getLabelString( attributes );
@@ -526,8 +525,7 @@ public class VaadinWidgetBuilder
 		String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 		if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-			labelsMap = VaadinWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
-
+			labelsMap = CollectionUtils.newHashMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 		} else {
 			for ( String value : values ) {
 				labelsMap.put( value, value );
@@ -571,9 +569,7 @@ public class VaadinWidgetBuilder
 		return comboBox;
 	}
 
-	public <T> ComboBox createComboBox4EnumComponent( String labelString,
-			Map<String, String> attributes, Class<T> clazz,
-			VaadinMetawidget metawidget ) {
+	public <T> ComboBox createComboBox4EnumComponent( String labelString, Map<String, String> attributes, Class<T> clazz, VaadinMetawidget metawidget ) {
 
 		ComboBox comboBox = new ComboBox( labelString );
 
@@ -1057,8 +1053,7 @@ public class VaadinWidgetBuilder
 	}
 
 	private static class StringLengthValidator
-		extends
-			com.vaadin.data.validator.StringLengthValidator {
+		extends com.vaadin.data.validator.StringLengthValidator {
 
 		private String	mMaximumLengthErrorMessage;
 
@@ -1070,11 +1065,10 @@ public class VaadinWidgetBuilder
 			super( "", minLength, maxLength, allowNull );
 
 			if ( bundle == null ) {
-
 				mMaximumLengthErrorMessage = "{1} must not be longer than {0} characters";
 				mMinimumLengthErrorMessage = "{1} must not be shorter than {0} characters";
 			} else {
-
+				// TODO: javax.faces???
 				mMaximumLengthErrorMessage = bundle.getString( "javax.faces.validator.LengthValidator.MAXIMUM" );
 				mMinimumLengthErrorMessage = bundle.getString( "javax.faces.validator.LengthValidator.MINIMUM" );
 			}
@@ -1090,14 +1084,13 @@ public class VaadinWidgetBuilder
 				if ( value == null ) {
 					message = MessageFormat.format( mMinimumLengthErrorMessage, getMinLength(), "''" );
 				} else {
-
 					if ( value.toString().length() < getMinLength() ) {
 						message = MessageFormat.format( mMinimumLengthErrorMessage, getMinLength(), value );
-					} else if ( value.toString().length() < getMaxLength() ) {
-						message = MessageFormat.format( mMinimumLengthErrorMessage, getMaxLength(), value );
+					} else if ( value.toString().length() > getMaxLength() ) {
+						message = MessageFormat.format( mMaximumLengthErrorMessage, getMaxLength(), value );
 					}
-
 				}
+
 				throw new InvalidValueException( message );
 			}
 		}

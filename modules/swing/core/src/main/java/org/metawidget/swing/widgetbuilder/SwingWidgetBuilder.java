@@ -159,8 +159,7 @@ public class SwingWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-				Map<String, String> labelsMap = SwingWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
-
+				Map<String, String> labelsMap = CollectionUtils.newHashMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
 				comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) );
 			}

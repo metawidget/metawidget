@@ -29,7 +29,7 @@ import com.vaadin.ui.Component;
 /**
  * WidgetBuilder for overridden widgets in Vaadin environments.
  * <p>
- * Locates overridden widgets based on their <code>name</code>.
+ * Locates overridden widgets based on their <code>debugId</code>.
  *
  * @author Loghman Barari
  */

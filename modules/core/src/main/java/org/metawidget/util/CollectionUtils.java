@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * Utilities for working with Java Collections.
@@ -148,6 +149,26 @@ public final class CollectionUtils {
 	public static final <K, V> HashMap<K, V> newHashMap( int size ) {
 
 		return new HashMap<K, V>( size );
+	}
+
+	/**
+	 * Returns a Map initialized using the first given List as keys, and the second given List as
+	 * values.
+	 */
+
+	public static final <K, V> Map<K, V> newHashMap( List<K> keys, List<V> values ) {
+
+		if ( keys.size() != values.size() ) {
+			throw WidgetBuilderException.newException( "Keys list must be same size as values list" );
+		}
+
+		Map<K, V> map = CollectionUtils.newHashMap();
+
+		for ( int loop = 0, length = keys.size(); loop < length; loop++ ) {
+			map.put( keys.get( loop ), values.get( loop ) );
+		}
+
+		return map;
 	}
 
 	/**

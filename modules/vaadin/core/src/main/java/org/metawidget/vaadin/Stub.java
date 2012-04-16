@@ -57,7 +57,7 @@ public class Stub
 
 	public Stub() {
 
-		this.setWidth("100%");
+		this.setWidth( "100%" );
 	}
 
 	/**

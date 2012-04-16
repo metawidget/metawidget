@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.vaadin.Facet;
+import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
 
 import com.vaadin.ui.Button;
@@ -34,32 +35,34 @@ import com.vaadin.ui.themes.Reindeer;
 /**
  * Layout to arrange widgets.
  *
- *
- *
  * @author Loghman Barari
  */
 
-public class GridLayout implements
-		AdvancedLayout<Component, ComponentContainer, VaadinMetawidget> {
+public class GridLayout
+	implements AdvancedLayout<Component, ComponentContainer, VaadinMetawidget> {
 
 	//
 	// Private members
 	//
 
-	private final int 		mNumberOfColumns;
-	private final int 		mNumberOfRows;
-	private final boolean 	mAlignCaptionOnLeft;
+	private final int		mNumberOfColumns;
+
+	private final int		mNumberOfRows;
+
+	private final boolean	mAlignCaptionOnLeft;
+
 	private final String	mLabelSuffix;
+
 	//
 	// Constructor
 	//
 
 	public GridLayout() {
 
-		this(new GridLayoutConfig());
+		this( new GridLayoutConfig() );
 	}
 
-	public GridLayout(GridLayoutConfig config) {
+	public GridLayout( GridLayoutConfig config ) {
 
 		mNumberOfColumns = config.getNumberOfColumns();
 		mNumberOfRows = config.getNumberOfRows();
@@ -71,97 +74,96 @@ public class GridLayout implements
 	// Public methods
 	//
 
-	public void onStartBuild(VaadinMetawidget metawidget) {
-		if (mNumberOfColumns > 0) {
-			metawidget.setColumns(mNumberOfColumns);
+	public void onStartBuild( VaadinMetawidget metawidget ) {
+
+		if ( mNumberOfColumns > 0 ) {
+			metawidget.setColumns( mNumberOfColumns );
 		}
 	}
 
-	public void startContainerLayout(ComponentContainer container,
-			VaadinMetawidget metawidget) {
+	public void startContainerLayout( ComponentContainer container, VaadinMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	public void layoutWidget(Component component, String elementName,
-			Map<String, String> attributes, ComponentContainer container,
-			VaadinMetawidget metawidget) {
+	public void layoutWidget( Component component, String elementName, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
+
+		// Do not render empty stubs
+
+		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 ) {
+			return;
+		}
 
 		// Add it
 
-		if (container instanceof com.vaadin.ui.GridLayout) {
+		if ( container instanceof com.vaadin.ui.GridLayout ) {
 			com.vaadin.ui.GridLayout gridLayout = (com.vaadin.ui.GridLayout) container;
 
 			int colIndex = gridLayout.getCursorX();
 			int rowIndex = gridLayout.getCursorY();
 
-			if (mNumberOfColumns > 0) {
-				if (willFillRow(component, attributes)) {
+			if ( mNumberOfColumns > 0 ) {
+				if ( willFillRow( attributes ) ) {
 
-					if (colIndex > 0) {
+					if ( colIndex > 0 ) {
 						rowIndex++;
-						if (rowIndex >= gridLayout.getRows()) {
-							gridLayout.setRows(rowIndex + 1);
+						if ( rowIndex >= gridLayout.getRows() ) {
+							gridLayout.setRows( rowIndex + 1 );
 						}
 					}
 
 					colIndex = gridLayout.getColumns() - 1;
 
-					gridLayout.addComponent(
-							wrapComponent(component, attributes, metawidget),
-							0, rowIndex, colIndex++, rowIndex);
+					gridLayout.addComponent( wrapComponent( component, attributes, metawidget ), 0, rowIndex, colIndex++, rowIndex );
 				} else {
 
-					gridLayout.addComponent(
-							wrapComponent(component, attributes, metawidget),
-							colIndex++, rowIndex);
+					gridLayout.addComponent( wrapComponent( component, attributes, metawidget ), colIndex++, rowIndex );
 				}
 
-				if (colIndex >= gridLayout.getColumns()) {
+				if ( colIndex >= gridLayout.getColumns() ) {
 					colIndex = 0;
 					rowIndex++;
 
-					if (rowIndex >= gridLayout.getRows()) {
-						gridLayout.setRows(rowIndex + 1);
+					if ( rowIndex >= gridLayout.getRows() ) {
+						gridLayout.setRows( rowIndex + 1 );
 					}
 				}
-			}
-			else if (mNumberOfRows > 0) {
+			} else if ( mNumberOfRows > 0 ) {
 
-				if (gridLayout.getComponent(colIndex, rowIndex) != null) {
+				if ( gridLayout.getComponent( colIndex, rowIndex ) != null ) {
 					colIndex++;
 				}
 
-				if (colIndex >= gridLayout.getColumns()){
-						gridLayout.setColumns(colIndex+1);
+				if ( colIndex >= gridLayout.getColumns() ) {
+					gridLayout.setColumns( colIndex + 1 );
 				}
 
-				gridLayout.addComponent(
-						wrapComponent(component, attributes, metawidget),
-						colIndex, rowIndex);
+				gridLayout.addComponent( wrapComponent( component, attributes, metawidget ), colIndex, rowIndex );
 			}
 
-			gridLayout.setCursorX(colIndex);
-			gridLayout.setCursorY(rowIndex);
+			gridLayout.setCursorX( colIndex );
+			gridLayout.setCursorY( rowIndex );
 
 		} else {
-			container.addComponent( wrapComponent(component,attributes, metawidget) );
+			container.addComponent( wrapComponent( component, attributes, metawidget ) );
 		}
 
 	}
 
-	public void endContainerLayout(ComponentContainer container,
-			VaadinMetawidget metawidget) {
+	public void endContainerLayout( ComponentContainer container,
+			VaadinMetawidget metawidget ) {
+
+		// Do nothing
 	}
 
-	public void onEndBuild(VaadinMetawidget metawidget) {
+	public void onEndBuild( VaadinMetawidget metawidget ) {
 
 		// Buttons
 
-		Facet buttonsFacet = metawidget.getFacet("buttons");
+		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
-		if (buttonsFacet != null) {
-			metawidget.addComponent(buttonsFacet);
+		if ( buttonsFacet != null ) {
+			metawidget.addComponent( buttonsFacet );
 		}
 	}
 
@@ -174,70 +176,63 @@ public class GridLayout implements
 	 * It wraps nested @link VaadinMetawidget components in the com.vaadin.ui.Panel
 	 * and others in the com.vaadin.ui.FormLayout (It makes all caption align on the left)
 	 */
-	protected Component wrapComponent(Component component,
-			Map<String, String> attributes, VaadinMetawidget metawidget) {
+	protected Component wrapComponent( Component component,
+			Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
-		if (component instanceof VaadinMetawidget) {
+		if ( component instanceof VaadinMetawidget ) {
 
-			String labelString = metawidget.getLabelString(attributes);
-			if (mLabelSuffix.length() != 0) {
+			String labelString = metawidget.getLabelString( attributes );
+			if ( mLabelSuffix.length() != 0 ) {
 				labelString += mLabelSuffix;
 			}
 
-			Panel panel = new Panel(labelString);
+			Panel panel = new Panel( labelString );
 			panel.setWidth( "100%" );
-			panel.setStyleName(Reindeer.PANEL_LIGHT);
+			panel.setStyleName( Reindeer.PANEL_LIGHT );
 			panel.addComponent( component );
 
 			return panel;
 		}
 
-		if (component instanceof Button) {
+		if ( component instanceof Button ) {
 			return component;
 		}
 
-		if((component.getCaption() != null) &&
-			component.getCaption().length() != 0 &&
-			mLabelSuffix.length() != 0) {
+		if ( ( component.getCaption() != null ) &&
+				component.getCaption().length() != 0 &&
+				mLabelSuffix.length() != 0 ) {
 
-			component.setCaption(component.getCaption() + mLabelSuffix);
+			component.setCaption( component.getCaption() + mLabelSuffix );
 		}
 
 		if ( !mAlignCaptionOnLeft ) {
 			return component;
 		}
 
-		if (component instanceof SeparatorLayoutDecorator.Separator) {
+		if ( component instanceof SeparatorLayoutDecorator.Separator ) {
 			return component;
 		}
 
 		FormLayout layout = new FormLayout();
-		layout.setSpacing(false);
-		layout.setMargin(false);
-		layout.addComponent(component);
+		layout.setSpacing( false );
+		layout.setMargin( false );
+		layout.addComponent( component );
 
 		return layout;
 	}
 
-	protected boolean willFillRow(Component component,
-			Map<String, String> attributes) {
+	protected boolean willFillRow( Map<String, String> attributes ) {
 
-		if (attributes != null) {
-			if (TRUE.equals(attributes.get(LARGE))) {
+		if ( attributes != null ) {
+			if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 				return true;
 			}
 
-			if (TRUE.equals(attributes.get(WIDE))) {
+			if ( TRUE.equals( attributes.get( WIDE ) ) ) {
 				return true;
 			}
 		}
 
 		return false;
 	}
-
-	@Override
-	public String toString() {
-		return "GridLayout:" + mNumberOfColumns + "*" + mNumberOfRows;
-	}
-
 }
