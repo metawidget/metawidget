@@ -216,7 +216,7 @@ public class ContactDialog
 
 		try {
 			mContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class )
-					.commit( mContactMetawidget );
+					.save( mContactMetawidget );
 
 			Contact contact = mContactMetawidget.getToInspect();
 

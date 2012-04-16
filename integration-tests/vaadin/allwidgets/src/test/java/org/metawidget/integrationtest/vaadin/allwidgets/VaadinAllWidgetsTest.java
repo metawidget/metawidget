@@ -36,6 +36,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -289,7 +290,7 @@ public class VaadinAllWidgetsTest
 
 		assertEquals( "Boolean Primitive", metawidget.getComponent( 20 ).getCaption() );
 		assertTrue( metawidget.getComponent( 20 ) instanceof CheckBox );
-		assertEquals( false, ((Boolean) metawidget.getValue( "booleanPrimitive" )).booleanValue() );
+		assertEquals( false, ( (Boolean) metawidget.getValue( "booleanPrimitive" ) ).booleanValue() );
 		( (CheckBox) metawidget.getComponent( 20 ) ).setValue( true );
 
 		component = getComponent( (FormLayout) metawidget.getComponent( 21 ) );
@@ -322,7 +323,7 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Not Null Dropdown:", component.getCaption() );
 		assertTrue( component instanceof ComboBox );
 		assertEquals( 3, ( (ComboBox) component ).getContainerDataSource().size() );
-		assertEquals( 0, ((Byte) metawidget.getValue( "notNullDropdown" )).byteValue() );
+		assertEquals( 0, ( (Byte) metawidget.getValue( "notNullDropdown" ) ).byteValue() );
 		( (ComboBox) component ).setValue( "1" );
 
 		component = getComponent( (FormLayout) metawidget.getComponent( 25 ) );
@@ -331,6 +332,7 @@ public class VaadinAllWidgetsTest
 		assertTrue( ( (ComboBox) component ).isRequired() );
 		assertEquals( 6, ( (ComboBox) component ).getContainerDataSource().size() );
 		assertEquals( "dropdown3", metawidget.getValue( "notNullObjectDropdown" ) );
+		( (ComboBox) component).setValue( "foo3" );
 
 		assertEquals( "Nested Widgets:", metawidget.getComponent( 26 ).getCaption() );
 		assertTrue( metawidget.getComponent( 26 ) instanceof Panel );
@@ -384,7 +386,7 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Nested Widgets Dont Expand:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (TextField) component ).getValue().toString() );
-		// TODO: ( (TextField) component ).setValue( "Nested Textbox 1.01, Nested Textbox 2.02" );
+		( (TextField) component ).setValue( "Nested Textbox 1.01, Nested Textbox 2.02" );
 
 		component = getComponent( (FormLayout) metawidget.getComponent( 29 ) );
 		assertEquals( "Read Only Nested Widgets Dont Expand:", component.getCaption() );
@@ -445,10 +447,10 @@ public class VaadinAllWidgetsTest
 		// Check MetawidgetException
 
 		try {
-			metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).commit( metawidget );
+			metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 			fail();
 		} catch ( Exception e ) {
-			// TODO: assertTrue( e.getCause() instanceof DateField.UnparsableDateString );
+			assertTrue( e instanceof DateField.UnparsableDateString );
 		}
 
 		// Check saving
@@ -456,7 +458,7 @@ public class VaadinAllWidgetsTest
 		Date now = new Date();
 
 		( (PopupDateField) getComponent( (FormLayout) metawidget.getComponent( 30 ) ) ).setValue( now );
-		// TODO: metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).commit( metawidget );
+		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
 		// Check read-only
 
@@ -536,7 +538,7 @@ public class VaadinAllWidgetsTest
 		assertEquals( "1", ( (Label) component ).getValue() );
 		component = getComponent( (FormLayout) metawidget.getComponent( 25 ) );
 		assertEquals( "Not Null Object Dropdown:", component.getCaption() );
-		// TODO: assertEquals("foo3", ((Label) metawidget.getComponent(49)).getText());
+		assertEquals( "foo3", ( (Label) component ).getValue() );
 		assertEquals( "Nested Widgets:", metawidget.getComponent( 26 ).getCaption() );
 		assertTrue( metawidget.getComponent( 26 ) instanceof Panel );
 		metawidgetNested = getComponent( (Panel) metawidget.getComponent( 26 ) );
@@ -566,7 +568,7 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Nested Textbox 2", ( (Label) component ).getValue() );
 		component = getComponent( (FormLayout) metawidget.getComponent( 28 ) );
 		assertEquals( "Nested Widgets Dont Expand:", component.getCaption() );
-		// TODO: assertEquals( "Nested Textbox 1.01, Nested Textbox 2.02", ( (Label) component ).getValue().toString() );
+		assertEquals( "Nested Textbox 1.01, Nested Textbox 2.02", ( (Label) component ).getValue().toString() );
 		component = getComponent( (FormLayout) metawidget.getComponent( 29 ) );
 		assertEquals( "Read Only Nested Widgets Dont Expand:", component.getCaption() );
 		assertEquals( "Nested Textbox 1, Nested Textbox 2", ( (Label) component ).getValue().toString() );

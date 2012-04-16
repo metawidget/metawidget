@@ -201,7 +201,7 @@ public class VaadinAddressBookTest
 		// Check 'adding' a blank communication
 		try {
 			metawidgetContact.getWidgetProcessor( SimpleBindingProcessor.class )
-					.commit( metawidgetContact );
+					.save( metawidgetContact );
 			fail();
 		} catch ( Exception e ) {
 
@@ -339,7 +339,7 @@ public class VaadinAddressBookTest
 
 		try {
 			metawidgetContact.getWidgetProcessor( SimpleBindingProcessor.class )
-					.commit( metawidgetContact );
+					.save( metawidgetContact );
 			fail();
 		} catch ( EmptyValueException e ) {
 			assertEquals( "Firstname is required", e.getMessage() );

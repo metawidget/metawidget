@@ -17,12 +17,10 @@
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
 /**
- *
- *
  * @author Loghman Barari
  */
 
 public interface Converter<T> {
 
-	T convert(Object newValue);
+	T convert( Object newValue );
 }

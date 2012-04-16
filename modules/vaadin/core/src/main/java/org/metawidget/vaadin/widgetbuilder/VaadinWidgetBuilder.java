@@ -19,6 +19,7 @@ package org.metawidget.vaadin.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
@@ -69,7 +70,7 @@ import com.vaadin.ui.VerticalLayout;
  * <p>
  * Creates native Vaadin <code>Components</code>, such as <code>TextField</code> and
  * <code>ComboBox</code> or <code>CheckBox<code>, to suit the inspected fields.
- *
+ * 
  * @author Loghman Barari
  */
 
@@ -111,8 +112,7 @@ public class VaadinWidgetBuilder
 
 		if ( ACTION.equals( elementName ) ) {
 
-			return this.prepareComponent( new Button( labelString ), attributes,
-					metawidget );
+			return prepareComponent( new Button( labelString ), attributes, metawidget );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -133,14 +133,12 @@ public class VaadinWidgetBuilder
 		if ( Boolean.class.equals( clazz )
 				&& TRUE.equals( attributes.get( REQUIRED ) ) ) {
 
-			return this.prepareComponent( new CheckBox( labelString ), attributes,
-					metawidget );
+			return prepareComponent( new CheckBox( labelString ), attributes, metawidget );
 		}
 
 		// Enums
 		if ( clazz.isEnum() ) {
-			return createComboBox4EnumComponent( labelString, attributes, clazz,
-					metawidget );
+			return createComboBox4EnumComponent( labelString, attributes, clazz, metawidget );
 		}
 
 		// Lookups
@@ -149,8 +147,7 @@ public class VaadinWidgetBuilder
 
 		if ( lookup != null && !"".equals( lookup ) ) {
 
-			return createComboBoxComponent( labelString, attributes, clazz,
-					lookup, metawidget );
+			return createComboBoxComponent( labelString, attributes, lookup, metawidget );
 		}
 
 		if ( clazz != null ) {
@@ -166,18 +163,16 @@ public class VaadinWidgetBuilder
 
 			// booleans
 			if ( Boolean.class.equals( clazz ) ) {
-				return this.prepareComponent( new CheckBox( labelString ),
-						attributes, metawidget );
+				return prepareComponent( new CheckBox( labelString ), attributes, metawidget );
 			}
 
 			// chars
 
 			if ( Character.class.equals( clazz ) ) {
 				TextField textField = new TextField( labelString );
-				textField.addValidator( new StringLengthValidator( metawidget
-						.getBundle(), 1, 1, allowNull ) );
+				textField.addValidator( new StringLengthValidator( metawidget.getBundle(), 1, 1, allowNull ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 			}
 
 			// Ranged and Not-ranged numeric value
@@ -199,10 +194,9 @@ public class VaadinWidgetBuilder
 					value = (byte) Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Byte>( metawidget
-						.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Byte>( metawidget.getBundle(), minimum, maximum ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Short.class.equals( clazz ) ) {
 				TextField textField = new TextField( labelString );
@@ -221,10 +215,9 @@ public class VaadinWidgetBuilder
 					value = (short) Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Short>( metawidget
-						.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Short>( metawidget.getBundle(), minimum, maximum ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Integer.class.equals( clazz ) ) {
 				TextField textField = new TextField( labelString );
@@ -243,10 +236,9 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Integer>( metawidget
-						.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Integer>( metawidget.getBundle(), minimum, maximum ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Long.class.equals( clazz ) ) {
 				TextField textField = new TextField( labelString );
@@ -265,10 +257,9 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Long>( metawidget
-						.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Long>( metawidget.getBundle(), minimum, maximum ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Float.class.equals( clazz ) ) {
 				TextField textField = new TextField( labelString );
@@ -287,10 +278,9 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Float>( metawidget
-						.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Float>( metawidget.getBundle(), minimum, maximum ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 			} else if ( Double.class.equals( clazz ) ) {
 				TextField textField = new TextField( labelString );
 
@@ -308,10 +298,9 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Double>( metawidget
-						.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Double>( metawidget.getBundle(), minimum, maximum ) );
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 			}
 
 			// Strings
@@ -365,27 +354,24 @@ public class VaadinWidgetBuilder
 
 					textField = new TextField( labelString );
 
-					textField.addValidator( new StringLengthValidator( metawidget
-							.getBundle(), minimum, maximum, allowNull ) );
+					textField.addValidator( new StringLengthValidator( metawidget.getBundle(), minimum, maximum, allowNull ) );
 
 					textField.setMaxLength( maximum );
 				}
 
-				return this.prepareComponent( textField, attributes, metawidget );
+				return prepareComponent( textField, attributes, metawidget );
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
-				return this.prepareComponent( new PopupDateField( labelString ),
-						attributes, metawidget );
+				return prepareComponent( new PopupDateField( labelString ), attributes, metawidget );
 			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				Component table = createTableComponent( labelString,
-						clazz, attributes, metawidget );
+				Component table = createTableComponent( labelString, attributes, metawidget );
 
 				if ( table != null ) {
 
@@ -402,8 +388,7 @@ public class VaadinWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return this.prepareComponent( new TextField( labelString ),
-					attributes, metawidget );
+			return prepareComponent( new TextField( labelString ), attributes, metawidget );
 		}
 
 		return null;
@@ -413,11 +398,9 @@ public class VaadinWidgetBuilder
 	// Private methods
 	//
 
-	private Component prepareComponent( final AbstractField abstractField,
-			Map<String, String> attributes, final VaadinMetawidget metawidget ) {
+	private Component prepareComponent( final AbstractField abstractField, Map<String, String> attributes, final VaadinMetawidget metawidget ) {
 
-		abstractField.setDebugId( metawidget.getDebugId() + "$"
-				+ attributes.get( NAME ) );
+		abstractField.setDebugId( metawidget.getDebugId() + "$" + attributes.get( NAME ) );
 		abstractField.setImmediate( true );
 
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) ) {
@@ -425,16 +408,15 @@ public class VaadinWidgetBuilder
 
 			String errorMessage = null;
 			if ( metawidget.getBundle() != null ) {
-				errorMessage = metawidget.getBundle().getString(
-						"javax.faces.component.UIInput.REQUIRED" );
+				// TODO: javax.faces???
+				errorMessage = metawidget.getBundle().getString( "javax.faces.component.UIInput.REQUIRED" );
 			}
 
 			if ( ( errorMessage == null ) || ( "".equals( errorMessage ) ) ) {
 				errorMessage = "{0} is required";
 			}
 
-			errorMessage = errorMessage.replace( "{0}", abstractField
-					.getCaption() );
+			errorMessage = MessageFormat.format( errorMessage, abstractField.getCaption() );
 
 			abstractField.setRequiredError( errorMessage );
 		}
@@ -445,21 +427,15 @@ public class VaadinWidgetBuilder
 
 			public void valueChange( ValueChangeEvent event ) {
 
-				try {
-					abstractField.setComponentError( null );
-
-					abstractField.validate();
-				} catch ( Exception e ) {
-				}
+				abstractField.setComponentError( null );
+				abstractField.validate();
 			}
 		} );
 
 		return abstractField;
 	}
 
-	private AbstractComponent createTableComponent( String caption,
-			Class<?> clazz, Map<String, String> attributes,
-			VaadinMetawidget metawidget ) {
+	private AbstractComponent createTableComponent( String caption, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
 		if ( !attributes.containsKey( PARAMETERIZED_TYPE ) ) {
 			return null;
@@ -489,8 +465,7 @@ public class VaadinWidgetBuilder
 
 			columns = CollectionUtils.newArrayList();
 
-			Element root = XmlUtils.documentFromString( inspectedType )
-					.getDocumentElement();
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
 			NodeList elements = root.getFirstChild().getChildNodes();
 
 			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
@@ -537,9 +512,7 @@ public class VaadinWidgetBuilder
 		return new TableWrapper( caption, table, metawidget );
 	}
 
-	private Component createComboBoxComponent( String labelString,
-			Map<String, String> attributes, Class<?> clazz, String lookup,
-			VaadinMetawidget metawidget ) {
+	private Component createComboBoxComponent( String labelString, Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
 
 		// Add an empty choice (if nullable, and not required)
 
@@ -553,8 +526,7 @@ public class VaadinWidgetBuilder
 		String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 		if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-			labelsMap = VaadinWidgetBuilderUtils.getLabelsMap( values,
-					CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
+			labelsMap = VaadinWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 
 		} else {
 			for ( String value : values ) {
@@ -633,25 +605,31 @@ public class VaadinWidgetBuilder
 
 	private static class TableWrapper
 		extends VerticalLayout
-		implements
-			WrapperComponent {
+		implements WrapperComponent {
 
-		private Table	table;
+		//
+		// Private members
+		//
 
-		public TableWrapper( String caption, final Table table,
-				VaadinMetawidget metawidget ) {
+		private Table	mTable;
 
-			this.addComponent( table );
-			this.setCaption( caption );
-			this.setImmediate( true );
-			this.setWidth( "100%" );
+		//
+		// Public methods
+		//
 
-			caption = metawidget.getLocalizedKey( "add" );
-			if ( caption == null ) {
-				caption = "Add";
+		public TableWrapper( String caption, final Table table, VaadinMetawidget metawidget ) {
+
+			addComponent( table );
+			setCaption( caption );
+			setImmediate( true );
+			setWidth( "100%" );
+
+			String captionToUse = metawidget.getLocalizedKey( "add" );
+			if ( captionToUse == null ) {
+				captionToUse = "Add";
 			}
 
-			Button addNewButton = new Button( caption );
+			Button addNewButton = new Button( captionToUse );
 			addNewButton.setDebugId( table.getDebugId() + "$" + "add" );
 			addNewButton.setImmediate( true );
 			addNewButton.addListener( new ClickListener() {
@@ -662,12 +640,12 @@ public class VaadinWidgetBuilder
 				}
 			} );
 
-			caption = metawidget.getLocalizedKey( "delete" );
-			if ( caption == null ) {
-				caption = "Delete";
+			captionToUse = metawidget.getLocalizedKey( "delete" );
+			if ( captionToUse == null ) {
+				captionToUse = "Delete";
 			}
 
-			final Button deleteButton = new Button( caption );
+			final Button deleteButton = new Button( captionToUse );
 			deleteButton.setDebugId( table.getDebugId() + "$" + "delete" );
 			deleteButton.setImmediate( true );
 			deleteButton.setEnabled( false );
@@ -686,9 +664,9 @@ public class VaadinWidgetBuilder
 			actionLayout.addComponent( addNewButton );
 			actionLayout.addComponent( deleteButton );
 
-			this.addComponent( actionLayout );
+			addComponent( actionLayout );
 
-			this.setComponentAlignment( actionLayout, Alignment.MIDDLE_CENTER );
+			setComponentAlignment( actionLayout, Alignment.MIDDLE_CENTER );
 
 			table.setSelectable( true );
 			table.addListener( new Table.ValueChangeListener() {
@@ -701,12 +679,12 @@ public class VaadinWidgetBuilder
 				}
 			} );
 
-			this.table = table;
+			mTable = table;
 		}
 
 		public Component getMasterComponent() {
 
-			return this.table;
+			return mTable;
 		}
 
 	}
@@ -751,18 +729,18 @@ public class VaadinWidgetBuilder
 
 			super( "" );
 
-			this.mBundle = bundle;
+			mBundle = bundle;
 
-			this.mMinimum = minimum;
-			this.mMaximum = maximum;
-			this.mValueType = minimum.getClass();
+			mMinimum = minimum;
+			mMaximum = maximum;
+			mValueType = minimum.getClass();
 
 			String errorMessage = "";
 
 			mValidatorType = ValidatorType.TYPE_VALIDATOR;
 
 			if ( mValueType == Byte.class ) {
-				this.mTypeErrorMessage = getBundleString( "javax.faces.validator.ByteRangeValidator.TYPE" );
+				mTypeErrorMessage = getBundleString( "javax.faces.validator.ByteRangeValidator.TYPE" );
 
 				if ( ( Byte.MAX_VALUE != (Byte) maximum )
 						&& ( Byte.MIN_VALUE != (Byte) minimum ) ) {
@@ -795,7 +773,7 @@ public class VaadinWidgetBuilder
 
 			if ( mValueType == Short.class ) {
 
-				this.mTypeErrorMessage = getBundleString( "javax.faces.validator.ShortRangeValidator.TYPE" );
+				mTypeErrorMessage = getBundleString( "javax.faces.validator.ShortRangeValidator.TYPE" );
 
 				if ( ( Short.MAX_VALUE != (Short) maximum )
 						&& ( Short.MIN_VALUE != (Short) minimum ) ) {
@@ -965,11 +943,11 @@ public class VaadinWidgetBuilder
 				}
 			}
 
-			if ( this.mTypeErrorMessage == null ) {
-				this.mTypeErrorMessage = DEFAULT_TYPE_ERROR_MESSAGE;
+			if ( mTypeErrorMessage == null ) {
+				mTypeErrorMessage = DEFAULT_TYPE_ERROR_MESSAGE;
 			}
 
-			this.setErrorMessage( errorMessage );
+			setErrorMessage( errorMessage );
 		}
 
 		//
@@ -995,49 +973,37 @@ public class VaadinWidgetBuilder
 				return ErrorType.NO_ERROR;
 			}
 
-			value = value.toString();
+			String valueAsString = String.valueOf( value );
 
 			try {
 				if ( mValueType == Byte.class ) {
-					Byte val = Byte.parseByte( (String) value );
-
-					return ( ( val >= (Byte) mMinimum ) && ( val <= (Byte) mMaximum ) ) ? ErrorType.NO_ERROR
-							: ErrorType.RANGE_ERROR;
+					Byte val = Byte.parseByte( valueAsString );
+					return ( ( val >= (Byte) mMinimum ) && ( val <= (Byte) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
 				}
 
 				if ( mValueType == Short.class ) {
-					Short val = Short.parseShort( (String) value );
-
-					return ( ( val >= (Short) mMinimum ) && ( val <= (Short) mMaximum ) ) ? ErrorType.NO_ERROR
-							: ErrorType.RANGE_ERROR;
+					Short val = Short.parseShort( valueAsString );
+					return ( ( val >= (Short) mMinimum ) && ( val <= (Short) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
 				}
 
 				if ( mValueType == Integer.class ) {
-					Integer val = Integer.parseInt( (String) value );
-
-					return ( ( val >= (Integer) mMinimum ) && ( val <= (Integer) mMaximum ) ) ? ErrorType.NO_ERROR
-							: ErrorType.RANGE_ERROR;
+					Integer val = Integer.parseInt( valueAsString );
+					return ( ( val >= (Integer) mMinimum ) && ( val <= (Integer) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
 				}
 
 				if ( mValueType == Long.class ) {
-					Long val = Long.parseLong( (String) value );
-
-					return ( ( val >= (Long) mMinimum ) && ( val <= (Long) mMaximum ) ) ? ErrorType.NO_ERROR
-							: ErrorType.RANGE_ERROR;
+					Long val = Long.parseLong( valueAsString );
+					return ( ( val >= (Long) mMinimum ) && ( val <= (Long) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
 				}
 
 				if ( mValueType == Float.class ) {
-					Float val = Float.parseFloat( (String) value );
-
-					return ( ( val >= (Float) mMinimum ) && ( val <= (Float) mMaximum ) ) ? ErrorType.NO_ERROR
-							: ErrorType.RANGE_ERROR;
+					Float val = Float.parseFloat( valueAsString );
+					return ( ( val >= (Float) mMinimum ) && ( val <= (Float) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
 				}
 
 				if ( mValueType == Double.class ) {
-					Double val = Double.parseDouble( (String) value );
-
-					return ( ( val >= (Double) mMinimum ) && ( val <= (Double) mMaximum ) ) ? ErrorType.NO_ERROR
-							: ErrorType.RANGE_ERROR;
+					Double val = Double.parseDouble( valueAsString );
+					return ( ( val >= (Double) mMinimum ) && ( val <= (Double) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
 				}
 
 				return ErrorType.NO_ERROR;
@@ -1060,37 +1026,25 @@ public class VaadinWidgetBuilder
 			throws InvalidValueException {
 
 			String message = "";
-			ErrorType errorType = this.validating( value );
-
-			if ( value == null ) {
-				value = "";
-			}
+			ErrorType errorType = validating( value );
 
 			switch ( errorType ) {
 				case RANGE_ERROR:
 					switch ( mValidatorType ) {
 						case RANGE_VALIDATOR:
-							message = this.getErrorMessage().replace( "{0}",
-									mMinimum.toString() ).replace( "{1}",
-									mMaximum.toString() ).replace( "{2}",
-									value.toString() );
+							message = MessageFormat.format( getErrorMessage(), mMinimum, mMaximum, value );
 							break;
 						case MAXIMUM_VALIDATOR:
-							message = this.getErrorMessage().replace( "{0}",
-									mMinimum.toString() ).replace( "{1}",
-									value.toString() );
+							message = MessageFormat.format( getErrorMessage(), mMaximum, value );
 							break;
 						case MINIMUM_VALIDATOR:
-							message = this.getErrorMessage().replace( "{0}",
-									mMaximum.toString() ).replace( "{1}",
-									value.toString() );
+							message = MessageFormat.format( getErrorMessage(), mMinimum, value );
 							break;
 					}
 					break;
 
 				case TYPE_ERROR:
-					message = this.mTypeErrorMessage.replace( "{0}", value
-							.toString() );
+					message = MessageFormat.format( mTypeErrorMessage, value );
 					break;
 
 				default:
@@ -1117,14 +1071,12 @@ public class VaadinWidgetBuilder
 
 			if ( bundle == null ) {
 
-				this.mMaximumLengthErrorMessage = "{1} must not be longer than {0} characters";
-				this.mMinimumLengthErrorMessage = "{1} must not be shorter than {0} characters";
+				mMaximumLengthErrorMessage = "{1} must not be longer than {0} characters";
+				mMinimumLengthErrorMessage = "{1} must not be shorter than {0} characters";
 			} else {
 
-				this.mMaximumLengthErrorMessage = bundle
-						.getString( "javax.faces.validator.LengthValidator.MAXIMUM" );
-				this.mMinimumLengthErrorMessage = bundle
-						.getString( "javax.faces.validator.LengthValidator.MINIMUM" );
+				mMaximumLengthErrorMessage = bundle.getString( "javax.faces.validator.LengthValidator.MAXIMUM" );
+				mMinimumLengthErrorMessage = bundle.getString( "javax.faces.validator.LengthValidator.MINIMUM" );
 			}
 		}
 
@@ -1136,19 +1088,13 @@ public class VaadinWidgetBuilder
 				String message = "";
 
 				if ( value == null ) {
-					message = this.mMinimumLengthErrorMessage.replace( "{1}",
-							"''" ).replace( "{0}",
-							( (Integer) this.getMinLength() ).toString() );
+					message = MessageFormat.format( mMinimumLengthErrorMessage, getMinLength(), "''" );
 				} else {
 
-					if ( value.toString().length() < this.getMinLength() ) {
-						message = this.mMinimumLengthErrorMessage.replace(
-								"{1}", value.toString() ).replace( "{0}",
-								( (Integer) this.getMinLength() ).toString() );
-					} else if ( value.toString().length() < this.getMaxLength() ) {
-						message = this.mMaximumLengthErrorMessage.replace(
-								"{1}", value.toString() ).replace( "{0}",
-								( (Integer) this.getMaxLength() ).toString() );
+					if ( value.toString().length() < getMinLength() ) {
+						message = MessageFormat.format( mMinimumLengthErrorMessage, getMinLength(), value );
+					} else if ( value.toString().length() < getMaxLength() ) {
+						message = MessageFormat.format( mMinimumLengthErrorMessage, getMaxLength(), value );
 					}
 
 				}

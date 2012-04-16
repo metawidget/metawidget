@@ -14,18 +14,28 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.vaadin;
+package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
-import com.vaadin.ui.HorizontalLayout;
+import junit.framework.TestCase;
+
+import org.metawidget.util.MetawidgetTestUtils;
+import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
 
 /**
- * Facet for Vaadin environments.
- *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
 
-public class Facet
-	extends HorizontalLayout {
+public class SimpleBindingProcessorTest
+	extends TestCase {
 
-	// Just a Facet
+	//
+	// Public methods
+	//
+
+	public void testConfig() {
+
+		MetawidgetTestUtils.testEqualsAndHashcode( SimpleBindingProcessorConfig.class, new SimpleBindingProcessorConfig() {
+			// Subclass
+		}, "converters" );
+	}
 }

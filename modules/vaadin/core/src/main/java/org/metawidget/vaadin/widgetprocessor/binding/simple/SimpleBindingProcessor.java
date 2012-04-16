@@ -102,8 +102,7 @@ public class SimpleBindingProcessor
 
 		// Traverse to the last Object...
 
-		String[] names = PathUtils.parsePath( metawidget.getPath() )
-				.getNamesAsArray();
+		String[] names = PathUtils.parsePath( metawidget.getPath() ).getNamesAsArray();
 
 		for ( String name : names ) {
 			toInspect = ClassUtils.getProperty( toInspect, name );
@@ -115,21 +114,16 @@ public class SimpleBindingProcessor
 
 		try {
 			Field field = toInspect.getClass().getField( propertyName );
-
 			property = new FieldProperty( toInspect, field );
 		} catch ( Exception e ) {
-
 			property = new MethodProperty( toInspect, propertyName );
 		}
 
 		String lookup = attributes.get( LOOKUP );
-		if ( ( lookup != null ) && ( !"".equals( lookup ) ) &&
-				( component instanceof Label ) ) {
-
+		if ( ( lookup != null ) && ( !"".equals( lookup ) ) && ( component instanceof Label ) ) {
 			( (Label) component ).setValue( property.getValue() );
 		} else {
 			property.setConvertor( this.getConverter( property.getType() ) );
-
 			( (Viewer) component ).setPropertyDataSource( property );
 		}
 
@@ -138,31 +132,9 @@ public class SimpleBindingProcessor
 		return component;
 	}
 
-	public void commit( VaadinMetawidget metawidget ) {
+	public void save( VaadinMetawidget metawidget ) {
 
-		commit( (AbstractComponentContainer) metawidget );
-
-	}
-
-	private void commit( AbstractComponentContainer componentContainer ) {
-
-		Iterator<Component> iterator = componentContainer.getComponentIterator();
-
-		while ( iterator.hasNext() ) {
-
-			Component component = iterator.next();
-
-			if ( component instanceof AbstractComponentContainer ) {
-
-				// Nested Metawidgets
-
-				commit( (AbstractComponentContainer) component );
-			} else if ( component instanceof Buffered ) {
-
-				( (Buffered) component ).commit();
-			}
-		}
-
+		save( (AbstractComponentContainer) metawidget );
 	}
 
 	public Object convertFromString( String value, Class<?> expectedType ) {
@@ -176,8 +148,7 @@ public class SimpleBindingProcessor
 		}
 		Constructor<?> constructor;
 		try {
-			constructor = expectedType.getConstructor(
-						new Class[] { String.class } );
+			constructor = expectedType.getConstructor( new Class[] { String.class } );
 
 			// Creates new object from the string
 			return constructor.newInstance( new Object[] { value.toString() } );
@@ -192,7 +163,7 @@ public class SimpleBindingProcessor
 	}
 
 	//
-	// Private members
+	// Private methods
 	//
 
 	private <T> void registerConverter( Class<T> clazz, Converter<T> converter ) {
@@ -224,4 +195,23 @@ public class SimpleBindingProcessor
 		return null;
 	}
 
+	private void save( AbstractComponentContainer componentContainer ) {
+
+		Iterator<Component> iterator = componentContainer.getComponentIterator();
+
+		while ( iterator.hasNext() ) {
+
+			Component component = iterator.next();
+
+			if ( component instanceof AbstractComponentContainer ) {
+
+				// Nested Metawidgets
+
+				save( (AbstractComponentContainer) component );
+			} else if ( component instanceof Buffered ) {
+
+				( (Buffered) component ).commit();
+			}
+		}
+	}
 }

@@ -14,15 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.integrationtest.vaadin.allwidgets.convertor;
+package org.metawidget.integrationtest.vaadin.allwidgets.converter;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.Converter;
 
-public class NestedWidgetsConverter implements Converter<NestedWidgets> {
+public class NestedWidgetsConverter
+	implements Converter<NestedWidgets> {
 
-	public NestedWidgets convert(Object newValue) {
+	//
+	// Public methods
+	//
+
+	public NestedWidgets convert( Object newValue ) {
 
 		String[] values = ArrayUtils.fromString( newValue.toString() );
 

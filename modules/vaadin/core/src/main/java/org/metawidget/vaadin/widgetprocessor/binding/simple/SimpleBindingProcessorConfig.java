@@ -43,11 +43,6 @@ public class SimpleBindingProcessorConfig {
 	/**
 	 * Sets a Converter for this BeansBindingProcessor.
 	 *
-	 *
-	 *
-	 *
-	 *
-	 *
 	 * @return this, as part of a fluent interface
 	 */
 
