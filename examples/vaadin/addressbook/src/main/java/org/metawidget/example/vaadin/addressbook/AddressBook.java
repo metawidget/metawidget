@@ -31,8 +31,8 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.layout.GridLayout;
-import org.metawidget.vaadin.layout.GridLayoutConfig;
+import org.metawidget.vaadin.layout.FormLayout;
+import org.metawidget.vaadin.layout.FormLayoutConfig;
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.terminal.ThemeResource;
@@ -232,7 +232,7 @@ public class AddressBook
 		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget( "buttonsMetawidget" );
 		buttonsMetawidget.setBundle( MainApplication.getBundle() );
 		buttonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
-		buttonsMetawidget.setLayout( new GridLayout( GridLayoutConfig.newHorizentalLayoutConfig() ) );
+		buttonsMetawidget.setLayout( new FormLayout( FormLayoutConfig.newHorizentalLayoutConfig() ) );
 		buttonsMetawidget.setToInspect( this );
 
 		facetButtons.addComponent( buttonsMetawidget );

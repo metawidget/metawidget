@@ -47,7 +47,7 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Table;
 
 /**
@@ -57,7 +57,7 @@ import com.vaadin.ui.Table;
  */
 
 public class VaadinMetawidget
-	extends GridLayout {
+	extends CustomComponent {
 
 	//
 	// Private statics
@@ -111,7 +111,6 @@ public class VaadinMetawidget
 	public VaadinMetawidget() {
 
 		setDebugId( "VaadinMetawidget#" );
-		setSpacing( true );
 
 		// setWidth( "100%" );
 		mPipeline = newPipeline();
@@ -123,7 +122,7 @@ public class VaadinMetawidget
 
 		setDebugId( id );
 	}
-	
+
 	//
 	// Public methods
 	//
@@ -420,6 +419,16 @@ public class VaadinMetawidget
 		return mExistingUnusedComponents;
 	}
 
+	public void setLayoutRoot( Component layoutRoot ) {
+
+		super.setCompositionRoot( layoutRoot );
+	}
+
+	public Component getLayoutRoot() {
+
+		return super.getCompositionRoot();
+	}
+
 	/**
 	 * Overridden to build widgets just-in-time.
 	 * <p>
@@ -432,7 +441,7 @@ public class VaadinMetawidget
 
 		buildWidgets();
 
-		return getComponentCount( this );
+		return getComponentCount();
 	}
 
 	/**
@@ -566,7 +575,7 @@ public class VaadinMetawidget
 	@Override
 	public void removeComponent( Component component ) {
 
-		super.removeComponent( component );
+		// TODO: super.removeComponent( component );
 
 		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
@@ -583,9 +592,6 @@ public class VaadinMetawidget
 	public void removeAllComponents() {
 
 		super.removeAllComponents();
-
-		this.setColumns( 1 );
-		this.setRows( 1 );
 
 		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
@@ -645,7 +651,7 @@ public class VaadinMetawidget
 		// mNeedToBuildWidgets to true.
 		// immediate repaint which sets mNeedToBuildWidgets back to false
 
-		super.removeAllComponents();
+		// TODO: super.removeAllComponents();
 
 		// Prepare to build widgets
 
@@ -679,7 +685,7 @@ public class VaadinMetawidget
 				mLastInspection = inspect();
 			}
 
-			if ( mPath != null || getComponentCount() > 0 ) {
+			if ( mPath != null ) {
 				mPipeline.buildWidgets( mLastInspection );
 			}
 		} catch ( Exception e ) {
@@ -736,8 +742,7 @@ public class VaadinMetawidget
 		}
 	}
 
-	protected void initNestedMetawidget( VaadinMetawidget nestedMetawidget,
-			Map<String, String> attributes ) {
+	protected void initNestedMetawidget( VaadinMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
 		// Don't copy setConfig(). Instead, copy runtime values
 
@@ -756,24 +761,6 @@ public class VaadinMetawidget
 	// Private methods
 	//
 
-	private static int getComponentCount( ComponentContainer component ) {
-
-		int count = 0;
-
-		for ( Iterator<Component> iterator = component.getComponentIterator(); iterator.hasNext(); ) {
-
-			Component item = iterator.next();
-
-			if ( item instanceof ComponentContainer ) {
-				count += getComponentCount( (ComponentContainer) item );
-			} else {
-				count++;
-			}
-		}
-
-		return count;
-	}
-
 	private Element inspect() {
 
 		if ( mPath == null ) {
@@ -785,8 +772,7 @@ public class VaadinMetawidget
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	private ComponentAndValueProperty getComponentAndValueProperty(
-			String... names ) {
+	private ComponentAndValueProperty getComponentAndValueProperty( String... names ) {
 
 		Component component = getComponent( names );
 
@@ -960,8 +946,7 @@ public class VaadinMetawidget
 		}
 
 		@Override
-		public VaadinMetawidget buildNestedMetawidget(
-				Map<String, String> attributes )
+		public VaadinMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception {
 
 			if ( TRUE.equals( attributes.get( HIDDEN ) ) ) {
@@ -969,12 +954,7 @@ public class VaadinMetawidget
 			}
 
 			VaadinMetawidget nestedMetawidget = VaadinMetawidget.this.getClass().newInstance();
-
 			VaadinMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
-
-			if ( nestedMetawidget.getComponentCount() == 0 ) {
-				return null;
-			}
 
 			return nestedMetawidget;
 		}

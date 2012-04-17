@@ -31,6 +31,7 @@
 				</simpleBindingProcessor>
 				<collectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" />
 				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection"/>
+				<captionProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
 			</array>
 		</widgetProcessors>		
 	</vaadinMetawidget>

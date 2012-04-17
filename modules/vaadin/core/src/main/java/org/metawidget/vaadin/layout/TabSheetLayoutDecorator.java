@@ -32,7 +32,7 @@ import com.vaadin.ui.TabSheet;
 
 /**
  * Layout to decorate widgets from different sections using a TabSheet.
- * 
+ *
  * @author Loghman Barari
  */
 
@@ -65,7 +65,7 @@ public class TabSheetLayoutDecorator extends VaadinNestedSectionLayoutDecorator 
 
 			tabSheet = new TabSheet();
 			tabSheet.setWidth( "100%" );
-			
+
 			// Add to parent container
 
 			Map<String, String> tabbedPaneAttributes = CollectionUtils
@@ -80,11 +80,11 @@ public class TabSheetLayoutDecorator extends VaadinNestedSectionLayoutDecorator 
 
 		// New tab
 
-		GridLayout tabPanel = new GridLayout(metawidget.getColumns(), 1);
+		GridLayout tabPanel = new GridLayout(2, 1);
 		tabPanel.setMargin(true);
 		tabPanel.setSpacing(true);
 		tabPanel.setWidth( "100%" );
-		
+
 		// Tab name (possibly localized)
 
 		String section = getState(container, metawidget).currentSection;
@@ -97,7 +97,7 @@ public class TabSheetLayoutDecorator extends VaadinNestedSectionLayoutDecorator 
 		}
 
 		tabSheet.addTab(tabPanel, localizedSection, null);
-		
+
 		return tabPanel;
 	}
 

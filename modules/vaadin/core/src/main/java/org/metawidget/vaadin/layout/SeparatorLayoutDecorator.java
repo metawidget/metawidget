@@ -44,7 +44,7 @@ public class SeparatorLayoutDecorator extends VaadinFlatSectionLayoutDecorator {
 	public SeparatorLayoutDecorator() {
 		super(
 				new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>()
-						.setLayout(new GridLayout()));
+						.setLayout(new FormLayout()));
 	}
 
 	public SeparatorLayoutDecorator(

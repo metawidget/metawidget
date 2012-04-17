@@ -105,13 +105,11 @@ public class VaadinWidgetBuilder
 			return new Stub();
 		}
 
-		String labelString = metawidget.getLabelString( attributes );
-
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
 
-			return prepareComponent( new Button( labelString ), attributes, metawidget );
+			return prepareComponent( new Button(), attributes, metawidget );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -132,12 +130,12 @@ public class VaadinWidgetBuilder
 		if ( Boolean.class.equals( clazz )
 				&& TRUE.equals( attributes.get( REQUIRED ) ) ) {
 
-			return prepareComponent( new CheckBox( labelString ), attributes, metawidget );
+			return prepareComponent( new CheckBox(), attributes, metawidget );
 		}
 
 		// Enums
 		if ( clazz.isEnum() ) {
-			return createComboBox4EnumComponent( labelString, attributes, clazz, metawidget );
+			return createComboBox4EnumComponent( attributes, clazz, metawidget );
 		}
 
 		// Lookups
@@ -145,8 +143,7 @@ public class VaadinWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-
-			return createComboBoxComponent( labelString, attributes, lookup, metawidget );
+			return createComboBoxComponent( attributes, lookup, metawidget );
 		}
 
 		if ( clazz != null ) {
@@ -162,13 +159,13 @@ public class VaadinWidgetBuilder
 
 			// booleans
 			if ( Boolean.class.equals( clazz ) ) {
-				return prepareComponent( new CheckBox( labelString ), attributes, metawidget );
+				return prepareComponent( new CheckBox(), attributes, metawidget );
 			}
 
 			// chars
 
 			if ( Character.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 				textField.addValidator( new StringLengthValidator( metawidget.getBundle(), 1, 1, allowNull ) );
 
 				return prepareComponent( textField, attributes, metawidget );
@@ -177,7 +174,7 @@ public class VaadinWidgetBuilder
 			// Ranged and Not-ranged numeric value
 
 			if ( Byte.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 
 				byte value = 0;
 				byte minimum = Byte.MIN_VALUE;
@@ -198,7 +195,7 @@ public class VaadinWidgetBuilder
 				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Short.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 
 				short value = 0;
 				short minimum = Short.MIN_VALUE;
@@ -219,7 +216,7 @@ public class VaadinWidgetBuilder
 				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Integer.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 
 				int value = 0;
 				int minimum = Integer.MIN_VALUE;
@@ -240,7 +237,7 @@ public class VaadinWidgetBuilder
 				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Long.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 
 				long value = 0;
 				long minimum = Long.MIN_VALUE;
@@ -261,7 +258,7 @@ public class VaadinWidgetBuilder
 				return prepareComponent( textField, attributes, metawidget );
 
 			} else if ( Float.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 
 				float value = 0;
 				float minimum = -Float.MAX_VALUE;
@@ -281,7 +278,7 @@ public class VaadinWidgetBuilder
 
 				return prepareComponent( textField, attributes, metawidget );
 			} else if ( Double.class.equals( clazz ) ) {
-				TextField textField = new TextField( labelString );
+				TextField textField = new TextField();
 
 				double value = 0;
 				double minimum = -Double.MAX_VALUE;
@@ -313,11 +310,11 @@ public class VaadinWidgetBuilder
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
 
-					textField = new PasswordField( labelString );
+					textField = new PasswordField();
 
 				} else if ( TRUE.equals( attributes.get( LARGE ) ) ) {
 
-					textField = new TextArea( labelString );
+					textField = new TextArea();
 
 					// Since we know we are dealing with Strings, we consider
 					// word-wrapping a sensible default
@@ -329,7 +326,7 @@ public class VaadinWidgetBuilder
 					( (TextArea) textField ).setRows( 3 );
 
 				} else {
-					textField = new TextField( labelString );
+					textField = new TextField();
 				}
 
 				int minimum = -1;
@@ -351,7 +348,7 @@ public class VaadinWidgetBuilder
 
 				if ( ( minimum > -1 ) || ( maximum > -1 ) || ( !allowNull ) ) {
 
-					textField = new TextField( labelString );
+					textField = new TextField(  );
 
 					textField.addValidator( new StringLengthValidator( metawidget.getBundle(), minimum, maximum, allowNull ) );
 
@@ -364,13 +361,13 @@ public class VaadinWidgetBuilder
 			// Dates
 
 			if ( Date.class.equals( clazz ) ) {
-				return prepareComponent( new PopupDateField( labelString ), attributes, metawidget );
+				return prepareComponent( new PopupDateField(  ), attributes, metawidget );
 			}
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				Component table = createTableComponent( labelString, attributes, metawidget );
+				Component table = createTableComponent( attributes, metawidget );
 
 				if ( table != null ) {
 
@@ -387,7 +384,7 @@ public class VaadinWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return prepareComponent( new TextField( labelString ), attributes, metawidget );
+			return prepareComponent( new TextField(  ), attributes, metawidget );
 		}
 
 		return null;
@@ -434,7 +431,7 @@ public class VaadinWidgetBuilder
 		return abstractField;
 	}
 
-	private AbstractComponent createTableComponent( String caption, Map<String, String> attributes, VaadinMetawidget metawidget ) {
+	private AbstractComponent createTableComponent( Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
 		if ( !attributes.containsKey( PARAMETERIZED_TYPE ) ) {
 			return null;
@@ -503,15 +500,13 @@ public class VaadinWidgetBuilder
 		table.setEditable( !readOnly );
 
 		if ( readOnly ) {
-			table.setCaption( caption );
-
 			return table;
 		}
 
-		return new TableWrapper( caption, table, metawidget );
+		return new TableWrapper( table, metawidget );
 	}
 
-	private Component createComboBoxComponent( String labelString, Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
+	private Component createComboBoxComponent( Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
 
 		// Add an empty choice (if nullable, and not required)
 
@@ -532,7 +527,7 @@ public class VaadinWidgetBuilder
 			}
 		}
 
-		ComboBox comboBox = new ComboBox( labelString );
+		ComboBox comboBox = new ComboBox();
 
 		for ( final Entry<String, String> item : labelsMap.entrySet() ) {
 
@@ -569,9 +564,9 @@ public class VaadinWidgetBuilder
 		return comboBox;
 	}
 
-	public <T> ComboBox createComboBox4EnumComponent( String labelString, Map<String, String> attributes, Class<T> clazz, VaadinMetawidget metawidget ) {
+	public <T> ComboBox createComboBox4EnumComponent( Map<String, String> attributes, Class<T> clazz, VaadinMetawidget metawidget ) {
 
-		ComboBox comboBox = new ComboBox( labelString );
+		ComboBox comboBox = new ComboBox();
 
 		for ( T enumItem : clazz.getEnumConstants() ) {
 			String caption = enumItem.toString();
@@ -613,10 +608,9 @@ public class VaadinWidgetBuilder
 		// Public methods
 		//
 
-		public TableWrapper( String caption, final Table table, VaadinMetawidget metawidget ) {
+		public TableWrapper( final Table table, VaadinMetawidget metawidget ) {
 
 			addComponent( table );
-			setCaption( caption );
 			setImmediate( true );
 			setWidth( "100%" );
 
