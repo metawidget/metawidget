@@ -16,7 +16,7 @@
 
 package org.metawidget.vaadin;
 
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 
 /**
  * Facet for Vaadin environments.
@@ -25,7 +25,15 @@ import com.vaadin.ui.HorizontalLayout;
  */
 
 public class Facet
-	extends HorizontalLayout {
+	extends Panel {
 
-	// Just a Facet
+	//
+	// Constructor
+	//
+
+	public Facet() {
+
+		addStyleName( "light" );
+		((com.vaadin.ui.Layout) getContent()).setMargin( false );
+	}
 }

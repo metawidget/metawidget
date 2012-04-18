@@ -19,43 +19,20 @@ package org.metawidget.vaadin.layout;
 import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
-import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * Layout to arrange widgets using Vaadin's <code>FormLayout</code>.
+ * Layout to arrange widgets using Vaadin's <code>HorizontalLayout</code>.
  *
  * @author Loghman Barari
  */
 
-public class FormLayout
+public class HorizontalLayout
 	implements AdvancedLayout<Component, ComponentContainer, VaadinMetawidget> {
-
-	//
-	// Private members
-	//
-
-	private final String	mLabelSuffix;
-
-	//
-	// Constructor
-	//
-
-	public FormLayout() {
-
-		this( new FormLayoutConfig() );
-	}
-
-	public FormLayout( FormLayoutConfig config ) {
-
-		mLabelSuffix = config.getLabelSuffix();
-	}
 
 	//
 	// Public methods
@@ -68,7 +45,9 @@ public class FormLayout
 
 	public void startContainerLayout( ComponentContainer container, VaadinMetawidget metawidget ) {
 
-		( (VaadinMetawidget) container ).setLayoutRoot( new com.vaadin.ui.FormLayout() );
+		com.vaadin.ui.HorizontalLayout layout = new com.vaadin.ui.HorizontalLayout();
+		layout.setSpacing( true );
+		( (VaadinMetawidget) container ).setLayoutRoot( layout );
 	}
 
 	public void layoutWidget( Component component, String elementName, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
@@ -79,18 +58,9 @@ public class FormLayout
 			return;
 		}
 
-		// Fix caption
-
-		if ( component.getCaption() != null && component.getCaption().length() != 0 && mLabelSuffix.length() != 0 ) {
-			if ( !( component instanceof Button ) || component instanceof CheckBox ) {
-				component.setCaption( component.getCaption() + mLabelSuffix );
-			}
-		}
-
 		// Add it
 
-		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) ( (VaadinMetawidget) container ).getLayoutRoot();
-		component.setWidth( "100%" );
+		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) ( (VaadinMetawidget) container ).getLayoutRoot();
 		layout.addComponent( component );
 	}
 
@@ -101,13 +71,6 @@ public class FormLayout
 
 	public void onEndBuild( VaadinMetawidget metawidget ) {
 
-		// Buttons
-
-		Facet buttonsFacet = metawidget.getFacet( "buttons" );
-
-		if ( buttonsFacet != null ) {
-			com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) metawidget.getLayoutRoot();
-			layout.addComponent( buttonsFacet );
-		}
+		// Do nothing
 	}
 }

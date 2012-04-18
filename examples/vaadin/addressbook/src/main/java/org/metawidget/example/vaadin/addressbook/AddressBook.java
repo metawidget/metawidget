@@ -31,8 +31,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.layout.FormLayout;
-import org.metawidget.vaadin.layout.FormLayoutConfig;
+import org.metawidget.vaadin.layout.HorizontalLayout;
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.terminal.ThemeResource;
@@ -77,9 +76,7 @@ public class AddressBook
 		mContactSearch = new ContactSearch();
 		mContactsController = new ContactsController();
 
-		mModel = new TableDataSource<Contact>( Contact.class,
-					mContactsController.getAllByExample( mContactSearch ),
-					"Fullname", "Communications", "Class" ) {
+		mModel = new TableDataSource<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "Fullname", "Communications", "Class" ) {
 
 			//
 			// Public Methods
@@ -132,7 +129,6 @@ public class AddressBook
 
 				AddressBook.this.showModalWindow( contactDialog.getContent() );
 			}
-
 		};
 
 		// Page body
@@ -177,10 +173,8 @@ public class AddressBook
 		// Example of manual mapping. See ContactDialog for an example of using
 		// automatic Bindings
 
-		mContactSearch.setFirstname( (String) mSearchMetawidget
-				.getValue( "firstname" ) );
-		mContactSearch.setSurname( (String) mSearchMetawidget
-				.getValue( "surname" ) );
+		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
+		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
 		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ) );
 
 		fireRefresh();
@@ -225,18 +219,17 @@ public class AddressBook
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
-		facetButtons.setWidth( "100%" );
 		facetButtons.setDebugId( "buttons" );
 		mSearchMetawidget.addComponent( facetButtons );
 
 		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget( "buttonsMetawidget" );
+		buttonsMetawidget.setWidth( null );
 		buttonsMetawidget.setBundle( MainApplication.getBundle() );
 		buttonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
-		buttonsMetawidget.setLayout( new FormLayout( FormLayoutConfig.newHorizentalLayoutConfig() ) );
+		buttonsMetawidget.setLayout( new HorizontalLayout() );
 		buttonsMetawidget.setToInspect( this );
-
 		facetButtons.addComponent( buttonsMetawidget );
-		facetButtons.setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
+		((com.vaadin.ui.VerticalLayout) facetButtons.getContent()).setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
 
 		return mSearchMetawidget;
 	}
@@ -262,16 +255,12 @@ public class AddressBook
 
 	/* package private */ContactDialog createContactDialog( Contact contact ) {
 
-		// Defensive copy (otherwise unsaved changes in the dialog appear in the
-		// summary list)
+		// Defensive copy (otherwise unsaved changes in the dialog appear in the summary list)
 
 		if ( contact instanceof PersonalContact ) {
-			return new ContactDialog( AddressBook.this, new PersonalContact(
-					(PersonalContact) contact ) );
+			return new ContactDialog( AddressBook.this, new PersonalContact( (PersonalContact) contact ) );
 		}
 
-		return new ContactDialog( AddressBook.this, new BusinessContact(
-				(BusinessContact) contact ) );
+		return new ContactDialog( AddressBook.this, new BusinessContact( (BusinessContact) contact ) );
 	}
-
 }

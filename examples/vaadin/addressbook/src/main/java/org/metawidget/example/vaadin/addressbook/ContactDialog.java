@@ -30,8 +30,7 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.layout.FormLayout;
-import org.metawidget.vaadin.layout.FormLayoutConfig;
+import org.metawidget.vaadin.layout.HorizontalLayout;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.CollectionBindingProcessor;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.CollectionBindingProcessor.CollectionBindingNotifier;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
@@ -39,7 +38,6 @@ import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcess
 import com.vaadin.data.Buffered.SourceException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Window;
@@ -215,24 +213,18 @@ public class ContactDialog
 	public void save() {
 
 		try {
-			mContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class )
-					.save( mContactMetawidget );
-
+			mContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
-
 			mProvider.getContactsController().save( contact );
 		} catch ( SourceException e ) {
-			mContent.showNotification( "Save Error", e.getCause().getLocalizedMessage(),
-					Notification.TYPE_ERROR_MESSAGE );
+			mContent.showNotification( "Save Error", e.getCause().getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 
 			return;
 
 		} catch ( Exception e ) {
 			e.printStackTrace();
 
-			mContent.showNotification( "Save Error", e.getLocalizedMessage(),
-					Notification.TYPE_ERROR_MESSAGE );
-
+			mContent.showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 			return;
 		}
 
@@ -276,7 +268,7 @@ public class ContactDialog
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
-		facetButtons.setDebugId( "ContactDialogButtons" + ContactDialog.id );
+		facetButtons.setDebugId( "buttons1" );
 		facetButtons.setWidth( "100%" );
 		mContactMetawidget.addComponent( facetButtons );
 
@@ -284,9 +276,8 @@ public class ContactDialog
 		mButtonsMetawidget.setDebugId( "ButtonsMetawidget" );
 		mButtonsMetawidget.setBundle( MainApplication.getBundle() );
 		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
-		mButtonsMetawidget.setLayout( new FormLayout( FormLayoutConfig.newHorizentalLayoutConfig() ) );
+		mButtonsMetawidget.setLayout( new HorizontalLayout() );
 		mButtonsMetawidget.setToInspect( this );
 		facetButtons.addComponent( mButtonsMetawidget );
-		facetButtons.setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 }

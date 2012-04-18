@@ -43,6 +43,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
+import com.vaadin.terminal.PaintException;
+import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
@@ -110,17 +112,13 @@ public class VaadinMetawidget
 
 	public VaadinMetawidget() {
 
-		setDebugId( "VaadinMetawidget#" );
-
-		// setWidth( "100%" );
-		mPipeline = newPipeline();
+		this( "VaadinMetawidget#" );
 	}
 
 	public VaadinMetawidget( String id ) {
 
-		this();
-
 		setDebugId( id );
+		mPipeline = newPipeline();
 	}
 
 	//
@@ -143,13 +141,11 @@ public class VaadinMetawidget
 	 * If <code>setPath</code> has not been set, or points to a previous <code>setToInspect</code>,
 	 * sets it to point to the given Object.
 	 */
+
 	public void setToInspect( Object toInspect ) {
 
 		updateToInspectWithoutInvalidate( toInspect );
-
 		invalidateInspection();
-
-		this.buildWidgets();
 	}
 
 	/**
@@ -194,11 +190,6 @@ public class VaadinMetawidget
 
 	/**
 	 * Sets the path to be inspected.
-	 * <p>
-	 * Note <code>setPath</code> is quite different to <code>java.awt.Component.setName</code>.
-	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include the
-	 * type name and any subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code>
-	 * is a single name relative to our immediate parent.
 	 */
 
 	public void setPath( String path ) {
@@ -235,50 +226,43 @@ public class VaadinMetawidget
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
-	public void addInspectionResultProcessor(
-			InspectionResultProcessor<VaadinMetawidget> inspectionResultProcessor ) {
+	public void addInspectionResultProcessor( InspectionResultProcessor<VaadinMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateInspection();
 	}
 
-	public void removeInspectionResultProcessor(
-			InspectionResultProcessor<VaadinMetawidget> inspectionResultProcessor ) {
+	public void removeInspectionResultProcessor( InspectionResultProcessor<VaadinMetawidget> inspectionResultProcessor ) {
 
 		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 		invalidateInspection();
 	}
 
-	public void setInspectionResultProcessors(
-			InspectionResultProcessor<VaadinMetawidget>... inspectionResultProcessors ) {
+	public void setInspectionResultProcessors( InspectionResultProcessor<VaadinMetawidget>... inspectionResultProcessors ) {
 
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 		invalidateInspection();
 	}
 
-	public void setWidgetBuilder(
-			WidgetBuilder<Component, VaadinMetawidget> widgetBuilder ) {
+	public void setWidgetBuilder( WidgetBuilder<Component, VaadinMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateWidgets();
 	}
 
-	public void addWidgetProcessor(
-			WidgetProcessor<Component, VaadinMetawidget> widgetProcessor ) {
+	public void addWidgetProcessor( WidgetProcessor<Component, VaadinMetawidget> widgetProcessor ) {
 
 		mPipeline.addWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
-	public void removeWidgetProcessor(
-			WidgetProcessor<Component, VaadinMetawidget> widgetProcessor ) {
+	public void removeWidgetProcessor( WidgetProcessor<Component, VaadinMetawidget> widgetProcessor ) {
 
 		mPipeline.removeWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
-	public void setWidgetProcessors(
-			WidgetProcessor<Component, VaadinMetawidget>... widgetProcessors ) {
+	public void setWidgetProcessors( WidgetProcessor<Component, VaadinMetawidget>... widgetProcessors ) {
 
 		mPipeline.setWidgetProcessors( widgetProcessors );
 		invalidateWidgets();
@@ -294,8 +278,7 @@ public class VaadinMetawidget
 	 * Set the layout for this Metawidget.
 	 */
 
-	public void setLayout(
-			Layout<Component, ComponentContainer, VaadinMetawidget> layout ) {
+	public void setLayout( Layout<Component, ComponentContainer, VaadinMetawidget> layout ) {
 
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
@@ -419,14 +402,21 @@ public class VaadinMetawidget
 		return mExistingUnusedComponents;
 	}
 
-	public void setLayoutRoot( Component layoutRoot ) {
+	public void setLayoutRoot( com.vaadin.ui.Layout layout ) {
 
-		super.setCompositionRoot( layoutRoot );
+		super.setCompositionRoot( layout );
 	}
 
-	public Component getLayoutRoot() {
+	/**
+	 * Named after <code>Panel.getLayout</code> and <code>CustomComponent.getCompositionRoot</code>.
+	 */
 
-		return super.getCompositionRoot();
+	@SuppressWarnings( "unchecked" )
+	public <L extends com.vaadin.ui.Layout> L getLayoutRoot() {
+
+		buildWidgets();
+
+		return (L) super.getCompositionRoot();
 	}
 
 	/**
@@ -573,9 +563,27 @@ public class VaadinMetawidget
 	}
 
 	@Override
-	public void removeComponent( Component component ) {
+	public void addComponent( Component component ) {
 
-		// TODO: super.removeComponent( component );
+		if ( !mIgnoreAddRemove ) {
+			invalidateWidgets();
+
+			// Don't fall through to super.addImpl for facets. Tuck them away
+			// in mFacets instead. Some layouts may never use them, and
+			// others (eg. MigLayout) don't like adding components
+			// without constraints
+
+			if ( component instanceof Facet ) {
+				mFacets.put( component.getDebugId(), (Facet) component );
+				return;
+			}
+
+			mExistingComponents.add( component );
+		}
+	}
+
+	@Override
+	public void removeComponent( Component component ) {
 
 		if ( !mIgnoreAddRemove ) {
 			invalidateWidgets();
@@ -601,6 +609,15 @@ public class VaadinMetawidget
 		}
 
 		this.mClientProperties.clear();
+	}
+
+	@Override
+	public void paintContent( PaintTarget target )
+		throws PaintException {
+
+		buildWidgets();
+
+		super.paintContent( target );
 	}
 
 	//
@@ -706,8 +723,14 @@ public class VaadinMetawidget
 	 *            'property' or 'action'. Never null
 	 */
 
-	protected void layoutWidget( Component component, String elementName,
-			Map<String, String> attributes ) {
+	protected void layoutWidget( Component component, String elementName, Map<String, String> attributes ) {
+
+		// Set the name of the component.
+		//
+		// Note: we haven't split this out into a separate WidgetProcessor, because other methods
+		// like getValue/setValue/getComponent( String... names ) rely on it
+
+		component.setDebugId( getDebugId() + "$" + attributes.get( NAME ) );
 
 		// Remove, then re-add to layout (to re-order the component)
 
@@ -751,7 +774,6 @@ public class VaadinMetawidget
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		nestedMetawidget.setDebugId( this.getDebugId() + "$" + attributes.get( NAME ) );
-		nestedMetawidget.setWidth( "100%" );
 		nestedMetawidget.setBundle( mBundle );
 
 		nestedMetawidget.setToInspect( mToInspect );
@@ -789,8 +811,7 @@ public class VaadinMetawidget
 		return new ComponentAndValueProperty( component, componentProperty );
 	}
 
-	private String getValueProperty( Component component,
-			WidgetBuilder<Component, VaadinMetawidget> widgetBuilder ) {
+	private String getValueProperty( Component component, WidgetBuilder<Component, VaadinMetawidget> widgetBuilder ) {
 
 		// Recurse into CompositeWidgetBuilders
 

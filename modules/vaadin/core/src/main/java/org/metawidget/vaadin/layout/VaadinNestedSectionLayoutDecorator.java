@@ -29,8 +29,8 @@ import com.vaadin.ui.ComponentContainer;
 
 /**
  * Convenience base class for LayoutDecorators
- * 
- * 
+ *
+ *
  * @author Loghman Barari
  */
 
@@ -84,6 +84,6 @@ public abstract class VaadinNestedSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored(Component component) {
 
-		return ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 );
+		return ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() );
 	}
 }

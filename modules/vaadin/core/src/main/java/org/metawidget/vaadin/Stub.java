@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.metawidget.util.CollectionUtils;
 
-import com.vaadin.ui.AbstractOrderedLayout;
+import com.vaadin.ui.Panel;
 
 /**
  * Stub for Vaadin environments.
@@ -37,13 +37,7 @@ import com.vaadin.ui.AbstractOrderedLayout;
  */
 
 public class Stub
-	extends AbstractOrderedLayout {
-
-	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
+	extends Panel {
 
 	//
 	// Private members
@@ -57,7 +51,8 @@ public class Stub
 
 	public Stub() {
 
-		this.setWidth( "100%" );
+		addStyleName( "light" );
+		((com.vaadin.ui.Layout) getContent()).setMargin( false );
 	}
 
 	/**
@@ -69,6 +64,7 @@ public class Stub
 
 	public Stub( String id ) {
 
+		this();
 		setDebugId( id );
 	}
 

@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
+import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
@@ -88,7 +89,7 @@ public class VaadinAllWidgetsTest
 		metawidget.setConfig( "org/metawidget/integrationtest/vaadin/allwidgets/metawidget.xml" );
 		metawidget.setToInspect( allWidgets );
 
-		// TODO: metawidget.addComponent( new Stub( "mystery" ) );
+		metawidget.addComponent( new Stub( "mystery" ) );
 
 		// Test missing components
 
@@ -114,9 +115,7 @@ public class VaadinAllWidgetsTest
 
 				} catch ( MetawidgetException e3 ) {
 
-					assertEquals(
-							"No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'",
-							e3.getMessage() );
+					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 				}
 			}
 		}
@@ -142,16 +141,14 @@ public class VaadinAllWidgetsTest
 					fail();
 
 				} catch ( MetawidgetException e3 ) {
-					assertEquals(
-							"No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'",
-							e3.getMessage() );
+					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 				}
 			}
 		}
 
 		// Check what created, and edit it
 
-		FormLayout layout = (FormLayout) metawidget.getLayoutRoot();
+		FormLayout layout = metawidget.getLayoutRoot();
 		Component component = layout.getComponent( 0 );
 
 		assertEquals( "Textbox:", component.getCaption() );
@@ -334,19 +331,24 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Nested Widgets:", layout.getComponent( 26 ).getCaption() );
 		assertTrue( layout.getComponent( 26 ) instanceof VaadinMetawidget );
 
-		FormLayout layoutNested = (FormLayout) ( (VaadinMetawidget) layout.getComponent( 26 ) ).getLayoutRoot();
+		FormLayout layoutNested = ( (VaadinMetawidget) layout.getComponent( 26 ) ).getLayoutRoot();
 
 		assertEquals( "Further Nested Widgets:", layoutNested.getComponent( 0 ).getCaption() );
 
-		FormLayout layoutFurtherNested = (FormLayout) ((VaadinMetawidget) layoutNested.getComponent( 0 )).getLayoutRoot();
+		FormLayout layoutFurtherNested = ( (VaadinMetawidget) layoutNested.getComponent( 0 ) ).getLayoutRoot();
 
 		component = layoutFurtherNested.getComponent( 0 );
+		assertEquals( "Further Nested Widgets:", component.getCaption() );
+		assertTrue( component instanceof VaadinMetawidget );
+		assertEquals( ( (FormLayout) ( (VaadinMetawidget) component ).getLayoutRoot() ).getComponentCount(), 0 );
+
+		component = layoutFurtherNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) );
 		( (TextField) component ).setValue( "Nested Textbox 1.1 (further)" );
 
-		component = layoutFurtherNested.getComponent( 1 );
+		component = layoutFurtherNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
@@ -370,11 +372,16 @@ public class VaadinAllWidgetsTest
 
 		layoutNested = (FormLayout) ( (VaadinMetawidget) component ).getLayoutRoot();
 		component = layoutNested.getComponent( 0 );
+		assertEquals( "Further Nested Widgets:", component.getCaption() );
+		assertTrue( component instanceof VaadinMetawidget );
+		assertEquals( ( (FormLayout) ( (VaadinMetawidget) component ).getLayoutRoot() ).getComponentCount(), 0 );
+
+		component = layoutNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertTrue( component instanceof Label );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) );
 
-		component = layoutNested.getComponent( 1 );
+		component = layoutNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertTrue( component instanceof Label );
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) );
@@ -411,11 +418,6 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Read Only", metawidget.getValue( "readOnly" ) );
 
 		component = layout.getComponent( 33 );
-		assertEquals( "Mystery:", component.getCaption() );
-		assertTrue( component instanceof TextField );
-		assertEquals( "", metawidget.getValue( "mystery" ) );
-
-		component = layout.getComponent( 34 );
 		assertEquals( "org.metawidget.vaadin.widgetbuilder.VaadinWidgetBuilder$TableWrapper", component.getClass().getName() );
 		assertTrue( component instanceof VerticalLayout );
 		assertTrue( ( (VerticalLayout) component ).getComponent( 0 ) instanceof Table );
@@ -427,9 +429,9 @@ public class VaadinAllWidgetsTest
 		assertTrue( ( (HorizontalLayout) ( (VerticalLayout) component ).getComponent( 1 ) ).getComponent( 1 ) instanceof Button );
 		assertEquals( "Delete", ( (HorizontalLayout) ( (VerticalLayout) component ).getComponent( 1 ) ).getComponent( 1 ).getCaption() );
 
-		assertEquals( "Do Action", layout.getComponent( 35 ).getCaption() );
-		assertTrue( layout.getComponent( 35 ) instanceof Button );
-		Button button = (Button) layout.getComponent( 35 );
+		assertEquals( "Do Action", layout.getComponent( 34 ).getCaption() );
+		assertTrue( layout.getComponent( 34 ) instanceof Button );
+		Button button = (Button) layout.getComponent( 34 );
 		assertTrue( button.isEnabled() );
 		try {
 			clickButton( button );
@@ -439,7 +441,7 @@ public class VaadinAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getCause().getMessage() );
 		}
 
-		assertEquals( 36, layout.getComponentCount() );
+		assertEquals( 35, layout.getComponentCount() );
 
 		// Check MetawidgetException
 
@@ -460,7 +462,7 @@ public class VaadinAllWidgetsTest
 		// Check read-only
 
 		metawidget.setReadOnly( true );
-		layout = (FormLayout) metawidget.getLayoutRoot();
+		layout = metawidget.getLayoutRoot();
 
 		component = layout.getComponent( 0 );
 		assertEquals( "Textbox:", component.getCaption() );
@@ -539,14 +541,18 @@ public class VaadinAllWidgetsTest
 		assertEquals( "foo3", ( (Label) component ).getValue() );
 		assertEquals( "Nested Widgets:", layout.getComponent( 26 ).getCaption() );
 		assertTrue( layout.getComponent( 26 ) instanceof VaadinMetawidget );
-		layoutNested = (FormLayout) ((VaadinMetawidget) layout.getComponent( 26 )).getLayoutRoot();
+		layoutNested = ( (VaadinMetawidget) layout.getComponent( 26 ) ).getLayoutRoot();
 		assertEquals( "Further Nested Widgets:", layoutNested.getComponent( 0 ).getCaption() );
 		assertTrue( layoutNested.getComponent( 0 ) instanceof VaadinMetawidget );
-		layoutFurtherNested = (FormLayout) ((VaadinMetawidget) layoutNested.getComponent( 0 )).getLayoutRoot();
+		layoutFurtherNested = ( (VaadinMetawidget) layoutNested.getComponent( 0 ) ).getLayoutRoot();
 		component = layoutFurtherNested.getComponent( 0 );
+		assertEquals( "Further Nested Widgets:", component.getCaption() );
+		assertTrue( component instanceof VaadinMetawidget );
+		assertEquals( ( (FormLayout) ( (VaadinMetawidget) component ).getLayoutRoot() ).getComponentCount(), 0 );
+		component = layoutFurtherNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertEquals( "Nested Textbox 1.1 (further)", ( (Label) component ).getValue() );
-		component = layoutFurtherNested.getComponent( 1 );
+		component = layoutFurtherNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertEquals( "Nested Textbox 2.2 (further)", ( (Label) component ).getValue() );
 		component = layoutNested.getComponent( 1 );
@@ -557,11 +563,15 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Nested Textbox 2.2", ( (Label) component ).getValue() );
 		assertEquals( "Read Only Nested Widgets:", layout.getComponent( 27 ).getCaption() );
 		assertTrue( layout.getComponent( 27 ) instanceof VaadinMetawidget );
-		layoutNested = (FormLayout) ((VaadinMetawidget) layout.getComponent( 27 )).getLayoutRoot();
+		layoutNested = ( (VaadinMetawidget) layout.getComponent( 27 ) ).getLayoutRoot();
 		component = layoutNested.getComponent( 0 );
+		assertEquals( "Further Nested Widgets:", component.getCaption() );
+		assertTrue( component instanceof VaadinMetawidget );
+		assertEquals( ( (FormLayout) ( (VaadinMetawidget) component ).getLayoutRoot() ).getComponentCount(), 0 );
+		component = layoutNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertEquals( "Nested Textbox 1", ( (Label) component ).getValue() );
-		component = layoutNested.getComponent( 1 );
+		component = layoutNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertEquals( "Nested Textbox 2", ( (Label) component ).getValue() );
 		component = layout.getComponent( 28 );
@@ -580,15 +590,12 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Read Only:", component.getCaption() );
 		assertEquals( "Read Only", ( (Label) component ).getValue() );
 		component = layout.getComponent( 33 );
-		assertEquals( "Mystery:", component.getCaption() );
-		assertTrue( component instanceof Label );
-		component = layout.getComponent( 34 );
 		assertEquals( "Collection:", component.getCaption() );
 		assertTrue( component instanceof Table );
-		assertEquals( "Do Action", layout.getComponent( 35 ).getCaption() );
-		assertTrue( layout.getComponent( 35 ) instanceof Button );
-		assertFalse( ( (Button) layout.getComponent( 35 ) ).isEnabled() );
-		assertEquals( 36, layout.getComponentCount() );
+		assertEquals( "Do Action", layout.getComponent( 34 ).getCaption() );
+		assertTrue( layout.getComponent( 34 ) instanceof Button );
+		assertFalse( ( (Button) layout.getComponent( 34 ) ).isEnabled() );
+		assertEquals( 35, layout.getComponentCount() );
 	}
 
 	private void clickButton( Button button ) {
