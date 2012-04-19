@@ -229,6 +229,7 @@
 										<li>SwingX</li>
 									</ul></li>
 								<li>SWT</li>
+								<li>Vaadin</li>
 								<li><a href="contributing.php">...help us add more!</a></li>
 							</ul>
 						</td>

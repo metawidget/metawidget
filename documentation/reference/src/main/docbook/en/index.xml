@@ -75,7 +75,7 @@
 			Faces (including extensions such as Facelets, ICEfaces, PrimeFaces, RichFaces and Tomahawk),
 			'plain' Java Server Pages (including extensions such as DisplayTag),
 			Spring Web MVC, Struts, Swing (including extensions such as Beans Binding,
-			JGoodies, MigLayout and SwingX) and SWT.
+			JGoodies, MigLayout and SwingX), SWT and Vaadin.
 		</para>
 
 		<para>

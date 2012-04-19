@@ -373,7 +373,7 @@ public class SwingAllWidgetsTest
 		SwingMetawidget metawidgetFurtherNested = (SwingMetawidget) metawidgetNested.getComponent( 1 );
 		assertEquals( "Further Nested Widgets:", ( (JLabel) metawidgetFurtherNested.getComponent( 0 ) ).getText() );
 		assertTrue( metawidgetFurtherNested.getComponent( 1 ) instanceof SwingMetawidget );
-		assertEquals( ( (JPanel) ( (SwingMetawidget) metawidgetFurtherNested.getComponent( 1 ) ).getComponent( 0 ) ).getComponentCount(), 0 );
+		assertEquals( ( (SwingMetawidget) metawidgetFurtherNested.getComponent( 1 ) ).getComponentCount(), 0 );
 
 		assertEquals( "Nested Textbox 1:", ( (JLabel) metawidgetFurtherNested.getComponent( 2 ) ).getText() );
 		assertTrue( metawidgetFurtherNested.getComponent( 3 ) instanceof JTextField );

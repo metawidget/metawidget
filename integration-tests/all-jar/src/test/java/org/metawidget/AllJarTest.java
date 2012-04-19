@@ -116,6 +116,6 @@ public class AllJarTest
 		assertTrue( hadManifest );
 		assertEquals( 4, hadTlds );
 		assertEquals( 2, hadXsds );
-		assertEquals( 11, hadXmls );
+		assertEquals( 12, hadXmls );
 	}
 }
