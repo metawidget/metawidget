@@ -224,7 +224,7 @@ public class GridBagLayout
 
 		State state = getState( container );
 
-		if ( state.needSpacerRow ) {
+		if ( state.needSpacerRow && container.getComponentCount() > 0 ) {
 			if ( state.currentColumn > 0 ) {
 				state.currentColumn = 0;
 				state.currentRow++;
@@ -480,6 +480,6 @@ public class GridBagLayout
 		 * vertical constraint weighting &gt; 0.
 		 */
 
-		/* package private */boolean	needSpacerRow	= true;
+		/* package private */boolean	needSpacerRow = true;
 	}
 }
