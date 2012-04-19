@@ -129,7 +129,7 @@ public class VaadinWidgetBuilder
 
 		// Enums
 		if ( clazz.isEnum() ) {
-			return createComboBox4EnumComponent( attributes, clazz, metawidget );
+			return createComboBox4EnumComponent( clazz, metawidget );
 		}
 
 		// Lookups
@@ -447,7 +447,6 @@ public class VaadinWidgetBuilder
 
 		final Table table = new Table();
 
-		table.setDebugId( metawidget.getDebugId() + "$table$" + name );
 		table.setImmediate( true );
 		table.setHeight( "170px" );
 		table.setWidth( "100%" );
@@ -518,7 +517,7 @@ public class VaadinWidgetBuilder
 		return comboBox;
 	}
 
-	public <T> ComboBox createComboBox4EnumComponent( Map<String, String> attributes, Class<T> clazz, VaadinMetawidget metawidget ) {
+	public <T> ComboBox createComboBox4EnumComponent( Class<T> clazz, VaadinMetawidget metawidget ) {
 
 		ComboBox comboBox = new ComboBox();
 
@@ -572,7 +571,6 @@ public class VaadinWidgetBuilder
 			}
 
 			Button addNewButton = new Button( captionToUse );
-			addNewButton.setDebugId( table.getDebugId() + "$" + "add" );
 			addNewButton.setImmediate( true );
 			addNewButton.addListener( new ClickListener() {
 
@@ -588,7 +586,6 @@ public class VaadinWidgetBuilder
 			}
 
 			final Button deleteButton = new Button( captionToUse );
-			deleteButton.setDebugId( table.getDebugId() + "$" + "delete" );
 			deleteButton.setImmediate( true );
 			deleteButton.setEnabled( false );
 			deleteButton.addListener( new ClickListener() {

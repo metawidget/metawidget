@@ -274,8 +274,8 @@ public class SwingAllWidgetsTest
 		assertEquals( "Float Primitive:", ( (JLabel) metawidget.getComponent( 27 ) ).getText() );
 		assertTrue( metawidget.getComponent( 28 ) instanceof JSpinner );
 		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 28 ) ).gridx );
-		assertEquals( 4.2f, (Float) metawidget.getValue( "floatPrimitive" ) );
-		assertEquals( -Float.MAX_VALUE, (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMinimum() );
+		assertEquals( 4.2f, metawidget.getValue( "floatPrimitive" ) );
+		assertEquals( -Float.MAX_VALUE, ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMinimum() );
 		assertTrue( 2048 == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 28 );
 		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
@@ -290,9 +290,9 @@ public class SwingAllWidgetsTest
 		assertEquals( "Double Primitive:", ( (JLabel) metawidget.getComponent( 31 ) ).getText() );
 		assertTrue( metawidget.getComponent( 32 ) instanceof JSpinner );
 		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 32 ) ).gridx );
-		assertEquals( 42.2d, (Double) metawidget.getValue( "doublePrimitive" ) );
+		assertEquals( 42.2d, metawidget.getValue( "doublePrimitive" ) );
 		assertTrue( -8 == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMinimum() );
-		assertEquals( Double.MAX_VALUE, (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMaximum() );
+		assertEquals( Double.MAX_VALUE, ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 32 );
 		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getNextValue() );

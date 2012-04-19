@@ -62,12 +62,6 @@ public class VaadinMetawidget
 	extends CustomComponent {
 
 	//
-	// Private statics
-	//
-
-	private static int				NEXT_ID				= 1;
-
-	//
 	// Private members
 	//
 
@@ -90,7 +84,7 @@ public class VaadinMetawidget
 	 * is consistent.
 	 */
 
-	private List<Component>			mExistingComponents	= CollectionUtils.newArrayList();
+	private List<AbstractComponent>	mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -98,9 +92,9 @@ public class VaadinMetawidget
 	 * This is a List, not a Set, for consistency during endBuild.
 	 */
 
-	private List<Component>			mExistingUnusedComponents;
+	private List<AbstractComponent>	mExistingUnusedComponents;
 
-	private Map<String, Facet>		mFacets				= CollectionUtils.newHashMap();
+	private Map<Object, Facet>		mFacets				= CollectionUtils.newHashMap();
 
 	private Map<Object, Object>		mClientProperties;
 
@@ -112,28 +106,12 @@ public class VaadinMetawidget
 
 	public VaadinMetawidget() {
 
-		this( "VaadinMetawidget#" );
-	}
-
-	public VaadinMetawidget( String id ) {
-
-		setDebugId( id );
 		mPipeline = newPipeline();
 	}
 
 	//
 	// Public methods
 	//
-
-	@Override
-	public void setDebugId( String id ) {
-
-		if ( VaadinMetawidget.NEXT_ID > Integer.MAX_VALUE - 10 ) {
-			VaadinMetawidget.NEXT_ID = Integer.MIN_VALUE;
-		}
-
-		super.setDebugId( id + VaadinMetawidget.NEXT_ID );
-	}
 
 	/**
 	 * Sets the Object to inspect.
@@ -397,7 +375,7 @@ public class VaadinMetawidget
 	 * it directly.</strong>
 	 */
 
-	public List<Component> fetchExistingUnusedComponents() {
+	public List<AbstractComponent> fetchExistingUnusedComponents() {
 
 		return mExistingUnusedComponents;
 	}
@@ -514,12 +492,8 @@ public class VaadinMetawidget
 
 		Component topComponent = this;
 
-		String fullName = this.getDebugId();
-
 		for ( int loop = 0, length = names.length; loop < length; loop++ ) {
 			String name = names[loop];
-
-			fullName += "$" + name;
 
 			// May need building 'just in time' if we are calling getComponent
 			// immediately after a 'setToInspect'. See
@@ -527,8 +501,6 @@ public class VaadinMetawidget
 
 			if ( topComponent instanceof VaadinMetawidget ) {
 				( (VaadinMetawidget) topComponent ).buildWidgets();
-
-				fullName = topComponent.getDebugId() + "$" + name;
 			}
 
 			if ( topComponent instanceof Table ) {
@@ -538,7 +510,7 @@ public class VaadinMetawidget
 			// Try to find a component
 
 			if ( topComponent instanceof ComponentContainer ) {
-				topComponent = getComponent( (ComponentContainer) topComponent, fullName );
+				topComponent = getComponent( (ComponentContainer) topComponent, name );
 			} else {
 				topComponent = null;
 			}
@@ -573,12 +545,14 @@ public class VaadinMetawidget
 			// others (eg. MigLayout) don't like adding components
 			// without constraints
 
+			AbstractComponent abstractComponent = (AbstractComponent) component;
+
 			if ( component instanceof Facet ) {
-				mFacets.put( component.getDebugId(), (Facet) component );
+				mFacets.put( abstractComponent.getData(), (Facet) component );
 				return;
 			}
 
-			mExistingComponents.add( component );
+			mExistingComponents.add( abstractComponent );
 		}
 	}
 
@@ -589,7 +563,7 @@ public class VaadinMetawidget
 			invalidateWidgets();
 
 			if ( component instanceof Facet ) {
-				mFacets.remove( ( (Facet) component ).getDebugId() );
+				mFacets.remove( ( (Facet) component ).getData() );
 			} else {
 				mExistingComponents.remove( component );
 			}
@@ -730,7 +704,7 @@ public class VaadinMetawidget
 		// Note: we haven't split this out into a separate WidgetProcessor, because other methods
 		// like getValue/setValue/getComponent( String... names ) rely on it
 
-		component.setDebugId( getDebugId() + "$" + attributes.get( NAME ) );
+		((AbstractComponent) component).setData( attributes.get( NAME ) );
 
 		// Remove, then re-add to layout (to re-order the component)
 
@@ -772,10 +746,7 @@ public class VaadinMetawidget
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-
-		nestedMetawidget.setDebugId( this.getDebugId() + "$" + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
-
 		nestedMetawidget.setToInspect( mToInspect );
 	}
 
@@ -848,25 +819,23 @@ public class VaadinMetawidget
 
 		while ( iterator.hasNext() ) {
 
-			Component childComponent = iterator.next();
+			AbstractComponent childComponent = (AbstractComponent) iterator.next();
 
 			// Drill into unnamed containers
 
-			if ( childComponent.getDebugId() == null && childComponent instanceof ComponentContainer ) {
-				childComponent = getComponent( (ComponentContainer) childComponent, name );
+			if ( childComponent.getData() == null && childComponent instanceof ComponentContainer ) {
+				childComponent = (AbstractComponent) getComponent( (ComponentContainer) childComponent, name );
 
 				if ( childComponent != null ) {
-
 					return childComponent;
 				}
 
 				continue;
 			}
 
-			// Start by name
+			// Match by name
 
-			if ( ( childComponent.getDebugId() != null ) && childComponent.getDebugId().startsWith( name ) && childComponent.getDebugId().substring( name.length() ).matches( "^\\d*$" ) ) {
-
+			if ( name.equals( childComponent.getData() ) ) {
 				return childComponent;
 			}
 		}

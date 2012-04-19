@@ -47,7 +47,6 @@ import com.vaadin.ui.Window;
  * @author Loghman Barari
  */
 
-@SuppressWarnings( "serial" )
 public class AddressBook
 	implements ContactsControllerProvider, Serializable {
 
@@ -76,7 +75,7 @@ public class AddressBook
 		mContactSearch = new ContactSearch();
 		mContactsController = new ContactsController();
 
-		mModel = new TableDataSource<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "Fullname", "Communications", "Class" ) {
+		mModel = new TableDataSource<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "Class", "Fullname", "Communications" ) {
 
 			//
 			// Public Methods
@@ -93,8 +92,7 @@ public class AddressBook
 			}
 
 			@Override
-			public Object formatValue( Contact item, String field,
-					Object value ) {
+			public Object formatValue( Contact item, String field, Object value ) {
 
 				if ( value instanceof Class<?> ) {
 					Class<?> clazz = (Class<?>) value;
@@ -134,7 +132,6 @@ public class AddressBook
 		// Page body
 
 		VerticalLayout body = new VerticalLayout();
-		body.setDebugId( "main body" );
 
 		// Search and result sections
 
@@ -210,26 +207,25 @@ public class AddressBook
 
 		// Metawidget
 
-		mSearchMetawidget = new VaadinMetawidget( "SearchMetawidget" );
+		mSearchMetawidget = new VaadinMetawidget();
 		mSearchMetawidget.setBundle( MainApplication.getBundle() );
-		mSearchMetawidget.setWidth( "100%" );
 		mSearchMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mSearchMetawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
-		facetButtons.setDebugId( "buttons" );
+		facetButtons.setData( "buttons" );
 		mSearchMetawidget.addComponent( facetButtons );
 
-		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget( "buttonsMetawidget" );
+		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget();
 		buttonsMetawidget.setWidth( null );
 		buttonsMetawidget.setBundle( MainApplication.getBundle() );
 		buttonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		buttonsMetawidget.setLayout( new HorizontalLayout() );
 		buttonsMetawidget.setToInspect( this );
 		facetButtons.addComponent( buttonsMetawidget );
-		((com.vaadin.ui.VerticalLayout) facetButtons.getContent()).setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
+		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
 
 		return mSearchMetawidget;
 	}
@@ -237,7 +233,6 @@ public class AddressBook
 	private Component createResultsSection() {
 
 		final Table table = new Table( "", mModel );
-		table.setDebugId( "ResultsTable" );
 		table.setImmediate( true );
 		table.setSelectable( true );
 		table.setPageLength( 8 );

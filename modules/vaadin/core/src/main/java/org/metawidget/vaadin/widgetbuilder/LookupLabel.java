@@ -45,10 +45,7 @@ public class LookupLabel
 	// Constructor
 	//
 
-	public LookupLabel( String id, String caption, Map<String, String> lookup, ResourceBundle bundle ) {
-
-		setDebugId( id );
-		setCaption( caption );
+	public LookupLabel( Map<String, String> lookup, ResourceBundle bundle ) {
 
 		if ( lookup == null ) {
 			throw new NullPointerException( "lookup" );

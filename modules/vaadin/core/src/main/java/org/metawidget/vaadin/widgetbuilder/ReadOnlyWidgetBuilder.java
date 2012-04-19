@@ -31,6 +31,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 
 /**
  * WidgetBuilder for Vaadin environments.
@@ -60,9 +61,6 @@ public class ReadOnlyWidgetBuilder
 
 	public Component buildWidget( String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
-		String debugId = metawidget.getDebugId() + "$" + attributes.get( NAME );
-		String labelString = metawidget.getLabelString( attributes );
-
 		// Not read-only?
 
 		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
@@ -79,14 +77,13 @@ public class ReadOnlyWidgetBuilder
 
 		if ( ACTION.equals( elementName ) ) {
 			Button button = new Button( metawidget.getLabelString( attributes ) );
-			button.setDebugId( debugId );
 			button.setEnabled( false );
 
 			return button;
 		}
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-			return new Label( debugId, labelString );
+			return new Label();
 		}
 
 		// Lookups
@@ -99,10 +96,10 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-				return new LookupLabel( debugId, labelString, CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ), metawidget.getBundle() );
+				return new LookupLabel( CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ), metawidget.getBundle() );
 			}
 
-			return new Label( debugId, labelString );
+			return new Label();
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -120,33 +117,31 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return new Label( debugId, labelString );
+				return new Label();
 			}
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					Label label = new Label( debugId, labelString );
-					label.setContentMode( com.vaadin.ui.Label.CONTENT_XHTML );
-					return label;
+					return new Label();
 				}
 
-				return new Label( debugId, labelString );
+				return new Label();
 			}
 
 			if ( Character.class.equals( clazz ) ) {
-				return new Label( debugId, labelString );
+				return new Label();
 			}
 
 			if ( Date.class.equals( clazz ) ) {
-				return new Label( debugId, labelString );
+				return new Label();
 			}
 
 			if ( Boolean.class.equals( clazz ) ) {
-				return new Label( debugId, labelString );
+				return new Label();
 			}
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-				return new Label( debugId, labelString );
+				return new Label();
 			}
 
 			// Collections
@@ -159,7 +154,7 @@ public class ReadOnlyWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return new Label( debugId, labelString );
+			return new Label();
 		}
 
 		// Nested Metawidget

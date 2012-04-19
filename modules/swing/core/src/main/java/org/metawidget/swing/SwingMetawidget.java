@@ -768,13 +768,7 @@ public class SwingMetawidget
 				mLastInspectionResult = inspect();
 			}
 
-			// Don't buildWidgets if null, in order to protect our 'dotted rectangle in IDE tools'
-			// effect. However, do 'getComponentCount() > 0' in case the SwingMetawidget is being
-			// used purely for layout purposes
-
-			if ( mPath != null || getComponentCount() > 0 ) {
-				mPipeline.buildWidgets( mLastInspectionResult );
-			}
+			mPipeline.buildWidgets( mLastInspectionResult );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		} finally {
@@ -984,7 +978,7 @@ public class SwingMetawidget
 		protected void configureDefaults() {
 
 			super.configureDefaults();
-			
+
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( getLayout() == null ) {

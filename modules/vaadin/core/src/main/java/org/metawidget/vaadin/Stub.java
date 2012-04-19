@@ -62,10 +62,10 @@ public class Stub
 	 * <code>metawidget.add( new Stub( "foo" ))</code>
 	 */
 
-	public Stub( String id ) {
+	public Stub( String data ) {
 
 		this();
-		setDebugId( id );
+		setData( data );
 	}
 
 	//

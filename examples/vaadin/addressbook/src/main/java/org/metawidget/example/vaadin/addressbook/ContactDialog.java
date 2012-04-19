@@ -94,7 +94,6 @@ public class ContactDialog
 		mProvider = provider;
 
 		mContent = new Window();
-		mContent.setDebugId( "ContactDialogWindow" + id++ );
 		mContent.setHeight( "600px" );
 		mContent.setWidth( "800px" );
 
@@ -268,12 +267,11 @@ public class ContactDialog
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
-		facetButtons.setDebugId( "buttons1" );
+		facetButtons.setData( "buttons" );
 		facetButtons.setWidth( "100%" );
 		mContactMetawidget.addComponent( facetButtons );
 
 		mButtonsMetawidget = new VaadinMetawidget();
-		mButtonsMetawidget.setDebugId( "ButtonsMetawidget" );
 		mButtonsMetawidget.setBundle( MainApplication.getBundle() );
 		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setLayout( new HorizontalLayout() );

@@ -68,7 +68,8 @@ public class FormLayout
 
 	public void startContainerLayout( ComponentContainer container, VaadinMetawidget metawidget ) {
 
-		( (VaadinMetawidget) container ).setLayoutRoot( new com.vaadin.ui.FormLayout() );
+		com.vaadin.ui.FormLayout formLayout = new com.vaadin.ui.FormLayout();
+		( (VaadinMetawidget) container ).setLayoutRoot( formLayout );
 	}
 
 	public void layoutWidget( Component component, String elementName, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
