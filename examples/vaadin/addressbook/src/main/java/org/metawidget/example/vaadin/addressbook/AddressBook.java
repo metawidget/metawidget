@@ -131,16 +131,16 @@ public class AddressBook
 
 		// Page body
 
-		VerticalLayout body = new VerticalLayout();
+		VerticalLayout pagebody = new VerticalLayout();
 
 		// Search and result sections
 
-		body.addComponent( createSearchSection() );
-		body.addComponent( createResultsSection() );
+		pagebody.addComponent( createSearchSection() );
+		pagebody.addComponent( createResultsSection() );
 
 		mContent = new CustomLayout( "addressbook" );
 
-		( (CustomLayout) mContent ).addComponent( body, "pagebody" );
+		( (CustomLayout) mContent ).addComponent( pagebody, "pagebody" );
 	}
 
 	//
@@ -235,13 +235,13 @@ public class AddressBook
 		final Table table = new Table( "", mModel );
 		table.setImmediate( true );
 		table.setSelectable( true );
-		table.setPageLength( 8 );
 		table.setWidth( "100%" );
 		table.setContainerDataSource( mModel );
 		table.setRowHeaderMode( Table.ROW_HEADER_MODE_ICON_ONLY );
 		table.setColumnCollapsingAllowed( true );
 		table.setItemIconPropertyId( "Class" );
 		table.setColumnCollapsed( "Class", true );
+		table.setHeight( "275px" );
 
 		table.addListener( this.mModel );
 

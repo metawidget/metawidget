@@ -38,6 +38,7 @@ import com.vaadin.ui.Label;
 
 /**
  * Property binding implementation.
+ * <p>
  * Note: <code>SimpleBindingProcessor</code> does not bind <em>actions</em>, such as invoking a
  * method when a <code>Button</code> is pressed. For that, see
  * <code>ReflectionBindingProcessor</code>

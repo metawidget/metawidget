@@ -17,8 +17,6 @@
 package org.metawidget.vaadin.widgetbuilder;
 
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 /*
  * Label whose values use a lookup.
@@ -28,31 +26,22 @@ public class LookupLabel
 	extends com.vaadin.ui.Label {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 
 	private Map<String, String>	mLookup;
 
-	private ResourceBundle		mBundle;
-
 	//
 	// Constructor
 	//
 
-	public LookupLabel( Map<String, String> lookup, ResourceBundle bundle ) {
+	public LookupLabel( Map<String, String> lookup ) {
 
 		if ( lookup == null ) {
 			throw new NullPointerException( "lookup" );
 		}
 
 		mLookup = lookup;
-		mBundle = bundle;
 	}
 
 	//
@@ -62,22 +51,10 @@ public class LookupLabel
 	@Override
 	public void setValue( Object text ) {
 
-		String lookup = "";
-
-		if ( text != null ) {
-			lookup = ( text instanceof Enum<?> ) ? ( (Enum<?>) text ).name() : text.toString();
-		}
+		Object lookup = text;
 
 		if ( lookup != null && mLookup != null ) {
 			lookup = mLookup.get( lookup );
-		}
-
-		if ( mBundle != null && lookup != null ) {
-			try {
-				lookup = mBundle.getString( lookup );
-			} catch ( MissingResourceException e ) {
-				// Use default lookup
-			}
 		}
 
 		super.setValue( lookup );

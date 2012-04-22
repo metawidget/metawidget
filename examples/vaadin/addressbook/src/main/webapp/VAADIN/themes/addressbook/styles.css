@@ -1,24 +1,67 @@
 @import url(../reindeer/styles.css);
 
-BODY{
-	background: white;
-	dir: rtl;
-	}
+.v-app {
+	background-color: white;
+}
 
-div.v-app {	
+#outer {
+	background-image: url("img/background.jpg");
+	background-repeat: no-repeat;
+	padding: 20px;
+}
+
+#outer #page-image {
+	vertical-align: top;
+	width: 150px;
+	text-align: left;
+}
+
+#page-image .v-embedded {
+	text-align: center;
+}
+
+#dialog {
 	background-color: white;
 	background-image: url("img/background.jpg");
 	background-repeat: no-repeat;
+	padding-top: 10px;
+}
+
+#dialog #page-image {
+	vertical-align: top;
+	width: 130px;
+}
+
+#dialog #content {
+	padding-right: 10px;
+}
+
+#dialog .h1 {
+	margin-top: 20px;
+	border-bottom: 2px solid black;
+}
+
+.v-formlayout-margin-top .v-formlayout-firstrow .v-formlayout-captioncell, .v-formlayout-margin-top .v-formlayout-firstrow .v-formlayout-contentcell, .v-formlayout-margin-top .v-formlayout-firstrow .v-formlayout-errorcell {
+	padding-top: 0px;
+}
+
+.v-formlayout-captioncell {
+	vertical-align: top;
+}
+
+.v-caption {
+	text-align: left;
+	padding-top: 3pt;	
 }
 
 /* Disable line wrap from between caption and input field */
 .v-gridlayout .v-caption {
-    display: inline-block;
-    width: 10em;
-    padding-right: 3px;
+	display: inline-block;
+	width: 10em;
+	padding-right: 3px;
 }
 
 /* Right-align (could also disable float and set alignment) */
 .v-gridlayout .v-captiontext {
-    float: left;
+	float: left;
 }

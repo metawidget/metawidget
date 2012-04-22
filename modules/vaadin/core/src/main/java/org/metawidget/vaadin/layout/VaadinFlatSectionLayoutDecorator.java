@@ -33,8 +33,6 @@ import com.vaadin.ui.ComponentContainer;
 /**
  * Convenience base class for LayoutDecorators .
  *
- *
- *
  * @author Loghman Barari
  */
 

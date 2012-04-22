@@ -21,7 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
-import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
@@ -31,15 +30,16 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.layout.HorizontalLayout;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.CollectionBindingProcessor;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.CollectionBindingProcessor.CollectionBindingNotifier;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
 import com.vaadin.data.Buffered.SourceException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.Notification;
 
@@ -51,14 +51,6 @@ import com.vaadin.ui.Window.Notification;
 
 public class ContactDialog
 	implements Serializable {
-
-	//
-	// Private statics
-	//
-
-	private static final long				serialVersionUID	= 1l;
-
-	private static int						id					= 1;
 
 	//
 	// Package-level members
@@ -76,7 +68,7 @@ public class ContactDialog
 
 	private VaadinMetawidget				mButtonsMetawidget;
 
-	private Window							mContent;
+	private Window							mWindow;
 
 	/* package private */boolean			mShowConfirmDialog	= true;
 
@@ -84,23 +76,17 @@ public class ContactDialog
 	// Constructor
 	//
 
-	public ContactDialog( ContactsControllerProvider provider,
-			final Contact contact ) {
-
-		if ( id > Integer.MAX_VALUE - 3 ) {
-			id = 1;
-		}
+	public ContactDialog( ContactsControllerProvider provider, final Contact contact ) {
 
 		mProvider = provider;
 
-		mContent = new Window();
-		mContent.setHeight( "600px" );
-		mContent.setWidth( "800px" );
+		mWindow = new Window();
+		mWindow.setHeight( "600px" );
+		mWindow.setWidth( "800px" );
 
 		// Bundle
 
-		ResourceBundle bundle = ResourceBundle
-				.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" );
+		ResourceBundle bundle = ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" );
 
 		// Title
 
@@ -112,64 +98,42 @@ public class ContactDialog
 
 		// Personal/business icon
 
+		CustomLayout body = new CustomLayout( "contact" );
+
 		if ( contact instanceof PersonalContact ) {
 			builder.append( bundle.getString( "personalContact" ) );
+			body.addComponent( new Embedded( "", new ThemeResource( "../addressbook/img/personal.gif" ) ), "icon" );
 		} else {
 			builder.append( bundle.getString( "businessContact" ) );
+			body.addComponent( new Embedded( "", new ThemeResource( "../addressbook/img/business.gif" ) ), "icon" );
 		}
 
-		mContent.setCaption( builder.toString() );
+		mWindow.setCaption( builder.toString() );
 
 		// Metawidget
-
-		CustomLayout body = new CustomLayout( "addressbook" );
-
-		String resource = "../addressbook/img/business.gif";
-		if ( contact instanceof PersonalContact ) {
-			resource = "../addressbook/img/personal.gif";
-		}
-
-		body.addComponent( new Embedded( "", new ThemeResource( resource ) ), "icon" );
 
 		mContactMetawidget = new VaadinMetawidget();
 		mContactMetawidget.setBundle( MainApplication.getBundle() );
 		mContactMetawidget.setWidth( "100%" );
 		mContactMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
-		mContactMetawidget.getWidgetProcessor( CollectionBindingProcessor.class )
-				.setCollectionBindingNotifier( new CollectionBindingNotifier() {
-
-					public void removeItemFromCollection( Object item )
-							throws RuntimeException {
-
-						contact.removeCommunication( (Communication) item );
-					}
-
-					public Object formatValue( Comparable<?> item, String field,
-							Object value ) {
-
-						return value;
-					}
-
-					public Class<?> columnType( String field, Class<?> clazz ) {
-
-						return clazz;
-					}
-
-					public void addItemToCollection( Object item )
-							throws RuntimeException {
-
-						contact.addCommunication( (Communication) item );
-					}
-				} );
-
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
 		mContactMetawidget.setToInspect( contact );
 
+		// Communications override
+
+		Table communicationsTable = new Table();
+		communicationsTable.setData( "communications" );
+		communicationsTable.setHeight( "170px" );
+		mContactMetawidget.addComponent( communicationsTable );
+
+		// Embedded buttons
+
 		body.addComponent( mContactMetawidget, "pagebody" );
 
-		mContent.addComponent( body );
+		((Layout) mWindow.getContent()).setMargin( false );
+		mWindow.addComponent( body );
 
-		addEmbededButtons();
+		addEmbeddedButtons();
 	}
 
 	//
@@ -179,7 +143,7 @@ public class ContactDialog
 	@UiHidden
 	public Window getContent() {
 
-		return mContent;
+		return mWindow;
 	}
 
 	@UiHidden
@@ -204,7 +168,7 @@ public class ContactDialog
 
 		mContactMetawidget.setReadOnly( false );
 
-		addEmbededButtons();
+		addEmbeddedButtons();
 	}
 
 	@UiAction
@@ -216,19 +180,19 @@ public class ContactDialog
 			Contact contact = mContactMetawidget.getToInspect();
 			mProvider.getContactsController().save( contact );
 		} catch ( SourceException e ) {
-			mContent.showNotification( "Save Error", e.getCause().getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
+			mWindow.showNotification( "Save Error", e.getCause().getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 
 			return;
 
 		} catch ( Exception e ) {
 			e.printStackTrace();
 
-			mContent.showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
+			mWindow.showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 			return;
 		}
 
 		if ( !MainApplication.isTestMode() ) {
-			mContent.getParent().removeWindow( mContent );
+			mWindow.getParent().removeWindow( mWindow );
 		}
 
 		mProvider.fireRefresh();
@@ -242,7 +206,7 @@ public class ContactDialog
 		Contact contact = mContactMetawidget.getToInspect();
 
 		if ( !MainApplication.isTestMode() ) {
-			mContent.getParent().removeWindow( mContent );
+			mWindow.getParent().removeWindow( mWindow );
 		}
 
 		mProvider.getContactsController().delete( contact );
@@ -255,14 +219,15 @@ public class ContactDialog
 	public void cancel() {
 
 		if ( !MainApplication.isTestMode() ) {
-			mContent.getParent().removeWindow( mContent );
+			mWindow.getParent().removeWindow( mWindow );
 		}
 	}
 
 	//
 	// Private Methods
 	//
-	private void addEmbededButtons() {
+
+	private void addEmbeddedButtons() {
 
 		// Embedded buttons
 
@@ -272,10 +237,12 @@ public class ContactDialog
 		mContactMetawidget.addComponent( facetButtons );
 
 		mButtonsMetawidget = new VaadinMetawidget();
+		mButtonsMetawidget.setWidth( null );
 		mButtonsMetawidget.setBundle( MainApplication.getBundle() );
 		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setLayout( new HorizontalLayout() );
 		mButtonsMetawidget.setToInspect( this );
 		facetButtons.addComponent( mButtonsMetawidget );
+		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 }

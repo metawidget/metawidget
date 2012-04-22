@@ -36,15 +36,16 @@ import com.vaadin.ui.TabSheet;
  * @author Loghman Barari
  */
 
-public class TabSheetLayoutDecorator extends VaadinNestedSectionLayoutDecorator {
+public class TabSheetLayoutDecorator
+	extends VaadinNestedSectionLayoutDecorator {
 
 	//
 	// Constructor
 	//
 
-	public TabSheetLayoutDecorator(LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config) {
+	public TabSheetLayoutDecorator( LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config ) {
 
-		super(config);
+		super( config );
 	}
 
 	//
@@ -52,53 +53,46 @@ public class TabSheetLayoutDecorator extends VaadinNestedSectionLayoutDecorator 
 	//
 
 	@Override
-	protected ComponentContainer createSectionWidget(
-			ComponentContainer previousSectionWidget,
-			Map<String, String> attributes, ComponentContainer container,
-			VaadinMetawidget metawidget) {
+	protected ComponentContainer createSectionWidget( ComponentContainer previousSectionWidget, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
 
 		TabSheet tabSheet;
 
 		// Whole new tabbed pane?
 
-		if (previousSectionWidget == null) {
+		if ( previousSectionWidget == null ) {
 
 			tabSheet = new TabSheet();
 			tabSheet.setWidth( "100%" );
 
 			// Add to parent container
 
-			Map<String, String> tabbedPaneAttributes = CollectionUtils
-					.newHashMap();
-			tabbedPaneAttributes.put(LABEL, "");
-			tabbedPaneAttributes.put(LARGE, TRUE);
-			getDelegate().layoutWidget(tabSheet, PROPERTY,
-					tabbedPaneAttributes, container, metawidget);
+			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
+			tabbedPaneAttributes.put( LABEL, "" );
+			tabbedPaneAttributes.put( LARGE, TRUE );
+			getDelegate().layoutWidget( tabSheet, PROPERTY, tabbedPaneAttributes, container, metawidget );
 		} else {
 			tabSheet = (TabSheet) previousSectionWidget.getParent();
 		}
 
 		// New tab
 
-		GridLayout tabPanel = new GridLayout(2, 1);
-		tabPanel.setMargin(true);
-		tabPanel.setSpacing(true);
+		GridLayout tabPanel = new GridLayout( 2, 1 );
+		tabPanel.setMargin( true );
+		tabPanel.setSpacing( true );
 		tabPanel.setWidth( "100%" );
 
 		// Tab name (possibly localized)
 
-		String section = getState(container, metawidget).currentSection;
+		String section = getState( container, metawidget ).currentSection;
 
-		String localizedSection = metawidget.getLocalizedKey(StringUtils
-				.camelCase(section));
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if (localizedSection == null) {
+		if ( localizedSection == null ) {
 			localizedSection = section;
 		}
 
-		tabSheet.addTab(tabPanel, localizedSection, null);
+		tabSheet.addTab( tabPanel, localizedSection, null );
 
 		return tabPanel;
 	}
-
 }

@@ -32,12 +32,6 @@ public class LookupLabel
 	extends JLabel {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

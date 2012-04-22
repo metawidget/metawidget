@@ -43,8 +43,7 @@ import com.vaadin.ui.Label;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements
-		WidgetBuilder<Component, VaadinMetawidget>, VaadinValuePropertyProvider {
+	implements WidgetBuilder<Component, VaadinMetawidget>, VaadinValuePropertyProvider {
 
 	//
 	// Public methods
@@ -96,7 +95,7 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-				return new LookupLabel( CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ), metawidget.getBundle() );
+				return new LookupLabel( CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
 			}
 
 			return new Label();

@@ -18,7 +18,6 @@ package org.metawidget.vaadin.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -26,42 +25,27 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.util.XmlUtils;
 import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.VaadinValuePropertyProvider;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.Converter;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractTextField;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * WidgetBuilder for Vaadin environments.
@@ -72,11 +56,8 @@ import com.vaadin.ui.VerticalLayout;
  * @author Loghman Barari
  */
 
-@SuppressWarnings( "serial" )
 public class VaadinWidgetBuilder
-	implements
-		WidgetBuilder<Component, VaadinMetawidget>,
-		VaadinValuePropertyProvider, Serializable {
+	implements WidgetBuilder<Component, VaadinMetawidget>, VaadinValuePropertyProvider {
 
 	protected final static String	TABLE_COLUMNS	= "tablecolumns";
 
@@ -124,12 +105,7 @@ public class VaadinWidgetBuilder
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 
-			return  new CheckBox();
-		}
-
-		// Enums
-		if ( clazz.isEnum() ) {
-			return createComboBox4EnumComponent( clazz, metawidget );
+			return new CheckBox();
 		}
 
 		// Lookups
@@ -153,7 +129,7 @@ public class VaadinWidgetBuilder
 
 			// booleans
 			if ( Boolean.class.equals( clazz ) ) {
-				return  new CheckBox();
+				return new CheckBox();
 			}
 
 			// chars
@@ -184,7 +160,7 @@ public class VaadinWidgetBuilder
 					value = (byte) Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Byte>( metawidget.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Byte>( minimum, maximum ) );
 
 				return textField;
 
@@ -205,7 +181,7 @@ public class VaadinWidgetBuilder
 					value = (short) Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Short>( metawidget.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Short>( minimum, maximum ) );
 
 				return textField;
 
@@ -226,7 +202,7 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Integer>( metawidget.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Integer>( minimum, maximum ) );
 
 				return textField;
 
@@ -247,7 +223,7 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Long>( metawidget.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Long>( minimum, maximum ) );
 
 				return textField;
 
@@ -268,7 +244,7 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Float>( metawidget.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Float>( minimum, maximum ) );
 
 				return textField;
 			} else if ( Double.class.equals( clazz ) ) {
@@ -288,7 +264,7 @@ public class VaadinWidgetBuilder
 					value = Math.min( value, maximum );
 				}
 
-				textField.addValidator( new NumericValidator<Double>( metawidget.getBundle(), minimum, maximum ) );
+				textField.addValidator( new NumericValidator<Double>( minimum, maximum ) );
 
 				return textField;
 			}
@@ -343,9 +319,7 @@ public class VaadinWidgetBuilder
 				if ( ( minimum > -1 ) || ( maximum > -1 ) || ( !allowNull ) ) {
 
 					textField = new TextField();
-
 					textField.addValidator( new StringLengthValidator( minimum, maximum, allowNull ) );
-
 					textField.setMaxLength( maximum );
 				}
 
@@ -358,21 +332,11 @@ public class VaadinWidgetBuilder
 				return new PopupDateField();
 			}
 
-			// Collections
+			// Unsupported Collection
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				Component table = createTableComponent( attributes, metawidget );
-
-				if ( table != null ) {
-
-					return table;
-				}
-
-				// Unsupported Collection
-
 				return new Stub();
 			}
-
 		}
 
 		// Not simple, but don't expand
@@ -387,79 +351,6 @@ public class VaadinWidgetBuilder
 	//
 	// Private methods
 	//
-
-	private AbstractComponent createTableComponent( Map<String, String> attributes, VaadinMetawidget metawidget ) {
-
-		if ( !attributes.containsKey( PARAMETERIZED_TYPE ) ) {
-			return null;
-		}
-
-		String name = attributes.get( NAME );
-
-		List<String> columns = null;
-
-		String table_columns = attributes.get( TABLE_COLUMNS );
-
-		String componentType = attributes.get( PARAMETERIZED_TYPE );
-
-		Class<?> componentClass = ClassUtils.niceForName( componentType );
-
-		if ( componentClass.asSubclass( Comparable.class ) == null ) {
-			return null;
-		}
-
-		if ( table_columns == null || "".equals( attributes ) ) {
-
-			// Inspect type of Collection
-
-			String inspectedType = metawidget.inspect( null, componentType );
-
-			// Determine columns
-
-			columns = CollectionUtils.newArrayList();
-
-			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-			NodeList elements = root.getFirstChild().getChildNodes();
-
-			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
-
-				Node node = elements.item( loop );
-
-				if ( node.getNodeName() != PROPERTY ) {
-					continue;
-				}
-
-				Map<String, String> property_attribute = XmlUtils.getAttributesAsMap( node );
-
-				if ( TRUE.equals( property_attribute.get( HIDDEN ) ) ) {
-					continue;
-				}
-
-				columns.add( property_attribute.get( NAME ) );
-			}
-
-			attributes.put( TABLE_COLUMNS, ArrayUtils
-					.toString( columns.toArray() ) );
-
-		}
-
-		boolean readOnly = metawidget.isReadOnly();
-
-		final Table table = new Table();
-
-		table.setImmediate( true );
-		table.setHeight( "170px" );
-		table.setWidth( "100%" );
-		table.setWriteThrough( false );
-
-		table.setEditable( !readOnly );
-
-		if ( readOnly ) {
-			return table;
-		}
-
-		return new TableWrapper( table, metawidget );
-	}
 
 	private Component createComboBoxComponent( Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
 
@@ -495,19 +386,7 @@ public class VaadinWidgetBuilder
 			}
 
 			comboBox.addItem( convertedValue );
-
-			String caption = item.getValue();
-
-			if ( metawidget.getBundle() != null ) {
-
-				try {
-					caption = metawidget.getLocalizedKey( caption );
-				} catch ( MissingResourceException e ) {
-					// Use default caption
-				}
-			}
-
-			comboBox.setItemCaption( convertedValue, caption );
+			comboBox.setItemCaption( convertedValue, item.getValue() );
 		}
 
 		if ( !WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
@@ -517,124 +396,16 @@ public class VaadinWidgetBuilder
 		return comboBox;
 	}
 
-	public <T> ComboBox createComboBox4EnumComponent( Class<T> clazz, VaadinMetawidget metawidget ) {
-
-		ComboBox comboBox = new ComboBox();
-
-		for ( T enumItem : clazz.getEnumConstants() ) {
-			String caption = enumItem.toString();
-
-			if ( metawidget.getBundle() != null ) {
-
-				try {
-					caption = metawidget.getBundle().getString(
-							caption );
-				} catch ( MissingResourceException e ) {
-					// Use existing caption
-				}
-			}
-
-			comboBox.addItem( enumItem );
-			comboBox.setItemCaption( enumItem, caption );
-		}
-
-		return comboBox;
-	}
-
 	//
 	// Inner Class
 	//
 
-	private static class TableWrapper
-		extends VerticalLayout
-		implements WrapperComponent {
-
-		//
-		// Private members
-		//
-
-		private Table	mTable;
-
-		//
-		// Public methods
-		//
-
-		public TableWrapper( final Table table, VaadinMetawidget metawidget ) {
-
-			addComponent( table );
-			setImmediate( true );
-			setWidth( "100%" );
-
-			String captionToUse = metawidget.getLocalizedKey( "add" );
-			if ( captionToUse == null ) {
-				captionToUse = "Add";
-			}
-
-			Button addNewButton = new Button( captionToUse );
-			addNewButton.setImmediate( true );
-			addNewButton.addListener( new ClickListener() {
-
-				public void buttonClick( ClickEvent event ) {
-
-					table.addItem();
-				}
-			} );
-
-			captionToUse = metawidget.getLocalizedKey( "delete" );
-			if ( captionToUse == null ) {
-				captionToUse = "Delete";
-			}
-
-			final Button deleteButton = new Button( captionToUse );
-			deleteButton.setImmediate( true );
-			deleteButton.setEnabled( false );
-			deleteButton.addListener( new ClickListener() {
-
-				public void buttonClick( ClickEvent event ) {
-
-					table.removeItem( table.getValue() );
-				}
-			} );
-
-			HorizontalLayout actionLayout = new HorizontalLayout();
-			// actionLayout.setImmediate(true);
-			actionLayout.setMargin( false );
-			actionLayout.setSpacing( true );
-			actionLayout.addComponent( addNewButton );
-			actionLayout.addComponent( deleteButton );
-
-			addComponent( actionLayout );
-
-			setComponentAlignment( actionLayout, Alignment.MIDDLE_CENTER );
-
-			table.setSelectable( true );
-			table.addListener( new Table.ValueChangeListener() {
-
-				public void valueChange( ValueChangeEvent event ) {
-
-					boolean enabled = ( null != event.getProperty().getValue() );
-
-					deleteButton.setEnabled( enabled );
-				}
-			} );
-
-			mTable = table;
-		}
-
-		public Component getMasterComponent() {
-
-			return mTable;
-		}
-
-	}
-
-	public static interface WrapperComponent {
-
-		Component getMasterComponent();
-	}
-
 	/* package private */static class NumericValidator<T extends Number>
 			extends AbstractValidator {
+
+		//
+		// Private statics
+		//
 
 		private final static String	DEFAULT_TYPE_ERROR_MESSAGE		= "Not correct type";
 
@@ -660,13 +431,13 @@ public class VaadinWidgetBuilder
 
 		private T						mMaximum;
 
-		private ResourceBundle			mBundle;
+		//
+		// Constructor
+		//
 
-		public NumericValidator( ResourceBundle bundle, T minimum, T maximum ) {
+		public NumericValidator( T minimum, T maximum ) {
 
 			super( "" );
-
-			mBundle = bundle;
 
 			mMinimum = minimum;
 			mMaximum = maximum;
@@ -765,21 +536,8 @@ public class VaadinWidgetBuilder
 		}
 
 		//
-		// Private Methods
+		// Private methods
 		//
-
-		private String getBundleString( String key ) {
-
-			if ( mBundle != null ) {
-				try {
-					return mBundle.getString( key );
-				} catch ( MissingResourceException e ) {
-					// return null
-				}
-			}
-
-			return null;
-		}
 
 		private ErrorType validating( Object value ) {
 
@@ -873,9 +631,17 @@ public class VaadinWidgetBuilder
 	private static class StringLengthValidator
 		extends com.vaadin.data.validator.StringLengthValidator {
 
+		//
+		// Private members
+		//
+
 		private String	mMaximumLengthErrorMessage;
 
 		private String	mMinimumLengthErrorMessage;
+
+		//
+		// Constructor
+		//
 
 		public StringLengthValidator( int minLength, int maxLength, boolean allowNull ) {
 
@@ -884,6 +650,10 @@ public class VaadinWidgetBuilder
 			mMaximumLengthErrorMessage = "{1} must not be longer than {0} characters";
 			mMinimumLengthErrorMessage = "{1} must not be shorter than {0} characters";
 		}
+
+		//
+		// Public methods
+		//
 
 		@Override
 		public void validate( Object value )
@@ -906,5 +676,4 @@ public class VaadinWidgetBuilder
 			}
 		}
 	}
-
 }

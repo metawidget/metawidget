@@ -21,33 +21,34 @@ import java.util.ResourceBundle;
 import org.metawidget.vaadin.VaadinMetawidget;
 
 import com.vaadin.Application;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Window;
 
 /**
  * @author Loghman Barari
  */
 
-public class MainApplication extends Application {
+public class MainApplication
+	extends Application {
 
 	//
 	// Private statics
 	//
 
-	private static final long serialVersionUID = 1l;
+	private static final long			serialVersionUID	= 1l;
 
-	private static boolean mTestMode;
+	private static boolean				mTestMode;
 
 	//
 	// Private members
 	//
 
-	private AddressBook mAddressBook;
+	private AddressBook					mAddressBook;
 
-	private static final ResourceBundle mBundle;
+	private static final ResourceBundle	mBundle;
 
 	static {
-		mBundle = ResourceBundle
-				.getBundle("org.metawidget.example.shared.addressbook.resource.Resources");
+		mBundle = ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" );
 	}
 
 	//
@@ -67,21 +68,20 @@ public class MainApplication extends Application {
 
 	@Override
 	public void init() {
+
 		VaadinMetawidget metawidget = new VaadinMetawidget();
-		metawidget
-				.setConfig("org/metawidget/example/vaadin/addressbook/metawidget.xml");
+		metawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 
-		setTheme("addressbook");
+		setTheme( "addressbook" );
+		Window mainWindow = new Window( "Address Book (Metawidget Vaadin Example)" );
+		((Layout) mainWindow.getContent()).setMargin( false );
+		mainWindow.addComponent( mAddressBook.getContent() );
 
-		Window mainWindow = new Window(
-				"Address Book (Metawidget Vaadin Example)");
-
-		mainWindow.addComponent(mAddressBook.getContent());
-
-		setMainWindow(mainWindow);
+		setMainWindow( mainWindow );
 	}
 
 	public static ResourceBundle getBundle() {
+
 		return mBundle;
 	}
 
@@ -101,9 +101,8 @@ public class MainApplication extends Application {
 		return mTestMode;
 	}
 
-	public static void setTestMode(boolean testMode) {
+	public static void setTestMode( boolean testMode ) {
 
 		mTestMode = testMode;
 	}
-
 }
