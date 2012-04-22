@@ -18,7 +18,6 @@ package org.metawidget.swing.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -64,7 +63,7 @@ public class ReflectionBindingProcessor
 			return component;
 		}
 
-		if ( !( component instanceof Button ) ) {
+		if ( !( component instanceof AbstractButton ) ) {
 			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
 		}
 

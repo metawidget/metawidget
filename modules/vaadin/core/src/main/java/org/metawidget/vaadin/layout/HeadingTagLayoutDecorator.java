@@ -68,9 +68,9 @@ public class HeadingTagLayoutDecorator
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null ) {
-			label.setValue( localizedSection );
-		} else {
 			label.setValue( section );
+		} else {
+			label.setValue( localizedSection );
 		}
 
 		label.setStyleName( "h" + String.valueOf( level + 1 ));

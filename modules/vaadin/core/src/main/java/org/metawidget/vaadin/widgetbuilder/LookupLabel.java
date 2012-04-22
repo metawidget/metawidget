@@ -51,7 +51,7 @@ public class LookupLabel
 	@Override
 	public void setValue( Object text ) {
 
-		Object lookup = text;
+		Object lookup = String.valueOf( text );
 
 		if ( lookup != null && mLookup != null ) {
 			lookup = mLookup.get( lookup );

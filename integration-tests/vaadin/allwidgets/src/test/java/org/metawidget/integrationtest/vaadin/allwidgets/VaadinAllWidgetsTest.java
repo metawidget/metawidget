@@ -27,7 +27,6 @@ import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
 import com.vaadin.data.Property;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ListenerMethod;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;
@@ -36,14 +35,11 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author Loghman Barari
@@ -408,30 +404,19 @@ public class VaadinAllWidgetsTest
 			assertTrue( e instanceof Property.ConversionException );
 		}
 
-		assertTrue( layout.getComponent( 31 ) instanceof Label );
-		assertEquals( Label.CONTENT_XHTML, ( (Label) layout.getComponent( 31 ) ).getContentMode() );
-		assertEquals( "<br/><b>Section Break</b><hr/>", ( (Label) layout.getComponent( 31 ) ).getValue() );
+		component = layout.getComponent( 31 );
+		assertTrue( component instanceof Label );
+		assertEquals( "h1", ( (Label) component ).getStyleName() );
+		assertEquals( "Section Break", ( (Label) component ).getValue() );
 
 		component = layout.getComponent( 32 );
 		assertEquals( "Read Only:", component.getCaption() );
 		assertTrue( component instanceof Label );
 		assertEquals( "Read Only", metawidget.getValue( "readOnly" ) );
 
-		component = layout.getComponent( 33 );
-		assertEquals( "org.metawidget.vaadin.widgetbuilder.VaadinWidgetBuilder$TableWrapper", component.getClass().getName() );
-		assertTrue( component instanceof VerticalLayout );
-		assertTrue( ( (VerticalLayout) component ).getComponent( 0 ) instanceof Table );
-		assertEquals( true, ( (Table) ( (VerticalLayout) component ).getComponent( 0 ) ).isEditable() );
-		assertTrue( ( (Table) ( (VerticalLayout) component ).getComponent( 0 ) ).getContainerDataSource() instanceof IndexedContainer );
-		assertTrue( ( (VerticalLayout) component ).getComponent( 1 ) instanceof HorizontalLayout );
-		assertTrue( ( (HorizontalLayout) ( (VerticalLayout) component ).getComponent( 1 ) ).getComponent( 0 ) instanceof Button );
-		assertEquals( "Add", ( (HorizontalLayout) ( (VerticalLayout) component ).getComponent( 1 ) ).getComponent( 0 ).getCaption() );
-		assertTrue( ( (HorizontalLayout) ( (VerticalLayout) component ).getComponent( 1 ) ).getComponent( 1 ) instanceof Button );
-		assertEquals( "Delete", ( (HorizontalLayout) ( (VerticalLayout) component ).getComponent( 1 ) ).getComponent( 1 ).getCaption() );
-
-		assertEquals( "Do Action", layout.getComponent( 34 ).getCaption() );
-		assertTrue( layout.getComponent( 34 ) instanceof Button );
-		Button button = (Button) layout.getComponent( 34 );
+		assertEquals( "Do Action", layout.getComponent( 33 ).getCaption() );
+		assertTrue( layout.getComponent( 33 ) instanceof Button );
+		Button button = (Button) layout.getComponent( 33 );
 		assertTrue( button.isEnabled() );
 		try {
 			clickButton( button );
@@ -441,7 +426,7 @@ public class VaadinAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getCause().getMessage() );
 		}
 
-		assertEquals( 35, layout.getComponentCount() );
+		assertEquals( 34, layout.getComponentCount() );
 
 		// Check MetawidgetException
 
@@ -583,19 +568,18 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 30 );
 		assertEquals( "Date:", component.getCaption() );
 		assertEquals( now, ( (Label) component ).getValue() );
-		assertTrue( layout.getComponent( 31 ) instanceof Label );
-		assertEquals( Label.CONTENT_XHTML, ( (Label) layout.getComponent( 31 ) ).getContentMode() );
-		assertEquals( "<br/><b>Section Break</b><hr/>", ( (Label) layout.getComponent( 31 ) ).getValue() );
+		component = layout.getComponent( 31 );
+		assertTrue( component instanceof Label );
+		assertEquals( "h1", ( (Label) component ).getStyleName() );
+		assertEquals( "Section Break", ( (Label) component ).getValue() );
 		component = layout.getComponent( 32 );
 		assertEquals( "Read Only:", component.getCaption() );
 		assertEquals( "Read Only", ( (Label) component ).getValue() );
 		component = layout.getComponent( 33 );
-		assertEquals( "Collection:", component.getCaption() );
-		assertTrue( component instanceof Table );
-		assertEquals( "Do Action", layout.getComponent( 34 ).getCaption() );
-		assertTrue( layout.getComponent( 34 ) instanceof Button );
-		assertFalse( ( (Button) layout.getComponent( 34 ) ).isEnabled() );
-		assertEquals( 35, layout.getComponentCount() );
+		assertEquals( "Do Action", layout.getComponent( 33 ).getCaption() );
+		assertTrue( layout.getComponent( 33 ) instanceof Button );
+		assertFalse( ( (Button) layout.getComponent( 33 ) ).isEnabled() );
+		assertEquals( 34, layout.getComponentCount() );
 	}
 
 	private void clickButton( Button button ) {
