@@ -30,12 +30,6 @@ public abstract class BaseHtmlMetawidgetTag
 	extends MetawidgetTag {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Protected members
 	//
 

@@ -24,8 +24,10 @@ import org.metawidget.inspector.annotation.UiSection;
 public class GwtTabQuirks
 	implements Serializable {
 
-	private static final long	serialVersionUID	= 1l;
-
+	//
+	// Public methods
+	//
+	
 	public String getAbc() {
 
 		return null;

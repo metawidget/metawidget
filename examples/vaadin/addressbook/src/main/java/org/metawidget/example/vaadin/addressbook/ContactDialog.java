@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
@@ -32,14 +33,17 @@ import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.layout.HorizontalLayout;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
-import com.vaadin.data.Buffered.SourceException;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.Notification;
 
@@ -53,18 +57,16 @@ public class ContactDialog
 	implements Serializable {
 
 	//
-	// Package-level members
-	//
-
-	IndexedContainer						mCommunicationsModel;
-
-	//
 	// Private members
 	//
 
 	private ContactsControllerProvider		mProvider;
 
 	/* package private */VaadinMetawidget	mContactMetawidget;
+
+	/* package private */Table				mCommunicationsTable;
+
+	private com.vaadin.ui.HorizontalLayout	mCommunicationsButtons;
 
 	private VaadinMetawidget				mButtonsMetawidget;
 
@@ -83,6 +85,10 @@ public class ContactDialog
 		mWindow = new Window();
 		mWindow.setHeight( "600px" );
 		mWindow.setWidth( "800px" );
+		( (Layout) mWindow.getContent() ).setMargin( false );
+
+		CustomLayout body = new CustomLayout( "contact" );
+		mWindow.addComponent( body );
 
 		// Bundle
 
@@ -97,8 +103,6 @@ public class ContactDialog
 		}
 
 		// Personal/business icon
-
-		CustomLayout body = new CustomLayout( "contact" );
 
 		if ( contact instanceof PersonalContact ) {
 			builder.append( bundle.getString( "personalContact" ) );
@@ -121,19 +125,72 @@ public class ContactDialog
 
 		// Communications override
 
-		Table communicationsTable = new Table();
-		communicationsTable.setData( "communications" );
-		communicationsTable.setHeight( "170px" );
-		mContactMetawidget.addComponent( communicationsTable );
+		mCommunicationsTable = new Table();
+		mCommunicationsTable.setWidth( "100%" );
+		mCommunicationsTable.setHeight( "170px" );
+
+		final Button addNewButton = new Button( "Add" );
+		addNewButton.addListener( new ClickListener() {
+
+			public void buttonClick( ClickEvent event ) {
+
+				mCommunicationsTable.addItem();
+			}
+		} );
+
+		final Button deleteButton = new Button( "Delete" );
+		deleteButton.setEnabled( false );
+		deleteButton.addListener( new ClickListener() {
+
+			public void buttonClick( ClickEvent event ) {
+
+				mCommunicationsTable.removeItem( mCommunicationsTable.getValue() );
+			}
+		} );
+
+		mCommunicationsTable.setSelectable( true );
+		mCommunicationsTable.addListener( new Table.ValueChangeListener() {
+
+			public void valueChange( ValueChangeEvent event ) {
+
+				boolean enabled = ( null != event.getProperty().getValue() );
+				deleteButton.setEnabled( enabled );
+			}
+		} );
+
+		mCommunicationsButtons = new com.vaadin.ui.HorizontalLayout();
+		mCommunicationsButtons.setVisible( !mContactMetawidget.isReadOnly() );
+		mCommunicationsButtons.setMargin( false );
+		mCommunicationsButtons.setSpacing( true );
+		mCommunicationsButtons.addComponent( addNewButton );
+		mCommunicationsButtons.addComponent( deleteButton );
+
+		VerticalLayout wrapper = new VerticalLayout();
+		wrapper.setData( "communications" );
+		wrapper.addComponent( mCommunicationsTable );
+		wrapper.addComponent( mCommunicationsButtons );
+		wrapper.setComponentAlignment( mCommunicationsButtons, Alignment.MIDDLE_CENTER );
+		mContactMetawidget.addComponent( wrapper );
+
+		TableDataSource<Communication> tableDataSource = new TableDataSource<Communication>( Communication.class, contact.getCommunications(), "Type", "Value" );
+		mCommunicationsTable.setContainerDataSource( tableDataSource );
+		body.addComponent( mContactMetawidget, "pagebody" );
 
 		// Embedded buttons
 
-		body.addComponent( mContactMetawidget, "pagebody" );
+		Facet facetButtons = new Facet();
+		facetButtons.setData( "buttons" );
+		facetButtons.setWidth( "100%" );
+		mContactMetawidget.addComponent( facetButtons );
 
-		((Layout) mWindow.getContent()).setMargin( false );
-		mWindow.addComponent( body );
-
-		addEmbeddedButtons();
+		mButtonsMetawidget = new VaadinMetawidget();
+		mButtonsMetawidget.setWidth( null );
+		mButtonsMetawidget.setBundle( MainApplication.getBundle() );
+		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
+		mButtonsMetawidget.setLayout( new HorizontalLayout() );
+		mButtonsMetawidget.setToInspect( this );
+		facetButtons.addComponent( mButtonsMetawidget );
+		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 
 	//
@@ -167,8 +224,9 @@ public class ContactDialog
 	public void edit() {
 
 		mContactMetawidget.setReadOnly( false );
-
-		addEmbeddedButtons();
+		mCommunicationsTable.setEditable( true );
+		mCommunicationsButtons.setVisible( true );
+		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
 	}
 
 	@UiAction
@@ -179,14 +237,7 @@ public class ContactDialog
 			mContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 			mProvider.getContactsController().save( contact );
-		} catch ( SourceException e ) {
-			mWindow.showNotification( "Save Error", e.getCause().getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
-
-			return;
-
 		} catch ( Exception e ) {
-			e.printStackTrace();
-
 			mWindow.showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 			return;
 		}
@@ -221,28 +272,5 @@ public class ContactDialog
 		if ( !MainApplication.isTestMode() ) {
 			mWindow.getParent().removeWindow( mWindow );
 		}
-	}
-
-	//
-	// Private Methods
-	//
-
-	private void addEmbeddedButtons() {
-
-		// Embedded buttons
-
-		Facet facetButtons = new Facet();
-		facetButtons.setData( "buttons" );
-		facetButtons.setWidth( "100%" );
-		mContactMetawidget.addComponent( facetButtons );
-
-		mButtonsMetawidget = new VaadinMetawidget();
-		mButtonsMetawidget.setWidth( null );
-		mButtonsMetawidget.setBundle( MainApplication.getBundle() );
-		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
-		mButtonsMetawidget.setLayout( new HorizontalLayout() );
-		mButtonsMetawidget.setToInspect( this );
-		facetButtons.addComponent( mButtonsMetawidget );
-		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 }

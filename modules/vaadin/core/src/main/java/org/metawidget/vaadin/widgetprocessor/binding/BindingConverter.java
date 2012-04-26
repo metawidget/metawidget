@@ -17,9 +17,9 @@
 package org.metawidget.vaadin.widgetprocessor.binding;
 
 /**
- * 
+ * Vaadin support: binding
  *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
 
 public interface BindingConverter {

@@ -16,15 +16,27 @@
 
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
+import org.metawidget.util.simple.StringUtils;
+
 /**
+ * Convenience implementation.
  *
- *
- *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
-/*package private*/interface Property extends com.vaadin.data.Property {
 
-	Converter<?> getConvertor();
+public abstract class BaseConverter<T>
+	implements Converter<T> {
 
-	void setConvertor(Converter<?> converter);
+	//
+	// Public methods
+	//
+
+	/**
+	 * By default, uses <code>StringUtils.quietValueOf</code>.
+	 */
+
+	public String convertToString( T value ) {
+
+		return StringUtils.quietValueOf( value );
+	}
 }

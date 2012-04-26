@@ -26,12 +26,6 @@ public class MetawidgetException
 	extends RuntimeException {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Public statics
 	//
 

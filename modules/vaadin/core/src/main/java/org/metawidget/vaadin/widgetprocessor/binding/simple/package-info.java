@@ -14,27 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.vaadin;
-
-import com.vaadin.ui.Component;
-
 /**
- * Common element and attribute names
+ * Vaadin support: simple data binding.
  *
  * @author Loghman Barari
  */
 
-public interface VaadinValuePropertyProvider {
-
-	//
-	// Methods
-	//
-
-	/**
-	 * Returns the property used to get/set the value of the component.
-	 * <p>
-	 * If the component is not known, returns <code>null</code>.
-	 */
-
-	String getValueProperty( Component component );
-}
+package org.metawidget.vaadin.widgetprocessor.binding.simple;

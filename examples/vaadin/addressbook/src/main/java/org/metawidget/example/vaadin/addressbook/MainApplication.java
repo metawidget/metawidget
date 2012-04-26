@@ -35,8 +35,6 @@ public class MainApplication
 	// Private statics
 	//
 
-	private static final long			serialVersionUID	= 1l;
-
 	private static boolean				mTestMode;
 
 	//

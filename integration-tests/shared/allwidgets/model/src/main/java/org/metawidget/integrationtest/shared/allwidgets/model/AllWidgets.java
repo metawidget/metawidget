@@ -34,12 +34,6 @@ public class AllWidgets
 	implements Serializable {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID					= 1l;
-
-	//
 	// Private members
 	//
 
@@ -492,12 +486,6 @@ public class AllWidgets
 
 	public static class NestedWidgets
 		implements Serializable {
-
-		//
-		// Private statics
-		//
-
-		private static final long	serialVersionUID	= 1l;
 
 		//
 		// Private members

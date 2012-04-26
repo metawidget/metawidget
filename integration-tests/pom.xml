@@ -18,7 +18,6 @@
 		<module>faces/addressbook2</module>
 		<module>faces/allwidgets</module>
 		<module>faces/quirks</module>
-		<module>faces/forge</module>
 		<module>gwt/allwidgets</module>
 		<module>gwt/quirks</module>
 		<module>jsp/allwidgets</module>

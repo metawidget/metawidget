@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Simple, Generator-based property and action binding processor.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -84,18 +84,9 @@ public class SimpleBindingProcessor
 		mConverters = new HashMap<Class<?>, Converter<?>>();
 
 		Converter<?> simpleConverter = new SimpleConverter();
-
-		@SuppressWarnings( "unchecked" )
-		Converter<Boolean> booleanConverter = (Converter<Boolean>) simpleConverter;
-		mConverters.put( Boolean.class, booleanConverter );
-
-		@SuppressWarnings( "unchecked" )
-		Converter<Character> characterConverter = (Converter<Character>) simpleConverter;
-		mConverters.put( Character.class, characterConverter );
-
-		@SuppressWarnings( "unchecked" )
-		Converter<Number> numberConverter = (Converter<Number>) simpleConverter;
-		mConverters.put( Number.class, numberConverter );
+		mConverters.put( Boolean.class, simpleConverter );
+		mConverters.put( Character.class, simpleConverter );
+		mConverters.put( Number.class, simpleConverter );
 
 		// Custom converters
 

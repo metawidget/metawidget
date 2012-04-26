@@ -50,12 +50,6 @@ public abstract class Contact
 	implements Comparable<Contact>, Serializable {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

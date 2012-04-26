@@ -38,16 +38,14 @@ import org.metawidget.util.CollectionUtils;
 public class Stub
 	extends Composite {
 
+	//
+	// Constructor
+	//
+	
 	public Stub( Composite parent, int style ) {
 
 		super( parent, style );
 	}
-
-	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
 
 	//
 	// Private members

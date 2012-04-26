@@ -34,12 +34,6 @@ public class ContactsServiceImpl
 	implements ContactsService {
 
 	//
-	// Private statics
-	//
-
-	private static final long				serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

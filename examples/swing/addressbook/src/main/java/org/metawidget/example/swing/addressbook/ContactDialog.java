@@ -74,15 +74,11 @@ public class ContactDialog
 	// Private statics
 	//
 
-	private static final long				serialVersionUID	= 1l;
-
 	private static final int				COMPONENT_SPACING	= 5;
 
 	//
 	// Package-level members
 	//
-
-	ListTableModel<Communication>			mCommunicationsModel;
 
 	//
 	// Private members
@@ -91,6 +87,8 @@ public class ContactDialog
 	private ContactsControllerProvider		mProvider;
 
 	/* package private */SwingMetawidget	mContactMetawidget;
+
+	ListTableModel<Communication>			mCommunicationsModel;
 
 	private SwingMetawidget					mButtonsMetawidget;
 
@@ -312,12 +310,6 @@ public class ContactDialog
 	private static class CommunicationEditor
 		extends AbstractCellEditor
 		implements TableCellEditor {
-
-		//
-		// Private statics
-		//
-
-		private static final long	serialVersionUID	= 1l;
 
 		//
 		// Private members

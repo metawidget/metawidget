@@ -16,53 +16,32 @@
 
 package org.metawidget.example.vaadin.addressbook;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.simple.StringUtils;
+import org.metawidget.util.CollectionUtils;
 
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ItemClickEvent.ItemClickListener;
 
 /**
  * TableDataSource
  *
- *
- *
  * @author Loghman Barari
  */
 
-public abstract class TableDataSource<T extends Comparable<T>>
-	extends IndexedContainer implements ItemClickListener {
-
-	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
+public class TableDataSource<T extends Comparable<T>>
+	extends IndexedContainer {
 
 	//
 	// Private members
 	//
 
-	private Class<T>			mClass;
+	private Class<T>		mClass;
 
-	private Map<Object, T>		mDataSource;
+	private Map<Object, T>	mDataSource;
 
-	private List<String>		mColumns;
-
-	private List<Class<?>>		mColumnsType;
-
-	private List<Object> 		mColumnFieldOrGetter;
-
-
+	private String[]		mColumns;
 
 	//
 	// Constructor
@@ -71,65 +50,11 @@ public abstract class TableDataSource<T extends Comparable<T>>
 	public TableDataSource( Class<T> clazz, Collection<T> collection, String... columns ) {
 
 		mClass = clazz;
+		mColumns = columns;
+		mDataSource = CollectionUtils.newHashMap();
 
-		mColumns = new ArrayList<String>();
-		mColumnsType = new ArrayList<Class<?>>();
-		mColumnFieldOrGetter = new ArrayList<Object>();
-		mDataSource = new java.util.Hashtable<Object, T>();
-
-		if (columns.length > 0) {
-			for (String column : columns) {
-
-				try {
-					Field field = mClass.getField( column );
-
-					mColumns.add( column );
-					mColumnsType.add( field.getType() );
-					mColumnFieldOrGetter.add( field );
-
-				} catch (SecurityException e) {
-				} catch (NoSuchFieldException e) {
-
-					Method method = ClassUtils.getReadMethod(mClass, column);
-					if (method != null) {
-
-						mColumns.add( column );
-						mColumnsType.add( method.getReturnType() );
-						mColumnFieldOrGetter.add( method );
-					}
-				}
-
-			}
-		} else {
-			for (Field field : mClass.getFields()) {
-				mColumns.add( field.getName() );
-				mColumnsType.add(field.getType());
-			}
-
-			for (Method method : mClass.getMethods()){
-
-				String methodName = method.getName();
-
-				if ((methodName.length() > ClassUtils.JAVABEAN_GET_PREFIX.length()) &&
-					(method.getReturnType() != null) &&
-					(method.getParameterTypes().length == 0) &&
-					(methodName.startsWith(ClassUtils.JAVABEAN_GET_PREFIX))) {
-
-					methodName = methodName.substring(ClassUtils.JAVABEAN_GET_PREFIX.length());
-					mColumns.add( StringUtils.decapitalize(methodName) );
-					mColumnsType.add( method.getReturnType() );
-				}
-			}
-		}
-
-		for (int i=0; i < mColumns.size(); i++){
-			String column = mColumns.get(i);
-			Class<?> columnClazz = mColumnsType.get(i);
-			columnClazz = columnType(column, columnClazz);
-
-			if (columnClazz != null) {
-				addContainerProperty(column, columnClazz , null);
-			}
+		for ( String column : mColumns ) {
+			addContainerProperty( column, getColumnType( column ), null );
 		}
 
 		importCollection( collection );
@@ -141,62 +66,41 @@ public abstract class TableDataSource<T extends Comparable<T>>
 
 	public void importCollection( Collection<T> collection ) {
 
-		this.removeAllItems();
-		this.mDataSource.clear();
+		removeAllItems();
+		mDataSource.clear();
 
 		if ( collection != null ) {
-			for (T item : collection) {
+			for ( T item : collection ) {
 
-				Object itemId =	this.addItem();
+				Object itemId = addItem();
 
-				for(int i = 0; i < mColumns.size(); i++) {
+				for ( String column : mColumns ) {
 
-					String field = mColumns.get(i);
-					Object value = null;
-
-					if (mColumnFieldOrGetter.get(i) instanceof Field) {
-						try {
-
-							value = ((Field)mColumnFieldOrGetter.get(i)).get( item );
-
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						}
-					} else if (mColumnFieldOrGetter.get(i) instanceof Method) {
-						try {
-
-							value = ((Method)mColumnFieldOrGetter.get(i)).invoke(item);
-
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							e.printStackTrace();
-						}
-					}
-
-					value = formatValue(item, field, value);
-
-					this.getItem(itemId).getItemProperty( field ).setValue( value );
+					getItem( itemId ).getItemProperty( column ).setValue( getValue( item, column ) );
 				}
 
-				this.mDataSource.put( itemId, item );
+				mDataSource.put( itemId, item );
 			}
 
 		}
 	}
 
-	public abstract Class<?> columnType(String field, Class<?> clazz);
+	public T getDataRow( Object itemId ) {
 
-	public abstract Object formatValue(T item, String field, Object value);
-
-	public abstract void itemClick(ItemClickEvent event);
-
-	public T getDataRow(Object itemId) {
-		return this.mDataSource.get( itemId );
+		return mDataSource.get( itemId );
 	}
 
+	//
+	// Protected methods
+	//
+
+	protected Class<?> getColumnType( String column ) {
+
+		return ClassUtils.getReadMethod( mClass, column ).getReturnType();
+	}
+
+	protected Object getValue( T item, String column ) {
+
+		return ClassUtils.getProperty( item, column );
+	}
 }

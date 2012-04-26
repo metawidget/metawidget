@@ -19,7 +19,7 @@ package org.metawidget.vaadin.widgetbuilder;
 import java.util.Map;
 
 /*
- * Label whose values use a lookup.
+ * Label whose values display using a lookup.
  */
 
 public class LookupLabel
@@ -48,15 +48,14 @@ public class LookupLabel
 	// Public methods
 	//
 
+	/**
+	 * Overridden to display the value using our lookup. The original value is still available
+	 * through <code>getValue</code>.
+	 */
+
 	@Override
-	public void setValue( Object text ) {
+	public String toString() {
 
-		Object lookup = String.valueOf( text );
-
-		if ( lookup != null && mLookup != null ) {
-			lookup = mLookup.get( lookup );
-		}
-
-		super.setValue( lookup );
+		return mLookup.get( super.toString() );
 	}
 }

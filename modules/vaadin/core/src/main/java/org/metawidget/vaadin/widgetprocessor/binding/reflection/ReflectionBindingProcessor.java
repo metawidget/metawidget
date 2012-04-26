@@ -104,8 +104,8 @@ public class ReflectionBindingProcessor
 			public void buttonClick( ClickEvent event ) {
 
 				try {
-					Method parameterlessActionMethod = fireActionOnClass.getMethod( actionName, (Class[]) null );
-					parameterlessActionMethod.invoke( fireActionOn, (Object[]) null );
+					Method method = fireActionOnClass.getMethod( actionName, (Class[]) null );
+					method.invoke( fireActionOn, (Object[]) null );
 				} catch ( Exception e ) {
 					throw WidgetProcessorException.newException( e );
 				}

@@ -28,12 +28,6 @@ public class GwtNestedQuirks
 	implements Serializable {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Public methods
 	//
 

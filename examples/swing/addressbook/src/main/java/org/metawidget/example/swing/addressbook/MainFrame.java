@@ -29,12 +29,6 @@ public class MainFrame
 	extends JFrame {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Public statics
 	//
 

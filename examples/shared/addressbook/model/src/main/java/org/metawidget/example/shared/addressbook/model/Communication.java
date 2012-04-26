@@ -33,12 +33,6 @@ public class Communication
 	implements Comparable<Communication>, Serializable {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

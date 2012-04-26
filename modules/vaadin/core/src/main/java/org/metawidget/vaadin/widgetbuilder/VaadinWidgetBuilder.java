@@ -31,11 +31,9 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.VaadinValuePropertyProvider;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.Converter;
+import org.metawidget.vaadin.widgetprocessor.binding.BindingConverter;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
-import com.vaadin.data.Property;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
@@ -57,22 +55,11 @@ import com.vaadin.ui.TextField;
  */
 
 public class VaadinWidgetBuilder
-	implements WidgetBuilder<Component, VaadinMetawidget>, VaadinValuePropertyProvider {
-
-	protected final static String	TABLE_COLUMNS	= "tablecolumns";
+	implements WidgetBuilder<Component, VaadinMetawidget> {
 
 	//
 	// Public methods
 	//
-
-	public String getValueProperty( Component component ) {
-
-		if ( component instanceof Property ) {
-			return "value";
-		}
-
-		return null;
-	}
 
 	public Component buildWidget( String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
@@ -359,7 +346,7 @@ public class VaadinWidgetBuilder
 		List<String> values = CollectionUtils.fromString( lookup );
 		Map<String, String> labelsMap = new Hashtable<String, String>();
 
-		Converter<?> converter = metawidget.getWidgetProcessor( Converter.class );
+		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
 
 		// May have alternate labels
 
@@ -373,16 +360,26 @@ public class VaadinWidgetBuilder
 			}
 		}
 
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+		// If no type, assume a String
+
+		if ( type == null ) {
+			type = String.class.getName();
+		}
+
+		// Lookup the Class
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
 		ComboBox comboBox = new ComboBox();
 
 		for ( final Entry<String, String> item : labelsMap.entrySet() ) {
 
 			Object convertedValue = null;
 
-			if ( converter == null ) {
-				convertedValue = item.getKey();
-			} else {
-				convertedValue = converter.convert( item.getKey() );
+			if ( bindingConverter != null ) {
+				convertedValue = bindingConverter.convertFromString( item.getKey(), clazz );
 			}
 
 			comboBox.addItem( convertedValue );

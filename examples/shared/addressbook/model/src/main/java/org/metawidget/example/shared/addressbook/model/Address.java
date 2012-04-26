@@ -34,12 +34,6 @@ public class Address
 	implements Serializable {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

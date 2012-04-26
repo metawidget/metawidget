@@ -26,7 +26,6 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.VaadinValuePropertyProvider;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.vaadin.ui.Button;
@@ -43,20 +42,11 @@ import com.vaadin.ui.Label;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<Component, VaadinMetawidget>, VaadinValuePropertyProvider {
+	implements WidgetBuilder<Component, VaadinMetawidget> {
 
 	//
 	// Public methods
 	//
-
-	public String getValueProperty( Component component ) {
-
-		if ( component instanceof Label ) {
-			return "value";
-		}
-
-		return null;
-	}
 
 	public Component buildWidget( String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 

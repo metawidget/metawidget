@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
@@ -38,7 +37,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
@@ -46,11 +44,9 @@ import org.w3c.dom.Element;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Table;
 
 /**
  * Metawidget for Vaadin environments.
@@ -413,59 +409,6 @@ public class VaadinMetawidget
 	}
 
 	/**
-	 * Gets the value from the Component with the given name.
-	 * <p>
-	 * The value is returned as it was stored in the Component (eg. String for TextField) so may
-	 * need some conversion before being reapplied to the object being inspected. This obviously
-	 * requires knowledge of which Component VaadinMetawidget created, which is not ideal, so
-	 * clients may prefer to use bindingClass instead.
-	 *
-	 * @return the value. Note this return type uses generics, so as to not
-	 *         require a cast by the caller (eg. <code>String s = getValue(names)</code>)
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getValue( String... names ) {
-
-		ComponentAndValueProperty componentAndValueProperty = getComponentAndValueProperty( names );
-
-		Object value;
-
-		if ( ( componentAndValueProperty.getComponent() instanceof AbstractField ) && ( ( (AbstractField) componentAndValueProperty.getComponent() ).getPropertyDataSource() != null ) ) {
-			value = ( (AbstractField) componentAndValueProperty.getComponent() ).getPropertyDataSource().getValue();
-		} else {
-			value = ClassUtils.getProperty( componentAndValueProperty.getComponent(), componentAndValueProperty.getValueProperty() );
-		}
-
-		return (T) value;
-	}
-
-	/**
-	 * Sets the Component with the given name to the specified value.
-	 * <p>
-	 * Clients must ensure the value is of the correct type to suit the Component (eg. String for
-	 * TextField). This obviously requires knowledge of which Component VaadinMetawidget created,
-	 * which is not ideal, so clients may prefer to use bindingClass instead.
-	 */
-
-	public void setValue( Object value, String... names ) {
-
-		ComponentAndValueProperty componentAndValueProperty = getComponentAndValueProperty( names );
-		ClassUtils.setProperty( componentAndValueProperty.getComponent(), componentAndValueProperty.getValueProperty(), value );
-	}
-
-	/**
-	 * Returns the property used to get/set the value of the component.
-	 * <p>
-	 * If the component is not known, returns <code>null</code>.
-	 */
-
-	public String getValueProperty( Component component ) {
-
-		return getValueProperty( component, mPipeline.getWidgetBuilder() );
-	}
-
-	/**
 	 * Finds the Component with the given name.
 	 */
 
@@ -503,10 +446,6 @@ public class VaadinMetawidget
 				( (VaadinMetawidget) topComponent ).buildWidgets();
 			}
 
-			if ( topComponent instanceof Table ) {
-				topComponent = topComponent.getParent();
-			}
-
 			// Try to find a component
 
 			if ( topComponent instanceof ComponentContainer ) {
@@ -516,6 +455,11 @@ public class VaadinMetawidget
 			}
 
 			if ( loop == length - 1 ) {
+
+				if ( topComponent == null ) {
+					throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
+				}
+
 				return (T) topComponent;
 			}
 
@@ -765,54 +709,6 @@ public class VaadinMetawidget
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	private ComponentAndValueProperty getComponentAndValueProperty( String... names ) {
-
-		Component component = getComponent( names );
-
-		if ( component == null ) {
-			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
-		}
-
-		String componentProperty = getValueProperty( component );
-
-		if ( componentProperty == null ) {
-			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
-		}
-
-		return new ComponentAndValueProperty( component, componentProperty );
-	}
-
-	private String getValueProperty( Component component, WidgetBuilder<Component, VaadinMetawidget> widgetBuilder ) {
-
-		// Recurse into CompositeWidgetBuilders
-
-		try {
-			if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> ) {
-				for ( WidgetBuilder<Component, VaadinMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Component, VaadinMetawidget>) widgetBuilder ).getWidgetBuilders() ) {
-
-					String valueProperty = getValueProperty( component, widgetBuilderChild );
-
-					if ( valueProperty != null ) {
-						return valueProperty;
-					}
-				}
-
-				return null;
-			}
-		} catch ( NoClassDefFoundError e ) {
-			// May not be shipping with CompositeWidgetBuilder
-		}
-
-		// Interrogate ValuePropertyProviders
-
-		if ( widgetBuilder instanceof VaadinValuePropertyProvider ) {
-
-			return ( (VaadinValuePropertyProvider) widgetBuilder ).getValueProperty( component );
-		}
-
-		return null;
-	}
-
 	private Component getComponent( ComponentContainer container, String name ) {
 
 		Iterator<Component> iterator = container.getComponentIterator();
@@ -954,48 +850,6 @@ public class VaadinMetawidget
 
 			VaadinMetawidget.this.endBuild();
 			super.endBuild();
-		}
-	}
-
-	/**
-	 * Simple immutable structure to store a component and its value property.
-	 *
-	 * @author Richard Kennard
-	 */
-
-	private static class ComponentAndValueProperty
-		implements Immutable {
-
-		//
-		// Private members
-		//
-
-		private Component	mComponent;
-
-		private String		mValueProperty;
-
-		//
-		// Constructor
-		//
-
-		public ComponentAndValueProperty( Component component, String valueProperty ) {
-
-			mComponent = component;
-			mValueProperty = valueProperty;
-		}
-
-		//
-		// Public methods
-		//
-
-		public Component getComponent() {
-
-			return mComponent;
-		}
-
-		public String getValueProperty() {
-
-			return mValueProperty;
 		}
 	}
 }

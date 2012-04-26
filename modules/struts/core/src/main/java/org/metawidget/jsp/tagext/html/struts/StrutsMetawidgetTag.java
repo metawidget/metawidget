@@ -35,12 +35,6 @@ public class StrutsMetawidgetTag
 	extends BaseHtmlMetawidgetTag {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Public methods
 	//
 
