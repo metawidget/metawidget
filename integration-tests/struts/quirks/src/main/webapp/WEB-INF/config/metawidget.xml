@@ -13,10 +13,12 @@
 				<inspectors>
 					<array>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<propertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="JavaBeanPropertyStyleConfig">
-								<excludeBaseType>
-									<pattern>^(java|javax|com\.vaadin)\..*$</pattern>
-								</excludeBaseType>								
+							<propertyStyle>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="JavaBeanPropertyStyleConfig">
+									<excludeBaseType>
+										<pattern>^(java|javax|org\.apache\.struts)\..*$</pattern>
+									</excludeBaseType>
+								</javaBeanPropertyStyle>
 							</propertyStyle>
 						</propertyTypeInspector>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" />
