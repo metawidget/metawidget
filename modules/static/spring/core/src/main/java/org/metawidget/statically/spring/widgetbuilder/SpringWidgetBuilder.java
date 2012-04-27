@@ -28,6 +28,7 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.StaticJspMetawidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.util.ClassUtils;
@@ -97,7 +98,7 @@ public class SpringWidgetBuilder
 		String springLookup = attributes.get( SPRING_LOOKUP );
 
 		if ( springLookup != null && !"".equals( springLookup ) ) {
-			return createFormSelectTag( springLookup, attributes );
+			return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get(NAME) ), attributes );
 		}
 
 		// String Lookups
