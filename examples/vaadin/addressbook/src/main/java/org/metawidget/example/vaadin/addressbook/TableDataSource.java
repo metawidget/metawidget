@@ -81,7 +81,6 @@ public class TableDataSource<T extends Comparable<T>>
 
 				mDataSource.put( itemId, item );
 			}
-
 		}
 	}
 

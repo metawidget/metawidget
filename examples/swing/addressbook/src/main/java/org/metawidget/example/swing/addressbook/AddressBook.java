@@ -54,8 +54,7 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public class AddressBook
-	implements ContactsControllerProvider {
+public class AddressBook {
 
 	//
 	// Private statics

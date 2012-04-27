@@ -341,12 +341,16 @@ public class VaadinWidgetBuilder
 
 	private Component createComboBoxComponent( Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
 
+		ComboBox comboBox = new ComboBox();
+
 		// Add an empty choice (if nullable, and not required)
+
+		if ( !WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			comboBox.setNullSelectionAllowed( false );
+		}
 
 		List<String> values = CollectionUtils.fromString( lookup );
 		Map<String, String> labelsMap = new Hashtable<String, String>();
-
-		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
 
 		// May have alternate labels
 
@@ -370,9 +374,8 @@ public class VaadinWidgetBuilder
 
 		// Lookup the Class
 
+		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
 		Class<?> clazz = ClassUtils.niceForName( type );
-
-		ComboBox comboBox = new ComboBox();
 
 		for ( final Entry<String, String> item : labelsMap.entrySet() ) {
 

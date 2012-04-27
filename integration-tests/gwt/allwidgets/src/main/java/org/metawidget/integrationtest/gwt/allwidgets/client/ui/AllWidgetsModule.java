@@ -93,6 +93,8 @@ public class AllWidgetsModule
 		metawidget.add( new Stub( "mystery" ) );
 
 		// Embedded buttons
+		//
+		// REFACTOR: All 'buttons' facets should really be called 'footer'
 
 		Facet buttonsFacet = new Facet();
 		buttonsFacet.setName( "buttons" );

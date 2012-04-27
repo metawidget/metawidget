@@ -1,4 +1,4 @@
-// metawidget
+// Metawidget
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.vaadin.VaadinMetawidget;
@@ -110,7 +109,9 @@ public class SimpleBindingProcessor
 			return component;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// (use TYPE, not ACTUAL_TYPE, because an Enum with a value will get a type of Enum$1)
+
+		String type = attributes.get( TYPE );
 
 		if ( type == null ) {
 			return component;
@@ -138,10 +139,6 @@ public class SimpleBindingProcessor
 
 		for ( String name : names ) {
 			value = ClassUtils.getProperty( value, name );
-
-			if ( value == null ) {
-				return component;
-			}
 		}
 
 		// ...convert it (if necessary)...
@@ -169,6 +166,12 @@ public class SimpleBindingProcessor
 
 					if ( converter != null && convertedValue instanceof String ) {
 						convertedValue = converter.convertFromString( (String) convertedValue, withPropertyType );
+					}
+
+					// (stop null Strings coming out as "null")
+
+					if ( convertedValue == null && String.class.equals( withPropertyType ) ) {
+						convertedValue = "";
 					}
 
 					super.setValue( convertedValue );
@@ -216,6 +219,12 @@ public class SimpleBindingProcessor
 				// ...fetch the value...
 
 				Object value = property.getValue();
+
+				// (convert "" Strings back to null)
+
+				if ( "".equals( value ) ) {
+					value = null;
+				}
 
 				// ...and set it
 

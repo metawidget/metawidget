@@ -16,7 +16,6 @@
 
 package org.metawidget.example.vaadin.addressbook;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
@@ -33,6 +32,7 @@ import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.layout.HorizontalLayout;
 
+import com.vaadin.Application;
 import com.vaadin.data.Property;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
@@ -41,6 +41,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -50,7 +51,7 @@ import com.vaadin.ui.Window;
  */
 
 public class AddressBook
-	implements ContactsControllerProvider, Serializable {
+	extends Application {
 
 	//
 	// Private members
@@ -77,16 +78,16 @@ public class AddressBook
 		mContactSearch = new ContactSearch();
 		mContactsController = new ContactsController();
 
-		mModel = new TableDataSource<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "Class", "Fullname", "Communications" ) {
+		mModel = new TableDataSource<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "class", "fullname", "communications" ) {
 
 			@Override
 			protected Class<?> getColumnType( String column ) {
 
-				if ( "Class".equals( column ) ) {
+				if ( "class".equals( column ) ) {
 					return ThemeResource.class;
 				}
 
-				if ( "Communications".equals( column ) ) {
+				if ( "communications".equals( column ) ) {
 					return String.class;
 				}
 
@@ -107,7 +108,7 @@ public class AddressBook
 					return new ThemeResource( "../addressbook/img/personal-small.gif" );
 				}
 
-				if ( "Communications".equals( column ) ) {
+				if ( "communications".equals( column ) ) {
 					return CollectionUtils.toString( (Collection<?>) value );
 				}
 
@@ -132,6 +133,16 @@ public class AddressBook
 	//
 	// Public methods
 	//
+
+	@Override
+	public void init() {
+
+		setTheme( "addressbook" );
+		Window mainWindow = new Window( "Address Book (Metawidget Vaadin Example)" );
+		((Layout) mainWindow.getContent()).setMargin( false );
+		mainWindow.addComponent( getContent() );
+		setMainWindow( mainWindow );
+	}
 
 	@UiHidden
 	public ContactsController getContactsController() {
@@ -168,7 +179,7 @@ public class AddressBook
 	public void addPersonal() {
 
 		ContactDialog contactDialog = new ContactDialog( AddressBook.this, new PersonalContact() );
-		mContent.getWindow().addWindow( contactDialog.getContent() );
+		showModalWindow( contactDialog );
 	}
 
 	@UiAction
@@ -176,7 +187,7 @@ public class AddressBook
 	public void addBusiness() {
 
 		ContactDialog contactDialog = new ContactDialog( AddressBook.this, new BusinessContact() );
-		showModalWindow( contactDialog.getContent() );
+		showModalWindow( contactDialog );
 	}
 
 	//
@@ -194,7 +205,6 @@ public class AddressBook
 		// Metawidget
 
 		mSearchMetawidget = new VaadinMetawidget();
-		mSearchMetawidget.setBundle( MainApplication.getBundle() );
 		mSearchMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mSearchMetawidget.setToInspect( mContactSearch );
 
@@ -206,7 +216,6 @@ public class AddressBook
 
 		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget();
 		buttonsMetawidget.setWidth( null );
-		buttonsMetawidget.setBundle( MainApplication.getBundle() );
 		buttonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		buttonsMetawidget.setLayout( new HorizontalLayout() );
 		buttonsMetawidget.setToInspect( this );
@@ -223,9 +232,8 @@ public class AddressBook
 		table.setWidth( "100%" );
 		table.setContainerDataSource( mModel );
 		table.setRowHeaderMode( Table.ROW_HEADER_MODE_ICON_ONLY );
-		table.setColumnCollapsingAllowed( true );
-		table.setItemIconPropertyId( "Class" );
-		table.setColumnCollapsed( "Class", true );
+		table.setVisibleColumns( new Object[] { "fullname", "communications" } );
+		table.setItemIconPropertyId( "class" );
 		table.setHeight( "275px" );
 
 		table.addListener( new ItemClickListener() {
@@ -239,7 +247,7 @@ public class AddressBook
 				// ...display the Contact
 
 				ContactDialog contactDialog = createContactDialog( contact );
-				AddressBook.this.showModalWindow( contactDialog.getContent() );
+				AddressBook.this.showModalWindow( contactDialog );
 			}
 		} );
 

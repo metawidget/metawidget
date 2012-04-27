@@ -14,55 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.vaadin.widgetbuilder;
+package org.metawidget.example.vaadin.addressbook.converter;
 
-import java.util.Map;
+import org.metawidget.example.shared.addressbook.model.Gender;
 
-/*
- * Label whose values display using a lookup.
+/**
+ * @author Richard Kennard
  */
 
-public class LookupLabel
-	extends com.vaadin.ui.Label {
-
-	//
-	// Private members
-	//
-
-	private Map<String, String>	mLookup;
+public class GenderConverter
+	extends EnumConverter<Gender> {
 
 	//
 	// Constructor
 	//
 
-	public LookupLabel( Map<String, String> lookup ) {
+	public GenderConverter() {
 
-		if ( lookup == null ) {
-			throw new NullPointerException( "lookup" );
-		}
-
-		mLookup = lookup;
-	}
-
-	//
-	// Public methods
-	//
-
-	/**
-	 * Overridden to display the value using our lookup. The original value is still available
-	 * through <code>getValue</code>.
-	 */
-
-	@Override
-	public String toString() {
-
-		String toString = super.toString();
-		String lookup = mLookup.get( toString );
-
-		if ( lookup != null ) {
-			return lookup;
-		}
-
-		return toString;
+		super( Gender.class );
 	}
 }

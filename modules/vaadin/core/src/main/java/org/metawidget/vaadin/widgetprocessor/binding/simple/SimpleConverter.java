@@ -18,6 +18,7 @@ package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
 
 
+
 /**
  * Built-in Converter to convert Strings to primitive types.
  *

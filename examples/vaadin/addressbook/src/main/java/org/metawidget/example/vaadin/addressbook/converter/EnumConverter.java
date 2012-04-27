@@ -14,55 +14,38 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.vaadin.widgetbuilder;
+package org.metawidget.example.vaadin.addressbook.converter;
 
-import java.util.Map;
+import org.metawidget.vaadin.widgetprocessor.binding.simple.BaseConverter;
 
-/*
- * Label whose values display using a lookup.
+/**
+ * @author Richard Kennard
  */
 
-public class LookupLabel
-	extends com.vaadin.ui.Label {
+public class EnumConverter<T extends Enum<T>>
+	extends BaseConverter<T> {
 
 	//
 	// Private members
 	//
 
-	private Map<String, String>	mLookup;
+	private Class<T>	mEnum;
 
 	//
 	// Constructor
 	//
 
-	public LookupLabel( Map<String, String> lookup ) {
+	protected EnumConverter( Class<T> anEnum ) {
 
-		if ( lookup == null ) {
-			throw new NullPointerException( "lookup" );
-		}
-
-		mLookup = lookup;
+		mEnum = anEnum;
 	}
 
 	//
 	// Public methods
 	//
 
-	/**
-	 * Overridden to display the value using our lookup. The original value is still available
-	 * through <code>getValue</code>.
-	 */
+	public T convertFromString( String value, Class<T> expectedType ) {
 
-	@Override
-	public String toString() {
-
-		String toString = super.toString();
-		String lookup = mLookup.get( toString );
-
-		if ( lookup != null ) {
-			return lookup;
-		}
-
-		return toString;
+		return Enum.valueOf( mEnum, value );
 	}
 }

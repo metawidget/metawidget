@@ -10,7 +10,7 @@
 		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
 		<init-param>
 			<param-name>application</param-name>
-			<param-value>org.metawidget.example.vaadin.addressbook.MainApplication</param-value>
+			<param-value>org.metawidget.example.vaadin.addressbook.AddressBook</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

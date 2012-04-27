@@ -9,7 +9,15 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" />
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="JavaBeanPropertyStyleConfig">
+									<excludeBaseType>
+										<pattern>^(java|javax|com\.vaadin)\..*$</pattern>
+									</excludeBaseType>
+								</javaBeanPropertyStyle>
+							</propertyStyle>
+						</propertyTypeInspector>						
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" />
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 							<inputStream>
@@ -27,6 +35,24 @@
 				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort" />
 			</array>
 		</inspectionResultProcessors>
+
+		<widgetProcessors>
+			<array>
+				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
+					<converter>
+						<class>org.metawidget.example.shared.addressbook.model.ContactType</class>
+						<contactTypeConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter"/>
+					</converter>				
+					<converter>
+						<class>org.metawidget.example.shared.addressbook.model.Gender</class>
+						<genderConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter"/>
+					</converter>
+				</simpleBindingProcessor>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection"/>
+				<captionProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+				<requiredProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+			</array>
+		</widgetProcessors>
 
 	</vaadinMetawidget>
 

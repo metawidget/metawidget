@@ -14,21 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.addressbook;
+package org.metawidget.example.vaadin.addressbook.converter;
 
-import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.ContactType;
 
 /**
  * @author Richard Kennard
  */
 
-public interface ContactsControllerProvider {
+public class ContactTypeConverter
+	extends EnumConverter<ContactType> {
 
 	//
-	// Methods
+	// Constructor
 	//
 
-	ContactsController getContactsController();
+	public ContactTypeConverter() {
 
-	void fireRefresh();
+		super( ContactType.class );
+	}
 }
