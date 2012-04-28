@@ -406,7 +406,7 @@ public class HtmlWidgetBuilder
 
 		HtmlInputText inputText = new HtmlInputText();
 
-		if ( attributes.get( MAXIMUM_LENGTH ) != "" ) {
+		if ( !"".equals( attributes.get( MAXIMUM_LENGTH ))) {
 			inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 		}
 
