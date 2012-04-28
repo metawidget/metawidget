@@ -56,7 +56,7 @@ public class JspWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( JSP_LOOKUP, "${foo.bar}" );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<select><option/><option value=\"${foo.bar}\"/></select>", widget.toString() );
+		assertEquals( "<select><option value=\"\"/><option value=\"${foo.bar}\"/></select>", widget.toString() );
 
 		// With 'required'
 

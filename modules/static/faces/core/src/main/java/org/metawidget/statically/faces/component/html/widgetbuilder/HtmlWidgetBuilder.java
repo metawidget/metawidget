@@ -405,7 +405,10 @@ public class HtmlWidgetBuilder
 	private HtmlInputText createHtmlInputText( Map<String, String> attributes ) {
 
 		HtmlInputText inputText = new HtmlInputText();
-		inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+
+		if ( attributes.get( MAXIMUM_LENGTH ) != "" ) {
+			inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+		}
 
 		return inputText;
 	}

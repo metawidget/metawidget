@@ -170,7 +170,7 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputLabel for=\"allWidgetsBooleanObject\" value=\"Boolean Object:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
 				"\t\t<h:selectOneMenu id=\"allWidgetsBooleanObject\" value=\"#{allWidgets.booleanObject}\">\r\n" +
-				"\t\t\t<f:selectItem/>\r\n" +
+				"\t\t\t<f:selectItem itemValue=\"\"/>\r\n" +
 				"\t\t\t<f:selectItem itemLabel=\"Yes\" itemValue=\"true\"/>\r\n" +
 				"\t\t\t<f:selectItem itemLabel=\"No\" itemValue=\"false\"/>\r\n" +
 				"\t\t</h:selectOneMenu>\r\n" +
@@ -180,7 +180,7 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputLabel for=\"allWidgetsDropdown\" value=\"Dropdown:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
 				"\t\t<h:selectOneMenu id=\"allWidgetsDropdown\" value=\"#{allWidgets.dropdown}\">\r\n" +
-				"\t\t\t<f:selectItem/>\r\n" +
+				"\t\t\t<f:selectItem itemValue=\"\"/>\r\n" +
 				"\t\t\t<f:selectItem itemValue=\"foo1\"/>\r\n" +
 				"\t\t\t<f:selectItem itemValue=\"dropdown1\"/>\r\n" +
 				"\t\t\t<f:selectItem itemValue=\"bar1\"/>\r\n" +
@@ -191,7 +191,7 @@ public class StaticHtmAllWidgetsTest
 				"\t<h:outputLabel for=\"allWidgetsDropdownWithLabels\" value=\"Dropdown With Labels:\"/>\r\n" +
 				"\t<h:panelGroup>\r\n" +
 				"\t\t<h:selectOneMenu id=\"allWidgetsDropdownWithLabels\" value=\"#{allWidgets.dropdownWithLabels}\">\r\n" +
-				"\t\t\t<f:selectItem/>\r\n" +
+				"\t\t\t<f:selectItem itemValue=\"\"/>\r\n" +
 				"\t\t\t<f:selectItem itemLabel=\"Foo #2\" itemValue=\"foo2\"/>\r\n" +
 				"\t\t\t<f:selectItem itemLabel=\"Dropdown #2\" itemValue=\"dropdown2\"/>\r\n" +
 				"\t\t\t<f:selectItem itemLabel=\"Bar #2\" itemValue=\"bar2\"/>\r\n" +

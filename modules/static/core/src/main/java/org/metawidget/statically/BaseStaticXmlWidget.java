@@ -189,14 +189,16 @@ public abstract class BaseStaticXmlWidget
 	/**
 	 * Writes the attribute with the given name and value to the given writer.
 	 * <p>
-	 * By default, does not write attributes whose value is null or empty. Subclasses can override
-	 * this method to suppress writing attributes for other reasons.
+	 * By default, does not write attributes whose value is null (<em>does</em> write empty values,
+	 * which is important for <code>&lt;option value=""/&gt;</code>). Subclasses can override this
+	 * method to suppress writing attributes for other reasons.
+	 * <p>
 	 */
 
 	protected void writeAttribute( Writer writer, String name, String value )
 		throws IOException {
 
-		if ( value == null || value.length() == 0 ) {
+		if ( value == null ) {
 			return;
 		}
 

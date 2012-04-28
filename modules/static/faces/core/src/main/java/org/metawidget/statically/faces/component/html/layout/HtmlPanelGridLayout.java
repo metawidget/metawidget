@@ -60,7 +60,12 @@ public class HtmlPanelGridLayout
 
 	public HtmlPanelGridLayout( HtmlPanelGridLayoutConfig config ) {
 
-		mColumnStyleClasses = ArrayUtils.toString( config.getColumnStyleClasses() );
+		if ( config.getColumnStyleClasses() == null ) {
+			mColumnStyleClasses = null;
+		} else {
+			mColumnStyleClasses = ArrayUtils.toString( config.getColumnStyleClasses() );
+		}
+
 		mMessageStyleClass = config.getMessageStyleClass();
 	}
 

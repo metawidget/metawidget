@@ -58,7 +58,7 @@ public class HtmlWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<h:selectOneMenu><f:selectItem/><f:selectItems value=\"#{foo.bar}\"/></h:selectOneMenu>", widget.toString() );
+		assertEquals( "<h:selectOneMenu><f:selectItem itemValue=\"\"/><f:selectItems value=\"#{foo.bar}\"/></h:selectOneMenu>", widget.toString() );
 
 		// With 'required'
 
@@ -83,7 +83,7 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, List.class.getName() );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText/></f:facet><h:outputText value=\"#{_item}\"/></h:column></h:dataTable>", widget.toString() );
+		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText value=\"\"/></f:facet><h:outputText value=\"#{_item}\"/></h:column></h:dataTable>", widget.toString() );
 
 		// With parent name
 
