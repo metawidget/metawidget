@@ -47,7 +47,7 @@ public class ReadableIdProcessorTest
 		htmlInputText = new HtmlInputText();
 		htmlInputText.putAttribute( "value", "" );
 		processor.processWidget( htmlInputText, null, null, null );
-		assertEquals( "<h:inputText/>", htmlInputText.toString() );
+		assertEquals( "<h:inputText value=\"\"/>", htmlInputText.toString() );
 
 		// Normal
 
