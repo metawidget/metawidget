@@ -236,7 +236,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<select id=\"booleanObject\" name=\"booleanObject\">\r\n" +
-            "\t\t\t\t\t<option/>\r\n" +
+            "\t\t\t\t\t<option value=\"\"/>\r\n" +
             "\t\t\t\t\t<option value=\"true\">Yes</option>\r\n" +
             "\t\t\t\t\t<option value=\"false\">No</option>\r\n" +
             "\t\t\t\t</select>\r\n" +
@@ -249,7 +249,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<select id=\"dropdown\" name=\"dropdown\">\r\n" +
-            "\t\t\t\t\t<option/>\r\n" +
+            "\t\t\t\t\t<option value=\"\"/>\r\n" +
             "\t\t\t\t\t<option value=\"foo1\"/>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown1\"/>\r\n" +
             "\t\t\t\t\t<option value=\"bar1\"/>\r\n" +
@@ -263,7 +263,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<select id=\"dropdownWithLabels\" name=\"dropdownWithLabels\">\r\n" +
-            "\t\t\t\t\t<option/>\r\n" +
+            "\t\t\t\t\t<option value=\"\"/>\r\n" +
             "\t\t\t\t\t<option value=\"foo2\">Foo #2</option>\r\n" +
             "\t\t\t\t\t<option value=\"dropdown2\">Dropdown #2</option>\r\n" +
             "\t\t\t\t\t<option value=\"bar2\">Bar #2</option>\r\n" +
