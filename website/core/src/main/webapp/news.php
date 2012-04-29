@@ -4,6 +4,31 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v2.2 Released!</h3>
+		<h4>May 2012</h4>
+		
+		<p>
+			Metawidget v2.2 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Vaadin Metawidget</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Special thanks to Loghman Barari for his help with this release!
+		</p>
+
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v2.1 Released!</h3>
 		<h4>19th March 2012</h4>
 		

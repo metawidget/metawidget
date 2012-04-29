@@ -392,22 +392,20 @@ public class VaadinMetawidget
 	}
 
 	/**
-	 * Finds the Component with the given name.
+	 * Overridden to build widgets just-in-time.
 	 */
 
-	@SuppressWarnings( "unchecked" )
-	public <T extends Component> T getComponent( int index ) {
+    @Override
+	public Iterator<Component> getComponentIterator() {
 
-		Iterator<Component> iterator = getComponentIterator();
+		buildWidgets();
 
-		Component component = null;
+		return super.getComponentIterator();
+    }
 
-		for ( int i = 0; i <= index; i++ ) {
-			component = iterator.next();
-		}
-
-		return (T) component;
-	}
+	/**
+	 * Finds the Component with the given name.
+	 */
 
 	@SuppressWarnings( "unchecked" )
 	public <T extends Component> T getComponent( String... names ) {
