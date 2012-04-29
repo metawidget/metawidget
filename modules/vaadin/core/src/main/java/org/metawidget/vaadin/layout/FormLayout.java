@@ -68,8 +68,8 @@ public class FormLayout
 
 	public void startContainerLayout( ComponentContainer container, VaadinMetawidget metawidget ) {
 
-		com.vaadin.ui.FormLayout formLayout = new com.vaadin.ui.FormLayout();
-		( (VaadinMetawidget) container ).setLayoutRoot( formLayout );
+		com.vaadin.ui.FormLayout layout = new com.vaadin.ui.FormLayout();
+		container.addComponent( layout );
 	}
 
 	public void layoutWidget( Component component, String elementName, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
@@ -90,7 +90,7 @@ public class FormLayout
 
 		// Add it
 
-		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) ( (VaadinMetawidget) container ).getLayoutRoot();
+		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) container.getComponentIterator().next();
 		component.setWidth( "100%" );
 		layout.addComponent( component );
 	}
@@ -107,7 +107,7 @@ public class FormLayout
 		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
 		if ( buttonsFacet != null ) {
-			com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) metawidget.getLayoutRoot();
+			com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) metawidget.getComponentIterator().next();
 			layout.addComponent( buttonsFacet );
 		}
 	}

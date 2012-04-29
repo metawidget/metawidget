@@ -376,23 +376,6 @@ public class VaadinMetawidget
 		return mExistingUnusedComponents;
 	}
 
-	public void setLayoutRoot( com.vaadin.ui.Layout layout ) {
-
-		super.setCompositionRoot( layout );
-	}
-
-	/**
-	 * Named after <code>Panel.getLayout</code> and <code>CustomComponent.getCompositionRoot</code>.
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <L extends com.vaadin.ui.Layout> L getLayoutRoot() {
-
-		buildWidgets();
-
-		return (L) super.getCompositionRoot();
-	}
-
 	/**
 	 * Overridden to build widgets just-in-time.
 	 * <p>
@@ -497,6 +480,9 @@ public class VaadinMetawidget
 			}
 
 			mExistingComponents.add( abstractComponent );
+
+		} else {
+			setCompositionRoot( component );
 		}
 	}
 
@@ -582,12 +568,6 @@ public class VaadinMetawidget
 			return;
 		}
 
-		// Note: it is important to call removeAll BEFORE setting
-		// mNeedToBuildWidgets to true.
-		// immediate repaint which sets mNeedToBuildWidgets back to false
-
-		// TODO: super.removeAllComponents();
-
 		// Prepare to build widgets
 
 		this.mNeedToBuildWidgets = true;
@@ -648,7 +628,7 @@ public class VaadinMetawidget
 		// Note: we haven't split this out into a separate WidgetProcessor, because other methods
 		// like getValue/setValue/getComponent( String... names ) rely on it
 
-		((AbstractComponent) component).setData( attributes.get( NAME ) );
+		( (AbstractComponent) component ).setData( attributes.get( NAME ) );
 
 		// Remove, then re-add to layout (to re-order the component)
 

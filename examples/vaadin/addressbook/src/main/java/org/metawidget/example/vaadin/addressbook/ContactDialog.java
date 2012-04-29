@@ -277,9 +277,7 @@ public class ContactDialog
 	public void addCommunication( Communication communication ) {
 
 		Contact contact = (Contact) mContactMetawidget.getToInspect();
-		if ( !contact.getCommunications().contains( communication ) && communication.getType() != null ) {
-			contact.getCommunications().add( communication );
-		}
+		contact.addCommunication( communication );
 
 		( (TableDataSource<Communication>) mCommunicationsTable.getContainerDataSource() ).importCollection( contact.getCommunications() );
 	}

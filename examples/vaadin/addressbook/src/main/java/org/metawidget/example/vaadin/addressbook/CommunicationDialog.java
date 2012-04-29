@@ -63,9 +63,14 @@ public class CommunicationDialog
 
 			public void buttonClick( ClickEvent event ) {
 
-				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
-				contactDialog.addCommunication( communication );
-				getParent().removeWindow( CommunicationDialog.this );
+				try {
+					metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
+					contactDialog.addCommunication( communication );
+					getParent().removeWindow( CommunicationDialog.this );
+				} catch ( Exception e ) {
+					showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
+					return;
+				}
 			}
 		} );
 
@@ -91,6 +96,6 @@ public class CommunicationDialog
 
 		metawidget.addComponent( facetButtons );
 		addComponent( metawidget );
-		((VerticalLayout) getContent()).setMargin( true, true, false, true );
+		( (VerticalLayout) getContent() ).setMargin( true, true, false, true );
 	}
 }

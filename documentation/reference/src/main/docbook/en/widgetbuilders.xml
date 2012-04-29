@@ -1273,6 +1273,91 @@
 
 			</section>
 
+			<section id="section-widgetbuilders-vaadin">
+				<title>Vaadin WidgetBuilders</title>
+				
+				<section id="section-widgetbuilders-vaadin-default">
+					<title>VaadinWidgetBuilder</title>
+					
+					<para>
+						<classname>VaadinWidgetBuilder</classname> is the default <classname>WidgetBuilder</classname>
+						for <classname>VaadinMetawidget</classname>. It instantiates the
+						following widgets for the following Metawidget attributes: 
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="5%"/>
+							<col width="35%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left" colspan="2">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th align="left" colspan="3"><classname>com.vaadin.ui</classname></th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Button</classname></td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>PasswordField</classname></td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>PopupDateField</classname></td>
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname>								 
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>TextField</classname></td>
+								<td><parameter>type</parameter> of <classname>java.lang.String</classname>,								 
+								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>TextArea</classname></td>
+								<td><parameter>type</parameter> of <classname>java.lang.String</classname> and <parameter>large</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>CheckBox</classname></td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>ComboBox</classname></td>
+								<td><parameter>lookup</parameter></td>
+							</tr>					
+							<tr>
+								<th align="left" colspan="3"><classname>org.metawidget.vaadin.ui</classname></th>
+							</tr>
+							<tr>
+								<td></td>					
+								<td><classname>Stub</classname></td>
+								<td><parameter>hidden</parameter></td>								
+							</tr>
+						</tbody>
+					</informaltable>
+					
+				</section>
+
+			</section>
+
 		</section>	
 
 		<section id="section-widgetbuilders-mobile">

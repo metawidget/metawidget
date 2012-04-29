@@ -47,7 +47,7 @@ public class HorizontalLayout
 
 		com.vaadin.ui.HorizontalLayout layout = new com.vaadin.ui.HorizontalLayout();
 		layout.setSpacing( true );
-		( (VaadinMetawidget) container ).setLayoutRoot( layout );
+		container.addComponent( layout );
 	}
 
 	public void layoutWidget( Component component, String elementName, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
@@ -60,7 +60,7 @@ public class HorizontalLayout
 
 		// Add it
 
-		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) ( (VaadinMetawidget) container ).getLayoutRoot();
+		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) metawidget.getComponentIterator().next();
 		layout.addComponent( component );
 	}
 

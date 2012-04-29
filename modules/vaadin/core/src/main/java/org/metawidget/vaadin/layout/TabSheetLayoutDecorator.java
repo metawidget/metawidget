@@ -27,7 +27,7 @@ import org.metawidget.vaadin.VaadinMetawidget;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 
 /**
@@ -76,10 +76,7 @@ public class TabSheetLayoutDecorator
 
 		// New tab
 
-		GridLayout tabPanel = new GridLayout( 2, 1 );
-		tabPanel.setMargin( true );
-		tabPanel.setSpacing( true );
-		tabPanel.setWidth( "100%" );
+		Panel tabPanel = new Panel();
 
 		// Tab name (possibly localized)
 

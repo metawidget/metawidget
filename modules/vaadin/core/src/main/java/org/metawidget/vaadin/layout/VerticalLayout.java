@@ -47,7 +47,7 @@ public class VerticalLayout
 
 		com.vaadin.ui.VerticalLayout layout = new com.vaadin.ui.VerticalLayout();
 		layout.setSpacing( true );
-		( (VaadinMetawidget) container ).setLayoutRoot( layout );
+		container.addComponent( layout );
 	}
 
 	public void layoutWidget( Component component, String elementName, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
@@ -60,7 +60,7 @@ public class VerticalLayout
 
 		// Add it
 
-		com.vaadin.ui.VerticalLayout layout = (com.vaadin.ui.VerticalLayout) ( (VaadinMetawidget) container ).getLayoutRoot();
+		com.vaadin.ui.VerticalLayout layout = (com.vaadin.ui.VerticalLayout)  metawidget.getComponentIterator().next();
 		component.setWidth( "100%" );
 		layout.addComponent( component );
 	}
