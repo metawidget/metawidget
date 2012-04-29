@@ -1314,7 +1314,7 @@
 							<tr>
 								<td></td>
 								<td><classname>PopupDateField</classname></td>
-								<td><parameter>type</parameter> of <classname>java.util.Date</classname>								 
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname></td>								 
 							</tr>
 							<tr>
 								<td></td>
@@ -1328,7 +1328,7 @@
 							<tr>
 								<td></td>
 								<td><classname>TextArea</classname></td>
-								<td><parameter>type</parameter> of <classname>java.lang.String</classname> and <parameter>large</parameter></td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
