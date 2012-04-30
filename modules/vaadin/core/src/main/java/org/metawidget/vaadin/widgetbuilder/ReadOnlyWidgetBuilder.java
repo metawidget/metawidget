@@ -21,18 +21,16 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.VaadinValuePropertyProvider;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 
 /**
  * WidgetBuilder for Vaadin environments.
@@ -44,28 +42,13 @@ import com.vaadin.ui.Component;
  */
 
 public class ReadOnlyWidgetBuilder
-	implements
-		WidgetBuilder<Component, VaadinMetawidget>, VaadinValuePropertyProvider {
+	implements WidgetBuilder<Component, VaadinMetawidget> {
 
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Component component ) {
-
-		if ( component instanceof Label ) {
-			return "value";
-		}
-
-		return null;
-	}
-
-	public Component buildWidget( String elementName,
-			Map<String, String> attributes, VaadinMetawidget metawidget ) {
-
-		String id = metawidget.getDebugId() + "$" + attributes.get( NAME );
-
-		String labelString = metawidget.getLabelString( attributes );
+	public Component buildWidget( String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
 		// Not read-only?
 
@@ -83,14 +66,13 @@ public class ReadOnlyWidgetBuilder
 
 		if ( ACTION.equals( elementName ) ) {
 			Button button = new Button( metawidget.getLabelString( attributes ) );
-			button.setDebugId( id );
 			button.setEnabled( false );
 
 			return button;
 		}
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-			return new Label( id, labelString );
+			return new Label();
 		}
 
 		// Lookups
@@ -103,14 +85,10 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-				return new LookupLabel( id, labelString,
-						VaadinWidgetBuilderUtils.getLabelsMap(
-								CollectionUtils.fromString( lookup ),
-								CollectionUtils.fromString( lookupLabels ) ),
-						metawidget.getBundle() );
+				return new LookupLabel( CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
 			}
 
-			return new Label( id, labelString );
+			return new Label();
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -128,33 +106,31 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() ) {
-				return new Label( id, labelString );
+				return new Label();
 			}
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					Label label = new Label( id, labelString );
-					label.setContentMode( Label.CONTENT_XHTML );
-					return label;
+					return new Label();
 				}
 
-				return new Label( id, labelString );
+				return new Label();
 			}
 
 			if ( Character.class.equals( clazz ) ) {
-				return new Label( id, labelString );
+				return new Label();
 			}
 
 			if ( Date.class.equals( clazz ) ) {
-				return new Label( id, labelString );
+				return new Label();
 			}
 
 			if ( Boolean.class.equals( clazz ) ) {
-				return new Label( id, labelString );
+				return new Label();
 			}
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-				return new Label( id, labelString );
+				return new Label();
 			}
 
 			// Collections
@@ -167,106 +143,11 @@ public class ReadOnlyWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return new Label( id, labelString );
+			return new Label();
 		}
 
 		// Nested Metawidget
 
 		return null;
-	}
-
-	// Inner Class
-
-	/*
-	 * Label whose values use a lookup.
-	 */
-
-	/* package private */static class LookupLabel
-		extends com.vaadin.ui.Label {
-
-		//
-		// Private statics
-		//
-
-		private static final long	serialVersionUID	= 1l;
-
-		//
-		// Private members
-		//
-
-		private Map<String, String>	mLookup;
-
-		private ResourceBundle		mBundle;
-
-		//
-		// Constructor
-		//
-
-		public LookupLabel( String id, String caption, Map<String, String> lookup, ResourceBundle bundle ) {
-
-			super();
-			this.setDebugId( id );
-			this.setCaption( caption );
-
-			if ( lookup == null ) {
-				throw new NullPointerException( "lookup" );
-			}
-
-			mLookup = lookup;
-
-			mBundle = bundle;
-		}
-
-		public LookupLabel( String id, String labelString, Class<?> clazz,
-				ResourceBundle bundle ) {
-
-		}
-
-		//
-		// Public methods
-		//
-		@Override
-		public void setValue( Object text ) {
-
-			String lookup = "";
-
-			if ( text != null ) {
-				lookup = ( text instanceof Enum<?> ) ? ( (Enum<?>) text ).name() : text.toString();
-			}
-
-			if ( lookup != null && mLookup != null ) {
-				lookup = mLookup.get( lookup );
-			}
-
-			if ( mBundle != null && lookup != null ) {
-				try {
-					lookup = mBundle.getString( lookup );
-				} catch ( MissingResourceException e ) {
-					// Use default lookup
-				}
-			}
-
-			super.setValue( lookup );
-		}
-
-	}
-
-	/* package private */static class Label
-		extends com.vaadin.ui.Label {
-
-		//
-		// Private statics
-		//
-
-		private static final long	serialVersionUID	= 1l;
-
-		public Label( String id, String caption ) {
-
-			super();
-			setCaption( caption );
-			setDebugId( id );
-			setValue( "                    " );
-			setContentMode( Label.CONTENT_TEXT );
-		}
 	}
 }

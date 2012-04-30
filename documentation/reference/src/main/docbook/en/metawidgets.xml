@@ -1088,6 +1088,53 @@
 				
 			</section>
 			
+			<section id="section-metawidgets-web-vaadin">
+				<title>VaadinMetawidget</title>
+	
+				<para>
+					<classname>VaadinMetawidget</classname> is a Vaadin <classname>CustomComponent</classname>. For an introduction
+					to <classname>VaadinMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
+
+				<section id="section-metawidgets-web-vaadin-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <classname>VaadinMetawidget</classname> within a Spring application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget-all.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-vaadin-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<classname>VaadinMetawidget</classname> is preconfigured with sensible defaults for Vaadin. You can change this configuration
+						by creating a <filename>metawidget.xml</filename> file. By default <classname>VaadinMetawidget</classname> looks for this
+						file in <filename>WEB-INF</filename>, but you can configure its location in <filename>web.xml</filename>:
+					</para>
+					
+					<para>
+						<classname>VaadinMetawidget</classname> is preconfigured with sensible defaults for Vaadin. You can change this configuration
+						either programmatically or using a <filename>metawidget.xml</filename> file.
+					</para>
+					
+				</section>
+
+			</section>
+			
 		</section>
 
 		<section id="section-metawidgets-mobile">

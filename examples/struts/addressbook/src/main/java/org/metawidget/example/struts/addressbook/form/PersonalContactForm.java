@@ -37,12 +37,6 @@ public class PersonalContactForm
 	extends ContactForm {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

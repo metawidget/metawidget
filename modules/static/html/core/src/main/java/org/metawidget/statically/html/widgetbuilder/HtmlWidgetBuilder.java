@@ -136,11 +136,11 @@ public class HtmlWidgetBuilder
 
 				// Ranged
 
-				if ( minimumValue != null ) {
+				if ( !"".equals( minimumValue )) {
 					inputNumber.putAttribute( "min", minimumValue );
 				}
 
-				if ( maximumValue != null ) {
+				if ( !"".equals( maximumValue )) {
 					inputNumber.putAttribute( "max", maximumValue );
 				}
 
@@ -426,7 +426,10 @@ public class HtmlWidgetBuilder
 
 		HtmlInput input = new HtmlInput();
 		input.putAttribute( "type", "text" );
-		input.putAttribute( "maxlength", attributes.get( MAXIMUM_LENGTH ) );
+
+		if ( !"".equals( attributes.get( MAXIMUM_LENGTH ))) {
+			input.putAttribute( "maxlength", attributes.get( MAXIMUM_LENGTH ) );
+		}
 
 		return input;
 	}

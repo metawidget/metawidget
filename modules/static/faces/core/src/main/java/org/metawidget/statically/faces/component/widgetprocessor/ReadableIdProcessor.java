@@ -54,7 +54,7 @@ public class ReadableIdProcessor
 				ValueHolder valueWidget = (ValueHolder) widget;
 				String valueExpression = valueWidget.getValue();
 
-				if ( valueExpression != null ) {
+				if ( valueExpression != null && !"".equals( valueExpression )) {
 					valueExpression = StaticFacesUtils.unwrapExpression( valueExpression );
 					widget.putAttribute( "id", StringUtils.camelCase( valueExpression, StringUtils.SEPARATOR_DOT_CHAR ) );
 				}

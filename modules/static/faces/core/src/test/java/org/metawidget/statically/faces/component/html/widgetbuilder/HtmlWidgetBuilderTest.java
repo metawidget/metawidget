@@ -49,6 +49,24 @@ public class HtmlWidgetBuilderTest
 	// Public methods
 	//
 
+	public void testLookup()
+		throws Exception {
+
+		// Without 'required'
+
+		HtmlWidgetBuilder widgetBuilder = new HtmlWidgetBuilder();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( LOOKUP, "Foo,Bar,Baz" );
+		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "<h:selectOneMenu><f:selectItem/><f:selectItem itemValue=\"Foo\"/><f:selectItem itemValue=\"Bar\"/><f:selectItem itemValue=\"Baz\"/></h:selectOneMenu>", widget.toString() );
+
+		// With 'required'
+
+		attributes.put( REQUIRED, TRUE );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "<h:selectOneMenu><f:selectItem itemValue=\"Foo\"/><f:selectItem itemValue=\"Bar\"/><f:selectItem itemValue=\"Baz\"/></h:selectOneMenu>", widget.toString() );
+	}
+
 	public void testFacesLookup()
 		throws Exception {
 
@@ -83,7 +101,7 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, List.class.getName() );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText/></f:facet><h:outputText value=\"#{_item}\"/></h:column></h:dataTable>", widget.toString() );
+		assertEquals( "<h:dataTable var=\"_item\"><h:column><f:facet name=\"header\"><h:outputText value=\"\"/></f:facet><h:outputText value=\"#{_item}\"/></h:column></h:dataTable>", widget.toString() );
 
 		// With parent name
 

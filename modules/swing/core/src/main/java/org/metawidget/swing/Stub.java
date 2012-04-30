@@ -43,12 +43,6 @@ public class Stub
 	extends JComponent {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

@@ -237,7 +237,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"booleanObject\">\r\n" +
-            "\t\t\t\t\t<form:option/>\r\n" +
+            "\t\t\t\t\t<form:option value=\"\"/>\r\n" +
             "\t\t\t\t\t<form:option label=\"Yes\" value=\"true\"/>\r\n" +
             "\t\t\t\t\t<form:option label=\"No\" value=\"false\"/>\r\n" +
             "\t\t\t\t</form:select>\r\n" +
@@ -250,7 +250,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"dropdown\">\r\n" +
-            "\t\t\t\t\t<form:option/>\r\n" +
+            "\t\t\t\t\t<form:option value=\"\"/>\r\n" +
             "\t\t\t\t\t<form:option value=\"foo1\"/>\r\n" +
             "\t\t\t\t\t<form:option value=\"dropdown1\"/>\r\n" +
             "\t\t\t\t\t<form:option value=\"bar1\"/>\r\n" +
@@ -264,7 +264,7 @@ public class StaticSpringAllWidgetsTest
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
             "\t\t\t\t<form:select path=\"dropdownWithLabels\">\r\n" +
-            "\t\t\t\t\t<form:option/>\r\n" +
+            "\t\t\t\t\t<form:option value=\"\"/>\r\n" +
             "\t\t\t\t\t<form:option label=\"Foo #2\" value=\"foo2\"/>\r\n" +
             "\t\t\t\t\t<form:option label=\"Dropdown #2\" value=\"dropdown2\"/>\r\n" +
             "\t\t\t\t\t<form:option label=\"Bar #2\" value=\"bar2\"/>\r\n" +

@@ -18,7 +18,6 @@ package org.metawidget.example.vaadin.addressbook;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.Serializable;
 import java.util.ResourceBundle;
 
 import org.metawidget.example.shared.addressbook.model.Communication;
@@ -30,269 +29,250 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.layout.GridLayout;
-import org.metawidget.vaadin.layout.GridLayoutConfig;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.CollectionBindingProcessor;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.CollectionBindingProcessor.CollectionBindingNotifier;
+import org.metawidget.vaadin.layout.HorizontalLayout;
 import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
-import com.vaadin.data.Buffered.SourceException;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Window.Notification;
 
 /**
  * Dialog box for Address Book Contacts.
  *
- *
- *
- *
  * @author Loghman Barari
  */
 
-public class ContactDialog implements Serializable {
-
-	//
-	// Private statics
-	//
-
-	private static final long serialVersionUID = 1l;
-
-	private static int id = 1;
-
-	//
-	// Package-level members
-	//
-
-	IndexedContainer mCommunicationsModel;
+public class ContactDialog
+	extends Window {
 
 	//
 	// Private members
 	//
 
-	private ContactsControllerProvider mProvider;
+	private AddressBook						mAddressBook;
 
-	/* package private */VaadinMetawidget mContactMetawidget;
+	/* package private */VaadinMetawidget	mContactMetawidget;
 
-	private VaadinMetawidget mButtonsMetawidget;
+	/* package private */Table				mCommunicationsTable;
 
-	private Window mContent;
+	private com.vaadin.ui.HorizontalLayout	mCommunicationsButtons;
 
-	/* package private */boolean mShowConfirmDialog = true;
+	private VaadinMetawidget				mButtonsMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public ContactDialog(ContactsControllerProvider provider,
-			final Contact contact) {
+	public ContactDialog( AddressBook addressBook, final Contact contact ) {
 
-		if (id > Integer.MAX_VALUE - 3) {
-			id = 1;
-		}
+		mAddressBook = addressBook;
 
-		mProvider = provider;
+		setHeight( "600px" );
+		setWidth( "800px" );
+		( (Layout) getContent() ).setMargin( false );
 
-		mContent = new Window();
-		mContent.setDebugId("ContactDialogWindow" + id++);
-		mContent.setHeight("600px");
-		mContent.setWidth("800px");
+		CustomLayout body = new CustomLayout( "contact" );
+		addComponent( body );
 
 		// Bundle
 
-		ResourceBundle bundle = ResourceBundle
-				.getBundle("org.metawidget.example.shared.addressbook.resource.Resources");
+		ResourceBundle bundle = ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" );
 
 		// Title
 
-		StringBuilder builder = new StringBuilder(contact.getFullname());
+		StringBuilder builder = new StringBuilder( contact.getFullname() );
 
-		if (builder.length() > 0) {
-			builder.append(" - ");
+		if ( builder.length() > 0 ) {
+			builder.append( " - " );
 		}
 
 		// Personal/business icon
 
-		if (contact instanceof PersonalContact) {
-			builder.append(bundle.getString("personalContact"));
+		if ( contact instanceof PersonalContact ) {
+			builder.append( bundle.getString( "personalContact" ) );
+			body.addComponent( new Embedded( "", new ThemeResource( "../addressbook/img/personal.gif" ) ), "icon" );
 		} else {
-			builder.append(bundle.getString("businessContact"));
+			builder.append( bundle.getString( "businessContact" ) );
+			body.addComponent( new Embedded( "", new ThemeResource( "../addressbook/img/business.gif" ) ), "icon" );
 		}
 
-		mContent.setCaption(builder.toString());
+		setCaption( builder.toString() );
 
 		// Metawidget
 
-		CustomLayout body = new CustomLayout(
-				"addressbook");
+		mContactMetawidget = new VaadinMetawidget();
+		mContactMetawidget.setWidth( "100%" );
+		mContactMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
+		mContactMetawidget.setReadOnly( contact.getId() != 0 );
+		mContactMetawidget.setToInspect( contact );
 
-		String resource = "../addressbook/img/business.gif";
-		if (contact instanceof PersonalContact) {
-			resource = "../addressbook/img/personal.gif";
-		}
+		// Communications override
 
-		body
-				.addComponent(new Embedded("", new ThemeResource(resource)),
-						"icon");
+		final TableDataSource<Communication> tableDataSource = new TableDataSource<Communication>( Communication.class, contact.getCommunications(), "type", "value" );
+		mCommunicationsTable = new Table();
+		mCommunicationsTable.setWidth( "100%" );
+		mCommunicationsTable.setHeight( "170px" );
 
-		mContactMetawidget = new VaadinMetawidget("ContactMetawidget");
-		mContactMetawidget.setBundle(MainApplication.getBundle());
-		mContactMetawidget.setWidth("100%");
-		mContactMetawidget
-				.setConfig("org/metawidget/example/vaadin/addressbook/metawidget.xml");
-		mContactMetawidget.getWidgetProcessor(CollectionBindingProcessor.class)
-				.setCollectionBindingNotifier(new CollectionBindingNotifier() {
+		final Button deleteButton = new Button( "Delete" );
+		deleteButton.setEnabled( false );
+		deleteButton.addListener( new ClickListener() {
 
-					public void removeItemFromCollection(Object item)
-							throws RuntimeException {
-						contact.removeCommunication((Communication) item);
-					}
+			@SuppressWarnings( "unchecked" )
+			public void buttonClick( ClickEvent event ) {
 
-					public Object formatValue(Comparable<?> item, String field,
-							Object value) {
-						return value;
-					}
+				Communication communication = tableDataSource.getDataRow( mCommunicationsTable.getValue() );
+				contact.removeCommunication( communication );
 
-					public Class<?> columnType(String field, Class<?> clazz) {
-						return clazz;
-					}
+				( (TableDataSource<Communication>) mCommunicationsTable.getContainerDataSource() ).importCollection( contact.getCommunications() );
+			}
+		} );
 
-					public void addItemToCollection(Object item)
-							throws RuntimeException {
+		Button addNewButton = new Button( "Add" );
+		addNewButton.addListener( new ClickListener() {
 
-							contact.addCommunication((Communication) item);
-					}
-				});
+			public void buttonClick( ClickEvent event ) {
 
-		mContactMetawidget.setReadOnly(contact.getId() != 0);
-		mContactMetawidget.setToInspect(contact);
+				mCommunicationsTable.setValue( null );
+				deleteButton.setEnabled( false );
 
-		body.addComponent(mContactMetawidget, "pagebody");
+				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, new Communication() );
+				communicationDialog.setModal( true );
+				getParent().addWindow( communicationDialog );
+			}
+		} );
 
-		mContent.addComponent(body);
+		mCommunicationsTable.setSelectable( false );
+		mCommunicationsTable.addListener( new ItemClickListener() {
 
-		addEmbededButtons();
+			public void itemClick( ItemClickEvent event ) {
+
+				if ( !mCommunicationsTable.isSelectable() ) {
+					return;
+				}
+
+				if ( !event.isDoubleClick() ) {
+					deleteButton.setEnabled( true );
+					return;
+				}
+
+				deleteButton.setEnabled( false );
+
+				Communication communication = tableDataSource.getDataRow( event.getItemId() );
+				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, communication );
+				communicationDialog.setModal( true );
+				getParent().addWindow( communicationDialog );
+			}
+		} );
+
+		mCommunicationsButtons = new com.vaadin.ui.HorizontalLayout();
+		mCommunicationsButtons.setVisible( !mContactMetawidget.isReadOnly() );
+		mCommunicationsButtons.setMargin( false );
+		mCommunicationsButtons.setSpacing( true );
+		mCommunicationsButtons.addComponent( addNewButton );
+		mCommunicationsButtons.addComponent( deleteButton );
+
+		VerticalLayout wrapper = new VerticalLayout();
+		wrapper.setData( "communications" );
+		wrapper.addComponent( mCommunicationsTable );
+		wrapper.addComponent( mCommunicationsButtons );
+		wrapper.setComponentAlignment( mCommunicationsButtons, Alignment.MIDDLE_CENTER );
+		mContactMetawidget.addComponent( wrapper );
+
+		mCommunicationsTable.setContainerDataSource( tableDataSource );
+		body.addComponent( mContactMetawidget, "pagebody" );
+
+		// Embedded buttons
+
+		Facet facetButtons = new Facet();
+		facetButtons.setData( "buttons" );
+		facetButtons.setWidth( "100%" );
+		mContactMetawidget.addComponent( facetButtons );
+
+		mButtonsMetawidget = new VaadinMetawidget();
+		mButtonsMetawidget.setWidth( null );
+		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
+		mButtonsMetawidget.setLayout( new HorizontalLayout() );
+		mButtonsMetawidget.setToInspect( this );
+		facetButtons.addComponent( mButtonsMetawidget );
+		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 
 	//
 	// Public methods
 	//
 
-	@UiHidden
-	public Window getContent() {
-		return mContent;
-	}
-
+	@Override
 	@UiHidden
 	public boolean isReadOnly() {
 
 		return mContactMetawidget.isReadOnly();
 	}
 
-	/**
-	 * For unit tests
-	 */
-
-	@UiHidden
-	public void setShowConfirmDialog(boolean showConfirmDialog) {
-
-		mShowConfirmDialog = showConfirmDialog;
-	}
-
 	@UiAction
-	@UiAttribute(name = HIDDEN, value = "${!this.readOnly}")
+	@UiAttribute( name = HIDDEN, value = "${!this.readOnly}" )
 	public void edit() {
 
-		mContactMetawidget.setReadOnly(false);
-
-		addEmbededButtons();
+		mContactMetawidget.setReadOnly( false );
+		mCommunicationsTable.setSelectable( true );
+		mCommunicationsButtons.setVisible( true );
+		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
 	}
 
 	@UiAction
-	@UiAttribute(name = HIDDEN, value = "${this.readOnly}")
+	@UiAttribute( name = HIDDEN, value = "${this.readOnly}" )
 	public void save() {
 
 		try {
-			mContactMetawidget.getWidgetProcessor(SimpleBindingProcessor.class)
-					.commit(mContactMetawidget);
-
+			mContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
-
-			mProvider.getContactsController().save(contact);
-		}
-		catch (SourceException e) {
-			mContent.showNotification("Save Error", e.getCause().getLocalizedMessage(),
-					Notification.TYPE_ERROR_MESSAGE);
-
-			return;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			mContent.showNotification("Save Error", e.getLocalizedMessage(),
-					Notification.TYPE_ERROR_MESSAGE);
-
+			mAddressBook.getContactsController().save( contact );
+		} catch ( Exception e ) {
+			showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 			return;
 		}
 
-		if (!MainApplication.isTestMode()) {
-			mContent.getParent().removeWindow(mContent);
+		if ( getParent() != null ) {
+			getParent().removeWindow( this );
 		}
-
-		mProvider.fireRefresh();
+		mAddressBook.fireRefresh();
 	}
 
 	@UiAction
-	@UiComesAfter("save")
-	@UiAttribute(name = HIDDEN, value = "${this.readOnly || this.newContact}")
+	@UiComesAfter( "save" )
+	@UiAttribute( name = HIDDEN, value = "${this.readOnly || this.newContact}" )
 	public void delete() {
 
 		Contact contact = mContactMetawidget.getToInspect();
 
-		if (!MainApplication.isTestMode()) {
-			mContent.getParent().removeWindow(mContent);
-		}
-
-		mProvider.getContactsController().delete(contact);
-		mProvider.fireRefresh();
+		getParent().removeWindow( this );
+		mAddressBook.getContactsController().delete( contact );
+		mAddressBook.fireRefresh();
 	}
 
 	@UiAction
-	@UiComesAfter( { "edit", "delete" })
-	@UiAttribute(name = LABEL, value = "${if ( this.readOnly ) 'Back'}")
+	@UiComesAfter( { "edit", "delete" } )
+	@UiAttribute( name = LABEL, value = "${if ( this.readOnly ) 'Back'}" )
 	public void cancel() {
 
-		if (!MainApplication.isTestMode()) {
-			mContent.getParent().removeWindow(mContent);
-		}
+		getParent().removeWindow( this );
 	}
 
-	//
-	// Private Methods
-	//
-	private void addEmbededButtons() {
-		// Embedded buttons
+	@SuppressWarnings( "unchecked" )
+	public void addCommunication( Communication communication ) {
 
-		Facet facetButtons = new Facet();
-		facetButtons.setDebugId("ContactDialogButtons" + ContactDialog.id);
-		facetButtons.setWidth("100%");
-		mContactMetawidget.addComponent(facetButtons);
+		Contact contact = (Contact) mContactMetawidget.getToInspect();
+		contact.addCommunication( communication );
 
-		mButtonsMetawidget = new VaadinMetawidget();
-		mButtonsMetawidget.setDebugId("ButtonsMetawidget");
-		mButtonsMetawidget.setBundle(MainApplication.getBundle());
-		mButtonsMetawidget
-				.setConfig("org/metawidget/example/vaadin/addressbook/metawidget.xml");
-		mButtonsMetawidget.setLayout(new GridLayout(GridLayoutConfig
-				.newHorizentalLayoutConfig()));
-		mButtonsMetawidget.setToInspect(this);
-		facetButtons.addComponent(mButtonsMetawidget);
-		facetButtons.setComponentAlignment(mButtonsMetawidget,
-				Alignment.MIDDLE_CENTER);
+		( (TableDataSource<Communication>) mCommunicationsTable.getContainerDataSource() ).importCollection( contact.getCommunications() );
 	}
-
 }

@@ -26,12 +26,6 @@ public class LayoutException
 	extends MetawidgetException {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Public statics
 	//
 

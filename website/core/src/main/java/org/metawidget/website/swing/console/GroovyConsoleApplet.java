@@ -34,12 +34,6 @@ public class GroovyConsoleApplet
 	extends JApplet {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1L;
-
-	//
 	// Package members
 	//
 

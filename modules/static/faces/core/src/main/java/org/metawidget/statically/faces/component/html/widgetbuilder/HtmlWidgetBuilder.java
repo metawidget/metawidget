@@ -103,6 +103,17 @@ public class HtmlWidgetBuilder
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
+		// Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) ) {
+			HtmlSelectOneMenu select = new HtmlSelectOneMenu();
+			addSelectItems( select, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
+
+			return select;
+		}
+
 		// If no type, fail gracefully with a text box
 
 		if ( type == null ) {
@@ -118,17 +129,6 @@ public class HtmlWidgetBuilder
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 			return new HtmlSelectBooleanCheckbox();
-		}
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) ) {
-			HtmlSelectOneMenu select = new HtmlSelectOneMenu();
-			addSelectItems( select, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
-
-			return select;
 		}
 
 		if ( clazz != null ) {
@@ -350,7 +350,7 @@ public class HtmlWidgetBuilder
 
 		// Make the column contents...
 
-		if ( ENTITY.equals( elementName )) {
+		if ( ENTITY.equals( elementName ) ) {
 			columnContents = new HtmlOutputText();
 			columnContents.putAttribute( "value", StaticFacesUtils.wrapExpression( dataTable.getAttribute( "var" ) ) );
 		} else {
@@ -385,9 +385,13 @@ public class HtmlWidgetBuilder
 	protected void addSelectItems( HtmlSelectOneMenu select, String valueExpression, Map<String, String> attributes ) {
 
 		// Empty option
+		//
+		// Note: a 'null' value (rather than an empty String') renders an <f:selectItem/> rather
+		// than an <f:selectItem itemValue=""/>. This works out better if the HtmlSelectOneMenu has
+		// a converter, because the empty String may not be a compatible value
 
 		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			addSelectItem( select, "", null );
+			addSelectItem( select, null, null );
 		}
 
 		// Add the select items
@@ -405,7 +409,10 @@ public class HtmlWidgetBuilder
 	private HtmlInputText createHtmlInputText( Map<String, String> attributes ) {
 
 		HtmlInputText inputText = new HtmlInputText();
-		inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+
+		if ( !"".equals( attributes.get( MAXIMUM_LENGTH ) ) ) {
+			inputText.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+		}
 
 		return inputText;
 	}
@@ -417,9 +424,13 @@ public class HtmlWidgetBuilder
 		}
 
 		// Empty option
+		//
+		// Note: a 'null' value (rather than an empty String') renders an <f:selectItem/> rather
+		// than an <f:selectItem itemValue=""/>. This works out better if the HtmlSelectOneMenu has
+		// a converter, because the empty String may not be a compatible value
 
 		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			addSelectItem( select, "", null );
+			addSelectItem( select, null, null );
 		}
 
 		// Add the select items

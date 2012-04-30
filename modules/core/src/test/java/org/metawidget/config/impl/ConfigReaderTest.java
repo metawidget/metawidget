@@ -497,10 +497,10 @@ public class ConfigReaderTest
 
 			// assertTrue( false );
 			//
-			// (works running JUnit in Eclipse, but not via Ant. Does the VM cache reflection
+			// (works running JUnit in Eclipse, but not via Maven. Does the VM cache reflection
 			// results or something?)
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.impl.NoHashCodeInspectorConfig implements .equals(), but .hashCode() is implemented by class org.metawidget.config.UnbalancedEqualsInspectorConfig, so cannot cache reliably".equals( e.getMessage() ) );
+			assertEquals( "class org.metawidget.config.impl.NoHashCodeInspectorConfig implements .equals(), but .hashCode() is implemented by class org.metawidget.config.impl.UnbalancedEqualsInspectorConfig, so cannot cache reliably", e.getMessage() );
 		}
 
 		// No such constructor

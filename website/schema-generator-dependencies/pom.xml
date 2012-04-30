@@ -122,6 +122,11 @@
 			<artifactId>jsp-api</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin</artifactId>
+			<scope>runtime</scope>
+		</dependency>		
 	</dependencies>
 
 </project>

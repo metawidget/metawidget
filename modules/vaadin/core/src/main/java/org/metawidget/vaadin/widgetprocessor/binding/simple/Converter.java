@@ -17,12 +17,23 @@
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
 /**
+ * Interface for <code>SimpleBindingProcessor</code> Converters.
  *
- *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
 
 public interface Converter<T> {
 
-	T convert(Object newValue);
+	//
+	// Methods
+	//
+
+	/**
+	 * Convert the given String to the given expected type, if possible. If not possible, just
+	 * return the original String.
+	 */
+
+	T convertFromString( String value, Class<T> expectedType );
+
+	String convertToString( T value );
 }

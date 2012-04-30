@@ -19,7 +19,7 @@ package org.metawidget.gwt.client.widgetprocessor.binding.simple;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Interface for <code>SimpleBinding</code> Converters.
+ * Interface for <code>SimpleBindingProcessor</code> Converters.
  *
  * @author Richard Kennard
  */

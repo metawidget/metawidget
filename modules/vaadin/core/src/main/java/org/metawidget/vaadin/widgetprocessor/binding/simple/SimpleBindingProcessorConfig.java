@@ -22,10 +22,10 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a BeansBindingProcessor prior to use. Once instantiated, WidgetProcessors are
+ * Configures a SimpleBindingProcessor prior to use. Once instantiated, WidgetProcessors are
  * immutable.
  *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
 
 public class SimpleBindingProcessorConfig {
@@ -41,23 +41,25 @@ public class SimpleBindingProcessorConfig {
 	//
 
 	/**
-	 * Sets a Converter for this BeansBindingProcessor.
-	 *
-	 *
-	 *
-	 *
-	 *
+	 * Sets a Converter for the given Class.
+	 * <p>
+	 * Converters also apply to subclasses of the given Class. So for example registering a
+	 * Converter for <code>Number.class</code> will match <code>Integer.class</code>,
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
+	 * <p>
+	 * Note: this is not a JavaBean 'setter': multiple different Converters can be set by calling
+	 * <code>setConverter</code> multiple times with different source classes.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <T> SimpleBindingProcessorConfig setConverter( Class<T> classType, Converter<T> converter ) {
+	public <T> SimpleBindingProcessorConfig setConverter( Class<T> forClass, Converter<?> converter ) {
 
 		if ( mConverters == null ) {
-			mConverters = CollectionUtils.newHashMap();
+			mConverters = CollectionUtils.newWeakHashMap();
 		}
 
-		mConverters.put( classType, converter );
+		mConverters.put( forClass, converter );
 
 		return this;
 	}
@@ -69,7 +71,7 @@ public class SimpleBindingProcessorConfig {
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 

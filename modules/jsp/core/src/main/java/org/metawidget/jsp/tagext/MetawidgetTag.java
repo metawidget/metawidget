@@ -61,8 +61,6 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private static final long										serialVersionUID		= 1l;
-
 	/**
 	 * Cache the ConfigReader at the ServletContext level. This can also be used to inject a
 	 * different ConfigReader if needed (ie. for Grails).

@@ -39,12 +39,6 @@ public class LiteralTag
 	extends TagSupport {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

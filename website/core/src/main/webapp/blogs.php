@@ -114,10 +114,10 @@
 			</tbody>
 		</table>
 		
-		<h2 style="margin-top: 40px">Academic Publications</h2>
+		<h2 style="margin-top: 40px">Research Publications</h2>
 		
 		<p>
-			Metawidget has strong ties to the research and academic community. Academic publications from Metawidget developers provide insight
+			Metawidget has strong ties to the research and academic community. Research publications from Metawidget developers provide insight
 			into Metawidget's theoretical foundations: 
 		</p>
 		
@@ -133,6 +133,16 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>Kennard, R.</td>
+					<td>2012</td>
+					<td>Derivation of a General Purpose Architecture for Automatic User Interface Generation</td>
+					<td>University of Technology, Sydney</td>
+					<td class="link"><a href="http://hdl.handle.net/2100/1305" target="_blank">Cite</a></td>
+					<td class="link"><a href="media/downloads/Derivation%20of%20a%20General%20Purpose%20Architecture%20for%20Automatic%20User%20Interface%20Generation.pdf">
+						<img src="media/pdf.gif" alt="Derivation of a General Purpose Architecture for Automatic User Interface Generation" title="Download PDF" style="border: 0"/>
+					</a></td>
+				</tr>
 				<tr>
 					<td>Kennard, R. &amp; Leaney, J.</td>
 					<td>2011</td>
@@ -177,7 +187,7 @@
 		</table>
 
 		<p>
-			Other academic publications cite Metawidget. In chronological order:
+			Other research publications cite Metawidget. In chronological order:
 		</p>
 
 		<table class="data-table">

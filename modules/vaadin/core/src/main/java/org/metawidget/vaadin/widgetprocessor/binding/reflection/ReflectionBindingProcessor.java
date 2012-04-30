@@ -18,7 +18,6 @@ package org.metawidget.vaadin.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -26,6 +25,7 @@ import java.util.Map;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -38,100 +38,80 @@ import com.vaadin.ui.Component;
 /**
  * Action binding implementation based on reflection.
  *
- *
- *
  * @author Loghman Barari
  */
 
-@SuppressWarnings("serial")
-public class ReflectionBindingProcessor implements
-		WidgetProcessor<Component, VaadinMetawidget>, Serializable {
+@SuppressWarnings( "serial" )
+public class ReflectionBindingProcessor
+	implements WidgetProcessor<Component, VaadinMetawidget>, Serializable {
 
 	//
 	// Public methods
 	//
 
-	public Component processWidget(final Component component,
-			String elementName, Map<String, String> attributes,
-			VaadinMetawidget metawidget) {
+	public Component processWidget( final Component component, String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
 		// Only bind to non-read-only Actions
 
-		if (metawidget == null) {
+		if ( !ACTION.equals( elementName ) ) {
+			return component;
+		}
+
+		if ( component instanceof Stub ) {
+			return component;
+		}
+
+		if ( !( component instanceof Button ) ) {
+			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
+		}
+
+		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+			return component;
+		}
+
+		if ( metawidget == null ) {
 			return component;
 		}
 
 		Object toInspect = metawidget.getToInspect();
 
-		if (toInspect == null) {
+		if ( toInspect == null ) {
 			return component;
 		}
 
+		Button button = (Button) component;
+
 		// Traverse to the last Object...
 
-		String[] names = PathUtils.parsePath(metawidget.getPath())
-				.getNamesAsArray();
+		String[] names = PathUtils.parsePath( metawidget.getPath() ).getNamesAsArray();
 
-		for (String name : names) {
-			toInspect = ClassUtils.getProperty(toInspect, name);
+		for ( String name : names ) {
+			toInspect = ClassUtils.getProperty( toInspect, name );
 
-			if (toInspect == null) {
+			if ( toInspect == null ) {
 				return component;
 			}
 		}
 
-		if (ACTION.equals(elementName)) {
+		// ...and wire it up
 
-			if (component == null) {
-				return null;
-			}
+		final Object fireActionOn = toInspect;
+		final Class<?> fireActionOnClass = fireActionOn.getClass();
+		final String actionName = attributes.get( NAME );
 
-			if (!(component instanceof Button)) {
+		button.addListener( new ClickListener() {
 
-				throw WidgetProcessorException
-						.newException("ReflectionBindingProcessor only supports binding actions to AbstractButtons");
-			}
+			public void buttonClick( ClickEvent event ) {
 
-			if (WidgetBuilderUtils.isReadOnly(attributes)) {
-				return component;
-			}
-
-			Button button = (Button) component;
-
-			// ...and wire it up
-
-			final Object fireActionOn = toInspect;
-			final Class<?> fireActionOnClass = fireActionOn.getClass();
-			final String actionName = attributes.get(NAME);
-
-			button.addListener(new ClickListener() {
-
-				public void buttonClick(ClickEvent event) {
-					try {
-						try {
-							// Parameterless methods
-
-							final Method parameterlessActionMethod = fireActionOnClass
-									.getMethod(actionName, (Class[]) null);
-							parameterlessActionMethod.invoke(fireActionOn,
-									(Object[]) null);
-						} catch (NoSuchMethodException exception1) {
-							// ActionEvent-parameter based methods
-
-							final Method parameterizedActionMethod = fireActionOnClass
-									.getMethod(actionName, ActionEvent.class);
-							parameterizedActionMethod
-									.invoke(fireActionOn, new ActionEvent(
-											fireActionOn, 0, actionName));
-						}
-					} catch (Exception exception2) {
-						throw WidgetProcessorException.newException(exception2);
-					}
+				try {
+					Method method = fireActionOnClass.getMethod( actionName, (Class[]) null );
+					method.invoke( fireActionOn, (Object[]) null );
+				} catch ( Exception e ) {
+					throw WidgetProcessorException.newException( e );
 				}
-			});
-		}
+			}
+		} );
 
 		return component;
 	}
-
 }

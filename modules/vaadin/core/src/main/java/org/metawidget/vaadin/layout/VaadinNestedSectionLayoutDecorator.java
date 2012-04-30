@@ -29,8 +29,7 @@ import com.vaadin.ui.ComponentContainer;
 
 /**
  * Convenience base class for LayoutDecorators
- * 
- * 
+ *
  * @author Loghman Barari
  */
 
@@ -42,10 +41,9 @@ public abstract class VaadinNestedSectionLayoutDecorator
 	// Constructor
 	//
 
-	protected VaadinNestedSectionLayoutDecorator(
-			LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config) {
+	protected VaadinNestedSectionLayoutDecorator( LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config ) {
 
-		super(config);
+		super( config );
 	}
 
 	//
@@ -53,37 +51,36 @@ public abstract class VaadinNestedSectionLayoutDecorator
 	//
 
 	@Override
-	protected String stripSection(Map<String, String> attributes) {
+	protected String stripSection( Map<String, String> attributes ) {
 
-		return LayoutUtils.stripSection(attributes);
+		return LayoutUtils.stripSection( attributes );
 	}
 
 	@Override
-	protected State<ComponentContainer> getState(ComponentContainer container,
-			VaadinMetawidget metawidget) {
+	protected State<ComponentContainer> getState( ComponentContainer container,
+			VaadinMetawidget metawidget ) {
 
-		@SuppressWarnings("unchecked")
-		Map<Component, State<ComponentContainer>> stateMap = (Map<Component, State<ComponentContainer>>) metawidget
-				.getClientProperty(getClass());
+		@SuppressWarnings( "unchecked" )
+		Map<Component, State<ComponentContainer>> stateMap = (Map<Component, State<ComponentContainer>>) metawidget.getClientProperty( getClass() );
 
-		if (stateMap == null) {
+		if ( stateMap == null ) {
 			stateMap = new HashMap<Component, State<ComponentContainer>>();
-			metawidget.putClientProperty(getClass(), stateMap);
+			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
-		State<ComponentContainer> state = stateMap.get(container);
+		State<ComponentContainer> state = stateMap.get( container );
 
-		if (state == null) {
+		if ( state == null ) {
 			state = new State<ComponentContainer>();
-			stateMap.put(container, state);
+			stateMap.put( container, state );
 		}
 
 		return state;
 	}
 
 	@Override
-	protected boolean isIgnored(Component component) {
+	protected boolean isIgnored( Component component ) {
 
-		return ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 );
+		return ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() );
 	}
 }

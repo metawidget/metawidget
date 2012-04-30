@@ -178,7 +178,7 @@ public class SwingMetawidgetTest
 		// Metawidget
 
 		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
-		assertEquals( 1, ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
+		assertEquals( 0, ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
 
@@ -250,17 +250,11 @@ public class SwingMetawidgetTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.add( new Facet() );
 
-		// Without a path, should be no layout
+		// Should be no layout or spacer panel
 
 		assertEquals( metawidget.getComponentCount(), 0 );
-
-		// With a path, GridBagLayout spacer panel should appear (but not facet)
-
 		metawidget.setPath( "Foo" );
-		assertEquals( metawidget.getComponentCount(), 1 );
-
-		assertTrue( metawidget.getComponent( 0 ) instanceof JPanel );
-		assertEquals( metawidget.getComponentCount(), 1 );
+		assertEquals( metawidget.getComponentCount(), 0 );
 
 		// Normal component should appear (but still not facet)
 
@@ -363,7 +357,7 @@ public class SwingMetawidgetTest
 
 		metawidget.setWidgetBuilder( null );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
-		metawidget.getComponent( 0 );
+		metawidget.getComponentCount();
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );

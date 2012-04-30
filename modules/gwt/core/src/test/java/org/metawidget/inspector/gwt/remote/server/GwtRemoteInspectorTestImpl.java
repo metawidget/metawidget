@@ -30,12 +30,6 @@ public class GwtRemoteInspectorTestImpl
 	extends GwtRemoteInspectorImpl {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Protected methods
 	//
 

@@ -70,8 +70,6 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private static final long		serialVersionUID	= 1l;
-
 	private static final Stroke		STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
@@ -505,7 +503,7 @@ public class SwingMetawidget
 	 * The value is returned as it was stored in the Component (eg. String for JTextField) so may
 	 * need some conversion before being reapplied to the object being inspected. This obviously
 	 * requires knowledge of which Component SwingMetawidget created, which is not ideal, so clients
-	 * may prefer to use bindingClass instead.
+	 * may prefer to use a binding WidgetProcessor instead.
 	 *
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
@@ -523,7 +521,7 @@ public class SwingMetawidget
 	 * <p>
 	 * Clients must ensure the value is of the correct type to suit the Component (eg. String for
 	 * JTextField). This obviously requires knowledge of which Component SwingMetawidget created,
-	 * which is not ideal, so clients may prefer to use bindingClass instead.
+	 * which is not ideal, so clients may prefer to use a binding WidgetProcessor instead.
 	 */
 
 	public void setValue( Object value, String... names ) {
@@ -768,13 +766,7 @@ public class SwingMetawidget
 				mLastInspectionResult = inspect();
 			}
 
-			// Don't buildWidgets if null, in order to protect our 'dotted rectangle in IDE tools'
-			// effect. However, do 'getComponentCount() > 0' in case the SwingMetawidget is being
-			// used purely for layout purposes
-
-			if ( mPath != null || getComponentCount() > 0 ) {
-				mPipeline.buildWidgets( mLastInspectionResult );
-			}
+			mPipeline.buildWidgets( mLastInspectionResult );
 		} catch ( Exception e ) {
 			throw MetawidgetException.newException( e );
 		} finally {
@@ -984,7 +976,7 @@ public class SwingMetawidget
 		protected void configureDefaults() {
 
 			super.configureDefaults();
-			
+
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( getLayout() == null ) {

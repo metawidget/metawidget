@@ -61,12 +61,6 @@ public class SwtMetawidget
 	extends Composite {
 
 	//
-	// Private statics
-	//
-
-	private static final long		serialVersionUID		= 1l;
-
-	//
 	// Private members
 	//
 
@@ -406,7 +400,7 @@ public class SwtMetawidget
 	 * The value is returned as it was stored in the Control (eg. String for JTextField) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which Control SwtMetawidget created, which is not ideal, so clients may prefer
-	 * to use bindingClass instead.
+	 * to use a binding WidgetProcessor instead.
 	 *
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
@@ -424,7 +418,7 @@ public class SwtMetawidget
 	 * <p>
 	 * Clients must ensure the value is of the correct type to suit the Control (eg. String for
 	 * JTextField). This obviously requires knowledge of which Control SwtMetawidget created, which
-	 * is not ideal, so clients may prefer to use bindingClass instead.
+	 * is not ideal, so clients may prefer to use a binding WidgetProcessor instead.
 	 */
 
 	public void setValue( Object value, String... names ) {

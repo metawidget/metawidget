@@ -28,12 +28,6 @@ public class ContactSearch
 	implements Serializable {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

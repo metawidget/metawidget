@@ -74,23 +74,21 @@ public class ContactDialog
 	// Private statics
 	//
 
-	private static final long				serialVersionUID	= 1l;
-
 	private static final int				COMPONENT_SPACING	= 5;
 
 	//
 	// Package-level members
 	//
 
-	ListTableModel<Communication>			mCommunicationsModel;
-
 	//
 	// Private members
 	//
 
-	private ContactsControllerProvider		mProvider;
+	private AddressBook						mAddressBook;
 
 	/* package private */SwingMetawidget	mContactMetawidget;
+
+	ListTableModel<Communication>			mCommunicationsModel;
 
 	private SwingMetawidget					mButtonsMetawidget;
 
@@ -101,9 +99,9 @@ public class ContactDialog
 	//
 
 	@SuppressWarnings( "serial" )
-	public ContactDialog( ContactsControllerProvider provider, final Contact contact ) {
+	public ContactDialog( AddressBook addressBook, final Contact contact ) {
 
-		mProvider = provider;
+		mAddressBook = addressBook;
 
 		setSize( new Dimension( 800, 600 ) );
 		getContentPane().setBackground( Color.white );
@@ -271,14 +269,14 @@ public class ContactDialog
 			mContactMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 			contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
-			mProvider.getContactsController().save( contact );
+			mAddressBook.getContactsController().save( contact );
 		} catch ( Exception e ) {
 			JOptionPane.showMessageDialog( ContactDialog.this, e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
 
 		ContactDialog.this.setVisible( false );
-		mProvider.fireRefresh();
+		mAddressBook.fireRefresh();
 	}
 
 	@UiAction
@@ -293,8 +291,8 @@ public class ContactDialog
 		}
 
 		ContactDialog.this.setVisible( false );
-		mProvider.getContactsController().delete( contact );
-		mProvider.fireRefresh();
+		mAddressBook.getContactsController().delete( contact );
+		mAddressBook.fireRefresh();
 	}
 
 	@UiAction
@@ -314,18 +312,12 @@ public class ContactDialog
 		implements TableCellEditor {
 
 		//
-		// Private statics
-		//
-
-		private static final long	serialVersionUID	= 1l;
-
-		//
 		// Private members
 		//
 
-		private SwingMetawidget		mEditor;
+		private SwingMetawidget	mEditor;
 
-		private String				mColumnName;
+		private String			mColumnName;
 
 		//
 		// Constructor

@@ -1107,8 +1107,8 @@ public class Main {
 				
 				<para>
 					As there are a large number of Java Web application frameworks to choose from, this example comes written
-					in five of the most popular: Google Web Toolkit (GWT), Java Server Faces (JSF) 1.x and 2.x (using Facelets),
-					Java Server Pages (JSP), Spring Web MVC and Struts. We recommend you follow along using the one most relevant to you.
+					in six of the most popular: Google Web Toolkit (GWT), Java Server Faces (JSF) 1.x and 2.x (using Facelets),
+					Java Server Pages (JSP), Spring Web MVC, Struts and Vaadin. We recommend you follow along using the one most relevant to you.
 				</para>
 				
 				<para>
@@ -1122,15 +1122,17 @@ public class Main {
 				<para>
 					Take a fresh install of Tomcat. The Address Book WAR is pre-built for you in
 					either <filename>examples/faces/addressbook-faces.war</filename>, <filename>examples/gwt/addressbook-gwt.war</filename>,
-					<filename>examples/jsp/addressbook-jsp.war</filename>, <filename>examples/spring/addressbook-spring.war</filename> or
-					<filename>examples/struts/addressbook-struts.war</filename>. Alternatively you can build it yourself
+					<filename>examples/jsp/addressbook-jsp.war</filename>, <filename>examples/spring/addressbook-spring.war</filename>,
+					<filename>examples/struts/addressbook-struts.war</filename> or <filename>examples/vaadin/addressbook-struts.war</filename>.
+					Alternatively you can build it yourself
 					by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
 				
 				<programlisting language="shell">mvn -pl org.metawidget.examples.faces:addressbook-faces -am integration-test</programlisting>
 
 				<para>
-					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>jsp</parameter>, <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
+					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>jsp</parameter>, <parameter>spring</parameter>,
+					<parameter>struts</parameter> or <parameter>vaadin</parameter> as appropriate).
 				</para>
 
 				<tip>
@@ -1158,8 +1160,8 @@ public class Main {
 				<para>
 					As with the Desktop Address Book, the three search filter fields are created
 					by Metawidget (this time <classname>UIMetawidget</classname>, <classname>GwtMetawidget</classname>, <classname>HtmlMetawidgetTag</classname>,
-					<classname>SpringMetawidgetTag</classname>
-					or <classname>StrutsMetawidgetTag</classname>) based on the <classname>ContactSearch</classname> business class:
+					<classname>SpringMetawidgetTag</classname>, <classname>StrutsMetawidgetTag</classname>
+					or <classname>VaadinMetawidget</classname>) based on the <classname>ContactSearch</classname> business class:
 				</para>
 				
 				<programlisting language="jsp">&lt;m:metawidget value="#{contact.search}"&gt;
@@ -1220,8 +1222,9 @@ public class Main {
 					The <parameter>Address</parameter> property is a nested Metawidget. The <parameter>Communications</parameter> property
 					has been overridden in the page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
 					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
-					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidgetTag</classname> and <classname>StrutsMetawidgetTag</classname> do
-					something similar):
+					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidgetTag</classname>,
+					<classname>StrutsMetawidgetTag</classname>
+					and <classname>VaadinMetawidget</classname> do something similar):
 				</para>
 				
 				<programlisting language="jsp">&lt;m:metawidget value="#{contact.current}"&gt;

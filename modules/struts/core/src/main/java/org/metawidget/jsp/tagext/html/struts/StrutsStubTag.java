@@ -28,12 +28,6 @@ public class StrutsStubTag
 	extends StubTag {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Public methods
 	//
 

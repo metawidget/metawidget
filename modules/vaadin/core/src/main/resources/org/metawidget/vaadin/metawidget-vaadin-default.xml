@@ -40,17 +40,18 @@
 		<widgetProcessors>
 			<array>
 				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" />
-				<collectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" />
 				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection"/>
+				<captionProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+				<requiredProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
 			</array>
 		</widgetProcessors>
 		
 		<layout>
-			<separatorLayoutDecorator xmlns="java:org.metawidget.vaadin.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.vaadin.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
 				<layout>
-					<gridLayout />
+					<formLayout />
 				</layout>
-			</separatorLayoutDecorator>			
+			</headingTagLayoutDecorator>			
 		</layout>
 		
 	</vaadinMetawidget>

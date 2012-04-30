@@ -16,7 +16,6 @@
 
 package org.metawidget.example.vaadin.addressbook;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
@@ -31,15 +30,18 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.layout.GridLayout;
-import org.metawidget.vaadin.layout.GridLayoutConfig;
+import org.metawidget.vaadin.layout.HorizontalLayout;
 
+import com.vaadin.Application;
+import com.vaadin.data.Property;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -48,23 +50,22 @@ import com.vaadin.ui.Window;
  * @author Loghman Barari
  */
 
-@SuppressWarnings( "serial" )
 public class AddressBook
-	implements ContactsControllerProvider, Serializable {
+	extends Application {
 
 	//
 	// Private members
 	//
 
-	private ContactSearch				mContactSearch;
+	private ContactSearch							mContactSearch;
 
-	private VaadinMetawidget			mSearchMetawidget;
+	private VaadinMetawidget						mSearchMetawidget;
 
-	private TableDataSource<Contact>	mModel;
+	/* package private */TableDataSource<Contact>	mModel;
 
-	private ContactsController			mContactsController;
+	private ContactsController						mContactsController;
 
-	private ComponentContainer			mContent;
+	private ComponentContainer						mContent;
 
 	//
 	// Constructor
@@ -77,82 +78,71 @@ public class AddressBook
 		mContactSearch = new ContactSearch();
 		mContactsController = new ContactsController();
 
-		mModel = new TableDataSource<Contact>( Contact.class,
-					mContactsController.getAllByExample( mContactSearch ),
-					"Fullname", "Communications", "Class" ) {
-
-			//
-			// Public Methods
-			//
+		mModel = new TableDataSource<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "class", "fullname", "communications" ) {
 
 			@Override
-			public Class<?> columnType( String field, Class<?> clazz ) {
+			protected Class<?> getColumnType( String column ) {
 
-				if ( clazz instanceof Class<?> ) {
-					clazz = ThemeResource.class;
+				if ( "class".equals( column ) ) {
+					return ThemeResource.class;
 				}
 
-				return clazz;
+				if ( "communications".equals( column ) ) {
+					return String.class;
+				}
+
+				return super.getColumnType( column );
 			}
 
 			@Override
-			public Object formatValue( Contact item, String field,
-					Object value ) {
+			protected Object getValue( Contact contact, String column ) {
+
+				Object value = super.getValue( contact, column );
 
 				if ( value instanceof Class<?> ) {
-					Class<?> clazz = (Class<?>) value;
 
-					if ( clazz.getName() == BusinessContact.class.getName() ) {
-						value = new ThemeResource( "../addressbook/img/business-small.gif" );
-					} else if ( clazz.getName() == PersonalContact.class.getName() ) {
-						value = new ThemeResource( "../addressbook/img/personal-small.gif" );
+					if ( value.equals( BusinessContact.class ) ) {
+						return new ThemeResource( "../addressbook/img/business-small.gif" );
 					}
+
+					return new ThemeResource( "../addressbook/img/personal-small.gif" );
 				}
-				else if ( "Communications".equals( field ) && ( value instanceof Collection<?> ) ) {
-					value = CollectionUtils.toString( (Collection<?>) value );
 
-					if ( "".equals( value ) ) {
-						value = null;
-					}
-
+				if ( "communications".equals( column ) ) {
+					return CollectionUtils.toString( (Collection<?>) value );
 				}
 
 				return value;
 			}
-
-			@Override
-			public void itemClick( ItemClickEvent event ) {
-
-				// When table is double clicked...
-
-				Contact contact = this.getDataRow( event.getItemId() );
-
-				// ...and display it
-				ContactDialog contactDialog = createContactDialog( contact );
-
-				AddressBook.this.showModalWindow( contactDialog.getContent() );
-			}
-
 		};
 
 		// Page body
 
-		VerticalLayout body = new VerticalLayout();
-		body.setDebugId( "main body" );
+		VerticalLayout pagebody = new VerticalLayout();
 
 		// Search and result sections
 
-		body.addComponent( createSearchSection() );
-		body.addComponent( createResultsSection() );
+		pagebody.addComponent( createSearchSection() );
+		pagebody.addComponent( createResultsSection() );
 
 		mContent = new CustomLayout( "addressbook" );
 
-		( (CustomLayout) mContent ).addComponent( body, "pagebody" );
+		( (CustomLayout) mContent ).addComponent( pagebody, "pagebody" );
 	}
 
 	//
 	// Public methods
 	//
+
+	@Override
+	public void init() {
+
+		setTheme( "addressbook" );
+		Window mainWindow = new Window( "Address Book (Metawidget Vaadin Example)" );
+		((Layout) mainWindow.getContent()).setMargin( false );
+		mainWindow.addComponent( getContent() );
+		setMainWindow( mainWindow );
+	}
 
 	@UiHidden
 	public ContactsController getContactsController() {
@@ -177,11 +167,9 @@ public class AddressBook
 		// Example of manual mapping. See ContactDialog for an example of using
 		// automatic Bindings
 
-		mContactSearch.setFirstname( (String) mSearchMetawidget
-				.getValue( "firstname" ) );
-		mContactSearch.setSurname( (String) mSearchMetawidget
-				.getValue( "surname" ) );
-		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ) );
+		mContactSearch.setFirstname( (String) ( (Property) mSearchMetawidget.getComponent( "firstname" ) ).getValue() );
+		mContactSearch.setSurname( (String) ( (Property) mSearchMetawidget.getComponent( "surname" ) ).getValue() );
+		mContactSearch.setType( (ContactType) ( (Property) mSearchMetawidget.getComponent( "type" ) ).getValue() );
 
 		fireRefresh();
 	}
@@ -191,7 +179,7 @@ public class AddressBook
 	public void addPersonal() {
 
 		ContactDialog contactDialog = new ContactDialog( AddressBook.this, new PersonalContact() );
-		mContent.getWindow().addWindow( contactDialog.getContent() );
+		showModalWindow( contactDialog );
 	}
 
 	@UiAction
@@ -199,14 +187,14 @@ public class AddressBook
 	public void addBusiness() {
 
 		ContactDialog contactDialog = new ContactDialog( AddressBook.this, new BusinessContact() );
-		showModalWindow( contactDialog.getContent() );
+		showModalWindow( contactDialog );
 	}
 
 	//
 	// Private methods
 	//
 
-	private void showModalWindow( Window window ) {
+	/* package private */void showModalWindow( Window window ) {
 
 		window.setModal( true );
 		mContent.getWindow().addWindow( window );
@@ -216,62 +204,64 @@ public class AddressBook
 
 		// Metawidget
 
-		mSearchMetawidget = new VaadinMetawidget( "SearchMetawidget" );
-		mSearchMetawidget.setBundle( MainApplication.getBundle() );
-		mSearchMetawidget.setWidth( "100%" );
+		mSearchMetawidget = new VaadinMetawidget();
 		mSearchMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mSearchMetawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
-		facetButtons.setWidth( "100%" );
-		facetButtons.setDebugId( "buttons" );
+		facetButtons.setData( "buttons" );
 		mSearchMetawidget.addComponent( facetButtons );
 
-		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget( "buttonsMetawidget" );
-		buttonsMetawidget.setBundle( MainApplication.getBundle() );
+		VaadinMetawidget buttonsMetawidget = new VaadinMetawidget();
+		buttonsMetawidget.setWidth( null );
 		buttonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
-		buttonsMetawidget.setLayout( new GridLayout( GridLayoutConfig.newHorizentalLayoutConfig() ) );
+		buttonsMetawidget.setLayout( new HorizontalLayout() );
 		buttonsMetawidget.setToInspect( this );
-
 		facetButtons.addComponent( buttonsMetawidget );
-		facetButtons.setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
+		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
 
 		return mSearchMetawidget;
 	}
 
 	private Component createResultsSection() {
 
-		final Table table = new Table( "", mModel );
-		table.setDebugId( "ResultsTable" );
-		table.setImmediate( true );
+		Table table = new Table();
 		table.setSelectable( true );
-		table.setPageLength( 8 );
 		table.setWidth( "100%" );
 		table.setContainerDataSource( mModel );
 		table.setRowHeaderMode( Table.ROW_HEADER_MODE_ICON_ONLY );
-		table.setColumnCollapsingAllowed( true );
-		table.setItemIconPropertyId( "Class" );
-		table.setColumnCollapsed( "Class", true );
+		table.setVisibleColumns( new Object[] { "fullname", "communications" } );
+		table.setItemIconPropertyId( "class" );
+		table.setHeight( "275px" );
 
-		table.addListener( this.mModel );
+		table.addListener( new ItemClickListener() {
+
+			public void itemClick( ItemClickEvent event ) {
+
+				// When table is double clicked...
+
+				Contact contact = mModel.getDataRow( event.getItemId() );
+
+				// ...display the Contact
+
+				ContactDialog contactDialog = createContactDialog( contact );
+				AddressBook.this.showModalWindow( contactDialog );
+			}
+		} );
 
 		return table;
 	}
 
 	/* package private */ContactDialog createContactDialog( Contact contact ) {
 
-		// Defensive copy (otherwise unsaved changes in the dialog appear in the
-		// summary list)
+		// Defensive copy (otherwise unsaved changes in the dialog appear in the summary list)
 
 		if ( contact instanceof PersonalContact ) {
-			return new ContactDialog( AddressBook.this, new PersonalContact(
-					(PersonalContact) contact ) );
+			return new ContactDialog( AddressBook.this, new PersonalContact( (PersonalContact) contact ) );
 		}
 
-		return new ContactDialog( AddressBook.this, new BusinessContact(
-				(BusinessContact) contact ) );
+		return new ContactDialog( AddressBook.this, new BusinessContact( (BusinessContact) contact ) );
 	}
-
 }

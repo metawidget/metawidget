@@ -211,7 +211,10 @@ public class SpringWidgetBuilder
 	private FormInputTag createFormInputTag( Map<String, String> attributes ) {
 
 		FormInputTag input = new FormInputTag();
-		input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+
+		if ( !"".equals( attributes.get( MAXIMUM_LENGTH ))) {
+			input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
+		}
 
 		return input;
 	}

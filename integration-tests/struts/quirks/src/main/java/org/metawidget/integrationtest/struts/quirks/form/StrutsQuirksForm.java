@@ -33,12 +33,6 @@ public class StrutsQuirksForm
 	extends ActionForm {
 
 	//
-	// Private statics
-	//
-
-	private static final long		serialVersionUID	= 1L;
-
-	//
 	// Private members
 	//
 

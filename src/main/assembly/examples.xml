@@ -120,6 +120,10 @@
 			<outputDirectory>/examples/swt</outputDirectory>
 		</file>
 		<file>
+			<source>/examples/vaadin/addressbook/target/addressbook-vaadin.war</source>
+			<outputDirectory>/examples/vaadin</outputDirectory>
+		</file>
+		<file>
 			<source>/src/main/resources/for-bin/lgpl.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>

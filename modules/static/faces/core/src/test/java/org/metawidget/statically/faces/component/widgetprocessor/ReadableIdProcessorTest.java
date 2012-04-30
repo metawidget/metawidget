@@ -36,9 +36,22 @@ public class ReadableIdProcessorTest
 
 		ReadableIdProcessor processor = new ReadableIdProcessor();
 
-		// Normal
+		// Null value
 
 		HtmlInputText htmlInputText = new HtmlInputText();
+		processor.processWidget( htmlInputText, null, null, null );
+		assertEquals( "<h:inputText/>", htmlInputText.toString() );
+
+		// Blank value (should not become id="")
+
+		htmlInputText = new HtmlInputText();
+		htmlInputText.putAttribute( "value", "" );
+		processor.processWidget( htmlInputText, null, null, null );
+		assertEquals( "<h:inputText value=\"\"/>", htmlInputText.toString() );
+
+		// Normal
+
+		htmlInputText = new HtmlInputText();
 		htmlInputText.putAttribute( "value", "#{foo.bar}" );
 		processor.processWidget( htmlInputText, null, null, null );
 		assertEquals( "<h:inputText id=\"fooBar\" value=\"#{foo.bar}\"/>", htmlInputText.toString() );

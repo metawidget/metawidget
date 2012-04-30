@@ -18,7 +18,6 @@
 		<module>faces/addressbook2</module>
 		<module>faces/allwidgets</module>
 		<module>faces/quirks</module>
-		<module>faces/forge</module>
 		<module>gwt/allwidgets</module>
 		<module>gwt/quirks</module>
 		<module>jsp/allwidgets</module>
@@ -36,6 +35,7 @@
 		<module>swing/tutorial</module>
 		<module>swt/allwidgets</module>
 		<module>swt/tutorial</module>
+		<module>vaadin/allwidgets</module>
 	</modules>
 	
 </project>

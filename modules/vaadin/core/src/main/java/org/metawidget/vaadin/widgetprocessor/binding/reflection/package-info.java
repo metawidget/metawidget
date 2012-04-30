@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Vaadin support: reflection-based action and data binding.
+ * Vaadin support: reflection-based action binding.
  *
  * @author Loghman Barari
  */

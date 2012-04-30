@@ -28,12 +28,6 @@ public class AllWidgetsForm
 	extends ActionForm {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

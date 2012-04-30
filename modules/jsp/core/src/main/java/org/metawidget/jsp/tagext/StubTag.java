@@ -41,12 +41,6 @@ public abstract class StubTag
 	extends BodyTagSupport {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 

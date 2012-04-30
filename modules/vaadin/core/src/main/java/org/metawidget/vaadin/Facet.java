@@ -1,4 +1,4 @@
-//Metawidget
+// Metawidget
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
 
 package org.metawidget.vaadin;
 
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 
 /**
  * Facet for Vaadin environments.
@@ -24,7 +24,16 @@ import com.vaadin.ui.HorizontalLayout;
  * @author Loghman Barari
  */
 
-@SuppressWarnings("serial")
 public class Facet
-	extends HorizontalLayout {
+	extends Panel {
+
+	//
+	// Constructor
+	//
+
+	public Facet() {
+
+		addStyleName( "light" );
+		((com.vaadin.ui.Layout) getContent()).setMargin( false );
+	}
 }

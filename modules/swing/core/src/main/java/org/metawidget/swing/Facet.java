@@ -33,9 +33,5 @@ import javax.swing.JPanel;
 public class Facet
 	extends JPanel {
 
-	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
+	// Just a JPanel
 }

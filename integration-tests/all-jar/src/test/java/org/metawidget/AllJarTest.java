@@ -61,10 +61,6 @@ public class AllJarTest
 				continue;
 			}
 
-			if ( name.contains( "vaadin" )) {
-				assertTrue( "Vaadin not ready for inclusion in " + METAWIDGET_ALL_JAR + ": " + name, false );	
-			}
-			
 			if ( name.startsWith( "META-INF/" ) ) {
 
 				if ( name.equals( "META-INF/" ) ) {
@@ -120,6 +116,6 @@ public class AllJarTest
 		assertTrue( hadManifest );
 		assertEquals( 4, hadTlds );
 		assertEquals( 2, hadXsds );
-		assertEquals( 11, hadXmls );
+		assertEquals( 12, hadXmls );
 	}
 }

@@ -35,12 +35,6 @@ public class Facet
 	extends Composite {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Constructor
 	//
 

@@ -52,30 +52,20 @@
 			<artifactId>addressbook-shared-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- TODO: make this metawidget-all (start) -->
-		<dependency>
-			<groupId>org.metawidget.modules.vaadin</groupId>
-			<artifactId>metawidget-vaadin</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-annotation</artifactId>
+			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules.commons</groupId>
-			<artifactId>metawidget-jexl</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- make this metawidget-all (end) -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
+			<scope>compile</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

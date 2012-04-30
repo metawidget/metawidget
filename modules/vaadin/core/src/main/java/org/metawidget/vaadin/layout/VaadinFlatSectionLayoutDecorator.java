@@ -22,18 +22,16 @@ import java.util.Map;
 
 import org.metawidget.layout.decorator.FlatSectionLayoutDecorator;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.vaadin.Stub;
-import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.LayoutUtils;
+import org.metawidget.vaadin.Stub;
+import org.metawidget.vaadin.VaadinMetawidget;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
  * Convenience base class for LayoutDecorators .
- *
- *
  *
  * @author Loghman Barari
  */
@@ -46,7 +44,7 @@ public abstract class VaadinFlatSectionLayoutDecorator
 	//
 
 	protected VaadinFlatSectionLayoutDecorator( LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config ) {
-		
+
 		super( config );
 	}
 
@@ -82,6 +80,6 @@ public abstract class VaadinFlatSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( Component component ) {
 
-		return ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 );
+		return ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() );
 	}
 }

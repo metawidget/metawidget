@@ -20,7 +20,20 @@
 					</array>
 				</inspectors>
 			</compositeInspector>
-		</inspector>
+		</inspector>		
+		<widgetProcessors>
+			<array>
+				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
+					<converter>
+						<class>org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets</class>
+						<nestedWidgetsConverter xmlns="java:org.metawidget.integrationtest.vaadin.allwidgets.converter"/>
+					</converter>					
+				</simpleBindingProcessor>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection"/>
+				<captionProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+				<requiredProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+			</array>
+		</widgetProcessors>		
 	</vaadinMetawidget>
 
 </metawidget>

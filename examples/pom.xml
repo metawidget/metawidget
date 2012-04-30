@@ -28,6 +28,7 @@
 		<module>swing/animalraces</module>
 		<module>swing/appframework</module>
 		<module>swt/addressbook</module>
+		<module>vaadin/addressbook</module>
 	</modules>
 
 	<repositories>

@@ -24,12 +24,13 @@ import java.util.Map;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
 /**
  * WidgetBuilder for overridden widgets in Vaadin environments.
  * <p>
- * Locates overridden widgets based on their <code>name</code>.
+ * Locates overridden widgets based on their <code>setData</code>.
  *
  * @author Loghman Barari
  */
@@ -50,10 +51,10 @@ public class OverriddenWidgetBuilder
 		}
 
 		Component component = null;
-		List<Component> existingUnusedComponents = metawidget.fetchExistingUnusedComponents();
+		List<AbstractComponent> existingUnusedComponents = metawidget.fetchExistingUnusedComponents();
 
-		for ( Component componentExisting : existingUnusedComponents ) {
-			if ( name.equals( componentExisting.getDebugId() ) ) {
+		for ( AbstractComponent componentExisting : existingUnusedComponents ) {
+			if ( name.equals( componentExisting.getData() ) ) {
 				component = componentExisting;
 				break;
 			}

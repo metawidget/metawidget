@@ -31,12 +31,6 @@ public class BusinessContact
 	extends Contact {
 
 	//
-	// Private statics
-	//
-
-	private static final long	serialVersionUID	= 1l;
-
-	//
 	// Private members
 	//
 
