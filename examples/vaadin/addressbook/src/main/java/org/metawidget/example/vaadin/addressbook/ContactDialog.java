@@ -69,8 +69,6 @@ public class ContactDialog
 
 	private VaadinMetawidget				mButtonsMetawidget;
 
-	/* package private */boolean			mShowConfirmDialog	= true;
-
 	//
 	// Constructor
 	//
@@ -129,13 +127,17 @@ public class ContactDialog
 		deleteButton.setEnabled( false );
 		deleteButton.addListener( new ClickListener() {
 
+			@SuppressWarnings( "unchecked" )
 			public void buttonClick( ClickEvent event ) {
 
-				mCommunicationsTable.removeItem( mCommunicationsTable.getValue() );
+				Communication communication = tableDataSource.getDataRow( mCommunicationsTable.getValue() );
+				contact.removeCommunication( communication );
+
+				( (TableDataSource<Communication>) mCommunicationsTable.getContainerDataSource() ).importCollection( contact.getCommunications() );
 			}
 		} );
 
-		final Button addNewButton = new Button( "Add" );
+		Button addNewButton = new Button( "Add" );
 		addNewButton.addListener( new ClickListener() {
 
 			public void buttonClick( ClickEvent event ) {
@@ -216,16 +218,6 @@ public class ContactDialog
 		return mContactMetawidget.isReadOnly();
 	}
 
-	/**
-	 * For unit tests
-	 */
-
-	@UiHidden
-	public void setShowConfirmDialog( boolean showConfirmDialog ) {
-
-		mShowConfirmDialog = showConfirmDialog;
-	}
-
 	@UiAction
 	@UiAttribute( name = HIDDEN, value = "${!this.readOnly}" )
 	public void edit() {
@@ -249,7 +241,9 @@ public class ContactDialog
 			return;
 		}
 
-		getParent().removeWindow( this );
+		if ( getParent() != null ) {
+			getParent().removeWindow( this );
+		}
 		mAddressBook.fireRefresh();
 	}
 

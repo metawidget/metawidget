@@ -57,14 +57,6 @@
 			</array>
 		</widgetProcessors>
 
-		<layout>
-			<tabSheetLayoutDecorator xmlns="java:org.metawidget.vaadin.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
-				<layout>
-					<formLayout />
-				</layout>
-			</tabSheetLayoutDecorator>
-		</layout>
-
 	</vaadinMetawidget>
 
 </metawidget>

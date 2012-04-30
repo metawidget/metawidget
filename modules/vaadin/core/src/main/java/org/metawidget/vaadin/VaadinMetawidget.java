@@ -377,33 +377,6 @@ public class VaadinMetawidget
 	}
 
 	/**
-	 * Overridden to build widgets just-in-time.
-	 * <p>
-	 * This method may be called by developers who wish to modify the created Components before they
-	 * are displayed.
-	 */
-
-	@Override
-	public int getComponentCount() {
-
-		buildWidgets();
-
-		return getComponentCount();
-	}
-
-	/**
-	 * Overridden to build widgets just-in-time.
-	 */
-
-    @Override
-	public Iterator<Component> getComponentIterator() {
-
-		buildWidgets();
-
-		return super.getComponentIterator();
-    }
-
-	/**
 	 * Finds the Component with the given name.
 	 */
 
@@ -459,6 +432,18 @@ public class VaadinMetawidget
 		return mFacets.get( name );
 	}
 
+	/**
+	 * Named after <code>Panel.getContent</code>.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <C extends Component> C getContent() {
+
+		buildWidgets();
+
+		return (C) getCompositionRoot();
+	}
+
 	@Override
 	public void addComponent( Component component ) {
 
@@ -496,21 +481,6 @@ public class VaadinMetawidget
 				mExistingComponents.remove( component );
 			}
 		}
-	}
-
-	@Override
-	public void removeAllComponents() {
-
-		super.removeAllComponents();
-
-		if ( !mIgnoreAddRemove ) {
-			invalidateWidgets();
-
-			mFacets.clear();
-			mExistingComponents.clear();
-		}
-
-		this.mClientProperties.clear();
 	}
 
 	@Override
