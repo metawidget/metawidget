@@ -98,7 +98,12 @@ public class SpringWidgetBuilder
 		String springLookup = attributes.get( SPRING_LOOKUP );
 
 		if ( springLookup != null && !"".equals( springLookup ) ) {
-			return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get(NAME) ), attributes );
+
+		    if (attributes.get(NAME) != null ) {
+		        return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get(NAME) ), attributes );
+		    }
+
+		    return createFormSelectTag( StaticJspUtils.wrapExpression( springLookup ), attributes);
 		}
 
 		// String Lookups
