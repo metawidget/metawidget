@@ -65,7 +65,7 @@ public class AddressBook
 
 	private ContactsController						mContactsController;
 
-	private ComponentContainer						mContent;
+	/* package private */ComponentContainer			mContent;
 
 	//
 	// Constructor
@@ -139,8 +139,8 @@ public class AddressBook
 
 		setTheme( "addressbook" );
 		Window mainWindow = new Window( "Address Book (Metawidget Vaadin Example)" );
-		((Layout) mainWindow.getContent()).setMargin( false );
-		mainWindow.addComponent( getContent() );
+		( (Layout) mainWindow.getContent() ).setMargin( false );
+		mainWindow.addComponent( mContent );
 		setMainWindow( mainWindow );
 	}
 
@@ -148,12 +148,6 @@ public class AddressBook
 	public ContactsController getContactsController() {
 
 		return mContactsController;
-	}
-
-	@UiHidden
-	public ComponentContainer getContent() {
-
-		return mContent;
 	}
 
 	public void fireRefresh() {
@@ -240,7 +234,7 @@ public class AddressBook
 
 			public void itemClick( ItemClickEvent event ) {
 
-				// When table is double clicked...
+				// When table is clicked...
 
 				Contact contact = mModel.getDataRow( event.getItemId() );
 

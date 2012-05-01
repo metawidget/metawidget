@@ -23,24 +23,25 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.Gender;
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -63,7 +64,7 @@ public class VaadinAddressBookTest
 		// Start app
 
 		AddressBook addressBook = new AddressBook();
-		CustomLayout customLayout = (CustomLayout) addressBook.getContent();
+		CustomLayout customLayout = (CustomLayout) addressBook.mContent;
 		assertEquals( customLayout.getTemplateName(), "addressbook" );
 		VerticalLayout contactsMainBody = (VerticalLayout) customLayout.getComponent( "pagebody" );
 		assertEquals( contactsMainBody.getComponentCount(), 2 );
@@ -75,7 +76,7 @@ public class VaadinAddressBookTest
 		VaadinMetawidget metawidgetSearch = (VaadinMetawidget) contactsMainBody.getComponent( 0 );
 
 		( (TextField) metawidgetSearch.getComponent( "surname" ) ).setValue( "Simpson" );
-		( (ComboBox) metawidgetSearch.getComponent( "type" ) ).setValue( ContactType.PERSONAL );
+		( (Select) metawidgetSearch.getComponent( "type" ) ).setValue( ContactType.PERSONAL );
 
 		FormLayout layout = metawidgetSearch.getContent();
 		assertEquals( 4, layout.getComponentCount() );
@@ -88,7 +89,7 @@ public class VaadinAddressBookTest
 		assertEquals( "Add Business Contact", ( (Button) buttonsLayout.getComponent( 2 ) ).getCaption() );
 
 		clickButton( buttonSearch );
-		assertEquals( ContactType.PERSONAL, ( (ComboBox) metawidgetSearch.getComponent( "type" ) ).getValue() );
+		assertEquals( ContactType.PERSONAL, ( (Select) metawidgetSearch.getComponent( "type" ) ).getValue() );
 
 		ContactsController contactsController = addressBook.getContactsController();
 		assertEquals( 2, contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() );
@@ -106,13 +107,11 @@ public class VaadinAddressBookTest
 		assertEquals( "742 Evergreen Terrace", contact.getAddress().getStreet() );
 		assertEquals( 1, contact.getCommunications().size() );
 
-		ContactDialog contactDialog = new ContactDialog( addressBook, contact );
+		ContactDialog contactDialog = addressBook.createContactDialog( contact );
 
 		// Check loading
 
-		Iterator<Component> i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		VaadinMetawidget metawidgetContact = (VaadinMetawidget) i.next();
+		VaadinMetawidget metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Homer", ( (Label) metawidgetContact.getComponent( "firstname" ) ).getValue() );
 		assertEquals( Gender.MALE, ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
 		layout = (FormLayout) metawidgetContact.getContent();
@@ -147,7 +146,7 @@ public class VaadinAddressBookTest
 		assertEquals( "Edit", editButton.getCaption() );
 		clickButton( editButton );
 
-		assertEquals( Gender.MALE, ( (ComboBox) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( Gender.MALE, ( (Select) metawidgetContact.getComponent( "gender" ) ).getValue() );
 		( (TextField) metawidgetContact.getComponent( "surname" ) ).setValue( "Sapien" );
 		layout = (FormLayout) metawidgetContact.getContent();
 		assertEquals( "Contact Details", ( (Label) layout.getComponent( 5 ) ).getValue() );
@@ -167,7 +166,7 @@ public class VaadinAddressBookTest
 		CommunicationDialog communicationDialog = new CommunicationDialog( contactDialog, communication );
 
 		VaadinMetawidget communicationMetawidget = (VaadinMetawidget) ( (VerticalLayout) communicationDialog.getContent() ).getComponent( 0 );
-		assertEquals( "Telephone", ( (ComboBox) communicationMetawidget.getComponent( "type" ) ).getValue() );
+		assertEquals( "Telephone", ( (Select) communicationMetawidget.getComponent( "type" ) ).getValue() );
 		assertEquals( "(939) 555-0113", ( (TextField) communicationMetawidget.getComponent( "value" ) ).getValue() );
 
 		// Check adding a communication
@@ -176,7 +175,7 @@ public class VaadinAddressBookTest
 		communicationDialog = new CommunicationDialog( contactDialog, communication );
 
 		communicationMetawidget = (VaadinMetawidget) ( (VerticalLayout) communicationDialog.getContent() ).getComponent( 0 );
-		( (ComboBox) communicationMetawidget.getComponent( "type" ) ).setValue( "Mobile" );
+		( (Select) communicationMetawidget.getComponent( "type" ) ).setValue( "Mobile" );
 		( (TextField) communicationMetawidget.getComponent( "value" ) ).setValue( "(0402) 123 456" );
 
 		layout = (FormLayout) communicationMetawidget.getContent();
@@ -218,6 +217,8 @@ public class VaadinAddressBookTest
 		assertEquals( "Simpson", contact.getSurname() );
 		clickButton( saveButton );
 
+		assertEquals( "Simpson", contact.getSurname() );
+		contact = contactsController.load( 1 );
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new Date( 57, Calendar.MAY, 12 ), ( (PopupDateField) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
 
@@ -229,10 +230,8 @@ public class VaadinAddressBookTest
 
 		// Check re-viewing
 
-		contactDialog = new ContactDialog( addressBook, contact );
-		i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		metawidgetContact = (VaadinMetawidget) i.next();
+		contactDialog = addressBook.createContactDialog( contact );
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Sapien", ( (Label) metawidgetContact.getComponent( "surname" ) ).getValue() );
 		assertEquals( new Date( 57, Calendar.MAY, 12 ), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
 
@@ -243,7 +242,7 @@ public class VaadinAddressBookTest
 		// Search everything
 
 		( (TextField) metawidgetSearch.getComponent( "surname" ) ).setValue( null );
-		( (ComboBox) metawidgetSearch.getComponent( "type" ) ).setValue( null );
+		( (Select) metawidgetSearch.getComponent( "type" ) ).setValue( null );
 		clickButton( buttonSearch );
 		assertEquals( 6, contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() );
 
@@ -251,10 +250,8 @@ public class VaadinAddressBookTest
 
 		contact = contactsController.load( 5 );
 		assertEquals( "Mr Charles Montgomery Burns", contact.getFullname() );
-		contactDialog = new ContactDialog( addressBook, contact );
-		i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		metawidgetContact = (VaadinMetawidget) i.next();
+		contactDialog = addressBook.createContactDialog( contact );
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		layout = (FormLayout) metawidgetContact.getContent();
 		buttons = (Facet) layout.getComponent( layout.getComponentCount() - 1 );
 		buttonsLayout = ( (VaadinMetawidget) ( (VerticalLayout) buttons.getContent() ).getComponent( 0 ) ).getContent();
@@ -264,9 +261,85 @@ public class VaadinAddressBookTest
 		assertEquals( "Edit", editButton.getCaption() );
 		clickButton( editButton );
 
-		assertEquals( "Charles Montgomery", ((TextField) metawidgetContact.getComponent( "firstname" )).getValue() );
-		assertEquals( Gender.MALE, ( (ComboBox) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "Charles Montgomery", ( (TextField) metawidgetContact.getComponent( "firstname" ) ).getValue() );
+		assertEquals( Gender.MALE, ( (Select) metawidgetContact.getComponent( "gender" ) ).getValue() );
 		assertEquals( "0", ( (TextField) metawidgetContact.getComponent( "numberOfStaff" ) ).getValue() );
+
+		// Check saving
+
+		( (TextField) metawidgetContact.getComponent( "numberOfStaff" ) ).setValue( 2 );
+		( (TextField) metawidgetContact.getComponent( "company" ) ).setValue( "A Company" );
+
+		layout = (FormLayout) metawidgetContact.getContent();
+		assertEquals( 12, layout.getComponentCount() );
+		buttons = (Facet) layout.getComponent( layout.getComponentCount() - 1 );
+		buttonsLayout = ( (VaadinMetawidget) ( (VerticalLayout) buttons.getContent() ).getComponent( 0 ) ).getContent();
+		saveButton = (Button) buttonsLayout.getComponent( 0 );
+		assertEquals( "Save", saveButton.getCaption() );
+		clickButton( saveButton );
+
+		assertEquals( 0, ( (BusinessContact) contact ).getNumberOfStaff() );
+		contact = contactsController.load( 5 );
+		assertEquals( 2, ( (BusinessContact) contact ).getNumberOfStaff() );
+		assertEquals( "A Company", ( (BusinessContact) contact ).getCompany() );
+
+		// Check deleting
+
+		deleteButton = (Button) buttonsLayout.getComponent( 1 );
+		assertEquals( "Delete", deleteButton.getCaption() );
+		Button cancelButton = (Button) buttonsLayout.getComponent( 2 );
+		assertEquals( "Cancel", cancelButton.getCaption() );
+
+		assertEquals( contactsController.getAllByExample( null ).size(), 6 );
+		clickButton( deleteButton );
+		assertEquals( contactsController.getAllByExample( null ).size(), 5 );
+		assertEquals( contactsTable.getContainerDataSource().getItemIds().size(), 5 );
+
+		// Open dialog for new Personal Contact
+
+		contactDialog = addressBook.createContactDialog( new PersonalContact() );
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
+
+		// Check adding
+
+		Select select = metawidgetContact.getComponent( "title" );
+		assertEquals( "Mr", ( (com.vaadin.data.util.IndexedContainer) select.getContainerDataSource() ).getIdByIndex( 0 ) );
+		assertEquals( "", select.getValue() );
+		assertFalse( select.isNullSelectionAllowed() );
+		assertEquals( 5, select.getItemIds().size() );
+		((Select) metawidgetContact.getComponent( "title" )).setValue( "Miss" );
+		((TextField) metawidgetContact.getComponent( "firstname" )).setValue( "Business" );
+		((TextField) metawidgetContact.getComponent( "surname" )).setValue( "Contact" );
+		assertEquals( 2, ((Select) metawidgetContact.getComponent( "gender" )).getItemIds().size() );
+		assertTrue( ((Select) metawidgetContact.getComponent( "gender" )).isNullSelectionAllowed() );
+		assertEquals( null, ((Select) metawidgetContact.getComponent( "gender" )).getValue() );
+		((Select) metawidgetContact.getComponent( "gender" )).setValue( Gender.FEMALE );
+		assertTrue( metawidgetContact.getComponent( "address", "street" ) instanceof TextField );
+
+		layout = (FormLayout) metawidgetContact.getContent();
+		assertEquals( 11, layout.getComponentCount() );
+		buttons = (Facet) layout.getComponent( layout.getComponentCount() - 1 );
+		buttonsLayout = ( (VaadinMetawidget) ( (VerticalLayout) buttons.getContent() ).getComponent( 0 ) ).getContent();
+		saveButton = (Button) buttonsLayout.getComponent( 0 );
+		assertEquals( "Save", saveButton.getCaption() );
+		clickButton( saveButton );
+
+		assertEquals( 2, ( (BusinessContact) contact ).getNumberOfStaff() );
+		assertEquals( "A Company", ( (BusinessContact) contact ).getCompany() );
+		assertEquals( contactsController.getAllByExample( null ).size(), 6 );
+		assertEquals( contactsTable.getContainerDataSource().getItemIds().size(), 6 );
+
+		// Check viewing
+
+		contact = contactsController.load( 7 );
+		assertEquals( "Miss Business Contact", contact.getFullname() );
+		assertEquals( Gender.FEMALE, contact.getGender() );
+		metawidgetContact.setReadOnly( true );
+		assertEquals( Gender.FEMALE, ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "Female", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
+
+		metawidgetContact.setReadOnly( false );
+		assertEquals( Gender.FEMALE, ( (Select) metawidgetContact.getComponent( "gender" ) ).getValue() );
 	}
 
 	//
