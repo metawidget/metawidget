@@ -260,27 +260,20 @@ public class SpringWidgetBuilder
 			selectTag.getChildren().add( emptyOption );
 		}
 
-		// Options tag
+		selectTag.putAttribute("items", expression);
 
-		FormOptionsTag optionsTag = new FormOptionsTag();
-		optionsTag.putAttribute( "items", expression );
+        String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
 
-		String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+        if ( itemValue != null ) {
+            selectTag.putAttribute( "itemValue", itemValue );
+        }
 
-		if ( itemValue != null ) {
-			optionsTag.putAttribute( "itemValue", itemValue );
-		}
+        String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
 
-		String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
-
-		if ( itemLabel != null ) {
-			optionsTag.putAttribute( "itemLabel", itemLabel );
-		}
-
-		// Add the <form:options> tag as a child of <form:select>
-
-		selectTag.getChildren().add( optionsTag );
-
+        if ( itemLabel != null ) {
+            selectTag.putAttribute( "itemLabel", itemLabel );
+        }
+		
 		return selectTag;
 	}
 
