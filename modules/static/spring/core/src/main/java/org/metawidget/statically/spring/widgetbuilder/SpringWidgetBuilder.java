@@ -103,7 +103,7 @@ public class SpringWidgetBuilder
 		        return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get(NAME) ), attributes );
 		    }
 
-		    return createFormSelectTag( StaticJspUtils.wrapExpression( springLookup ), attributes);
+		    return null;
 		}
 
 		// String Lookups
