@@ -283,17 +283,6 @@ public class SpringWidgetBuilder
 
 		FormSelectTag selectTag = new FormSelectTag();
 
-		String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
-		String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
-
-		if ( itemLabel != null ) {
-			selectTag.putAttribute( "itemLabel", itemLabel );
-		}
-
-		if ( itemValue != null ) {
-			selectTag.putAttribute( "itemValue", itemValue );
-		}
-
 		// Check to see if labels are being used.
 
 		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() ) {
