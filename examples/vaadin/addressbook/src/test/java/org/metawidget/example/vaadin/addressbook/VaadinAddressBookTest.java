@@ -36,7 +36,6 @@ import org.metawidget.vaadin.VaadinMetawidget;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -112,9 +111,7 @@ public class VaadinAddressBookTest
 
 		// Check loading
 
-		Iterator<Component> i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		VaadinMetawidget metawidgetContact = (VaadinMetawidget) i.next();
+		VaadinMetawidget metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Homer", ( (Label) metawidgetContact.getComponent( "firstname" ) ).getValue() );
 		assertEquals( Gender.MALE, ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
 		layout = (FormLayout) metawidgetContact.getContent();
@@ -234,9 +231,7 @@ public class VaadinAddressBookTest
 		// Check re-viewing
 
 		contactDialog = addressBook.createContactDialog( contact );
-		i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		metawidgetContact = (VaadinMetawidget) i.next();
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Sapien", ( (Label) metawidgetContact.getComponent( "surname" ) ).getValue() );
 		assertEquals( new Date( 57, Calendar.MAY, 12 ), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
 
@@ -256,9 +251,7 @@ public class VaadinAddressBookTest
 		contact = contactsController.load( 5 );
 		assertEquals( "Mr Charles Montgomery Burns", contact.getFullname() );
 		contactDialog = addressBook.createContactDialog( contact );
-		i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		metawidgetContact = (VaadinMetawidget) i.next();
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		layout = (FormLayout) metawidgetContact.getContent();
 		buttons = (Facet) layout.getComponent( layout.getComponentCount() - 1 );
 		buttonsLayout = ( (VaadinMetawidget) ( (VerticalLayout) buttons.getContent() ).getComponent( 0 ) ).getContent();
@@ -305,9 +298,7 @@ public class VaadinAddressBookTest
 		// Open dialog for new Personal Contact
 
 		contactDialog = addressBook.createContactDialog( new PersonalContact() );
-		i = ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponentIterator();
-		i.next();
-		metawidgetContact = (VaadinMetawidget) i.next();
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 
 		// Check adding
 
