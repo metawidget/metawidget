@@ -133,7 +133,7 @@ public class SwingAddressBookTest
 		assertEquals( "742 Evergreen Terrace", contact.getAddress().getStreet() );
 		assertEquals( contact.getCommunications().size(), 1 );
 
-		ContactDialog dialog = new ContactDialog( addressBook, contact );
+		ContactDialog dialog = addressBook.createContactDialog( contact );
 		dialog.setShowConfirmDialog( false );
 
 		// Check loading
@@ -291,6 +291,8 @@ public class SwingAddressBookTest
 		assertEquals( "Save", buttonSave.getText() );
 		buttonSave.getAction().actionPerformed( null );
 
+		assertEquals( "Simpson", contact.getSurname() );
+		contact = contactsController.load( 1 );
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 		assertEquals( ( (PersonalContact) contact ).getDateOfBirth().getTime(), -398908800000l );
@@ -309,7 +311,7 @@ public class SwingAddressBookTest
 
 		// Check re-viewing
 
-		dialog = new ContactDialog( addressBook, contact );
+		dialog = addressBook.createContactDialog( contact );
 		metawidgetContact = dialog.mContactMetawidget;
 		assertEquals( "Sapien", metawidgetContact.getValue( "surname" ) );
 		assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
@@ -330,7 +332,7 @@ public class SwingAddressBookTest
 
 		contact = contactsController.load( 5 );
 		assertEquals( "Mr Charles Montgomery Burns", contact.getFullname() );
-		dialog = new ContactDialog( addressBook, contact );
+		dialog = addressBook.createContactDialog( contact );
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
@@ -352,6 +354,8 @@ public class SwingAddressBookTest
 		buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		buttonSave.getAction().actionPerformed( null );
 
+		assertEquals( 0, ( (BusinessContact) contact ).getNumberOfStaff() );
+		contact = contactsController.load( 5 );
 		assertEquals( 2, ( (BusinessContact) contact ).getNumberOfStaff() );
 		assertEquals( "A Company", ( (BusinessContact) contact ).getCompany() );
 
@@ -369,7 +373,7 @@ public class SwingAddressBookTest
 
 		// Open dialog for new Personal Contact
 
-		dialog = new ContactDialog( addressBook, new PersonalContact() );
+		dialog = addressBook.createContactDialog( new PersonalContact() );
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 
 		// Check saving doesn't error on null date

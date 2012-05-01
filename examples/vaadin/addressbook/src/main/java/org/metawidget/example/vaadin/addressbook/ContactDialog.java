@@ -254,7 +254,10 @@ public class ContactDialog
 
 		Contact contact = mContactMetawidget.getToInspect();
 
-		getParent().removeWindow( this );
+		if ( getParent() != null) {
+			getParent().removeWindow( this );
+		}
+
 		mAddressBook.getContactsController().delete( contact );
 		mAddressBook.fireRefresh();
 	}

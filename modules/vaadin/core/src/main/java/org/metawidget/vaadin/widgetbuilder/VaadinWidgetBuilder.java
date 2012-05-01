@@ -21,10 +21,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -38,10 +36,10 @@ import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
@@ -49,7 +47,7 @@ import com.vaadin.ui.TextField;
  * WidgetBuilder for Vaadin environments.
  * <p>
  * Creates native Vaadin <code>Components</code>, such as <code>TextField</code> and
- * <code>ComboBox</code> or <code>CheckBox<code>, to suit the inspected fields.
+ * <code>Select</code> or <code>CheckBox<code>, to suit the inspected fields.
  *
  * @author Loghman Barari
  */
@@ -100,7 +98,7 @@ public class VaadinWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			return createComboBoxComponent( attributes, lookup, metawidget );
+			return createSelectComponent( attributes, lookup, metawidget );
 		}
 
 		if ( clazz != null ) {
@@ -339,61 +337,58 @@ public class VaadinWidgetBuilder
 	// Private methods
 	//
 
-	private Component createComboBoxComponent( Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
+	private Component createSelectComponent( Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
 
-		ComboBox comboBox = new ComboBox();
+		Select select = new Select();
 
 		// Add an empty choice (if nullable, and not required)
 
 		if ( !WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			comboBox.setNullSelectionAllowed( false );
+			select.setNullSelectionAllowed( false );
 		}
 
 		List<String> values = CollectionUtils.fromString( lookup );
-		Map<String, String> labelsMap = new Hashtable<String, String>();
 
 		// May have alternate labels
 
+		Map<String, String> labelsMap = null;
 		String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 		if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
 			labelsMap = CollectionUtils.newHashMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
-		} else {
-			for ( String value : values ) {
-				labelsMap.put( value, value );
-			}
-		}
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
 		}
 
 		// Lookup the Class
 
-		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = null;
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-		for ( final Entry<String, String> item : labelsMap.entrySet() ) {
+		if ( type != null ) {
+			clazz = ClassUtils.niceForName( type );
+		}
+
+		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
+
+		for ( String value : values ) {
 
 			Object convertedValue = null;
 
-			if ( bindingConverter != null ) {
-				convertedValue = bindingConverter.convertFromString( item.getKey(), clazz );
+			if ( bindingConverter != null && clazz != null ) {
+				convertedValue = bindingConverter.convertFromString( value, clazz );
 			}
 
-			comboBox.addItem( convertedValue );
-			comboBox.setItemCaption( convertedValue, item.getValue() );
+			select.addItem( convertedValue );
+
+			if ( labelsMap != null ) {
+				select.setItemCaption( convertedValue, labelsMap.get( value ) );
+			}
 		}
 
 		if ( !WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			comboBox.setRequired( true );
+			select.setRequired( true );
 		}
 
-		return comboBox;
+		return select;
 	}
 
 	//
@@ -632,23 +627,12 @@ public class VaadinWidgetBuilder
 		extends com.vaadin.data.validator.StringLengthValidator {
 
 		//
-		// Private members
-		//
-
-		private String	mMaximumLengthErrorMessage;
-
-		private String	mMinimumLengthErrorMessage;
-
-		//
 		// Constructor
 		//
 
 		public StringLengthValidator( int minLength, int maxLength, boolean allowNull ) {
 
 			super( "", minLength, maxLength, allowNull );
-
-			mMaximumLengthErrorMessage = "{1} must not be longer than {0} characters";
-			mMinimumLengthErrorMessage = "{1} must not be shorter than {0} characters";
 		}
 
 		//
@@ -663,12 +647,12 @@ public class VaadinWidgetBuilder
 				String message = "";
 
 				if ( value == null ) {
-					message = MessageFormat.format( mMinimumLengthErrorMessage, getMinLength(), "''" );
+					message = MessageFormat.format( "{1} must not be shorter than {0} characters", getMinLength(), "''" );
 				} else {
 					if ( value.toString().length() < getMinLength() ) {
-						message = MessageFormat.format( mMinimumLengthErrorMessage, getMinLength(), value );
+						message = MessageFormat.format( "{1} must not be shorter than {0} characters", getMinLength(), value );
 					} else if ( value.toString().length() > getMaxLength() ) {
-						message = MessageFormat.format( mMaximumLengthErrorMessage, getMaxLength(), value );
+						message = MessageFormat.format( "{1} must not be longer than {0} characters", getMaxLength(), value );
 					}
 				}
 
