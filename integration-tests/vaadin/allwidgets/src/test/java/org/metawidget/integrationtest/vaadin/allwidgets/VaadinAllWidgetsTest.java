@@ -31,12 +31,12 @@ import com.vaadin.event.ListenerMethod;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
@@ -258,44 +258,44 @@ public class VaadinAllWidgetsTest
 
 		component = layout.getComponent( 21 );
 		assertEquals( "Boolean Object:", component.getCaption() );
-		assertTrue( component instanceof ComboBox );
-		assertEquals( 2, ( (ComboBox) component ).getContainerDataSource().size() );
+		assertTrue( component instanceof Select );
+		assertEquals( 2, ( (Select) component ).getContainerDataSource().size() );
 		assertEquals( Boolean.TRUE, ( (Property) metawidget.getComponent( "booleanObject" ) ).getValue() );
-		( (ComboBox) component ).setValue( Boolean.FALSE );
+		( (Select) component ).setValue( Boolean.FALSE );
 
 		component = layout.getComponent( 22 );
 		assertEquals( "Dropdown:", component.getCaption() );
-		assertTrue( component instanceof ComboBox );
-		assertEquals( 3, ( (ComboBox) component ).getContainerDataSource().size() );
+		assertTrue( component instanceof Select );
+		assertEquals( 3, ( (Select) component ).getContainerDataSource().size() );
 		assertEquals( "dropdown1", ( (Property) metawidget.getComponent( "dropdown" ) ).getValue() );
-		( (ComboBox) component ).setValue( "foo1" );
+		( (Select) component ).setValue( "foo1" );
 
 		component = layout.getComponent( 23 );
 		assertEquals( "Dropdown With Labels:", component.getCaption() );
-		assertTrue( component instanceof ComboBox );
-		ComboBox combo = (ComboBox) component;
+		assertTrue( component instanceof Select );
+		Select combo = (Select) component;
 		assertEquals( 4, combo.getContainerDataSource().size() );
 		assertEquals( "Foo #2", combo.getItemCaption( "foo2" ) );
 		assertEquals( "Dropdown #2", combo.getItemCaption( "dropdown2" ) );
 		assertEquals( "Bar #2", combo.getItemCaption( "bar2" ) );
 		assertEquals( "Baz #2", combo.getItemCaption( "baz2" ) );
 		assertEquals( "dropdown2", ( (Property) metawidget.getComponent( "dropdownWithLabels" ) ).getValue() );
-		( (ComboBox) component ).setValue( "bar2" );
+		( (Select) component ).setValue( "bar2" );
 
 		component = layout.getComponent( 24 );
 		assertEquals( "Not Null Dropdown:", component.getCaption() );
-		assertTrue( component instanceof ComboBox );
-		assertEquals( 3, ( (ComboBox) component ).getContainerDataSource().size() );
+		assertTrue( component instanceof Select );
+		assertEquals( 3, ( (Select) component ).getContainerDataSource().size() );
 		assertEquals( 0, ( (Byte) ( (Property) metawidget.getComponent( "notNullDropdown" ) ).getValue() ).byteValue() );
-		( (ComboBox) component ).setValue( "1" );
+		( (Select) component ).setValue( "1" );
 
 		component = layout.getComponent( 25 );
 		assertEquals( "Not Null Object Dropdown:", component.getCaption() );
-		assertTrue( component instanceof ComboBox );
-		assertTrue( ( (ComboBox) component ).isRequired() );
-		assertEquals( 6, ( (ComboBox) component ).getContainerDataSource().size() );
+		assertTrue( component instanceof Select );
+		assertTrue( ( (Select) component ).isRequired() );
+		assertEquals( 6, ( (Select) component ).getContainerDataSource().size() );
 		assertEquals( "dropdown3", ( (Property) metawidget.getComponent( "notNullObjectDropdown" ) ).getValue() );
-		( (ComboBox) component ).setValue( "foo3" );
+		( (Select) component ).setValue( "foo3" );
 
 		assertEquals( "Nested Widgets:", layout.getComponent( 26 ).getCaption() );
 		assertTrue( layout.getComponent( 26 ) instanceof VaadinMetawidget );
