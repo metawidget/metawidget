@@ -399,7 +399,8 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Limited Textbox1", ( (Label) component ).getValue() );
 		component = layout.getComponent( 2 );
 		assertEquals( "Textarea:", component.getCaption() );
-		assertEquals( "Textarea1", ( (Label) component ).getValue() );
+		assertEquals( "Textarea1", ( (TextArea) component ).getValue() );
+		assertTrue( ( (TextArea) component ).isReadOnly() );
 		component = layout.getComponent( 3 );
 		assertEquals( "Password:", component.getCaption() );
 		component = layout.getComponent( 4 );
