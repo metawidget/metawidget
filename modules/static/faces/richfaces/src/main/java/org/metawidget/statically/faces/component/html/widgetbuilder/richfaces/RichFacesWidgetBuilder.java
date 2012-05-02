@@ -25,7 +25,6 @@ import java.util.Map;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -61,13 +60,9 @@ public class RichFacesWidgetBuilder
 			return null;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		if ( type == null ) {
-			return null;
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
 		if ( clazz == null ) {
 			return null;
@@ -171,7 +166,7 @@ public class RichFacesWidgetBuilder
 
 		// Colors (as of RichFaces 3.3.1)
 
-		if ( Color.class.isAssignableFrom( clazz ) ) {
+		if ( Color.class.equals( clazz ) ) {
 			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
 				return new HtmlOutputText();
 			}

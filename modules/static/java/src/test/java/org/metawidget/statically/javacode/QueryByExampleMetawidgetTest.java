@@ -25,7 +25,6 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.metawidget.statically.StaticWidget;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -102,17 +101,16 @@ public class QueryByExampleMetawidgetTest
 				return new StaticJavaStub();
 			}
 
-			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+			Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
 			// If no type, fail gracefully
 
-			if ( type == null ) {
+			if ( clazz == null ) {
 				return new StaticJavaStub();
 			}
 
 			// Lookup the Class
 
-			Class<?> clazz = ClassUtils.niceForName( type );
 			String name = attributes.get( NAME );
 
 			// Strings

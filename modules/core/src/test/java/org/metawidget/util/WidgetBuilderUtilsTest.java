@@ -19,7 +19,9 @@ package org.metawidget.util;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -40,14 +42,14 @@ public class WidgetBuilderUtilsTest
 		// getType
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertEquals( null, WidgetBuilderUtils.getActualClassOrType( attributes ) );
+		assertEquals( null, WidgetBuilderUtils.getActualClassOrType( attributes, null ) );
 		attributes.put( TYPE, "" );
-		assertEquals( null, WidgetBuilderUtils.getActualClassOrType( attributes ) );
-		attributes.put( TYPE, "foo" );
-		assertEquals( "foo", WidgetBuilderUtils.getActualClassOrType( attributes ) );
+		assertEquals( null, WidgetBuilderUtils.getActualClassOrType( attributes, null ) );
+		attributes.put( TYPE, Set.class.getName() );
+		assertEquals( Set.class, WidgetBuilderUtils.getActualClassOrType( attributes, null ) );
 		attributes.put( ACTUAL_CLASS, "" );
-		assertEquals( "foo", WidgetBuilderUtils.getActualClassOrType( attributes ) );
-		attributes.put( ACTUAL_CLASS, "bar" );
-		assertEquals( "bar", WidgetBuilderUtils.getActualClassOrType( attributes ) );
+		assertEquals( Set.class, WidgetBuilderUtils.getActualClassOrType( attributes, null ) );
+		attributes.put( ACTUAL_CLASS, HashSet.class.getName() );
+		assertEquals( HashSet.class, WidgetBuilderUtils.getActualClassOrType( attributes, null ) );
 	}
 }

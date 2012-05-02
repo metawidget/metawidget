@@ -37,7 +37,6 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -80,17 +79,9 @@ public class StrutsWidgetBuilder
 			return new HtmlStubTag();
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)

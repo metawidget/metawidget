@@ -96,15 +96,9 @@ public class ReadOnlyWidgetBuilder
 			return new HtmlOutput();
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		if ( clazz != null ) {
 			// Primitives
@@ -127,7 +121,7 @@ public class ReadOnlyWidgetBuilder
 
 			// Colors
 
-			if ( Color.class.isAssignableFrom( clazz ) ) {
+			if ( Color.class.equals( clazz ) ) {
 				return new HtmlOutput();
 			}
 

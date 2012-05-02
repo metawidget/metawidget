@@ -36,7 +36,6 @@ import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.statically.jsp.StaticJspMetawidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.layout.SimpleLayout;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
@@ -103,23 +102,16 @@ public class JspWidgetBuilder
 			return select;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the Class
 
-		// If no type, fail gracefully with a text box
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
-		if ( type != null ) {
+		if ( clazz != null ) {
 
-			// Lookup the Class
+			// Support Collections and Arrays (c:forEach can handle either)
 
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz != null ) {
-
-				// Support Collections and Arrays (c:forEach can handle either)
-
-				if ( Collection.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-					return createDataTableComponent( elementName, attributes, metawidget );
-				}
+			if ( Collection.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+				return createDataTableComponent( elementName, attributes, metawidget );
 			}
 		}
 

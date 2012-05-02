@@ -30,7 +30,6 @@ import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.vaadin.Facet;
 import org.metawidget.vaadin.VaadinMetawidget;
 
@@ -43,6 +42,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -108,6 +108,7 @@ public class VaadinAddressBookTest
 		assertEquals( 1, contact.getCommunications().size() );
 
 		ContactDialog contactDialog = addressBook.createContactDialog( contact );
+		assertTrue( !contactDialog.isReadOnly() );
 
 		// Check loading
 
@@ -117,13 +118,8 @@ public class VaadinAddressBookTest
 		layout = (FormLayout) metawidgetContact.getContent();
 		assertEquals( "Contact Details", ( (Label) layout.getComponent( 5 ) ).getValue() );
 		assertEquals( new Date( 56, Calendar.MAY, 12 ), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
-
-		try {
-			metawidgetContact.getComponent( "bad-value" );
-			assertTrue( false );
-		} catch ( MetawidgetException e ) {
-			// Should throw MetawidgetException
-		}
+		assertEquals( null, metawidgetContact.getComponent( "bad-value" ));
+		assertTrue( ( (TextArea) metawidgetContact.getComponent( "notes" ) ).isReadOnly() );
 
 		VerticalLayout communicationsWrapper = metawidgetContact.getComponent( "communications" );
 		Table table = (Table) communicationsWrapper.getComponent( 0 );
@@ -150,6 +146,7 @@ public class VaadinAddressBookTest
 		( (TextField) metawidgetContact.getComponent( "surname" ) ).setValue( "Sapien" );
 		layout = (FormLayout) metawidgetContact.getContent();
 		assertEquals( "Contact Details", ( (Label) layout.getComponent( 5 ) ).getValue() );
+		assertTrue( !( (TextArea) metawidgetContact.getComponent( "notes" ) ).isReadOnly() );
 		assertEquals( layout.getComponentCount(), 11 );
 
 		// Check editing a communication
@@ -298,6 +295,7 @@ public class VaadinAddressBookTest
 		// Open dialog for new Personal Contact
 
 		contactDialog = addressBook.createContactDialog( new PersonalContact() );
+		assertTrue( !contactDialog.isReadOnly() );
 		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 
 		// Check adding

@@ -181,7 +181,6 @@ public class VaadinMetawidget
 
 		mPipeline.setConfig( config );
 		invalidateInspection();
-		buildWidgets();
 	}
 
 	public void setInspector( Inspector inspector ) {
@@ -349,7 +348,6 @@ public class VaadinMetawidget
 
 		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
-		buildWidgets();
 	}
 
 	public int getMaximumInspectionDepth() {
@@ -374,6 +372,24 @@ public class VaadinMetawidget
 	public List<AbstractComponent> fetchExistingUnusedComponents() {
 
 		return mExistingUnusedComponents;
+	}
+
+	//
+	// The following methods all kick off buildWidgets() if necessary
+	//
+
+	@Override
+	public int getComponentCount() {
+
+		buildWidgets();
+		return super.getComponentCount();
+	}
+
+	@Override
+	public Iterator<Component> getComponentIterator() {
+
+		buildWidgets();
+		return super.getComponentIterator();
 	}
 
 	/**
@@ -409,11 +425,6 @@ public class VaadinMetawidget
 			}
 
 			if ( loop == length - 1 ) {
-
-				if ( topComponent == null ) {
-					throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
-				}
-
 				return (T) topComponent;
 			}
 

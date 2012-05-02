@@ -211,15 +211,14 @@ public class ContactDialog
 	// Public methods
 	//
 
-	@Override
 	@UiHidden
-	public boolean isReadOnly() {
+	public boolean isContactReadOnly() {
 
 		return mContactMetawidget.isReadOnly();
 	}
 
 	@UiAction
-	@UiAttribute( name = HIDDEN, value = "${!this.readOnly}" )
+	@UiAttribute( name = HIDDEN, value = "${!this.contactReadOnly}" )
 	public void edit() {
 
 		mContactMetawidget.setReadOnly( false );
@@ -229,7 +228,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiAttribute( name = HIDDEN, value = "${this.readOnly}" )
+	@UiAttribute( name = HIDDEN, value = "${this.contactReadOnly}" )
 	public void save() {
 
 		try {
@@ -249,7 +248,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( "save" )
-	@UiAttribute( name = HIDDEN, value = "${this.readOnly || this.newContact}" )
+	@UiAttribute( name = HIDDEN, value = "${this.contactReadOnly || this.newContact}" )
 	public void delete() {
 
 		Contact contact = mContactMetawidget.getToInspect();
@@ -264,7 +263,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiAttribute( name = LABEL, value = "${if ( this.readOnly ) 'Back'}" )
+	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'Back'}" )
 	public void cancel() {
 
 		getParent().removeWindow( this );

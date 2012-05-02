@@ -62,7 +62,7 @@ public class ReflectionBindingProcessor
 		}
 
 		if ( !( component instanceof Button ) ) {
-			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to AbstractButtons" );
+			throw WidgetProcessorException.newException( "ReflectionBindingProcessor only supports binding actions to Buttons" );
 		}
 
 		if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {

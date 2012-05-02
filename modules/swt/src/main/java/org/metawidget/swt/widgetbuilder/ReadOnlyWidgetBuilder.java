@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Text;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtValuePropertyProvider;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -98,17 +97,9 @@ public class ReadOnlyWidgetBuilder
 			return new Label( metawidget.getCurrentLayoutComposite(), SWT.NONE );
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		if ( clazz != null ) {
 			// Primitives

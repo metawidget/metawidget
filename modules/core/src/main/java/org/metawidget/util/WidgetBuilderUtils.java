@@ -70,24 +70,31 @@ public final class WidgetBuilderUtils {
 	/**
 	 * Looks up the TYPE attribute, but first checks the ACTUAL_CLASS attribute.
 	 *
-	 * @return ACTUAL_CLASS of, if none, TYPE or, if none, null. Never an empty String.
+	 * @param defaultClass
+	 *            class to default to if both ACTUAL_CLASS and TYPE are null
+	 * @return ACTUAL_CLASS or, if none, TYPE or, if none, defaultClass. If class is found but
+	 *         cannot be instantiated, returns null
 	 */
 
-	public static String getActualClassOrType( Map<String, String> attributes ) {
+	public static Class<?> getActualClassOrType( Map<String, String> attributes, Class<?> defaultClass ) {
+
+		return getActualClassOrType( attributes, defaultClass, null );
+	}
+
+	public static Class<?> getActualClassOrType( Map<String, String> attributes, Class<?> defaultClass, ClassLoader classLoader ) {
 
 		String type = attributes.get( ACTUAL_CLASS );
 
-		if ( type != null && !"".equals( type ) ) {
-			return type;
+		if ( type == null || "".equals( type ) ) {
+
+			type = attributes.get( TYPE );
+
+			if ( type == null || "".equals( type ) ) {
+				return defaultClass;
+			}
 		}
 
-		type = attributes.get( TYPE );
-
-		if ( "".equals( type ) ) {
-			return null;
-		}
-
-		return type;
+		return ClassUtils.niceForName( type, classLoader );
 	}
 
 	/**
@@ -102,13 +109,7 @@ public final class WidgetBuilderUtils {
 			return parameterizedType;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		if ( type == null ) {
-			return null;
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
 		if ( clazz == null ) {
 			return null;
@@ -135,7 +136,7 @@ public final class WidgetBuilderUtils {
 			return false;
 		}
 
-		String type = getActualClassOrType( attributes );
+		Class<?> clazz = getActualClassOrType( attributes, null );
 
 		// Type can be null if this lookup was specified by a metawidget-metadata.xml
 		// and the type was omitted from the XML. In that case, assume nullable
@@ -143,12 +144,8 @@ public final class WidgetBuilderUtils {
 		// Note: there's an extra caveat for Groovy dynamic types: if we can't load
 		// the class, assume it is non-primitive and therefore add a null choice
 
-		if ( type != null ) {
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz != null && clazz.isPrimitive() ) {
-				return false;
-			}
+		if ( clazz != null && clazz.isPrimitive() ) {
+			return false;
 		}
 
 		return true;
