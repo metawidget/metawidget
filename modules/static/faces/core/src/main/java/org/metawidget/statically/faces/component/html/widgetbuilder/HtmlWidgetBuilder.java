@@ -30,7 +30,6 @@ import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 import org.metawidget.statically.layout.SimpleLayout;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
@@ -101,7 +100,9 @@ public class HtmlWidgetBuilder
 			return select;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
+
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Lookups
 
@@ -113,16 +114,6 @@ public class HtmlWidgetBuilder
 
 			return select;
 		}
-
-		// If no type, fail gracefully with a text box
-
-		if ( type == null ) {
-			return createHtmlInputText( attributes );
-		}
-
-		// Lookup the Class
-
-		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)

@@ -59,7 +59,6 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
 import org.metawidget.faces.component.widgetprocessor.StandardBindingProcessor;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
@@ -170,15 +169,9 @@ public class HtmlWidgetBuilder
 			return component;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Faces Lookups
 

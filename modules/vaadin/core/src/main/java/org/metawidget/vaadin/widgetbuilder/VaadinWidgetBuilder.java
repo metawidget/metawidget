@@ -73,17 +73,9 @@ public class VaadinWidgetBuilder
 			return new Button();
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even
 		// though they have a Lookup)
@@ -360,18 +352,12 @@ public class VaadinWidgetBuilder
 
 		// Lookup the Class
 
-		Class<?> clazz = null;
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		if ( type != null ) {
-			clazz = ClassUtils.niceForName( type );
-		}
-
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
 
 		for ( String value : values ) {
 
-			Object convertedValue = null;
+			Object convertedValue = value;
 
 			if ( bindingConverter != null && clazz != null ) {
 				convertedValue = bindingConverter.convertFromString( value, clazz );

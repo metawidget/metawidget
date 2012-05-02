@@ -25,7 +25,6 @@ import java.util.Map;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.AndroidValueAccessor;
 import org.metawidget.android.widget.Stub;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -125,17 +124,9 @@ public class ReadOnlyWidgetBuilder
 			return new TextView( metawidget.getContext() );
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		if ( clazz != null ) {
 			if ( clazz.isPrimitive() ) {

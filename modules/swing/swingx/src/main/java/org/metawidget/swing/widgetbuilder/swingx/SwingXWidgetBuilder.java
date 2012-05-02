@@ -28,7 +28,6 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -69,13 +68,11 @@ public class SwingXWidgetBuilder
 			return new Stub();
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
-		if ( type == null ) {
+		if ( clazz == null ) {
 			return null;
 		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// Dates
 

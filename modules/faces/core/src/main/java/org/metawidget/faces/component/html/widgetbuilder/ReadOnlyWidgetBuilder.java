@@ -127,15 +127,9 @@ public class ReadOnlyWidgetBuilder
 			return application.createComponent( HtmlOutputText.COMPONENT_TYPE );
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		if ( clazz != null ) {
 			// Primitives

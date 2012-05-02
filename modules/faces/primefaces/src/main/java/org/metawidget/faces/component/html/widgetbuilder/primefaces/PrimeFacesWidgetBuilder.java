@@ -36,7 +36,6 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.colorpicker.ColorPicker;
@@ -93,57 +92,23 @@ public class PrimeFacesWidgetBuilder
 			return button;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		if ( type == null ) {
-			return null;
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
 		// Faces Lookups
 
-		String facesLookup = attributes.get( FACES_LOOKUP );
+		boolean readOnly = WidgetBuilderUtils.isReadOnly( attributes );
 
-		if ( facesLookup != null && !"".equals( facesLookup ) ) {
-			UIComponent component;
+		if ( !readOnly ) {
+			String facesLookup = attributes.get( FACES_LOOKUP );
 
-			// UISelectMany...
-
-			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
-				component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
-			}
-
-			// ...otherwise just a UISelectOne
-
-			else {
-				component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
-			}
-
-			initFacesSelect( component, facesLookup, attributes, metawidget );
-			return component;
-		}
-
-		// clazz may be null, if type is symbolic (eg. type="Login Screen")
-
-		if ( clazz != null ) {
-
-			// Not for PrimeFaces
-
-			if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-				return null;
-			}
-
-			// String Lookups
-
-			String lookup = attributes.get( LOOKUP );
-
-			if ( lookup != null && !"".equals( lookup ) ) {
+			if ( facesLookup != null && !"".equals( facesLookup ) ) {
 				UIComponent component;
 
 				// UISelectMany...
 
-				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
 					component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
 				}
 
@@ -153,122 +118,156 @@ public class PrimeFacesWidgetBuilder
 					component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
 				}
 
-				initStaticSelect( component, lookup, clazz, attributes, metawidget );
+				initFacesSelect( component, facesLookup, attributes, metawidget );
 				return component;
 			}
 
-			// Other types
+			// clazz may be null, if type is symbolic (eg. type="Login Screen")
 
-			if ( clazz.isPrimitive() ) {
+			if ( clazz != null ) {
 
 				// Not for PrimeFaces
 
-				if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) ) {
+				if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
 					return null;
 				}
 
-				// Ranged
+				// String Lookups
 
-				UIComponent ranged = createRanged( attributes );
+				String lookup = attributes.get( LOOKUP );
 
-				if ( ranged != null ) {
-					return ranged;
+				if ( lookup != null && !"".equals( lookup ) ) {
+					UIComponent component;
+
+					// UISelectMany...
+
+					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+						component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
+					}
+
+					// ...otherwise just a UISelectOne
+
+					else {
+						component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
+					}
+
+					initStaticSelect( component, lookup, clazz, attributes, metawidget );
+					return component;
 				}
 
-				// Not-ranged
+				// Other types
 
-				Spinner spinner = FacesUtils.createComponent( Spinner.COMPONENT_TYPE, "org.primefaces.component.SpinnerRenderer" );
+				if ( clazz.isPrimitive() ) {
 
-				// May be ranged in one dimension only
+					// Not for PrimeFaces
 
-				String minimumValue = attributes.get( MINIMUM_VALUE );
+					if ( boolean.class.equals( clazz ) || char.class.equals( clazz ) ) {
+						return null;
+					}
 
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					spinner.setMin( Double.parseDouble( minimumValue ) );
-				} else if ( byte.class.equals( clazz ) ) {
-					spinner.setMin( Byte.MIN_VALUE );
-				} else if ( short.class.equals( clazz ) ) {
-					spinner.setMin( Short.MIN_VALUE );
-				} else if ( int.class.equals( clazz ) ) {
-					spinner.setMin( Integer.MIN_VALUE );
-				} else if ( long.class.equals( clazz ) ) {
-					spinner.setMin( Long.MIN_VALUE );
-				} else if ( float.class.equals( clazz ) ) {
-					spinner.setMin( -Float.MAX_VALUE );
-				} else if ( double.class.equals( clazz ) ) {
-					spinner.setMin( -Double.MAX_VALUE );
+					// Ranged
+
+					UIComponent ranged = createRanged( attributes );
+
+					if ( ranged != null ) {
+						return ranged;
+					}
+
+					// Not-ranged
+
+					Spinner spinner = FacesUtils.createComponent( Spinner.COMPONENT_TYPE, "org.primefaces.component.SpinnerRenderer" );
+
+					// May be ranged in one dimension only
+
+					String minimumValue = attributes.get( MINIMUM_VALUE );
+
+					if ( minimumValue != null && !"".equals( minimumValue ) ) {
+						spinner.setMin( Double.parseDouble( minimumValue ) );
+					} else if ( byte.class.equals( clazz ) ) {
+						spinner.setMin( Byte.MIN_VALUE );
+					} else if ( short.class.equals( clazz ) ) {
+						spinner.setMin( Short.MIN_VALUE );
+					} else if ( int.class.equals( clazz ) ) {
+						spinner.setMin( Integer.MIN_VALUE );
+					} else if ( long.class.equals( clazz ) ) {
+						spinner.setMin( Long.MIN_VALUE );
+					} else if ( float.class.equals( clazz ) ) {
+						spinner.setMin( -Float.MAX_VALUE );
+					} else if ( double.class.equals( clazz ) ) {
+						spinner.setMin( -Double.MAX_VALUE );
+					}
+
+					String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+					if ( maximumValue != null && !"".equals( maximumValue ) ) {
+						spinner.setMax( Double.parseDouble( maximumValue ) );
+					} else if ( byte.class.equals( clazz ) ) {
+						spinner.setMax( Byte.MAX_VALUE );
+					} else if ( short.class.equals( clazz ) ) {
+						spinner.setMax( Short.MAX_VALUE );
+					} else if ( int.class.equals( clazz ) ) {
+						spinner.setMax( Integer.MAX_VALUE );
+					} else if ( long.class.equals( clazz ) ) {
+						spinner.setMax( Long.MAX_VALUE );
+					} else if ( float.class.equals( clazz ) ) {
+						spinner.setMax( Float.MAX_VALUE );
+					} else if ( double.class.equals( clazz ) ) {
+						spinner.setMax( Double.MAX_VALUE );
+					}
+
+					if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
+						spinner.setStepFactor( 0.1 );
+					}
+
+					return spinner;
 				}
 
-				String maximumValue = attributes.get( MAXIMUM_VALUE );
+				// Dates
 
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					spinner.setMax( Double.parseDouble( maximumValue ) );
-				} else if ( byte.class.equals( clazz ) ) {
-					spinner.setMax( Byte.MAX_VALUE );
-				} else if ( short.class.equals( clazz ) ) {
-					spinner.setMax( Short.MAX_VALUE );
-				} else if ( int.class.equals( clazz ) ) {
-					spinner.setMax( Integer.MAX_VALUE );
-				} else if ( long.class.equals( clazz ) ) {
-					spinner.setMax( Long.MAX_VALUE );
-				} else if ( float.class.equals( clazz ) ) {
-					spinner.setMax( Float.MAX_VALUE );
-				} else if ( double.class.equals( clazz ) ) {
-					spinner.setMax( Double.MAX_VALUE );
+				if ( Date.class.isAssignableFrom( clazz ) ) {
+					Calendar calendar = FacesUtils.createComponent( Calendar.COMPONENT_TYPE, "org.primefaces.component.CalendarRenderer" );
+
+					if ( attributes.containsKey( DATETIME_PATTERN ) ) {
+						calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
+					}
+
+					if ( attributes.containsKey( LOCALE ) ) {
+						calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
+					}
+
+					if ( attributes.containsKey( TIME_ZONE ) ) {
+						calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
+					}
+
+					return calendar;
 				}
 
-				if ( float.class.equals( clazz ) || double.class.equals( clazz ) ) {
-					spinner.setStepFactor( 0.1 );
-				}
+				// Object primitives
 
-				return spinner;
+				if ( Number.class.isAssignableFrom( clazz ) ) {
+					// Ranged
+
+					UIComponent ranged = createRanged( attributes );
+
+					if ( ranged != null ) {
+						return ranged;
+					}
+
+					// Not-ranged
+					//
+					// Do not use Spinner for nullable numbers
+				}
+			}
+		}
+
+		// Colors
+
+		if ( Color.class.equals( clazz ) ) {
+			if ( readOnly ) {
+				return FacesContext.getCurrentInstance().getApplication().createComponent( HtmlOutputText.COMPONENT_TYPE );
 			}
 
-			// Dates
-
-			if ( Date.class.isAssignableFrom( clazz ) ) {
-				Calendar calendar = FacesUtils.createComponent( Calendar.COMPONENT_TYPE, "org.primefaces.component.CalendarRenderer" );
-
-				if ( attributes.containsKey( DATETIME_PATTERN ) ) {
-					calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
-				}
-
-				if ( attributes.containsKey( LOCALE ) ) {
-					calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
-				}
-
-				if ( attributes.containsKey( TIME_ZONE ) ) {
-					calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
-				}
-
-				return calendar;
-			}
-
-			// Object primitives
-
-			if ( Number.class.isAssignableFrom( clazz ) ) {
-				// Ranged
-
-				UIComponent ranged = createRanged( attributes );
-
-				if ( ranged != null ) {
-					return ranged;
-				}
-
-				// Not-ranged
-				//
-				// Do not use Spinner for nullable numbers
-			}
-
-			// Colors
-
-			if ( Color.class.isAssignableFrom( clazz ) ) {
-				if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
-					return FacesContext.getCurrentInstance().getApplication().createComponent( HtmlOutputText.COMPONENT_TYPE );
-				}
-
-				return FacesUtils.createComponent( ColorPicker.COMPONENT_TYPE, "org.primefaces.component.ColorPickerRenderer" );
-			}
+			return FacesUtils.createComponent( ColorPicker.COMPONENT_TYPE, "org.primefaces.component.ColorPickerRenderer" );
 		}
 
 		// Not for PrimeFaces

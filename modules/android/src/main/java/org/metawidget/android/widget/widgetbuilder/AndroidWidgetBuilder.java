@@ -27,7 +27,6 @@ import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.AndroidValueAccessor;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -163,17 +162,9 @@ public class AndroidWidgetBuilder
 			return new Stub( metawidget.getContext() );
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type, getClass().getClassLoader() );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class, getClass().getClassLoader() );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
