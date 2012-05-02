@@ -83,7 +83,7 @@ public class SpringWidgetBuilderTest
 		assertNull( widget );
 		attributes.put( NAME, "${bar}" );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<form:select items=\"${bar}\"><form:option value=\"\"/></form:select>", widget.toString() );
+		assertEquals( "<form:select><form:option value=\"\"/><form:option items=\"${bar}\"/></form:select>", widget.toString() );
 
 		// With 'required'
 
