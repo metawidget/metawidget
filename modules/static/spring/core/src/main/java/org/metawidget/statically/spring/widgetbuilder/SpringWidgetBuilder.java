@@ -249,31 +249,49 @@ public class SpringWidgetBuilder
 
 		FormSelectTag selectTag = new FormSelectTag();
 
-		// Empty option
-
-		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			FormOptionTag emptyOption = new FormOptionTag();
-			emptyOption.putAttribute( "value", "" );
-
-			// Add the empty option to the SELECT tag
-
-			selectTag.getChildren().add( emptyOption );
-		}
-
-		selectTag.putAttribute("items", expression);
-
         String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
-
-        if ( itemValue != null ) {
-            selectTag.putAttribute( "itemValue", itemValue );
-        }
-
         String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
 
-        if ( itemLabel != null ) {
-            selectTag.putAttribute( "itemLabel", itemLabel );
+        // Empty option
+
+        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+            FormOptionTag emptyOption = new FormOptionTag();
+            emptyOption.putAttribute( "value", "" );
+
+            // Add the empty option to the SELECT tag
+
+            selectTag.getChildren().add( emptyOption );
+
+            FormOptionsTag optionsTag = new FormOptionsTag();
+
+            optionsTag.putAttribute( "items", StaticJspUtils.wrapExpression( attributes.get(NAME) ) );
+
+            if ( itemValue != null )
+            {
+                optionsTag.putAttribute( "itemValue", itemValue );
+            }
+
+            if ( itemLabel != null )
+            {
+                optionsTag.putAttribute( "itemLabel", itemLabel );
+            }
+
+            selectTag.getChildren().add( optionsTag );
         }
-		
+        else {
+            selectTag.putAttribute( "items", StaticJspUtils.wrapExpression(expression) );
+
+            if ( itemValue != null )
+            {
+                selectTag.putAttribute( "itemValue", itemValue );
+            }
+
+            if ( itemLabel != null )
+            {
+                selectTag.putAttribute( "itemLabel", itemLabel );
+            }
+        }
+
 		return selectTag;
 	}
 
