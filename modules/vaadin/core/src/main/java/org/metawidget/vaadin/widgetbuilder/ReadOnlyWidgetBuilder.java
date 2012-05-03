@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.vaadin.VaadinMetawidget;
@@ -31,6 +30,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
 
 /**
  * WidgetBuilder for Vaadin environments.
@@ -91,17 +91,10 @@ public class ReadOnlyWidgetBuilder
 			return new Label();
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
+
 		if ( clazz != null ) {
 			// Primitives
 
@@ -111,7 +104,10 @@ public class ReadOnlyWidgetBuilder
 
 			if ( String.class.equals( clazz ) ) {
 				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-					return new Label();
+					TextArea textarea = new TextArea();
+					textarea.setReadOnly( true );
+
+					return textarea;
 				}
 
 				return new Label();

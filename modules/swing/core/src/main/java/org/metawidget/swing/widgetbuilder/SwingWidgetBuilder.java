@@ -45,7 +45,6 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -105,17 +104,7 @@ public class SwingWidgetBuilder
 			return new JButton( metawidget.getLabelString( attributes ) );
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
-		// Lookup the Class
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)

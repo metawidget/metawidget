@@ -29,7 +29,6 @@ import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetprocessor.IdProcessor;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
@@ -84,18 +83,9 @@ public class HtmlWidgetBuilder
 			return new StaticXmlStub();
 		}
 
-		// Lookup the Class
+		// Lookup the class
 
-		Class<?> clazz;
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null ) {
-			clazz = String.class;
-		} else {
-			clazz = ClassUtils.niceForName( type );
-		}
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Support mandatory Booleans.
 

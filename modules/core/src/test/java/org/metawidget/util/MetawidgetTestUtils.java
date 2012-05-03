@@ -164,11 +164,11 @@ public final class MetawidgetTestUtils {
 
 				if ( int.class.isAssignableFrom( propertyType ) ) {
 					toSet = 42;
-				} else if ( Font.class.isAssignableFrom( propertyType ) ) {
+				} else if ( Font.class.equals( propertyType ) ) {
 					toSet = new JPanel().getFont();
-				} else if ( Color.class.isAssignableFrom( propertyType ) ) {
+				} else if ( Color.class.equals( propertyType ) ) {
 					toSet = Color.blue;
-				} else if ( String.class.isAssignableFrom( propertyType ) ) {
+				} else if ( String.class.equals( propertyType ) ) {
 					toSet = "foo";
 				} else if ( boolean.class.equals( propertyType ) ) {
 					// (toggle from the default)

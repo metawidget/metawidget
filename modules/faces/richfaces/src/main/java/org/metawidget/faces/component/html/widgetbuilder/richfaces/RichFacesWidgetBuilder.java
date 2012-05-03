@@ -55,7 +55,7 @@ import org.richfaces.component.html.HtmlSuggestionBox;
  * <p>
  * Creates native RichFaces UIComponents, such as <code>HtmlCalendar</code> and
  * <code>HtmlInputNumberSlider</code>, to suit the inspected fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -98,13 +98,9 @@ public class RichFacesWidgetBuilder
 			return null;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		if ( type == null ) {
-			return null;
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
 		if ( clazz == null ) {
 			return null;
@@ -276,17 +272,15 @@ public class RichFacesWidgetBuilder
 
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
-			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+			Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
-			if ( type == null ) {
+			if ( clazz == null ) {
 				return null;
 			}
 
-			Class<?> clazz = ClassUtils.niceForName( type );
-
 			// Colors (as of RichFaces 3.3.1)
 
-			if ( Color.class.isAssignableFrom( clazz ) ) {
+			if ( Color.class.equals( clazz ) ) {
 				if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
 					return FacesContext.getCurrentInstance().getApplication().createComponent( HtmlOutputText.COMPONENT_TYPE );
 				}

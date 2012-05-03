@@ -88,31 +88,16 @@ public class VaadinAllWidgetsTest
 
 		// Test missing components
 
+		assertEquals( null, metawidget.getComponent( "no-such-component" ) );
+		assertEquals( null, metawidget.getComponent( "textbox", "no-such-component" ));
+
 		try {
-			assertEquals( null, metawidget.getComponent( "no-such-component" ) );
+			metawidget.getComponent( "textbox", "no-such-component1", "no-such-component2" );
 			fail();
 
-		} catch ( MetawidgetException e1 ) {
+		} catch ( MetawidgetException e3 ) {
 
-			assertEquals( "No component named 'no-such-component'", e1.getMessage() );
-
-			try {
-				metawidget.getComponent( "textbox", "no-such-component" );
-				fail();
-
-			} catch ( MetawidgetException e2 ) {
-
-				assertEquals( "No component named 'textbox', 'no-such-component'", e2.getMessage() );
-
-				try {
-					metawidget.getComponent( "textbox", "no-such-component1", "no-such-component2" );
-					fail();
-
-				} catch ( MetawidgetException e3 ) {
-
-					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
-				}
-			}
+			assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 		}
 
 		// Check what created, and edit it
@@ -414,7 +399,8 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Limited Textbox1", ( (Label) component ).getValue() );
 		component = layout.getComponent( 2 );
 		assertEquals( "Textarea:", component.getCaption() );
-		assertEquals( "Textarea1", ( (Label) component ).getValue() );
+		assertEquals( "Textarea1", ( (TextArea) component ).getValue() );
+		assertTrue( ( (TextArea) component ).isReadOnly() );
 		component = layout.getComponent( 3 );
 		assertEquals( "Password:", component.getCaption() );
 		component = layout.getComponent( 4 );

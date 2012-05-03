@@ -28,7 +28,6 @@ import javax.faces.context.FacesContext;
 import org.apache.myfaces.custom.fileupload.HtmlInputFileUpload;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -61,13 +60,7 @@ public class TomahawkWidgetBuilder
 		}
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		if ( type == null ) {
-			return null;
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
 		if ( clazz == null ) {
 			return null;

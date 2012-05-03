@@ -30,7 +30,6 @@ import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.jsp.tagext.html.widgetprocessor.HiddenFieldProcessor;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -71,17 +70,9 @@ public class HtmlWidgetBuilder
 			return createSubmitTag( attributes, metawidget );
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		// If no type, fail gracefully with a text box
-
-		if ( type == null ) {
-			return createTextTag( attributes, metawidget );
-		}
-
-		// Lookup the Class
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
@@ -207,9 +198,9 @@ public class HtmlWidgetBuilder
 
 		// Maxlength
 
-		String actualType = WidgetBuilderUtils.getActualClassOrType( attributes );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
-		if ( "char".equals( actualType ) || Character.class.getName().equals( actualType )) {
+		if ( char.class.equals( clazz ) || Character.class.equals( clazz )) {
 			builder.append( " maxlength=\"1\"" );
 		} else {
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );

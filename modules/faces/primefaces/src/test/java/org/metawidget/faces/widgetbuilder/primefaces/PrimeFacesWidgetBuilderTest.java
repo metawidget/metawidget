@@ -77,7 +77,7 @@ public class PrimeFacesWidgetBuilderTest
 		attributes.put( LOOKUP, TRUE );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( LOOKUP );
-		attributes.put( FACES_LOOKUP, TRUE );
+		attributes.put( FACES_LOOKUP, "#{true}" );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );

@@ -29,7 +29,6 @@ import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 
 import com.icesoft.faces.component.ext.HtmlCommandButton;
@@ -128,15 +127,9 @@ public class IceFacesWidgetBuilder
 			return button;
 		}
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		// Lookup the class
 
-		// If no type, assume a String
-
-		if ( type == null ) {
-			type = String.class.getName();
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Faces Lookups
 

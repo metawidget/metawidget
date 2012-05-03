@@ -15,7 +15,7 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
 			<version>${project.version}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin</artifactId>
@@ -29,7 +29,13 @@
 			<artifactId>metawidget-core</artifactId>
 			<type>test-jar</type>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-annotation</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 </project>
