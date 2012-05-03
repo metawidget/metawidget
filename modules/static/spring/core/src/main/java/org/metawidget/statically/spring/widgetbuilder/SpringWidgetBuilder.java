@@ -28,8 +28,10 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.jsp.StaticJspMetawidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -76,7 +78,9 @@ public class SpringWidgetBuilder
 
 		// Lookup the Class
 
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+		Class<?> clazz = ClassUtils.niceForName(type);
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
@@ -90,7 +94,12 @@ public class SpringWidgetBuilder
 		String springLookup = attributes.get( SPRING_LOOKUP );
 
 		if ( springLookup != null && !"".equals( springLookup ) ) {
-			return createFormSelectTag( springLookup, attributes );
+
+		    if (attributes.get(NAME) != null ) {
+		        return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get(NAME) ), attributes );
+		    }
+
+		    return null;
 		}
 
 		// String Lookups
@@ -236,37 +245,56 @@ public class SpringWidgetBuilder
 
 		FormSelectTag selectTag = new FormSelectTag();
 
-		// Empty option
+        String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+        String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
 
-		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-			FormOptionTag emptyOption = new FormOptionTag();
-			emptyOption.putAttribute( "value", "" );
+        // Empty option
 
-			// Add the empty option to the SELECT tag
+        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+            FormOptionTag emptyOption = new FormOptionTag();
+            emptyOption.putAttribute( "value", "" );
 
-			selectTag.getChildren().add( emptyOption );
-		}
+            // Add the empty option to the SELECT tag
 
-		// Options tag
+            selectTag.getChildren().add( emptyOption );
 
-		FormOptionsTag optionsTag = new FormOptionsTag();
-		optionsTag.putAttribute( "items", expression );
+            FormOptionsTag optionsTag = new FormOptionsTag();
 
-		String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+            /*
+             * The 'items' attribute of <form:select> or <form:options> is expected to be a JSP
+             * EL expression.  Thus, Metawidget populates the generated dropdown with whatever
+             * object is added with a key equal to the name attribute.  Such objects can be
+             * added in Spring using the org.springframework.ui.Model interface or the 
+             * Spring MVC @ModelAttribute annotation.
+             */
 
-		if ( itemValue != null ) {
-			optionsTag.putAttribute( "itemValue", itemValue );
-		}
+            optionsTag.putAttribute( "items", StaticJspUtils.wrapExpression( attributes.get(NAME) ) );
 
-		String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+            if ( itemValue != null )
+            {
+                optionsTag.putAttribute( "itemValue", itemValue );
+            }
 
-		if ( itemLabel != null ) {
-			optionsTag.putAttribute( "itemLabel", itemLabel );
-		}
+            if ( itemLabel != null )
+            {
+                optionsTag.putAttribute( "itemLabel", itemLabel );
+            }
 
-		// Add the <form:options> tag as a child of <form:select>
+            selectTag.getChildren().add( optionsTag );
+        }
+        else {
+            selectTag.putAttribute( "items", StaticJspUtils.wrapExpression(expression) );
 
-		selectTag.getChildren().add( optionsTag );
+            if ( itemValue != null )
+            {
+                selectTag.putAttribute( "itemValue", itemValue );
+            }
+
+            if ( itemLabel != null )
+            {
+                selectTag.putAttribute( "itemLabel", itemLabel );
+            }
+        }
 
 		return selectTag;
 	}
@@ -276,17 +304,6 @@ public class SpringWidgetBuilder
 		// Write the SELECT tag.
 
 		FormSelectTag selectTag = new FormSelectTag();
-
-		String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
-		String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
-
-		if ( itemLabel != null ) {
-			selectTag.putAttribute( "itemLabel", itemLabel );
-		}
-
-		if ( itemValue != null ) {
-			selectTag.putAttribute( "itemValue", itemValue );
-		}
 
 		// Check to see if labels are being used.
 

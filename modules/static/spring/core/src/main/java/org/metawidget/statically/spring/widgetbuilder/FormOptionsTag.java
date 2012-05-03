@@ -23,14 +23,12 @@ package org.metawidget.statically.spring.widgetbuilder;
  */
 
 public class FormOptionsTag extends SpringTag {
-    
+
     //
     // Constructor
     //
-    
+
     public FormOptionsTag() {
-        
         super("options");
     }
-
 }
