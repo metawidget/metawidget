@@ -140,7 +140,7 @@ public class VaadinAllWidgetsTest
 		assertTrue( component instanceof TextField );
 		assertEquals( 1, ( (TextField) component ).getValidators().size() );
 		assertEquals( String.valueOf( Byte.MAX_VALUE ), ( (Property) metawidget.getComponent( "bytePrimitive" ) ).getValue() );
-		( (TextField) component ).setValue( String.valueOf( Byte.MAX_VALUE - 1 ) );
+		( (TextField) component ).setValue( (byte) ( Byte.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 5 );
 		assertEquals( "Byte Object:", component.getCaption() );
@@ -154,7 +154,7 @@ public class VaadinAllWidgetsTest
 		assertTrue( component instanceof TextField );
 		assertEquals( String.valueOf( Short.MAX_VALUE ), ( (Property) metawidget.getComponent( "shortPrimitive" ) ).getValue() );
 		assertEquals( 1, ( (TextField) component ).getValidators().size() );
-		( (TextField) component ).setValue( String.valueOf( Short.MAX_VALUE - 1 ) );
+		( (TextField) component ).setValue( (short) ( Short.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 7 );
 		assertEquals( "Short Object:", component.getCaption() );
