@@ -107,28 +107,28 @@ public class AndroidMetawidgetTest
 
 		try {
 			androidMetawidget.getValue();
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "No names specified", e.getMessage() );
 		}
 
 		try {
 			androidMetawidget.getValue( "foo" );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "No View with tag foo", e.getMessage() );
 		}
 
 		try {
 			androidMetawidget.setValue( 2 );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "No names specified", e.getMessage() );
 		}
 
 		try {
 			androidMetawidget.setValue( 2, "foo" );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "No View with tag foo", e.getMessage() );
 		}

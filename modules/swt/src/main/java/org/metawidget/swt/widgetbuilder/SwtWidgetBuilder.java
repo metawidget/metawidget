@@ -34,6 +34,7 @@ import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtValuePropertyProvider;
 import org.metawidget.swt.widgetprocessor.binding.BindingConverter;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -163,63 +164,32 @@ public class SwtWidgetBuilder
 
 				// Not-ranged
 
-				if ( byte.class.equals( clazz ) ) {
-					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz )) {
 
-					byte value = 0;
-					byte minimum = Byte.MIN_VALUE;
-					byte maximum = Byte.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Byte.parseByte( minimumValue );
-						value = (byte) Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Byte.parseByte( maximumValue );
-						value = (byte) Math.min( value, maximum );
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, (byte) 1 );
-					return spinner;
-				} else if ( short.class.equals( clazz ) ) {
-					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
-
-					short value = 0;
-					short minimum = Short.MIN_VALUE;
-					short maximum = Short.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Short.parseShort( minimumValue );
-						value = (short) Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Short.parseShort( maximumValue );
-						value = (short) Math.min( value, maximum );
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, (short) 1 );
-					return spinner;
-				} else if ( int.class.equals( clazz ) ) {
-					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
-
-					int value = 0;
-					int minimum = Integer.MIN_VALUE;
-					int maximum = Integer.MAX_VALUE;
+					int minimum;
+					int maximum;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) ) {
 						minimum = Integer.parseInt( minimumValue );
-						value = Math.max( value, minimum );
+					} else {
+						minimum = ((Number) ClassUtils.getNumberMinValue( clazz )).intValue();
 					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) ) {
 						maximum = Integer.parseInt( maximumValue );
-						value = Math.min( value, maximum );
+					} else {
+						maximum = ((Number) ClassUtils.getNumberMaxValue( clazz )).intValue();
 					}
 
-					setSpinnerModel( spinner, value, minimum, maximum, 1 );
+					int selection = Math.max( Math.min( 0, maximum ), minimum );
+
+					Spinner spinner = new Spinner( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
+					spinner.setMinimum( minimum );
+					spinner.setMaximum( maximum );
+					spinner.setSelection( selection );
+
 					return spinner;
+
 				} else if ( long.class.equals( clazz ) ) {
 					return new Text( metawidget.getCurrentLayoutComposite(), SWT.BORDER );
 				} else if ( float.class.equals( clazz ) ) {
@@ -282,28 +252,5 @@ public class SwtWidgetBuilder
 		// Nested Metawidget
 
 		return null;
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Sets the JSpinner model.
-	 * <p>
-	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For numbers
-	 * like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can be very large
-	 * and mess up the layout. Here, we reset <code>setColumns</code> to 0.
-	 * <p>
-	 * Note it is very important we set the initial value of the <code>JSpinner</code> to the same
-	 * type as the property it maps to (eg. float or double, int or long).
-	 */
-
-	private void setSpinnerModel( Spinner spinner, int selection, int minimum, int maximum, int increment ) {
-
-		spinner.setMinimum( minimum );
-		spinner.setMaximum( maximum );
-		spinner.setSelection( selection );
-		spinner.setIncrement( increment );
 	}
 }

@@ -367,7 +367,7 @@ public class BaseConfigReaderIntegrationTest
 
 		try {
 			configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag() );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "org.metawidget.inspector.iface.InspectorException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
 		}
@@ -588,7 +588,7 @@ public class BaseConfigReaderIntegrationTest
 
 		try {
 			configReader.configure( "foo", HtmlMetawidgetTag.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "No such tag <compositeInspectorFoo> or class org.metawidget.inspector.composite.CompositeInspectorFoo (is it on your CLASSPATH?)", e.getMessage() );
 		}

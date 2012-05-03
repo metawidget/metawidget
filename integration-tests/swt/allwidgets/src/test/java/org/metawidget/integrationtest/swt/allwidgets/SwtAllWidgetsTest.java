@@ -371,7 +371,7 @@ public class SwtAllWidgetsTest
 		assertTrue( button.isEnabled() );
 		try {
 			button.notifyListeners( SWT.Selection, null );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
@@ -382,7 +382,7 @@ public class SwtAllWidgetsTest
 
 		try {
 			metawidget.getWidgetProcessor( DataBindingProcessor.class ).save( metawidget );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Could not parse 'bad date'", e.getCause().getMessage() );
 		}

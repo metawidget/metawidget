@@ -58,14 +58,14 @@ public class HibernateInspectorTest
 
 		try {
 			new HibernateInspector( new HibernateInspectorConfig() );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate hibernate.cfg.xml on CLASSPATH", e.getMessage() );
 		}
 
 		try {
 			new HibernateInspector( new HibernateInspectorConfig().setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "Expected an XML document starting with 'hibernate-configuration' or 'hibernate-mapping', but got 'foo'", e.getMessage() );
 		}

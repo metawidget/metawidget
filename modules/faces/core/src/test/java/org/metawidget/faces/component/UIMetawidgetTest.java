@@ -142,7 +142,7 @@ public class UIMetawidgetTest
 
 			// Should throw a NullPointerException, because getRenderKit is null
 
-			assertTrue( false );
+			fail();
 		} catch ( NullPointerException e ) {
 			// Should go straight to getRenderKit or pushComponentToEL, because validation error
 
@@ -184,7 +184,7 @@ public class UIMetawidgetTest
 
 		try {
 			stub.getStubAttributesAsMap();
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			// Should fail
 
@@ -195,7 +195,7 @@ public class UIMetawidgetTest
 
 		try {
 			stub.getStubAttributesAsMap();
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			// Should fail
 
@@ -233,7 +233,7 @@ public class UIMetawidgetTest
 		try {
 			metawidget.setConfig( "does-not-exist.xml" );
 			metawidget.mPipeline.configureOnce();
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage() );
 		}

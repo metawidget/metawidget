@@ -246,7 +246,7 @@ public class MetawidgetPipelineTest
 
 		try {
 			pipeline.addInspectionResultProcessor( inspectionResultProcessor1 );
-			assertTrue( false );
+			fail();
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "List of InspectionResultProcessors already contains class org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor", e.getMessage() );
 		}
@@ -277,7 +277,7 @@ public class MetawidgetPipelineTest
 
 		try {
 			pipeline.addWidgetProcessor( widgetProcessor1 );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetProcessorException e ) {
 			assertEquals( "List of WidgetProcessors already contains class org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor", e.getMessage() );
 		}

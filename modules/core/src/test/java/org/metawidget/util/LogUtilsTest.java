@@ -131,7 +131,7 @@ public class LogUtilsTest
 			try
 			{
 				log.trace( "trace {0}", 1, 2 );
-				assertTrue( false );
+				fail();
 			}
 			catch( RuntimeException e )
 			{
@@ -141,7 +141,7 @@ public class LogUtilsTest
 			try
 			{
 				log.debug( "debug {0}", "foo", "bar" );
-				assertTrue( false );
+				fail();
 			}
 			catch( RuntimeException e )
 			{
@@ -152,7 +152,7 @@ public class LogUtilsTest
 		try
 		{
 			log.info( "info {0}", null, null );
-			assertTrue( false );
+			fail();
 		}
 		catch( RuntimeException e )
 		{
@@ -162,7 +162,7 @@ public class LogUtilsTest
 		try
 		{
 			log.warn( "warn {0}", true, false );
-			assertTrue( false );
+			fail();
 		}
 		catch( RuntimeException e )
 		{
@@ -172,7 +172,7 @@ public class LogUtilsTest
 		try
 		{
 			log.error( "error {0}", new Date(), new Date() );
-			assertTrue( false );
+			fail();
 		}
 		catch( RuntimeException e )
 		{

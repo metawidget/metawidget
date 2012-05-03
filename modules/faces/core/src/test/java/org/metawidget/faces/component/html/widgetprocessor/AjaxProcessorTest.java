@@ -79,7 +79,7 @@ public class AjaxProcessorTest
 
 		try {
 			processor.processWidget( component, PROPERTY, attributes, metawidget );
-			assertTrue( false );
+			fail();
 		} catch( WidgetProcessorException e ) {
 
 			// Should fail

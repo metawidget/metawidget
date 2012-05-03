@@ -14,27 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.widgetbuilder;
+package org.metawidget.vaadin.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.SpinnerNumberModel;
-
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
+
+import com.vaadin.ui.TextArea;
 
 /**
  * @author Richard Kennard
  */
 
-public class SwingWidgetBuilderTest
+public class VaadinWidgetBuilderTest
 	extends TestCase {
 
 	//
@@ -44,11 +40,12 @@ public class SwingWidgetBuilderTest
 	public void testWidgetBuilder()
 		throws Exception {
 
-		SwingWidgetBuilder widgetBuilder = new SwingWidgetBuilder();
+		VaadinWidgetBuilder widgetBuilder = new VaadinWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// JSlider
 
+		/*
 		attributes.put( TYPE, int.class.getName() );
 		attributes.put( MINIMUM_VALUE, "2" );
 		attributes.put( MAXIMUM_VALUE, "99" );
@@ -65,24 +62,21 @@ public class SwingWidgetBuilderTest
 		} catch ( NumberFormatException e ) {
 			assertEquals( "For input string: \"1.5\"", e.getMessage() );
 		}
+		*/
 
-		// JTextArea
+		// TextArea
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( LARGE, TRUE );
 
-		JScrollPane scrollPane = (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( null != scrollPane.getBorder() );
-		JTextArea textarea = (JTextArea) scrollPane.getViewport().getView();
-		assertEquals( true, textarea.getLineWrap() );
-		assertEquals( true, textarea.getWrapStyleWord() );
-		assertEquals( true, textarea.isEditable() );
-		assertEquals( 2, textarea.getRows() );
+		TextArea textarea = (TextArea) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( !textarea.isReadOnly() );
 
 		// JSpinner
 
 		// bytes
 
+		/*
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "2" );
 		attributes.put( TYPE, byte.class.getName() );
@@ -120,7 +114,6 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 4 == (Integer) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
 		assertTrue( 4 == (Integer) spinner.getValue() );
-		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "97" );
@@ -136,7 +129,6 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( ( (long) 5 ) == (Long) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
 		assertTrue( ( (long) 5 ) == (Long) spinner.getValue() );
-		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "96" );
@@ -152,11 +144,10 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 1.6f, spinner.getValue() );
 		assertEquals( 0.1f, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
-		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.put( MAXIMUM_FRACTIONAL_DIGITS, "3" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( 0.001d, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
+		assertEquals( 0.001f, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
@@ -175,7 +166,6 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 1.6d, spinner.getValue() );
 		assertEquals( 1000, Math.round( ( (Double) ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() ) * 1000000 ) );
-		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
@@ -185,5 +175,6 @@ public class SwingWidgetBuilderTest
 		attributes.put( MAXIMUM_VALUE, "-1" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( -1d, spinner.getValue() );
+		*/
 	}
 }

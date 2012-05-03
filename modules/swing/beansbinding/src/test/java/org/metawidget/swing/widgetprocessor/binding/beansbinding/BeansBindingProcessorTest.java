@@ -140,7 +140,7 @@ public class BeansBindingProcessorTest
 
 		try {
 			converter.convertReverse( "true" );
-			assertTrue( false );
+			fail();
 		} catch ( UnsupportedOperationException e ) {
 			assertTrue( e.getMessage().indexOf( "cannot convertReverse" ) != -1 );
 		}
@@ -190,7 +190,7 @@ public class BeansBindingProcessorTest
 
 		try {
 			metawidget.getComponent( 0 );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetProcessorException e ) {
 			assertEquals( "Property 'bar' has no getter and no setter (or parent is null)", e.getMessage() );
 		}
@@ -211,7 +211,7 @@ public class BeansBindingProcessorTest
 		try {
 			metawidget.setValue( "1/1/2001", "bar" );
 			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetProcessorException e ) {
 			assertEquals( "When saving from class javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}
@@ -223,7 +223,7 @@ public class BeansBindingProcessorTest
 
 		try {
 			metawidget.getComponent( 0 );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetProcessorException e ) {
 			assertEquals( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBindingProcessorConfig.setConverter?)", e.getMessage() );
 		}

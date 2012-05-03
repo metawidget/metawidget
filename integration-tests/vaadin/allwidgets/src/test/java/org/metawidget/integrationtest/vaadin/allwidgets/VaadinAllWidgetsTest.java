@@ -227,12 +227,14 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 18 );
 		assertEquals( "Char Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
+		assertEquals( 1, ((TextField) component).getMaxLength() );
 		assertEquals( "A", ( (Property) metawidget.getComponent( "charPrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( "Z" );
 
 		component = layout.getComponent( 19 );
 		assertEquals( "Character Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
+		assertEquals( 1, ((TextField) component).getMaxLength() );
 		assertEquals( "Z", ( (Property) metawidget.getComponent( "characterObject" ) ).getValue() );
 		( (TextField) component ).setValue( "A" );
 

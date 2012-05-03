@@ -47,7 +47,7 @@ public class XmlUtilsTest
 
 		try {
 			cachingContentHandler.replay( simpleContentHandler );
-			assertTrue( false );
+			fail();
 		} catch ( SAXException e ) {
 			assertEquals( "Nothing to replay. Not cached any SAX events", e.getMessage() );
 		}
@@ -81,7 +81,7 @@ public class XmlUtilsTest
 
 		try {
 			cachingContentHandler.startDocument();
-			assertTrue( false );
+			fail();
 		} catch ( SAXException e ) {
 			assertEquals( "Already cached SAX events. CachingContentHandler can only cache SAX events once", e.getMessage() );
 		}
@@ -128,7 +128,7 @@ public class XmlUtilsTest
 
 		try {
 			cachingContentHandler.replay( newSimpleContentHandler );
-			assertTrue( false );
+			fail();
 		} catch( SAXException e  ) {
 			assertEquals( "Not ready to replay - ContentHandler delegate is non-null. Either endDocument must be triggered, or releaseDelegate must be called explicitly", e.getMessage() );
 		}
@@ -177,7 +177,7 @@ public class XmlUtilsTest
 
 		try {
 			XmlUtils.combineElements( documentMaster.getDocumentElement(), documentToAdd.getDocumentElement(), "fooAttr", "barAttr" );
-			assertTrue( false );
+			fail();
 		} catch( Exception e ) {
 			assertEquals( "Child node #1 has no @barAttr: <bar bazAttr=\"3\"/>", e.getMessage() );
 		}

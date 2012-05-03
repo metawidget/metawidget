@@ -120,7 +120,7 @@ public class MigLayoutTest
 
 		try {
 			metawidget.setMetawidgetLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( LayoutException e ) {
 			assertEquals( "numberOfColumns must be >= 1", e.getMessage() );
 		}

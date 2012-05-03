@@ -232,7 +232,7 @@ public class ComesAfterInspectionResultProcessorTest
 			// Run processor
 
 			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
-			assertTrue( false );
+			fail();
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but baz comes at the end, but foo comes after bar", e.getMessage() );
 		}
@@ -250,7 +250,7 @@ public class ComesAfterInspectionResultProcessorTest
 			// Run processor
 
 			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
-			assertTrue( false );
+			fail();
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "'bar' comes-after itself", e.getMessage() );
 		}

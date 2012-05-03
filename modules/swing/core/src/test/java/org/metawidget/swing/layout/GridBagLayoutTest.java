@@ -79,7 +79,7 @@ public class GridBagLayoutTest
 
 		try {
 			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( -1 ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( LayoutException e ) {
 			assertTrue( "numberOfColumns must be >= 0".equals( e.getMessage() ) );
 		}

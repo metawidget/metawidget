@@ -166,7 +166,7 @@ public class GwtTestAddressBook
 
 												try {
 													contactMetawidget.getValue( "bad-value" );
-													assertTrue( false );
+													fail();
 												} catch ( Exception e ) {
 													// Should throw Exception
 												}
@@ -220,7 +220,7 @@ public class GwtTestAddressBook
 
 														try {
 															contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( contactMetawidget );
-															assertTrue( false );
+															fail();
 														} catch ( IllegalArgumentException e ) {
 															assertEquals( "foo", e.getMessage() );
 														}

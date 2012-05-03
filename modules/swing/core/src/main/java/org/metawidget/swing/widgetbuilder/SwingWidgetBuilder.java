@@ -45,6 +45,7 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -188,125 +189,61 @@ public class SwingWidgetBuilder
 
 				// Not-ranged
 
-				JSpinner spinner = new JSpinner();
+				Comparable<Number> minimum;
+				Comparable<Number> maximum;
 
-				if ( byte.class.equals( clazz ) ) {
-					byte value = 0;
-					byte minimum = Byte.MIN_VALUE;
-					byte maximum = Byte.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Byte.parseByte( minimumValue );
-						value = (byte) Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Byte.parseByte( maximumValue );
-						value = (byte) Math.min( value, maximum );
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, (byte) 1 );
-				} else if ( short.class.equals( clazz ) ) {
-					short value = 0;
-					short minimum = Short.MIN_VALUE;
-					short maximum = Short.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Short.parseShort( minimumValue );
-						value = (short) Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Short.parseShort( maximumValue );
-						value = (short) Math.min( value, maximum );
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, (short) 1 );
-				} else if ( int.class.equals( clazz ) ) {
-					int value = 0;
-					int minimum = Integer.MIN_VALUE;
-					int maximum = Integer.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Integer.parseInt( minimumValue );
-						value = Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Integer.parseInt( maximumValue );
-						value = Math.min( value, maximum );
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, 1 );
-				} else if ( long.class.equals( clazz ) ) {
-					long value = 0;
-					long minimum = Long.MIN_VALUE;
-					long maximum = Long.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Long.parseLong( minimumValue );
-						value = Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Long.parseLong( maximumValue );
-						value = Math.min( value, maximum );
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, (long) 1 );
-				} else if ( float.class.equals( clazz ) ) {
-					float value = 0;
-					float minimum = -Float.MAX_VALUE;
-					float maximum = Float.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Float.parseFloat( minimumValue );
-						value = Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Float.parseFloat( maximumValue );
-						value = Math.min( value, maximum );
-					}
-
-					// Configurable step
-
-					float stepSize;
-
-					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
-						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-					} else {
-						stepSize = 0.1f;
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
-				} else if ( double.class.equals( clazz ) ) {
-					double value = 0;
-					double minimum = -Double.MAX_VALUE;
-					double maximum = Double.MAX_VALUE;
-
-					if ( minimumValue != null && !"".equals( minimumValue ) ) {
-						minimum = Double.parseDouble( minimumValue );
-						value = Math.max( value, minimum );
-					}
-
-					if ( maximumValue != null && !"".equals( maximumValue ) ) {
-						maximum = Double.parseDouble( maximumValue );
-						value = Math.min( value, maximum );
-					}
-
-					// Configurable step
-
-					double stepSize;
-
-					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
-						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-					} else {
-						stepSize = 0.1d;
-					}
-
-					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
+				if ( minimumValue != null && !"".equals( minimumValue ) ) {
+					@SuppressWarnings( "unchecked" )
+					Comparable<Number> comparable = (Comparable<Number>) ClassUtils.parseNumber( clazz, minimumValue );
+					minimum = comparable;
+				} else {
+					@SuppressWarnings( "unchecked" )
+					Comparable<Number> comparable = (Comparable<Number>) ClassUtils.getNumberMinValue( clazz );
+					minimum = comparable;
 				}
+
+				if ( maximumValue != null && !"".equals( maximumValue ) ) {
+					@SuppressWarnings( "unchecked" )
+					Comparable<Number> comparable = (Comparable<Number>) ClassUtils.parseNumber( clazz, maximumValue );
+					maximum = comparable;
+				} else {
+					@SuppressWarnings( "unchecked" )
+					Comparable<Number> comparable = (Comparable<Number>) ClassUtils.getNumberMaxValue( clazz );
+					maximum = comparable;
+				}
+
+				// Configurable step
+
+				Number stepSize;
+
+				if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
+					stepSize = Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
+				} else if ( float.class.equals( clazz ) || Float.class.equals( clazz ) ) {
+					stepSize = 0.1f;
+				} else if ( double.class.equals( clazz ) || Double.class.equals( clazz ) ) {
+					stepSize = 0.1f;
+				} else {
+					stepSize = 1;
+				}
+
+				// Note it is very important we set the initial value of the JSpinner to the same
+				// type as the property it maps to (eg. float or double, int or long).
+
+				Number value = (Number) ClassUtils.parseNumber( clazz, "0" );
+
+				if ( minimum.compareTo( value ) > 0 ) {
+					value = (Number) minimum;
+				} else if ( maximum.compareTo( value ) < 0 ) {
+					value = (Number) maximum;
+				}
+
+				JSpinner spinner = new JSpinner( new SpinnerNumberModel( value, minimum, maximum, stepSize ) );
+
+				// By default, a JSpinner calls setColumns. For numbers like Integer.MAX_VALUE and
+				// Double.MAX_VALUE, this can be very large and mess up the layout. Here, we reset
+				// setColumns to 0.
+
+				( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
 
 				return spinner;
 			}
@@ -375,27 +312,6 @@ public class SwingWidgetBuilder
 		// Nested Metawidget
 
 		return null;
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Sets the JSpinner model.
-	 * <p>
-	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For numbers
-	 * like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can be very large
-	 * and mess up the layout. Here, we reset <code>setColumns</code> to 0.
-	 * <p>
-	 * Note it is very important we set the initial value of the <code>JSpinner</code> to the same
-	 * type as the property it maps to (eg. float or double, int or long).
-	 */
-
-	private void setSpinnerModel( JSpinner spinner, Number value, Comparable<? extends Number> minimum, Comparable<? extends Number> maximum, Number stepSize ) {
-
-		spinner.setModel( new SpinnerNumberModel( value, minimum, maximum, stepSize ) );
-		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
 	}
 
 	//

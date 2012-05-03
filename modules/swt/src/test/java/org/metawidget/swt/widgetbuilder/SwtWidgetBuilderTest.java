@@ -63,7 +63,7 @@ public class SwtWidgetBuilderTest
 		try {
 			attributes.put( MINIMUM_VALUE, "1.5" );
 			widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-			assertTrue( false );
+			fail();
 		} catch ( NumberFormatException e ) {
 			assertEquals( "For input string: \"1.5\"", e.getMessage() );
 		}

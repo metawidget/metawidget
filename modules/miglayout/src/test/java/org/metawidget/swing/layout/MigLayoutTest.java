@@ -111,7 +111,7 @@ public class MigLayoutTest
 
 		try {
 			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( LayoutException e ) {
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}

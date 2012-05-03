@@ -118,7 +118,7 @@ public class FacesInspectionResultProcessorTest
 
 		try {
 			inspectionResultProcessor.processInspectionResult( xml, metawidget, null, "Foo" );
-			assertTrue( false );
+			fail();
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "Expression for '#{_this.baz}' contains '_this', but FacesInspectionResultProcessorConfig.setInjectThis is null", e.getMessage() );
 		}
@@ -134,7 +134,7 @@ public class FacesInspectionResultProcessorTest
 
 		try {
 			inspectionResultProcessor.processInspectionResult( xml, metawidget, null, "Foo" );
-			assertTrue( false );
+			fail();
 		} catch ( InspectionResultProcessorException e ) {
 			assertEquals( "Expression '#{_this.baz}' (for 'faces-lookup') must not contain '_this' (see Metawidget Reference Guide)", e.getMessage() );
 		}

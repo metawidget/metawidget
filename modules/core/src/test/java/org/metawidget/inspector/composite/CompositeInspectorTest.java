@@ -131,7 +131,7 @@ public class CompositeInspectorTest
 
 		try {
 			new CompositeInspector( new CompositeInspectorConfig().setInspectors( inspector, null, inspector ) );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "CompositeInspector's list of Inspectors contains two of the same org.metawidget.inspector.propertytype.PropertyTypeInspector", e.getMessage() );
 		}

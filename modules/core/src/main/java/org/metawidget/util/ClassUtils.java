@@ -180,35 +180,35 @@ public final class ClassUtils {
 
 	public static Class<?> getWrapperClass( Class<?> clazz ) {
 
-		if ( clazz.equals( byte.class ) ) {
+		if ( byte.class.equals( clazz ) ) {
 			return Byte.class;
 		}
 
-		if ( clazz.equals( short.class ) ) {
+		if ( short.class.equals( clazz ) ) {
 			return Short.class;
 		}
 
-		if ( clazz.equals( int.class ) ) {
+		if ( int.class.equals( clazz ) ) {
 			return Integer.class;
 		}
 
-		if ( clazz.equals( long.class ) ) {
+		if ( long.class.equals( clazz ) ) {
 			return Long.class;
 		}
 
-		if ( clazz.equals( float.class ) ) {
+		if ( float.class.equals( clazz ) ) {
 			return Float.class;
 		}
 
-		if ( clazz.equals( double.class ) ) {
+		if ( double.class.equals( clazz ) ) {
 			return Double.class;
 		}
 
-		if ( clazz.equals( boolean.class ) ) {
+		if ( boolean.class.equals( clazz ) ) {
 			return Boolean.class;
 		}
 
-		if ( clazz.equals( char.class ) ) {
+		if ( char.class.equals( clazz ) ) {
 			return Character.class;
 		}
 
@@ -233,6 +233,125 @@ public final class ClassUtils {
 
 			return false;
 		}
+	}
+
+	public static Object parseNumber( Class<?> clazz, String value ) {
+
+		if ( byte.class.equals( clazz ) ) {
+			return Byte.parseByte( value );
+		}
+
+		if ( Byte.class.equals( clazz ) ) {
+			return Byte.valueOf( value );
+		}
+
+		if ( short.class.equals( clazz ) ) {
+			return Short.parseShort( value );
+		}
+
+		if ( Short.class.equals( clazz ) ) {
+			return Short.valueOf( value );
+		}
+
+		if ( int.class.equals( clazz ) ) {
+			return Integer.parseInt( value );
+		}
+
+		if ( Integer.class.equals( clazz ) ) {
+			return Integer.valueOf( value );
+		}
+
+		if ( long.class.equals( clazz ) ) {
+			return Long.parseLong( value );
+		}
+
+		if ( Long.class.equals( clazz ) ) {
+			return Long.valueOf( value );
+		}
+
+		if ( float.class.equals( clazz ) ) {
+			return Float.parseFloat( value );
+		}
+
+		if ( Float.class.equals( clazz ) ) {
+			return Float.valueOf( value );
+		}
+
+		if ( double.class.equals( clazz ) ) {
+			return Double.parseDouble( value );
+		}
+
+		if ( Double.class.equals( clazz ) ) {
+			return Double.valueOf( value );
+		}
+
+		throw new RuntimeException( clazz + " is not a number type" );
+	}
+
+	public static Object getNumberMinValue( Class<?> clazz ) {
+
+		if ( byte.class.equals( clazz ) || Byte.class.equals( clazz ) ) {
+			return Byte.MIN_VALUE;
+		}
+
+		if ( short.class.equals( clazz ) || Short.class.equals( clazz ) ) {
+			return Short.MIN_VALUE;
+		}
+
+		if ( int.class.equals( clazz ) || Integer.class.equals( clazz ) ) {
+			return Integer.MIN_VALUE;
+		}
+
+		if ( int.class.equals( clazz ) || Integer.class.equals( clazz ) ) {
+			return Integer.MIN_VALUE;
+		}
+
+		if ( long.class.equals( clazz ) || Long.class.equals( clazz ) ) {
+			return Long.MIN_VALUE;
+		}
+
+		if ( float.class.equals( clazz ) || Float.class.equals( clazz ) ) {
+			return -Float.MAX_VALUE;
+		}
+
+		if ( double.class.equals( clazz ) || Double.class.equals( clazz ) ) {
+			return -Double.MAX_VALUE;
+		}
+
+		throw new RuntimeException( clazz + " is not a number type" );
+	}
+
+	public static Object getNumberMaxValue( Class<?> clazz ) {
+
+		if ( byte.class.equals( clazz ) || Byte.class.equals( clazz ) ) {
+			return Byte.MAX_VALUE;
+		}
+
+		if ( short.class.equals( clazz ) || Short.class.equals( clazz ) ) {
+			return Short.MAX_VALUE;
+		}
+
+		if ( int.class.equals( clazz ) || Integer.class.equals( clazz ) ) {
+			return Integer.MAX_VALUE;
+		}
+
+		if ( int.class.equals( clazz ) || Integer.class.equals( clazz ) ) {
+			return Integer.MAX_VALUE;
+		}
+
+		if ( long.class.equals( clazz ) || Long.class.equals( clazz ) ) {
+			return Long.MAX_VALUE;
+		}
+
+		if ( float.class.equals( clazz ) || Float.class.equals( clazz ) ) {
+			return Float.MAX_VALUE;
+		}
+
+		if ( double.class.equals( clazz ) || Double.class.equals( clazz ) ) {
+			return Double.MAX_VALUE;
+		}
+
+		throw new RuntimeException( clazz + " is not a number type" );
 	}
 
 	/**

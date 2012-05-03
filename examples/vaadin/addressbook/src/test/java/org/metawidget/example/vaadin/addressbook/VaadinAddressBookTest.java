@@ -200,7 +200,7 @@ public class VaadinAddressBookTest
 
 		try {
 			( (PopupDateField) metawidgetContact.getComponent( "dateOfBirth" ) ).setValue( "foo" );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Date format not recognized", e.getMessage() );
 		}

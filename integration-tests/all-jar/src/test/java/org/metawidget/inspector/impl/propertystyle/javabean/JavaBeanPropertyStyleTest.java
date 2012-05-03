@@ -80,7 +80,7 @@ public class JavaBeanPropertyStyleTest
 
 		try {
 			properties.get( "foo" ).read( new Object() );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			// Should fail
 		}

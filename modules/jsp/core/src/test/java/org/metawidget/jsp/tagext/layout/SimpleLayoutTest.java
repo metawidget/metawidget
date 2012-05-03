@@ -35,7 +35,7 @@ public class SimpleLayoutTest
 
 		try {
 			new SimpleLayout().layoutWidget( null, null, null, null, null );
-			assertTrue( false );
+			fail();
 		} catch ( LayoutException e ) {
 			assertTrue( e.getCause() instanceof NullPointerException );
 		}

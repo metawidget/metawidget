@@ -63,7 +63,7 @@ public class CompositeWidgetBuilderTest
 			WidgetBuilder<JComponent, SwingMetawidget>[] duplicateWidgetBuilders = new WidgetBuilder[] { widgetBuilder1, widgetBuilder2, widgetBuilder1 };
 
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( duplicateWidgetBuilders ) );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder's list of WidgetBuilders contains two of the same org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder", e.getMessage() );
 		}
@@ -78,7 +78,7 @@ public class CompositeWidgetBuilderTest
 
 		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
@@ -89,7 +89,7 @@ public class CompositeWidgetBuilderTest
 
 		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
@@ -100,7 +100,7 @@ public class CompositeWidgetBuilderTest
 
 		try {
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
-			assertTrue( false );
+			fail();
 		} catch ( WidgetBuilderException e ) {
 			assertEquals( "CompositeWidgetBuilder needs at least two WidgetBuilders", e.getMessage() );
 		}
@@ -113,7 +113,7 @@ public class CompositeWidgetBuilderTest
 			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 			assertTrue( true );
 		} catch ( WidgetBuilderException e ) {
-			assertTrue( false );
+			fail();
 		}
 	}
 

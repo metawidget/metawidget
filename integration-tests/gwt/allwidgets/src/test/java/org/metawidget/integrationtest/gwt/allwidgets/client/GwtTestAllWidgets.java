@@ -368,7 +368,7 @@ public class GwtTestAllWidgets
 														assertTrue( doActionButton.isEnabled() );
 														try {
 															fireClickEvent( doActionButton );
-															assertTrue( false );
+															fail();
 														} catch ( UmbrellaException umbrella ) {
 
 															boolean doActionCalled = false;
@@ -394,7 +394,7 @@ public class GwtTestAllWidgets
 
 														try {
 															fireClickEvent( saveButton );
-															assertTrue( false );
+															fail();
 														} catch ( UmbrellaException umbrella ) {
 
 															boolean baddate = false;

@@ -111,7 +111,7 @@ public class GridLayoutTest
 
 		try {
 			metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setNumberOfColumns( 0 ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( LayoutException e ) {
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}

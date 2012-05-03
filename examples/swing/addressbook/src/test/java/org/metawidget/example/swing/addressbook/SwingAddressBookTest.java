@@ -149,7 +149,7 @@ public class SwingAddressBookTest
 
 		try {
 			metawidgetContact.getValue( "bad-value" );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			// Should throw MetawidgetException
 		}
@@ -280,7 +280,7 @@ public class SwingAddressBookTest
 
 		try {
 			metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Unparseable date: \"foo\"", e.getCause().getCause().getMessage() );
 		}
@@ -479,7 +479,7 @@ public class SwingAddressBookTest
 
 		try {
 			model.getColumnClass( 0 );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "No such method getBaz (or boolean isBaz) on class org.metawidget.example.swing.addressbook.SwingAddressBookTest$Foo", e.getMessage() );
 		}
