@@ -31,6 +31,7 @@ import org.metawidget.statically.jsp.StaticJspMetawidget;
 import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -77,7 +78,9 @@ public class SpringWidgetBuilder
 
 		// Lookup the Class
 
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+		Class<?> clazz = ClassUtils.niceForName(type);
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
@@ -256,6 +259,14 @@ public class SpringWidgetBuilder
             selectTag.getChildren().add( emptyOption );
 
             FormOptionsTag optionsTag = new FormOptionsTag();
+
+            /*
+             * The 'items' attribute of <form:select> or <form:options> is expected to be a JSP
+             * EL expression.  Thus, Metawidget populates the generated dropdown with whatever
+             * object is added with a key equal to the name attribute.  Such objects can be
+             * added in Spring using the org.springframework.ui.Model interface or the 
+             * Spring MVC @ModelAttribute annotation.
+             */
 
             optionsTag.putAttribute( "items", StaticJspUtils.wrapExpression( attributes.get(NAME) ) );
 
