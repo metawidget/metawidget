@@ -50,7 +50,7 @@ public class MetawidgetActionStyleTest
 
 		try {
 			actionStyle.getActions( BadFoo.class.getName() );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "@UiAction public abstract void org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters", e.getMessage() );
 		}

@@ -113,7 +113,7 @@ public class SwingMetawidgetIntegrationTest
 
 		try {
 			processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, new Object(), metawidget );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( errorMessage, e.getCause().getMessage() );
 		}

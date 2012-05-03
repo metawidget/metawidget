@@ -183,7 +183,7 @@ public class AndroidWidgetBuilderTest
 
 		try {
 			spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "Labels list must be same size as values list", e.getMessage() );
 		}

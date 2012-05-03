@@ -103,7 +103,7 @@ public class SeamInspectorTest
 
 		try {
 			new SeamInspector();
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH", e.getMessage() );
 		}

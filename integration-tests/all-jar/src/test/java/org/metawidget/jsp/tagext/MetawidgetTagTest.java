@@ -69,7 +69,7 @@ public class MetawidgetTagTest
 		try {
 			metawidget.setConfig( "does-not-exist.xml" );
 			metawidget.mPipeline.configureOnce();
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH", e.getMessage() );
 		}

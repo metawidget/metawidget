@@ -535,7 +535,7 @@ public class JspUtilsTest
 		@Override
 		public JspWriter getOut() {
 
-			assertTrue( false );
+			fail();
 			return null;
 		}
 

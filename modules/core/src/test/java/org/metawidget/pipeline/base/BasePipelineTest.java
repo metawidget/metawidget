@@ -56,7 +56,7 @@ public class BasePipelineTest
 
 		try {
 			pipeline.buildWidgets( document.getDocumentElement() );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Top-level element name should be entity, not property", e.getMessage() );
 		}
@@ -67,7 +67,7 @@ public class BasePipelineTest
 
 		try {
 			pipeline.buildCompoundWidget( XmlUtils.getFirstChildElement( document.getDocumentElement() ) );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Child element #1 should be property or action, not bar", e.getMessage() );
 		}
@@ -78,7 +78,7 @@ public class BasePipelineTest
 
 		try {
 			pipeline.buildCompoundWidget( XmlUtils.getFirstChildElement( document.getDocumentElement() ) );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Child element #1 has no @name", e.getMessage() );
 		}

@@ -257,6 +257,14 @@ public class SpringWidgetBuilder
 
             FormOptionsTag optionsTag = new FormOptionsTag();
 
+            /*
+             * The 'items' attribute of <form:select> or <form:options> is expected to be a JSP
+             * EL expression.  Thus, Metawidget populates the generated dropdown with whatever
+             * object is added with a key equal to the name attribute.  Such objects can be
+             * added in Spring using the org.springframework.ui.Model interface or the
+             * Spring MVC @ModelAttribute annotation.
+             */
+
             optionsTag.putAttribute( "items", StaticJspUtils.wrapExpression( attributes.get(NAME) ) );
 
             if ( itemValue != null )

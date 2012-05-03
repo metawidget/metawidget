@@ -63,7 +63,7 @@ public class ConfigReaderTest
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a default constructor. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
 		}
@@ -77,7 +77,7 @@ public class ConfigReaderTest
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "class org.metawidget.config.impl.subpackage.OutOfPackageConfigInspector does not have a default constructor. Did you mean config=\"org.metawidget.config.impl.AllTypesInspectorConfig\"?", e.getMessage() );
 		}
@@ -91,7 +91,7 @@ public class ConfigReaderTest
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Class.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class java.lang.Class does not have a default constructor".equals( e.getMessage() ) );
 		}
@@ -113,7 +113,7 @@ public class ConfigReaderTest
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 
 			// Bizzarely, the host may actually resolve if your ISP or DNS provider (eg. OpenDNS)
@@ -140,7 +140,7 @@ public class ConfigReaderTest
 
 		try {
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( e.getMessage().startsWith( "java.io.FileNotFoundException:" ) );
 		}
@@ -158,7 +158,7 @@ public class ConfigReaderTest
 		try {
 			ConfigReader configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(JavaBeanPropertyStyle)", e.getMessage() );
 		}
@@ -176,7 +176,7 @@ public class ConfigReaderTest
 		try {
 			ConfigReader configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?", e.getMessage() );
 		}
@@ -190,7 +190,7 @@ public class ConfigReaderTest
 		try {
 			ConfigReader configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.xml.XmlInspectorConfig.setInputStreams(ArrayList). Did you mean setInputStreams(InputStream[])?", e.getMessage() );
 		}
@@ -274,7 +274,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( e.getMessage().endsWith( "No such tag <date> or class org.metawidget.config.impl.Date (is it on your CLASSPATH?)" ) );
 		}
@@ -291,7 +291,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config.impl' of element <allTypesInspector> must start with java:".equals( e.getMessage() ) );
 		}
@@ -327,7 +327,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ) );
 		}
@@ -344,7 +344,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ) );
 		}
@@ -358,7 +358,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "No match for class org.metawidget.config.impl.AllTypesInspector within config".equals( e.getMessage() ) );
 		}
@@ -374,7 +374,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "Already configured a class org.metawidget.config.impl.AllTypesInspector, ambiguous match with class org.metawidget.config.impl.AllTypesInspector".equals( e.getMessage() ) );
 		}
@@ -386,28 +386,28 @@ public class ConfigReaderTest
 
 		try {
 			configReader.configure( (String) null, null );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
 		try {
 			configReader.configure( "", null );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
 		try {
 			configReader.configure( " ", null );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
 		try {
 			configReader.configure( " foo", null );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "java.io.FileNotFoundException: Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
 		}
@@ -449,7 +449,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "XML node 'AllTypesInspector' should start with a lowercase letter".equals( e.getMessage() ) );
 		}
@@ -466,7 +466,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.impl.NoEqualsInspectorConfig does not override .equals(), so cannot cache reliably".equals( e.getMessage() ) );
 		}
@@ -480,7 +480,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.impl.NoHashCodeInspectorConfig does not override .hashCode(), so cannot cache reliably".equals( e.getMessage() ) );
 		}
@@ -495,7 +495,7 @@ public class ConfigReaderTest
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 
-			// assertTrue( false );
+			// fail();
 			//
 			// (works running JUnit in Eclipse, but not via Maven. Does the VM cache reflection
 			// results or something?)
@@ -512,7 +512,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.config.impl.AllTypesInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute".equals( e.getMessage() ) );
 		}
@@ -526,7 +526,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
 		}
@@ -540,7 +540,7 @@ public class ConfigReaderTest
 
 		try {
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Object.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertTrue( "class java.lang.Object does not have a constructor that takes a class java.lang.String, as specified by your config attribute. It only has a config-less constructor".equals( e.getMessage() ) );
 		}
@@ -613,7 +613,7 @@ public class ConfigReaderTest
 		try {
 			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "Attribute refId=\"fooPropertyStyle\" refers to non-existent id", e.getMessage() );
 		}
@@ -629,7 +629,7 @@ public class ConfigReaderTest
 		try {
 			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "Attribute id=\"fooPropertyStyle\" appears more than once", e.getMessage() );
 		}
@@ -650,7 +650,7 @@ public class ConfigReaderTest
 		try {
 			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "refId=\"fooPropertyStyle\" points to an object of class org.metawidget.inspector.propertytype.PropertyTypeInspector, not a <javaBeanPropertyStyle>", e.getMessage() );
 		}
@@ -665,7 +665,7 @@ public class ConfigReaderTest
 		try {
 			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "Elements with 'refId' attributes (refId=\"foo\") cannot also have 'config' attributes (config=\"CompositeInspectorConfig\")", e.getMessage() );
 		}
@@ -684,7 +684,7 @@ public class ConfigReaderTest
 		try {
 			configReader = new BaseConfigReader();
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			assertEquals( "<propertyStyle> not expected here. Elements with a 'refId' must have an empty body", e.getMessage() );
 		}

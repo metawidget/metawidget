@@ -49,7 +49,7 @@ public class HtmlTableLayoutTest
 
 		try {
 			config.setNumberOfColumns( -1 );
-			assertTrue( false );
+			fail();
 		} catch ( LayoutException e ) {
 			assertEquals( "numberOfColumns must be >= 0", e.getMessage() );
 		}

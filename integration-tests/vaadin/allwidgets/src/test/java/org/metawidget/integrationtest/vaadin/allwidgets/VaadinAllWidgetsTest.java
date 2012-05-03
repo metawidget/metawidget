@@ -37,6 +37,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Select;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
@@ -89,7 +90,7 @@ public class VaadinAllWidgetsTest
 		// Test missing components
 
 		assertEquals( null, metawidget.getComponent( "no-such-component" ) );
-		assertEquals( null, metawidget.getComponent( "textbox", "no-such-component" ));
+		assertEquals( null, metawidget.getComponent( "textbox", "no-such-component" ) );
 
 		try {
 			metawidget.getComponent( "textbox", "no-such-component1", "no-such-component2" );
@@ -122,7 +123,6 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 2 );
 		assertEquals( "Textarea:", component.getCaption() );
 		assertTrue( component instanceof TextArea );
-		assertEquals( 3, ( (TextArea) component ).getRows() );
 		assertEquals( "Textarea", ( (Property) metawidget.getComponent( "textarea" ) ).getValue() );
 		assertTrue( ( (TextArea) component ).isWordwrap() );
 		( (TextArea) component ).setValue( "Textarea1" );
@@ -138,14 +138,14 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 4 );
 		assertEquals( "Byte Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
+		assertEquals( 1, ( (TextField) component ).getValidators().size() );
 		assertEquals( String.valueOf( Byte.MAX_VALUE ), ( (Property) metawidget.getComponent( "bytePrimitive" ) ).getValue() );
-		( (TextField) component ).setValue( String.valueOf( Byte.MAX_VALUE - 1 ) );
+		( (TextField) component ).setValue( (byte) ( Byte.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 5 );
 		assertEquals( "Byte Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
 		assertEquals( String.valueOf( Byte.MIN_VALUE ), ( (Property) metawidget.getComponent( "byteObject" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Byte.MIN_VALUE + 1 ) );
 
@@ -153,13 +153,13 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Short Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( String.valueOf( Short.MAX_VALUE ), ( (Property) metawidget.getComponent( "shortPrimitive" ) ).getValue() );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
-		( (TextField) component ).setValue( String.valueOf( Short.MAX_VALUE - 1 ) );
+		assertEquals( 1, ( (TextField) component ).getValidators().size() );
+		( (TextField) component ).setValue( (short) ( Short.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 7 );
 		assertEquals( "Short Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
 		assertEquals( String.valueOf( Short.MIN_VALUE ), ( (Property) metawidget.getComponent( "shortObject" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Short.MIN_VALUE + 1 ) );
 
@@ -167,22 +167,23 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Int Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( String.valueOf( Integer.MAX_VALUE ), ( (Property) metawidget.getComponent( "intPrimitive" ) ).getValue() );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
 		( (TextField) component ).setValue( String.valueOf( Integer.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 9 );
 		assertEquals( "Integer Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
 		assertEquals( String.valueOf( Integer.MIN_VALUE ), ( (Property) metawidget.getComponent( "integerObject" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Integer.MIN_VALUE + 1 ) );
 
 		component = layout.getComponent( 10 );
 		assertEquals( "Ranged Int:", component.getCaption() );
-		assertTrue( component instanceof TextField );
-		assertTrue( 0 < ( (TextField) component ).getValidators().size() );
+		assertTrue( component instanceof Slider );
+		assertEquals( 1d, ( (Slider) component ).getMin() );
+		assertEquals( 100d, ( (Slider) component ).getMax() );
 		assertEquals( "32", String.valueOf( ( (Property) metawidget.getComponent( "rangedInt" ) ).getValue() ) );
-		( (TextField) component ).setValue( 33 );
+		( (Slider) component ).setValue( "33" );
 
 		component = layout.getComponent( 11 );
 		assertEquals( "Ranged Integer:", component.getCaption() );
@@ -227,12 +228,14 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 18 );
 		assertEquals( "Char Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
+		assertEquals( 1, ( (TextField) component ).getMaxLength() );
 		assertEquals( "A", ( (Property) metawidget.getComponent( "charPrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( "Z" );
 
 		component = layout.getComponent( 19 );
 		assertEquals( "Character Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
+		assertEquals( 1, ( (TextField) component ).getMaxLength() );
 		assertEquals( "Z", ( (Property) metawidget.getComponent( "characterObject" ) ).getValue() );
 		( (TextField) component ).setValue( "A" );
 

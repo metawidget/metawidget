@@ -144,7 +144,7 @@ public class SwtAddressBookTest
 
 		try {
 			metawidgetContact.getValue( "bad-value" );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e ) {
 			// Should throw MetawidgetException
 		}
@@ -273,7 +273,7 @@ public class SwtAddressBookTest
 
 		try {
 			metawidgetContact.getWidgetProcessor( DataBindingProcessor.class ).save( metawidgetContact );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "java.text.ParseException: Unparseable date: \"foo\"", e.getCause().getMessage() );
 		}

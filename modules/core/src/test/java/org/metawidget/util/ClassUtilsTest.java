@@ -36,9 +36,109 @@ public class ClassUtilsTest
 	public void testObjectPrimitive()
 		throws Exception {
 
+		assertTrue( ClassUtils.isPrimitiveWrapper( Byte.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Short.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Integer.class ) );
 		assertTrue( ClassUtils.isPrimitiveWrapper( Long.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Float.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Double.class ) );
 		assertTrue( ClassUtils.isPrimitiveWrapper( Boolean.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Character.class ) );
 		assertFalse( ClassUtils.isPrimitiveWrapper( String.class ) );
+	}
+
+	public void testGetWrapperClass()
+		throws Exception {
+
+		assertEquals( Byte.class, ClassUtils.getWrapperClass( byte.class ) );
+		assertEquals( Short.class, ClassUtils.getWrapperClass( short.class ) );
+		assertEquals( Integer.class, ClassUtils.getWrapperClass( int.class ) );
+		assertEquals( Long.class, ClassUtils.getWrapperClass( long.class ) );
+		assertEquals( Float.class, ClassUtils.getWrapperClass( float.class ) );
+		assertEquals( Double.class, ClassUtils.getWrapperClass( double.class ) );
+		assertEquals( Boolean.class, ClassUtils.getWrapperClass( boolean.class ) );
+		assertEquals( Character.class, ClassUtils.getWrapperClass( char.class ) );
+
+		try {
+			ClassUtils.getWrapperClass( String.class );
+			fail();
+		} catch ( Exception e ) {
+			assertEquals( "class java.lang.String is not a primitive type", e.getMessage() );
+		}
+
+		assertFalse( ClassUtils.isPrimitiveWrapper( String.class ) );
+	}
+
+	public void testParseNumber()
+		throws Exception {
+
+		assertEquals( (byte) 2, ClassUtils.parseNumber( byte.class, "2" ) );
+		assertEquals( Byte.valueOf( "3" ), ClassUtils.parseNumber( Byte.class, "3" ) );
+		assertEquals( (short) 4, ClassUtils.parseNumber( short.class, "4" ) );
+		assertEquals( Short.valueOf( "5" ), ClassUtils.parseNumber( Short.class, "5" ) );
+		assertEquals( 6, ClassUtils.parseNumber( int.class, "6" ) );
+		assertEquals( Integer.valueOf( "7" ), ClassUtils.parseNumber( Integer.class, "7" ) );
+		assertEquals( (long) 8, ClassUtils.parseNumber( long.class, "8" ) );
+		assertEquals( Long.valueOf( "9" ), ClassUtils.parseNumber( Long.class, "9" ) );
+		assertEquals( (float) 10, ClassUtils.parseNumber( float.class, "10" ) );
+		assertEquals( Float.valueOf( "11" ), ClassUtils.parseNumber( Float.class, "11" ) );
+		assertEquals( (double) 12, ClassUtils.parseNumber( double.class, "12" ) );
+		assertEquals( Double.valueOf( "13" ), ClassUtils.parseNumber( Double.class, "13" ) );
+
+		try {
+			ClassUtils.parseNumber( String.class, "13" );
+			fail();
+		} catch ( Exception e ) {
+			assertEquals( "class java.lang.String is not a number type", e.getMessage() );
+		}
+	}
+
+	public void testGetNumberMinValue()
+		throws Exception {
+
+		assertEquals( Byte.MIN_VALUE, ClassUtils.getNumberMinValue( byte.class ) );
+		assertEquals( Byte.MIN_VALUE, ClassUtils.getNumberMinValue( Byte.class ) );
+		assertEquals( Short.MIN_VALUE, ClassUtils.getNumberMinValue( short.class ) );
+		assertEquals( Short.MIN_VALUE, ClassUtils.getNumberMinValue( Short.class ) );
+		assertEquals( Integer.MIN_VALUE, ClassUtils.getNumberMinValue( int.class ) );
+		assertEquals( Integer.MIN_VALUE, ClassUtils.getNumberMinValue( Integer.class ) );
+		assertEquals( Long.MIN_VALUE, ClassUtils.getNumberMinValue( long.class ) );
+		assertEquals( Long.MIN_VALUE, ClassUtils.getNumberMinValue( Long.class ) );
+		assertEquals( -Float.MAX_VALUE, ClassUtils.getNumberMinValue( float.class ) );
+		assertEquals( -Float.MAX_VALUE, ClassUtils.getNumberMinValue( Float.class ) );
+		assertEquals( -Double.MAX_VALUE, ClassUtils.getNumberMinValue( double.class ) );
+		assertEquals( -Double.MAX_VALUE, ClassUtils.getNumberMinValue( Double.class ) );
+
+		try {
+			ClassUtils.getNumberMinValue( String.class );
+			fail();
+		} catch ( Exception e ) {
+			assertEquals( "class java.lang.String is not a number type", e.getMessage() );
+		}
+	}
+
+	public void testGetNumberMaxValue()
+		throws Exception {
+
+		assertEquals( Byte.MAX_VALUE, ClassUtils.getNumberMaxValue( byte.class ) );
+		assertEquals( Byte.MAX_VALUE, ClassUtils.getNumberMaxValue( Byte.class ) );
+		assertEquals( Short.MAX_VALUE, ClassUtils.getNumberMaxValue( short.class ) );
+		assertEquals( Short.MAX_VALUE, ClassUtils.getNumberMaxValue( Short.class ) );
+		assertEquals( Integer.MAX_VALUE, ClassUtils.getNumberMaxValue( int.class ) );
+		assertEquals( Integer.MAX_VALUE, ClassUtils.getNumberMaxValue( Integer.class ) );
+		assertEquals( Long.MAX_VALUE, ClassUtils.getNumberMaxValue( long.class ) );
+		assertEquals( Long.MAX_VALUE, ClassUtils.getNumberMaxValue( Long.class ) );
+		assertEquals( Float.MAX_VALUE, ClassUtils.getNumberMaxValue( float.class ) );
+		assertEquals( Float.MAX_VALUE, ClassUtils.getNumberMaxValue( Float.class ) );
+		assertEquals( Double.MAX_VALUE, ClassUtils.getNumberMaxValue( double.class ) );
+		assertEquals( Double.MAX_VALUE, ClassUtils.getNumberMaxValue( Double.class ) );
+
+		try {
+			ClassUtils.getNumberMaxValue( String.class );
+			fail();
+		} catch ( Exception e ) {
+			assertEquals( "class java.lang.String is not a number type", e.getMessage() );
+		}
 	}
 
 	public void testProperties()
@@ -52,14 +152,14 @@ public class ClassUtilsTest
 
 		try {
 			ClassUtils.setProperty( foo, "bar1", baz );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "No such method getBar1 (or boolean isBar1) on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
 		}
 
 		try {
 			ClassUtils.getProperty( foo, "bar1" );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "No such method getBar1 (or boolean isBar1) on class org.metawidget.util.ClassUtilsTest$Foo", e.getCause().getMessage() );
 		}
@@ -74,7 +174,7 @@ public class ClassUtilsTest
 
 		try {
 			ClassUtils.getReadMethod( Foo.class, "bigBoolean" );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "No such method getBigBoolean (or boolean isBigBoolean) on class org.metawidget.util.ClassUtilsTest$Foo", e.getMessage() );
 		}
@@ -147,7 +247,7 @@ public class ClassUtilsTest
 
 	public static void testGetPackagesAsFolderNames() {
 
-		assertEquals( "/java/lang", ClassUtils.getPackagesAsFolderNames( String.class ));
+		assertEquals( "/java/lang", ClassUtils.getPackagesAsFolderNames( String.class ) );
 	}
 
 	//

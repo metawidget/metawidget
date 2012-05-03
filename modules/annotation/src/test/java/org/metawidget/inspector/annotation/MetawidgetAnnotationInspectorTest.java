@@ -192,7 +192,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		try {
 			mInspector.inspect( new BadAction1(), BadAction1.class.getName() );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "@UiAction public void org.metawidget.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing(java.lang.String) must not take any parameters", e.getMessage() );
 		}
@@ -254,7 +254,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		try {
 			assertTrue( ( (Map<String, Property>) getPropertiesMethod.invoke( inspector, (Object) null ) ).isEmpty() );
-			assertTrue( false );
+			fail();
 		} catch ( InvocationTargetException e ) {
 			assertTrue( e.getCause() instanceof NullPointerException );
 		}
@@ -283,7 +283,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		try {
 			assertTrue( ( (Map<String, Property>) getActionsMethod.invoke( inspector, (Object) null ) ).isEmpty() );
-			assertTrue( false );
+			fail();
 		} catch ( InvocationTargetException e ) {
 			assertTrue( e.getCause() instanceof NullPointerException );
 		}

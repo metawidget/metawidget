@@ -61,7 +61,7 @@ public class SwingWidgetBuilderTest
 		try {
 			attributes.put( MINIMUM_VALUE, "1.5" );
 			widgetBuilder.buildWidget( PROPERTY, attributes, null );
-			assertTrue( false );
+			fail();
 		} catch ( NumberFormatException e ) {
 			assertEquals( "For input string: \"1.5\"", e.getMessage() );
 		}
@@ -120,6 +120,7 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 4 == (Integer) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
 		assertTrue( 4 == (Integer) spinner.getValue() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "97" );
@@ -135,6 +136,7 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( ( (long) 5 ) == (Long) ( (SpinnerNumberModel) spinner.getModel() ).getMinimum() );
 		assertTrue( ( (long) 5 ) == (Long) spinner.getValue() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.remove( MINIMUM_VALUE );
 		attributes.put( MAXIMUM_VALUE, "96" );
@@ -150,10 +152,11 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 1.6f, spinner.getValue() );
 		assertEquals( 0.1f, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.put( MAXIMUM_FRACTIONAL_DIGITS, "3" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( 0.001f, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
+		assertEquals( 0.001d, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
@@ -172,6 +175,7 @@ public class SwingWidgetBuilderTest
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 1.6d, spinner.getValue() );
 		assertEquals( 1000, Math.round( ( (Double) ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() ) * 1000000 ) );
+		assertEquals( 0, ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );

@@ -122,19 +122,19 @@ public class SwingAllWidgetsTest
 
 		try {
 			metawidget.getValue( "no-such-component" );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e1 ) {
 			assertEquals( "No component named 'no-such-component'", e1.getMessage() );
 
 			try {
 				metawidget.getValue( "textbox", "no-such-component" );
-				assertTrue( false );
+				fail();
 			} catch ( MetawidgetException e2 ) {
 				assertEquals( "No component named 'textbox', 'no-such-component'", e2.getMessage() );
 
 				try {
 					metawidget.getValue( "textbox", "no-such-component1", "no-such-component2" );
-					assertTrue( false );
+					fail();
 				} catch ( MetawidgetException e3 ) {
 					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 				}
@@ -143,19 +143,19 @@ public class SwingAllWidgetsTest
 
 		try {
 			metawidget.setValue( null, "no-such-component" );
-			assertTrue( false );
+			fail();
 		} catch ( MetawidgetException e1 ) {
 			assertEquals( "No component named 'no-such-component'", e1.getMessage() );
 
 			try {
 				metawidget.setValue( null, "textbox", "no-such-component" );
-				assertTrue( false );
+				fail();
 			} catch ( MetawidgetException e2 ) {
 				assertEquals( "No component named 'textbox', 'no-such-component'", e2.getMessage() );
 
 				try {
 					metawidget.setValue( null, "textbox", "no-such-component1", "no-such-component2" );
-					assertTrue( false );
+					fail();
 				} catch ( MetawidgetException e3 ) {
 					assertEquals( "No such component 'no-such-component1' of 'textbox', 'no-such-component1', 'no-such-component2'", e3.getMessage() );
 				}
@@ -448,7 +448,7 @@ public class SwingAllWidgetsTest
 		assertTrue( button.isEnabled() );
 		try {
 			button.doClick();
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
@@ -464,7 +464,7 @@ public class SwingAllWidgetsTest
 
 		try {
 			processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Could not parse 'bad date'", e.getCause().getCause().getMessage() );
 		}

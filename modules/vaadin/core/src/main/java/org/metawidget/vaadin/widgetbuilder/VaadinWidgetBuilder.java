@@ -18,28 +18,27 @@ package org.metawidget.vaadin.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.vaadin.Stub;
 import org.metawidget.vaadin.VaadinMetawidget;
 import org.metawidget.vaadin.widgetprocessor.binding.BindingConverter;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
-import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Select;
+import com.vaadin.ui.Slider;
+import com.vaadin.ui.Slider.ValueOutOfBoundsException;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
@@ -95,210 +94,66 @@ public class VaadinWidgetBuilder
 
 		if ( clazz != null ) {
 
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
-			boolean allowNull = !TRUE.equals( attributes.get( REQUIRED ) );
-
 			// Primitives
+
 			if ( clazz.isPrimitive() ) {
-				clazz = ClassUtils.getWrapperClass( clazz );
-			}
+				// booleans
 
-			// booleans
-			if ( Boolean.class.equals( clazz ) ) {
-				return new CheckBox();
-			}
-
-			// chars
-
-			if ( Character.class.equals( clazz ) ) {
-				TextField textField = new TextField();
-				textField.addValidator( new StringLengthValidator( 1, 1, allowNull ) );
-
-				return textField;
-			}
-
-			// Ranged and Not-ranged numeric value
-
-			if ( Byte.class.equals( clazz ) ) {
-				TextField textField = new TextField();
-
-				byte value = 0;
-				byte minimum = Byte.MIN_VALUE;
-				byte maximum = Byte.MAX_VALUE;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Byte.parseByte( minimumValue );
-					value = (byte) Math.max( value, minimum );
+				if ( boolean.class.equals( clazz ) ) {
+					return new CheckBox();
 				}
 
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Byte.parseByte( maximumValue );
-					value = (byte) Math.min( value, maximum );
+				// chars
+
+				if ( char.class.equals( clazz ) ) {
+					TextField textField = new TextField();
+					textField.setMaxLength( 1 );
+
+					return textField;
 				}
 
-				textField.addValidator( new NumericValidator<Byte>( minimum, maximum ) );
+				// Ranged
 
-				return textField;
+				String minimumValue = attributes.get( MINIMUM_VALUE );
+				String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-			} else if ( Short.class.equals( clazz ) ) {
-				TextField textField = new TextField();
+				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+					Slider slider = new Slider();
+					slider.setMin( Double.parseDouble( minimumValue ) );
+					try {
+						slider.setValue( slider.getMin() );
+					} catch ( ValueOutOfBoundsException e ) {
+						throw WidgetBuilderException.newException( e );
+					}
+					slider.setMax( Double.parseDouble( maximumValue ) );
 
-				short value = 0;
-				short minimum = Short.MIN_VALUE;
-				short maximum = Short.MAX_VALUE;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Short.parseShort( minimumValue );
-					value = (short) Math.max( value, minimum );
+					return slider;
 				}
 
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Short.parseShort( maximumValue );
-					value = (short) Math.min( value, maximum );
-				}
+				// Not-ranged
 
-				textField.addValidator( new NumericValidator<Short>( minimum, maximum ) );
-
-				return textField;
-
-			} else if ( Integer.class.equals( clazz ) ) {
-				TextField textField = new TextField();
-
-				int value = 0;
-				int minimum = Integer.MIN_VALUE;
-				int maximum = Integer.MAX_VALUE;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Integer.parseInt( minimumValue );
-					value = Math.max( value, minimum );
-				}
-
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Integer.parseInt( maximumValue );
-					value = Math.min( value, maximum );
-				}
-
-				textField.addValidator( new NumericValidator<Integer>( minimum, maximum ) );
-
-				return textField;
-
-			} else if ( Long.class.equals( clazz ) ) {
-				TextField textField = new TextField();
-
-				long value = 0;
-				long minimum = Long.MIN_VALUE;
-				long maximum = Long.MAX_VALUE;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Long.parseLong( minimumValue );
-					value = Math.max( value, minimum );
-				}
-
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Long.parseLong( maximumValue );
-					value = Math.min( value, maximum );
-				}
-
-				textField.addValidator( new NumericValidator<Long>( minimum, maximum ) );
-
-				return textField;
-
-			} else if ( Float.class.equals( clazz ) ) {
-				TextField textField = new TextField();
-
-				float value = 0;
-				float minimum = -Float.MAX_VALUE;
-				float maximum = Float.MAX_VALUE;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Float.parseFloat( minimumValue );
-					value = Math.max( value, minimum );
-				}
-
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Float.parseFloat( maximumValue );
-					value = Math.min( value, maximum );
-				}
-
-				textField.addValidator( new NumericValidator<Float>( minimum, maximum ) );
-
-				return textField;
-			} else if ( Double.class.equals( clazz ) ) {
-				TextField textField = new TextField();
-
-				double value = 0;
-				double minimum = -Double.MAX_VALUE;
-				double maximum = Double.MAX_VALUE;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Double.parseDouble( minimumValue );
-					value = Math.max( value, minimum );
-				}
-
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Double.parseDouble( maximumValue );
-					value = Math.min( value, maximum );
-				}
-
-				textField.addValidator( new NumericValidator<Double>( minimum, maximum ) );
-
-				return textField;
+				return createTextField( attributes );
 			}
 
 			// Strings
 
 			if ( String.class.equals( clazz ) ) {
-
-				AbstractTextField textField;
-
-				maximumValue = attributes.get( MAXIMUM_LENGTH );
-				minimumValue = attributes.get( MINIMUM_LENGTH );
-
 				if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-
-					textField = new PasswordField();
-
-				} else if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-
-					textField = new TextArea();
-
-					// Since we know we are dealing with Strings, we consider
-					// word-wrapping a sensible default
-
-					( (TextArea) textField ).setWordwrap( true );
-
-					// We also consider 3 rows a sensible default
-
-					( (TextArea) textField ).setRows( 3 );
-
-				} else {
-					textField = new TextField();
+					return new PasswordField();
 				}
 
-				int minimum = -1;
-				int maximum = -1;
-
-				if ( minimumValue != null && !"".equals( minimumValue ) ) {
-					minimum = Integer.parseInt( minimumValue );
-					if ( minimum < -1 ) {
-						minimum = -1;
-					}
+				if ( TRUE.equals( attributes.get( LARGE ) ) ) {
+					return new TextArea();
 				}
 
-				if ( maximumValue != null && !"".equals( maximumValue ) ) {
-					maximum = Integer.parseInt( maximumValue );
-					if ( maximum < minimum ) {
-						maximum = minimum;
-					}
-				}
+				return createTextField( attributes );
+			}
 
-				if ( ( minimum > -1 ) || ( maximum > -1 ) || ( !allowNull ) ) {
+			// Characters
 
-					textField = new TextField();
-					textField.addValidator( new StringLengthValidator( minimum, maximum, allowNull ) );
-					textField.setMaxLength( maximum );
-				}
+			if ( Character.class.isAssignableFrom( clazz ) ) {
+				TextField textField = new TextField();
+				textField.setMaxLength( 1 );
 
 				return textField;
 			}
@@ -309,7 +164,17 @@ public class VaadinWidgetBuilder
 				return new PopupDateField();
 			}
 
-			// Unsupported Collection
+			// Numbers
+			//
+			// Note: we use a text field, not a JSpinner or JSlider, because
+			// BeansBinding gets upset at doing 'setValue( null )' if the Integer
+			// is null. We can still use JSpinner/JSliders for primitives, though.
+
+			if ( Number.class.isAssignableFrom( clazz ) ) {
+				return createTextField( attributes );
+			}
+
+			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				return new Stub();
@@ -319,7 +184,7 @@ public class VaadinWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) ) {
-			return new TextField();
+			return createTextField( attributes );
 		}
 
 		return null;
@@ -328,6 +193,19 @@ public class VaadinWidgetBuilder
 	//
 	// Private methods
 	//
+
+	private TextField createTextField( Map<String, String> attributes ) {
+
+		TextField textField = new TextField();
+
+		String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+		if ( maximumLength != null && !"".equals( maximumLength ) ) {
+			textField.setMaxLength( Integer.parseInt( attributes.get( MAXIMUM_LENGTH ) ) );
+		}
+
+		return textField;
+	}
 
 	private Component createSelectComponent( Map<String, String> attributes, String lookup, VaadinMetawidget metawidget ) {
 
@@ -375,275 +253,5 @@ public class VaadinWidgetBuilder
 		}
 
 		return select;
-	}
-
-	//
-	// Inner Class
-	//
-
-	/* package private */static class NumericValidator<T extends Number>
-			extends AbstractValidator {
-
-		//
-		// Private statics
-		//
-
-		private final static String	DEFAULT_TYPE_ERROR_MESSAGE		= "Not correct type";
-
-		private final static String	DEFAULT_RANGE_ERROR_MESSAGE		= "{2} must be between {0} and {1}";
-
-		private final static String	DEFAULT_MAXIMUM_ERROR_MESSAGE	= "{1} must not be greater than {0}";
-
-		private final static String	DEFAULT_MINIMUM_ERROR_MESSAGE	= "{1} must not be less than {0}";
-
-		private enum ValidatorType {
-			TYPE_VALIDATOR, MAXIMUM_VALIDATOR, MINIMUM_VALIDATOR, RANGE_VALIDATOR
-		}
-
-		private enum ErrorType {
-			NO_ERROR, TYPE_ERROR, RANGE_ERROR
-		}
-
-		private ValidatorType			mValidatorType;
-
-		private Class<? extends Number>	mValueType;
-
-		private T						mMinimum;
-
-		private T						mMaximum;
-
-		//
-		// Constructor
-		//
-
-		public NumericValidator( T minimum, T maximum ) {
-
-			super( "" );
-
-			mMinimum = minimum;
-			mMaximum = maximum;
-			mValueType = minimum.getClass();
-
-			String errorMessage = "";
-
-			mValidatorType = ValidatorType.TYPE_VALIDATOR;
-
-			if ( mValueType == Byte.class ) {
-
-				if ( ( Byte.MAX_VALUE != (Byte) maximum ) && ( Byte.MIN_VALUE != (Byte) minimum ) ) {
-					errorMessage = DEFAULT_RANGE_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.RANGE_VALIDATOR;
-				} else if ( Byte.MAX_VALUE == (Byte) maximum ) {
-					errorMessage = DEFAULT_MAXIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MAXIMUM_VALIDATOR;
-				} else if ( Byte.MIN_VALUE == (Byte) minimum ) {
-					errorMessage = DEFAULT_MINIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MINIMUM_VALIDATOR;
-				}
-			}
-
-			if ( mValueType == Short.class ) {
-
-				if ( ( Short.MAX_VALUE != (Short) maximum ) && ( Short.MIN_VALUE != (Short) minimum ) ) {
-					errorMessage = DEFAULT_RANGE_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.RANGE_VALIDATOR;
-				} else if ( Short.MAX_VALUE == (Short) maximum ) {
-					errorMessage = DEFAULT_MAXIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MAXIMUM_VALIDATOR;
-				} else if ( Short.MIN_VALUE == (Short) minimum ) {
-					errorMessage = DEFAULT_MINIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MINIMUM_VALIDATOR;
-				}
-			}
-
-			if ( mValueType == Integer.class ) {
-
-				if ( ( Integer.MAX_VALUE != (Integer) maximum ) && ( Integer.MIN_VALUE != (Integer) minimum ) ) {
-					errorMessage = DEFAULT_RANGE_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.RANGE_VALIDATOR;
-				} else if ( Integer.MAX_VALUE == (Integer) maximum ) {
-					errorMessage = DEFAULT_MAXIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MAXIMUM_VALIDATOR;
-				} else if ( Integer.MIN_VALUE == (Integer) minimum ) {
-					errorMessage = DEFAULT_MINIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MINIMUM_VALIDATOR;
-				}
-			}
-
-			if ( mValueType == Long.class ) {
-
-				if ( ( Long.MAX_VALUE != (Long) maximum ) && ( Long.MIN_VALUE != (Long) minimum ) ) {
-					errorMessage = DEFAULT_RANGE_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.RANGE_VALIDATOR;
-				} else if ( Long.MAX_VALUE == (Long) maximum ) {
-					errorMessage = DEFAULT_MAXIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MAXIMUM_VALIDATOR;
-				} else if ( Long.MIN_VALUE == (Long) minimum ) {
-					errorMessage = DEFAULT_MINIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MINIMUM_VALIDATOR;
-				}
-
-			}
-
-			if ( mValueType == Float.class ) {
-
-				if ( ( Float.MAX_VALUE != (Float) maximum ) && ( Float.MIN_VALUE != (Float) minimum ) ) {
-					errorMessage = DEFAULT_RANGE_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.RANGE_VALIDATOR;
-				} else if ( Float.MAX_VALUE == (Float) maximum ) {
-					errorMessage = DEFAULT_MAXIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MAXIMUM_VALIDATOR;
-				} else if ( Float.MIN_VALUE == (Float) minimum ) {
-					errorMessage = DEFAULT_MINIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MINIMUM_VALIDATOR;
-				}
-			}
-
-			if ( mValueType == Double.class ) {
-
-				if ( ( Double.MAX_VALUE != (Double) maximum ) && ( Double.MIN_VALUE != (Double) minimum ) ) {
-					errorMessage = DEFAULT_RANGE_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.RANGE_VALIDATOR;
-				} else if ( Double.MAX_VALUE == (Double) maximum ) {
-					errorMessage = DEFAULT_MAXIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MAXIMUM_VALIDATOR;
-				} else if ( Double.MIN_VALUE == (Double) minimum ) {
-					errorMessage = DEFAULT_MINIMUM_ERROR_MESSAGE;
-					mValidatorType = ValidatorType.MINIMUM_VALIDATOR;
-				}
-			}
-
-			setErrorMessage( errorMessage );
-		}
-
-		//
-		// Private methods
-		//
-
-		private ErrorType validating( Object value ) {
-
-			if ( value == null ) {
-				return ErrorType.NO_ERROR;
-			}
-
-			String valueAsString = String.valueOf( value );
-
-			try {
-				if ( mValueType == Byte.class ) {
-					Byte val = Byte.parseByte( valueAsString );
-					return ( ( val >= (Byte) mMinimum ) && ( val <= (Byte) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
-				}
-
-				if ( mValueType == Short.class ) {
-					Short val = Short.parseShort( valueAsString );
-					return ( ( val >= (Short) mMinimum ) && ( val <= (Short) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
-				}
-
-				if ( mValueType == Integer.class ) {
-					Integer val = Integer.parseInt( valueAsString );
-					return ( ( val >= (Integer) mMinimum ) && ( val <= (Integer) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
-				}
-
-				if ( mValueType == Long.class ) {
-					Long val = Long.parseLong( valueAsString );
-					return ( ( val >= (Long) mMinimum ) && ( val <= (Long) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
-				}
-
-				if ( mValueType == Float.class ) {
-					Float val = Float.parseFloat( valueAsString );
-					return ( ( val >= (Float) mMinimum ) && ( val <= (Float) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
-				}
-
-				if ( mValueType == Double.class ) {
-					Double val = Double.parseDouble( valueAsString );
-					return ( ( val >= (Double) mMinimum ) && ( val <= (Double) mMaximum ) ) ? ErrorType.NO_ERROR : ErrorType.RANGE_ERROR;
-				}
-
-				return ErrorType.NO_ERROR;
-			} catch ( Exception e ) {
-				return ErrorType.TYPE_ERROR;
-			}
-		}
-
-		//
-		// Public Methods
-		//
-
-		public boolean isValid( Object value ) {
-
-			return validating( value ).equals( ErrorType.NO_ERROR );
-		}
-
-		@Override
-		public void validate( Object value )
-			throws InvalidValueException {
-
-			String message = "";
-			ErrorType errorType = validating( value );
-
-			switch ( errorType ) {
-				case RANGE_ERROR:
-					switch ( mValidatorType ) {
-						case RANGE_VALIDATOR:
-							message = MessageFormat.format( getErrorMessage(), mMinimum, mMaximum, value );
-							break;
-						case MAXIMUM_VALIDATOR:
-							message = MessageFormat.format( getErrorMessage(), mMaximum, value );
-							break;
-						case MINIMUM_VALIDATOR:
-							message = MessageFormat.format( getErrorMessage(), mMinimum, value );
-							break;
-					}
-					break;
-
-				case TYPE_ERROR:
-					message = MessageFormat.format( DEFAULT_TYPE_ERROR_MESSAGE, value );
-					break;
-
-				default:
-					return;
-			}
-
-			throw new InvalidValueException( message );
-		}
-
-	}
-
-	private static class StringLengthValidator
-		extends com.vaadin.data.validator.StringLengthValidator {
-
-		//
-		// Constructor
-		//
-
-		public StringLengthValidator( int minLength, int maxLength, boolean allowNull ) {
-
-			super( "", minLength, maxLength, allowNull );
-		}
-
-		//
-		// Public methods
-		//
-
-		@Override
-		public void validate( Object value )
-			throws InvalidValueException {
-
-			if ( !isValid( value ) ) {
-				String message = "";
-
-				if ( value == null ) {
-					message = MessageFormat.format( "{1} must not be shorter than {0} characters", getMinLength(), "''" );
-				} else {
-					if ( value.toString().length() < getMinLength() ) {
-						message = MessageFormat.format( "{1} must not be shorter than {0} characters", getMinLength(), value );
-					} else if ( value.toString().length() > getMaxLength() ) {
-						message = MessageFormat.format( "{1} must not be longer than {0} characters", getMaxLength(), value );
-					}
-				}
-
-				throw new InvalidValueException( message );
-			}
-		}
 	}
 }

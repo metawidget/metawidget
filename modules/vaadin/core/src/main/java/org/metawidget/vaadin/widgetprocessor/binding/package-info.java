@@ -14,30 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext.layout;
-
-import junit.framework.TestCase;
-
-import org.metawidget.layout.iface.LayoutException;
-
 /**
- * @author Richard Kennard
+ * Vaadin support: binding.
+ *
+ * @author Loghman Barari
  */
 
-public class SimpleLayoutTest
-	extends TestCase {
-
-	//
-	// Public methods
-	//
-
-	public void testException() {
-
-		try {
-			new SimpleLayout().layoutWidget( null, null, null, null, null );
-			fail();
-		} catch ( LayoutException e ) {
-			assertTrue( e.getCause() instanceof NullPointerException );
-		}
-	}
-}
+package org.metawidget.vaadin.widgetprocessor.binding;

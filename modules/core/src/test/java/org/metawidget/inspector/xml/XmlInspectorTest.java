@@ -185,14 +185,14 @@ public class XmlInspectorTest
 
 		try {
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo/bar/baz" ) );
 		}
 
 		try {
 			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute in the XML, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo/bar/baz/abc" ) );
 		}
@@ -215,7 +215,7 @@ public class XmlInspectorTest
 
 		try {
 			new XmlInspector( new XmlInspectorConfig() );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
 		}
@@ -225,14 +225,14 @@ public class XmlInspectorTest
 
 		try {
 			mInspector.inspect( null, "Typo1" );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "Attribute named 'readonly' should be 'read-only'", e.getMessage() );
 		}
 
 		try {
 			mInspector.inspect( null, "Typo2" );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "Attribute named 'dontexpand' should be 'dont-expand'", e.getMessage() );
 		}
@@ -409,7 +409,7 @@ public class XmlInspectorTest
 
 		try {
 			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo does not define a property 'baz'", e.getMessage() );
 		}
@@ -425,7 +425,7 @@ public class XmlInspectorTest
 
 		try {
 			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$NullObject defines property 'nestedNullObject' to be org.metawidget.inspector.xml.XmlInspectorTest$NullObject, not 'int'", e.getMessage() );
 		}
@@ -448,7 +448,7 @@ public class XmlInspectorTest
 
 		try {
 			mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
-			assertTrue( false );
+			fail();
 		} catch ( InspectorException e ) {
 			assertEquals( "class org.metawidget.inspector.xml.XmlInspectorTest$SubRestrictAgainstObjectFoo extends class org.metawidget.inspector.xml.XmlInspectorTest$RestrictAgainstObjectFoo, not 'Bar'", e.getMessage() );
 		}

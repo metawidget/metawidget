@@ -57,7 +57,7 @@ public class StubTagTest
 
 		try {
 			stubTag.setProperties( null );
-			assertTrue( false );
+			fail();
 		} catch( MetawidgetException e ) {
 			assertEquals( "Value 'foo' must be an EL expression", e.getMessage() );
 		}
@@ -68,7 +68,7 @@ public class StubTagTest
 
 		try {
 			stubTag.setProperties( null );
-			assertTrue( false );
+			fail();
 		} catch( MetawidgetException e ) {
 			assertEquals( "Action 'bar' must be an EL expression", e.getMessage() );
 		}

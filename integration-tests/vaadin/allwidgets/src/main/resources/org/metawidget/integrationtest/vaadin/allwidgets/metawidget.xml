@@ -32,6 +32,7 @@
 				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection"/>
 				<captionProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
 				<requiredProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+				<minimumMaximumValidatorProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
 			</array>
 		</widgetProcessors>		
 	</vaadinMetawidget>

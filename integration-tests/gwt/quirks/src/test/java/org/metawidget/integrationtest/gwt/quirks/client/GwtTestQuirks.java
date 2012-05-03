@@ -118,7 +118,7 @@ public class GwtTestQuirks
 
 						try {
 							fireClickEvent( nestedActionButton );
-							assertTrue( false );
+							fail();
 						} catch ( UmbrellaException umbrella ) {
 
 							boolean nestedActionCalled = false;
@@ -313,7 +313,7 @@ public class GwtTestQuirks
 
 		try {
 			converter.convertFromWidget( null, "Foo", Date.class );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Don't know how to convert a String to a java.util.Date", e.getMessage() );
 		}
@@ -323,7 +323,7 @@ public class GwtTestQuirks
 
 		try {
 			new GwtRemoteInspectorProxy().inspect( null, null );
-			assertTrue( false );
+			fail();
 		} catch ( Exception e ) {
 			assertEquals( "Use async inspection instead", e.getMessage() );
 		}
