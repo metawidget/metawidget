@@ -138,7 +138,7 @@ public class MinimumMaximumValidatorProcessorTest
 
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "4" );
-		attributes.put( TYPE, int.class.getName() );
+		attributes.put( TYPE, Integer.class.getName() );
 		textField = (TextField) widgetProcessor.processWidget( new TextField(), PROPERTY, attributes, null );
 		validator = textField.getValidators().iterator().next();
 		assertTrue( validator.isValid( null ) );
@@ -174,7 +174,7 @@ public class MinimumMaximumValidatorProcessorTest
 
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "5" );
-		attributes.put( TYPE, long.class.getName() );
+		attributes.put( TYPE, Long.class.getName() );
 		textField = (TextField) widgetProcessor.processWidget( new TextField(), PROPERTY, attributes, null );
 		validator = textField.getValidators().iterator().next();
 		assertTrue( validator.isValid( null ) );
@@ -209,7 +209,7 @@ public class MinimumMaximumValidatorProcessorTest
 
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "1.6" );
-		attributes.put( TYPE, float.class.getName() );
+		attributes.put( TYPE, Float.class.getName() );
 		textField = (TextField) widgetProcessor.processWidget( new TextField(), PROPERTY, attributes, null );
 		validator = textField.getValidators().iterator().next();
 		assertTrue( validator.isValid( null ) );
@@ -243,7 +243,7 @@ public class MinimumMaximumValidatorProcessorTest
 
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "1.6" );
-		attributes.put( TYPE, double.class.getName() );
+		attributes.put( TYPE, Double.class.getName() );
 		textField = (TextField) widgetProcessor.processWidget( new TextField(), PROPERTY, attributes, null );
 		validator = textField.getValidators().iterator().next();
 		assertTrue( validator.isValid( null ) );
