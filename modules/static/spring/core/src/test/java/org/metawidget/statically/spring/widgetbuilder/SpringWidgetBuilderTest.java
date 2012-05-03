@@ -80,13 +80,16 @@ public class SpringWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( SPRING_LOOKUP, "${foo.bar}" );
 		StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<form:select><form:option value=\"\"/><form:options items=\"${foo.bar}\"/></form:select>", widget.toString() );
+		assertNull( widget );
+		attributes.put( NAME, "${bar}" );
+		widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( "<form:select><form:option value=\"\"/><form:option items=\"${bar}\"/></form:select>", widget.toString() );
 
 		// With 'required'
 
 		attributes.put( REQUIRED, TRUE );
 		widget = widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "<form:select><form:options items=\"${foo.bar}\"/></form:select>", widget.toString() );
+		assertEquals( "<form:select items=\"${bar}\"/>", widget.toString() );
 	}
 
 	public void testCollection() {
