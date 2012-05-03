@@ -77,7 +77,7 @@ public class SpringWidgetBuilder
 
 		// Lookup the Class
 
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
