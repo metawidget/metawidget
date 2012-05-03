@@ -237,6 +237,10 @@ public final class ClassUtils {
 
 	public static Object parseNumber( Class<?> clazz, String value ) {
 
+		if ( value == null || "".equals( value )) {
+			return null;
+		}
+
 		if ( byte.class.equals( clazz ) ) {
 			return Byte.parseByte( value );
 		}

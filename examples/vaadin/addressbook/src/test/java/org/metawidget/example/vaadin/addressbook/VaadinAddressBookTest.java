@@ -41,6 +41,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Select;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -260,11 +261,11 @@ public class VaadinAddressBookTest
 
 		assertEquals( "Charles Montgomery", ( (TextField) metawidgetContact.getComponent( "firstname" ) ).getValue() );
 		assertEquals( Gender.MALE, ( (Select) metawidgetContact.getComponent( "gender" ) ).getValue() );
-		assertEquals( "0", ( (TextField) metawidgetContact.getComponent( "numberOfStaff" ) ).getValue() );
+		assertEquals( 0, ( (Slider) metawidgetContact.getComponent( "numberOfStaff" ) ).getValue() );
 
 		// Check saving
 
-		( (TextField) metawidgetContact.getComponent( "numberOfStaff" ) ).setValue( 2 );
+		( (Slider) metawidgetContact.getComponent( "numberOfStaff" ) ).setValue( "2" );
 		( (TextField) metawidgetContact.getComponent( "company" ) ).setValue( "A Company" );
 
 		layout = (FormLayout) metawidgetContact.getContent();

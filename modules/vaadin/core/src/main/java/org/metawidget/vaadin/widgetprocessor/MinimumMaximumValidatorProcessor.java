@@ -63,7 +63,11 @@ public class MinimumMaximumValidatorProcessor
 			return component;
 		}
 
-		if ( !Number.class.isAssignableFrom( clazz ) ) {
+		if ( !clazz.isPrimitive() && !Number.class.isAssignableFrom( clazz ) ) {
+			return component;
+		}
+
+		if ( char.class.equals( clazz ) || boolean.class.equals( clazz ) ) {
 			return component;
 		}
 
