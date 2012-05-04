@@ -19,7 +19,6 @@ package org.metawidget.vaadin.widgetprocessor.binding.simple;
 import junit.framework.TestCase;
 
 import org.metawidget.util.MetawidgetTestUtils;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
 
 /**
  * @author Richard Kennard
@@ -31,6 +30,8 @@ public class SimpleBindingProcessorTest
 	//
 	// Public methods
 	//
+
+	// TODO: unit tests!
 
 	public void testConfig() {
 

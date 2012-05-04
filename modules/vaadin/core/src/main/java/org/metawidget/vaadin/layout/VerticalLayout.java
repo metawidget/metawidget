@@ -60,7 +60,7 @@ public class VerticalLayout
 
 		// Add it
 
-		com.vaadin.ui.VerticalLayout layout = (com.vaadin.ui.VerticalLayout)  metawidget.getComponentIterator().next();
+		com.vaadin.ui.VerticalLayout layout = (com.vaadin.ui.VerticalLayout)  container.getComponentIterator().next();
 		component.setWidth( "100%" );
 		layout.addComponent( component );
 	}

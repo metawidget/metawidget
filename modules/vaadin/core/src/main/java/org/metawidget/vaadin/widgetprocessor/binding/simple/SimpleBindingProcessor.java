@@ -17,6 +17,7 @@
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -106,6 +107,12 @@ public class SimpleBindingProcessor
 		// SimpleBindingProcessor only binds to Property components (TextFields, Labels, etc)
 
 		if ( !( component instanceof Property ) ) {
+			return component;
+		}
+
+		// Ignore WRITE_ONLY (at least for now)
+
+		if ( TRUE.equals( attributes.get( NO_GETTER ))) {
 			return component;
 		}
 

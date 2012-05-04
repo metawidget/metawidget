@@ -102,12 +102,6 @@ public final class InspectionResultConstants {
 	public static final String	NO_SETTER						= "no-setter";
 
 	/**
-	 * Write-only field attribute.
-	 */
-
-	public static final String	WRITE_ONLY						= "write-only";
-
-	/**
 	 * Required field attribute.
 	 * <p>
 	 * Can be set by, say, <code>org.hibernate.validator.NotNull</code> or

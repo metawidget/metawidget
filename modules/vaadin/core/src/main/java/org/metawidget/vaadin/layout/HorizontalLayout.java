@@ -60,7 +60,7 @@ public class HorizontalLayout
 
 		// Add it
 
-		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) metawidget.getComponentIterator().next();
+		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) container.getComponentIterator().next();
 		layout.addComponent( component );
 	}
 
