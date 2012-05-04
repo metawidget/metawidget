@@ -82,7 +82,7 @@ public class FormLayout
 
 		// Fix caption
 
-		if ( component.getCaption() != null && component.getCaption().length() != 0 && mLabelSuffix.length() != 0 ) {
+		if ( component.getCaption() != null && component.getCaption().length() != 0 && mLabelSuffix != null && mLabelSuffix.length() != 0 ) {
 			if ( !( component instanceof Button ) || component instanceof CheckBox ) {
 				component.setCaption( component.getCaption() + mLabelSuffix );
 			}

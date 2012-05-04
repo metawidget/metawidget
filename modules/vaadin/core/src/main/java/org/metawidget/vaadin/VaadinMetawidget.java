@@ -755,36 +755,21 @@ public class VaadinMetawidget
 		protected void startBuild() {
 
 			VaadinMetawidget.this.startBuild();
-
 			super.startBuild();
 		}
 
 		@Override
-		protected void layoutWidget( Component component, String elementName,
-				Map<String, String> attributes ) {
+		protected void layoutWidget( Component component, String elementName, Map<String, String> attributes ) {
 
 			VaadinMetawidget.this.layoutWidget( component, elementName, attributes );
-
-			// Support null layouts
-
-			if ( getLayout() == null ) {
-				addComponent( component );
-			} else {
-				super.layoutWidget( component, elementName, attributes );
-			}
+			super.layoutWidget( component, elementName, attributes );
 		}
 
-		@SuppressWarnings( "unchecked" )
 		@Override
-		protected Map<String, String> getAdditionalAttributes(
-				Component component ) {
+		protected Map<String, String> getAdditionalAttributes( Component component ) {
 
-			if ( component instanceof AbstractComponent ) {
-
-				Object attributes = ( (AbstractComponent) component ).getData();
-				if ( attributes instanceof Map ) {
-					return (Map<String, String>) attributes;
-				}
+			if ( component instanceof Stub ) {
+				return ( (Stub) component ).getAttributes();
 			}
 
 			return null;
