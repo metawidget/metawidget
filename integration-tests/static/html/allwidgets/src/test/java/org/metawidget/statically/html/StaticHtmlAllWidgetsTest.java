@@ -380,7 +380,9 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\" name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\"></output>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox1\" name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"hidden\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t</output>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -389,7 +391,9 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\" name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\"></output>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-furtherNestedWidgets-nestedTextbox2\" name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" type=\"hidden\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t</output>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -403,7 +407,9 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-nestedTextbox1\" name=\"readOnlyNestedWidgetsNestedTextbox1\"></output>\r\n" +
+            "\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-nestedTextbox1\" name=\"readOnlyNestedWidgetsNestedTextbox1\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsNestedTextbox1\" type=\"hidden\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t</output>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -412,7 +418,9 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label for=\"readOnlyNestedWidgets-nestedTextbox2\">Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-nestedTextbox2\" name=\"readOnlyNestedWidgetsNestedTextbox2\"></output>\r\n" +
+            "\t\t\t\t\t\t\t\t<output id=\"readOnlyNestedWidgets-nestedTextbox2\" name=\"readOnlyNestedWidgetsNestedTextbox2\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsNestedTextbox2\" type=\"hidden\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t</output>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -435,7 +443,9 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"readOnlyNestedWidgetsDontExpand\">Read Only Nested Widgets Dont Expand:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<output id=\"readOnlyNestedWidgetsDontExpand\" name=\"readOnlyNestedWidgetsDontExpand\"></output>\r\n" +
+            "\t\t\t\t<output id=\"readOnlyNestedWidgetsDontExpand\" name=\"readOnlyNestedWidgetsDontExpand\">\r\n" +
+            "\t\t\t\t\t<input name=\"readOnlyNestedWidgetsDontExpand\" type=\"hidden\"/>\r\n" +
+            "\t\t\t\t</output>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -460,7 +470,9 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t<label for=\"readOnly\">Read Only:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<output id=\"readOnly\" name=\"readOnly\"></output>\r\n" +
+            "\t\t\t\t<output id=\"readOnly\" name=\"readOnly\">\r\n" +
+            "\t\t\t\t\t<input name=\"readOnly\" type=\"hidden\"/>\r\n" +
+            "\t\t\t\t</output>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +

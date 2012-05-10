@@ -163,13 +163,13 @@ public class HtmlPanelGridLayoutTest
 
 		// Required
 
-		htmlInputText.putAttribute( REQUIRED, TRUE );
+		attributes.put( REQUIRED, TRUE );
 		container = new HtmlPanelGrid();
 		layout.startContainerLayout( container, metawidget );
 		layout.layoutWidget(htmlInputText, PROPERTY, attributes, container, metawidget );
 		layout.endContainerLayout( container, metawidget );
 
-		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText required=\"true\"/><h:message/></h:panelGroup><h:outputText value=\"*\"/></h:panelGrid></h:panelGrid>", container.toString() );
+		assertEquals( "<h:panelGrid><h:panelGrid columns=\"3\"><h:outputLabel value=\"Foo:\"/><h:panelGroup><h:inputText/><h:message/></h:panelGroup><h:outputText value=\"*\"/></h:panelGrid></h:panelGrid>", container.toString() );
 	}
 
 	public void testTopLevelAttributes()

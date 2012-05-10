@@ -154,11 +154,9 @@ public class HtmlPanelGridLayout
 
 			// Required star
 
-			// TODO: !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() everywhere
-
 			HtmlOutputText required = new HtmlOutputText();
 
-			if ( TRUE.equals( widget.getAttribute( REQUIRED ) )) {
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() ) {
 				required.putAttribute( "value", "*" );
 			}
 			panelGrid.getChildren().add( required );

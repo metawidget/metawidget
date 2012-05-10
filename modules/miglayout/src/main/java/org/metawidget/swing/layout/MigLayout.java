@@ -33,6 +33,7 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils.StrippedMnemonicAndFirstIndex;
 
@@ -236,7 +237,7 @@ public class MigLayout
 			StrippedMnemonicAndFirstIndex stripMnemonic = SimpleLayoutUtils.stripMnemonic( labelText );
 			String labelTextToUse = stripMnemonic.getStrippedMnemonic();
 
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() ) {
 				label.setText( labelTextToUse + "*:" );
 			} else {
 				label.setText( labelTextToUse + ":" );

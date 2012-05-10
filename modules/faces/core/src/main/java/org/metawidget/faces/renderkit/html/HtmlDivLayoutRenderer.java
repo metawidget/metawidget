@@ -31,6 +31,7 @@ import javax.faces.context.ResponseWriter;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -265,7 +266,7 @@ public class HtmlDivLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( TRUE.equals( metadataAttributes.get( REQUIRED ) ) && !TRUE.equals( metadataAttributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() ) {
+		if ( TRUE.equals( metadataAttributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( metadataAttributes ) && !( (UIMetawidget) metawidget ).isReadOnly() ) {
 			writer.startElement( "span", metawidget );
 
 			State state = getState( metawidget );

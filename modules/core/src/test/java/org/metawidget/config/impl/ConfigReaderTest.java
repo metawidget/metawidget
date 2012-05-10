@@ -468,7 +468,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.impl.NoEqualsInspectorConfig does not override .equals(), so cannot cache reliably".equals( e.getMessage() ) );
+			assertEquals( "class org.metawidget.config.impl.NoEqualsInspectorConfig does not override .equals(), so cannot cache reliably", e.getMessage() );
 		}
 
 		// No hashCode
@@ -482,7 +482,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.impl.NoHashCodeInspectorConfig does not override .hashCode(), so cannot cache reliably".equals( e.getMessage() ) );
+			assertEquals( "class org.metawidget.config.impl.NoHashCodeInspectorConfig does not override .hashCode(), so cannot cache reliably", e.getMessage() );
 		}
 
 		// Unbalanced
@@ -514,7 +514,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.config.impl.AllTypesInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute".equals( e.getMessage() ) );
+			assertEquals( "class org.metawidget.config.impl.AllTypesInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute", e.getMessage() );
 		}
 
 		// Different constructor
@@ -528,7 +528,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
+			assertEquals( "class org.metawidget.inspector.xml.XmlInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute. Did you mean config=\"XmlInspectorConfig\"?", e.getMessage() );
 		}
 
 		// Config-less constructor
@@ -542,7 +542,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Object.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "class java.lang.Object does not have a constructor that takes a class java.lang.String, as specified by your config attribute. It only has a config-less constructor".equals( e.getMessage() ) );
+			assertEquals( "class java.lang.Object does not have a constructor that takes a class java.lang.String, as specified by your config attribute. It only has a config-less constructor", e.getMessage() );
 		}
 
 		// Superclass does, but subclass doesn't, but no methods
@@ -578,7 +578,18 @@ public class ConfigReaderTest
 
 		new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertTrue( "class org.metawidget.config.impl.DumbHashCodeInspectorConfig overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
+		assertEquals( "class org.metawidget.config.impl.DumbHashCodeInspectorConfig overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably", LogUtilsTest.getLastWarnMessage() );
+
+		// Immutable has setter method
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<mutableInspector xmlns=\"java:org.metawidget.config.impl\"/>";
+		xml += "</metawidget>";
+
+		new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+
+		assertEquals( "class org.metawidget.config.impl.MutableInspector must be immutable, but appears to have a setter method (public void org.metawidget.config.impl.MutableInspector.setFoo(java.lang.String))", LogUtilsTest.getLastWarnMessage() );
 	}
 
 	public void testLookupClass()

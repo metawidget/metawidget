@@ -25,6 +25,7 @@ import java.util.Set;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
@@ -85,7 +86,7 @@ public class MapBindingProcessor
 		}
 
 		try {
-			if ( TRUE.equals( attributes.get( READ_ONLY ) ) ) {
+			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
 				return widget;
 			}
 

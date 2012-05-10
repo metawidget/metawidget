@@ -381,7 +381,9 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"hidden\" value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox1}\"/>\r\n" +
+        	"\t\t\t\t\t\t\t\t\t\t\t\t</c:out>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -390,7 +392,9 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t\t\t\t<label>Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsFurtherNestedWidgetsNestedTextbox2\" type=\"hidden\" value=\"${allWidgets.readOnlyNestedWidgets.furtherNestedWidgets.nestedTextbox2}\"/>\r\n" +
+        	"\t\t\t\t\t\t\t\t\t\t\t\t</c:out>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t</tr>\r\n" +
@@ -404,7 +408,9 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label>Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsNestedTextbox1\" type=\"hidden\" value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox1}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t</c:out>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -413,7 +419,9 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t\t\t\t\t<label>Nested Textbox 2:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
-            "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\">\r\n" +
+            "\t\t\t\t\t\t\t\t\t<input name=\"readOnlyNestedWidgetsNestedTextbox2\" type=\"hidden\" value=\"${allWidgets.readOnlyNestedWidgets.nestedTextbox2}\"/>\r\n" +
+            "\t\t\t\t\t\t\t\t</c:out>\r\n" +
             "\t\t\t\t\t\t\t</td>\r\n" +
             "\t\t\t\t\t\t\t<td/>\r\n" +
             "\t\t\t\t\t\t</tr>\r\n" +
@@ -436,7 +444,9 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label>Read Only Nested Widgets Dont Expand:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
+            "\t\t\t\t<c:out value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\">\r\n" +
+            "\t\t\t\t\t<input name=\"readOnlyNestedWidgetsDontExpand\" type=\"hidden\" value=\"${allWidgets.readOnlyNestedWidgetsDontExpand}\"/>\r\n" +
+            "\t\t\t\t</c:out>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +
@@ -461,7 +471,9 @@ public class StaticJspAllWidgetsTest
             "\t\t\t\t<label>Read Only:</label>\r\n" +
             "\t\t\t</th>\r\n" +
             "\t\t\t<td>\r\n" +
-            "\t\t\t\t<c:out value=\"${allWidgets.readOnly}\"/>\r\n" +
+            "\t\t\t\t<c:out value=\"${allWidgets.readOnly}\">\r\n" +
+            "\t\t\t\t\t<input name=\"readOnly\" type=\"hidden\" value=\"${allWidgets.readOnly}\"/>\r\n" +
+            "\t\t\t\t</c:out>\r\n" +
             "\t\t\t</td>\r\n" +
             "\t\t\t<td/>\r\n" +
             "\t\t</tr>\r\n" +

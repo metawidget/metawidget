@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.vaadin.VaadinMetawidget;
@@ -175,9 +176,9 @@ public class SimpleBindingProcessor
 				property.setReadOnly( true );
 			}
 
-			// If no setter, can be no save()
+			// If read-only, can be no save()
 
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
+			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
 				return component;
 			}
 
