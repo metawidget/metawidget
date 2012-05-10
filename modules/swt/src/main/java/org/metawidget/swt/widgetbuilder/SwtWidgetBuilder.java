@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -33,7 +32,6 @@ import org.eclipse.swt.widgets.Text;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtValuePropertyProvider;
-import org.metawidget.swt.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -110,21 +108,8 @@ public class SwtWidgetBuilder
 				comboDropDown.add( "" );
 			}
 
-			List<String> values = CollectionUtils.fromString( lookup );
-			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
-
-			for ( String value : values ) {
-				// Convert (if supported)
-
-				Object convertedValue;
-
-				if ( converter == null ) {
-					convertedValue = value;
-				} else {
-					convertedValue = converter.convertFromString( value, clazz );
-				}
-
-				comboDropDown.add( String.valueOf( convertedValue ) );
+			for ( String value : CollectionUtils.fromString( lookup ) ) {
+				comboDropDown.add( value );
 			}
 
 			// Vanilla SWT doesn't support differing Combo values and labels (JFace does)
