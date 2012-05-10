@@ -31,8 +31,8 @@ import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.vaadin.Facet;
-import org.metawidget.vaadin.VaadinMetawidget;
+import org.metawidget.vaadin.ui.Facet;
+import org.metawidget.vaadin.ui.VaadinMetawidget;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;

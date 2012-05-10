@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.widgetbuilder.composite http://metawidget.org/xsd/org.metawidget.widgetbuilder.composite-1.0.xsd"
+	version="1.0">
+
+	<vaadinMetawidget xmlns="java:org.metawidget.vaadin.ui">
+	
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" />
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" />
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+
+		<inspectionResultProcessors>
+			<array>
+				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort"/>
+			</array>
+		</inspectionResultProcessors>
+				
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.vaadin.ui.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.vaadin.ui.widgetbuilder"/>						
+						<vaadinWidgetBuilder xmlns="java:org.metawidget.vaadin.ui.widgetbuilder"/>			
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>
+		
+		<widgetProcessors>
+			<array>
+				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor.binding.simple" />
+				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor.binding.reflection"/>
+				<captionProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor" />
+				<requiredProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor" />
+				<minimumMaximumValidatorProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor" />
+			</array>
+		</widgetProcessors>
+		
+		<layout>
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.vaadin.ui.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+				<layout>
+					<formLayout />
+				</layout>
+			</headingTagLayoutDecorator>			
+		</layout>
+		
+	</vaadinMetawidget>
+
+</metawidget>

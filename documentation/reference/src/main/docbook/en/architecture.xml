@@ -1778,6 +1778,18 @@ public class Main {
 	&lt;/widgetBuilders&gt;
 &lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
+						<tr>
+							<td>Vaadin</td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
+			&lt;vaadinWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
+						</tr>
 					</tbody>
 				</informaltable>
 				
@@ -2346,6 +2358,16 @@ void onEndBuild( M metawidget );</programlisting>
 	&lt;reflectionBindingProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
+						<tr>
+							<td>Vaadin</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;simpleBindingProcessor /&gt;
+	&lt;reflectionBindingProcessor /&gt;
+	&lt;captionProcessor /&gt;
+	&lt;requiredProcessor /&gt;
+	&lt;minimumMaximumValidatorProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
 					</tbody>
 				</informaltable>
 				
@@ -2891,6 +2913,14 @@ void onEndBuild(M metawidget);</programlisting>
 							<td><programlisting language="xml">&lt;separatorLayoutDecorator config="SeparatorLayoutDecoratorConfig"&gt;
 	&lt;layout&gt;
 		&lt;gridLayout/&gt;
+	&lt;/layout&gt;
+&lt;/separatorLayoutDecorator&gt;</programlisting></td>							
+						</tr>
+						<tr>
+							<td>Vaadin</td>
+							<td><programlisting language="xml">&lt;headingTagLayoutDecorator config="HeadingTagLayoutDecoratorConfig"&gt;
+	&lt;layout&gt;
+		&lt;formLayout/&gt;
 	&lt;/layout&gt;
 &lt;/separatorLayoutDecorator&gt;</programlisting></td>							
 						</tr>

@@ -1100,7 +1100,7 @@
 					<title>Installation</title>
 
 					<para>
-						There are two steps to installing <classname>VaadinMetawidget</classname> within a Spring application:
+						There are two steps to installing <classname>VaadinMetawidget</classname> within a Vaadin application:
 					</para>
 					
 					<orderedlist>
@@ -1120,12 +1120,6 @@
 				<section id="section-metawidgets-web-vaadin-configuration">
 					<title>Configuration</title>
 										
-					<para>
-						<classname>VaadinMetawidget</classname> is preconfigured with sensible defaults for Vaadin. You can change this configuration
-						by creating a <filename>metawidget.xml</filename> file. By default <classname>VaadinMetawidget</classname> looks for this
-						file in <filename>WEB-INF</filename>, but you can configure its location in <filename>web.xml</filename>:
-					</para>
-					
 					<para>
 						<classname>VaadinMetawidget</classname> is preconfigured with sensible defaults for Vaadin. You can change this configuration
 						either programmatically or using a <filename>metawidget.xml</filename> file.

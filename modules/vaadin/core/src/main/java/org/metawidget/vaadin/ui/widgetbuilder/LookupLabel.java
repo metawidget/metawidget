@@ -14,34 +14,55 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.integrationtest.vaadin.allwidgets.converter;
+package org.metawidget.vaadin.ui.widgetbuilder;
 
-import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.util.ArrayUtils;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
+import java.util.Map;
 
-public class NestedWidgetsConverter
-	implements Converter<String,NestedWidgets> {
+/*
+ * Label whose values display using a lookup.
+ */
+
+public class LookupLabel
+	extends com.vaadin.ui.Label {
+
+	//
+	// Private members
+	//
+
+	private Map<String, String>	mLookup;
+
+	//
+	// Constructor
+	//
+
+	public LookupLabel( Map<String, String> lookup ) {
+
+		if ( lookup == null ) {
+			throw new NullPointerException( "lookup" );
+		}
+
+		mLookup = lookup;
+	}
 
 	//
 	// Public methods
 	//
 
-	public NestedWidgets convert( String value, Class<? extends NestedWidgets> expectedType ) {
+	/**
+	 * Overridden to display the value using our lookup. The original value is still available
+	 * through <code>getValue</code>.
+	 */
 
-		String[] values = ArrayUtils.fromString( value );
+	@Override
+	public String toString() {
 
-		if ( values.length == 0 ) {
-			return null;
+		String toString = super.toString();
+		String lookup = mLookup.get( toString );
+
+		if ( lookup != null ) {
+			return lookup;
 		}
 
-		NestedWidgets nestedWidgets = new NestedWidgets();
-		nestedWidgets.setNestedTextbox1( values[0] );
-
-		if ( values.length > 1 ) {
-			nestedWidgets.setNestedTextbox2( values[1] );
-		}
-
-		return nestedWidgets;
+		return toString;
 	}
 }

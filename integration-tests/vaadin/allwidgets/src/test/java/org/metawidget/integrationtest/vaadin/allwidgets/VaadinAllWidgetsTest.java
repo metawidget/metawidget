@@ -22,9 +22,9 @@ import junit.framework.TestCase;
 
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
-import org.metawidget.vaadin.Stub;
-import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.vaadin.ui.Stub;
+import org.metawidget.vaadin.ui.VaadinMetawidget;
+import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
 import com.vaadin.data.Property;
 import com.vaadin.event.ListenerMethod;

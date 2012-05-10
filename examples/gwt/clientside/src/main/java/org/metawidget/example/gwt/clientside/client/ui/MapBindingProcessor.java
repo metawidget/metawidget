@@ -86,7 +86,7 @@ public class MapBindingProcessor
 		}
 
 		try {
-			if ( WidgetBuilderUtils.isReadOnly( attributes ) ) {
+			if ( TRUE.equals( attributes.get( READ_ONLY ) ) ) {
 				return widget;
 			}
 

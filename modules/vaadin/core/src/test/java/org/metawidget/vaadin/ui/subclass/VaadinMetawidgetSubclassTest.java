@@ -14,34 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.integrationtest.vaadin.allwidgets.converter;
+package org.metawidget.vaadin.ui.subclass;
 
-import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.util.ArrayUtils;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
+import junit.framework.TestCase;
 
-public class NestedWidgetsConverter
-	implements Converter<String,NestedWidgets> {
+import org.metawidget.vaadin.ui.VaadinMetawidget;
+
+public class VaadinMetawidgetSubclassTest
+	extends TestCase {
 
 	//
 	// Public methods
 	//
 
-	public NestedWidgets convert( String value, Class<? extends NestedWidgets> expectedType ) {
+	/**
+	 * Test default configuration is tied to the superclass, not the subclass.
+	 */
 
-		String[] values = ArrayUtils.fromString( value );
+	public static void testDefaultConfiguration() {
 
-		if ( values.length == 0 ) {
-			return null;
+		assertEquals( "/org/metawidget/vaadin/ui/metawidget-vaadin-default.xml", new VaadinMetawidgetSubclass().getDefaultConfiguration() );
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class VaadinMetawidgetSubclass
+		extends VaadinMetawidget {
+
+		@Override
+		public String getDefaultConfiguration() {
+
+			return super.getDefaultConfiguration();
 		}
-
-		NestedWidgets nestedWidgets = new NestedWidgets();
-		nestedWidgets.setNestedTextbox1( values[0] );
-
-		if ( values.length > 1 ) {
-			nestedWidgets.setNestedTextbox2( values[1] );
-		}
-
-		return nestedWidgets;
 	}
 }

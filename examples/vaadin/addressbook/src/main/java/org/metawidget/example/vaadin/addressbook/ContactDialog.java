@@ -27,10 +27,10 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.vaadin.Facet;
-import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.layout.HorizontalLayout;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.vaadin.ui.Facet;
+import org.metawidget.vaadin.ui.VaadinMetawidget;
+import org.metawidget.vaadin.ui.layout.HorizontalLayout;
+import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;

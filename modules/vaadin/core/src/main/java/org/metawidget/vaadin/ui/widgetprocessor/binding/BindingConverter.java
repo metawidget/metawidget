@@ -14,43 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.vaadin.addressbook.converter;
+package org.metawidget.vaadin.ui.widgetprocessor.binding;
 
-import java.text.DateFormat;
-import java.util.Date;
+/**
+ * Vaadin support: binding
+ *
+ * @author Richard Kennard
+ */
 
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
-
-public class DateConverter
-	implements Converter<Date, String> {
-
-	//
-	// Private members
-	//
-
-	private DateFormat	mFormat;
+public interface BindingConverter {
 
 	//
-	// Constructor
+	// Methods
 	//
 
-	public DateConverter() {
+	/**
+	 * Convert the given String to the given expected type, if possible. If not possible, just
+	 * return the original String.
+	 */
 
-		mFormat = DateFormat.getDateInstance( DateFormat.SHORT );
-	}
-
-	//
-	// Public methods
-	//
-
-	public String convert( Date value, Class<? extends String> expectedType ) {
-
-		if ( value == null ) {
-			return null;
-		}
-
-		synchronized ( mFormat ) {
-			return mFormat.format( value );
-		}
-	}
+	Object convertFromString( String value, Class<?> expectedType );
 }

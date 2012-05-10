@@ -14,34 +14,34 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.integrationtest.vaadin.allwidgets.converter;
+package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
 
-import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.util.ArrayUtils;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
+/**
+ * Built-in Converter to convert Objects to Strings.
+ *
+ * @author Richard Kennard
+ */
 
-public class NestedWidgetsConverter
-	implements Converter<String,NestedWidgets> {
+public class ToStringConverter
+	implements Converter<Object, String> {
 
 	//
 	// Public methods
 	//
 
-	public NestedWidgets convert( String value, Class<? extends NestedWidgets> expectedType ) {
+	public String convert( Object value, Class<? extends String> actualType ) {
 
-		String[] values = ArrayUtils.fromString( value );
-
-		if ( values.length == 0 ) {
-			return null;
+		if ( value == null ) {
+			return "";
 		}
 
-		NestedWidgets nestedWidgets = new NestedWidgets();
-		nestedWidgets.setNestedTextbox1( values[0] );
+		// Convert Enums to their name(), not their .toString(). We rely on
+		// org.metawidget.vaadin.ui.widgetbuilder.LookupLabel to fix this up for presentation
 
-		if ( values.length > 1 ) {
-			nestedWidgets.setNestedTextbox2( values[1] );
+		if ( value instanceof Enum ) {
+			return ( (Enum<?>) value ).name();
 		}
 
-		return nestedWidgets;
+		return value.toString();
 	}
 }
