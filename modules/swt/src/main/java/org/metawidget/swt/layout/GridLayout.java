@@ -32,6 +32,7 @@ import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
@@ -235,7 +236,7 @@ public class GridLayout
 
 			String labelTextToUse = labelText;
 
-			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() ) {
+			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() ) {
 				if ( mRequiredAlignment == SWT.CENTER ) {
 					labelTextToUse += mRequiredText;
 				} else if ( mRequiredAlignment == SWT.LEFT ) {

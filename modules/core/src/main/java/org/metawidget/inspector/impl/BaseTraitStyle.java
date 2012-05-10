@@ -76,7 +76,7 @@ public abstract class BaseTraitStyle<T extends Trait> {
 	protected BaseTraitStyle( BaseTraitStyleConfig config ) {
 
 		if ( config.isCacheLookups() ) {
-			mCache = CollectionUtils.newWeakHashMap();
+			mCache = CollectionUtils.newHashMap();
 		} else {
 			mCache = null;
 		}

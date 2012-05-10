@@ -1342,7 +1342,13 @@
 								<td></td>
 								<td><classname>ComboBox</classname></td>
 								<td><parameter>lookup</parameter></td>
-							</tr>					
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>Slider</classname></td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has both
+								<parameter>minimum-value</parameter> and <parameter>maximum-value</parameter></td>
+							</tr>							
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.vaadin.ui</classname></th>
 							</tr>

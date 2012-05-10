@@ -34,7 +34,6 @@ import org.eclipse.core.internal.databinding.BindingStatus;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.metawidget.swt.SwtMetawidget;
-import org.metawidget.swt.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
@@ -58,7 +57,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  */
 
 public class DataBindingProcessor
-	implements AdvancedWidgetProcessor<Control, SwtMetawidget>, BindingConverter {
+	implements AdvancedWidgetProcessor<Control, SwtMetawidget> {
 
 	//
 	// Private members
@@ -175,6 +174,12 @@ public class DataBindingProcessor
 	}
 
 	public Object convertFromString( String value, Class<?> expectedType ) {
+
+		IConverter converterFromString = getConverter( String.class, expectedType );
+
+		if ( converterFromString != null ) {
+			return converterFromString.convert( value );
+		}
 
 		return value;
 	}
@@ -356,11 +361,7 @@ public class DataBindingProcessor
 				return true;
 			}
 
-			if ( that == null ) {
-				return false;
-			}
-
-			if ( getClass() != that.getClass() ) {
+			if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 				return false;
 			}
 

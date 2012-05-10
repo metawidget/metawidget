@@ -22,12 +22,14 @@
 			<key />
 			<one-to-many class="org.metawidget.inspector.hibernate.Baz"/>
 		</set>
-		    	
+
 		<list name="jkl">
 			<key />
 			<list-index />
-			<one-to-many class="org.metawidget.inspector.hibernate.Baz"/>
+			<one-to-many class="org.metawidget.inspector.hibernate.Baz" property-ref="subFoo"/>
 		</list>
+		
+		<one-to-one name="mno" property-ref="subFoo"/>
 
     </subclass>
 

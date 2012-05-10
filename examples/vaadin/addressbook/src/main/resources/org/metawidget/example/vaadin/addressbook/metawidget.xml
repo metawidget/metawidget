@@ -3,7 +3,7 @@
 						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
 						java:org.metawidget.widgetbuilder.composite http://metawidget.org/xsd/org.metawidget.widgetbuilder.composite-1.0.xsd" version="1.0">
 
-	<vaadinMetawidget xmlns="java:org.metawidget.vaadin">
+	<vaadinMetawidget xmlns="java:org.metawidget.vaadin.ui">
 		<bundle>
 			<bundle>org.metawidget.example.shared.addressbook.resource.Resources</bundle>
 		</bundle>
@@ -41,19 +41,16 @@
 
 		<widgetProcessors>
 			<array>
-				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
+				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
 					<converter>
-						<class>org.metawidget.example.shared.addressbook.model.ContactType</class>
-						<contactTypeConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter" />
-					</converter>
-					<converter>
-						<class>org.metawidget.example.shared.addressbook.model.Gender</class>
-						<genderConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter" />
+						<class>java.util.Date</class>
+						<class>java.lang.String</class>
+						<dateConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter" />
 					</converter>
 				</simpleBindingProcessor>
-				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection" />
-				<captionProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
-				<requiredProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor" />
+				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor.binding.reflection" />
+				<captionProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor" />
+				<requiredProcessor xmlns="java:org.metawidget.vaadin.ui.widgetprocessor" />
 			</array>
 		</widgetProcessors>
 

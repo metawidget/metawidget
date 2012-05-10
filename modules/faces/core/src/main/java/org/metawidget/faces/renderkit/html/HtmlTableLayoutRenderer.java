@@ -35,6 +35,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -508,7 +509,7 @@ public class HtmlTableLayoutRenderer
 		ResponseWriter writer = context.getResponseWriter();
 
 		if ( attributes != null ) {
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() ) {
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !( (UIMetawidget) metawidget ).isReadOnly() ) {
 				// UIStubs can have attributes="required: true". UIMetawidgets with
 				// rendererType="simple" can be over required fields
 

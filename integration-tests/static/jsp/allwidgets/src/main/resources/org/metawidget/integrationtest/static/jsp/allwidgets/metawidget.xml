@@ -29,7 +29,7 @@
 		
 		<widgetProcessors>
 			<array>
-				<hiddenFieldProcessor xmlns="java:org.metawidget.statically.jsp.widgetprocessor"/>
+				<processor:hiddenFieldProcessor/>
 				<processor:cssStyleProcessor/>
 				<processor:idProcessor/>
 				<processor:nameProcessor/>

@@ -16,8 +16,11 @@
 
 package org.metawidget.swt.widgetprocessor.binding.databinding;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -51,6 +54,32 @@ public class DataBindingProcessorTest
 			// subclass
 		} );
 		MetawidgetTestUtils.testEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
+	}
+
+	public void testConvertFromString() {
+
+		DataBindingProcessorConfig config = new DataBindingProcessorConfig();
+		config.setConverters( new IConverter() {
+
+			public Object convert( Object value ) {
+
+				return Boolean.valueOf( (String) value );
+			}
+
+			public Object getFromType() {
+
+				return String.class;
+			}
+
+			public Object getToType() {
+
+				return Boolean.class;
+			}
+		} );
+
+		assertEquals( false, new DataBindingProcessor( config ).convertFromString( "false", Boolean.class ));
+		assertEquals( "false", new DataBindingProcessor( config ).convertFromString( "false", String.class ));
+		assertEquals( "no-converter", new DataBindingProcessor( config ).convertFromString( "no-converter", Date.class ));
 	}
 
 	@SuppressWarnings( "cast" )

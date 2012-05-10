@@ -17,6 +17,7 @@
 package org.metawidget.inspector.impl;
 
 import java.util.Date;
+import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 
 import javax.swing.JComponent;
@@ -56,6 +57,7 @@ public class BaseTraitStyleTest
 		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
 		BaseTraitStyle<Property> traitStyle = new JavaBeanPropertyStyle( config );
 
+		assertFalse( traitStyle.mCache instanceof WeakHashMap );
 		assertTrue( traitStyle.mCache.isEmpty() );
 		assertTrue( traitStyle.getTraits( Date.class.getName() ) != null );
 		assertEquals( 1, traitStyle.mCache.size() );

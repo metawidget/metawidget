@@ -48,6 +48,23 @@ public class HiddenFieldProcessor
 		// Not hidden?
 
 		if ( !TRUE.equals( attributes.get( HIDDEN ) ) ) {
+
+			// Not read-only either?
+
+			if ( !TRUE.equals( attributes.get( READ_ONLY ))) {
+				return widget;
+			}
+
+			// HtmlOutput and c:out are good, nested Metawidgets are not
+
+			if ( widget instanceof StaticHtmlMetawidget ) {
+				return widget;
+			}
+
+			HtmlInput hidden = new HtmlInput();
+			hidden.putAttribute( "type", "hidden" );
+			widget.getChildren().add( hidden );
+
 			return widget;
 		}
 

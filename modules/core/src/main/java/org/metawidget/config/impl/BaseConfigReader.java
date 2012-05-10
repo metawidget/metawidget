@@ -841,7 +841,8 @@ public class BaseConfigReader
 
 						else {
 
-							// If already constructed Object of correct type, or if this element has wrong @type...
+							// If already constructed Object of correct type, or if this element has
+							// wrong @type...
 
 							if ( !mConstructing.isEmpty() || !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) ) {
 
@@ -1449,7 +1450,7 @@ public class BaseConfigReader
 			if ( configToStoreUnder == null ) {
 				configToStoreUnder = IMMUTABLE_NO_CONFIG;
 			} else {
-				// Sanity check
+				// Sanity check. This can be quite expensive, as we will only do it once
 
 				try {
 					Class<?> configClass = configToStoreUnder.getClass();
@@ -1528,6 +1529,14 @@ public class BaseConfigReader
 
 			if ( configs.containsKey( configToStoreUnder ) ) {
 				throw InspectorException.newException( "Config '" + configToStoreUnder + "' already cached" );
+			}
+
+			for( Method method : clazz.getMethods() ) {
+
+				if ( method.getName().startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) && method.getParameterTypes().length > 0 ) {
+					LOG.warn( "{0} must be immutable, but appears to have a setter method ({1})", clazz, method );
+					break;
+				}
 			}
 
 			configs.put( configToStoreUnder, immutable );

@@ -53,6 +53,7 @@ import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -655,7 +656,7 @@ public abstract class UIMetawidget
 		// Note: initNestedPipeline takes care of literal values. This is concerned with the value
 		// binding
 
-		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) ) {
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ) ) {
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
 			if ( bindingReadOnly != null ) {

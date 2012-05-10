@@ -629,7 +629,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin</artifactId>
-				<version>6.5.0</version>
+				<version>6.7.8</version>
 				<scope>provided</scope>
 			</dependency>
 		</dependencies>

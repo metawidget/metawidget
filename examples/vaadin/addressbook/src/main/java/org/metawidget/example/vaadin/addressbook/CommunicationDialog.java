@@ -17,9 +17,9 @@
 package org.metawidget.example.vaadin.addressbook;
 
 import org.metawidget.example.shared.addressbook.model.Communication;
-import org.metawidget.vaadin.Facet;
-import org.metawidget.vaadin.VaadinMetawidget;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.vaadin.ui.Facet;
+import org.metawidget.vaadin.ui.VaadinMetawidget;
+import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

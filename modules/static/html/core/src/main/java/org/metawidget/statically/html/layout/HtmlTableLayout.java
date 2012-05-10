@@ -31,6 +31,7 @@ import org.metawidget.statically.html.widgetbuilder.HtmlTableCell;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
 import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
 import org.metawidget.statically.html.widgetbuilder.HtmlTag;
+import org.metawidget.util.WidgetBuilderUtils;
 
 /**
  * Layout to arrange widgets using an HTML table.
@@ -47,9 +48,9 @@ public class HtmlTableLayout
 	// Private members
 	//
 
-	private String				mTableStyle;
+	private String	mTableStyle;
 
-	private String				mTableStyleClass;
+	private String	mTableStyleClass;
 
 	//
 	// Constructor
@@ -107,7 +108,7 @@ public class HtmlTableLayout
 		try {
 			// Ignore stubs
 
-			if ( widget instanceof StaticXmlStub ) {
+			if ( widget instanceof StaticXmlStub && widget.getChildren().isEmpty() ) {
 				return;
 			}
 
@@ -128,7 +129,7 @@ public class HtmlTableLayout
 
 			HtmlTableCell requiredCell = new HtmlTableCell();
 
-			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( HIDDEN ) ) ) {
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !TRUE.equals( attributes.get( HIDDEN ) ) ) {
 				requiredCell.setTextContent( "*" );
 			}
 

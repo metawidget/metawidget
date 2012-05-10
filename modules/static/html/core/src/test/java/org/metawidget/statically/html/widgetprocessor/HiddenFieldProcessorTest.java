@@ -43,12 +43,16 @@ public class HiddenFieldProcessorTest
         tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input/>", tag.toString() );
 
+        // Read only
+
+        attributes.put( READ_ONLY, TRUE );
+        tag = processor.processWidget( new HtmlTag( "output" ), PROPERTY, attributes, metawidget );
+        assertEquals( "<output><input type=\"hidden\"/></output>", tag.toString() );
+
         // Hidden
 
         attributes.put( HIDDEN, TRUE );
         tag = processor.processWidget( tag, PROPERTY, attributes, metawidget );
         assertEquals( "<input type=\"hidden\"/>", tag.toString() );
-
-        // TODO: replacing a read-only field with a POSTback one
     }
 }

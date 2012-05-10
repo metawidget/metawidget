@@ -33,6 +33,7 @@ import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -456,7 +457,7 @@ public class HtmlTableLayout
 
 	protected String layoutRequired( Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
 
-		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidgetTag.isReadOnly() ) {
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidgetTag.isReadOnly() ) {
 			return "*";
 		}
 

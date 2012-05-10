@@ -175,6 +175,8 @@ public class BeansBindingProcessorTest
 			}
 		} );
 
+		// convertFromString
+
 		binding = new BeansBindingProcessor( config );
 		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
 		assertEquals( "convertedForward", builder.toString() );

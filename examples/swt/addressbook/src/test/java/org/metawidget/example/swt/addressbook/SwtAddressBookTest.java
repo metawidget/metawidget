@@ -16,9 +16,10 @@
 
 package org.metawidget.example.swt.addressbook;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
@@ -61,14 +62,9 @@ public class SwtAddressBookTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "cast" )
+	@SuppressWarnings( { "cast", "deprecation" } )
 	public void testAddressBook()
 		throws Exception {
-
-		// Set Locale because we will be checking date formatting
-
-		Locale.setDefault( Locale.UK );
-		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// Start app
 
@@ -102,8 +98,8 @@ public class SwtAddressBookTest
 
 		Button searchButton = (Button) buttonsMetawidget.getChildren()[2];
 		assertEquals( "Search", searchButton.getText() );
-		assertEquals( "Add Personal Contact", ((Button) buttonsMetawidget.getChildren()[3]).getText() );
-		assertEquals( "Add Business Contact", ((Button) buttonsMetawidget.getChildren()[4]).getText() );
+		assertEquals( "Add Personal Contact", ( (Button) buttonsMetawidget.getChildren()[3] ).getText() );
+		assertEquals( "Add Business Contact", ( (Button) buttonsMetawidget.getChildren()[4] ).getText() );
 		searchButton.notifyListeners( SWT.Selection, null );
 		assertEquals( "PERSONAL", ( (Combo) metawidgetSearch.getControl( "type" ) ).getText() );
 
@@ -130,17 +126,17 @@ public class SwtAddressBookTest
 		// Check loading
 
 		SwtMetawidget metawidgetContact = dialog.mContactMetawidget;
-		assertEquals( "Homer",  metawidgetContact.getValue( "firstname" ) );
-		assertTrue( ((Control) metawidgetContact.getControl( "firstname" )) instanceof Label );
+		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
+		assertTrue( ( (Control) metawidgetContact.getControl( "firstname" ) ) instanceof Label );
 		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
 		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
-		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[12]).getChildren()[0]).getText() );
+		assertEquals( "Contact Details", ( (Label) ( (Composite) metawidgetContact.getChildren()[12] ).getChildren()[0] ).getText() );
 		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertEquals( "Address:", ( (Label) metawidgetContact.getControl( "address_label" ) ).getText() );
-		assertEquals( 1, ( (GridData) ((Control) metawidgetContact.getControl( "address_label" )).getLayoutData() ).horizontalSpan );
-		assertEquals( 1, ( (GridData) ((Control) metawidgetContact.getControl( "address" )).getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) ( (Control) metawidgetContact.getControl( "address_label" ) ).getLayoutData() ).horizontalSpan );
+		assertEquals( 1, ( (GridData) ( (Control) metawidgetContact.getControl( "address" ) ).getLayoutData() ).horizontalSpan );
 
-		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
+		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 56, Calendar.MAY, 12 ) ), metawidgetContact.getValue( "dateOfBirth" ) );
 
 		try {
 			metawidgetContact.getValue( "bad-value" );
@@ -188,7 +184,7 @@ public class SwtAddressBookTest
 		assertEquals( "MALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		metawidgetContact.setValue( "Sapien", "surname" );
 		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
-		assertEquals( "Contact Details", ((Label) ((Composite) metawidgetContact.getChildren()[12]).getChildren()[0]).getText() );
+		assertEquals( "Contact Details", ( (Label) ( (Composite) metawidgetContact.getChildren()[12] ).getChildren()[0] ).getText() );
 		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertEquals( metawidgetContact.getChildren().length, 21 );
 
@@ -286,7 +282,6 @@ public class SwtAddressBookTest
 
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		assertEquals( ( (PersonalContact) contact ).getDateOfBirth().getTime(), -398908800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();
@@ -300,7 +295,7 @@ public class SwtAddressBookTest
 		dialog.open( contact );
 		metawidgetContact = dialog.mContactMetawidget;
 		assertEquals( "Sapien", metawidgetContact.getValue( "surname" ) );
-		assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
+		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 ) ), metawidgetContact.getValue( "dateOfBirth" ) );
 
 		communicationsTable = metawidgetContact.getControl( "communications" );
 		assertEquals( communicationsTable.getItemCount(), 1 );
@@ -400,7 +395,7 @@ public class SwtAddressBookTest
 		assertEquals( 3, ( (Combo) metawidgetContact.getControl( "gender" ) ).getItemCount() );
 		assertEquals( "", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		( (Combo) metawidgetContact.getControl( "gender" ) ).setText( "FEMALE" );
-		assertTrue( metawidgetContact.getControl( "address", "street") instanceof Text );
+		assertTrue( metawidgetContact.getControl( "address", "street" ) instanceof Text );
 
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
 		buttonsMetawidget = (SwtMetawidget) buttonFacet.getChildren()[0];

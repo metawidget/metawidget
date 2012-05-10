@@ -119,6 +119,13 @@ public class HibernateInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "jkl", property.getAttribute( NAME ) );
 		assertEquals( "org.metawidget.inspector.hibernate.Baz", property.getAttribute( PARAMETERIZED_TYPE ) );
+		assertEquals( "subFoo", property.getAttribute( INVERSE_RELATIONSHIP ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "mno", property.getAttribute( NAME ) );
+		assertEquals( "subFoo", property.getAttribute( INVERSE_RELATIONSHIP ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( property.getNextSibling(), null );

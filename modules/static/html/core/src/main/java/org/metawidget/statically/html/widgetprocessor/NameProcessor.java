@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetbuilder.NameHolder;
@@ -50,6 +51,13 @@ public class NameProcessor
 			}
 
 			((NameHolder) widget).setName( name );
+		}
+
+		// Do children too (this helps HiddenFieldProcessor)
+
+		for( StaticWidget child : widget.getChildren() ) {
+
+			processWidget( (StaticXmlWidget) child, elementName, attributes, metawidget );
 		}
 
 		return widget;
