@@ -19,8 +19,10 @@ package org.metawidget.vaadin.widgetprocessor.binding.simple;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import junit.framework.TestCase;
 
@@ -87,8 +89,6 @@ public class SimpleBindingProcessorTest
 		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 		assertEquals( 43, foo.getBar() );
 	}
-
-	// TODO: test ConverterConfig is not WeakHashMap
 
 	public void testSingleComponentBinding()
 		throws Exception {
@@ -157,6 +157,15 @@ public class SimpleBindingProcessorTest
 		MetawidgetTestUtils.testEqualsAndHashcode( SimpleBindingProcessorConfig.class, new SimpleBindingProcessorConfig() {
 			// Subclass
 		}, "converters" );
+
+		// Test SimpleBindingProcessorConfig is not using WeakHashMap, else the Converters can
+		// mysteriously disappear!
+
+		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
+		config.setConverter( Object.class, String.class, new ToStringConverter() );
+
+		assertTrue( config.getConverters() instanceof HashMap );
+		assertFalse( config.getConverters() instanceof WeakHashMap );
 	}
 
 	public void testNestedMetawidget() {
@@ -230,10 +239,27 @@ public class SimpleBindingProcessorTest
 
 		metawidget.setToInspect( contact );
 		Select select = metawidget.getComponent( "gender" );
-		IndexedContainer dataSource= (IndexedContainer) select.getContainerDataSource();
-		assertEquals( Gender.MALE, dataSource.getIdByIndex( 0 ));
-		assertEquals( Gender.FEMALE, dataSource.getIdByIndex( 1 ));
+		IndexedContainer dataSource = (IndexedContainer) select.getContainerDataSource();
+		assertEquals( Gender.MALE, dataSource.getIdByIndex( 0 ) );
+		assertEquals( Gender.FEMALE, dataSource.getIdByIndex( 1 ) );
 		assertEquals( 2, dataSource.getItemIds().size() );
+	}
+
+	public void testConvertFromString() {
+
+		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
+		config.setConverter( String.class, Foo.class, new Converter<String, Foo>() {
+
+			public Foo convert( String value, Class<? extends Foo> actualType ) {
+
+				Foo foo = new Foo();
+				foo.setBar( Long.valueOf( value ) );
+				return foo;
+			}
+		} );
+
+		assertEquals( 4, ((Foo) new SimpleBindingProcessor( config ).convertFromString( "4", Foo.class )).getBar());
+		assertEquals( "false", new SimpleBindingProcessor( config ).convertFromString( "false", String.class ));
 	}
 
 	//

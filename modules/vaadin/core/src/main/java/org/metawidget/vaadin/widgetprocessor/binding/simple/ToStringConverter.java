@@ -16,7 +16,6 @@
 
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
-
 /**
  * Built-in Converter to convert Objects to Strings.
  *
@@ -36,7 +35,8 @@ public class ToStringConverter
 			return "";
 		}
 
-		// Convert Enums to their name(), not their .toString()
+		// Convert Enums to their name(), not their .toString(). We rely on
+		// org.metawidget.vaadin.widgetbuilder.LookupLabel to fix this up for presentation
 
 		if ( value instanceof Enum ) {
 			return ( (Enum<?>) value ).name();

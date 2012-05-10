@@ -261,17 +261,28 @@ public class HibernateInspector
 			attributes.put( HIDDEN, TRUE );
 		}
 
-		// Parameterized
-
 		if ( "bag".equals( nodeName ) || "list".equals( nodeName ) || "set".equals( nodeName ) ) {
+
+			// Parameterized
+
 			Element withClass = XmlUtils.getChildWithAttribute( toInspect, typeAttribute );
 
 			if ( withClass != null ) {
 				attributes.put( PARAMETERIZED_TYPE, withClass.getAttribute( typeAttribute ) );
+
+				// Property Ref
+
+				if ( withClass.hasAttribute( "property-ref" ) ) {
+					attributes.put( INVERSE_RELATIONSHIP, withClass.getAttribute( "property-ref" ) );
+				}
 			}
 		}
 
-		// TODO: INVERSE_RELATIONSHIP?
+		// Property Ref
+
+		if ( toInspect.hasAttribute( "property-ref" ) ) {
+			attributes.put( INVERSE_RELATIONSHIP, toInspect.getAttribute( "property-ref" ) );
+		}
 
 		return attributes;
 	}

@@ -136,6 +136,16 @@ public class BeanUtilsBindingProcessorTest
 		} );
 	}
 
+	public void testConvertFromString()
+		throws Exception {
+
+		BeanUtilsBindingProcessor binding = new BeanUtilsBindingProcessor();
+		assertEquals( 1, binding.convertFromString( "1", int.class ) );
+		assertEquals( false, binding.convertFromString( "false", Boolean.class ) );
+		assertEquals( "false", binding.convertFromString( "false", String.class ) );
+		assertEquals( "no-converter", binding.convertFromString( "no-converter", Foo.class ) );
+	}
+
 	@SuppressWarnings( "cast" )
 	public void testNestedMetawidget() {
 

@@ -176,7 +176,11 @@ public class DataBindingProcessor
 
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
-		// TODO: ???
+		IConverter converterFromString = getConverter( String.class, expectedType );
+
+		if ( converterFromString != null ) {
+			return converterFromString.convert( value );
+		}
 
 		return value;
 	}

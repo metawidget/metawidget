@@ -18,6 +18,9 @@ package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
 /**
  * Built-in Converter to convert Numbers to primitive types.
+ * <p>
+ * This Converter is necessary because some Vaadin components (such as Slider) expect to be given
+ * Doubles, but we may want them to load/save to Integer fields.
  *
  * @author Richard Kennard
  */

@@ -146,12 +146,6 @@ public class SimpleBindingProcessor
 
 		try {
 
-			// (make long into Long, so that it matches during ObjectProperty.setValue)
-
-			if ( toInspectPropertyType.isPrimitive() ) {
-				toInspectPropertyType = ClassUtils.getWrapperClass( toInspectPropertyType );
-			}
-
 			// We *always* go via a Converter, as this is the simplest way to handle cases like:
 			//
 			// String: null -> "" -> null
@@ -164,6 +158,8 @@ public class SimpleBindingProcessor
 			if ( setValueConverter != null ) {
 				value = setValueConverter.convert( value, componentPropertyType );
 			}
+
+			// Temporarily remove readOnly (if set)
 
 			boolean readOnly = property.isReadOnly();
 			if ( readOnly ) {
@@ -178,6 +174,8 @@ public class SimpleBindingProcessor
 			if ( readOnly ) {
 				property.setReadOnly( true );
 			}
+
+			// If no setter, can be no save()
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 				return component;
@@ -263,10 +261,6 @@ public class SimpleBindingProcessor
 
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public Object convertFromString( String value, Class<?> expectedType ) {
-
-		if ( String.class.equals( expectedType ) ) {
-			return value;
-		}
 
 		Converter<String, ?> converterFromString = getConverter( String.class, expectedType );
 

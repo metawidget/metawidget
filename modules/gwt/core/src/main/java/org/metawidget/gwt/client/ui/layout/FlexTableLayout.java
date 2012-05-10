@@ -155,9 +155,10 @@ public class FlexTableLayout
 		String labelText = metawidget.getLabelString( attributes );
 
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
-			Label label = new Label( labelText + ":" );
-			// TODO: add 'for' attribute
 
+			// Note: GWT Labels are not real HTML labels, and have no 'for' attribute
+
+			Label label = new Label( labelText + ":" );
 			String styleName = getStyleName( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED, metawidget );
 
 			if ( styleName != null ) {
@@ -293,7 +294,8 @@ public class FlexTableLayout
 	}
 
 	/**
-	 * @param metawidget the Metawidget doing the layout
+	 * @param metawidget
+	 *            the Metawidget doing the layout
 	 */
 
 	protected String getStyleName( int styleName, GwtMetawidget metawidget ) {
