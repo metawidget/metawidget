@@ -123,31 +123,6 @@ public class VaadinMetawidget
 	}
 
 	/**
-	 * Updates the Object to inspect, without invalidating the previous
-	 * inspection results.
-	 * <p>
-	 * <strong>This is an internal API exposed for WidgetProcessor rebinding support. Clients should
-	 * not call it directly.</strong>
-	 */
-
-	public void updateToInspectWithoutInvalidate( Object toInspect ) {
-
-		if ( mToInspect == null ) {
-			if ( mPath == null && toInspect != null ) {
-				mPath = toInspect.getClass().getName();
-			}
-		} else if ( mToInspect.getClass().getName().equals( mPath ) ) {
-			if ( toInspect == null ) {
-				mPath = null;
-			} else {
-				mPath = toInspect.getClass().getName();
-			}
-		}
-
-		mToInspect = toInspect;
-	}
-
-	/**
 	 * Gets the Object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
@@ -503,6 +478,33 @@ public class VaadinMetawidget
 		super.paintContent( target );
 	}
 
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	public void putClientProperty( Object key, Object value ) {
+
+		if ( mClientProperties == null ) {
+			mClientProperties = new HashMap<Object, Object>();
+		}
+
+		mClientProperties.put( key, value );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getClientProperty( Object key ) {
+
+		if ( mClientProperties == null ) {
+			return null;
+		}
+
+		return (T) mClientProperties.get( key );
+	}
+
 	//
 	// Protected methods
 	//
@@ -657,6 +659,28 @@ public class VaadinMetawidget
 	// Private methods
 	//
 
+	/**
+	 * Updates the Object to inspect, without invalidating the previous
+	 * inspection results.
+	 */
+
+	private void updateToInspectWithoutInvalidate( Object toInspect ) {
+
+		if ( mToInspect == null ) {
+			if ( mPath == null && toInspect != null ) {
+				mPath = toInspect.getClass().getName();
+			}
+		} else if ( mToInspect.getClass().getName().equals( mPath ) ) {
+			if ( toInspect == null ) {
+				mPath = null;
+			} else {
+				mPath = toInspect.getClass().getName();
+			}
+		}
+
+		mToInspect = toInspect;
+	}
+
 	private Element inspect() {
 
 		if ( mPath == null ) {
@@ -698,33 +722,6 @@ public class VaadinMetawidget
 		// Not found
 
 		return null;
-	}
-
-	/**
-	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
-	 */
-
-	public void putClientProperty( Object key, Object value ) {
-
-		if ( mClientProperties == null ) {
-			mClientProperties = new HashMap<Object, Object>();
-		}
-
-		mClientProperties.put( key, value );
-	}
-
-	/**
-	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getClientProperty( Object key ) {
-
-		if ( mClientProperties == null ) {
-			return null;
-		}
-
-		return (T) mClientProperties.get( key );
 	}
 
 	//

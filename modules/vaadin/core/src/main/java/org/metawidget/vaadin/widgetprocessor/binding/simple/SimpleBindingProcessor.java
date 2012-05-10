@@ -33,11 +33,10 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 import com.vaadin.data.Property;
-import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.Component;
 
 /**
- * Simple, Generator-based property and action binding processor.
+ * Simple property binding processor.
  *
  * @author Richard Kennard
  */
@@ -49,7 +48,7 @@ public class SimpleBindingProcessor
 	// Private members
 	//
 
-	private final Map<Class<?>, Converter<?>>	mConverters;
+	private final Map<ConvertFromTo, Converter<?, ?>>	mConverters	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -62,16 +61,11 @@ public class SimpleBindingProcessor
 
 	public SimpleBindingProcessor( SimpleBindingProcessorConfig config ) {
 
-		mConverters = CollectionUtils.newWeakHashMap();
-
 		// Default converters
 
-		Converter<?> simpleConverter = new SimpleConverter();
-
-		mConverters.put( char.class, simpleConverter );
-		mConverters.put( Boolean.class, simpleConverter );
-		mConverters.put( Character.class, simpleConverter );
-		mConverters.put( Number.class, simpleConverter );
+		mConverters.put( new ConvertFromTo( String.class, Object.class ), new FromStringConverter() );
+		mConverters.put( new ConvertFromTo( Object.class, String.class ), new ToStringConverter() );
+		mConverters.put( new ConvertFromTo( Number.class, Number.class ), new NumberConverter() );
 
 		// Custom converters
 
@@ -89,7 +83,7 @@ public class SimpleBindingProcessor
 		metawidget.putClientProperty( SimpleBindingProcessor.class, null );
 	}
 
-	public Component processWidget( Component component, String elementName, Map<String, String> attributes, final VaadinMetawidget metawidget ) {
+	public Component processWidget( final Component component, String elementName, Map<String, String> attributes, final VaadinMetawidget metawidget ) {
 
 		// Nested metawidgets are not bound, only remembered
 
@@ -112,7 +106,7 @@ public class SimpleBindingProcessor
 
 		// Ignore WRITE_ONLY (at least for now)
 
-		if ( TRUE.equals( attributes.get( NO_GETTER ))) {
+		if ( TRUE.equals( attributes.get( NO_GETTER ) ) ) {
 			return component;
 		}
 
@@ -126,7 +120,7 @@ public class SimpleBindingProcessor
 
 		// Lookup the propertyType
 
-		Class<?> propertyType = ClassUtils.niceForName( type );
+		Class<?> toInspectPropertyType = ClassUtils.niceForName( type );
 
 		// ...fetch the value...
 
@@ -148,43 +142,42 @@ public class SimpleBindingProcessor
 			value = ClassUtils.getProperty( value, name );
 		}
 
-		// ...convert it (if necessary)...
-
-		@SuppressWarnings( "unchecked" )
-		final Converter<Object> converter = (Converter<Object>) getConverter( propertyType );
-
 		// ...and set it
 
 		try {
-			if ( propertyType.isPrimitive() ) {
-				propertyType = ClassUtils.getWrapperClass( propertyType );
+
+			// (make long into Long, so that it matches during ObjectProperty.setValue)
+
+			if ( toInspectPropertyType.isPrimitive() ) {
+				toInspectPropertyType = ClassUtils.getWrapperClass( toInspectPropertyType );
 			}
 
+			// We *always* go via a Converter, as this is the simplest way to handle cases like:
+			//
+			// String: null -> "" -> null
+
+			Property property = (Property) component;
+			Class<?> componentPropertyType = property.getType();
 			@SuppressWarnings( "unchecked" )
-			final Class<Object> withPropertyType = (Class<Object>) propertyType;
+			Converter<Object, Object> setValueConverter = (Converter<Object, Object>) getConverter( toInspectPropertyType, componentPropertyType );
 
-			Property property = new ObjectProperty<Object>( value, withPropertyType ) {
+			if ( setValueConverter != null ) {
+				value = setValueConverter.convert( value, componentPropertyType );
+			}
 
-				@Override
-				public void setValue( Object newValue )
-					throws ReadOnlyException, ConversionException {
+			boolean readOnly = property.isReadOnly();
+			if ( readOnly ) {
+				property.setReadOnly( false );
+			}
 
-					Object convertedValue = newValue;
+			// Note: we tried doing this via property.setPropertyDataSource, but that seems
+			// incorrect because the component uses getValue/setValue internally and
+			// it's not expecting getValue to return a type of toInspectPropertyType
 
-					if ( converter != null && convertedValue instanceof String ) {
-						convertedValue = converter.convertFromString( (String) convertedValue, withPropertyType );
-					}
-
-					// (stop null Strings coming out as "null")
-
-					if ( convertedValue == null && String.class.equals( withPropertyType ) ) {
-						convertedValue = "";
-					}
-
-					super.setValue( convertedValue );
-				}
-			};
-			( (Property.Viewer) component ).setPropertyDataSource( property );
+			property.setValue( value );
+			if ( readOnly ) {
+				property.setReadOnly( true );
+			}
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) ) {
 				return component;
@@ -196,7 +189,7 @@ public class SimpleBindingProcessor
 				state.bindings = new HashSet<Object[]>();
 			}
 
-			state.bindings.add( new Object[] { property, names } );
+			state.bindings.add( new Object[] { property, names, toInspectPropertyType } );
 		} catch ( Exception e ) {
 			throw WidgetProcessorException.newException( e );
 		}
@@ -222,15 +215,19 @@ public class SimpleBindingProcessor
 			for ( Object[] binding : state.bindings ) {
 				Property property = (Property) binding[0];
 				String[] names = (String[]) binding[1];
+				Class<?> toInspectPropertyType = (Class<?>) binding[2];
 
 				// ...fetch the value...
 
 				Object value = property.getValue();
 
-				// (convert "" Strings back to null)
+				// ...convert it if necessary...
 
-				if ( "".equals( value ) ) {
-					value = null;
+				@SuppressWarnings( "unchecked" )
+				Converter<Object, Object> getValueConverter = (Converter<Object, Object>) getConverter( property.getType(), toInspectPropertyType );
+
+				if ( getValueConverter != null ) {
+					value = getValueConverter.convert( value, toInspectPropertyType );
 				}
 
 				// ...and set it
@@ -264,13 +261,17 @@ public class SimpleBindingProcessor
 		// Do nothing
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
-		Converter<Object> converter = (Converter<Object>) getConverter( expectedType );
+		if ( String.class.equals( expectedType ) ) {
+			return value;
+		}
 
-		if ( converter != null ) {
-			return converter.convertFromString( value, (Class<Object>) expectedType );
+		Converter<String, ?> converterFromString = getConverter( String.class, expectedType );
+
+		if ( converterFromString != null ) {
+			return converterFromString.convert( value, (Class) expectedType );
 		}
 
 		return value;
@@ -279,32 +280,6 @@ public class SimpleBindingProcessor
 	//
 	// Private methods
 	//
-
-	/**
-	 * Gets the Converter for the given Class (if any).
-	 * <p>
-	 * Includes traversing superclasses of the given <code>classToConvert</code> for a suitable
-	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
-	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
-	 * Converter is also registered.
-	 */
-
-	private Converter<?> getConverter( Class<?> classToConvert ) {
-
-		Class<?> classTraversal = classToConvert;
-
-		while ( classTraversal != null ) {
-			Converter<?> converter = mConverters.get( classTraversal );
-
-			if ( converter != null ) {
-				return converter;
-			}
-
-			classTraversal = classTraversal.getSuperclass();
-		}
-
-		return null;
-	}
 
 	/* package private */State getState( VaadinMetawidget metawidget ) {
 
@@ -316,6 +291,52 @@ public class SimpleBindingProcessor
 		}
 
 		return state;
+	}
+
+	/**
+	 * Gets the Converter for the given Class (if any).
+	 * <p>
+	 * Includes traversing superclasses of the given <code>sourceClass</code> for a suitable
+	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
+	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
+	 * Converter is also registered.
+	 */
+
+	private <F, T> Converter<F, T> getConverter( Class<F> sourceClass, Class<T> targetClass ) {
+
+		// Try target...
+
+		Class<?> targetClassTraversal = targetClass;
+
+		if ( targetClassTraversal.isPrimitive() ) {
+			targetClassTraversal = ClassUtils.getWrapperClass( targetClassTraversal );
+		}
+
+		while ( targetClassTraversal != null ) {
+
+			// ...then, within that, source
+
+			Class<?> sourceClassTraversal = sourceClass;
+
+			if ( sourceClassTraversal.isPrimitive() ) {
+				sourceClassTraversal = ClassUtils.getWrapperClass( sourceClassTraversal );
+			}
+
+			while ( sourceClassTraversal != null ) {
+				@SuppressWarnings( "unchecked" )
+				Converter<F, T> converter = (Converter<F, T>) mConverters.get( new ConvertFromTo( sourceClassTraversal, targetClassTraversal ) );
+
+				if ( converter != null ) {
+					return converter;
+				}
+
+				sourceClassTraversal = sourceClassTraversal.getSuperclass();
+			}
+
+			targetClassTraversal = targetClassTraversal.getSuperclass();
+		}
+
+		return null;
 	}
 
 	//

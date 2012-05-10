@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.vaadin.Stub;
@@ -229,8 +230,18 @@ public class VaadinWidgetBuilder
 		}
 
 		// Lookup the Class
+		//
+		// (use TYPE, not ACTUAL_TYPE, because an Enum with a value will get a type of Enum$1)
 
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
+		Class<?> clazz;
+		String type = attributes.get( TYPE );
+
+		if ( type != null ) {
+			clazz = ClassUtils.niceForName( type );
+		} else {
+			clazz = null;
+		}
+
 		BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
 
 		for ( String value : values ) {

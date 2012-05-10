@@ -22,18 +22,11 @@ package org.metawidget.vaadin.widgetprocessor.binding.simple;
  * @author Richard Kennard
  */
 
-public interface Converter<T> {
+public interface Converter<F,T> {
 
 	//
 	// Methods
 	//
 
-	/**
-	 * Convert the given String to the given expected type, if possible. If not possible, just
-	 * return the original String.
-	 */
-
-	T convertFromString( String value, Class<T> expectedType );
-
-	String convertToString( T value );
+	T convert( F value, Class<? extends T> actualType );
 }

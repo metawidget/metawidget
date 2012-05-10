@@ -25,6 +25,7 @@
 			<array>
 				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
 					<converter>
+						<class>java.lang.String</class>
 						<class>org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets</class>
 						<nestedWidgetsConverter xmlns="java:org.metawidget.integrationtest.vaadin.allwidgets.converter"/>
 					</converter>					

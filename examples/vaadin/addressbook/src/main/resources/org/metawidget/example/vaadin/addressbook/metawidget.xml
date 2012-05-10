@@ -43,12 +43,9 @@
 			<array>
 				<simpleBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
 					<converter>
-						<class>org.metawidget.example.shared.addressbook.model.ContactType</class>
-						<contactTypeConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter" />
-					</converter>
-					<converter>
-						<class>org.metawidget.example.shared.addressbook.model.Gender</class>
-						<genderConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter" />
+						<class>java.util.Date</class>
+						<class>java.lang.String</class>
+						<dateConverter xmlns="java:org.metawidget.example.vaadin.addressbook.converter" />
 					</converter>
 				</simpleBindingProcessor>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.vaadin.widgetprocessor.binding.reflection" />

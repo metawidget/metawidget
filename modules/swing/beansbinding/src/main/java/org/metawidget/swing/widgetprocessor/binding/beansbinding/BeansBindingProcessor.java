@@ -232,6 +232,10 @@ public class BeansBindingProcessor
 
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
+		if ( String.class.equals( expectedType )) {
+			return value;
+		}
+		
 		// Try converters one way round...
 
 		Converter<String, ?> converterFromString = getConverter( String.class, expectedType );

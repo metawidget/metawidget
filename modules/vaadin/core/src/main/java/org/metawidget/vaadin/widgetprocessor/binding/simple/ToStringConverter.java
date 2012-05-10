@@ -16,26 +16,32 @@
 
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
+
 /**
- * Converts a <code>String</code> into a <code>Character</code>. Vaadin seems to support most
- * primitive types by default, but not this one.
+ * Built-in Converter to convert Objects to Strings.
  *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
 
-public class CharacterConverter
-	extends BaseConverter<Character> {
+public class ToStringConverter
+	implements Converter<Object, String> {
 
 	//
 	// Public methods
 	//
 
-	public Character convertFromString( String value, Class<Character> expectedType ) {
+	public String convert( Object value, Class<? extends String> actualType ) {
 
-		if ( value != null && value.length() > 0 ) {
-			return value.charAt( 0 );
+		if ( value == null ) {
+			return "";
 		}
 
-		throw new RuntimeException( value );
+		// Convert Enums to their name(), not their .toString()
+
+		if ( value instanceof Enum ) {
+			return ( (Enum<?>) value ).name();
+		}
+
+		return value.toString();
 	}
 }

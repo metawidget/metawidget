@@ -38,7 +38,7 @@ public class MinimumMaximumValidatorProcessorTest
 	// Public methods
 	//
 
-	public void testWidgetBuilder()
+	public void testWidgetProcessor()
 		throws Exception {
 
 		MinimumMaximumValidatorProcessor widgetProcessor = new MinimumMaximumValidatorProcessor();

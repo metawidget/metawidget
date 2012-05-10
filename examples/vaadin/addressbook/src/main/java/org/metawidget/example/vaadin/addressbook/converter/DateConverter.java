@@ -16,21 +16,41 @@
 
 package org.metawidget.example.vaadin.addressbook.converter;
 
-import org.metawidget.example.shared.addressbook.model.ContactType;
+import java.text.DateFormat;
+import java.util.Date;
 
-/**
- * @author Richard Kennard
- */
+import org.metawidget.vaadin.widgetprocessor.binding.simple.Converter;
 
-public class ContactTypeConverter
-	extends EnumConverter<ContactType> {
+public class DateConverter
+	implements Converter<Date, String> {
+
+	//
+	// Private members
+	//
+
+	private DateFormat	mFormat;
 
 	//
 	// Constructor
 	//
 
-	public ContactTypeConverter() {
+	public DateConverter() {
 
-		super( ContactType.class );
+		mFormat = DateFormat.getDateInstance( DateFormat.SHORT );
+	}
+
+	//
+	// Public methods
+	//
+
+	public String convert( Date value, Class<? extends String> expectedType ) {
+
+		if ( value == null ) {
+			return null;
+		}
+
+		synchronized ( mFormat ) {
+			return mFormat.format( value );
+		}
 	}
 }

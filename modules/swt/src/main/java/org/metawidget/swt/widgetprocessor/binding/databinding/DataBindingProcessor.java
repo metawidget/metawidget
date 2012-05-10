@@ -176,6 +176,8 @@ public class DataBindingProcessor
 
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
+		// TODO: ???
+
 		return value;
 	}
 
@@ -356,11 +358,7 @@ public class DataBindingProcessor
 				return true;
 			}
 
-			if ( that == null ) {
-				return false;
-			}
-
-			if ( getClass() != that.getClass() ) {
+			if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 				return false;
 			}
 

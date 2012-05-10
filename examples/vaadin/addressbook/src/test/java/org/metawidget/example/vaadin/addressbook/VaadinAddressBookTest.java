@@ -16,6 +16,8 @@
 
 package org.metawidget.example.vaadin.addressbook;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -75,6 +77,9 @@ public class VaadinAddressBookTest
 		// Check searching
 
 		VaadinMetawidget metawidgetSearch = (VaadinMetawidget) contactsMainBody.getComponent( 0 );
+		assertEquals( "", ((TextField) metawidgetSearch.getComponent( "firstname" )).getValue() );
+		assertEquals( "", ((TextField) metawidgetSearch.getComponent( "surname" )).getValue() );
+		assertEquals( null, ((Select) metawidgetSearch.getComponent( "type" )).getValue() );
 
 		( (TextField) metawidgetSearch.getComponent( "surname" ) ).setValue( "Simpson" );
 		( (Select) metawidgetSearch.getComponent( "type" ) ).setValue( ContactType.PERSONAL );
@@ -115,10 +120,11 @@ public class VaadinAddressBookTest
 
 		VaadinMetawidget metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Homer", ( (Label) metawidgetContact.getComponent( "firstname" ) ).getValue() );
-		assertEquals( Gender.MALE, ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "MALE", ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "Male", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
 		layout = (FormLayout) metawidgetContact.getContent();
 		assertEquals( "Contact Details", ( (Label) layout.getComponent( 5 ) ).getValue() );
-		assertEquals( new Date( 56, Calendar.MAY, 12 ), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
+		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 56, Calendar.MAY, 12 )), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
 		assertEquals( null, metawidgetContact.getComponent( "bad-value" ));
 		assertTrue( ( (TextArea) metawidgetContact.getComponent( "notes" ) ).isReadOnly() );
 
@@ -231,7 +237,7 @@ public class VaadinAddressBookTest
 		contactDialog = addressBook.createContactDialog( contact );
 		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Sapien", ( (Label) metawidgetContact.getComponent( "surname" ) ).getValue() );
-		assertEquals( new Date( 57, Calendar.MAY, 12 ), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
+		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 )), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
 
 		communicationsWrapper = metawidgetContact.getComponent( "communications" );
 		table = (Table) communicationsWrapper.getComponent( 0 );
@@ -261,11 +267,11 @@ public class VaadinAddressBookTest
 
 		assertEquals( "Charles Montgomery", ( (TextField) metawidgetContact.getComponent( "firstname" ) ).getValue() );
 		assertEquals( Gender.MALE, ( (Select) metawidgetContact.getComponent( "gender" ) ).getValue() );
-		assertEquals( 0, ( (Slider) metawidgetContact.getComponent( "numberOfStaff" ) ).getValue() );
+		assertEquals( 0d, ( (Slider) metawidgetContact.getComponent( "numberOfStaff" ) ).getValue() );
 
 		// Check saving
 
-		( (Slider) metawidgetContact.getComponent( "numberOfStaff" ) ).setValue( "2" );
+		( (Slider) metawidgetContact.getComponent( "numberOfStaff" ) ).setValue( 2d );
 		( (TextField) metawidgetContact.getComponent( "company" ) ).setValue( "A Company" );
 
 		layout = (FormLayout) metawidgetContact.getContent();
@@ -299,11 +305,19 @@ public class VaadinAddressBookTest
 		assertTrue( !contactDialog.isReadOnly() );
 		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 
+		// Open dialog for new Business Contact
+
+		contactDialog = addressBook.createContactDialog( new BusinessContact() );
+		assertTrue( !contactDialog.isReadOnly() );
+		metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
+
+		((Slider) metawidgetContact.getComponent( "numberOfStaff" )).getValue();
+
 		// Check adding
 
 		Select select = metawidgetContact.getComponent( "title" );
 		assertEquals( "Mr", ( (com.vaadin.data.util.IndexedContainer) select.getContainerDataSource() ).getIdByIndex( 0 ) );
-		assertEquals( "", select.getValue() );
+		assertEquals( null, select.getValue() );
 		assertFalse( select.isNullSelectionAllowed() );
 		assertEquals( 5, select.getItemIds().size() );
 		((Select) metawidgetContact.getComponent( "title" )).setValue( "Miss" );
@@ -313,10 +327,10 @@ public class VaadinAddressBookTest
 		assertTrue( ((Select) metawidgetContact.getComponent( "gender" )).isNullSelectionAllowed() );
 		assertEquals( null, ((Select) metawidgetContact.getComponent( "gender" )).getValue() );
 		((Select) metawidgetContact.getComponent( "gender" )).setValue( Gender.FEMALE );
-		assertTrue( metawidgetContact.getComponent( "address", "street" ) instanceof TextField );
+		assertTrue( (metawidgetContact.getComponent( "address", "street" )) instanceof TextField );
 
 		layout = (FormLayout) metawidgetContact.getContent();
-		assertEquals( 11, layout.getComponentCount() );
+		assertEquals( 12, layout.getComponentCount() );
 		buttons = (Facet) layout.getComponent( layout.getComponentCount() - 1 );
 		buttonsLayout = ( (VaadinMetawidget) ( (VerticalLayout) buttons.getContent() ).getComponent( 0 ) ).getContent();
 		saveButton = (Button) buttonsLayout.getComponent( 0 );
@@ -334,7 +348,7 @@ public class VaadinAddressBookTest
 		assertEquals( "Miss Business Contact", contact.getFullname() );
 		assertEquals( Gender.FEMALE, contact.getGender() );
 		metawidgetContact.setReadOnly( true );
-		assertEquals( Gender.FEMALE, ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "FEMALE", ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
 		assertEquals( "Female", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
 
 		metawidgetContact.setReadOnly( false );

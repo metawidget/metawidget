@@ -18,16 +18,16 @@ package org.metawidget.integrationtest.vaadin.allwidgets.converter;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.vaadin.widgetprocessor.binding.simple.BaseConverter;
+import org.metawidget.vaadin.widgetprocessor.binding.simple.Converter;
 
 public class NestedWidgetsConverter
-	extends BaseConverter<NestedWidgets> {
+	implements Converter<String,NestedWidgets> {
 
 	//
 	// Public methods
 	//
 
-	public NestedWidgets convertFromString( String value, Class<NestedWidgets> expectedType ) {
+	public NestedWidgets convert( String value, Class<? extends NestedWidgets> expectedType ) {
 
 		String[] values = ArrayUtils.fromString( value );
 
@@ -44,5 +44,4 @@ public class NestedWidgetsConverter
 
 		return nestedWidgets;
 	}
-
 }

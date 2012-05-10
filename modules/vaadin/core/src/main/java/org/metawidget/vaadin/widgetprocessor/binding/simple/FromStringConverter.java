@@ -16,94 +16,111 @@
 
 package org.metawidget.vaadin.widgetprocessor.binding.simple;
 
-
-
-
 /**
  * Built-in Converter to convert Strings to primitive types.
  *
  * @author Richard Kennard
  */
 
-public class SimpleConverter
-	extends BaseConverter<Object> {
+public class FromStringConverter
+	implements Converter<String, Object> {
 
 	//
 	// Public methods
 	//
 
-	public Object convertFromString( String value, Class<Object> type ) {
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
+	public Object convert( String value, Class<? extends Object> actualType ) {
 
 		// Primitives
 
-		if ( byte.class.equals( type ) ) {
+		if ( byte.class.equals( actualType ) ) {
 			return Byte.parseByte( value );
 		}
 
-		if ( short.class.equals( type ) ) {
+		if ( short.class.equals( actualType ) ) {
 			return Short.parseShort( value );
 		}
 
-		if ( int.class.equals( type ) ) {
+		if ( int.class.equals( actualType ) ) {
 			return Integer.parseInt( value );
 		}
 
-		if ( long.class.equals( type ) ) {
+		if ( long.class.equals( actualType ) ) {
 			return Long.parseLong( value );
 		}
 
-		if ( float.class.equals( type ) ) {
+		if ( float.class.equals( actualType ) ) {
 			return Float.parseFloat( value );
 		}
 
-		if ( double.class.equals( type ) ) {
+		if ( double.class.equals( actualType ) ) {
 			return Double.parseDouble( value );
 		}
 
-		if ( boolean.class.equals( type ) ) {
+		if ( boolean.class.equals( actualType ) ) {
 			return Boolean.parseBoolean( value );
 		}
 
-		if ( char.class.equals( type ) ) {
+		if ( char.class.equals( actualType ) ) {
 			return ( value ).charAt( 0 );
 		}
 
 		// Primitive wrappers
 
-		if ( Byte.class.equals( type ) ) {
+		if ( Byte.class.equals( actualType ) ) {
 			return Byte.valueOf( value );
 		}
 
-		if ( Short.class.equals( type ) ) {
+		if ( Short.class.equals( actualType ) ) {
 			return Short.valueOf( value );
 		}
 
-		if ( Integer.class.equals( type ) ) {
+		if ( Integer.class.equals( actualType ) ) {
 			return Integer.valueOf( value );
 		}
 
-		if ( Long.class.equals( type ) ) {
+		if ( Long.class.equals( actualType ) ) {
 			return Long.valueOf( value );
 		}
 
-		if ( Float.class.equals( type ) ) {
+		if ( Float.class.equals( actualType ) ) {
 			return Float.valueOf( value );
 		}
 
-		if ( Double.class.equals( type ) ) {
+		if ( Double.class.equals( actualType ) ) {
 			return Double.valueOf( value );
 		}
 
-		if ( Boolean.class.equals( type ) ) {
+		if ( Boolean.class.equals( actualType ) ) {
 			return Boolean.valueOf( value );
 		}
 
-		if ( Character.class.equals( type ) ) {
+		if ( Character.class.equals( actualType ) ) {
 			return Character.valueOf( value.charAt( 0 ) );
+		}
+
+		// Enums
+
+		if ( actualType.isEnum() ) {
+			return Enum.valueOf( (Class<? extends Enum>) actualType, value );
+		}
+
+		// Strings/Objects
+
+		if ( String.class.equals( actualType ) || Object.class.equals( actualType ) ) {
+
+			// Convert empty Strings back to null
+
+			if ( "".equals( value )) {
+				return null;
+			}
+
+			return value;
 		}
 
 		// Unknown
 
-		throw new RuntimeException( "Don't know how to convert a String to a " + type.getName() );
+		throw new RuntimeException( "Don't know how to convert a String to a " + actualType.getName() );
 	}
 }

@@ -128,57 +128,48 @@ public class MinimumMaximumValidatorProcessor
 				return !mNumberType.isPrimitive();
 			}
 
-			// Support Sliders, which Vaadin locks to use doubles internally. This means you have to
-			// setValue them using Strings
-
-			Object valueToUse = value;
-
-			if ( valueToUse instanceof String ) {
-				valueToUse = ClassUtils.parseNumber( mNumberType, (String) valueToUse );
-			}
-
 			// Range check
 
 			if ( byte.class.equals( mNumberType ) || Byte.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Byte) valueToUse < (Byte) mMinimum ) {
+				if ( mMinimum != null && (Byte) value < (Byte) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && (Byte) valueToUse > (Byte) mMaximum ) {
+				if ( mMaximum != null && (Byte) value > (Byte) mMaximum ) {
 					return false;
 				}
 			} else if ( short.class.equals( mNumberType ) || Short.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Short) valueToUse < (Short) mMinimum ) {
+				if ( mMinimum != null && (Short) value < (Short) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && (Short) valueToUse > (Short) mMaximum ) {
+				if ( mMaximum != null && (Short) value > (Short) mMaximum ) {
 					return false;
 				}
 			} else if ( int.class.equals( mNumberType ) || Integer.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Integer) valueToUse < (Integer) mMinimum ) {
+				if ( mMinimum != null && ((Number) value).intValue() < (Integer) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && (Integer) valueToUse > (Integer) mMaximum ) {
+				if ( mMaximum != null && ((Number) value).intValue() > (Integer) mMaximum ) {
 					return false;
 				}
 			} else if ( long.class.equals( mNumberType ) || Long.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Long) valueToUse < (Long) mMinimum ) {
+				if ( mMinimum != null && (Long) value < (Long) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && (Long) valueToUse > (Long) mMaximum ) {
+				if ( mMaximum != null && (Long) value > (Long) mMaximum ) {
 					return false;
 				}
 			} else if ( float.class.equals( mNumberType ) || Float.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Float) valueToUse < (Float) mMinimum ) {
+				if ( mMinimum != null && (Float) value < (Float) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && (Float) valueToUse > (Float) mMaximum ) {
+				if ( mMaximum != null && (Float) value > (Float) mMaximum ) {
 					return false;
 				}
 			} else if ( double.class.equals( mNumberType ) || Double.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Double) valueToUse < (Double) mMinimum ) {
+				if ( mMinimum != null && (Double) value < (Double) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && (Double) valueToUse > (Double) mMaximum ) {
+				if ( mMaximum != null && (Double) value > (Double) mMaximum ) {
 					return false;
 				}
 			} else {

@@ -25,11 +25,12 @@ import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -76,14 +77,9 @@ public class SwingAddressBookTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "cast" )
+	@SuppressWarnings( { "cast", "deprecation" } )
 	public void testAddressBook()
 		throws Exception {
-
-		// Set Locale because we will be checking date formatting
-
-		Locale.setDefault( Locale.UK );
-		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
 		// Start app
 
@@ -111,8 +107,8 @@ public class SwingAddressBookTest
 		assertTrue( ( (Container) buttonsPanel.getComponent( 0 ) ).getLayout() instanceof FlowLayout );
 		JButton buttonSearch = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Search", buttonSearch.getText() );
-		assertEquals( "Add Personal Contact", ((JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 1 )).getText() );
-		assertEquals( "Add Business Contact", ((JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 2 )).getText() );
+		assertEquals( "Add Personal Contact", ( (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 1 ) ).getText() );
+		assertEquals( "Add Business Contact", ( (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 2 ) ).getText() );
 
 		buttonSearch.getAction().actionPerformed( null );
 		assertEquals( ContactType.PERSONAL, ( (JComboBox) metawidgetSearch.getComponent( "type" ) ).getSelectedItem() );
@@ -140,12 +136,12 @@ public class SwingAddressBookTest
 
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
-		assertTrue( ((Component) metawidgetContact.getComponent( "firstname" )) instanceof JLabel );
+		assertTrue( ( (Component) metawidgetContact.getComponent( "firstname" ) ) instanceof JLabel );
 		assertEquals( "Male", ( (JLabel) metawidgetContact.getComponent( "gender" ) ).getText() );
 		assertTrue( metawidgetContact.getComponent( 10 ) instanceof JPanel );
-		assertEquals( "Contact Details", ((JLabel) ((JPanel) metawidgetContact.getComponent( 10 )).getComponent( 0 )).getText() );
+		assertEquals( "Contact Details", ( (JLabel) ( (JPanel) metawidgetContact.getComponent( 10 ) ).getComponent( 0 ) ).getText() );
 		assertEquals( java.awt.GridBagConstraints.REMAINDER, ( (GridBagLayout) metawidgetContact.getLayout() ).getConstraints( metawidgetContact.getComponent( 10 ) ).gridwidth );
-		assertEquals( "12/05/56", metawidgetContact.getValue( "dateOfBirth" ) );
+		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 56, Calendar.MAY, 12 ) ), metawidgetContact.getValue( "dateOfBirth" ) );
 
 		try {
 			metawidgetContact.getValue( "bad-value" );
@@ -185,7 +181,7 @@ public class SwingAddressBookTest
 		assertEquals( Gender.MALE, ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
 		metawidgetContact.setValue( "Sapien", "surname" );
 		assertTrue( metawidgetContact.getComponent( 10 ) instanceof JPanel );
-		assertEquals( "Contact Details", ((JLabel) ((JPanel) metawidgetContact.getComponent( 10 )).getComponent( 0 )).getText() );
+		assertEquals( "Contact Details", ( (JLabel) ( (JPanel) metawidgetContact.getComponent( 10 ) ).getComponent( 0 ) ).getText() );
 		assertEquals( java.awt.GridBagConstraints.REMAINDER, ( (GridBagLayout) metawidgetContact.getLayout() ).getConstraints( metawidgetContact.getComponent( 10 ) ).gridwidth );
 		assertEquals( metawidgetContact.getComponentCount(), 19 );
 
@@ -285,7 +281,7 @@ public class SwingAddressBookTest
 			assertEquals( "Unparseable date: \"foo\"", e.getCause().getCause().getMessage() );
 		}
 
-		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );
+		metawidgetContact.setValue( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 ) ), "dateOfBirth" );
 		buttonsPanel = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
 		JButton buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Save", buttonSave.getText() );
@@ -295,7 +291,6 @@ public class SwingAddressBookTest
 		contact = contactsController.load( 1 );
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		assertEquals( ( (PersonalContact) contact ).getDateOfBirth().getTime(), -398908800000l );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();
@@ -342,7 +337,7 @@ public class SwingAddressBookTest
 		assertEquals( "Edit", editButton.getText() );
 		editButton.getAction().actionPerformed( null );
 		assertEquals( "Charles Montgomery", metawidgetContact.getValue( "firstname" ) );
-		assertTrue( Gender.MALE.equals( metawidgetContact.getValue( "gender" ) ));
+		assertTrue( Gender.MALE.equals( metawidgetContact.getValue( "gender" ) ) );
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
 		// Check saving
@@ -400,7 +395,7 @@ public class SwingAddressBookTest
 		assertEquals( 3, ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getItemCount() );
 		assertEquals( null, ( (JComboBox) metawidgetContact.getComponent( "gender" ) ).getSelectedItem() );
 		( (JComboBox) metawidgetContact.getComponent( "gender" ) ).setSelectedItem( Gender.FEMALE );
-		assertTrue( metawidgetContact.getComponent( "address", "street") instanceof JTextField );
+		assertTrue( metawidgetContact.getComponent( "address", "street" ) instanceof JTextField );
 
 		buttonSave = (JButton) ( (SwingMetawidget) buttonsPanel.getComponent( 0 ) ).getComponent( 0 );
 		assertEquals( "Save", buttonSave.getText() );

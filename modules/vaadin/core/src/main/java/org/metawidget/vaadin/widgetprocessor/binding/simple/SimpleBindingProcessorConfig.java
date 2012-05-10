@@ -34,7 +34,7 @@ public class SimpleBindingProcessorConfig {
 	// Private members
 	//
 
-	private Map<Class<?>, Converter<?>>	mConverters;
+	private Map<ConvertFromTo, Converter<?, ?>>	mConverters;
 
 	//
 	// Public methods
@@ -53,13 +53,13 @@ public class SimpleBindingProcessorConfig {
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <T> SimpleBindingProcessorConfig setConverter( Class<T> forClass, Converter<?> converter ) {
+	public <F,T> SimpleBindingProcessorConfig setConverter( Class<F> fromClass, Class<T> toClass, Converter<F, T> converter ) {
 
 		if ( mConverters == null ) {
-			mConverters = CollectionUtils.newWeakHashMap();
+			mConverters = CollectionUtils.newHashMap();
 		}
 
-		mConverters.put( forClass, converter );
+		mConverters.put( new ConvertFromTo( fromClass, toClass ), converter );
 
 		return this;
 	}
@@ -95,7 +95,7 @@ public class SimpleBindingProcessorConfig {
 	// Protected methods
 	//
 
-	protected Map<Class<?>, Converter<?>> getConverters() {
+	protected Map<ConvertFromTo, Converter<?, ?>> getConverters() {
 
 		return mConverters;
 	}
