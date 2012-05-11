@@ -62,6 +62,8 @@ public class MigLayout
 
 	private final boolean		mSupportMnemonics;
 
+	private final boolean		mDebugMode;
+
 	//
 	// Constructor
 	//
@@ -75,6 +77,7 @@ public class MigLayout
 
 		mNumberOfColumns = config.getNumberOfColumns();
 		mSupportMnemonics = config.isSupportMnemonics();
+		mDebugMode = config.isDebugMode();
 	}
 
 	//
@@ -98,8 +101,10 @@ public class MigLayout
 		LC layoutConstraints = new LC().insets( "0" );
 
 		// Debug Info (draws the red and blue lines)
-		//
-		// layoutConstraints.debug( 500 );
+
+		if ( mDebugMode ) {
+			layoutConstraints.debug( 500 );
+		}
 
 		// Create the Layout
 		//

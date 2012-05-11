@@ -282,6 +282,19 @@ public class MigLayoutTest
 		assertTrue( GROW_ALL == ( (CC) facet.getLayoutData() ).getHorizontal().getGrow() );
 	}
 
+	public void testDebugMode() {
+
+		SwtMetawidget metawidget = new SwtMetawidget( new Shell( TEST_DISPLAY, SWT.NONE ), SWT.NONE );
+		metawidget.setMetawidgetLayout( new org.metawidget.swt.layout.MigLayout() );
+		metawidget.setToInspect( new Foo() );
+
+		assertEquals( 0, ( (LC) ( (net.miginfocom.swt.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swt.layout.MigLayout( new MigLayoutConfig().setDebugMode( true ) ));
+
+		assertEquals( 500, ( (LC) ( (net.miginfocom.swt.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig() {

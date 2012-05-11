@@ -35,6 +35,8 @@ public class MigLayoutConfig {
 
 	private boolean	mSupportMnemonics	= true;
 
+	private boolean mDebugMode;
+
 	//
 	// Public methods
 	//
@@ -65,6 +67,19 @@ public class MigLayoutConfig {
 		return this;
 	}
 
+	/**
+	 * @param debugMode
+	 *            true to enable MigLayout debug mode
+	 * @return this, as part of a fluent interface
+	 */
+
+	public MigLayoutConfig setDebugMode( boolean debugMode ) {
+
+		mDebugMode = debugMode;
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -84,6 +99,10 @@ public class MigLayoutConfig {
 			return false;
 		}
 
+		if ( mDebugMode != ( (MigLayoutConfig) that ).mDebugMode ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -93,6 +112,7 @@ public class MigLayoutConfig {
 		int hashCode = 1;
 		hashCode = 31 * hashCode + mNumberOfColumns;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportMnemonics );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDebugMode );
 
 		return hashCode;
 	}
@@ -109,5 +129,10 @@ public class MigLayoutConfig {
 	protected boolean isSupportMnemonics() {
 
 		return mSupportMnemonics;
+	}
+
+	protected boolean isDebugMode(){
+
+		return mDebugMode;
 	}
 }

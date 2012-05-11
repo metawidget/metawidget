@@ -291,6 +291,19 @@ public class MigLayoutTest
 		assertEquals( -1, label.getDisplayedMnemonicIndex() );
 	}
 
+	public void testDebugMode() {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
+		metawidget.setToInspect( new Foo() );
+
+		assertEquals( 0, ( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setDebugMode( true ) ));
+
+		assertEquals( 500, ( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getDebugMillis() );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( MigLayoutConfig.class, new MigLayoutConfig() {

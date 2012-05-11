@@ -50,7 +50,9 @@ public class MigLayout
 	// Private members
 	//
 
-	private final int	mNumberOfColumns;
+	private final int		mNumberOfColumns;
+
+	private final boolean	mDebugMode;
 
 	//
 	// Constructor
@@ -64,6 +66,7 @@ public class MigLayout
 	public MigLayout( MigLayoutConfig config ) {
 
 		mNumberOfColumns = config.getNumberOfColumns();
+		mDebugMode = config.isDebugMode();
 	}
 
 	//
@@ -87,8 +90,10 @@ public class MigLayout
 		LC layoutConstraints = new LC().insets( "0" );
 
 		// Debug Info (draws the red and blue lines)
-		//
-		// layoutConstraints.debug( 500 );
+
+		if ( mDebugMode ) {
+			layoutConstraints.debug( 500 );
+		}
 
 		// Create the Layout
 		//

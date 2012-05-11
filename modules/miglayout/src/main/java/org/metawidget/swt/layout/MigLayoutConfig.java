@@ -31,7 +31,9 @@ public class MigLayoutConfig {
 	// Private members
 	//
 
-	private int	mNumberOfColumns	= 1;
+	private int		mNumberOfColumns	= 1;
+
+	private boolean	mDebugMode			= false;
 
 	//
 	// Public methods
@@ -52,6 +54,19 @@ public class MigLayoutConfig {
 		return this;
 	}
 
+	/**
+	 * @param debugMode
+	 *            true to enable MigLayout debug mode
+	 * @return this, as part of a fluent interface
+	 */
+
+	public MigLayoutConfig setDebugMode( boolean debugMode ) {
+
+		mDebugMode = debugMode;
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that ) {
 
@@ -59,11 +74,15 @@ public class MigLayoutConfig {
 			return true;
 		}
 
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
 			return false;
 		}
 
 		if ( mNumberOfColumns != ( (MigLayoutConfig) that ).mNumberOfColumns ) {
+			return false;
+		}
+
+		if ( mDebugMode != ( (MigLayoutConfig) that ).mDebugMode ) {
 			return false;
 		}
 
@@ -73,7 +92,11 @@ public class MigLayoutConfig {
 	@Override
 	public int hashCode() {
 
-		return mNumberOfColumns;
+		int hashCode = 1;
+		hashCode = 31 * hashCode + mNumberOfColumns;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDebugMode );
+
+		return hashCode;
 	}
 
 	//
@@ -83,5 +106,10 @@ public class MigLayoutConfig {
 	protected int getNumberOfColumns() {
 
 		return mNumberOfColumns;
+	}
+
+	protected boolean isDebugMode() {
+
+		return mDebugMode;
 	}
 }
