@@ -216,7 +216,6 @@
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
 		<!-- Try specialized repositories next. It is slow to check (and fail) on each of these -->
-		<!-- TODO: free these up in favour of Maven Central ones -->
 		<repository>
 			<id>jboss-public-repository</id>
 			<url>http://repository.jboss.org/nexus/content/groups/public</url>

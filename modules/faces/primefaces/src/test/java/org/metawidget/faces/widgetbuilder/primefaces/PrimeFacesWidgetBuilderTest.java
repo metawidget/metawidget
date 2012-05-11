@@ -28,7 +28,6 @@ import java.util.TimeZone;
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
@@ -216,13 +215,12 @@ public class PrimeFacesWidgetBuilderTest
 		assertEquals( new Locale( "en-AU" ), calendar.getLocale() );
 		assertEquals( TimeZone.getTimeZone( "Australia/Sydney" ), calendar.getTimeZone() );
 
-		// ColorPickers
+		// ColorPickers. Note org.primefaces.component.ColorPickerRenderer does *not* support
+		// java.awt.Color (http://forum.primefaces.org/viewtopic.php?t=21593) so it isn't much good
+		// to us here
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof ColorPicker );
-
-		attributes.put( READ_ONLY, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
+		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 	}
 
 	//
