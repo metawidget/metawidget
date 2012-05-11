@@ -34,6 +34,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Select;
@@ -406,6 +407,7 @@ public class VaadinAllWidgetsTest
 		assertTrue( ( (TextArea) component ).isReadOnly() );
 		component = layout.getComponent( 3 );
 		assertEquals( "Password:", component.getCaption() );
+		assertTrue( component instanceof Panel );
 		component = layout.getComponent( 4 );
 		assertEquals( "Byte Primitive:", component.getCaption() );
 		assertEquals( "126", ( (Label) component ).getValue() );

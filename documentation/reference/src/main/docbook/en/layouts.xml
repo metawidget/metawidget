@@ -1033,6 +1033,69 @@
 
 			</section>
 			
+			<section id="section-layouts-web-vaadin">
+				<title>Vaadin Layouts</title>
+				
+				<section id="section-layouts-web-vaadin-formlayout">
+					<title>FormLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets in a table, with one column for the label
+						and another for the widget.					
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>FormLayoutConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>Text to display after label text. Defaults to a colon (:)</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-vaadin-headingtaglayoutdecorator">
+					<title>HeadingTagLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
+						a <classname>Label</classname> with <function>setStyleName</function> of <parameter>h1</parameter>, <parameter>h2</parameter> etc.
+					</para>
+					
+				</section>
+				
+				<section id="section-layouts-web-vaadin-horizontal">
+					<title>HorizontalLayout</title>
+
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure, using
+ 						<classname>com.vaadin.ui.HorizontalLayout</classname>.										
+					</para>
+				</section>
+
+				<section id="section-layouts-web-vaadin-tabsheet">
+					<title>TabSheetLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to wrap widgets in different sections inside a <classname>TabSheet</classname>.
+						Each tab is given the name of a section. 						
+					</para>
+				</section>
+
+			</section>
+
 		</section>
 		
 		<section id="section-layouts-mobile">

@@ -81,7 +81,6 @@ public class VaadinWidgetBuilder
 		// though they have a Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-
 			return new CheckBox();
 		}
 

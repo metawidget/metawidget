@@ -30,6 +30,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextArea;
 
 /**
@@ -72,7 +73,7 @@ public class ReadOnlyWidgetBuilder
 		}
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-			return new Label();
+			return new Panel();
 		}
 
 		// Lookups
