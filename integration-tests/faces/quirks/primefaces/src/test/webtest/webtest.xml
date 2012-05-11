@@ -28,19 +28,15 @@
 				<not>
 					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li[2]/@class, 'ui-state-active')"/>
 				</not>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Color:"/>				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/button/@id" text="form:j_id10:primeFacesQuirksColor_button"/>				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@id" text="form:j_id10:primeFacesQuirksColor_input"/>				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/th/label" text="Date:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[1]/span/@id" text="form:j_id10:primeFacesQuirksDate"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[1]/span/input/@name" text="form:j_id10:primeFacesQuirksDate_input"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
-				<verifyXPath xpath="contains( /html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[1]/span/input/@class, 'hasDatepicker')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Date:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/@id" text="form:j_id10:primeFacesQuirksDate"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@name" text="form:j_id10:primeFacesQuirksDate_input"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@type" text="text"/>
+				<verifyXPath xpath="contains( /html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@class, 'hasDatepicker')"/>
 
 				<setInputField name="form:j_id10:primeFacesQuirksName" value="Foo"/>
 				<setInputField name="form:j_id10:primeFacesQuirksSpinner_input" value="1"/>
 				<setInputField xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[3]/td[1]/input" value="2"/>
-				<!-- TODO: <forceHiddenInputField name="form:j_id10:primeFacesQuirksColor_input" value="255,0,0"/> -->
 				<setInputField name="form:j_id10:primeFacesQuirksDate_input" value="09/04/1975"/>
 				
 				<clickButton label="Save"/>
@@ -58,10 +54,8 @@
 				<not>
 					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li[2]/@class, 'ui-state-active')"/>
 				</not>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Color:"/>				
-				<!-- TODO: <verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]" text="java.awt.Color[r=255,g=0,b=0]"/>-->
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/th/label" text="Date:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[1]" text="(09/04|04/09)/1975" regex="true"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Date:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]" text="(09/04|04/09|9/04)/1975" regex="true"/>				
 
 				<clickButton label="Edit"/>
 				
@@ -82,10 +76,8 @@
 				<not>
 					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li[2]/@class, 'ui-state-active')"/>
 				</not>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Color:"/>
-				<!-- TODO: <verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@value" text="255,0,0"/>-->				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/th/label" text="Date:"/>
-				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[1]/span/input/@value, '/1975')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Date:"/>
+				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@value, '/1975')"/>
 
 			</steps>
 		</webtest>

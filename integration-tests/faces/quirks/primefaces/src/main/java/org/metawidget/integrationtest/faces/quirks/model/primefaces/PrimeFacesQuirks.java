@@ -18,7 +18,6 @@ package org.metawidget.integrationtest.faces.quirks.model.primefaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Color;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
@@ -50,8 +49,6 @@ public class PrimeFacesQuirks {
 	private int		mSlider;
 
 	private Date	mDate;
-
-	private Color	mColor;
 
 	//
 	// Public methods
@@ -93,17 +90,6 @@ public class PrimeFacesQuirks {
 
 	@UiSection( "Section #2" )
 	@UiComesAfter( "slider" )
-	public Color getColor() {
-
-		return mColor;
-	}
-
-	public void setColor( Color color ) {
-
-		mColor = color;
-	}
-
-	@UiComesAfter( "color" )
 	public void setDate( Date date ) {
 
 		mDate = date;

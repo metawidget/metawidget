@@ -19,7 +19,6 @@ package org.metawidget.faces.component.html.widgetbuilder.primefaces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
-import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +28,6 @@ import java.util.TimeZone;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -38,7 +36,6 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.primefaces.component.calendar.Calendar;
-import org.primefaces.component.colorpicker.ColorPicker;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -260,15 +257,9 @@ public class PrimeFacesWidgetBuilder
 			}
 		}
 
-		// Colors
-
-		if ( Color.class.equals( clazz ) ) {
-			if ( readOnly ) {
-				return FacesContext.getCurrentInstance().getApplication().createComponent( HtmlOutputText.COMPONENT_TYPE );
-			}
-
-			return FacesUtils.createComponent( ColorPicker.COMPONENT_TYPE, "org.primefaces.component.ColorPickerRenderer" );
-		}
+		// Colors. Note org.primefaces.component.ColorPickerRenderer does *not* support
+		// java.awt.Color (http://forum.primefaces.org/viewtopic.php?t=21593) so it isn't much good
+		// to us here
 
 		// Not for PrimeFaces
 
