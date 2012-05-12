@@ -66,7 +66,7 @@
 			contact.getAddress().setCity( request.getParameter( "contact.address.city" ));
 			contact.getAddress().setState( request.getParameter( "contact.address.state" ));
 			contact.getAddress().setPostcode( request.getParameter( "contact.address.postcode" ));
-			contact.setNotes( request.getParameter( "notes" ));
+			contact.setNotes( request.getParameter( "contact.notes" ));
 			
 			PropertyEditor genderEditor = PropertyEditorManager.findEditor( Gender.class );
 			genderEditor.setAsText( request.getParameter( "contact.gender" ));

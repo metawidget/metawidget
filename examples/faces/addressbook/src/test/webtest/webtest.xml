@@ -142,6 +142,13 @@
 
 				<clickButton label="Edit" />
 				<verifyTextarea name="form:contactCurrentNotes" text="Known as 'Marge'" />
+				<setInputField name="form:contactCurrentNotes" value="Known as 'Marge'!"/>
+
+				<clickButton label="Save"/>
+				<clickLink label="Mrs Marjorie Simpson"/>
+				<clickButton label="Edit"/>
+				<verifyTextarea name="form:contactCurrentNotes" text="Known as 'Marge'!"/>
+				
 				<clickButton label="Cancel" />
 
 				<clickLink label="Mr Charles Montgomery Burns" />

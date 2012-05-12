@@ -146,6 +146,13 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-required-column']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-required-column']" text="*"/>
 				<verifyTextarea name="notes" text="Known as 'Marge'"/>
+				<setInputField name="notes" value="Known as 'Marge'!"/>
+
+				<clickButton label="Save"/>
+				<clickLink label="Mrs Marjorie Simpson"/>
+				<clickButton label="Edit"/>
+				<verifyTextarea name="notes" text="Known as 'Marge'!"/>
+					
 				<clickButton label="Cancel"/>
 
 				<clickLink label="Mr Charles Montgomery Burns"/>
