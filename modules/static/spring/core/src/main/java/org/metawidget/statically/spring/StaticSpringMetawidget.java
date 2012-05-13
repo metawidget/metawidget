@@ -16,8 +16,15 @@
 
 package org.metawidget.statically.spring;
 
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
+
+import java.util.Map;
+
+import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.jsp.StaticJspMetawidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -26,7 +33,23 @@ import org.metawidget.util.ClassUtils;
 public class StaticSpringMetawidget
 	extends StaticJspMetawidget {
 
-	//
+    //
+    // Public methods
+    //
+
+    @Override
+    public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+        if ( ( (StaticJspMetawidget) nestedMetawidget ).getValue() != null ) {
+            String valueExpression = StaticJspUtils.unwrapExpression( getValue() );
+            valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get(NAME);
+            ( (StaticJspMetawidget) nestedMetawidget ).setValue(valueExpression);
+        }
+
+        super.initNestedMetawidget(nestedMetawidget, attributes);
+    }
+
+    //
 	// Protected methods
 	//
 
