@@ -53,7 +53,7 @@
 						<li<?php if ( $_SERVER['PHP_SELF'] == '/coverage.php' ) echo ' class="active"'; ?>><a href="/coverage.php">Code Coverage</a></li>
 					</ul>
 				</div>
-				<div class="badges" style="height: 470px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
+				<div class="badges" style="height: 499px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
 					<span>Metawidget integrates with:</span>
 
 					<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 5px">
@@ -101,11 +101,14 @@
 					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 374px; left: 20px">
 						<img src="/media/logos/logo-swing.gif" alt="Swing" style="border: 0px" />
 					</a>
-					<a href="http://eclipse.org/swt" target="_blank" style="top: 411px; left: 75px">
+					<a href="http://eclipse.org/swt" target="_blank" style="top: 410px; left: 75px">
 						<img src="/media/logos/logo-swt.gif" alt="SWT" style="border: 0px" />
 					</a>
 					<a href="http://myfaces.apache.org/tomahawk" target="_blank" style="top: 428px; left: 15px">
 						<img src="/media/logos/logo-tomahawk.gif" alt="Tomahawk" style="border: 0px" />
+					</a>
+					<a href="http://vaadin.org" target="_blank" style="top: 469px; left: 45px">
+						<img src="/media/logos/logo-vaadin.gif" alt="Vaadin" style="border: 0px" />
 					</a>
 				</div>
 				<div class="badges" style="height: 200px">
