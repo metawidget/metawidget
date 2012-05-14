@@ -16,7 +16,7 @@
 
 package org.metawidget.statically.spring;
 
-import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
@@ -33,23 +33,26 @@ import org.metawidget.util.simple.StringUtils;
 public class StaticSpringMetawidget
 	extends StaticJspMetawidget {
 
-    //
-    // Public methods
-    //
+	//
+	// Public methods
+	//
 
-    @Override
-    public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
+	@Override
+	public void initNestedMetawidget( StaticMetawidget nestedMetawidget, Map<String, String> attributes ) {
 
-        if ( ( (StaticJspMetawidget) nestedMetawidget ).getValue() != null ) {
-            String valueExpression = StaticJspUtils.unwrapExpression( getValue() );
-            valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get(NAME);
-            ( (StaticJspMetawidget) nestedMetawidget ).setValue(valueExpression);
-        }
+		if ( ( (StaticJspMetawidget) nestedMetawidget ).getValue() != null ) {
 
-        super.initNestedMetawidget(nestedMetawidget, attributes);
-    }
+			// Overridden to setValue without calling .wrapExpression
 
-    //
+			String valueExpression = StaticJspUtils.unwrapExpression( getValue() );
+			valueExpression += StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+			( (StaticJspMetawidget) nestedMetawidget ).setValue( valueExpression );
+		}
+
+		super.initNestedMetawidget( nestedMetawidget, attributes );
+	}
+
+	//
 	// Protected methods
 	//
 
