@@ -100,10 +100,10 @@ public class ContactDialog
 
 		if ( contact instanceof PersonalContact ) {
 			builder.append( bundle.getString( "personalContact" ) );
-			body.addComponent( new Embedded( "", new ThemeResource( "../addressbook/img/personal.gif" ) ), "icon" );
+			body.addComponent( new Embedded( null, new ThemeResource( "../addressbook/img/personal.gif" ) ), "icon" );
 		} else {
 			builder.append( bundle.getString( "businessContact" ) );
-			body.addComponent( new Embedded( "", new ThemeResource( "../addressbook/img/business.gif" ) ), "icon" );
+			body.addComponent( new Embedded( null, new ThemeResource( "../addressbook/img/business.gif" ) ), "icon" );
 		}
 
 		setCaption( builder.toString() );

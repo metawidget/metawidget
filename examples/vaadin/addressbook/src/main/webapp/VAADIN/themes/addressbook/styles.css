@@ -17,7 +17,8 @@
 }
 
 #page-image .v-embedded {
-	text-align: center;
+	display: block;
+	margin-left: 15px;
 }
 
 #dialog {
