@@ -18,6 +18,7 @@ package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Converter;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
@@ -100,6 +102,101 @@ public class BeansBindingProcessorTest
 
 		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
 		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ) ) );
+
+		spinner = (JSpinner) metawidget.getComponent( 1 );
+		spinner.setValue( spinner.getModel().getNextValue() );
+		assertEquals( 45, foo.getBar() );
+	}
+
+	public void testXmlBinding()
+		throws Exception {
+
+		// Model
+
+		Foo foo = new Foo();
+		foo.setBar( 42 );
+
+		// Inspect
+
+		String config = "<metawidget>\r\n";
+		config += "\t<swingMetawidget xmlns=\"java:org.metawidget.swing\">\r\n";
+		config += "\t\t<inspector>\r\n";
+		config += "\t\t\t<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>\r\n";
+		config += "\t\t</inspector>\r\n";
+		config += "\t\t<widgetProcessors>\r\n";
+		config += "\t\t\t<array>\r\n";
+		config += "\t\t\t\t<beansBindingProcessor xmlns=\"java:org.metawidget.swing.widgetprocessor.binding.beansbinding\"/>\r\n";
+		config += "\t\t\t</array>\r\n";
+		config += "\t\t</widgetProcessors>\r\n";
+		config += "\t</swingMetawidget>\r\n";
+		config += "</metawidget>";
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		new BaseConfigReader().configure( new ByteArrayInputStream( config.getBytes() ), metawidget );
+		metawidget.setToInspect( foo );
+
+		// Test UpdateStrategy.READ_ONCE
+		//
+		// Also test correct mapping of Long in JSpinner
+
+		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
+		assertTrue( 42 == (Long) spinner.getValue() );
+		JLabel label = (JLabel) metawidget.getComponent( 3 );
+		assertEquals( "4", label.getText() );
+
+		// Test UpdateStrategy.READ
+
+		config = "<metawidget>\r\n";
+		config += "\t<swingMetawidget xmlns=\"java:org.metawidget.swing\">\r\n";
+		config += "\t\t<inspector>\r\n";
+		config += "\t\t\t<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>\r\n";
+		config += "\t\t</inspector>\r\n";
+		config += "\t\t<widgetProcessors>\r\n";
+		config += "\t\t\t<array>\r\n";
+		config += "\t\t\t\t<beansBindingProcessor xmlns=\"java:org.metawidget.swing.widgetprocessor.binding.beansbinding\" config=\"BeansBindingProcessorConfig\">\r\n";
+		config += "\t\t\t\t\t<updateStrategy>\r\n";
+		config += "\t\t\t\t\t\t<constant>org.jdesktop.beansbinding.AutoBinding$UpdateStrategy.READ</constant>\r\n";
+		config += "\t\t\t\t\t</updateStrategy>\r\n";
+		config += "\t\t\t\t</beansBindingProcessor>\r\n";
+		config += "\t\t\t</array>\r\n";
+		config += "\t\t</widgetProcessors>\r\n";
+		config += "\t</swingMetawidget>\r\n";
+		config += "</metawidget>";
+
+		metawidget = new SwingMetawidget();
+		new BaseConfigReader().configure( new ByteArrayInputStream( config.getBytes() ), metawidget );
+		metawidget.setToInspect( foo );
+
+		spinner = (JSpinner) metawidget.getComponent( 1 );
+		foo.setBar( 43 );
+		assertTrue( 43 == (Long) spinner.getValue() );
+		spinner.setValue( 44l );
+		assertEquals( 43, foo.getBar() );
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+		assertEquals( 44, foo.getBar() );
+
+		// Test UpdateStrategy.READ_WRITE
+
+		config = "<metawidget>\r\n";
+		config += "\t<swingMetawidget xmlns=\"java:org.metawidget.swing\">\r\n";
+		config += "\t\t<inspector>\r\n";
+		config += "\t\t\t<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>\r\n";
+		config += "\t\t</inspector>\r\n";
+		config += "\t\t<widgetProcessors>\r\n";
+		config += "\t\t\t<array>\r\n";
+		config += "\t\t\t\t<beansBindingProcessor xmlns=\"java:org.metawidget.swing.widgetprocessor.binding.beansbinding\" config=\"BeansBindingProcessorConfig\">\r\n";
+		config += "\t\t\t\t\t<updateStrategy>\r\n";
+		config += "\t\t\t\t\t\t<constant>org.jdesktop.beansbinding.AutoBinding$UpdateStrategy.READ_WRITE</constant>\r\n";
+		config += "\t\t\t\t\t</updateStrategy>\r\n";
+		config += "\t\t\t\t</beansBindingProcessor>\r\n";
+		config += "\t\t\t</array>\r\n";
+		config += "\t\t</widgetProcessors>\r\n";
+		config += "\t</swingMetawidget>\r\n";
+		config += "</metawidget>";
+
+		metawidget = new SwingMetawidget();
+		new BaseConfigReader().configure( new ByteArrayInputStream( config.getBytes() ), metawidget );
+		metawidget.setToInspect( foo );
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
@@ -187,7 +284,7 @@ public class BeansBindingProcessorTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
-		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ))) ));
+		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) ) );
 		metawidget.setToInspect( new NoGetSetFoo() );
 
 		try {
@@ -251,7 +348,7 @@ public class BeansBindingProcessorTest
 		uppercaseFoo.setWEPKey( "0987654321" );
 		metawidget.setToInspect( uppercaseFoo );
 
-		assertEquals( "0987654321", ((JTextField) metawidget.getComponent( 1 )).getText() );
+		assertEquals( "0987654321", ( (JTextField) metawidget.getComponent( 1 ) ).getText() );
 	}
 
 	public void testConfig() {
