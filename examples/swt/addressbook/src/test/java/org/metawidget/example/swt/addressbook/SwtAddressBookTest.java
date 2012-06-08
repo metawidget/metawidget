@@ -114,7 +114,6 @@ public class SwtAddressBookTest
 		assertEquals( 32, contact.hashCode() );
 		assertFalse( contact.equals( new Object() ) );
 		assertEquals( contact, contact );
-		assertEquals( contact.compareTo( null ), -1 );
 		assertEquals( contact.compareTo( contact ), 0 );
 		assertEquals( "742 Evergreen Terrace", contact.getAddress().getStreet() );
 		assertEquals( contact.getCommunications().size(), 1 );
