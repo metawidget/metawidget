@@ -2429,7 +2429,7 @@ void onEndBuild( M metawidget );</programlisting>
 import java.util.*;</symbol>
 import javax.swing.*;
 import org.metawidget.swing.*;
-<symbol>import org.metawidget.widgetprocessor.impl.*;</symbol>
+<symbol>import org.metawidget.widgetprocessor.iface.*;</symbol>
 
 public class Main {
 

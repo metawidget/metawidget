@@ -98,10 +98,6 @@ public class Communication
 
 	public int compareTo( Communication that ) {
 
-		if ( that == null ) {
-			return -1;
-		}
-
 		// Compare types
 
 		int compareTypes = ObjectUtils.nullSafeCompareTo( getType(), that.getType() );

@@ -60,6 +60,15 @@
 							For more details, see <xref linkend="section-howto-performance-rebind"/>.
 						</para>
 
+						<important>
+							<title>Make sure you use the correct version of BeansBinding</title>
+							There are unfortunately two versions of BeansBinding 1.2.1 available. The version at
+							<ulink url="http://repo2.maven.org/maven2/net/java/dev/beansbinding/beansbinding/1.2.1">http://repo2.maven.org/maven2/net/java/dev/beansbinding/beansbinding/1.2.1</ulink>
+							has serious bugs related to <classname>PropertyChangeListener</classname>s. The version at
+							<ulink url="http://download.java.net/maven/2/org/jdesktop/beansbinding/1.2.1">http://download.java.net/maven/2/org/jdesktop/beansbinding/1.2.1</ulink>
+							is the correct one. This issue has been reported <ulink url="https://issues.sonatype.org/browse/MVNCENTRAL-51">here</ulink>.
+						</important>
+						
 					</section>
 				
 					<section id="section-widgetprocessors-desktop-swing-binding-beanutilsbinding">
