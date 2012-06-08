@@ -331,10 +331,6 @@ public abstract class Contact
 
 	public int compareTo( Contact that ) {
 
-		if ( that == null ) {
-			return -1;
-		}
-
 		return ObjectUtils.nullSafeCompareTo( getFirstname(), that.getFirstname() );
 	}
 
