@@ -122,21 +122,17 @@ public class XmlSchemaGeneratorTask
 			// Start index.html
 
 			FileWriter indexWriter = new FileWriter( new File( destDir, "index.php" ) );
-			indexWriter.write( "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n" );
-			indexWriter.write( "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\r\n" );
-			indexWriter.write( "\t<head>\r\n" );
-			indexWriter.write( "\t\t<title>Metawidget XML Schemas</title>" );
-			indexWriter.write( "\t</head>\r\n" );
-			indexWriter.write( "\t<body>\r\n" );
-			indexWriter.write( "\t\t<h1>Metawidget XML Schemas</h1>\r\n" );
-			indexWriter.write( "\t\t<h2>Inspection Results</h2>\r\n" );
+			indexWriter.write( "<?php $title = 'XML Schemas'; require_once '../include/page-start.php'; ?>\r\n\r\n" );
+			indexWriter.write( "\t<?php $floater='xml.png'; require_once '../include/body-start.php'; ?>\r\n\r\n" ); 
+			indexWriter.write( "\t\t<h2>XML Schemas</h2>\r\n" );
+			indexWriter.write( "\t\t<h3>Inspection Results</h3>\r\n" );
 			indexWriter.write( "\t\t<p>This schema is used for inspection results returned by <a href=\"http://metawidget.org/doc/api/org/metawidget/inspector/iface/Inspector.html\">Inspectors</a>:</p>\r\n" );
 			indexWriter.write( "\t\t<ul>\r\n" );
 			indexWriter.write( "\t\t\t<li><a href=\"inspection-result-1.0.xsd\">inspection-result-1.0.xsd</a></li>\r\n" );
 			indexWriter.write( "\t\t</ul>\r\n" );
-			indexWriter.write( "\t\t<h2>External Configuration</h2>\r\n" );
+			indexWriter.write( "\t\t<h3>External Configuration</h3>\r\n" );
 			indexWriter.write( "\t\t<p>These schemas are (optionally) used when externally configuring Metawidget via <tt>metawidget.xml</tt>. For example</p>\r\n" );
-			indexWriter.write( "<div style=\"background-color: #eeeeee; border: 1px solid #cccccc; padding: 5px\"><tt>&lt;metawidget xmlns=\"<strong>http://metawidget.org</strong>\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"<br/>" );
+			indexWriter.write( "<div class=\"code\"><tt>&lt;metawidget xmlns=\"<strong>http://metawidget.org</strong>\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"<br/>" );
 			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xsi:schemaLocation=\"<strong>http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd<br/>" );
 			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java:org.metawidget.jsp.tagext.html.spring http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.spring-1.0.xsd</strong>\"<br/>" );
 			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version=\"1.0\"&gt;<br/>" );
@@ -268,7 +264,9 @@ public class XmlSchemaGeneratorTask
 
 			// End index.html
 
-			indexWriter.write( "\t\t</ul>\r\n\t</body>\r\n</html>" );
+			indexWriter.write( "\t\t</ul>\r\n\r\n" );
+			indexWriter.write( "\t<?php require_once '../include/body-end.php'; ?>\r\n\r\n" ); 
+			indexWriter.write( "<?php require_once '../include/page-end.php'; ?>" );
 			indexWriter.close();
 		} catch ( Exception e ) {
 			throw new BuildException( e );

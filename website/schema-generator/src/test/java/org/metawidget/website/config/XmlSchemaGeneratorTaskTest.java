@@ -74,14 +74,13 @@ public class XmlSchemaGeneratorTaskTest
 			String filename = file.getName();
 
 			if ( "index.php".equals( filename ) ) {
-				assertTrue( filename, contents.contains( "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">" ) );
-				assertTrue( filename, contents.contains( "<title>Metawidget XML Schemas</title>" ) );
-				assertTrue( filename, contents.contains( "<body>" ) );
-				assertTrue( filename, contents.contains( "<h1>Metawidget XML Schemas</h1>" ) );
-				assertTrue( filename, contents.contains( "<h2>Inspection Results</h2>" ) );
-				assertTrue( filename, contents.contains( "<h2>External Configuration</h2>" ) );
-				assertTrue( filename, contents.contains( "</body>" ) );
-				assertTrue( filename, contents.contains( "</html>" ) );
+				assertTrue( filename, contents.contains( "<?php $title = 'XML Schemas'; require_once '../include/page-start.php'; ?>\r\n\r\n" ) );
+				assertTrue( filename, contents.contains( "\t<?php $floater='xml.png'; require_once '../include/body-start.php'; ?>\r\n\r\n" ) );
+				assertTrue( filename, contents.contains( "<h2>XML Schemas</h2>" ) );
+				assertTrue( filename, contents.contains( "<h3>Inspection Results</h3>" ) );
+				assertTrue( filename, contents.contains( "<h3>External Configuration</h3>" ) );
+				assertTrue( filename, contents.contains( "\t<?php require_once '../include/body-end.php'; ?>\r\n\r\n" ) );
+				assertTrue( filename, contents.contains( "<?php require_once '../include/page-end.php'; ?>" ) );
 
 				for ( File nestedFile : new File( destDir ).listFiles() ) {
 					String nestedFilename = nestedFile.getName();
