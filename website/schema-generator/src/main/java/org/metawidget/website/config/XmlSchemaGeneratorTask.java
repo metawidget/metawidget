@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.iface.Immutable;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -306,6 +307,12 @@ public class XmlSchemaGeneratorTask
 		// Not immutable and not a Metawidget?
 
 		if ( !Immutable.class.isAssignableFrom( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) ) {
+			return null;
+		}
+
+		// ConfigReader isn't configurable
+		
+		if ( ConfigReader.class.isAssignableFrom( clazz )) {
 			return null;
 		}
 

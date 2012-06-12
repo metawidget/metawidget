@@ -120,6 +120,10 @@ public class XmlSchemaGeneratorTaskTest
 			// (don't want to see JSP TagSupport properties)
 
 			assertTrue( filename, !contents.contains( "name=\"pageContext\"" ) );
+
+			// ConfigReader isn't configurable
+			
+			assertTrue( filename, !contents.contains( "ConfigReader" ) );
 		}
 	}
 
