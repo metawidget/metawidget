@@ -171,7 +171,7 @@ public class BeansBindingProcessor
 			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.bindings ) {
 				binding.unbind();
 				binding.setSourceObject( toRebind );
-				binding = processBinding( binding );
+				binding = processBinding( binding, metawidget );
 
 				if ( binding == null ) {
 					continue;
@@ -280,10 +280,12 @@ public class BeansBindingProcessor
 	 * Clients can subclass this <code>WidgetProcessor</code> and override this method to manipulate
 	 * the binding, for example to add a <code>BindingListener</code>.
 	 *
+	 * @param metawidget
+	 *            the owning Metawidget. May be useful for clients
 	 * @return the processed Binding, or null to abort binding this property
 	 */
 
-	protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding ) {
+	protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding, SwingMetawidget metawidget ) {
 
 		return binding;
 	}
@@ -360,7 +362,7 @@ public class BeansBindingProcessor
 		}
 
 		binding.setConverter( converter );
-		binding = processBinding( binding );
+		binding = processBinding( binding, metawidget );
 
 		if ( binding == null ) {
 			return;

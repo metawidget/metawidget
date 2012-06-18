@@ -230,19 +230,20 @@ public class BeansBindingProcessorTest
 		config.setInputStream( new ByteArrayInputStream( metadata.getBytes() ) );
 		metawidget.setInspector( new XmlInspector( config ) );
 
-		final List<String> errors = CollectionUtils.newArrayList();
+		final List<Object> syncFailed = CollectionUtils.newArrayList();
 
 		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ) ) {
 
 			@Override
-			protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding ) {
+			protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding, final SwingMetawidget owner ) {
 
 				binding.addBindingListener( new AbstractBindingListener() {
 
 					@Override
 					public void syncFailed( @SuppressWarnings( "rawtypes" ) Binding failedBinding, SyncFailure failure ) {
 
-						errors.add( failure.getConversionException().toString() );
+						syncFailed.add( owner );
+						syncFailed.add( failure.getConversionException().toString() );
 					}
 				} );
 
@@ -256,11 +257,12 @@ public class BeansBindingProcessorTest
 
 		// Set to erroneous value
 
-		assertEquals( 0, errors.size() );
+		assertEquals( 0, syncFailed.size() );
 		textField.setText( "error" );
 		assertEquals( 42, foo.getBar() );
-		assertEquals( 1, errors.size() );
-		assertEquals( "java.lang.NumberFormatException: For input string: \"error\"", errors.get( 0 ) );
+		assertEquals( 2, syncFailed.size() );
+		assertTrue( metawidget == syncFailed.get( 0 ) );
+		assertEquals( "java.lang.NumberFormatException: For input string: \"error\"", syncFailed.get( 1 ) );
 	}
 
 	public void testSingleComponentBinding()
