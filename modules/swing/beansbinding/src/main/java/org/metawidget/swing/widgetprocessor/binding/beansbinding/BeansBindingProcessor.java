@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.Converter;
@@ -170,6 +171,7 @@ public class BeansBindingProcessor
 			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.bindings ) {
 				binding.unbind();
 				binding.setSourceObject( toRebind );
+				binding = processBinding( binding );
 				binding.bind();
 
 				SyncFailure failure = binding.refresh();
@@ -232,10 +234,10 @@ public class BeansBindingProcessor
 
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
-		if ( String.class.equals( expectedType )) {
+		if ( String.class.equals( expectedType ) ) {
 			return value;
 		}
-		
+
 		// Try converters one way round...
 
 		Converter<String, ?> converterFromString = getConverter( String.class, expectedType );
@@ -260,6 +262,22 @@ public class BeansBindingProcessor
 	public void onEndBuild( SwingMetawidget metawidget ) {
 
 		// Do nothing
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Process the given Binding prior to calling <code>binding.bind()</code>.
+	 * <p>
+	 * Clients can subclass this <code>WidgetProcessor</code> and override this method to manipulate
+	 * the binding, for example to add a <code>BindingListener</code>.
+	 */
+
+	protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding ) {
+
+		return binding;
 	}
 
 	//
@@ -329,11 +347,12 @@ public class BeansBindingProcessor
 		//
 		// See https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3460563
 
-		if ( converter == null && WidgetBuilderUtils.isReadOnly( attributes ) && target.equals( String.class )) {
+		if ( converter == null && WidgetBuilderUtils.isReadOnly( attributes ) && target.equals( String.class ) ) {
 			converter = new ReadOnlyToStringConverter();
 		}
 
 		binding.setConverter( converter );
+		binding = processBinding( binding );
 
 		// Bind it
 

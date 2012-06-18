@@ -16,6 +16,7 @@
 
 package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
+import java.awt.Component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.ByteArrayInputStream;
@@ -29,13 +30,18 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.jdesktop.beansbinding.AbstractBindingListener;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.jdesktop.beansbinding.Converter;
 import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.BoxLayout;
@@ -201,6 +207,60 @@ public class BeansBindingProcessorTest
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
 		assertEquals( 45, foo.getBar() );
+	}
+
+	public void testBindingListener()
+		throws Exception {
+
+		// Model
+
+		Foo foo = new Foo();
+		foo.setBar( 42 );
+
+		// Inspect
+
+		String metadata = "<inspection-result>";
+		metadata += "\t<entity type=\"" + Foo.class.getName() + "\">";
+		metadata += "\t\t<property name=\"bar\"/>";
+		metadata += "\t</entity>";
+		metadata += "</inspection-result>";
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		final XmlInspectorConfig config = new XmlInspectorConfig();
+		config.setInputStream( new ByteArrayInputStream( metadata.getBytes() ) );
+		metawidget.setInspector( new XmlInspector( config ) );
+
+		final List<String> errors = CollectionUtils.newArrayList();
+
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ) ) {
+
+			@Override
+			protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding ) {
+
+				binding.addBindingListener( new AbstractBindingListener() {
+
+					@Override
+					public void syncFailed( @SuppressWarnings( "rawtypes" ) Binding failedBinding, SyncFailure failure ) {
+
+						errors.add( failure.getConversionException().toString() );
+					}
+				} );
+
+				return binding;
+			}
+		} );
+		metawidget.setToInspect( foo );
+
+		JTextField textField = (JTextField) metawidget.getComponent( 1 );
+		assertEquals( "42", textField.getText() );
+
+		// Set to erroneous value
+
+		assertEquals( 0, errors.size() );
+		textField.setText( "error" );
+		assertEquals( 42, foo.getBar() );
+		assertEquals( 1, errors.size() );
+		assertEquals( "java.lang.NumberFormatException: For input string: \"error\"", errors.get( 0 ) );
 	}
 
 	public void testSingleComponentBinding()
