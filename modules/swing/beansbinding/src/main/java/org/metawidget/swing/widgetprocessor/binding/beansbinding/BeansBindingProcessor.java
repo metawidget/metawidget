@@ -172,6 +172,11 @@ public class BeansBindingProcessor
 				binding.unbind();
 				binding.setSourceObject( toRebind );
 				binding = processBinding( binding );
+
+				if ( binding == null ) {
+					continue;
+				}
+
 				binding.bind();
 
 				SyncFailure failure = binding.refresh();
@@ -269,10 +274,13 @@ public class BeansBindingProcessor
 	//
 
 	/**
-	 * Process the given Binding prior to calling <code>binding.bind()</code>.
+	 * Process the given Binding prior to calling <code>binding.bind()</code>. Source, target and
+	 * converters will have already been initialized.
 	 * <p>
 	 * Clients can subclass this <code>WidgetProcessor</code> and override this method to manipulate
 	 * the binding, for example to add a <code>BindingListener</code>.
+	 *
+	 * @return the processed Binding, or null to abort binding this property
 	 */
 
 	protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding ) {
@@ -353,6 +361,10 @@ public class BeansBindingProcessor
 
 		binding.setConverter( converter );
 		binding = processBinding( binding );
+
+		if ( binding == null ) {
+			return;
+		}
 
 		// Bind it
 
