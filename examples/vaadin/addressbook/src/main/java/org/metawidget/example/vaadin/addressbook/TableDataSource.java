@@ -17,6 +17,8 @@
 package org.metawidget.example.vaadin.addressbook;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.util.ClassUtils;
@@ -70,7 +72,11 @@ public class TableDataSource<T extends Comparable<T>>
 		mDataSource.clear();
 
 		if ( collection != null ) {
-			for ( T item : collection ) {
+
+			List<T> list = CollectionUtils.newArrayList( collection );
+			Collections.sort( list );
+
+			for ( T item : list ) {
 
 				Object itemId = addItem();
 

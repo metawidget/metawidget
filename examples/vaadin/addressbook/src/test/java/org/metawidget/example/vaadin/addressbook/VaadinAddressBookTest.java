@@ -194,7 +194,9 @@ public class VaadinAddressBookTest
 		Button deleteButton = (Button) buttonsLayout.getComponent( 1 );
 		assertEquals( "Delete", deleteButton.getCaption() );
 		assertTrue( !deleteButton.isEnabled() );
-		table.select( 2 );
+		Object itemId = dataSource.getIdByIndex( 1 );
+		assertEquals( "Telephone", dataSource.getDataRow( itemId ).getType() );
+		table.select( itemId );
 		deleteButton.setEnabled( true );
 		clickButton( deleteButton );
 
