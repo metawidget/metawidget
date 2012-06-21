@@ -62,18 +62,14 @@ public class JavaBeanPropertyStyle
 	extends BasePropertyStyle {
 
 	//
-	// Private statics
-	//
-
-	private static ThreadLocal<ClassLoader>	LOCAL_CLASSLOADER	= new ThreadLocal<ClassLoader>();
-
-	//
 	// Private members
 	//
 
-	private boolean							mSupportPublicFields;
+	private boolean			mSupportPublicFields;
 
-	private MessageFormat					mPrivateFieldConvention;
+	private MessageFormat	mPrivateFieldConvention;
+
+	private ClassLoader		mAdditionalClassLoader;
 
 	//
 	// Constructor
@@ -90,24 +86,7 @@ public class JavaBeanPropertyStyle
 
 		mSupportPublicFields = config.isSupportPublicFields();
 		mPrivateFieldConvention = config.getPrivateFieldConvention();
-	}
-
-	//
-	// Public methods
-	//
-
-	/**
-	 * Set the ClassLoader (local to this Thread) to use to resolve classes.
-	 * <p>
-	 * This can be useful if using <code>JavaBeanPropertyStyle</code> outside of Metawidget. For
-	 * example, you use a <code>JavaBeanPropertyStyle</code> in your EJB layer, but pass it a type
-	 * String that refers to a class from the WAR layer. In order to resolve that type, the EJB
-	 * layer must use the WAR layer's ClassLoader.
-	 */
-
-	public void setLocalClassLoader( ClassLoader classLoader ) {
-
-		LOCAL_CLASSLOADER.set( classLoader );
+		mAdditionalClassLoader = config.getAdditionalClassLoader();
 	}
 
 	//
@@ -127,7 +106,7 @@ public class JavaBeanPropertyStyle
 
 		// Lookup fields, getters and setters
 
-		Class<?> clazz = ClassUtils.niceForName( type, LOCAL_CLASSLOADER.get() );
+		Class<?> clazz = ClassUtils.niceForName( type, mAdditionalClassLoader );
 
 		if ( clazz == null ) {
 			return properties;
@@ -258,7 +237,7 @@ public class JavaBeanPropertyStyle
 				// Beware covariant return types: always prefer the
 				// subclass
 
-				if ( type.isAssignableFrom( ClassUtils.niceForName( existingJavaBeanProperty.getType(), LOCAL_CLASSLOADER.get() ) ) ) {
+				if ( type.isAssignableFrom( ClassUtils.niceForName( existingJavaBeanProperty.getType(), mAdditionalClassLoader ) ) ) {
 					continue;
 				}
 			}

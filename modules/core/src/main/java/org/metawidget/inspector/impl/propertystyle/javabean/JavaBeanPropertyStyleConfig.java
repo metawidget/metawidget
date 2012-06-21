@@ -23,7 +23,7 @@ import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a JavaBeanPropertyStyle prior to use. Once instantiated, PropertyStyles are immutable.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -45,6 +45,8 @@ public class JavaBeanPropertyStyleConfig
 	private boolean			mSupportPublicFields;
 
 	private MessageFormat	mPrivateFieldConvention;
+
+	private ClassLoader		mAdditionalClassLoader;
 
 	//
 	// Public methods
@@ -69,7 +71,7 @@ public class JavaBeanPropertyStyleConfig
 	/**
 	 * Sets whether to recognize public fields as properties. False by default, as public fields are
 	 * not part of the JavaBean specification and most frameworks need getters/setters.
-	 * 
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -106,13 +108,31 @@ public class JavaBeanPropertyStyleConfig
 	 * <p>
 	 * This mapping will fail silently in cases where there is no private field. It will also fail
 	 * silently if the private field name is misspelt, so be careful!
-	 * 
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
 	public JavaBeanPropertyStyleConfig setPrivateFieldConvention( MessageFormat privateFieldConvention ) {
 
 		mPrivateFieldConvention = privateFieldConvention;
+
+		return this;
+	}
+
+	/**
+	 * Sets an additional ClassLoader to use to resolve classes.
+	 * <p>
+	 * This can be useful if using <code>JavaBeanPropertyStyle</code> outside of Metawidget. For
+	 * example, you use a <code>JavaBeanPropertyStyle</code> in your EJB layer, but pass it a type
+	 * String that refers to a class from the WAR layer. In order to resolve that type, the EJB
+	 * layer must use the WAR layer's ClassLoader.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JavaBeanPropertyStyleConfig setAdditionalClassLoader( ClassLoader additionalClassLoader ) {
+
+		mAdditionalClassLoader = additionalClassLoader;
 
 		return this;
 	}
@@ -140,6 +160,10 @@ public class JavaBeanPropertyStyleConfig
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mAdditionalClassLoader, ( (JavaBeanPropertyStyleConfig) that ).mAdditionalClassLoader ) ) {
+			return false;
+		}
+
 		return super.equals( that );
 	}
 
@@ -150,6 +174,7 @@ public class JavaBeanPropertyStyleConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeName );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPrivateFieldConvention );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSupportPublicFields );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mAdditionalClassLoader );
 
 		return hashCode;
 	}
@@ -178,5 +203,10 @@ public class JavaBeanPropertyStyleConfig
 	protected MessageFormat getPrivateFieldConvention() {
 
 		return mPrivateFieldConvention;
+	}
+
+	protected ClassLoader getAdditionalClassLoader() {
+
+		return mAdditionalClassLoader;
 	}
 }
