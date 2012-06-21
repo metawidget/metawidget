@@ -19,7 +19,6 @@ package org.metawidget.example.vaadin.addressbook;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
 import junit.framework.TestCase;
 
@@ -224,11 +223,10 @@ public class VaadinAddressBookTest
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new Date( 57, Calendar.MAY, 12 ), ( (PopupDateField) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
 
-		Iterator<Communication> iterator = contact.getCommunications().iterator();
-		communication = iterator.next();
+		assertEquals( 1, contact.getCommunications().size() );
+		communication = contact.getCommunications().iterator().next();
 		assertEquals( "Mobile", communication.getType() );
 		assertEquals( "(0402) 123 456", communication.getValue() );
-		assertFalse( iterator.hasNext() );
 
 		// Check re-viewing
 
