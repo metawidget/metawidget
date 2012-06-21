@@ -227,6 +227,8 @@ public final class MetawidgetTestUtils {
 					continue;
 				} else if ( Pattern.class.isAssignableFrom( propertyType ) ) {
 					continue;
+				} else if ( ClassLoader.class.isAssignableFrom( propertyType ) ) {
+					continue;
 				} else {
 					throw new Exception( "Don't know how to test a property of " + propertyType );
 				}
