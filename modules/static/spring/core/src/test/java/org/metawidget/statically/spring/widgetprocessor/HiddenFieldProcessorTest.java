@@ -75,5 +75,13 @@ public class HiddenFieldProcessorTest
         metawidget.setValue( "test.org.metawidget.statically" );
         springInput = processor.processWidget( springInput, PROPERTY, attributes, metawidget );
         assertEquals( "<form:hidden path=\"org.metawidget.statically.spring\"/>", springInput.toString() );
+
+        // Value wrapped in a JSP EL
+
+        springInput = new FormInputTag();
+        attributes.put(NAME, "spring");
+        metawidget.setValue("${spring.static}");
+        springInput = processor.processWidget(springInput, PROPERTY, attributes, metawidget);
+        assertEquals("<form:hidden path=\"static.spring\"/>", springInput.toString());
     }
 }
