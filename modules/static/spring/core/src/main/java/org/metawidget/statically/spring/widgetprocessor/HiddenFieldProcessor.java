@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
+import org.metawidget.statically.jsp.StaticJspUtils;
 import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormHiddenTag;
 import org.metawidget.util.simple.StringUtils;
@@ -55,7 +56,7 @@ public class HiddenFieldProcessor implements WidgetProcessor<StaticXmlWidget, St
 
         String name = attributes.get( NAME );
 
-        String value = metawidget.getValue();
+        String value = StaticJspUtils.unwrapExpression(metawidget.getValue());
 
         if ( value != null ) {
 
