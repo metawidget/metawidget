@@ -46,6 +46,8 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
+import org.metawidget.swing.layout.BoxLayout;
+import org.metawidget.swing.layout.TabbedPaneLayoutDecorator;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.util.CollectionUtils;
@@ -325,6 +327,26 @@ public class SwingMetawidgetTest
 		assertTrue( null != metawidget.getWidgetProcessor( FooActionBindingProcessor.class ) );
 	}
 
+	public void testOverrideLayout() {
+
+		// Without override
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setConfig( "org/metawidget/swing/metawidget-override-layout.xml" );
+		metawidget.setToInspect( new String() );
+		metawidget.getComponents();
+		assertTrue( metawidget.getMetawidgetLayout() instanceof TabbedPaneLayoutDecorator );
+
+		// With override
+
+		metawidget = new SwingMetawidget();
+		metawidget.setConfig( "org/metawidget/swing/metawidget-override-layout.xml" );
+		metawidget.setToInspect( new String() );
+		metawidget.getComponents();
+		metawidget.setMetawidgetLayout( new BoxLayout() );
+		assertTrue( metawidget.getMetawidgetLayout() instanceof BoxLayout );
+	}
+
 	@SuppressWarnings( "unchecked" )
 	public void testBuildWidgets()
 		throws Exception {
@@ -368,6 +390,11 @@ public class SwingMetawidgetTest
 		metawidget.removeWidgetProcessor( new ReflectionBindingProcessor() );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getComponentCount();
+		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
+
+		metawidget.removeWidgetProcessor( new ReflectionBindingProcessor() );
+		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
+		metawidget.getComponents();
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.setWidgetProcessors( (WidgetProcessor[]) null );

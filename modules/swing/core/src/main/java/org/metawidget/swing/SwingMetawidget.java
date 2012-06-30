@@ -239,6 +239,12 @@ public class SwingMetawidget
 		invalidateWidgets();
 	}
 
+	public WidgetBuilder<JComponent, SwingMetawidget> getWidgetBuilder() {
+
+		buildWidgets();
+		return mPipeline.getWidgetBuilder();
+	}
+
 	public void addWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor ) {
 
 		mPipeline.addWidgetProcessor( widgetProcessor );
@@ -276,6 +282,12 @@ public class SwingMetawidget
 
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
+	}
+
+	public Layout<JComponent, JComponent, SwingMetawidget> getMetawidgetLayout() {
+
+		buildWidgets();
+		return mPipeline.getLayout();
 	}
 
 	public void setBundle( ResourceBundle bundle ) {
@@ -447,6 +459,22 @@ public class SwingMetawidget
 		buildWidgets();
 
 		return super.getComponent( index );
+	}
+
+	/**
+	 * Overridden to build widgets just-in-time.
+	 * <p>
+	 * This method may be called by developers who wish to modify the created Components before they
+	 * are displayed. For example, they may wish to call .setBorder( null ) if the component is to
+	 * be used as a JTable CellEditor.
+	 */
+
+	@Override
+	public Component[] getComponents() {
+
+		buildWidgets();
+
+		return super.getComponents();
 	}
 
 	/**
