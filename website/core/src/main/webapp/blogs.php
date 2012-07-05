@@ -202,6 +202,20 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>Cerny, T., Chalupa, V. & Donahoo, M.J.</td>
+					<td>2012</td>
+					<td>Towards Smart User Interface Design</td>
+					<td>International Conference on Information Science and Applications</td>
+					<td class="link"><a href="http://dx.doi.org/10.1109/ICISA.2012.6220929" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>Raneburger, D., Popp, R. & Vanderdonckt, J.</td>
+					<td>2012</td>
+					<td>An automated layout approach for model-driven WIMP-UI generation</td>
+					<td>4th SIGCHI Symposium on Engineering Interactive Computing Systems</td>
+					<td class="link"><a href="http://dl.acm.org/citation.cfm?id=2305501" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>Lienert, C., Jenny, B., Schnabel, O. & Hurni, L.</td>
 					<td>2012</td>
 					<td>Current Trends in Vector-Based Internet Mapping: A Technical Review</td>

@@ -55,7 +55,7 @@ import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -163,7 +163,7 @@ public class SwingMetawidget
 	 * Gets the Object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
-	 *
+	 * 
 	 * @return the object. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
@@ -239,6 +239,12 @@ public class SwingMetawidget
 		invalidateWidgets();
 	}
 
+	public WidgetBuilder<JComponent, SwingMetawidget> getWidgetBuilder() {
+
+		buildWidgets();
+		return mPipeline.getWidgetBuilder();
+	}
+
 	public void addWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor ) {
 
 		mPipeline.addWidgetProcessor( widgetProcessor );
@@ -276,6 +282,12 @@ public class SwingMetawidget
 
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
+	}
+
+	public Layout<JComponent, JComponent, SwingMetawidget> getMetawidgetLayout() {
+
+		buildWidgets();
+		return mPipeline.getLayout();
 	}
 
 	public void setBundle( ResourceBundle bundle ) {
@@ -453,6 +465,22 @@ public class SwingMetawidget
 	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This method may be called by developers who wish to modify the created Components before they
+	 * are displayed. For example, they may wish to call .setBorder( null ) if the component is to
+	 * be used as a JTable CellEditor.
+	 */
+
+	@Override
+	public Component[] getComponents() {
+
+		buildWidgets();
+
+		return super.getComponents();
+	}
+
+	/**
+	 * Overridden to build widgets just-in-time.
+	 * <p>
+	 * This method may be called by developers who wish to modify the created Components before they
 	 * are displayed.
 	 */
 
@@ -504,7 +532,7 @@ public class SwingMetawidget
 	 * need some conversion before being reapplied to the object being inspected. This obviously
 	 * requires knowledge of which Component SwingMetawidget created, which is not ideal, so clients
 	 * may prefer to use a binding WidgetProcessor instead.
-	 *
+	 * 
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -637,6 +665,22 @@ public class SwingMetawidget
 			mFacets.clear();
 			mExistingComponents.clear();
 		}
+	}
+
+	/**
+	 * Useful for WidgetBuilders to setup nested Metawidgets (eg. for initializing a dummy
+	 * Metawidget to rebind child Metawidgets in a Collection).
+	 */
+
+	public void initNestedMetawidget( SwingMetawidget nestedMetawidget, Map<String, String> attributes ) {
+
+		// Don't copy setConfig(). Instead, copy runtime values
+
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setBundle( mBundle );
+		nestedMetawidget.setOpaque( isOpaque() );
+		nestedMetawidget.setToInspect( mToInspect );
 	}
 
 	//
@@ -831,17 +875,6 @@ public class SwingMetawidget
 				mPipeline.layoutWidget( componentExisting, PROPERTY, attributes );
 			}
 		}
-	}
-
-	protected void initNestedMetawidget( SwingMetawidget nestedMetawidget, Map<String, String> attributes ) {
-
-		// Don't copy setConfig(). Instead, copy runtime values
-
-		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setBundle( mBundle );
-		nestedMetawidget.setOpaque( isOpaque() );
-		nestedMetawidget.setToInspect( mToInspect );
 	}
 
 	//
@@ -1056,7 +1089,7 @@ public class SwingMetawidget
 
 	/**
 	 * Simple immutable structure to store a component and its value property.
-	 *
+	 * 
 	 * @author Richard Kennard
 	 */
 
