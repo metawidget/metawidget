@@ -52,6 +52,12 @@ public class HtmlTableLayout
 
 	private String	mTableStyleClass;
 
+	private String  mLabelColumnClass;
+
+	private String  mComponentColumnClass;
+
+	private String  mRequiredColumnClass;
+
 	//
 	// Constructor
 	//
@@ -65,6 +71,9 @@ public class HtmlTableLayout
 
 		mTableStyle = config.getTableStyle();
 		mTableStyleClass = config.getTableStyleClass();
+		mLabelColumnClass = config.getLabelColumnStyleClass();
+		mComponentColumnClass = config.getComponentColumnStyleClass();
+		mRequiredColumnClass = config.getRequiredColumnStyleClass();
 	}
 
 	//
@@ -123,11 +132,13 @@ public class HtmlTableLayout
 
 			HtmlTableCell cell = new HtmlTableCell();
 			cell.getChildren().add( widget );
+			cell.putAttribute( "class", mComponentColumnClass );
 			row.getChildren().add( cell );
 
 			// Indicate whether the field is required or not.
 
 			HtmlTableCell requiredCell = new HtmlTableCell();
+			requiredCell.putAttribute( "class", mRequiredColumnClass );
 
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !TRUE.equals( attributes.get( HIDDEN ) ) ) {
 				requiredCell.setTextContent( "*" );
@@ -165,6 +176,7 @@ public class HtmlTableLayout
 	protected boolean layoutLabel( HtmlTag row, StaticXmlWidget widgetNeedingLabel, String elementName, Map<String, String> attributes, StaticHtmlMetawidget metawidget ) {
 
 		HtmlTableHeader labelCell = new HtmlTableHeader();
+		labelCell.putAttribute( "class", mLabelColumnClass );
 		row.getChildren().add( labelCell );
 
 		return super.layoutLabel( labelCell, widgetNeedingLabel, elementName, attributes, metawidget );
