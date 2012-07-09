@@ -231,15 +231,19 @@ public class HtmlTableLayout
 
 	public void endContainerLayout( BodyTag container, MetawidgetTag metawidgetTag ) {
 
-		// Do nothing
+		try {
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			writer.write( "</tbody>" );
+			writer.write( "</table>" );
+		} catch ( IOException e ) {
+			throw LayoutException.newException( e );
+		}
 	}
 
 	public void onEndBuild( MetawidgetTag metawidgetTag ) {
 
 		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
-			writer.write( "</tbody>" );
-			writer.write( "</table>" );
 
 			// Output any hidden fields
 

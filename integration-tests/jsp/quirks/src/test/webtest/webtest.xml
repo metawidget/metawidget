@@ -3,7 +3,7 @@
 	<taskdef resource="webtestTaskdefs.properties"/>
 	
 	<target name="all">
-		<webtest name="all">
+		<webtest name="table-quirks">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
 				<invoke url="/" />
@@ -13,6 +13,23 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[1]/input/@type" text="checkbox"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[1]/input/@name" text="quirks.booleanPrimitive"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="1"/>
+			</steps>
+		</webtest>
+		
+		<webtest name="fieldset">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/fieldset.jsp" />
+
+				<verifyXPath xpath="/html/body/fieldset[1]/label" text="Section 1"/>
+				<verifyXPath xpath="/html/body/fieldset[1]/table/tbody/tr[1]/th/label" text="Foo:"/>				
+				<verifyXPath xpath="/html/body/fieldset[1]/table/tbody/tr[2]/th/label" text="Bar:"/>				
+				<verifyXPath xpath="/html/body/fieldset[2]/label" text="Section 2"/>
+				<verifyXPath xpath="/html/body/fieldset[2]/table/tbody/tr[1]/th/label" text="Baz:"/>				
+				<verifyXPath xpath="/html/body/fieldset[3]/label" text="Section 3"/>
+				<verifyXPath xpath="/html/body/fieldset[3]/table/tbody/tr[1]/th/label" text="Abc:"/>				
+				<verifyXPath xpath="/html/body/fieldset[3]/table/tbody/tr[2]/th/label" text="Def:"/>				
+				<verifyXPath xpath="count(//fieldset)" text="3"/>
 			</steps>
 		</webtest>
 	</target>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.jsp.tagext.html http://metawidget.org/xsd/org.metawidget.jsp.tagext.html-1.0.xsd"
+	version="1.0">
+
+	<htmlMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html">
+		<layout>
+			<fieldsetLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+				<layout>
+					<htmlTableLayout/>
+				</layout>
+			</fieldsetLayoutDecorator>
+		</layout>
+	</htmlMetawidgetTag>
+
+</metawidget>
