@@ -38,7 +38,7 @@ import org.metawidget.statically.spring.widgetprocessor.PathProcessor;
 public class SpringTableLayout
 	extends HtmlTableLayout {
 
-	//
+    //
 	// Constructors
 	//
 
@@ -68,6 +68,9 @@ public class SpringTableLayout
 	        return false;
 	    }
 
+	    super.layoutLabel(row, widgetNeedingLabel, elementName, attributes, metawidget);
+	    HtmlTableHeader labelCell = (HtmlTableHeader) row.getChildren().get( 0 );
+
 	    FormLabelTag label = new FormLabelTag();
 		metawidget.getWidgetProcessor( PathProcessor.class ).processWidget( label, elementName, attributes, (StaticSpringMetawidget) metawidget );
 		String labelText = metawidget.getLabelString( attributes );
@@ -75,9 +78,8 @@ public class SpringTableLayout
 			label.setTextContent( labelText + ":" );
 		}
 
-		HtmlTableHeader labelCell = new HtmlTableHeader();
+		labelCell.getChildren().remove( 0 );
 		labelCell.getChildren().add( label );
-		row.getChildren().add( labelCell );
 
 		return true;
 	}
