@@ -4,6 +4,27 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v2.3 Released!</h3>
+		<h4>10th July 2012</h4>
+		
+		<p>
+			Metawidget v2.3 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Final release of Spring Metawidget for <a href="http://jboss.org/forge">JBoss Forge</a></li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v2.2 Released!</h3>
 		<h4>14th May 2012</h4>
 		
