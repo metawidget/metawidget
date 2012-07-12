@@ -104,7 +104,7 @@
 				<artifactId>maven-jarsigner-plugin</artifactId>
 				<configuration>
 					<alias>Metawidget</alias>
-					<keystore>${basedir}/src/main/resources/org/metawidget/website/swing/console/metawidget.keystore</keystore>
+					<keystore>${basedir}/src/test/resources/metawidget.keystore</keystore>
 					<storepass>m3t4w1dg3t</storepass>
 					<processMainArtifact>false</processMainArtifact>
 					<archiveDirectory>target/ROOT/WEB-INF/lib</archiveDirectory>
