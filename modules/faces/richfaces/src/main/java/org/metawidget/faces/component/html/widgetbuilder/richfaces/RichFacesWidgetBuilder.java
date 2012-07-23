@@ -323,8 +323,8 @@ public class RichFacesWidgetBuilder
 					// Therefore the 'id' attribute is never rendered, therefore the JavaScript
 					// getElementById doesn't work. Add our own prefix instead
 
-					inputText.setId( "suggestionText_" + viewRoot.createUniqueId() );
-					suggestionBox.setId( "suggestionBox_" + viewRoot.createUniqueId() );
+					inputText.setId( "suggestionText_" + FacesUtils.createUniqueId() );
+					suggestionBox.setId( "suggestionBox_" + FacesUtils.createUniqueId() );
 
 					// Suggestion box
 

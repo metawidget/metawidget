@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 /**
@@ -196,8 +197,9 @@ public final class FacesUtils {
 	}
 
 	/**
-	 * Custom implementation of <code>UIViewRoot.createUniqueId</code>, as there is some contention
-	 * over the 'proper' approach. See http://java.net/jira/browse/JAVASERVERFACES-2283
+	 * Custom implementation of <code>UIViewRoot.createUniqueId</code>. The 'proper' approach
+	 * requires traversing the component tree, which could be expensive. See
+	 * http://java.net/jira/browse/JAVASERVERFACES-2283
 	 */
 
 	public static String createUniqueId() {
@@ -213,7 +215,14 @@ public final class FacesUtils {
 
 		attributes.put( UNIQUE_ID_VIEW_ATTRIBUTE, uniqueId + 1 );
 
-		return "j_mwid" + uniqueId;
+		// Still use UNIQUE_ID_PREFIX, so that ids are suppressed from the output. As per
+		// the RenderKit specification:
+		//
+		// "If the value returned from component.getId() is non-null and does not start
+		// with UIViewRoot.UNIQUE_ID_PREFIX, call component.getClientId() and render
+		// the result as the value of the id attribute in the markup for the component."
+
+		return UIViewRoot.UNIQUE_ID_PREFIX + "mw" + uniqueId;
 	}
 
 	//

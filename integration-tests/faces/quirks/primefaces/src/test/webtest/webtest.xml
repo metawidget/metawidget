@@ -14,12 +14,12 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/ul/li/a" text="Section #1"/>		
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li/@class, 'ui-state-active')"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/th/label" text="Name:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@name" text="form:j_mwid0:primeFacesQuirksName"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@name" text="form:j_idmw0:primeFacesQuirksName"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/th/label" text="Spinner:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/@id" text="form:j_mwid0:primeFacesQuirksSpinner"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/@id" text="form:j_idmw0:primeFacesQuirksSpinner"/>
 				<verifyXPath xpath="contains( /html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/@class, 'ui-spinner')"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@name" text="form:j_mwid0:primeFacesQuirksSpinner_input"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@name" text="form:j_idmw0:primeFacesQuirksSpinner_input"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[3]/th/label" text="Slider:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[3]/td[1]/input/@type" text="text"/>
@@ -29,15 +29,15 @@
 					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li[2]/@class, 'ui-state-active')"/>
 				</not>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/th/label" text="Date:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/@id" text="form:j_mwid0:primeFacesQuirksDate"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@name" text="form:j_mwid0:primeFacesQuirksDate_input"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/@id" text="form:j_idmw0:primeFacesQuirksDate"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@name" text="form:j_idmw0:primeFacesQuirksDate_input"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@type" text="text"/>
 				<verifyXPath xpath="contains( /html/body/form/table/tbody/tr/td/div/div/div[2]/table/tbody/tr[1]/td[1]/span/input/@class, 'hasDatepicker')"/>
 
-				<setInputField name="form:j_mwid0:primeFacesQuirksName" value="Foo"/>
-				<setInputField name="form:j_mwid0:primeFacesQuirksSpinner_input" value="1"/>
+				<setInputField name="form:j_idmw0:primeFacesQuirksName" value="Foo"/>
+				<setInputField name="form:j_idmw0:primeFacesQuirksSpinner_input" value="1"/>
 				<setInputField xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[3]/td[1]/input" value="2"/>
-				<setInputField name="form:j_mwid0:primeFacesQuirksDate_input" value="09/04/1975"/>
+				<setInputField name="form:j_idmw0:primeFacesQuirksDate_input" value="09/04/1975"/>
 				
 				<clickButton label="Save"/>
 				
@@ -62,11 +62,11 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/ul/li/a" text="Section #1"/>		
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li/@class, 'ui-state-active')"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/th/label" text="Name:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@name" text="form:j_mwid0:primeFacesQuirksName"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@name" text="form:j_idmw0:primeFacesQuirksName"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/td[1]/input/@value" text="Foo"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/th/label" text="Spinner:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@name" text="form:j_mwid0:primeFacesQuirksSpinner_input"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@name" text="form:j_idmw0:primeFacesQuirksSpinner_input"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[2]/td[1]/span/input/@value" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[3]/th/label" text="Slider:"/>
