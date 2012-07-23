@@ -126,10 +126,10 @@
 				
 				<clickLink xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a"/>
 				<not>
-					<verifyXPath xpath="//select[@name='form:j_mwid23:0:penguinCurrentConditionBeak']"/>
+					<verifyXPath xpath="//select[contains(@name,':0:penguinCurrentConditionBeak')]"/>
 				</not>
 				<clickButton label="Add Condition"/>				
-				<verifyXPath xpath="//select[@name='form:j_mwid23:0:penguinCurrentConditionBeak']"/>
+				<verifyXPath xpath="//select[contains(@name,':0:penguinCurrentConditionBeak')]"/>
 				
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[1]/th[1]/@class" text="table-label-column"/>
 				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[1]/th[1]/label" text="Beak:"/>
