@@ -49,7 +49,7 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  * <li><code>messageStyleClass</code>
  * <li><code>labelSuffix</code>
  * </ul>
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -120,7 +120,7 @@ public abstract class HtmlLayoutRenderer
 	 * Render the label text. Rendering is done via an <code>HtmlOutputText</code> renderer, so that
 	 * it is properly escaped. Any JSF EL expressions embedded in the label should have already been
 	 * evaluated by <code>FacesInspectionResultProcessor</code>.
-	 * 
+	 *
 	 * @return whether a label was written
 	 */
 
@@ -164,7 +164,7 @@ public abstract class HtmlLayoutRenderer
 	 * Create a label component for the given <code>UIComponent</code>. Clients may override this
 	 * method to create a different type of label component.
 	 */
-	
+
 	protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
 
 		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( HtmlOutputLabel.COMPONENT_TYPE );
@@ -262,7 +262,7 @@ public abstract class HtmlLayoutRenderer
 	protected UIComponent createInlineMessage( FacesContext context, UIComponent metawidget, String messageFor ) {
 
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( HtmlMessage.COMPONENT_TYPE );
-		message.setId( context.getViewRoot().createUniqueId() );
+		message.setId( FacesUtils.createUniqueId() );
 		message.setFor( messageFor );
 
 		// Parse styles

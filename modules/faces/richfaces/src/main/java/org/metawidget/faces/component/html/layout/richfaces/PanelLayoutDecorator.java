@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -70,10 +69,9 @@ public class PanelLayoutDecorator
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		HtmlPanel panel = FacesUtils.createComponent( HtmlPanel.COMPONENT_TYPE, "org.richfaces.PanelRenderer" );
-		panel.setId( viewRoot.createUniqueId() );
+		panel.setId( FacesUtils.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );
 
@@ -100,7 +98,7 @@ public class PanelLayoutDecorator
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
-		nestedMetawidget.setId( viewRoot.createUniqueId() );
+		nestedMetawidget.setId( FacesUtils.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		nestedMetawidget.copyParameters( metawidget );
 		panel.getChildren().add( nestedMetawidget );

@@ -7,7 +7,7 @@
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
 				<invoke url="/contact.jsf?contact.load=1" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label)" text="Title:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']/div"/>				
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div/table/tbody/tr/td[3]/span)" text="Contact Details"/>
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[3]/div/table/tbody/tr/th)" text="Address:"/>
@@ -17,7 +17,7 @@
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/div/div[4]/div/table/tbody/tr/th)" text="Notes:"/>
 				
 				<clickButton label="Edit"/>	
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']/label)" text="Title:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-required-column']" text="*"/>				
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value="Homer"/>

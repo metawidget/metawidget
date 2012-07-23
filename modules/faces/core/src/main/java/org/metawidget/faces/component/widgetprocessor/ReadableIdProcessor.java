@@ -84,7 +84,7 @@ public class ReadableIdProcessor
 			if ( methodBinding != null ) {
 				setUniqueId( component, methodBinding.getExpressionString(), metawidget );
 			} else {
-				component.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+				component.setId( FacesUtils.createUniqueId() );
 			}
 		} else {
 			// Base property ids on the valueBinding
@@ -94,7 +94,7 @@ public class ReadableIdProcessor
 			if ( valueBinding != null ) {
 				setUniqueId( component, valueBinding.getExpressionString(), metawidget );
 			} else {
-				component.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+				component.setId( FacesUtils.createUniqueId() );
 			}
 		}
 
@@ -175,7 +175,7 @@ public class ReadableIdProcessor
 
 			// Still important to set the Stub's id to avoid JSF warnings
 
-			component.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+			component.setId( FacesUtils.createUniqueId() );
 			return;
 		}
 

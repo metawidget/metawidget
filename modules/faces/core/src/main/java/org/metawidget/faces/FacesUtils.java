@@ -27,7 +27,7 @@ import javax.faces.context.FacesContext;
 
 /**
  * Utilities for working with Java Server Faces.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -43,7 +43,7 @@ public final class FacesUtils {
 	 * <p>
 	 * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but that
 	 * one is deprecated so may be removed in the future.
-	 *
+	 * 
 	 * @param value
 	 *            The value to evaluate
 	 * @throws NullPointerException
@@ -195,6 +195,27 @@ public final class FacesUtils {
 		}
 	}
 
+	/**
+	 * Custom implementation of <code>UIViewRoot.createUniqueId</code>, as there is some contention
+	 * over the 'proper' approach. See http://java.net/jira/browse/JAVASERVERFACES-2283
+	 */
+
+	public static String createUniqueId() {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, Object> attributes = context.getViewRoot().getAttributes();
+
+		Integer uniqueId = (Integer) attributes.get( UNIQUE_ID_VIEW_ATTRIBUTE );
+
+		if ( uniqueId == null ) {
+			uniqueId = 0;
+		}
+
+		attributes.put( UNIQUE_ID_VIEW_ATTRIBUTE, uniqueId + 1 );
+
+		return "j_mwid" + uniqueId;
+	}
+
 	//
 	// Private statics
 	//
@@ -213,11 +234,13 @@ public final class FacesUtils {
 	 * the future.
 	 */
 
-	private static final Pattern	PATTERN_EXPRESSION	= Pattern.compile( "(#|\\$)\\{([^\\}]+)\\}" );
+	private static final Pattern	PATTERN_EXPRESSION			= Pattern.compile( "(#|\\$)\\{([^\\}]+)\\}" );
 
-	private static final String		EXPRESSION_START	= "#{";
+	private static final String		EXPRESSION_START			= "#{";
 
-	private static final String		EXPRESSION_END		= "}";
+	private static final String		EXPRESSION_END				= "}";
+
+	private static final String		UNIQUE_ID_VIEW_ATTRIBUTE	= FacesUtils.class.getName() + ".UNIQUE_ID";
 
 	private static final boolean	IS_JSF_2;
 

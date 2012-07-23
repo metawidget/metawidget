@@ -359,13 +359,13 @@ public class RichFacesWidgetBuilder
 					// a value was selected it did not populate back to the HtmlInputText
 
 					UIColumn column = (UIColumn) application.createComponent( javax.faces.component.html.HtmlColumn.COMPONENT_TYPE );
-					column.setId( viewRoot.createUniqueId() );
+					column.setId( FacesUtils.createUniqueId() );
 					suggestionBox.getChildren().add( column );
 
 					// Output text box
 
 					UIComponent columnText = application.createComponent( HtmlOutputText.COMPONENT_TYPE );
-					columnText.setId( viewRoot.createUniqueId() );
+					columnText.setId( FacesUtils.createUniqueId() );
 					ValueBinding valueBinding = application.createValueBinding( "#{_internal}" );
 					columnText.setValueBinding( "value", valueBinding );
 					column.getChildren().add( columnText );

@@ -284,7 +284,7 @@ public class PrimeFacesWidgetBuilder
 			UIStub stub = (UIStub) application.createComponent( UIStub.COMPONENT_TYPE );
 
 			HtmlInputText inputText = (HtmlInputText) application.createComponent( HtmlInputText.COMPONENT_TYPE );
-			inputText.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+			inputText.setId( FacesUtils.createUniqueId() );
 			stub.getChildren().add( inputText );
 
 			Slider slider = FacesUtils.createComponent( Slider.COMPONENT_TYPE, "org.primefaces.component.SliderRenderer" );

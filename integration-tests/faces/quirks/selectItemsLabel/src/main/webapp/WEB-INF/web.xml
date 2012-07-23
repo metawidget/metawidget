@@ -20,16 +20,4 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
-	<!-- Until http://java.net/jira/browse/JAVASERVERFACES-2283 -->
-	
-	<context-param>
-		<param-name>org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT</param-name>
-		<param-value>true</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
-		<param-value>false</param-value>
-	</context-param>
-
 </web-app>

@@ -671,14 +671,7 @@ public class FacesMetawidgetTests {
 		@Override
 		public UIViewRoot getViewRoot() {
 
-			return new UIViewRoot() {
-
-				@Override
-				public String createUniqueId() {
-
-					return "unique-id";
-				}
-			};
+			return new UIViewRoot();
 		}
 
 		//

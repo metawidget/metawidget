@@ -22,9 +22,9 @@ import java.util.Map;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
@@ -75,10 +75,9 @@ public class SimpleTogglePanelLayoutDecorator
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		HtmlSimpleTogglePanel panel = (HtmlSimpleTogglePanel) application.createComponent( HtmlSimpleTogglePanel.COMPONENT_TYPE );
-		panel.setId( viewRoot.createUniqueId() );
+		panel.setId( FacesUtils.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );
 		panel.setSwitchType( mSwitchType );
@@ -106,7 +105,7 @@ public class SimpleTogglePanelLayoutDecorator
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
-		nestedMetawidget.setId( viewRoot.createUniqueId() );
+		nestedMetawidget.setId( FacesUtils.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		nestedMetawidget.copyParameters( metawidget );
 		panel.getChildren().add( nestedMetawidget );

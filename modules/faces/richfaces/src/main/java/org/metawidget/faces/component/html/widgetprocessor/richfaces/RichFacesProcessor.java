@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.component.html.HtmlAjaxSupport;
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -63,7 +64,7 @@ public class RichFacesProcessor
 			Application application = context.getApplication();
 
 			HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) application.createComponent( HtmlAjaxSupport.COMPONENT_TYPE );
-			ajaxSupport.setId( context.getViewRoot().createUniqueId() );
+			ajaxSupport.setId( FacesUtils.createUniqueId() );
 			ajaxSupport.setEvent( ajaxEvent );
 
 			// Set reRender to the parent Metawidget level. This is not perfect, as there may be

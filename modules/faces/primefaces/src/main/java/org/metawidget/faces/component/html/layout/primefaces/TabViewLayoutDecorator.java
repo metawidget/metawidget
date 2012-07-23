@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -61,7 +60,6 @@ public class TabViewLayoutDecorator
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		TabView tabView;
 
@@ -69,7 +67,7 @@ public class TabViewLayoutDecorator
 
 		if ( previousSectionWidget == null ) {
 			tabView = FacesUtils.createComponent( TabView.COMPONENT_TYPE, "org.primefaces.component.TabViewRenderer" );
-			tabView.setId( viewRoot.createUniqueId() );
+			tabView.setId( FacesUtils.createUniqueId() );
 
 			// Add to parent container
 
@@ -85,7 +83,7 @@ public class TabViewLayoutDecorator
 		// New tab
 
 		Tab tab = FacesUtils.createComponent( Tab.COMPONENT_TYPE, "org.primefaces.component.TabRenderer" );
-		tab.setId( viewRoot.createUniqueId() );
+		tab.setId( FacesUtils.createUniqueId() );
 		tabView.getChildren().add( tab );
 
 		// Tab name (possibly localized)
@@ -103,7 +101,7 @@ public class TabViewLayoutDecorator
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
-		nestedMetawidget.setId( viewRoot.createUniqueId() );
+		nestedMetawidget.setId( FacesUtils.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		nestedMetawidget.copyParameters( metawidget );
 		tab.getChildren().add( nestedMetawidget );

@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -72,15 +71,13 @@ public class TabPanelLayoutDecorator
 	protected UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
-		UIViewRoot viewRoot = context.getViewRoot();
-
 		UITabPanel tabPanel;
 
 		// Whole new UITabPanel?
 
 		if ( previousSectionWidget == null ) {
 			tabPanel = FacesUtils.createComponent( HtmlTabPanel.COMPONENT_TYPE, "org.richfaces.TabPanelRenderer" );
-			tabPanel.setId( viewRoot.createUniqueId() );
+			tabPanel.setId( FacesUtils.createUniqueId() );
 
 			try {
 				tabPanel.setSwitchType( SwitchType.client );
@@ -114,7 +111,8 @@ public class TabPanelLayoutDecorator
 		// New tab
 
 		UITab tab = FacesUtils.createComponent( HtmlTab.COMPONENT_TYPE, "org.richfaces.TabRenderer" );
-		tab.setId( viewRoot.createUniqueId() );
+		tab.setId( FacesUtils.createUniqueId() );
+
 		tabPanel.getChildren().add( tab );
 
 		// Tab name (possibly localized)
@@ -148,7 +146,7 @@ public class TabPanelLayoutDecorator
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) context.getApplication().createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
-		nestedMetawidget.setId( viewRoot.createUniqueId() );
+		nestedMetawidget.setId( FacesUtils.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		nestedMetawidget.copyParameters( metawidget );
 		tab.getChildren().add( nestedMetawidget );

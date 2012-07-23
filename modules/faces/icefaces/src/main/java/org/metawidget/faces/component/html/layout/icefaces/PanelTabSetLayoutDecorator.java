@@ -24,9 +24,9 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
@@ -63,7 +63,6 @@ public class PanelTabSetLayoutDecorator
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		PanelTabSet panelTabSet;
 
@@ -71,7 +70,7 @@ public class PanelTabSetLayoutDecorator
 
 		if ( previousSectionWidget == null ) {
 			panelTabSet = (PanelTabSet) application.createComponent( PanelTabSet.COMPONENT_TYPE );
-			panelTabSet.setId( viewRoot.createUniqueId() );
+			panelTabSet.setId( FacesUtils.createUniqueId() );
 
 			// Because Metawidget will destroy/recreate the PanelTabSet each time, we must store the
 			// 'selectedIndex' external to the PanelTabSet or we will never be able to switch tabs.
@@ -96,7 +95,7 @@ public class PanelTabSetLayoutDecorator
 		// New tab
 
 		PanelTab tab = (PanelTab) application.createComponent( PanelTab.COMPONENT_TYPE );
-		tab.setId( viewRoot.createUniqueId() );
+		tab.setId( FacesUtils.createUniqueId() );
 		panelTabSet.getChildren().add( tab );
 
 		// Tab name (possibly localized)
@@ -114,7 +113,7 @@ public class PanelTabSetLayoutDecorator
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
-		nestedMetawidget.setId( viewRoot.createUniqueId() );
+		nestedMetawidget.setId( FacesUtils.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		nestedMetawidget.copyParameters( metawidget );
 		tab.getChildren().add( nestedMetawidget );

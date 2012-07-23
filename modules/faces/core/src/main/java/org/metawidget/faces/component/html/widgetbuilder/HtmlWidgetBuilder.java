@@ -32,7 +32,6 @@ import javax.faces.component.UIData;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
-import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
@@ -402,7 +401,6 @@ public class HtmlWidgetBuilder
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( HtmlDataTable.COMPONENT_TYPE );
 		dataTable.setVar( "_item" );
@@ -453,7 +451,7 @@ public class HtmlWidgetBuilder
 
 		if ( rowActionParameter != null ) {
 			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( HtmlCommandLink.COMPONENT_TYPE );
-			rowAction.setId( viewRoot.createUniqueId() );
+			rowAction.setId( FacesUtils.createUniqueId() );
 
 			// (dataTableRowAction cannot be wrapped when used on the JSP page)
 
@@ -474,14 +472,14 @@ public class HtmlWidgetBuilder
 			rowAction.setAction( binding );
 
 			UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
-			column.setId( viewRoot.createUniqueId() );
+			column.setId( FacesUtils.createUniqueId() );
 			column.getChildren().add( rowAction );
 			dataTable.getChildren().add( column );
 
 			// Put a blank header, so that CSS styling (such as border-bottom) still applies
 
 			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( HtmlOutputText.COMPONENT_TYPE );
-			headerText.setId( viewRoot.createUniqueId() );
+			headerText.setId( FacesUtils.createUniqueId() );
 			headerText.setValue( "<div></div>" );
 			headerText.setEscape( false );
 			column.setHeader( headerText );
@@ -574,10 +572,9 @@ public class HtmlWidgetBuilder
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
-		column.setId( viewRoot.createUniqueId() );
+		column.setId( FacesUtils.createUniqueId() );
 
 		// Make the column contents...
 		//
@@ -585,7 +582,7 @@ public class HtmlWidgetBuilder
 		// http://java.net/jira/browse/JAVASERVERFACES-2089
 
 		UIComponent columnText = application.createComponent( HtmlOutputText.COMPONENT_TYPE );
-		columnText.setId( viewRoot.createUniqueId() );
+		columnText.setId( FacesUtils.createUniqueId() );
 
 		HtmlMetawidget dummyMetawidget = new HtmlMetawidget();
 		dummyMetawidget.setValueBinding( "value", application.createValueBinding( FacesUtils.wrapExpression( dataTable.getVar() ) ) );
@@ -610,7 +607,7 @@ public class HtmlWidgetBuilder
 		// ...with a localized header
 
 		HtmlOutputText headerText = (HtmlOutputText) application.createComponent( HtmlOutputText.COMPONENT_TYPE );
-		headerText.setId( viewRoot.createUniqueId() );
+		headerText.setId( FacesUtils.createUniqueId() );
 		headerText.setValue( metawidget.getLabelString( columnAttributes ) );
 		column.setHeader( headerText );
 
@@ -661,7 +658,7 @@ public class HtmlWidgetBuilder
 		Application application = context.getApplication();
 
 		UISelectItem selectItem = (UISelectItem) application.createComponent( UISelectItem.COMPONENT_TYPE );
-		selectItem.setId( context.getViewRoot().createUniqueId() );
+		selectItem.setId( FacesUtils.createUniqueId() );
 
 		// JSF 1.1 doesn't allow 'null' as the item value, but JSF 1.2 requires
 		// it for proper behaviour (see
@@ -702,8 +699,7 @@ public class HtmlWidgetBuilder
 			}
 		}
 
-		List<UIComponent> children = component.getChildren();
-		children.add( selectItem );
+		component.getChildren().add( selectItem );
 	}
 
 	private void addSelectItems( UIComponent component, String binding, Map<String, String> attributes, UIMetawidget metawidget ) {
@@ -714,7 +710,6 @@ public class HtmlWidgetBuilder
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		// Empty option
 
@@ -723,7 +718,7 @@ public class HtmlWidgetBuilder
 		}
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( UISelectItems.COMPONENT_TYPE );
-		selectItems.setId( viewRoot.createUniqueId() );
+		selectItems.setId( FacesUtils.createUniqueId() );
 		component.getChildren().add( selectItems );
 
 		if ( !FacesUtils.isExpression( binding ) ) {

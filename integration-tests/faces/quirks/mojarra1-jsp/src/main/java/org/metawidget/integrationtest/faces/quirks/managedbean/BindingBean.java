@@ -25,6 +25,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -180,7 +181,7 @@ public class BindingBean {
 		if ( widget instanceof HtmlInputText || widget instanceof HtmlInputTextarea ) {
 			widget.setId( "child" + metawidget.getChildren().size() );
 		} else if ( widget instanceof UIMetawidget || widget instanceof UICommand || widget instanceof UIStub ){
-			widget.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+			widget.setId( FacesUtils.createUniqueId() );
 		} else {
 			throw new RuntimeException( "Unexpected widget of " + widget.getClass() );
 		}

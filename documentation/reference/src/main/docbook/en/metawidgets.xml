@@ -814,7 +814,7 @@
 						classes are available (specifically <classname>javax.faces.event.PreRenderViewEvent</classname>) and switches
 						to using them. However not all JSF 2.0 implementations properly support <classname>PreRenderViewEvent</classname>. You
 						need at least Mojarra 2.2
-						(specifically a version that <ulink url="http://java.net/jira/browse/JAVASERVERFACES-2283">includes this fix</ulink>)
+						(specifically a version that <ulink url="http://java.net/jira/browse/JAVASERVERFACES-1826">includes this fix</ulink>)
 						or MyFaces 2.0.3
 						(specifically a version that <ulink url="https://issues.apache.org/jira/browse/MYFACES-2935">includes this fix</ulink>). If you need
 						to work with older versions, you must...

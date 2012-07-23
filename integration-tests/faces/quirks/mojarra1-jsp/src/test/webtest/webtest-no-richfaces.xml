@@ -338,7 +338,7 @@
 				<clickButton label="Save"/>				
 
 				<verifyXPath xpath="normalize-space(/html/body/ul/li)" text="Integer: 'Bad Integer' must be a number consisting of one or more digits."/>
-				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/text(), 'must be a number between')"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/span/text(), 'must be a number between')"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@value" text="Bad Integer"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>
 			</steps>

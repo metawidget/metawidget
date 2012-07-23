@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentFlatSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
@@ -73,7 +74,7 @@ public class OutputTextLayoutDecorator
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		HtmlOutputText heading = (HtmlOutputText) application.createComponent( HtmlOutputText.COMPONENT_TYPE );
-		heading.setId( context.getViewRoot().createUniqueId() );
+		heading.setId( FacesUtils.createUniqueId() );
 		heading.setStyle( mStyle );
 		heading.setStyleClass( mStyleClass );
 

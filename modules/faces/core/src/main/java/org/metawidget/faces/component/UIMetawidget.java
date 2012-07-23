@@ -53,8 +53,8 @@ import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
-import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -702,10 +702,6 @@ public abstract class UIMetawidget
 	@Override
 	public void restoreState( FacesContext context, Object state ) {
 
-		if ( !( state instanceof Object[] ) ) {
-			throw MetawidgetException.newException( "State not Object[]. See http://java.net/jira/browse/JAVASERVERFACES-2283 for analysis of this issue" );
-		}
-
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
@@ -745,7 +741,7 @@ public abstract class UIMetawidget
 
 		// PreRenderViewEvent support
 		//
-		// This is dependent on http://java.net/jira/browse/JAVASERVERFACES-2283
+		// This is dependent on http://java.net/jira/browse/JAVASERVERFACES-1826
 		// and https://issues.apache.org/jira/browse/MYFACES-2935. It is decided once, statically,
 		// for the duration
 
@@ -762,7 +758,7 @@ public abstract class UIMetawidget
 
 				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: http://java.net/jira/browse/JAVASERVERFACES-2283" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'javax.faces.PARTIAL_STATE_SAVING' to 'false'. Or upgrade Mojarra to a version that includes this fix: http://java.net/jira/browse/JAVASERVERFACES-1826" );
 
 				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
@@ -777,7 +773,7 @@ public abstract class UIMetawidget
 
 				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) ) {
 
-					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: http://java.net/jira/browse/JAVASERVERFACES-2283" );
+					throw MetawidgetException.newException( contextImplementationTitle + " " + contextImplementationVersion + " requires setting 'org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT' to 'true'. Or upgrade Mojarra to a version that includes this fix: http://java.net/jira/browse/JAVASERVERFACES-1826" );
 
 				} else if ( isBadMyFaces2( contextImplementationTitle, contextImplementationVersion ) ) {
 
@@ -1089,7 +1085,7 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Mojarra 2.x requires a fix for http://java.net/jira/browse/JAVASERVERFACES-2283.
+	 * Mojarra 2.x requires a fix for http://java.net/jira/browse/JAVASERVERFACES-1826.
 	 */
 
 	private boolean isBadMojarra2( String contextImplementationTitle, String contextImplementationVersion ) {
@@ -1102,7 +1098,15 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		if ( contextImplementationVersion.contains( "2.1." ) || contextImplementationVersion.contains( "2.2." ) ) {
+		if ( contextImplementationVersion.endsWith( "2.1.0" ) || contextImplementationVersion.endsWith( "2.1.1" ) || contextImplementationVersion.endsWith( "2.1.2" ) ) {
+			return true;
+		}
+
+		if ( contextImplementationVersion.endsWith( "2.1.3" ) || contextImplementationVersion.endsWith( "2.1.4" ) || contextImplementationVersion.endsWith( "2.1.5" ) ) {
+			return true;
+		}
+
+		if ( contextImplementationVersion.endsWith( "2.1.6" ) ) {
 			return true;
 		}
 
@@ -1425,7 +1429,7 @@ public abstract class UIMetawidget
 
 		public void reassignFacet( UIComponent facet ) {
 
-			facet.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
+			facet.setId( FacesUtils.createUniqueId() );
 		}
 
 		//
