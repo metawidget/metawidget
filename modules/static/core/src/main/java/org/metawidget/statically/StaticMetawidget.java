@@ -93,6 +93,11 @@ public abstract class StaticMetawidget
 		return mPath;
 	}
 
+	public ConfigReader getConfigReader() {
+
+		return mPipeline.getConfigReader();
+	}
+
 	public void setConfigReader( ConfigReader configReader ) {
 
 		mPipeline.setConfigReader( configReader );

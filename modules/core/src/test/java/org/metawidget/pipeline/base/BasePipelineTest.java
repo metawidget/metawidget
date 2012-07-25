@@ -18,12 +18,15 @@ package org.metawidget.pipeline.base;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.swing.JComponent;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.layout.iface.Layout;
@@ -91,6 +94,21 @@ public class BasePipelineTest
 		W3CPipeline<JComponent, JComponent, JComponent> nestedPipeline = new MockPipeline();
 
 		PropertyTypeInspector inspector = new PropertyTypeInspector();
+
+		ConfigReader configReader = new BaseConfigReader() {
+
+			@Override
+			public Object configure( String resource, Object toConfigure, String... names ) {
+
+				return null;
+			}
+
+			@Override
+			public Object configure( InputStream stream, Object toConfigure, String... names ) {
+
+				return null;
+			}
+		};
 		ComesAfterInspectionResultProcessor<JComponent> inspectionResultProcessor = new ComesAfterInspectionResultProcessor<JComponent>();
 		WidgetBuilder<JComponent, JComponent> widgetBuilder = new WidgetBuilder<JComponent, JComponent>() {
 
@@ -114,6 +132,7 @@ public class BasePipelineTest
 			}
 		};
 
+		pipeline.setConfigReader( configReader );
 		pipeline.setInspector( inspector );
 		pipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		pipeline.setWidgetBuilder( widgetBuilder );
@@ -123,9 +142,10 @@ public class BasePipelineTest
 
 		// Test elements are initialized
 
-		assertEquals( nestedPipeline.getInspector(), inspector );
-		assertEquals( nestedPipeline.getWidgetBuilder(), widgetBuilder );
-		assertEquals( nestedPipeline.getLayout(), layout );
+		assertTrue( nestedPipeline.getConfigReader() == configReader );
+		assertTrue( nestedPipeline.getInspector() == inspector );
+		assertTrue( nestedPipeline.getWidgetBuilder() == widgetBuilder );
+		assertTrue( nestedPipeline.getLayout() == layout );
 
 		// Test defensive copy
 

@@ -172,6 +172,7 @@ public class SpringWidgetBuilder
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
 				StaticJspMetawidget nestedMetawidget = new StaticJspMetawidget();
+				nestedMetawidget.setConfigReader( metawidget.getConfigReader() );
 				nestedMetawidget.setInspector( metawidget.getInspector() );
 				nestedMetawidget.setLayout( new SimpleLayout() );
 				nestedMetawidget.setPath( metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );

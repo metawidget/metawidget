@@ -25,6 +25,8 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.iface.ConfigReader;
+import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.statically.StaticPropertyStyle;
@@ -94,8 +96,12 @@ public class SpringWidgetBuilderTest
 
 	public void testCollection() {
 
-		Inspector inspector = new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new StaticPropertyStyle() ));
+		Inspector inspector = new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new StaticPropertyStyle() ) );
 		StaticSpringMetawidget metawidget = new StaticSpringMetawidget();
+		ConfigReader configReader = new BaseConfigReader() {
+			// Custom configReader
+		};
+		metawidget.setConfigReader( configReader );
 		metawidget.setConfig( "org/metawidget/statically/spring/widgetbuilder/metawidget-test-collection.xml" );
 		metawidget.setPath( Foo.class.getName() );
 		metawidget.setInspector( inspector );
@@ -108,13 +114,14 @@ public class SpringWidgetBuilderTest
 
 		StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertTrue( widget instanceof StaticJspMetawidget );
+		assertTrue( configReader == ( (StaticJspMetawidget) widget ).getConfigReader() );
 		assertTrue( inspector == ( (StaticJspMetawidget) widget ).getInspector() );
 		assertTrue( ( (StaticJspMetawidget) widget ).getLayout() instanceof SimpleLayout );
 		assertEquals( Foo.class.getName() + "/bar", ( (StaticJspMetawidget) widget ).getPath() );
 		assertEquals( "org/metawidget/statically/spring/widgetbuilder/metawidget-test-collection.xml", ( (StaticJspMetawidget) widget ).getConfig() );
 		List<WidgetProcessor<StaticWidget, StaticMetawidget>> widgetProcessors = ( (StaticJspMetawidget) widget ).getWidgetProcessors();
 		assertEquals( 1, widgetProcessors.size() );
-		assertTrue( ((WidgetProcessor<?,?>) widgetProcessors.get( 0 )) instanceof StandardBindingProcessor );
+		assertTrue( ( (WidgetProcessor<?, ?>) widgetProcessors.get( 0 ) ) instanceof StandardBindingProcessor );
 		assertEquals( "<table><thead><tr><th>Abc</th><th>Def</th></tr></thead><tbody><c:forEach items=\"${bar}\" var=\"item\"><tr><td><c:out value=\"${item.abc}\"/></td><td><c:out value=\"${item.def}\"/></td></tr></c:forEach></tbody></table>", widget.toString() );
 	}
 
@@ -125,6 +132,7 @@ public class SpringWidgetBuilderTest
 	public static class Foo {
 
 		public Set<Bar> getBar() {
+
 			return null;
 		}
 	}
@@ -132,10 +140,12 @@ public class SpringWidgetBuilderTest
 	public static class Bar {
 
 		public String getAbc() {
+
 			return null;
 		}
 
 		public String getDef() {
+
 			return null;
 		}
 	}

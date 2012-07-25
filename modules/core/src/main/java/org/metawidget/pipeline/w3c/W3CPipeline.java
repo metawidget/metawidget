@@ -53,6 +53,27 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	// Public methods
 	//
 
+	/**
+	 * Gets the current <code>ConfigReader</code>, or creates a default one if one hasn't been set.
+	 * <p>
+	 * Subclasses wishing to set a different default should call <code>setConfigReader</code>. Care
+	 * should be taken to <em>reuse</em> the same <code>ConfigReader</code> instance as much as
+	 * possible, to maximize caching.
+	 */
+
+	public final ConfigReader getConfigReader() {
+
+		if ( mConfigReader == null ) {
+			if ( DEFAULT_CONFIG_READER == null ) {
+				DEFAULT_CONFIG_READER = new BaseConfigReader();
+			}
+
+			mConfigReader = DEFAULT_CONFIG_READER;
+		}
+
+		return mConfigReader;
+	}
+
 	public void setConfigReader( ConfigReader configReader ) {
 
 		mConfigReader = configReader;
@@ -109,30 +130,21 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 		return null;
 	}
 
+	/**
+	 * Overridden to support custom ConfigReaders.
+	 */
+
+	@Override
+	public void initNestedPipeline(BasePipeline<W, C, Element, M> nestedPipeline, Map<String, String> attributes ) {
+
+		((W3CPipeline<W,C,M>) nestedPipeline).setConfigReader( getConfigReader() );
+		super.initNestedPipeline( nestedPipeline, attributes );
+	}
+
+
 	//
 	// Protected methods
 	//
-
-	/**
-	 * Gets the current <code>ConfigReader</code>, or creates a default one if one hasn't been set.
-	 * <p>
-	 * Subclasses wishing to set a different default should call <code>setConfigReader</code>. Care
-	 * should be taken to <em>reuse</em> the same <code>ConfigReader</code> instance as much as
-	 * possible, to maximize caching.
-	 */
-
-	protected final ConfigReader getConfigReader() {
-
-		if ( mConfigReader == null ) {
-			if ( DEFAULT_CONFIG_READER == null ) {
-				DEFAULT_CONFIG_READER = new BaseConfigReader();
-			}
-
-			mConfigReader = DEFAULT_CONFIG_READER;
-		}
-
-		return mConfigReader;
-	}
 
 	@Override
 	protected void configure() {
