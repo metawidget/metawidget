@@ -157,6 +157,7 @@ public class SwingWidgetBuilderTest
 		attributes.put( MAXIMUM_FRACTIONAL_DIGITS, "3" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 0.001d, ( (SpinnerNumberModel) spinner.getModel() ).getStepSize() );
+		assertEquals( 3, ( (JSpinner.NumberEditor) spinner.getEditor() ).getFormat().getMaximumFractionDigits() );
 
 		attributes.put( MINIMUM_VALUE, "-1.6" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
@@ -185,5 +186,13 @@ public class SwingWidgetBuilderTest
 		attributes.put( MAXIMUM_VALUE, "-1" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( -1d, spinner.getValue() );
+
+		attributes.put( MINIMUM_FRACTIONAL_DIGITS, "2" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( 2, ( (JSpinner.NumberEditor) spinner.getEditor() ).getFormat().getMinimumFractionDigits() );
+
+		attributes.put( MINIMUM_INTEGER_DIGITS, "4" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( 4, ( (JSpinner.NumberEditor) spinner.getEditor() ).getFormat().getMinimumIntegerDigits() );
 	}
 }

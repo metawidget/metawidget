@@ -19,6 +19,7 @@ package org.metawidget.swing.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -243,7 +244,26 @@ public class SwingWidgetBuilder
 				// Double.MAX_VALUE, this can be very large and mess up the layout. Here, we reset
 				// setColumns to 0.
 
-				( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
+				JSpinner.NumberEditor editor = (JSpinner.NumberEditor) spinner.getEditor();
+				editor.getTextField().setColumns( 0 );
+
+				DecimalFormat format = editor.getFormat();
+
+				if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) ) {
+					format.setMinimumFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ));
+				}
+
+				if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
+					format.setMaximumFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ));
+				}
+
+				if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) ) {
+					format.setMinimumIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ));
+				}
+
+				if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) ) {
+					format.setMaximumIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ));
+				}
 
 				return spinner;
 			}
