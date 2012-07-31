@@ -77,7 +77,10 @@ public class BaseTraitStyleConfig {
 	 * This can be useful when the base types define traits that are framework-specific, and should
 	 * be filtered out from 'real' business model traits.
 	 * <p>
-	 * By default, excludes any base types from <code>java.*</code> or <code>javax.*</code>.
+	 * By default, excludes any base types from <code>java.*</code> or <code>javax.*</code>. Note
+	 * this is not strictly JavaBean convention, because <code>Introspector.getBeanInfo</code> does
+	 * actually honor <code>getClass</code>. However, this is rarely what we want when inspecting
+	 * domain objects.
 	 *
 	 * @return this, as part of a fluent interface
 	 */

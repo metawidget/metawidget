@@ -278,9 +278,10 @@ public class JavaBeanPropertyStyle
 			return null;
 		}
 
-		if ( !StringUtils.isCapitalized( propertyName ) ) {
-			return null;
-		}
+		// Do not:
+		// if ( !StringUtils.isCapitalized( propertyName ) ) { return null; }
+		//
+		// See: https://community.jboss.org/message/751086
 
 		return StringUtils.decapitalize( propertyName );
 	}
@@ -376,9 +377,10 @@ public class JavaBeanPropertyStyle
 
 		String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
 
-		if ( !StringUtils.isCapitalized( propertyName ) ) {
-			return null;
-		}
+		// Do not:
+		// if ( !StringUtils.isCapitalized( propertyName ) ) { return null; }
+		//
+		// See: https://community.jboss.org/message/751086
 
 		return StringUtils.decapitalize( propertyName );
 	}

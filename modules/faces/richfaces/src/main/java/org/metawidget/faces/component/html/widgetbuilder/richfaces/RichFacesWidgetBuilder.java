@@ -29,7 +29,6 @@ import java.util.TimeZone;
 import javax.faces.application.Application;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
@@ -299,8 +298,6 @@ public class RichFacesWidgetBuilder
 				if ( facesSuggest != null ) {
 					UIComponent stubComponent = application.createComponent( UIStub.COMPONENT_TYPE );
 					List<UIComponent> children = stubComponent.getChildren();
-
-					UIViewRoot viewRoot = context.getViewRoot();
 
 					// Standard text box
 

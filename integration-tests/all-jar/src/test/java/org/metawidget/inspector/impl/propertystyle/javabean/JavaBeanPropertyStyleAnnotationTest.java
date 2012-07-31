@@ -16,13 +16,11 @@
 
 package org.metawidget.inspector.impl.propertystyle.javabean;
 
-import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -35,17 +33,13 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.MetawidgetTestUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class JavaBeanPropertyStyleTest
+public class JavaBeanPropertyStyleAnnotationTest
 	extends TestCase {
 
 	//
@@ -97,68 +91,6 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( properties.get( "methodSetterInSuper" ), null );
 		assertEquals( properties.get( "methodCovariant" ), null );
 		assertEquals( 6, properties.size() );
-	}
-
-	public void testExcludeReturnType() {
-
-		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig().setSupportPublicFields( true );
-
-		// Without excluded type
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
-
-		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 10, properties.size() );
-
-		assertEquals( "baz", properties.get( "baz" ).getName() );
-
-		// With excluded type
-
-		config.setExcludeReturnType( String.class );
-		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( Foo.class.getName() );
-
-		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 4, properties.size() );
-
-		assertEquals( "bar", properties.get( "bar" ).getName() );
-		assertEquals( "baz", properties.get( "baz" ).getName() );
-		assertEquals( "methodAbc", properties.get( "methodAbc" ).getName() );
-		assertEquals( "methodBaz", properties.get( "methodBaz" ).getName() );
-	}
-
-	public void testExcludeName() {
-
-		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig().setSupportPublicFields( true );
-
-		// Without excluded name
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( config );
-		Map<String, Property> properties = propertyStyle.getProperties( Foo.class.getName() );
-
-		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 10, properties.size() );
-
-		assertEquals( "baz", properties.get( "baz" ).getName() );
-
-		// With excluded name
-
-		config.setExcludeName( "bar", "baz" );
-		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( Foo.class.getName() );
-
-		assertTrue( properties instanceof TreeMap<?, ?> );
-		assertEquals( 8, properties.size() );
-
-		assertEquals( "foo", properties.get( "foo" ).getName() );
-		assertEquals( "methodAbc", properties.get( "methodAbc" ).getName() );
-		assertEquals( "methodBar", properties.get( "methodBar" ).getName() );
-		assertEquals( "methodBaz", properties.get( "methodBaz" ).getName() );
-		assertEquals( "methodCovariant", properties.get( "methodCovariant" ).getName() );
-		assertEquals( "methodFoo", properties.get( "methodFoo" ).getName() );
-		assertEquals( "methodGetterInSuper", properties.get( "methodGetterInSuper" ).getName() );
-		assertEquals( "methodSetterInSuper", properties.get( "methodSetterInSuper" ).getName() );
 	}
 
 	public void testSupportPublicFields() {
@@ -233,39 +165,6 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 	}
 
-	public void testPublicFieldAndGetter() {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-
-		try {
-			propertyStyle.getProperties( ErrorFoo.class.getName() );
-		} catch ( InspectorException e ) {
-			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public setter method. Should be one or the other", e.getMessage() );
-		}
-
-		try {
-			propertyStyle.getProperties( ErrorFoo2.class.getName() );
-		} catch ( InspectorException e ) {
-			assertEquals( "JavaBeanProperty 'public java.lang.String org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest$Foo.foo' has both a public member variable and a public getter method. Should be one or the other", e.getMessage() );
-		}
-	}
-
-	public void testClearCache()
-		throws Exception {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-
-		Field propertiesCacheField = BaseTraitStyle.class.getDeclaredField( "mCache" );
-		propertiesCacheField.setAccessible( true );
-		assertEquals( 0, ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
-
-		propertyStyle.getProperties( Foo.class.getName() );
-		assertEquals( 1, ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
-
-		propertyStyle.clearCache();
-		assertEquals( 0, ( (Map<?, ?>) propertiesCacheField.get( propertyStyle ) ).size() );
-	}
-
 	public void testPrivateFieldAndGetter() {
 
 		// No convention
@@ -329,71 +228,6 @@ public class JavaBeanPropertyStyleTest
 		assertFalse( properties.get( "abc" ).isAnnotationPresent( UiLarge.class ) );
 	}
 
-	public void testStrictJavaBeanConvention()
-		throws Exception {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		assertEquals( null, propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isBigBoolean1" ) ) );
-		assertEquals( "littleBoolean", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "isLittleBoolean" ) ) );
-		assertEquals( "bigBoolean2", propertyStyle.isGetter( StrictJavaBeanConventionFoo.class.getMethod( "getBigBoolean2" ) ) );
-	}
-
-	public void testExcludeOverriddenGetter() {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class.getName() );
-		assertTrue( properties.containsKey( "foo" ) );
-
-		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
-		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenGetterFoo" ) );
-		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( ExcludeOverriddenGetterFoo.class.getName() );
-		assertTrue( !properties.containsKey( "foo" ) );
-	}
-
-	public void testExcludeOverriddenSetter() {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class.getName() );
-		assertTrue( properties.containsKey( "foo" ) );
-
-		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
-		config.setExcludeBaseType( Pattern.compile( ".*SuperExcludeOverriddenSetterFoo" ) );
-		propertyStyle = new JavaBeanPropertyStyle( config );
-		properties = propertyStyle.getProperties( ExcludeOverriddenSetterFoo.class.getName() );
-		assertTrue( !properties.containsKey( "foo" ) );
-	}
-
-	public void testStaticMethods() {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) );
-		Map<String, Property> properties = propertyStyle.getProperties( StaticMethodsTest.class.getName() );
-		assertTrue( !properties.containsKey( "staticString" ) );
-		assertTrue( properties.containsKey( "nonStaticField" ) );
-		assertTrue( properties.containsKey( "nonStaticString" ) );
-		assertEquals( 2, properties.size() );
-	}
-
-	public void testAlphabeticalOrdering() {
-
-		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( AlphabeticalOrderingTest.class.getName() );
-		List<String> ordered = CollectionUtils.newArrayList( properties.keySet() );
-
-		assertEquals( "abc", ordered.get( 0 ) );
-		assertEquals( "bar", ordered.get( 1 ) );
-		assertEquals( "foo", ordered.get( 2 ) );
-		assertEquals( "WEPKey", ordered.get( 3 ) );
-		assertEquals( 4, ordered.size() );
-	}
-
-	public void testConfig() {
-
-		MetawidgetTestUtils.testEqualsAndHashcode( JavaBeanPropertyStyleConfig.class, new JavaBeanPropertyStyleConfig() {
-			// Subclass
-		} );
-	}
-
 	//
 	// Inner class
 	//
@@ -449,42 +283,6 @@ public class JavaBeanPropertyStyleTest
 
 		@Override
 		public String getMethodCovariant() {
-
-			return null;
-		}
-
-		public String getterIgnoreBecauseLowercase() {
-
-			return null;
-		}
-
-		/**
-		 * @param ignore
-		 */
-
-		public void setterIgnoreBecauseLowercase( String ignore ) {
-
-			// Do nothing
-		}
-	}
-
-	static class ErrorFoo
-		extends Foo {
-
-		/**
-		 * @param aFoo
-		 */
-
-		public void setFoo( String aFoo ) {
-
-			// Will error
-		}
-	}
-
-	static class ErrorFoo2
-		extends ErrorFoo {
-
-		public String getFoo() {
 
 			return null;
 		}
@@ -627,151 +425,6 @@ public class JavaBeanPropertyStyleTest
 		public void setBaz( String baz ) {
 
 			// Do nothing
-		}
-	}
-
-	static class StrictJavaBeanConventionFoo {
-
-		public Boolean isBigBoolean1() {
-
-			return null;
-		}
-
-		public boolean isLittleBoolean() {
-
-			return false;
-		}
-
-		public Boolean getBigBoolean2() {
-
-			return null;
-		}
-	}
-
-	static class SuperExcludeOverriddenGetterFoo {
-
-		public String getFoo() {
-
-			return null;
-		}
-	}
-
-	static class ExcludeOverriddenGetterFoo
-		extends SuperExcludeOverriddenGetterFoo {
-
-		@Override
-		public String getFoo() {
-
-			return null;
-		}
-
-		/**
-		 * @param foo
-		 *            not stored
-		 */
-
-		public void setFoo( String foo ) {
-
-			// Do nothing
-		}
-	}
-
-	static class SuperExcludeOverriddenSetterFoo {
-
-		/**
-		 * @param foo
-		 *            not stored
-		 */
-
-		public void setFoo( String foo ) {
-
-			// Do nothing
-		}
-	}
-
-	static class ExcludeOverriddenSetterFoo
-		extends SuperExcludeOverriddenSetterFoo {
-
-		public String getFoo() {
-
-			return null;
-		}
-
-		/**
-		 * @param foo
-		 *            not stored
-		 */
-
-		@Override
-		public void setFoo( String foo ) {
-
-			// Do nothing
-		}
-	}
-
-	static class StaticMethodsTest {
-
-		public static String	staticString;
-
-		public static String getStaticString() {
-
-			return null;
-		}
-
-		public static void setStaticString( String aStaticString ) {
-
-			staticString = aStaticString;
-		}
-
-		public String	nonStaticField;
-
-		public String getNonStaticString() {
-
-			return null;
-		}
-
-		public void setNonStaticString( String aNonStaticString ) {
-
-			nonStaticField = aNonStaticString;
-		}
-	}
-
-	static class AlphabeticalOrderingTest {
-
-		//
-		// Private members
-		//
-
-		private String	WEPKey;
-
-		private String	foo;
-
-		private String	bar;
-
-		private String	abc;
-
-		//
-		// Public methods
-		//
-
-		public String getWEPKey() {
-
-			return WEPKey;
-		}
-
-		public String getFoo() {
-
-			return foo;
-		}
-
-		public String getBar() {
-
-			return bar;
-		}
-
-		public String getAbc() {
-
-			return abc;
 		}
 	}
 }
