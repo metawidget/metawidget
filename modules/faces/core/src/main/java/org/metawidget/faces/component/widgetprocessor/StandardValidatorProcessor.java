@@ -25,6 +25,7 @@ import javax.faces.application.Application;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.BeanValidator;
 import javax.faces.validator.DoubleRangeValidator;
 import javax.faces.validator.LengthValidator;
 import javax.faces.validator.LongRangeValidator;
@@ -43,6 +44,31 @@ public class StandardValidatorProcessor
 	implements WidgetProcessor<UIComponent, UIMetawidget> {
 
 	//
+	// Private statics
+	//
+
+	private static final boolean	BEAN_VALIDATION_AVAILABLE;
+
+	static {
+
+		boolean isBeanValidationAvailable;
+
+		try {
+
+			// This is how MyFaces does it (javax.faces.validator._ExternalSpecifications)
+
+			Class.forName( "javax.validation.Validation" );
+			isBeanValidationAvailable = true;
+
+		} catch ( ClassNotFoundException e ) {
+
+			isBeanValidationAvailable = false;
+		}
+
+		BEAN_VALIDATION_AVAILABLE = isBeanValidationAvailable;
+	}
+
+	//
 	// Public methods
 	//
 
@@ -59,6 +85,17 @@ public class StandardValidatorProcessor
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
+		// If JSF 2, just use a BeanValidator. See
+		// https://issues.apache.org/jira/browse/MYFACES-3299
+
+		if ( isBeanValidationAvailable() ) {
+
+			BeanValidator validator = (BeanValidator) application.createValidator( BeanValidator.VALIDATOR_ID );
+			editableValueHolder.addValidator( validator );
+
+			return component;
+		}
+
 		// Range
 
 		String minimumValue = attributes.get( MINIMUM_VALUE );
@@ -73,7 +110,7 @@ public class StandardValidatorProcessor
 
 			if ( double.class.getName().equals( type ) || Double.class.getName().equals( type ) ) {
 				if ( !hasExistingValidator( editableValueHolder, DoubleRangeValidator.class ) ) {
-					DoubleRangeValidator validator = (DoubleRangeValidator) application.createValidator( "javax.faces.DoubleRange" );
+					DoubleRangeValidator validator = (DoubleRangeValidator) application.createValidator( DoubleRangeValidator.VALIDATOR_ID );
 					editableValueHolder.addValidator( validator );
 
 					if ( minimumValue != null && !"".equals( minimumValue ) ) {
@@ -86,7 +123,7 @@ public class StandardValidatorProcessor
 				}
 			} else {
 				if ( !hasExistingValidator( editableValueHolder, LongRangeValidator.class ) ) {
-					LongRangeValidator validator = (LongRangeValidator) application.createValidator( "javax.faces.LongRange" );
+					LongRangeValidator validator = (LongRangeValidator) application.createValidator( LongRangeValidator.VALIDATOR_ID );
 					editableValueHolder.addValidator( validator );
 
 					if ( minimumValue != null && !"".equals( minimumValue ) ) {
@@ -107,7 +144,7 @@ public class StandardValidatorProcessor
 
 		if ( minimumLength != null || maximumLength != null ) {
 			if ( !hasExistingValidator( editableValueHolder, LengthValidator.class ) ) {
-				LengthValidator validator = (LengthValidator) application.createValidator( "javax.faces.Length" );
+				LengthValidator validator = (LengthValidator) application.createValidator( LengthValidator.VALIDATOR_ID );
 
 				if ( minimumLength != null && !"".equals( minimumLength ) ) {
 					validator.setMinimum( Integer.parseInt( minimumLength ) );
@@ -122,6 +159,19 @@ public class StandardValidatorProcessor
 		}
 
 		return component;
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Exposed for unit tests.
+	 */
+
+	protected boolean isBeanValidationAvailable() {
+
+		return BEAN_VALIDATION_AVAILABLE;
 	}
 
 	//

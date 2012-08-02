@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.BeanValidator;
 import javax.faces.validator.DoubleRangeValidator;
 import javax.faces.validator.LengthValidator;
 import javax.faces.validator.LongRangeValidator;
@@ -57,7 +58,12 @@ public class StandardValidatorProcessorTest
 	public void testWidgetProcessor()
 		throws Exception {
 
-		StandardValidatorProcessor processor = new StandardValidatorProcessor();
+		StandardValidatorProcessor processor = new StandardValidatorProcessor() {
+			@Override
+			protected boolean isBeanValidationAvailable() {
+				return false;
+			}
+		};
 
 		// Only EditableValueHolders
 
@@ -108,6 +114,15 @@ public class StandardValidatorProcessorTest
 		assertEquals( 3, htmlInputText.getValidators().length );
 		assertEquals( 3, ( (LengthValidator) htmlInputText.getValidators()[2] ).getMinimum() );
 		assertEquals( 10, ( (LengthValidator) htmlInputText.getValidators()[2] ).getMaximum() );
+
+		// JSF 2
+
+		processor = new StandardValidatorProcessor();
+
+		htmlInputText = new HtmlInputText();
+		assertEquals( htmlInputText, processor.processWidget( htmlInputText, PROPERTY, null, null ) );
+		assertTrue( htmlInputText.getValidators()[0] instanceof BeanValidator );
+		assertEquals( 1, htmlInputText.getValidators().length );
 	}
 
 	//

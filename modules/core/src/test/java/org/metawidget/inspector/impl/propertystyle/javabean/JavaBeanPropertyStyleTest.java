@@ -248,7 +248,7 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( propertyDescriptors.containsKey( "class" ) );
 		assertEquals( 4, propertyDescriptors.size() );
 
-		// JavaBeanPropertyStyle
+		// JavaBeanPropertyStyle (follow the broken Introspector implementation)
 
 		properties = new JavaBeanPropertyStyle().getProperties( UppercaseLowerCaseTest.class.getName() );
 		assertTrue( properties.containsKey( "aFIELD" ) );

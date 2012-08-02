@@ -77,6 +77,7 @@ import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.render.RenderKit;
+import javax.faces.validator.BeanValidator;
 import javax.faces.validator.DoubleRangeValidator;
 import javax.faces.validator.LengthValidator;
 import javax.faces.validator.LongRangeValidator;
@@ -362,16 +363,20 @@ public class FacesMetawidgetTests {
 				public Validator createValidator( String validatorName )
 					throws FacesException {
 
-					if ( "javax.faces.LongRange".equals( validatorName ) ) {
+					if ( LongRangeValidator.VALIDATOR_ID.equals( validatorName ) ) {
 						return new LongRangeValidator();
 					}
 
-					if ( "javax.faces.DoubleRange".equals( validatorName ) ) {
+					if ( DoubleRangeValidator.VALIDATOR_ID.equals( validatorName ) ) {
 						return new DoubleRangeValidator();
 					}
 
-					if ( "javax.faces.Length".equals( validatorName ) ) {
+					if ( LengthValidator.VALIDATOR_ID.equals( validatorName ) ) {
 						return new LengthValidator();
+					}
+
+					if ( BeanValidator.VALIDATOR_ID.equals( validatorName ) ) {
+						return new BeanValidator();
 					}
 
 					throw new UnsupportedOperationException( "Unknown validator '" + validatorName + "'" );
