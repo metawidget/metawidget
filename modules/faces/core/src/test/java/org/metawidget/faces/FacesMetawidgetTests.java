@@ -493,18 +493,7 @@ public class FacesMetawidgetTests {
 				@Override
 				public Converter createConverter( final String converterId ) {
 
-					return new Converter() {
-
-						public Object getAsObject( FacesContext context, UIComponent component, String value ) {
-
-							return value;
-						}
-
-						public String getAsString( FacesContext context, UIComponent component, Object value ) {
-
-							return value + " (from converter " + converterId + ")";
-						}
-					};
+					return new MockConverter( converterId );
 				}
 
 				@Override
@@ -1268,6 +1257,40 @@ public class FacesMetawidgetTests {
 			throw new UnsupportedOperationException();
 		}
 	}
+
+	public static class MockConverter
+		implements Converter {
+
+		private String	mConverterId;
+
+		//
+		// Constructor
+		//
+
+		public MockConverter( String converterId ) {
+
+			mConverterId = converterId;
+		}
+
+		//
+		// Public methods
+		//
+
+		public Object getAsObject( FacesContext context, UIComponent component, String value ) {
+
+			return value;
+		}
+
+		public String getAsString( FacesContext context, UIComponent component, Object value ) {
+
+			return value + " (from converter " + mConverterId + ")";
+		}
+
+		public String toString() {
+
+			return mConverterId;
+		}
+	};
 
 	//
 	// Private constructor

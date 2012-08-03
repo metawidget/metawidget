@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:m="http://metawidget.org/faces"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{petBean.page}"/>
+		<f:event type="preRenderView" listener="#{petBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Pet entities"/>
+
+	<ui:define name="header">
+		Pet
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Pet entities
+	</ui:define>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<m:metawidget value="#{petBean.search}" config="config/metawidget-search.xml">
+				<f:facet name="footer">
+					<m:metawidget value="#{petBean}" config="config/metawidget-action.xml"/>
+				</f:facet>
+			</m:metawidget>
+			
+			<m:metawidget value="#{petBean.pageItems}" config="config/metawidget-results.xml" inspectFromParent="true">
+				<f:param name="dataTableRowAction" value="petBean.view"/>
+			</m:metawidget>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{petBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

@@ -74,7 +74,7 @@ public final class StringUtils {
 			return in;
 		}
 
-		// All uppercase?
+		// Second letter uppercase?
 
 		if ( in.length() > 1 ) {
 			if ( Character.isUpperCase( in.charAt( 1 ) ) ) {
@@ -87,9 +87,21 @@ public final class StringUtils {
 
 	/**
 	 * Capitalize by uppercasing the first letter of the given String.
+	 * <p>
+	 * The rules for capitalizing are not clearly defined in <tt>java.beans.Introspector</tt>, but
+	 * we try to make <code>capitalize</code> the inverse of <code>decapitalize</code> (this
+	 * includes the 'second character' clause).
 	 */
 
 	public static String capitalize( String in ) {
+
+		// Second letter uppercase?
+
+		if ( in.length() > 1 ) {
+			if ( Character.isUpperCase( in.charAt( 1 ) ) ) {
+				return in;
+			}
+		}
 
 		return Character.toUpperCase( in.charAt( 0 ) ) + in.substring( 1 );
 	}

@@ -17,6 +17,7 @@
 package org.metawidget.faces.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Date;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class StandardConverterProcessorTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "deprecation" )
 	public void testWidgetProcessor()
 		throws Exception {
 
@@ -73,9 +75,24 @@ public class StandardConverterProcessorTest
 		assertEquals( null, htmlInputText.getConverter() );
 		assertEquals( null, htmlInputText.getLabel() );
 
+		// Explicit converter
+
+		attributes.put( FACES_CONVERTER_ID, "fooConverter" );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		assertEquals( "fooConverter", htmlInputText.getConverter().toString() );
+
+		// Explicit EL-based converter
+
+		attributes.put( FACES_CONVERTER_ID, "#{foo.converter}" );
+		htmlInputText = new HtmlInputText();
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		assertEquals( "#{foo.converter}", htmlInputText.getValueBinding( "converter" ).getExpressionString() );
+		attributes.remove( FACES_CONVERTER_ID );
+
 		// Implicit DateTimeConverter
 
 		attributes.put( TYPE, Date.class.getName() );
+		htmlInputText = new HtmlInputText();
 		processor.processWidget( htmlInputText, PROPERTY, attributes, new HtmlMetawidget() );
 		assertTrue( htmlInputText.getConverter() instanceof DateTimeConverter );
 		htmlInputText = new HtmlInputText();

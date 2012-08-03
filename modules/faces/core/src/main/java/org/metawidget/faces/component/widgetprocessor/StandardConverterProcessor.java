@@ -34,6 +34,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.ClassUtils;
@@ -107,7 +108,21 @@ public class StandardConverterProcessor
 			return component;
 		}
 
+		// Defer evaluation of EL-based converters, else we will fail trying to store/restore them
+		// from the ViewState
+
 		ValueHolder valueHolder = (ValueHolder) component;
+		String converterId = attributes.get( FACES_CONVERTER_ID );
+
+		if ( converterId != null && FacesUtils.isExpression( converterId ) ) {
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			component.setValueBinding( "converter", context.getApplication().createValueBinding( converterId ) );
+			return component;
+		}
+
+		// Standard Converter
+
 		valueHolder.setConverter( getConverter( valueHolder, attributes ) );
 
 		return component;
@@ -129,6 +144,7 @@ public class StandardConverterProcessor
 		String converterId = attributes.get( FACES_CONVERTER_ID );
 
 		if ( converterId != null ) {
+
 			converter = context.getApplication().createConverter( converterId );
 
 		} else if ( valueHolder instanceof UISelectOne || valueHolder instanceof UISelectMany ) {

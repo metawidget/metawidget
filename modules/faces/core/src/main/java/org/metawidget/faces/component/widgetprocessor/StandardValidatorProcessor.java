@@ -85,7 +85,7 @@ public class StandardValidatorProcessor
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		// If JSF 2, just use a BeanValidator. See
+		// If Bean Validation is available, just use a BeanValidator. See
 		// https://issues.apache.org/jira/browse/MYFACES-3299
 
 		if ( isBeanValidationAvailable() ) {

@@ -35,7 +35,8 @@ public @interface UiFacesConverter {
 
 	/**
 	 * The id of the converter, must match that defined in <code>faces-config.xml</code>'s
-	 * <code>&lt;converter-id&gt;</code>.
+	 * <code>&lt;converter-id&gt;</code>. This can also be an expression of the form
+	 * <code>#{...}</code>.
 	 */
 
 	String value();

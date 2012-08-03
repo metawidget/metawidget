@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:m="http://metawidget.org/faces"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{petBean.id}"/>
+		<f:event type="preRenderView" listener="#{petBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Pet"/>
+
+	<ui:define name="header">
+		Pet
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Pet
+	</ui:define>
+
+	<ui:define name="main">
+	
+		<m:metawidget value="#{petBean.pet}" config="config/metawidget-entity.xml" readOnly="true">
+			<f:facet name="footer">
+				<h:panelGroup>
+					<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+					<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+					<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+				</h:panelGroup>
+			</f:facet>
+		</m:metawidget>
+
+	</ui:define>
+
+</ui:composition>

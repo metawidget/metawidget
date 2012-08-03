@@ -44,7 +44,8 @@ public class StringUtilsTest
 		assertEquals( "FooBah", StringUtils.capitalize( "fooBah" ) );
 		assertEquals( "X", StringUtils.capitalize( "x" ) );
 		assertEquals( "URL", StringUtils.capitalize( "URL" ) );
-		assertEquals( "ID", StringUtils.capitalize( "iD" ) );
+		assertEquals( "ID", StringUtils.capitalize( "ID" ) );
+		assertEquals( "aFIELD", StringUtils.capitalize( "aFIELD" ) );
 	}
 
 	public void testDecapitalize()
@@ -54,6 +55,7 @@ public class StringUtilsTest
 		assertEquals( "x", StringUtils.decapitalize( "X" ) );
 		assertEquals( "URL", StringUtils.decapitalize( "URL" ) );
 		assertEquals( "ID", StringUtils.decapitalize( "ID" ) );
+		assertEquals( "aFIELD", StringUtils.decapitalize( "aFIELD" ) );
 	}
 
 	public void testCamelCase()

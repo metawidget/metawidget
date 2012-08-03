@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
+		<parameter>
+			<string>columnClasses</string>
+			<string>label,component,required</string>
+		</parameter>
+		<parameter>
+			<string>footerStyleClass</string>
+			<string>buttons</string>
+		</parameter>	
+		<parameter>
+			<string>messageStyleClass</string>
+			<string>error</string>
+		</parameter>
+	
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" />
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" id="forgeStyle" config="JavaBeanPropertyStyleConfig">
+									<privateFieldConvention>
+										<format>{0}</format>
+									</privateFieldConvention>								
+								</javaBeanPropertyStyle>
+							</propertyStyle>						
+						</metawidgetAnnotationInspector>
+						<jpaInspector xmlns="java:org.metawidget.inspector.jpa" config="JpaInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle refId="forgeStyle"/>
+							</propertyStyle>
+						</jpaInspector>
+						<beanValidationInspector xmlns="java:org.metawidget.inspector.beanvalidation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle refId="forgeStyle"/>
+							</propertyStyle>
+						</beanValidationInspector>
+						<facesAnnotationInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<javaBeanPropertyStyle refId="forgeStyle"/>
+							</propertyStyle>
+						</facesAnnotationInspector>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
+							<dataTableStyleClass>
+								<string>data-table</string>
+							</dataTableStyleClass>
+						</htmlWidgetBuilder>						
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>
+		
+	</htmlMetawidget>
+
+</metawidget>

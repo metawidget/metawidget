@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:m="http://metawidget.org/faces"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{personBean.page}"/>
+		<f:event type="preRenderView" listener="#{personBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Person entities"/>
+
+	<ui:define name="header">
+		Person
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Person entities
+	</ui:define>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<m:metawidget value="#{personBean.search}" config="config/metawidget-search.xml">
+				<m:stub value="#{personBean.search.pets}"/>
+				<f:facet name="footer">
+					<m:metawidget value="#{personBean}" config="config/metawidget-action.xml"/>
+				</f:facet>
+			</m:metawidget>
+			
+			<m:metawidget value="#{personBean.pageItems}" config="config/metawidget-results.xml" inspectFromParent="true">
+				<f:param name="dataTableRowAction" value="personBean.view"/>
+			</m:metawidget>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{personBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

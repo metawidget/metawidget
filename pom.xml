@@ -858,6 +858,9 @@
 					</configuration>
 					<!-- These executions are profile dependent -->
 				</plugin>
+				
+				<!-- Need jboss-maven-plugin until https://issues.jboss.org/browse/ARQ-556 -->
+				
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>jboss-maven-plugin</artifactId>

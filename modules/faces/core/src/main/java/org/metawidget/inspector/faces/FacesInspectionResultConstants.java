@@ -47,6 +47,9 @@ public final class FacesInspectionResultConstants {
 
 	public static final String	FACES_AJAX_ACTION		= "faces-ajax-action";
 
+	// REFACTOR: this should probably be simply FACES_CONVERTER (no _ID), since it can be an EL
+	// expression
+
 	public static final String	FACES_CONVERTER_ID		= "faces-converter-id";
 
 	/**
