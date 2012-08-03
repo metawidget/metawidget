@@ -76,8 +76,6 @@ public class PetBean
 	@UiAction
 	public String create() {
 
-		// TODO: /faces/faces?
-
 		mConversation.begin();
 		return "create?faces-redirect=true";
 	}
