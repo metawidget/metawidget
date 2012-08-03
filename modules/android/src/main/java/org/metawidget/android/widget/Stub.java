@@ -88,7 +88,7 @@ public class Stub
 
 			name = name.substring( ATTRIBUTE_PREFIX.length() );
 
-			if ( !StringUtils.isCapitalized( name ) ) {
+			if ( !Character.isUpperCase( name.charAt( 0 ) ) ) {
 				continue;
 			}
 

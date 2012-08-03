@@ -107,19 +107,6 @@ public final class StringUtils {
 	}
 
 	/**
-	 * Returns true if the first letter of the given String is in uppercase.
-	 */
-
-	public static boolean isCapitalized( String in ) {
-
-		if ( in.length() == 0 ) {
-			return false;
-		}
-
-		return Character.isUpperCase( in.charAt( 0 ) );
-	}
-
-	/**
 	 * Converts the given string from camel case.
 	 * <p>
 	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>.

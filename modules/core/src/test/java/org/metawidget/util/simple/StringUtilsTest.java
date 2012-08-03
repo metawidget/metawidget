@@ -29,15 +29,6 @@ public class StringUtilsTest
 	// Public methods
 	//
 
-	public void testIsCapitalized()
-		throws Exception {
-
-		assertEquals( false, StringUtils.isCapitalized( "" ) );
-		assertEquals( false, StringUtils.isCapitalized( "ab" ) );
-		assertTrue( StringUtils.isCapitalized( "Ab" ) );
-		assertTrue( StringUtils.isCapitalized( "ID" ) );
-	}
-
 	public void testCapitalize()
 		throws Exception {
 
@@ -45,7 +36,11 @@ public class StringUtilsTest
 		assertEquals( "X", StringUtils.capitalize( "x" ) );
 		assertEquals( "URL", StringUtils.capitalize( "URL" ) );
 		assertEquals( "ID", StringUtils.capitalize( "ID" ) );
+
+		// See: https://community.jboss.org/thread/203202?start=0&tstart=0
+
 		assertEquals( "aFIELD", StringUtils.capitalize( "aFIELD" ) );
+		assertEquals( "aI", StringUtils.capitalize( "aI" ) );
 	}
 
 	public void testDecapitalize()
@@ -56,6 +51,7 @@ public class StringUtilsTest
 		assertEquals( "URL", StringUtils.decapitalize( "URL" ) );
 		assertEquals( "ID", StringUtils.decapitalize( "ID" ) );
 		assertEquals( "aFIELD", StringUtils.decapitalize( "aFIELD" ) );
+		assertEquals( "aI", StringUtils.decapitalize( "aI" ) );
 	}
 
 	public void testCamelCase()
