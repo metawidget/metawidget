@@ -9,11 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
-import org.metawidget.inspector.faces.UiFacesConverter;
 import org.metawidget.inspector.faces.UiFacesLookup;
 
 @Entity
@@ -38,11 +38,14 @@ public class Pet
 
 	@ManyToOne
 	@UiFacesLookup( "#{personBean.all}" )
-	@UiFacesConverter( "#{personBean.converter}" )
 	@UiComesAfter( "name" )
 	private Person	owner;
 
 	@UiComesAfter( "owner" )
+	@Max( 100 )
+	private int		age;
+
+	@UiComesAfter( "age" )
 	private boolean	deceased;
 
 	//
@@ -84,9 +87,19 @@ public class Pet
 		return this.owner;
 	}
 
-	public void setOwner( final Person _owner) {
+	public void setOwner( final Person _owner ) {
 
 		this.owner = _owner;
+	}
+
+	public int getAge() {
+
+		return this.age;
+	}
+
+	public void setAge( final int _age ) {
+
+		this.age = _age;
 	}
 
 	public boolean isDeceased() {
@@ -94,7 +107,7 @@ public class Pet
 		return this.deceased;
 	}
 
-	public void setDeceased( final boolean _deceased) {
+	public void setDeceased( final boolean _deceased ) {
 
 		this.deceased = _deceased;
 	}

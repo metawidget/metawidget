@@ -13,6 +13,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -261,33 +262,32 @@ public class PersonBean
 		return mEntityManager.createQuery( criteria.select( criteria.from( Person.class ) ) ).getResultList();
 	}
 
-	public Converter getConverter() {
+	@FacesConverter( forClass = Person.class )
+	public static class PersonConverter
+		implements Converter {
 
-		return new Converter() {
+		@Override
+		public Object getAsObject( FacesContext context, UIComponent component, String value ) {
 
-			@Override
-			public Object getAsObject( FacesContext context, UIComponent component, String value ) {
+			// EntityManager injection not reliable on all platforms
 
-				// Avoid using EntityManager injection, gave a NullPointerException
+			Person person = new Person();
+			person.setId( Long.valueOf( value ) );
+			return person;
+		}
 
-				Person person = new Person();
-				person.setId( Long.valueOf( value ) );
-				return person;
+		@Override
+		public String getAsString( FacesContext context, UIComponent component, Object value ) {
+
+			if ( value == null ) {
+				return "";
 			}
 
-			@Override
-			public String getAsString( FacesContext context, UIComponent component, Object value ) {
-
-				if ( value == null ) {
-					return "";
-				}
-
-				if ( component instanceof UIInput ) {
-					return String.valueOf( ( (Person) value ).getId() );
-				}
-
-				return value.toString();
+			if ( component instanceof UIInput ) {
+				return String.valueOf( ( (Person) value ).getId() );
 			}
-		};
+
+			return value.toString();
+		}
 	}
 }

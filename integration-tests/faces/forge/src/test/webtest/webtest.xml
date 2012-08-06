@@ -210,12 +210,17 @@
 				<verifyXPath xpath="count(/html/body/div/div[2]/form/table/tbody/tr[2]/td[1]/select/option)" text="2" />
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[2]/th/label/@for" text="search:petBeanSearchOwner" />
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[2]/td[2]" text="" />
-				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/form/table/tbody/tr[3]/th/label)" text="Deceased:" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@type" text="checkbox" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@name" text="search:petBeanSearchDeceased" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/th/label/@for" text="search:petBeanSearchDeceased" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[2]" text="" />
-				<verifyXPath xpath="count(/html/body/div/div[2]/form/table[1]/tbody/tr)" text="3" />
+				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/form/table/tbody/tr[3]/th/label)" text="Age:" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@type" text="text" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@name" text="search:petBeanSearchAge" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/th/label/@for" text="search:petBeanSearchAge" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[2]" text="" />				
+				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/form/table/tbody/tr[4]/th/label)" text="Deceased:" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[1]/input/@type" text="checkbox" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[1]/input/@name" text="search:petBeanSearchDeceased" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/th/label/@for" text="search:petBeanSearchDeceased" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[2]" text="" />
+				<verifyXPath xpath="count(/html/body/div/div[2]/form/table[1]/tbody/tr)" text="4" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/input[1]/@name" text="search:petBeanCreate" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/input[2]/@name" text="search:petBeanSearch" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[1]" text="Name" />
@@ -241,18 +246,28 @@
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[2]/td[1]/select/@name" text="create:petBeanPetOwner" />
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[2]/th/label/@for" text="create:petBeanPetOwner" />
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[2]/td[2]" text="" />
-				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/form/table/tbody/tr[3]/th/label)" text="Deceased:" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@type" text="checkbox" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@name" text="create:petBeanPetDeceased" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/th/label/@for" text="create:petBeanPetDeceased" />
-				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[2]" text="" />
-				<verifyXPath xpath="count(/html/body/div/div[2]/form/table/tbody/tr)" text="3" />
+				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/form/table/tbody/tr[3]/th/label)" text="Age:" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@type" text="text" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[1]/input/@name" text="create:petBeanPetAge" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/th/label/@for" text="create:petBeanPetAge" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[3]/td[2]" text="" />				
+				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/form/table/tbody/tr[4]/th/label)" text="Deceased:" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[1]/input/@type" text="checkbox" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[1]/input/@name" text="create:petBeanPetDeceased" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/th/label/@for" text="create:petBeanPetDeceased" />
+				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[2]" text="" />
+				<verifyXPath xpath="count(/html/body/div/div[2]/form/table/tbody/tr)" text="4" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/a[1]" text="Save" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/a[2]" text="Cancel" />
 
 				<setInputField name="create:petBeanPetName" value="Alfred's Dog" />
 				<setSelectField name="create:petBeanPetOwner" value="1" />
+				<setInputField name="create:petBeanPetAge" value="101" />
+				
+				<clickLink label="Save" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tbody/tr[3]/td/span" text="must be less than or equal to 100" />
 
+				<setInputField name="create:petBeanPetAge" value="7" />
 				<clickLink label="Save" />
 
 				<!-- Search -->
@@ -275,12 +290,17 @@
 				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[2]/td[1]/span/@id" text="petBeanPetOwner" />
 				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[2]/th/label/@for" text="petBeanPetOwner" />
 				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[2]/td[2]" text="" />
-				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/table/tbody/tr[3]/th/label)" text="Deceased:" />
-				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/td[1]/span" text="false" />
-				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/td[1]/span/@id" text="petBeanPetDeceased" />
-				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/th/label/@for" text="petBeanPetDeceased" />
+				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/table/tbody/tr[3]/th/label)" text="Age:" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/td[1]/span" text="7" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/td[1]/span/@id" text="petBeanPetAge" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/th/label/@for" text="petBeanPetAge" />
 				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[3]/td[2]" text="" />
-				<verifyXPath xpath="count(/html/body/div/div[2]/table/tbody/tr)" text="3" />
+				<verifyXPath xpath="normalize-space(/html/body/div/div[2]/table/tbody/tr[4]/th/label)" text="Deceased:" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[4]/td[1]/span" text="false" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[4]/td[1]/span/@id" text="petBeanPetDeceased" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[4]/th/label/@for" text="petBeanPetDeceased" />
+				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[4]/td[2]" text="" />
+				<verifyXPath xpath="count(/html/body/div/div[2]/table/tbody/tr)" text="4" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/table/tfoot/tr/td/a[1]" text="View All" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/table/tfoot/tr/td/a[2]" text="Edit" />
 				<verifyXPath xpath="/html/body/div[2]/div[2]/table/tfoot/tr/td/a[3]" text="Create New" />
