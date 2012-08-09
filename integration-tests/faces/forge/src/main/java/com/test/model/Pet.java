@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.faces.UiFacesConverter;
 import org.metawidget.inspector.faces.UiFacesLookup;
 
 @Entity
@@ -38,6 +39,7 @@ public class Pet
 
 	@ManyToOne
 	@UiFacesLookup( "#{personBean.all}" )
+	@UiFacesConverter( "#{personBean.converter}" )
 	@UiComesAfter( "name" )
 	private Person	owner;
 
