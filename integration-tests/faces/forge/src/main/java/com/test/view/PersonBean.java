@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -13,7 +15,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -106,8 +107,13 @@ public class PersonBean
 		if ( mId == null ) {
 			mPerson = mSearch;
 		} else {
-			mPerson = mEntityManager.find( Person.class, getId() );
+			mPerson = findById( getId() );
 		}
+	}
+
+	public Person findById( Long id ) {
+
+		return mEntityManager.find( Person.class, id );
 	}
 
 	/*
@@ -136,7 +142,7 @@ public class PersonBean
 		mConversation.end();
 
 		try {
-			mEntityManager.remove( mEntityManager.find( Person.class, getId() ) );
+			mEntityManager.remove( findById( getId() ));
 			mEntityManager.flush();
 			return "search?faces-redirect=true";
 		} catch ( Exception e ) {
@@ -262,32 +268,32 @@ public class PersonBean
 		return mEntityManager.createQuery( criteria.select( criteria.from( Person.class ) ) ).getResultList();
 	}
 
-	@FacesConverter( forClass = Person.class )
-	public static class PersonConverter
-		implements Converter {
+	@Resource
+	SessionContext	mSessionContext;
 
-		@Override
-		public Object getAsObject( FacesContext context, UIComponent component, String value ) {
+	public Converter getConverter() {
 
-			// EntityManager injection not reliable on all platforms
+		return new Converter() {
 
-			Person person = new Person();
-			person.setId( Long.valueOf( value ) );
-			return person;
-		}
+			@Override
+			public Object getAsObject( FacesContext context, UIComponent component, String value ) {
 
-		@Override
-		public String getAsString( FacesContext context, UIComponent component, Object value ) {
-
-			if ( value == null ) {
-				return "";
+				return mSessionContext.getBusinessObject( PersonBean.class ).findById( Long.valueOf( value ) );
 			}
 
-			if ( component instanceof UIInput ) {
-				return String.valueOf( ( (Person) value ).getId() );
-			}
+			@Override
+			public String getAsString( FacesContext context, UIComponent component, Object value ) {
 
-			return value.toString();
-		}
+				if ( value == null ) {
+					return "";
+				}
+
+				if ( component instanceof UIInput ) {
+					return String.valueOf( ( (Person) value ).getId() );
+				}
+
+				return value.toString();
+			}
+		};
 	}
 }
