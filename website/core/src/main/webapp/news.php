@@ -4,6 +4,29 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v2.4 Released!</h3>
+		<h4>12th August 2012</h4>
+		
+		<p>
+			Metawidget v2.4 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li><a href="http://blog.kennardconsulting.com/2012/07/metawidget-on-mojarra.html">Mojarra</a> support</li>
+			<li>Support for <a href="https://issues.jboss.org/browse/FORGE-619">unusual capitalization in JBoss Forge</a></li>
+			<li><a href="http://sourceforge.net/projects/metawidget/forums/forum/747623/topic/5473984">JSpinner minimum/maximum fractional digits</a></li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v2.3 Released!</h3>
 		<h4>10th July 2012</h4>
 		
