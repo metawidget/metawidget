@@ -87,7 +87,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * However by extending <code>UIInput</code>, we enable this useful capability.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -808,6 +808,13 @@ public abstract class UIMetawidget
 		}
 	}
 
+	/**
+	 * Build widgets for the given value binding.
+	 * <p>
+	 * Subclasses can override this method as a common entry point regardless of whether
+	 * PreRenderViewEventSupport (JSF2) or EncodeBeginSupport (JSF1) is being used.
+	 */
+
 	protected void buildWidgets()
 		throws Exception {
 
@@ -991,7 +998,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 *
+	 * 
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
