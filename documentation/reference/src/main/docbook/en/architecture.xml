@@ -12,7 +12,7 @@
 			of back-end architectures and many different types of front-end frameworks. Metawidget's approach
 			to managing this diversity is not to define lots of little 'flags' to tweak lots of variables, but to
 			establish a pipeline with plug-in points along the way for your own custom classes.
-			This five-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
+			This five stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
 			is co-ordinated by a platform-specific Metawidget class
 			(e.g. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidgetTag</classname> etc) as shown on the left. 
 		</para>
@@ -41,7 +41,7 @@
 		-->
 		
 		<figure id="chapter-architecture-overall">
-			<title>Metawidget uses a five-stage pipeline</title>
+			<title>Metawidget uses a five stage pipeline</title>
 			<screenshot>
 				<graphic fileref="images/activitydiagrams/architecture.png" width="140mm"/>
 			</screenshot>			
@@ -101,6 +101,13 @@
 			of this for you, but if you are instantiating them in Java code you should
 			reuse instances. Keeping everything immutable allows Metawidget to be performant at the
 			same time as being pluggable.
+		</tip>
+
+		<tip>
+			<title>Research</title>
+			The five stage pipeline is the result of many years of developer interviews, case studies and research. For complete details
+			of the theoretical foundations underpinning Metawidget, please see
+			<ulink url="http://metawidget.org/media/downloads/Derivation%20of%20a%20General%20Purpose%20Architecture%20for%20Automatic%20User%20Interface%20Generation.pdf">this PhD thesis</ulink>.			
 		</tip>
 
 		<para>

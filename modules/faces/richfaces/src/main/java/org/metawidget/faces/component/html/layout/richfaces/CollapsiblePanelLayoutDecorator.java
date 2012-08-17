@@ -29,41 +29,36 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.richfaces.component.html.HtmlSimpleTogglePanel;
+import org.richfaces.component.SwitchType;
+import org.richfaces.component.UICollapsiblePanel;
 
 /**
- * Layout to decorate widgets from different sections using a RichFaces (3.x) SimpleTogglePanel.
+ * Layout to decorate widgets from different sections using a RichFaces (4.x) CollapsiblePanel.
  *
  * @author Richard Kennard
  */
 
-public class SimpleTogglePanelLayoutDecorator
+public class CollapsiblePanelLayoutDecorator
 	extends UIComponentNestedSectionLayoutDecorator {
 
 	//
 	// Private members
 	//
 
-	private String	mStyle;
+	private SwitchType	mSwitchType;
 
-	private String	mStyleClass;
-
-	private String	mSwitchType;
-
-	private boolean	mOpened;
+	private boolean		mExpanded;
 
 	//
 	// Constructor
 	//
 
-	public SimpleTogglePanelLayoutDecorator( SimpleTogglePanelLayoutDecoratorConfig config ) {
+	public CollapsiblePanelLayoutDecorator( CollapsiblePanelLayoutDecoratorConfig config ) {
 
 		super( config );
 
-		mStyle = config.getStyle();
-		mStyleClass = config.getStyleClass();
 		mSwitchType = config.getSwitchType();
-		mOpened = config.isOpened();
+		mExpanded = config.isExpanded();
 	}
 
 	//
@@ -76,12 +71,10 @@ public class SimpleTogglePanelLayoutDecorator
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		HtmlSimpleTogglePanel panel = (HtmlSimpleTogglePanel) application.createComponent( HtmlSimpleTogglePanel.COMPONENT_TYPE );
+		UICollapsiblePanel panel = (UICollapsiblePanel) application.createComponent( UICollapsiblePanel.COMPONENT_TYPE );
 		panel.setId( FacesUtils.createUniqueId() );
-		panel.setStyle( mStyle );
-		panel.setStyleClass( mStyleClass );
 		panel.setSwitchType( mSwitchType );
-		panel.setOpened( isOpened( attributes ) );
+		panel.setExpanded( isExpanded( attributes ));
 
 		// Section name (possibly localized)
 
@@ -92,7 +85,7 @@ public class SimpleTogglePanelLayoutDecorator
 			localizedSection = section;
 		}
 
-		panel.setLabel( localizedSection );
+		panel.setTitle( localizedSection );
 
 		// Add to parent container
 
@@ -114,15 +107,15 @@ public class SimpleTogglePanelLayoutDecorator
 	}
 
 	/**
-	 * Hook so subclasses can change what determines opened/closed.
+	 * Hook so subclasses can change what determines expanded/collapsed.
 	 *
 	 * @param attributes
 	 *            attributes of the widget. Never null
 	 */
 
-	protected boolean isOpened( Map<String, String> attributes ) {
+	protected boolean isExpanded( Map<String, String> attributes ) {
 
-		return mOpened;
+		return mExpanded;
 	}
 
 	protected Map<String, String> createSectionWidgetAttributes() {
