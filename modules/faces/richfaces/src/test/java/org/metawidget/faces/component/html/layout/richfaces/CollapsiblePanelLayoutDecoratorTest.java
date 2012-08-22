@@ -69,7 +69,7 @@ public class CollapsiblePanelLayoutDecoratorTest
 		attributes.put( SECTION, "Foo" );
 		layoutDecorator.layoutWidget( inputText, ENTITY, attributes, metawidget, metawidget );
 		UICollapsiblePanel panel = (UICollapsiblePanel) metawidget.getChildren().get( 0 );
-		assertEquals( "Foo", panel.getTitle() );
+		assertEquals( "Foo", panel.getHeader() );
 		HtmlMetawidget nestedMetawdget = (HtmlMetawidget) panel.getChildren().get( 0 );
 		assertEquals( 1, panel.getChildren().size() );
 		assertTrue( inputText == nestedMetawdget.getChildren().get( 0 ) );
@@ -90,7 +90,7 @@ public class CollapsiblePanelLayoutDecoratorTest
 		layoutDecorator.layoutWidget( new HtmlInputText(), ENTITY, attributes, metawidget, metawidget );
 
 		UICollapsiblePanel panel = (UICollapsiblePanel) metawidget.getChildren().get( 0 );
-		assertEquals( "Bar", panel.getTitle() );
+		assertEquals( "Bar", panel.getHeader() );
 		assertEquals( SwitchType.client, panel.getSwitchType() );
 
 		// Server
@@ -103,7 +103,7 @@ public class CollapsiblePanelLayoutDecoratorTest
 		layoutDecorator.layoutWidget( new HtmlInputText(), ENTITY, attributes, metawidget, metawidget );
 
 		panel = (UICollapsiblePanel) metawidget.getChildren().get( 0 );
-		assertEquals( "Bar", panel.getTitle() );
+		assertEquals( "Bar", panel.getHeader() );
 		assertEquals( SwitchType.server, panel.getSwitchType() );
 	}
 
@@ -121,7 +121,7 @@ public class CollapsiblePanelLayoutDecoratorTest
 		layoutDecorator.layoutWidget( new HtmlInputText(), ENTITY, attributes, metawidget, metawidget );
 
 		UICollapsiblePanel panel = (UICollapsiblePanel) metawidget.getChildren().get( 0 );
-		assertEquals( "Bar", panel.getTitle() );
+		assertEquals( "Bar", panel.getHeader() );
 		assertTrue( panel.isExpanded() );
 
 		// Server
@@ -134,7 +134,7 @@ public class CollapsiblePanelLayoutDecoratorTest
 		layoutDecorator.layoutWidget( new HtmlInputText(), ENTITY, attributes, metawidget, metawidget );
 
 		panel = (UICollapsiblePanel) metawidget.getChildren().get( 0 );
-		assertEquals( "Bar", panel.getTitle() );
+		assertEquals( "Bar", panel.getHeader() );
 		assertTrue( !panel.isExpanded() );
 	}
 

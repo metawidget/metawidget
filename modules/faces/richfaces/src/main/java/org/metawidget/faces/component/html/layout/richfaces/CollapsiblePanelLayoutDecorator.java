@@ -85,7 +85,7 @@ public class CollapsiblePanelLayoutDecorator
 			localizedSection = section;
 		}
 
-		panel.setTitle( localizedSection );
+		panel.setHeader( localizedSection );
 
 		// Add to parent container
 
