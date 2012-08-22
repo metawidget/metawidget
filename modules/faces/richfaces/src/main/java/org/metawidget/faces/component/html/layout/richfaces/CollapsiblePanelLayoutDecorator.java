@@ -71,7 +71,7 @@ public class CollapsiblePanelLayoutDecorator
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		UICollapsiblePanel panel = (UICollapsiblePanel) application.createComponent( UICollapsiblePanel.COMPONENT_TYPE );
+		UICollapsiblePanel panel = (UICollapsiblePanel) FacesUtils.createComponent( UICollapsiblePanel.COMPONENT_TYPE, "org.richfaces.CollapsiblePanelRenderer" );
 		panel.setId( FacesUtils.createUniqueId() );
 		panel.setSwitchType( mSwitchType );
 		panel.setExpanded( isExpanded( attributes ));

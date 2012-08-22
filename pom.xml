@@ -720,8 +720,8 @@
 				</plugin>
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-					<artifactId>maven-android-plugin</artifactId>
-					<version>2.9.0-beta-4</version>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>3.3.0</version>
 					<configuration>
 						<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
 						<assetsDirectory>${project.basedir}/assets</assetsDirectory>
@@ -993,7 +993,7 @@
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh</artifactId>
-				<version>1.0-beta-7</version>
+				<version>1.0</version>
 			</extension>
 		</extensions>
 	</build>
